@@ -1,0 +1,13 @@
+/**
+ * This file is here to allow you overwrite default colors
+ * Please define the colors you want to use inside the app
+ */
+:root {
+  --color-primary: #53acb4;
+  --color-secondary: #a1e9f0;
+
+  --color-warning: rgb(196, 144, 44);
+  --color-error: rgb(175, 58, 58);
+  --color-success: rgb(48, 150, 48);
+
+}

@@ -1,0 +1,21 @@
+{
+  "components": {
+    "login": {
+      "email": "email",
+      "password": "password",
+      "signin": "Sign in",
+      "passwordHelper": "Please choose a password"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Punchline !",
+      "subtitle": "Punchline"
+    }
+  },
+  "http": {
+    "401": "Access not granted",
+    "403": "Access forbidden",
+    "500": "An error occured..."
+  }
+}
