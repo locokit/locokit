@@ -11,7 +11,7 @@ export class column extends Model {
   data: Object = {};
 
   static get tableName() {
-    return 'column';
+    return 'table_column';
   }
 
   static get jsonSchema() {
@@ -36,7 +36,7 @@ export class column extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
-          from: 'column.tableid',
+          from: 'table_column.tableid',
           to: 'table.id'
         }
       },

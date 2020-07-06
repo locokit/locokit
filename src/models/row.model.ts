@@ -11,7 +11,7 @@ export class row extends Model {
   data: Object = {};
 
   static get tableName() {
-    return 'row';
+    return 'table_row';
   }
 
   static get jsonSchema() {
