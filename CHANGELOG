@@ -1,0 +1,18 @@
+**0.0.2**
+
+* Formula available ?
+
+* Settings
+
+**0.0.1**
+
+* Models implemented
+  * auth : user, group, user_has_group
+  * storage : workspace, database, table, row, column, view, column type
+  * visualize : section, page, block
+* Permissions implemented
+  *
+* Filters available
+* Block available
+  * table view
+  * markdown
