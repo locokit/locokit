@@ -107,6 +107,7 @@ export async function seed(knex: Knex): Promise<any> {
   await knex("table_row").insert([{
     id: 1,
     text: "Vélo n° XXXX",
+    table_id: 1,
     data: JSON.stringify({
       1: "Vélo pouet",
       2: 5,
@@ -117,6 +118,7 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: 2,
     text: "Vélo n° YYYY",
+    table_id: 1,
     data: JSON.stringify({
       1: "Vélo pouet",
       2: 5,
@@ -127,6 +129,7 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: 3,
     text: "Vélo n° ZZZZ",
+    table_id: 1,
     data: JSON.stringify({
       1: "Vélo pouet",
       2: 6,
