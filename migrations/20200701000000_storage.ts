@@ -15,8 +15,6 @@ export async function up(knex: Knex): Promise<any> {
     table.string('text');
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
-    table.integer('parent');
-    table.foreign('parent', 'FK_chapter_id').references('id').inTable('chapter')
     table.integer('workspace_id').unsigned()
     table.foreign('workspace_id', 'FK_db_workspace_id').references('id').inTable('workspace')
   })
