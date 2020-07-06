@@ -1,8 +1,6 @@
 # Low-Code Kit API Platform
 
-
-
-> 
+The backend platform for the Low-Code Kit platform.
 
 ## About
 
@@ -10,25 +8,12 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 ## Getting Started
 
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/feathers-ts-objection
-    npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
-
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+1. yarn
+2. Get docker and docker-compose
+3. docker-compose up
+4. yarn migrate:latest
+5. yarn seed:run
+6. yarn start
 
 ## Scaffolding
 
