@@ -8,7 +8,7 @@ import group from './group/group.service';
 import permission from './permission/permission.service';
 import page from './page/page.service';
 import block from './block/block.service';
-import section from './section/section.service';
+import chapter from './chapter/chapter.service';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
@@ -21,5 +21,5 @@ export default function (app: Application) {
   app.configure(permission);
   app.configure(page);
   app.configure(block);
-  app.configure(section);
+  app.configure(chapter);
 }

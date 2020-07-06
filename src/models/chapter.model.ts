@@ -6,12 +6,12 @@ import { Application } from '../declarations';
 import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
 
-class section extends Model {
+class chapter extends Model {
   createdAt!: string;
   updatedAt!: string;
 
   static get tableName() {
-    return 'section';
+    return 'chapter';
   }
 
   static get jsonSchema() {
@@ -35,7 +35,7 @@ class section extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckWorkspace,
         join: {
-          from: 'section.workspaceId',
+          from: 'chapter.workspaceId',
           to: 'workspace.id'
         }
       },
@@ -43,8 +43,8 @@ class section extends Model {
         relation: Model.HasManyRelation,
         modelClass: LckPage,
         join: {
-          from: 'section.id',
-          to: 'page.section_id'
+          from: 'chapter.id',
+          to: 'page.chapter_id'
         }
       }
     }
@@ -62,19 +62,19 @@ class section extends Model {
 export default function (app: Application) {
   // const db: Knex = app.get('knex');
 
-  // db.schema.hasTable('section').then(exists => {
+  // db.schema.hasTable('chapter').then(exists => {
   //   if (!exists) {
-  //     db.schema.createTable('section', table => {
+  //     db.schema.createTable('chapter', table => {
   //       table.increments('id');
   //       table.string('text');
   //       table.timestamp('createdAt');
   //       table.timestamp('updatedAt');
   //     })
-  //       .then(() => console.log('Created section table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating section table', e)); // eslint-disable-line no-console
+  //       .then(() => console.log('Created chapter table')) // eslint-disable-line no-console
+  //       .catch(e => console.error('Error creating chapter table', e)); // eslint-disable-line no-console
   //   }
   // })
-  //   .catch(e => console.error('Error creating section table', e)); // eslint-disable-line no-console
+  //   .catch(e => console.error('Error creating chapter table', e)); // eslint-disable-line no-console
 
-  return section;
+  return chapter;
 }

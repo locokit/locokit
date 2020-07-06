@@ -5,7 +5,7 @@ interface Options extends ObjectionServiceOptions {
   Model: any;
 }
 
-export class Section extends Service {
+export class Chapter extends Service {
   constructor(options: Partial<Options>, app: Application) {
     const { Model, ...otherOptions } = options;
 

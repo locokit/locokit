@@ -1,14 +1,14 @@
-// Initializes the `section` service on path `/section`
+// Initializes the `chapter` service on path `/chapter`
 import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
-import { Section } from './section.class';
-import createModel from '../../models/section.model';
-import hooks from './section.hooks';
+import { Chapter } from './chapter.class';
+import createModel from '../../models/chapter.model';
+import hooks from './chapter.hooks';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'section': Section & ServiceAddons<any>;
+    'chapter': Chapter & ServiceAddons<any>;
   }
 }
 
@@ -43,10 +43,10 @@ export default function (app: Application) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/section', new Section(options, app));
+  app.use('/chapter', new Chapter(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('section');
+  const service = app.service('chapter');
 
   service.hooks(hooks);
 }
