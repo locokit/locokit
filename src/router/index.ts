@@ -1,22 +1,47 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Workspace from '../views/Workspace.vue'
+import Profile from '../views/Profile.vue'
 
 Vue.use(VueRouter)
 
+export const ROUTES_PATH = {
+  HOME: '/',
+  PROFILE: '/profile',
+  WORKSPACE: '/workspace'
+}
+
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
+    path: ROUTES_PATH.HOME,
     name: 'Home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: ROUTES_PATH.PROFILE,
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      needAuthentication: true
+    }
+  },
+  {
+    path: ROUTES_PATH.WORKSPACE,
+    name: 'Workspace',
+    component: Workspace,
+    meta: {
+      needAuthentication: true
+    }
+  },
+  {
+    path: '/workspace/:workspaceId',
+    name: 'Workspace',
+    component: Workspace,
+    props: true,
+    meta: {
+      needAuthentication: true
+    }
   }
 ]
 

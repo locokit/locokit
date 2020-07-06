@@ -13,7 +13,9 @@
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
-    "@feathersjs/client": "^4.5.4",
+    "@feathersjs/authentication-client": "^4.5.4",
+    "@feathersjs/feathers": "^4.5.3",
+    "@feathersjs/rest-client": "^4.5.4",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "register-service-worker": "^1.7.1",
