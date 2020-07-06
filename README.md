@@ -8,12 +8,12 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 ## Getting Started
 
-1. yarn
+1. npm ci / install
 2. Get docker and docker-compose
 3. docker-compose up
-4. yarn migrate:latest
-5. yarn seed:run
-6. yarn start
+4. npm run migrate:latest
+5. npm run seed:run
+6. npm run start
 
 ## Scaffolding
 
