@@ -31,6 +31,8 @@ export async function up(knex: Knex): Promise<any> {
   .createTable('block', table => {
     table.increments('id');
     table.string('text');
+    table.enum('type', ['TableView', 'Text']);
+    table.jsonb('settings')
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
     table.integer('page_id').unsigned()

@@ -6,7 +6,7 @@ import { Application } from '../declarations';
 import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
 
-class chapter extends Model {
+export class chapter extends Model {
   createdAt!: string;
   updatedAt!: string;
 

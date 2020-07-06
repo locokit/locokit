@@ -4,7 +4,7 @@ import { Model } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
 
-class block extends Model {
+export class block extends Model {
   createdAt!: string;
   updatedAt!: string;
 

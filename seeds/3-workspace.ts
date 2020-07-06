@@ -14,6 +14,32 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Bénéficiaire',
     workspace_id: 1
   }])
+  await knex("page").insert([{
+    id: 1,
+    text: 'Usage Vélos',
+    chapter_id: 2
+  }, {
+    id: 2,
+    text: 'Vélos livrés',
+    chapter_id: 1
+  }])
+  await knex("block").insert([{
+    id: 1,
+    text: 'Listing vélo',
+    page_id: 1,
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: 1
+    })
+  }, {
+    id: 2,
+    text: 'Listing vélo',
+    page_id: 2,
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: 2
+    })
+  }])
   await knex("group_has_workspace").insert([{
     group_id: 3,
     workspace_id: 1,
