@@ -7,10 +7,12 @@ export async function seed(knex: Knex): Promise<any> {
   }])
   await knex("chapter").insert([{
     id: 1,
-    text: 'Fournisseur'
+    text: 'Fournisseur',
+    workspace_id: 1
   }, {
     id: 2,
-    text: 'Bénéficiaire'
+    text: 'Bénéficiaire',
+    workspace_id: 1
   }])
   await knex("group_has_workspace").insert([{
     group_id: 3,
