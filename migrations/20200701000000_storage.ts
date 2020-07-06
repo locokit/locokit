@@ -43,6 +43,7 @@ export async function up(knex: Knex): Promise<any> {
     table.foreign('group_id', 'FK_group_id').references('id').inTable('group')
     table.integer('workspace_id').unsigned()
     table.foreign('workspace_id', 'FK_workspace_id').references('id').inTable('workspace')
+    table.primary(['workspace_id', 'group_id'])
     table.integer('chapter_id').unsigned()
     table.foreign('chapter_id', 'FK_chapter_id').references('id').inTable('chapter')
     table.enum('role', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER');
