@@ -30,6 +30,20 @@ export async function retrieveWorkspaces () {
   workspaceState.loading = false
 }
 
+export async function retrieveWorkspacesWithPagesAndBlocks () {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('workspace').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'chapters.[pages.[blocks]]' }
+    })
+    return result.data
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
 export async function retrieveChapters (workspaceId: number) {
   workspaceState.loading = true
   try {

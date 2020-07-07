@@ -35,10 +35,9 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/workspace/:workspaceId',
+    path: '/workspace',
     name: 'Workspace',
     component: Workspace,
-    props: true,
     meta: {
       needAuthentication: true
     }

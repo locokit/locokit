@@ -2,40 +2,27 @@
   <div
     class="h-full"
   >
-    <h1>Workspace</h1>
-    {{ workspaceId }}
-    <br/>
-    <h1>Sections</h1>
-    {{ sections }}<br/>
-    <h1>Tables</h1>
-    {{ tables }}<br/>
-    <h1>Rows</h1>
-    {{ rows }}
+    <div v-if="workspaceContent.length > 0">
+      <h1>{{workspaceContent[0].text}}</h1>
+      <Chapter :chapters="workspaceContent[0].chapters" />
+    </div>
   </div>
 </template>
 
 <script>
-import { retrieveChapters, retrieveTables, retrieveRows } from '@/store/visualize'
+import { retrieveWorkspacesWithPagesAndBlocks } from '@/store/visualize'
+import Chapter from '@/components/Chapter'
 
 export default {
   name: 'Workspace',
-  props: {
-    workspaceId: {
-      type: Number,
-      required: true
-    }
-  },
+  components: { Chapter },
   data () {
     return {
-      sections: [],
-      tables: [],
-      rows: []
+      workspaceContent: []
     }
   },
   async mounted () {
-    this.sections = await retrieveChapters(this.workspaceId)
-    this.tables = await retrieveTables(1)
-    this.rows = await retrieveRows()
+    this.workspaceContent = await retrieveWorkspacesWithPagesAndBlocks()
   }
 }
 </script>
