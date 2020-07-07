@@ -1,43 +1,24 @@
 <template>
   <div class="w-full max-w-xs">
-    <form class="bg-white px-8 pt-6 pb-8 mb-4">
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-          {{ $t('components.login.email') }}
-        </label>
-        <input
-          class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          :placeholder="$t('components.login.email')"
-          v-model="form.email"
-        >
-      </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-          {{ $t('components.login.password') }}
-        </label>
-        <input
-          class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          type="password"
-          :placeholder="$t('components.login.password')"
-          v-model="form.password"
-        >
-      </div>
+    <el-form class="bg-white px-8 pt-6 pb-8 mb-4">
+      <el-form-item :label="$i18n.t('components.login.email')" class="font-bold" >
+        <el-input v-model="form.email" :placeholder="$i18n.t('components.login.email')"></el-input>
+      </el-form-item>
+      <el-form-item :label="$i18n.t('components.login.password')" class="font-bold" >
+        <el-input class="rounded-sm" v-model="form.password" type="password"></el-input>
+      </el-form-item>
       <div class="flex items-center justify-center">
-        <button
+        <el-button
           class="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline"
-          type="button"
           @click="emitSubmit"
         >
-          {{ $t('components.login.signin') }}
-        </button>
+          {{ $i18n.t('components.login.signin') }}
+        </el-button>
         <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
           Forgot Password?
         </a> -->
       </div>
-    </form>
+    </el-form>
   </div>
 </template>
 

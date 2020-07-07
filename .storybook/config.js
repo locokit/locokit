@@ -1,6 +1,15 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import { addDecorator } from '@storybook/vue';
+import '../src/plugins/element'
+import ThemeWrapper from './ThemeWrapper.vue'
+import i18n from '../src/i18n.ts'
+
+Vue.component('theme-wrapper', ThemeWrapper)
+
+addDecorator(() => ({
+  template: '<theme-wrapper><story></story></theme-wrapper>'
+}))
 
 Vue.use(VueI18n)
 
@@ -22,7 +31,6 @@ const i18n = new VueI18n({
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'fr',
   messages: loadLocaleMessages()
 })
-
 
 addDecorator(() => ({
   template: '<story/>',
