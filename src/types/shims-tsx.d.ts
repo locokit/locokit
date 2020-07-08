@@ -11,3 +11,5 @@ declare global {
     }
   }
 }
+
+declare module 'element-ui/lib/locale/lang/fr';
