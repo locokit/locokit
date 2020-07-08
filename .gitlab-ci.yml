@@ -31,8 +31,10 @@ cache:
 storybook:build:
   tags: [shared-ci-docker]
   stage: storybook
-  except:
+  only:
     - tags
+    - merge_requests
+    - master
   script:
     - npm ci
     - npm run storybook:build
