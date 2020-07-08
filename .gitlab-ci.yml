@@ -63,7 +63,7 @@ quality:
     name: 'lck-front-snapshots-${CI_COMMIT_REF_SLUG}'
     when: on_failure
     paths:
-    - tests/unit/__image__snapshots__
+    - tests/unit/__image_snapshots__
 
 # Build stage
 build:
