@@ -1,10 +1,10 @@
 <template>
   <div class="w-full max-w-xs">
     <el-form class="bg-white px-8 pt-6 pb-8 mb-4">
-      <el-form-item :label="$i18n.t('components.login.email')" class="font-bold" >
-        <el-input v-model="form.email" :placeholder="$i18n.t('components.login.email')"></el-input>
+      <el-form-item :label="$t('components.login.email')" class="font-bold" >
+        <el-input v-model="form.email" :placeholder="$t('components.login.email')"></el-input>
       </el-form-item>
-      <el-form-item :label="$i18n.t('components.login.password')" class="font-bold" >
+      <el-form-item :label="$t('components.login.password')" class="font-bold" >
         <el-input class="rounded-sm" v-model="form.password" type="password"></el-input>
       </el-form-item>
       <div class="flex items-center justify-center">
@@ -12,7 +12,7 @@
           class="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline"
           @click="emitSubmit"
         >
-          {{ $i18n.t('components.login.signin') }}
+          {{ $t('components.login.signin') }}
         </el-button>
         <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
           Forgot Password?
