@@ -10,7 +10,7 @@ class User {
 
 class Group {
   name = ''
-  permissions: Record<string, any> = {}
+  permissions: string[] = []
 }
 
 class AuthData {
@@ -24,13 +24,13 @@ class AuthDTO {
   password = ''
 }
 
-class UserDTO {
-  email = ''
-  first_name = ''
-  last_name = ''
-  password = ''
-  profile = ''
-}
+// class UserDTO {
+//   email = ''
+//   first_name = ''
+//   last_name = ''
+//   password = ''
+//   profile = ''
+// }
 
 class AuthState extends BaseState<AuthData> {}
 

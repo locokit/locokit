@@ -1,0 +1,73 @@
+image: node:lts
+
+stages:
+  - storybook
+  - lint-tests
+  - build
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+.build_template: &build_definition
+  tags: [shared-ci-docker]
+  stage: build
+  only:
+    - tags
+    - merge_requests
+    - master
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-${CI_COMMIT_REF_SLUG}'
+    paths:
+    - dist/
+
+# storybook stage
+storybook:build:
+  tags: [shared-ci-docker]
+  stage: storybook
+  only:
+    - tags
+    - merge_requests
+    - master
+  script:
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+    - npm run storybook:build
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-storybook-${CI_COMMIT_REF_SLUG}'
+    paths:
+      - storybook-static
+
+# lint & test stage
+quality:
+  image: buildkite/puppeteer
+  tags: [shared-ci-docker]
+  stage: lint-tests
+  only:
+    - tags
+    - merge_requests
+    - master
+  script:
+    - npm ci
+    - npm run lint
+    - npm run test:unit -- --coverage
+  dependencies:
+    - storybook:build
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-snapshots-${CI_COMMIT_REF_SLUG}'
+    when: on_failure
+    paths:
+    - tests/unit/__image_snapshots__
+
+# Build stage
+build:
+  <<: *build_definition
+

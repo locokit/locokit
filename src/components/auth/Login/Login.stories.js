@@ -1,4 +1,4 @@
-import { linkTo } from '@storybook/addon-links'
+import { action } from '@storybook/addon-actions'
 
 import Login from './Login'
 
@@ -9,10 +9,8 @@ export default {
 
 export const LoginStory = () => ({
   components: { Login },
-  template: '<Login />',
-  methods: { action: linkTo('Button') }
+  template: '<Login @submit="this.submit" />',
+  methods: { submit: action('submit') }
 })
 
-LoginStory.story = {
-  name: 'Login'
-}
+LoginStory.storyName = 'Login'
