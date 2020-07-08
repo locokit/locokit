@@ -29,6 +29,7 @@ cache:
 
 # lint & test stage
 quality:
+  image: buildkite/puppeteer
   tags: [shared-ci-docker]
   stage: lint-tests
   only:
