@@ -13,11 +13,19 @@ initStoryshots({
   test: multiSnapshotWithOptions()
 })
 
+const getMatchOptions = ({ context: { kind, story }, url }) => {
+  return {
+    failureThreshold: 0.25,
+    failureThresholdType: 'percent'
+  }
+}
+
 initStoryshots({
   framework: 'vue',
   suite: 'storyshots-puppeteer',
   configPath: path.join(__dirname, '../../.storybook'),
   test: imageSnapshot({
+    getMatchOptions,
     beforeScreenshot (page) {
       page.setViewport({ width: 1024, height: 768 })
     },
