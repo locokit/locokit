@@ -27,6 +27,21 @@ cache:
     paths:
     - dist/
 
+# storybook stage
+storybook:build:
+  tags: [shared-ci-docker]
+  stage: storybook
+  except:
+    - tags
+  script:
+    - npm ci
+    - npm run storybook:build
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-storybook-${CI_COMMIT_REF_SLUG}'
+    paths:
+      - storybook-static
+
 # lint & test stage
 quality:
   image: buildkite/puppeteer
@@ -39,27 +54,18 @@ quality:
   script:
     - npm ci
     - npm run lint
-    - npm run storybook:build
     - npm run test:unit -- --coverage
+  dependencies:
+    - storybook:build
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     expire_in: 1 week
-    name: 'lck-front-storybook-${CI_COMMIT_REF_SLUG}'
+    name: 'lck-front-snapshots-${CI_COMMIT_REF_SLUG}'
+    when: on_failure
     paths:
-    - storybook-static/
+    - tests/unit/__image__snapshots__
 
 # Build stage
 build:
   <<: *build_definition
 
-# storybook stage
-# storybook:
-#   tags: [shared-ci-docker]
-#   stage: storybook
-#   except:
-#     - tags
-#   script:
-#     - yarn build-storybook
-#   artifacts:
-#     paths:
-#       - storybook-static
