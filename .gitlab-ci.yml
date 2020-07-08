@@ -1,0 +1,64 @@
+image: node:lts
+
+stages:
+  - storybook
+  - lint-tests
+  - build
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+.build_template: &build_definition
+  tags: [shared-ci-docker]
+  stage: build
+  only:
+    - tags
+    - merge_requests
+    - master
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-${CI_COMMIT_REF_SLUG}'
+    paths:
+    - dist/
+
+# lint & test stage
+quality:
+  tags: [shared-ci-docker]
+  stage: lint-tests
+  only:
+    - tags
+    - merge_requests
+    - master
+  script:
+    - npm ci
+    - npm run lint
+    - npm run storybook:build
+    - npm run test:unit -- --coverage
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-storybook-${CI_COMMIT_REF_SLUG}'
+    paths:
+    - storybook-static/
+
+# Build stage
+build:
+  <<: *build_definition
+
+# storybook stage
+# storybook:
+#   tags: [shared-ci-docker]
+#   stage: storybook
+#   except:
+#     - tags
+#   script:
+#     - yarn build-storybook
+#   artifacts:
+#     paths:
+#       - storybook-static
