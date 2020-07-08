@@ -30,12 +30,12 @@ export async function retrieveWorkspaces () {
   workspaceState.loading = false
 }
 
-export async function retrieveWorkspacesWithPagesAndBlocks () {
+export async function retrieveWorkspacesWithPages () {
   workspaceState.loading = true
   try {
     const result = await lckClient.service('workspace').find({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: 'chapters.[pages.[blocks]]' }
+      query: { $eager: 'chapters.[pages]' }
     })
     return result.data
   } catch (error) {
@@ -50,6 +50,20 @@ export async function retrieveChapters (workspaceId: number) {
     const result = await lckClient.service('chapter').find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { workspace_id: workspaceId, $eager: 'pages' }
+    })
+    return result.data
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrievePage (id: number) {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('page').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { id: id, $eager: 'blocks' }
     })
     return result.data
   } catch (error) {

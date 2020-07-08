@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <lck-header :is-authenticated="state.auth.data.isAuthenticated" />
-    <main class="flex-grow p-2">
+    <main class="flex-grow">
       <router-view/>
     </main>
   </div>
@@ -9,7 +9,7 @@
 
 <script>
 import Header from '@/components/Header'
-import { appState } from '@/store/index'
+import { appState } from '@/store'
 
 export default {
   name: 'app',

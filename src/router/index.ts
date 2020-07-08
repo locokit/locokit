@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import Workspace from '../views/Workspace.vue'
 import Profile from '../views/Profile.vue'
+import Page from '@/views/Page.vue'
 
 Vue.use(VueRouter)
 
@@ -30,14 +31,22 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.WORKSPACE,
     name: 'Workspace',
     component: Workspace,
+    children: [
+      {
+        path: 'page/:id',
+        props: true,
+        component: Page
+      }
+    ],
     meta: {
       needAuthentication: true
     }
   },
   {
-    path: '/workspace',
+    path: '/workspace/:workspaceId',
     name: 'Workspace',
     component: Workspace,
+    props: true,
     meta: {
       needAuthentication: true
     }
