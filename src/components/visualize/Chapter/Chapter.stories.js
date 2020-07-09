@@ -1,8 +1,12 @@
 import Chapter from './Chapter'
+import StoryRouter from 'storybook-vue-router'
 
 export default {
   title: 'Chapter',
-  component: Chapter
+  component: Chapter,
+  decorators: [
+    StoryRouter()
+  ]
 }
 
 const chapters = [{
