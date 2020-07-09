@@ -3,6 +3,7 @@
 import { Model } from 'objection';
 import { Application } from '../declarations';
 import { table as LckTable } from './table.model'
+import { columnType as LckColumnType } from './columnType.model'
 
 export class column extends Model {
   createdAt!: string;
@@ -38,6 +39,18 @@ export class column extends Model {
         join: {
           from: 'table_column.tableid',
           to: 'table.id'
+        }
+      },
+      type: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: LckColumnType,
+        join: {
+          from: 'table_column.column_type_id',
+          to: 'column_type.id'
         }
       },
     }
