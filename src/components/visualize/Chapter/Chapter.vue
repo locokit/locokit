@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { ROUTES_PATH } from '@/router'
+import { ROUTES_PATH } from '../../../router/paths'
 
 export default {
   name: 'Chapter',
@@ -38,6 +38,18 @@ export default {
     chapters: {
       type: Array,
       default: () => []
+    }
+  },
+  computed: {
+    chaptersEnhancedWithURLs () {
+      if (this.chapters.length === 0) return []
+      return this.chapters.map(c => ({
+        ...c,
+        pages: c.pages.map(p => ({
+          ...p,
+          url: '/workspace' + this.$route.params.workspaceId + '/page/' + p.id
+        }))
+      }))
     }
   },
   data () {
