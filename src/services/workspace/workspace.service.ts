@@ -35,7 +35,7 @@ export default function (app: Application) {
       '$any',
       '$eager'
     ],
-    allowedEager: '[chapters, chapters.pages, chapters.pages.blocks]',
+    allowedEager: '[chapters, chapters.pages, chapters.pages.containers, chapters.pages.containers.blocks]',
     paginate: app.get('paginate')
   };
 

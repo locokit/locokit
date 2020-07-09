@@ -2,14 +2,14 @@
 // for more of what you can do here.
 import { Model } from 'objection';
 import { Application } from '../declarations';
-import { container as LckContainer } from './container.model'
+import { block as LckBlock } from './block.model'
 
-export class page extends Model {
+export class container extends Model {
   createdAt!: string;
   updatedAt!: string;
 
   static get tableName() {
-    return 'page';
+    return 'container';
   }
 
   static get jsonSchema() {
@@ -23,19 +23,18 @@ export class page extends Model {
     };
   }
 
-
   static get relationMappings() {
     return {
-      containers: {
+      blocks: {
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckContainer,
+        modelClass: LckBlock,
         join: {
-          from: 'page.id',
-          to: 'container.page_id'
+          from: 'container.id',
+          to: 'block.container_id'
         }
       },
     }
@@ -51,5 +50,5 @@ export class page extends Model {
 }
 
 export default function (app: Application) {
-  return page;
+  return container;
 }

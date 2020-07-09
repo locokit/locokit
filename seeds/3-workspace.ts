@@ -23,18 +23,63 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Vélos livrés',
     chapter_id: 1
   }])
+  await knex("container").insert([{
+    id: 1,
+    text: 'Container 1',
+    settings: JSON.stringify({
+      class: 'yolo'
+    }),
+    page_id: 1
+  }, {
+    id: 2,
+    text: 'Container 2',
+    settings: JSON.stringify({
+      class: 'pouic'
+    }),
+    page_id: 1
+  }, {
+    id: 3,
+    text: 'Container 3',
+    settings: JSON.stringify({
+      class: 'pouet'
+    }),
+    page_id: 2
+  }, {
+    id: 4,
+    text: 'Container 4',
+    settings: JSON.stringify({
+      class: 'poum'
+    }),
+    page_id: 2
+  }])
   await knex("block").insert([{
     id: 1,
-    text: 'Listing vélo',
-    page_id: 1,
+    text: 'Listing vélo 1',
+    container_id: 1,
     type: 'TableView',
     settings: JSON.stringify({
       id: 1
     })
   }, {
     id: 2,
-    text: 'Listing vélo',
-    page_id: 2,
+    text: 'Listing vélo 2',
+    container_id: 2,
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: 2
+    })
+  }, {
+    id: 3,
+    text: 'Listing vélo 3',
+    container_id: 3,
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: 1
+    })
+  }, {
+    id: 4,
+    text: 'Listing vélo 4',
+    container_id: 4,
     type: 'TableView',
     settings: JSON.stringify({
       id: 2
