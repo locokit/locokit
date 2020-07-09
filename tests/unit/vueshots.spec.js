@@ -13,7 +13,7 @@ initStoryshots({
   test: multiSnapshotWithOptions()
 })
 
-const getMatchOptions = ({ context: { kind, story }, url }) => {
+const getMatchOptions = () => {
   return {
     failureThreshold: 0.25,
     failureThresholdType: 'percent'
