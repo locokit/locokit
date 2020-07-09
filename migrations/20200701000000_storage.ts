@@ -28,6 +28,16 @@ export async function up(knex: Knex): Promise<any> {
     table.foreign('chapter_id', 'FK_page_chapter_id').references('id').inTable('chapter')
   })
 
+  .createTable('container', table => {
+    table.increments('id');
+    table.string('text');
+    table.jsonb('settings')
+    table.timestamp('createdAt').defaultTo('now()');
+    table.timestamp('updatedAt').defaultTo('now()');
+    table.integer('page_id').unsigned()
+    table.foreign('page_id', 'FK_container_page_id').references('id').inTable('page')
+  })
+
   .createTable('block', table => {
     table.increments('id');
     table.string('text');
@@ -35,8 +45,8 @@ export async function up(knex: Knex): Promise<any> {
     table.jsonb('settings')
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
-    table.integer('page_id').unsigned()
-    table.foreign('page_id', 'FK_block_page_id').references('id').inTable('page')
+    table.integer('container_id').unsigned()
+    table.foreign('container_id', 'FK_block_container_id').references('id').inTable('container')
   })
 
   .createTable('group_has_workspace', function (table) {
@@ -132,6 +142,7 @@ export async function down(knex: Knex): Promise<any> {
       .dropTable("database")
       .dropTable("group_has_workspace")
       .dropTable("block")
+      .dropTable("container")
       .dropTable("page")
       .dropTable("chapter")
       .dropTable("workspace");
