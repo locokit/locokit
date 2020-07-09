@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Chapter Chapter with props 1`] = `
+<div>
+  <ul
+    class="nav-chapters el-menu"
+    role="menubar"
+    style="background-color: rgb(83, 172, 180);"
+  >
+    <div>
+      <li
+        aria-haspopup="true"
+        class="el-submenu"
+        role="menuitem"
+      >
+        <div
+          class="el-submenu__title"
+          style="padding-left: 20px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+        >
+          <span>
+            Nom du chapter: Premier chapitre
+          </span>
+          <i
+            class="el-submenu__icon-arrow el-icon-arrow-down"
+          />
+        </div>
+        <ul
+          class="el-menu el-menu--inline"
+          role="menu"
+          style="background-color: rgb(83, 172, 180); display: none;"
+        >
+           
+          <div>
+            <li
+              class="el-menu-item is-active"
+              role="menuitem"
+              style="padding-left: 40px; color: rgb(255, 208, 75); background-color: rgb(83, 172, 180);"
+              tabindex="-1"
+            >
+              <a
+                class=""
+                href="#/workspace/page/1"
+              >
+                Nom de la page: Première page
+              </a>
+            </li>
+            <li
+              class="el-menu-item"
+              role="menuitem"
+              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              tabindex="-1"
+            >
+              <a
+                class=""
+                href="#/workspace/page/2"
+              >
+                Nom de la page: Deuxième page
+              </a>
+            </li>
+          </div>
+        </ul>
+      </li>
+      <li
+        aria-haspopup="true"
+        class="el-submenu"
+        role="menuitem"
+      >
+        <div
+          class="el-submenu__title"
+          style="padding-left: 20px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+        >
+          <span>
+            Nom du chapter: Deuxième chapitre
+          </span>
+          <i
+            class="el-submenu__icon-arrow el-icon-arrow-down"
+          />
+        </div>
+        <ul
+          class="el-menu el-menu--inline"
+          role="menu"
+          style="background-color: rgb(83, 172, 180); display: none;"
+        >
+           
+          <div>
+            <li
+              class="el-menu-item"
+              role="menuitem"
+              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              tabindex="-1"
+            >
+              <a
+                class=""
+                href="#/workspace/page/3"
+              >
+                Nom de la page: Troisième page
+              </a>
+            </li>
+            <li
+              class="el-menu-item"
+              role="menuitem"
+              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              tabindex="-1"
+            >
+              <a
+                class=""
+                href="#/workspace/page/4"
+              >
+                Nom de la page: Quatrième page
+              </a>
+            </li>
+          </div>
+        </ul>
+      </li>
+    </div>
+  </ul>
+</div>
+`;
+
+exports[`storyshots Chapter Chapter without props 1`] = `
+<div>
+  <ul
+    class="nav-chapters el-menu"
+    role="menubar"
+    style="background-color: rgb(83, 172, 180);"
+  />
+</div>
+`;
