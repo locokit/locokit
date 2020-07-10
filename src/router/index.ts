@@ -23,22 +23,7 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: ROUTES_PATH.WORKSPACE,
-    name: 'Workspace',
-    component: Workspace,
-    children: [
-      {
-        path: 'page/:id',
-        props: true,
-        component: Page
-      }
-    ],
-    meta: {
-      needAuthentication: true
-    }
-  },
-  {
-    path: '/workspace/:workspaceId',
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
     name: 'Workspace',
     component: Workspace,
     props: true,

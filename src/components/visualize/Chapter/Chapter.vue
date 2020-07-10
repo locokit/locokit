@@ -1,28 +1,32 @@
 <template>
   <el-menu
-      default-active="0-0"
+      :default-openeds="listChaptersId"
       class="nav-chapters"
-      background-color="#53acb4"
-      text-color="#fff"
-      active-text-color="#ffd04b"
   >
     <div v-if="chapters.length > 0">
       <el-submenu
-        v-for="(chapter, index) in chapters"
-        :key="chapter.id"
-        :index="`${index}`"
+          class="menu-chapter"
+          v-for="(chapter) in chapters"
+          :key="chapter.id"
+          :index="`${chapter.id}`"
       >
         <template slot="title">
           <span>Nom du chapter: {{chapter.text}}</span>
         </template>
         <div v-if="chapter.pages.length > 0">
-            <el-menu-item
-              v-for="(page, i) in chapter.pages"
+          <el-menu-item
+              class="submenu-pages"
+              :class="{'is-page-active': onRoute === `${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`}"
+              v-for="(page) in chapter.pages"
               :key="page.id"
-              :index="`${index}-${i}`"
-            >
-                <router-link :to="`${ROUTES_PATH.WORKSPACE}/page/${page.id}`">Nom de la page: {{page.text}}</router-link>
-            </el-menu-item>
+              :index="`${chapter.id}-${page.id}`"
+          >
+            <router-link
+                class="submenu-item-page"
+                :to="`${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`"
+            >Nom de la page: {{page.text}}
+            </router-link>
+          </el-menu-item>
         </div>
       </el-submenu>
     </div>
@@ -30,7 +34,7 @@
 </template>
 
 <script>
-import { ROUTES_PATH } from '../../../router/paths'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Chapter',
@@ -40,21 +44,18 @@ export default {
       default: () => []
     }
   },
-  computed: {
-    chaptersEnhancedWithURLs () {
-      if (this.chapters.length === 0) return []
-      return this.chapters.map(c => ({
-        ...c,
-        pages: c.pages.map(p => ({
-          ...p,
-          url: '/workspace' + this.$route.params.workspaceId + '/page/' + p.id
-        }))
-      }))
-    }
-  },
   data () {
     return {
-      ROUTES_PATH
+      ROUTES_PATH,
+      listChaptersId: []
+    }
+  },
+  mounted () {
+    this.listChaptersId = this.chapters.map(({ id }) => `${id}`)
+  },
+  computed: {
+    onRoute () {
+      return this.$route.path
     }
   }
 }
@@ -63,8 +64,35 @@ export default {
 <style scoped>
   .nav-chapters {
     height: calc(100vh - 64px);
+    background-color: #53acb4;
+    color: #ffffff;
   }
-  .is-active {
+
+  /deep/ .el-submenu__title, .submenu-pages {
+    color: #ffffff;
+  }
+
+  /deep/ .el-submenu__title:hover, .submenu-pages:hover {
+    background-color: #a0dfe5;
+  }
+
+  /deep/ .el-submenu__icon-arrow {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .menu-chapter >>> ul {
+    background-color: #53acb4;
+  }
+
+  .submenu-item-page {
+    display: block;
+    height: 100%;
+  }
+
+  /deep/ .is-page-active {
     background-color: #ffffff;
+    color: #53acb4;
   }
 </style>

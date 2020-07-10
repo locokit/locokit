@@ -22,7 +22,10 @@ export const workspaceState: WorkspaceState = {
 export async function retrieveWorkspaces () {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('workspace').find()
+    const result = await lckClient.service('workspace').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'chapters.[pages]' }
+    })
     workspaceState.data.workspaces = result.data
   } catch (error) {
     workspaceState.error = error
@@ -30,14 +33,14 @@ export async function retrieveWorkspaces () {
   workspaceState.loading = false
 }
 
-export async function retrieveWorkspacesWithPages () {
+export async function retrieveWorkspaceWithPages (workspaceId: number) {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('workspace').find({
+    const result = await lckClient.service('workspace').get(workspaceId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: 'chapters.[pages]' }
     })
-    return result.data
+    return result
   } catch (error) {
     workspaceState.error = error
   }

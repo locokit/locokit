@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { ROUTES_PATH } from '@/router'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Header',
