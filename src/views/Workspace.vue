@@ -2,7 +2,7 @@
   <div
       class="h-full"
   >
-    <div v-if="workspaceContent">
+    <div class="bg-gray-100" v-if="workspaceContent">
       <el-row class="tac">
         <el-col :sm="4" :lg="4">
           <Chapter :chapters="workspaceContent.chapters" />

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title-page">Dashboard</h1>
+    <h1 class="title-page my-2 bg-white">Dashboard</h1>
     <div v-if="page && page.containers.length > 0">
       <div v-for="container in page.containers" :key="container.id">
         <Container :container="container"></Container>

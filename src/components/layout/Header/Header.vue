@@ -1,8 +1,11 @@
 <template>
-  <header class="h-16 flex bg-primary px-2 justify-around">
-    <img alt="logo" src="/img/logo.png" class="my-auto" />
-    <router-link :to="ROUTES_PATH.PROFILE" v-if="isAuthenticated">Profil</router-link>
-    <router-link :to="ROUTES_PATH.WORKSPACE" v-if="isAuthenticated">Workspace</router-link>
+  <header class="h-16 flex bg-white px-2 content-center justify-between">
+    <img alt="logo" src="/img/logo.png" class="my-auto pr-2 bg-primary" />
+    <div class="my-auto self-center">
+      <router-link :to="ROUTES_PATH.PROFILE" v-if="isAuthenticated">
+        <el-avatar icon="el-icon-user-solid"></el-avatar>
+      </router-link>
+    </div>
   </header>
 </template>
 
