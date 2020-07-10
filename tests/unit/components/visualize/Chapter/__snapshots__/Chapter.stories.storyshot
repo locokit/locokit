@@ -5,17 +5,16 @@ exports[`storyshots Chapter Chapter with props 1`] = `
   <ul
     class="nav-chapters el-menu"
     role="menubar"
-    style="background-color: rgb(83, 172, 180);"
   >
     <div>
       <li
         aria-haspopup="true"
-        class="el-submenu"
+        class="menu-chapter el-submenu"
         role="menuitem"
       >
         <div
           class="el-submenu__title"
-          style="padding-left: 20px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+          style="padding-left: 20px;"
         >
           <span>
             Nom du chapter: Premier chapitre
@@ -27,34 +26,36 @@ exports[`storyshots Chapter Chapter with props 1`] = `
         <ul
           class="el-menu el-menu--inline"
           role="menu"
-          style="background-color: rgb(83, 172, 180); display: none;"
+          style="display: none;"
         >
            
           <div>
             <li
-              class="el-menu-item is-active"
+              class="el-menu-item submenu-pages"
               role="menuitem"
-              style="padding-left: 40px; color: rgb(255, 208, 75); background-color: rgb(83, 172, 180);"
+              style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class=""
-                href="#/workspace/page/1"
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/1"
               >
                 Nom de la page: Première page
+          
               </a>
             </li>
             <li
-              class="el-menu-item"
+              class="el-menu-item submenu-pages"
               role="menuitem"
-              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class=""
-                href="#/workspace/page/2"
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/2"
               >
                 Nom de la page: Deuxième page
+          
               </a>
             </li>
           </div>
@@ -62,12 +63,12 @@ exports[`storyshots Chapter Chapter with props 1`] = `
       </li>
       <li
         aria-haspopup="true"
-        class="el-submenu"
+        class="menu-chapter el-submenu"
         role="menuitem"
       >
         <div
           class="el-submenu__title"
-          style="padding-left: 20px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+          style="padding-left: 20px;"
         >
           <span>
             Nom du chapter: Deuxième chapitre
@@ -79,34 +80,36 @@ exports[`storyshots Chapter Chapter with props 1`] = `
         <ul
           class="el-menu el-menu--inline"
           role="menu"
-          style="background-color: rgb(83, 172, 180); display: none;"
+          style="display: none;"
         >
            
           <div>
             <li
-              class="el-menu-item"
+              class="el-menu-item submenu-pages"
               role="menuitem"
-              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class=""
-                href="#/workspace/page/3"
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/3"
               >
                 Nom de la page: Troisième page
+          
               </a>
             </li>
             <li
-              class="el-menu-item"
+              class="el-menu-item submenu-pages"
               role="menuitem"
-              style="padding-left: 40px; color: rgb(255, 255, 255); background-color: rgb(83, 172, 180);"
+              style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class=""
-                href="#/workspace/page/4"
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/4"
               >
                 Nom de la page: Quatrième page
+          
               </a>
             </li>
           </div>
@@ -122,7 +125,6 @@ exports[`storyshots Chapter Chapter without props 1`] = `
   <ul
     class="nav-chapters el-menu"
     role="menubar"
-    style="background-color: rgb(83, 172, 180);"
   />
 </div>
 `;
