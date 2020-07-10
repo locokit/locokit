@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { retrievePage } from '@/store/visualize'
+import { retrievePageWithContainersAndBlocks } from '@/store/visualize'
 
 export default {
   name: 'Page',
@@ -14,10 +14,10 @@ export default {
     }
   },
   async mounted () {
-    this.pages = await retrievePage(this.id)
+    this.pages = await retrievePageWithContainersAndBlocks(this.id)
   },
   async beforeRouteUpdate (to, from, next) {
-    this.pages = await retrievePage(+to.params.id)
+    this.pages = await retrievePageWithContainersAndBlocks(+to.params.id)
     next()
   }
 }

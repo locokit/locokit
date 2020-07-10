@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { retrieveWorkspaceWithPages } from '@/store/visualize'
+import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import Chapter from '@/components/visualize/Chapter/Chapter'
 import { ROUTES_PATH } from '@/router/paths'
 
@@ -30,7 +30,7 @@ export default {
     }
   },
   async mounted () {
-    this.workspaceContent = await retrieveWorkspaceWithPages(this.workspaceId)
+    this.workspaceContent = await retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
     if (!this.$route.path.includes('page') && this.workspaceContent.chapters.length > 0 && this.workspaceContent.chapters[0].pages.length > 0) {
       await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
     }
