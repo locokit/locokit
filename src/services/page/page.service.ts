@@ -35,7 +35,7 @@ export default function (app: Application) {
       '$any',
       '$eager'
     ],
-    allowedEager: '[blocks]',
+    allowedEager: '[containers, containers.blocks]',
     paginate: app.get('paginate')
   };
 
