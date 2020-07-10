@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Header from '@/components/layout/Header/Header'
 import { appState } from '@/store'
 
 export default {
