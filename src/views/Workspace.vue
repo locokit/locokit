@@ -4,10 +4,10 @@
   >
     <div v-if="workspaceContent">
       <el-row class="tac">
-        <el-col :sm="4" :lg="5">
+        <el-col :sm="4" :lg="4">
           <Chapter :chapters="workspaceContent.chapters" />
         </el-col>
-        <el-col :sm="6" :lg="19">
+        <el-col :sm="6" :lg="20">
           <router-view />
         </el-col>
       </el-row>

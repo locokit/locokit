@@ -6,25 +6,25 @@
     <div v-if="chapters.length > 0">
       <el-submenu
         class="menu-chapter"
-        v-for="(chapter) in chapters"
+        v-for="chapter in chapters"
         :key="chapter.id"
         :index="`${chapter.id}`"
       >
         <template slot="title">
-          <span>Nom du chapter: {{chapter.text}}</span>
+          <span>{{chapter.text}}</span>
         </template>
         <div v-if="chapter.pages.length > 0">
           <el-menu-item
               class="submenu-pages"
               :class="{'is-page-active': onRoute === `${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`}"
-              v-for="(page) in chapter.pages"
+              v-for="page in chapter.pages"
               :key="page.id"
               :index="`${chapter.id}-${page.id}`"
           >
             <router-link
                 class="submenu-item-page"
                 :to="`${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`"
-            >Nom de la page: {{page.text}}
+            >{{page.text}}
             </router-link>
           </el-menu-item>
         </div>

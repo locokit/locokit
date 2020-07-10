@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Dashbord</h1>
+    <h1 class="title-page">Dashboard</h1>
     <div v-if="page && page.containers.length > 0">
       <div v-for="container in page.containers" :key="container.id">
         <Container :container="container"></Container>
@@ -18,7 +18,7 @@ export default {
   components: { Container },
   props: {
     pageId: {
-      type: Number,
+      type: [String, Number], // param is string because its form url params
       required: true
     }
   },
@@ -31,7 +31,7 @@ export default {
     pageId: {
       immediate: true,
       async handler () {
-        this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+        this.page = await retrievePageWithContainersAndBlocks(+this.pageId)
       }
     },
     page (newVal) {
@@ -57,5 +57,10 @@ export default {
 </script>
 
 <style scoped>
-
+.title-page {
+  font-size: 1.4rem;
+  padding: 1em;
+  font-weight: 600;
+  color: #645f5f;
+}
 </style>
