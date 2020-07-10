@@ -3,6 +3,7 @@
 import { Model } from 'objection';
 import { Application } from '../declarations';
 import { column as LckColumn } from './column.model'
+import { row as LckRow } from './row.model'
 
 class view extends Model {
   createdAt!: string;
@@ -41,6 +42,14 @@ class view extends Model {
           to: 'table_column.id',
         }
       },
+      rows: {
+        relation: Model.HasManyRelation,
+        modelClass: LckRow,
+        join: {
+          from: 'table_view.table_id',
+          to: 'table_row.table_id'
+        }
+      }
     }
   }
 
