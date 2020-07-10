@@ -9,7 +9,8 @@ class WorkspaceData {
   workspaces: Workspace[] = []
 }
 
-class WorkspaceState extends BaseState<WorkspaceData> {}
+class WorkspaceState extends BaseState<WorkspaceData> {
+}
 
 export const workspaceState: WorkspaceState = {
   loading: false,
@@ -49,11 +50,10 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
 export async function retrievePageWithContainersAndBlocks (id: number) {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('page').find({
+    return await lckClient.service('page').get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { id: id, $eager: 'containers.[blocks]' }
+      query: { $eager: 'containers.[blocks]' }
     })
-    return result.data
   } catch (error) {
     workspaceState.error = error
   }
