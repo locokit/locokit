@@ -1,14 +1,14 @@
 <template>
   <el-menu
-      :default-openeds="listChaptersId"
-      class="nav-chapters"
+    :default-openeds="listChaptersId"
+    class="nav-chapters"
   >
     <div v-if="chapters.length > 0">
       <el-submenu
-          class="menu-chapter"
-          v-for="(chapter) in chapters"
-          :key="chapter.id"
-          :index="`${chapter.id}`"
+        class="menu-chapter"
+        v-for="(chapter) in chapters"
+        :key="chapter.id"
+        :index="`${chapter.id}`"
       >
         <template slot="title">
           <span>Nom du chapter: {{chapter.text}}</span>
@@ -46,14 +46,13 @@ export default {
   },
   data () {
     return {
-      ROUTES_PATH,
-      listChaptersId: []
+      ROUTES_PATH
     }
   },
-  mounted () {
-    this.listChaptersId = this.chapters.map(({ id }) => `${id}`)
-  },
   computed: {
+    listChaptersId () {
+      return this.chapters.map(({ id }) => `${id}`)
+    },
     onRoute () {
       return this.$route.path
     }

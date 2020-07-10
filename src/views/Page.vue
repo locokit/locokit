@@ -10,25 +10,49 @@
 </template>
 
 <script>
-import { retrievePageWithContainersAndBlocks } from '@/store/visualize'
+import { retrievePageWithContainersAndBlocks, retrieveViewDefinition } from '@/store/visualize'
 import Container from '@/components/visualize/Container/Container'
 
 export default {
   name: 'Page',
   components: { Container },
-  props: ['id'],
+  props: {
+    pageId: {
+      type: Number,
+      required: true
+    }
+  },
   data () {
     return {
       page: null
     }
   },
-  async mounted () {
-    this.page = await retrievePageWithContainersAndBlocks(this.id)
-    console.log(this.page)
+  watch: {
+    pageId: {
+      immediate: true,
+      async handler () {
+        this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+      }
+    },
+    page (newVal) {
+      // retrieve for each blocks the definition / data of the block
+      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
+      newVal.containers.forEach(container => {
+        container.blocks.forEach(async block => {
+          switch (block.type) {
+            case 'TableView':
+              this.$set(block, 'loading', true)
+              this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+              this.$set(block, 'data', [])
+              block.loading = false
+              return
+            default:
+              console.log(block)
+          }
+        })
+      })
+    }
   }
-  // watch () {
-  //   getBlockData()
-  // }
 }
 </script>
 

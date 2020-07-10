@@ -29,7 +29,7 @@ const routes: Array<RouteConfig> = [
     props: true,
     children: [
       {
-        path: 'page/:id',
+        path: 'page/:pageId',
         props: true,
         component: Page
       }

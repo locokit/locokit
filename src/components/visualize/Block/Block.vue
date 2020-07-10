@@ -1,7 +1,10 @@
 <template>
   <div>
     <h2>Block -> {{block.text}} {{block.type}} </h2>
-    <component :is="block.type" :block="block"/>
+    <component
+      :is="block.type"
+      :block="block"
+    />
   </div>
 </template>
 
