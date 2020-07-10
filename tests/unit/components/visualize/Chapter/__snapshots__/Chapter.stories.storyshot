@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Chapter Chapter with props 1`] = `
+<div>
+  <ul
+    class="nav-chapters el-menu"
+    role="menubar"
+  >
+    <div>
+      <li
+        aria-haspopup="true"
+        class="menu-chapter el-submenu"
+        role="menuitem"
+      >
+        <div
+          class="el-submenu__title"
+          style="padding-left: 20px;"
+        >
+          <span>
+            Nom du chapter: Premier chapitre
+          </span>
+          <i
+            class="el-submenu__icon-arrow el-icon-arrow-down"
+          />
+        </div>
+        <ul
+          class="el-menu el-menu--inline"
+          role="menu"
+          style="display: none;"
+        >
+           
+          <div>
+            <li
+              class="el-menu-item submenu-pages"
+              role="menuitem"
+              style="padding-left: 40px;"
+              tabindex="-1"
+            >
+              <a
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/1"
+              >
+                Nom de la page: Première page
+          
+              </a>
+            </li>
+            <li
+              class="el-menu-item submenu-pages"
+              role="menuitem"
+              style="padding-left: 40px;"
+              tabindex="-1"
+            >
+              <a
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/2"
+              >
+                Nom de la page: Deuxième page
+          
+              </a>
+            </li>
+          </div>
+        </ul>
+      </li>
+      <li
+        aria-haspopup="true"
+        class="menu-chapter el-submenu"
+        role="menuitem"
+      >
+        <div
+          class="el-submenu__title"
+          style="padding-left: 20px;"
+        >
+          <span>
+            Nom du chapter: Deuxième chapitre
+          </span>
+          <i
+            class="el-submenu__icon-arrow el-icon-arrow-down"
+          />
+        </div>
+        <ul
+          class="el-menu el-menu--inline"
+          role="menu"
+          style="display: none;"
+        >
+           
+          <div>
+            <li
+              class="el-menu-item submenu-pages"
+              role="menuitem"
+              style="padding-left: 40px;"
+              tabindex="-1"
+            >
+              <a
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/3"
+              >
+                Nom de la page: Troisième page
+          
+              </a>
+            </li>
+            <li
+              class="el-menu-item submenu-pages"
+              role="menuitem"
+              style="padding-left: 40px;"
+              tabindex="-1"
+            >
+              <a
+                class="submenu-item-page"
+                href="#/workspace/undefined/page/4"
+              >
+                Nom de la page: Quatrième page
+          
+              </a>
+            </li>
+          </div>
+        </ul>
+      </li>
+    </div>
+  </ul>
+</div>
+`;
+
+exports[`storyshots Chapter Chapter without props 1`] = `
+<div>
+  <ul
+    class="nav-chapters el-menu"
+    role="menubar"
+  />
+</div>
+`;

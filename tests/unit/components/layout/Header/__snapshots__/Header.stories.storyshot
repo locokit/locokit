@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Header Header base 1`] = `
+<div>
+  <header
+    class="h-16 flex bg-primary px-2 justify-around"
+  >
+    <img
+      alt="logo"
+      class="my-auto"
+      src="/img/logo.png"
+    />
+     
+    <!---->
+     
+    <!---->
+  </header>
+</div>
+`;

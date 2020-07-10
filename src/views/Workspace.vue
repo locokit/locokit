@@ -1,41 +1,39 @@
 <template>
   <div
-    class="h-full"
+      class="h-full"
   >
-    <h1>Workspace</h1>
-    {{ workspaceId }}
-    <br/>
-    <h1>Sections</h1>
-    {{ sections }}<br/>
-    <h1>Tables</h1>
-    {{ tables }}<br/>
-    <h1>Rows</h1>
-    {{ rows }}
+    <div v-if="workspaceContent">
+      <el-row class="tac">
+        <el-col :sm="4" :lg="5">
+          <Chapter :chapters="workspaceContent.chapters" />
+        </el-col>
+        <el-col :sm="6" :lg="19">
+          <router-view />
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
-import { retrieveChapters, retrieveTables, retrieveRows } from '@/store/visualize'
+import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
+import Chapter from '@/components/visualize/Chapter/Chapter'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Workspace',
-  props: {
-    workspaceId: {
-      type: Number,
-      required: true
-    }
-  },
+  components: { Chapter },
+  props: ['workspaceId'],
   data () {
     return {
-      sections: [],
-      tables: [],
-      rows: []
+      workspaceContent: []
     }
   },
   async mounted () {
-    this.sections = await retrieveChapters(this.workspaceId)
-    this.tables = await retrieveTables(1)
-    this.rows = await retrieveRows()
+    this.workspaceContent = await retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
+    if (!this.$route.path.includes('page') && this.workspaceContent.chapters.length > 0 && this.workspaceContent.chapters[0].pages.length > 0) {
+      await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
+    }
   }
 }
 </script>

@@ -3,14 +3,10 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import Workspace from '../views/Workspace.vue'
 import Profile from '../views/Profile.vue'
+import Page from '@/views/Page.vue'
+import { ROUTES_PATH } from './paths'
 
 Vue.use(VueRouter)
-
-export const ROUTES_PATH = {
-  HOME: '/',
-  PROFILE: '/profile',
-  WORKSPACE: '/workspace'
-}
 
 const routes: Array<RouteConfig> = [
   {
@@ -27,18 +23,17 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: ROUTES_PATH.WORKSPACE,
-    name: 'Workspace',
-    component: Workspace,
-    meta: {
-      needAuthentication: true
-    }
-  },
-  {
-    path: '/workspace/:workspaceId',
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
     name: 'Workspace',
     component: Workspace,
     props: true,
+    children: [
+      {
+        path: 'page/:id',
+        props: true,
+        component: Page
+      }
+    ],
     meta: {
       needAuthentication: true
     }

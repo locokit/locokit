@@ -22,8 +22,38 @@ export const workspaceState: WorkspaceState = {
 export async function retrieveWorkspaces () {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('workspace').find()
+    const result = await lckClient.service('workspace').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'chapters.[pages]' }
+    })
     workspaceState.data.workspaces = result.data
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number) {
+  workspaceState.loading = true
+  try {
+    return await lckClient.service('workspace').get(workspaceId, {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'chapters.[pages]' }
+    })
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrievePageWithContainersAndBlocks (id: number) {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('page').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { id: id, $eager: 'containers.[blocks]' }
+    })
+    return result.data
   } catch (error) {
     workspaceState.error = error
   }
