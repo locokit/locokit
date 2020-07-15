@@ -11,7 +11,7 @@
 // @ is an alias to /src
 import Login from '@/components/auth/Login/Login.vue'
 import { authenticate } from '@/store/auth'
-import { retrieveWorkspaces, workspaceState } from '@/store/visualize'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Home',
@@ -21,16 +21,7 @@ export default {
   methods: {
     async authenticate (data) {
       await authenticate(data)
-      await retrieveWorkspaces()
-      switch (workspaceState.data.workspaces.length) {
-        case 1:
-          // go to this workspace
-          return this.$router.push('/workspace/' + workspaceState.data.workspaces[0].id)
-        default:
-          // go to a page presenting all workspaces
-          // or allowing the creation of one
-          this.$router.push('/workspace')
-      }
+      await this.$router.push(ROUTES_PATH.WORKSPACE)
     }
   }
 }

@@ -1,12 +1,12 @@
 <template>
   <div
-    class="max-w-4xl mx-auto"
+      class="max-w-4xl mx-auto"
   >
     <header class="my-4 text-gray-600 text-xl">
       {{ $t('pages.profile.title') }}
     </header>
     <section class="mb-4">
-      <el-card  class="box-card" :header="$t('pages.profile.title')">
+      <el-card class="box-card" :header="$t('pages.profile.title')">
         {{ authState.data.user.first_name}}
         {{ authState.data.user.last_name}}
         <br>
@@ -16,19 +16,23 @@
       </el-card>
     </section>
     <section class="mb-4">
-      <el-card  class="box-card" :header="$t('pages.profile.groups')">
+      <el-card class="box-card" :header="$t('pages.profile.groups')">
         <div v-for="group in authState.data.groups" :key="group.id">
           {{ group.name }}
         </div>
       </el-card>
     </section>
     <section class="mb-4">
-      <el-card  class="box-card" :header="$t('pages.profile.workspaces')">
-        <router-link
-          v-for="workspace in workspaceState.data.workspaces"
-          :key="workspace.id"
-          :to="'/workspace/' + workspace.id"
-        >#{{workspace.id}} {{ workspace.text }}</router-link>
+      <el-card class="box-card" :header="$t('pages.profile.workspaces')">
+        <ul>
+          <router-link
+              v-for="workspace in workspaceState.data.workspaces"
+              :key="workspace.id"
+              :to="'/workspace/' + workspace.id"
+          >
+           <li>#{{workspace.id}} {{ workspace.text }}</li>
+          </router-link>
+        </ul>
       </el-card>
     </section>
     <el-button type="warning" @click="logout">
