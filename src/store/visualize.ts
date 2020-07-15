@@ -24,10 +24,7 @@ export const workspaceState: WorkspaceState = {
 export async function retrieveWorkspaces () {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('workspace').find({
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: 'chapters.[pages]' }
-    })
+    const result = await lckClient.service('workspace').find()
     workspaceState.data.workspaces = result.data
   } catch (error) {
     workspaceState.error = error
