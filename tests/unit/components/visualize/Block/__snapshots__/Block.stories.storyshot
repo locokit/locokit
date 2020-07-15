@@ -1,8 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storyshots Block Block TV Story 1`] = `
-<div>
+<div
+  class="h-full"
+>
   <div>
+    
+  
+  
     <div>
       <!---->
     </div>
@@ -11,8 +16,13 @@ exports[`storyshots Block Block TV Story 1`] = `
 `;
 
 exports[`storyshots Block Block TableView 1`] = `
-<div>
+<div
+  class="h-full"
+>
   <div>
+    
+  
+  
     <!---->
   </div>
 </div>

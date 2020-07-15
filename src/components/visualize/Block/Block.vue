@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ block.text }}
     <component
       :is="block.type"
       :block="block"

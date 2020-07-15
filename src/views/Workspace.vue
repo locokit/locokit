@@ -1,10 +1,10 @@
 <template>
   <div class="h-full bg-gray-100" v-if="workspaceContent">
-    <el-row>
-      <el-col :sm="8" :lg="4">
+    <el-row class="h-full">
+      <el-col :sm="8" :lg="4" class="h-full bg-primary">
         <Chapter :chapters="workspaceContent.chapters" />
       </el-col>
-      <el-col :sm="16" :lg="20">
+      <el-col :sm="16" :lg="20" class="h-full">
         <router-view />
       </el-col>
     </el-row>
