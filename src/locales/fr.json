@@ -17,6 +17,11 @@
       "groups": "Mes groupes",
       "workspaces": "Mes espaces de travail",
       "button-logout": "Déconnexion"
+    },
+    "workspaces": {
+      "title": "Espaces de travail",
+      "created": "Créé le :",
+      "updated": "Mis à jour le :"
     }
   },
   "http": {

@@ -17,6 +17,11 @@
       "groups": "My groups",
       "workspaces": "My workspaces",
       "button-logout": "Logout"
+    },
+    "workspaces": {
+      "title": "Workspaces",
+      "created": "Created:",
+      "updated": "Updated:"
     }
   },
   "http": {
