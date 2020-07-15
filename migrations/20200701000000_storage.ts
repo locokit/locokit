@@ -125,8 +125,9 @@ export async function up(knex: Knex): Promise<any> {
     table.primary(['table_column_id', 'table_view_id'])
     table.foreign('table_column_id', 'FK_tvtc_column_id').references('id').inTable('table_column')
     table.foreign('table_view_id', 'FK_tvtc_view_id').references('id').inTable('table_view')
-    table.integer('order')
+    table.enum('order', ['ASC', 'DESC'])
     table.jsonb('filter')
+    table.boolean('visible')
   })
 }
 

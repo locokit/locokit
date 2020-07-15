@@ -27,8 +27,36 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Usage Vélos',
     chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
   }, {
+    id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d',
+    text: 'Assistance',
+    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+  }, {
+    id: 'f9bdf57a-de4d-4476-a765-84e6802d1342',
+    text: 'Messagerie',
+    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+  }, {
+    id: '596848de-1287-4b36-a8db-1cd4c228e468',
+    text: 'Sensibilisation formation',
+    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+  }, {
     id: '53646407-caf7-4dd4-9422-edd378dd647d',
-    text: 'Vélos livrés',
+    text: 'Gestion flotte vélos',
+    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+  }, {
+    id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc',
+    text: 'Maintenances préventives',
+    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+  }, {
+    id: '8bcfe997-4535-457b-8743-4ab02244f50c',
+    text: 'Maintenaces curatives',
+    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+  }, {
+    id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb',
+    text: 'Informations prestataires',
+    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+  }, {
+    id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01',
+    text: 'Messageries',
     chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
   }])
   await knex("container").insert([{
@@ -61,17 +89,9 @@ export async function seed(knex: Knex): Promise<any> {
     page_id: '53646407-caf7-4dd4-9422-edd378dd647d'
   }])
   await knex("block").insert([{
-    id: '28889a60-3d62-47a3-9c5e-12f0aa3ca896',
-    text: 'Listing vélo 1',
-    container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
-    type: 'TableView',
-    settings: JSON.stringify({
-      id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
-    })
-  }, {
     id: '3f70841d-a6fe-4586-b130-038331eacd7c',
     text: 'Listing vélo 2',
-    container_id: 'da283b02-0679-424c-98b3-95f2779655be',
+    container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
     type: 'TableView',
     settings: JSON.stringify({
       id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
@@ -79,18 +99,10 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',
     text: 'Listing vélo 3',
-    container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
+    container_id: 'da283b02-0679-424c-98b3-95f2779655be',
     type: 'TableView',
     settings: JSON.stringify({
       id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
-    })
-  }, {
-    id: '97f0eff5-b227-4b02-ac99-69d6846cac9c',
-    text: 'Listing vélo 4',
-    container_id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
-    type: 'TableView',
-    settings: JSON.stringify({
-      id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
     })
   }])
   await knex("group_has_workspace").insert([{
@@ -140,31 +152,6 @@ export async function seed(knex: Knex): Promise<any> {
     id: '7b9f0bef-f40d-4360-b244-767e44855cb0',
     text: 'Affectation vélo - bénéficiaire',
     database_id: '895ec967-fa3b-4710-82e7-b406e62f657d'
-  }])
-  await knex("column_type").insert([{
-    id: 1,
-    text: 'Number',
-  }, {
-    id: 2,
-    text: 'Date',
-  }, {
-    id: 3,
-    text: 'String',
-  }, {
-    id: 4,
-    text: 'Float',
-  }, {
-    id: 5,
-    text: 'User',
-  }, {
-    id: 6,
-    text: 'Group',
-  }, {
-    id: 7,
-    text: 'Link / relation between tables',
-  }, {
-    id: 8,
-    text: 'Looked up column'
   }])
   await knex("table_column").insert([{
     id: 'e065323c-1151-447f-be0f-6d2728117b38',
@@ -241,9 +228,10 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
     table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
-    filter: JSON.stringify([{
-      $eq: "userId"
-    }])
+    filter: JSON.stringify({
+      $eq: "{userId}"
+    }),
+    visible: false
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
     table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
@@ -262,9 +250,10 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
     table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
-    filter: JSON.stringify([{
-      $eq: "userId"
-    }])
+    filter: JSON.stringify({
+      $eq: "{userId}"
+    }),
+    visible: false
   }, {
     table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
     table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
