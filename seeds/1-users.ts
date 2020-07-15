@@ -51,6 +51,14 @@ export async function seed(knex: Knex): Promise<any> {
       email: "beneficiaireb@makina-corpus.net",
       password: hashPassword,
       profile: "USER"
+    },
+    {
+      id: 7,
+      first_name: "Inconnu",
+      last_name: "sans groupe",
+      email: "unknown@makina-corpus.net",
+      password: hashPassword,
+      profile: "USER"
     }
   ]);
 };
