@@ -11,6 +11,12 @@
     "home": {
       "title": "Punchline !",
       "subtitle": "Punchline"
+    },
+    "profile": {
+      "title": "My profile",
+      "groups": "My groups",
+      "workspaces": "My workspaces",
+      "button-logout": "Logout"
     }
   },
   "http": {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import lckClient from '@/services/lck-api'
 import { BaseState } from './state'
 
@@ -9,7 +10,8 @@ class WorkspaceData {
   workspaces: Workspace[] = []
 }
 
-class WorkspaceState extends BaseState<WorkspaceData> {}
+class WorkspaceState extends BaseState<WorkspaceData> {
+}
 
 export const workspaceState: WorkspaceState = {
   loading: false,
@@ -46,14 +48,13 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
   workspaceState.loading = false
 }
 
-export async function retrievePageWithContainersAndBlocks (id: number) {
+export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('page').find({
+    return await lckClient.service('page').get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { id: id, $eager: 'containers.[blocks]' }
+      query: { $eager: 'containers.[blocks]' }
     })
-    return result.data
   } catch (error) {
     workspaceState.error = error
   }
@@ -97,6 +98,35 @@ export async function retrieveRows () {
   workspaceState.loading = true
   try {
     const result = await lckClient.service('row').find()
+    return result.data
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrieveViewDefinition (id: number) {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('view').get(id, {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'columns.[type]' }
+    })
+    return result
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrieveViewData (table_view_id: string) {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('row').find({
+      query: {
+        table_view_id
+      }
+    })
     return result.data
   } catch (error) {
     workspaceState.error = error

@@ -9,7 +9,7 @@
       </el-form-item>
       <div class="flex items-center justify-center">
         <el-button
-          class="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm focus:outline-none focus:shadow-outline"
+          class="bg-primary text-white"
           @click="emitSubmit"
         >
           {{ $t('components.login.signin') }}

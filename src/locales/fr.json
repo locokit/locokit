@@ -11,6 +11,12 @@
     "home": {
       "title": "Votre flotte de demain, aujourd'hui",
       "subtitle": "Valeur ajoutée à la punchline"
+    },
+    "profile": {
+      "title": "Mon profil",
+      "groups": "Mes groupes",
+      "workspaces": "Mes espaces de travail",
+      "button-logout": "Déconnexion"
     }
   },
   "http": {

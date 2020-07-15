@@ -2,12 +2,12 @@
   <div
       class="h-full"
   >
-    <div v-if="workspaceContent">
-      <el-row class="tac">
-        <el-col :sm="4" :lg="5">
+    <div class="bg-gray-100" v-if="workspaceContent">
+      <el-row>
+        <el-col :sm="6">
           <Chapter :chapters="workspaceContent.chapters" />
         </el-col>
-        <el-col :sm="6" :lg="19">
+        <el-col :sm="18">
           <router-view />
         </el-col>
       </el-row>

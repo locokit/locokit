@@ -79,10 +79,15 @@ export async function retrieveGroups () {
   authState.loading = true
   try {
     const result = await lckClient.service('group').find()
-    console.log(result)
     authState.data.groups = result.data
   } catch (error) {
     authState.error = error
   }
   authState.loading = false
+}
+
+export function logout () {
+  authState.data.isAuthenticated = false
+  authState.data.groups = []
+  authState.data.user = null
 }

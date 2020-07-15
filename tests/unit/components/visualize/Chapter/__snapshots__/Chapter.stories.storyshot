@@ -8,8 +8,9 @@ exports[`storyshots Chapter Chapter with props 1`] = `
   >
     <div>
       <li
+        aria-expanded="true"
         aria-haspopup="true"
-        class="menu-chapter el-submenu"
+        class="menu-chapter el-submenu is-opened"
         role="menuitem"
       >
         <div
@@ -17,7 +18,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           style="padding-left: 20px;"
         >
           <span>
-            Nom du chapter: Premier chapitre
+            Premier chapitre
           </span>
           <i
             class="el-submenu__icon-arrow el-icon-arrow-down"
@@ -26,7 +27,6 @@ exports[`storyshots Chapter Chapter with props 1`] = `
         <ul
           class="el-menu el-menu--inline"
           role="menu"
-          style="display: none;"
         >
            
           <div>
@@ -40,7 +40,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
                 class="submenu-item-page"
                 href="#/workspace/undefined/page/1"
               >
-                Nom de la page: Première page
+                Première page
           
               </a>
             </li>
@@ -54,7 +54,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
                 class="submenu-item-page"
                 href="#/workspace/undefined/page/2"
               >
-                Nom de la page: Deuxième page
+                Deuxième page
           
               </a>
             </li>
@@ -62,8 +62,9 @@ exports[`storyshots Chapter Chapter with props 1`] = `
         </ul>
       </li>
       <li
+        aria-expanded="true"
         aria-haspopup="true"
-        class="menu-chapter el-submenu"
+        class="menu-chapter el-submenu is-opened"
         role="menuitem"
       >
         <div
@@ -71,7 +72,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           style="padding-left: 20px;"
         >
           <span>
-            Nom du chapter: Deuxième chapitre
+            Deuxième chapitre
           </span>
           <i
             class="el-submenu__icon-arrow el-icon-arrow-down"
@@ -80,7 +81,6 @@ exports[`storyshots Chapter Chapter with props 1`] = `
         <ul
           class="el-menu el-menu--inline"
           role="menu"
-          style="display: none;"
         >
            
           <div>
@@ -94,7 +94,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
                 class="submenu-item-page"
                 href="#/workspace/undefined/page/3"
               >
-                Nom de la page: Troisième page
+                Troisième page
           
               </a>
             </li>
@@ -108,7 +108,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
                 class="submenu-item-page"
                 href="#/workspace/undefined/page/4"
               >
-                Nom de la page: Quatrième page
+                Quatrième page
           
               </a>
             </li>
