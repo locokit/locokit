@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import lckClient from '@/services/lck-api'
 import { BaseState } from './state'
 
@@ -47,7 +48,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
   workspaceState.loading = false
 }
 
-export async function retrievePageWithContainersAndBlocks (id: number) {
+export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = true
   try {
     return await lckClient.service('page').get(id, {
@@ -112,6 +113,21 @@ export async function retrieveViewDefinition (id: number) {
       query: { $eager: 'columns.[type]' }
     })
     return result
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrieveViewData (table_view_id: string) {
+  workspaceState.loading = true
+  try {
+    const result = await lckClient.service('row').find({
+      query: {
+        table_view_id
+      }
+    })
+    return result.data
   } catch (error) {
     workspaceState.error = error
   }

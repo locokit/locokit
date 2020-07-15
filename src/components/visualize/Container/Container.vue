@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <div v-if="container.blocks.length > 0">
-      <div v-for="block in container.blocks" :key="block.id">
-        <Block :block="block"></Block>
-      </div>
-    </div>
+  <div v-if="container.blocks.length > 0">
+    <Block
+      v-for="block in container.blocks"
+      :key="block.id"
+      :block="block"
+      class="mb-4"
+    ></Block>
   </div>
 </template>
 

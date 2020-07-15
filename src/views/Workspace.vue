@@ -3,11 +3,11 @@
       class="h-full"
   >
     <div class="bg-gray-100" v-if="workspaceContent">
-      <el-row class="tac">
-        <el-col :sm="4" :lg="4">
+      <el-row>
+        <el-col :sm="6">
           <Chapter :chapters="workspaceContent.chapters" />
         </el-col>
-        <el-col :sm="6" :lg="20">
+        <el-col :sm="18">
           <router-view />
         </el-col>
       </el-row>

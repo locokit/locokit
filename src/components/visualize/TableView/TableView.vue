@@ -2,15 +2,15 @@
   <div>
     <div v-if="block.definition">
       <el-table
-          stripe
-          :data="block.data">
+        stripe
+        :data="block.data">
         <el-table-column
             v-for="column in block.definition.columns"
             :key="column.id"
-            :prop="`${column.id}`"
+            :prop="`data.${column.id}`"
             :label="column.text"
-        >
-        </el-table-column>
+            sortable
+        />
       </el-table>
     </div>
   </div>
@@ -27,7 +27,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
