@@ -14,7 +14,8 @@ export async function up(knex: Knex): Promise<any> {
     })
 
     .createTable('group', function (table) {
-      table.increments('id').primary();
+      // table.increments('id').primary();
+      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name', 255).notNullable();
       table.timestamp('createdAt').defaultTo('now()');
       table.timestamp('updatedAt').defaultTo('now()');
@@ -22,7 +23,7 @@ export async function up(knex: Knex): Promise<any> {
 
     .createTable('user_has_group', function (table) {
       table.integer('user_id').unsigned()
-      table.integer('group_id').unsigned()
+      table.uuid('group_id').unsigned()
       table.primary(['user_id', 'group_id'])
       table.foreign('user_id', 'FK_user_id').references('id').inTable('user')
       table.foreign('group_id', 'FK_group_id').references('id').inTable('group')
