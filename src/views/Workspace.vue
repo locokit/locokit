@@ -1,17 +1,13 @@
 <template>
-  <div
-      class="h-full"
-  >
-    <div class="bg-gray-100" v-if="workspaceContent">
-      <el-row>
-        <el-col :sm="6">
-          <Chapter :chapters="workspaceContent.chapters" />
-        </el-col>
-        <el-col :sm="18">
-          <router-view />
-        </el-col>
-      </el-row>
-    </div>
+  <div class="h-full bg-gray-100" v-if="workspaceContent">
+    <el-row>
+      <el-col :sm="8" :lg="4">
+        <Chapter :chapters="workspaceContent.chapters" />
+      </el-col>
+      <el-col :sm="16" :lg="20">
+        <router-view />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
