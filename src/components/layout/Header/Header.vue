@@ -35,10 +35,6 @@ export default {
     isAuthenticated: {
       type: Boolean,
       default: false
-    },
-    user: {
-      type: Object,
-      default: () => ({})
     }
   },
   data () {

@@ -3,17 +3,15 @@
 exports[`storyshots Header Header base 1`] = `
 <div>
   <header
-    class="h-16 flex bg-primary px-2 justify-around"
+    class="h-16 flex px-2 content-center justify-between border-b bg-primary"
   >
-    <img
-      alt="logo"
+    <!---->
+     
+    <div
       class="my-auto"
-      src="/img/logo.png"
-    />
-     
-    <!---->
-     
-    <!---->
+    >
+      <!---->
+    </div>
   </header>
 </div>
 `;

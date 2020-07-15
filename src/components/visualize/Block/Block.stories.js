@@ -27,18 +27,18 @@ export const BlockTVStory = () => ({
 
 BlockBasicStory.storyName = 'Block TableView'
 
-const blockTypeNotKnown = {
-  type: 'not known'
-}
+// const blockTypeNotKnown = {
+//   type: 'not known'
+// }
 
-export const BlockTypeNotKnownStory = () => ({
-  components: { Block },
-  data () {
-    return {
-      block: blockTypeNotKnown
-    }
-  },
-  template: '<Block :block="block" />'
-})
+// export const BlockTypeNotKnownStory = () => ({
+//   components: { Block },
+//   data () {
+//     return {
+//       block: blockTypeNotKnown
+//     }
+//   },
+//   template: '<Block :block="block" />'
+// })
 
-BlockBasicStory.storyName = 'Block TableView'
+// BlockTypeNotKnownStory.storyName = 'Block unknown'

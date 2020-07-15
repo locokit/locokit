@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TableView from '@/components/visualize/TableView/TableView'
+import TableView from '../TableView/TableView.vue'
 
 export default {
   name: 'Block',

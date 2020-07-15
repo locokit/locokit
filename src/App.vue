@@ -2,7 +2,6 @@
   <div class="flex flex-col h-full">
     <lck-header
       :is-authenticated="state.auth.data.isAuthenticated"
-      :user="state.auth.data.user"
     />
     <main class="flex-grow h-full">
       <router-view/>
