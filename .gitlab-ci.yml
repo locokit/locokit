@@ -14,7 +14,7 @@ stages:
     - merge_requests
     - master
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_SKIP_BINARY_INSTALL=true npm ci
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_INSTALL_BINARY=0 npm ci
     - npm run build
   artifacts:
     expire_in: 1 week
@@ -31,7 +31,7 @@ storybook:build:
     - merge_requests
     - master
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_SKIP_BINARY_INSTALL=true npm ci
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_INSTALL_BINARY=0 npm ci
     - npm run storybook:build
   artifacts:
     expire_in: 1 week
@@ -49,7 +49,7 @@ quality:
     - merge_requests
     - master
   script:
-    - CYPRESS_SKIP_BINARY_INSTALL=true npm ci
+    - CYPRESS_INSTALL_BINARY=0 npm ci
     - npm run lint
     - npm run test:unit -- --coverage
   dependencies:
