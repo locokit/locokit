@@ -1,8 +1,25 @@
 <template>
-  <header class="h-16 flex bg-white px-2 content-center justify-between">
-    <img alt="logo" src="/img/logo.png" class="my-auto pr-2 bg-primary" />
-    <div class="my-auto self-center">
-      <router-link :to="ROUTES_PATH.PROFILE" v-if="isAuthenticated">
+  <header
+    class="h-16 flex px-2 content-center justify-between border-b"
+    :class="{
+      'bg-white': isAuthenticated,
+      'bg-primary': !isAuthenticated
+    }"
+  >
+    <router-link
+      :to="isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME"
+      class="my-auto pr-2"
+    >
+      <img
+        alt="logo"
+        :src="'/img/logo-bg-' + (isAuthenticated ? 'white' : 'primary') + '.png'"
+      />
+    </router-link>
+    <div class="my-auto">
+      <router-link
+        :to="ROUTES_PATH.PROFILE"
+        v-if="isAuthenticated"
+      >
         <el-avatar icon="el-icon-user-solid"></el-avatar>
       </router-link>
     </div>
@@ -18,6 +35,10 @@ export default {
     isAuthenticated: {
       type: Boolean,
       default: false
+    },
+    user: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
