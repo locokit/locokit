@@ -1,134 +1,163 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storyshots Chapter Chapter with props 1`] = `
-<div>
+<div
+  class="h-full"
+>
   <ul
-    class="nav-chapters bg-primary text-white el-menu"
+    class="nav-chapters bg-primary text-white h-full el-menu"
     role="menubar"
   >
-    <div>
-      <li
-        aria-expanded="true"
-        aria-haspopup="true"
-        class="menu-chapter el-submenu is-opened"
-        role="menuitem"
+    <li
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="menu-chapter el-submenu is-opened"
+      role="menuitem"
+    >
+      <div
+        class="el-submenu__title"
+        style="padding-left: 20px;"
       >
-        <div
-          class="el-submenu__title"
-          style="padding-left: 20px;"
+        <span
+          class="text-white hover:text-primary"
         >
-          <span
-            class="text-white hover:text-primary"
-          >
-            Premier chapitre
-          </span>
-          <i
-            class="el-submenu__icon-arrow el-icon-arrow-down"
-          />
-        </div>
-        <ul
-          class="el-menu el-menu--inline"
-          role="menu"
-        >
-           
-          <div>
-            <li
-              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-              role="menuitem"
-              style="padding-left: 40px;"
-              tabindex="-1"
-            >
-              <a
-                class="submenu-item-page block h-full"
-                href="#/workspace/undefined/page/1"
-              >
-                Première page
           
-              </a>
-            </li>
-            <li
-              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-              role="menuitem"
-              style="padding-left: 40px;"
-              tabindex="-1"
-            >
-              <a
-                class="submenu-item-page block h-full"
-                href="#/workspace/undefined/page/2"
-              >
-                Deuxième page
-          
-              </a>
-            </li>
-          </div>
-        </ul>
-      </li>
-      <li
-        aria-expanded="true"
-        aria-haspopup="true"
-        class="menu-chapter el-submenu is-opened"
-        role="menuitem"
+        Premier chapitre
+      
+        </span>
+        <i
+          class="el-submenu__icon-arrow el-icon-arrow-down"
+        />
+      </div>
+      <ul
+        class="el-menu el-menu--inline"
+        role="menu"
       >
-        <div
-          class="el-submenu__title"
-          style="padding-left: 20px;"
+         
+        <li
+          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
+          role="menuitem"
+          style="padding-left: 40px;"
+          tabindex="-1"
         >
-          <span
-            class="text-white hover:text-primary"
+          <a
+            class="submenu-item-page block h-full"
+            href="#/workspace/undefined/page/1"
           >
-            Deuxième chapitre
-          </span>
-          <i
-            class="el-submenu__icon-arrow el-icon-arrow-down"
-          />
-        </div>
-        <ul
-          class="el-menu el-menu--inline"
-          role="menu"
+            Première page
+      
+          </a>
+        </li>
+        <li
+          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
+          role="menuitem"
+          style="padding-left: 40px;"
+          tabindex="-1"
         >
-           
-          <div>
-            <li
-              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-              role="menuitem"
-              style="padding-left: 40px;"
-              tabindex="-1"
-            >
-              <a
-                class="submenu-item-page block h-full"
-                href="#/workspace/undefined/page/3"
-              >
-                Troisième page
+          <a
+            class="submenu-item-page block h-full"
+            href="#/workspace/undefined/page/2"
+          >
+            Deuxième page
+      
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="menu-chapter el-submenu is-opened"
+      role="menuitem"
+    >
+      <div
+        class="el-submenu__title"
+        style="padding-left: 20px;"
+      >
+        <span
+          class="text-white hover:text-primary"
+        >
           
-              </a>
-            </li>
-            <li
-              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-              role="menuitem"
-              style="padding-left: 40px;"
-              tabindex="-1"
-            >
-              <a
-                class="submenu-item-page block h-full"
-                href="#/workspace/undefined/page/4"
-              >
-                Quatrième page
-          
-              </a>
-            </li>
-          </div>
-        </ul>
-      </li>
-    </div>
+        Deuxième chapitre
+      
+        </span>
+        <i
+          class="el-submenu__icon-arrow el-icon-arrow-down"
+        />
+      </div>
+      <ul
+        class="el-menu el-menu--inline"
+        role="menu"
+      >
+         
+        <li
+          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
+          role="menuitem"
+          style="padding-left: 40px;"
+          tabindex="-1"
+        >
+          <a
+            class="submenu-item-page block h-full"
+            href="#/workspace/undefined/page/3"
+          >
+            Troisième page
+      
+          </a>
+        </li>
+        <li
+          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
+          role="menuitem"
+          style="padding-left: 40px;"
+          tabindex="-1"
+        >
+          <a
+            class="submenu-item-page block h-full"
+            href="#/workspace/undefined/page/4"
+          >
+            Quatrième page
+      
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </div>
 `;
 
 exports[`storyshots Chapter Chapter without props 1`] = `
-<div>
+<div
+  class="h-full"
+>
   <ul
-    class="nav-chapters bg-primary text-white el-menu"
+    class="nav-chapters bg-primary text-white h-full el-menu"
     role="menubar"
-  />
+  >
+    <li
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="menu-chapter el-submenu is-opened"
+      role="menuitem"
+    >
+      <div
+        class="el-submenu__title"
+        style="padding-left: 20px;"
+      >
+        <span
+          class="text-white hover:text-primary"
+        >
+          
+        No chapter to display
+      
+        </span>
+        <i
+          class="el-submenu__icon-arrow el-icon-arrow-down"
+        />
+      </div>
+      <ul
+        class="el-menu el-menu--inline"
+        role="menu"
+      />
+    </li>
+  </ul>
 </div>
 `;

@@ -29,7 +29,7 @@ initStoryshots({
     beforeScreenshot (page) {
       page.setViewport({ width: 1024, height: 768 })
     },
-    storybookUrl: `file:///${path.resolve(__dirname, '../../storybook-static')}`
+    storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'
   })
 })
 

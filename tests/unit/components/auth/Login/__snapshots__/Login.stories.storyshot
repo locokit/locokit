@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storyshots Login Login 1`] = `
-<div>
+<div
+  class="h-full"
+>
   <div
     class="w-full max-w-xs"
   >
