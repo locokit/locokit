@@ -5,9 +5,15 @@ import { Application } from '../declarations';
 import { column as LckColumn } from './column.model'
 import { row as LckRow } from './row.model'
 
+export class LckColumnDTO extends LckColumn {
+  filter?: Object[]
+  sort?: Object
+}
+
 class view extends Model {
   createdAt!: string;
   updatedAt!: string;
+  columns?: LckColumnDTO[]
 
   static get tableName() {
     return 'table_view';
@@ -37,7 +43,8 @@ class view extends Model {
           from: 'table_view.id',
           through: {
             from: 'table_view_has_table_column.table_view_id',
-            to: 'table_view_has_table_column.table_column_id'
+            to: 'table_view_has_table_column.table_column_id',
+            extra: ['order', 'filter']
           },
           to: 'table_column.id',
         }

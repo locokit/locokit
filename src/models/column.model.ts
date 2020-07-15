@@ -6,6 +6,7 @@ import { table as LckTable } from './table.model'
 import { columnType as LckColumnType } from './columnType.model'
 
 export class column extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   text: string = 'unknown text';
