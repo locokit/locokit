@@ -3,7 +3,7 @@
 exports[`storyshots Chapter Chapter with props 1`] = `
 <div>
   <ul
-    class="nav-chapters el-menu"
+    class="nav-chapters bg-primary text-white el-menu"
     role="menubar"
   >
     <div>
@@ -17,7 +17,9 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           class="el-submenu__title"
           style="padding-left: 20px;"
         >
-          <span>
+          <span
+            class="text-white hover:text-primary"
+          >
             Premier chapitre
           </span>
           <i
@@ -31,13 +33,13 @@ exports[`storyshots Chapter Chapter with props 1`] = `
            
           <div>
             <li
-              class="el-menu-item submenu-pages"
+              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
               role="menuitem"
               style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class="submenu-item-page"
+                class="submenu-item-page block h-full"
                 href="#/workspace/undefined/page/1"
               >
                 Première page
@@ -45,13 +47,13 @@ exports[`storyshots Chapter Chapter with props 1`] = `
               </a>
             </li>
             <li
-              class="el-menu-item submenu-pages"
+              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
               role="menuitem"
               style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class="submenu-item-page"
+                class="submenu-item-page block h-full"
                 href="#/workspace/undefined/page/2"
               >
                 Deuxième page
@@ -71,7 +73,9 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           class="el-submenu__title"
           style="padding-left: 20px;"
         >
-          <span>
+          <span
+            class="text-white hover:text-primary"
+          >
             Deuxième chapitre
           </span>
           <i
@@ -85,13 +89,13 @@ exports[`storyshots Chapter Chapter with props 1`] = `
            
           <div>
             <li
-              class="el-menu-item submenu-pages"
+              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
               role="menuitem"
               style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class="submenu-item-page"
+                class="submenu-item-page block h-full"
                 href="#/workspace/undefined/page/3"
               >
                 Troisième page
@@ -99,13 +103,13 @@ exports[`storyshots Chapter Chapter with props 1`] = `
               </a>
             </li>
             <li
-              class="el-menu-item submenu-pages"
+              class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
               role="menuitem"
               style="padding-left: 40px;"
               tabindex="-1"
             >
               <a
-                class="submenu-item-page"
+                class="submenu-item-page block h-full"
                 href="#/workspace/undefined/page/4"
               >
                 Quatrième page
@@ -123,7 +127,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
 exports[`storyshots Chapter Chapter without props 1`] = `
 <div>
   <ul
-    class="nav-chapters el-menu"
+    class="nav-chapters bg-primary text-white el-menu"
     role="menubar"
   />
 </div>
