@@ -5,8 +5,13 @@ import { Application } from '../declarations';
 import { column as LckColumn } from './column.model'
 import { row as LckRow } from './row.model'
 
+export class LckColumnFilter {
+  // $eq?: string
+  // $neq?: string
+  [key: string]: string
+}
 export class LckColumnDTO extends LckColumn {
-  filter?: Object[]
+  filter?: LckColumnFilter
   sort?: Object
 }
 

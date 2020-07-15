@@ -1,10 +1,16 @@
+
 import * as authentication from '@feathersjs/authentication';
+import * as commonHooks from 'feathers-hooks-common'
+import filterRowsByTableViewId from '../../hooks/filter-view-rows';
 const { authenticate } = authentication.hooks;
 
 export default {
   before: {
     all: [ authenticate('jwt') ],
-    find: [],
+    find: [
+      filterRowsByTableViewId(),
+      commonHooks.discardQuery('table_view_id')
+    ],
     get: [],
     create: [],
     update: [],
