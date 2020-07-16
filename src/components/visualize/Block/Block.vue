@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import TableView from '../TableView/TableView.vue'
-import Markdown from '../Markdown/Markdown'
-import Paragraph from '../Paragrah/Paragraph'
+import TableView from '@/components/visualize/TableView/TableView.vue'
+import Paragraph from '@/components/visualize/Paragrah/Paragraph'
+import Markdown from '@/components/visualize/Markdown/Markdown'
 
 export default {
   name: 'Block',
