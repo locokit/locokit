@@ -16,7 +16,9 @@ const defaultWorkspacePermission: WorkspacePermission = {
 export class workspace extends Model {
   createdAt!: string;
   updatedAt!: string;
+  role!: string;
   permissions: WorkspacePermission = { ...defaultWorkspacePermission };
+  chapters?: LckChapter[];
 
   static get tableName() {
     return 'workspace';

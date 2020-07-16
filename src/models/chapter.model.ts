@@ -9,6 +9,7 @@ import { page as LckPage } from './page.model'
 export class chapter extends Model {
   createdAt!: string;
   updatedAt!: string;
+  id!: string;
 
   static get tableName() {
     return 'chapter';
