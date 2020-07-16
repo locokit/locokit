@@ -6,7 +6,8 @@ export default function (app: Application) {
   const knex = require('knex')({
     client,
     connection,
-    useNullAsDefault: false
+    useNullAsDefault: false,
+    // debug: true
   });
 
   Model.knex(knex);
