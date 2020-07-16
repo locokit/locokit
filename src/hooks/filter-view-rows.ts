@@ -26,7 +26,7 @@ export default function filterRowsByTableViewId(): Hook {
                 (c.filter as LckColumnFilter)[filterKey] as string
               ).replace('{userId}', context.params.user.id)
             }
-            filtersToAdd[c.id] = filterToAdd
+            filtersToAdd[c.id + '.reference'] = filterToAdd
           })
         })
       context.params.query = {
