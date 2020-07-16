@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col h-full max-h-full">
     <lck-header
       :is-authenticated="state.auth.data.isAuthenticated"
     />
-    <main class="flex-grow h-full">
+    <main class="flex-grow h-full bg-gray-100 overflow-auto">
       <router-view/>
     </main>
   </div>

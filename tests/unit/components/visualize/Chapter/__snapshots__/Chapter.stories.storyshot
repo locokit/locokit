@@ -5,7 +5,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
   class="h-full"
 >
   <ul
-    class="nav-chapters bg-primary text-white h-full el-menu"
+    class="nav-chapters bg-primary text-white el-menu"
     role="menubar"
   >
     <li
@@ -129,7 +129,7 @@ exports[`storyshots Chapter Chapter without props 1`] = `
   class="h-full"
 >
   <ul
-    class="nav-chapters bg-primary text-white h-full el-menu"
+    class="nav-chapters bg-primary text-white el-menu"
     role="menubar"
   >
     <li

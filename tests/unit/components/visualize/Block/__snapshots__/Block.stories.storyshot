@@ -5,12 +5,7 @@ exports[`storyshots Block Block TV Story 1`] = `
   class="h-full"
 >
   <div>
-    
-  
-  
-    <div>
-      <!---->
-    </div>
+    <!---->
   </div>
 </div>
 `;
@@ -20,9 +15,6 @@ exports[`storyshots Block Block TableView 1`] = `
   class="h-full"
 >
   <div>
-    
-  
-  
     <!---->
   </div>
 </div>

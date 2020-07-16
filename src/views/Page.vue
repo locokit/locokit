@@ -1,8 +1,8 @@
 <template>
   <div class="mx-2">
-    <h1 class="text-xl text-gray-600 my-4">
-      {{ page.text }}
-    </h1>
+    <header class="text-2xl text-blue-600 font-medium my-4">
+      {{ page && page.text }}
+    </header>
     <div v-if="page && page.containers.length > 0">
       <div v-for="container in page.containers" :key="container.id">
         <Container :container="container"></Container>
