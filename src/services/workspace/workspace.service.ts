@@ -33,9 +33,11 @@ export default function (app: Application) {
       '$and',
       '$sort',
       '$any',
-      '$eager'
+      '$eager',
+      '$joinRelation',
+      '$modifyEager'
     ],
-    allowedEager: '[chapters, chapters.pages, chapters.pages.containers, chapters.pages.containers.blocks]',
+    allowedEager: '[chapters.[pages.[containers.[blocks]]]]',
     paginate: app.get('paginate')
   };
 

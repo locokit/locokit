@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import filterChapterAccordingPermissions from '../../hooks/filter-chapter-according-permissions';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -7,7 +8,7 @@ export default {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
-    get: [],
+    get: [filterChapterAccordingPermissions()],
     create: [],
     update: [],
     patch: [],
