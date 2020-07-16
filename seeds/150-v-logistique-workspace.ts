@@ -287,19 +287,24 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_view_has_table_column").insert([{
     table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
-    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    visible: true
   }, {
     table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
     table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    visible: true
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
-    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    visible: true
   }, {
     table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
-    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    visible: true
   }, {
     table_column_id: 'b7e0fddb-2a62-4906-8392-f88794600080',
-    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    visible: true
   }])
 
   /**
@@ -307,10 +312,12 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_view_has_table_column").insert([{
     table_column_id: 'be137241-f97f-4fb9-9220-36d5c6c0c1af',
-    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81'
+    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
+    visible: true
   }, {
     table_column_id: 'b93546a3-4459-40ed-9a76-fdcc45966479',
     table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
+    visible: true
   }])
 
   /**
@@ -318,10 +325,12 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_view_has_table_column").insert([{
     table_column_id: '17ab6b13-5412-483e-ac7d-a9add38225f1',
-    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f'
+    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
+    visible: true
   }, {
     table_column_id: 'bf0da601-527b-434c-b5b7-fc25e370fe36',
-    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f'
+    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
+    visible: true
   }])
 
   /**
@@ -329,7 +338,8 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_view_has_table_column").insert([{
     table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    visible: true
   }, {
     table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
     table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
@@ -339,19 +349,24 @@ export async function seed(knex: Knex): Promise<any> {
     visible: false
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    visible: true
   }, {
     table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    visible: true
   }, {
     table_column_id: 'b7e0fddb-2a62-4906-8392-f88794600080',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    visible: true
   }, {
     table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
-    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
+    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
+    visible: true
   }, {
     table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
-    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
+    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
+    visible: true
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
     table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
@@ -361,9 +376,11 @@ export async function seed(knex: Knex): Promise<any> {
     visible: false
   }, {
     table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
-    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
+    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
+    visible: true
   }, {
     table_column_id: 'b7e0fddb-2a62-4906-8392-f88794600080',
-    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
+    table_view_id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
+    visible: true
   }])
 };

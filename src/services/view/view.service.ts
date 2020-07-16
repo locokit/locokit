@@ -33,7 +33,8 @@ export default function (app: Application) {
       '$and',
       '$sort',
       '$any',
-      '$eager'
+      '$eager',
+      '$modifyEager'
     ],
     allowedEager: '[columns.[type], rows]',
     paginate: app.get('paginate')

@@ -49,7 +49,7 @@ class view extends Model {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['order', 'filter']
+            extra: ['order', 'filter', 'visible']
           },
           to: 'table_column.id',
         }
