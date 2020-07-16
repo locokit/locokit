@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { ROUTES_PATH } from '../../../router/paths'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Chapter',
