@@ -219,7 +219,10 @@ export async function seed(knex: Knex): Promise<any> {
     id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
     text: 'Bénéficiaire',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    column_type_id: 5
+    column_type_id: 5,
+    settings: {
+      tableId: 'bb145d9f-0976-419d-9fef-bc15799d1624'
+    }
   }, {
     id: 'bde4bbbd-2584-447f-acff-f434f53619da',
     text: 'Fournisseur',
@@ -235,41 +238,28 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Référence vélo',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
     column_type_id: 3
-  }])
-  await knex("table_row").insert([{
-    id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-    text: "Vélo n° XXXX",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "Vélo pouet",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': 5,
-      'bde4bbbd-2584-447f-acff-f434f53619da': 4,
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_XXXX',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'XXXX',
-    })
   }, {
-    id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
-    text: "Vélo n° YYYY",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "Vélo pouet",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': 5,
-      'bde4bbbd-2584-447f-acff-f434f53619da': 3,
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_YYYY',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'YYYY'
-    })
+    id: '17ab6b13-5412-483e-ac7d-a9add38225f1',
+    text: 'Nom fournisseur',
+    table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
+    column_type_id: 3
   }, {
-    id: '5704c8be-0b7f-409d-9baf-e5cc7afb5df9',
-    text: "Vélo n° ZZZZ",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "Vélo pouet",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': 6,
-      'bde4bbbd-2584-447f-acff-f434f53619da': 3,
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_ZZZZ',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'ZZZZ'
-    })
+    id: 'bf0da601-527b-434c-b5b7-fc25e370fe36',
+    text: 'Utilisateur corrélé',
+    table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
+    column_type_id: 5
+  }, {
+    id: 'be137241-f97f-4fb9-9220-36d5c6c0c1af',
+    text: 'Nom bénéficiaire',
+    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    column_type_id: 3
+  }, {
+    id: 'b93546a3-4459-40ed-9a76-fdcc45966479',
+    text: 'Utilisateur corrélé',
+    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    column_type_id: 5
   }])
+
   await knex("table_view").insert([{
     id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
     text: 'Vélo bénéficiaire',
@@ -278,7 +268,65 @@ export async function seed(knex: Knex): Promise<any> {
     id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
     text: 'Vélo fournisseur',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  }, {
+    id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+    text: 'Ensemble des vélos',
+    table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  }, {
+    id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
+    text: 'Ensemble des bénéficiaires',
+    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624'
+  }, {
+    id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
+    text: 'Ensemble des fournisseurs',
+    table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b'
   }])
+
+  /**
+   * Vue ensemble des vélos
+   */
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+  }, {
+    table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0',
+  }, {
+    table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+  }, {
+    table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+  }, {
+    table_column_id: 'b7e0fddb-2a62-4906-8392-f88794600080',
+    table_view_id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+  }])
+
+  /**
+   * Vue ensemble des bénéficiaires
+   */
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: 'be137241-f97f-4fb9-9220-36d5c6c0c1af',
+    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81'
+  }, {
+    table_column_id: 'b93546a3-4459-40ed-9a76-fdcc45966479',
+    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
+  }])
+
+  /**
+   * Vue ensemble des fournisseurs
+   */
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: '17ab6b13-5412-483e-ac7d-a9add38225f1',
+    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f'
+  }, {
+    table_column_id: 'bf0da601-527b-434c-b5b7-fc25e370fe36',
+    table_view_id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f'
+  }])
+
+  /**
+   * Vue Vélo bénéficiaire
+   */
   await knex("table_view_has_table_column").insert([{
     table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
     table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'

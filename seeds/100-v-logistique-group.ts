@@ -15,16 +15,16 @@ export async function seed(knex: Knex): Promise<any> {
     {
       id: 3,
       first_name: "Fournisseur",
-      last_name: "A",
-      email: "fournisseura@makina-corpus.net",
+      last_name: "CYCLABLE ENTREPRISE",
+      email: "cyclable.entreprise@makina-corpus.net",
       password: hashPassword,
       profile: "USER"
     },
     {
       id: 4,
       first_name: "Fournisseur",
-      last_name: "B",
-      email: "fournisseurb@makina-corpus.net",
+      last_name: "AMSTERDAMAIR",
+      email: "amsterdamair@makina-corpus.net",
       password: hashPassword,
       profile: "USER"
     },
@@ -51,6 +51,14 @@ export async function seed(knex: Knex): Promise<any> {
       email: "unknown@makina-corpus.net",
       password: hashPassword,
       profile: "USER"
+    },
+    {
+      id: 8,
+      first_name: "Fournisseur",
+      last_name: "CYCLELAB",
+      email: "cyclelab@makina-corpus.net",
+      password: hashPassword,
+      profile: "USER"
     }
   ]);
   await knex("group").insert([
@@ -68,16 +76,16 @@ export async function seed(knex: Knex): Promise<any> {
     },
   ]);
   await knex("user_has_group").insert([
-    {
-      user_id: 2,
-      group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
-      role: 'OWNER'
-    },
-    {
-      user_id: 2,
-      group_id: '895ec967-fa3b-4710-82e7-b406e62f657d',
-      role: 'OWNER'
-    },
+    // {
+    //   user_id: 2,
+    //   group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+    //   role: 'OWNER'
+    // },
+    // {
+    //   user_id: 2,
+    //   group_id: '895ec967-fa3b-4710-82e7-b406e62f657d',
+    //   role: 'OWNER'
+    // },
     {
       user_id: 2,
       group_id: '163c21e6-5339-4748-903f-8c77e21314cf',
@@ -90,6 +98,11 @@ export async function seed(knex: Knex): Promise<any> {
     },
     {
       user_id: 4,
+      group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+      role: 'MEMBER'
+    },
+    {
+      user_id: 8,
       group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
       role: 'MEMBER'
     },
