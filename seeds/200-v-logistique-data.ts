@@ -79,10 +79,13 @@ export async function seed(knex: Knex): Promise<any> {
       },
       'bde4bbbd-2584-447f-acff-f434f53619da': {
         reference: 4,
-        value: 'Fournisseur AMSTERDAMAIR'
+        value: 'AMSTERDAMAIR'
       },
       'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_XXXX',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'XXXX'
+      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'XXXX',
+      '3a659ea1-446f-4755-8db9-583a204279cc': 1,
+      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '10/10/2020',
+      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '10/07/2020'
     })
   }, {
     id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
@@ -96,10 +99,13 @@ export async function seed(knex: Knex): Promise<any> {
       },
       'bde4bbbd-2584-447f-acff-f434f53619da': {
         reference: 3,
-        value: 'Fournisseur CYCLABLE ENTREPRISE'
+        value: 'CYCLABLE ENTREPRISE'
       },
       'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_YYYY',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'YYYY'
+      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'YYYY',
+      '3a659ea1-446f-4755-8db9-583a204279cc': 2,
+      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '01/10/2020',
+      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '01/07/2020'
     })
   }, {
     id: '5704c8be-0b7f-409d-9baf-e5cc7afb5df9',
@@ -113,10 +119,13 @@ export async function seed(knex: Knex): Promise<any> {
       },
       'bde4bbbd-2584-447f-acff-f434f53619da': {
         reference: 3,
-        value: 'Fournisseur CYCLABLE ENTREPRISE'
+        value: 'CYCLABLE ENTREPRISE'
       },
       'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_ZZZZ',
-      'b7e0fddb-2a62-4906-8392-f88794600080': 'ZZZZ'
+      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'ZZZZ',
+      '3a659ea1-446f-4755-8db9-583a204279cc': 3,
+      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '16/10/2020',
+      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '16/07/2020'
     })
   }])
 };

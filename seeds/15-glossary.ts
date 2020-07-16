@@ -25,5 +25,11 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: 8,
     text: 'Looked up column'
+  }, {
+    id: 9,
+    text: 'Single select'
+  }, {
+    id: 10,
+    text: 'Multi select'
   }])
 };
