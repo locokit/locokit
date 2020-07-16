@@ -1,7 +1,7 @@
 <template>
   <el-menu
     :default-openeds="listChaptersId"
-    class="nav-chapters bg-primary text-white h-full"
+    class="nav-chapters bg-primary text-white"
     active-text-color="#53acb4"
   >
     <el-submenu

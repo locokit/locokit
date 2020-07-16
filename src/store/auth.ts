@@ -6,6 +6,7 @@ class User {
   first_name = ''
   last_name = ''
   profile = ''
+  id = ''
 }
 
 class Group {
@@ -78,7 +79,13 @@ export async function retrieveGroups () {
   if (!authState.data.isAuthenticated) return null
   authState.loading = true
   try {
-    const result = await lckClient.service('group').find()
+    const result = await lckClient.service('group').find({
+      query: {
+        $eager: 'users',
+        $joinRelation: 'users',
+        'users.id': authState.data.user?.id
+      }
+    })
     authState.data.groups = result.data
   } catch (error) {
     authState.error = error
