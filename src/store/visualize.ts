@@ -108,7 +108,12 @@ export async function retrieveViewDefinition (id: number) {
     const result = await lckClient.service('view').get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
-        $eager: 'columns.[type]'
+        $eager: 'columns.[type]',
+        $modifyEager: {
+          columns: {
+            visible: true
+          }
+        }
       }
     })
     return result

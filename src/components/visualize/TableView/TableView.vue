@@ -9,7 +9,7 @@
       class="shadow"
     >
       <el-table-column
-        v-for="column in columnsToDisplay"
+        v-for="column in block.definition.columns"
         :key="column.id"
         :prop="getPropName(column)"
         :label="column.text"
@@ -39,11 +39,6 @@ export default {
     block: {
       type: Object,
       default: () => ({})
-    }
-  },
-  computed: {
-    columnsToDisplay () {
-      return this.block.definition?.columns?.filter(c => !c.visible)
     }
   },
   methods: {
