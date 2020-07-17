@@ -25,6 +25,9 @@
       "noChapter": "Aucun chapitre à afficher"
     }
   },
+  "error": {
+    "basic": "Une erreur est survenue."
+  },
   "http": {
     "401": "Accès non authentifié",
     "403": "Accès interdit",

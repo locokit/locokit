@@ -25,6 +25,9 @@
       "noChapter": "No chapter to display"
     }
   },
+  "error": {
+    "basic": "An error has occurred."
+  },
   "http": {
     "401": "Access not granted",
     "403": "Access forbidden",
