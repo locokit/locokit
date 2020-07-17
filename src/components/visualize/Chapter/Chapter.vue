@@ -44,9 +44,11 @@ export default {
   props: {
     chapters: {
       type: Array,
-      default: () => [{
-        text: 'No chapter to display'
-      }]
+      default: function () {
+        return ([{
+          text: this.$t('pages.workspaces.noChapter')
+        }])
+      }
     }
   },
   data () {

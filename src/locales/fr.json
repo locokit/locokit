@@ -21,7 +21,8 @@
     "workspaces": {
       "title": "Espaces de travail",
       "created": "Créé le :",
-      "updated": "Mis à jour le :"
+      "updated": "Mis à jour le :",
+      "noChapter": "Aucun chapitre à afficher"
     }
   },
   "http": {

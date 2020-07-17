@@ -21,7 +21,8 @@
     "workspaces": {
       "title": "Workspaces",
       "created": "Created:",
-      "updated": "Updated:"
+      "updated": "Updated:",
+      "noChapter": "No chapter to display"
     }
   },
   "http": {
