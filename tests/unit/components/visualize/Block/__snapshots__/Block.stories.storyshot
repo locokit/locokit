@@ -1,21 +1,147 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Block Block TV Story 1`] = `
+exports[`storyshots Block Block with Markdown 1`] = `
 <div
   class="h-full"
 >
   <div>
-    <!---->
+    <div
+      class="text-gray-600"
+    >
+      
+  Futur Markdown
+
+    </div>
   </div>
 </div>
 `;
 
-exports[`storyshots Block Block TableView 1`] = `
+exports[`storyshots Block Block with Paragraph (Text) 1`] = `
 <div
   class="h-full"
 >
   <div>
-    <!---->
+    <div
+      class="text-gray-600"
+    >
+      
+  Je suis un texte
+
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots Block Block with TableView 1`] = `
+<div
+  class="h-full"
+>
+  <div>
+    <div>
+      <header
+        class="text-gray-600 font-medium mb-2"
+      >
+        
+    My TableView's block
+  
+      </header>
+       
+      <div
+        class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
+      >
+        <div
+          class="hidden-columns"
+        >
+          <div />
+          <div />
+          <div />
+        </div>
+        <div
+          class="el-table__header-wrapper"
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            class="el-table__header"
+          >
+            <colgroup />
+            <thead
+              class=""
+            >
+              <tr
+                class=""
+              />
+            </thead>
+          </table>
+        </div>
+        <div
+          class="el-table__body-wrapper is-scrolling-none"
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            class="el-table__body"
+          >
+            <colgroup />
+            <tbody>
+              <tr
+                class="el-table__row"
+              />
+              <tr
+                class="el-table__row el-table__row--striped"
+              />
+              <!---->
+            </tbody>
+          </table>
+          <!---->
+          <!---->
+        </div>
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <div
+          class="el-table__column-resize-proxy"
+          style="display: none;"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots Block Block with unknown type 1`] = `
+<div
+  class="h-full"
+>
+  <div>
+    <div
+      block="[object Object]"
+      class="text-gray-600"
+    >
+      <p>
+        Une erreur est survenue.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots Block Block without props 1`] = `
+<div
+  class="h-full"
+>
+  <div>
+    <div
+      block="[object Object]"
+      class="text-gray-600"
+    >
+      <p>
+        Une erreur est survenue.
+      </p>
+    </div>
   </div>
 </div>
 `;

@@ -16,7 +16,7 @@ Vue.component('RouterLink', {
       action('link target')(this.to)
     }
   },
-  template: '<div class="mock-link" @click="log()"><slot>RouterLink</slot></div>'
+  template: '<a class="mock-link" @click="log()"><slot>RouterLink</slot></a>'
 })
 
 export const HeaderBasicStory = () => (
