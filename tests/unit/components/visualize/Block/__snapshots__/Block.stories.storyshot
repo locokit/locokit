@@ -25,7 +25,7 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
       class="text-gray-600"
     >
       
-  Je suis un texte
+  Je suis un texte.
 
     </div>
   </div>
@@ -117,14 +117,12 @@ exports[`storyshots Block Block with unknown type 1`] = `
   class="h-full"
 >
   <div>
-    <div
-      block="[object Object]"
+    <span
       class="text-gray-600"
     >
-      <p>
-        Une erreur est survenue.
-      </p>
-    </div>
+      
+    Ce type de block NotKnown n'existe pas.
+    </span>
   </div>
 </div>
 `;
@@ -134,14 +132,13 @@ exports[`storyshots Block Block without props 1`] = `
   class="h-full"
 >
   <div>
-    <div
-      block="[object Object]"
+    <span
       class="text-gray-600"
     >
-      <p>
-        Une erreur est survenue.
-      </p>
-    </div>
+      
+    Le type de block n'existe pas.
+  
+    </span>
   </div>
 </div>
 `;

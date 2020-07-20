@@ -22,7 +22,9 @@
       "title": "Espaces de travail",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
-      "noChapter": "Aucun chapitre à afficher"
+      "noChapter": "Aucun chapitre à afficher",
+      "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
+      "errorUnknownTypeBlock": "Le type de block n'existe pas."
     }
   },
   "error": {

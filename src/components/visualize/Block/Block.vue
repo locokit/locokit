@@ -1,15 +1,21 @@
 <template>
   <div>
     <component
-        :is="getComponent(block.type)"
+        v-if="isBlockTypeValid"
+        :is="block.type"
         :block="block"
     />
+    <span class="text-gray-600" v-else-if="block.type">
+      {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}</span>
+    <span class="text-gray-600" v-else>
+      {{ $t('pages.workspaces.errorUnknownTypeBlock') }}
+    </span>
   </div>
 </template>
 
 <script>
 import TableView from '@/components/visualize/TableView/TableView.vue'
-import Paragraph from '@/components/visualize/Paragrah/Paragraph'
+import Paragraph from '@/components/visualize/Paragraph/Paragraph'
 import Markdown from '@/components/visualize/Markdown/Markdown'
 import Error from '@/components/error/Error'
 
@@ -22,12 +28,9 @@ export default {
     Markdown,
     Error
   },
-  methods: {
-    getComponent (blockType) {
-      if (VALIDBLOCKTYPES.includes(blockType)) {
-        return blockType
-      }
-      return 'Error'
+  computed: {
+    isBlockTypeValid () {
+      return VALIDBLOCKTYPES.includes(this.block.type)
     }
   },
   props: {

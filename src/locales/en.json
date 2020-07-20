@@ -22,7 +22,9 @@
       "title": "Workspaces",
       "created": "Created:",
       "updated": "Updated:",
-      "noChapter": "No chapter to display"
+      "noChapter": "No chapter to display",
+      "errorTypeBlock": "This {blockType} block type does not exist.",
+      "errorUnknownTypeBlock": "The block type does not exist."
     }
   },
   "error": {

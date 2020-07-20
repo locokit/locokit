@@ -140,7 +140,7 @@ export const BlockParagraphStory = () => (
       return {
         block: {
           type: 'Paragraph',
-          text: 'Je suis un texte'
+          text: 'Je suis un texte.'
         }
       }
     },
