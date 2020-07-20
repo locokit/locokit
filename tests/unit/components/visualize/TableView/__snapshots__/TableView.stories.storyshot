@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots TableView TableView with expected props 1`] = `
+<div
+  class="h-full"
+>
+  <div>
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
+    My TableView's block
+  
+    </header>
+     
+    <div
+      class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
+    >
+      <div
+        class="hidden-columns"
+      >
+        <div />
+        <div />
+        <div />
+      </div>
+      <div
+        class="el-table__header-wrapper"
+      >
+        <table
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          class="el-table__header"
+        >
+          <colgroup />
+          <thead
+            class=""
+          >
+            <tr
+              class=""
+            />
+          </thead>
+        </table>
+      </div>
+      <div
+        class="el-table__body-wrapper is-scrolling-none"
+      >
+        <table
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          class="el-table__body"
+        >
+          <colgroup />
+          <tbody>
+            <tr
+              class="el-table__row"
+            />
+            <tr
+              class="el-table__row el-table__row--striped"
+            />
+            <!---->
+          </tbody>
+        </table>
+        <!---->
+        <!---->
+      </div>
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <div
+        class="el-table__column-resize-proxy"
+        style="display: none;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots TableView TableView without no definition and data properties 1`] = `
+<div
+  class="h-full"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots TableView TableView without props 1`] = `
+<div
+  class="h-full"
+>
+  <!---->
+</div>
+`;

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Markdown Markdown with props 1`] = `
+<div
+  class="h-full"
+>
+  <div
+    class="text-gray-600"
+  >
+    
+  Futur Markdown
+
+  </div>
+</div>
+`;
+
+exports[`storyshots Markdown Markdown without props 1`] = `
+<div
+  class="h-full"
+>
+  <div
+    class="text-gray-600"
+  >
+    
+  
+
+  </div>
+</div>
+`;
