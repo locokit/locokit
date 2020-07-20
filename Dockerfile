@@ -1,7 +1,20 @@
-FROM node:lts-alpine
-WORKDIR /usr/src/app
-COPY package*.json ./
+FROM node:14
+# ENV NODE_ENV=production
+RUN mkdir /code
+WORKDIR /code
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get clean all
+RUN apt-get autoclean
+COPY package*.json /code/
+COPY src /code/src/
+COPY config /code/config/
+COPY migrations /code/migrations/
+COPY seeds /code/seeds/
+COPY public /code/public/
+COPY tsconfig.json /code/
+COPY knexfile.ts /code/
 RUN npm ci
-COPY . .
-EXPOSE 3030
-CMD ["npm", "run", "start"]
+RUN npm install pm2 knex typescript -g
+RUN ls
+RUN npx tsc
