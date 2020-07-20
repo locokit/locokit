@@ -1,5 +1,5 @@
 <template>
-  <div v-if="container.blocks.length > 0">
+  <div v-if="container.blocks && container.blocks.length > 0">
     <Block
       v-for="block in container.blocks"
       :key="block.id"
