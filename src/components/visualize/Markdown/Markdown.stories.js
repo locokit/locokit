@@ -18,7 +18,10 @@ export const MarkdownStoryWithProps = () => ({
     return {
       block: {
         type: 'Markdown',
-        text: 'Futur Markdown'
+        title: 'Futur Markdown',
+        settings: {
+          content: "En cours d'implémentation."
+        }
       }
     }
   },

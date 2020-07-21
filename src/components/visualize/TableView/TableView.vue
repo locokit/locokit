@@ -1,8 +1,5 @@
 <template>
   <div v-if="block.definition">
-    <header class="text-gray-600 font-medium mb-2">
-      {{ block.text }}
-    </header>
     <el-table
       stripe
       size="medium"
@@ -34,7 +31,9 @@ export default {
   props: {
     block: {
       type: Object,
-      default: () => ({})
+      default: () => (
+        {}
+      )
     }
   },
   methods: {

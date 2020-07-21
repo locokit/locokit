@@ -5,11 +5,19 @@ exports[`storyshots Block Block with Markdown 1`] = `
   class="h-full"
 >
   <div>
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
+    Futur Markdown
+  
+    </header>
+     
     <div
       class="text-gray-600"
     >
       
-  Futur Markdown
+  En cours d'implémentation
 
     </div>
   </div>
@@ -21,6 +29,14 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
   class="h-full"
 >
   <div>
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
+    Titre
+  
+    </header>
+     
     <div
       class="text-gray-600"
     >
@@ -37,15 +53,15 @@ exports[`storyshots Block Block with TableView 1`] = `
   class="h-full"
 >
   <div>
-    <div>
-      <header
-        class="text-gray-600 font-medium mb-2"
-      >
-        
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
     My TableView's block
   
-      </header>
-       
+    </header>
+     
+    <div>
       <div
         class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
       >
@@ -117,6 +133,14 @@ exports[`storyshots Block Block with unknown type 1`] = `
   class="h-full"
 >
   <div>
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
+    Not Known
+  
+    </header>
+     
     <span
       class="text-gray-600"
     >
@@ -132,6 +156,14 @@ exports[`storyshots Block Block without props 1`] = `
   class="h-full"
 >
   <div>
+    <header
+      class="text-gray-600 font-medium mb-2"
+    >
+      
+    
+  
+    </header>
+     
     <span
       class="text-gray-600"
     >

@@ -1,9 +1,13 @@
 <template>
   <div>
+    <header class="text-gray-600 font-medium mb-2">
+      {{ block.title }}
+    </header>
     <component
-        v-if="isBlockTypeValid"
-        :is="block.type"
-        :block="block"
+      v-if="isBlockTypeValid"
+      v-loading="block.loading"
+      :is="block.type"
+      :block="block"
     />
     <span class="text-gray-600" v-else-if="block.type">
       {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}</span>
@@ -45,5 +49,8 @@ export default {
 </script>
 
 <style scoped>
-
+  /deep/ .el-loading-spinner > svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
 </style>
