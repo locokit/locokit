@@ -21,8 +21,14 @@
     "workspaces": {
       "title": "Workspaces",
       "created": "Created:",
-      "updated": "Updated:"
+      "updated": "Updated:",
+      "noChapter": "No chapter to display",
+      "errorTypeBlock": "This {blockType} block type does not exist.",
+      "errorUnknownTypeBlock": "The block type does not exist."
     }
+  },
+  "error": {
+    "basic": "An error has occurred."
   },
   "http": {
     "401": "Access not granted",

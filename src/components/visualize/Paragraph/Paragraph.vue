@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Text',
+  name: 'Paragraph',
   props: {
     block: {
       type: Object,

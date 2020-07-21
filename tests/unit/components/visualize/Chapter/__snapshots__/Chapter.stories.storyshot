@@ -41,8 +41,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           tabindex="-1"
         >
           <a
-            class="submenu-item-page block h-full"
-            href="#/workspace/undefined/page/1"
+            class="mock-link submenu-item-page block h-full"
           >
             Première page
       
@@ -55,8 +54,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           tabindex="-1"
         >
           <a
-            class="submenu-item-page block h-full"
-            href="#/workspace/undefined/page/2"
+            class="mock-link submenu-item-page block h-full"
           >
             Deuxième page
       
@@ -97,8 +95,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           tabindex="-1"
         >
           <a
-            class="submenu-item-page block h-full"
-            href="#/workspace/undefined/page/3"
+            class="mock-link submenu-item-page block h-full"
           >
             Troisième page
       
@@ -111,8 +108,7 @@ exports[`storyshots Chapter Chapter with props 1`] = `
           tabindex="-1"
         >
           <a
-            class="submenu-item-page block h-full"
-            href="#/workspace/undefined/page/4"
+            class="mock-link submenu-item-page block h-full"
           >
             Quatrième page
       
@@ -146,7 +142,7 @@ exports[`storyshots Chapter Chapter without props 1`] = `
           class="text-white hover:text-primary"
         >
           
-        No chapter to display
+        Aucun chapitre à afficher
       
         </span>
         <i

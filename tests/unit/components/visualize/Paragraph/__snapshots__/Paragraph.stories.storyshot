@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Paragraph Paragraph with props 1`] = `
+<div
+  class="h-full"
+>
+  <div
+    class="text-gray-600"
+  >
+    
+  Je suis un texte.
+
+  </div>
+</div>
+`;
+
+exports[`storyshots Paragraph Paragraph without props 1`] = `
+<div
+  class="h-full"
+>
+  <div
+    class="text-gray-600"
+  >
+    
+  
+
+  </div>
+</div>
+`;

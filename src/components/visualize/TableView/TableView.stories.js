@@ -1,20 +1,39 @@
-import Block from './Block'
+import TableView from './TableView'
 
 export default {
-  title: 'Block',
-  component: Block
+  title: 'TableView',
+  component: TableView
 }
-export const BlockStoryWithoutProps = () => (
+
+export const TableViewWithoutProps = () => (
   {
-    components: { Block },
-    template: '<Block />'
+    components: { TableView },
+    template: '<TableView />'
   }
 )
 
-BlockStoryWithoutProps.storyName = 'Block without props'
+TableViewWithoutProps.storyName = 'TableView without props'
+
+export const TableViewWithoutDefinitionAndDataStory = () => (
+  {
+    components: { TableView },
+    data () {
+      return {
+        block: {
+          id: 1,
+          text: 'My TableView\'s block',
+          type: 'TableView'
+        }
+      }
+    },
+    template: '<TableView :block="block" />'
+  }
+)
+
+TableViewWithoutDefinitionAndDataStory.storyName = 'TableView without no definition and data properties'
 
 /* eslint-disable @typescript-eslint/camelcase */
-const blockTableView = {
+const tableViewData = {
   id: 1,
   text: 'My TableView\'s block',
   type: 'TableView',
@@ -119,68 +138,16 @@ const blockTableView = {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
-export const BlockTableViewStory = () => (
+export const TableViewWithPropsStory = () => (
   {
-    components: { Block },
+    components: { TableView },
     data () {
       return {
-        block: blockTableView
+        block: tableViewData
       }
     },
-    template: '<Block :block="block" />'
+    template: '<TableView :block="block" />'
   }
 )
 
-BlockTableViewStory.storyName = 'Block with TableView'
-
-export const BlockParagraphStory = () => (
-  {
-    components: { Block },
-    data () {
-      return {
-        block: {
-          type: 'Paragraph',
-          text: 'Je suis un texte.'
-        }
-      }
-    },
-    template: '<Block :block="block" />'
-  }
-)
-
-BlockParagraphStory.storyName = 'Block with Paragraph (Text)'
-
-export const BlockMarkownStory = () => (
-  {
-    components: { Block },
-    data () {
-      return {
-        block: {
-          type: 'Markdown',
-          text: 'Futur Markdown'
-        }
-      }
-    },
-    template: '<Block :block="block" />'
-  }
-)
-
-BlockMarkownStory.storyName = 'Block with Markdown'
-
-const blockTypeNotKnown = {
-  type: 'NotKnown'
-}
-
-export const BlockTypeNotKnownStory = () => (
-  {
-    components: { Block },
-    data () {
-      return {
-        block: blockTypeNotKnown
-      }
-    },
-    template: '<Block :block="block" />'
-  }
-)
-
-BlockTypeNotKnownStory.storyName = 'Block with unknown type'
+TableViewWithPropsStory.storyName = 'TableView with expected props'

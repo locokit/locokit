@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Container Container with expected props 1`] = `
+<div
+  class="h-full"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots Container Container without blocks 1`] = `
+<div
+  class="h-full"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots Container Container without props 1`] = `
+<div
+  class="h-full"
+>
+  <!---->
+</div>
+`;
