@@ -29,7 +29,7 @@ stages:
     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
     - docker pull $IMAGE_NAME:latest || true
     - wget ${FRONT_DOWNLOAD_URL} -O ${FRONT_FILE_PATH}
-    - ls
+    - ls -al
     - unzip ${FRONT_FILE_PATH}
 
 # test:
