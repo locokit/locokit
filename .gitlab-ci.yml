@@ -29,7 +29,7 @@ stages:
     - docker info
     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
     - docker pull $IMAGE_NAME:latest || true
-    - wget --header="PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" ${FRONT_DOWNLOAD_URL} -O ${FRONT_FILE_PATH}
+    - wget --header="PRIVATE-TOKEN:${GITLAB_ACCESS_TOKEN}" ${FRONT_DOWNLOAD_URL} -O ${FRONT_FILE_PATH}
     - ls -al
     - unzip ${FRONT_FILE_PATH}
 
