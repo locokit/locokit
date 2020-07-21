@@ -18,12 +18,6 @@ exports[`storyshots Paragraph Paragraph without props 1`] = `
 <div
   class="h-full"
 >
-  <div
-    class="text-gray-600"
-  >
-    
-  
-
-  </div>
+  <!---->
 </div>
 `;

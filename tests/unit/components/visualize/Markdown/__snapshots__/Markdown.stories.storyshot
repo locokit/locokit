@@ -8,7 +8,7 @@ exports[`storyshots Markdown Markdown with props 1`] = `
     class="text-gray-600"
   >
     
-  Futur Markdown
+  En cours d'implémentation.
 
   </div>
 </div>
@@ -18,12 +18,6 @@ exports[`storyshots Markdown Markdown without props 1`] = `
 <div
   class="h-full"
 >
-  <div
-    class="text-gray-600"
-  >
-    
-  
-
-  </div>
+  <!---->
 </div>
 `;

@@ -16,7 +16,7 @@ BlockStoryWithoutProps.storyName = 'Block without props'
 /* eslint-disable @typescript-eslint/camelcase */
 const blockTableView = {
   id: 1,
-  text: 'My TableView\'s block',
+  title: 'My TableView\'s block',
   type: 'TableView',
   definition: {
     text: 'Ensemble des vélos',
@@ -140,7 +140,10 @@ export const BlockParagraphStory = () => (
       return {
         block: {
           type: 'Paragraph',
-          text: 'Je suis un texte.'
+          title: 'Titre',
+          settings: {
+            content: 'Je suis un texte.'
+          }
         }
       }
     },
@@ -157,7 +160,10 @@ export const BlockMarkownStory = () => (
       return {
         block: {
           type: 'Markdown',
-          text: 'Futur Markdown'
+          title: 'Futur Markdown',
+          settings: {
+            content: "En cours d'implémentation"
+          }
         }
       }
     },
@@ -167,16 +173,15 @@ export const BlockMarkownStory = () => (
 
 BlockMarkownStory.storyName = 'Block with Markdown'
 
-const blockTypeNotKnown = {
-  type: 'NotKnown'
-}
-
 export const BlockTypeNotKnownStory = () => (
   {
     components: { Block },
     data () {
       return {
-        block: blockTypeNotKnown
+        block: {
+          type: 'NotKnown',
+          title: 'Not Known'
+        }
       }
     },
     template: '<Block :block="block" />'

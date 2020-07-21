@@ -5,14 +5,6 @@ exports[`storyshots TableView TableView with expected props 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    My TableView's block
-  
-    </header>
-     
     <div
       class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
     >

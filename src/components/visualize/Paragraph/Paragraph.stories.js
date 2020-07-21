@@ -18,7 +18,10 @@ export const ParagraphStoryWithProps = () => ({
     return {
       block: {
         type: 'Paragraph',
-        text: 'Je suis un texte.'
+        title: 'Titre',
+        settings: {
+          content: 'Je suis un texte.'
+        }
       }
     }
   },

@@ -21,7 +21,7 @@ export const TableViewWithoutDefinitionAndDataStory = () => (
       return {
         block: {
           id: 1,
-          text: 'My TableView\'s block',
+          title: 'My TableView\'s block',
           type: 'TableView'
         }
       }
@@ -35,7 +35,7 @@ TableViewWithoutDefinitionAndDataStory.storyName = 'TableView without no definit
 /* eslint-disable @typescript-eslint/camelcase */
 const tableViewData = {
   id: 1,
-  text: 'My TableView\'s block',
+  title: 'My TableView\'s block',
   type: 'TableView',
   definition: {
     text: 'Ensemble des vélos',
