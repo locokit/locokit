@@ -129,7 +129,7 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("block").insert([{
     id: '3f70841d-a6fe-4586-b130-038331eacd7c',
-    text: 'Vélos livrés',
+    title: 'Vélos livrés',
     container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
     type: 'TableView',
     settings: JSON.stringify({
@@ -137,7 +137,7 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',
-    text: 'Mes vélos',
+    title: 'Mes vélos',
     container_id: 'da283b02-0679-424c-98b3-95f2779655be',
     type: 'TableView',
     settings: JSON.stringify({
@@ -145,7 +145,7 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '7b2dd5d0-b6d3-43d9-aadc-91de0a1ec84b',
-    text: 'Listing vélo',
+    title: 'Listing vélo',
     container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
     type: 'TableView',
     settings: JSON.stringify({
@@ -153,7 +153,7 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '8958475f-e22e-4c8f-b480-b7911654d167',
-    text: 'Listing fournisseur',
+    title: 'Listing fournisseur',
     container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
     type: 'TableView',
     settings: JSON.stringify({
@@ -161,7 +161,7 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '07f3668f-c870-4761-8572-fc3ce447a50f',
-    text: 'Listing bénéficiaire',
+    title: 'Listing bénéficiaire',
     container_id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
     type: 'TableView',
     settings: JSON.stringify({
@@ -169,12 +169,26 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
-    text: 'Page en construction. Pour tout contact, merci d\'envoyer un mail à contact@v-logistique.com.',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d\'envoyer un mail à contact@v-logistique.com.
+
+      En cas de sinistre, merci de contacter la hot-line Morio au 07 80 99 24 19
+    `
+    }),
     container_id: '916bbc56-c26e-44b7-8107-46f2c4d21d2e',
     type: 'Paragraph'
   }, {
     id: '7815050f-aa93-4be5-8f18-6fe6adc866e1',
-    text: 'Page en construction. Pour tout contact, merci d\'envoyer un mail à contact@v-logistique.com.',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
     container_id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
     type: 'Paragraph'
   }])
