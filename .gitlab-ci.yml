@@ -9,6 +9,9 @@ stages:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_DRIVER: overlay2
     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
+    FRONT_VERSION: 0.0.2-alpha
+    FRONT_DOWNLOAD_URL: "https://gitlab.makina-corpus.net/lck/lck-front/-/jobs/artifacts/${FRONT_VERSION}/download?job=build"
+    FRONT_FILE_PATH: "lck-front-${FRONT_VERSION}.zip"
 
 .build_template: &build_definition
   image: docker:stable
@@ -25,6 +28,9 @@ stages:
     - docker info
     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
     - docker pull $IMAGE_NAME:latest || true
+    - curl ${FRONT_DOWNLOAD_URL} > ${FRONT_FILE_PATH}
+    - ls
+    - unzip ${FRONT_FILE_PATH}
 
 # test:
 #   image: node:14
