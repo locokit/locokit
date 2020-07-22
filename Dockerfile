@@ -6,6 +6,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get clean all
 RUN apt-get autoclean
+RUN apt install nano
 COPY package*.json /code/
 COPY src /code/src/
 COPY config /code/config/
