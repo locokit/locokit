@@ -32,9 +32,9 @@ HeaderBasicStory.storyName = 'Header without props'
 export const HeaderStoryWithProps = () => (
   {
     components: { Header },
-    template: '<Header :isAuthenticated="true"/>',
+    template: '<Header logoUrl="/img/logo-bg-white.png" />',
     decorators: [StoryRouter]
   }
 )
 
-HeaderStoryWithProps.storyName = 'Header with authenticated user'
+HeaderStoryWithProps.storyName = 'Header with logo'
