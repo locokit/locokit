@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/node';
 import * as Apm from '@sentry/apm';
 
 Sentry.init({
-  dsn: "https://e67ca7398fee48e9b3044969681b3ce4@o421199.ingest.sentry.io/5340661",
+  // dsn: "https://e67ca7398fee48e9b3044969681b3ce4@o421199.ingest.sentry.io/5340661",
   integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),
