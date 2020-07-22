@@ -5,12 +5,12 @@ import auth from '@feathersjs/authentication-client'
 const lckClient = feathers()
 
 // Connect to a different URL
-const restClient = rest('http://localhost:3030')
+const restClient = rest(LCK_SETTINGS.API_URL)
 
 // Configure an AJAX library (see below) with that client
 lckClient.configure(restClient.fetch(window.fetch))
 lckClient.configure(auth({
-  storageKey: 'auth'
+  storageKey: LCK_SETTINGS.STORAGE_KEY
 }))
 // Connect to the `http://feathers-api.com/messages` service
 // const messages = lckClient.service('messages')

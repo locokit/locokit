@@ -53,7 +53,6 @@ export async function reAuthenticate () {
     authState.data.user = result.user
   } catch (error) {
     authState.data.isAuthenticated = false
-    authState.error = error
   }
   authState.loading = false
 }

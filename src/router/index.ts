@@ -13,7 +13,10 @@ const routes: Array<RouteConfig> = [
   {
     path: ROUTES_PATH.HOME,
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      needHeader: false
+    }
   },
   {
     path: ROUTES_PATH.PROFILE,

@@ -5,7 +5,7 @@
         <el-input v-model="form.email" :placeholder="$t('components.login.email')"></el-input>
       </el-form-item>
       <el-form-item :label="$t('components.login.password')" class="font-bold" >
-        <el-input class="rounded-sm" v-model="form.password" type="password"></el-input>
+        <el-input class="rounded-sm" v-model="form.password" type="password" :placeholder="$t('components.login.password')"></el-input>
       </el-form-item>
       <div class="flex items-center justify-center">
         <el-button
@@ -28,8 +28,8 @@ export default Vue.extend({
   data () {
     return {
       form: {
-        email: 'superadmin@makina-corpus.net',
-        password: 'pouetpouet'
+        email: '',
+        password: ''
       }
     }
   },

@@ -10,7 +10,7 @@ import i18n from './plugins/i18n'
 import { reAuthenticate } from './store/auth'
 
 Sentry.init({
-  dsn: 'https://c66594db39164ca7831994d0ea68d117@o421199.ingest.sentry.io/5340581',
+  dsn: LCK_SETTINGS.SENTRY_DSN,
   integrations: [
     new Integrations.Tracing(),
     new VueIntegration({
