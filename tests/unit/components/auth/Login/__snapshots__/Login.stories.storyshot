@@ -58,6 +58,7 @@ exports[`storyshots Login Login 1`] = `
             <input
               autocomplete="off"
               class="el-input__inner"
+              placeholder="Mot de passe"
               type="password"
             />
             <!---->

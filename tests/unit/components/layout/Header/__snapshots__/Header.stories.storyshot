@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Header Header with authenticated user 1`] = `
+exports[`storyshots Header Header with logo 1`] = `
 <div
   class="h-full"
 >
@@ -40,21 +40,30 @@ exports[`storyshots Header Header without props 1`] = `
   class="h-full"
 >
   <header
-    class="h-16 flex px-2 content-center justify-between border-b bg-primary"
+    class="h-16 flex px-2 content-center justify-between border-b bg-white"
   >
     <a
       class="mock-link my-auto pr-2"
     >
       <img
         alt="logo"
-        src="/img/logo-bg-primary.png"
       />
     </a>
      
     <div
       class="my-auto"
     >
-      <!---->
+      <a
+        class="mock-link"
+      >
+        <span
+          class="el-avatar el-avatar--icon el-avatar--circle"
+        >
+          <i
+            class="el-icon-user-solid"
+          />
+        </span>
+      </a>
     </div>
   </header>
 </div>
