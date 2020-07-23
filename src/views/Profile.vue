@@ -45,7 +45,7 @@
 // @ is an alias to /src
 import { authState, retrieveGroups, logout } from '@/store/auth'
 import { workspaceState, retrieveWorkspaces } from '@/store/visualize'
-import { ROUTES_PATH } from '../router/paths'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Profile',
