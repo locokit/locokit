@@ -41,7 +41,7 @@ export default {
     async authenticate (data) {
       await authenticate(data)
       if (authState.data.isAuthenticated) {
-        this.$router.push(ROUTES_PATH.WORKSPACE)
+        await this.$router.push(ROUTES_PATH.WORKSPACE)
       }
     }
   }
