@@ -57,13 +57,17 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(async function checkAuthentication (to, from, next) {
+export function checkPathAvailable (needAuthentication: boolean, isAuthenticated: boolean) {
+  if (needAuthentication && !isAuthenticated) return false
+  return true
+}
+
+router.beforeEach(function (to, from, next) {
   // To handle children routes (to get meta frrom parents), Vuejs recommende to use to.matched
   // @see: https://github.com/vuejs/vue-router/issues/704
   const needAuthentication = to.matched.some(m => m.meta.needAuthentication)
   const isAuthenticated = authState.data.isAuthenticated
-
-  if (needAuthentication && !isAuthenticated) {
+  if (!checkPathAvailable(needAuthentication, isAuthenticated)) {
     next({ path: '/' })
   } else {
     next()
