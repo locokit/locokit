@@ -1,17 +1,9 @@
 import path from 'path'
-import initStoryshots, { multiSnapshotWithOptions } from '@storybook/addon-storyshots'
+import initStoryshots from '@storybook/addon-storyshots'
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer'
 import expect from 'expect'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
-
-initStoryshots({
-  framework: 'vue',
-  suite: 'storyshots',
-  configPath: path.join(__dirname, '../../.storybook'),
-  // integrityOptions: { cwd: path.resolve(__dirname, '../../src/') },
-  test: multiSnapshotWithOptions()
-})
 
 const getMatchOptions = () => {
   return {
