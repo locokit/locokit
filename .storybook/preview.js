@@ -18,7 +18,7 @@ addParameters({
  */
 Vue.component('theme-wrapper', ThemeWrapper)
 addDecorator(() => ({
-  template: '<theme-wrapper><story></story></theme-wrapper>'
+  template: '<vlogistique-wrapper><story></story></vlogistique-wrapper>'
 }))
 
 /**
