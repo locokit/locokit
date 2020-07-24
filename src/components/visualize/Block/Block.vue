@@ -17,14 +17,16 @@
   </div>
 </template>
 
-<script>
-import TableView from '@/components/visualize/TableView/TableView.vue'
-import Paragraph from '@/components/visualize/Paragraph/Paragraph'
-import Markdown from '@/components/visualize/Markdown/Markdown'
-import Error from '@/components/error/Error'
+<script lang="ts">
+import Vue, { PropType } from 'vue'
+import { BlockTypes, Block } from '@/types/block'
 
-const VALIDBLOCKTYPES = ['TableView', 'Paragraph', 'Markdown']
-export default {
+import TableView from '@/components/visualize/TableView/TableView.vue'
+import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
+import Markdown from '@/components/visualize/Markdown/Markdown.vue'
+import Error from '@/components/error/Error.vue'
+
+export default Vue.extend({
   name: 'Block',
   components: {
     TableView,
@@ -34,18 +36,16 @@ export default {
   },
   computed: {
     isBlockTypeValid () {
-      return VALIDBLOCKTYPES.includes(this.block.type)
+      const values = Object.values(BlockTypes) as string[]
+      return values.includes(this.block.type)
     }
   },
   props: {
     block: {
-      type: Object,
-      default: () => (
-        {}
-      )
+      type: Object as PropType<Block>
     }
   }
-}
+})
 </script>
 
 <style scoped>
