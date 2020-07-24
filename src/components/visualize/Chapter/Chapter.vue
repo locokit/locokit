@@ -69,11 +69,11 @@ export default {
 
 <style>
 .menu-chapter .el-submenu__title {
-  color: #ffffff;
+  /* color: #ffffff;*/
 }
 
 .menu-chapter .el-submenu__title:hover {
-  background-color: #a0dfe5;
+  /* background-color: #a0dfe5; */
 }
 
 .menu-chapter .el-submenu__icon-arrow {

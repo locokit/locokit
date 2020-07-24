@@ -1,13 +1,15 @@
 <template>
-  <div class="flex flex-col h-full max-h-full">
+  <el-container direction="vertical" class="h-full">
     <lck-header
       v-if="displayHeader"
       :logo-url="logoURL"
     />
-    <main class="flex-grow h-full bg-gray-100 overflow-auto">
-      <router-view/>
-    </main>
-  </div>
+    <el-container>
+      <el-main class="flex-grow h-full bg-gray-100 overflow-auto">
+        <router-view/>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -38,4 +40,4 @@ export default {
 }
 </script>
 
-<style src="@/styles/main.css" />
+<style lang="scss" src="@/styles/main.scss" />
