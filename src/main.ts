@@ -2,12 +2,15 @@ import * as Sentry from '@sentry/browser'
 import { Vue as VueIntegration } from '@sentry/integrations'
 import { Integrations } from '@sentry/apm'
 import Vue from 'vue'
-import '@/plugins/element'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import i18n from './plugins/i18n'
 import { reAuthenticate } from './store/auth'
+import './styles/v-logistique/theme.css' // theme
+import 'primevue/resources/primevue.min.css' // core css
+import 'primeicons/primeicons.css' // icons
+import 'primeflex/primeflex.css'
 
 Sentry.init({
   dsn: LCK_SETTINGS.SENTRY_DSN,

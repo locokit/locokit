@@ -1,15 +1,17 @@
 <template>
-  <el-container direction="vertical" class="h-full">
-    <lck-header
-      v-if="displayHeader"
-      :logo-url="logoURL"
-    />
-    <el-container>
-      <el-main class="flex-grow h-full bg-gray-100 overflow-auto">
-        <router-view/>
-      </el-main>
-    </el-container>
-  </el-container>
+  <div id="app">
+    <div class="layout-wrapper">
+      <lck-header
+        v-if="displayHeader"
+        :logo-url="logoURL"
+      />
+      <div class="p-fluid">
+        <main>
+          <router-view/>
+        </main>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
