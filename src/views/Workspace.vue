@@ -1,17 +1,11 @@
 <template>
-  <div class="h-full bg-gray-100" v-if="workspaceContent">
-    <el-row class="h-full">
-      <el-col :sm="8" :lg="6" :xl="4" class="sidebar">
-        <div class="sidebar-inner">
-          <div class="flex-scroll scroll-styled ">
-            <Chapter :chapters="workspaceContent.chapters" />
-          </div>
-        </div>
-      </el-col>
-      <el-col :sm="16" :lg="18" :xl="20" class="h-full">
-        <router-view />
-      </el-col>
-    </el-row>
+  <div class="p-grid h-full" v-if="workspaceContent">
+    <div class="sidebar p-col-12 p-md-6 p-lg-3">
+      <Chapter :chapters="workspaceContent.chapters" />
+    </div>
+    <div class="h-full p-col">
+      <router-view />
+    </div>
   </div>
 </template>
 
