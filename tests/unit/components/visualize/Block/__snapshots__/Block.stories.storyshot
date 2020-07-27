@@ -5,20 +5,22 @@ exports[`storyshots Block Block with Markdown 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    Futur Markdown
-  
-    </header>
-     
-    <div
-      class="text-gray-600"
-    >
-      
+    <div>
+      <header
+        class="text-gray-600 font-medium mb-2"
+      >
+        
+      Futur Markdown
+    
+      </header>
+       
+      <div
+        class="text-gray-600"
+      >
+        
   En cours d'implémentation
 
+      </div>
     </div>
   </div>
 </div>
@@ -29,20 +31,22 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    Titre
-  
-    </header>
-     
-    <div
-      class="text-gray-600"
-    >
-      
+    <div>
+      <header
+        class="text-gray-600 font-medium mb-2"
+      >
+        
+      Titre
+    
+      </header>
+       
+      <div
+        class="text-gray-600"
+      >
+        
   Je suis un texte.
 
+      </div>
     </div>
   </div>
 </div>
@@ -53,75 +57,77 @@ exports[`storyshots Block Block with TableView 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    My TableView's block
-  
-    </header>
-     
     <div>
-      <div
-        class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
+      <header
+        class="text-gray-600 font-medium mb-2"
       >
+        
+      My TableView's block
+    
+      </header>
+       
+      <div>
         <div
-          class="hidden-columns"
+          class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
         >
-          <div />
-          <div />
-          <div />
-        </div>
-        <div
-          class="el-table__header-wrapper"
-        >
-          <table
-            border="0"
-            cellpadding="0"
-            cellspacing="0"
-            class="el-table__header"
+          <div
+            class="hidden-columns"
           >
-            <colgroup />
-            <thead
-              class=""
+            <div />
+            <div />
+            <div />
+          </div>
+          <div
+            class="el-table__header-wrapper"
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              class="el-table__header"
             >
-              <tr
+              <colgroup />
+              <thead
                 class=""
-              />
-            </thead>
-          </table>
-        </div>
-        <div
-          class="el-table__body-wrapper is-scrolling-none"
-        >
-          <table
-            border="0"
-            cellpadding="0"
-            cellspacing="0"
-            class="el-table__body"
+              >
+                <tr
+                  class=""
+                />
+              </thead>
+            </table>
+          </div>
+          <div
+            class="el-table__body-wrapper is-scrolling-none"
           >
-            <colgroup />
-            <tbody>
-              <tr
-                class="el-table__row"
-              />
-              <tr
-                class="el-table__row el-table__row--striped"
-              />
-              <!---->
-            </tbody>
-          </table>
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              class="el-table__body"
+            >
+              <colgroup />
+              <tbody>
+                <tr
+                  class="el-table__row"
+                />
+                <tr
+                  class="el-table__row el-table__row--striped"
+                />
+                <!---->
+              </tbody>
+            </table>
+            <!---->
+            <!---->
+          </div>
           <!---->
           <!---->
+          <!---->
+          <!---->
+          <div
+            class="el-table__column-resize-proxy"
+            style="display: none;"
+          />
         </div>
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <div
-          class="el-table__column-resize-proxy"
-          style="display: none;"
-        />
       </div>
     </div>
   </div>
@@ -133,20 +139,23 @@ exports[`storyshots Block Block with unknown type 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    Not Known
-  
-    </header>
-     
-    <span
-      class="text-gray-600"
-    >
-      
-    Ce type de block NotKnown n'existe pas.
-    </span>
+    <div>
+      <header
+        class="text-gray-600 font-medium mb-2"
+      >
+        
+      Not Known
+    
+      </header>
+       
+      <span
+        class="text-gray-600"
+      >
+        
+      Ce type de block NotKnown n'existe pas.
+    
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -156,14 +165,6 @@ exports[`storyshots Block Block without props 1`] = `
   class="h-full"
 >
   <div>
-    <header
-      class="text-gray-600 font-medium mb-2"
-    >
-      
-    
-  
-    </header>
-     
     <span
       class="text-gray-600"
     >

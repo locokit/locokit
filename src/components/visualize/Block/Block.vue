@@ -1,16 +1,19 @@
 <template>
   <div>
-    <header class="text-gray-600 font-medium mb-2">
-      {{ block.title }}
-    </header>
-    <component
-      v-if="isBlockTypeValid"
-      v-loading="block.loading"
-      :is="block.type"
-      :block="block"
-    />
-    <span class="text-gray-600" v-else-if="block.type">
-      {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}</span>
+    <div v-if="block">
+      <header v-if="block.title" class="text-gray-600 font-medium mb-2">
+        {{ block.title }}
+      </header>
+      <component
+        v-if="block.type && isBlockTypeValid"
+        v-loading="block.loading"
+        :is="block.type"
+        :block="block"
+      />
+      <span class="text-gray-600" v-else-if="block.type">
+        {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}
+      </span>
+    </div>
     <span class="text-gray-600" v-else>
       {{ $t('pages.workspaces.errorUnknownTypeBlock') }}
     </span>
