@@ -21,6 +21,7 @@ html, body, #app {
 .layout-wrapper {
   min-height: 100vh;
   padding-top: 0.5rem;
+
   & > div {
     flex: 1;
   }
@@ -31,7 +32,20 @@ html, body, #app {
   max-height: 100%;
 }
 
-.home{}
+.lck-color-title {
+  color: #858096;
+  font-size: 1.25rem;
+}
+
+.lck-ul-content {
+  list-style: none;
+  padding: 0;
+
+  li, a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+}
 
 // .el-menu {
 //   border-right: none ;
