@@ -1,15 +1,18 @@
 <template>
   <div>
-    <header class="lck-color-title p-mb-2">
-      {{ block.title }}
-    </header>
-    <component
-      v-if="isBlockTypeValid"
-      :is="block.type"
-      :block="block"
-    />
-    <span class="lck-color-content" v-else-if="block.type">
-      {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}</span>
+    <div v-if="block">
+      <header v-if="block.title" class="lck-color-title p-mb-2">
+        {{ block.title }}
+      </header>
+      <component
+        v-if="isBlockTypeValid"
+        :is="block.type"
+        :block="block"
+      />
+      <span class="lck-color-content" v-else-if="block.type">
+        {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}
+      </span>
+    </div>
     <span class="lck-color-content" v-else>
       {{ $t('pages.workspaces.errorUnknownTypeBlock') }}
     </span>
