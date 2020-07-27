@@ -20,7 +20,7 @@ html, body, #app {
 
 .layout-wrapper {
   min-height: 100vh;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding-top: 0.5rem;
   & > div {
     flex: 1;
   }
