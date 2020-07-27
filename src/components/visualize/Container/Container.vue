@@ -4,7 +4,7 @@
       v-for="block in container.blocks"
       :key="block.id"
       :block="block"
-      class="mb-4"
+      class="p-mb-4"
     ></Block>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-2">
-    <header class="text-2xl text-blue-600 font-medium my-4">
+  <div class="p-mx-2">
+    <header class="lck-color-page-title p-my-4">
       {{ page && page.text }}
     </header>
     <div v-if="page && page.containers.length > 0">

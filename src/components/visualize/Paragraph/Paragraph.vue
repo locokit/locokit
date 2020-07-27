@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-600" v-if="block.settings && block.settings.content">
+  <div class="lck-color-content" v-if="block.settings && block.settings.content">
     {{block.settings.content}}
   </div>
 </template>
