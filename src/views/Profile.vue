@@ -1,6 +1,6 @@
 <template>
   <div
-    class="profile-container p-d-flex p-flex-column p-as-center p-mx-auto"
+    class="generic-view-container p-d-flex p-flex-column p-as-center p-mx-auto"
   >
     <header class="lck-color-title p-my-4">
       {{ $t('pages.profile.title') }}
@@ -44,6 +44,7 @@
               :key="workspace.id"
             >
               <router-link
+                class="no-decoration-link"
                 :to="'/workspace/' + workspace.id"
               >
                 {{ workspace.text }}
@@ -101,7 +102,4 @@ export default {
 </script>
 
 <style scoped>
-  .profile-container {
-    max-width: 56rem;
-  }
 </style>

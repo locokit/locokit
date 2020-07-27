@@ -32,9 +32,18 @@ html, body, #app {
   max-height: 100%;
 }
 
+.no-decoration-link {
+  text-decoration: none;
+}
+
 .lck-color-title {
   color: #858096;
   font-size: 1.25rem;
+}
+
+.lck-color-page-title {
+  color: #378dd3;
+  font-size: 1.5rem;
 }
 
 .lck-ul-content {
@@ -42,9 +51,12 @@ html, body, #app {
   padding: 0;
 
   li, a {
-    text-decoration: none;
     color: #ffffff;
   }
+}
+
+.generic-view-container {
+  max-width: 56rem;
 }
 
 // .el-menu {
