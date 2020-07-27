@@ -18,7 +18,7 @@
         <el-avatar icon="el-icon-user-solid"></el-avatar>
       </router-link>
     </div>
-  </el-header>
+  </header>
 </template>
 
 <script>

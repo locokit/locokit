@@ -9,10 +9,10 @@
       <img
         alt="logo"
         :src="logoBgPrimaryURL"
-        class="mb-4"
+        class="p-mb-4"
       />
       <Login @submit="authenticate" />
-      <div class="text-red-600 h-10">
+      <div class="p-error p-mt-4">
         {{ authState.error }}
       </div>
     </div>

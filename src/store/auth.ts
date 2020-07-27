@@ -67,6 +67,7 @@ export async function authenticate (data: AuthDTO) {
     })
     authState.data.isAuthenticated = true
     authState.data.user = result.user
+    authState.error = null
   } catch (error) {
     authState.data.isAuthenticated = false
     authState.error = error
