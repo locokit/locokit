@@ -41,6 +41,8 @@ export default {
     async authenticate (data) {
       await authenticate(data)
       if (authState.data.isAuthenticated) {
+        // Do not remove the await to prevent Error: Redirected from X to Y via a navigation guard.
+        // It's necessary to reach the path before switching to another path.
         await this.$router.push(ROUTES_PATH.WORKSPACE)
       }
     }
