@@ -5,7 +5,7 @@ exports[`storyshots Paragraph Paragraph with props 1`] = `
   class="h-full"
 >
   <div
-    class="text-gray-600"
+    class="lck-color-content"
   >
     
   Je suis un texte.

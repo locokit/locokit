@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Header Header with logo 1`] = `
+exports[`storyshots Header Header with logo (required) 1`] = `
 <div
   class="h-full"
 >
   <header
-    class="h-16 flex px-2 content-center justify-between border-b bg-white"
+    class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
-      class="mock-link my-auto pr-2"
+      class="mock-link p-my-auto"
     >
       <img
         alt="logo"
@@ -17,18 +17,71 @@ exports[`storyshots Header Header with logo 1`] = `
     </a>
      
     <div
-      class="my-auto"
+      class="p-my-auto"
     >
       <a
         class="mock-link"
       >
-        <span
-          class="el-avatar el-avatar--icon el-avatar--circle"
+        <button
+          class="p-button-rounded p-button p-component p-button-icon-only"
+          type="button"
         >
-          <i
-            class="el-icon-user-solid"
+          <span
+            class="pi pi-user p-button-icon"
           />
-        </span>
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+        </button>
+      </a>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`storyshots Header Header with logo 1`] = `
+<div
+  class="h-full"
+>
+  <header
+    class="lck-header p-px-2 p-d-flex p-jc-between"
+  >
+    <a
+      class="mock-link p-my-auto"
+    >
+      <img
+        alt="logo"
+        src="/img/logo-bg-white.png"
+      />
+    </a>
+     
+    <div
+      class="p-my-auto"
+    >
+      <a
+        class="mock-link"
+      >
+        <button
+          class="p-button-rounded p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-user p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+        </button>
       </a>
     </div>
   </header>
@@ -40,29 +93,39 @@ exports[`storyshots Header Header without props 1`] = `
   class="h-full"
 >
   <header
-    class="h-16 flex px-2 content-center justify-between border-b bg-white"
+    class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
-      class="mock-link my-auto pr-2"
+      class="mock-link p-my-auto"
     >
       <img
         alt="logo"
+        src="logo"
       />
     </a>
      
     <div
-      class="my-auto"
+      class="p-my-auto"
     >
       <a
         class="mock-link"
       >
-        <span
-          class="el-avatar el-avatar--icon el-avatar--circle"
+        <button
+          class="p-button-rounded p-button p-component p-button-icon-only"
+          type="button"
         >
-          <i
-            class="el-icon-user-solid"
+          <span
+            class="pi pi-user p-button-icon"
           />
-        </span>
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+        </button>
       </a>
     </div>
   </header>

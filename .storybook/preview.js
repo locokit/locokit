@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import { addDecorator, addParameters } from '@storybook/vue';
-// add element configuration too
-import '../src/plugins/element.ts'
+
 import ThemeWrapper from './ThemeWrapper.vue'
 import i18n from '../src/plugins/i18n'
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
+
+import '../src/styles/v-logistique/theme.css' // theme
+import 'primevue/resources/primevue.min.css' // core css
+import 'primeicons/primeicons.css' // icons
+import 'primeflex/primeflex.css'
 
 addParameters({
   docs: {
@@ -18,7 +22,7 @@ addParameters({
  */
 Vue.component('theme-wrapper', ThemeWrapper)
 addDecorator(() => ({
-  template: '<vlogistique-wrapper><story></story></vlogistique-wrapper>'
+  template: '<theme-wrapper><story></story></theme-wrapper>'
 }))
 
 /**

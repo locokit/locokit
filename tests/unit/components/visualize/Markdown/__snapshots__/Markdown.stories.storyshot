@@ -5,7 +5,7 @@ exports[`storyshots Markdown Markdown with props 1`] = `
   class="h-full"
 >
   <div
-    class="text-gray-600"
+    class="lck-color-content"
   >
     
   En cours d'implémentation.

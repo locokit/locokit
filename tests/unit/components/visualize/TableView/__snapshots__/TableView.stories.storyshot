@@ -6,65 +6,71 @@ exports[`storyshots TableView TableView with expected props 1`] = `
 >
   <div>
     <div
-      class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
+      class="p-datatable p-component"
     >
+      <!---->
+      <!---->
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
       <div
-        class="hidden-columns"
-      >
-        <div />
-        <div />
-        <div />
-      </div>
-      <div
-        class="el-table__header-wrapper"
+        class="p-datatable-wrapper"
       >
         <table
-          border="0"
-          cellpadding="0"
-          cellspacing="0"
-          class="el-table__header"
+          role="grid"
         >
-          <colgroup />
           <thead
-            class=""
+            class="p-datatable-thead"
           >
+            <tr />
+             
+            <!---->
+          </thead>
+           
+          <tbody
+            class="p-datatable-tbody"
+          >
+            <!---->
+             
             <tr
               class=""
             />
-          </thead>
-        </table>
-      </div>
-      <div
-        class="el-table__body-wrapper is-scrolling-none"
-      >
-        <table
-          border="0"
-          cellpadding="0"
-          cellspacing="0"
-          class="el-table__body"
-        >
-          <colgroup />
-          <tbody>
+             
+            <!---->
+             
+            <!---->
+            <!---->
+             
             <tr
-              class="el-table__row"
+              class=""
             />
-            <tr
-              class="el-table__row el-table__row--striped"
-            />
+             
+            <!---->
+             
             <!---->
           </tbody>
+           
+          <!---->
         </table>
-        <!---->
-        <!---->
       </div>
+       
       <!---->
+       
       <!---->
-      <!---->
-      <!---->
+       
       <div
-        class="el-table__column-resize-proxy"
+        class="p-column-resizer-helper"
         style="display: none;"
       />
+       
+      <!---->
+       
+      <!---->
     </div>
   </div>
 </div>
