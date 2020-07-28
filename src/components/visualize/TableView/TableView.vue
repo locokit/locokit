@@ -1,31 +1,28 @@
 <template>
   <div v-if="block.definition">
-    <el-table
-      stripe
-      size="medium"
-      :data="block.data"
-      class="shadow"
+    <prime-datatable
+      :value="block.data"
+      removableSort
     >
-      <el-table-column
+      <prime-column
         v-for="column in block.definition.columns"
         :key="column.id"
-        :label="column.text"
+        :header="column.text"
         sortable
       >
-        <template slot-scope="scope">
-          <component
-            :is="getComponent(column)"
-            v-bind="getProperties(column)"
-          >
-            {{ getValue(column, scope.row.data[column.id]) }}
-          </component>
+        <template #body="slotProps">
+          <span :class="getClassComponent(column)"> {{ getValue(column, slotProps.data.data[column.id]) }} </span>
         </template>
-      </el-table-column>
-    </el-table>
+      </prime-column>
+    </prime-datatable>
   </div>
 </template>
 
 <script>
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Vue from 'vue'
+
 export default {
   name: 'TableView',
   props: {
@@ -35,6 +32,10 @@ export default {
         {}
       )
     }
+  },
+  components: {
+    'prime-datatable': Vue.extend(DataTable),
+    'prime-column': Vue.extend(Column)
   },
   methods: {
     getValue (column, data) {
@@ -50,24 +51,12 @@ export default {
           return data
       }
     },
-    getComponent (column) {
+    getClassComponent (column) {
       switch (column.column_type_id) {
         case 9:
-          return 'el-tag'
+          return 'p-tag'
         default:
-          return 'span'
-      }
-    },
-    getProperties (column) {
-      switch (column.column_type_id) {
-        case 9:
-          return {
-            size: 'small',
-            type: 'info',
-            effect: 'dark'
-          }
-        default:
-          return {}
+          return 'text'
       }
     }
   }

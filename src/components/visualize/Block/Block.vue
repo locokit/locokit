@@ -5,7 +5,6 @@
     </header>
     <component
       v-if="isBlockTypeValid"
-      v-loading="block.loading"
       :is="block.type"
       :block="block"
     />
