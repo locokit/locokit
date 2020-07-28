@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
-    <div class="sidebar p-col-12 p-md-6 p-lg-3">
+    <div class="sidebar-menu-container p-col p-md-6 p-lg-2">
       <Chapter :chapters="workspaceContent.chapters" />
     </div>
     <div class="h-full p-col">
