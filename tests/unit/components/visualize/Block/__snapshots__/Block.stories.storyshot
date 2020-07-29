@@ -9,15 +9,15 @@ exports[`storyshots Block Block with Markdown 1`] = `
       <header
         class="lck-color-title p-mb-2"
       >
-        
+
       Futur Markdown
-    
+
       </header>
-       
+
       <div
         class="lck-color-content"
       >
-        
+
   En cours d'implémentation
 
       </div>
@@ -35,15 +35,15 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
       <header
         class="lck-color-title p-mb-2"
       >
-        
+
       Titre
-    
+
       </header>
-       
+
       <div
         class="lck-color-content"
       >
-        
+
   Je suis un texte.
 
       </div>
@@ -61,11 +61,11 @@ exports[`storyshots Block Block with TableView 1`] = `
       <header
         class="lck-color-title p-mb-2"
       >
-        
+
       My TableView's block
-    
+
       </header>
-       
+
       <div>
         <div
           class="p-datatable p-component"
@@ -73,13 +73,13 @@ exports[`storyshots Block Block with TableView 1`] = `
           <!---->
           <!---->
           <!---->
-           
+
           <!---->
-           
+
           <!---->
-           
+
           <!---->
-           
+
           <div
             class="p-datatable-wrapper"
           >
@@ -90,49 +90,55 @@ exports[`storyshots Block Block with TableView 1`] = `
                 class="p-datatable-thead"
               >
                 <tr />
-                 
+
                 <!---->
               </thead>
-               
+
               <tbody
                 class="p-datatable-tbody"
               >
                 <!---->
-                 
+
                 <tr
                   class=""
                 />
-                 
+
                 <!---->
-                 
+
                 <!---->
                 <!---->
-                 
+
                 <tr
                   class=""
                 />
-                 
+
                 <!---->
-                 
+
                 <!---->
               </tbody>
-               
+
               <!---->
             </table>
           </div>
-           
+
           <!---->
-           
+
           <!---->
-           
+
           <div
             class="p-column-resizer-helper"
             style="display: none;"
           />
-           
+
           <!---->
-           
+
           <!---->
+          <!---->
+          <!---->
+          <div
+            class="el-table__column-resize-proxy"
+            style="display: none;"
+          />
         </div>
       </div>
     </div>
@@ -149,17 +155,17 @@ exports[`storyshots Block Block with unknown type 1`] = `
       <header
         class="lck-color-title p-mb-2"
       >
-        
+
       Not Known
-    
+
       </header>
-       
+
       <span
         class="lck-color-content"
       >
-        
+
       Ce type de block NotKnown n'existe pas.
-    
+
       </span>
     </div>
   </div>
@@ -174,9 +180,9 @@ exports[`storyshots Block Block without props 1`] = `
     <span
       class="lck-color-content"
     >
-      
+
     Le type de block n'existe pas.
-  
+
     </span>
   </div>
 </div>
