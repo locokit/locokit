@@ -33,6 +33,7 @@ exports[`storyshots Login Login 1`] = `
               class="p-inputtext p-component"
               id="email"
               placeholder="E-mail"
+              required="required"
               type="text"
             />
           </div>
@@ -50,6 +51,7 @@ exports[`storyshots Login Login 1`] = `
               class="rounded-sm p-inputtext p-component"
               id="password"
               placeholder="Mot de passe"
+              required="required"
               type="password"
             />
           </div>
@@ -59,9 +61,11 @@ exports[`storyshots Login Login 1`] = `
           >
             <button
               class="p-button p-component"
-              type="button"
+              type="submit"
             >
-              <!---->
+              <span
+                class="pi pi-sign-in p-button-icon p-button-icon-left"
+              />
                
               <span
                 class="p-button-label"
