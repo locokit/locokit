@@ -1,7 +1,7 @@
 <template>
   <prime-card class="p-col">
     <template slot="content">
-      <form>
+      <form @submit.prevent="emitSubmit">
         <div class="p-field p-text-left">
           <label for="email">{{ $t('components.login.email') }}</label>
           <prime-input-text
@@ -9,6 +9,7 @@
             type="text"
             v-model="form.email"
             :placeholder="$t('components.login.email')"
+            required
           />
         </div>
         <div class="p-field p-text-left">
@@ -19,13 +20,14 @@
             class="rounded-sm"
             v-model="form.password"
             :placeholder="$t('components.login.password')"
+            required
           />
         </div>
         <div class="flex items-center justify-center">
           <prime-button
+            type="submit"
             :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
             :label="$t('components.login.signin')"
-            @click="emitSubmit"
           />
           <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
             Forgot Password?
