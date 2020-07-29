@@ -59,6 +59,7 @@ export async function reAuthenticate () {
 
 export async function authenticate (data: AuthDTO) {
   authState.loading = true
+  authState.error = null
   try {
     const result = await lckClient.authenticate({
       strategy: 'local',

@@ -1,3 +1,4 @@
+const esModules = ['@storybook', 'primevue'].join('|')
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
 
@@ -18,9 +19,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
 
-  transformIgnorePatterns: [
-    '/node_modules/(?!(@storybook/.*\\.vue$))'
-  ],
+  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 
   collectCoverageFrom: [
     'src/**/*.{js,ts,vue}',
@@ -36,7 +35,6 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '\\.(css|scss|stylesheet)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
-
     '\\.mdx': '<rootDir>/__mocks__/fileMock.js'
   },
 

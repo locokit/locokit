@@ -11,3 +11,16 @@
   --color-success: rgb(48, 150, 48);
 
 }
+:root {
+  --surface-a:#53acb4;
+  --surface-b:#a1e9f0;
+  --surface-c:rgba(255, 255, 255, 0.04);
+  --surface-d:#3f4b5b;
+  --surface-e:#2a323d;
+  --surface-f:#2a323d;
+  --text-color:rgba(255, 255, 255, 0.87);
+  --text-color-secondary:rgba(255, 255, 255, 0.6);
+  --primary-color:#53acb4;
+  --primary-color-text:#53acb4;
+  --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}

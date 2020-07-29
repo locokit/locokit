@@ -1,30 +1,53 @@
 <template>
-  <div class="w-full max-w-xs">
-    <el-form class="bg-white px-8 pt-6 pb-8 mb-4">
-      <el-form-item :label="$t('components.login.email')" class="font-bold" >
-        <el-input v-model="form.email" :placeholder="$t('components.login.email')"></el-input>
-      </el-form-item>
-      <el-form-item :label="$t('components.login.password')" class="font-bold" >
-        <el-input class="rounded-sm" v-model="form.password" type="password" :placeholder="$t('components.login.password')"></el-input>
-      </el-form-item>
-      <div class="flex items-center justify-center">
-        <el-button
-          class="bg-primary text-white"
-          @click="emitSubmit"
-        >
-          {{ $t('components.login.signin') }}
-        </el-button>
-        <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-          Forgot Password?
-        </a> -->
-      </div>
-    </el-form>
-  </div>
+  <prime-card class="p-col">
+    <template slot="content">
+      <form @submit.prevent="emitSubmit">
+        <div class="p-field p-text-left">
+          <label for="email">{{ $t('components.login.email') }}</label>
+          <prime-input-text
+            id="email"
+            type="text"
+            v-model="form.email"
+            :placeholder="$t('components.login.email')"
+            required
+          />
+        </div>
+        <div class="p-field p-text-left">
+          <label for="password">{{ $t('components.login.password') }}</label>
+          <prime-input-text
+            id="password"
+            type="password"
+            class="rounded-sm"
+            v-model="form.password"
+            :placeholder="$t('components.login.password')"
+            required
+          />
+        </div>
+        <div class="flex items-center justify-center">
+          <prime-button
+            type="submit"
+            :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
+            :label="$t('components.login.signin')"
+          />
+          <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+            Forgot Password?
+          </a> -->
+        </div>
+      </form>
+    </template>
+  </prime-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+
 export default Vue.extend({
+  props: {
+    loading: Boolean
+  },
   data () {
     return {
       form: {
@@ -32,6 +55,11 @@ export default Vue.extend({
         password: ''
       }
     }
+  },
+  components: {
+    'prime-card': Vue.extend(Card),
+    'prime-input-text': Vue.extend(InputText),
+    'prime-button': Vue.extend(Button)
   },
   methods: {
     emitSubmit () {
@@ -42,5 +70,4 @@ export default Vue.extend({
 </script>
 
 <style>
-
 </style>

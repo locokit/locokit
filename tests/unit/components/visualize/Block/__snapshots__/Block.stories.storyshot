@@ -6,7 +6,7 @@ exports[`storyshots Block Block with Markdown 1`] = `
 >
   <div>
     <header
-      class="text-gray-600 font-medium mb-2"
+      class="lck-color-title p-mb-2"
     >
       
     Futur Markdown
@@ -14,7 +14,7 @@ exports[`storyshots Block Block with Markdown 1`] = `
     </header>
      
     <div
-      class="text-gray-600"
+      class="lck-color-content"
     >
       
   En cours d'implémentation
@@ -30,7 +30,7 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
 >
   <div>
     <header
-      class="text-gray-600 font-medium mb-2"
+      class="lck-color-title p-mb-2"
     >
       
     Titre
@@ -38,7 +38,7 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
     </header>
      
     <div
-      class="text-gray-600"
+      class="lck-color-content"
     >
       
   Je suis un texte.
@@ -54,7 +54,7 @@ exports[`storyshots Block Block with TableView 1`] = `
 >
   <div>
     <header
-      class="text-gray-600 font-medium mb-2"
+      class="lck-color-title p-mb-2"
     >
       
     My TableView's block
@@ -63,65 +63,71 @@ exports[`storyshots Block Block with TableView 1`] = `
      
     <div>
       <div
-        class="el-table shadow el-table--fit el-table--striped el-table--enable-row-hover el-table--enable-row-transition el-table--medium"
+        class="p-datatable p-component"
       >
+        <!---->
+        <!---->
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
         <div
-          class="hidden-columns"
-        >
-          <div />
-          <div />
-          <div />
-        </div>
-        <div
-          class="el-table__header-wrapper"
+          class="p-datatable-wrapper"
         >
           <table
-            border="0"
-            cellpadding="0"
-            cellspacing="0"
-            class="el-table__header"
+            role="grid"
           >
-            <colgroup />
             <thead
-              class=""
+              class="p-datatable-thead"
             >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
               <tr
                 class=""
               />
-            </thead>
-          </table>
-        </div>
-        <div
-          class="el-table__body-wrapper is-scrolling-none"
-        >
-          <table
-            border="0"
-            cellpadding="0"
-            cellspacing="0"
-            class="el-table__body"
-          >
-            <colgroup />
-            <tbody>
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
               <tr
-                class="el-table__row"
+                class=""
               />
-              <tr
-                class="el-table__row el-table__row--striped"
-              />
+               
+              <!---->
+               
               <!---->
             </tbody>
+             
+            <!---->
           </table>
-          <!---->
-          <!---->
         </div>
+         
         <!---->
+         
         <!---->
-        <!---->
-        <!---->
+         
         <div
-          class="el-table__column-resize-proxy"
+          class="p-column-resizer-helper"
           style="display: none;"
         />
+         
+        <!---->
+         
+        <!---->
       </div>
     </div>
   </div>
@@ -134,7 +140,7 @@ exports[`storyshots Block Block with unknown type 1`] = `
 >
   <div>
     <header
-      class="text-gray-600 font-medium mb-2"
+      class="lck-color-title p-mb-2"
     >
       
     Not Known
@@ -142,7 +148,7 @@ exports[`storyshots Block Block with unknown type 1`] = `
     </header>
      
     <span
-      class="text-gray-600"
+      class="lck-color-content"
     >
       
     Ce type de block NotKnown n'existe pas.
@@ -157,7 +163,7 @@ exports[`storyshots Block Block without props 1`] = `
 >
   <div>
     <header
-      class="text-gray-600 font-medium mb-2"
+      class="lck-color-title p-mb-2"
     >
       
     
@@ -165,7 +171,7 @@ exports[`storyshots Block Block without props 1`] = `
     </header>
      
     <span
-      class="text-gray-600"
+      class="lck-color-content"
     >
       
     Le type de block n'existe pas.

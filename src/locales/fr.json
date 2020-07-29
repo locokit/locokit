@@ -14,6 +14,8 @@
     },
     "profile": {
       "title": "Mon profil",
+      "email": "E-mail :",
+      "role": "Rôle :",
       "groups": "Mes groupes",
       "workspaces": "Mes espaces de travail",
       "button-logout": "Déconnexion"

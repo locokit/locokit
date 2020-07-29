@@ -4,119 +4,214 @@ exports[`storyshots Chapter Chapter with props 1`] = `
 <div
   class="h-full"
 >
-  <ul
-    class="nav-chapters bg-primary text-white el-menu"
-    role="menubar"
+  <div
+    class="p-panelmenu p-component h-full"
   >
-    <li
-      aria-expanded="true"
-      aria-haspopup="true"
-      class="menu-chapter el-submenu is-opened"
-      role="menuitem"
+    <div
+      class="p-panelmenu-panel"
     >
       <div
-        class="el-submenu__title"
-        style="padding-left: 20px;"
+        class="p-component p-panelmenu-header"
       >
-        <span
-          class="text-white hover:text-primary"
+        <a
+          aria-controls="pv_id_2_content"
+          class="p-panelmenu-header-link"
+          id="pv_id_2_header"
+          tabindex="0"
         >
-          
-        Premier chapitre
-      
-        </span>
-        <i
-          class="el-submenu__icon-arrow el-icon-arrow-down"
-        />
+          <span
+            class="p-panelmenu-icon pi pi-chevron-right"
+          />
+           
+          <span
+            class="p-menuitem-icon pi pi-fw pi-file"
+          />
+           
+          <span
+            class="p-menuitem-text"
+          >
+            Premier chapitre
+          </span>
+        </a>
       </div>
-      <ul
-        class="el-menu el-menu--inline"
-        role="menu"
+       
+      <div
+        aria-labelledby="pv_id_2_header"
+        class="p-toggleable-content"
+        id="pv_id_2_content"
+        role="region"
+        style="display: none;"
       >
-         
-        <li
-          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-          role="menuitem"
-          style="padding-left: 40px;"
-          tabindex="-1"
+        <div
+          class="p-panelmenu-content"
         >
-          <a
-            class="mock-link submenu-item-page block h-full"
+          <ul
+            class="p-submenu-list p-panelmenu-root-submenu"
+            role="tree"
           >
-            Première page
-      
-          </a>
-        </li>
-        <li
-          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-          role="menuitem"
-          style="padding-left: 40px;"
-          tabindex="-1"
-        >
-          <a
-            class="mock-link submenu-item-page block h-full"
-          >
-            Deuxième page
-      
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li
-      aria-expanded="true"
-      aria-haspopup="true"
-      class="menu-chapter el-submenu is-opened"
-      role="menuitem"
+            <li
+              class="p-menuitem"
+              role="none"
+            >
+              <a
+                class="mock-link p-menuitem-link"
+                role="treeitem"
+              >
+                <span
+                  class="p-menuitem-icon"
+                />
+                 
+                <span
+                  class="p-menuitem-text"
+                >
+                  Première page
+                </span>
+              </a>
+               
+              <div
+                class="p-toggleable-content"
+                style="display: none;"
+              >
+                <!---->
+              </div>
+            </li>
+             
+            <!---->
+            <li
+              class="p-menuitem"
+              role="none"
+            >
+              <a
+                class="mock-link p-menuitem-link"
+                role="treeitem"
+              >
+                <span
+                  class="p-menuitem-icon"
+                />
+                 
+                <span
+                  class="p-menuitem-text"
+                >
+                  Deuxième page
+                </span>
+              </a>
+               
+              <div
+                class="p-toggleable-content"
+                style="display: none;"
+              >
+                <!---->
+              </div>
+            </li>
+             
+            <!---->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-panelmenu-panel"
     >
       <div
-        class="el-submenu__title"
-        style="padding-left: 20px;"
+        class="p-component p-panelmenu-header"
       >
-        <span
-          class="text-white hover:text-primary"
+        <a
+          aria-controls="pv_id_2_content"
+          class="p-panelmenu-header-link"
+          id="pv_id_2_header"
+          tabindex="0"
         >
-          
-        Deuxième chapitre
-      
-        </span>
-        <i
-          class="el-submenu__icon-arrow el-icon-arrow-down"
-        />
+          <span
+            class="p-panelmenu-icon pi pi-chevron-right"
+          />
+           
+          <span
+            class="p-menuitem-icon pi pi-fw pi-file"
+          />
+           
+          <span
+            class="p-menuitem-text"
+          >
+            Deuxième chapitre
+          </span>
+        </a>
       </div>
-      <ul
-        class="el-menu el-menu--inline"
-        role="menu"
+       
+      <div
+        aria-labelledby="pv_id_2_header"
+        class="p-toggleable-content"
+        id="pv_id_2_content"
+        role="region"
+        style="display: none;"
       >
-         
-        <li
-          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-          role="menuitem"
-          style="padding-left: 40px;"
-          tabindex="-1"
+        <div
+          class="p-panelmenu-content"
         >
-          <a
-            class="mock-link submenu-item-page block h-full"
+          <ul
+            class="p-submenu-list p-panelmenu-root-submenu"
+            role="tree"
           >
-            Troisième page
-      
-          </a>
-        </li>
-        <li
-          class="el-menu-item submenu-pages bg-primary text-white hover:text-primary"
-          role="menuitem"
-          style="padding-left: 40px;"
-          tabindex="-1"
-        >
-          <a
-            class="mock-link submenu-item-page block h-full"
-          >
-            Quatrième page
-      
-          </a>
-        </li>
-      </ul>
-    </li>
-  </ul>
+            <li
+              class="p-menuitem"
+              role="none"
+            >
+              <a
+                class="mock-link p-menuitem-link"
+                role="treeitem"
+              >
+                <span
+                  class="p-menuitem-icon"
+                />
+                 
+                <span
+                  class="p-menuitem-text"
+                >
+                  Troisième page
+                </span>
+              </a>
+               
+              <div
+                class="p-toggleable-content"
+                style="display: none;"
+              >
+                <!---->
+              </div>
+            </li>
+             
+            <!---->
+            <li
+              class="p-menuitem"
+              role="none"
+            >
+              <a
+                class="mock-link p-menuitem-link"
+                role="treeitem"
+              >
+                <span
+                  class="p-menuitem-icon"
+                />
+                 
+                <span
+                  class="p-menuitem-text"
+                >
+                  Quatrième page
+                </span>
+              </a>
+               
+              <div
+                class="p-toggleable-content"
+                style="display: none;"
+              >
+                <!---->
+              </div>
+            </li>
+             
+            <!---->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -124,36 +219,54 @@ exports[`storyshots Chapter Chapter without props 1`] = `
 <div
   class="h-full"
 >
-  <ul
-    class="nav-chapters bg-primary text-white el-menu"
-    role="menubar"
+  <div
+    class="p-panelmenu p-component h-full"
   >
-    <li
-      aria-expanded="true"
-      aria-haspopup="true"
-      class="menu-chapter el-submenu is-opened"
-      role="menuitem"
+    <div
+      class="p-panelmenu-panel"
     >
       <div
-        class="el-submenu__title"
-        style="padding-left: 20px;"
+        class="p-component p-panelmenu-header"
       >
-        <span
-          class="text-white hover:text-primary"
+        <a
+          aria-controls="pv_id_1_content"
+          class="p-panelmenu-header-link"
+          id="pv_id_1_header"
+          tabindex="0"
         >
-          
-        Aucun chapitre à afficher
-      
-        </span>
-        <i
-          class="el-submenu__icon-arrow el-icon-arrow-down"
-        />
+          <span
+            class="p-panelmenu-icon pi pi-chevron-right"
+          />
+           
+          <span
+            class="p-menuitem-icon pi pi-fw pi-file"
+          />
+           
+          <span
+            class="p-menuitem-text"
+          >
+            Aucun chapitre à afficher
+          </span>
+        </a>
       </div>
-      <ul
-        class="el-menu el-menu--inline"
-        role="menu"
-      />
-    </li>
-  </ul>
+       
+      <div
+        aria-labelledby="pv_id_1_header"
+        class="p-toggleable-content"
+        id="pv_id_1_content"
+        role="region"
+        style="display: none;"
+      >
+        <div
+          class="p-panelmenu-content"
+        >
+          <ul
+            class="p-submenu-list p-panelmenu-root-submenu"
+            role="tree"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

@@ -1,18 +1,23 @@
 <template>
   <div
-    class="Home h-full flex flex-col justify-center items-center"
+    class="home p-grid p-justify-center p-align-center vertical-container"
     :style="{
       'background-image': 'url(' + backgroundImage + ')'
     }"
   >
-    <img
-      alt="logo"
-      :src="logoBgPrimaryURL"
-      class="mb-4"
-    />
-    <Login @submit="authenticate" />
-    <div class="text-red-600 h-10">
-      {{ authState.error }}
+    <div class="login-block p-col-11 p-sm-5 p-md-6 p-xl-4">
+      <img
+        alt="logo"
+        :src="logoBgPrimaryURL"
+        class="p-mb-4"
+      />
+      <Login
+        @submit="authenticate"
+        :loading="authState.loading"
+      />
+      <div class="p-error p-mt-4">
+        {{ authState.error }}
+      </div>
     </div>
   </div>
 </template>
@@ -51,9 +56,15 @@ export default {
 </script>
 
 <style scoped>
-.Home {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+
+  .home {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+  }
+  .login-block {
+    text-align: center;
+    margin-top: -45px;
+  }
 </style>

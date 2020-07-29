@@ -1,39 +1,46 @@
 <template>
   <div
-    class="max-w-4xl mx-auto"
+    class="generic-view-container p-mx-auto"
   >
-    <header class="my-4 text-gray-600 text-xl">
+    <header class="p-my-4 lck-color-title">
       {{ $t('pages.workspaces.title') }}
     </header>
 
     <router-link
+      class="no-decoration-link"
       v-for="workspace in workspaceState.data.workspaces"
       :key="workspace.id"
       :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
     >
-      <el-card
-        class="box-card mb-4"
-        :header="workspace.text"
+      <prime-card
+        class="p-mb-4"
       >
-        <div class="text item">
-          <ul>
-            <li>#{{workspace.id}}</li>
-            <li>
-              {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
-            </li>
-            <li>
-              {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
-            </li>
-          </ul>
-        </div>
-      </el-card>
+        <template slot="title">
+          {{workspace.text}}
+        </template>
+        <template slot="content">
+          <div>
+            <ul class="lck-ul-content">
+              <li>#{{workspace.id}}</li>
+              <li>
+                {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
+              </li>
+              <li>
+                {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
+              </li>
+            </ul>
+          </div>
+        </template>
+      </prime-card>
     </router-link>
   </div>
 </template>
 
 <script>
-import { workspaceState, retrieveWorkspaces } from '@/store/visualize'
+import Vue from 'vue'
+import { retrieveWorkspaces, workspaceState } from '@/store/visualize'
 import { ROUTES_PATH } from '@/router/paths'
+import Card from 'primevue/card'
 
 export default {
   name: 'WorkspaceList',
@@ -42,6 +49,9 @@ export default {
       ROUTES_PATH,
       workspaceState
     }
+  },
+  components: {
+    'prime-card': Vue.extend(Card)
   },
   async beforeRouteEnter (to, from, next) {
     await retrieveWorkspaces()

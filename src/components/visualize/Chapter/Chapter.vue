@@ -1,43 +1,14 @@
 <template>
-  <el-menu
-    :default-openeds="listChaptersId"
-    class="nav-chapters bg-primary text-white"
-    active-text-color="#53acb4"
-  >
-    <el-submenu
-      class="menu-chapter"
-      v-for="chapter in chapters"
-      :key="chapter.id"
-      :index="`${chapter.id}`"
-    >
-      <template slot="title">
-        <span class="text-white hover:text-primary">
-          {{chapter.text}}
-        </span>
-      </template>
-      <el-menu-item
-        class="submenu-pages"
-        :class="
-          onRoute === `${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`
-          ? 'is-page-active text-primary bg-white'
-          : 'bg-primary text-white hover:text-primary'
-        "
-        v-for="page in chapter.pages"
-        :key="page.id"
-        :index="`${chapter.id}-${page.id}`"
-      >
-        <router-link
-          class="submenu-item-page block h-full"
-          :to="`${ROUTES_PATH.WORKSPACE}/${chapter.workspace_id}/page/${page.id}`"
-        >{{page.text}}
-        </router-link>
-      </el-menu-item>
-    </el-submenu>
-  </el-menu>
+  <prime-panel-menu
+    class="h-full"
+    :model="formatedChapters"
+  />
 </template>
 
 <script>
+import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
+import PanelMenu from 'primevue/panelmenu'
 
 export default {
   name: 'Chapter',
@@ -45,9 +16,14 @@ export default {
     chapters: {
       type: Array,
       default: function () {
-        return ([{
-          text: this.$t('pages.workspaces.noChapter')
-        }])
+        return (
+          [
+            {
+              text: this.$t('pages.workspaces.noChapter'),
+              pages: []
+            }
+          ]
+        )
       }
     }
   },
@@ -56,29 +32,28 @@ export default {
       ROUTES_PATH
     }
   },
+  components: {
+    'prime-panel-menu': Vue.extend(PanelMenu)
+  },
   computed: {
-    listChaptersId () {
-      return this.chapters.map(({ id }) => `${id}`)
-    },
-    onRoute () {
-      return this.$route.path
+    // Formated chapters in the standard api (MenuModel)
+    formatedChapters () {
+      return this.chapters.map(({ text, pages }) => {
+        const formatedPages = pages.map(({ text, id }) => (
+          {
+            label: text,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}/page/${id}`
+          }
+        ))
+        return (
+          {
+            label: text,
+            icon: 'pi pi-fw pi-file',
+            items: formatedPages
+          }
+        )
+      })
     }
   }
 }
 </script>
-
-<style>
-.menu-chapter .el-submenu__title {
-  color: #ffffff;
-}
-
-.menu-chapter .el-submenu__title:hover {
-  background-color: #a0dfe5;
-}
-
-.menu-chapter .el-submenu__icon-arrow {
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: bold;
-}
-</style>

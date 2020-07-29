@@ -1,0 +1,119 @@
+html {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  box-sizing: border-box;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* fast-helper */
+
+.layout-wrapper {
+  min-height: 100vh;
+  padding: 0.5rem 0.5rem 0 0;
+
+  & > div {
+    flex: 1;
+  }
+}
+
+.h-full {
+  height: 100%;
+  max-height: 100%;
+}
+
+.no-decoration-link {
+  text-decoration: none;
+}
+
+.lck-color-content {
+  color: #858096;
+}
+
+.lck-color-title {
+  color: #858096;
+  font-size: 1.25rem;
+}
+
+.lck-color-page-title {
+  color: #378dd3;
+  font-size: 1.5rem;
+}
+
+.lck-ul-content {
+  list-style: none;
+  padding: 0;
+
+  li, a {
+    color: #ffffff;
+  }
+}
+
+.generic-view-container {
+  max-width: 56rem;
+}
+
+/*
+
+.el-menu {
+  border-right: none ;
+}
+
+.sidebar {
+  width:360px;
+  background-color: #000;
+  margin-right: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  &-inner {
+    display:-webkit-box;
+    display:flex;
+    -webkit-box-orient:vertical;
+    flex-direction:column;
+    height:100%;
+    .flex-scroll {
+      overflow-y:auto;
+      min-height:0;
+      -webkit-box-flex:1;
+      flex:1;
+      padding: 0;
+      height: calc(100vw - 60px)
+    }
+  }
+}
+
+.el-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  height: 4rem;
+  border-bottom: 1px solid #e2e8f0;
+
+  .logo, .profile {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+main {
+  padding: 0;
+  background-color: #ccc;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.text-2xl {
+  color: #000;
+}
+*/
