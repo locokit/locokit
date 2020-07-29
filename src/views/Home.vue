@@ -11,7 +11,10 @@
         :src="logoBgPrimaryURL"
         class="p-mb-4"
       />
-      <Login @submit="authenticate" />
+      <Login
+        @submit="authenticate"
+        :loading="authState.loading"
+      />
       <div class="p-error p-mt-4">
         {{ authState.error }}
       </div>

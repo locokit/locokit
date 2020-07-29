@@ -23,8 +23,8 @@
         </div>
         <div class="flex items-center justify-center">
           <prime-button
+            :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
             :label="$t('components.login.signin')"
-            class=""
             @click="emitSubmit"
           />
           <!-- <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
@@ -43,6 +43,9 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 
 export default Vue.extend({
+  props: {
+    loading: Boolean
+  },
   data () {
     return {
       form: {
@@ -65,5 +68,4 @@ export default Vue.extend({
 </script>
 
 <style>
-
 </style>
