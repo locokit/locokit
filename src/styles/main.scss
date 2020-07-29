@@ -63,56 +63,57 @@ html, body, #app {
   max-width: 56rem;
 }
 
-// .el-menu {
-//   border-right: none ;
-// }
-//
-// .sidebar {
-//   width:360px;
-//   background-color: #000;
-//   margin-right: 20px;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   &-inner {
-//     display:-webkit-box;
-//     display:flex;
-//     -webkit-box-orient:vertical;
-//     flex-direction:column;
-//     height:100%;
-//     .flex-scroll {
-//       overflow-y:auto;
-//       min-height:0;
-//       -webkit-box-flex:1;
-//       flex:1;
-//       padding: 0;
-//       height: calc(100vw - 60px)
-//     }
-//   }
-// }
-//
-// /* header */
-//
-// .el-header {
-//   display: flex;
-//   align-content: center;
-//   justify-content: space-between;
-//   height: 4rem;
-//   border-bottom: 1px solid #e2e8f0;
-//
-//   .logo, .profile {
-//     margin-top: auto;
-//     margin-bottom: auto;
-//   }
-// }
-//
-// main {
-//   padding: 0;
-//   background-color: #ccc;
-//   height: 100%;
-//   border: 1px solid red;
-// }
-//
-// .text-2xl {
-//   color: #000;
-// }
+/*
+
+.el-menu {
+  border-right: none ;
+}
+
+.sidebar {
+  width:360px;
+  background-color: #000;
+  margin-right: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  &-inner {
+    display:-webkit-box;
+    display:flex;
+    -webkit-box-orient:vertical;
+    flex-direction:column;
+    height:100%;
+    .flex-scroll {
+      overflow-y:auto;
+      min-height:0;
+      -webkit-box-flex:1;
+      flex:1;
+      padding: 0;
+      height: calc(100vw - 60px)
+    }
+  }
+}
+
+.el-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  height: 4rem;
+  border-bottom: 1px solid #e2e8f0;
+
+  .logo, .profile {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+main {
+  padding: 0;
+  background-color: #ccc;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.text-2xl {
+  color: #000;
+}
+*/
