@@ -8,6 +8,7 @@
         v-if="isBlockTypeValid"
         :is="block.type"
         :block="block"
+        v-on="$listeners"
       />
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}
@@ -49,10 +50,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style scoped>
-  /deep/ .el-loading-spinner > svg {
-    display: inline-block;
-    vertical-align: middle;
-  }
-</style>

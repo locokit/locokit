@@ -123,15 +123,18 @@ export async function retrieveViewDefinition (id: number) {
   workspaceState.loading = false
 }
 
-export async function retrieveViewData (table_view_id: string) {
+export async function retrieveViewData (table_view_id: string, pageIndex = 0) {
   workspaceState.loading = true
+  const ITEMS_PER_PAGE = 10
+
   try {
-    const result = await lckClient.service('row').find({
+    return await lckClient.service('row').find({
       query: {
-        table_view_id
+        table_view_id,
+        $limit: ITEMS_PER_PAGE,
+        $skip: pageIndex * ITEMS_PER_PAGE
       }
     })
-    return result.data
   } catch (error) {
     workspaceState.error = error
   }

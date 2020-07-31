@@ -121,7 +121,61 @@ exports[`storyshots Block Block with TableView 1`] = `
             </table>
           </div>
            
-          <!---->
+          <div
+            class="p-paginator p-component p-paginator-bottom"
+          >
+            <!---->
+             
+            <button
+              class="p-paginator-first p-paginator-element p-link p-disabled"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="p-paginator-icon pi pi-angle-double-left"
+              />
+            </button>
+            <button
+              class="p-paginator-prev p-paginator-element p-link p-disabled"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="p-paginator-icon pi pi-angle-left"
+              />
+            </button>
+            <span
+              class="p-paginator-pages"
+            >
+              <button
+                class="p-paginator-page p-paginator-element p-link p-highlight"
+                type="button"
+              >
+                1
+              </button>
+            </span>
+            <button
+              class="p-paginator-next p-paginator-element p-link p-disabled"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="p-paginator-icon pi pi-angle-right"
+              />
+            </button>
+            <button
+              class="p-paginator-last p-paginator-element p-link p-disabled"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="p-paginator-icon pi pi-angle-double-right"
+              />
+            </button>
+            <!---->
+             
+            <!---->
+          </div>
            
           <!---->
            

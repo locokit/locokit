@@ -3,6 +3,12 @@
     <prime-datatable
       :value="dataToDisplay"
       removableSort
+      :paginator="true"
+      :lazy="true"
+      :loading="block.loading"
+      :rows="dataTable.limit"
+      :totalRecords="dataTable.total"
+      @page="onPage($event)"
     >
       <prime-column
         v-for="column in block.definition.columns"
@@ -27,12 +33,17 @@ export default {
   props: {
     block: {
       type: Object,
-      default: () => (
-        {}
-      )
+      required: true
     }
   },
+  components: {
+    'prime-datatable': Vue.extend(DataTable),
+    'prime-column': Vue.extend(Column)
+  },
   computed: {
+    dataTable () {
+      return { ...this.block.content }
+    },
     /**
      * the data to display help DataTable prime component to display the value
      * and sort them by alphabetic order
@@ -42,7 +53,7 @@ export default {
      * and https://github.com/primefaces/primevue/issues/412
      */
     dataToDisplay () {
-      return this.block.data.map(d => {
+      return this.block.content.data.map(d => {
         const currentData = {}
         Object.keys(d.data).forEach(currentColumnId => {
           let currentValueForDisplay = d.data[currentColumnId]
@@ -62,10 +73,6 @@ export default {
         return currentData
       })
     }
-  },
-  components: {
-    'prime-datatable': Vue.extend(DataTable),
-    'prime-column': Vue.extend(Column)
   },
   methods: {
     getValue (column, data) {
@@ -88,6 +95,14 @@ export default {
         default:
           return 'text'
       }
+    },
+    onPage (event) {
+      this.$emit('updateContentBlockTableView', {
+        blockId: this.block.id,
+        blockType: this.block.type,
+        blockDefinitionId: this.block.definition.id,
+        pageIndexToGo: event.page
+      })
     }
   }
 }
