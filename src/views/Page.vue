@@ -4,8 +4,14 @@
       {{ page && page.text }}
     </header>
     <div v-if="page && page.containers.length > 0">
-      <div v-for="container in page.containers" :key="container.id">
-        <Container :container="container"></Container>
+      <div
+        v-for="container in page.containers"
+        :key="container.id"
+      >
+          <Container
+            :container="container"
+            @updateContentBlockTableView="updateContentBlock"
+          />
       </div>
     </div>
   </div>
@@ -49,7 +55,7 @@ export default {
             case 'TableView':
               this.$set(block, 'loading', true)
               this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
-              this.$set(block, 'data', await retrieveViewData(block.definition.id))
+              this.$set(block, 'content', await retrieveViewData(block.definition.id))
               block.loading = false
               return
             default:
@@ -58,15 +64,21 @@ export default {
         })
       })
     }
+  },
+  methods: {
+    updateContentBlock (data) {
+      if (data && data.blockType === 'TableView') {
+        this.page.containers.forEach(container => {
+          container.blocks.forEach(async block => {
+            if (block.id === data.blockId) {
+              this.$set(block, 'loading', true)
+              this.$set(block, 'content', await retrieveViewData(block.definition.id, data.pageIndexToGo))
+              this.$set(block, 'loading', false)
+            }
+          })
+        })
+      }
+    }
   }
 }
 </script>
-
-<style scoped>
-.title-page {
-  font-size: 1.4rem;
-  padding: 1em;
-  font-weight: 600;
-  color: #645f5f;
-}
-</style>

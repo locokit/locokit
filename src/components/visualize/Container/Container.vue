@@ -5,6 +5,7 @@
       :key="block.id"
       :block="block"
       class="p-mb-4"
+      v-on="$listeners"
     ></Block>
   </div>
 </template>

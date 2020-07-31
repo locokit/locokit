@@ -21,7 +21,6 @@ module.exports = {
         args[0].minify = false
         /* new args to pass to html-webpack-plugin's constructor */
         return args
-      }
-    )
+      })
   }
 }
