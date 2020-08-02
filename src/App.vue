@@ -1,16 +1,12 @@
 <template>
   <div id="app">
-    <div class="layout-wrapper">
-      <lck-header
-        v-if="displayHeader"
-        :logo-url="logoURL"
-      />
-      <div class="p-fluid">
-        <main>
-          <router-view/>
-        </main>
-      </div>
-    </div>
+    <lck-header
+      v-if="displayHeader"
+      :logo-url="logoURL"
+    />
+    <main class="o-auto">
+      <router-view/>
+    </main>
   </div>
 </template>
 
@@ -42,4 +38,18 @@ export default {
 }
 </script>
 
-<style lang="scss" src="@/styles/main.scss" />
+<style lang="scss" src="@/styles/main.scss"></style>
+
+<style lang="scss" scoped>
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  header {
+    height: 4rem;
+  }
+  main {
+    flex: 1;
+  }
+}
+</style>

@@ -49,5 +49,6 @@ export default {
   .lck-header {
     height: 4rem;
     border-bottom: 1px solid #e2e8f0;
+    background-color: white;
   }
 </style>

@@ -1,9 +1,9 @@
-import Chapter from './Chapter'
+import Chapters from './Chapters'
 import StoryRouter from 'storybook-vue-router'
 
 export default {
-  title: 'Chapter',
-  component: Chapter,
+  title: 'Chapters',
+  component: Chapters,
   decorators: [
     StoryRouter()
   ]
@@ -31,21 +31,21 @@ const chapters = [{
   }]
 }]
 
-export const ChapterStoryWithoutProps = () => ({
-  components: { Chapter },
-  template: '<Chapter />'
+export const ChaptersStoryWithoutProps = () => ({
+  components: { Chapters },
+  template: '<Chapters />'
 })
 
-ChapterStoryWithoutProps.storyName = 'Chapter without props'
+ChaptersStoryWithoutProps.storyName = 'Chapters without props'
 
-export const ChapterStoryWithProps = () => ({
-  components: { Chapter },
+export const ChaptersStoryWithProps = () => ({
+  components: { Chapters },
   data () {
     return {
       chapters
     }
   },
-  template: '<Chapter :chapters="chapters" />'
+  template: '<Chapters :chapters="chapters" />'
 })
 
-ChapterStoryWithProps.storyName = 'Chapter with props'
+ChaptersStoryWithProps.storyName = 'Chapters with props'
