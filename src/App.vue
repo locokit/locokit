@@ -4,7 +4,7 @@
       v-if="displayHeader"
       :logo-url="logoURL"
     />
-    <main class="o-auto">
+    <main class="o-auto p-fluid">
       <router-view/>
     </main>
   </div>
