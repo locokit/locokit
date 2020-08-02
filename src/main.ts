@@ -8,10 +8,11 @@ import router from './router'
 import i18n from './plugins/i18n'
 import { reAuthenticate } from './store/auth'
 
-import './styles/v-logistique/theme.css' // theme
 import 'primevue/resources/primevue.min.css' // core css
 import 'primeicons/primeicons.css' // icons
 import 'primeflex/primeflex.css'
+import './styles/v-logistique/theme.css' // theme
+import './styles/v-logistique/overwrite.css' // theme
 
 Sentry.init({
   dsn: LCK_SETTINGS.SENTRY_DSN,

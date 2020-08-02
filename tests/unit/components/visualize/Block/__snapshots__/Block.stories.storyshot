@@ -68,7 +68,7 @@ exports[`storyshots Block Block with TableView 1`] = `
        
       <div>
         <div
-          class="p-datatable p-component"
+          class="p-datatable-sm p-datatable p-component"
         >
           <!---->
           <!---->

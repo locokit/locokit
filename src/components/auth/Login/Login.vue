@@ -1,10 +1,10 @@
 <template>
-  <prime-card class="p-col">
+  <p-card class="p-col">
     <template slot="content">
       <form @submit.prevent="emitSubmit">
         <div class="p-field p-text-left">
           <label for="email">{{ $t('components.login.email') }}</label>
-          <prime-input-text
+          <p-input-text
             id="email"
             type="text"
             v-model="form.email"
@@ -14,7 +14,7 @@
         </div>
         <div class="p-field p-text-left">
           <label for="password">{{ $t('components.login.password') }}</label>
-          <prime-input-text
+          <p-input-text
             id="password"
             type="password"
             class="rounded-sm"
@@ -24,7 +24,7 @@
           />
         </div>
         <div class="flex items-center justify-center">
-          <prime-button
+          <p-button
             type="submit"
             :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
             :label="$t('components.login.signin')"
@@ -35,7 +35,7 @@
         </div>
       </form>
     </template>
-  </prime-card>
+  </p-card>
 </template>
 
 <script lang="ts">
@@ -57,9 +57,9 @@ export default Vue.extend({
     }
   },
   components: {
-    'prime-card': Vue.extend(Card),
-    'prime-input-text': Vue.extend(InputText),
-    'prime-button': Vue.extend(Button)
+    'p-card': Vue.extend(Card),
+    'p-input-text': Vue.extend(InputText),
+    'p-button': Vue.extend(Button)
   },
   methods: {
     emitSubmit () {

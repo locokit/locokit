@@ -1,6 +1,6 @@
 <template>
   <div v-if="block.definition">
-    <prime-datatable
+    <p-datatable
       :value="dataToDisplay"
       removableSort
       :paginator="true"
@@ -8,18 +8,22 @@
       :loading="block.loading"
       :rows="dataTable.limit"
       :totalRecords="dataTable.total"
+      class="p-datatable-sm"
       @page="onPage($event)"
     >
-      <prime-column
+      <p-column
         v-for="column in block.definition.columns"
         :key="column.id"
         :header="column.text"
         sortable
         :field="column.id"
-        :bodyClass="getClassComponent(column)"
       >
-      </prime-column>
-    </prime-datatable>
+
+        <template #body="slotProps">
+          <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
+        </template>
+      </p-column>
+    </p-datatable>
   </div>
 </template>
 
@@ -37,8 +41,8 @@ export default {
     }
   },
   components: {
-    'prime-datatable': Vue.extend(DataTable),
-    'prime-column': Vue.extend(Column)
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column)
   },
   computed: {
     dataTable () {
