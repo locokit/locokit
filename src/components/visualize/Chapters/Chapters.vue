@@ -81,7 +81,7 @@ a {
   display: block;
   padding: .75rem 0 .75rem 2rem;
   text-decoration: none;
-  color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 .router-link-exact-active {
@@ -90,7 +90,7 @@ a {
 
 a:hover,
 .router-link-exact-active {
-  background-color: var(--secondary-color);
+  background-color: var(--text-color);
   color: var(--primary-color);
 }
 
