@@ -2,7 +2,7 @@
 
 exports[`storyshots Chapters Chapters with props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <div
     class="p-accordion p-component"
@@ -119,7 +119,7 @@ exports[`storyshots Chapters Chapters with props 1`] = `
 
 exports[`storyshots Chapters Chapters without props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <div
     class="p-accordion p-component"

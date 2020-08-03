@@ -3,12 +3,8 @@ import { addDecorator, addParameters } from '@storybook/vue';
 
 import ThemeWrapper from './ThemeWrapper.vue'
 import i18n from '../src/plugins/i18n'
+import '../src/plugins/primevue'
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-
-import '../src/styles/v-logistique/theme.css' // theme
-import 'primevue/resources/primevue.min.css' // core css
-import 'primeicons/primeicons.css' // icons
-import 'primeflex/primeflex.css'
 
 addParameters({
   docs: {

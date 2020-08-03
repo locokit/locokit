@@ -2,7 +2,7 @@
 
 exports[`storyshots TableView TableView with expected props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <div>
     <div
@@ -72,6 +72,9 @@ exports[`storyshots TableView TableView with expected props 1`] = `
           <span
             class="p-paginator-icon pi pi-angle-double-left"
           />
+          <span
+            class="p-ink"
+          />
         </button>
         <button
           class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -80,6 +83,9 @@ exports[`storyshots TableView TableView with expected props 1`] = `
         >
           <span
             class="p-paginator-icon pi pi-angle-left"
+          />
+          <span
+            class="p-ink"
           />
         </button>
         <span
@@ -90,6 +96,9 @@ exports[`storyshots TableView TableView with expected props 1`] = `
             type="button"
           >
             1
+            <span
+              class="p-ink"
+            />
           </button>
         </span>
         <button
@@ -100,6 +109,9 @@ exports[`storyshots TableView TableView with expected props 1`] = `
           <span
             class="p-paginator-icon pi pi-angle-right"
           />
+          <span
+            class="p-ink"
+          />
         </button>
         <button
           class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -108,6 +120,9 @@ exports[`storyshots TableView TableView with expected props 1`] = `
         >
           <span
             class="p-paginator-icon pi pi-angle-double-right"
+          />
+          <span
+            class="p-ink"
           />
         </button>
         <!---->
@@ -132,7 +147,7 @@ exports[`storyshots TableView TableView with expected props 1`] = `
 
 exports[`storyshots TableView TableView without no definition and content properties 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <!---->
 </div>

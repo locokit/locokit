@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full"><slot/></div>
+  <div class="h-full p-fluid"><slot/></div>
 </template>
 
 <style src="../src/styles/main.scss"></style>

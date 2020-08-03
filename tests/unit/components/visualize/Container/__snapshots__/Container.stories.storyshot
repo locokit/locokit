@@ -2,7 +2,7 @@
 
 exports[`storyshots Container Container with expected props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <!---->
 </div>
@@ -10,7 +10,7 @@ exports[`storyshots Container Container with expected props 1`] = `
 
 exports[`storyshots Container Container without blocks 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <!---->
 </div>
@@ -18,7 +18,7 @@ exports[`storyshots Container Container without blocks 1`] = `
 
 exports[`storyshots Container Container without props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <!---->
 </div>
