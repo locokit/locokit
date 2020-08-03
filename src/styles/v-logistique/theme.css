@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/**
+ * BEWARE : This file is not used in the source
+ * Theme is defined in the public/assets/css folder
+ * We keep this file until the Henri's holidays return
+ * He'll decide how we have to manage theme
+ */
 :root {
   --surface-a:#2a323d;
   --surface-b:#20262e;
@@ -11,16 +17,8 @@
   --primary-color:#53acb4;
   --primary-color-text:#151515;
   --secondary-color:#eee;
-  --border-radius: var(--border-radius);
+  --border-radius: 2px;
   --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-}
-
-.lck-bg-primary {
-  background-color: var(--primary-color);
-}
-
-.lck-primary {
-  color: var(--primary-color);
 }
 
 * {

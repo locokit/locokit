@@ -2,7 +2,7 @@
 
 exports[`storyshots Header Header with logo (required) 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
@@ -37,6 +37,9 @@ exports[`storyshots Header Header with logo (required) 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </a>
     </div>

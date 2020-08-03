@@ -56,6 +56,14 @@ html, body, #app {
   max-width: 56rem;
 }
 
+.lck-bg-primary {
+  background-color: var(--primary-color);
+}
+
+.lck-primary {
+  color: var(--primary-color);
+}
+
 /*
 
 .el-menu {

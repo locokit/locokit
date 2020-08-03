@@ -2,7 +2,7 @@
 
 exports[`storyshots Login Login 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <div
     class="p-card p-component p-col"
@@ -74,6 +74,9 @@ exports[`storyshots Login Login 1`] = `
               </span>
                
               <!---->
+              <span
+                class="p-ink"
+              />
             </button>
           </div>
         </form>

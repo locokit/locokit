@@ -2,7 +2,7 @@
 
 exports[`storyshots Markdown Markdown with props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <div
     class="lck-color-content"
@@ -16,7 +16,7 @@ exports[`storyshots Markdown Markdown with props 1`] = `
 
 exports[`storyshots Markdown Markdown without props 1`] = `
 <div
-  class="h-full"
+  class="h-full p-fluid"
 >
   <!---->
 </div>
