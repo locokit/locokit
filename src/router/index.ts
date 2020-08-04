@@ -53,7 +53,7 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE,
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId',
     name: 'Database',
     component: Database,
     props: true,

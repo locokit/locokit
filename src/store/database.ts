@@ -14,14 +14,14 @@ export const databaseState: DatabaseState = {
   data: new Database()
 }
 
-export async function retrieveDatabaseByWorkspaceId (workspaceId: string) {
+export async function retrieveDatabaseByWorkspaceId (databaseId: string) {
   databaseState.loading = true
   try {
-    const result = await lckClient.service('database').find({
+    const result = await lckClient.service('database').get(databaseId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { workspace_id: workspaceId, $eager: 'tables' }
+      query: { $eager: 'tables' }
     })
-    databaseState.data = result.data[0]
+    databaseState.data = result
   } catch (error) {
     databaseState.error = error
   }

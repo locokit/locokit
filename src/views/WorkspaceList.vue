@@ -59,16 +59,26 @@
             <div class="action-button-content p-d-flex">
               <router-link
                 class="no-decoration-link p-mr-2"
-                :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}`"
-              >
-                <p-button label="Database" icon="pi pi-sitemap" />
-              </router-link>
-              <router-link
-                class="no-decoration-link p-mr-2"
                 :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
               >
                 <p-button label="Visualization" icon="pi pi-globe" />
               </router-link>
+
+              <template v-if="workspace.databases.length > 0">
+                <router-link
+                  v-if="workspace.databases.length === 1"
+                  class="no-decoration-link p-mr-2"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
+                >
+                  <p-button label="Database" icon="pi pi-sitemap" />
+                </router-link>
+                <p-dropdown-button
+                  v-else
+                  class="no-decoration-link p-mr-2"
+                  label="Databases"
+                  :model="transformDatabases(workspace.id, workspace.databases)"
+                />
+              </template>
             </div>
           </div>
         </template>
@@ -79,11 +89,12 @@
 
 <script>
 import Vue from 'vue'
-import { retrieveWorkspaces, workspaceState } from '@/store/visualize'
+import { retrieveWorkspacesWithDatabases, workspaceState } from '@/store/visualize'
 import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+import DropdownButton from '@/components/DropdownButton/DropdownButton'
 
 export default {
   name: 'WorkspaceList',
@@ -96,15 +107,27 @@ export default {
   },
   components: {
     'p-card': Vue.extend(Card),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-dropdown-button': Vue.extend(DropdownButton)
   },
   computed: {
     isAuthorized () {
       return authState?.data?.user?.profile === 'SUPERADMIN'
     }
   },
+  methods: {
+    transformDatabases (workspaceId, databases) {
+      return databases.map(({ text, id }) => (
+        {
+          id,
+          label: text,
+          to: `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}`
+        }
+      ))
+    }
+  },
   async beforeRouteEnter (to, from, next) {
-    await retrieveWorkspaces()
+    await retrieveWorkspacesWithDatabases()
     if (workspaceState.data.workspaces.length === 1 && authState?.data?.user?.profile !== 'SUPERADMIN') {
       next({
         path: `${ROUTES_PATH.WORKSPACE}/${workspaceState.data.workspaces[0].id}${ROUTES_PATH.VISUALIZATION} `

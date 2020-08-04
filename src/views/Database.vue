@@ -3,14 +3,15 @@
     class="generic-view-container p-mx-auto"
   >
     <header class="p-my-4 lck-color-title">
-      {{ databaseState.data.text}}
+      {{ databaseState.data.text }}
     </header>
 
     <p-tab-view>
       <p-tab-panel
-      v-for="table in databaseState.data.tables"
-      :key="table.id"
-      :header="table.text">
+        v-for="table in databaseState.data.tables"
+        :key="table.id"
+        :header="table.text"
+      >
         {{ table.id }}
       </p-tab-panel>
     </p-tab-view>
@@ -25,7 +26,7 @@ import Vue from 'vue'
 
 export default {
   name: 'Database',
-  props: ['workspaceId'],
+  props: ['databaseId'],
   data () {
     return {
       databaseState
@@ -36,7 +37,7 @@ export default {
     'p-tab-panel': Vue.extend(TabPanel)
   },
   async mounted () {
-    await retrieveDatabaseByWorkspaceId(this.workspaceId)
+    await retrieveDatabaseByWorkspaceId(this.databaseId)
   }
 }
 </script>

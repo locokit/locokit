@@ -21,10 +21,13 @@ export const workspaceState: WorkspaceState = {
   }
 }
 
-export async function retrieveWorkspaces () {
+export async function retrieveWorkspacesWithDatabases () {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('workspace').find()
+    const result = await lckClient.service('workspace').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { $eager: 'databases' }
+    })
     workspaceState.data.workspaces = result.data
   } catch (error) {
     workspaceState.error = error
