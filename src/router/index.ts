@@ -56,6 +56,7 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE,
     name: 'Database',
     component: Database,
+    props: true,
     meta: {
       needAuthentication: true
     }
