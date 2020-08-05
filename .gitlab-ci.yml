@@ -17,7 +17,7 @@ stages:
     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_INSTALL_BINARY=0 npm ci
     - npm run build
   artifacts:
-    expire_in: 1 week
+    expire_in: 3 mos
     name: 'lck-front-${CI_COMMIT_REF_SLUG}'
     paths:
     - dist/
