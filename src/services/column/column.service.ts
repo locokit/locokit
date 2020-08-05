@@ -1,14 +1,13 @@
-// Initializes the `table` service on path `/table`
 import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
-import { Table } from './table.class';
-import createModel from '../../models/table.model';
-import hooks from './table.hooks';
+import { Column } from './column.class';
+import createModel from '../../models/column.model';
+import hooks from './column.hooks';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'table': Table & ServiceAddons<any>;
+    'column': Column & ServiceAddons<any>;
   }
 }
 
@@ -38,15 +37,15 @@ export default function (app: Application) {
       '$joinEager',
       '$modifyEager',
     ],
-    allowedEager: '[columns, rows]',
+    allowedEager: 'table',
     paginate: app.get('paginate')
   };
 
   // Initialize our service with any options it requires
-  app.use('/table', new Table(options, app));
+  app.use('/column', new Column(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('table');
+  const service = app.service('column');
 
   service.hooks(hooks);
 }
