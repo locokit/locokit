@@ -15,6 +15,7 @@
         {{ table.id }}
         <TableView
           :block="block"
+          @updateContentBlockTableView="updateContentBlock"
         />
       </p-tab-panel>
     </p-tab-view>
@@ -39,7 +40,8 @@ export default {
   data () {
     return {
       databaseState,
-      block: {}
+      block: {},
+      tableId: null
     }
   },
   components: {
@@ -47,11 +49,21 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel)
   },
+  methods: {
+    async updateContentBlock (data) {
+      if (this.block.id === data.blockId) {
+        this.$set(this.block, 'loading', true)
+        this.$set(this.block, 'content', await retrieveTableRows(this.tableId, data.pageIndexToGo))
+        this.$set(this.block, 'loading', false)
+      }
+    }
+  },
   async mounted () {
     await retrieveDatabaseByWorkspaceId(this.databaseId)
     this.$set(this.block, 'loading', true)
-    const definition = await retrieveTableColumns(databaseState.data?.tables[0].id)
-    const content = await retrieveTableRows(databaseState.data?.tables[0].id)
+    this.tableId = databaseState.data?.tables[0].id
+    const definition = await retrieveTableColumns(this.tableId)
+    const content = await retrieveTableRows(this.tableId)
     this.block = {
       ...this.block,
       definition: {
