@@ -74,3 +74,18 @@ export async function retrieveTableRows (tableId: string, pageIndex = 0) {
   }
   databaseState.loading = false
 }
+
+export async function retrieveTableViews (tableId: string) {
+  databaseState.loading = true
+
+  try {
+    const result = await lckClient.service('view').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: { table_id: tableId }
+    })
+    return result.data
+  } catch (error) {
+    databaseState.error = error
+  }
+  databaseState.loading = false
+}
