@@ -1,10 +1,10 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection';
-import Knex from 'knex';
 import { Application } from '../declarations';
+import { table as LckTable } from './table.model'
 
-class database extends Model {
+export class database extends Model {
   createdAt!: string;
   updatedAt!: string;
 
@@ -21,6 +21,23 @@ class database extends Model {
         text: { type: 'string' }
       }
     };
+  }
+
+  static get relationMappings() {
+    return {
+      tables: {
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: LckTable,
+        join: {
+          from: 'database.id',
+          to: 'table.database_id'
+        }
+      }
+    }
   }
 
   $beforeInsert() {

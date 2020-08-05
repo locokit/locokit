@@ -1,6 +1,7 @@
 import { Application } from '../declarations';
 import user from './user/user.service';
 import row from './row/row.service';
+import column from './column/column.service';
 import workspace from './workspace/workspace.service';
 import database from './database/database.service';
 import table from './table/table.service';
@@ -15,6 +16,7 @@ import view from './view/view.service';
 export default function (app: Application) {
   app.configure(user);
   app.configure(row);
+  app.configure(column);
   app.configure(workspace);
   app.configure(database);
   app.configure(table);

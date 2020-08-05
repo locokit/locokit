@@ -15,6 +15,30 @@ declare module '../../declarations' {
 export default function (app: Application) {
   const options = {
     Model: createModel(app),
+    whitelist: [
+    '$eq',
+    '$ne',
+    '$gte',
+    '$gt',
+    '$lte',
+    '$lt',
+    '$in',
+    '$nin',
+    '$like',
+    '$notLike',
+    '$ilike',
+    '$notILike',
+    '$contains',
+    '$or',
+    '$and',
+    '$sort',
+    '$eager',
+    '$any',
+    '$joinRelation',
+    '$joinEager',
+    '$modifyEager',
+  ],
+    allowedEager: 'tables',
     paginate: app.get('paginate')
   };
 

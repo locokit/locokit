@@ -1,14 +1,13 @@
-// Initializes the `workspace` service on path `/workspace`
 import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
-import { Workspace } from './workspace.class';
-import createModel from '../../models/workspace.model';
-import hooks from './workspace.hooks';
+import { Column } from './column.class';
+import createModel from '../../models/column.model';
+import hooks from './column.hooks';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'workspace': Workspace & ServiceAddons<any>;
+    'column': Column & ServiceAddons<any>;
   }
 }
 
@@ -32,20 +31,21 @@ export default function (app: Application) {
       '$or',
       '$and',
       '$sort',
-      '$any',
       '$eager',
+      '$any',
       '$joinRelation',
-      '$modifyEager'
+      '$joinEager',
+      '$modifyEager',
     ],
-    allowedEager: '[databases, chapters.[pages.[containers.[blocks]]]]',
+    allowedEager: 'table',
     paginate: app.get('paginate')
   };
 
   // Initialize our service with any options it requires
-  app.use('/workspace', new Workspace(options, app));
+  app.use('/column', new Column(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('workspace');
+  const service = app.service('column');
 
   service.hooks(hooks);
 }
