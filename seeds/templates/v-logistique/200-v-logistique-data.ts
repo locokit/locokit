@@ -1,4 +1,5 @@
 import * as Knex from "knex";
+import { TABLES } from "./160-v-logistique-schema";
 
 export async function seed(knex: Knex): Promise<any> {
   /**
@@ -62,6 +63,38 @@ export async function seed(knex: Knex): Promise<any> {
         reference: 8,
         value: 'Fournisseur CYCLELAB'
       }
+    })
+  }])
+  /**
+   * Tracers
+   */
+  await knex("table_row").insert([{
+    id: 'c6e48b1d-d53a-46cf-bc74-7c81870900f4',
+    text: "Traceur n° 300FBF",
+    table_id: TABLES.MORIO_TRACER.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '300FBF'
+    })
+  }, {
+    id: '61074bd7-c224-4d7b-99a1-5cecfbd23728',
+    text: "Traceur n° 314AA5",
+    table_id: TABLES.MORIO_TRACER.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314AA5'
+    })
+  }, {
+    id: 'd8cf9222-9fd6-406d-8b90-1b443e89aa7c',
+    text: "Traceur n° 314A6A",
+    table_id: TABLES.MORIO_TRACER.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314A6A'
+    })
+  }, {
+    id: '769152a2-ff39-4186-892e-2fdd111e012b',
+    text: "Traceur n° 314C05",
+    table_id: TABLES.MORIO_TRACER.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314C05'
     })
   }])
   /**

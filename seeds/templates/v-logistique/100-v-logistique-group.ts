@@ -1,6 +1,12 @@
 import * as Knex from "knex";
 import bcrypt from 'bcryptjs'
 
+export const GROUPS = {
+  ADMIN: '163c21e6-5339-4748-903f-8c77e21314cf',
+  PROVIDER: 'd39f102b-398a-4d51-9680-3c479abdda73',
+  RECIPIENT: '895ec967-fa3b-4710-82e7-b406e62f657d'
+}
+
 export async function seed(knex: Knex): Promise<any> {
   const hashPassword = await bcrypt.hash("pouetpouet", 10)
   await knex("user").insert([
@@ -63,15 +69,15 @@ export async function seed(knex: Knex): Promise<any> {
   ]);
   await knex("group").insert([
     {
-      id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+      id: GROUPS.PROVIDER,
       name: "Fournisseurs",
     },
     {
-      id: '895ec967-fa3b-4710-82e7-b406e62f657d',
+      id: GROUPS.RECIPIENT,
       name: "Bénéficiaires",
     },
     {
-      id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      id: GROUPS.ADMIN,
       name: "Admin",
     },
   ]);
@@ -88,32 +94,32 @@ export async function seed(knex: Knex): Promise<any> {
     // },
     {
       user_id: 2,
-      group_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      group_id: GROUPS.ADMIN,
       role: 'OWNER'
     },
     {
       user_id: 3,
-      group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+      group_id: GROUPS.PROVIDER,
       role: 'MEMBER'
     },
     {
       user_id: 4,
-      group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+      group_id: GROUPS.PROVIDER,
       role: 'MEMBER'
     },
     {
       user_id: 8,
-      group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
+      group_id: GROUPS.PROVIDER,
       role: 'MEMBER'
     },
     {
       user_id: 5,
-      group_id: '895ec967-fa3b-4710-82e7-b406e62f657d',
+      group_id: GROUPS.RECIPIENT,
       role: 'MEMBER'
     },
     {
       user_id: 6,
-      group_id: '895ec967-fa3b-4710-82e7-b406e62f657d',
+      group_id: GROUPS.RECIPIENT,
       role: 'MEMBER'
     },
   ]);

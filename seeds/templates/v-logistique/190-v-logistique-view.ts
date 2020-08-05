@@ -1,48 +1,53 @@
 import * as Knex from "knex";
+import { TABLES } from "./160-v-logistique-schema";
+
+export const VIEWS = {
+  RECIPIENT_BICYCLE: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+}
 
 export async function seed(knex: Knex): Promise<any> {
   /**
    * View vélo bénéficiaire
    */
   await knex("table_view").insert([{
-    id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    id: VIEWS.RECIPIENT_BICYCLE,
     text: 'Vélo bénéficiaire',
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+    table_id: TABLES.BICYCLE.ID
   }])
   await knex("table_view_has_table_column").insert([{
     table_column_id: 'e065323c-1151-447f-be0f-6d2728117b38',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: 'b712959e-3808-4bbc-b86e-17ab2ded8c6d',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: '3a659ea1-446f-4755-8db9-583a204279cc',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: '1c4c27e9-ed7f-4c1c-b472-b8906a9ce9d7',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: '80780a95-d709-43ec-b4f3-d6b5cb5dd31e',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: '360a9a83-d046-4b64-a39e-944d2bfbd9c5',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     filter: JSON.stringify({
       $eq: "{userId}"
     }),
     visible: false
   }, {
     table_column_id: 'bde4bbbd-2584-447f-acff-f434f53619da',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: 'f114393e-eece-4e8f-8893-7c31dde09690',
-    table_view_id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }])
 
@@ -146,11 +151,15 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   await knex("table_view_has_table_column").insert([{
-    table_column_id: 'be137241-f97f-4fb9-9220-36d5c6c0c1af',
+    table_column_id: 'c5fde1df-7f65-4422-a852-d8f8e963ce2b',
     table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
     visible: true
   }, {
-    table_column_id: 'b93546a3-4459-40ed-9a76-fdcc45966479',
+    table_column_id: '193cd4d8-e9a9-4492-a2f4-5b0a9ebe7360',
+    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
+    visible: true
+  }, {
+    table_column_id: 'b49eb157-b150-4d2e-84b3-ae74e4ba99b1',
     table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
     visible: true
   }])
