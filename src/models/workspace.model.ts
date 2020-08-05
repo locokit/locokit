@@ -1,9 +1,9 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection';
-import Knex from 'knex';
 import { Application } from '../declarations';
 import { chapter as LckChapter } from './chapter.model'
+import { database as LckDatabase } from './database.model'
 
 class WorkspacePermission {
   accessDatabase: boolean = false;
@@ -49,6 +49,18 @@ export class workspace extends Model {
           to: 'chapter.workspace_id'
         }
       },
+      databases: {
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: LckDatabase,
+        join: {
+          from: 'workspace.id',
+          to: 'database.workspace_id'
+        }
+      }
     }
   }
 

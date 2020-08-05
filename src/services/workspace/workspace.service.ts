@@ -37,7 +37,7 @@ export default function (app: Application) {
       '$joinRelation',
       '$modifyEager'
     ],
-    allowedEager: '[chapters.[pages.[containers.[blocks]]]]',
+    allowedEager: '[databases, chapters.[pages.[containers.[blocks]]]]',
     paginate: app.get('paginate')
   };
 
