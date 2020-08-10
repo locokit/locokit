@@ -3,11 +3,13 @@
     class="p-mx-auto"
   >
     <header class="p-my-4 lck-color-title p-ml-1">
+      {{ $t('pages.databases.title')}}
       {{ databaseState.data.text }}
     </header>
 
     <p-tab-view
-      @tab-change="handleTab"
+      @tab-change="handleTabChange"
+      v-if="databaseState.data.tables.length > 0"
     >
       <p-tab-panel
         v-for="table in databaseState.data.tables"
@@ -16,21 +18,23 @@
         :header="table.text"
       >
         <div>
-
-        <span
-          class="p-tag p-tag-rounded p-badge-info p-mr-2 p-mb-3"
-          v-for="view in views"
-          :key="view.id"
-        >
-          {{ view.text }}
-        </span>
+          <span
+            class="p-tag p-tag-rounded p-badge-info p-mr-2 p-mb-3"
+            v-for="view in views"
+            :key="view.id"
+          >
+            {{ view.text }}
+          </span>
         </div>
         <TableView
           :block="block"
-          @updateContentBlockTableView="updateContentBlock"
+          @updateContentBlockTableView="updateContentBlock(table.id, $event)"
         />
       </p-tab-panel>
     </p-tab-view>
+    <div v-else>
+      {{ $t('pages.databases.noDatabase') }}
+    </div>
   </div>
 </template>
 
@@ -49,33 +53,43 @@ import TableView from '@/components/visualize/TableView/TableView'
 
 export default {
   name: 'Database',
-  props: ['databaseId'],
-  data () {
-    return {
-      databaseState,
-      block: {},
-      views: [],
-      tableId: null
-    }
-  },
   components: {
     TableView,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel)
   },
+  props: {
+    databaseId: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      databaseState,
+      block: {
+        loading: false
+      },
+      views: []
+    }
+  },
   methods: {
-    async updateContentBlock (data) {
+    async updateContentBlock (tableId, data) {
       if (this.block.id === data.blockId) {
-        this.$set(this.block, 'loading', true)
-        this.$set(this.block, 'content', await retrieveTableRows(this.tableId, data.pageIndexToGo))
-        this.$set(this.block, 'loading', false)
+        this.block.loading = true
+        this.block.content = await retrieveTableRows(tableId, data.pageIndexToGo)
+        this.block.loading = false
       }
     },
-    async handleTab (event) {
-      this.tableId = event.tab.$el.dataset?.tableId
-      const definition = await retrieveTableColumns(this.tableId)
-      const content = await retrieveTableRows(this.tableId)
-      this.views = await retrieveTableViews(this.tableId)
+    handleTabChange (event) {
+      const tableId = event.tab.$el.dataset?.tableId
+      this.loadTable(tableId)
+    },
+    async loadTable (tableId) {
+      this.block.loading = true
+      const definition = await retrieveTableColumns(tableId)
+      const content = await retrieveTableRows(tableId)
+      this.views = await retrieveTableViews(tableId)
       this.block = {
         ...this.block,
         definition: {
@@ -83,23 +97,21 @@ export default {
         },
         content
       }
+      this.block.loading = false
     }
   },
   async mounted () {
     await retrieveDatabaseByWorkspaceId(this.databaseId)
-    this.$set(this.block, 'loading', true)
-    this.tableId = databaseState.data?.tables[0].id
-    const definition = await retrieveTableColumns(this.tableId)
-    const content = await retrieveTableRows(this.tableId)
-    this.views = await retrieveTableViews(this.tableId)
-    this.block = {
-      ...this.block,
-      definition: {
-        columns: definition
-      },
-      content
+    // load the first table
+    if (this.databaseState.data.tables.length > 0) {
+      this.loadTable(this.databaseState.data.tables[0].id)
     }
-    this.$set(this.block, 'loading', false)
   }
 }
 </script>
+
+<style scoped>
+/deep/ .p-tabview .p-tabview-panels {
+  padding: 2px 0 0 0;
+}
+</style>
