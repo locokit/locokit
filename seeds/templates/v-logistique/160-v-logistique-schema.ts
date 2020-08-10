@@ -20,7 +20,8 @@ export const TABLES = {
   MORIO_TRACER: {
     ID: '3370bb91-c699-4f77-a970-ad574649915c',
     COLUMNS: {
-      REF: '608a747b-efa3-4c1b-8462-a2df168c33ed'
+      REF: '608a747b-efa3-4c1b-8462-a2df168c33ed',
+      STATUS: 'ec342569-2bd3-45f5-8277-13f41456e15f'
     }
   },
   MORIO_TRACER_DATA: {
@@ -73,13 +74,13 @@ export async function seed(knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
       values: [{
-        id: ,
+        id: 'd426861f-162e-4cba-bd13-50152f2d665a',
         value: 'VOLÉ'
       }, {
-        id: ,
+        id: '82084b79-e523-4a04-9623-2d303a10c0a9',
         value: 'EN COURS DE MONTAGE'
       }, {
-        id: ,
+        id: 'a2d10d77-35bc-437f-ac26-3298229b56ed',
         value: 'FONCTIONNEL'
       }]
     }
@@ -225,7 +226,7 @@ export async function seed(knex: Knex): Promise<any> {
     table_id: TABLES.BICYCLE.ID,
     column_type_id: glossary.COLUMN_TYPE.USER
   }, {
-    id: 'f114393e-eece-4e8f-8893-7c31dde09690',
+    id: '6c9016a3-6b87-462d-893f-845b80380dfd',
     text: 'Traceur',
     table_id: TABLES.BICYCLE.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
@@ -233,15 +234,7 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'f114393e-eece-4e8f-8893-7c31dde09690',
     text: 'Derniers kms',
     table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
-    settings: {
-      relation,
-      formula: {
-        type: Knex,
-        sortBy: '',
-        limit: '',
-      }
-    }
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
   }])
 
 };

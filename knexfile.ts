@@ -8,8 +8,4 @@ module.exports = {
     tableName: 'knex_migrations',
     extension: 'ts'
   },
-  seeds: {
-    // directory: './seeds/lck/'
-    directory: './seeds/templates/v-logistique/'
-  }
 };
