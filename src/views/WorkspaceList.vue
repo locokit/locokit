@@ -126,11 +126,23 @@ export default {
       ))
     }
   },
+  /**
+   * This hook is executed each time the WorkspaceList is matched by the vue-router
+   * So, sometimes, we don't want this hook execute
+   * => we check before executing we are on the "good" component...
+   */
   async beforeRouteEnter (to, from, next) {
+    if (to.name !== 'WorkspaceList') next()
     await retrieveWorkspacesWithDatabases()
-    if (workspaceState.data.workspaces.length === 1 && authState?.data?.user?.profile !== 'SUPERADMIN') {
+    if (
+      workspaceState.data.workspaces.length === 1 &&
+      authState?.data?.user?.profile !== 'SUPERADMIN'
+      // TODO: don't redirect if the current user is a workspace's admin
+    ) {
+      // only one workspace, user is not a SUPERADMIN
+      // we redirect user on the visualization route
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${workspaceState.data.workspaces[0].id}${ROUTES_PATH.VISUALIZATION} `
+        path: `${ROUTES_PATH.WORKSPACE}/${workspaceState.data.workspaces[0].id}${ROUTES_PATH.VISUALIZATION}`
       })
     } else {
       next()
