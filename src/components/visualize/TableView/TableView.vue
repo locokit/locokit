@@ -46,6 +46,7 @@ export default {
   },
   computed: {
     dataTable () {
+      if (!this.block.content) return {}
       return { ...this.block.content }
     },
     /**
@@ -57,6 +58,7 @@ export default {
      * and https://github.com/primefaces/primevue/issues/412
      */
     dataToDisplay () {
+      if (!this.block.content) return []
       return this.block.content.data.map(d => {
         const currentData = {}
         Object.keys(d.data).forEach(currentColumnId => {
