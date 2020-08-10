@@ -4,6 +4,7 @@ import { BaseState } from './state'
 
 class Database {
   text = ''
+  tables = []
 }
 
 class DatabaseState extends BaseState<Database> {}
