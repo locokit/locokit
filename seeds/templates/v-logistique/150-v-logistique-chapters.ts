@@ -1,8 +1,20 @@
 import * as Knex from "knex";
+import { GROUPS } from "./100-v-logistique-group";
+
+export const WORKSPACE = 'eaddde8c-1de4-4e5e-960a-3872907475e5';
+
+export const CHAPTERS = {
+  ADMIN:'4336c4a8-3862-4846-b72d-6838b74051b6',
+  ROZO:'d7bb8c43-e96f-442c-96ae-34ab61132504',
+  MORIO:'51f2f984-5dbb-456d-a795-aabe83744e50',
+  PROVIDER:'8da8f312-27cf-4810-a7e5-9430823eed29',
+  RECIPIENT:'dc1a1763-7786-4876-8b7d-2e65f772e658'
+}
+
 
 export async function seed(knex: Knex): Promise<any> {
   await knex("workspace").insert([{
-    id: 'eaddde8c-1de4-4e5e-960a-3872907475e5',
+    id: WORKSPACE,
     text: 'v-logistique'
   }])
 
@@ -10,25 +22,25 @@ export async function seed(knex: Knex): Promise<any> {
    * Chapters
    */
   await knex("chapter").insert([{
-    id: '8da8f312-27cf-4810-a7e5-9430823eed29',
+    id: CHAPTERS.PROVIDER,
     text: 'Fournisseur',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5'
+    workspace_id: WORKSPACE
   }, {
-    id: 'dc1a1763-7786-4876-8b7d-2e65f772e658',
+    id: CHAPTERS.RECIPIENT,
     text: 'Bénéficiaire',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5'
+    workspace_id: WORKSPACE
   }, {
-    id: '4336c4a8-3862-4846-b72d-6838b74051b6',
+    id: CHAPTERS.ADMIN,
     text: 'v-logistique',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5'
+    workspace_id: WORKSPACE
   }, {
-    id: 'd7bb8c43-e96f-442c-96ae-34ab61132504',
+    id: CHAPTERS.ROZO,
     text: 'Rozo',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5'
+    workspace_id: WORKSPACE
   }, {
-    id: '51f2f984-5dbb-456d-a795-aabe83744e50',
+    id: CHAPTERS.MORIO,
     text: 'Morio',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5'
+    workspace_id: WORKSPACE
   }])
 
   /**
@@ -37,59 +49,59 @@ export async function seed(knex: Knex): Promise<any> {
   await knex("page").insert([{
     id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee',
     text: 'Usage vélos',
-    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+    chapter_id: CHAPTERS.RECIPIENT
   }, {
     id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d',
     text: 'Assistance',
-    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+    chapter_id: CHAPTERS.RECIPIENT
   }, {
     id: 'f9bdf57a-de4d-4476-a765-84e6802d1342',
     text: 'Messagerie',
-    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+    chapter_id: CHAPTERS.RECIPIENT
   }, {
     id: '596848de-1287-4b36-a8db-1cd4c228e468',
     text: 'Sensibilisation formation',
-    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+    chapter_id: CHAPTERS.RECIPIENT
   }, {
     id: '53646407-caf7-4dd4-9422-edd378dd647d',
     text: 'Gestion flotte vélos',
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }, {
     id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc',
     text: 'Maintenances préventives',
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }, {
     id: '8bcfe997-4535-457b-8743-4ab02244f50c',
     text: 'Maintenances curatives',
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }, {
     id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb',
     text: 'Informations prestataires',
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }, {
     id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01',
     text: 'Messagerie',
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }, {
     id: 'b23c29f9-ecfd-4f63-9f10-9b919e6a752f',
     text: 'Stock vélos',
-    chapter_id: '4336c4a8-3862-4846-b72d-6838b74051b6'
+    chapter_id: CHAPTERS.ADMIN
   }, {
     id: '6d177b3f-a613-4557-afce-a0db2b4e980b',
     text: 'Pré-bénéficiaires / bénéficiaires',
-    chapter_id: '4336c4a8-3862-4846-b72d-6838b74051b6'
+    chapter_id: CHAPTERS.ADMIN
   }, {
     id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d',
     text: 'Rozo',
-    chapter_id: '4336c4a8-3862-4846-b72d-6838b74051b6'
+    chapter_id: CHAPTERS.ADMIN
   }, {
     id: '23453d24-c2bb-4ee8-9bb1-638512e43b81',
     text: 'Sensibilisation Formation Assistance',
-    chapter_id: '4336c4a8-3862-4846-b72d-6838b74051b6'
+    chapter_id: CHAPTERS.ADMIN
   }, {
     id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1',
     text: 'Messagerie',
-    chapter_id: '4336c4a8-3862-4846-b72d-6838b74051b6'
+    chapter_id: CHAPTERS.ADMIN
   }])
 
   /**
@@ -197,25 +209,25 @@ export async function seed(knex: Knex): Promise<any> {
    * Workspace group associations
    */
   await knex("group_has_workspace").insert([{
-    group_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5',
+    group_id: GROUPS.ADMIN,
+    workspace_id: WORKSPACE,
     role: 'OWNER',
     permission: null
   }, {
-    group_id: '895ec967-fa3b-4710-82e7-b406e62f657d',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5',
+    group_id: GROUPS.RECIPIENT,
+    workspace_id: WORKSPACE,
     role: 'MEMBER',
     permission: JSON.stringify([
       'VIEW_READ_2'
     ]),
-    chapter_id: 'dc1a1763-7786-4876-8b7d-2e65f772e658'
+    chapter_id: CHAPTERS.RECIPIENT
   }, {
-    group_id: 'd39f102b-398a-4d51-9680-3c479abdda73',
-    workspace_id: 'eaddde8c-1de4-4e5e-960a-3872907475e5',
+    group_id: GROUPS.PROVIDER,
+    workspace_id: WORKSPACE,
     role: 'MEMBER',
     permission: JSON.stringify([
       'VIEW_READ_1'
     ]),
-    chapter_id: '8da8f312-27cf-4810-a7e5-9430823eed29'
+    chapter_id: CHAPTERS.PROVIDER
   }])
 };
