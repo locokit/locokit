@@ -19,42 +19,40 @@ const routes: Array<RouteConfig> = [
     meta: {
       needHeader: false
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.PROFILE,
     name: 'Profile',
     component: Profile,
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.WORKSPACE,
     name: 'WorkspaceList',
     component: WorkspaceList,
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
+    redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION
+  }, {
+    name: 'WorkspaceVisualization',
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
-    name: 'Workspace',
     component: Workspace,
     props: true,
-    children: [
-      {
-        path: 'page/:pageId',
-        props: true,
-        component: Page
-      }
-    ],
+    children: [{
+      name: 'Page',
+      path: 'page/:pageId',
+      props: true,
+      component: Page
+    }],
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId',
-    name: 'Database',
+    name: 'WorkspaceDatabase',
     component: Database,
     props: true,
     meta: {
