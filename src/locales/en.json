@@ -27,6 +27,10 @@
       "noChapter": "No chapter to display",
       "errorTypeBlock": "This {blockType} block type does not exist.",
       "errorUnknownTypeBlock": "The block type does not exist."
+    },
+    "databases": {
+      "title": "Database",
+      "noDatabase": "No database created. Please create one first."
     }
   },
   "error": {

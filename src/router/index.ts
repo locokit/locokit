@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import Workspace from '../views/Workspace.vue'
 import WorkspaceList from '../views/WorkspaceList.vue'
+import Database from '../views/Database.vue'
 import Profile from '../views/Profile.vue'
 import Page from '@/views/Page.vue'
 import { ROUTES_PATH } from './paths'
@@ -18,35 +19,42 @@ const routes: Array<RouteConfig> = [
     meta: {
       needHeader: false
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.PROFILE,
     name: 'Profile',
     component: Profile,
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.WORKSPACE,
     name: 'WorkspaceList',
     component: WorkspaceList,
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
-    name: 'Workspace',
+    redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION
+  }, {
+    name: 'WorkspaceVisualization',
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
     component: Workspace,
     props: true,
-    children: [
-      {
-        path: 'page/:pageId',
-        props: true,
-        component: Page
-      }
-    ],
+    children: [{
+      name: 'Page',
+      path: 'page/:pageId',
+      props: true,
+      component: Page
+    }],
+    meta: {
+      needAuthentication: true
+    }
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId',
+    name: 'WorkspaceDatabase',
+    component: Database,
+    props: true,
     meta: {
       needAuthentication: true
     }

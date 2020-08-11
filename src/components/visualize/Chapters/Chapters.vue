@@ -58,7 +58,7 @@ export default {
           {
             id,
             label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}/page/${id}`
+            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`
           }
         ))
         return (
