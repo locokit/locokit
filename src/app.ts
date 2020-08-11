@@ -51,6 +51,18 @@ app.configure(swagger({
         "Please use this swagger to test your ideas",
       version: process.env.npm_version || 'unknown',
     },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: "JWT",
+        }
+      }
+    },
+    security: [{ 
+      BearerAuth: []
+    }]
   },
   uiIndex: true,
   defaults: {

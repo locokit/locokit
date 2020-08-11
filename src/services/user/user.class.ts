@@ -22,6 +22,9 @@ export class User extends Service {
       description: 'A service to send and receive users',
       operations: {
         get: {
+          security: [{
+            BearerAuth: []
+          }],
           description: 'Retrieves a single resource with the given id from the service.',
           parameters:[{
             description: `User id`,
