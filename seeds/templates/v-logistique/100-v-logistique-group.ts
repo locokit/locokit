@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs'
 export const GROUPS = {
   ADMIN: '163c21e6-5339-4748-903f-8c77e21314cf',
   PROVIDER: 'd39f102b-398a-4d51-9680-3c479abdda73',
-  RECIPIENT: '895ec967-fa3b-4710-82e7-b406e62f657d'
+  RECIPIENT: '895ec967-fa3b-4710-82e7-b406e62f657d',
+  MORIO: 'cee8d0de-f9f1-45c0-a03d-28d30890a3d6'
 }
 
 export async function seed(knex: Knex): Promise<any> {
@@ -65,6 +66,14 @@ export async function seed(knex: Knex): Promise<any> {
       email: "cyclelab@makina-corpus.net",
       password: hashPassword,
       profile: "USER"
+    },
+    {
+      id: 9,
+      first_name: "Jean",
+      last_name: "VENET",
+      email: "jean@morio.co",
+      password: hashPassword,
+      profile: "USER"
     }
   ]);
   await knex("group").insert([
@@ -80,6 +89,10 @@ export async function seed(knex: Knex): Promise<any> {
       id: GROUPS.ADMIN,
       name: "Admin",
     },
+    {
+      id: GROUPS.MORIO,
+      name: "Morio"
+    }
   ]);
   await knex("user_has_group").insert([
     // {
