@@ -1,6 +1,6 @@
 {
-  "host": "localhost",
-  "port": 3030,
+  "host": "LCK_HOST",
+  "port": "LCK_PORT",
   "public": "../public/",
   "paginate": {
     "default": 10,
@@ -38,6 +38,6 @@
   },
   "postgres": {
     "client": "pg",
-    "connection": "postgres://postgres:pouicpouic@localhost:5433/postgres"
+    "connection": "LCK_DATABASE_URL"
   }
 }
