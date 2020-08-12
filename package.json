@@ -59,6 +59,7 @@
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "feathers-hooks-common": "^5.0.3",
     "feathers-objection": "^5.5.2",
     "feathers-swagger": "^1.2.1",
