@@ -8,10 +8,11 @@ export async function seed(knex: Knex): Promise<any> {
   await knex("table_row").insert([{
     id: '9df5d11e-a5a1-4ba8-94bd-c399944c9030',
     text: "Bénéficiaire A",
-    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    table_id: TABLES.PERSON.ID,
     data: JSON.stringify({
-      'be137241-f97f-4fb9-9220-36d5c6c0c1af': "Bénéficiaire A",
-      'b93546a3-4459-40ed-9a76-fdcc45966479': {
+      [TABLES.PERSON.COLUMNS.FIRSTNAME]: "Prénom A",
+      [TABLES.PERSON.COLUMNS.LASTNAME]: "Bénéficiaire A",
+      [TABLES.PERSON.COLUMNS.USER]: {
         reference: 5,
         value: "Bénéficiaire A"
       }
@@ -19,13 +20,23 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: 'b258a1ee-cc9d-4d18-a6e9-553ed192e961',
     text: "Bénéficiaire B",
-    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    table_id: TABLES.PERSON.ID,
     data: JSON.stringify({
-      'be137241-f97f-4fb9-9220-36d5c6c0c1af': "Bénéficiaire B",
-      'b93546a3-4459-40ed-9a76-fdcc45966479': {
+      [TABLES.PERSON.COLUMNS.FIRSTNAME]: "Prénom B",
+      [TABLES.PERSON.COLUMNS.LASTNAME]: "Bénéficiaire B",
+      [TABLES.PERSON.COLUMNS.USER]: {
         reference: 6,
         value: "Bénéficiaire B"
       }
+    })
+  }, {
+    id: '345f571b-b1df-4e8d-a636-e2121ba8ecfb',
+    text: "Hervé LECOQ",
+    table_id: TABLES.PERSON.ID,
+    data: JSON.stringify({
+      [TABLES.PERSON.COLUMNS.FIRSTNAME]: "Hervé",
+      [TABLES.PERSON.COLUMNS.LASTNAME]: "LECOQ",
+      [TABLES.PERSON.COLUMNS.USER]: null
     })
   }])
   /**
@@ -73,28 +84,32 @@ export async function seed(knex: Knex): Promise<any> {
     text: "Traceur n° 300FBF",
     table_id: TABLES.MORIO_TRACER.ID,
     data: JSON.stringify({
-      [TABLES.MORIO_TRACER.COLUMNS.REF]: '300FBF'
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '300FBF',
+      [TABLES.MORIO_TRACER.COLUMNS.STATUS]: TABLES.MORIO_TRACER.DATA.STATUS_INPROGRESS
     })
   }, {
     id: '61074bd7-c224-4d7b-99a1-5cecfbd23728',
     text: "Traceur n° 314AA5",
     table_id: TABLES.MORIO_TRACER.ID,
     data: JSON.stringify({
-      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314AA5'
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314AA5',
+      [TABLES.MORIO_TRACER.COLUMNS.STATUS]: TABLES.MORIO_TRACER.DATA.STATUS_WORKING
     })
   }, {
     id: 'd8cf9222-9fd6-406d-8b90-1b443e89aa7c',
     text: "Traceur n° 314A6A",
     table_id: TABLES.MORIO_TRACER.ID,
     data: JSON.stringify({
-      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314A6A'
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314A6A',
+      [TABLES.MORIO_TRACER.COLUMNS.STATUS]: TABLES.MORIO_TRACER.DATA.STATUS_INPROGRESS
     })
   }, {
     id: '769152a2-ff39-4186-892e-2fdd111e012b',
     text: "Traceur n° 314C05",
     table_id: TABLES.MORIO_TRACER.ID,
     data: JSON.stringify({
-      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314C05'
+      [TABLES.MORIO_TRACER.COLUMNS.REF]: '314C05',
+      [TABLES.MORIO_TRACER.COLUMNS.STATUS]: TABLES.MORIO_TRACER.DATA.STATUS_STOLEN
     })
   }])
   /**
@@ -105,60 +120,60 @@ export async function seed(knex: Knex): Promise<any> {
     text: "Vélo n° XXXX",
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
     data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "VCAE",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': {
+      [TABLES.BICYCLE.COLUMNS.NAME]: "VCAE",
+      [TABLES.BICYCLE.COLUMNS.PERSON]: {
         reference: 5,
         value: 'Bénéficiaire A'
       },
-      'bde4bbbd-2584-447f-acff-f434f53619da': {
+      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
         reference: 4,
         value: 'AMSTERDAMAIR'
       },
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_XXXX',
-      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'XXXX',
-      '3a659ea1-446f-4755-8db9-583a204279cc': 1,
-      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '10/10/2020',
-      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '10/07/2020'
+      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_XXXX',
+      [TABLES.BICYCLE.COLUMNS.REF]: 'XXXX',
+      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_IN_MAINTENANCE,
+      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
+      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '10/07/2020'
     })
   }, {
     id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
     text: "Vélo n° YYYY",
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
     data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "VAE",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': {
+      [TABLES.BICYCLE.COLUMNS.NAME]: "VAE",
+      [TABLES.BICYCLE.COLUMNS.PERSON]: {
         reference: 5,
         value: 'Bénéficiaire A'
       },
-      'bde4bbbd-2584-447f-acff-f434f53619da': {
+      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
         reference: 3,
         value: 'CYCLABLE ENTREPRISE'
       },
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_YYYY',
-      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'YYYY',
-      '3a659ea1-446f-4755-8db9-583a204279cc': 2,
-      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '01/10/2020',
-      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '01/07/2020'
+      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_YYYY',
+      [TABLES.BICYCLE.COLUMNS.REF]: 'YYYY',
+      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_IN_USE,
+      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '01/10/2020',
+      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '01/07/2020'
     })
   }, {
     id: '5704c8be-0b7f-409d-9baf-e5cc7afb5df9',
     text: "Vélo n° ZZZZ",
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
     data: JSON.stringify({
-      'e065323c-1151-447f-be0f-6d2728117b38': "VCAE",
-      '360a9a83-d046-4b64-a39e-944d2bfbd9c5': {
+      [TABLES.BICYCLE.COLUMNS.NAME]: "VCAE",
+      [TABLES.BICYCLE.COLUMNS.PERSON]: {
         reference: 6,
         value: 'Bénéficiaire B'
       },
-      'bde4bbbd-2584-447f-acff-f434f53619da': {
+      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
         reference: 3,
         value: 'CYCLABLE ENTREPRISE'
       },
-      'f114393e-eece-4e8f-8893-7c31dde09690': 'traceur_ZZZZ',
-      'b712959e-3808-4bbc-b86e-17ab2ded8c6d': 'ZZZZ',
-      '3a659ea1-446f-4755-8db9-583a204279cc': 3,
-      '80780a95-d709-43ec-b4f3-d6b5cb5dd31e': '16/10/2020',
-      '14a772f2-c161-4931-a8e5-bfb3acaaf42d': '16/07/2020'
+      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_ZZZZ',
+      [TABLES.BICYCLE.COLUMNS.REF]: 'ZZZZ',
+      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_STORED,
+      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '16/10/2020',
+      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '16/07/2020'
     })
   }])
 };
