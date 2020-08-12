@@ -42,6 +42,7 @@ app.configure(socketio());
 app.configure(objection);
 
 app.configure(swagger({
+  openApiVersion: 3,
   specs: {
     info: {
       title: 'LoCoKit API platform',
@@ -50,8 +51,37 @@ app.configure(swagger({
         "Please use this swagger to test your ideas",
       version: process.env.npm_version || 'unknown',
     },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: "JWT",
+        }
+      }
+    },
+    security: [{ 
+      BearerAuth: []
+    }]
   },
-  uiIndex: true
+  uiIndex: true,
+  defaults: {
+    schemasGenerator(service, model, modelName) {
+      return {
+        [model]: service.model,
+        [`${model}`]: {
+          title: `${modelName}`,
+          type: 'object',
+          items: { $ref: `#/components/schemas/${model}` }
+        },
+        [`${model}_list`]: {
+          title: `${modelName} list`,
+          type: 'array',
+          items: { $ref: `#/components/schemas/${model}_list` }
+        }        
+      };
+    }
+  }
 }));
 
 // Configure other middleware (see `middleware/index.js`)
