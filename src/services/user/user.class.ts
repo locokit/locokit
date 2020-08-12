@@ -28,7 +28,7 @@ export class User extends Service {
           description: 'Retrieves a single resource with the given id from the service.',
           parameters:[{
             description: `User id`,
-            in: 'query',
+            in: 'path',
             required: true,
             name: 'id',
             schema: {type: 'integer'}
