@@ -32,10 +32,15 @@ stages:
     - unzip ${FRONT_FILE_PATH}
 
 test:
+  image: docker:stable
   tags: [shared-ci-docker]
   stage: quality
+  services:
+    - docker:dind
   script:
+    - docker-compose up -d
     - npm ci
+    - npm run migrate:latest
     - npm test
 
 build-docker:
