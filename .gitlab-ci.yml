@@ -41,7 +41,7 @@ test:
     POSTGRES_PASSWORD: pouicpouic
     LCK_PORT: 3030
     LCK_HOST: localhost
-    LCK_DATABASE_URL: postgres://postgres:pouicpouic@localhost:5432/postgres
+    LCK_DATABASE_URL: postgres://postgres:pouicpouic@postgis-postgis:5432/postgres
     OBJECTION_DEBUG: 'true'
   services:
     - postgis/postgis:12-3.0
