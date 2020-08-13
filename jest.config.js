@@ -5,5 +5,9 @@ module.exports = {
     'ts-jest': {
       diagnostics: false
     }
-  }
+  },
+  collectCoverageFrom: [
+    'src/**/*.{js,ts}',
+    '!src/**/*.test.ts',
+  ],
 };
