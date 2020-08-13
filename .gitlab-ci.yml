@@ -35,8 +35,12 @@ test:
   image: docker:stable
   tags: [shared-ci-docker]
   stage: quality
+  variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: pouicpouic
   services:
-    - docker:dind
+    - postgis/postgis:12-3.0
   script:
     - docker-compose up -d
     - npm ci
