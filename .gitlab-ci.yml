@@ -20,10 +20,6 @@ stages:
   image: docker:stable
   tags: [shared-ci-docker]
   stage: build
-  only:
-    - tags
-    - merge_requests
-    - master
   services:
     - docker:dind
   before_script:
