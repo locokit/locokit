@@ -39,6 +39,7 @@ test:
     POSTGRES_DB: postgres
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: pouicpouic
+    POSTGRES_HOST: lck-db
   services:
     - postgis/postgis:12-3.0
   script:
