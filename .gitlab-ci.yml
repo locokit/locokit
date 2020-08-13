@@ -1,5 +1,7 @@
+image: node:14
+
 stages:
-  - test
+  - quality
   - build
   - deploy
 
@@ -18,10 +20,6 @@ stages:
   image: docker:stable
   tags: [shared-ci-docker]
   stage: build
-  only:
-    - tags
-    - merge_requests
-    - master
   services:
     - docker:dind
   before_script:
@@ -33,13 +31,25 @@ stages:
     - ls -al
     - unzip ${FRONT_FILE_PATH}
 
-# test:
-#   image: node:14
-#   tags: [shared-ci-docker]
-#   stage: test
-#   script:
-#     - npm ci
-#     - npm test
+test:
+  image: node:14
+  tags: [shared-ci-docker]
+  stage: quality
+  variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: pouicpouic
+    LCK_PORT: 3030
+    LCK_HOST: localhost
+    LCK_DATABASE_URL: postgres://postgres:pouicpouic@lck-db:5432/postgres
+    OBJECTION_DEBUG: 'true'
+  services:
+    - name: postgis/postgis:12-3.0
+      alias: lck-db
+  script:
+    - npm ci
+    - npm run migrate:latest
+    - npm test
 
 build-docker:
   <<: *build_definition

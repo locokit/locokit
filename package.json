@@ -27,7 +27,7 @@
     "test": "npm run compile && npm run jest",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
-    "jest": "jest  --forceExit",
+    "jest": "jest --forceExit --coverage",
     "jest:watch": "jest --watch",
     "compile": "shx rm -rf lib/ && tsc",
     "migrate:make": "knex migrate:make",

@@ -1,5 +1,9 @@
 # Low-Code Kit API Platform
 
+[![pipeline status](https://gitlab.makina-corpus.net/lck/lck-api/badges/master/pipeline.svg)](https://gitlab.makina-corpus.net/lck/lck-api/-/commits/master)
+[![coverage report](https://gitlab.makina-corpus.net/lck/lck-api/badges/master/coverage.svg)](https://gitlab.makina-corpus.net/lck/lck-api/-/commits/master)
+
+
 The backend platform for the Low-Code Kit platform.
 
 ## About
