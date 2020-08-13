@@ -11,4 +11,8 @@ module.exports = {
     '!src/**/*.test.ts',
     '!src/declarations.d.ts',
   ],
+  testMatch: [
+    '**/src/*.test.ts',
+    '**/src/**/*.test.ts'
+  ],
 };
