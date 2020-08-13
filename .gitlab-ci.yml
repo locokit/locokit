@@ -32,7 +32,7 @@ stages:
     - unzip ${FRONT_FILE_PATH}
 
 test:
-  image: docker:stable
+  image: node:14
   tags: [shared-ci-docker]
   stage: quality
   variables:
@@ -42,7 +42,6 @@ test:
   services:
     - postgis/postgis:12-3.0
   script:
-    - docker-compose up -d
     - npm ci
     - npm run migrate:latest
     - npm test
