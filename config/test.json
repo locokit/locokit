@@ -1,6 +1,6 @@
 {
   "postgres": {
     "client": "pg",
-    "connection": "postgres://postgres:pouicpouic@lck-db:5432/postgres"
+    "connection": "LCK_DATABASE_URL"
   }
 }
