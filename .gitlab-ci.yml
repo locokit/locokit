@@ -33,13 +33,13 @@ stages:
     - ls -al
     - unzip ${FRONT_FILE_PATH}
 
-# test:
-#   image: node:14
-#   tags: [shared-ci-docker]
-#   stage: test
-#   script:
-#     - npm ci
-#     - npm test
+test:
+  image: node:14
+  tags: [shared-ci-docker]
+  stage: test
+  script:
+    - npm ci
+    - npm test
 
 build-docker:
   <<: *build_definition

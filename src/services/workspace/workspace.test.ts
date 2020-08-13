@@ -6,9 +6,4 @@ describe('\'workspace\' service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('return the workspace available for the current authenticated user', () => {
-
-  })
-
-  it('')
 });
