@@ -1,4 +1,10 @@
-# lck-front
+# Low-Code Kit Frontend Platform
+
+[![pipeline status](https://gitlab.makina-corpus.net/lck/lck-front/badges/master/pipeline.svg)](https://gitlab.makina-corpus.net/lck/lck-front/-/commits/master)
+[![coverage report](https://gitlab.makina-corpus.net/lck/lck-front/badges/master/coverage.svg)](https://gitlab.makina-corpus.net/lck/lck-front/-/commits/master)
+
+The frontend for the Low-Code Kit platform.
+
 
 ## Project setup
 ```
