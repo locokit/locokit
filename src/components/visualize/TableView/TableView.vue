@@ -61,20 +61,19 @@ export default {
       if (!this.block.content) return []
       return this.block.content.data.map(d => {
         const currentData = {}
-        Object.keys(d.data).forEach(currentColumnId => {
-          let currentValueForDisplay = d.data[currentColumnId]
-          const column = this.block.definition.columns.find(c => c.id === currentColumnId)
-          switch (column.column_type_id) {
+        this.block.definition.columns.forEach(currentColumn => {
+          let currentValueForDisplay = d.data[currentColumn.id] || ''
+          if (currentValueForDisplay === '') return
+          switch (currentColumn.column_type_id) {
             case 5:
             case 6:
             case 7:
-            case 8:
-              currentValueForDisplay = d.data[currentColumnId].value
+              currentValueForDisplay = d.data[currentColumn.id].value
               break
             case 9:
-              currentValueForDisplay = column.settings.values[d.data[currentColumnId]].label
+              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]].label
           }
-          currentData[currentColumnId] = currentValueForDisplay
+          currentData[currentColumn.id] = currentValueForDisplay
         })
         return currentData
       })
