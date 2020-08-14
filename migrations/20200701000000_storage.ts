@@ -130,22 +130,33 @@ export async function up(knex: Knex): Promise<any> {
     table.jsonb('filter')
     table.boolean('visible')
   })
-}
 
+  .createTable('table_column_relation', table => {
+    table.timestamp('createdAt').defaultTo('now()');
+    table.timestamp('updatedAt').defaultTo('now()');
+    table.jsonb('settings')
+    table.uuid('column_from_id').unsigned()
+    table.foreign('column_from_id', 'FK_tcd_column_from_id').references('id').inTable('table_column')
+    table.uuid('column_to_id').unsigned()
+    table.foreign('column_to_id', 'FK_tcd_column_to_id').references('id').inTable('table_column')
+    table.primary(['column_from_id', 'column_to_id'])
+  })
+}
 
 export async function down(knex: Knex): Promise<any> {
   return knex.schema
-      .dropTable("table_view_has_table_column")
-      .dropTable("table_view")
-      .dropTable("table_row")
-      .dropTable("table_column")
-      .dropTable("column_type")
-      .dropTable("table")
-      .dropTable("database")
-      .dropTable("group_has_workspace")
-      .dropTable("block")
-      .dropTable("container")
-      .dropTable("page")
-      .dropTable("chapter")
-      .dropTable("workspace");
+      .dropTableIfExists("table_column_relation")
+      .dropTableIfExists("table_view_has_table_column")
+      .dropTableIfExists("table_view")
+      .dropTableIfExists("table_row")
+      .dropTableIfExists("table_column")
+      .dropTableIfExists("column_type")
+      .dropTableIfExists("table")
+      .dropTableIfExists("database")
+      .dropTableIfExists("group_has_workspace")
+      .dropTableIfExists("block")
+      .dropTableIfExists("container")
+      .dropTableIfExists("page")
+      .dropTableIfExists("chapter")
+      .dropTableIfExists("workspace");
 }

@@ -5,12 +5,42 @@ import { Application } from '../declarations';
 import { table as LckTable } from './table.model'
 import { columnType as LckColumnType } from './columnType.model'
 
+export const glossary = {
+  COLUMN_TYPE: {
+    NUMBER: 1,
+    DATE: 2,
+    STRING: 3,
+    FLOAT: 4,
+    USER: 5,
+    GROUP: 6,
+    RELATION_BETWEEN_TABLES: 7,
+    LOOKED_UP_COLUMN: 8,
+    SINGLE_SELECT: 9,
+    MULTI_SELECT: 10
+  }
+}
+
 export class column extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
   text: string = 'unknown text';
   data: Object = {};
+  settings: {
+    formula?: string,
+    query?: {
+      select: string[],
+      where: Object,
+      sort: { field: string, order: string}[],
+      limit: number,
+      skip: number,
+      aggregate: string // count, avg, sum, min, max, count distinct
+    },
+    table_to_id?: string,
+    column_to_id?: string,
+    column_from_id?: string,
+  } = {};
+  table_id!: string;
   column_type_id!: number;
 
   static get tableName() {
@@ -39,7 +69,7 @@ export class column extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
-          from: 'table_column.tableid',
+          from: 'table_column.table_id',
           to: 'table.id'
         }
       },

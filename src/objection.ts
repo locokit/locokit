@@ -7,7 +7,7 @@ export default function (app: Application) {
     client,
     connection,
     useNullAsDefault: false,
-    // debug: true
+    debug: process.env.OBJECTION_DEBUG === 'true' || false,
   });
 
   Model.knex(knex);

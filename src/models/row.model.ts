@@ -36,7 +36,7 @@ export class row extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
-          from: 'row.tableid',
+          from: 'row.table_id',
           to: 'table.id'
         }
       },
@@ -53,22 +53,5 @@ export class row extends Model {
 }
 
 export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('row').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('row', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt').defaultTo('now()');
-  //       table.timestamp('updatedAt').defaultTo('now()');
-  //       table.jsonb('data')
-  //     })
-  //       .then(() => console.log('Created row table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating row table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating row table', e)); // eslint-disable-line no-console
-
   return row;
 }
