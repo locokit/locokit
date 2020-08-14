@@ -48,7 +48,8 @@ export async function retrieveTableColumns (tableId: string) {
   try {
     const result = await lckClient.service('column').find({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { table_id: tableId }
+      query: { table_id: tableId, $limit: 50 }
+
     })
     return result.data
   } catch (error) {
