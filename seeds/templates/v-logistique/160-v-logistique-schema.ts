@@ -1,8 +1,8 @@
-import * as Knex from "knex";
-import { glossary } from "../../core/15-glossary";
-import { WORKSPACE } from "./150-v-logistique-chapters";
+import * as Knex from 'knex'
+import { glossary } from '../../core/15-glossary'
+import { WORKSPACE } from './150-v-logistique-chapters'
 
-export const DATABASE = '895ec967-fa3b-4710-82e7-b406e62f657d';
+export const DATABASE = '895ec967-fa3b-4710-82e7-b406e62f657d'
 
 export const TABLES = {
   PROVIDER: {
@@ -52,6 +52,17 @@ export const TABLES = {
       NB_VCAE_TRI: '85c9ffd5-5c47-4c5f-b729-fc9ad33c1eb4',
     }
   },
+  ROZO: {
+    ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
+    COLUMNS: {
+      NAME: '7a9c6160-e069-11ea-87d0-0242ac130003',
+      TYPE: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
+      NUM_DEMAND: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
+      DATE_DEMAND: '6c20ca98-e08e-11ea-87d0-0242ac130003',
+      STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
+      STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
+    }
+  },
   MORIO_TRACER: {
     ID: '3370bb91-c699-4f77-a970-ad574649915c',
     COLUMNS: {
@@ -73,22 +84,24 @@ export const TABLES = {
       VALUE: 'f5a2692d-b1fe-4cd6-8678-33f42a7cc2ef'
     }
   }
-
 }
 
-export async function seed(knex: Knex): Promise<any> {
+export async function seed (knex: Knex): Promise<any> {
   /**
    * Database
    */
-  await knex("database").insert([{
-    id: DATABASE,
-    text: 'Base principale',
-    workspace_id: WORKSPACE
-  }])
+  await knex('database').insert([
+    {
+      id: DATABASE,
+      text: 'Base principale',
+      workspace_id: WORKSPACE
+    }
+  ])
 
   /**
    * Tables
    */
+
   /**
    * Table Traceurs Morio
    */
@@ -280,7 +293,7 @@ export async function seed(knex: Knex): Promise<any> {
           backgroundColor: '#ffd8b2'
         }
       }
-    }
+    },
   }, {
     id: TABLES.BICYCLE.COLUMNS.BRAND,
     text: 'Marque',
@@ -334,4 +347,93 @@ export async function seed(knex: Knex): Promise<any> {
     }
   }])
 
-};
+  /**
+   * Table Rozo
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.ROZO.ID,
+      text: 'Rozo',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.ROZO.COLUMNS.NAME,
+      text: 'Bénéficiaire',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER,
+      settings: {
+        tableId: TABLES.PERSON.ID
+      }
+    }, {
+      id: TABLES.ROZO.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.GROUP,
+      settings: {
+        tableId: TABLES.PERSON.ID
+      }
+    }, {
+      id: TABLES.ROZO.COLUMNS.NUM_DEMAND,
+      text: 'Numéro de demande',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING,
+    }, {
+      id: TABLES.ROZO.COLUMNS.DATE_DEMAND,
+      text: 'Date de demande',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE,
+    }, {
+      id: TABLES.ROZO.COLUMNS.STEP,
+      text: 'Étape programme',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Premier contact',
+            color: '#ef1'
+          },
+          2: {
+            label: 'Questionnaire',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Entretien téléphonique',
+            color: '#ef1'
+          },
+          4: {
+            label: 'Commande vélo&co',
+            color: '#ef1'
+          },
+          5: {
+            label: 'Livré',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.ROZO.COLUMNS.STATUS,
+      text: 'État',
+      table_id: TABLES.ROZO.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'À faire',
+            color: '#ef1'
+          },
+          2: {
+            label: 'En cours',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Fait',
+            color: '#ef1'
+          }
+        }
+      }
+    },
+  ])
+}

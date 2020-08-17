@@ -39,6 +39,7 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.PERSON.COLUMNS.USER]: null
     })
   }])
+
   /**
    * Fournisseurs
    */
@@ -47,8 +48,8 @@ export async function seed(knex: Knex): Promise<any> {
     text: "CYCLABLE ENTREPRISE",
     table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
     data: JSON.stringify({
-      '17ab6b13-5412-483e-ac7d-a9add38225f1': "CYCLABLE ENTREPRISE",
-      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+      [TABLES.PROVIDER.COLUMNS.NAME]: "CYCLABLE ENTREPRISE",
+      [TABLES.PROVIDER.COLUMNS.USER]: {
         reference: 3,
         value: 'Fournisseur CYCLABLE ENTREPRISE'
       }
@@ -58,8 +59,8 @@ export async function seed(knex: Knex): Promise<any> {
     text: "AMSTERDAMAIR",
     table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
     data: JSON.stringify({
-      '17ab6b13-5412-483e-ac7d-a9add38225f1': "AMSTERDAMAIR",
-      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+      [TABLES.PROVIDER.COLUMNS.NAME]: "AMSTERDAMAIR",
+      [TABLES.PROVIDER.COLUMNS.USER]: {
         reference: 4,
         value: 'Fournisseur AMSTERDAMAIR'
       }
@@ -69,13 +70,14 @@ export async function seed(knex: Knex): Promise<any> {
     text: "CYCLELAB",
     table_id: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
     data: JSON.stringify({
-      '17ab6b13-5412-483e-ac7d-a9add38225f1': "CYCLELAB",
-      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+      [TABLES.PROVIDER.COLUMNS.NAME]: "CYCLELAB",
+      [TABLES.PROVIDER.COLUMNS.USER]: {
         reference: 8,
         value: 'Fournisseur CYCLELAB'
       }
     })
   }])
+
   /**
    * Tracers
    */
@@ -112,6 +114,7 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.MORIO_TRACER.COLUMNS.STATUS]: TABLES.MORIO_TRACER.DATA.STATUS_STOLEN
     })
   }])
+
   /**
    * Vélos
    */
@@ -174,6 +177,29 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_STORED,
       [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '16/10/2020',
       [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '16/07/2020'
+    })
+  }])
+
+  /**
+   * Rozo
+   */
+  await knex("table_row").insert([{
+    id: 'bc280682-e093-11ea-87d0-0242ac130003',
+    text: "Prise en charge de la demande n°XXXX",
+    table_id: TABLES.ROZO.ID,
+    data: JSON.stringify({
+      [TABLES.ROZO.COLUMNS.NAME]: {
+        reference: 5,
+        value: 'Bénéficiaire A'
+      },
+      [TABLES.ROZO.COLUMNS.TYPE]: {
+        reference: 6,
+        value: 'Bénéficiaire'
+      },
+      [TABLES.ROZO.COLUMNS.NUM_DEMAND]: '42',
+      [TABLES.ROZO.COLUMNS.DATE_DEMAND]: '10/07/2020',
+      [TABLES.ROZO.COLUMNS.STEP]: 5,
+      [TABLES.ROZO.COLUMNS.STATUS]: 3,
     })
   }])
 };

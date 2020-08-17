@@ -1,5 +1,6 @@
 import * as Knex from "knex";
 import { GROUPS } from "./100-v-logistique-group";
+import { VIEWS } from './190-v-logistique-view'
 
 export const WORKSPACE = 'eaddde8c-1de4-4e5e-960a-3872907475e5';
 
@@ -131,6 +132,10 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Container messagerie bénéficiaire',
     page_id: 'f9bdf57a-de4d-4476-a765-84e6802d1342'
   }, {
+    id: '292d8b92-de2a-11ea-87d0-0242ac130003',
+    text: 'Container Rozo',
+    page_id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d'
+  }, {
     id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
     text: 'Container messagerie fournisseur',
     page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
@@ -178,6 +183,14 @@ export async function seed(knex: Knex): Promise<any> {
     type: 'TableView',
     settings: JSON.stringify({
       id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81'
+    })
+  }, {
+    id: '4ffcd80e-de2a-11ea-87d0-0242ac130003',
+    title: 'Liste des demandes',
+    container_id: '292d8b92-de2a-11ea-87d0-0242ac130003',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.ROZO
     })
   }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
