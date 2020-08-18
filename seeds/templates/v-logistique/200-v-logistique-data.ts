@@ -180,26 +180,52 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }])
 
+  // View Fournisseur
+
+  /**
+   * Flotte Vélos
+   */
+  await knex("table_row").insert([{
+    id: '04eb6854-3550-4406-ad51-9fc478409cc4',
+    text: "Vélo n° XXXX",
+    table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+    data: JSON.stringify({
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.TYPE]: "VCAE",
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.IDENTITY]: 'XXXX',
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND]: 'Trek',
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS]: 1,
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE]: '10/07/2020',
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.PROVIDER]: 'Prestataire',
+      [TABLES.PROVIDER_FLEET_BIKE.COLUMNS.RECIPIENT]: {
+        reference: 5,
+        value: 'Bénéficiaire A'
+      },
+    })
+  }])
+
+  // View V-Logistique
+
   /**
    * Rozo
    */
   await knex("table_row").insert([{
     id: 'bc280682-e093-11ea-87d0-0242ac130003',
     text: "Prise en charge de la demande n°XXXX",
-    table_id: TABLES.ROZO.ID,
+    table_id: TABLES.ROZO_REQUEST.ID,
     data: JSON.stringify({
-      [TABLES.ROZO.COLUMNS.NAME]: {
+      [TABLES.ROZO_REQUEST.COLUMNS.NAME]: {
         reference: 5,
         value: 'Bénéficiaire A'
       },
-      [TABLES.ROZO.COLUMNS.TYPE]: {
+      [TABLES.ROZO_REQUEST.COLUMNS.TYPE]: {
         reference: 6,
         value: 'Bénéficiaire'
       },
-      [TABLES.ROZO.COLUMNS.NUM_DEMAND]: '42',
-      [TABLES.ROZO.COLUMNS.DATE_DEMAND]: '10/07/2020',
-      [TABLES.ROZO.COLUMNS.STEP]: 5,
-      [TABLES.ROZO.COLUMNS.STATUS]: 3,
+      [TABLES.ROZO_REQUEST.COLUMNS.NUM_DEMAND]: '42',
+      [TABLES.ROZO_REQUEST.COLUMNS.DATE_DEMAND]: '10/07/2020',
+      [TABLES.ROZO_REQUEST.COLUMNS.STEP]: 5,
+      [TABLES.ROZO_REQUEST.COLUMNS.STATUS]: 3,
     })
   }])
 };

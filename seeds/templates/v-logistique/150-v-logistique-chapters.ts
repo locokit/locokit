@@ -150,7 +150,7 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
     type: 'TableView',
     settings: JSON.stringify({
-      id: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7'
+      id: VIEWS.PROVIDER_BICYCLE,
     })
   }, {
     id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',

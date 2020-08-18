@@ -34,6 +34,30 @@ export const TABLES = {
       STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983',
     }
   },
+  ROZO_REQUEST: {
+    ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
+    COLUMNS: {
+      NAME: '7a9c6160-e069-11ea-87d0-0242ac130003',
+      TYPE: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
+      NUM_DEMAND: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
+      DATE_DEMAND: '6c20ca98-e08e-11ea-87d0-0242ac130003',
+      STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
+      STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
+    }
+  },
+  PROVIDER_FLEET_BIKE: {
+    ID: 'b87f2bea-82c5-4cd5-9167-7deb587538a8',
+    COLUMNS: {
+      TYPE: '697276ff-a3d2-4e5d-bf1c-ae54edea74cf',
+      IDENTITY: '0217985c-7db9-409b-b364-ea887e9b1f24',
+      BRAND: 'a52653af-72a4-444f-b01e-abfae9405537',
+      STATUS: '6fa623ad-6a79-4631-a826-05f143e8c584',
+      MAINTENANCE_DATE: '69b82396-3fc3-46da-813a-d6dd81ed648c',
+      DELIVERY_ESTIMATED_DATE: '66874e11-5bcb-42f4-ba76-7e999462d746',
+      PROVIDER: 'de10bc0e-b4ed-4543-86ea-f7acbdd20ede',
+      RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
+    }
+  },
   PERSON: {
     ID: 'bb145d9f-0976-419d-9fef-bc15799d1624',
     COLUMNS: {
@@ -50,17 +74,6 @@ export const TABLES = {
       NB_VAE: '557be004-a527-4981-8fa7-66d1ea810df0',
       NB_VCAE_BI: 'f525f934-1115-414b-88fc-4b9591491cf5',
       NB_VCAE_TRI: '85c9ffd5-5c47-4c5f-b729-fc9ad33c1eb4',
-    }
-  },
-  ROZO: {
-    ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
-    COLUMNS: {
-      NAME: '7a9c6160-e069-11ea-87d0-0242ac130003',
-      TYPE: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
-      NUM_DEMAND: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
-      DATE_DEMAND: '6c20ca98-e08e-11ea-87d0-0242ac130003',
-      STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
-      STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
     }
   },
   MORIO_TRACER: {
@@ -347,47 +360,124 @@ export async function seed (knex: Knex): Promise<any> {
     }
   }])
 
+  // View Fournisseur
+
+  /**
+   * Table FLEET BIKE
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      text: 'Vélos',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.IDENTITY,
+      text: 'Identité',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND,
+      text: 'Marque',
+      table_id: TABLES.BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS,
+      text: 'État du vélo',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'En maintenance',
+            color: '#ef1'
+          },
+          2: {
+            label: 'En utilisation',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Stocké',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
+      text: 'Dernier entretien',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE,
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
+      text: 'Mise en service',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE,
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.PROVIDER,
+      text: 'Prestataire',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.RECIPIENT,
+      text: 'Bénéficiaire',
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER,
+      settings: {
+        tableId: TABLES.PERSON.ID
+      }
+    }
+  ])
+
+  // View V-Logistique
+
   /**
    * Table Rozo
    */
   await knex('table').insert([
     {
-      id: TABLES.ROZO.ID,
+      id: TABLES.ROZO_REQUEST.ID,
       text: 'Rozo',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.ROZO.COLUMNS.NAME,
+      id: TABLES.ROZO_REQUEST.COLUMNS.NAME,
       text: 'Bénéficiaire',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
         tableId: TABLES.PERSON.ID
       }
     }, {
-      id: TABLES.ROZO.COLUMNS.TYPE,
+      id: TABLES.ROZO_REQUEST.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.GROUP,
       settings: {
         tableId: TABLES.PERSON.ID
       }
     }, {
-      id: TABLES.ROZO.COLUMNS.NUM_DEMAND,
+      id: TABLES.ROZO_REQUEST.COLUMNS.NUM_DEMAND,
       text: 'Numéro de demande',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     }, {
-      id: TABLES.ROZO.COLUMNS.DATE_DEMAND,
+      id: TABLES.ROZO_REQUEST.COLUMNS.DATE_DEMAND,
       text: 'Date de demande',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.ROZO.COLUMNS.STEP,
+      id: TABLES.ROZO_REQUEST.COLUMNS.STEP,
       text: 'Étape programme',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -414,9 +504,9 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.ROZO.COLUMNS.STATUS,
+      id: TABLES.ROZO_REQUEST.COLUMNS.STATUS,
       text: 'État',
-      table_id: TABLES.ROZO.ID,
+      table_id: TABLES.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {

@@ -56,44 +56,47 @@ export async function seed(knex: Knex): Promise<any> {
     visible: true
   }])
 
+  // View Fournisseur
+
   /**
    * Vue Vélo fournisseur
    */
   await knex("table_view").insert([{
     id: VIEWS.PROVIDER_BICYCLE,
     text: 'Vélo fournisseur',
-    table_id: TABLES.BICYCLE.ID
+    table_id: TABLES.PROVIDER_FLEET_BIKE.ID
   }])
 
   await knex("table_view_has_table_column").insert([{
-    table_column_id: TABLES.BICYCLE.COLUMNS.NAME,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.TYPE,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.REF,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.IDENTITY,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.STATUS,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.PERSON,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.PROVIDER,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
-    filter: JSON.stringify({
-      $eq: "{userId}"
-    }),
-    visible: false
+    visible: true
   }, {
-    table_column_id: TABLES.BICYCLE.COLUMNS.LAST_TRACER_DATA,
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.PROVIDER,
+    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.RECIPIENT,
     table_view_id: VIEWS.PROVIDER_BICYCLE,
     visible: true
   }])
@@ -188,13 +191,16 @@ export async function seed(knex: Knex): Promise<any> {
     visible: true
   }])
 
+
+  // View V-Logistique
+
   /**
    * Vue ensemble rozo
    */
   await knex("table_view").insert([{
     id: VIEWS.ROZO,
     text: 'Ensemble Rozo',
-    table_id: TABLES.ROZO.ID
+    table_id: TABLES.ROZO_REQUEST.ID
   }])
 
   await knex("table_view_has_table_column").insert([{
