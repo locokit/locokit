@@ -2,6 +2,10 @@ import * as Knex from "knex";
 import { TABLES } from "./160-v-logistique-schema";
 
 export const VIEWS = {
+  PROVIDER: {
+    FLEET: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
+    MAINTENANCE: '574ba8d4-2054-4663-94db-d94b3c173dd5'
+  },
   RECIPIENT_BICYCLE: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
   PROVIDER_BICYCLE: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
   ALL_BICYCLE: '91d819b4-ff5d-498f-ae61-5796268607d0',
@@ -59,48 +63,86 @@ export async function seed(knex: Knex): Promise<any> {
   // View Fournisseur
 
   /**
-   * Vue Vélo fournisseur
+   * Vue flotte vélo
    */
   await knex("table_view").insert([{
-    id: VIEWS.PROVIDER_BICYCLE,
+    id: VIEWS.PROVIDER.FLEET,
     text: 'Vélo fournisseur',
     table_id: TABLES.PROVIDER_FLEET_BIKE.ID
   }])
 
   await knex("table_view_has_table_column").insert([{
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.TYPE,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.IDENTITY,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.PROVIDER,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }, {
     table_column_id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.RECIPIENT,
-    table_view_id: VIEWS.PROVIDER_BICYCLE,
+    table_view_id: VIEWS.PROVIDER.FLEET,
     visible: true
   }])
 
+  /**
+   * Vue maintenance vélo
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.PROVIDER.MAINTENANCE,
+    text: 'Vélo fournisseur',
+    table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TYPE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.IDENTITY,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.STATUS,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: false
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.RECIPIENT,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_DATE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TECHNICIAN,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_STEP,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    visible: true
+  }])
 
   /**
    * Vue ensemble des vélos

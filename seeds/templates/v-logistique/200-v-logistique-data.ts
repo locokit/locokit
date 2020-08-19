@@ -204,6 +204,29 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }])
 
+  /**
+   * Maintenance Vélos
+   */
+  await knex("table_row").insert([{
+    id: 'f8f0a019-407e-447c-9b28-71ed7ef4dfe0',
+    text: "Vélo n° XXXX",
+    table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+    data: JSON.stringify({
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TYPE]: "VCAE",
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.IDENTITY]: 'XXXX',
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.STATUS]: 1,
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.RECIPIENT]: {
+        reference: 5,
+        value: 'Bénéficiaire A'
+      },
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TECHNICIAN]: 'Nom?',
+      [TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_STEP]: 1,
+    })
+  }])
+
+
+
   // View V-Logistique
 
   /**

@@ -58,6 +58,18 @@ export const TABLES = {
       RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
     }
   },
+  PROVIDER_MAINTENANCE_BIKE: {
+    ID: 'aea1c6c7-1c83-4dec-adaa-2fc6563af9ab',
+    COLUMNS: {
+      TYPE: '416e0619-5bc7-42c4-a22f-78dd8ace9603',
+      IDENTITY: '3d0ba54e-c07e-4a72-ba19-81a610ae4fc2',
+      STATUS: 'b69cec56-f9f2-4dcf-beef-f7a4fdf38b72',
+      RECIPIENT: '0b933f1d-d883-4a9d-884c-0573ac3e1b20',
+      MAINTENANCE_DATE: 'e2784b4d-26ee-45de-a48b-5a8ad8ac350c',
+      TECHNICIAN: 'dfce339f-c521-4ac1-9b05-88229c1110cb',
+      MAINTENANCE_STEP: '8c4ecfb8-aec6-4162-b8b3-d145abaee993',
+    }
+  },
   PERSON: {
     ID: 'bb145d9f-0976-419d-9fef-bc15799d1624',
     COLUMNS: {
@@ -431,6 +443,90 @@ export async function seed (knex: Knex): Promise<any> {
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
         tableId: TABLES.PERSON.ID
+      }
+    }
+  ])
+
+  /**
+   * Table Maintenance BIKE
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      text: 'Vélos',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.IDENTITY,
+      text: 'Identité',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.STATUS,
+      text: 'État du vélo',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'En maintenance',
+            color: '#ef1'
+          },
+          2: {
+            label: 'En utilisation',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Stocké',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.RECIPIENT,
+      text: 'Bénéficiaire',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER,
+      settings: {
+        tableId: TABLES.PERSON.ID
+      }
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_DATE,
+      text: 'Dernier entretien',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE,
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TECHNICIAN,
+      text: 'Technicien',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING,
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_STEP,
+      text: 'Étape maintenance',
+      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Maintenance 1',
+            color: '#ef1'
+          },
+          2: {
+            label: 'Maintenance 2',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Maintenance 3',
+            color: '#ef1'
+          }
+        }
       }
     }
   ])

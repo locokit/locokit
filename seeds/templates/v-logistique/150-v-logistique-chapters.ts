@@ -121,7 +121,7 @@ export async function seed(knex: Knex): Promise<any> {
     page_id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee'
   }, {
     id: '42be6c09-a6df-41c5-99e3-295d4696b492',
-    text: 'Container 3',
+    text: 'Container Flotte',
     page_id: '53646407-caf7-4dd4-9422-edd378dd647d'
   }, {
     id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
@@ -139,6 +139,10 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
     text: 'Container messagerie fournisseur',
     page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
+  }, {
+    id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
+    text: 'Container maintenance',
+    page_id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc'
   }])
 
   /**
@@ -150,7 +154,15 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
     type: 'TableView',
     settings: JSON.stringify({
-      id: VIEWS.PROVIDER_BICYCLE,
+      id: VIEWS.PROVIDER.FLEET
+    })
+  }, {
+    id: '875b2539-134f-4493-a9de-a71fe927bc94',
+    title: 'Vélos à maintenir',
+    container_id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.PROVIDER.MAINTENANCE
     })
   }, {
     id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',
