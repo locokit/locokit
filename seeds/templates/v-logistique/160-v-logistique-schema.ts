@@ -58,7 +58,7 @@ export const TABLES = {
       RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
     }
   },
-  PROVIDER_MAINTENANCE_BIKE: {
+  PROVIDER_MAINTENANCE_PREVENTIVE_BIKE: {
     ID: 'aea1c6c7-1c83-4dec-adaa-2fc6563af9ab',
     COLUMNS: {
       TYPE: '416e0619-5bc7-42c4-a22f-78dd8ace9603',
@@ -68,6 +68,16 @@ export const TABLES = {
       MAINTENANCE_DATE: 'e2784b4d-26ee-45de-a48b-5a8ad8ac350c',
       TECHNICIAN: 'dfce339f-c521-4ac1-9b05-88229c1110cb',
       MAINTENANCE_STEP: '8c4ecfb8-aec6-4162-b8b3-d145abaee993',
+    }
+  },
+  PROVIDER_MAINTENANCE_CURATIVE_BIKE: {
+    ID: '8af67e32-14d8-4401-83e7-3f3720207b40',
+    COLUMNS: {
+      TYPE: '678fb5f3-1cc0-4151-82dd-40aece850565',
+      IDENTITY: '71647569-caa3-4a4d-88ac-94188aed140f',
+      STATUS: '0cc5550b-8ca6-4c86-9b8e-8ebc6d305c29',
+      MAINTENANCE_DATE: '595f2c0f-967b-4a6b-97ce-852d782fd223',
+      RECIPIENT: '2bc5c026-9407-4115-9280-996c5becabba',
     }
   },
   PERSON: {
@@ -448,30 +458,30 @@ export async function seed (knex: Knex): Promise<any> {
   ])
 
   /**
-   * Table Maintenance BIKE
+   * Table Maintenance preventive BIKE
    */
   await knex('table').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       text: 'Vélos',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TYPE,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.IDENTITY,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.STATUS,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -490,27 +500,27 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.RECIPIENT,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.RECIPIENT,
       text: 'Bénéficiaire',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
         tableId: TABLES.PERSON.ID
       }
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TECHNICIAN,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TECHNICIAN,
       text: 'Technicien',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_STEP,
+      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_STEP,
       text: 'Étape maintenance',
-      table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID,
+      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -527,6 +537,65 @@ export async function seed (knex: Knex): Promise<any> {
             color: '#ef1'
           }
         }
+      }
+    }
+  ])
+
+
+  /**
+   * Table Maintenance curative BIKE
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      text: 'Vélos',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
+      text: 'Identité',
+      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
+      text: 'État du vélo',
+      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'En maintenance',
+            color: '#ef1'
+          },
+          2: {
+            label: 'En utilisation',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Stocké',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
+      text: 'Date',
+      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE,
+    }, {
+      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.RECIPIENT,
+      text: 'Bénéficiaire',
+      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER,
+      settings: {
+        tableId: TABLES.PERSON.ID
       }
     }
   ])

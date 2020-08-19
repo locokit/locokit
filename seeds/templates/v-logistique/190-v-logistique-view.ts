@@ -4,7 +4,8 @@ import { TABLES } from "./160-v-logistique-schema";
 export const VIEWS = {
   PROVIDER: {
     FLEET: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
-    MAINTENANCE: '574ba8d4-2054-4663-94db-d94b3c173dd5'
+    MAINTENANCE_PREVENTIVE: '574ba8d4-2054-4663-94db-d94b3c173dd5',
+    MAINTENANCE_CURATIVE: 'c12bbd70-927b-41d1-8d10-b48a3211e541',
   },
   RECIPIENT_BICYCLE: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
   PROVIDER_BICYCLE: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
@@ -106,41 +107,72 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   /**
-   * Vue maintenance vélo
+   * Vue maintenance préventive vélo
    */
   await knex("table_view").insert([{
-    id: VIEWS.PROVIDER.MAINTENANCE,
+    id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     text: 'Vélo fournisseur',
-    table_id: TABLES.PROVIDER_MAINTENANCE_BIKE.ID
+    table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID
   }])
 
   await knex("table_view_has_table_column").insert([{
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TYPE,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TYPE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.IDENTITY,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.STATUS,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.STATUS,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: false
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.RECIPIENT,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.RECIPIENT,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_DATE,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.TECHNICIAN,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TECHNICIAN,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER_MAINTENANCE_BIKE.COLUMNS.MAINTENANCE_STEP,
-    table_view_id: VIEWS.PROVIDER.MAINTENANCE,
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_STEP,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE,
+    visible: true
+  }])
+
+  /**
+   * Vue maintenance curative vélo
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
+    text: 'Vélo fournisseur',
+    table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.TYPE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.RECIPIENT,
+    table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
     visible: true
   }])
 

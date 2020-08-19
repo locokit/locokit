@@ -72,7 +72,7 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Maintenances préventives',
     chapter_id: CHAPTERS.PROVIDER
   }, {
-    id: '8bcfe997-4535-457b-8743-4ab02244f50c',
+    id: '41910cbc-4065-4399-b05f-b73893a50dbb',
     text: 'Maintenances curatives',
     chapter_id: CHAPTERS.PROVIDER
   }, {
@@ -124,6 +124,14 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Container Flotte',
     page_id: '53646407-caf7-4dd4-9422-edd378dd647d'
   }, {
+    id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
+    text: 'Container maintenance préventive',
+    page_id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc'
+  }, {
+    id: '4d696142-5ac3-47bb-bfce-7bbbb0b59a6d',
+    text: 'Container maintenance curative',
+    page_id: '41910cbc-4065-4399-b05f-b73893a50dbb'
+  }, {
     id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
     text: 'Container bénéficiaire v-logistique',
     page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
@@ -139,10 +147,6 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
     text: 'Container messagerie fournisseur',
     page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
-  }, {
-    id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
-    text: 'Container maintenance',
-    page_id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc'
   }])
 
   /**
@@ -162,7 +166,15 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
     type: 'TableView',
     settings: JSON.stringify({
-      id: VIEWS.PROVIDER.MAINTENANCE
+      id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE
+    })
+  }, {
+    id: 'b69f3078-45e7-4934-ade2-4dd9972f2dfb',
+    title: 'Vélos ayant des réparations',
+    container_id: '4d696142-5ac3-47bb-bfce-7bbbb0b59a6d',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE
     })
   }, {
     id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',
