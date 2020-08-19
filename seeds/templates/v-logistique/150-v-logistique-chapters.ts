@@ -147,6 +147,10 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
     text: 'Container messagerie fournisseur',
     page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
+  }, {
+    id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
+    text: 'Container page en construction',
+    page_id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb'
   }])
 
   /**
@@ -239,6 +243,17 @@ export async function seed(knex: Knex): Promise<any> {
       `
     }),
     container_id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
+    type: 'Paragraph'
+  }, {
+    id: '2192b05b-e5aa-4058-b9fa-b99d611aed03',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
     type: 'Paragraph'
   }])
 
