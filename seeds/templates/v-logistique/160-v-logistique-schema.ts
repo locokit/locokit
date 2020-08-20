@@ -12,27 +12,18 @@ export const TABLES = {
       USER: 'bf0da601-527b-434c-b5b7-fc25e370fe36'
     }
   },
-  BICYCLE: {
+  BENEFICIAIRE_BICYCLE: {
     ID: '163c21e6-5339-4748-903f-8c77e21314cf',
     COLUMNS: {
-      TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
-      REQUEST: '0ca5db3a-1db6-45c1-8f19-13127e9afe1c',
-      PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
-      NAME: 'e065323c-1151-447f-be0f-6d2728117b38',
-      REF: 'b712959e-3808-4bbc-b86e-17ab2ded8c6d',
-      STATUS: '3a659ea1-446f-4755-8db9-583a204279cc',
-      BRAND: '1c4c27e9-ed7f-4c1c-b472-b8906a9ce9d7',
-      MAINTENANCE_DATE: '80780a95-d709-43ec-b4f3-d6b5cb5dd31e',
-      COMMISSIONING_DATE: '14a772f2-c161-4931-a8e5-bfb3acaaf42d',
-      DELIVERY_ESTIMATED_DATE: 'b6c50d68-5979-46c8-8349-514fc1ba35fd',
-      PROVIDER: 'bde4bbbd-2584-447f-acff-f434f53619da',
-      LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690',
+      TYPE: '520d890a-3547-4b01-b9b9-8d089eb89db6',
+      IDENTITY: 'dcea9b9a-da47-4c80-ba0f-89df455dbe87',
+      STATUS: '191bae3b-e28e-4dbd-a55d-c3a76e10c32f',
+      BRAND: 'cf8ea6ec-8b5c-4456-b741-62ec9957a817',
+      COMMISSIONING_DATE: '438862d6-6134-482d-b5cc-0f4f74d051bf',
+      MAINTENANCE_DATE: 'd8b4254e-4366-4875-b5cd-bdb3ae708519',
+      LAST_TRACER_DATA: 'ea73b16b-9910-441a-bcef-b3c0a31b22c4',
+      ALERT: 'a9ed9ed7-cc74-4f9a-8173-87fc023b82c0',
     },
-    DATA: {
-      STATUS_STORED: '39b01a75-b03f-4b4b-bf05-36aac13a72b2',
-      STATUS_IN_USE: '82cf06d0-4743-4716-8f97-072b968e0caf',
-      STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983',
-    }
   },
   ROZO_REQUEST: {
     ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
@@ -79,6 +70,32 @@ export const TABLES = {
       MAINTENANCE_DATE: '595f2c0f-967b-4a6b-97ce-852d782fd223',
       RECIPIENT: '2bc5c026-9407-4115-9280-996c5becabba',
     }
+  },
+  VLO_STOCK_1: {
+    ID: '291ef2e2-9360-493f-b007-5bd12c3dd4fb',
+    COLUMNS: {
+      TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
+      REQUEST: '0ca5db3a-1db6-45c1-8f19-13127e9afe1c',
+      PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
+      NAME: 'e065323c-1151-447f-be0f-6d2728117b38',
+      REF: 'b712959e-3808-4bbc-b86e-17ab2ded8c6d',
+      STATUS: '3a659ea1-446f-4755-8db9-583a204279cc',
+      BRAND: '1c4c27e9-ed7f-4c1c-b472-b8906a9ce9d7',
+      MAINTENANCE_DATE: '80780a95-d709-43ec-b4f3-d6b5cb5dd31e',
+      COMMISSIONING_DATE: '14a772f2-c161-4931-a8e5-bfb3acaaf42d',
+      DELIVERY_ESTIMATED_DATE: 'b6c50d68-5979-46c8-8349-514fc1ba35fd',
+      PROVIDER: 'bde4bbbd-2584-447f-acff-f434f53619da',
+      LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690',
+    },
+    DATA: {
+      STATUS_STORED: '39b01a75-b03f-4b4b-bf05-36aac13a72b2',
+      STATUS_IN_USE: '82cf06d0-4743-4716-8f97-072b968e0caf',
+      STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983',
+    }
+  },
+  VLO_STOCK_2: {
+    ID: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
+    COLUMNS: {}
   },
   PERSON: {
     ID: 'bb145d9f-0976-419d-9fef-bc15799d1624',
@@ -287,102 +304,17 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.NUMBER
   }])
 
-  /**
-   * Table Vélo
-   */
-  await knex("table").insert([{
-    id: TABLES.BICYCLE.ID,
-    text: 'Vélo',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.BICYCLE.COLUMNS.NAME,
-    text: 'Nom du vélo',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.REF,
-    text: 'Identité',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.STATUS,
-    text: 'État du vélo',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: 9,
-    settings: {
-      values: {
-        [TABLES.BICYCLE.DATA.STATUS_IN_MAINTENANCE]: {
-          label: 'En maintenance',
-          color: '#23547b',
-          backgroundColor: '#b3e5fc'
-        },
-        [TABLES.BICYCLE.DATA.STATUS_IN_USE]: {
-          label: 'En utilisation',
-          color: '#256029',
-          backgroundColor: '#c8e6c9'
-        },
-        [TABLES.BICYCLE.DATA.STATUS_STORED]: {
-          label: 'Stocké',
-          color: '#805b36',
-          backgroundColor: '#ffd8b2'
-        }
-      }
-    },
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.BRAND,
-    text: 'Marque',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE,
-    text: 'Entretien',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE,
-    text: 'Mise en service',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.DELIVERY_ESTIMATED_DATE,
-    text: 'Date de livraison prévue',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.PERSON,
-    text: 'Bénéficiaire',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER,
-    settings: {
-      tableId: TABLES.PERSON.ID
-    }
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.PROVIDER,
-    text: 'Fournisseur',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.TRACER,
-    text: 'Traceur',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.LAST_TRACER_DATA,
-    text: 'Derniers kms',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
-  }, {
-    id: TABLES.BICYCLE.COLUMNS.REQUEST,
-    text: 'Demande corrélée',
-    table_id: TABLES.BICYCLE.ID,
-    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-    settings: {
-      tableId: TABLES.REQUEST.ID
-    }
-  }])
+
+
+
+
+
+
+
+
 
   // View Fournisseur
+
 
   /**
    * Table FLEET BIKE
@@ -408,7 +340,7 @@ export async function seed (knex: Knex): Promise<any> {
     }, {
       id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND,
       text: 'Marque',
-      table_id: TABLES.BICYCLE.ID,
+      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS,
@@ -600,7 +532,220 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
+
+  // View Bénéficiare
+
+  /**
+   * Table Usage vélo
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      text: 'Vélo',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.IDENTITY,
+      text: 'Identité',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.STATUS,
+      text: 'État du vélo',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'En maintenance',
+            color: '#ef1'
+          },
+          2: {
+            label: 'En utilisation',
+            color: '#ef1'
+          },
+          3: {
+            label: 'Stocké',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.BRAND,
+      text: 'Marque',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.COMMISSIONING_DATE,
+      text: 'Mise en service',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.MAINTENANCE_DATE,
+      text: 'Dernier entretien',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.LAST_TRACER_DATA,
+      text: 'Derniers kms',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
+    }, {
+      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.ALERT,
+      text: 'Alerte',
+      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Ok',
+            color: '#359320'
+          },
+          2: {
+            label: 'Accident',
+            color: '#cb4814'
+          },
+          3: {
+            label: 'Vol',
+            color: '#a5071e'
+          }
+        }
+      }
+    }
+  ])
+
+
   // View V-Logistique
+
+  /**
+   * Table Vélo
+   */
+  await knex("table").insert([{
+    id: TABLES.VLO_STOCK_1.ID,
+    text: 'Vélo',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.VLO_STOCK_1.COLUMNS.NAME,
+    text: 'Nom du vélo',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.REF,
+    text: 'Identité',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.STATUS,
+    text: 'État du vélo',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: 9,
+    settings: {
+      values: {
+        [TABLES.VLO_STOCK_1.DATA.STATUS_IN_MAINTENANCE]: {
+          label: 'En maintenance',
+          color: '#23547b',
+          backgroundColor: '#b3e5fc'
+        },
+        [TABLES.VLO_STOCK_1.DATA.STATUS_IN_USE]: {
+          label: 'En utilisation',
+          color: '#256029',
+          backgroundColor: '#c8e6c9'
+        },
+        [TABLES.VLO_STOCK_1.DATA.STATUS_STORED]: {
+          label: 'Stocké',
+          color: '#805b36',
+          backgroundColor: '#ffd8b2'
+        }
+      }
+    },
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.BRAND,
+    text: 'Marque',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE,
+    text: 'Entretien',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.COMMISSIONING_DATE,
+    text: 'Mise en service',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.DELIVERY_ESTIMATED_DATE,
+    text: 'Date de livraison prévue',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.PERSON,
+    text: 'Bénéficiaire',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER,
+    settings: {
+      tableId: TABLES.PERSON.ID
+    }
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.PROVIDER,
+    text: 'Fournisseur',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.TRACER,
+    text: 'Traceur',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.LAST_TRACER_DATA,
+    text: 'Derniers kms',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
+  }, {
+    id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+    text: 'Demande corrélée',
+    table_id: TABLES.VLO_STOCK_1.ID,
+    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    settings: {
+      tableId: TABLES.REQUEST.ID
+    }
+  }])
+
+
+  /**
+   * Table Stock Fournisseur
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.VLO_STOCK_2.ID,
+      text: 'Fournisseur',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: '17ab6b13-5412-483e-ac7d-a9add38225f1',
+      text: 'Nom fournisseur',
+      table_id: TABLES.VLO_STOCK_2.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: 'bf0da601-527b-434c-b5b7-fc25e370fe36',
+      text: 'Utilisateur corrélé',
+      table_id: TABLES.VLO_STOCK_2.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER,
+      settings: {
+        tableId: TABLES.PERSON.ID
+      }
+    }
+  ])
 
   /**
    * Table Rozo

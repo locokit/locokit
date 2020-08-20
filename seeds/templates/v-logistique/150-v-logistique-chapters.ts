@@ -186,7 +186,7 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: 'da283b02-0679-424c-98b3-95f2779655be',
     type: 'TableView',
     settings: JSON.stringify({
-      id: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9'
+      id: VIEWS.RECIPIENT.BICYCLE_USE
     })
   }, {
     id: '7b2dd5d0-b6d3-43d9-aadc-91de0a1ec84b',
@@ -194,7 +194,7 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
     type: 'TableView',
     settings: JSON.stringify({
-      id: '91d819b4-ff5d-498f-ae61-5796268607d0'
+      id: VIEWS.VLO.BICYCLE_STOCK_1
     })
   }, {
     id: '8958475f-e22e-4c8f-b480-b7911654d167',
@@ -202,7 +202,7 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
     type: 'TableView',
     settings: JSON.stringify({
-      id: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f'
+      id: VIEWS.VLO.BICYCLE_STOCK_2
     })
   }, {
     id: '07f3668f-c870-4761-8572-fc3ce447a50f',

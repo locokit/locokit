@@ -115,70 +115,6 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }])
 
-  /**
-   * Vélos
-   */
-  await knex("table_row").insert([{
-    id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-    text: "Vélo n° XXXX",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      [TABLES.BICYCLE.COLUMNS.NAME]: "VCAE",
-      [TABLES.BICYCLE.COLUMNS.PERSON]: {
-        reference: 5,
-        value: 'Bénéficiaire A'
-      },
-      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
-        reference: 4,
-        value: 'AMSTERDAMAIR'
-      },
-      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_XXXX',
-      [TABLES.BICYCLE.COLUMNS.REF]: 'XXXX',
-      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_IN_MAINTENANCE,
-      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
-      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '10/07/2020'
-    })
-  }, {
-    id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
-    text: "Vélo n° YYYY",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      [TABLES.BICYCLE.COLUMNS.NAME]: "VAE",
-      [TABLES.BICYCLE.COLUMNS.PERSON]: {
-        reference: 5,
-        value: 'Bénéficiaire A'
-      },
-      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
-        reference: 3,
-        value: 'CYCLABLE ENTREPRISE'
-      },
-      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_YYYY',
-      [TABLES.BICYCLE.COLUMNS.REF]: 'YYYY',
-      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_IN_USE,
-      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '01/10/2020',
-      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '01/07/2020'
-    })
-  }, {
-    id: '5704c8be-0b7f-409d-9baf-e5cc7afb5df9',
-    text: "Vélo n° ZZZZ",
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-    data: JSON.stringify({
-      [TABLES.BICYCLE.COLUMNS.NAME]: "VCAE",
-      [TABLES.BICYCLE.COLUMNS.PERSON]: {
-        reference: 6,
-        value: 'Bénéficiaire B'
-      },
-      [TABLES.BICYCLE.COLUMNS.PROVIDER]: {
-        reference: 3,
-        value: 'CYCLABLE ENTREPRISE'
-      },
-      [TABLES.BICYCLE.COLUMNS.TRACER]: 'traceur_ZZZZ',
-      [TABLES.BICYCLE.COLUMNS.REF]: 'ZZZZ',
-      [TABLES.BICYCLE.COLUMNS.STATUS]: TABLES.BICYCLE.DATA.STATUS_STORED,
-      [TABLES.BICYCLE.COLUMNS.MAINTENANCE_DATE]: '16/10/2020',
-      [TABLES.BICYCLE.COLUMNS.COMMISSIONING_DATE]: '16/07/2020'
-    })
-  }])
 
   // View Fournisseur
 
@@ -246,7 +182,119 @@ export async function seed(knex: Knex): Promise<any> {
 
 
 
+  // View Beneficiaire
+
+  /**
+   * Bicycle Use
+   */
+  await knex("table_row").insert([{
+    id: 'b71f825b-6174-4a9c-ad02-f3feebd123f4',
+    text: "Vélo n°XXXX",
+    table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+    data: JSON.stringify({
+      '520d890a-3547-4b01-b9b9-8d089eb89db6': 'VCAE',
+      'dcea9b9a-da47-4c80-ba0f-89df455dbe87': 'XXXX',
+      '191bae3b-e28e-4dbd-a55d-c3a76e10c32f': 1,
+      'cf8ea6ec-8b5c-4456-b741-62ec9957a817': 'Trek',
+      '438862d6-6134-482d-b5cc-0f4f74d051bf': '10/07/2020',
+      'd8b4254e-4366-4875-b5cd-bdb3ae708519': '10/07/2020',
+      'ea73b16b-9910-441a-bcef-b3c0a31b22c4': '',
+      'a9ed9ed7-cc74-4f9a-8173-87fc023b82c0': 1,
+    })
+  }])
+
+
   // View V-Logistique
+
+  /**
+   * Stock Vélos
+   */
+  await knex("table_row").insert([{
+    id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+    text: "Vélo n° XXXX",
+    table_id: TABLES.VLO_STOCK_1.ID,
+    data: JSON.stringify({
+      [TABLES.VLO_STOCK_1.COLUMNS.PERSON]: {
+        reference: 5,
+        value: 'Bénéficiaire A'
+      },
+      [TABLES.VLO_STOCK_1.COLUMNS.NAME]: "VCAE",
+      [TABLES.VLO_STOCK_1.COLUMNS.REF]: 'XXXX',
+      [TABLES.VLO_STOCK_1.COLUMNS.STATUS]: TABLES.VLO_STOCK_1.DATA.STATUS_IN_MAINTENANCE,
+      [TABLES.VLO_STOCK_1.COLUMNS.BRAND]: 'Trek',
+      [TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
+      [TABLES.VLO_STOCK_1.COLUMNS.PROVIDER]: {
+        reference: 4,
+        value: 'AMSTERDAMAIR'
+      },
+      [TABLES.VLO_STOCK_1.COLUMNS.LAST_TRACER_DATA]: '',
+    })
+  }])
+
+  /**
+   * Fournisseurs
+   */
+  await knex("table_row").insert([{
+    id: 'e5328205-f34c-4fa1-a6d8-7da8c4f37036',
+    text: "CYCLABLE ENTREPRISE",
+    table_id: TABLES.VLO_STOCK_2.ID,
+    data: JSON.stringify({
+      '17ab6b13-5412-483e-ac7d-a9add38225f1': "CYCLABLE ENTREPRISE",
+      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+        reference: 3,
+        value: 'Fournisseur CYCLABLE ENTREPRISE'
+      }
+    })
+  }, {
+    id: 'a30a590b-2939-4240-8b20-4728bf0d7649',
+    text: "AMSTERDAMAIR",
+    table_id: TABLES.VLO_STOCK_2.ID,
+    data: JSON.stringify({
+      '17ab6b13-5412-483e-ac7d-a9add38225f1': "AMSTERDAMAIR",
+      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+        reference: 4,
+        value: 'Fournisseur AMSTERDAMAIR'
+      }
+    })
+  }, {
+    id: '22ba7040-7a38-4013-b993-52deacf1c729',
+    text: "CYCLELAB",
+    table_id: TABLES.VLO_STOCK_2.ID,
+    data: JSON.stringify({
+      '17ab6b13-5412-483e-ac7d-a9add38225f1': "CYCLELAB",
+      'bf0da601-527b-434c-b5b7-fc25e370fe36': {
+        reference: 8,
+        value: 'Fournisseur CYCLELAB'
+      }
+    })
+  }])
+
+  /**
+   * Bénéficiaires
+   */
+  await knex("table_row").insert([{
+    id: '9df5d11e-a5a1-4ba8-94bd-c399944c9030',
+    text: "Bénéficiaire A",
+    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    data: JSON.stringify({
+      'be137241-f97f-4fb9-9220-36d5c6c0c1af': "Bénéficiaire A",
+      'b93546a3-4459-40ed-9a76-fdcc45966479': {
+        reference: 5,
+        value: "Bénéficiaire A"
+      }
+    })
+  }, {
+    id: 'b258a1ee-cc9d-4d18-a6e9-553ed192e961',
+    text: "Bénéficiaire B",
+    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624',
+    data: JSON.stringify({
+      'be137241-f97f-4fb9-9220-36d5c6c0c1af': "Bénéficiaire B",
+      'b93546a3-4459-40ed-9a76-fdcc45966479': {
+        reference: 6,
+        value: "Bénéficiaire B"
+      }
+    })
+  }])
 
   /**
    * Rozo
