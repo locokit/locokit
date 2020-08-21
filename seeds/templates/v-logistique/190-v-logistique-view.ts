@@ -1,25 +1,6 @@
 import * as Knex from "knex";
-import { TABLES } from "./160-v-logistique-schema";
-
-export const VIEWS = {
-  PROVIDER: {
-    FLEET: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
-    MAINTENANCE_PREVENTIVE: '574ba8d4-2054-4663-94db-d94b3c173dd5',
-    MAINTENANCE_CURATIVE: 'c12bbd70-927b-41d1-8d10-b48a3211e541',
-  },
-  RECIPIENT_BICYCLE: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
-  PROVIDER_BICYCLE: '2ef7f439-3946-4efb-87c7-0fd413bfc9d7',
-  ALL_BICYCLE: '91d819b4-ff5d-498f-ae61-5796268607d0',
-  ALL_RECIPIENT: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
-  RECIPIENT: {
-    BICYCLE_USE: '5b8a5ec2-ea02-493f-b1fd-ef3d0fd46944',
-  },
-  VLO: {
-    BICYCLE_STOCK_1: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
-    BICYCLE_STOCK_2: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
-  },
-  ROZO: 'b86f21ea-e086-11ea-87d0-0242ac130003',
-}
+import { TABLES } from "../../../src/glossary-seed/schema-glossary";
+import { VIEWS } from '../../../src/glossary-seed/view-glossary'
 
 export async function seed(knex: Knex): Promise<any> {
   // View Fournisseur
@@ -235,15 +216,15 @@ export async function seed(knex: Knex): Promise<any> {
   await knex("table_view").insert([{
     id: VIEWS.VLO.BICYCLE_STOCK_2,
     text: 'Ensemble des fournisseurs',
-    table_id: TABLES.PROVIDER.ID
+    table_id: TABLES.VLO_STOCK_2.ID
   }])
 
   await knex("table_view_has_table_column").insert([{
-    table_column_id: TABLES.PROVIDER.COLUMNS.NAME,
+    table_column_id: TABLES.VLO_STOCK_2.COLUMNS.NAME,
     table_view_id: VIEWS.VLO.BICYCLE_STOCK_2,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER.COLUMNS.USER,
+    table_column_id: TABLES.VLO_STOCK_2.COLUMNS.USER,
     table_view_id: VIEWS.VLO.BICYCLE_STOCK_2,
     visible: true
   }])

@@ -1,6 +1,6 @@
 import * as Knex from "knex";
 import { GROUPS } from "./100-v-logistique-group";
-import { VIEWS } from './190-v-logistique-view'
+import { VIEWS } from '../../../src/glossary-seed/view-glossary'
 
 export const WORKSPACE = 'eaddde8c-1de4-4e5e-960a-3872907475e5';
 
