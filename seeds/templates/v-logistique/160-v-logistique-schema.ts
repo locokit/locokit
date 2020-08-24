@@ -706,6 +706,113 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
+  /**
+   * Table Bénéficiare
+   */
+  await knex("table").insert([
+    {
+      id: TABLES.VLO.LIST_RECIPIENT.ID,
+      text: 'Bénéficiare',
+      database_id: DATABASE
+    }
+  ])
+  await knex("table_column").insert([
+    {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.SOCIETY,
+      text: 'Entreprise',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER // Todo
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
+      text: 'Référent',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.STATUS,
+      text: 'Statut flotte',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'En utilisation',
+            color: '#359320'
+          },
+          2: {
+            label: 'En maintenance',
+            color: '#cb4814'
+          },
+          3: {
+            label: 'En commande',
+            color: '#a5071e'
+          }
+        }
+      }
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST,
+      text: 'Numéro demande',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.EMAIL,
+      text: 'Email',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.PHONE,
+      text: 'Adresse',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.ADDRESS,
+      text: 'Code APE',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.LOT,
+      text: 'Lot',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Lot 1',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'Lot 2',
+            color: '#598916'
+          },
+          3: {
+            label: 'Lot 3',
+            color: '#25496a'
+          },
+        }
+      }
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.APE,
+      text: 'Code APE',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VAE,
+      text: 'VAE',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VCAE_BI,
+      text: 'VCAE BI',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VCAE_TRI,
+      text: 'VCAE TRI',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }
+  ])
+
 
   // {
   //   id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,

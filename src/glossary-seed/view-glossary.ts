@@ -12,6 +12,7 @@ export const VIEWS = {
     BICYCLE_STOCK_1: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',
     BICYCLE_STOCK_2: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
     PRE_RECIPIENT: 'be3fd891-5c69-4aaf-835b-c8a48aa6ce72',
+    RECIPIENT: '910ed338-c624-4645-abbb-7132b6bbbe00',
     ROZO: 'b86f21ea-e086-11ea-87d0-0242ac130003',
   },
 }

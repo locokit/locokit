@@ -46,9 +46,9 @@ export async function seed(knex: Knex): Promise<any> {
     },
     {
       id: 6,
-      first_name: "Bénéficiaire",
-      last_name: "B",
-      email: "beneficiaireb@makina-corpus.net",
+      first_name: "Hervé",
+      last_name: "LECOQ",
+      email: "la.boulangerie@orange.fr",
       password: hashPassword,
       profile: "USER"
     },

@@ -103,6 +103,23 @@ export const TABLES = {
         NB_VCAE_TRI: '39e3875b-6cbc-4abb-83e9-f71d30f62a22',
       }
     },
+    LIST_RECIPIENT: {
+      ID: 'cde1ffb0-f6ad-4449-821b-834e941e5246',
+      COLUMNS: {
+        SOCIETY: 'f8c073ce-54fa-4071-b7fa-f46f57ef3235',
+        USER: 'f44d756a-a05c-447a-9c4c-e1268fca746f',
+        STATUS: '065c3b17-a6f2-44f3-bef0-8d1e547d31cf',
+        NUM_REQUEST: '579cb91f-83f7-49f9-b078-40d6dc72171b',
+        EMAIL: '996c503a-dc52-46a6-86bd-60aec86839b4',
+        PHONE: '6eb9c7ae-6e77-495e-b7bc-9a3595e51737',
+        ADDRESS: 'a125f5fd-a18f-414b-880f-f47c33672a20',
+        LOT: '0a59aa94-326f-4530-846b-c36eba3e1e14',
+        APE: '777adf39-d8ae-4343-9e2e-2df6c1f55c4e',
+        NB_VAE: '14410188-b293-4fd9-9f25-d1d51ebcf561',
+        NB_VCAE_BI: 'd5f7b848-547f-4e7f-9e39-f3c1215367d4',
+        NB_VCAE_TRI: '035a68cc-3ca7-4aa3-b70e-9e454c7fb516',
+      }
+    },
     LIST_PROVIDER: {
       ID: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
       COLUMNS: {

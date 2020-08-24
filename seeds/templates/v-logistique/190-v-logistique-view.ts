@@ -318,6 +318,65 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   /**
+   * Vue ensemble des bénéficiaires
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.VLO.RECIPIENT,
+    text: 'Ensemble des bénéficiaires',
+    table_id: TABLES.VLO.LIST_RECIPIENT.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.SOCIETY,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.STATUS,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.EMAIL,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.PHONE,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.ADDRESS,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.LOT,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.APE,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VAE,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VCAE_BI,
+    table_view_id: VIEWS.VLO.RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NB_VCAE_TRI,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }])
+
+  /**
    * Vue Stock vélo ensemble des fournisseurs
    */
   await knex("table_view").insert([{

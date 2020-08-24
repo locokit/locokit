@@ -167,7 +167,7 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: '943fe488-d438-46c0-8ce8-74de326a4928',
     text: 'Container V-logistique Bénéficiaire',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    page_id: 'c8323900-8f84-4dc2-82aa-e6c8d898ccee'
   }, {
     id: '292d8b92-de2a-11ea-87d0-0242ac130003',
     text: 'Container V-logistique Rozo',
@@ -175,19 +175,19 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: '171c8238-ba2b-4306-8590-455db8fe83a7',
     text: 'Container V-logistique Fournisseur de solutions',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    page_id: 'baa61fef-dbeb-4fa4-9f33-a52dd5252afc'
   }, {
     id: 'decd0321-2776-4397-861b-536a0b4ed943',
     text: 'Container V-logistique Morio',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    page_id: '113727d6-e21d-497b-a350-6718aae02b93'
   }, {
     id: '16097516-23b5-49c6-82cc-271650db06e2',
     text: 'Container V-logistique Sensibilisation Formation',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    page_id: '23453d24-c2bb-4ee8-9bb1-638512e43b81'
   }, {
     id: 'e0d76cf5-a912-49b2-a058-a32ccce19251',
     text: 'Container V-logistique Messagerie page en construction',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    page_id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1'
   }])
 
   /**
@@ -248,6 +248,14 @@ export async function seed(knex: Knex): Promise<any> {
     type: 'TableView',
     settings: JSON.stringify({
       id: VIEWS.VLO.PRE_RECIPIENT
+    })
+  }, {
+    id: '16743e21-d6ba-4630-b14a-6e9a78ffac26',
+    title: 'Listing bénéficiaire',
+    container_id: '943fe488-d438-46c0-8ce8-74de326a4928',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.VLO.RECIPIENT
     })
   }, {
     id: '8d3db4a1-ec19-4192-992c-aec2a126ba0b',
