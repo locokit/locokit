@@ -263,7 +263,7 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '292d8b92-de2a-11ea-87d0-0242ac130003',
     type: 'TableView',
     settings: JSON.stringify({
-      id: VIEWS.ROZO
+      id: VIEWS.VLO.ROZO
     })
   }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',

@@ -48,17 +48,17 @@ export async function seed (knex: Knex): Promise<any> {
       settings: {
         values: {
           [TABLES.MORIO_TRACER.DATA.STATUS_STOLEN]: {
-            label: 'VOLÉ',
+            label: 'Volé',
             color: '#c63737',
             backgroundColor: '#ffcdd2'
           },
           [TABLES.MORIO_TRACER.DATA.STATUS_INPROGRESS]: {
-            label: 'EN COURS DE MONTAGE',
+            label: 'En cours de montage',
             color: '#23547b',
             backgroundColor: '#b3e5fc'
           },
           [TABLES.MORIO_TRACER.DATA.STATUS_WORKING]: {
-            label: 'FONCTIONNEL',
+            label: 'Fonctionnel',
             color: '#256029',
             backgroundColor: '#c8e6c9'
           },
@@ -91,35 +91,6 @@ export async function seed (knex: Knex): Promise<any> {
   ])
 
   /**
-   * Table Personne
-   */
-  await knex("table").insert([
-    {
-      id: TABLES.PERSON.ID,
-      text: 'Personne',
-      database_id: DATABASE
-    }
-  ])
-  await knex("table_column").insert([
-    {
-      id: TABLES.PERSON.COLUMNS.LASTNAME,
-      text: 'Nom',
-      table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
-    }, {
-      id: TABLES.PERSON.COLUMNS.FIRSTNAME,
-      text: 'Prénom',
-      table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
-    }, {
-      id: TABLES.PERSON.COLUMNS.USER,
-      text: 'Utilisateur corrélé',
-      table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.USER
-    }
-  ])
-
-  /**
    * Table demande
    */
   await knex("table").insert([
@@ -136,7 +107,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
       id: TABLES.REQUEST.COLUMNS.CREATION_DATE,
@@ -170,31 +141,31 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      id: TABLES.PROVIDER.FLEET_BIKE.ID,
       text: 'Vélos',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.TYPE,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.IDENTITY,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.BRAND,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.BRAND,
       text: 'Marque',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.STATUS,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -213,27 +184,27 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
       text: 'Mise en service',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.PROVIDER,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.PROVIDER,
       text: 'Prestataire',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_FLEET_BIKE.COLUMNS.RECIPIENT,
+      id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.RECIPIENT,
       text: 'Bénéficiaire',
-      table_id: TABLES.PROVIDER_FLEET_BIKE.ID,
+      table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }
   ])
@@ -243,26 +214,26 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       text: 'Vélos',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TYPE,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.STATUS,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -281,27 +252,27 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.RECIPIENT,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.RECIPIENT,
       text: 'Bénéficiaire',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TECHNICIAN,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TECHNICIAN,
       text: 'Technicien',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_STEP,
+      id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_STEP,
       text: 'Étape maintenance',
-      table_id: TABLES.PROVIDER_MAINTENANCE_PREVENTIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -328,26 +299,26 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       text: 'Vélos',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.TYPE,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
-      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -366,17 +337,17 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Date',
-      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.COLUMNS.RECIPIENT,
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.RECIPIENT,
       text: 'Bénéficiaire',
-      table_id: TABLES.PROVIDER_MAINTENANCE_CURATIVE_BIKE.ID,
+      table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }
   ])
@@ -389,26 +360,26 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      id: TABLES.RECIPIENT.USING_BIKE.ID,
       text: 'Vélo',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.TYPE,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.IDENTITY,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.STATUS,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -427,29 +398,29 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.BRAND,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.BRAND,
       text: 'Marque',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.COMMISSIONING_DATE,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.COMMISSIONING_DATE,
       text: 'Mise en service',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.LAST_TRACER_DATA,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.LAST_TRACER_DATA,
       text: 'Derniers kms',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
     }, {
-      id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.ALERT,
+      id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.ALERT,
       text: 'Alerte',
-      table_id: TABLES.BENEFICIAIRE_BICYCLE.ID,
+      table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -475,21 +446,21 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       text: 'Formation',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TYPE,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.INSTITUTION,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.INSTITUTION,
       text: 'Organisme',
-      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -504,19 +475,19 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TRAINER,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.TRAINER,
       text: 'Formateur',
-      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.FILE,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.FILE,
       text: 'Pièce jointe',
-      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.DATE,
+      id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.DATE,
       text: 'Date',
-      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }
   ])
@@ -528,40 +499,40 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex("table").insert([
     {
-      id: TABLES.VLO_STOCK_1.ID,
+      id: TABLES.VLO.STOCK_BIKE.ID,
       text: 'Vélo',
       database_id: DATABASE
     }
   ])
   await knex("table_column").insert([
     {
-      id: TABLES.VLO_STOCK_1.COLUMNS.TYPE,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.REF,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.REF,
       text: 'Identité',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.STATUS,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.STATUS,
       text: 'État du vélo',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: 9,
       settings: {
         values: {
-          [TABLES.VLO_STOCK_1.DATA.STATUS_IN_MAINTENANCE]: {
+          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_IN_MAINTENANCE]: {
             label: 'En maintenance',
             color: '#23547b',
             backgroundColor: '#b3e5fc'
           },
-          [TABLES.VLO_STOCK_1.DATA.STATUS_IN_USE]: {
+          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_IN_USE]: {
             label: 'En utilisation',
             color: '#256029',
             backgroundColor: '#c8e6c9'
           },
-          [TABLES.VLO_STOCK_1.DATA.STATUS_STORED]: {
+          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_STORED]: {
             label: 'Stocké',
             color: '#805b36',
             backgroundColor: '#ffd8b2'
@@ -569,82 +540,112 @@ export async function seed (knex: Knex): Promise<any> {
         }
       },
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.BRAND,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.BRAND,
       text: 'Marque',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
       text: 'Demande corrélée',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     // }, {
-    //   id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+    //   id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
     //   text: 'Demande corrélée',
-    //   table_id: TABLES.VLO_STOCK_1.ID,
+    //   table_id: TABLES.VLO.STOCK_BIKE.ID,
     //   column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     //   settings: {
     //     tableId: TABLES.REQUEST.ID
     //   }
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Entretien',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.COMMISSIONING_DATE,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.COMMISSIONING_DATE,
       text: 'Mise en service',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.DELIVERY_ESTIMATED_DATE,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
       text: 'Date de livraison prévue',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.PERSON,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.PERSON,
       text: 'Bénéficiaire',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.PROVIDER,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.PROVIDER,
       text: 'Fournisseur',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.TRACER,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.TRACER,
       text: 'Traceur',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.LAST_TRACER_DATA,
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.LAST_TRACER_DATA,
       text: 'Derniers kms',
-      table_id: TABLES.VLO_STOCK_1.ID,
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
     }
   ])
+
+  /**
+   * Table Pré-Bénéficiare
+   */
+  await knex("table").insert([
+    {
+      id: TABLES.VLO.LIST_RECIPIENT.ID,
+      text: 'Personne',
+      database_id: DATABASE
+    }
+  ])
+  await knex("table_column").insert([
+    {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.LASTNAME,
+      text: 'Nom',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.FIRSTNAME,
+      text: 'Prénom',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
+      text: 'Utilisateur corrélé',
+      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }
+  ])
+
 
   /**
    * Table Stock Fournisseur
    */
 
   await knex("table").insert([{
-    id: TABLES.VLO_STOCK_2.ID,
+    id: TABLES.VLO.LIST_PROVIDER.ID,
     text: 'Fournisseur',
     database_id: DATABASE
   }])
   await knex("table_column").insert([{
-    id: TABLES.VLO_STOCK_2.COLUMNS.NAME,
+    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
     text: 'Nom fournisseur',
-    table_id: TABLES.VLO_STOCK_2.ID,
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
-    id: TABLES.VLO_STOCK_2.COLUMNS.USER,
+    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
     text: 'Utilisateur corrélé',
-    table_id: TABLES.VLO_STOCK_2.ID,
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
     column_type_id: glossary.COLUMN_TYPE.USER
   }])
 
@@ -653,42 +654,42 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('table').insert([
     {
-      id: TABLES.ROZO_REQUEST.ID,
+      id: TABLES.VLO.ROZO_REQUEST.ID,
       text: 'Rozo',
       database_id: DATABASE
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.ROZO_REQUEST.COLUMNS.NAME,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NAME,
       text: 'Bénéficiaire',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
-      id: TABLES.ROZO_REQUEST.COLUMNS.TYPE,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.TYPE,
       text: 'Type',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.GROUP,
       settings: {
-        tableId: TABLES.PERSON.ID
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
-      id: TABLES.ROZO_REQUEST.COLUMNS.NUM_DEMAND,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_DEMAND,
       text: 'Numéro de demande',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     }, {
-      id: TABLES.ROZO_REQUEST.COLUMNS.DATE_DEMAND,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_DEMAND,
       text: 'Date de demande',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
     }, {
-      id: TABLES.ROZO_REQUEST.COLUMNS.STEP,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STEP,
       text: 'Étape programme',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
@@ -715,9 +716,9 @@ export async function seed (knex: Knex): Promise<any> {
         }
       }
     }, {
-      id: TABLES.ROZO_REQUEST.COLUMNS.STATUS,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STATUS,
       text: 'État',
-      table_id: TABLES.ROZO_REQUEST.ID,
+      table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
