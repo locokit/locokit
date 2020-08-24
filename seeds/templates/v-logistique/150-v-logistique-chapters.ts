@@ -151,6 +151,10 @@ export async function seed(knex: Knex): Promise<any> {
     id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
     text: 'Container page en construction',
     page_id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb'
+  }, {
+    id: 'fa17cfc4-66b9-455f-96e6-9746c0c7f5f0',
+    text: 'Container page en construction',
+    page_id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d'
   }])
 
   /**
@@ -228,7 +232,7 @@ export async function seed(knex: Knex): Promise<any> {
 
       Pour tout contact, merci d\'envoyer un mail à contact@v-logistique.com.
 
-      En cas de sinistre, merci de contacter la hot-line Morio au 07 80 99 24 19
+      En cas de sinistre, merci de contacter la hot-line Morio au 07 80 99 24 19.
     `
     }),
     container_id: '916bbc56-c26e-44b7-8107-46f2c4d21d2e',
@@ -254,6 +258,17 @@ export async function seed(knex: Knex): Promise<any> {
       `
     }),
     container_id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
+    type: 'Paragraph'
+  }, {
+    id: 'a960955f-f9ac-406e-a1c4-f7b192153c0c',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: 'fa17cfc4-66b9-455f-96e6-9746c0c7f5f0',
     type: 'Paragraph'
   }])
 
