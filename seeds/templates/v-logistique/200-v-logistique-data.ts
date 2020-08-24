@@ -159,16 +159,24 @@ export async function seed(knex: Knex): Promise<any> {
         reference: 5,
         value: 'Bénéficiaire A'
       },
-      [TABLES.VLO_STOCK_1.COLUMNS.NAME]: "VCAE",
+      [TABLES.VLO_STOCK_1.COLUMNS.TYPE]: "VCAE",
       [TABLES.VLO_STOCK_1.COLUMNS.REF]: 'XXXX',
       [TABLES.VLO_STOCK_1.COLUMNS.STATUS]: TABLES.VLO_STOCK_1.DATA.STATUS_IN_MAINTENANCE,
       [TABLES.VLO_STOCK_1.COLUMNS.BRAND]: 'Trek',
+      [TABLES.VLO_STOCK_1.COLUMNS.REQUEST]: '17',
       [TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE]: '10/10/2020',
+      [TABLES.VLO_STOCK_1.COLUMNS.COMMISSIONING_DATE]: '10/10/2020',
+      [TABLES.VLO_STOCK_1.COLUMNS.DELIVERY_ESTIMATED_DATE]: '10/10/2020',
+      [TABLES.VLO_STOCK_1.COLUMNS.PERSON]: {
+        reference: 5,
+        value: 'Bénéficiaire A'
+      },
       [TABLES.VLO_STOCK_1.COLUMNS.PROVIDER]: {
         reference: 4,
         value: 'AMSTERDAMAIR'
       },
-      [TABLES.VLO_STOCK_1.COLUMNS.LAST_TRACER_DATA]: '',
+      [TABLES.VLO_STOCK_1.COLUMNS.TRACER]: '42',
+      [TABLES.VLO_STOCK_1.COLUMNS.LAST_TRACER_DATA]: '17',
     })
   }])
 

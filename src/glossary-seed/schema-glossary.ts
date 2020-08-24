@@ -73,17 +73,17 @@ export const TABLES = {
   VLO_STOCK_1: {
     ID: '291ef2e2-9360-493f-b007-5bd12c3dd4fb',
     COLUMNS: {
-      TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
-      REQUEST: '0ca5db3a-1db6-45c1-8f19-13127e9afe1c',
-      PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
-      NAME: 'e065323c-1151-447f-be0f-6d2728117b38',
+      TYPE: 'e065323c-1151-447f-be0f-6d2728117b38',
       REF: 'b712959e-3808-4bbc-b86e-17ab2ded8c6d',
       STATUS: '3a659ea1-446f-4755-8db9-583a204279cc',
       BRAND: '1c4c27e9-ed7f-4c1c-b472-b8906a9ce9d7',
+      REQUEST: '0ca5db3a-1db6-45c1-8f19-13127e9afe1c',
       MAINTENANCE_DATE: '80780a95-d709-43ec-b4f3-d6b5cb5dd31e',
       COMMISSIONING_DATE: '14a772f2-c161-4931-a8e5-bfb3acaaf42d',
       DELIVERY_ESTIMATED_DATE: 'b6c50d68-5979-46c8-8349-514fc1ba35fd',
+      PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
       PROVIDER: 'bde4bbbd-2584-447f-acff-f434f53619da',
+      TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
       LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690',
     },
     DATA: {

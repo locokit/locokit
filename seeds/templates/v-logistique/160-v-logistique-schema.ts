@@ -535,8 +535,8 @@ export async function seed (knex: Knex): Promise<any> {
   ])
   await knex("table_column").insert([
     {
-      id: TABLES.VLO_STOCK_1.COLUMNS.NAME,
-      text: 'Nom du vélo',
+      id: TABLES.VLO_STOCK_1.COLUMNS.TYPE,
+      text: 'Type',
       table_id: TABLES.VLO_STOCK_1.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
@@ -573,6 +573,19 @@ export async function seed (knex: Knex): Promise<any> {
       text: 'Marque',
       table_id: TABLES.VLO_STOCK_1.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+      text: 'Demande corrélée',
+      table_id: TABLES.VLO_STOCK_1.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING,
+    // }, {
+    //   id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+    //   text: 'Demande corrélée',
+    //   table_id: TABLES.VLO_STOCK_1.ID,
+    //   column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    //   settings: {
+    //     tableId: TABLES.REQUEST.ID
+    //   }
     }, {
       id: TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE,
       text: 'Entretien',
@@ -611,14 +624,6 @@ export async function seed (knex: Knex): Promise<any> {
       text: 'Derniers kms',
       table_id: TABLES.VLO_STOCK_1.ID,
       column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN
-    }, {
-      id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
-      text: 'Demande corrélée',
-      table_id: TABLES.VLO_STOCK_1.ID,
-      column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-      settings: {
-        tableId: TABLES.REQUEST.ID
-      }
     }
   ])
 

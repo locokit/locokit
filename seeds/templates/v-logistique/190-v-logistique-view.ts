@@ -205,7 +205,7 @@ export async function seed(knex: Knex): Promise<any> {
     table_id: TABLES.VLO_STOCK_1.ID
   }])
   await knex("table_view_has_table_column").insert([{
-    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.NAME,
+    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.TYPE,
     table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
@@ -221,18 +221,31 @@ export async function seed(knex: Knex): Promise<any> {
     table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
+    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.REQUEST,
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
+    visible: true
+  }, {
     table_column_id: TABLES.VLO_STOCK_1.COLUMNS.MAINTENANCE_DATE,
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.COMMISSIONING_DATE,
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.DELIVERY_ESTIMATED_DATE,
     table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
     table_column_id: TABLES.VLO_STOCK_1.COLUMNS.PERSON,
     table_view_id: VIEWS.RECIPIENT_BICYCLE,
-    filter: JSON.stringify({
-      $eq: "{userId}"
-    }),
-    visible: false
+    visible: true
   }, {
     table_column_id: TABLES.VLO_STOCK_1.COLUMNS.PROVIDER,
+    table_view_id: VIEWS.RECIPIENT_BICYCLE,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO_STOCK_1.COLUMNS.TRACER,
     table_view_id: VIEWS.RECIPIENT_BICYCLE,
     visible: true
   }, {
