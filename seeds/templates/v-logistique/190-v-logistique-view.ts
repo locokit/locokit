@@ -259,6 +259,65 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   /**
+   * Vue ensemble des pré bénéficiaires
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.VLO.PRE_RECIPIENT,
+    text: 'Ensemble des pré-bénéficiaires',
+    table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.SOCIETY,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.USER,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.STATUS,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.EMAIL,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.PHONE,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.ADDRESS,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.LOT,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.APE,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VAE,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VCAE_BI,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VCAE_TRI,
+    table_view_id: VIEWS.VLO.PRE_RECIPIENT,
+    visible: true
+  }])
+
+  /**
    * Vue Stock vélo ensemble des fournisseurs
    */
   await knex("table_view").insert([{
@@ -277,28 +336,6 @@ export async function seed(knex: Knex): Promise<any> {
     visible: true
   }])
 
-  /**
-   * Vue ensemble des pré bénéficiaires - bénéficiaires
-   */
-  await knex("table_view").insert([{
-    id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
-    text: 'Ensemble des bénéficiaires',
-    table_id: 'bb145d9f-0976-419d-9fef-bc15799d1624'
-  }])
-
-  await knex("table_view_has_table_column").insert([{
-    table_column_id: 'c5fde1df-7f65-4422-a852-d8f8e963ce2b',
-    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
-    visible: true
-  }, {
-    table_column_id: '193cd4d8-e9a9-4492-a2f4-5b0a9ebe7360',
-    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
-    visible: true
-  }, {
-    table_column_id: 'b49eb157-b150-4d2e-84b3-ae74e4ba99b1',
-    table_view_id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
-    visible: true
-  }])
 
   /**
    * Vue ensemble rozo

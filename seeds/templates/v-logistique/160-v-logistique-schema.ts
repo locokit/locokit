@@ -107,7 +107,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }, {
       id: TABLES.REQUEST.COLUMNS.CREATION_DATE,
@@ -204,7 +204,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }
   ])
@@ -257,7 +257,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
@@ -347,7 +347,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }
   ])
@@ -578,7 +578,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //Todo
       }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.PROVIDER,
@@ -603,29 +603,116 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex("table").insert([
     {
-      id: TABLES.VLO.LIST_RECIPIENT.ID,
-      text: 'Personne',
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      text: 'Pré-Bénéficiare',
       database_id: DATABASE
     }
   ])
   await knex("table_column").insert([
     {
-      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.LASTNAME,
-      text: 'Nom',
-      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.SOCIETY,
+      text: 'Entreprise',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.FIRSTNAME,
-      text: 'Prénom',
-      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.USER,
+      text: 'Référent',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
-      text: 'Utilisateur corrélé',
-      table_id: TABLES.VLO.LIST_RECIPIENT.ID,
-      column_type_id: glossary.COLUMN_TYPE.USER
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.STATUS,
+      text: 'Statut',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Non éligible',
+            color: '#c63737'
+          },
+          2: {
+            label: 'Éligible',
+            color: '#256029'
+          },
+          3: {
+            label: 'En étude',
+            color: '#23547b'
+          }
+        }
+      }
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST,
+      text: 'Numéro demande',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.EMAIL,
+      text: 'Email',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.PHONE,
+      text: 'Adresse',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.ADDRESS,
+      text: 'Code APE',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.LOT,
+      text: 'Lot',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Lot 1',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'Lot 2',
+            color: '#598916'
+          },
+          3: {
+            label: 'Lot 3',
+            color: '#25496a'
+          },
+        }
+      }
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.APE,
+      text: 'Code APE',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VAE,
+      text: 'VAE',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VCAE_BI,
+      text: 'VCAE BI',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NB_VCAE_TRI,
+      text: 'VCAE TRI',
+      table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
     }
   ])
+
+
+  // {
+  //   id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
+  //   text: 'Utilisateur corrélé',
+  //   table_id: TABLES.VLO.LIST_RECIPIENT.ID,
+  //   column_type_id: glossary.COLUMN_TYPE.USER
+  // }
 
 
   /**
@@ -666,7 +753,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.TYPE,
@@ -674,7 +761,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.GROUP,
       settings: {
-        tableId: TABLES.VLO.LIST_RECIPIENT.ID
+        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_DEMAND,

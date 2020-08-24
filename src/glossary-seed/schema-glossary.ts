@@ -86,12 +86,21 @@ export const TABLES = {
         STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983',
       }
     },
-    LIST_RECIPIENT: {
+    LIST_PRE_RECIPIENT: {
       ID: 'bb145d9f-0976-419d-9fef-bc15799d1624',
       COLUMNS: {
-        LASTNAME: 'c5fde1df-7f65-4422-a852-d8f8e963ce2b',
-        FIRSTNAME: '193cd4d8-e9a9-4492-a2f4-5b0a9ebe7360',
-        USER: 'b49eb157-b150-4d2e-84b3-ae74e4ba99b1',
+        SOCIETY: '8147e8f7-295a-49cb-ba34-f658e4adbe20',
+        USER: 'c9be1ef3-e24c-40c8-ace3-ea4bf99f8406',
+        STATUS: 'dc08d418-5c46-4a7a-96c4-3a5d58bb75e6',
+        NUM_REQUEST: 'e4018570-187d-47ea-8d6d-bd5c31f7fa19',
+        EMAIL: '0d98836d-e816-477d-a673-cc380892dd7f',
+        PHONE: 'da23463c-0388-4b65-be42-3df51f10d24a',
+        ADDRESS: '3c885d4e-8af2-46d0-9b96-a2c638959da2',
+        LOT: 'e7b260ff-ec78-433f-b904-72d0b4f8e50c',
+        APE: '5379abac-c48d-4a53-8fd2-76f2894a9ac5',
+        NB_VAE: 'ce5daa1d-9d8a-472f-a9b3-e36f4be4fa87',
+        NB_VCAE_BI: 'dff703a1-22d5-45c6-a47f-2fae756a0102',
+        NB_VCAE_TRI: '39e3875b-6cbc-4abb-83e9-f71d30f62a22',
       }
     },
     LIST_PROVIDER: {
