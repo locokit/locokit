@@ -140,6 +140,10 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Container messagerie bénéficiaire',
     page_id: 'f9bdf57a-de4d-4476-a765-84e6802d1342'
   }, {
+    id: 'ff033f73-0ebc-41e0-acc6-7981caae15ad',
+    text: 'Container sensibilisation bénéficiaire',
+    page_id: '596848de-1287-4b36-a8db-1cd4c228e468'
+  }, {
     id: '292d8b92-de2a-11ea-87d0-0242ac130003',
     text: 'Container Rozo',
     page_id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d'
@@ -215,6 +219,14 @@ export async function seed(knex: Knex): Promise<any> {
     type: 'TableView',
     settings: JSON.stringify({
       id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81'
+    })
+  }, {
+    id: '8d3db4a1-ec19-4192-992c-aec2a126ba0b',
+    title: 'Listing formation',
+    container_id: 'ff033f73-0ebc-41e0-acc6-7981caae15ad',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.RECIPIENT.AWARENESS
     })
   }, {
     id: '4ffcd80e-de2a-11ea-87d0-0242ac130003',

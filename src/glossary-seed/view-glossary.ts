@@ -10,6 +10,7 @@ export const VIEWS = {
   ALL_RECIPIENT: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81',
   RECIPIENT: {
     BICYCLE_USE: '5b8a5ec2-ea02-493f-b1fd-ef3d0fd46944',
+    AWARENESS: '8d3db4a1-ec19-4192-992c-aec2a126ba0b',
   },
   VLO: {
     BICYCLE_STOCK_1: 'b1345b1b-d5f9-4a6e-bded-265313e81ef9',

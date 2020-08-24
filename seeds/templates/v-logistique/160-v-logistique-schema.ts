@@ -470,6 +470,57 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
+  /**
+   * Table Sensibilisation et Formation
+   */
+  await knex('table').insert([
+    {
+      id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      text: 'Formation',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.INSTITUTION,
+      text: 'Organisme',
+      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'FUB',
+            color: '#ef1'
+          },
+          2: {
+            label: 'BicyclAide',
+            color: '#ef1'
+          }
+        }
+      }
+    }, {
+      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TRAINER,
+      text: 'Formateur',
+      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.FILE,
+      text: 'Pièce jointe',
+      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.DATE,
+      text: 'Date',
+      table_id: TABLES.BENEFICIAIRE_AWARENESS.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
+    }
+  ])
+
   // View V-Logistique
 
   /**

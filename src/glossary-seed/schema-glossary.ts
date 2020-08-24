@@ -14,6 +14,16 @@ export const TABLES = {
       ALERT: 'a9ed9ed7-cc74-4f9a-8173-87fc023b82c0',
     },
   },
+  BENEFICIAIRE_AWARENESS: {
+    ID: '21f51f85-ac4f-4b29-b70a-8e4fdfc32156',
+    COLUMNS: {
+      TYPE: '09edd804-e528-4127-8780-2ebf3601d0ec',
+      INSTITUTION: '59fe729e-d6be-4533-b00c-870ee931696e',
+      TRAINER: 'e4451b45-0ba6-4914-97cb-d53101ebbc2f',
+      FILE: 'e402a93d-07b3-45cd-ba13-f50807b09996',
+      DATE: '482455fd-8224-48fd-a661-c8085184a8b0',
+    },
+  },
   ROZO_REQUEST: {
     ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
     COLUMNS: {

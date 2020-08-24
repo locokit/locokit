@@ -161,6 +161,37 @@ export async function seed(knex: Knex): Promise<any> {
     visible: true
   }])
 
+  /**
+   * Vue ensemble de mes formations
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.RECIPIENT.AWARENESS,
+    text: 'Ensemble de mes formations',
+    table_id: TABLES.BENEFICIAIRE_AWARENESS.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TYPE,
+    table_view_id: VIEWS.RECIPIENT.AWARENESS,
+    visible: true
+  }, {
+    table_column_id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.INSTITUTION,
+    table_view_id: VIEWS.RECIPIENT.AWARENESS,
+    visible: true
+  }, {
+    table_column_id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.TRAINER,
+    table_view_id: VIEWS.RECIPIENT.AWARENESS,
+    visible: true
+  }, {
+    table_column_id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.FILE,
+    table_view_id: VIEWS.RECIPIENT.AWARENESS,
+    visible: true
+  }, {
+    table_column_id: TABLES.BENEFICIAIRE_AWARENESS.COLUMNS.DATE,
+    table_view_id: VIEWS.RECIPIENT.AWARENESS,
+    visible: true
+  }])
+
 
   // View V-Logistique
 
