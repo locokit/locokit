@@ -159,6 +159,10 @@ export async function seed(knex: Knex): Promise<any> {
     table_column_id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.LAST_TRACER_DATA,
     table_view_id: VIEWS.RECIPIENT.BICYCLE_USE,
     visible: true
+  }, {
+    table_column_id: TABLES.BENEFICIAIRE_BICYCLE.COLUMNS.ALERT,
+    table_view_id: VIEWS.RECIPIENT.BICYCLE_USE,
+    visible: true
   }])
 
   /**

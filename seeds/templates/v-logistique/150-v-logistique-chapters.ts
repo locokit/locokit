@@ -48,22 +48,6 @@ export async function seed(knex: Knex): Promise<any> {
    * Pages
    */
   await knex("page").insert([{
-    id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee',
-    text: 'Usage vélos',
-    chapter_id: CHAPTERS.RECIPIENT
-  }, {
-    id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d',
-    text: 'Assistance',
-    chapter_id: CHAPTERS.RECIPIENT
-  }, {
-    id: 'f9bdf57a-de4d-4476-a765-84e6802d1342',
-    text: 'Messagerie',
-    chapter_id: CHAPTERS.RECIPIENT
-  }, {
-    id: '596848de-1287-4b36-a8db-1cd4c228e468',
-    text: 'Sensibilisation formation',
-    chapter_id: CHAPTERS.RECIPIENT
-  }, {
     id: '53646407-caf7-4dd4-9422-edd378dd647d',
     text: 'Gestion flotte vélos',
     chapter_id: CHAPTERS.PROVIDER
@@ -84,16 +68,44 @@ export async function seed(knex: Knex): Promise<any> {
     text: 'Messagerie',
     chapter_id: CHAPTERS.PROVIDER
   }, {
+    id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee',
+    text: 'Usage vélos',
+    chapter_id: CHAPTERS.RECIPIENT
+  }, {
+    id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d',
+    text: 'Assistance',
+    chapter_id: CHAPTERS.RECIPIENT
+  }, {
+    id: 'f9bdf57a-de4d-4476-a765-84e6802d1342',
+    text: 'Messagerie',
+    chapter_id: CHAPTERS.RECIPIENT
+  }, {
+    id: '596848de-1287-4b36-a8db-1cd4c228e468',
+    text: 'Sensibilisation formation',
+    chapter_id: CHAPTERS.RECIPIENT
+  }, {
     id: 'b23c29f9-ecfd-4f63-9f10-9b919e6a752f',
     text: 'Stock vélos',
     chapter_id: CHAPTERS.ADMIN
   }, {
     id: '6d177b3f-a613-4557-afce-a0db2b4e980b',
-    text: 'Pré-bénéficiaires / bénéficiaires',
+    text: 'Pré-bénéficiaires',
+    chapter_id: CHAPTERS.ADMIN
+  }, {
+    id: 'c8323900-8f84-4dc2-82aa-e6c8d898ccee',
+    text: 'Bénéficiaires',
     chapter_id: CHAPTERS.ADMIN
   }, {
     id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d',
     text: 'Rozo',
+    chapter_id: CHAPTERS.ADMIN
+  }, {
+    id: 'baa61fef-dbeb-4fa4-9f33-a52dd5252afc',
+    text: 'Fournisseurs de solutions',
+    chapter_id: CHAPTERS.ADMIN
+  }, {
+    id: '113727d6-e21d-497b-a350-6718aae02b93',
+    text: 'Morio',
     chapter_id: CHAPTERS.ADMIN
   }, {
     id: '23453d24-c2bb-4ee8-9bb1-638512e43b81',
@@ -109,56 +121,73 @@ export async function seed(knex: Knex): Promise<any> {
    * Containers
    */
   await knex("container").insert([{
-    id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
-    text: 'Container v-logistique',
-    settings: JSON.stringify({
-      class: 'yolo'
-    }),
-    page_id: 'b23c29f9-ecfd-4f63-9f10-9b919e6a752f'
-  }, {
-    id: 'da283b02-0679-424c-98b3-95f2779655be',
-    text: 'Container 2',
-    page_id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee'
-  }, {
     id: '42be6c09-a6df-41c5-99e3-295d4696b492',
-    text: 'Container Flotte',
+    text: 'Container Fournisseur Gestion Flotte',
     page_id: '53646407-caf7-4dd4-9422-edd378dd647d'
   }, {
     id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
-    text: 'Container maintenance préventive',
+    text: 'Container Fournisseur Maintenance préventive',
     page_id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc'
   }, {
     id: '4d696142-5ac3-47bb-bfce-7bbbb0b59a6d',
-    text: 'Container maintenance curative',
+    text: 'Container Fournisseur Maintenance curative',
     page_id: '41910cbc-4065-4399-b05f-b73893a50dbb'
   }, {
-    id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
-    text: 'Container bénéficiaire v-logistique',
-    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+    id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
+    text: 'Container Fournisseur Information prestataire page en construction',
+    page_id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb'
+  }, {
+    id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
+    text: 'Container Fournisseur Messagerie',
+    page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
+  }, {
+    id: 'da283b02-0679-424c-98b3-95f2779655be',
+    text: 'Container Bénéficiare Usage vélo',
+    page_id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee'
+  }, {
+    id: 'fa17cfc4-66b9-455f-96e6-9746c0c7f5f0',
+    text: 'Container Bénéficiare Assistance page en construction',
+    page_id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d'
   }, {
     id: '916bbc56-c26e-44b7-8107-46f2c4d21d2e',
-    text: 'Container messagerie bénéficiaire',
+    text: 'Container Bénéficiare messagerie',
     page_id: 'f9bdf57a-de4d-4476-a765-84e6802d1342'
   }, {
     id: 'ff033f73-0ebc-41e0-acc6-7981caae15ad',
-    text: 'Container sensibilisation bénéficiaire',
+    text: 'Container Bénéficiare sensibilisation',
     page_id: '596848de-1287-4b36-a8db-1cd4c228e468'
   }, {
+    id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
+    text: 'Container V-logistique stock vélos',
+    page_id: 'b23c29f9-ecfd-4f63-9f10-9b919e6a752f'
+  }, {
+    id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
+    text: 'Container V-logistique Pré-bénéficiaire',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+  }, {
+    id: '943fe488-d438-46c0-8ce8-74de326a4928',
+    text: 'Container V-logistique Bénéficiaire',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+  }, {
     id: '292d8b92-de2a-11ea-87d0-0242ac130003',
-    text: 'Container Rozo',
+    text: 'Container V-logistique Rozo',
     page_id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d'
   }, {
-    id: 'c8a24d65-a9ba-4b73-811d-0096f523904a',
-    text: 'Container messagerie fournisseur',
-    page_id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01'
+    id: '171c8238-ba2b-4306-8590-455db8fe83a7',
+    text: 'Container V-logistique Fournisseur de solutions',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
   }, {
-    id: '0e6a7204-7fa2-4f38-9112-2fe255bf9b3a',
-    text: 'Container page en construction',
-    page_id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb'
+    id: 'decd0321-2776-4397-861b-536a0b4ed943',
+    text: 'Container V-logistique Morio',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
   }, {
-    id: 'fa17cfc4-66b9-455f-96e6-9746c0c7f5f0',
-    text: 'Container page en construction',
-    page_id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d'
+    id: '16097516-23b5-49c6-82cc-271650db06e2',
+    text: 'Container V-logistique Sensibilisation Formation',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
+  }, {
+    id: 'e0d76cf5-a912-49b2-a058-a32ccce19251',
+    text: 'Container V-logistique Messagerie page en construction',
+    page_id: '6d177b3f-a613-4557-afce-a0db2b4e980b'
   }])
 
   /**
@@ -214,11 +243,11 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '07f3668f-c870-4761-8572-fc3ce447a50f',
-    title: 'Listing bénéficiaire',
+    title: 'Listing pré-bénéficiaire',
     container_id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
     type: 'TableView',
     settings: JSON.stringify({
-      id: 'c804fae3-5d33-4759-9c1f-7d8f01c32d81'
+      id: VIEWS.VLO.PRE_RECIPIENT
     })
   }, {
     id: '8d3db4a1-ec19-4192-992c-aec2a126ba0b',
