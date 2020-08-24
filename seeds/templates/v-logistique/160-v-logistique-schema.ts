@@ -813,36 +813,6 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
-
-  // {
-  //   id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
-  //   text: 'Utilisateur corrélé',
-  //   table_id: TABLES.VLO.LIST_RECIPIENT.ID,
-  //   column_type_id: glossary.COLUMN_TYPE.USER
-  // }
-
-
-  /**
-   * Table Stock Fournisseur
-   */
-
-  await knex("table").insert([{
-    id: TABLES.VLO.LIST_PROVIDER.ID,
-    text: 'Fournisseur',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
-    text: 'Nom fournisseur',
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
-    text: 'Utilisateur corrélé',
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  }])
-
   /**
    * Table Rozo
    */
@@ -932,4 +902,26 @@ export async function seed (knex: Knex): Promise<any> {
       }
     },
   ])
+
+  /**
+   * Table Stock Fournisseur
+   */
+
+  await knex("table").insert([{
+    id: TABLES.VLO.LIST_PROVIDER.ID,
+    text: 'Fournisseur',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
+    text: 'Nom fournisseur',
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
+    text: 'Utilisateur corrélé',
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER
+  }])
+
 }

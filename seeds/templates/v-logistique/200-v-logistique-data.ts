@@ -180,44 +180,6 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   /**
-   * Fournisseurs
-   */
-  await knex("table_row").insert([{
-    id: 'e5328205-f34c-4fa1-a6d8-7da8c4f37036',
-    text: "CYCLABLE ENTREPRISE",
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    data: JSON.stringify({
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "CYCLABLE ENTREPRISE",
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
-        reference: 3,
-        value: 'Fournisseur CYCLABLE ENTREPRISE'
-      }
-    })
-  }, {
-    id: 'a30a590b-2939-4240-8b20-4728bf0d7649',
-    text: "AMSTERDAMAIR",
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    data: JSON.stringify({
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "AMSTERDAMAIR",
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
-        reference: 4,
-        value: 'Fournisseur AMSTERDAMAIR'
-      }
-    })
-  }, {
-    id: '22ba7040-7a38-4013-b993-52deacf1c729',
-    text: "CYCLELAB",
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    data: JSON.stringify({
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "CYCLELAB",
-      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
-        reference: 8,
-        value: 'Fournisseur CYCLELAB'
-      }
-    })
-  }])
-
-  /**
    * Pré-Bénéficiaires
    */
   await knex("table_row").insert([{
@@ -343,6 +305,44 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_DEMAND]: '10/07/2020',
       [TABLES.VLO.ROZO_REQUEST.COLUMNS.STEP]: 5,
       [TABLES.VLO.ROZO_REQUEST.COLUMNS.STATUS]: 3,
+    })
+  }])
+
+  /**
+   * Fournisseurs
+   */
+  await knex("table_row").insert([{
+    id: 'e5328205-f34c-4fa1-a6d8-7da8c4f37036',
+    text: "CYCLABLE ENTREPRISE",
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
+    data: JSON.stringify({
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "CYCLABLE ENTREPRISE",
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
+        reference: 3,
+        value: 'Fournisseur CYCLABLE ENTREPRISE'
+      }
+    })
+  }, {
+    id: 'a30a590b-2939-4240-8b20-4728bf0d7649',
+    text: "AMSTERDAMAIR",
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
+    data: JSON.stringify({
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "AMSTERDAMAIR",
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
+        reference: 4,
+        value: 'Fournisseur AMSTERDAMAIR'
+      }
+    })
+  }, {
+    id: '22ba7040-7a38-4013-b993-52deacf1c729',
+    text: "CYCLELAB",
+    table_id: TABLES.VLO.LIST_PROVIDER.ID,
+    data: JSON.stringify({
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME]: "CYCLELAB",
+      [TABLES.VLO.LIST_PROVIDER.COLUMNS.USER]: {
+        reference: 8,
+        value: 'Fournisseur CYCLELAB'
+      }
     })
   }])
 };

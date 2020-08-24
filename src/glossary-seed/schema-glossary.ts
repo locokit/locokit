@@ -120,13 +120,6 @@ export const TABLES = {
         NB_VCAE_TRI: '035a68cc-3ca7-4aa3-b70e-9e454c7fb516',
       }
     },
-    LIST_PROVIDER: {
-      ID: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
-      COLUMNS: {
-        NAME: '17ab6b13-5412-483e-ac7d-a9add38225f1',
-        USER: 'bf0da601-527b-434c-b5b7-fc25e370fe36'
-      }
-    },
     ROZO_REQUEST: {
       ID: '056b065a-31f7-4408-9ce6-db6e1f1ef65e',
       COLUMNS: {
@@ -136,6 +129,13 @@ export const TABLES = {
         DATE_DEMAND: '6c20ca98-e08e-11ea-87d0-0242ac130003',
         STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
         STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
+      }
+    },
+    LIST_PROVIDER: {
+      ID: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
+      COLUMNS: {
+        NAME: '17ab6b13-5412-483e-ac7d-a9add38225f1',
+        USER: 'bf0da601-527b-434c-b5b7-fc25e370fe36'
       }
     },
   },

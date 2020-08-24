@@ -231,15 +231,15 @@ export async function seed(knex: Knex): Promise<any> {
     container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
     type: 'TableView',
     settings: JSON.stringify({
-      id: VIEWS.VLO.BICYCLE_STOCK_1
+      id: VIEWS.VLO.BICYCLE_STOCK
     })
   }, {
     id: '8958475f-e22e-4c8f-b480-b7911654d167',
     title: 'Listing fournisseur',
-    container_id: '5cdbf483-aafe-4b6a-9ad1-99faf0a5e5f4',
+    container_id: '171c8238-ba2b-4306-8590-455db8fe83a7',
     type: 'TableView',
     settings: JSON.stringify({
-      id: VIEWS.VLO.BICYCLE_STOCK_2
+      id: VIEWS.VLO.PROVIDER
     })
   }, {
     id: '07f3668f-c870-4761-8572-fc3ce447a50f',

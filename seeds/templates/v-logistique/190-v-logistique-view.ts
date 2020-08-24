@@ -204,57 +204,57 @@ export async function seed(knex: Knex): Promise<any> {
    * View Stock vélo
    */
   await knex("table_view").insert([{
-    id: VIEWS.VLO.BICYCLE_STOCK_1,
+    id: VIEWS.VLO.BICYCLE_STOCK,
     text: 'Vélo bénéficiaire',
     table_id: TABLES.VLO.STOCK_BIKE.ID
   }])
   await knex("table_view_has_table_column").insert([{
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.TYPE,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.REF,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.STATUS,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.BRAND,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.MAINTENANCE_DATE,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.COMMISSIONING_DATE,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.PERSON,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.PROVIDER,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.TRACER,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }, {
     table_column_id: TABLES.VLO.STOCK_BIKE.COLUMNS.LAST_TRACER_DATA,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_1,
+    table_view_id: VIEWS.VLO.BICYCLE_STOCK,
     visible: true
   }])
 
@@ -377,26 +377,6 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   /**
-   * Vue Stock vélo ensemble des fournisseurs
-   */
-  await knex("table_view").insert([{
-    id: VIEWS.VLO.BICYCLE_STOCK_2,
-    text: 'Ensemble des fournisseurs',
-    table_id: TABLES.VLO.LIST_PROVIDER.ID
-  }])
-
-  await knex("table_view_has_table_column").insert([{
-    table_column_id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_2,
-    visible: true
-  }, {
-    table_column_id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
-    table_view_id: VIEWS.VLO.BICYCLE_STOCK_2,
-    visible: true
-  }])
-
-
-  /**
    * Vue ensemble rozo
    */
   await knex("table_view").insert([{
@@ -428,6 +408,25 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     table_column_id: 'ce540512-e06c-11ea-87d0-0242ac130003',
     table_view_id: VIEWS.VLO.ROZO,
+    visible: true
+  }])
+
+  /**
+   * Vue ensemble des fournisseurs
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.VLO.PROVIDER,
+    text: 'Ensemble des fournisseurs',
+    table_id: TABLES.VLO.LIST_PROVIDER.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
+    table_view_id: VIEWS.VLO.PROVIDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
+    table_view_id: VIEWS.VLO.PROVIDER,
     visible: true
   }])
 };
