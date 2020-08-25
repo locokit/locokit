@@ -48,6 +48,10 @@ export async function seed(knex: Knex): Promise<any> {
    * Pages
    */
   await knex("page").insert([{
+    id: '414ce692-4b8f-4068-ba8b-d3c561fae25a',
+    text: 'Demandes',
+    chapter_id: CHAPTERS.PROVIDER
+  },{
     id: '53646407-caf7-4dd4-9422-edd378dd647d',
     text: 'Gestion flotte vélos',
     chapter_id: CHAPTERS.PROVIDER
@@ -121,6 +125,10 @@ export async function seed(knex: Knex): Promise<any> {
    * Containers
    */
   await knex("container").insert([{
+    id: 'dd533aba-06c3-4f11-a811-874cd6803c16',
+    text: 'Container Fournisseur Demandes',
+    page_id: '414ce692-4b8f-4068-ba8b-d3c561fae25a'
+  },{
     id: '42be6c09-a6df-41c5-99e3-295d4696b492',
     text: 'Container Fournisseur Gestion Flotte',
     page_id: '53646407-caf7-4dd4-9422-edd378dd647d'
@@ -288,6 +296,14 @@ export async function seed(knex: Knex): Promise<any> {
     type: 'TableView',
     settings: JSON.stringify({
       id: VIEWS.VLO.FORMATION
+    })
+  }, {
+    id: '613c0d9c-4fe8-4192-90bb-c9bbb013efbf',
+    title: 'Liste des demandes',
+    container_id: 'dd533aba-06c3-4f11-a811-874cd6803c16',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.PROVIDER.REQUEST
     })
   }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',

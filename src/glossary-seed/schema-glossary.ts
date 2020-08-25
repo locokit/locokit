@@ -2,6 +2,20 @@ export const DATABASE = '895ec967-fa3b-4710-82e7-b406e62f657d'
 
 export const TABLES = {
   PROVIDER: {
+    REQUEST: {
+      ID: '59784479-ea06-4d10-a6ce-c9b863c9a995',
+      COLUMNS: {
+        SOCIETY: 'f6f06500-d187-4ad9-9def-abd97fd75861',
+        PERSON: '79044be1-cf13-40ca-9211-e3c43fcf4603',
+        STATUS: 'e68a42ed-10e4-4cfd-9d42-b52f065f9370',
+        NUM_REQUEST: '77a5b38c-411d-4572-a5c3-e3acae8ef4bc',
+        ADDRESS: '58db1cbf-12b0-422e-a9bb-725e86857e81',
+        LOT: '002aed07-055b-4e2d-8dbe-e71ebd64e8fb',
+        NB_VAE: '9cc3ddc3-74cd-4ea8-8b25-482cd06a31e1',
+        NB_VCAE_BI: 'a9d0f78d-a072-4631-aea7-37e1e10145f1',
+        NB_VCAE_TRI: '9fbc5213-0072-443c-9d81-8415197bc6a9',
+      }
+    },
     FLEET_BIKE: {
       ID: 'b87f2bea-82c5-4cd5-9167-7deb587538a8',
       COLUMNS: {
@@ -32,7 +46,7 @@ export const TABLES = {
       COLUMNS: {
         TYPE: '678fb5f3-1cc0-4151-82dd-40aece850565',
         IDENTITY: '71647569-caa3-4a4d-88ac-94188aed140f',
-        STATUS: '0cc5550b-8ca6-4c86-9b8e-8ebc6d305c29',
+        INCIDENT: '0cc5550b-8ca6-4c86-9b8e-8ebc6d305c29',
         MAINTENANCE_DATE: '595f2c0f-967b-4a6b-97ce-852d782fd223',
         RECIPIENT: '2bc5c026-9407-4115-9280-996c5becabba',
       }
@@ -77,6 +91,7 @@ export const TABLES = {
         DELIVERY_ESTIMATED_DATE: 'b6c50d68-5979-46c8-8349-514fc1ba35fd',
         PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
         PROVIDER: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        LOT: '1a0c3a02-2fcc-45fc-8cdd-8d46d4e98d63',
         TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
         LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690',
       },

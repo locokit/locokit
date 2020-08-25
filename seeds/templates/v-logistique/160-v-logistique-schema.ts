@@ -3,6 +3,12 @@ import { glossary } from '../../core/15-glossary'
 import { WORKSPACE } from './150-v-logistique-chapters'
 import { DATABASE, TABLES } from '../../../src/glossary-seed/schema-glossary'
 
+//TODO: Difference between User and RELATION_BETWEEN_TABLES ?
+// column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+//   settings: {
+//   table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID
+// }
+
 export async function seed (knex: Knex): Promise<any> {
   /**
    * Database
@@ -90,51 +96,98 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
+
+  // View Fournisseur
+
   /**
    * Table demande
    */
   await knex("table").insert([
     {
-      id: TABLES.REQUEST.ID,
+      id: TABLES.PROVIDER.REQUEST.ID,
       text: 'Demande',
       database_id: DATABASE
     }
   ])
-  await knex("table_column").insert([
-    {
-      id: TABLES.REQUEST.COLUMNS.PERSON,
-      text: 'Personne à l\'origine de la demande',
-      table_id: TABLES.REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+  await knex("table_column").insert([{
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.SOCIETY,
+      text: 'Société',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING,
+    }, {
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.PERSON,
+      text: 'Référent',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING,
+  }, {
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.STATUS,
+      text: 'Statut',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        values: {
+          1: {
+            label: 'Non éligible',
+            color: '#c63737'
+          },
+          2: {
+            label: 'Éligible',
+            color: '#256029'
+          },
+          3: {
+            label: 'En étude',
+            color: '#23547b'
+          }
+        }
       }
     }, {
-      id: TABLES.REQUEST.COLUMNS.CREATION_DATE,
-      text: 'Date de la demande',
-      table_id: TABLES.REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.NUM_REQUEST,
+      text: 'Numéro demande',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    },  {
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.ADDRESS,
+      text: 'Adresse',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    },  {
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.LOT,
+      text: 'Lot',
+      table_id: TABLES.PROVIDER.REQUEST.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Lot 1',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'Lot 2',
+            color: '#598916'
+          },
+          3: {
+            label: 'Lot 3',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
-      id: TABLES.REQUEST.COLUMNS.NB_VAE,
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VAE,
       text: 'Nombre de VAE',
-      table_id: TABLES.REQUEST.ID,
+      table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.NUMBER
     }, {
-      id: TABLES.REQUEST.COLUMNS.NB_VCAE_BI,
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VCAE_BI,
       text: 'Nombre de VCAE Bi-porteur',
-      table_id: TABLES.REQUEST.ID,
+      table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.NUMBER
     }, {
-      id: TABLES.REQUEST.COLUMNS.NB_VCAE_TRI,
+      id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VCAE_TRI,
       text: 'Nombre de VAE Tri-porteur',
-      table_id: TABLES.REQUEST.ID,
+      table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.NUMBER
     }
   ])
-
-
-  // View Fournisseur
-
 
   /**
    * Table FLEET BIKE
@@ -151,7 +204,23 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
@@ -171,15 +240,15 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'En maintenance',
-            color: '#ef1'
+            color: '#b1492f'
           },
           2: {
             label: 'En utilisation',
-            color: '#ef1'
+            color: '#598916'
           },
           3: {
             label: 'Stocké',
-            color: '#ef1'
+            color: '#25496a'
           }
         }
       }
@@ -204,7 +273,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        table_id: TABLES.VLO.LIST_PROVIDER.ID
       }
     }
   ])
@@ -224,7 +293,23 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
@@ -239,15 +324,15 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'En maintenance',
-            color: '#ef1'
+            color: '#b1492f'
           },
           2: {
             label: 'En utilisation',
-            color: '#ef1'
+            color: '#598916'
           },
           3: {
             label: 'Stocké',
-            color: '#ef1'
+            color: '#25496a'
           }
         }
       }
@@ -257,7 +342,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
@@ -309,30 +394,46 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
-      text: 'État du vélo',
+      id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.INCIDENT,
+      text: 'Incident',
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
         values: {
           1: {
-            label: 'En maintenance',
-            color: '#ef1'
+            label: 'Casse',
+            color: '#b1492f'
           },
           2: {
-            label: 'En utilisation',
-            color: '#ef1'
+            label: 'Vol',
+            color: '#d9141b'
           },
           3: {
-            label: 'Stocké',
-            color: '#ef1'
+            label: 'RAS',
+            color: '#598916'
           }
         }
       }
@@ -347,7 +448,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }
   ])
@@ -370,7 +471,23 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.RECIPIENT.USING_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.IDENTITY,
       text: 'Identité',
@@ -385,15 +502,15 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'En maintenance',
-            color: '#ef1'
+            color: '#b1492f'
           },
           2: {
             label: 'En utilisation',
-            color: '#ef1'
+            color: '#598916'
           },
           3: {
             label: 'Stocké',
-            color: '#ef1'
+            color: '#25496a'
           }
         }
       }
@@ -425,7 +542,7 @@ export async function seed (knex: Knex): Promise<any> {
       settings: {
         values: {
           1: {
-            label: 'Ok',
+            label: 'RAS',
             color: '#359320'
           },
           2: {
@@ -456,7 +573,23 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.INSTITUTION,
       text: 'Organisme',
@@ -466,11 +599,11 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'FUB',
-            color: '#ef1'
+            color: '#25496a'
           },
           2: {
             label: 'BicyclAide',
-            color: '#ef1'
+            color: '#082b4b'
           }
         }
       }
@@ -509,8 +642,23 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.TYPE,
       text: 'Type',
       table_id: TABLES.VLO.STOCK_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
-    }, {
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'VAE',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'VCAE Bi',
+            color: '#598916'
+          },
+          3: {
+            label: 'VCAE Tri',
+            color: '#25496a'
+          },
+        }
+      }    }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.REF,
       text: 'Identité',
       table_id: TABLES.VLO.STOCK_BIKE.ID,
@@ -578,13 +726,34 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //Todo
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.PROVIDER,
       text: 'Fournisseur',
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.USER
+    }, {
+      id: TABLES.VLO.STOCK_BIKE.COLUMNS.LOT,
+      text: 'Lot',
+      table_id: TABLES.VLO.STOCK_BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: {
+          1: {
+            label: 'Lot 1',
+            color: '#b1492f'
+          },
+          2: {
+            label: 'Lot 2',
+            color: '#598916'
+          },
+          3: {
+            label: 'Lot 3',
+            color: '#25496a'
+          },
+        }
+      }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.TRACER,
       text: 'Traceur',
@@ -721,7 +890,7 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.SOCIETY,
       text: 'Entreprise',
       table_id: TABLES.VLO.LIST_RECIPIENT.ID,
-      // column_type_id: glossary.COLUMN_TYPE.USER // Todo
+      // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.USER,
@@ -830,7 +999,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.USER,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.TYPE,
@@ -838,7 +1007,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.GROUP,
       settings: {
-        tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
+        tableId: TABLES.VLO.LIST_RECIPIENT.ID
       }
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_REQUEST,
@@ -859,19 +1028,19 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'Premier contact',
-            color: '#ef1'
+            color: '#b1492f'
           },
           2: {
             label: 'Questionnaire',
-            color: '#ef1'
+            color: '#598916'
           },
           3: {
             label: 'Entretien téléphonique',
-            color: '#ef1'
+            color: '#25496a'
           },
           4: {
             label: 'Commande vélo&co',
-            color: '#ef1'
+            color: '#a043b4'
           },
           5: {
             label: 'Livré',
@@ -888,15 +1057,15 @@ export async function seed (knex: Knex): Promise<any> {
         values: {
           1: {
             label: 'À faire',
-            color: '#ef1'
+            color: '#b1492f'
           },
           2: {
             label: 'En cours',
-            color: '#ef1'
+            color: '#25496a'
           },
           3: {
             label: 'Fait',
-            color: '#ef1'
+            color: '#598916'
           }
         }
       }
@@ -942,8 +1111,23 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.VLO.MORIO.COLUMNS.TYPE,
     text: 'Type',
     table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  },{
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: {
+        1: {
+          label: 'VAE',
+          color: '#b1492f'
+        },
+        2: {
+          label: 'VCAE Bi',
+          color: '#598916'
+        },
+        3: {
+          label: 'VCAE Tri',
+          color: '#25496a'
+        },
+      }
+    }  },{
     id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
     text: 'Numéro demande',
     table_id: TABLES.VLO.MORIO.ID,
@@ -962,11 +1146,11 @@ export async function seed (knex: Knex): Promise<any> {
       values: {
         1: {
           label: 'Livré',
-          color: '#ef1'
+          color: '#b1492f'
         },
         2: {
           label: 'En cours de livraison',
-          color: '#ef1'
+          color: '#598916'
         },
         3: {
           label: 'Préparation de l\'envoi',
@@ -974,7 +1158,11 @@ export async function seed (knex: Knex): Promise<any> {
         },
         4: {
           label: 'Non traité',
-          color: '#ef1'
+          color: '#25496a'
+        },
+        5: {
+          label: 'Pas de traceur',
+          color: '#890423'
         },
       }
     }

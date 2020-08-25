@@ -4,6 +4,52 @@ import { VIEWS } from '../../../src/glossary-seed/view-glossary'
 
 export async function seed(knex: Knex): Promise<any> {
   // View Fournisseur
+  /**
+   * Vue ensemble des commandes
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.PROVIDER.REQUEST,
+    text: 'Ensemble des commandes',
+    table_id: TABLES.PROVIDER.REQUEST.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.SOCIETY,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.PERSON,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.STATUS,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.NUM_REQUEST,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.ADDRESS,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.LOT,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VAE,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VCAE_BI,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }, {
+    table_column_id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VCAE_TRI,
+    table_view_id: VIEWS.PROVIDER.REQUEST,
+    visible: true
+  }])
 
   /**
    * Vue flotte vélo
@@ -105,7 +151,7 @@ export async function seed(knex: Knex): Promise<any> {
     table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
     visible: true
   }, {
-    table_column_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.STATUS,
+    table_column_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.INCIDENT,
     table_view_id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE,
     visible: true
   }, {
@@ -386,27 +432,27 @@ export async function seed(knex: Knex): Promise<any> {
   }])
 
   await knex("table_view_has_table_column").insert([{
-    table_column_id: '7a9c6160-e069-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NAME,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }, {
-    table_column_id: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.TYPE,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }, {
-    table_column_id: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_REQUEST,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }, {
-    table_column_id: '6c20ca98-e08e-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_REQUEST,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }, {
-    table_column_id: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STEP,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }, {
-    table_column_id: 'ce540512-e06c-11ea-87d0-0242ac130003',
+    table_column_id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STATUS,
     table_view_id: VIEWS.VLO.ROZO,
     visible: true
   }])
