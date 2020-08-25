@@ -142,7 +142,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('table').insert([
     {
       id: TABLES.PROVIDER.FLEET_BIKE.ID,
-      text: 'Vélos',
+      text: 'Flotte de vélos',
       database_id: DATABASE
     }
   ])
@@ -215,7 +215,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('table').insert([
     {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
-      text: 'Vélos',
+      text: 'Maintenance préventive',
       database_id: DATABASE
     }
   ])
@@ -300,7 +300,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('table').insert([
     {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
-      text: 'Vélos',
+      text: 'Maintenace curative',
       database_id: DATABASE
     }
   ])
@@ -361,7 +361,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('table').insert([
     {
       id: TABLES.RECIPIENT.USING_BIKE.ID,
-      text: 'Vélo',
+      text: 'Usag Vélo',
       database_id: DATABASE
     }
   ])
@@ -500,7 +500,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex("table").insert([
     {
       id: TABLES.VLO.STOCK_BIKE.ID,
-      text: 'Vélo',
+      text: 'Stock Vélo',
       database_id: DATABASE
     }
   ])
