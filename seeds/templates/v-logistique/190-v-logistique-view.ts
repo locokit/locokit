@@ -460,4 +460,31 @@ export async function seed(knex: Knex): Promise<any> {
     table_view_id: VIEWS.VLO.MORIO,
     visible: true
   }])
+
+  /**
+   * Vue ensemble des formations et assistances
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.VLO.FORMATION,
+    text: 'Ensemble des formations et assistances',
+    table_id: TABLES.VLO.FORMATION.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.VLO.FORMATION.COLUMNS.USER,
+    table_view_id: VIEWS.VLO.FORMATION,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.FORMATION.COLUMNS.FILE,
+    table_view_id: VIEWS.VLO.FORMATION,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.FORMATION.COLUMNS.DATE,
+    table_view_id: VIEWS.VLO.FORMATION,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.FORMATION.COLUMNS.RATING,
+    table_view_id: VIEWS.VLO.FORMATION,
+    visible: true
+  }])
 };

@@ -362,7 +362,24 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST]: '136',
       [TABLES.VLO.MORIO.COLUMNS.NUM_TRACER]: "17",
       [TABLES.VLO.MORIO.COLUMNS.STATUS]: 1,
+    })
+  }])
 
+  /**
+   * Formations et assistances
+   */
+  await knex("table_row").insert([{
+    id: 'b3a4def5-c490-4332-a84b-84c9bb057dc0',
+    text: "Formations et assistances n°XXXX",
+    table_id: TABLES.VLO.FORMATION.ID,
+    data: JSON.stringify({
+      [TABLES.VLO.FORMATION.COLUMNS.USER]: {
+        reference: 6,
+        value: 'Hervé LECOQ'
+      },
+      [TABLES.VLO.FORMATION.COLUMNS.FILE]: 'Doc',
+      [TABLES.VLO.FORMATION.COLUMNS.DATE]: '10/07/2020',
+      [TABLES.VLO.FORMATION.COLUMNS.RATING]: 6,
     })
   }])
 };

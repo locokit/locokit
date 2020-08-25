@@ -282,6 +282,14 @@ export async function seed(knex: Knex): Promise<any> {
       id: VIEWS.VLO.MORIO
     })
   }, {
+    id: 'cab1c928-0125-4ed1-a3ab-6875cf8351fc',
+    title: 'Liste des formations et Assistance',
+    container_id: '16097516-23b5-49c6-82cc-271650db06e2',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.VLO.FORMATION
+    })
+  }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
     settings: JSON.stringify({
       content: `
@@ -326,6 +334,17 @@ export async function seed(knex: Knex): Promise<any> {
       `
     }),
     container_id: 'fa17cfc4-66b9-455f-96e6-9746c0c7f5f0',
+    type: 'Paragraph'
+  }, {
+    id: 'f996615d-0a30-4df2-bfd2-01d87a6841a8',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: 'e0d76cf5-a912-49b2-a058-a32ccce19251',
     type: 'Paragraph'
   }])
 

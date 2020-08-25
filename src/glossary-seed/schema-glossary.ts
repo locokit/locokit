@@ -148,6 +148,15 @@ export const TABLES = {
         STATUS: '8b9b3886-1788-44b9-b57c-05597a54647b',
       }
     },
+    FORMATION: {
+      ID: '005c641c-7480-44e6-9df6-96caf7b63086',
+      COLUMNS: {
+        USER: '2bd806de-34ce-4426-93e6-70138cb4c0da',
+        FILE: '805d12e7-95c8-4ed7-bc47-7016710aaf7c',
+        DATE: 'd2cdc762-8884-4194-80b3-47dfaf9d852a',
+        RATING: '7e126aae-5235-4956-b4aa-0b104683e3ec',
+      }
+    },
   },
 
 

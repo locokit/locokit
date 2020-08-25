@@ -980,4 +980,63 @@ export async function seed (knex: Knex): Promise<any> {
     }
   }])
 
+  /**
+   * Table Formations
+   */
+
+  await knex("table").insert([{
+    id: TABLES.VLO.FORMATION.ID,
+    text: 'Formations et Assistances',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.VLO.FORMATION.COLUMNS.USER,
+    text: 'Bénéficiaire',
+    table_id: TABLES.VLO.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER
+  },{
+    id: TABLES.VLO.FORMATION.COLUMNS.FILE,
+    text: 'Document',
+    table_id: TABLES.VLO.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  },{
+    id: TABLES.VLO.FORMATION.COLUMNS.DATE,
+    text: 'Date',
+    table_id: TABLES.VLO.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  },{
+    id: TABLES.VLO.FORMATION.COLUMNS.RATING,
+    text: 'Évaluation',
+    table_id: TABLES.VLO.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: {
+        1: {
+          label: 'A',
+          color: '#ef1'
+        },
+        2: {
+          label: 'B',
+          color: '#ef1'
+        },
+        3: {
+          label: 'C',
+          color: '#ef1'
+        },
+        4: {
+          label: 'D',
+          color: '#ef1'
+        },
+        5: {
+          label: 'E',
+          color: '#ef1'
+        },
+        6: {
+          label: 'Non noté',
+          color: '#ef1'
+        },
+      }
+    }
+  }])
+
 }
