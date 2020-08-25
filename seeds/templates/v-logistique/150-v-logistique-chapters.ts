@@ -274,6 +274,14 @@ export async function seed(knex: Knex): Promise<any> {
       id: VIEWS.VLO.ROZO
     })
   }, {
+    id: '544c1cbc-1b03-45c8-a8c4-455bba29af41',
+    title: 'Liste des traceurs',
+    container_id: 'decd0321-2776-4397-861b-536a0b4ed943',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.VLO.MORIO
+    })
+  }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
     settings: JSON.stringify({
       content: `

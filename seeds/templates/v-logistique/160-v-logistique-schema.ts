@@ -753,7 +753,7 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST,
       text: 'Numéro demande',
       table_id: TABLES.VLO.LIST_RECIPIENT.ID,
-      column_type_id: glossary.COLUMN_TYPE.NUMBER
+      column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.EMAIL,
       text: 'Email',
@@ -841,12 +841,12 @@ export async function seed (knex: Knex): Promise<any> {
         tableId: TABLES.VLO.LIST_PRE_RECIPIENT.ID //TODO
       }
     }, {
-      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_DEMAND,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_REQUEST,
       text: 'Numéro de demande',
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING,
     }, {
-      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_DEMAND,
+      id: TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_REQUEST,
       text: 'Date de demande',
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.DATE,
@@ -904,7 +904,7 @@ export async function seed (knex: Knex): Promise<any> {
   ])
 
   /**
-   * Table Stock Fournisseur
+   * Table Fournisseur
    */
 
   await knex("table").insert([{
@@ -922,6 +922,62 @@ export async function seed (knex: Knex): Promise<any> {
     text: 'Utilisateur corrélé',
     table_id: TABLES.VLO.LIST_PROVIDER.ID,
     column_type_id: glossary.COLUMN_TYPE.USER
+  }])
+
+  /**
+   * Table Morio
+   */
+
+  await knex("table").insert([{
+    id: TABLES.VLO.MORIO.ID,
+    text: 'Morio',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.VLO.MORIO.COLUMNS.USER,
+    text: 'Bénéficiaire',
+    table_id: TABLES.VLO.MORIO.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER
+  },{
+    id: TABLES.VLO.MORIO.COLUMNS.TYPE,
+    text: 'Type',
+    table_id: TABLES.VLO.MORIO.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  },{
+    id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
+    text: 'Numéro demande',
+    table_id: TABLES.VLO.MORIO.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  },{
+    id: TABLES.VLO.MORIO.COLUMNS.NUM_TRACER,
+    text: 'Numéro traceur',
+    table_id: TABLES.VLO.MORIO.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  },{
+    id: TABLES.VLO.MORIO.COLUMNS.STATUS,
+    text: 'Statut',
+    table_id: TABLES.VLO.MORIO.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: {
+        1: {
+          label: 'Livré',
+          color: '#ef1'
+        },
+        2: {
+          label: 'En cours de livraison',
+          color: '#ef1'
+        },
+        3: {
+          label: 'Préparation de l\'envoi',
+          color: '#ef1'
+        },
+        4: {
+          label: 'Non traité',
+          color: '#ef1'
+        },
+      }
+    }
   }])
 
 }

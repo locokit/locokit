@@ -252,7 +252,7 @@ export async function seed(knex: Knex): Promise<any> {
         value: 'Bénéficiaire A'
       },
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.STATUS]: 2,
-      [TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST]: 42,
+      [TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST]: '42',
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.EMAIL]: "beneficiairea@makina-corpus.net",
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.PHONE]: "0987654321",
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.ADDRESS]: "11 rue du Marchix, Nantes",
@@ -273,7 +273,7 @@ export async function seed(knex: Knex): Promise<any> {
         value: 'Hervé LECOQ'
       },
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.STATUS]: 1,
-      [TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST]: 136,
+      [TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST]: '136',
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.EMAIL]: "la.boulangerie@orange.fr",
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.PHONE]: "0626093607",
       [TABLES.VLO.LIST_RECIPIENT.COLUMNS.ADDRESS]: "4 allée Duquesne, Nantes",
@@ -301,8 +301,8 @@ export async function seed(knex: Knex): Promise<any> {
         reference: 6,
         value: 'Bénéficiaire'
       },
-      [TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_DEMAND]: '42',
-      [TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_DEMAND]: '10/07/2020',
+      [TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_REQUEST]: '42',
+      [TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_REQUEST]: '10/07/2020',
       [TABLES.VLO.ROZO_REQUEST.COLUMNS.STEP]: 5,
       [TABLES.VLO.ROZO_REQUEST.COLUMNS.STATUS]: 3,
     })
@@ -343,6 +343,26 @@ export async function seed(knex: Knex): Promise<any> {
         reference: 8,
         value: 'Fournisseur CYCLELAB'
       }
+    })
+  }])
+
+  /**
+   * Morio
+   */
+  await knex("table_row").insert([{
+    id: '70c8b197-aaf5-4972-83ff-a4f9d5f5c7f9',
+    text: "Traceur n°XXXX",
+    table_id: TABLES.VLO.MORIO.ID,
+    data: JSON.stringify({
+      [TABLES.VLO.MORIO.COLUMNS.USER]: {
+        reference: 6,
+        value: 'Hervé LECOQ'
+      },
+      [TABLES.VLO.MORIO.COLUMNS.TYPE]: "VCAE",
+      [TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST]: '136',
+      [TABLES.VLO.MORIO.COLUMNS.NUM_TRACER]: "17",
+      [TABLES.VLO.MORIO.COLUMNS.STATUS]: 1,
+
     })
   }])
 };

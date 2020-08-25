@@ -125,8 +125,8 @@ export const TABLES = {
       COLUMNS: {
         NAME: '7a9c6160-e069-11ea-87d0-0242ac130003',
         TYPE: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
-        NUM_DEMAND: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
-        DATE_DEMAND: '6c20ca98-e08e-11ea-87d0-0242ac130003',
+        NUM_REQUEST: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
+        DATE_REQUEST: '6c20ca98-e08e-11ea-87d0-0242ac130003',
         STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
         STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
       }
@@ -136,6 +136,16 @@ export const TABLES = {
       COLUMNS: {
         NAME: '17ab6b13-5412-483e-ac7d-a9add38225f1',
         USER: 'bf0da601-527b-434c-b5b7-fc25e370fe36'
+      }
+    },
+    MORIO: {
+      ID: 'caeae34a-0520-47cb-bc4a-fc4c0ace377d',
+      COLUMNS: {
+        USER: 'a54e65c6-7752-495b-b4ec-6ea3b39e6e18',
+        TYPE: '918f8305-10b9-4f51-98d8-73cea5cb6f91',
+        NUM_REQUEST: '541bfb5b-6658-40b1-a0f6-958413a02273',
+        NUM_TRACER: '5dd0a1a9-a4a4-46d1-83b7-607f84e86828',
+        STATUS: '8b9b3886-1788-44b9-b57c-05597a54647b',
       }
     },
   },

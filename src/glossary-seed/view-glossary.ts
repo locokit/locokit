@@ -14,6 +14,7 @@ export const VIEWS = {
     RECIPIENT: '910ed338-c624-4645-abbb-7132b6bbbe00',
     ROZO: 'b86f21ea-e086-11ea-87d0-0242ac130003',
     PROVIDER: '9753bd58-ad09-4ed0-9301-fa9ea66b7d7f',
+    MORIO: '37f9aab4-55c8-43e4-b26a-8ce8785ca13d',
   },
 }
 

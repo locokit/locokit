@@ -429,4 +429,35 @@ export async function seed(knex: Knex): Promise<any> {
     table_view_id: VIEWS.VLO.PROVIDER,
     visible: true
   }])
+
+  /**
+   * Vue ensemble des traceurs
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.VLO.MORIO,
+    text: 'Ensemble des traceurs',
+    table_id: TABLES.VLO.MORIO.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.VLO.MORIO.COLUMNS.USER,
+    table_view_id: VIEWS.VLO.MORIO,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.MORIO.COLUMNS.TYPE,
+    table_view_id: VIEWS.VLO.MORIO,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
+    table_view_id: VIEWS.VLO.MORIO,
+    visible: true
+  },{
+    table_column_id: TABLES.VLO.MORIO.COLUMNS.NUM_TRACER,
+    table_view_id: VIEWS.VLO.MORIO,
+    visible: true
+  }, {
+    table_column_id: TABLES.VLO.MORIO.COLUMNS.STATUS,
+    table_view_id: VIEWS.VLO.MORIO,
+    visible: true
+  }])
 };
