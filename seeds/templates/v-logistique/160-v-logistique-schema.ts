@@ -2,6 +2,7 @@ import * as Knex from 'knex'
 import { glossary } from '../../core/15-glossary'
 import { WORKSPACE } from './150-v-logistique-chapters'
 import { DATABASE, TABLES } from '../../../src/glossary-seed/schema-glossary'
+import { VALUES } from '../../../src/glossary-seed/value_single_select-glossary'
 
 //TODO: Difference between User and RELATION_BETWEEN_TABLES ?
 // column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
@@ -125,20 +126,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Non éligible',
-            color: '#c63737'
-          },
-          2: {
-            label: 'Éligible',
-            color: '#256029'
-          },
-          3: {
-            label: 'En étude',
-            color: '#23547b'
-          }
-        }
+        values: VALUES.ELIGIBILITY
       }
     }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.NUM_REQUEST,
@@ -156,20 +144,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Lot 1',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Lot 2',
-            color: '#598916'
-          },
-          3: {
-            label: 'Lot 3',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.LOT
       }
     }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.NB_VAE,
@@ -206,20 +181,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.BIKE
       }
     }, {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.IDENTITY,
@@ -237,20 +199,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'En maintenance',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'En utilisation',
-            color: '#598916'
-          },
-          3: {
-            label: 'Stocké',
-            color: '#25496a'
-          }
-        }
+        values: VALUES.USE
       }
     }, {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
@@ -295,20 +244,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.BIKE
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.IDENTITY,
@@ -321,20 +257,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'En maintenance',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'En utilisation',
-            color: '#598916'
-          },
-          3: {
-            label: 'Stocké',
-            color: '#25496a'
-          }
-        }
+        values: VALUES.USE
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.RECIPIENT,
@@ -360,20 +283,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Maintenance 1',
-            color: '#ef1'
-          },
-          2: {
-            label: 'Maintenance 2',
-            color: '#ef1'
-          },
-          3: {
-            label: 'Maintenance 3',
-            color: '#ef1'
-          }
-        }
+        values: VALUES.MAINTENANCE
       }
     }
   ])
@@ -396,20 +306,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.BIKE
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.IDENTITY,
@@ -422,20 +319,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Casse',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Vol',
-            color: '#d9141b'
-          },
-          3: {
-            label: 'RAS',
-            color: '#598916'
-          }
-        }
+        values: VALUES.INCIDENT
       }
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
@@ -473,20 +357,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.BIKE
       }
     }, {
       id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.IDENTITY,
@@ -499,20 +370,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'En maintenance',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'En utilisation',
-            color: '#598916'
-          },
-          3: {
-            label: 'Stocké',
-            color: '#25496a'
-          }
-        }
+        values: VALUES.USE
       }
     }, {
       id: TABLES.RECIPIENT.USING_BIKE.COLUMNS.BRAND,
@@ -540,20 +398,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.RECIPIENT.USING_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'RAS',
-            color: '#359320'
-          },
-          2: {
-            label: 'Accident',
-            color: '#cb4814'
-          },
-          3: {
-            label: 'Vol',
-            color: '#a5071e'
-          }
-        }
+        values: VALUES.INCIDENT
       }
     }
   ])
@@ -575,20 +420,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.RECIPIENT.AWARENESS_FORMATION.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.BIKE
       }
     }, {
       id: TABLES.RECIPIENT.AWARENESS_FORMATION.COLUMNS.INSTITUTION,
@@ -644,21 +476,9 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'VAE',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'VCAE Bi',
-            color: '#598916'
-          },
-          3: {
-            label: 'VCAE Tri',
-            color: '#25496a'
-          },
-        }
-      }    }, {
+        values: VALUES.BIKE
+      }
+    }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.REF,
       text: 'Identité',
       table_id: TABLES.VLO.STOCK_BIKE.ID,
@@ -669,23 +489,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: 9,
       settings: {
-        values: {
-          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_IN_MAINTENANCE]: {
-            label: 'En maintenance',
-            color: '#23547b',
-            backgroundColor: '#b3e5fc'
-          },
-          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_IN_USE]: {
-            label: 'En utilisation',
-            color: '#256029',
-            backgroundColor: '#c8e6c9'
-          },
-          [TABLES.VLO.STOCK_BIKE.DATA.STATUS_STORED]: {
-            label: 'Stocké',
-            color: '#805b36',
-            backgroundColor: '#ffd8b2'
-          }
-        }
+        values: VALUES.USE
       },
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.BRAND,
@@ -739,20 +543,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.STOCK_BIKE.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Lot 1',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Lot 2',
-            color: '#598916'
-          },
-          3: {
-            label: 'Lot 3',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.LOT
       }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.TRACER,
@@ -796,20 +587,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Non éligible',
-            color: '#c63737'
-          },
-          2: {
-            label: 'Éligible',
-            color: '#256029'
-          },
-          3: {
-            label: 'En étude',
-            color: '#23547b'
-          }
-        }
+        values: VALUES.ELIGIBILITY
       }
     }, {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST,
@@ -837,20 +615,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Lot 1',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Lot 2',
-            color: '#598916'
-          },
-          3: {
-            label: 'Lot 3',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.LOT
       }
     }, {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.APE,
@@ -903,20 +668,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.LIST_RECIPIENT.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'En utilisation',
-            color: '#359320'
-          },
-          2: {
-            label: 'En maintenance',
-            color: '#cb4814'
-          },
-          3: {
-            label: 'En commande',
-            color: '#a5071e'
-          }
-        }
+        values: VALUES.USE
       }
     }, {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.NUM_REQUEST,
@@ -944,20 +696,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.LIST_RECIPIENT.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Lot 1',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Lot 2',
-            color: '#598916'
-          },
-          3: {
-            label: 'Lot 3',
-            color: '#25496a'
-          },
-        }
+        values: VALUES.LOT
       }
     }, {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.APE,
@@ -1025,28 +764,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'Premier contact',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'Questionnaire',
-            color: '#598916'
-          },
-          3: {
-            label: 'Entretien téléphonique',
-            color: '#25496a'
-          },
-          4: {
-            label: 'Commande vélo&co',
-            color: '#a043b4'
-          },
-          5: {
-            label: 'Livré',
-            color: '#ef1'
-          }
-        }
+        values: VALUES.QUESTIONNARY
       }
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STATUS,
@@ -1054,20 +772,7 @@ export async function seed (knex: Knex): Promise<any> {
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
       settings: {
-        values: {
-          1: {
-            label: 'À faire',
-            color: '#b1492f'
-          },
-          2: {
-            label: 'En cours',
-            color: '#25496a'
-          },
-          3: {
-            label: 'Fait',
-            color: '#598916'
-          }
-        }
+        values: VALUES.KANBAN
       }
     },
   ])
@@ -1113,21 +818,9 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.VLO.MORIO.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
-      values: {
-        1: {
-          label: 'VAE',
-          color: '#b1492f'
-        },
-        2: {
-          label: 'VCAE Bi',
-          color: '#598916'
-        },
-        3: {
-          label: 'VCAE Tri',
-          color: '#25496a'
-        },
-      }
-    }  },{
+      values: VALUES.BIKE
+    }
+  },{
     id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
     text: 'Numéro demande',
     table_id: TABLES.VLO.MORIO.ID,
@@ -1143,28 +836,7 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.VLO.MORIO.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
-      values: {
-        1: {
-          label: 'Livré',
-          color: '#b1492f'
-        },
-        2: {
-          label: 'En cours de livraison',
-          color: '#598916'
-        },
-        3: {
-          label: 'Préparation de l\'envoi',
-          color: '#ef1'
-        },
-        4: {
-          label: 'Non traité',
-          color: '#25496a'
-        },
-        5: {
-          label: 'Pas de traceur',
-          color: '#890423'
-        },
-      }
+      values: VALUES.SHIPMENT
     }
   }])
 
@@ -1198,33 +870,7 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.VLO.FORMATION.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
-      values: {
-        1: {
-          label: 'A',
-          color: '#ef1'
-        },
-        2: {
-          label: 'B',
-          color: '#ef1'
-        },
-        3: {
-          label: 'C',
-          color: '#ef1'
-        },
-        4: {
-          label: 'D',
-          color: '#ef1'
-        },
-        5: {
-          label: 'E',
-          color: '#ef1'
-        },
-        6: {
-          label: 'Non noté',
-          color: '#ef1'
-        },
-      }
+      values: VALUES.RATING
     }
   }])
-
 }
