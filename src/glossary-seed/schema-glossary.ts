@@ -219,8 +219,17 @@ export const TABLES = {
       },
     },
   },
-
-
+  FUB: {
+    FORMATION: {
+      ID: 'c13dbbf2-75f2-4a38-b139-2c6eb4d3f14c',
+      COLUMNS: {
+        SOCIETY: 'af4e69d5-c4ba-4217-9fb0-52cf17c2fc4a',
+        TYPE: '445c9aa8-4858-4b14-8e51-41df77cef823',
+        FORMATION: 'b6ee611d-3878-4b2d-9ccc-fead1a9f3b4f',
+        DATE: 'f14d044b-fa6b-4cbb-9ffe-49fde1dac34e',
+      },
+    },
+  },
 
 
   REQUEST: {

@@ -407,6 +407,14 @@ export async function seed(knex: Knex): Promise<any> {
       id: VIEWS.MORIO.TRACER
     })
   }, {
+    id: '45bfbf6a-3825-4674-bc60-64866417a999',
+    title: 'Liste des formations',
+    container_id: '2b523341-e7f8-48b8-bf8f-e1dfd8e507d3',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.FUB.FORMATION
+    })
+  }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
     settings: JSON.stringify({
       content: `

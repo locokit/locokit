@@ -26,5 +26,8 @@ export const VIEWS = {
     INCIDENT: '5d005962-ef9c-4e0d-86c8-4c7ef64520d3',
     TRACER: 'bf24ab40-7a92-40ce-bf36-2f7c9c0890b9',
   },
+  FUB: {
+    FORMATION: '831f302e-6446-4f07-8d32-76903dd3282d',
+  },
 }
 

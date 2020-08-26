@@ -1064,5 +1064,44 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.DATE
   }])
 
+
   // View Fub
+
+  /**
+   * Table Formation vélo
+   */
+
+  await knex("table").insert([{
+    id: TABLES.FUB.FORMATION.ID,
+    text: 'Formation',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.FUB.FORMATION.COLUMNS.SOCIETY,
+    text: 'Bénéficiaire',
+    table_id: TABLES.FUB.FORMATION.ID,
+    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.FUB.FORMATION.COLUMNS.TYPE,
+    text: 'Type',
+    table_id: TABLES.FUB.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.KANBAN
+    }
+  }, {
+    id: TABLES.FUB.FORMATION.COLUMNS.FORMATION,
+    text: 'Formation',
+    table_id: TABLES.FUB.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.BIKE
+    }
+  }, {
+    id: TABLES.FUB.FORMATION.COLUMNS.DATE,
+    text: 'Date',
+    table_id: TABLES.FUB.FORMATION.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }])
 }

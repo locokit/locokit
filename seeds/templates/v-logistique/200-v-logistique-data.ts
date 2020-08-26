@@ -514,7 +514,7 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_row").insert([{
     id: 'f30b3644-d8e0-4b31-b1f0-a573d17f9594',
-    text: "Traceurs n°XXXX",
+    text: "Traceur n°XXXX",
     table_id: TABLES.MORIO.TRACER.ID,
     data: JSON.stringify({
       [TABLES.MORIO.TRACER.COLUMNS.SOCIETY]: 'Makina',
@@ -525,6 +525,22 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }])
 
+
   // View Fub
+
+  /**
+   * Formation
+   */
+  await knex("table_row").insert([{
+    id: '993c29f8-3349-400b-90e4-67e806b2fa0a',
+    text: "Formation n°XXXX",
+    table_id: TABLES.FUB.FORMATION.ID,
+    data: JSON.stringify({
+      [TABLES.FUB.FORMATION.COLUMNS.SOCIETY]: 'Makina',
+      [TABLES.FUB.FORMATION.COLUMNS.TYPE]: 2,
+      [TABLES.FUB.FORMATION.COLUMNS.FORMATION]: 2,
+      [TABLES.FUB.FORMATION.COLUMNS.DATE]: '26/08/2020',
+    })
+  }])
 
 };
