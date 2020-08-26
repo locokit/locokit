@@ -453,6 +453,9 @@ export async function seed(knex: Knex): Promise<any> {
 
   // View Rozo
 
+  /**
+   * Dossiers
+   */
   await knex("table_row").insert([{
     id: '060f54fa-f439-49dc-8fa4-0a10abeb64f4',
     text: "Dossier n°XXXX",
@@ -467,6 +470,26 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE]: 1,
     })
   }])
+
+  /**
+   * Vélos utilisés
+   */
+  await knex("table_row").insert([{
+    id: '364b053e-f2e7-46a3-873c-a6952a36413d',
+    text: "Dossier n°XXXX",
+    table_id: TABLES.ROZO.BIKE.ID,
+    data: JSON.stringify({
+      [TABLES.ROZO.BIKE.COLUMNS.SOCIETY]: 'Sarl rc & co',
+      [TABLES.ROZO.BIKE.COLUMNS.NB_BIKE]: 1,
+      [TABLES.ROZO.BIKE.COLUMNS.PERIOD]: '',
+      [TABLES.ROZO.BIKE.COLUMNS.STATUS]: 2,
+      [TABLES.ROZO.BIKE.COLUMNS.PROVIDER]: {
+        reference: 8,
+        value: 'Fournisseur CYCLELAB'
+      }
+    })
+  }])
+
 
   // View Morio
 

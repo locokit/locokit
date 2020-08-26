@@ -537,7 +537,7 @@ export async function seed(knex: Knex): Promise<any> {
   // View Rozo
 
   /**
-   * Vue ensemble des formations et assistances
+   * Vue ensemble des dossiers
    */
   await knex("table_view").insert([{
     id: VIEWS.ROZO.FOLDER,
@@ -572,6 +572,37 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     table_column_id: TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE,
     table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }])
+
+  /**
+   * Vue ensemble des vélo utilisés
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.ROZO.BIKE,
+    text: 'Ensembledes vélo utilisés',
+    table_id: TABLES.ROZO.BIKE.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.ROZO.BIKE.COLUMNS.SOCIETY,
+    table_view_id: VIEWS.ROZO.BIKE,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.BIKE.COLUMNS.NB_BIKE,
+    table_view_id: VIEWS.ROZO.BIKE,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.BIKE.COLUMNS.PERIOD,
+    table_view_id: VIEWS.ROZO.BIKE,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.BIKE.COLUMNS.STATUS,
+    table_view_id: VIEWS.ROZO.BIKE,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.BIKE.COLUMNS.PROVIDER,
+    table_view_id: VIEWS.ROZO.BIKE,
     visible: true
   }])
 

@@ -877,7 +877,7 @@ export async function seed (knex: Knex): Promise<any> {
   // View Rozo
 
   /**
-   * Table Formations
+   * Table Dossiers en instruction
    */
 
   await knex("table").insert([{
@@ -932,6 +932,45 @@ export async function seed (knex: Knex): Promise<any> {
     text: 'Vélo',
     table_id: TABLES.ROZO.FOLDER.ID,
     column_type_id: glossary.COLUMN_TYPE.NUMBER
+  }])
+
+  /**
+   * Table Utilisation vélo
+   */
+
+  await knex("table").insert([{
+    id: TABLES.ROZO.BIKE.ID,
+    text: 'Vélos par entreprise',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.ROZO.BIKE.COLUMNS.SOCIETY,
+    text: 'Entreprise',
+    table_id: TABLES.ROZO.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.ROZO.BIKE.COLUMNS.NB_BIKE,
+    text: 'Nombre vélo',
+    table_id: TABLES.ROZO.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.NUMBER
+  }, {
+    id: TABLES.ROZO.BIKE.COLUMNS.PERIOD,
+    text: 'Km/sem',
+    table_id: TABLES.ROZO.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.NUMBER
+  }, {
+    id: TABLES.ROZO.BIKE.COLUMNS.STATUS,
+    text: 'État flotte',
+    table_id: TABLES.ROZO.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USE
+    }
+  }, {
+    id: TABLES.ROZO.BIKE.COLUMNS.PROVIDER,
+    text: 'Fournisseur',
+    table_id: TABLES.ROZO.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.USER
   }])
 
   // View Morio
