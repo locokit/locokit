@@ -9,7 +9,8 @@ export const CHAPTERS = {
   ROZO:'d7bb8c43-e96f-442c-96ae-34ab61132504',
   MORIO:'51f2f984-5dbb-456d-a795-aabe83744e50',
   PROVIDER:'8da8f312-27cf-4810-a7e5-9430823eed29',
-  RECIPIENT:'dc1a1763-7786-4876-8b7d-2e65f772e658'
+  RECIPIENT:'dc1a1763-7786-4876-8b7d-2e65f772e658',
+  FUB:'1226c7df-ce85-4a63-8c10-57357043f413',
 }
 
 
@@ -41,6 +42,10 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: CHAPTERS.MORIO,
     text: 'Morio',
+    workspace_id: WORKSPACE
+  }, {
+    id: CHAPTERS.FUB,
+    text: 'FUB',
     workspace_id: WORKSPACE
   }])
 
@@ -119,6 +124,38 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1',
     text: 'Messagerie',
     chapter_id: CHAPTERS.ADMIN
+  }, {
+    id: '1cc188e6-7c53-4460-b527-8a288bbed107',
+    text: 'Dossier en instruction',
+    chapter_id: CHAPTERS.ROZO
+  }, {
+    id: '1e158ffa-1d84-4800-a215-cf9cd92b6083',
+    text: 'Utilisation vélos',
+    chapter_id: CHAPTERS.ROZO
+  }, {
+    id: 'a2257b27-cf91-48fa-89be-3ee66a79c329',
+    text: 'Messagerie',
+    chapter_id: CHAPTERS.ROZO
+  }, {
+    id: '7579786b-3136-4a78-b0aa-1f601f1e49f0',
+    text: 'Incident',
+    chapter_id: CHAPTERS.MORIO
+  }, {
+    id: '52729f44-c450-4044-9dcb-7632fdbb1653',
+    text: 'Traceurs',
+    chapter_id: CHAPTERS.MORIO
+  }, {
+    id: 'a5797f07-df6c-4235-a1c3-8fff772d6a43',
+    text: 'Messagerie',
+    chapter_id: CHAPTERS.MORIO
+  }, {
+    id: '1e2c3368-5dff-426c-8110-648eeccc30e9',
+    text: 'Formations',
+    chapter_id: CHAPTERS.FUB
+  }, {
+    id: '339e6670-2b4b-459f-8ed7-b8ad7f8003eb',
+    text: 'Messagerie',
+    chapter_id: CHAPTERS.FUB
   }])
 
   /**
@@ -196,6 +233,38 @@ export async function seed(knex: Knex): Promise<any> {
     id: 'e0d76cf5-a912-49b2-a058-a32ccce19251',
     text: 'Container V-logistique Messagerie page en construction',
     page_id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1'
+  }, {
+    id: '1e6ba31f-9eb0-44b4-beb3-4c0bda0c5b6d',
+    text: 'Container Rozo Dossier en instruction',
+    page_id: '1cc188e6-7c53-4460-b527-8a288bbed107'
+  }, {
+    id: 'a975cc00-58ae-435e-bd18-ecc35412350b',
+    text: 'Container Rozo Utilisation vélo',
+    page_id: '1e158ffa-1d84-4800-a215-cf9cd92b6083'
+  }, {
+    id: 'e6897e98-e1fc-47b6-8862-9c7cd93caee6',
+    text: 'Container Rozo Messagerie page en construction',
+    page_id: 'a2257b27-cf91-48fa-89be-3ee66a79c329'
+  }, {
+    id: '3a05e853-f62b-4672-a48e-63773773fc09',
+    text: 'Container Morio Incidents',
+    page_id: 'a5797f07-df6c-4235-a1c3-8fff772d6a43'
+  }, {
+    id: '396f1826-c2ee-4fad-a78b-7daab248b1f3',
+    text: 'Container Morio Traceurs',
+    page_id: '52729f44-c450-4044-9dcb-7632fdbb1653'
+  }, {
+    id: '91910357-aa2b-4521-9a51-ef40857a8725',
+    text: 'Container Morio Messagerie page en construction',
+    page_id: 'a5797f07-df6c-4235-a1c3-8fff772d6a43'
+  }, {
+    id: '2b523341-e7f8-48b8-bf8f-e1dfd8e507d3',
+    text: 'Container Fub Formations',
+    page_id: '1e2c3368-5dff-426c-8110-648eeccc30e9'
+  }, {
+    id: '87d83ee4-6f8a-46b7-ad6c-79ed110e35ea',
+    text: 'Container fub Messagerie page en construction',
+    page_id: '339e6670-2b4b-459f-8ed7-b8ad7f8003eb'
   }])
 
   /**
@@ -361,6 +430,39 @@ export async function seed(knex: Knex): Promise<any> {
       `
     }),
     container_id: 'e0d76cf5-a912-49b2-a058-a32ccce19251',
+    type: 'Paragraph'
+  }, {
+    id: 'eac25152-89ad-435e-b5f4-37f3ae6783da',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: 'e6897e98-e1fc-47b6-8862-9c7cd93caee6',
+    type: 'Paragraph'
+  }, {
+    id: 'aa61aa4e-e5d0-44c2-88c3-0ec8cd7486ea',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: '91910357-aa2b-4521-9a51-ef40857a8725',
+    type: 'Paragraph'
+  }, {
+    id: 'a08f0b8c-a810-40ad-8e46-b9f6b0613eda',
+    settings: JSON.stringify({
+      content: `
+      Page en construction.
+
+      Pour tout contact, merci d'envoyer un mail à contact@v-logistique.com.
+      `
+    }),
+    container_id: '87d83ee4-6f8a-46b7-ad6c-79ed110e35ea',
     type: 'Paragraph'
   }])
 
