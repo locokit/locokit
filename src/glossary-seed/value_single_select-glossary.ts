@@ -1,4 +1,14 @@
 export const VALUES = {
+  USER_STATUS: {
+    1: {
+      label: 'Pré-Bénéficiaire',
+      color: '#c63737'
+    },
+    2: {
+      label: 'Bénéficiaire',
+      color: '#256029'
+    },
+  },
   ELIGIBILITY: {
     1: {
       label: 'Non éligible',

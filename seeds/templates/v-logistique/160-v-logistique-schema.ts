@@ -593,7 +593,7 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST,
       text: 'Numéro demande',
       table_id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
-      column_type_id: glossary.COLUMN_TYPE.NUMBER
+      column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.EMAIL,
       text: 'Email',
@@ -873,4 +873,68 @@ export async function seed (knex: Knex): Promise<any> {
       values: VALUES.RATING
     }
   }])
+
+  // View Rozo
+
+  /**
+   * Table Formations
+   */
+
+  await knex("table").insert([{
+    id: TABLES.ROZO.FOLDER.ID,
+    text: 'Dossiers en instruction',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.ROZO.FOLDER.COLUMNS.SOCIETY,
+    text: 'Entreprise',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PERSON,
+    text: 'Type',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USER_STATUS
+    }
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_FOLDER,
+    text: 'Statut',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.ELIGIBILITY
+    }
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.NUM_REQUEST,
+    text: 'Numéro demande',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.STEP,
+    text: 'Étape programme',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.QUESTIONNARY
+    }
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PROGRAM,
+    text: 'État étape',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.KANBAN
+    }
+  }, {
+    id: TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE,
+    text: 'Vélo',
+    table_id: TABLES.ROZO.FOLDER.ID,
+    column_type_id: glossary.COLUMN_TYPE.NUMBER
+  }])
+
+  // View Morio
+
+  // View Fub
 }

@@ -375,6 +375,22 @@ export async function seed(knex: Knex): Promise<any> {
       id: VIEWS.PROVIDER.REQUEST
     })
   }, {
+    id: 'e65ba238-f739-441a-a103-3d9e6ee448a9',
+    title: 'Liste des dossiers',
+    container_id: '1e6ba31f-9eb0-44b4-beb3-4c0bda0c5b6d',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.ROZO.FOLDER
+    })
+  }, {
+    id: '25b75be7-bc03-4b2c-8460-70667228aa9d',
+    title: 'Liste des vélo',
+    container_id: 'a975cc00-58ae-435e-bd18-ecc35412350b',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.ROZO.BIKE
+    })
+  }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',
     settings: JSON.stringify({
       content: `

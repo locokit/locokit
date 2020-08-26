@@ -173,6 +173,31 @@ export const TABLES = {
       }
     },
   },
+  ROZO: {
+    FOLDER: {
+      ID: '5d148903-59a8-4c69-a4e6-cbdd7026d8c5',
+      COLUMNS: {
+        SOCIETY: '20e2f25f-ef4f-4443-b9ed-8b6d157bb215',
+        STATUS_PERSON: 'd0d13392-bbbf-48d5-895b-b793e9443abd',
+        STATUS_FOLDER: '2fb0a1f6-e034-4198-adc2-00fa4c53728a',
+        NUM_REQUEST: '167ff97f-95cb-4829-887c-4f9e4cb5235c',
+        STEP: '86425d13-f3fc-4118-a315-1182c2e13620',
+        STATUS_PROGRAM: '3e71a85a-3679-4e5a-ba71-631bf236425b',
+        NB_BIKE: '8c40d255-e881-4400-99e5-59bba781e324',
+      },
+    },
+    BIKE: {
+      ID: '93100fff-3111-46ab-8aa6-d09e5478c24a',
+      COLUMNS: {
+        SOCIETY: 'b04ad135-95a6-4c3d-84ab-612c18dd8ca2',
+        FLEET: '1537bfa0-1284-449a-83d0-fecba8cf279c',
+        NB_BIKE: '6d7014ef-e77b-4acb-8142-423efb14f2b6',
+        'Km/sem': '86b856ac-665d-47d1-b141-41594a24d432',
+        STATUS: '9e42040d-2159-4265-9333-dcde50521b56',
+        PROVIDER: '3d7ce799-95ad-4eca-9c7d-7945e2d4d89d',
+      },
+    },
+  },
 
 
 

@@ -258,7 +258,7 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.SOCIETY]: "Makina",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.USER]: "Bénéficiaire A",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.STATUS]: 2,
-      [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST]: 42,
+      [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST]: '42',
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.EMAIL]: "beneficiairea@makina-corpus.net",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.PHONE]: "0987654321",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.ADDRESS]: "11 rue du Marchix, Nantes",
@@ -276,7 +276,7 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.SOCIETY]: "Sarl rc & co",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.USER]: "Hervé LECOQ",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.STATUS]: 2,
-      [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST]: 136,
+      [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.NUM_REQUEST]: '136',
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.EMAIL]: "la.boulangerie@orange.fr",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.PHONE]: "0626093607",
       [TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.ADDRESS]: "4 allée Duquesne, Nantes",
@@ -450,4 +450,26 @@ export async function seed(knex: Knex): Promise<any> {
       [TABLES.VLO.FORMATION.COLUMNS.RATING]: 6,
     })
   }])
+
+  // View Rozo
+
+  await knex("table_row").insert([{
+    id: '060f54fa-f439-49dc-8fa4-0a10abeb64f4',
+    text: "Dossier n°XXXX",
+    table_id: TABLES.ROZO.FOLDER.ID,
+    data: JSON.stringify({
+      [TABLES.ROZO.FOLDER.COLUMNS.SOCIETY]: 'Sarl rc & co',
+      [TABLES.ROZO.FOLDER.COLUMNS.STATUS_PERSON]: 2,
+      [TABLES.ROZO.FOLDER.COLUMNS.STATUS_FOLDER]: 2,
+      [TABLES.ROZO.FOLDER.COLUMNS.NUM_REQUEST]: '136',
+      [TABLES.ROZO.FOLDER.COLUMNS.STEP]: 5,
+      [TABLES.ROZO.FOLDER.COLUMNS.STATUS_PROGRAM]: 3,
+      [TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE]: 1,
+    })
+  }])
+
+  // View Morio
+
+  // View Fub
+
 };

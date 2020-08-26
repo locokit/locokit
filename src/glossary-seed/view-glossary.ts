@@ -18,5 +18,9 @@ export const VIEWS = {
     MORIO: '37f9aab4-55c8-43e4-b26a-8ce8785ca13d',
     FORMATION: '645476d9-6de3-44f3-889a-6cca683d4954',
   },
+  ROZO: {
+    FOLDER: '73a13ceb-033e-4f0f-95ed-8d926bef5c01',
+    BIKE: '6c3e026b-3e2d-4093-a25d-218851625023',
+  },
 }
 

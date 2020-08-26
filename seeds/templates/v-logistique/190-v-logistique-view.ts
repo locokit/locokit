@@ -533,4 +533,50 @@ export async function seed(knex: Knex): Promise<any> {
     table_view_id: VIEWS.VLO.FORMATION,
     visible: true
   }])
+
+  // View Rozo
+
+  /**
+   * Vue ensemble des formations et assistances
+   */
+  await knex("table_view").insert([{
+    id: VIEWS.ROZO.FOLDER,
+    text: 'Ensemble des dossiers',
+    table_id: TABLES.ROZO.FOLDER.ID
+  }])
+
+  await knex("table_view_has_table_column").insert([{
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.SOCIETY,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PERSON,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_FOLDER,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.NUM_REQUEST,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.STEP,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PROGRAM,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }, {
+    table_column_id: TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE,
+    table_view_id: VIEWS.ROZO.FOLDER,
+    visible: true
+  }])
+
+  // View Morio
+
+  // View Fub
+
 };
