@@ -13,7 +13,7 @@ export const TABLES = {
         LOT: '002aed07-055b-4e2d-8dbe-e71ebd64e8fb',
         NB_VAE: '9cc3ddc3-74cd-4ea8-8b25-482cd06a31e1',
         NB_VCAE_BI: 'a9d0f78d-a072-4631-aea7-37e1e10145f1',
-        NB_VCAE_TRI: '9fbc5213-0072-443c-9d81-8415197bc6a9',
+        NB_VCAE_TRI: '9fbc5213-0072-443c-9d81-8415197bc6a9'
       }
     },
     FLEET_BIKE: {
@@ -26,7 +26,7 @@ export const TABLES = {
         MAINTENANCE_DATE: '69b82396-3fc3-46da-813a-d6dd81ed648c',
         DELIVERY_ESTIMATED_DATE: '66874e11-5bcb-42f4-ba76-7e999462d746',
         PROVIDER: 'de10bc0e-b4ed-4543-86ea-f7acbdd20ede',
-        RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
+        RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052'
       }
     },
     MAINTENANCE_PREVENTIVE_BIKE: {
@@ -38,7 +38,7 @@ export const TABLES = {
         RECIPIENT: '0b933f1d-d883-4a9d-884c-0573ac3e1b20',
         MAINTENANCE_DATE: 'e2784b4d-26ee-45de-a48b-5a8ad8ac350c',
         TECHNICIAN: 'dfce339f-c521-4ac1-9b05-88229c1110cb',
-        MAINTENANCE_STEP: '8c4ecfb8-aec6-4162-b8b3-d145abaee993',
+        MAINTENANCE_STEP: '8c4ecfb8-aec6-4162-b8b3-d145abaee993'
       }
     },
     MAINTENANCE_CURATIVE_BIKE: {
@@ -48,9 +48,9 @@ export const TABLES = {
         IDENTITY: '71647569-caa3-4a4d-88ac-94188aed140f',
         INCIDENT: '0cc5550b-8ca6-4c86-9b8e-8ebc6d305c29',
         MAINTENANCE_DATE: '595f2c0f-967b-4a6b-97ce-852d782fd223',
-        RECIPIENT: '2bc5c026-9407-4115-9280-996c5becabba',
+        RECIPIENT: '2bc5c026-9407-4115-9280-996c5becabba'
       }
-    },
+    }
   },
   RECIPIENT: {
     USING_BIKE: {
@@ -63,8 +63,8 @@ export const TABLES = {
         COMMISSIONING_DATE: '438862d6-6134-482d-b5cc-0f4f74d051bf',
         MAINTENANCE_DATE: 'd8b4254e-4366-4875-b5cd-bdb3ae708519',
         LAST_TRACER_DATA: 'ea73b16b-9910-441a-bcef-b3c0a31b22c4',
-        ALERT: 'a9ed9ed7-cc74-4f9a-8173-87fc023b82c0',
-      },
+        ALERT: 'a9ed9ed7-cc74-4f9a-8173-87fc023b82c0'
+      }
     },
     AWARENESS_FORMATION: {
       ID: '21f51f85-ac4f-4b29-b70a-8e4fdfc32156',
@@ -73,9 +73,9 @@ export const TABLES = {
         INSTITUTION: '59fe729e-d6be-4533-b00c-870ee931696e',
         TRAINER: 'e4451b45-0ba6-4914-97cb-d53101ebbc2f',
         FILE: 'e402a93d-07b3-45cd-ba13-f50807b09996',
-        DATE: '482455fd-8224-48fd-a661-c8085184a8b0',
-      },
-    },
+        DATE: '482455fd-8224-48fd-a661-c8085184a8b0'
+      }
+    }
   },
   VLO: {
     STOCK_BIKE: {
@@ -93,12 +93,12 @@ export const TABLES = {
         PROVIDER: 'bde4bbbd-2584-447f-acff-f434f53619da',
         LOT: '1a0c3a02-2fcc-45fc-8cdd-8d46d4e98d63',
         TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
-        LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690',
+        LAST_TRACER_DATA: 'f114393e-eece-4e8f-8893-7c31dde09690'
       },
       DATA: {
         STATUS_STORED: '39b01a75-b03f-4b4b-bf05-36aac13a72b2',
         STATUS_IN_USE: '82cf06d0-4743-4716-8f97-072b968e0caf',
-        STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983',
+        STATUS_IN_MAINTENANCE: 'a00cdeb5-47b2-4a60-8e35-6b0f94ba3983'
       }
     },
     LIST_PRE_RECIPIENT: {
@@ -115,7 +115,7 @@ export const TABLES = {
         APE: '5379abac-c48d-4a53-8fd2-76f2894a9ac5',
         NB_VAE: 'ce5daa1d-9d8a-472f-a9b3-e36f4be4fa87',
         NB_VCAE_BI: 'dff703a1-22d5-45c6-a47f-2fae756a0102',
-        NB_VCAE_TRI: '39e3875b-6cbc-4abb-83e9-f71d30f62a22',
+        NB_VCAE_TRI: '39e3875b-6cbc-4abb-83e9-f71d30f62a22'
       }
     },
     LIST_RECIPIENT: {
@@ -132,7 +132,7 @@ export const TABLES = {
         APE: '777adf39-d8ae-4343-9e2e-2df6c1f55c4e',
         NB_VAE: '14410188-b293-4fd9-9f25-d1d51ebcf561',
         NB_VCAE_BI: 'd5f7b848-547f-4e7f-9e39-f3c1215367d4',
-        NB_VCAE_TRI: '035a68cc-3ca7-4aa3-b70e-9e454c7fb516',
+        NB_VCAE_TRI: '035a68cc-3ca7-4aa3-b70e-9e454c7fb516'
       }
     },
     ROZO_REQUEST: {
@@ -143,7 +143,7 @@ export const TABLES = {
         NUM_REQUEST: 'c3c22e08-e06c-11ea-87d0-0242ac130003',
         DATE_REQUEST: '6c20ca98-e08e-11ea-87d0-0242ac130003',
         STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
-        STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003',
+        STATUS: 'ce540512-e06c-11ea-87d0-0242ac130003'
       }
     },
     LIST_PROVIDER: {
@@ -160,7 +160,7 @@ export const TABLES = {
         TYPE: '918f8305-10b9-4f51-98d8-73cea5cb6f91',
         NUM_REQUEST: '541bfb5b-6658-40b1-a0f6-958413a02273',
         NUM_TRACER: '5dd0a1a9-a4a4-46d1-83b7-607f84e86828',
-        STATUS: '8b9b3886-1788-44b9-b57c-05597a54647b',
+        STATUS: '8b9b3886-1788-44b9-b57c-05597a54647b'
       }
     },
     FORMATION: {
@@ -169,9 +169,9 @@ export const TABLES = {
         USER: '2bd806de-34ce-4426-93e6-70138cb4c0da',
         FILE: '805d12e7-95c8-4ed7-bc47-7016710aaf7c',
         DATE: 'd2cdc762-8884-4194-80b3-47dfaf9d852a',
-        RATING: '7e126aae-5235-4956-b4aa-0b104683e3ec',
+        RATING: '7e126aae-5235-4956-b4aa-0b104683e3ec'
       }
-    },
+    }
   },
   ROZO: {
     FOLDER: {
@@ -183,8 +183,8 @@ export const TABLES = {
         NUM_REQUEST: '167ff97f-95cb-4829-887c-4f9e4cb5235c',
         STEP: '86425d13-f3fc-4118-a315-1182c2e13620',
         STATUS_PROGRAM: '3e71a85a-3679-4e5a-ba71-631bf236425b',
-        NB_BIKE: '8c40d255-e881-4400-99e5-59bba781e324',
-      },
+        NB_BIKE: '8c40d255-e881-4400-99e5-59bba781e324'
+      }
     },
     BIKE: {
       ID: '93100fff-3111-46ab-8aa6-d09e5478c24a',
@@ -193,9 +193,9 @@ export const TABLES = {
         NB_BIKE: '6d7014ef-e77b-4acb-8142-423efb14f2b6',
         PERIOD: '86b856ac-665d-47d1-b141-41594a24d432',
         STATUS: '9e42040d-2159-4265-9333-dcde50521b56',
-        PROVIDER: '3d7ce799-95ad-4eca-9c7d-7945e2d4d89d',
-      },
-    },
+        PROVIDER: '3d7ce799-95ad-4eca-9c7d-7945e2d4d89d'
+      }
+    }
   },
   MORIO: {
     INCIDENT: {
@@ -205,8 +205,8 @@ export const TABLES = {
         TYPE: '5bdefabe-2c54-4f7f-bae4-c913dccb5a6e',
         STATUS: '11ab89f5-2c07-40b6-a8fe-04a89b602120',
         INCIDENT: 'faae048d-403b-4818-922a-5731131f3143',
-        DATE: '289a1ab1-7403-40d9-8b77-66b73d19c120',
-      },
+        DATE: '289a1ab1-7403-40d9-8b77-66b73d19c120'
+      }
     },
     TRACER: {
       ID: '83ef9a56-3c2a-4a8f-8d14-71888ec7ff48',
@@ -215,9 +215,9 @@ export const TABLES = {
         TYPE: 'a2c2de3f-800a-4066-9441-143f12e62574',
         STATUS: '289ca200-7fd7-4b84-a664-5ce5b46d8a72',
         TRACER: '08a0f9c6-08b4-4ce4-a2c6-1633f88a2bd5',
-        DATE_BEGIN: '38e9229e-aac9-4ff6-8a34-508ca783215f',
-      },
-    },
+        DATE_BEGIN: '38e9229e-aac9-4ff6-8a34-508ca783215f'
+      }
+    }
   },
   FUB: {
     FORMATION: {
@@ -226,9 +226,9 @@ export const TABLES = {
         SOCIETY: 'af4e69d5-c4ba-4217-9fb0-52cf17c2fc4a',
         TYPE: '445c9aa8-4858-4b14-8e51-41df77cef823',
         FORMATION: 'b6ee611d-3878-4b2d-9ccc-fead1a9f3b4f',
-        DATE: 'f14d044b-fa6b-4cbb-9ffe-49fde1dac34e',
-      },
-    },
+        DATE: 'f14d044b-fa6b-4cbb-9ffe-49fde1dac34e'
+      }
+    }
   },
 
 
@@ -239,7 +239,7 @@ export const TABLES = {
       CREATION_DATE: 'cd6aec18-b942-4cf8-a1f9-d3677b773a9d',
       NB_VAE: '557be004-a527-4981-8fa7-66d1ea810df0',
       NB_VCAE_BI: 'f525f934-1115-414b-88fc-4b9591491cf5',
-      NB_VCAE_TRI: '85c9ffd5-5c47-4c5f-b729-fc9ad33c1eb4',
+      NB_VCAE_TRI: '85c9ffd5-5c47-4c5f-b729-fc9ad33c1eb4'
     }
   },
   MORIO_TRACER: {
@@ -251,7 +251,7 @@ export const TABLES = {
     DATA: {
       STATUS_STOLEN: '02876cfc-293e-4447-8c4f-c39cc4341442',
       STATUS_INPROGRESS: '0ec63580-8617-49bc-93b6-92d6f782ef55',
-      STATUS_WORKING: '2ba34d39-73bf-4096-a1e3-5f00e32bbaba',
+      STATUS_WORKING: '2ba34d39-73bf-4096-a1e3-5f00e32bbaba'
     }
   },
   MORIO_TRACER_DATA: {

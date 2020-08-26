@@ -29,7 +29,7 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Table Traceurs Morio
    */
-  await knex("table").insert([
+  await knex('table').insert([
     {
       id: TABLES.MORIO_TRACER.ID,
       text: 'Traceurs Morio',
@@ -41,7 +41,7 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
 
-  await knex("table_column").insert([
+  await knex('table_column').insert([
     {
       id: TABLES.MORIO_TRACER.COLUMNS.REF,
       text: 'Référence',
@@ -68,7 +68,7 @@ export async function seed (knex: Knex): Promise<any> {
             label: 'Fonctionnel',
             color: '#256029',
             backgroundColor: '#c8e6c9'
-          },
+          }
         }
       }
     }, {
@@ -103,24 +103,25 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Table demande
    */
-  await knex("table").insert([
+  await knex('table').insert([
     {
       id: TABLES.PROVIDER.REQUEST.ID,
       text: 'Demande',
       database_id: DATABASE
     }
   ])
-  await knex("table_column").insert([{
+  await knex('table_column').insert([
+    {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.SOCIETY,
       text: 'Société',
       table_id: TABLES.PROVIDER.REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING,
+      column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.PERSON,
       text: 'Référent',
       table_id: TABLES.PROVIDER.REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING,
-  }, {
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.STATUS,
       text: 'Statut',
       table_id: TABLES.PROVIDER.REQUEST.ID,
@@ -133,12 +134,12 @@ export async function seed (knex: Knex): Promise<any> {
       text: 'Numéro demande',
       table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
-    },  {
+    }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.ADDRESS,
       text: 'Adresse',
       table_id: TABLES.PROVIDER.REQUEST.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
-    },  {
+    }, {
       id: TABLES.PROVIDER.REQUEST.COLUMNS.LOT,
       text: 'Lot',
       table_id: TABLES.PROVIDER.REQUEST.ID,
@@ -205,12 +206,12 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.DELIVERY_ESTIMATED_DATE,
       text: 'Mise en service',
       table_id: TABLES.PROVIDER.FLEET_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
       id: TABLES.PROVIDER.FLEET_BIKE.COLUMNS.PROVIDER,
       text: 'Prestataire',
@@ -271,12 +272,12 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Dernier entretien',
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.TECHNICIAN,
       text: 'Technicien',
       table_id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING,
+      column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_PREVENTIVE_BIKE.COLUMNS.MAINTENANCE_STEP,
       text: 'Étape maintenance',
@@ -325,7 +326,7 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Date',
       table_id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
       id: TABLES.PROVIDER.MAINTENANCE_CURATIVE_BIKE.COLUMNS.RECIPIENT,
       text: 'Bénéficiaire',
@@ -462,14 +463,14 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Table Vélo
    */
-  await knex("table").insert([
+  await knex('table').insert([
     {
       id: TABLES.VLO.STOCK_BIKE.ID,
       text: 'Stock Vélo',
       database_id: DATABASE
     }
   ])
-  await knex("table_column").insert([
+  await knex('table_column').insert([
     {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.TYPE,
       text: 'Type',
@@ -490,7 +491,7 @@ export async function seed (knex: Knex): Promise<any> {
       column_type_id: 9,
       settings: {
         values: VALUES.USE
-      },
+      }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.BRAND,
       text: 'Marque',
@@ -500,15 +501,15 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
       text: 'Demande corrélée',
       table_id: TABLES.VLO.STOCK_BIKE.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING,
-    // }, {
-    //   id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
-    //   text: 'Demande corrélée',
-    //   table_id: TABLES.VLO.STOCK_BIKE.ID,
-    //   column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-    //   settings: {
-    //     tableId: TABLES.REQUEST.ID
-    //   }
+      column_type_id: glossary.COLUMN_TYPE.STRING
+      // }, {
+      //   id: TABLES.VLO.STOCK_BIKE.COLUMNS.REQUEST,
+      //   text: 'Demande corrélée',
+      //   table_id: TABLES.VLO.STOCK_BIKE.ID,
+      //   column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+      //   settings: {
+      //     tableId: TABLES.REQUEST.ID
+      //   }
     }, {
       id: TABLES.VLO.STOCK_BIKE.COLUMNS.MAINTENANCE_DATE,
       text: 'Entretien',
@@ -561,14 +562,14 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Table Pré-Bénéficiare
    */
-  await knex("table").insert([
+  await knex('table').insert([
     {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.ID,
       text: 'Pré-Bénéficiare',
       database_id: DATABASE
     }
   ])
-  await knex("table_column").insert([
+  await knex('table_column').insert([
     {
       id: TABLES.VLO.LIST_PRE_RECIPIENT.COLUMNS.SOCIETY,
       text: 'Entreprise',
@@ -643,14 +644,14 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Table Bénéficiare
    */
-  await knex("table").insert([
+  await knex('table').insert([
     {
       id: TABLES.VLO.LIST_RECIPIENT.ID,
       text: 'Bénéficiare',
       database_id: DATABASE
     }
   ])
-  await knex("table_column").insert([
+  await knex('table_column').insert([
     {
       id: TABLES.VLO.LIST_RECIPIENT.COLUMNS.SOCIETY,
       text: 'Entreprise',
@@ -752,12 +753,12 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.NUM_REQUEST,
       text: 'Numéro de demande',
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING,
+      column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.DATE_REQUEST,
       text: 'Date de demande',
       table_id: TABLES.VLO.ROZO_REQUEST.ID,
-      column_type_id: glossary.COLUMN_TYPE.DATE,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }, {
       id: TABLES.VLO.ROZO_REQUEST.COLUMNS.STEP,
       text: 'Étape programme',
@@ -774,105 +775,117 @@ export async function seed (knex: Knex): Promise<any> {
       settings: {
         values: VALUES.KANBAN
       }
-    },
+    }
   ])
 
   /**
    * Table Fournisseur
    */
 
-  await knex("table").insert([{
-    id: TABLES.VLO.LIST_PROVIDER.ID,
-    text: 'Fournisseur',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
-    text: 'Nom fournisseur',
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
-    text: 'Utilisateur corrélé',
-    table_id: TABLES.VLO.LIST_PROVIDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  }])
+  await knex('table').insert([
+    {
+      id: TABLES.VLO.LIST_PROVIDER.ID,
+      text: 'Fournisseur',
+      database_id: DATABASE
+    }
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.VLO.LIST_PROVIDER.COLUMNS.NAME,
+      text: 'Nom fournisseur',
+      table_id: TABLES.VLO.LIST_PROVIDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.LIST_PROVIDER.COLUMNS.USER,
+      text: 'Utilisateur corrélé',
+      table_id: TABLES.VLO.LIST_PROVIDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }
+  ])
 
   /**
    * Table Morio
    */
 
-  await knex("table").insert([{
-    id: TABLES.VLO.MORIO.ID,
-    text: 'Morio',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.VLO.MORIO.COLUMNS.USER,
-    text: 'Bénéficiaire',
-    table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  },{
-    id: TABLES.VLO.MORIO.COLUMNS.TYPE,
-    text: 'Type',
-    table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.BIKE
+  await knex('table').insert([
+    {
+      id: TABLES.VLO.MORIO.ID,
+      text: 'Morio',
+      database_id: DATABASE
     }
-  },{
-    id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
-    text: 'Numéro demande',
-    table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  },{
-    id: TABLES.VLO.MORIO.COLUMNS.NUM_TRACER,
-    text: 'Numéro traceur',
-    table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  },{
-    id: TABLES.VLO.MORIO.COLUMNS.STATUS,
-    text: 'Statut',
-    table_id: TABLES.VLO.MORIO.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.SHIPMENT
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.VLO.MORIO.COLUMNS.USER,
+      text: 'Bénéficiaire',
+      table_id: TABLES.VLO.MORIO.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }, {
+      id: TABLES.VLO.MORIO.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.VLO.MORIO.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.BIKE
+      }
+    }, {
+      id: TABLES.VLO.MORIO.COLUMNS.NUM_REQUEST,
+      text: 'Numéro demande',
+      table_id: TABLES.VLO.MORIO.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.MORIO.COLUMNS.NUM_TRACER,
+      text: 'Numéro traceur',
+      table_id: TABLES.VLO.MORIO.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.MORIO.COLUMNS.STATUS,
+      text: 'Statut',
+      table_id: TABLES.VLO.MORIO.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.SHIPMENT
+      }
     }
-  }])
+  ])
 
   /**
    * Table Formations
    */
 
-  await knex("table").insert([{
-    id: TABLES.VLO.FORMATION.ID,
-    text: 'Formations et Assistances',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.VLO.FORMATION.COLUMNS.USER,
-    text: 'Bénéficiaire',
-    table_id: TABLES.VLO.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  },{
-    id: TABLES.VLO.FORMATION.COLUMNS.FILE,
-    text: 'Document',
-    table_id: TABLES.VLO.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  },{
-    id: TABLES.VLO.FORMATION.COLUMNS.DATE,
-    text: 'Date',
-    table_id: TABLES.VLO.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  },{
-    id: TABLES.VLO.FORMATION.COLUMNS.RATING,
-    text: 'Évaluation',
-    table_id: TABLES.VLO.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.RATING
+  await knex('table').insert([
+    {
+      id: TABLES.VLO.FORMATION.ID,
+      text: 'Formations et Assistances',
+      database_id: DATABASE
     }
-  }])
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.VLO.FORMATION.COLUMNS.USER,
+      text: 'Bénéficiaire',
+      table_id: TABLES.VLO.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }, {
+      id: TABLES.VLO.FORMATION.COLUMNS.FILE,
+      text: 'Document',
+      table_id: TABLES.VLO.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.VLO.FORMATION.COLUMNS.DATE,
+      text: 'Date',
+      table_id: TABLES.VLO.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
+    }, {
+      id: TABLES.VLO.FORMATION.COLUMNS.RATING,
+      text: 'Évaluation',
+      table_id: TABLES.VLO.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.RATING
+      }
+    }
+  ])
 
   // View Rozo
 
@@ -880,98 +893,106 @@ export async function seed (knex: Knex): Promise<any> {
    * Table Dossiers en instruction
    */
 
-  await knex("table").insert([{
-    id: TABLES.ROZO.FOLDER.ID,
-    text: 'Dossiers en instruction',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.ROZO.FOLDER.COLUMNS.SOCIETY,
-    text: 'Entreprise',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PERSON,
-    text: 'Type',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.USER_STATUS
+  await knex('table').insert([
+    {
+      id: TABLES.ROZO.FOLDER.ID,
+      text: 'Dossiers en instruction',
+      database_id: DATABASE
     }
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_FOLDER,
-    text: 'Statut',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.ELIGIBILITY
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.ROZO.FOLDER.COLUMNS.SOCIETY,
+      text: 'Entreprise',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PERSON,
+      text: 'Type',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.USER_STATUS
+      }
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_FOLDER,
+      text: 'Statut',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.ELIGIBILITY
+      }
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.NUM_REQUEST,
+      text: 'Numéro demande',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.STEP,
+      text: 'Étape programme',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.QUESTIONNARY
+      }
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PROGRAM,
+      text: 'État étape',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.KANBAN
+      }
+    }, {
+      id: TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE,
+      text: 'Vélo',
+      table_id: TABLES.ROZO.FOLDER.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
     }
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.NUM_REQUEST,
-    text: 'Numéro demande',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.STEP,
-    text: 'Étape programme',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.QUESTIONNARY
-    }
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.STATUS_PROGRAM,
-    text: 'État étape',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.KANBAN
-    }
-  }, {
-    id: TABLES.ROZO.FOLDER.COLUMNS.NB_BIKE,
-    text: 'Vélo',
-    table_id: TABLES.ROZO.FOLDER.ID,
-    column_type_id: glossary.COLUMN_TYPE.NUMBER
-  }])
+  ])
 
   /**
    * Table Utilisation vélo
    */
 
-  await knex("table").insert([{
-    id: TABLES.ROZO.BIKE.ID,
-    text: 'Vélos par entreprise',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.ROZO.BIKE.COLUMNS.SOCIETY,
-    text: 'Entreprise',
-    table_id: TABLES.ROZO.BIKE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.ROZO.BIKE.COLUMNS.NB_BIKE,
-    text: 'Nombre vélo',
-    table_id: TABLES.ROZO.BIKE.ID,
-    column_type_id: glossary.COLUMN_TYPE.NUMBER
-  }, {
-    id: TABLES.ROZO.BIKE.COLUMNS.PERIOD,
-    text: 'Km/sem',
-    table_id: TABLES.ROZO.BIKE.ID,
-    column_type_id: glossary.COLUMN_TYPE.NUMBER
-  }, {
-    id: TABLES.ROZO.BIKE.COLUMNS.STATUS,
-    text: 'État flotte',
-    table_id: TABLES.ROZO.BIKE.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.USE
+  await knex('table').insert([
+    {
+      id: TABLES.ROZO.BIKE.ID,
+      text: 'Vélos par entreprise',
+      database_id: DATABASE
     }
-  }, {
-    id: TABLES.ROZO.BIKE.COLUMNS.PROVIDER,
-    text: 'Fournisseur',
-    table_id: TABLES.ROZO.BIKE.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
-  }])
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.ROZO.BIKE.COLUMNS.SOCIETY,
+      text: 'Entreprise',
+      table_id: TABLES.ROZO.BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.ROZO.BIKE.COLUMNS.NB_BIKE,
+      text: 'Nombre vélo',
+      table_id: TABLES.ROZO.BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.ROZO.BIKE.COLUMNS.PERIOD,
+      text: 'Km/sem',
+      table_id: TABLES.ROZO.BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.NUMBER
+    }, {
+      id: TABLES.ROZO.BIKE.COLUMNS.STATUS,
+      text: 'État flotte',
+      table_id: TABLES.ROZO.BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.USE
+      }
+    }, {
+      id: TABLES.ROZO.BIKE.COLUMNS.PROVIDER,
+      text: 'Fournisseur',
+      table_id: TABLES.ROZO.BIKE.ID,
+      column_type_id: glossary.COLUMN_TYPE.USER
+    }
+  ])
 
   // View Morio
 
@@ -979,90 +1000,98 @@ export async function seed (knex: Knex): Promise<any> {
    * Table Incident vélo
    */
 
-  await knex("table").insert([{
-    id: TABLES.MORIO.INCIDENT.ID,
-    text: 'Incident',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.MORIO.INCIDENT.COLUMNS.SOCIETY,
-    text: 'Bénéficiaire',
-    table_id: TABLES.MORIO.INCIDENT.ID,
-    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.MORIO.INCIDENT.COLUMNS.TYPE,
-    text: 'Type',
-    table_id: TABLES.MORIO.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.BIKE
+  await knex('table').insert([
+    {
+      id: TABLES.MORIO.INCIDENT.ID,
+      text: 'Incident',
+      database_id: DATABASE
     }
-  }, {
-    id: TABLES.MORIO.INCIDENT.COLUMNS.STATUS,
-    text: 'Statut',
-    table_id: TABLES.MORIO.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.USE
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.MORIO.INCIDENT.COLUMNS.SOCIETY,
+      text: 'Bénéficiaire',
+      table_id: TABLES.MORIO.INCIDENT.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.MORIO.INCIDENT.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.MORIO.INCIDENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.BIKE
+      }
+    }, {
+      id: TABLES.MORIO.INCIDENT.COLUMNS.STATUS,
+      text: 'Statut',
+      table_id: TABLES.MORIO.INCIDENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.USE
+      }
+    }, {
+      id: TABLES.MORIO.INCIDENT.COLUMNS.INCIDENT,
+      text: 'Incident',
+      table_id: TABLES.MORIO.INCIDENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.INCIDENT
+      }
+    }, {
+      id: TABLES.MORIO.INCIDENT.COLUMNS.DATE,
+      text: 'Date',
+      table_id: TABLES.MORIO.INCIDENT.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }
-  }, {
-    id: TABLES.MORIO.INCIDENT.COLUMNS.INCIDENT,
-    text: 'Incident',
-    table_id: TABLES.MORIO.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.INCIDENT
-    }
-  }, {
-    id: TABLES.MORIO.INCIDENT.COLUMNS.DATE,
-    text: 'Date',
-    table_id: TABLES.MORIO.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }])
+  ])
 
   /**
    * Table Traceur vélo
    */
 
-  await knex("table").insert([{
-    id: TABLES.MORIO.TRACER.ID,
-    text: 'Traceur',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.MORIO.TRACER.COLUMNS.SOCIETY,
-    text: 'Bénéficiaire',
-    table_id: TABLES.MORIO.TRACER.ID,
-    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.MORIO.TRACER.COLUMNS.TYPE,
-    text: 'Type',
-    table_id: TABLES.MORIO.TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.BIKE
+  await knex('table').insert([
+    {
+      id: TABLES.MORIO.TRACER.ID,
+      text: 'Traceur',
+      database_id: DATABASE
     }
-  }, {
-    id: TABLES.MORIO.TRACER.COLUMNS.STATUS,
-    text: 'Statut',
-    table_id: TABLES.MORIO.TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.USE
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.MORIO.TRACER.COLUMNS.SOCIETY,
+      text: 'Bénéficiaire',
+      table_id: TABLES.MORIO.TRACER.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.MORIO.TRACER.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.MORIO.TRACER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.BIKE
+      }
+    }, {
+      id: TABLES.MORIO.TRACER.COLUMNS.STATUS,
+      text: 'Statut',
+      table_id: TABLES.MORIO.TRACER.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.USE
+      }
+    }, {
+      id: TABLES.MORIO.TRACER.COLUMNS.TRACER,
+      text: 'Traceur',
+      table_id: TABLES.MORIO.TRACER.ID,
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.MORIO.TRACER.COLUMNS.DATE_BEGIN,
+      text: 'Début programme',
+      table_id: TABLES.MORIO.TRACER.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }
-  }, {
-    id: TABLES.MORIO.TRACER.COLUMNS.TRACER,
-    text: 'Traceur',
-    table_id: TABLES.MORIO.TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.MORIO.TRACER.COLUMNS.DATE_BEGIN,
-    text: 'Début programme',
-    table_id: TABLES.MORIO.TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }])
+  ])
 
 
   // View Fub
@@ -1071,37 +1100,41 @@ export async function seed (knex: Knex): Promise<any> {
    * Table Formation vélo
    */
 
-  await knex("table").insert([{
-    id: TABLES.FUB.FORMATION.ID,
-    text: 'Formation',
-    database_id: DATABASE
-  }])
-  await knex("table_column").insert([{
-    id: TABLES.FUB.FORMATION.COLUMNS.SOCIETY,
-    text: 'Bénéficiaire',
-    table_id: TABLES.FUB.FORMATION.ID,
-    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.FUB.FORMATION.COLUMNS.TYPE,
-    text: 'Type',
-    table_id: TABLES.FUB.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.KANBAN
+  await knex('table').insert([
+    {
+      id: TABLES.FUB.FORMATION.ID,
+      text: 'Formation',
+      database_id: DATABASE
     }
-  }, {
-    id: TABLES.FUB.FORMATION.COLUMNS.FORMATION,
-    text: 'Formation',
-    table_id: TABLES.FUB.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
-    settings: {
-      values: VALUES.BIKE
+  ])
+  await knex('table_column').insert([
+    {
+      id: TABLES.FUB.FORMATION.COLUMNS.SOCIETY,
+      text: 'Bénéficiaire',
+      table_id: TABLES.FUB.FORMATION.ID,
+      // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+      column_type_id: glossary.COLUMN_TYPE.STRING
+    }, {
+      id: TABLES.FUB.FORMATION.COLUMNS.TYPE,
+      text: 'Type',
+      table_id: TABLES.FUB.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.KANBAN
+      }
+    }, {
+      id: TABLES.FUB.FORMATION.COLUMNS.FORMATION,
+      text: 'Formation',
+      table_id: TABLES.FUB.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+      settings: {
+        values: VALUES.BIKE
+      }
+    }, {
+      id: TABLES.FUB.FORMATION.COLUMNS.DATE,
+      text: 'Date',
+      table_id: TABLES.FUB.FORMATION.ID,
+      column_type_id: glossary.COLUMN_TYPE.DATE
     }
-  }, {
-    id: TABLES.FUB.FORMATION.COLUMNS.DATE,
-    text: 'Date',
-    table_id: TABLES.FUB.FORMATION.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
-  }])
+  ])
 }

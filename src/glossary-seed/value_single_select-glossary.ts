@@ -7,7 +7,7 @@ export const VALUES = {
     2: {
       label: 'Bénéficiaire',
       color: '#256029'
-    },
+    }
   },
   ELIGIBILITY: {
     1: {
