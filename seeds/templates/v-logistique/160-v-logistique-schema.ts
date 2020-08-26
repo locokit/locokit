@@ -975,5 +975,94 @@ export async function seed (knex: Knex): Promise<any> {
 
   // View Morio
 
+  /**
+   * Table Incident vélo
+   */
+
+  await knex("table").insert([{
+    id: TABLES.MORIO.INCIDENT.ID,
+    text: 'Incident',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.MORIO.INCIDENT.COLUMNS.SOCIETY,
+    text: 'Bénéficiaire',
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.MORIO.INCIDENT.COLUMNS.TYPE,
+    text: 'Type',
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.BIKE
+    }
+  }, {
+    id: TABLES.MORIO.INCIDENT.COLUMNS.STATUS,
+    text: 'Statut',
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USE
+    }
+  }, {
+    id: TABLES.MORIO.INCIDENT.COLUMNS.INCIDENT,
+    text: 'Incident',
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.INCIDENT
+    }
+  }, {
+    id: TABLES.MORIO.INCIDENT.COLUMNS.DATE,
+    text: 'Date',
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }])
+
+  /**
+   * Table Traceur vélo
+   */
+
+  await knex("table").insert([{
+    id: TABLES.MORIO.TRACER.ID,
+    text: 'Traceur',
+    database_id: DATABASE
+  }])
+  await knex("table_column").insert([{
+    id: TABLES.MORIO.TRACER.COLUMNS.SOCIETY,
+    text: 'Bénéficiaire',
+    table_id: TABLES.MORIO.TRACER.ID,
+    // column_type_id: glossary.COLUMN_TYPE.USER // Todo when data society available
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.MORIO.TRACER.COLUMNS.TYPE,
+    text: 'Type',
+    table_id: TABLES.MORIO.TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.BIKE
+    }
+  }, {
+    id: TABLES.MORIO.TRACER.COLUMNS.STATUS,
+    text: 'Statut',
+    table_id: TABLES.MORIO.TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USE
+    }
+  }, {
+    id: TABLES.MORIO.TRACER.COLUMNS.TRACER,
+    text: 'Traceur',
+    table_id: TABLES.MORIO.TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.MORIO.TRACER.COLUMNS.DATE_BEGIN,
+    text: 'Début programme',
+    table_id: TABLES.MORIO.TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.DATE
+  }])
+
   // View Fub
 }

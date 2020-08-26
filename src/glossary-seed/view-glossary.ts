@@ -22,5 +22,9 @@ export const VIEWS = {
     FOLDER: '73a13ceb-033e-4f0f-95ed-8d926bef5c01',
     BIKE: '6c3e026b-3e2d-4093-a25d-218851625023',
   },
+  MORIO: {
+    INCIDENT: '5d005962-ef9c-4e0d-86c8-4c7ef64520d3',
+    TRACER: 'bf24ab40-7a92-40ce-bf36-2f7c9c0890b9',
+  },
 }
 

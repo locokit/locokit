@@ -248,7 +248,7 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: '3a05e853-f62b-4672-a48e-63773773fc09',
     text: 'Container Morio Incidents',
-    page_id: 'a5797f07-df6c-4235-a1c3-8fff772d6a43'
+    page_id: '7579786b-3136-4a78-b0aa-1f601f1e49f0'
   }, {
     id: '396f1826-c2ee-4fad-a78b-7daab248b1f3',
     text: 'Container Morio Traceurs',
@@ -384,11 +384,27 @@ export async function seed(knex: Knex): Promise<any> {
     })
   }, {
     id: '25b75be7-bc03-4b2c-8460-70667228aa9d',
-    title: 'Liste des vélo',
+    title: 'Liste des vélos',
     container_id: 'a975cc00-58ae-435e-bd18-ecc35412350b',
     type: 'TableView',
     settings: JSON.stringify({
       id: VIEWS.ROZO.BIKE
+    })
+  }, {
+    id: 'c37ba55e-27e3-4582-8841-2b7975dbd3a6',
+    title: 'Liste des incidents',
+    container_id: '3a05e853-f62b-4672-a48e-63773773fc09',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.MORIO.INCIDENT
+    })
+  }, {
+    id: 'd186504a-79e0-499c-b8ba-d25377b1e51b',
+    title: 'Liste des traceurs',
+    container_id: '396f1826-c2ee-4fad-a78b-7daab248b1f3',
+    type: 'TableView',
+    settings: JSON.stringify({
+      id: VIEWS.MORIO.TRACER
     })
   }, {
     id: '59b05157-e4d8-4164-8ba5-1efc0fb68829',

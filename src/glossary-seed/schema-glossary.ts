@@ -197,6 +197,28 @@ export const TABLES = {
       },
     },
   },
+  MORIO: {
+    INCIDENT: {
+      ID: 'd8240bed-aaa1-4156-9a63-9992a9269149',
+      COLUMNS: {
+        SOCIETY: '287bea3c-76cd-451d-bbc3-69d335e2a6f7',
+        TYPE: '5bdefabe-2c54-4f7f-bae4-c913dccb5a6e',
+        STATUS: '11ab89f5-2c07-40b6-a8fe-04a89b602120',
+        INCIDENT: 'faae048d-403b-4818-922a-5731131f3143',
+        DATE: '289a1ab1-7403-40d9-8b77-66b73d19c120',
+      },
+    },
+    TRACER: {
+      ID: '83ef9a56-3c2a-4a8f-8d14-71888ec7ff48',
+      COLUMNS: {
+        SOCIETY: '7daaa386-733c-4c38-bfe0-08d15cb95ed0',
+        TYPE: 'a2c2de3f-800a-4066-9441-143f12e62574',
+        STATUS: '289ca200-7fd7-4b84-a664-5ce5b46d8a72',
+        TRACER: '08a0f9c6-08b4-4ce4-a2c6-1633f88a2bd5',
+        DATE_BEGIN: '38e9229e-aac9-4ff6-8a34-508ca783215f',
+      },
+    },
+  },
 
 
 

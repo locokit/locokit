@@ -476,7 +476,7 @@ export async function seed(knex: Knex): Promise<any> {
    */
   await knex("table_row").insert([{
     id: '364b053e-f2e7-46a3-873c-a6952a36413d',
-    text: "Dossier n°XXXX",
+    text: "Vélo n°XXXX",
     table_id: TABLES.ROZO.BIKE.ID,
     data: JSON.stringify({
       [TABLES.ROZO.BIKE.COLUMNS.SOCIETY]: 'Sarl rc & co',
@@ -492,6 +492,38 @@ export async function seed(knex: Knex): Promise<any> {
 
 
   // View Morio
+
+  /**
+   * Incident
+   */
+  await knex("table_row").insert([{
+    id: '8d3513bd-ad0e-4ce7-a7f2-1b453ba16889',
+    text: "Incident n°XXXX",
+    table_id: TABLES.MORIO.INCIDENT.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO.INCIDENT.COLUMNS.SOCIETY]: 'Makina',
+      [TABLES.MORIO.INCIDENT.COLUMNS.TYPE]: 2,
+      [TABLES.MORIO.INCIDENT.COLUMNS.STATUS]: 2,
+      [TABLES.MORIO.INCIDENT.COLUMNS.INCIDENT]: 2,
+      [TABLES.MORIO.INCIDENT.COLUMNS.DATE]: '26/08/2020',
+    })
+  }])
+
+  /**
+   * Traceurs
+   */
+  await knex("table_row").insert([{
+    id: 'f30b3644-d8e0-4b31-b1f0-a573d17f9594',
+    text: "Traceurs n°XXXX",
+    table_id: TABLES.MORIO.TRACER.ID,
+    data: JSON.stringify({
+      [TABLES.MORIO.TRACER.COLUMNS.SOCIETY]: 'Makina',
+      [TABLES.MORIO.TRACER.COLUMNS.TYPE]: 2,
+      [TABLES.MORIO.TRACER.COLUMNS.TRACER]: '2',
+      [TABLES.MORIO.TRACER.COLUMNS.STATUS]: 2,
+      [TABLES.MORIO.TRACER.COLUMNS.DATE_BEGIN]: '26/08/2020',
+    })
+  }])
 
   // View Fub
 
