@@ -25,7 +25,7 @@ import AccordionTab from 'primevue/accordiontab'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
-  name: 'Chapter',
+  name: 'Sidebar',
   props: {
     chapters: {
       type: Array,

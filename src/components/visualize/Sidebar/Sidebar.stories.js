@@ -1,9 +1,9 @@
-import Chapters from './Chapters'
+import Sidebar from './Sidebar'
 import StoryRouter from 'storybook-vue-router'
 
 export default {
-  title: 'Chapters',
-  component: Chapters,
+  title: 'Sidebar',
+  component: Sidebar,
   decorators: [
     StoryRouter()
   ]
@@ -32,20 +32,20 @@ const chapters = [{
 }]
 
 export const ChaptersStoryWithoutProps = () => ({
-  components: { Chapters },
-  template: '<Chapters />'
+  components: { Sidebar },
+  template: '<Sidebar />'
 })
 
-ChaptersStoryWithoutProps.storyName = 'Chapters without props'
+ChaptersStoryWithoutProps.storyName = 'Sidebar without props chapters'
 
 export const ChaptersStoryWithProps = () => ({
-  components: { Chapters },
+  components: { Sidebar },
   data () {
     return {
       chapters
     }
   },
-  template: '<Chapters :chapters="chapters" />'
+  template: '<Sidebar :chapters="chapters" />'
 })
 
-ChaptersStoryWithProps.storyName = 'Chapters with props'
+ChaptersStoryWithProps.storyName = 'Sidebar with props chapters'
