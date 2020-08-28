@@ -20,7 +20,6 @@ import Vue from 'vue'
 import Header from '@/components/layout/Header/Header'
 import Toast from 'primevue/toast'
 
-import { appState } from '@/store'
 import {
   authState,
   logout
@@ -31,7 +30,6 @@ export default {
   name: 'app',
   data () {
     return {
-      state: appState,
       // eslint-disable-next-line no-undef
       logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
       sidebarActive: false

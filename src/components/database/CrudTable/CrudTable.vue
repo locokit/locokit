@@ -1,0 +1,277 @@
+<template>
+  <div>
+    <p-toolbar class="p-mb-4">
+      <template slot="left">
+        <p-button
+          :label="$t('form.add')"
+          icon="pi pi-plus"
+          class="p-button-success p-mr-2"
+          @click="openNew"
+        />
+        <p-button
+          :label="$t('form.delete')"
+          icon="pi pi-trash"
+          class="p-button-danger"
+          @click="confirmDeleteSelected"
+          :disabled="!selectedRows || !selectedRows.length"
+        />
+      </template>
+
+      <template slot="right">
+        <p-file-upload
+          mode="basic"
+          label="Import"
+          chooseLabel="Import"
+          class="p-mr-2"
+          disabled
+        />
+        <p-button
+          label="Export"
+          icon="pi pi-upload"
+          class="p-button-help"
+          @click="exportCSV($event)"
+          disabled
+        />
+      </template>
+    </p-toolbar>
+
+    <div v-if="block.definition">
+      <p-datatable
+        :value="dataToDisplay"
+        removableSort
+        :paginator="true"
+        :lazy="true"
+        :loading="block.loading"
+        :rows="dataTable.limit"
+        :totalRecords="dataTable.total"
+        class="p-datatable-sm"
+        @page="onPage($event)"
+      >
+        <p-column selectionMode="multiple" headerStyle="width: 3rem"></p-column>
+        <p-column
+          v-for="column in block.definition.columns"
+          :key="column.id"
+          :header="column.text"
+          sortable
+          :field="column.id"
+        >
+          <template #body="slotProps">
+            <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
+          </template>
+        </p-column>
+      </p-datatable>
+    </div>
+
+    <p-dialog
+      :visible.sync="productDialog"
+      :style="{width: '450px'}"
+      :header="$t('database.addNewRow')"
+      :modal="true"
+      class="p-fluid"
+    >
+      <div v-if="block.definition">
+        <div
+          class="p-field"
+          v-for="column in block.definition.columns"
+          :key="column.id"
+        >
+          <label :for="column.id">{{ column.text }}</label>
+          <p-input-text
+            :id="column.id"
+            v-model="newRow[column.id]"
+          />
+        </div>
+      </div>
+
+      <template #footer>
+        <p-button
+          :label="$t('form.cancel')"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+        />
+        <p-button
+          :label="$t('form.submit')"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveRow"
+        />
+      </template>
+    </p-dialog>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
+import InputNumber from 'primevue/inputnumber'
+import RadioButton from 'primevue/radiobutton'
+import Textarea from 'primevue/textarea'
+import InputText from 'primevue/inputtext'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Toolbar from 'primevue/toolbar'
+import FileUpload from 'primevue/fileupload'
+
+import { saveTableData } from '@/store/database'
+
+export default {
+  name: 'CrudTable',
+  components: {
+    'p-button': Vue.extend(Button),
+    'p-dialog': Vue.extend(Dialog),
+    // 'p-input-number': Vue.extend(InputNumber),
+    'p-input-text': Vue.extend(InputText),
+    // 'p-radio-button': Vue.extend(RadioButton),
+    // 'p-textarea': Vue.extend(Textarea),
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-file-upload': Vue.extend(FileUpload)
+  },
+  props: {
+    block: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      selectedRows: null,
+      productDialog: false,
+      submitted: false,
+      newRow: {}
+    }
+  },
+  computed: {
+    dataTable () {
+      if (!this.block.content) return {}
+      return { ...this.block.content }
+    },
+    /**
+     * the data to display help DataTable prime component to display the value
+     * and sort them by alphabetic order
+     * BUT that's not working for Date or other stuff that are not "alphabetical"
+     * TODO: make this computed property and the DataTable component able to sort Dates
+     * cf https://gitlab.makina-corpus.net/lck/lck-front/-/merge_requests/24#note_214704
+     * and https://github.com/primefaces/primevue/issues/412
+     */
+    dataToDisplay () {
+      if (!this.block.content) return []
+      return this.block.content.data.map(d => {
+        const currentData = {}
+        this.block.definition.columns.forEach(currentColumn => {
+          let currentValueForDisplay = d.data[currentColumn.id] || ''
+          if (currentValueForDisplay === '') return
+          switch (currentColumn.column_type_id) {
+            case 5:
+            case 6:
+            case 7:
+              currentValueForDisplay = d.data[currentColumn.id].value
+              break
+            case 9:
+              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]].label
+          }
+          currentData[currentColumn.id] = currentValueForDisplay
+        })
+        return currentData
+      })
+    }
+  },
+  methods: {
+    getValue (column, data) {
+      switch (column.column_type_id) {
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+          return data.value
+        case 9:
+          return column.settings.values[data].label
+        default:
+          return data
+      }
+    },
+    getClassComponent (column) {
+      switch (column.column_type_id) {
+        case 9:
+          return 'p-tag p-p-2'
+        default:
+          return 'text'
+      }
+    },
+    onPage (event) {
+      this.$emit('updateContentBlockTableView', {
+        blockId: this.block.id,
+        blockType: this.block.type,
+        blockDefinitionId: this.block.definition.id,
+        pageIndexToGo: event.page
+      })
+    },
+    openNew () {
+      console.log('openNew')
+      this.productDialog = true
+    },
+    hideDialog () {
+      console.log('hideDialog')
+      this.productDialog = false
+    },
+    async saveRow () {
+      console.log('saveRow')
+      this.submitted = true
+      const res = await saveTableData({
+        text: 'Nouvelle demande',
+        data: this.newRow, // eslint-disable-next-line @typescript-eslint/camelcase
+        table_id: this.block.definition.columns[0].table_id
+      })
+      if (res && res.code) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Failure',
+          detail: 'Demande en echec',
+          life: 3000
+        })
+      } else {
+        this.$toast.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Demande créee',
+          life: 3000
+        })
+      }
+      this.productDialog = false
+    },
+    editRow (row) {
+      console.log('editRow', row)
+    },
+    confirmDelete (row) {
+      console.log('confirmDelete', row)
+    },
+    deleteProduct () {
+      console.log('deleteProduct')
+      this.$toast.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Product Deleted',
+        life: 3000
+      })
+    },
+    exportCSV () {
+      console.log('exportCSV')
+    },
+    confirmDeleteSelected () {
+      console.log('confirmDeleteSelected')
+    },
+    deleteSelectedProducts () {
+      console.log('deleteSelectedProducts')
+      this.$toast.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Products Deleted',
+        life: 3000
+      })
+    }
+  }
+}
+</script>

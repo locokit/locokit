@@ -91,3 +91,17 @@ export async function retrieveTableViews (tableId: string) {
   }
   databaseState.loading = false
 }
+
+export async function saveTableData (formData: object) {
+  databaseState.loading = true
+  console.log('formData', formData)
+
+  try {
+    const result = await lckClient.service('row').create(formData)
+    databaseState.loading = false
+    return result
+  } catch ({code, name}) {
+    databaseState.loading = false
+    return {code, name}
+  }
+}

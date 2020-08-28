@@ -26,7 +26,7 @@
             {{ view.text }}
           </span>
         </div>
-        <TableView
+        <CrudTable
           :block="block"
           @updateContentBlockTableView="updateContentBlock(table.id, $event)"
         />
@@ -49,12 +49,12 @@ import {
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Vue from 'vue'
-import TableView from '@/components/visualize/TableView/TableView'
+import CrudTable from '@/components/database/CrudTable/CrudTable'
 
 export default {
   name: 'Database',
   components: {
-    TableView,
+    CrudTable,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel)
   },

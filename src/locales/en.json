@@ -51,5 +51,14 @@
     "401": "Access not granted",
     "403": "Access forbidden",
     "500": "An error occured..."
+  },
+  "form": {
+    "add": "Add",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  },
+  "database": {
+    "addNewRow": "Add new row"
   }
 }
