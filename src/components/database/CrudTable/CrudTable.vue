@@ -47,17 +47,20 @@
         class="p-datatable-sm"
         @page="onPage($event)"
         :selection.sync="selectedRows"
+        editMode="cell"
+        @cell-edit-complete="onCellEditComplete"
       >
         <p-column selectionMode="multiple" headerStyle="width: 3rem"></p-column>
         <p-column
           v-for="column in block.definition.columns"
           :key="column.id"
+          :field="column.id"
           :header="column.text"
           sortable
-          :field="column.id"
         >
-          <template #body="slotProps">
-            <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
+          <template #editor="slotProps">
+<!--            <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>-->
+            <p-input-text :value="slotProps.data[column.id]" @input="onCellEdit($event, slotProps)" />
           </template>
         </p-column>
       </p-datatable>
@@ -142,7 +145,7 @@ import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import FileUpload from 'primevue/fileupload'
 
-import { saveTableData, deleteTableData } from '@/store/database'
+import { saveTableData, deleteTableData, patchTableData } from '@/store/database'
 
 export default {
   name: 'CrudTable',
@@ -168,6 +171,7 @@ export default {
     return {
       selectedRows: null,
       addRowDialog: false,
+      editingCellRows: [],
       deleteRowsDialog: false,
       submitted: false,
       newRow: {}
@@ -257,9 +261,6 @@ export default {
       this.sendNotification(res)
       this.addRowDialog = false
     },
-    editRow (row) {
-      console.log('editRow', row)
-    },
     async deleteSelectedRows () {
       console.log('deleteProduct', this.selectedRows)
       // Todo: Need access to id  + Manage multi delete
@@ -270,6 +271,22 @@ export default {
     confirmDeleteSelected () {
       console.log('confirmDeleteSelected')
       this.deleteRowsDialog = true
+    },
+    async onCellEditComplete (event) {
+      if (!this.editingCellRows[event.index]) {
+        return
+      }
+      const res = await patchTableData(this.block.content.data[event.index].id, {
+        data: { [event.field]: this.editingCellRows[event.index][event.field] }
+      })
+      this.sendNotification(res)
+    },
+    onCellEdit (newValue, props) {
+      if (!this.editingCellRows[props.index]) {
+        this.editingCellRows[props.index] = {}
+        // this.editingCellRows[props.index] = { ...props.data } Todo:  === Update ?
+      }
+      this.editingCellRows[props.index][props.column.field] = newValue
     },
     exportCSV () {
       console.log('exportCSV')

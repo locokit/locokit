@@ -118,3 +118,16 @@ export async function deleteTableData (rowId: string) {
     return { code, name }
   }
 }
+
+export async function patchTableData (rowId: string, formData: object) {
+  databaseState.loading = true
+
+  try {
+    const result = await lckClient.service('row').patch(rowId, formData)
+    databaseState.loading = false
+    return result
+  } catch ({ code, name }) {
+    databaseState.loading = false
+    return { code, name }
+  }
+}
