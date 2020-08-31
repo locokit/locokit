@@ -5,7 +5,11 @@ import router from './router'
 import i18n from './plugins/i18n'
 import './plugins/primevue'
 import './plugins/sentry'
+
 import { reAuthenticate } from './store/auth'
+
+import ToastService from 'primevue/toastservice'
+Vue.use(ToastService)
 
 Vue.config.productionTip = false
 
