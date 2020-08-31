@@ -7,11 +7,15 @@
     <main class="o-auto p-fluid">
       <router-view/>
     </main>
+    <p-toast />
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import Header from '@/components/layout/Header/Header'
+import Toast from 'primevue/toast'
+
 import { appState } from '@/store'
 
 export default {
@@ -33,7 +37,8 @@ export default {
     }
   },
   components: {
-    'lck-header': Header
+    'lck-header': Header,
+    'p-toast': Vue.extend(Toast)
   }
 }
 </script>
