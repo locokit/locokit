@@ -16,15 +16,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import Header from '@/components/layout/Header/Header'
-import Toast from 'primevue/toast'
-
 import {
   authState,
   logout
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
+import Header from '@/components/layout/Header/Header'
+import Vue from 'vue'
+import Toast from 'primevue/toast'
 
 export default {
   name: 'app',

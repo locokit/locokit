@@ -46,6 +46,7 @@
         :totalRecords="dataTable.total"
         class="p-datatable-sm"
         @page="onPage($event)"
+        :selection.sync="selectedRows"
       >
         <p-column selectionMode="multiple" headerStyle="width: 3rem"></p-column>
         <p-column
@@ -63,7 +64,7 @@
     </div>
 
     <p-dialog
-      :visible.sync="productDialog"
+      :visible.sync="addRowDialog"
       :style="{width: '450px'}"
       :header="$t('database.addNewRow')"
       :modal="true"
@@ -98,6 +99,33 @@
         />
       </template>
     </p-dialog>
+
+    <p-dialog
+      :visible.sync="deleteRowsDialog"
+      :style="{width: '450px'}"
+      header="Confirm"
+      :modal="true"
+    >
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
+        <span v-if="selectedRows">Are you sure you want to delete the selected products?</span>
+      </div>
+      <template #footer>
+        <p-button
+          label="No"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="deleteRowsDialog = false"
+        />
+        <p-button
+          label="Yes"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="deleteSelectedRows"
+        />
+      </template>
+    </p-dialog>
+
   </div>
 </template>
 
@@ -114,7 +142,7 @@ import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import FileUpload from 'primevue/fileupload'
 
-import { saveTableData } from '@/store/database'
+import { saveTableData, deleteTableData } from '@/store/database'
 
 export default {
   name: 'CrudTable',
@@ -139,7 +167,8 @@ export default {
   data () {
     return {
       selectedRows: null,
-      productDialog: false,
+      addRowDialog: false,
+      deleteRowsDialog: false,
       submitted: false,
       newRow: {}
     }
@@ -211,11 +240,11 @@ export default {
     },
     openNew () {
       console.log('openNew')
-      this.productDialog = true
+      this.addRowDialog = true
     },
     hideDialog () {
       console.log('hideDialog')
-      this.productDialog = false
+      this.addRowDialog = false
     },
     async saveRow () {
       console.log('saveRow')
@@ -225,7 +254,28 @@ export default {
         data: this.newRow, // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: this.block.definition.columns[0].table_id
       })
-      if (res && res.code) {
+      this.sendNotification(res)
+      this.addRowDialog = false
+    },
+    editRow (row) {
+      console.log('editRow', row)
+    },
+    async deleteSelectedRows () {
+      console.log('deleteProduct', this.selectedRows)
+      // Todo: Need access to id  + Manage multi delete
+      // const res = await deleteTableData(this.selectedRows)
+      const res = { code: 400, name: 'My bad' }
+      this.sendNotification(res)
+    },
+    confirmDeleteSelected () {
+      console.log('confirmDeleteSelected')
+      this.deleteRowsDialog = true
+    },
+    exportCSV () {
+      console.log('exportCSV')
+    },
+    sendNotification (response) {
+      if (response && response.code) {
         this.$toast.add({
           severity: 'error',
           summary: 'Failure',
@@ -240,37 +290,6 @@ export default {
           life: 3000
         })
       }
-      this.productDialog = false
-    },
-    editRow (row) {
-      console.log('editRow', row)
-    },
-    confirmDelete (row) {
-      console.log('confirmDelete', row)
-    },
-    deleteProduct () {
-      console.log('deleteProduct')
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: 'Product Deleted',
-        life: 3000
-      })
-    },
-    exportCSV () {
-      console.log('exportCSV')
-    },
-    confirmDeleteSelected () {
-      console.log('confirmDeleteSelected')
-    },
-    deleteSelectedProducts () {
-      console.log('deleteSelectedProducts')
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: 'Products Deleted',
-        life: 3000
-      })
     }
   }
 }

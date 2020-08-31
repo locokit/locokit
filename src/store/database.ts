@@ -7,7 +7,8 @@ class Database {
   tables = []
 }
 
-class DatabaseState extends BaseState<Database> {}
+class DatabaseState extends BaseState<Database> {
+}
 
 export const databaseState: DatabaseState = {
   loading: false,
@@ -94,14 +95,26 @@ export async function retrieveTableViews (tableId: string) {
 
 export async function saveTableData (formData: object) {
   databaseState.loading = true
-  console.log('formData', formData)
 
   try {
     const result = await lckClient.service('row').create(formData)
     databaseState.loading = false
     return result
-  } catch ({code, name}) {
+  } catch ({ code, name }) {
     databaseState.loading = false
-    return {code, name}
+    return { code, name }
+  }
+}
+
+export async function deleteTableData (rowId: string) {
+  databaseState.loading = true
+
+  try {
+    const result = await lckClient.service('row').remove(rowId)
+    databaseState.loading = false
+    return result
+  } catch ({ code, name }) {
+    databaseState.loading = false
+    return { code, name }
   }
 }
