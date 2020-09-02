@@ -7,4 +7,7 @@ module.exports = {
     tableName: 'knex_migrations',
     extension: 'ts'
   },
+  seeds: {
+    recursive: true
+  }
 };
