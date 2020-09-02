@@ -1,8 +1,8 @@
 import * as Knex from 'knex'
 import { glossary } from '../../core/15-glossary'
 import { WORKSPACE } from './150-v-logistique-chapters'
-import { DATABASE, TABLES } from '../../../src/glossary-seed/schema-glossary'
-import { VALUES } from '../../../src/glossary-seed/value_single_select-glossary'
+import { DATABASE, TABLES } from './glossary/schema'
+import { VALUES } from './glossary/value_single_select'
 
 //TODO: Difference between User and RELATION_BETWEEN_TABLES ?
 // column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,

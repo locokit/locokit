@@ -31,3 +31,5 @@ export const VIEWS = {
   }
 }
 
+export async function seed (): Promise<any> {
+}

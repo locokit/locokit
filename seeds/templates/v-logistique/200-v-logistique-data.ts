@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { TABLES } from '../../../src/glossary-seed/schema-glossary'
+import { TABLES } from './glossary/schema'
 
 export async function seed (knex: Knex): Promise<any> {
   /**

@@ -198,3 +198,5 @@ export const VALUES = {
     }
   }
 }
+export async function seed (): Promise<any> {
+}

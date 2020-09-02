@@ -264,3 +264,6 @@ export const TABLES = {
     }
   }
 }
+
+export async function seed (): Promise<any> {
+}

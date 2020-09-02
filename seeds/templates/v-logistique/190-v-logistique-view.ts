@@ -1,6 +1,6 @@
 import * as Knex from 'knex'
-import { TABLES } from '../../../src/glossary-seed/schema-glossary'
-import { VIEWS } from '../../../src/glossary-seed/view-glossary'
+import { TABLES } from './glossary/schema'
+import { VIEWS } from './glossary/view'
 
 export async function seed (knex: Knex): Promise<any> {
   // View Fournisseur
