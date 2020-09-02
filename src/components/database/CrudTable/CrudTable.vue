@@ -59,8 +59,43 @@
           sortable
         >
           <template #editor="slotProps">
-<!--            <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>-->
-            <p-input-text :value="slotProps.data[column.id]" @input="onCellEdit($event, slotProps)" />
+            <p-dropdown
+              v-if="column.column_type_id === 9"
+              :options="statuses"
+              optionLabel="label"
+              optionValue="value"
+              :filter="true"
+              :showClear="true"
+              placeholder="Select an option"
+              @change="onDropdownEdit"
+            >
+              <template #value="slotProps">
+                <div class="country-item country-item-value" v-if="slotProps.value">
+                  {{slotProps.value.label}}
+                </div>
+                <span v-else>
+                  {{slotProps.placeholder}}
+                </span>
+              </template>
+              <template #option="slotProps">
+                <span
+                >
+                  {{ slotProps.option.label }}
+                </span>
+              </template>
+            </p-dropdown>
+            <p-input-text
+              v-else
+              v-model="slotProps.data[column.id]"
+              :value="slotProps.data[column.id]"
+              @input="onCellEdit($event, slotProps)"
+            />
+          </template>
+          <template
+            v-if="column.column_type_id === 9"
+            #body="slotProps"
+          >
+            {{ slotProps.data[column.id] }}
           </template>
         </p-column>
       </p-datatable>
@@ -139,6 +174,7 @@ import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
 import RadioButton from 'primevue/radiobutton'
 import Textarea from 'primevue/textarea'
+import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -152,6 +188,7 @@ export default {
   components: {
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog),
+    'p-dropdown': Vue.extend(Dropdown),
     // 'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     // 'p-radio-button': Vue.extend(RadioButton),
@@ -169,6 +206,11 @@ export default {
   },
   data () {
     return {
+      statuses: [
+        { label: 'In Stock', value: 3 },
+        { label: 'Low Stock', value: 2 },
+        { label: 'Out of Stock', value: 1 }
+      ],
       selectedRows: null,
       addRowDialog: false,
       editingCellRows: [],
@@ -287,6 +329,15 @@ export default {
         // this.editingCellRows[props.index] = { ...props.data } Todo:  === Update ?
       }
       this.editingCellRows[props.index][props.column.field] = newValue
+    },
+    async onDropdownEdit (event) {
+      console.log('onDropdownEdit', event, event.originalEvent.target)
+      // Todo get idRow and IdColumn
+
+      // const res = await patchTableData(this.block.content.data[event.index].id, {
+      //   data: { [IdColumn]: event.value }
+      // })
+      // this.sendNotification(res)
     },
     exportCSV () {
       console.log('exportCSV')
