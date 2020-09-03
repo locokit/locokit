@@ -1,9 +1,9 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
-    <div class="sidebar-menu-container p-col p-md-6 p-lg-2 lck-bg-primary o-auto h-max-full">
+    <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
       <Sidebar :chapters="workspaceContent.chapters" />
     </div>
-    <div class="h-full p-col o-auto h-max-full">
+    <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />
     </div>
   </div>

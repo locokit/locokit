@@ -1,9 +1,7 @@
 <template>
   <div>
     <div v-if="block">
-      <header v-if="block.title" class="lck-color-title p-mb-2">
-        {{ block.title }}
-      </header>
+      <h3 v-if="block.title" class="lck-color-title">{{ block.title }}</h3>
       <component
         v-if="isBlockTypeValid"
         :is="block.type"

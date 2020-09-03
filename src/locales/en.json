@@ -5,6 +5,9 @@
       "password": "password",
       "signin": "Sign in",
       "passwordHelper": "Please choose a password"
+    },
+    "paginator": {
+      "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries"
     }
   },
   "pages": {

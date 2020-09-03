@@ -1,6 +1,7 @@
 <template>
   <p-accordion
     :multiple="true"
+    class="lck-bg-primary"
   >
     <p-accordion-tab
       v-for="chapter in formatedChapters"

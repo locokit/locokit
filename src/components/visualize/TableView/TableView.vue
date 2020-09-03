@@ -8,7 +8,9 @@
       :loading="block.loading"
       :rows="dataTable.limit"
       :totalRecords="dataTable.total"
-      class="p-datatable-sm"
+      class="p-datatable-sm p-datatable-striped p-datatable-responsive"
+      paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+      :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
       @page="onPage($event)"
     >
       <p-column
@@ -20,6 +22,7 @@
       >
 
         <template #body="slotProps">
+          <span class="p-column-title">{{ column.text }}</span>
           <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
         </template>
       </p-column>

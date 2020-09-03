@@ -6,7 +6,7 @@ exports[`storyshots TableView TableView with expected props 1`] = `
 >
   <div>
     <div
-      class="p-datatable-sm p-datatable p-component"
+      class="p-datatable-sm p-datatable-striped p-datatable-responsive p-datatable p-component"
     >
       <!---->
       <!---->
@@ -125,7 +125,11 @@ exports[`storyshots TableView TableView with expected props 1`] = `
             class="p-ink"
           />
         </button>
-        <!---->
+        <span
+          class="p-paginator-current"
+        >
+          De 1 à 2 sur 2 résultat(s)
+        </span>
          
         <!---->
       </div>

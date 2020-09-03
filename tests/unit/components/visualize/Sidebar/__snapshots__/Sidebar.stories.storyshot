@@ -5,7 +5,7 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
   class="h-full p-fluid"
 >
   <div
-    class="p-accordion p-component"
+    class="p-accordion p-component lck-bg-primary"
   >
     <div
       class="p-accordion-tab"
@@ -122,7 +122,7 @@ exports[`storyshots Sidebar Sidebar without props chapters 1`] = `
   class="h-full p-fluid"
 >
   <div
-    class="p-accordion p-component"
+    class="p-accordion p-component lck-bg-primary"
   >
     <div
       class="p-accordion-tab"

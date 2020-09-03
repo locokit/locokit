@@ -2,9 +2,9 @@
   <div
     class="generic-view-container p-d-flex p-flex-column p-as-center p-mx-auto"
   >
-    <header class="lck-color-title p-my-4">
-      {{ $t('pages.profile.title') }}
-    </header>
+    <div class="lck-color-page-title p-my-4">
+      <h1>{{ $t('pages.profile.title') }}</h1>
+    </div>
     <section class="p-mb-4">
       <prime-card>
         <template slot="title">

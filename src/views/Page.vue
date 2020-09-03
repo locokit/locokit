@@ -1,8 +1,8 @@
 <template>
   <div class="p-mx-2">
-    <header class="lck-color-page-title p-my-4">
-      {{ page && page.text }}
-    </header>
+    <div class="lck-color-page-title p-my-4">
+      <h1>{{ page && page.text }}</h1>
+    </div>
     <div v-if="page && page.containers.length > 0">
       <div
         v-for="container in page.containers"

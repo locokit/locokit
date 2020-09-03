@@ -2,16 +2,18 @@
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
+    <a class="menu-button p-my-auto" @click="onToggle">
+      <i class="pi pi-bars"></i>
+    </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
       class="p-my-auto"
-    >
-      <img
+    >      <img
         alt="logo"
         :src="logoUrl"
       />
     </router-link>
-    <div class="p-my-auto">
+    <div class="p-my-auto profile-button">
       <router-link
         :to="ROUTES_PATH.PROFILE"
       >
@@ -39,6 +41,11 @@ export default {
       ROUTES_PATH
     }
   },
+  methods: {
+    onToggle (event) {
+      this.$emit('menuButtonClick', 'click')
+    }
+  },
   components: {
     'prime-button': Vue.extend(Button)
   }
@@ -47,8 +54,8 @@ export default {
 
 <style scoped>
   .lck-header {
-    height: 4rem;
-    border-bottom: 1px solid #e2e8f0;
-    background-color: white;
+    height: var(--header-height) !important;
+    border-bottom: 1px solid var(--header-border-bottom-color);
+    background-color: var(--header-background-color);
   }
 </style>

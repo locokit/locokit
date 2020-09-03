@@ -1,0 +1,126 @@
+// This file overwrite some Prime rules
+
+
+@import "v-logistique/fonts";
+@import "v-logistique/layout";
+@import "v-logistique/datatables";
+@import "v-logistique/accordion";
+@import "v-logistique/paginator";
+
+// Toolbar
+
+.menu-button {
+  line-height: 70px;
+  display: none;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: background-color .2s;
+  text-align: center;
+  color: var(--primary-color);
+
+  &:hover {
+    background-color: var(--surface-c);
+  }
+
+  i {
+    font-size: 24px;
+    line-height: inherit;
+  }
+}
+
+.profile-button {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: background-color .2s;
+  text-align: center;
+  a {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    .p-button {
+      margin: 0 auto;
+      display: block;
+    }
+  }
+}
+
+// Responsive
+
+@media screen and (max-width: 900px) {
+  .menu-button {
+    display: block;
+  }
+}
+
+// Typos
+
+.lck-color-page-title {
+  font-family: $font-stack;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+a.no-decoration-link {
+  color: var(--primary-color);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.p-component {
+  font-family: $font-stack;
+  font-size: 1rem
+}
+
+.p-button {
+  background-color: var(--surface-a);
+
+  &:active, &:hover {
+    background-color: var(--surface-b);
+  }
+}
+
+// Tags
+
+.p-tag {
+  color: var(--primary-color-text);
+  background-color: transparent;
+
+  // Tags in datatables
+  .p-datatable-wrapper & {
+    font-size: 1rem;
+  }
+}
+
+// error sur la home
+
+.home {
+  .p-error {
+    font-weight: bold;
+    position: relative;
+    margin-bottom: -45px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    color: #f44336;
+
+    &.errorActive {
+      opacity: 1;
+    }
+  }
+}
+
+.lck-bg-primary {
+  background-color: var(--primary-color);
+}
+
+.lck-primary {
+  color: var(--primary-color);
+}
