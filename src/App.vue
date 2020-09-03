@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
+  <div id="app" :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'">
+    <div class="layout-sidebar" :class="sidebarActive ? 'active' : 'hidden'"></div>
     <lck-header
       v-if="displayHeader"
       :logo-url="logoURL"
+      @menuButtonClick="onMenuButtonClick"
     />
     <main class="o-auto p-fluid">
       <router-view/>
@@ -24,7 +26,13 @@ export default {
     return {
       state: appState,
       // eslint-disable-next-line no-undef
-      logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL
+      logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
+      sidebarActive: false
+    }
+  },
+  methods: {
+    onMenuButtonClick: function () {
+      this.sidebarActive = !this.sidebarActive
     }
   },
   computed: {

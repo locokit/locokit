@@ -6,13 +6,11 @@ exports[`storyshots Block Block with Markdown 1`] = `
 >
   <div>
     <div>
-      <header
-        class="lck-color-title p-mb-2"
+      <h3
+        class="lck-color-title"
       >
-        
-      Futur Markdown
-    
-      </header>
+        Futur Markdown
+      </h3>
        
       <div
         class="lck-color-content"
@@ -32,13 +30,11 @@ exports[`storyshots Block Block with Paragraph (Text) 1`] = `
 >
   <div>
     <div>
-      <header
-        class="lck-color-title p-mb-2"
+      <h3
+        class="lck-color-title"
       >
-        
-      Titre
-    
-      </header>
+        Titre
+      </h3>
        
       <div
         class="lck-color-content"
@@ -58,17 +54,15 @@ exports[`storyshots Block Block with TableView 1`] = `
 >
   <div>
     <div>
-      <header
-        class="lck-color-title p-mb-2"
+      <h3
+        class="lck-color-title"
       >
-        
-      My TableView's block
-    
-      </header>
+        My TableView's block
+      </h3>
        
       <div>
         <div
-          class="p-datatable-sm p-datatable p-component"
+          class="p-datatable-sm p-datatable-striped p-datatable-responsive p-datatable p-component"
         >
           <!---->
           <!---->
@@ -187,7 +181,11 @@ exports[`storyshots Block Block with TableView 1`] = `
                 class="p-ink"
               />
             </button>
-            <!---->
+            <span
+              class="p-paginator-current"
+            >
+              De 1 à 2 sur 2 résultat(s)
+            </span>
              
             <!---->
           </div>
@@ -215,13 +213,11 @@ exports[`storyshots Block Block with unknown type 1`] = `
 >
   <div>
     <div>
-      <header
-        class="lck-color-title p-mb-2"
+      <h3
+        class="lck-color-title"
       >
-        
-      Not Known
-    
-      </header>
+        Not Known
+      </h3>
        
       <span
         class="lck-color-content"

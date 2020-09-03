@@ -5,6 +5,9 @@
       "password": "Mot de passe",
       "signin": "Se connecter",
       "passwordHelper": "Renseignez votre mot de passe"
+    },
+    "paginator": {
+      "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)"
     }
   },
   "pages": {

@@ -20,13 +20,18 @@
   --text-color:rgba(255, 255, 255, 0.87) !important;
   --text-color-secondary:rgba(255, 255, 255, 0.6) !important;
 
-  --primary-color:#53acb4 !important;
-  --primary-color-text:#53acb4 !important;
-  --primary-color-text:#151515 !important;
+  --primary-color: #53acb4 !important;
+  --primary-color-text:#185655 !important;
 
   --secondary-color: #00b0e4 !important;
 
   --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
 
   --border-radius: 2px !important;
+  --accordion-header-link-padding: 1rem .5rem !important;
+
+  --header-height: 5rem !important;
+  --header-background-color: #fff !important;
+  --header-border-bottom-color: #e2e8f0 !important;
+
 }

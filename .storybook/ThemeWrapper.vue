@@ -2,7 +2,7 @@
   <div class="h-full p-fluid"><slot/></div>
 </template>
 
-<style src="../src/styles/main.scss"></style>
+<style src="../public/assets/css/theme.css"></style>
 
 <style>
 #root {

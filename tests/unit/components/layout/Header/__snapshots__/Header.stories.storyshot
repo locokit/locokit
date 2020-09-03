@@ -8,6 +8,14 @@ exports[`storyshots Header Header with logo (required) 1`] = `
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
+      class="menu-button p-my-auto"
+    >
+      <i
+        class="pi pi-bars"
+      />
+    </a>
+     
+    <a
       class="mock-link p-my-auto"
     >
       <img
@@ -17,7 +25,7 @@ exports[`storyshots Header Header with logo (required) 1`] = `
     </a>
      
     <div
-      class="p-my-auto"
+      class="p-my-auto profile-button"
     >
       <a
         class="mock-link"
