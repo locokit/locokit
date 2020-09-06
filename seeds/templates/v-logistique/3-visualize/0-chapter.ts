@@ -1,26 +1,8 @@
 import * as Knex from 'knex'
-import { GROUPS } from './100-v-logistique-group'
-import { VIEWS } from './glossary/view'
-
-export const WORKSPACE = 'eaddde8c-1de4-4e5e-960a-3872907475e5'
-
-export const CHAPTERS = {
-  ADMIN: '4336c4a8-3862-4846-b72d-6838b74051b6',
-  ROZO: 'd7bb8c43-e96f-442c-96ae-34ab61132504',
-  MORIO: '51f2f984-5dbb-456d-a795-aabe83744e50',
-  PROVIDER: '8da8f312-27cf-4810-a7e5-9430823eed29',
-  RECIPIENT: 'dc1a1763-7786-4876-8b7d-2e65f772e658',
-  FUB: '1226c7df-ce85-4a63-8c10-57357043f413'
-}
-
+import { GROUPS } from '../glossary/user_group'
+import { VIEWS, WORKSPACE_ID, CHAPTERS } from '../glossary/view'
 
 export async function seed (knex: Knex): Promise<any> {
-  await knex('workspace').insert([
-    {
-      id: WORKSPACE,
-      text: 'v-logistique'
-    }
-  ])
 
   /**
    * Chapters
@@ -29,27 +11,27 @@ export async function seed (knex: Knex): Promise<any> {
     {
       id: CHAPTERS.PROVIDER,
       text: 'Fournisseur',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }, {
       id: CHAPTERS.RECIPIENT,
       text: 'Bénéficiaire',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }, {
       id: CHAPTERS.ADMIN,
       text: 'v-logistique',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }, {
       id: CHAPTERS.ROZO,
       text: 'Rozo',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }, {
       id: CHAPTERS.MORIO,
       text: 'Morio',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }, {
       id: CHAPTERS.FUB,
       text: 'FUB',
-      workspace_id: WORKSPACE
+      workspace_id: WORKSPACE_ID
     }
   ])
 
@@ -522,12 +504,12 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('group_has_workspace').insert([
     {
       group_id: GROUPS.ADMIN,
-      workspace_id: WORKSPACE,
+      workspace_id: WORKSPACE_ID,
       role: 'OWNER',
       permission: null
     }, {
       group_id: GROUPS.RECIPIENT,
-      workspace_id: WORKSPACE,
+      workspace_id: WORKSPACE_ID,
       role: 'MEMBER',
       permission: JSON.stringify([
         'VIEW_READ_2'
@@ -535,7 +517,7 @@ export async function seed (knex: Knex): Promise<any> {
       chapter_id: CHAPTERS.RECIPIENT
     }, {
       group_id: GROUPS.PROVIDER,
-      workspace_id: WORKSPACE,
+      workspace_id: WORKSPACE_ID,
       role: 'MEMBER',
       permission: JSON.stringify([
         'VIEW_READ_1'

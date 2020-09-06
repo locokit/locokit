@@ -45,7 +45,7 @@ export const VALUES = {
       color: '#ce8a10'
     }
   },
-  BIKE: {
+  BIKE_TYPE: {
     1: {
       label: 'VAE',
       color: '#b1492f'
