@@ -70,6 +70,7 @@ const router = new VueRouter({
  * Check if the route need authentication and the user is authenticated.
  */
 export function checkPathAvailable (needAuthentication: boolean, needGuest: boolean, isAuthenticated: boolean) {
+  if (needAuthentication && needGuest) throw new Error('Could not check path if you want the user to be authenticated and guest at the same time.')
   if (needAuthentication && !isAuthenticated) return false
   if (needGuest && isAuthenticated) return false
   return true

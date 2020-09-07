@@ -54,7 +54,11 @@ describe('Router', () => {
     expect(checkPathAvailable(true, false, true)).toEqual(true)
     expect(checkPathAvailable(false, true, false)).toEqual(true)
     expect(checkPathAvailable(false, true, true)).toEqual(false)
-    expect(checkPathAvailable(true, true, false)).toThrowError()
-    expect(checkPathAvailable(true, true, true)).toThrowError()
+    expect(() => {
+      checkPathAvailable(true, true, false)
+    }).toThrow()
+    expect(() => {
+      checkPathAvailable(true, true, true)
+    }).toThrow()
   })
 })
