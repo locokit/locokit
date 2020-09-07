@@ -1,34 +1,26 @@
 <template>
-  <div>
-    <div v-if="authState.data.isAuthenticated">
-      Logged in
-      <pre>{{authState.data}}</pre>
-    </div>
-    <div v-else>Not logged in</div>
+  <div
+    class="home p-grid p-justify-center p-align-center vertical-container"
+    :style="{
+      'background-image': 'url(' + backgroundImage + ')'
+    }"
+  >
+    <div class="login-block p-col-11 p-sm-5 p-md-6 p-xl-4">
+      <img
+        alt="logo"
+        :src="logoBgPrimaryURL"
+        class="p-mb-4"
+      />
+      <div class="p-error" :class="{ 'errorActive' : authState.error }"><p>{{ authState.error }}</p></div>
 
-    <div
-      class="home p-grid p-justify-center p-align-center vertical-container"
-      :style="{
-        'background-image': 'url(' + backgroundImage + ')'
-      }"
-    >
-      <div class="login-block p-col-11 p-sm-5 p-md-6 p-xl-4">
-        <img
-          alt="logo"
-          :src="logoBgPrimaryURL"
-          class="p-mb-4"
-        />
-        <div class="p-error" :class="{ 'errorActive' : authState.error }"><p>{{ authState.error }}</p></div>
-
-        <Login
-          @submit="authenticate"
-          :loading="authState.loading"
-          :error="authState.error"
-        />
-
-      </div>
+      <Login
+        @submit="authenticate"
+        :loading="authState.loading"
+        :error="authState.error"
+      />
 
     </div>
+
   </div>
 
 </template>
