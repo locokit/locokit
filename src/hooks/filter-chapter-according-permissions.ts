@@ -7,7 +7,6 @@ import { group as LckGroup } from '../models/group.model'
 export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     if (context.params.query?.$eager?.indexOf('chapters') > -1) {
-      console.log('we are here', context.params.user);
       if (context.params.user.profile !== 'SUPERADMIN') {
         // find groups between user and workspaceId
         // choose the first one
@@ -23,12 +22,13 @@ export default (options = {}): Hook => {
         const $in: string[] = []
         groupWithWorkspaces.forEach((group: LckGroup) => {
           group.workspaces?.forEach((workspace) => {
-            if (workspace.role=== 'OWNER' && workspace.chapters) {
-              $in.push(...workspace.chapters.map(c => c.id))
-            } else if (workspace.chapter_id) {
+            console.log(workspace)
+            // if (workspace.role === 'OWNER' && workspace.chapters) {
+            //   $in.push(...workspace.chapters.map(c => c.id))
+            // } else
+            if (workspace.chapter_id) {
               $in.push(workspace.chapter_id)
             }
-            console.log(workspace.chapter_id)
           })
         });
         // console.log(groupWithWorkspaces, $in);
@@ -40,7 +40,8 @@ export default (options = {}): Hook => {
             }
           }
         };
-        (context.params.query as Query)['chapters.id'] = { $in }
+        // (context.params.query as Query)['chapters.id'] = { $in }
+        console.log(context.params.query);
       }
     }
     return context;

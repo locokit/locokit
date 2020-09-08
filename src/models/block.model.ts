@@ -33,21 +33,5 @@ export class block extends Model {
 }
 
 export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('block').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('block', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created block table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating block table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating block table', e)); // eslint-disable-line no-console
-
   return block;
 }

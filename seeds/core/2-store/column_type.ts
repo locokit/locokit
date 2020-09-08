@@ -1,22 +1,12 @@
 import * as Knex from "knex";
 
-export const glossary = {
-  COLUMN_TYPE: {
-    NUMBER: 1,
-    DATE: 2,
-    STRING: 3,
-    FLOAT: 4,
-    USER: 5,
-    GROUP: 6,
-    RELATION_BETWEEN_TABLES: 7,
-    LOOKED_UP_COLUMN: 8,
-    SINGLE_SELECT: 9,
-    MULTI_SELECT: 10
-  }
-}
+import { glossary } from "../../../src/glossary";
 
 export async function seed(knex: Knex): Promise<any> {
   await knex("column_type").insert([{
+    id: glossary.COLUMN_TYPE.BOOLEAN,
+    text: 'Boolean',
+  }, {
     id: glossary.COLUMN_TYPE.NUMBER,
     text: 'Number',
   }, {
@@ -46,5 +36,11 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: glossary.COLUMN_TYPE.MULTI_SELECT,
     text: 'Multi select'
+  }, {
+    id: glossary.COLUMN_TYPE.FORMULA,
+    text: 'Formula'
+  }, {
+    id: glossary.COLUMN_TYPE.FILE,
+    text: 'File'
   }])
 };

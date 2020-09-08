@@ -11,6 +11,7 @@ export class column extends Model {
   updatedAt!: string;
   text: string = 'unknown text';
   data: Object = {};
+  column_type_id!: number;
 
   static get tableName() {
     return 'table_column';

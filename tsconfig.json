@@ -12,5 +12,6 @@
     "knexfile.ts",
     "migrations",
     "seeds",
+    "temp"
   ]
 }
