@@ -119,6 +119,7 @@ export async function retrieveViewDefinition (id: number) {
         }
       }
     })
+    result.columns = result.columns.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
     return result
   } catch (error) {
     workspaceState.error = error
