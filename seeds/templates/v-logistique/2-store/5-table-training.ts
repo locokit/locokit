@@ -1,6 +1,7 @@
 import * as Knex from 'knex'
 import { glossary } from '../../../core/glossary'
 import { DATABASE_ID, TABLES } from '../glossary/schema'
+import { VALUES } from '../glossary/value_single_select'
 
 export async function seed (knex: Knex): Promise<any> {
   // Request
@@ -12,12 +13,12 @@ export async function seed (knex: Knex): Promise<any> {
     }
   ])
   await knex('table_column').insert([{
-    id: TABLES.TRAINING.COLUMNS.REQUEST,
-    text: 'Demande',
+    id: TABLES.TRAINING.COLUMNS.BIKE,
+    text: 'Vélo',
     table_id: TABLES.TRAINING.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
-      tableId: TABLES.REQUEST.ID
+      tableId: TABLES.BIKE.ID
     }
   }, {
     id: TABLES.TRAINING.COLUMNS.SOCIETY,
@@ -25,20 +26,38 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.TRAINING.ID,
     column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
-      tableId: TABLES.REQUEST.ID, // useful ?
-      localField: TABLES.TRAINING.COLUMNS.REQUEST,
-      foreignField: TABLES.REQUEST.COLUMNS.SOCIETY
+      tableId: TABLES.BIKE.ID, // useful ?
+      localField: TABLES.TRAINING.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.SOCIETY
+    }
+  }, {
+    id: TABLES.TRAINING.COLUMNS.BENEFICIARY_USER,
+    text: 'Bénéficiaire',
+    table_id: TABLES.TRAINING.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID, // useful ?
+      localField: TABLES.TRAINING.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.BENEFICIARY_USER
     }
   }, {
     id: TABLES.TRAINING.COLUMNS.TYPE,
     text: 'Type',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID, // useful ?
+      localField: TABLES.TRAINING.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.TYPE
+    }
   }, {
-    id: TABLES.TRAINING.COLUMNS.FORMATION,
-    text: 'Formation ??',
+    id: TABLES.TRAINING.COLUMNS.STATUS,
+    text: 'État',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.KANBAN
+    }
   }, {
     id: TABLES.TRAINING.COLUMNS.DATE,
     text: 'Date',
@@ -46,9 +65,21 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.DATE
   }, {
     id: TABLES.TRAINING.COLUMNS.INSTITUTION,
-    text: 'Institution',
+    text: 'Organisme',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: {
+        1: {
+          label: 'FUB',
+          color: '#25496a'
+        },
+        2: {
+          label: 'BicyclAide',
+          color: '#082b4b'
+        }
+      }
+    }
   }, {
     id: TABLES.TRAINING.COLUMNS.TRAINER,
     text: 'Formateur',
@@ -56,18 +87,16 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
     id: TABLES.TRAINING.COLUMNS.FILE,
-    text: 'Fichier',
+    text: 'Document',
     table_id: TABLES.TRAINING.ID,
     column_type_id: glossary.COLUMN_TYPE.FILE
-  }, {
-    id: TABLES.TRAINING.COLUMNS.USER,
-    text: 'Utilisateur',
-    table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.USER
   }, {
     id: TABLES.TRAINING.COLUMNS.RATING,
     text: 'Note',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.NUMBER
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.RATING
+    }
   }])
 }

@@ -23,10 +23,41 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.REQUEST.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
-    id: TABLES.REQUEST.COLUMNS.PERSON,
-    text: 'Référent',
+    id: TABLES.REQUEST.COLUMNS.BENEFICIARY,
+    text: 'Bénéficiaire',
     table_id: TABLES.REQUEST.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    settings: {
+      tableId: TABLES.PERSON.ID
+    }
+  }, {
+    id: TABLES.REQUEST.COLUMNS.BENEFICIARY_USER,
+    text: 'Bénéficiaire Utilisateur',
+    table_id: TABLES.REQUEST.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.PERSON.ID,
+      localField: TABLES.REQUEST.COLUMNS.BENEFICIARY,
+      foreignField: TABLES.PERSON.COLUMNS.USER
+    }
+  }, {
+    id: TABLES.REQUEST.COLUMNS.SUPPLIER,
+    text: 'Fournisseur',
+    table_id: TABLES.REQUEST.ID,
+    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    settings: {
+      tableId: TABLES.SUPPLIER.ID,
+    }
+  }, {
+    id: TABLES.REQUEST.COLUMNS.SUPPLIER_USER,
+    text: 'Fournisseur Utilisateur',
+    table_id: TABLES.REQUEST.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.SUPPLIER.ID,
+      localField: TABLES.REQUEST.COLUMNS.SUPPLIER,
+      foreignField: TABLES.SUPPLIER.COLUMNS.USER
+    }
   }, {
     id: TABLES.REQUEST.COLUMNS.ADDRESS,
     text: 'Adresse',
@@ -59,7 +90,7 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.NUMBER
   }, {
     id: TABLES.REQUEST.COLUMNS.STATUS,
-    text: 'Statut',
+    text: 'État',
     table_id: TABLES.REQUEST.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
@@ -100,22 +131,31 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
     id: TABLES.REQUEST.COLUMNS.STEP,
-    text: 'Étape',
+    text: 'Étape programme',
     table_id: TABLES.REQUEST.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.QUESTIONNARY
+    }
+  }, {
+    id: TABLES.REQUEST.COLUMNS.STEP_STATUS,
+    text: 'État étape',
+    table_id: TABLES.REQUEST.ID,
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.KANBAN
+    }
   }, {
     id: TABLES.REQUEST.COLUMNS.STATUS_PERSON,
-    text: 'Statut référent',
+    text: 'État référent',
     table_id: TABLES.REQUEST.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.REQUEST.COLUMNS.STATUS_FOLDER,
-    text: 'Statut demande',
-    table_id: TABLES.REQUEST.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USER_STATUS
+    }
   }, {
     id: TABLES.REQUEST.COLUMNS.STATUS_PROGRAM,
-    text: 'Statut programme',
+    text: 'État programme',
     table_id: TABLES.REQUEST.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }])
@@ -183,26 +223,26 @@ export async function seed (knex: Knex): Promise<any> {
   // Bike type provider
   await knex('table').insert([
     {
-      id: TABLES.BIKE_TYPE_PROVIDER.ID,
+      id: TABLES.BIKE_TYPE_SUPPLIER.ID,
       text: 'Fournisseurs de type de vélo',
       database_id: DATABASE_ID
     }
   ])
   await knex('table_column').insert([{
-    id: TABLES.BIKE_TYPE_PROVIDER.COLUMNS.BIKE_TYPE,
+    id: TABLES.BIKE_TYPE_SUPPLIER.COLUMNS.BIKE_TYPE,
     text: 'Type de vélo',
-    table_id: TABLES.BIKE_TYPE_PROVIDER.ID,
+    table_id: TABLES.BIKE_TYPE_SUPPLIER.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.BIKE_TYPE.ID
     }
   }, {
-    id: TABLES.BIKE_TYPE_PROVIDER.COLUMNS.PROVIDER,
+    id: TABLES.BIKE_TYPE_SUPPLIER.COLUMNS.SUPPLIER,
     text: 'Fournisseur',
-    table_id: TABLES.BIKE_TYPE_PROVIDER.ID,
+    table_id: TABLES.BIKE_TYPE_SUPPLIER.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
-      tableId: TABLES.PROVIDER.ID
+      tableId: TABLES.SUPPLIER.ID
     }
   }])
 
@@ -239,7 +279,7 @@ export async function seed (knex: Knex): Promise<any> {
     }
   }, {
     id: TABLES.BIKE.COLUMNS.STATUS,
-    text: 'Statut',
+    text: 'État',
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
@@ -272,25 +312,45 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.DATE
   }, {
-    id: TABLES.BIKE.COLUMNS.COMMISSIONING_DATE,
-    text: 'Date de commission ?',
+    id: TABLES.BIKE.COLUMNS.STARTING_DATE,
+    text: 'Date de mise en service',
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.DATE
   }, {
-    id: TABLES.BIKE.COLUMNS.PROVIDER,
+    id: TABLES.BIKE.COLUMNS.SUPPLIER,
     text: 'Fournisseur',
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
-      tableId: TABLES.PROVIDER.ID
+      tableId: TABLES.SUPPLIER.ID
     }
   }, {
-    id: TABLES.BIKE.COLUMNS.RECIPIENT,
-    text: 'Référent',
+    id: TABLES.BIKE.COLUMNS.SUPPLIER_USER,
+    text: 'Fournisseur Utilisateur',
+    table_id: TABLES.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.SUPPLIER.ID,
+      localField: TABLES.BIKE.COLUMNS.SUPPLIER,
+      foreignField: TABLES.SUPPLIER.COLUMNS.USER
+    }
+  }, {
+    id: TABLES.BIKE.COLUMNS.BENEFICIARY,
+    text: 'Bénéficiaire',
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.PERSON.ID
+    }
+  }, {
+    id: TABLES.BIKE.COLUMNS.BENEFICIARY_USER,
+    text: 'Bénéficiaire Utilisateur',
+    table_id: TABLES.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.PERSON.ID,
+      localField: TABLES.BIKE.COLUMNS.BENEFICIARY,
+      foreignField: TABLES.PERSON.COLUMNS.USER
     }
   }, {
     id: TABLES.BIKE.COLUMNS.TRACER,
@@ -318,6 +378,11 @@ export async function seed (knex: Knex): Promise<any> {
   }, {
     id: TABLES.BIKE.COLUMNS.ALERT,
     text: 'Alerte',
+    table_id: TABLES.BIKE.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.BIKE.COLUMNS.PROVIDER,
+    text: 'Prestataire',
     table_id: TABLES.BIKE.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
@@ -409,25 +474,25 @@ export async function seed (knex: Knex): Promise<any> {
 
   // Gear type provider
   await knex('table').insert([{
-    id: TABLES.GEAR_TYPE_PROVIDER.ID,
+    id: TABLES.GEAR_TYPE_SUPPLIER.ID,
     text: 'Fournisseurs de type d\'accessoire',
     database_id: DATABASE_ID
   }])
   await knex('table_column').insert([{
-    id: TABLES.GEAR_TYPE_PROVIDER.COLUMNS.GEAR,
+    id: TABLES.GEAR_TYPE_SUPPLIER.COLUMNS.GEAR,
     text: 'Type d\'accessoire',
-    table_id: TABLES.GEAR_TYPE_PROVIDER.ID,
+    table_id: TABLES.GEAR_TYPE_SUPPLIER.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.GEAR_TYPE.ID
     }
   }, {
-    id: TABLES.GEAR_TYPE_PROVIDER.COLUMNS.PROVIDER,
+    id: TABLES.GEAR_TYPE_SUPPLIER.COLUMNS.SUPPLIER,
     text: 'Fournisseur',
-    table_id: TABLES.GEAR_TYPE_PROVIDER.ID,
+    table_id: TABLES.GEAR_TYPE_SUPPLIER.ID,
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
-      tableId: TABLES.PROVIDER.ID
+      tableId: TABLES.SUPPLIER.ID
     }
   }])
 
@@ -476,24 +541,54 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MAINTENANCE.COLUMNS.TYPE,
     text: 'Type',
     table_id: TABLES.MAINTENANCE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.MAINTENANCE
+    }
   }, {
     id: TABLES.MAINTENANCE.COLUMNS.IDENTITY,
     text: 'Identité',
     table_id: TABLES.MAINTENANCE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.REF
+    }
+  }, {
+    id: TABLES.MAINTENANCE.COLUMNS.SUPPLIER_USER,
+    text: 'Fournisseur Utilisateur',
+    table_id: TABLES.MAINTENANCE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.SUPPLIER_USER
+    }
+  }, {
+    id: TABLES.MAINTENANCE.COLUMNS.BENEFICIARY_USER,
+    text: 'Bénéficiaire Utilisateur',
+    table_id: TABLES.MAINTENANCE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.BENEFICIARY_USER
+    }
   }, {
     id: TABLES.MAINTENANCE.COLUMNS.STATUS,
-    text: 'Statut',
+    text: 'État',
     table_id: TABLES.MAINTENANCE.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
-    id: TABLES.MAINTENANCE.COLUMNS.RECIPIENT,
-    text: 'Référent',
+    id: TABLES.MAINTENANCE.COLUMNS.BENEFICIARY,
+    text: 'Bénéficiaire',
     table_id: TABLES.MAINTENANCE.ID,
-    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
-      tableId: TABLES.PERSON.ID
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.BENEFICIARY
     }
   }, {
     id: TABLES.MAINTENANCE.COLUMNS.MAINTENANCE_DATE,
@@ -502,7 +597,7 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.DATE
   }, {
     id: TABLES.MAINTENANCE.COLUMNS.TECHNICIAN,
-    text: 'Technicien ?',
+    text: 'Technicien',
     table_id: TABLES.MAINTENANCE.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
@@ -514,7 +609,10 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MAINTENANCE.COLUMNS.INCIDENT,
     text: 'Incident ??',
     table_id: TABLES.MAINTENANCE.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.INCIDENT
+    }
   }, {
     id: TABLES.MAINTENANCE.COLUMNS.BIKE,
     text: 'Vélo',
@@ -522,6 +620,31 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.BIKE.ID
+    }
+  }, {
+    id: TABLES.MAINTENANCE.COLUMNS.STEP,
+    text: 'Étape maintenance',
+    table_id: TABLES.MAINTENANCE.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
+    id: TABLES.MAINTENANCE.COLUMNS.BIKE_STATUS,
+    text: 'État vélo',
+    table_id: TABLES.MAINTENANCE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.STATUS
+    }
+  }, {
+    id: TABLES.MAINTENANCE.COLUMNS.BIKE_TYPE,
+    text: 'Type vélo',
+    table_id: TABLES.MAINTENANCE.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MAINTENANCE.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.TYPE
     }
   }])
 
@@ -551,19 +674,20 @@ export async function seed (knex: Knex): Promise<any> {
     }
   }, {
     id: TABLES.INCIDENT.COLUMNS.TYPE,
-    text: 'Type',
+    text: 'Type d\'incident',
     table_id: TABLES.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.INCIDENT
+    }
   }, {
     id: TABLES.INCIDENT.COLUMNS.STATUS,
-    text: 'Statut',
+    text: 'État',
     table_id: TABLES.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
-  }, {
-    id: TABLES.INCIDENT.COLUMNS.INCIDENT,
-    text: 'Incident ??',
-    table_id: TABLES.INCIDENT.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    settings: {
+      values: VALUES.USE
+    }
   }, {
     id: TABLES.INCIDENT.COLUMNS.DATE,
     text: 'Date',

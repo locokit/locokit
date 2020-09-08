@@ -34,26 +34,26 @@ export async function seed (knex: Knex): Promise<any> {
   // Providers
   await knex('table').insert([
     {
-      id: TABLES.PROVIDER.ID,
+      id: TABLES.SUPPLIER.ID,
       text: 'Fournisseur',
       database_id: DATABASE_ID
     }
   ])
   await knex('table_column').insert([
     {
-      id: TABLES.PROVIDER.COLUMNS.NAME,
+      id: TABLES.SUPPLIER.COLUMNS.NAME,
       text: 'Nom fournisseur',
-      table_id: TABLES.PROVIDER.ID,
+      table_id: TABLES.SUPPLIER.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER.COLUMNS.GEOZONE,
+      id: TABLES.SUPPLIER.COLUMNS.GEOZONE,
       text: 'Zone géographique',
-      table_id: TABLES.PROVIDER.ID,
+      table_id: TABLES.SUPPLIER.ID,
       column_type_id: glossary.COLUMN_TYPE.STRING
     }, {
-      id: TABLES.PROVIDER.COLUMNS.USER,
+      id: TABLES.SUPPLIER.COLUMNS.USER,
       text: 'Utilisateur',
-      table_id: TABLES.PROVIDER.ID,
+      table_id: TABLES.SUPPLIER.ID,
       column_type_id: glossary.COLUMN_TYPE.USER
     }
   ])

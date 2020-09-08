@@ -3,13 +3,13 @@ import { GROUPS } from '../glossary/user_group'
 
 export async function seed (knex: Knex): Promise<any> {
   await knex('group').insert([{
-    id: GROUPS.PROVIDER,
+    id: GROUPS.SUPPLIER,
     name: 'Fournisseurs'
   }, {
     id: GROUPS.ROZO,
     name: 'Rozo'
   }, {
-    id: GROUPS.RECIPIENT,
+    id: GROUPS.BENEFICIARY,
     name: 'Bénéficiaires'
   }, {
     id: GROUPS.ADMIN,

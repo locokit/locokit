@@ -8,7 +8,7 @@ import { row as LckRow } from './row.model'
 export class LckColumnFilter {
   // $eq?: string
   // $neq?: string
-  [key: string]: string
+  [key: string]: string | Array<string | number> | Object
 }
 export class LckColumnDTO extends LckColumn {
   filter?: LckColumnFilter
@@ -49,7 +49,7 @@ class view extends Model {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['order', 'filter', 'visible']
+            extra: ['order', 'filter', 'visible', 'position']
           },
           to: 'table_column.id',
         }

@@ -29,6 +29,7 @@ export default function (app: Application) {
       '$ilike',
       '$notILike',
       '$contains',
+      '$containsKey',
       '$or',
       '$and',
       '$sort',

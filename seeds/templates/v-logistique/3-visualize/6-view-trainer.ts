@@ -19,19 +19,38 @@ export async function seed (knex: Knex): Promise<any> {
     {
       table_column_id: TABLES.TRAINING.COLUMNS.SOCIETY,
       table_view_id: VIEWS.FUB.FORMATION,
-      visible: true
+      visible: true,
+      position: 1
+    }, {
+      table_column_id: TABLES.TRAINING.COLUMNS.BIKE,
+      table_view_id: VIEWS.FUB.FORMATION,
+      visible: true,
+      position: 2
     }, {
       table_column_id: TABLES.TRAINING.COLUMNS.TYPE,
       table_view_id: VIEWS.FUB.FORMATION,
-      visible: true
-    }, {
-      table_column_id: TABLES.TRAINING.COLUMNS.FORMATION,
-      table_view_id: VIEWS.FUB.FORMATION,
-      visible: true
+      visible: true,
+      position: 3
     }, {
       table_column_id: TABLES.TRAINING.COLUMNS.DATE,
       table_view_id: VIEWS.FUB.FORMATION,
-      visible: true
+      visible: true,
+      position: 4
+    }, {
+      table_column_id: TABLES.TRAINING.COLUMNS.STATUS,
+      table_view_id: VIEWS.FUB.FORMATION,
+      visible: true,
+      position: 5
+    }, {
+      table_column_id: TABLES.TRAINING.COLUMNS.TRAINER,
+      table_view_id: VIEWS.FUB.FORMATION,
+      visible: true,
+      position: 6
+    }, {
+      table_column_id: TABLES.TRAINING.COLUMNS.INSTITUTION,
+      table_view_id: VIEWS.FUB.FORMATION,
+      visible: true,
+      position: 7
     }
   ])
 }

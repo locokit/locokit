@@ -120,13 +120,20 @@ export const USERS: Record<string, User> = {
     last_name: 'A',
     email: 'beneficiairea@makina-corpus.net',
     profile: glossary.USER_PROFILE.USER
+  },
+  fub: {
+    id: 17,
+    first_name: 'FUB',
+    last_name: 'Formation',
+    email: 'fub@makina-corpus.net',
+    profile: glossary.USER_PROFILE.USER
   }
 }
 
 export const GROUPS = {
   ADMIN: '163c21e6-5339-4748-903f-8c77e21314cf',
-  PROVIDER: 'd39f102b-398a-4d51-9680-3c479abdda73',
-  RECIPIENT: '895ec967-fa3b-4710-82e7-b406e62f657d',
+  SUPPLIER: 'd39f102b-398a-4d51-9680-3c479abdda73',
+  BENEFICIARY: '895ec967-fa3b-4710-82e7-b406e62f657d',
   MORIO: 'cee8d0de-f9f1-45c0-a03d-28d30890a3d6',
   ROZO: '6421abfa-de18-11ea-87d0-0242ac130003',
   FUB: '28c9d69b-630f-49dd-9d7b-053f1faebf9b'

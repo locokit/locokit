@@ -1,6 +1,7 @@
 import * as Knex from 'knex'
 import { GROUPS } from '../glossary/user_group'
 import { VIEWS, WORKSPACE_ID, CHAPTERS } from '../glossary/view'
+import { glossary } from '../../../core/glossary'
 
 export async function seed (knex: Knex): Promise<any> {
 
@@ -9,15 +10,15 @@ export async function seed (knex: Knex): Promise<any> {
    */
   await knex('chapter').insert([
     {
-      id: CHAPTERS.PROVIDER,
+      id: CHAPTERS.SUPPLIER,
       text: 'Fournisseur',
       workspace_id: WORKSPACE_ID
     }, {
-      id: CHAPTERS.RECIPIENT,
+      id: CHAPTERS.BENEFICIARY,
       text: 'Bénéficiaire',
       workspace_id: WORKSPACE_ID
     }, {
-      id: CHAPTERS.ADMIN,
+      id: CHAPTERS.VLOGISTIQUE,
       text: 'v-logistique',
       workspace_id: WORKSPACE_ID
     }, {
@@ -42,75 +43,79 @@ export async function seed (knex: Knex): Promise<any> {
     {
       id: '414ce692-4b8f-4068-ba8b-d3c561fae25a',
       text: 'Demandes',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: '53646407-caf7-4dd4-9422-edd378dd647d',
       text: 'Gestion flotte vélos',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: 'f83be2bb-1cbb-4fb4-8fa1-b5dffc3062cc',
       text: 'Maintenances préventives',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: '41910cbc-4065-4399-b05f-b73893a50dbb',
       text: 'Maintenances curatives',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: '5b9461c8-9a0d-4326-97fc-bbe61663a4eb',
       text: 'Informations prestataires',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: 'f199297d-ec2e-4b44-bb54-e44734e3eb01',
       text: 'Messagerie',
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
     }, {
       id: '4b64ffc0-229a-47ae-a5a2-0505fa9890ee',
       text: 'Usage vélos',
-      chapter_id: CHAPTERS.RECIPIENT
+      chapter_id: CHAPTERS.BENEFICIARY
     }, {
       id: '4d427df2-79b2-4aba-84b1-cc0c98421d6d',
       text: 'Assistance',
-      chapter_id: CHAPTERS.RECIPIENT
+      chapter_id: CHAPTERS.BENEFICIARY
     }, {
       id: 'f9bdf57a-de4d-4476-a765-84e6802d1342',
       text: 'Messagerie',
-      chapter_id: CHAPTERS.RECIPIENT
+      chapter_id: CHAPTERS.BENEFICIARY
     }, {
       id: '596848de-1287-4b36-a8db-1cd4c228e468',
       text: 'Sensibilisation formation',
-      chapter_id: CHAPTERS.RECIPIENT
+      chapter_id: CHAPTERS.BENEFICIARY
     }, {
       id: 'b23c29f9-ecfd-4f63-9f10-9b919e6a752f',
       text: 'Stock vélos',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: '6d177b3f-a613-4557-afce-a0db2b4e980b',
       text: 'Pré-bénéficiaires',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: 'c8323900-8f84-4dc2-82aa-e6c8d898ccee',
       text: 'Bénéficiaires',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: '1f50ffd6-3c48-4c8a-a09e-34b85e89682d',
       text: 'Rozo',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: 'baa61fef-dbeb-4fa4-9f33-a52dd5252afc',
       text: 'Fournisseurs de solutions',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: '113727d6-e21d-497b-a350-6718aae02b93',
       text: 'Morio',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: '23453d24-c2bb-4ee8-9bb1-638512e43b81',
       text: 'Sensibilisation Formation Assistance',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1',
       text: 'Messagerie',
-      chapter_id: CHAPTERS.ADMIN
+      chapter_id: CHAPTERS.VLOGISTIQUE
+    }, {
+      id: 'a1d54446-790a-4551-9278-ce5d2765fc44',
+      text: 'Pré-bénéficiaires Bénéficiaires',
+      chapter_id: CHAPTERS.ROZO
     }, {
       id: '1cc188e6-7c53-4460-b527-8a288bbed107',
       text: 'Dossier en instruction',
@@ -223,6 +228,10 @@ export async function seed (knex: Knex): Promise<any> {
       text: 'Container V-logistique Messagerie page en construction',
       page_id: 'c8b23f69-7067-48cf-8b3a-5ef15ad5cda1'
     }, {
+      id: '0288209d-be73-450b-8ba8-30e890b36f60',
+      text: 'Container Rozo Pré-bénéficiaire Bénéficiaire',
+      page_id: 'a1d54446-790a-4551-9278-ce5d2765fc44'
+    }, {
       id: '1e6ba31f-9eb0-44b4-beb3-4c0bda0c5b6d',
       text: 'Container Rozo Dossier en instruction',
       page_id: '1cc188e6-7c53-4460-b527-8a288bbed107'
@@ -267,7 +276,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: '42be6c09-a6df-41c5-99e3-295d4696b492',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.PROVIDER.FLEET
+        id: VIEWS.SUPPLIER.FLEET
       })
     }, {
       id: '875b2539-134f-4493-a9de-a71fe927bc94',
@@ -275,7 +284,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: '3e5f7f61-8664-4db1-92f5-d87650b39e87',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.PROVIDER.MAINTENANCE_PREVENTIVE
+        id: VIEWS.SUPPLIER.MAINTENANCE_PREVENTIVE
       })
     }, {
       id: 'b69f3078-45e7-4934-ade2-4dd9972f2dfb',
@@ -283,7 +292,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: '4d696142-5ac3-47bb-bfce-7bbbb0b59a6d',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.PROVIDER.MAINTENANCE_CURATIVE
+        id: VIEWS.SUPPLIER.MAINTENANCE_CURATIVE
       })
     }, {
       id: 'd7933493-b5d0-4363-a5e8-caf0abef6d05',
@@ -291,7 +300,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: 'da283b02-0679-424c-98b3-95f2779655be',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.RECIPIENT.BICYCLE_USE
+        id: VIEWS.BENEFICIARY.BICYCLE_USE
       })
     }, {
       id: '7b2dd5d0-b6d3-43d9-aadc-91de0a1ec84b',
@@ -307,7 +316,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: '171c8238-ba2b-4306-8590-455db8fe83a7',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.VLO.PROVIDER
+        id: VIEWS.VLO.SUPPLIER
       })
     }, {
       id: '07f3668f-c870-4761-8572-fc3ce447a50f',
@@ -315,7 +324,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: 'e8a4061b-a6a4-40b8-b309-f7658e949099',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.VLO.PRE_RECIPIENT
+        id: VIEWS.VLO.PRE_BENEFICIARY
       })
     }, {
       id: '16743e21-d6ba-4630-b14a-6e9a78ffac26',
@@ -323,7 +332,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: '943fe488-d438-46c0-8ce8-74de326a4928',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.VLO.RECIPIENT
+        id: VIEWS.VLO.BENEFICIARY
       })
     }, {
       id: '8d3db4a1-ec19-4192-992c-aec2a126ba0b',
@@ -331,7 +340,7 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: 'ff033f73-0ebc-41e0-acc6-7981caae15ad',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.RECIPIENT.AWARENESS
+        id: VIEWS.BENEFICIARY.TRAINING
       })
     }, {
       id: '4ffcd80e-de2a-11ea-87d0-0242ac130003',
@@ -363,7 +372,15 @@ export async function seed (knex: Knex): Promise<any> {
       container_id: 'dd533aba-06c3-4f11-a811-874cd6803c16',
       type: 'TableView',
       settings: JSON.stringify({
-        id: VIEWS.PROVIDER.REQUEST
+        id: VIEWS.SUPPLIER.REQUEST
+      })
+    }, {
+      id: '15b69384-0ff7-4e44-b261-7270076d668f',
+      title: 'Liste des pré-bénéficiaires & bénéficiaires',
+      container_id: '0288209d-be73-450b-8ba8-30e890b36f60',
+      type: 'TableView',
+      settings: JSON.stringify({
+        id: VIEWS.ROZO.BENEFICIARY
       })
     }, {
       id: 'e65ba238-f739-441a-a103-3d9e6ee448a9',
@@ -505,24 +522,49 @@ export async function seed (knex: Knex): Promise<any> {
     {
       group_id: GROUPS.ADMIN,
       workspace_id: WORKSPACE_ID,
-      role: 'OWNER',
-      permission: null
+      role: glossary.GROUP_ROLE.OWNER,
+      permission: null,
+      chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
-      group_id: GROUPS.RECIPIENT,
+      group_id: GROUPS.BENEFICIARY,
       workspace_id: WORKSPACE_ID,
-      role: 'MEMBER',
+      role: glossary.GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_2'
       ]),
-      chapter_id: CHAPTERS.RECIPIENT
+      chapter_id: CHAPTERS.BENEFICIARY
     }, {
-      group_id: GROUPS.PROVIDER,
+      group_id: GROUPS.SUPPLIER,
       workspace_id: WORKSPACE_ID,
-      role: 'MEMBER',
+      role: glossary.GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_1'
       ]),
-      chapter_id: CHAPTERS.PROVIDER
+      chapter_id: CHAPTERS.SUPPLIER
+    }, {
+      group_id: GROUPS.ROZO,
+      workspace_id: WORKSPACE_ID,
+      role: glossary.GROUP_ROLE.MEMBER,
+      permission: JSON.stringify([
+        'VIEW_READ_1'
+      ]),
+      chapter_id: CHAPTERS.ROZO
+    }, {
+      group_id: GROUPS.MORIO,
+      workspace_id: WORKSPACE_ID,
+      role: glossary.GROUP_ROLE.MEMBER,
+      permission: JSON.stringify([
+        'VIEW_READ_1'
+      ]),
+      chapter_id: CHAPTERS.MORIO
+    }, {
+      group_id: GROUPS.FUB,
+      workspace_id: WORKSPACE_ID,
+      role: glossary.GROUP_ROLE.MEMBER,
+      permission: JSON.stringify([
+        'VIEW_READ_1'
+      ]),
+      chapter_id: CHAPTERS.FUB
     }
   ])
 }

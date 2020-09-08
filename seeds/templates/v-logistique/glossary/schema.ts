@@ -6,8 +6,10 @@ export const TABLES = {
     ID: '3370bb91-c699-4f77-a970-ad574649915c',
     COLUMNS: {
       REF: '608a747b-efa3-4c1b-8462-a2df168c33ed',
+      SIGFOX_ID: '01ec0ebc-f96d-47f9-ac54-7b25669cda1b',
       STATUS: 'ec342569-2bd3-45f5-8277-13f41456e15f',
       BIKE: '08a0f9c6-08b4-4ce4-a2c6-1633f88a2bd5',
+      BIKE_STATUS: 'f3e17659-b44c-42d2-ace7-b9587b392c2c',
       TYPE: 'a2c2de3f-800a-4066-9441-143f12e62574',
       SOCIETY: '7daaa386-733c-4c38-bfe0-08d15cb95ed0',
       DATE_BEGIN: '38e9229e-aac9-4ff6-8a34-508ca783215f',
@@ -39,7 +41,7 @@ export const TABLES = {
       USER: '3d5681a5-9242-40a7-9e4c-21a6cbd5b5f4',
     }
   },
-  PROVIDER: {
+  SUPPLIER: {
     ID: 'a7a05fec-be28-4876-b158-6b96d10d8e2b',
     COLUMNS: {
       NAME: '17ab6b13-5412-483e-ac7d-a9add38225f1',
@@ -54,7 +56,10 @@ export const TABLES = {
     COLUMNS: {
       NUM_REQUEST: '77a5b38c-411d-4572-a5c3-e3acae8ef4bc',
       SOCIETY: 'f6f06500-d187-4ad9-9def-abd97fd75861',
-      PERSON: '885719e3-ddda-441b-9b67-3ab99c90e8cd',
+      BENEFICIARY: '885719e3-ddda-441b-9b67-3ab99c90e8cd',
+      BENEFICIARY_USER: '0a5a9e7f-a859-4f89-b455-c1b38ee17c8b',
+      SUPPLIER: '078e61ca-88ed-48da-bbe6-835cb1eb7712',
+      SUPPLIER_USER: 'd212421e-f98b-493b-b185-d2dbccd0f2e6',
       ADDRESS: '58db1cbf-12b0-422e-a9bb-725e86857e81',
       // USER: 'c9be1ef3-e24c-40c8-ace3-ea4bf99f8406',
       CREATION_DATE: 'cd6aec18-b942-4cf8-a1f9-d3677b773a9d',
@@ -71,8 +76,8 @@ export const TABLES = {
       TYPE: 'b95a6a20-e06c-11ea-87d0-0242ac130003',
       // DATE_REQUEST: '6c20ca98-e08e-11ea-87d0-0242ac130003',
       STEP: 'c9d0980c-e06c-11ea-87d0-0242ac130003',
+      STEP_STATUS: '2fb0a1f6-e034-4198-adc2-00fa4c53728a',
       STATUS_PERSON: 'd0d13392-bbbf-48d5-895b-b793e9443abd',
-      STATUS_FOLDER: '2fb0a1f6-e034-4198-adc2-00fa4c53728a',
       STATUS_PROGRAM: '3e71a85a-3679-4e5a-ba71-631bf236425b',
     }
   },
@@ -92,11 +97,11 @@ export const TABLES = {
       TYPE_VCAETRI: 'ef298fe4-7905-4cc1-8774-45212c86f660'
     }
   },
-  BIKE_TYPE_PROVIDER: {
+  BIKE_TYPE_SUPPLIER: {
     ID: '7214fb8e-8407-42ae-8942-727adb08e12e',
     COLUMNS: {
       BIKE_TYPE: '6b568894-c96d-477e-8315-96c7efee01d7',
-      PROVIDER: 'b82db9e7-d9ad-4ab7-a171-9af409090d0e',
+      SUPPLIER: 'b82db9e7-d9ad-4ab7-a171-9af409090d0e',
     }
   },
   BIKE: {
@@ -109,9 +114,12 @@ export const TABLES = {
       STATUS: '6fa623ad-6a79-4631-a826-05f143e8c584',
       MAINTENANCE_DATE: '69b82396-3fc3-46da-813a-d6dd81ed648c',
       DELIVERY_ESTIMATED_DATE: '66874e11-5bcb-42f4-ba76-7e999462d746',
-      COMMISSIONING_DATE: '438862d6-6134-482d-b5cc-0f4f74d051bf',
-      PROVIDER: 'de10bc0e-b4ed-4543-86ea-f7acbdd20ede',
-      RECIPIENT: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
+      STARTING_DATE: '438862d6-6134-482d-b5cc-0f4f74d051bf',
+      SUPPLIER: 'de10bc0e-b4ed-4543-86ea-f7acbdd20ede',
+      SUPPLIER_USER: 'eb897fce-e980-4931-92f0-9549280c363c',
+      PROVIDER: 'fe324679-7270-4dc0-9cef-e0c0aa2055a7',
+      BENEFICIARY: '6d3b224c-c21c-4fb1-bd10-d05f150b2052',
+      BENEFICIARY_USER: '36042075-2bf3-43e6-94cd-5e86441c3ad8',
       // PERSON: 'f3d0b1e2-7ca8-4182-a7b5-998ca53f1f3d',
       TRACER: 'bbb35cac-87ae-4bb3-b9d9-64850b42fddb',
       LAST_TRACER_DATA: 'ea73b16b-9910-441a-bcef-b3c0a31b22c4',
@@ -142,11 +150,11 @@ export const TABLES = {
       TYPE_BAG: 'a45bc12e-c56f-4b42-9aed-d52764c15f1c'
     }
   },
-  GEAR_TYPE_PROVIDER: {
+  GEAR_TYPE_SUPPLIER: {
     ID: 'ca818629-6484-43b2-ad21-2e1baf493456',
     COLUMNS: {
       GEAR: '07b5267e-3451-49b3-8ba9-ddf5b82a2d53',
-      PROVIDER: 'a5ac93e2-5aa2-4186-a6df-147ae988b7dd'
+      SUPPLIER: 'a5ac93e2-5aa2-4186-a6df-147ae988b7dd'
     }
   },
   GEAR: {
@@ -164,12 +172,17 @@ export const TABLES = {
       TYPE: '416e0619-5bc7-42c4-a22f-78dd8ace9603',
       IDENTITY: '3d0ba54e-c07e-4a72-ba19-81a610ae4fc2',
       STATUS: 'b69cec56-f9f2-4dcf-beef-f7a4fdf38b72',
-      RECIPIENT: '0b933f1d-d883-4a9d-884c-0573ac3e1b20',
+      BENEFICIARY: '0b933f1d-d883-4a9d-884c-0573ac3e1b20',
+      BENEFICIARY_USER: '7031d4ba-53a7-45ec-ad73-73f5ce4fab3a',
+      SUPPLIER_USER: 'cc39c710-a2eb-425b-bbf1-54c2014dddaf',
       MAINTENANCE_DATE: 'e2784b4d-26ee-45de-a48b-5a8ad8ac350c',
       TECHNICIAN: 'dfce339f-c521-4ac1-9b05-88229c1110cb',
       MAINTENANCE_STEP: '8c4ecfb8-aec6-4162-b8b3-d145abaee993',
       INCIDENT: '0cc5550b-8ca6-4c86-9b8e-8ebc6d305c29',
       BIKE: '1902630f-88f7-45d6-9678-bb63123df075',
+      BIKE_STATUS: 'a6e401ee-420f-4bb0-b84c-279162306fbd',
+      BIKE_TYPE: '18c095ca-3498-4d29-8a4c-5e6bbcc14ba3',
+      STEP: 'c35ece1c-0b17-48f0-93fd-2cbe9097b64a'
     }
   },
   INCIDENT: {
@@ -179,8 +192,7 @@ export const TABLES = {
       SOCIETY: '287bea3c-76cd-451d-bbc3-69d335e2a6f7',
       TYPE: '5bdefabe-2c54-4f7f-bae4-c913dccb5a6e',
       STATUS: '11ab89f5-2c07-40b6-a8fe-04a89b602120',
-      INCIDENT: 'faae048d-403b-4818-922a-5731131f3143',
-      DATE: '289a1ab1-7403-40d9-8b77-66b73d19c120'
+      DATE: '289a1ab1-7403-40d9-8b77-66b73d19c120',
     }
   },
 
@@ -202,7 +214,7 @@ export const TABLES = {
   TRAINING: {
     ID: 'c13dbbf2-75f2-4a38-b139-2c6eb4d3f14c',
     COLUMNS: {
-      REQUEST: 'fd9f6eb0-9be8-43cb-94bf-e692721fb6ef',
+      BIKE: 'fd9f6eb0-9be8-43cb-94bf-e692721fb6ef',
       SOCIETY: 'af4e69d5-c4ba-4217-9fb0-52cf17c2fc4a',
       TYPE: '445c9aa8-4858-4b14-8e51-41df77cef823',
       FORMATION: 'b6ee611d-3878-4b2d-9ccc-fead1a9f3b4f',
@@ -210,8 +222,9 @@ export const TABLES = {
       INSTITUTION: '59fe729e-d6be-4533-b00c-870ee931696e',
       TRAINER: 'e4451b45-0ba6-4914-97cb-d53101ebbc2f',
       FILE: 'e402a93d-07b3-45cd-ba13-f50807b09996',
-      USER: '2bd806de-34ce-4426-93e6-70138cb4c0da',
-      RATING: '7e126aae-5235-4956-b4aa-0b104683e3ec'
+      BENEFICIARY_USER: '2bd806de-34ce-4426-93e6-70138cb4c0da',
+      RATING: '7e126aae-5235-4956-b4aa-0b104683e3ec',
+      STATUS: '33c276bb-f26c-4cd7-ac2d-f31035e80971'
     }
   }
 }

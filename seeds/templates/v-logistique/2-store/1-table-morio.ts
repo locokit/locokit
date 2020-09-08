@@ -1,6 +1,7 @@
 import * as Knex from 'knex'
 import { glossary } from '../../../core/glossary'
 import { DATABASE_ID, TABLES } from '../glossary/schema'
+import { VALUES } from '../glossary/value_single_select'
 
 export async function seed (knex: Knex): Promise<any> {
 
@@ -26,28 +27,17 @@ export async function seed (knex: Knex): Promise<any> {
     table_id: TABLES.MORIO_TRACER.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {
+    id: TABLES.MORIO_TRACER.COLUMNS.SIGFOX_ID,
+    text: 'Réf SigFox',
+    table_id: TABLES.MORIO_TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.STRING
+  }, {
     id: TABLES.MORIO_TRACER.COLUMNS.STATUS,
-    text: 'Statut',
+    text: 'État',
     table_id: TABLES.MORIO_TRACER.ID,
     column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
     settings: {
-      values: {
-        [TABLES.MORIO_TRACER.DATA.STATUS_STOLEN]: {
-          label: 'Volé',
-          color: '#c63737',
-          backgroundColor: '#ffcdd2'
-        },
-        [TABLES.MORIO_TRACER.DATA.STATUS_INPROGRESS]: {
-          label: 'En cours de montage',
-          color: '#23547b',
-          backgroundColor: '#b3e5fc'
-        },
-        [TABLES.MORIO_TRACER.DATA.STATUS_WORKING]: {
-          label: 'Fonctionnel',
-          color: '#256029',
-          backgroundColor: '#c8e6c9'
-        }
-      }
+      values: VALUES.SHIPMENT
     }
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.BIKE,
@@ -56,6 +46,16 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.BIKE.ID
+    }
+  }, {
+    id: TABLES.MORIO_TRACER.COLUMNS.BIKE_STATUS,
+    text: 'État vélo',
+    table_id: TABLES.MORIO_TRACER.ID,
+    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    settings: {
+      tableId: TABLES.BIKE.ID,
+      localField: TABLES.MORIO_TRACER.COLUMNS.BIKE,
+      foreignField: TABLES.BIKE.COLUMNS.STATUS
     }
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.TYPE,
@@ -84,7 +84,7 @@ export async function seed (knex: Knex): Promise<any> {
     column_type_id: glossary.COLUMN_TYPE.DATE
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.PERSON,
-    text: 'Référent',
+    text: 'Bénéficiaire',
     table_id: TABLES.MORIO_TRACER.ID,
     column_type_id: glossary.COLUMN_TYPE.STRING
   }, {

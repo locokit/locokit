@@ -20,7 +20,8 @@ export const glossary = {
     USER: 'USER'
   },
   GROUP_ROLE: {
-
+    OWNER: 'OWNER',
+    MEMBER: 'MEMBER'
   }
 }
 

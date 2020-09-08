@@ -1,3 +1,5 @@
+import { TABLES } from "./schema";
+
 export const VALUES = {
   USER_STATUS: {
     1: {
@@ -83,17 +85,13 @@ export const VALUES = {
   },
   MAINTENANCE: {
     1: {
-      label: 'Maintenance 1',
+      label: 'Maintenance Curative',
       color: '#ef1'
     },
     2: {
-      label: 'Maintenance 2',
+      label: 'Maintenance Préventive',
       color: '#ef1'
     },
-    3: {
-      label: 'Maintenance 3',
-      color: '#ef1'
-    }
   },
   INCIDENT: {
     1: {
@@ -169,6 +167,21 @@ export const VALUES = {
     5: {
       label: 'Pas de traceur',
       color: '#890423'
+    },
+    [TABLES.MORIO_TRACER.DATA.STATUS_STOLEN]: {
+      label: 'Volé',
+      color: '#c63737',
+      backgroundColor: '#ffcdd2'
+    },
+    [TABLES.MORIO_TRACER.DATA.STATUS_INPROGRESS]: {
+      label: 'En cours de montage',
+      color: '#23547b',
+      backgroundColor: '#b3e5fc'
+    },
+    [TABLES.MORIO_TRACER.DATA.STATUS_WORKING]: {
+      label: 'Fonctionnel',
+      color: '#256029',
+      backgroundColor: '#c8e6c9'
     }
   },
   RATING: {
