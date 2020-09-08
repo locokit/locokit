@@ -1,4 +1,4 @@
-import { glossary } from '../../../core/glossary'
+import { glossary } from '../../../../src/glossary'
 
 interface User {
   id: number

@@ -2,7 +2,7 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers';
 import { LckColumnDTO, LckColumnFilter } from '../models/view.model';
-import { glossary } from '../../seeds/core/glossary';
+import { glossary } from '../glossary';
 
 /**
  * Add filters depending on the table view wished
