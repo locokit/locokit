@@ -1,6 +1,6 @@
 import * as Knex from "knex";
 
-import { glossary } from '../glossary'
+import { glossary } from "../../../src/glossary";
 
 export async function seed(knex: Knex): Promise<any> {
   await knex("column_type").insert([{

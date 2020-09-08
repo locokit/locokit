@@ -1,6 +1,6 @@
 import * as Knex from "knex";
 import bcrypt from 'bcryptjs'
-import { glossary } from "../glossary";
+import { glossary } from "../../../src/glossary";
 
 export async function seed(knex: Knex): Promise<any> {
   const hashPassword = await bcrypt.hash("pouetpouet", 10)

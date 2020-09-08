@@ -1,7 +1,7 @@
 import * as Knex from 'knex'
 import { GROUPS } from '../glossary/user_group'
 import { VIEWS, WORKSPACE_ID, CHAPTERS } from '../glossary/view'
-import { glossary } from '../../../core/glossary'
+import { glossary } from "../../../../src/glossary";
 
 export async function seed (knex: Knex): Promise<any> {
 

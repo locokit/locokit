@@ -24,5 +24,3 @@ export const glossary = {
     MEMBER: 'MEMBER'
   }
 }
-
-export async function seed(): Promise<any> { };
