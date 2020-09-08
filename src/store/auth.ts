@@ -97,4 +97,5 @@ export function logout () {
   authState.data.isAuthenticated = false
   authState.data.groups = []
   authState.data.user = null
+  return lckClient.logout()
 }

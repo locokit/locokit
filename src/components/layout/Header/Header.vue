@@ -42,7 +42,7 @@ export default {
     }
   },
   methods: {
-    onToggle (event) {
+    onToggle () {
       this.$emit('menuButtonClick', 'click')
     }
   },

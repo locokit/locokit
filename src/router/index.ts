@@ -17,7 +17,8 @@ const routes: Array<RouteConfig> = [
     name: 'Home',
     component: Home,
     meta: {
-      needHeader: false
+      needHeader: false,
+      needGuest: true
     }
   }, {
     path: ROUTES_PATH.PROFILE,
@@ -68,8 +69,10 @@ const router = new VueRouter({
 /**
  * Check if the route need authentication and the user is authenticated.
  */
-export function checkPathAvailable (needAuthentication: boolean, isAuthenticated: boolean) {
+export function checkPathAvailable (needAuthentication: boolean, needGuest: boolean, isAuthenticated: boolean) {
+  if (needAuthentication && needGuest) throw new Error('Could not check path if you want the user to be authenticated and guest at the same time.')
   if (needAuthentication && !isAuthenticated) return false
+  if (needGuest && isAuthenticated) return false
   return true
 }
 
@@ -77,9 +80,11 @@ router.beforeEach(function (to, from, next) {
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
   // @see: https://github.com/vuejs/vue-router/issues/704
   const needAuthentication = to.matched.some(m => m.meta.needAuthentication)
+  const needGuest = to.matched.some(m => m.meta.needGuest)
   const isAuthenticated = authState.data.isAuthenticated
-  if (!checkPathAvailable(needAuthentication, isAuthenticated)) {
-    next({ path: '/' })
+
+  if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
+    next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
   } else {
     next()
   }

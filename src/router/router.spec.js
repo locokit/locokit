@@ -48,9 +48,17 @@ describe('Router', () => {
   })
 
   it('test each condition of checkPathAvailable', () => {
-    expect(checkPathAvailable(false, false)).toEqual(true)
-    expect(checkPathAvailable(false, true)).toEqual(true)
-    expect(checkPathAvailable(true, false)).toEqual(false)
-    expect(checkPathAvailable(true, true)).toEqual(true)
+    expect(checkPathAvailable(false, false, false)).toEqual(true)
+    expect(checkPathAvailable(false, false, true)).toEqual(true)
+    expect(checkPathAvailable(true, false, false)).toEqual(false)
+    expect(checkPathAvailable(true, false, true)).toEqual(true)
+    expect(checkPathAvailable(false, true, false)).toEqual(true)
+    expect(checkPathAvailable(false, true, true)).toEqual(false)
+    expect(() => {
+      checkPathAvailable(true, true, false)
+    }).toThrow()
+    expect(() => {
+      checkPathAvailable(true, true, true)
+    }).toThrow()
   })
 })

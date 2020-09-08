@@ -20,7 +20,9 @@
       />
 
     </div>
+
   </div>
+
 </template>
 
 <script>
@@ -44,6 +46,7 @@ export default {
     }
   },
   methods: {
+
     async authenticate (data) {
       await authenticate(data)
       if (authState.data.isAuthenticated) {
