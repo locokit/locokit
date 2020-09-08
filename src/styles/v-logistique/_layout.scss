@@ -10,7 +10,7 @@ body {
 
 .sidebar-menu-container {
   position: fixed;
-  top: 80px;
+  top: var(--header-height);
   bottom: 0;
   left: 0;
   width: 310px;

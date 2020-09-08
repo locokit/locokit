@@ -20,9 +20,7 @@
         sortable
         :field="column.id"
       >
-
         <template #body="slotProps">
-          <span class="p-column-title">{{ column.text }}</span>
           <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
         </template>
       </p-column>
@@ -34,6 +32,22 @@
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Vue from 'vue'
+
+const COLUMN_TYPE = {
+  BOOLEAN: 1,
+  STRING: 2,
+  NUMBER: 3,
+  FLOAT: 4,
+  DATE: 5,
+  USER: 6,
+  GROUP: 7,
+  RELATION_BETWEEN_TABLES: 8,
+  LOOKED_UP_COLUMN: 9,
+  SINGLE_SELECT: 10,
+  MULTI_SELECT: 11,
+  FORMULA: 12,
+  FILE: 13
+}
 
 export default {
   name: 'TableView',
@@ -65,16 +79,18 @@ export default {
       return this.block.content.data.map(d => {
         const currentData = {}
         this.block.definition.columns.forEach(currentColumn => {
-          let currentValueForDisplay = d.data[currentColumn.id] || ''
+          let currentValueForDisplay = d.data[currentColumn.id]
           if (currentValueForDisplay === '') return
           switch (currentColumn.column_type_id) {
-            case 5:
-            case 6:
-            case 7:
-              currentValueForDisplay = d.data[currentColumn.id].value
+            case COLUMN_TYPE.USER:
+            case COLUMN_TYPE.GROUP:
+            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+            case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            case COLUMN_TYPE.FORMULA:
+              currentValueForDisplay = d.data[currentColumn.id]?.value
               break
-            case 9:
-              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]].label
+            case COLUMN_TYPE.SINGLE_SELECT:
+              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]]?.label
           }
           currentData[currentColumn.id] = currentValueForDisplay
         })
@@ -85,12 +101,13 @@ export default {
   methods: {
     getValue (column, data) {
       switch (column.column_type_id) {
-        case 5:
-        case 6:
-        case 7:
-        case 8:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        case COLUMN_TYPE.FORMULA:
           return data.value
-        case 9:
+        case COLUMN_TYPE.SINGLE_SELECT:
           return column.settings.values[data].label
         default:
           return data
@@ -98,7 +115,12 @@ export default {
     },
     getClassComponent (column) {
       switch (column.column_type_id) {
-        case 9:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        case COLUMN_TYPE.FORMULA:
+        case COLUMN_TYPE.SINGLE_SELECT:
           return 'p-tag p-p-2'
         default:
           return 'text'
@@ -115,3 +137,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/deep/ .p-datatable table {
+  width: unset;
+  min-width: 100%;
+  max-width: unset;
+}
+
+/deep/ .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  white-space: nowrap;
+}
+/deep/ .p-datatable-wrapper {
+  overflow: auto;
+}
+
+</style>

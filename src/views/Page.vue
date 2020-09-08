@@ -57,9 +57,6 @@ export default {
               this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
               this.$set(block, 'content', await retrieveViewData(block.definition.id))
               block.loading = false
-              return
-            default:
-              console.log(block)
           }
         })
       })

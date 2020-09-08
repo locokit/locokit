@@ -114,4 +114,14 @@ export default {
 /deep/ .p-tabview .p-tabview-panels {
   padding: 2px 0 0 0;
 }
+/deep/ .p-tabview .p-tabview-nav {
+  height: 4rem;
+  overflow: auto;
+}
+/deep/ .p-tabview-nav {
+  flex-wrap: unset;
+}
+/deep/ .p-tabview .p-tabview-nav li {
+  white-space: nowrap;
+}
 </style>
