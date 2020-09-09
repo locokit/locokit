@@ -22,6 +22,21 @@ npm run build
 ```
 
 ### Run your unit tests
+
+* only stories of the storybook
+
+```
+npm run test:unit-stories
+```
+
+* except stories
+
+```
+npm run test:unit-src
+```
+
+* all unit tests
+
 ```
 npm run test:unit
 ```
@@ -34,6 +49,12 @@ npm run test:e2e
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### Storybook
+
+```
+npm run storybook:serve
 ```
 
 ### Customize configuration
@@ -54,3 +75,18 @@ const LCK_SETTINGS = {
 You can write your own configuration settings here,
 when you deploy this front, you will have to override these settings
 to match your environement configuration.
+
+## Contribute
+
+If you encounter a bug, please submit an issue.
+
+If you want to contribute to the code,
+first ask to the team where to begin.
+
+When making a contribution, please name your branch with the issue's id.
+
+For example, on the issue n° 23, you could name your branch `23-add-of-a-new-feature` or `23-fix-this-horrible-bug`.
+
+Then you could submit a Merge Request.
+
+The CI is configured, so you could check also if your branch is not breaking anything.
