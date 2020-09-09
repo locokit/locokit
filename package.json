@@ -1,0 +1,12 @@
+{
+  "name": "lck-glossary",
+  "version": "0.0.1",
+  "description": "Glossary for Low-Code Kit platform",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.makina-corpus.net:lck/lck-glossary.git"
+  },
+  "author": "Mathieu DARTIGUES <mathieu@dartic.fr>",
+  "license": "MIT"
+}
