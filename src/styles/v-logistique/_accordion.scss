@@ -40,6 +40,7 @@
       &.p-highlight {
         .p-accordion-header-link {
           color: var(--primary-color);
+          background-color: var(--surface-w);
         }
         &:hover {
           .p-accordion-header-link {
