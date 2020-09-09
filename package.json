@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git@gitlab.makina-corpus.net:lck/lck-glossary.git"
   },
-  "script": {
+  "scripts": {
     "build": "npx tsc --outDir lib -d src/*.ts"
   },
   "author": "Mathieu DARTIGUES <mathieu@dartic.fr>",
