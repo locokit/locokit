@@ -32,22 +32,7 @@
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Vue from 'vue'
-
-const COLUMN_TYPE = {
-  BOOLEAN: 1,
-  STRING: 2,
-  NUMBER: 3,
-  FLOAT: 4,
-  DATE: 5,
-  USER: 6,
-  GROUP: 7,
-  RELATION_BETWEEN_TABLES: 8,
-  LOOKED_UP_COLUMN: 9,
-  SINGLE_SELECT: 10,
-  MULTI_SELECT: 11,
-  FORMULA: 12,
-  FILE: 13
-}
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   name: 'TableView',
