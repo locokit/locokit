@@ -1,6 +1,6 @@
 import * as Knex from "knex";
 import bcrypt from 'bcryptjs'
-import { glossary } from "../../../src/glossary";
+import { USER_PROFILE } from '@locokit/lck-glossary';
 
 export async function seed(knex: Knex): Promise<any> {
   const hashPassword = await bcrypt.hash("pouetpouet", 10)
@@ -11,7 +11,7 @@ export async function seed(knex: Knex): Promise<any> {
       last_name: "ADMIN",
       email: "superadmin@makina-corpus.net",
       password: hashPassword,
-      profile: glossary.USER_PROFILE.SUPERADMIN
+      profile: USER_PROFILE.SUPERADMIN
     }
   ]);
 };

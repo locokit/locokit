@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { glossary } from "../../../../src/glossary";
+import { COLUMN_TYPE } from '@locokit/lck-glossary';
 import { DATABASE_ID, TABLES } from '../glossary/schema'
 import { VALUES } from '../glossary/value_single_select'
 
@@ -25,17 +25,17 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.REF,
     text: 'Référence',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: COLUMN_TYPE.STRING
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.SIGFOX_ID,
     text: 'Réf SigFox',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: COLUMN_TYPE.STRING
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.STATUS,
     text: 'État',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     settings: {
       values: VALUES.SHIPMENT
     }
@@ -43,7 +43,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.BIKE,
     text: 'Vélo',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.BIKE.ID
     }
@@ -51,7 +51,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.BIKE_STATUS,
     text: 'État vélo',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID,
       localField: TABLES.MORIO_TRACER.COLUMNS.BIKE,
@@ -61,7 +61,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.TYPE,
     text: 'Type',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.MORIO_TRACER.COLUMNS.BIKE,
@@ -71,7 +71,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.SOCIETY,
     text: 'Société',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.MORIO_TRACER.COLUMNS.BIKE,
@@ -81,17 +81,17 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER.COLUMNS.DATE_BEGIN,
     text: 'Date de début',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
+    column_type_id: COLUMN_TYPE.DATE
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.PERSON,
     text: 'Bénéficiaire',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: COLUMN_TYPE.STRING
   }, {
     id: TABLES.MORIO_TRACER.COLUMNS.NUM_REQUEST,
     text: 'Demande n°',
     table_id: TABLES.MORIO_TRACER.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.MORIO_TRACER.COLUMNS.BIKE,
@@ -104,7 +104,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER_DATA.COLUMNS.REF,
     text: 'Référence',
     table_id: TABLES.MORIO_TRACER_DATA.ID,
-    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.MORIO_TRACER.ID
     }
@@ -112,16 +112,16 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.MORIO_TRACER_DATA.COLUMNS.BEGIN,
     text: 'Début de période',
     table_id: TABLES.MORIO_TRACER_DATA.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
+    column_type_id: COLUMN_TYPE.DATE
   }, {
     id: TABLES.MORIO_TRACER_DATA.COLUMNS.END,
     text: 'Fin de période',
     table_id: TABLES.MORIO_TRACER_DATA.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
+    column_type_id: COLUMN_TYPE.DATE
   }, {
     id: TABLES.MORIO_TRACER_DATA.COLUMNS.VALUE,
     text: 'Valeur',
     table_id: TABLES.MORIO_TRACER_DATA.ID,
-    column_type_id: glossary.COLUMN_TYPE.NUMBER
+    column_type_id: COLUMN_TYPE.NUMBER
   }])
 }

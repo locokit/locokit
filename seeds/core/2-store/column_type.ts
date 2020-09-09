@@ -1,46 +1,46 @@
 import * as Knex from "knex";
 
-import { glossary } from "../../../src/glossary";
+import { COLUMN_TYPE } from '@locokit/lck-glossary';
 
 export async function seed(knex: Knex): Promise<any> {
   await knex("column_type").insert([{
-    id: glossary.COLUMN_TYPE.BOOLEAN,
+    id: COLUMN_TYPE.BOOLEAN,
     text: 'Boolean',
   }, {
-    id: glossary.COLUMN_TYPE.NUMBER,
+    id: COLUMN_TYPE.NUMBER,
     text: 'Number',
   }, {
-    id: glossary.COLUMN_TYPE.DATE,
+    id: COLUMN_TYPE.DATE,
     text: 'Date',
   }, {
-    id: glossary.COLUMN_TYPE.STRING,
+    id: COLUMN_TYPE.STRING,
     text: 'String',
   }, {
-    id: glossary.COLUMN_TYPE.FLOAT,
+    id: COLUMN_TYPE.FLOAT,
     text: 'Float',
   }, {
-    id: glossary.COLUMN_TYPE.USER,
+    id: COLUMN_TYPE.USER,
     text: 'User',
   }, {
-    id: glossary.COLUMN_TYPE.GROUP,
+    id: COLUMN_TYPE.GROUP,
     text: 'Group',
   }, {
-    id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     text: 'Link / relation between tables',
   }, {
-    id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     text: 'Looked up column'
   }, {
-    id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    id: COLUMN_TYPE.SINGLE_SELECT,
     text: 'Single select'
   }, {
-    id: glossary.COLUMN_TYPE.MULTI_SELECT,
+    id: COLUMN_TYPE.MULTI_SELECT,
     text: 'Multi select'
   }, {
-    id: glossary.COLUMN_TYPE.FORMULA,
+    id: COLUMN_TYPE.FORMULA,
     text: 'Formula'
   }, {
-    id: glossary.COLUMN_TYPE.FILE,
+    id: COLUMN_TYPE.FILE,
     text: 'File'
   }])
 };

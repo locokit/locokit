@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { glossary } from "../../../../src/glossary";
+import { COLUMN_TYPE } from "@locokit/lck-glossary";
 import { DATABASE_ID, TABLES } from '../glossary/schema'
 
 export async function seed (knex: Knex): Promise<any> {
@@ -17,17 +17,17 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.PERSON.COLUMNS.FIRST_NAME,
       text: 'Prénom',
       table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING
     }, {
       id: TABLES.PERSON.COLUMNS.LAST_NAME,
       text: 'Nom',
       table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING
     }, {
       id: TABLES.PERSON.COLUMNS.USER,
       text: 'Utilisateur',
       table_id: TABLES.PERSON.ID,
-      column_type_id: glossary.COLUMN_TYPE.USER
+      column_type_id: COLUMN_TYPE.USER
     }
   ])
 
@@ -44,17 +44,17 @@ export async function seed (knex: Knex): Promise<any> {
       id: TABLES.SUPPLIER.COLUMNS.NAME,
       text: 'Nom fournisseur',
       table_id: TABLES.SUPPLIER.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING
     }, {
       id: TABLES.SUPPLIER.COLUMNS.GEOZONE,
       text: 'Zone géographique',
       table_id: TABLES.SUPPLIER.ID,
-      column_type_id: glossary.COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING
     }, {
       id: TABLES.SUPPLIER.COLUMNS.USER,
       text: 'Utilisateur',
       table_id: TABLES.SUPPLIER.ID,
-      column_type_id: glossary.COLUMN_TYPE.USER
+      column_type_id: COLUMN_TYPE.USER
     }
   ])
 
