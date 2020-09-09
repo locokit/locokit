@@ -1,7 +1,7 @@
 import * as Knex from 'knex'
 import { GROUPS } from '../glossary/user_group'
 import { VIEWS, WORKSPACE_ID, CHAPTERS } from '../glossary/view'
-import { glossary } from "../../../../src/glossary";
+import { GROUP_ROLE } from "@locokit/lck-glossary";
 
 export async function seed (knex: Knex): Promise<any> {
 
@@ -522,13 +522,13 @@ export async function seed (knex: Knex): Promise<any> {
     {
       group_id: GROUPS.ADMIN,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.OWNER,
+      role: GROUP_ROLE.OWNER,
       permission: null,
       chapter_id: CHAPTERS.VLOGISTIQUE
     }, {
       group_id: GROUPS.BENEFICIARY,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.MEMBER,
+      role: GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_2'
       ]),
@@ -536,7 +536,7 @@ export async function seed (knex: Knex): Promise<any> {
     }, {
       group_id: GROUPS.SUPPLIER,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.MEMBER,
+      role: GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_1'
       ]),
@@ -544,7 +544,7 @@ export async function seed (knex: Knex): Promise<any> {
     }, {
       group_id: GROUPS.ROZO,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.MEMBER,
+      role: GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_1'
       ]),
@@ -552,7 +552,7 @@ export async function seed (knex: Knex): Promise<any> {
     }, {
       group_id: GROUPS.MORIO,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.MEMBER,
+      role: GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_1'
       ]),
@@ -560,7 +560,7 @@ export async function seed (knex: Knex): Promise<any> {
     }, {
       group_id: GROUPS.FUB,
       workspace_id: WORKSPACE_ID,
-      role: glossary.GROUP_ROLE.MEMBER,
+      role: GROUP_ROLE.MEMBER,
       permission: JSON.stringify([
         'VIEW_READ_1'
       ]),

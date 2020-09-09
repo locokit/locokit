@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { glossary } from "../../../../src/glossary";
+import { COLUMN_TYPE } from "@locokit/lck-glossary";
 import { DATABASE_ID, TABLES } from '../glossary/schema'
 import { VALUES } from '../glossary/value_single_select'
 
@@ -16,7 +16,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.BIKE,
     text: 'Vélo',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+    column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     settings: {
       tableId: TABLES.BIKE.ID
     }
@@ -24,7 +24,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.SOCIETY,
     text: 'Société',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.TRAINING.COLUMNS.BIKE,
@@ -34,7 +34,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.BENEFICIARY_USER,
     text: 'Bénéficiaire',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.TRAINING.COLUMNS.BIKE,
@@ -44,7 +44,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.TYPE,
     text: 'Type',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.LOOKED_UP_COLUMN,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     settings: {
       tableId: TABLES.BIKE.ID, // useful ?
       localField: TABLES.TRAINING.COLUMNS.BIKE,
@@ -54,7 +54,7 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.STATUS,
     text: 'État',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     settings: {
       values: VALUES.KANBAN
     }
@@ -62,12 +62,12 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.DATE,
     text: 'Date',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.DATE
+    column_type_id: COLUMN_TYPE.DATE
   }, {
     id: TABLES.TRAINING.COLUMNS.INSTITUTION,
     text: 'Organisme',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     settings: {
       values: {
         1: {
@@ -84,17 +84,17 @@ export async function seed (knex: Knex): Promise<any> {
     id: TABLES.TRAINING.COLUMNS.TRAINER,
     text: 'Formateur',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.STRING
+    column_type_id: COLUMN_TYPE.STRING
   }, {
     id: TABLES.TRAINING.COLUMNS.FILE,
     text: 'Document',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.FILE
+    column_type_id: COLUMN_TYPE.FILE
   }, {
     id: TABLES.TRAINING.COLUMNS.RATING,
     text: 'Note',
     table_id: TABLES.TRAINING.ID,
-    column_type_id: glossary.COLUMN_TYPE.SINGLE_SELECT,
+    column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     settings: {
       values: VALUES.RATING
     }
