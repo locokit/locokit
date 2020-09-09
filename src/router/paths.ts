@@ -3,5 +3,6 @@ export const ROUTES_PATH = {
   PROFILE: '/profile',
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
-  DATABASE: '/database'
+  DATABASE: '/database',
+  DATABASESCHEMA: '/databaseschema'
 }
