@@ -1,0 +1,14 @@
+# CHANGELOG
+
+**v0.0.4**
+
+* transpilation TS > JS
+* generation of d.ts file
+
+**v0.0.3**
+
+* use of TypeScript
+
+**v0.0.2 & v0.0.1**
+
+* initial versions to be aligned to lck-api project
