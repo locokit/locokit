@@ -35,3 +35,19 @@ $ feathers help                           # Show all commands
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+
+
+## Contribute
+
+If you encounter a bug, please submit an issue.
+
+If you want to contribute to the code,
+first ask to the team where to begin.
+
+When making a contribution, please name your branch with the issue's id.
+
+For example, on the issue n° 23, you could name your branch `23-add-of-a-new-feature` or `23-fix-this-horrible-bug`.
+
+Then you could submit a Merge Request.
+
+The CI is configured, so you could check also if your branch is not breaking anything.
