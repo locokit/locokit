@@ -34,6 +34,10 @@
     "databases": {
       "title": "Database",
       "noDatabase": "No database created. Please create one first."
+    },
+    "databaseSchema": {
+      "title": "Database schema",
+      "noSchema": "No schema to display. Please create one database."
     }
   },
   "error": {

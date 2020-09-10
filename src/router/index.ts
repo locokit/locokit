@@ -6,6 +6,7 @@ import WorkspaceList from '../views/WorkspaceList.vue'
 import Database from '../views/Database.vue'
 import Profile from '../views/Profile.vue'
 import Page from '@/views/Page.vue'
+import DatabaseSchema from '@/views/DatabaseSchema.vue'
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 
@@ -56,6 +57,14 @@ const routes: Array<RouteConfig> = [
     name: 'WorkspaceDatabase',
     component: Database,
     props: true,
+    meta: {
+      needAuthentication: true
+    }
+  },
+  {
+    path: ROUTES_PATH.DATABASESCHEMA,
+    name: 'DatabaseSchema',
+    component: DatabaseSchema,
     meta: {
       needAuthentication: true
     }
