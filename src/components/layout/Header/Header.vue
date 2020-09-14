@@ -8,17 +8,16 @@
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
       class="p-my-auto"
-    >      <img
+    >
+      <img
         alt="logo"
         :src="logoUrl"
       />
     </router-link>
-    <div class="p-my-auto profile-button">
-      <router-link
-        :to="ROUTES_PATH.PROFILE"
-      >
-        <prime-button icon="pi pi-user"  class="p-button-rounded"/>
-      </router-link>
+
+    <div class="p-my-auto">
+      <prime-button icon="pi pi-user"  class="p-button-rounded"  @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
+      <prime-menu id="overlay_menu" ref="menu" :model="items" :popup="true" />
     </div>
   </header>
 </template>
@@ -27,6 +26,8 @@
 import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
 import Button from 'primevue/button'
+import Menu from 'primevue/menu'
+import { logout } from '@/store/auth'
 
 export default {
   name: 'Header',
@@ -41,13 +42,63 @@ export default {
       ROUTES_PATH
     }
   },
+  computed: {
+    items () {
+      return [
+        {
+          label: 'Administration',
+          icon: 'pi pi-cog',
+          to: ROUTES_PATH.USERMANAGEMENT
+        },
+        {
+          label: 'Votre profil',
+          icon: 'pi pi-user',
+          to: ROUTES_PATH.PROFILE
+        },
+        {
+          label: 'Déconnexion',
+          icon: 'pi pi-lock-open',
+          command: () => {
+            logout()
+            this.$router.push(ROUTES_PATH.HOME)
+          }
+        }
+      ]
+    },
+    adminItems () {
+      return [
+        {
+          label: 'Administration',
+          icon: 'pi pi-cog',
+          to: ROUTES_PATH.USERMANAGEMENT
+        },
+        {
+          label: 'Votre profil',
+          icon: 'pi pi-user',
+          to: ROUTES_PATH.PROFILE
+        },
+        {
+          label: 'Déconnexion',
+          icon: 'pi pi-lock-open',
+          command: () => {
+            logout()
+            this.$router.push(ROUTES_PATH.HOME)
+          }
+        }
+      ]
+    }
+  },
   methods: {
-    onToggle () {
-      this.$emit('menuButtonClick', 'click')
+    toggle (event) {
+      this.$refs.menu.toggle(event)
+    },
+    logout () {
+      logout()
     }
   },
   components: {
-    'prime-button': Vue.extend(Button)
+    'prime-button': Vue.extend(Button),
+    'prime-menu': Vue.extend(Menu)
   }
 }
 </script>

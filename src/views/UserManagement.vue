@@ -6,12 +6,12 @@
       <h1>{{ $t('pages.UserManagement.title') }}</h1>
     </div>
     <div v-if="users" class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
-      <ul id="list-users">
+      <ul id="list-users" class="list-none">
         <li
           v-for="user in users"
           :key="user.id"
         >
-          {{ user.first_name }} - {{ user.last_name}} - {{ user.email}} - {{ user.profile }}
+          {{ user.first_name }} {{ user.last_name}} - {{ user.email}} - <strong>{{ user.profile }}</strong>
         </li>
       </ul>
     </div>
@@ -36,7 +36,6 @@ export default {
     const usersList = await lckClient.service('user').find()
     if (usersList && usersList.data) {
       this.users = usersList.data
-      console.log(usersList)
     }
   }
 }
