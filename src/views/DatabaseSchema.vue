@@ -23,10 +23,11 @@ export default {
           const columns = []
           table.columns.forEach(column => {
             if (column) {
+              const hasRelation = column.settings && column.settings.tableId
               if (column.text) {
-                columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '')}`)
+                columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
               }
-              if (column.settings && column.settings.tableId) {
+              if (hasRelation) {
                 const relationTable = tables.find(table => table.id === column.settings.tableId)
                 if (relationTable && relationTable.text) {
                   sourceRelation.push(`[${table.text}]-[${relationTable.text}]`)
