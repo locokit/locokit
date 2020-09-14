@@ -2,6 +2,7 @@
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
+
     <a class="menu-button p-my-auto" @click="onToggle">
       <i class="pi pi-bars"></i>
     </a>
@@ -27,7 +28,7 @@ import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
 import Button from 'primevue/button'
 import Menu from 'primevue/menu'
-import { logout } from '@/store/auth'
+import { logout, authState } from '@/store/auth'
 
 export default {
   name: 'Header',
@@ -35,7 +36,8 @@ export default {
     logoUrl: {
       type: String,
       required: true
-    }
+    },
+    authState
   },
   data () {
     return {
@@ -43,54 +45,53 @@ export default {
     }
   },
   computed: {
-    items () {
-      return [
-        {
-          label: 'Administration',
-          icon: 'pi pi-cog',
-          to: ROUTES_PATH.USERMANAGEMENT
-        },
-        {
-          label: 'Votre profil',
-          icon: 'pi pi-user',
-          to: ROUTES_PATH.PROFILE
-        },
-        {
-          label: 'Déconnexion',
-          icon: 'pi pi-lock-open',
-          command: () => {
-            logout()
-            this.$router.push(ROUTES_PATH.HOME)
+    items: function () {
+      if (authState.data.user.profile === 'SUPERADMIN') {
+        return [
+          {
+            label: 'Administration',
+            icon: 'pi pi-cog',
+            to: ROUTES_PATH.USERMANAGEMENT
+          },
+          {
+            label: 'Votre profil',
+            icon: 'pi pi-user',
+            to: ROUTES_PATH.PROFILE
+          },
+          {
+            label: 'Déconnexion',
+            icon: 'pi pi-lock-open',
+            command: () => {
+              logout()
+              this.$router.push(ROUTES_PATH.HOME)
+            }
           }
-        }
-      ]
-    },
-    adminItems () {
-      return [
-        {
-          label: 'Administration',
-          icon: 'pi pi-cog',
-          to: ROUTES_PATH.USERMANAGEMENT
-        },
-        {
-          label: 'Votre profil',
-          icon: 'pi pi-user',
-          to: ROUTES_PATH.PROFILE
-        },
-        {
-          label: 'Déconnexion',
-          icon: 'pi pi-lock-open',
-          command: () => {
-            logout()
-            this.$router.push(ROUTES_PATH.HOME)
+        ]
+      } else {
+        return [
+          {
+            label: 'Votre profil',
+            icon: 'pi pi-user',
+            to: ROUTES_PATH.PROFILE
+          },
+          {
+            label: 'Déconnexion',
+            icon: 'pi pi-lock-open',
+            command: () => {
+              logout()
+              this.$router.push(ROUTES_PATH.HOME)
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   },
   methods: {
     toggle (event) {
       this.$refs.menu.toggle(event)
+    },
+    onToggle () {
+      this.$emit('menuButtonClick', 'click')
     },
     logout () {
       logout()
