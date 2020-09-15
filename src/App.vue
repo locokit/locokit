@@ -55,11 +55,7 @@ export default {
       return result
     },
     isSuperAdmin () {
-      let result = false
-      if (authState.data.user.profile === 'SUPERADMIN') {
-        result = true
-      }
-      return result
+      return authState.data.user.profile === 'SUPERADMIN'
     }
   },
   components: {
