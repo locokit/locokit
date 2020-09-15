@@ -56,7 +56,7 @@ export default {
               if (hasRelation) {
                 const relationTable = tables.find(table => table.id === column.settings.tableId)
                 if (relationTable && relationTable.text) {
-                  sourceRelation.push(`[${table.text}]-[${relationTable.text}]`)
+                  sourceRelation.push(`[${table.text}]->[${relationTable.text}]`)
                 }
               }
             }
