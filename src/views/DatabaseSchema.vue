@@ -3,19 +3,45 @@
     <header class="p-my-4 lck-color-title p-ml-1">
       {{ $t('pages.databaseSchema.title')}}
     </header>
-    <canvas ref="schema"></canvas>
+    <span
+      v-html="nomnomlSVG"
+      @click="onClickTable"
+      @mouseover="onClickTable"
+    ></span>
   </div>
 </template>
 
 <script>
 import lckClient from '@/services/lck-api'
 import nomnoml from 'nomnoml'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   name: 'DatabaseSchema',
+  data () {
+    return {
+      nomnomlSVG: null,
+      tables: null
+    }
+  },
+  computed: {
+    tablesIndexedByText () {
+      if (!this.tables || this.tables.length < 1) return null
+      const result = {}
+      this.tables.forEach(t => {
+        result[t.text] = t
+      })
+      return result
+    }
+  },
   methods: {
+    onClickTable (e) {
+      const currentTableName = e.target.attributes['data-name']?.value
+      if (!currentTableName) return
+      console.log(e, e.target, currentTableName, this.tablesIndexedByText[currentTableName])
+    },
     createSource (tables) {
-      const sourceStyle = ['#fill: #ffffff', '#direction: right', '#ranker: longest-path']
+      const sourceStyle = ['#fill: #ffffff', '#lineWidth: 1', '#padding: 8', '#spacing: 50', '#ranker: longest-path']
       const sourceTable = []
       const sourceRelation = []
       tables.forEach(table => {
@@ -23,7 +49,7 @@ export default {
           const columns = []
           table.columns.forEach(column => {
             if (column) {
-              const hasRelation = column.settings && column.settings.tableId
+              const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
               if (column.text) {
                 columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
               }
@@ -39,15 +65,22 @@ export default {
         }
       })
       return sourceStyle.concat(sourceTable).concat(sourceRelation).join('\n')
+    },
+    async loadTables () {
+      const tablesWithColumns = await lckClient.service('table').find({
+        query: { $eager: '[columns]' }
+      })
+      this.tables = tablesWithColumns?.data
     }
   },
   async mounted () {
-    // eslint-disable-next-line no-undef
-    const tablesWithColumns = await lckClient.service('table').find({
-      query: { $eager: '[columns]' }
-    })
-    if (tablesWithColumns && tablesWithColumns.data) {
-      nomnoml.draw(this.$refs.schema, this.createSource(tablesWithColumns.data))
+    this.loadTables()
+  },
+  watch: {
+    tables () {
+      const nomnomlSource = this.createSource(this.tables)
+      const nomnomlSVG = nomnoml.renderSvg(nomnomlSource)
+      this.nomnomlSVG = nomnomlSVG
     }
   }
 }
