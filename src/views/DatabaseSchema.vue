@@ -1,7 +1,7 @@
 <template>
   <div class="p-mx-auto">
     <header class="p-my-4 lck-color-title p-ml-1">
-      {{ $t('pages.databaseSchema.title')}}
+      {{ $t('pages.databaseSchema.title') }}
     </header>
     <span
       v-html="nomnomlSVG"
@@ -41,7 +41,14 @@ export default {
       console.log(e, e.target, currentTableName, this.tablesIndexedByText[currentTableName])
     },
     createSource (tables) {
-      const sourceStyle = ['#fill: #ffffff', '#lineWidth: 1', '#padding: 8', '#spacing: 50', '#ranker: longest-path']
+      const sourceStyle = [
+        '#fill: #ffffff',
+        '#lineWidth: 1',
+        '#padding: 8',
+        '#spacing: 50',
+        '#ranker: longest-path',
+        '#title: ' + this.$t('pages.databaseSchema.title')
+      ]
       const sourceTable = []
       const sourceRelation = []
       tables.forEach(table => {
