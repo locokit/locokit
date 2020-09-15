@@ -6,11 +6,8 @@ import WorkspaceList from '../views/WorkspaceList.vue'
 import Database from '../views/Database.vue'
 import Profile from '../views/Profile.vue'
 import Page from '@/views/Page.vue'
-<<<<<<< HEAD
 import DatabaseSchema from '@/views/DatabaseSchema.vue'
-=======
 import UserManagement from '@/views/UserManagement.vue'
->>>>>>> - Adding route for user management
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 

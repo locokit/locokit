@@ -38,7 +38,6 @@
     "databaseSchema": {
       "title": "Schéma de la base de données",
       "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données."
-      "noDatabase": "Aucune base de donnée existante. Veuillez en créer une."
     },
     "UserManagement": {
       "title": "Gestion des utilisateurs",
