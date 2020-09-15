@@ -68,7 +68,6 @@ export async function authenticate (data: AuthDTO) {
     })
     authState.data.isAuthenticated = true
     authState.data.user = result.user
-    console.log(result.user)
   } catch (error) {
     authState.data.isAuthenticated = false
     authState.error = error

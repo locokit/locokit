@@ -28,7 +28,6 @@ import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
 import Button from 'primevue/button'
 import Menu from 'primevue/menu'
-import { logout } from '@/store/auth'
 
 export default {
   name: 'Header',
@@ -67,8 +66,7 @@ export default {
           label: 'Déconnexion',
           icon: 'pi pi-lock-open',
           command: () => {
-            logout()
-            this.$router.push(ROUTES_PATH.HOME)
+            this.logoutClick()
           }
         }
       ])
@@ -79,10 +77,10 @@ export default {
       this.$refs.menu.toggle(event)
     },
     onToggle () {
-      this.$emit('menuButtonClick', 'click')
+      this.$emit('menuButtonClick')
     },
-    logout () {
-      this.$emit('logout', 'click')
+    logoutClick () {
+      this.$emit('logoutClick')
     }
   },
   components: {
