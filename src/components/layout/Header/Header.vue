@@ -38,7 +38,8 @@ export default {
     },
     isSuperAdmin: {
       type: Boolean,
-      required: true
+      required: false,
+      default: false
     }
   },
   data () {

@@ -25,31 +25,31 @@ exports[`storyshots Header Header with logo (required) 1`] = `
     </a>
      
     <div
-      class="p-my-auto profile-button"
+      class="p-my-auto"
     >
-      <a
-        class="mock-link"
+      <button
+        aria-controls="overlay_menu"
+        aria-haspopup="true"
+        class="p-button-rounded p-button p-component p-button-icon-only"
+        type="button"
       >
-        <button
-          class="p-button-rounded p-button p-component p-button-icon-only"
-          type="button"
+        <span
+          class="pi pi-user p-button-icon"
+        />
+         
+        <span
+          class="p-button-label"
         >
-          <span
-            class="pi pi-user p-button-icon"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-             
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </a>
+           
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <!---->
     </div>
   </header>
 </div>
