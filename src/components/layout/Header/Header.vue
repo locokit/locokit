@@ -28,7 +28,7 @@ import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
 import Button from 'primevue/button'
 import Menu from 'primevue/menu'
-import { logout, authState } from '@/store/auth'
+import { logout } from '@/store/auth'
 
 export default {
   name: 'Header',
@@ -37,7 +37,10 @@ export default {
       type: String,
       required: true
     },
-    authState
+    isSuperAdmin: {
+      type: Boolean,
+      required: true
+    }
   },
   data () {
     return {
@@ -46,44 +49,29 @@ export default {
   },
   computed: {
     items: function () {
-      if (authState.data.user.profile === 'SUPERADMIN') {
-        return [
-          {
-            label: 'Administration',
-            icon: 'pi pi-cog',
-            to: ROUTES_PATH.USERMANAGEMENT
-          },
-          {
-            label: 'Votre profil',
-            icon: 'pi pi-user',
-            to: ROUTES_PATH.PROFILE
-          },
-          {
-            label: 'Déconnexion',
-            icon: 'pi pi-lock-open',
-            command: () => {
-              logout()
-              this.$router.push(ROUTES_PATH.HOME)
-            }
-          }
-        ]
-      } else {
-        return [
-          {
-            label: 'Votre profil',
-            icon: 'pi pi-user',
-            to: ROUTES_PATH.PROFILE
-          },
-          {
-            label: 'Déconnexion',
-            icon: 'pi pi-lock-open',
-            command: () => {
-              logout()
-              this.$router.push(ROUTES_PATH.HOME)
-            }
-          }
-        ]
+      const result = []
+      if (this.isSuperAdmin) {
+        result.push({
+          label: 'Administration',
+          icon: 'pi pi-cog',
+          to: ROUTES_PATH.USERMANAGEMENT
+        })
       }
+      return result.concat([
+        {
+          label: 'Votre profil',
+          icon: 'pi pi-user',
+          to: ROUTES_PATH.PROFILE
+        },
+        {
+          label: 'Déconnexion',
+          icon: 'pi pi-lock-open',
+          command: () => {
+            logout()
+            this.$router.push(ROUTES_PATH.HOME)
+          }
+        }
+      ])
     }
   },
   methods: {
@@ -94,7 +82,7 @@ export default {
       this.$emit('menuButtonClick', 'click')
     },
     logout () {
-      logout()
+      this.$emit('logout', 'click')
     }
   },
   components: {

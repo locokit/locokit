@@ -5,6 +5,7 @@
       v-if="displayHeader"
       :logo-url="logoURL"
       @menuButtonClick="onMenuButtonClick"
+      :is-super-admin="isSuperAdmin"
     />
     <main class="o-auto p-fluid">
       <router-view/>
@@ -19,6 +20,7 @@ import Header from '@/components/layout/Header/Header'
 import Toast from 'primevue/toast'
 
 import { appState } from '@/store'
+import { authState } from '@/store/auth'
 
 export default {
   name: 'app',
@@ -40,6 +42,13 @@ export default {
       let result = true
       if (this.$route.meta.needHeader !== undefined) {
         result = this.$route.meta.needHeader
+      }
+      return result
+    },
+    isSuperAdmin () {
+      let result = false
+      if (authState.data.user.profile === 'SUPERADMIN') {
+        result = true
       }
       return result
     }
