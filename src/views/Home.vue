@@ -20,6 +20,9 @@
       />
 
     </div>
+    <div class="version-block p-p-2">
+      {{ version }}
+    </div>
 
   </div>
 
@@ -42,7 +45,8 @@ export default {
       // eslint-disable-next-line no-undef
       backgroundImage: LCK_SETTINGS.HOME_BACKGROUND_IMAGE_URL,
       // eslint-disable-next-line no-undef
-      logoBgPrimaryURL: LCK_SETTINGS.LOGO_BG_PRIMARY_URL
+      logoBgPrimaryURL: LCK_SETTINGS.LOGO_BG_PRIMARY_URL,
+      version: LCK_VERSION
     }
   },
   methods: {
@@ -60,15 +64,20 @@ export default {
 </script>
 
 <style scoped>
-
-  .home {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
-  }
-  .login-block {
-    text-align: center;
-    margin-top: -45px;
-  }
+.home {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
+.login-block {
+  text-align: center;
+  margin-top: -45px;
+}
+.version-block {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: var(--surface-d);
+}
 </style>
