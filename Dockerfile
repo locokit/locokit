@@ -18,5 +18,5 @@ COPY knexfile.ts /code/
 RUN npm ci
 RUN npm install pm2 knex typescript -g
 COPY patch/feathers-objection/lib/index.js /code/node_modules/feathers-objection/lib/index.js
-RUN npm run compile
+RUN npx tsc
 ENTRYPOINT pm2-runtime lib/index.js -n lck-api
