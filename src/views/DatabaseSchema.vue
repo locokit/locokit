@@ -1,13 +1,14 @@
 <template>
   <div class="p-mx-auto">
-    <header class="p-my-4 lck-color-title p-ml-1">
+    <header class="p-py-2 lck-color-title p-pl-1 p-shadow-1 nowrap">
       {{ $t('pages.databaseSchema.title') }}
     </header>
-    <span
+    <div
+      id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
       @mouseover="onClickTable"
-    ></span>
+    ></div>
   </div>
 </template>
 
@@ -15,12 +16,14 @@
 import lckClient from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import svgPanZoom from 'svg-pan-zoom'
 
 export default {
   name: 'DatabaseSchema',
   data () {
     return {
       nomnomlSVG: null,
+      SVGPanZoom: null,
       tables: null
     }
   },
@@ -38,7 +41,7 @@ export default {
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
       if (!currentTableName) return
-      console.log(e, e.target, currentTableName, this.tablesIndexedByText[currentTableName])
+      console.log(currentTableName)
     },
     createSource (tables) {
       const sourceStyle = [
@@ -78,10 +81,24 @@ export default {
         query: { $eager: '[columns]' }
       })
       this.tables = tablesWithColumns?.data
+    },
+    onResize () {
+      this.SVGPanZoom.resize()
+      this.SVGPanZoom.fit()
+      this.SVGPanZoom.center()
     }
   },
   async mounted () {
     this.loadTables()
+  },
+  updated () {
+    if (this.nomnomlSVG) {
+      this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true })
+      window.addEventListener('resize', this.onResize)
+    }
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize)
   },
   watch: {
     tables () {
@@ -92,3 +109,29 @@ export default {
   }
 }
 </script>
+<style>
+header {
+  position: relative;
+  background-color: #f7fafc;
+  z-index: 10;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+#svg-container, #svg-container svg {
+  width: 100vw;
+  height: calc(100vh - 64px - 40.15px - 4px);
+}
+#svg-container svg {
+  overflow: visible !important;
+  cursor: move;
+  user-select: none;
+}
+rect[data-name]:hover {
+  fill: #e5e5e5 !important;
+  cursor: pointer;
+}
+text[data-name], path {
+  pointer-events: none;
+}
+</style>
