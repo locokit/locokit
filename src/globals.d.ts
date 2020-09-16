@@ -6,3 +6,5 @@ declare const LCK_SETTINGS: {
   STORAGE_KEY: string;
   SENTRY_DSN: string;
 }
+
+declare const LCK_VERSION: string;
