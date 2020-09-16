@@ -46,6 +46,7 @@ export default {
       backgroundImage: LCK_SETTINGS.HOME_BACKGROUND_IMAGE_URL,
       // eslint-disable-next-line no-undef
       logoBgPrimaryURL: LCK_SETTINGS.LOGO_BG_PRIMARY_URL,
+      // eslint-disable-next-line no-undef
       version: LCK_VERSION
     }
   },
