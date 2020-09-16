@@ -3,7 +3,7 @@
       class="p-mx-auto p-px-2"
   >
     <div class="lck-color-page-title p-my-4">
-      <h1>{{ $t('pages.UserManagement.title') }}</h1>
+      <h1>{{ $t('pages.userManagement.title') }}</h1>
     </div>
     <div v-if="users" class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
       <ul id="list-users" class="list-none">
@@ -15,8 +15,9 @@
         </li>
       </ul>
     </div>
+
     <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
-      <p>{{ $t('pages.UserManagement.noUser') }}</p>
+      <p>{{ $t('pages.userManagement.noUser') }}</p>
     </div>
   </div>
 </template>
