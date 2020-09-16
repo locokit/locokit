@@ -10,10 +10,10 @@
                        class="p-datatable-sm p-datatable-striped p-datatable-responsive"
                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                        :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')">
-        <prime-column field="first_name" :header="$t('pages.userManagement.firstName')"></prime-column>
-        <prime-column field="last_name" :header="$t('pages.userManagement.lastName')"></prime-column>
-        <prime-column field="email" :header="$t('pages.userManagement.email')"></prime-column>
-        <prime-column field="profile" :header="$t('pages.userManagement.profile')"></prime-column>
+        <prime-column field="first_name" :header="$t('pages.userManagement.firstName')" sortable></prime-column>
+        <prime-column field="last_name" :header="$t('pages.userManagement.lastName')" sortable></prime-column>
+        <prime-column field="email" :header="$t('pages.userManagement.email')" sortable></prime-column>
+        <prime-column field="profile" :header="$t('pages.userManagement.profile')" sortable></prime-column>
       </prime-datatable>
     </div>
 
