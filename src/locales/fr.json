@@ -41,7 +41,11 @@
     },
     "userManagement": {
       "title": "Gestion des utilisateurs",
-      "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un."
+      "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "profile": "Profil"
     }
   },
   "error": {

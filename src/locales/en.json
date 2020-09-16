@@ -41,7 +41,11 @@
     },
     "userManagement": {
       "title": "User Management",
-      "noUser": "No user created. Please create one first."
+      "noUser": "No user created. Please create one first.",
+      "firstName": "FirstName",
+      "lastName": "LastName",
+      "email": "E-mail",
+      "profile": "Profile"
     }
   },
   "error": {
