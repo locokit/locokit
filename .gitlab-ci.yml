@@ -22,6 +22,8 @@ stages:
   stage: build
   services:
     - docker:dind
+  dependencies:
+    - build-lib
   before_script:
     - docker -v
     - docker info
@@ -50,6 +52,19 @@ test:
     - npm ci
     - npm run migrate:latest
     - npm test
+
+build-lib:
+  image: node:14
+  tags: [shared-ci-docker]
+  stage: build
+  script:
+    - npm ci
+    - npm run compile
+  artifacts:
+    expire_in: 3 mos
+    name: 'lck-api-${CI_COMMIT_REF_SLUG}'
+    paths:
+    - lib/
 
 build-docker:
   <<: *build_definition

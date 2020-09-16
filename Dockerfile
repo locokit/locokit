@@ -9,6 +9,7 @@ RUN apt-get autoclean
 RUN apt install nano
 COPY package*.json /code/
 COPY src /code/src/
+COPY lib /code/lib/
 COPY config /code/config/
 COPY migrations /code/migrations/
 COPY seeds /code/seeds/
@@ -18,5 +19,4 @@ COPY knexfile.ts /code/
 RUN npm ci
 RUN npm install pm2 knex typescript -g
 COPY patch/feathers-objection/lib/index.js /code/node_modules/feathers-objection/lib/index.js
-RUN npx tsc
 ENTRYPOINT pm2-runtime lib/index.js -n lck-api
