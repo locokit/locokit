@@ -11,7 +11,7 @@ stages:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_DRIVER: overlay2
     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
-    FRONT_VERSION: 0.0.3-alpha.1
+    FRONT_VERSION: 0.0.3-alpha.2
     GITLAB_ACCESS_TOKEN: ${MC_GITLAB_ACCESS_TOKEN}
     FRONT_DOWNLOAD_URL: "https://gitlab.makina-corpus.net/api/v4/projects/1428/jobs/artifacts/${FRONT_VERSION}/download?job=build"
     FRONT_FILE_PATH: "lck-front-${FRONT_VERSION}.zip"
