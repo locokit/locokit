@@ -3,7 +3,7 @@ image: node:14
 stages:
   - quality
   - build
-  - deploy
+  - build-docker
 
 .build_variables:
   variables: &build_variables
@@ -19,7 +19,7 @@ stages:
 .build_template: &build_definition
   image: docker:stable
   tags: [shared-ci-docker]
-  stage: build
+  stage: build-docker
   services:
     - docker:dind
   dependencies:
