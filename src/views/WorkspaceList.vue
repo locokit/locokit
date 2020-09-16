@@ -70,7 +70,7 @@
                   class="no-decoration-link p-mr-2"
                   :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
                 >
-                  <p-button label="Database" icon="pi pi-sitemap" />
+                  <p-button label="Database" icon="pi pi-table" />
                 </router-link>
                 <p-dropdown-button
                   v-else
@@ -78,6 +78,12 @@
                   label="Databases"
                   :model="transformDatabases(workspace.id, workspace.databases)"
                 />
+                <router-link
+                  v-if="workspace.databases.length === 1"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+                >
+                  <p-button label="Schéma" icon="pi pi-sitemap" />
+                </router-link>
               </template>
             </div>
           </div>
