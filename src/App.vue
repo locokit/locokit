@@ -5,6 +5,8 @@
       v-if="displayHeader"
       :logo-url="logoURL"
       @menuButtonClick="onMenuButtonClick"
+      :is-super-admin="isSuperAdmin"
+      @logoutClick="onLogoutClick"
     />
     <main class="o-auto p-fluid">
       <router-view/>
@@ -19,6 +21,11 @@ import Header from '@/components/layout/Header/Header'
 import Toast from 'primevue/toast'
 
 import { appState } from '@/store'
+import {
+  authState,
+  logout
+} from '@/store/auth'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'app',
@@ -33,6 +40,10 @@ export default {
   methods: {
     onMenuButtonClick: function () {
       this.sidebarActive = !this.sidebarActive
+    },
+    onLogoutClick: function () {
+      logout()
+      this.$router.push(ROUTES_PATH.HOME)
     }
   },
   computed: {
@@ -42,6 +53,9 @@ export default {
         result = this.$route.meta.needHeader
       }
       return result
+    },
+    isSuperAdmin () {
+      return authState.data.user.profile === 'SUPERADMIN'
     }
   },
   components: {

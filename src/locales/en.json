@@ -38,6 +38,10 @@
     "databaseSchema": {
       "title": "Database schema",
       "noSchema": "No schema to display. Please create one database."
+    },
+    "userManagement": {
+      "title": "User Management",
+      "noUser": "No user created. Please create one first."
     }
   },
   "error": {

@@ -4,5 +4,6 @@ export const ROUTES_PATH = {
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
   DATABASE: '/database',
-  DATABASESCHEMA: '/schema'
+  DATABASESCHEMA: '/schema',
+  USERMANAGEMENT: '/usermanagement'
 }

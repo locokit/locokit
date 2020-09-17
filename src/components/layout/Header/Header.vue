@@ -2,23 +2,23 @@
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
+
     <a class="menu-button p-my-auto" @click="onToggle">
       <i class="pi pi-bars"></i>
     </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
       class="p-my-auto"
-    >      <img
+    >
+      <img
         alt="logo"
         :src="logoUrl"
       />
     </router-link>
-    <div class="p-my-auto profile-button">
-      <router-link
-        :to="ROUTES_PATH.PROFILE"
-      >
-        <prime-button icon="pi pi-user"  class="p-button-rounded"/>
-      </router-link>
+
+    <div class="p-my-auto">
+      <prime-button icon="pi pi-user"  class="p-button-rounded"  @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
+      <prime-menu id="overlay_menu" ref="menu" :model="items" :popup="true" />
     </div>
   </header>
 </template>
@@ -27,6 +27,7 @@
 import Vue from 'vue'
 import { ROUTES_PATH } from '@/router/paths'
 import Button from 'primevue/button'
+import Menu from 'primevue/menu'
 
 export default {
   name: 'Header',
@@ -34,6 +35,11 @@ export default {
     logoUrl: {
       type: String,
       required: true
+    },
+    isSuperAdmin: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -41,13 +47,46 @@ export default {
       ROUTES_PATH
     }
   },
+  computed: {
+    items: function () {
+      const result = []
+      if (this.isSuperAdmin) {
+        result.push({
+          label: 'Administration',
+          icon: 'pi pi-cog',
+          to: ROUTES_PATH.USERMANAGEMENT
+        })
+      }
+      return result.concat([
+        {
+          label: 'Votre profil',
+          icon: 'pi pi-user',
+          to: ROUTES_PATH.PROFILE
+        },
+        {
+          label: 'Déconnexion',
+          icon: 'pi pi-lock-open',
+          command: () => {
+            this.logoutClick()
+          }
+        }
+      ])
+    }
+  },
   methods: {
+    toggle (event) {
+      this.$refs.menu.toggle(event)
+    },
     onToggle () {
-      this.$emit('menuButtonClick', 'click')
+      this.$emit('menuButtonClick')
+    },
+    logoutClick () {
+      this.$emit('logoutClick')
     }
   },
   components: {
-    'prime-button': Vue.extend(Button)
+    'prime-button': Vue.extend(Button),
+    'prime-menu': Vue.extend(Menu)
   }
 }
 </script>
