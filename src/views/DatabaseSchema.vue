@@ -1,15 +1,22 @@
 <template>
-  <div class="p-mx-auto">
-    <header class="p-py-2 lck-color-title p-pl-1 p-shadow-1 nowrap">
-      {{ $t('pages.databaseSchema.title') }}
-    </header>
+  <div class="container">
+    <Toolbar class="p-d-flex p-flex-wrap">
+      <template slot="left">
+          {{ $t('pages.databaseSchema.title') }}
+      </template>
+
+      <template slot="right">
+        <Button label="Table" icon="pi pi-plus" />
+      </template>
+    </Toolbar>
     <div
       v-if="!error"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
       @mouseover="onClickTable"
-    ></div>
+    >
+    </div>
     <div v-else>Erreur</div>
   </div>
 </template>
@@ -19,9 +26,15 @@ import lckClient from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
+import Toolbar from 'primevue/toolbar'
+import Button from 'primevue/button'
 
 export default {
   name: 'DatabaseSchema',
+  components: {
+    Toolbar,
+    Button
+  },
   props: {
     databaseId: null
   },
@@ -126,20 +139,18 @@ export default {
 }
 </script>
 <style>
-header {
-  position: relative;
-  background-color: #f7fafc;
-  z-index: 10;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  max-height: 100%;
 }
 #svg-container, #svg-container svg {
-  width: 100vw;
-  height: calc(100vh - 64px - 40.15px - 4px);
+  max-width: 100vw;
+  max-height: 100%;
+  overflow: hidden;
 }
 #svg-container svg {
-  overflow: visible !important;
   cursor: move;
   user-select: none;
 }
