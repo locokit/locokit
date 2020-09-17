@@ -3,13 +3,14 @@
     <header class="p-py-2 lck-color-title p-pl-1 p-shadow-1 nowrap">
       {{ $t('pages.databaseSchema.title') }}
     </header>
-    <div v-if="error">Erreur</div>
     <div
+      v-if="!error"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
       @mouseover="onClickTable"
     ></div>
+    <div v-else>Erreur</div>
   </div>
 </template>
 
@@ -115,9 +116,11 @@ export default {
   },
   watch: {
     tables () {
-      const nomnomlSource = this.createSource(this.tables)
-      const nomnomlSVG = nomnoml.renderSvg(nomnomlSource)
-      this.nomnomlSVG = nomnomlSVG
+      if (this.tables && this.tables.length > 0) {
+        const nomnomlSource = this.createSource(this.tables)
+        const nomnomlSVG = nomnoml.renderSvg(nomnomlSource)
+        this.nomnomlSVG = nomnomlSVG
+      }
     }
   }
 }
