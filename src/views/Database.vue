@@ -49,7 +49,7 @@ import {
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Vue from 'vue'
-import CrudTable from '@/components/database/CrudTable/CrudTable'
+import CrudTable from '@/components/store/CrudTable/CrudTable'
 
 export default {
   name: 'Database',

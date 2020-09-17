@@ -100,7 +100,7 @@ import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-import DropdownButton from '@/components/DropdownButton/DropdownButton'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 export default {
   name: 'WorkspaceList',

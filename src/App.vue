@@ -21,7 +21,7 @@ import {
   logout
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
-import Header from '@/components/layout/Header/Header'
+import Header from '@/components/ui/Header/Header'
 import Vue from 'vue'
 import Toast from 'primevue/toast'
 

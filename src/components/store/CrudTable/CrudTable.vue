@@ -49,14 +49,17 @@
         :selection.sync="selectedRows"
         editMode="cell"
         @cell-edit-complete="onCellEditComplete"
+        :resizableColumns="true"
+        columnResizeMode="fit"
       >
         <p-column selectionMode="multiple" headerStyle="width: 3rem"></p-column>
         <p-column
-          v-for="column in block.definition.columns"
+          v-for="(column, index) in block.definition.columns"
           :key="column.id"
           :field="column.id"
           :header="column.text"
           sortable
+          :frozen="index === 0"
         >
           <template #editor="slotProps">
             <p-dropdown
@@ -180,6 +183,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import FileUpload from 'primevue/fileupload'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import { saveTableData, deleteTableData, patchTableData } from '@/store/database'
 
@@ -240,13 +244,15 @@ export default {
           let currentValueForDisplay = d.data[currentColumn.id] || ''
           if (currentValueForDisplay === '') return
           switch (currentColumn.column_type_id) {
-            case 5:
-            case 6:
-            case 7:
-              currentValueForDisplay = d.data[currentColumn.id].value
+            case COLUMN_TYPE.USER:
+            case COLUMN_TYPE.GROUP:
+            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+            case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            case COLUMN_TYPE.FORMULA:
+              currentValueForDisplay = d.data[currentColumn.id]?.value
               break
-            case 9:
-              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]].label
+            case COLUMN_TYPE.SINGLE_SELECT:
+              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]]?.label
           }
           currentData[currentColumn.id] = currentValueForDisplay
         })
@@ -257,12 +263,13 @@ export default {
   methods: {
     getValue (column, data) {
       switch (column.column_type_id) {
-        case 5:
-        case 6:
-        case 7:
-        case 8:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        case COLUMN_TYPE.FORMULA:
           return data.value
-        case 9:
+        case COLUMN_TYPE.SINGLE_SELECT:
           return column.settings.values[data].label
         default:
           return data
@@ -270,7 +277,12 @@ export default {
     },
     getClassComponent (column) {
       switch (column.column_type_id) {
-        case 9:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        case COLUMN_TYPE.FORMULA:
+        case COLUMN_TYPE.SINGLE_SELECT:
           return 'p-tag p-p-2'
         default:
           return 'text'
@@ -362,3 +374,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/deep/ .p-datatable table {
+  width: unset;
+  min-width: 100%;
+  max-width: unset;
+}
+
+/deep/ .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  white-space: nowrap;
+}
+/deep/ .p-datatable-wrapper {
+  overflow: auto;
+}
+</style>

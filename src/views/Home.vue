@@ -30,7 +30,7 @@
 
 <script>
 // @ is an alias to /src
-import Login from '@/components/auth/Login/Login.vue'
+import Login from '@/components/ui/Login/Login.vue'
 import { authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 
