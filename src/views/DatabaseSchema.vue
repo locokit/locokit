@@ -3,6 +3,7 @@
     <header class="p-py-2 lck-color-title p-pl-1 p-shadow-1 nowrap">
       {{ $t('pages.databaseSchema.title') }}
     </header>
+    <div v-if="error">Erreur</div>
     <div
       id="svg-container"
       v-html="nomnomlSVG"
@@ -20,11 +21,15 @@ import svgPanZoom from 'svg-pan-zoom'
 
 export default {
   name: 'DatabaseSchema',
+  props: {
+    databaseId: null
+  },
   data () {
     return {
       nomnomlSVG: null,
       SVGPanZoom: null,
-      tables: null
+      tables: null,
+      error: false
     }
   },
   computed: {
@@ -77,10 +82,18 @@ export default {
       return sourceStyle.concat(sourceTable).concat(sourceRelation).join('\n')
     },
     async loadTables () {
-      const tablesWithColumns = await lckClient.service('table').find({
-        query: { $eager: '[columns]' }
-      })
-      this.tables = tablesWithColumns?.data
+      try {
+        const tablesWithColumns = await lckClient.service('table').find({
+          query: {
+            $eager: '[columns]',
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            database_id: this.databaseId
+          }
+        })
+        this.tables = tablesWithColumns?.data
+      } catch (error) {
+        this.error = true
+      }
     },
     onResize () {
       this.SVGPanZoom.resize()
@@ -92,7 +105,7 @@ export default {
     this.loadTables()
   },
   updated () {
-    if (this.nomnomlSVG) {
+    if (this.nomnomlSVG && !this.error) {
       this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true })
       window.addEventListener('resize', this.onResize)
     }
