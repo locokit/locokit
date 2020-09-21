@@ -15,10 +15,10 @@
           <p-button :label="$t('pages.userManagement.addNewUser')" icon="pi pi-plus" class="p-mr-2" @click="addUser" />
         </template>
       </p-toolbar>
-      {{ usersWithPagination }}
       <p-datatable
         :value="usersWithPagination.data"
         :paginator="true"
+        :lazy="true"
         :rows="usersWithPagination.limit"
         :totalRecords="usersWithPagination.total"
         class="p-datatable-sm p-datatable-striped p-datatable-responsive editable-cell-table"
@@ -102,7 +102,7 @@
         </p-dropdown>
       </p>
       <p class="p-field">
-        <label for="groups">Groupes</label>
+        <label>Groupes</label>
       </p>
       <p><em>TODO : ajouter les groupes</em></p>
       <div class="p-formgrid p-grid">
@@ -183,14 +183,18 @@ export default {
           return 'NA'
       }
     },
-    onPage (event) {
-      // this.$emit('updateContentBlockTableView', {
-      //   blockId: this.block.id,
-      //   blockType: this.block.type,
-      //   blockDefinitionId: this.block.definition.id,
-      //   pageIndexToGo: event.page
-      // })
-      console.log('bouh')
+    async onPage (event) {
+      console.log('bouh', event)
+      const ITEMS_PER_PAGE = 10
+      const pageIndex = 0
+      // eslint-disable-next-line no-undef
+      const res = await lckClient.service('user').find({
+        query: {
+          $limit: ITEMS_PER_PAGE,
+          $skip: event.page * ITEMS_PER_PAGE
+        }
+      })
+      if (res) this.usersWithPagination = res
     }
   },
   components: {
@@ -203,11 +207,16 @@ export default {
     'p-dialog': Vue.extend(Dialog)
   },
   async mounted () {
+    const ITEMS_PER_PAGE = 10
+    const pageIndex = 0
     // eslint-disable-next-line no-undef
-    const res = await lckClient.service('user').find()
-    if (res) this.usersWithPagination = res
-    console.log('userliste', this.usersWithPagination.data)
-  }
+    const res = await lckClient.service('user').find({
+      query: {
+        $limit: ITEMS_PER_PAGE,
+        $skip: pageIndex * ITEMS_PER_PAGE
+      }
+    })
+   }
 }
 
 </script>
