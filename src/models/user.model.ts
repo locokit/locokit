@@ -2,6 +2,7 @@
 // for more of what you can do here.
 import { Model } from 'objection';
 import { Application } from '@feathersjs/express';
+import { group as LckGroup} from './group.model'
 
 export class user extends Model {
   createdAt!: string;
@@ -40,6 +41,28 @@ export class user extends Model {
 
       }
     };
+  }
+
+  static get relationMappings() {
+    return {
+      groups: {
+        relation: Model.ManyToManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: LckGroup,
+        join: {
+          from: 'group.id',
+          through: {
+            from: 'user_has_group.user_id',
+            to: 'user_has_group.group_id',
+            extra: ['role']
+          },
+          to: 'user.id',
+        }
+      },
+    }
   }
 
   $beforeInsert() {
