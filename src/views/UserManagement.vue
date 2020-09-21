@@ -120,7 +120,6 @@
 </template>
 
 <script>
-import lckClient from '@/services/lck-api'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
@@ -129,6 +128,7 @@ import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Vue from 'vue'
+import { retrieveUsersData } from '@/store/userManagement'
 
 export default {
   name: 'UserManagement',
@@ -184,16 +184,7 @@ export default {
       }
     },
     async onPage (event) {
-      console.log('bouh', event)
-      const ITEMS_PER_PAGE = 10
-      const pageIndex = 0
-      // eslint-disable-next-line no-undef
-      const res = await lckClient.service('user').find({
-        query: {
-          $limit: ITEMS_PER_PAGE,
-          $skip: event.page * ITEMS_PER_PAGE
-        }
-      })
+      const res = await retrieveUsersData(event.page)
       if (res) this.usersWithPagination = res
     }
   },
@@ -207,16 +198,10 @@ export default {
     'p-dialog': Vue.extend(Dialog)
   },
   async mounted () {
-    const ITEMS_PER_PAGE = 10
-    const pageIndex = 0
-    // eslint-disable-next-line no-undef
-    const res = await lckClient.service('user').find({
-      query: {
-        $limit: ITEMS_PER_PAGE,
-        $skip: pageIndex * ITEMS_PER_PAGE
-      }
-    })
-   }
+    const res = await retrieveUsersData()
+    if (res) this.usersWithPagination = res
+  }
+
 }
 
 </script>
