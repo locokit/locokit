@@ -42,11 +42,14 @@
     "userManagement": {
       "title": "User Management",
       "noUser": "No user created. Please create one first.",
+      "addNewUser": "Add user",
       "id": "id",
       "firstName": "FirstName",
       "lastName": "LastName",
       "email": "E-mail",
-      "profile": "Profile"
+      "profile": "Profile",
+      "selectProfile": "Choose a profile",
+      "userDetails": "User Details"
     }
   },
   "error": {

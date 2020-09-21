@@ -42,11 +42,14 @@
     "userManagement": {
       "title": "Gestion des utilisateurs",
       "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un.",
+      "addNewUser": "Créer un utilisateur",
       "id": "id",
       "firstName": "Prénom",
       "lastName": "Nom",
       "email": "E-mail",
-      "profile": "Profil"
+      "profile": "Profil",
+      "selectProfile": "Sélectionnez un profil",
+      "userDetails": "Compte utilisateur"
     }
   },
   "error": {

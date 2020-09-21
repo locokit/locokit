@@ -4,8 +4,8 @@
   .p-datatable-thead {
     > tr > th {
       align-items: center;
-      background-color: #ededed;
       color: var(--primary-color-text);
+      background-color: #ededed;
     }
   }
 }
@@ -13,26 +13,35 @@
 .p-datatable {
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
-      background-color: #ffffff;
       color: var(--primary-color-text);
+      background-color: #ffffff;
+    }
+    &.editable-cell-table {
+      .p-datatable-wrapper {
+        overflow: visible ; // this property unleash the power of the select or datepicker
+      }
+    }
+    .p-datatable-tbody > tr:nth-child(2n) {
+      color: var(--primary-color-text);
+      background-color: #ededed;
     }
 
-    .p-datatable-tbody > tr:nth-child(2n) {
-      background-color: #ededed;
-      color: var(--primary-color-text);
-    }
     .p-datatable-tbody > tr > td {
+      overflow: hidden;
+      overflow-y: visible;
       white-space: nowrap;
       text-overflow: ellipsis;
-      overflow: hidden;
     }
   }
+
   .p-sortable-column {
     .p-sortable-column-icon {
       color: var(--primary-color-text);
     }
+
     &.p-highlight {
       color: var(--primary-color-text);
+
       .p-sortable-column-icon {
         color: var(--primary-color-text);
       }
@@ -49,26 +58,30 @@
 @media screen and (max-width: 900px) {
   .p-datatable {
     &.p-datatable-responsive {
+      &.editable-cell-table {
+        border: 1px solid red;
+        overflow-y: visible ;
+      }
       .p-datatable-thead > tr > th,
       .p-datatable-tfoot > tr > td {
         display: none !important;
       }
 
       .p-datatable-tbody > tr > td {
-        text-align: left;
         display: block;
-        width: 100%;
         float: left;
         clear: left;
+        width: 100%;
+        text-align: left;
         border: 0 none;
 
         .p-column-title {
-          padding: .4rem;
-          min-width: 40%;
-
-          display: inline-block;
-          margin: -.4em 1em -.4em -.4rem;
           font-weight: bold;
+          display: inline-block;
+
+          min-width: 40%;
+          margin: -.4em 1em -.4em -.4rem;
+          padding: .4rem;
         }
 
         &:last-child {

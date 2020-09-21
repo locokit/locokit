@@ -5,10 +5,19 @@
     color: var(--primary-color);
 
     &:enabled {
-
       &:hover {
         color: #ffffff;
         background-color: var(--primary-color);
+      }
+    }
+  }
+
+  &.p-button-text {
+    color: var(--primary-color);
+
+    &:enabled {
+      &:hover {
+        color: var(--primary-color);
       }
     }
   }
