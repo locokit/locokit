@@ -1,7 +1,7 @@
 import { ServiceAddons } from '@feathersjs/feathers';
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication';
 import { LocalStrategy } from '@feathersjs/authentication-local';
-import { expressOauth } from '@feathersjs/authentication-oauth';
+// import { expressOauth } from '@feathersjs/authentication-oauth';
 
 import { Application } from './declarations';
 
@@ -18,5 +18,5 @@ export default function(app: Application) {
   authentication.register('local', new LocalStrategy());
 
   app.use('/authentication', authentication);
-  app.configure(expressOauth());
+  // app.configure(expressOauth());
 }

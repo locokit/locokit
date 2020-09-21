@@ -11,6 +11,7 @@ export class user extends Model {
   last_name: string = '';
   password!: string;
   profile: string = 'USER';
+  blocked!: boolean;
   // auth0Id: string = '';
 
   static get tableName() {
@@ -21,7 +22,10 @@ export class user extends Model {
     return {
       title: 'User',
       type: 'object',
-      required: ['email', 'password'],
+      required: [
+        'email',
+        'password'
+      ],
 
       properties: {
 
@@ -30,6 +34,7 @@ export class user extends Model {
         first_name: { type: 'string' },
         last_name: { type: 'string' },
         profile: { type: 'string' },
+        blocked: { type: 'boolean' },
 
         // auth0Id: { type: 'string' },
 
