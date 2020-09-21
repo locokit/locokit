@@ -16,7 +16,8 @@ export const glossary = {
     RELATION_BETWEEN_TABLES: 7,
     LOOKED_UP_COLUMN: 8,
     SINGLE_SELECT: 9,
-    MULTI_SELECT: 10
+    MULTI_SELECT: 10,
+    FORMULA: 11
   }
 }
 
