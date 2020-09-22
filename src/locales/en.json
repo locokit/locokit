@@ -47,9 +47,12 @@
       "firstName": "FirstName",
       "lastName": "LastName",
       "email": "E-mail",
+      "password": "Password",
       "profile": "Profile",
       "selectProfile": "Choose a profile",
-      "userDetails": "User Details"
+      "userDetails": "User Details",
+      "createUserDetails": "Create User",
+      "isRequired": "The field is required"
     }
   },
   "error": {

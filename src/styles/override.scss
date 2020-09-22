@@ -75,9 +75,16 @@ a.no-decoration-link {
   }
 }
 
-.p-component {
+.p-component,
+.p-inputtext {
   font-family: $font-stack;
   font-size: 1rem
+}
+.p-dropdown {
+  &.p-invalid {
+    border-color: #f44336;
+    color: #f44336;
+  }
 }
 
 .p-button {

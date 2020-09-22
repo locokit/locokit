@@ -25,14 +25,6 @@ class AuthDTO {
   password = ''
 }
 
-// class UserDTO {
-//   email = ''
-//   first_name = ''
-//   last_name = ''
-//   password = ''
-//   profile = ''
-// }
-
 class AuthState extends BaseState<AuthData> {}
 
 export const authState: AuthState = {
