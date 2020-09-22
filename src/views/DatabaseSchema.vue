@@ -6,7 +6,11 @@
       </template>
 
       <template slot="right">
-        <Button label="Table" icon="pi pi-plus" />
+        <Button
+          label="Table"
+          icon="pi pi-plus"
+          @click="onClickCreateTableDialogButton"
+        />
       </template>
     </Toolbar>
     <div
@@ -18,6 +22,19 @@
     >
     </div>
     <div v-else>Erreur</div>
+    <Dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
+      <div class="p-field p-mt-4 p-float-label">
+          <InputText id="table-name" v-bind:class="{ 'p-invalid': Boolean(tableNameToCreateError) }" type="text" v-model="tableNameToCreate" autofocus />
+          <label for="table-name">Nom de la table</label>
+      </div>
+      <div v-if="tableNameToCreateError" class="p-invalid">
+        <small id="table-name-invalid" class="p-invalid">{{ tableNameToCreateError }}</small>
+      </div>
+      <template #footer>
+        <Button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
+        <Button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -28,12 +45,15 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-
+import Dialog from 'primevue/dialog'
+import InputText from 'primevue/inputtext'
 export default {
   name: 'DatabaseSchema',
   components: {
     Toolbar,
-    Button
+    Button,
+    Dialog,
+    InputText
   },
   props: {
     databaseId: null
@@ -43,7 +63,10 @@ export default {
       nomnomlSVG: null,
       SVGPanZoom: null,
       tables: null,
-      error: false
+      error: false,
+      showCreateTableDialog: false,
+      tableNameToCreate: null,
+      tableNameToCreateError: null
     }
   },
   computed: {
@@ -57,6 +80,32 @@ export default {
     }
   },
   methods: {
+    onClickCreateTableDialogButton () {
+      this.showCreateTableDialog = true
+    },
+    closeCreateTableDialog () {
+      this.resetCreateTableDialog()
+      this.showCreateTableDialog = false
+    },
+    resetCreateTableDialog () {
+      this.tableNameToCreate = null
+      this.tableNameToCreateError = null
+    },
+    async confirmCreateTableDialog () {
+      try {
+        const createTableResponse = await lckClient.service('table').create({
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          database_id: this.databaseId,
+          text: this.tableNameToCreate
+        })
+        this.tableNameToCreateError = false
+        this.showCreateTableDialog = false
+        this.loadTables()
+        this.resizenomnomlSVG()
+      } catch (error) {
+        this.tableNameToCreateError = error.message
+      }
+    },
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
       if (!currentTableName) return
@@ -76,20 +125,22 @@ export default {
       tables.forEach(table => {
         if (table && table.id && table.text) {
           const columns = []
-          table.columns.forEach(column => {
-            if (column) {
-              const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
-              if (column.text) {
-                columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
-              }
-              if (hasRelation) {
-                const relationTable = tables.find(table => table.id === column.settings.tableId)
-                if (relationTable && relationTable.text) {
-                  sourceRelation.push(`[${table.text}]->[${relationTable.text}]`)
+          if (table.columns) {
+            table.columns.forEach(column => {
+              if (column) {
+                const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
+                if (column.text) {
+                  columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
+                }
+                if (hasRelation) {
+                  const relationTable = tables.find(table => table.id === column.settings.tableId)
+                  if (relationTable && relationTable.text) {
+                    sourceRelation.push(`[${table.text}]->[${relationTable.text}]`)
+                  }
                 }
               }
-            }
-          })
+            })
+          }
           sourceTable.push(`[${table.text + (columns.length ? '|' + columns.join('|') : '')}]`)
         }
       })
@@ -99,9 +150,10 @@ export default {
       try {
         const tablesWithColumns = await lckClient.service('table').find({
           query: {
-            $eager: '[columns]',
             // eslint-disable-next-line @typescript-eslint/camelcase
-            database_id: this.databaseId
+            database_id: this.databaseId,
+            $eager: '[columns]',
+            $limit: 100
           }
         })
         this.tables = tablesWithColumns?.data
@@ -110,6 +162,9 @@ export default {
       }
     },
     onResize () {
+      this.resizenomnomlSVG()
+    },
+    resizenomnomlSVG () {
       this.SVGPanZoom.resize()
       this.SVGPanZoom.fit()
       this.SVGPanZoom.center()
@@ -145,12 +200,14 @@ export default {
   max-width: 100vw;
   max-height: 100%;
 }
-#svg-container, #svg-container svg {
+#svg-container {
   max-width: 100vw;
   max-height: 100%;
   overflow: hidden;
 }
 #svg-container svg {
+  width: 100vw;
+  height: 100%;
   cursor: move;
   user-select: none;
 }
