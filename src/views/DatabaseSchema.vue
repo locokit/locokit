@@ -14,25 +14,37 @@
       </template>
     </Toolbar>
     <div
-      v-if="!error"
+      v-if="!errorLoadTables"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
-      @mouseover="onClickTable"
     >
     </div>
     <div v-else>Erreur</div>
     <Dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
       <div class="p-field p-mt-4 p-float-label">
-          <InputText id="table-name" v-bind:class="{ 'p-invalid': Boolean(tableNameToCreateError) }" type="text" v-model="tableNameToCreate" autofocus />
+          <InputText id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
           <label for="table-name">Nom de la table</label>
       </div>
-      <div v-if="tableNameToCreateError" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ tableNameToCreateError }}</small>
+      <div v-if="errorTableNameToCreate" class="p-invalid">
+        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
       </div>
       <template #footer>
         <Button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
         <Button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
+      </template>
+    </Dialog>
+    <Dialog @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
+      <div class="p-field p-mt-4 p-float-label">
+          <InputText id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" autofocus />
+          <label for="table-name">Nom de la table</label>
+      </div>
+      <div v-if="errorTableNameToUpdate" class="p-invalid">
+        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
+      </div>
+      <template #footer>
+        <Button @click="closeUpdateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
+        <Button @click="confirmUpdateTableDialog" label="Modifier" icon="pi pi-check" class="p-button-text" autofocus />
       </template>
     </Dialog>
   </div>
@@ -63,10 +75,14 @@ export default {
       nomnomlSVG: null,
       SVGPanZoom: null,
       tables: null,
-      error: false,
+      errorLoadTables: false,
       showCreateTableDialog: false,
       tableNameToCreate: null,
-      tableNameToCreateError: null
+      errorTableNameToCreate: null,
+      showUpdateTableDialog: false,
+      tableNameToUpdate: null,
+      errorTableNameToUpdate: null,
+      currentTable: null
     }
   },
   computed: {
@@ -89,7 +105,7 @@ export default {
     },
     resetCreateTableDialog () {
       this.tableNameToCreate = null
-      this.tableNameToCreateError = null
+      this.errorTableNameToCreate = null
     },
     async confirmCreateTableDialog () {
       try {
@@ -98,18 +114,47 @@ export default {
           database_id: this.databaseId,
           text: this.tableNameToCreate
         })
-        this.tableNameToCreateError = false
-        this.showCreateTableDialog = false
-        this.loadTables()
-        this.resizenomnomlSVG()
-      } catch (error) {
-        this.tableNameToCreateError = error.message
+        if (createTableResponse) {
+          this.errorTableNameToCreate = false
+          this.showCreateTableDialog = false
+          this.loadTables()
+          this.resizenomnomlSVG()
+        }
+      } catch (errorCreateTable) {
+        this.errorTableNameToCreate = errorCreateTable.message
       }
     },
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
-      if (!currentTableName) return
-      console.log(currentTableName)
+      if (currentTableName) {
+        this.currentTable = this.tablesIndexedByText[currentTableName]
+        this.tableNameToUpdate = currentTableName
+        this.showUpdateTableDialog = true
+      }
+    },
+    closeUpdateTableDialog () {
+      this.resetUpdateTableDialog()
+      this.showUpdateTableDialog = false
+    },
+    resetUpdateTableDialog () {
+      this.tableNameToUpdate = null
+      this.errorTableNameToUpdate = null
+    },
+    async confirmUpdateTableDialog () {
+      this.showUpdateTableDialog = false
+      try {
+        const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
+          text: this.tableNameToUpdate
+        })
+        if (updateTableResponse) {
+          this.errorTableNameToUpdate = false
+          this.showUpdateTableDialog = false
+          this.loadTables()
+          this.resizenomnomlSVG()
+        }
+      } catch (errorUpdateTable) {
+        this.errorTableNameToUpdate = errorUpdateTable.message
+      }
     },
     createSource (tables) {
       const sourceStyle = [
@@ -157,8 +202,8 @@ export default {
           }
         })
         this.tables = tablesWithColumns?.data
-      } catch (error) {
-        this.error = true
+      } catch (errorLoadTables) {
+        this.errorLoadTables = true
       }
     },
     onResize () {
@@ -174,7 +219,7 @@ export default {
     this.loadTables()
   },
   updated () {
-    if (this.nomnomlSVG && !this.error) {
+    if (this.nomnomlSVG && !this.errorLoadTables) {
       this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true })
       window.addEventListener('resize', this.onResize)
     }
