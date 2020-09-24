@@ -34,6 +34,7 @@
       <template #header>
         <span data-column-id="text">Référence</span>
       </template>
+
       <template #loading>
         <div class="loading-text">Loading</div>
       </template>
@@ -49,6 +50,7 @@
           @input="onCellEdit($event, slotProps)"
         />
       </template>
+
     </p-column>
     <p-column
       v-for="column in block.definition.columns"
@@ -57,7 +59,7 @@
       :headerStyle="{
         width: ( ( column.settings && column.settings.width ) || '150' ) + 'px'
       }"
-      sortable
+      :sortable="isSortableColumn(column)"
     >
       <template #header>
         <span :data-column-id="column.id">
@@ -71,7 +73,6 @@
         <span v-if="!isEditableColumn(column)">
           {{ getValue(column, slotProps.data.data[column.id]) }}
         </span>
-          <!-- :value="slotProps.data.data[column.id] && slotProps.data.data[column.id].value" -->
         <p-autocomplete
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
           :dropdown="true"
@@ -137,8 +138,8 @@ export default {
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
-    'p-datatable': Vue.extend(DataTable),
     'p-calendar': Vue.extend(Calendar),
+    'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column)
   },
   props: {
@@ -204,6 +205,14 @@ export default {
       switch (column.column_type_id) {
         case COLUMN_TYPE.LOOKED_UP_COLUMN:
         case COLUMN_TYPE.FORMULA:
+          return false
+        default:
+          return true
+      }
+    },
+    isSortableColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.SINGLE_SELECT:
           return false
         default:
           return true
