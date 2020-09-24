@@ -33,16 +33,19 @@ export function enhanceComplexColumns (): Hook {
                 }
               ])
             }
+            context.data.data[currentColumnId] = {
+              reference,
+              value
+            }
             break
           case COLUMN_TYPE.USER:
             const matchingUser: user = await context.app.services.user.get(reference)
             value = matchingUser.first_name + ' ' + matchingUser.last_name
+            context.data.data[currentColumnId] = {
+              reference,
+              value
+            }
         }
-        context.data.data[currentColumnId] = {
-          reference,
-          value
-        }
-
       })
     )
     return context;
