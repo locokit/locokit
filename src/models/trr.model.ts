@@ -3,27 +3,34 @@
 import { Model, JSONSchema } from 'objection';
 import { Application } from '../declarations';
 
-export class ColumnRelation extends Model {
+export class LCK_trr extends Model {
   createdAt!: string;
   updatedAt!: string;
-  table_column_from_id!: string;
+  table_row_from_id!: string;
+  table_row_to_id!: string;
   table_column_to_id!: string;
 
+  static get idColumn() {
+    return ['table_row_to_id', 'table_column_to_id'];
+  }
+
   static get tableName(): string {
-    return 'table_column_relation';
+    return 'table_row_relation';
   }
 
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
       required: [
-        'table_column_from_id',
+        'table_row_from_id',
+        'table_row_to_id',
         'table_column_to_id'
       ],
 
       properties: {
-        table_column_from_id: { type: 'string' },
-        table_column_to_id: { type: 'string' }
+        table_row_from_id: { type: 'string' },
+        table_row_to_id: { type: 'string' },
+        table_column_to_id: { type: 'string' },
       }
     };
   }
@@ -37,6 +44,6 @@ export class ColumnRelation extends Model {
   }
 }
 
-export default function (app: Application): typeof ColumnRelation {
-  return ColumnRelation;
+export default function (app: Application): typeof LCK_trr {
+  return LCK_trr;
 }

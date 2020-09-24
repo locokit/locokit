@@ -1,29 +1,29 @@
-// Initializes the `columnrelation` service on path `/columnrelation`
+// Initializes the `trr` service on path `/trr`
 import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
-import { Columnrelation } from './columnrelation.class';
-import createModel from '../../models/columnrelation.model';
-import hooks from './columnrelation.hooks';
+import { Trr } from './trr.class';
+import createModel from '../../models/trr.model';
+import hooks from './trr.hooks';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'columnrelation': Columnrelation & ServiceAddons<any>;
+    'trr': Trr & ServiceAddons<any>;
   }
 }
 
 export default function (app: Application): void {
   const options = {
-    id: ['table_column_from_id', 'table_column_to_id'],
+    id: ['table_row_to_id', 'table_column_to_id'],
     Model: createModel(app),
     paginate: app.get('paginate')
   };
 
   // Initialize our service with any options it requires
-  app.use('/columnrelation', new Columnrelation(options, app));
+  app.use('/trr', new Trr(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('columnrelation');
+  const service = app.service('trr');
 
   service.hooks(hooks);
 }
