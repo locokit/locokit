@@ -32,7 +32,7 @@ export async function createUser (data: UserCreateDTO) {
   }
 }
 
-export async function modifyUser (id: string, data: object) {
+export async function updateUser (id: string, data: object) {
   try {
     return await lckClient.service('user').patch(id, data)
   } catch (error) {

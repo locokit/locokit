@@ -58,9 +58,9 @@
           </template>
         </p-column>
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
-            <template #body="slotProps">
-            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="editUser(slotProps.data)" />
-            <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" />
+          <template #body="slotProps">
+            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="editUser(slotProps.data)" title="Edit User"/>
+            <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" title="Disabling User" />
           </template>
         </p-column>
       </p-datatable>
@@ -82,59 +82,93 @@
       <template #header v-else>
         <h3>{{ $t('pages.userManagement.userDetails') }}</h3>
       </template>
-      <div class="p-field">
-        <label for="first_name">{{ $t('pages.userManagement.firstName') }}</label>
-        <p-input-text id="first_name" v-model.trim="user.first_name" required="true" autofocus :class="{'p-invalid': submitted && !user.first_name}" />
-        <small class="p-invalid" v-if="submitted && !user.first_name">{{ $t('pages.userManagement.isRequired') }}..</small>
-      </div>
-      <div class="p-field">
-        <label for="last_name">{{ $t('pages.userManagement.lastName') }}</label>
-        <p-input-text id="last_name" v-model.trim="user.last_name" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
-        <small class="p-invalid" v-if="submitted && !user.last_name">{{$t('pages.userManagement.isRequired') }}.</small>
-      </div>
-      <div class="p-field">
-        <label for="email">{{ $t('pages.userManagement.email') }}</label>
-        <p-input-text id="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
-        <small class="p-invalid" v-if="submitted && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
-      </div>
-      <div class="p-field" v-if="createUserDialog">
-        <label for="password">{{ $t('pages.userManagement.password') }}</label>
-        <p-password id="password" v-model.trim="user.password" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
-        <small class="p-invalid" v-if="submitted && !user.password">{{ $t('pages.userManagement.isRequired') }}.</small>
-      </div>
-      <p class="p-field">
-        <label for="profile">{{ $t('pages.userManagement.profile') }}</label>
-        <p-dropdown
-          id="profile"
-          v-model.trim="user.profile"
-          :options="profiles"
-          optionLabel="label"
-          optionValue="value"
-          required="true"
-          :class="{'p-invalid': submitted && !user.profile}"
-          :placeholder="$t('pages.userManagement.selectProfile')"
-        >
-          <template #option="slotProps">
-            <span>{{slotProps.option.label}}</span>
-          </template>
-        </p-dropdown>
-        <small class="p-invalid" v-if="submitted && !user.profile">{{ $t('pages.userManagement.isRequired') }}.</small>
+      <template v-if="submitted">
+        <h4>{{ $t('pages.userManagement.successMessage') }}</h4>
+      </template>
+      <template v-else>
+        <div class="p-field">
+          <label for="first_name">{{ $t('pages.userManagement.firstName') }}</label>
+          <p-input-text id="first_name" v-model.trim="user.first_name" required="true" autofocus :class="{'p-invalid': submitted && !user.first_name}" />
+          <small class="p-invalid" v-if="submitted && !user.first_name">{{ $t('pages.userManagement.isRequired') }}..</small>
+        </div>
+        <div class="p-field">
+          <label for="last_name">{{ $t('pages.userManagement.lastName') }}</label>
+          <p-input-text id="last_name" v-model.trim="user.last_name" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
+          <small class="p-invalid" v-if="submitted && !user.last_name">{{$t('pages.userManagement.isRequired') }}.</small>
+        </div>
+        <div class="p-field">
+          <label for="email">{{ $t('pages.userManagement.email') }}</label>
+          <p-input-text id="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
+          <small class="p-invalid" v-if="submitted && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
+        </div>
+        <div class="p-field" v-if="createUserDialog">
+          <label for="password">{{ $t('pages.userManagement.password') }}</label>
+          <p-password id="password" v-model.trim="user.password" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
+          <small class="p-invalid" v-if="submitted && !user.password">{{ $t('pages.userManagement.isRequired') }}.</small>
+        </div>
+        <p class="p-field">
+          <label for="profile">{{ $t('pages.userManagement.profile') }}</label>
+          <p-dropdown
+              id="profile"
+              v-model.trim="user.profile"
+              :options="profiles"
+              optionLabel="label"
+              optionValue="value"
+              required="true"
+              :class="{'p-invalid': submitted && !user.profile}"
+              :placeholder="$t('pages.userManagement.selectProfile')"
+          >
+            <template #option="slotProps">
+              <span>{{slotProps.option.label}}</span>
+            </template>
+          </p-dropdown>
+          <small class="p-invalid" v-if="submitted && !user.profile">{{ $t('pages.userManagement.isRequired') }}.</small>
 
-      </p>
-      <p class="p-field">
-        <label>Groupes</label>
-      </p>
-      <p><em>TODO : ajouter les groupes</em></p>
-      <div class="p-formgrid p-grid">
-        <div class="p-field p-col">
+        </p>
+        <p class="p-field">
+          <label>Groupes</label>
+        </p>
+        <p><em>TODO : ajouter les groupes</em></p>
+        <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+          </div>
+          <div class="p-field p-col">
+          </div>
         </div>
-        <div class="p-field p-col">
-        </div>
-      </div>
-      <template #footer>
-        <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"/>
-        <p-button v-if="createUserDialog" label="Save" icon="pi pi-check" class="p-button-text" @click="saveUser" />
-        <p-button v-if="editUserDialog" label="Update" icon="pi pi-check" class="p-button-text" @click="updateUser" />
+      </template>
+
+      <template #footer v-if="submitted">
+        <p-button label="Close this window" icon="pi pi-check-circle" class="p-button-text" @click="hideDialog"/>
+
+      </template>
+      <template #footer v-else>
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+        />
+        <p-button
+          v-if="createUserDialog"
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveUser"
+        />
+        <p-button
+          v-if="editUserDialog"
+          label="Update"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="update"
+        />
+        <p-button
+          disabled
+          v-if="submitting"
+          label="Please wait"
+          icon="pi pi-spin pi-spinner"
+          class="p-button-text"
+        />
       </template>
     </p-dialog>
   </div>
@@ -150,10 +184,20 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Password from 'primevue/password'
 import Vue from 'vue'
-import { retrieveUsersData, createUser, modifyUser } from '@/store/userManagement'
+import { retrieveUsersData, createUser, updateUser } from '@/store/userManagement'
 
 export default {
   name: 'UserManagement',
+  components: {
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
+    'p-button': Vue.extend(Button),
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-input-text': Vue.extend(InputText),
+    'p-dialog': Vue.extend(Dialog),
+    'p-password': Vue.extend(Password)
+  },
   data () {
     return {
       loading: false,
@@ -164,6 +208,8 @@ export default {
       openDialog: false,
       createUserDialog: false,
       editUserDialog: false,
+      submitting: false,
+      submitted: false,
       profiles: [{ label: 'User', value: 'USER' }, { label: 'Admin', value: 'ADMIN' }, { label: 'SuperAdmin', value: 'SUPERADMIN' }]
     }
   },
@@ -186,20 +232,18 @@ export default {
       this.openDialog = true
     },
     async saveUser () {
-      console.log('data', this.user)
-      const res = await createUser(this.user)
+      await createUser(this.user)
       this.submitted = true
     },
-    async updateUser () {
+    async update () {
+      this.submitting = true
       const userId = this.user.id
-      const res = await modifyUser(userId, this.user)
+      await updateUser(userId, this.user)
+      this.submitting = false
       this.submitted = true
     },
     inactiveUser (user) {
       this.user = { ...user }
-      alert(this.user.id)
-    },
-    submitted () {
       alert(this.user.id)
     },
     getProfileLabel (profile) {
@@ -222,21 +266,10 @@ export default {
       if (res) this.usersWithPagination = res
     }
   },
-  components: {
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-datatable': Vue.extend(DataTable),
-    'p-column': Vue.extend(Column),
-    'p-button': Vue.extend(Button),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-input-text': Vue.extend(InputText),
-    'p-dialog': Vue.extend(Dialog),
-    'p-password': Vue.extend(Password)
-  },
   async mounted () {
     const res = await retrieveUsersData()
     if (res) this.usersWithPagination = res
   }
-
 }
 
 </script>
