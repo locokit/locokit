@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import lckClient from '@/services/lck-api'
-
-class UserModifyDTO {
-  email = ''
-  first_name = ''
-  last_name = ''
-  password = ''
-  profile = ''
-}
 class UserCreateDTO {
   email = ''
   first_name = ''
@@ -40,7 +32,7 @@ export async function createUser (data: UserCreateDTO) {
   }
 }
 
-export async function modifyUser (id, data: UserModifyDTO) {
+export async function modifyUser (id: string, data: object) {
   try {
     return await lckClient.service('user').patch(id, data)
   } catch (error) {

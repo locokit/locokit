@@ -188,13 +188,11 @@ export default {
     async saveUser () {
       console.log('data', this.user)
       const res = await createUser(this.user)
-      console.log(res)
       this.submitted = true
     },
     async updateUser () {
-      console.log('data', this.user)
-      const res = await modifyUser(this.use)
-      console.log(res)
+      const userId = this.user.id
+      const res = await modifyUser(userId, this.user)
       this.submitted = true
     },
     inactiveUser (user) {
