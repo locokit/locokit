@@ -59,7 +59,7 @@
         </p-column>
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
             <template #body="slotProps">
-            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="addUser(slotProps.data)" />
+            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="editUser(slotProps.data)" />
             <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" />
           </template>
         </p-column>
@@ -71,8 +71,17 @@
       <p>{{ $t('pages.userManagement.noUser') }}</p>
 
     </div>
-
-    <p-dialog :visible.sync="createUserDialog" :style="{width: '450px'}" :header="$t('pages.userManagement.createUserDetails')" :modal="true" class="p-fluid">
+    <p-dialog
+      :visible.sync="openDialog"
+      :style="{width: '450px'}"
+      :modal="true"
+      class="p-fluid">
+      <template #header v-if="createUserDialog">
+        <h3>{{ $t('pages.userManagement.createUserDetails') }}</h3>
+      </template>
+      <template #header v-else>
+        <h3>{{ $t('pages.userManagement.userDetails') }}</h3>
+      </template>
       <div class="p-field">
         <label for="first_name">{{ $t('pages.userManagement.firstName') }}</label>
         <p-input-text id="first_name" v-model.trim="user.first_name" required="true" autofocus :class="{'p-invalid': submitted && !user.first_name}" />
@@ -88,7 +97,7 @@
         <p-input-text id="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
         <small class="p-invalid" v-if="submitted && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
       </div>
-      <div class="p-field">
+      <div class="p-field" v-if="createUserDialog">
         <label for="password">{{ $t('pages.userManagement.password') }}</label>
         <p-password id="password" v-model.trim="user.password" required="true" autofocus :class="{'p-invalid': submitted && !user.last_name}" />
         <small class="p-invalid" v-if="submitted && !user.password">{{ $t('pages.userManagement.isRequired') }}.</small>
@@ -123,11 +132,11 @@
         </div>
       </div>
       <template #footer>
-        <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideCreateUserDialog"/>
-        <p-button label="Save" icon="pi pi-check" class="p-button-text" @click="saveUser" />
+        <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"/>
+        <p-button v-if="createUserDialog" label="Save" icon="pi pi-check" class="p-button-text" @click="saveUser" />
+        <p-button v-if="editUserDialog" label="Update" icon="pi pi-check" class="p-button-text" @click="updateUser" />
       </template>
     </p-dialog>
-
   </div>
 </template>
 
@@ -141,7 +150,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Password from 'primevue/password'
 import Vue from 'vue'
-import { retrieveUsersData, createUser } from '@/store/userManagement'
+import { retrieveUsersData, createUser, modifyUser } from '@/store/userManagement'
 
 export default {
   name: 'UserManagement',
@@ -152,8 +161,9 @@ export default {
       columns: null,
       usersWithPagination: null,
       user: {},
-      userDialog: false,
+      openDialog: false,
       createUserDialog: false,
+      editUserDialog: false,
       profiles: [{ label: 'User', value: 'USER' }, { label: 'Admin', value: 'ADMIN' }, { label: 'SuperAdmin', value: 'SUPERADMIN' }]
     }
   },
@@ -162,18 +172,28 @@ export default {
       this.user = {}
       this.submitted = false
       this.createUserDialog = true
+      this.editUserDialog = false
+      this.openDialog = true
     },
-    hideCreateUserDialog () {
-      this.createUserDialog = false
+    hideDialog () {
+      this.openDialog = false
       this.submitted = false
     },
     editUser (user) {
       this.user = { ...user }
-      this.userDialog = true
+      this.createUserDialog = false
+      this.editUserDialog = true
+      this.openDialog = true
     },
     async saveUser () {
       console.log('data', this.user)
       const res = await createUser(this.user)
+      console.log(res)
+      this.submitted = true
+    },
+    async updateUser () {
+      console.log('data', this.user)
+      const res = await modifyUser(this.use)
       console.log(res)
       this.submitted = true
     },

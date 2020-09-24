@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import lckClient from '@/services/lck-api'
 
+class UserModifyDTO {
+  email = ''
+  first_name = ''
+  last_name = ''
+  password = ''
+  profile = ''
+}
 class UserCreateDTO {
   email = ''
   first_name = ''
@@ -28,6 +35,14 @@ export async function retrieveUsersData (pageIndex = 0) {
 export async function createUser (data: UserCreateDTO) {
   try {
     return await lckClient.service('user').create(data)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function modifyUser (id, data: UserModifyDTO) {
+  try {
+    return await lckClient.service('user').patch(id, data)
   } catch (error) {
     console.error(error)
   }
