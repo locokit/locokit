@@ -12,7 +12,7 @@ export class row extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
-  text: string = 'unknown text';
+  text!: string;
   data: RowData = {};
 
   static get tableName() {
@@ -26,7 +26,8 @@ export class row extends Model {
 
       properties: {
         text: { type: 'string' },
-        data: { type: 'object'}
+        data: { type: 'object'},
+        table_id: { type: 'string' }
       }
     };
   }
@@ -41,7 +42,7 @@ export class row extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
-          from: 'row.table_id',
+          from: 'table_row.table_id',
           to: 'table.id'
         }
       },
