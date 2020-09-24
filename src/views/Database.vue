@@ -49,6 +49,41 @@
           @sort="onSort"
           @column-resize="onColumnResize"
         />
+        <!--
+        <table
+          v-if="block.definition"
+        >
+          <thead>
+            <tr>
+              <th >
+                Référence
+              </th>
+              <th
+                v-for="column in block.definition.columns"
+                :key="column.id"
+              >
+                {{ column.text }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="d in block.content.data"
+              :key="d.id"
+            >
+              <th >
+                Référence
+              </th>
+              <th
+                v-for="column in block.definition.columns"
+                :key="column.id"
+              >
+                {{ d.data[column.id] }}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+        -->
         <p-dialog
           :visible.sync="displayNewDialog"
           :style="{width: '450px'}"
