@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Login Login 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="p-card p-component p-col"
+  >
+    <!---->
+     
+    <div
+      class="p-card-body"
+    >
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-card-content"
+      >
+        <form>
+          <div
+            class="p-field p-text-left"
+          >
+            <label
+              for="email"
+            >
+              E-mail
+            </label>
+             
+            <input
+              class="p-inputtext p-component"
+              id="email"
+              placeholder="E-mail"
+              required="required"
+              type="text"
+            />
+          </div>
+           
+          <div
+            class="p-field p-text-left"
+          >
+            <label
+              for="password"
+            >
+              Mot de passe
+            </label>
+             
+            <input
+              class="rounded-sm p-inputtext p-component"
+              id="password"
+              placeholder="Mot de passe"
+              required="required"
+              type="password"
+            />
+          </div>
+           
+          <div
+            class="flex items-center justify-center"
+          >
+            <button
+              class="p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-sign-in p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Se connecter
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </div>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
