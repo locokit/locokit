@@ -10,6 +10,9 @@ module.exports = {
       enableInSFC: false
     }
   },
+  pwa: {
+    name: 'LCK v-Logistique'
+  },
   configureWebpack: {
     devtool: 'source-map'
   },

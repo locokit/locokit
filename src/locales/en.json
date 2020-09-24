@@ -94,5 +94,11 @@
     "save": "Save",
     "update": "Update",
     "submitting": "Please wait…"
+  },
+  "sw": {
+    "newVersion": "New version available",
+    "message": "Would you like to update the app?",
+    "update": "Update",
+    "cancel": "Dismiss"
   }
 }

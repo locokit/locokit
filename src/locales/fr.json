@@ -94,5 +94,11 @@
     "save": "Enregistrer",
     "update": "Mettre à jour",
     "submitting": "En cours…"
+  },
+  "sw": {
+    "newVersion": "Nouvelle version disponible",
+    "message": "Souhaitez-vous mettre à jour l'application ?",
+    "update": "Mettre à jour",
+    "cancel": "Annuler"
   }
 }
