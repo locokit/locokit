@@ -45,10 +45,12 @@
         {{ slotProps.data.text }}
       </template>
 
-      <template #editor="slotProps">
+      <template
+        #editor="slotProps"
+      >
+        <input type="text" :value="slotProps.data.text" />
         <p-inputtext
           :value="slotProps.data.text"
-          @input="onCellEdit($event, slotProps)"
         />
       </template>
 
@@ -74,20 +76,22 @@
         <span v-if="!isEditableColumn(column)">
           {{ getValue(column, slotProps.data.data[column.id]) }}
         </span>
+        <!--
+          @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
+        -->
         <p-autocomplete
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
           v-model="autocompleteInput"
-          @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
           :suggestions="autocompleteItems"
           @complete="searchItems(column, $event)"
           @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
         />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-          :options="dropdownOptions[column.id]"
+          :options="columnsOptions[column.id].dropdownOptions"
           optionLabel="label"
           optionValue="value"
           :value="slotProps.data.data[column.id]"
@@ -148,7 +152,15 @@ export default {
       type: Object,
       required: true
     },
-    dropdownOptions: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    total: {
+      type: Number,
+      default: 0
+    },
+    columnsOptions: {
       type: Object,
       required: true
     }
@@ -157,7 +169,6 @@ export default {
     return {
       editingCellRows: [],
       autocompleteItems: null,
-      autocompleteValue: '',
       autocompleteInput: ''
     }
   },

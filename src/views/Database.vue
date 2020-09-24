@@ -43,7 +43,7 @@
         </p-toolbar>
         <CrudTable
           :block="block"
-          :dropdown-options="currentBlockDropdownOptions"
+          :columns-options="columnsEnhanced"
           v-if="block.definition"
           @updateContentBlockTableView="updateContentBlock(table.id, $event)"
           @sort="onSort"
@@ -122,12 +122,15 @@
                 :dropdown="true"
                 :placeholder="$t('components.dropdown.placeholder')"
                 field="label"
-                v-model="newRow.data[column.id]"
+                :suggestions="autocompleteItems"
+                @complete="searchItems(column, $event)"
+                v-model="autocompleteInput"
+                @item-select="newRow.data[column.id] = $event.value.value"
               />
               <p-dropdown
                 v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
                 :id="column.id"
-                :options="currentBlockDropdownOptions[column.id]"
+                :options="columnsEnhanced[column.id].dropdownOptions"
                 optionLabel="label"
                 optionValue="value"
                 :showClear="true"
@@ -247,7 +250,9 @@ export default {
       currentDatatableRows: 20,
       currentDatatableSort: {
         ...defaultDatatableSort
-      }
+      },
+      autocompleteItems: null,
+      autocompleteInput: ''
     }
   },
   computed: {
@@ -275,6 +280,26 @@ export default {
     editableColumns () {
       if (!this.block.definition.columns) return []
       return this.block.definition.columns.filter(c => this.isEditableColumn(c))
+    },
+    columnsEnhanced () {
+      if (!this.block.definition.columns) return {}
+      const result = {}
+      this.block.definition.columns.forEach(currentColumn => {
+        result[currentColumn.id] = {
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          column_type_id: currentColumn.column_type_id
+        }
+        if (
+          currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
+          currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
+        ) {
+          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
+            value: k,
+            label: currentColumn.settings.values[k].label
+          }))
+        }
+      })
+      return result
     }
   },
   methods: {
@@ -379,6 +404,7 @@ export default {
       if (field === 'text') {
         this.currentDatatableSort.text = order
       } else {
+        // find the matching column_type_id to adapt
         this.currentDatatableSort[`ref(data:${field})`] = order
       }
       this.loadCurrentTableData()
@@ -401,8 +427,53 @@ export default {
           width: newWidth
         }
       })
+    },
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    async searchItems ({ column_type_id, settings }, { query }) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      if (column_type_id === COLUMN_TYPE.USER) {
+        const result = await lckClient.service('user').find({
+          query: {
+            blocked: false,
+            name: {
+              $ilike: `%${this.autocompleteInput}%`
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (column_type_id === COLUMN_TYPE.GROUP) {
+        const result = await lckClient.service('group').find({
+          query: {
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+        const result = await lckClient.service('row').find({
+          query: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: settings.tableId,
+            text: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.text,
+          value: d.id
+        }))
+      }
     }
-
   },
   async mounted () {
     await retrieveDatabaseByWorkspaceId(this.databaseId)
