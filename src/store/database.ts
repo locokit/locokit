@@ -78,6 +78,31 @@ export async function retrieveTableRows (tableId: string, pageIndex = 0) {
   databaseState.loading = false
 }
 
+export async function retrieveTableRowsWithSkipAndLimit (
+  tableId: string,
+  skip = 0,
+  limit = 20,
+  sort = {
+    createdAt: 1
+  }
+) {
+  databaseState.loading = true
+  try {
+    return await lckClient.service('row').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: {
+        table_id: tableId,
+        $limit: limit,
+        $skip: skip,
+        $sort: sort
+      }
+    })
+  } catch (error) {
+    databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
 export async function retrieveTableViews (tableId: string) {
   databaseState.loading = true
 
@@ -121,13 +146,11 @@ export async function deleteTableData (rowId: string) {
 
 export async function patchTableData (rowId: string, formData: object) {
   databaseState.loading = true
-
   try {
     const result = await lckClient.service('row').patch(rowId, formData)
-    databaseState.loading = false
     return result
   } catch ({ code, name }) {
-    databaseState.loading = false
-    return { code, name }
+    databaseState.error = new Error(`${code}: ${name}`)
   }
+  databaseState.loading = false
 }

@@ -9,11 +9,11 @@
         v-on="$listeners"
       />
       <span class="lck-color-content" v-else-if="block.type">
-        {{ $t('pages.workspaces.errorTypeBlock', { blockType: block.type }) }}
+        {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}
       </span>
     </div>
     <span class="lck-color-content" v-else>
-      {{ $t('pages.workspaces.errorUnknownTypeBlock') }}
+      {{ $t('pages.workspace.errorUnknownTypeBlock') }}
     </span>
   </div>
 </template>

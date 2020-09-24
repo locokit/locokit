@@ -34,7 +34,7 @@ export default {
         return (
           [
             {
-              text: this.$t('pages.workspaces.noChapter'),
+              text: this.$t('pages.workspace.noChapter'),
               pages: []
             }
           ]

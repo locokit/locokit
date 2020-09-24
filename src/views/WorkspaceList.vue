@@ -3,7 +3,7 @@
     class="generic-view-container p-mx-auto"
   >
     <header class="p-my-4 lck-color-title">
-      {{ $t('pages.workspaces.title') }}
+      {{ $t('pages.workspace.title') }}
     </header>
 
     <div v-if="!isAuthorized">
@@ -24,10 +24,10 @@
               <ul class="lck-ul-content">
                 <li>#{{ workspace.id }}</li>
                 <li>
-                  {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
+                  {{ $t('pages.workspace.created') }} {{ workspace.createdAt }}
                 </li>
                 <li>
-                  {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
+                  {{ $t('pages.workspace.updated') }} {{ workspace.updatedAt }}
                 </li>
               </ul>
             </div>
@@ -50,10 +50,10 @@
             <ul class="lck-ul-content">
               <li>#{{ workspace.id }}</li>
               <li>
-                {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
+                {{ $t('pages.workspace.created') }} {{ workspace.createdAt }}
               </li>
               <li>
-                {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
+                {{ $t('pages.workspace.updated') }} {{ workspace.updatedAt }}
               </li>
             </ul>
             <div class="action-button-content p-d-flex">

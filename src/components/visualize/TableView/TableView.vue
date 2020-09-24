@@ -8,7 +8,7 @@
       :loading="block.loading"
       :rows="dataTable.limit"
       :totalRecords="dataTable.total"
-      class="p-datatable-sm p-datatable-striped p-datatable-responsive"
+      class="p-datatable-sm p-datatable-responsive"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
       :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
       @page="onPage($event)"
@@ -21,7 +21,9 @@
         :field="column.id"
       >
         <template #body="slotProps">
-          <span :class="getClassComponent(column)">{{ slotProps.data[column.id] }}</span>
+          <span :class="columnTypeClass[column.column_type_id]">
+            {{ slotProps.data[column.id] }}
+          </span>
         </template>
       </p-column>
     </p-datatable>
@@ -81,6 +83,23 @@ export default {
         })
         return currentData
       })
+    },
+    columnTypeClass () {
+      return {
+        [COLUMN_TYPE.BOOLEAN]: 'text',
+        [COLUMN_TYPE.STRING]: 'text',
+        [COLUMN_TYPE.NUMBER]: 'text',
+        [COLUMN_TYPE.FLOAT]: 'text',
+        [COLUMN_TYPE.DATE]: 'text',
+        [COLUMN_TYPE.USER]: 'p-tag',
+        [COLUMN_TYPE.GROUP]: 'p-tag',
+        [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
+        [COLUMN_TYPE.LOOKED_UP_COLUMN]: 'p-tag',
+        [COLUMN_TYPE.SINGLE_SELECT]: 'p-tag',
+        [COLUMN_TYPE.MULTI_SELECT]: 'p-tag',
+        [COLUMN_TYPE.FORMULA]: 'p-tag',
+        [COLUMN_TYPE.FILE]: 'text'
+      }
     }
   },
   methods: {
@@ -96,19 +115,6 @@ export default {
           return column.settings.values[data].label
         default:
           return data
-      }
-    },
-    getClassComponent (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.USER:
-        case COLUMN_TYPE.GROUP:
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
-        case COLUMN_TYPE.SINGLE_SELECT:
-          return 'p-tag p-p-2'
-        default:
-          return 'text'
       }
     },
     onPage (event) {
@@ -130,7 +136,8 @@ export default {
   max-width: unset;
 }
 
-/deep/ .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+/deep/ .p-datatable.p-datatable-sm .p-datatable-thead > tr > th,
+/deep/ .p-datatable-wrapper .p-tag {
   white-space: nowrap;
 }
 /deep/ .p-datatable-wrapper {

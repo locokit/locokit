@@ -1,15 +1,25 @@
 // Datatables
 
-.p-datatable-wrapper {
+.p-editable-column {
+  min-width: 5rem;
+}
+
+.p-datatable-wrapper,
+.p-datatable-scrollable-wrapper {
   .p-datatable-thead {
     > tr > th {
       align-items: center;
       background-color: #ededed;
       color: var(--primary-color-text);
+      font-weight: normal;
     }
   }
 }
-
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-thead > tr > td {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .p-datatable {
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
@@ -21,15 +31,22 @@
       background-color: #ededed;
       color: var(--primary-color-text);
     }
-    .p-datatable-tbody > tr > td {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
+  }
+  .p-datatable-tbody > tr > td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
+    padding: unset !important;
+    overflow: auto;
   }
   .p-sortable-column {
     .p-sortable-column-icon {
       color: var(--primary-color-text);
+      &.pi::before {
+        font-size: 0.8rem !important;
+      }
     }
     &.p-highlight {
       color: var(--primary-color-text);

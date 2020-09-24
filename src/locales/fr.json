@@ -8,6 +8,9 @@
     },
     "paginator": {
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)"
+    },
+    "dropdown": {
+      "placeholder": "Sélectionnez une option"
     }
   },
   "pages": {
@@ -23,7 +26,7 @@
       "workspaces": "Mes espaces de travail",
       "button-logout": "Déconnexion"
     },
-    "workspaces": {
+    "workspace": {
       "title": "Espaces de travail",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
@@ -31,9 +34,10 @@
       "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
       "errorUnknownTypeBlock": "Le type de block n'existe pas."
     },
-    "databases": {
+    "database": {
       "title": "Base de données",
-      "noDatabase": "Aucune base de données existante. Veuillez en créer une."
+      "noDatabase": "Aucune base de données existante. Veuillez en créer une.",
+      "addNewRow": "Ajouter une ligne"
     },
     "databaseSchema": {
       "title": "Schéma de la base de données",
@@ -57,8 +61,5 @@
     "delete": "Supprimer",
     "cancel": "Annuler",
     "submit": "Valider"
-  },
-  "database": {
-    "addNewRow": "Ajouter une ligne"
   }
 }

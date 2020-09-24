@@ -1,267 +1,170 @@
 <template>
-  <div>
-    <p-toolbar class="p-mb-4">
-      <template slot="left">
-        <p-button
-          :label="$t('form.add')"
-          icon="pi pi-plus"
-          class="p-button-success p-mr-2"
-          @click="openNew"
-        />
-        <p-button
-          :label="$t('form.delete')"
-          icon="pi pi-trash"
-          class="p-button-danger"
-          @click="confirmDeleteSelected"
-          :disabled="!selectedRows || !selectedRows.length"
-        />
+  <p-datatable
+    v-if="block.content && block.content.data"
+
+    class="p-datatable-sm p-datatable-gridlines"
+    :value="block.content.data"
+
+    :lazy="true"
+    :loading="block.loading"
+
+    :rows="20"
+    :totalRecords="block.content.total"
+
+    editMode="cell"
+    @cell-edit-complete="onCellEditComplete"
+
+    :resizableColumns="true"
+    columnResizeMode="expand"
+    @column-resize-end="onColumnResize"
+
+    :scrollable="true"
+    scrollHeight="500px"
+    :virtualScroll="true"
+    :virtualRowHeight="34"
+    @virtual-scroll="onVirtualScroll"
+
+    @sort="onSort"
+  >
+    <p-column
+      field="text"
+      sortable
+      headerStyle="width: 150px"
+    >
+      <template #header>
+        <span data-column-id="text">Référence</span>
+      </template>
+      <template #loading>
+        <div class="loading-text">Loading</div>
       </template>
 
-      <template slot="right">
-        <p-file-upload
-          mode="basic"
-          label="Import"
-          chooseLabel="Import"
-          class="p-mr-2"
-          disabled
-        />
-        <p-button
-          label="Export"
-          icon="pi pi-upload"
-          class="p-button-help"
-          @click="exportCSV($event)"
-          disabled
-        />
-      </template>
-    </p-toolbar>
-
-    <div v-if="block.definition">
-      <p-datatable
-        :value="dataToDisplay"
-        removableSort
-        :paginator="true"
-        :lazy="true"
-        :loading="block.loading"
-        :rows="dataTable.limit"
-        :totalRecords="dataTable.total"
-        class="p-datatable-sm"
-        @page="onPage($event)"
-        :selection.sync="selectedRows"
-        editMode="cell"
-        @cell-edit-complete="onCellEditComplete"
-        :resizableColumns="true"
-        columnResizeMode="fit"
+      <template
+        #body="slotProps"
       >
-        <p-column selectionMode="multiple" headerStyle="width: 3rem"></p-column>
-        <p-column
-          v-for="(column, index) in block.definition.columns"
-          :key="column.id"
-          :field="column.id"
-          :header="column.text"
-          sortable
-          :frozen="index === 0"
-        >
-          <template #editor="slotProps">
-            <p-dropdown
-              v-if="column.column_type_id === 9"
-              :options="statuses"
-              optionLabel="label"
-              optionValue="value"
-              :filter="true"
-              :showClear="true"
-              placeholder="Select an option"
-              @change="onDropdownEdit"
-            >
-              <template #value="slotProps">
-                <div class="country-item country-item-value" v-if="slotProps.value">
-                  {{slotProps.value.label}}
-                </div>
-                <span v-else>
-                  {{slotProps.placeholder}}
-                </span>
-              </template>
-              <template #option="slotProps">
-                <span
-                >
-                  {{ slotProps.option.label }}
-                </span>
-              </template>
-            </p-dropdown>
-            <p-input-text
-              v-else
-              v-model="slotProps.data[column.id]"
-              :value="slotProps.data[column.id]"
-              @input="onCellEdit($event, slotProps)"
-            />
-          </template>
-          <template
-            v-if="column.column_type_id === 9"
-            #body="slotProps"
-          >
-            {{ slotProps.data[column.id] }}
-          </template>
-        </p-column>
-      </p-datatable>
-    </div>
-
-    <p-dialog
-      :visible.sync="addRowDialog"
-      :style="{width: '450px'}"
-      :header="$t('database.addNewRow')"
-      :modal="true"
-      class="p-fluid"
-    >
-      <div v-if="block.definition">
-        <div
-          class="p-field"
-          v-for="column in block.definition.columns"
-          :key="column.id"
-        >
-          <label :for="column.id">{{ column.text }}</label>
-          <p-input-text
-            :id="column.id"
-            v-model="newRow[column.id]"
-          />
-        </div>
-      </div>
-
-      <template #footer>
-        <p-button
-          :label="$t('form.cancel')"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-        <p-button
-          :label="$t('form.submit')"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="saveRow"
+        {{ slotProps.data.text }}
+      </template>
+      <template #editor>
+        <p-inputtext
+          :value="slotProps.data.text"
+          @input="onCellEdit($event, slotProps)"
         />
       </template>
-    </p-dialog>
-
-    <p-dialog
-      :visible.sync="deleteRowsDialog"
-      :style="{width: '450px'}"
-      header="Confirm"
-      :modal="true"
+    </p-column>
+    <p-column
+      v-for="column in block.definition.columns"
+      :key="column.id"
+      :field="column.id"
+      :headerStyle="{
+        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px'
+      }"
+      sortable
     >
-      <div class="confirmation-content">
-        <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
-        <span v-if="selectedRows">Are you sure you want to delete the selected products?</span>
-      </div>
-      <template #footer>
-        <p-button
-          label="No"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="deleteRowsDialog = false"
+      <template #header>
+        <span :data-column-id="column.id">
+          {{ column.text }}
+        </span>
+      </template>
+      <template #loading>
+        <div class="loading-text">Loading</div>
+      </template>
+      <template #editor="slotProps">
+        <span v-if="!isEditableColumn(column)">
+          {{ getValue(column, slotProps.data.data[column.id]) }}
+        </span>
+          <!-- :value="slotProps.data.data[column.id] && slotProps.data.data[column.id].value" -->
+        <p-autocomplete
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+          :dropdown="true"
+          :placeholder="$t('components.dropdown.placeholder')"
+          field="label"
+          v-model="autocompleteInput"
+          @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
+          :suggestions="autocompleteItems"
+          @complete="searchItems(column, $event)"
+          @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
         />
-        <p-button
-          label="Yes"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="deleteSelectedRows"
+        <p-dropdown
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+          :options="dropdownOptions[column.id]"
+          optionLabel="label"
+          optionValue="value"
+          :value="slotProps.data.data[column.id]"
+          :showClear="true"
+          :placeholder="$t('components.dropdown.placeholder')"
+          @change="onDropdownEdit(slotProps.index, column.id, $event)"
+        />
+        <component
+          v-else
+          :is="getComponentEditableColumn(column.column_type_id)"
+          v-model="slotProps.data.data[column.id]"
+          :value="slotProps.data.data[column.id]"
+          @input="onCellEdit($event, slotProps)"
         />
       </template>
-    </p-dialog>
+      <template
+        #body="slotProps"
+      >
+        {{
+          getValue(column, slotProps.data.data[column.id])
+        }}
+      </template>
+    </p-column>
 
-  </div>
+  </p-datatable>
+
 </template>
 
 <script>
 import Vue from 'vue'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
-import RadioButton from 'primevue/radiobutton'
-import Textarea from 'primevue/textarea'
+import AutoComplete from 'primevue/autocomplete'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import InputNumber from 'primevue/inputnumber'
 import DataTable from 'primevue/datatable'
+import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
-import Toolbar from 'primevue/toolbar'
-import FileUpload from 'primevue/fileupload'
+import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { saveTableData, deleteTableData, patchTableData } from '@/store/database'
+import { patchTableData } from '@/store/database'
+import lckClient from '@/services/lck-api'
 
 export default {
-  name: 'CrudTable',
+  name: 'LCKRowDatatable',
   components: {
-    'p-button': Vue.extend(Button),
-    'p-dialog': Vue.extend(Dialog),
+    'p-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
-    // 'p-input-number': Vue.extend(InputNumber),
+    'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
-    // 'p-radio-button': Vue.extend(RadioButton),
-    // 'p-textarea': Vue.extend(Textarea),
+    'p-input-switch': Vue.extend(InputSwitch),
     'p-datatable': Vue.extend(DataTable),
-    'p-column': Vue.extend(Column),
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-file-upload': Vue.extend(FileUpload)
+    'p-calendar': Vue.extend(Calendar),
+    'p-column': Vue.extend(Column)
   },
   props: {
     block: {
+      type: Object,
+      required: true
+    },
+    dropdownOptions: {
       type: Object,
       required: true
     }
   },
   data () {
     return {
-      statuses: [
-        { label: 'In Stock', value: 3 },
-        { label: 'Low Stock', value: 2 },
-        { label: 'Out of Stock', value: 1 }
-      ],
-      selectedRows: null,
-      addRowDialog: false,
       editingCellRows: [],
-      deleteRowsDialog: false,
-      submitted: false,
-      newRow: {}
-    }
-  },
-  computed: {
-    dataTable () {
-      if (!this.block.content) return {}
-      return { ...this.block.content }
-    },
-    /**
-     * the data to display help DataTable prime component to display the value
-     * and sort them by alphabetic order
-     * BUT that's not working for Date or other stuff that are not "alphabetical"
-     * TODO: make this computed property and the DataTable component able to sort Dates
-     * cf https://gitlab.makina-corpus.net/lck/lck-front/-/merge_requests/24#note_214704
-     * and https://github.com/primefaces/primevue/issues/412
-     */
-    dataToDisplay () {
-      if (!this.block.content) return []
-      return this.block.content.data.map(d => {
-        const currentData = {}
-        this.block.definition.columns.forEach(currentColumn => {
-          let currentValueForDisplay = d.data[currentColumn.id] || ''
-          if (currentValueForDisplay === '') return
-          switch (currentColumn.column_type_id) {
-            case COLUMN_TYPE.USER:
-            case COLUMN_TYPE.GROUP:
-            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            case COLUMN_TYPE.LOOKED_UP_COLUMN:
-            case COLUMN_TYPE.FORMULA:
-              currentValueForDisplay = d.data[currentColumn.id]?.value
-              break
-            case COLUMN_TYPE.SINGLE_SELECT:
-              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]]?.label
-          }
-          currentData[currentColumn.id] = currentValueForDisplay
-        })
-        return currentData
-      })
+      autocompleteItems: null,
+      autocompleteValue: '',
+      autocompleteInput: ''
     }
   },
   methods: {
-    getValue (column, data) {
+    getValue (column, data = '') {
+      if (
+        data === '' ||
+        data === null
+      ) return ''
       switch (column.column_type_id) {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
@@ -270,70 +173,131 @@ export default {
         case COLUMN_TYPE.FORMULA:
           return data.value
         case COLUMN_TYPE.SINGLE_SELECT:
-          return column.settings.values[data].label
+          return column.settings.values[data]?.label
+        case COLUMN_TYPE.DATE:
+          return data ? data.substring(0, 10) : ''
         default:
           return data
       }
     },
-    getClassComponent (column) {
-      switch (column.column_type_id) {
+    getComponentEditableColumn (columnTypeId) {
+      switch (columnTypeId) {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
+          return 'p-autocomplete'
+        case COLUMN_TYPE.BOOLEAN:
+          return 'p-input-switch'
+        case COLUMN_TYPE.NUMBER:
+        case COLUMN_TYPE.FLOAT:
+          return 'p-input-number'
+        case COLUMN_TYPE.MULTI_SELECT:
         case COLUMN_TYPE.SINGLE_SELECT:
-          return 'p-tag p-p-2'
+          return 'p-dropdown'
+        case COLUMN_TYPE.DATE:
+          return 'p-calendar'
         default:
-          return 'text'
+          return 'p-input-text'
       }
     },
-    onPage (event) {
-      this.$emit('updateContentBlockTableView', {
-        blockId: this.block.id,
-        blockType: this.block.type,
-        blockDefinitionId: this.block.definition.id,
-        pageIndexToGo: event.page
+    isEditableColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        case COLUMN_TYPE.FORMULA:
+          return false
+        default:
+          return true
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    async searchItems ({ column_type_id, settings }, { query }) {
+      this.$emit('update-suggestions', column_type_id, settings, this.autocompleteInput)
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      if (column_type_id === COLUMN_TYPE.USER) {
+        const result = await lckClient.service('user').find({
+          query: {
+            blocked: false,
+            $or: {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              first_name: {
+                $ilike: `%${this.autocompleteInput}%`
+              },
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              last_name: {
+                $ilike: `%${this.autocompleteInput}%`
+              }
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.first_name + ' ' + d.last_name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (column_type_id === COLUMN_TYPE.GROUP) {
+        const result = await lckClient.service('group').find({
+          query: {
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+        const result = await lckClient.service('row').find({
+          query: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: settings.tableId,
+            text: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        this.autocompleteItems = result.data.map(d => ({
+          label: d.text,
+          value: d.id
+        }))
+      }
+    },
+    logInput (event) {
+      console.log(event)
+    },
+    onColumnResize (header) {
+      console.log(header.delta, header.element, header.element.querySelector('[data-column-id]').attributes['data-column-id'].value)
+      this.$emit(
+        'column-resize',
+        header.element.offsetWidth,
+        header.element.querySelector('[data-column-id]').attributes['data-column-id'].value
+      )
+    },
+    async onDropdownEdit (rowIndex, columnId, event) {
+      const currentRow = this.block.content.data[rowIndex]
+      this.$emit('update-cell', currentRow.id, columnId, event.value)
+      const res = await patchTableData(currentRow.id, {
+        data: { [columnId]: event.value }
       })
+      currentRow.data = res.data
     },
-    openNew () {
-      console.log('openNew')
-      this.addRowDialog = true
-    },
-    hideDialog () {
-      console.log('hideDialog')
-      this.addRowDialog = false
-    },
-    async saveRow () {
-      console.log('saveRow')
-      this.submitted = true
-      const res = await saveTableData({
-        text: 'Nouvelle demande',
-        data: this.newRow, // eslint-disable-next-line @typescript-eslint/camelcase
-        table_id: this.block.definition.columns[0].table_id
+    async onAutocompleteEdit (rowIndex, columnId, event) {
+      const currentRow = this.block.content.data[rowIndex]
+      this.$emit('update-cell', currentRow.id, columnId, event.value.value)
+      const res = await patchTableData(currentRow.id, {
+        data: { [columnId]: event.value.value }
       })
-      this.sendNotification(res)
-      this.addRowDialog = false
-    },
-    async deleteSelectedRows () {
-      console.log('deleteProduct', this.selectedRows)
-      // Todo: Need access to id  + Manage multi delete
-      // const res = await deleteTableData(this.selectedRows)
-      const res = { code: 400, name: 'My bad' }
-      this.sendNotification(res)
-    },
-    confirmDeleteSelected () {
-      console.log('confirmDeleteSelected')
-      this.deleteRowsDialog = true
+      this.autocompleteInput = event.value.label
+      currentRow.data = res.data
     },
     async onCellEditComplete (event) {
       if (!this.editingCellRows[event.index]) {
         return
       }
-      const res = await patchTableData(this.block.content.data[event.index].id, {
+      await patchTableData(this.block.content.data[event.index].id, {
         data: { [event.field]: this.editingCellRows[event.index][event.field] }
       })
-      this.sendNotification(res)
     },
     onCellEdit (newValue, props) {
       if (!this.editingCellRows[props.index]) {
@@ -342,50 +306,32 @@ export default {
       }
       this.editingCellRows[props.index][props.column.field] = newValue
     },
-    async onDropdownEdit (event) {
-      console.log('onDropdownEdit', event, event.originalEvent.target)
-      // Todo get idRow and IdColumn
-
-      // const res = await patchTableData(this.block.content.data[event.index].id, {
-      //   data: { [IdColumn]: event.value }
-      // })
-      // this.sendNotification(res)
+    onVirtualScroll (event) {
+      this.$emit('updateContentBlockTableView', event)
     },
-    exportCSV () {
-      console.log('exportCSV')
-    },
-    sendNotification (response) {
-      if (response && response.code) {
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Failure',
-          detail: 'Demande en echec',
-          life: 3000
-        })
-      } else {
-        this.$toast.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Demande créee',
-          life: 3000
-        })
-      }
+    onSort (event) {
+      this.$emit(
+        'sort',
+        {
+          field: event.sortField,
+          order: event.sortOrder
+        }
+      )
     }
   }
 }
 </script>
 
 <style scoped>
-/deep/ .p-datatable table {
-  width: unset;
-  min-width: 100%;
-  max-width: unset;
+/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
+/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
+  padding: unset !important;
 }
-
-/deep/ .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
-  white-space: nowrap;
+/deep/.p-editable-column.p-cell-editing .p-dropdown {
+  border: unset;
+  border-radius: 0;
 }
-/deep/ .p-datatable-wrapper {
-  overflow: auto;
+.loading-text {
+  height: 24px;
 }
 </style>
