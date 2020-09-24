@@ -7,6 +7,5 @@ describe('\'user\' service', () => {
   });
   it('forbid access to users if not authenticated', async () => {
     const response = await app.service('user').find()
-    console.dir(response)
   })
 });
