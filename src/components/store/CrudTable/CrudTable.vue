@@ -44,7 +44,8 @@
       >
         {{ slotProps.data.text }}
       </template>
-      <template #editor>
+
+      <template #editor="slotProps">
         <p-inputtext
           :value="slotProps.data.text"
           @input="onCellEdit($event, slotProps)"
