@@ -122,7 +122,7 @@ app.get('/debug-sentry', function mainHandler(req, res) {
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
-// app.use(express.errorHandler({ logger } as any));
+app.use(express.errorHandler({ logger } as any));
 app.use(Sentry.Handlers.errorHandler({
   shouldHandleError: error => error.status as number >= 400
 }));
