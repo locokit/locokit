@@ -11,7 +11,7 @@
           v-for="user in users"
           :key="user.id"
         >
-          {{ user.first_name }} {{ user.last_name}} - {{ user.email}} - <strong>{{ user.profile }}</strong>
+          {{ user.name }} - {{ user.email}} - <strong>{{ user.profile }}</strong>
         </li>
       </ul>
     </div>

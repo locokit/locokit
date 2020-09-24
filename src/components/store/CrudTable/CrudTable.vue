@@ -227,20 +227,13 @@ export default {
         const result = await lckClient.service('user').find({
           query: {
             blocked: false,
-            $or: {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              first_name: {
-                $ilike: `%${this.autocompleteInput}%`
-              },
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              last_name: {
-                $ilike: `%${this.autocompleteInput}%`
-              }
+            name: {
+              $ilike: `%${this.autocompleteInput}%`
             }
           }
         })
         this.autocompleteItems = result.data.map(d => ({
-          label: d.first_name + ' ' + d.last_name,
+          label: d.name,
           value: d.id
         }))
       // eslint-disable-next-line @typescript-eslint/camelcase
