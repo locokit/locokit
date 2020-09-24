@@ -10,6 +10,7 @@ export async function up(knex: Knex): Promise<any> {
       table.string('email', 255).unique().notNullable();
       table.timestamp('createdAt').defaultTo('now()');
       table.timestamp('updatedAt').defaultTo('now()');
+      table.boolean('blocked').defaultTo(false);
       table.enum('profile', ['ADMIN', 'SUPERADMIN', 'USER']).defaultTo('USER').notNullable();
     })
 

@@ -81,6 +81,17 @@ export async function up(knex: Knex): Promise<any> {
     table.foreign('database_id', 'FK_table_database_id').references('id').inTable('database')
   })
 
+  .createTable('table_relation', table => {
+    table.timestamp('createdAt').defaultTo('now()');
+    table.timestamp('updatedAt').defaultTo('now()');
+    table.jsonb('settings')
+    table.uuid('table_from_id').unsigned()
+    table.foreign('table_from_id', 'FK_tr_table_from_id').references('id').inTable('table')
+    table.uuid('table_to_id').unsigned()
+    table.foreign('table_to_id', 'FK_tr_table_to_id').references('id').inTable('table')
+    table.primary(['table_from_id', 'table_to_id'])
+  })
+
   .createTable('column_type', table => {
     table.increments('id').primary();
     table.string('text');
@@ -100,6 +111,17 @@ export async function up(knex: Knex): Promise<any> {
     table.foreign('column_type_id', 'FK_tc_column_type_id').references('id').inTable('column_type')
   })
 
+  .createTable('table_column_relation', table => {
+    table.timestamp('createdAt').defaultTo('now()');
+    table.timestamp('updatedAt').defaultTo('now()');
+    table.jsonb('settings')
+    table.uuid('table_column_from_id').unsigned()
+    table.foreign('table_column_from_id', 'FK_tcd_table_column_from_id').references('id').inTable('table_column')
+    table.uuid('table_column_to_id').unsigned()
+    table.foreign('table_column_to_id', 'FK_tcd_table_column_to_id').references('id').inTable('table_column')
+    table.primary(['table_column_from_id', 'table_column_to_id'])
+  })
+
   .createTable('table_row', table => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('text');
@@ -108,6 +130,18 @@ export async function up(knex: Knex): Promise<any> {
     table.jsonb('data')
     table.uuid('table_id').unsigned()
     table.foreign('table_id', 'FK_tr_table_id').references('id').inTable('table')
+  })
+
+  .createTable('table_row_relation', table => {
+    table.timestamp('createdAt').defaultTo('now()');
+    table.timestamp('updatedAt').defaultTo('now()');
+    table.uuid('table_row_from_id').unsigned()
+    table.foreign('table_row_from_id', 'FK_trr_table_row_from_id').references('id').inTable('table_row')
+    table.uuid('table_row_to_id').unsigned()
+    table.foreign('table_row_to_id', 'FK_trr_table_row_to_id').references('id').inTable('table_row')
+    table.uuid('table_column_to_id').unsigned()
+    table.foreign('table_column_to_id', 'FK_trr_table_column_to_id').references('id').inTable('table_column')
+    table.primary(['table_row_to_id', 'table_column_to_id'])
   })
 
   .createTable('table_view', table => {
@@ -129,23 +163,17 @@ export async function up(knex: Knex): Promise<any> {
     table.enum('order', ['ASC', 'DESC'])
     table.jsonb('filter')
     table.boolean('visible')
-  })
-
-  .createTable('table_column_relation', table => {
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
-    table.jsonb('settings')
-    table.uuid('column_from_id').unsigned()
-    table.foreign('column_from_id', 'FK_tcd_column_from_id').references('id').inTable('table_column')
-    table.uuid('column_to_id').unsigned()
-    table.foreign('column_to_id', 'FK_tcd_column_to_id').references('id').inTable('table_column')
-    table.primary(['column_from_id', 'column_to_id'])
   })
+
 }
 
 export async function down(knex: Knex): Promise<any> {
   return knex.schema
+      .dropTableIfExists("table_row_relation")
       .dropTableIfExists("table_column_relation")
+      .dropTableIfExists("table_relation")
       .dropTableIfExists("table_view_has_table_column")
       .dropTableIfExists("table_view")
       .dropTableIfExists("table_row")
