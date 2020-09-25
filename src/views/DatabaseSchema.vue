@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-    <Toolbar class="p-d-flex p-flex-wrap">
+    <p-toolbar class="p-d-flex p-flex-wrap">
       <template slot="left">
           {{ $t('pages.databaseSchema.title') }}
       </template>
 
       <template slot="right">
-        <Button
+        <p-button
           label="Table"
           icon="pi pi-plus"
           @click="onClickCreateTableDialogButton"
         />
       </template>
-    </Toolbar>
+    </p-toolbar>
     <div
       v-if="!errorLoadTables"
       id="svg-container"
@@ -21,36 +21,37 @@
     >
     </div>
     <div v-else>Erreur</div>
-    <Dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
+    <p-dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
       <div class="p-field p-mt-4 p-float-label">
-          <InputText id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
+          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
           <label for="table-name">Nom de la table</label>
       </div>
       <div v-if="errorTableNameToCreate" class="p-invalid">
         <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
       </div>
       <template #footer>
-        <Button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <Button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
+        <p-button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
+        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
       </template>
-    </Dialog>
-    <Dialog @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
+    </p-dialog>
+    <p-dialog @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
       <div class="p-field p-mt-4 p-float-label">
-          <InputText id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" autofocus />
+          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" autofocus />
           <label for="table-name">Nom de la table</label>
       </div>
       <div v-if="errorTableNameToUpdate" class="p-invalid">
         <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
       </div>
       <template #footer>
-        <Button @click="closeUpdateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <Button @click="confirmUpdateTableDialog" label="Modifier" icon="pi pi-check" class="p-button-text" autofocus />
+        <p-button @click="closeUpdateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
+        <p-button @click="confirmUpdateTableDialog" label="Modifier" icon="pi pi-check" class="p-button-text" autofocus />
       </template>
-    </Dialog>
+    </p-dialog>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import lckClient from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -62,10 +63,10 @@ import InputText from 'primevue/inputtext'
 export default {
   name: 'DatabaseSchema',
   components: {
-    Toolbar,
-    Button,
-    Dialog,
-    InputText
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-button': Vue.extend(Button),
+    'p-dialog': Vue.extend(Dialog),
+    'p-input-text': Vue.extend(InputText)
   },
   props: {
     databaseId: null
@@ -117,8 +118,7 @@ export default {
         if (createTableResponse) {
           this.errorTableNameToCreate = false
           this.showCreateTableDialog = false
-          this.loadTables()
-          this.resizenomnomlSVG()
+          this.reloadTables()
         }
       } catch (errorCreateTable) {
         this.errorTableNameToCreate = errorCreateTable.message
@@ -141,7 +141,6 @@ export default {
       this.errorTableNameToUpdate = null
     },
     async confirmUpdateTableDialog () {
-      this.showUpdateTableDialog = false
       try {
         const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
           text: this.tableNameToUpdate
@@ -149,8 +148,7 @@ export default {
         if (updateTableResponse) {
           this.errorTableNameToUpdate = false
           this.showUpdateTableDialog = false
-          this.loadTables()
-          this.resizenomnomlSVG()
+          this.reloadTables()
         }
       } catch (errorUpdateTable) {
         this.errorTableNameToUpdate = errorUpdateTable.message
@@ -170,7 +168,7 @@ export default {
       tables.forEach(table => {
         if (table && table.id && table.text) {
           const columns = []
-          if (table.columns) {
+          if (table.columns && Array.isArray(table.columns)) {
             table.columns.forEach(column => {
               if (column) {
                 const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
@@ -214,6 +212,10 @@ export default {
       this.SVGPanZoom.fit()
       this.SVGPanZoom.center()
     }
+  },
+  reloadTables () {
+    this.loadTables()
+    this.resizenomnomlSVG()
   },
   async mounted () {
     this.loadTables()
