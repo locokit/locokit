@@ -89,6 +89,9 @@
           :style="{width: '450px'}"
           :header="$t('pages.database.addNewRow')"
           :modal="true"
+          :contentStyle="{overflow: 'visible'}"
+          :closeOnEscape="true"
+          :dismissableMask="true"
           class="p-fluid"
         >
           <div
