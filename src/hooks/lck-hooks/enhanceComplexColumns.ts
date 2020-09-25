@@ -40,7 +40,7 @@ export function enhanceComplexColumns (): Hook {
             break
           case COLUMN_TYPE.USER:
             const matchingUser: user = await context.app.services.user.get(reference)
-            value = matchingUser.first_name + ' ' + matchingUser.last_name
+            value = matchingUser.name
             context.data.data[currentColumnId] = {
               reference,
               value
