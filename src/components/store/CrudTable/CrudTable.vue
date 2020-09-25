@@ -1,14 +1,22 @@
 <template>
+<!--
+    :scrollable="true"
+    scrollHeight="500px"
+    :virtualScroll="true"
+    :virtualRowHeight="38"
+    @virtual-scroll="onVirtualScroll"
+ -->
   <p-datatable
-    v-if="block.content && block.content.data"
-
-    class="p-datatable-sm p-datatable-gridlines"
+    class="
+      p-datatable-sm
+      p-datatable-gridlines
+    "
     :value="block.content.data"
 
     :lazy="true"
     :loading="block.loading"
 
-    :rows="20"
+    :rows="10"
     :totalRecords="block.content.total"
 
     editMode="cell"
@@ -18,11 +26,10 @@
     columnResizeMode="expand"
     @column-resize-end="onColumnResize"
 
-    :scrollable="true"
-    scrollHeight="500px"
-    :virtualScroll="true"
-    :virtualRowHeight="34"
-    @virtual-scroll="onVirtualScroll"
+    :paginator="true"
+    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+    :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
+    @page="onPage($event)"
 
     @sort="onSort"
   >
@@ -48,9 +55,8 @@
       <template
         #editor="slotProps"
       >
-        <input type="text" :value="slotProps.data.text" />
-        <p-inputtext
-          :value="slotProps.data.text"
+        <p-input-text
+          v-model="slotProps.data.text"
         />
       </template>
 
@@ -306,12 +312,16 @@ export default {
       currentRow.data = res.data
     },
     async onCellEditComplete (event) {
-      if (!this.editingCellRows[event.index]) {
+      if (event.field !== 'text' && !this.editingCellRows[event.index]) {
         return
       }
-      await patchTableData(this.block.content.data[event.index].id, {
-        data: { [event.field]: this.editingCellRows[event.index][event.field] }
-      })
+      const data = {}
+      if (event.field === 'text') {
+        data.text = event.data.text
+      } else {
+        data.data = { [event.field]: this.editingCellRows[event.index][event.field] }
+      }
+      await patchTableData(this.block.content.data[event.index].id, data)
     },
     onCellEdit (newValue, props) {
       if (!this.editingCellRows[props.index]) {
@@ -346,6 +356,6 @@ export default {
   border-radius: 0;
 }
 .loading-text {
-  height: 24px;
+  height: 19px;
 }
 </style>

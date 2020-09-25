@@ -237,7 +237,10 @@ export default {
       databaseState,
       block: {
         loading: false,
-        content: null
+        content: {
+          total: 0,
+          data: null
+        }
       },
       views: [],
       selectedView: 'complete',
@@ -371,19 +374,16 @@ export default {
     },
     async loadTable () {
       this.block.loading = true
-      const promises = await Promise.all([
-        retrieveTableColumns(this.currentTableId),
-        retrieveTableViews(this.currentTableId),
-        this.loadCurrentTableData(this.currentDatatableRows * 2)
-      ])
-      this.views = promises[1]
-      this.block = {
-        ...this.block,
-        definition: {
-          columns: promises[0]
-        }
+      this.block.content = {
+        total: 0,
+        data: null
       }
+      this.block.definition = {
+        columns: await retrieveTableColumns(this.currentTableId)
+      }
+      this.views = await retrieveTableViews(this.currentTableId)
       this.block.loading = false
+      this.loadCurrentTableData(this.currentDatatableRows * 2)
     },
     async loadCurrentTableData (overwriteDatatableRows) {
       this.block.loading = true
