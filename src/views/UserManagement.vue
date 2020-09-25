@@ -54,7 +54,7 @@
             </p-dropdown>
           </template>
           <template #body="slotProps">
-            {{getProfileLabel(slotProps.data.profile)}}
+             {{ slotProps.data['profile'] }}
           </template>
         </p-column>
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
@@ -185,6 +185,7 @@ import Dialog from 'primevue/dialog'
 import Password from 'primevue/password'
 import Vue from 'vue'
 import { retrieveUsersData, createUser, updateUser } from '@/store/userManagement'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 export default {
   name: 'UserManagement',
@@ -198,7 +199,7 @@ export default {
     'p-dialog': Vue.extend(Dialog),
     'p-password': Vue.extend(Password)
   },
-  data () {
+  data: function () {
     return {
       loading: false,
       editingRows: [],
@@ -210,7 +211,7 @@ export default {
       editUserDialog: false,
       submitting: false,
       submitted: false,
-      profiles: [{ label: 'User', value: 'USER' }, { label: 'Admin', value: 'ADMIN' }, { label: 'SuperAdmin', value: 'SUPERADMIN' }]
+      profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key }))
     }
   },
   methods: {
@@ -245,21 +246,6 @@ export default {
     inactiveUser (user) {
       this.user = { ...user }
       alert(this.user.id)
-    },
-    getProfileLabel (profile) {
-      switch (profile) {
-        case 'USER':
-          return 'User'
-
-        case 'ADMIN':
-          return 'Admin'
-
-        case 'SUPERADMIN':
-          return 'SuperAdmin'
-
-        default:
-          return 'NA'
-      }
     },
     async onPage (event) {
       const res = await retrieveUsersData(event.page)
