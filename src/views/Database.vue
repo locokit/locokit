@@ -356,6 +356,10 @@ export default {
       }
     },
     async updateContentBlock (tableId, { first, rows }) {
+      if (
+        this.currentDatatableFirst === first &&
+        this.currentDatatableRows === rows
+      ) return
       this.currentDatatableFirst = first
       this.currentDatatableRows = rows
       this.loadCurrentTableData()
