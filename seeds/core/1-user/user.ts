@@ -7,8 +7,7 @@ export async function seed(knex: Knex): Promise<any> {
   await knex("user").insert([
     {
       id: 1,
-      first_name: "SUPER",
-      last_name: "ADMIN",
+      name: "SUPER ADMIN",
       email: "superadmin@makina-corpus.net",
       password: hashPassword,
       profile: USER_PROFILE.SUPERADMIN

@@ -8,8 +8,7 @@ export class user extends Model {
   createdAt!: string;
   updatedAt!: string;
   email!: string;
-  first_name: string = '';
-  last_name: string = '';
+  name: string = '';
   password!: string;
   profile: string = 'USER';
   blocked!: boolean;
@@ -32,8 +31,7 @@ export class user extends Model {
 
         email: { type: ['string', 'null'] },
         password: { type: 'string' },
-        first_name: { type: 'string' },
-        last_name: { type: 'string' },
+        name: { type: 'string' },
         profile: { type: 'string' },
         blocked: { type: 'boolean' },
 
