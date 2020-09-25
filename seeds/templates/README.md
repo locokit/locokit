@@ -1,6 +1,7 @@
 This directory contains all your templates.
 
-Do not create any directory here,
+Do not create any directory here by hoping commit them in lck-api project,
 this directory is not tracked by git.
 
-Prefer use symbolic links to write your templates and test them.
+You can still clone templates or create them here,
+but you'll need to create other git repositories.
