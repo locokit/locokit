@@ -97,7 +97,7 @@
   },
   "sw": {
     "newVersion": "Nouvelle version disponible",
-    "message": "Souhaitez-vous mettre à jour l'application ?",
+    "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre application.",
     "update": "Mettre à jour",
     "cancel": "Annuler"
   }

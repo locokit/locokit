@@ -55,8 +55,8 @@ export default Vue.extend({
     })
   },
   methods: {
-    updateAvailable (event) {
-      this.registration = event.detail
+    updateAvailable ({ detail }) {
+      this.registration = detail
       this.updateExists = true
     },
     reload () {

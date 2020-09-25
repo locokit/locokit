@@ -97,7 +97,7 @@
   },
   "sw": {
     "newVersion": "New version available",
-    "message": "Would you like to update the app?",
+    "message": "A new version of the platform is available. To enjoy it, you must reload your app.",
     "update": "Update",
     "cancel": "Dismiss"
   }
