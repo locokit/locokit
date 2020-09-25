@@ -52,8 +52,16 @@
       "selectProfile": "Choose a profile",
       "userDetails": "User Details",
       "createUserDetails": "Create User",
-      "isRequired": "The field is required"
+      "isRequired": "The field is required",
+      "editUser": "Edit User",
+      "disableUser": "Disable User"
     }
+  },
+  "dialog": {
+    "close": "Close this window"
+  },
+  "success": {
+    "basic": "You did well, Young Padawan"
   },
   "error": {
     "basic": "An error has occurred."
@@ -61,6 +69,13 @@
   "http": {
     "401": "Access not granted",
     "403": "Access forbidden",
-    "500": "An error occured..."
+    "500": "An error occured…"
+  },
+  "form" : {
+    "save": "Save",
+    "submit": "Submit",
+    "update": "Update",
+    "cancel": "Cancel",
+    "submitting": "Please wait…"
   }
 }

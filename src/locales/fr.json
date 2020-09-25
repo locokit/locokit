@@ -52,8 +52,16 @@
       "selectProfile": "Sélectionnez un profil",
       "userDetails": "Compte utilisateur",
       "createUserDetails": "Créer un utilisateur",
-      "isRequired": "Ce champ est requis"
+      "isRequired": "Ce champ est requis",
+      "editUser": "Modifier l'utilisateur",
+      "disableUser": "Désactiver l'utilisateur"
     }
+  },
+  "dialog": {
+    "close": "Fermez cette fenêtre"
+  },
+  "success": {
+    "basic": "Hmmmmm, Jeune padawan"
   },
   "error": {
     "basic": "Une erreur est survenue."
@@ -62,5 +70,12 @@
     "401": "Accès non authentifié",
     "403": "Accès interdit",
     "500": "Une erreur a eu lieu..."
+  },
+  "form" : {
+    "save": "Enregistrer",
+    "submit": "Envoyer",
+    "update": "Mettre à jour",
+    "cancel": "Annuler",
+    "submitting": "En cours…"
   }
 }

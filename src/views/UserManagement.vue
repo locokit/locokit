@@ -47,7 +47,7 @@
         </p-column>
         <p-column field="profile" headerClass="p-col-1"  :header="$t('pages.userManagement.profile')" sortable>
           <template #editor="slotProps">
-            <p-dropdown v-model="slotProps.data['profile']" :options="profiles" optionLabel="label" optionValue="value" placeholder="Select a profile">
+            <p-dropdown v-model="slotProps.data['profile']" :options="profiles" optionLabel="label" optionValue="value" placeholder="$t('page.userManagement.selectProfile">
               <template #option="slotProps">
                 <span>{{slotProps.option.label}}</span>
               </template>
@@ -59,8 +59,8 @@
         </p-column>
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
           <template #body="slotProps">
-            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="editUser(slotProps.data)" title="Edit User"/>
-            <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" title="Disabling User" />
+            <p-button icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-mr-2" @click="editUser(slotProps.data)" :title="$t('pages.userManagement.editUser')"/>
+            <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" :title="$t('pages.userManagement.disableUser')" />
           </template>
         </p-column>
       </p-datatable>
@@ -83,7 +83,7 @@
         <h3>{{ $t('pages.userManagement.userDetails') }}</h3>
       </template>
       <template v-if="submitted">
-        <h4>{{ $t('pages.userManagement.successMessage') }}</h4>
+        <p align="center">{{ $t('success.basic') }}</p>
       </template>
       <template v-else>
         <div class="p-field">
@@ -138,26 +138,26 @@
       </template>
 
       <template #footer v-if="submitted">
-        <p-button label="Close this window" icon="pi pi-check-circle" class="p-button-text" @click="hideDialog"/>
+        <p-button :label="$t('dialog.close')" icon="pi pi-check-circle" class="p-button-text" @click="hideDialog"/>
 
       </template>
       <template #footer v-else>
         <p-button
-          label="Cancel"
+          :label="$t('form.cancel')"
           icon="pi pi-times"
           class="p-button-text"
           @click="hideDialog"
         />
         <p-button
           v-if="createUserDialog"
-          label="Save"
+          :label="$t('form.save')"
           icon="pi pi-check"
           class="p-button-text"
           @click="saveUser"
         />
         <p-button
           v-if="editUserDialog"
-          label="Update"
+          :label="$t('form.update')"
           icon="pi pi-check"
           class="p-button-text"
           @click="update"
@@ -165,7 +165,7 @@
         <p-button
           disabled
           v-if="submitting"
-          label="Please wait"
+          :label="$t('form.submitting')"
           icon="pi pi-spin pi-spinner"
           class="p-button-text"
         />
