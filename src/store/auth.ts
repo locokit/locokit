@@ -3,8 +3,7 @@ import { BaseState } from './state'
 
 class User {
   email = ''
-  first_name = ''
-  last_name = ''
+  name = ''
   profile = ''
   id = ''
 }
@@ -24,14 +23,6 @@ class AuthDTO {
   email = ''
   password = ''
 }
-
-// class UserDTO {
-//   email = ''
-//   first_name = ''
-//   last_name = ''
-//   password = ''
-//   profile = ''
-// }
 
 class AuthState extends BaseState<AuthData> {}
 

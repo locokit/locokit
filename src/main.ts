@@ -8,9 +8,6 @@ import './plugins/sentry'
 
 import { reAuthenticate } from './store/auth'
 
-import ToastService from 'primevue/toastservice'
-Vue.use(ToastService)
-
 Vue.config.productionTip = false
 
 async function boot () {
