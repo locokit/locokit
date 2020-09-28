@@ -89,7 +89,7 @@
           :style="{width: '450px'}"
           :header="$t('pages.database.addNewRow')"
           :modal="true"
-          :contentStyle="{overflow: 'visible'}"
+          :contentStyle="{ 'max-height': '50vh'}"
           :closeOnEscape="true"
           :dismissableMask="true"
           class="p-fluid"
