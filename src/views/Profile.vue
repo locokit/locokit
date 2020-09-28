@@ -11,7 +11,7 @@
           {{$t('pages.profile.title')}}
         </template>
         <template slot="content">
-          {{ authState.data.user.name}}
+          {{ authState.data.user.name }}
           <br>
           {{ $t('pages.profile.email') }}&nbsp;{{ authState.data.user.email}}
           <br>

@@ -48,8 +48,31 @@
     },
     "userManagement": {
       "title": "User Management",
-      "noUser": "No user created. Please create one first."
+      "noUser": "No user created. Please create one first.",
+      "addNewUser": "Add user",
+      "id": "id",
+      "name": "Name",
+      "email": "E-mail",
+      "password": "Password",
+      "profile": "Profile",
+      "selectProfile": "Choose a profile",
+      "userDetails": "User Details",
+      "createUserDetails": "Create User",
+      "editUserDetails": "Edit User",
+      "isRequired": "The field is required",
+      "editUser": "Edit User",
+      "disableUser": "Disable User",
+      "buttons": {
+        "newUser": "Save",
+        "editUser": "Update"
+      }
     }
+  },
+  "dialog": {
+    "close": "Close this window"
+  },
+  "success": {
+    "basic": "You did well, Young Padawan"
   },
   "error": {
     "basic": "An error has occurred."
@@ -59,11 +82,14 @@
     "403": "Access forbidden",
     "500": "An error occured..."
   },
-  "form": {
+  "form" : {
     "add": "Add",
     "delete": "Delete",
     "cancel": "Cancel",
     "submit": "Submit",
-    "waiting": "Please wait"
+    "waiting": "Please wait",
+    "save": "Save",
+    "update": "Update",
+    "submitting": "Please wait…"
   }
 }

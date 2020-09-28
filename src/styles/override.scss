@@ -3,6 +3,7 @@
 
 @import "v-logistique/fonts";
 @import "v-logistique/layout";
+@import "v-logistique/buttons";
 @import "v-logistique/datatables";
 @import "v-logistique/accordion";
 @import "v-logistique/paginator";
@@ -74,9 +75,16 @@ a.no-decoration-link {
   }
 }
 
-.p-component {
+.p-component,
+.p-inputtext {
   font-family: $font-stack;
   font-size: 1rem
+}
+.p-dropdown {
+  &.p-invalid {
+    border-color: #f44336;
+    color: #f44336;
+  }
 }
 
 .p-button {
