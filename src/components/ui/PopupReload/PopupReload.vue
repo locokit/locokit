@@ -45,27 +45,14 @@ export default Vue.extend({
   created () {
     // Listen for swUpdated event and display refresh modal.
     document.addEventListener('swUpdated', this.updateAvailable, { once: true })
-    // Listen for controllerchange event from Service Worker to update the app.
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      // Force update data
-      if (this.refreshing) return
-      this.refreshing = true
-      // Reload of the home app
-      window.location.reload()
-    })
   },
   methods: {
-    updateAvailable ({ detail }) {
-      this.registration = detail
+    updateAvailable () {
       this.updateExists = true
     },
     reload () {
-      // Prevent for error in registration data
-      if (!this.registration || !this.registration.waiting) { return }
-      // Send message to Service Worker to skyWaiting and update app
-      this.registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-      // Close modal
-      this.updateExists = false
+      // Reload of the home app
+      window.location.reload()
     }
   }
 })
