@@ -30,12 +30,7 @@
       >
         <p-column field="id" headerClass="lck-datatable-align-center p-col-1" bodyClass="lck-datatable-align-center" :header="$t('pages.userManagement.id')" sortable>
         </p-column>
-        <p-column field="first_name" :header="$t('pages.userManagement.firstName')" sortable>
-          <template #editor="slotProps">
-            <p-input-text v-model="slotProps.data[slotProps.column.field]" />
-          </template>
-        </p-column>
-        <p-column field="last_name" :header="$t('pages.userManagement.lastName')" sortable>
+        <p-column field="name" :header="$t('pages.userManagement.name')" sortable>
           <template #editor="slotProps">
             <p-input-text v-model="slotProps.data[slotProps.column.field]" />
           </template>
@@ -60,7 +55,12 @@
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
           <template #body="slotProps">
             <span class="p-buttonset">
-              <p-button icon="pi pi-pencil" class="p-button-rounded p-button p-mr-2" @click="editUser(slotProps.data)" :title="$t('pages.userManagement.editUser')"/>
+              <p-button
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button p-mr-2"
+                @click="editUser(slotProps.data)"
+                :title="$t('pages.userManagement.editUser')"
+              />
               <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" :title="$t('pages.userManagement.disableUser')" />
             </span>
           </template>
@@ -77,36 +77,66 @@
       :visible.sync="openDialog"
       :style="{width: '450px'}"
       :modal="true"
-      class="p-fluid">
+      class="p-fluid"
+    >
+
       <template #header v-if="!editingUser">
         <h3>{{ $t('pages.userManagement.createUserDetails') }}</h3>
       </template>
       <template #header v-else>
         <h3>{{ $t('pages.userManagement.editUserDetails') }}</h3>
       </template>
+
       <template v-if="submitted">
         <p align="center">{{ $t('success.basic') }}</p>
       </template>
       <template v-else>
         <div class="p-field">
-          <label for="first_name">{{ $t('pages.userManagement.firstName') }}</label>
-          <p-input-text id="first_name" v-model.trim="user.first_name" required="true" autofocus :class="{'p-invalid': submitting && !user.first_name}" />
-          <small class="p-invalid" v-if="submitting && !user.first_name">{{ $t('pages.userManagement.isRequired') }}..</small>
+          <label for="name">{{ $t('pages.userManagement.name') }}</label>
+          <p-input-text id="name"
+            v-model.trim="user.name"
+            required="true"
+            autofocus
+            :class="{'p-invalid': submitting && !user.name}"
+          />
+          <small
+            class="p-invalid"
+            v-if="submitting && !user.name"
+          >
+            {{$t('pages.userManagement.isRequired') }}.
+          </small>
         </div>
         <div class="p-field">
-          <label for="last_name">{{ $t('pages.userManagement.lastName') }}</label>
-          <p-input-text id="last_name" v-model.trim="user.last_name" required="true" autofocus :class="{'p-invalid': submitting && !user.last_name}" />
-          <small class="p-invalid" v-if="submitting && !user.last_name">{{$t('pages.userManagement.isRequired') }}.</small>
-        </div>
-        <div class="p-field">
-          <label for="email">{{ $t('pages.userManagement.email') }}</label>
-          <p-input-text id="email" type="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitting && !user.last_name}" />
+          <label for="email">
+            {{ $t('pages.userManagement.email') }}
+          </label>
+          <p-input-text
+            id="email"
+            type="email"
+            v-model.trim="user.email"
+            required="true"
+            autofocus
+            :class="{'p-invalid': submitting && !user.email}"
+          />
           <small class="p-invalid" v-if="submitting && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
         </div>
         <div class="p-field" v-if="!editingUser">
-          <label for="password">{{ $t('pages.userManagement.password') }}</label>
-          <p-password id="password" v-model.trim="user.password" required="true" autofocus :class="{'p-invalid': submitting && !user.last_name}" />
-          <small class="p-invalid" v-if="submitting && !user.password">{{ $t('pages.userManagement.isRequired') }}.</small>
+          <label for="password">
+            {{ $t('pages.userManagement.password') }}
+          </label>
+          <p-password
+            id="password"
+            v-model.trim="user.password"
+            required="true"
+            autofocus
+            :class="{'p-invalid': submitting && !user.password}"
+          />
+          <small
+            class="p-invalid"
+            v-if="submitting && !user.password"
+          >
+            {{ $t('pages.userManagement.isRequired') }}.
+          </small>
         </div>
         <p class="p-field">
           <label for="profile">{{ $t('pages.userManagement.profile') }}</label>
@@ -124,26 +154,24 @@
               <span>{{slotProps.option.label}}</span>
             </template>
           </p-dropdown>
-          <small class="p-invalid" v-if="submitting && !user.profile">{{ $t('pages.userManagement.isRequired') }}.</small>
-
+          <small
+            class="p-invalid"
+            v-if="submitting && !user.profile"
+          >
+            {{ $t('pages.userManagement.isRequired') }}.
+          </small>
         </p>
-        <p class="p-field">
-          <label>Groupes</label>
-        </p>
-        <p><em>TODO : ajouter les groupes</em></p>
-        <div class="p-formgrid p-grid">
-          <div class="p-field p-col">
-          </div>
-          <div class="p-field p-col">
-          </div>
-        </div>
-        <input type="submit"/>
       </template>
 
       <template #footer v-if="submitted">
-        <p-button :label="$t('dialog.close')" icon="pi pi-check-circle" class="p-button-text" @click="hideDialog"/>
-
+        <p-button
+          :label="$t('dialog.close')"
+          icon="pi pi-check-circle"
+          class="p-button-text"
+          @click="hideDialog"
+        />
       </template>
+
       <template #footer v-else>
         <div v-if="hasSubmitError">
           <p class="p-invalid">Vous avez rencontré une erreur, veuillez reprendre votre saisie</p>
@@ -184,15 +212,10 @@ import Dialog from 'primevue/dialog'
 import Password from 'primevue/password'
 import Vue from 'vue'
 import {
-  retrieveUsersData,
-  createUser,
-  updateUser
+  retrieveUsersData
 } from '@/store/userManagement'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import lckClient from '@/services/lck-api';
-
-const FIELD_CREATION_NUMBER = 4
-const FIELD_UPDATE_NUMBER = 8
+import lckClient from '@/services/lck-api'
 
 export default {
   name: 'UserManagement',
@@ -208,9 +231,6 @@ export default {
   },
   data: function () {
     return {
-      loading: false,
-      editingRows: [],
-      columns: null,
       usersWithPagination: null,
       user: {},
       openDialog: false,
@@ -218,7 +238,8 @@ export default {
       submitting: false,
       submitted: false,
       hasSubmitError: false,
-      profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key }))
+      profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
+      currentPage: 0
     }
   },
   methods: {
@@ -235,28 +256,27 @@ export default {
       this.hasSubmitError = false
     },
     editUser (user) {
-      this.user = { ...user }
+      this.user = {
+        id: user.id,
+        name: user.name,
+        profile: user.profile,
+        email: user.email
+      }
       this.submitted = false
       this.editingUser = true
       this.openDialog = true
     },
-    formValid () {
-      return this.editingUser ? (Object.keys(this.user)).length === FIELD_UPDATE_NUMBER : (Object.keys(this.user)).length === FIELD_CREATION_NUMBER
-    },
     async saveUser () {
       this.submitting = true
-      if(!this.formValid()) return
-
       try {
-        debugger
         if (this.editingUser) {
           const userId = this.user.id
-          await updateUser(userId, this.user)
+          await lckClient.service('user').patch(userId, this.user)
         } else {
-          debugger
           await lckClient.service('user').create(this.user)
         }
         this.submitted = true
+        this.retrieveUsersData()
       } catch (e) {
         this.hasSubmitError = true
       }
@@ -266,14 +286,17 @@ export default {
       this.user = { ...user }
       alert(this.user.id)
     },
-    async onPage (event) {
-      const res = await retrieveUsersData(event.page)
+    async retrieveUsersData () {
+      const res = await retrieveUsersData(this.currentPage)
       if (res) this.usersWithPagination = res
+    },
+    async onPage (event) {
+      this.currentPage = event.page
+      this.retrieveUsersData()
     }
   },
   async mounted () {
-    const res = await retrieveUsersData()
-    if (res) this.usersWithPagination = res
+    this.retrieveUsersData()
   }
 }
 
