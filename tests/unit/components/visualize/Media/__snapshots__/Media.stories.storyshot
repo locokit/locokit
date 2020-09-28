@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Media Media with props 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="lck-color-content"
+  >
+    <div>
+      <div
+        class="lck-image-mode"
+      >
+        <img
+          alt="Image"
+          src="jeSuisUnLienVersUneImage"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

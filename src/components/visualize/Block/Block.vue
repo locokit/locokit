@@ -25,7 +25,8 @@ import { BlockTypes, Block } from '@/types/block'
 import TableView from '@/components/visualize/TableView/TableView.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
-import Error from '@/components/ui/Error/Error.vue'
+import Media from '@/components/visualize/Media/Media.vue'
+import Error from '@/components/error/Error.vue'
 
 export default Vue.extend({
   name: 'Block',
@@ -33,6 +34,7 @@ export default Vue.extend({
     TableView,
     Paragraph,
     Markdown,
+    Media,
     Error
   },
   computed: {
