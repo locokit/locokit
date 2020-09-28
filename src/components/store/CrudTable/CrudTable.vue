@@ -79,7 +79,7 @@
         <div class="loading-text">Loading</div>
       </template>
       <template #editor="slotProps">
-        <span v-if="!isEditableColumn(column)">
+        <span v-if="!isEditableColumn(column)" style="padding: 0.5rem">
           {{ getValue(column, slotProps.data.data[column.id]) }}
         </span>
         <!--
