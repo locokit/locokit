@@ -1,5 +1,9 @@
 <template>
-  <div id="app" :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'">
+  <div
+    id="app"
+    class="flex flex-col"
+    :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
+  >
     <div class="layout-sidebar" :class="sidebarActive ? 'active' : 'hidden'"></div>
     <lck-header
       v-if="displayHeader"
@@ -8,10 +12,9 @@
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
     />
-    <main class="o-auto p-fluid">
+    <main class="flex flex-col flex-1 o-auto p-fluid">
       <router-view/>
     </main>
-    <p-toast />
   </div>
 </template>
 
@@ -22,8 +25,6 @@ import {
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
-import Vue from 'vue'
-import Toast from 'primevue/toast'
 
 export default {
   name: 'app',
@@ -56,26 +57,16 @@ export default {
     }
   },
   components: {
-    'lck-header': Header,
-    'p-toast': Vue.extend(Toast)
+    'lck-header': Header
   }
 }
 </script>
 
 <style lang="scss" src="@/styles/main.scss"></style>
+<style src="@/styles/tailwind.css"></style>
 
 <style lang="scss" scoped>
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  header {
-    height: 4rem;
-  }
-  main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+header {
+  height: 4rem;
 }
 </style>

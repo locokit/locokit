@@ -1,15 +1,17 @@
 <template>
-  <div class="h-full h-max-full">
+  <div class="flex flex-col flex-1">
     <header class="p-my-4 lck-color-title p-ml-1">
       {{ $t('pages.database.title')}}
       <strong>{{ databaseState.data.text }}</strong>
     </header>
     <p-tab-view
+      class="flex-1 flex flex-col"
       @tab-change="handleTabChange"
       v-if="databaseState.data.tables.length > 0"
     >
       <p-tab-panel
         v-for="table in databaseState.data.tables"
+        class="flex-1 flex flex-col"
         :key="table.id"
         :data-table-id="table.id"
         :header="table.text"
@@ -183,7 +185,7 @@
 <script>
 import Vue from 'vue'
 import {
-  retrieveDatabaseByWorkspaceId,
+  retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
   retrieveTableViews,
   databaseState,
@@ -483,7 +485,7 @@ export default {
     }
   },
   async mounted () {
-    await retrieveDatabaseByWorkspaceId(this.databaseId)
+    await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
     // load the first table
     if (this.databaseState.data.tables.length > 0) {
       this.currentTableId = this.databaseState.data.tables[0].id
@@ -494,17 +496,21 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-tabview .p-tabview-panels {
-  padding: 0;
-}
 /deep/ .p-tabview .p-tabview-nav {
   background-color: transparent;
   overflow: auto;
   border: unset;
-}
-/deep/ .p-tabview-nav {
   flex-wrap: unset;
 }
+
+/deep/ .p-tabview .p-tabview-panels {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: unset;
+}
+
 /deep/ .p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }

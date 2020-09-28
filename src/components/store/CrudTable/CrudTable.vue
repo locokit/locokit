@@ -10,6 +10,10 @@
     class="
       p-datatable-sm
       p-datatable-gridlines
+      flex
+      flex-1
+      flex-col
+      justify-between
     "
     :value="block.content.data"
 
@@ -355,7 +359,15 @@ export default {
   border: unset;
   border-radius: 0;
 }
-.loading-text {
-  height: 19px;
+</style>
+
+<style>
+.p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
+  overflow-y: visible;
+  overflow-x: scroll;
+  flex: 1;
 }
+/* .loading-text {
+  height: 19px;
+} */
 </style>

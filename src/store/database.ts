@@ -16,7 +16,7 @@ export const databaseState: DatabaseState = {
   data: new Database()
 }
 
-export async function retrieveDatabaseByWorkspaceId (databaseId: string) {
+export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
   databaseState.loading = true
   try {
     const result = await lckClient.service('database').get(databaseId, {
