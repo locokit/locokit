@@ -7,6 +7,7 @@
       v-for="chapter in formatedChapters"
       :key="chapter.id"
       :header="chapter.label"
+      :active="chapter.active"
     >
       <router-link
         v-for="page in chapter.items"
@@ -59,15 +60,16 @@ export default {
           {
             id,
             label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`
+            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            active: id === this.$route.params.pageId
           }
         ))
         return (
           {
             id,
             label: text,
-            // icon: 'pi pi-fw pi-file',
-            items: formatedPages
+            items: formatedPages,
+            active: formatedPages.some(({ active }) => active)
           }
         )
       })
