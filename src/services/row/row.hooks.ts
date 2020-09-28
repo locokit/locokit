@@ -28,11 +28,9 @@ import { LCK_trr } from '../../models/trr.model';
  */
 function memorizeColumnsIds (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.data.data) {
-      context.params._meta = {
-        ...context.params._meta,
-        columnsIdsTransmitted: Object.keys(context.data.data)
-      }
+    context.params._meta = {
+      ...context.params._meta,
+      columnsIdsTransmitted: Object.keys(context.data.data || {})
     }
     return context;
   };
@@ -45,12 +43,18 @@ function memorizeColumnsIds (): Hook {
  */
 function completeDataField (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.data.data) {
+    if (context.method !== 'patch') return context
+    console.log('actual data', context.data)
+    if (
+      context.data.data &&
+      context.params._meta?.item?.data
+    ) {
+      console.log('here we clone the row data')
       // find the matching row
-      const currentRow = await context.service.get(context.id as string)
+      // const currentRow = await context.service.get(context.id as string)
       // enhance the data object
       context.data.data = {
-        ...currentRow.data,
+        ...context.params._meta.item.data,
         ...context.data.data
       }
     }
@@ -170,6 +174,11 @@ function computeLookedUpColumns (): Hook {
  */
 function computeRowLookedUpColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
+    console.log('computeRowLookedUpColumns', context.data)
+    if (
+      context.method === 'patch' &&
+      !context.data.data
+    ) return context;
     await Promise.all(
       (context.params._meta.columns as LckColumn[])
         .filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
@@ -341,21 +350,20 @@ export default {
   },
 
   after: {
-    all: [],
+    all: [
+      // historizeDataEvents()
+    ],
     find: [],
     get: [],
     create: [
-      // historizeDataEvents()
       upsertRowRelation(),
       computeLookedUpColumns()
     ],
     update: [
-      // historizeDataEvents()
       upsertRowRelation(),
       computeLookedUpColumns()
     ],
     patch: [
-      // historizeDataEvents()
       upsertRowRelation(),
       computeLookedUpColumns()
     ],

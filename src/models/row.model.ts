@@ -13,7 +13,7 @@ export class row extends Model {
   createdAt!: string;
   updatedAt!: string;
   text!: string;
-  data: RowData = {};
+  data!: RowData;
 
   static get tableName() {
     return 'table_row';

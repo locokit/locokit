@@ -3,6 +3,7 @@ import { column as LckColumn } from '../../models/column.model';
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { row } from '../../models/row.model';
 import { user } from "../../models/user.model";
+import { group } from "../../models/group.model";
 
 /**
  * Retrieve the display value
@@ -45,6 +46,15 @@ export function enhanceComplexColumns (): Hook {
               reference,
               value
             }
+            break
+          case COLUMN_TYPE.GROUP:
+            const matchingGroup: group = await context.app.services.group.get(reference)
+            value = matchingGroup.text
+            context.data.data[currentColumnId] = {
+              reference,
+              value
+            }
+            break
         }
       })
     )

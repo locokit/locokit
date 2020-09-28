@@ -45,6 +45,14 @@ export function historizeDataEvents (): Hook {
           })),
         )
         break;
+      case 'remove':
+        console.log(
+          'event to historize',
+          'by', context.params.user,
+          'row.remove',
+          'from:', context.params._meta.row,
+        )
+        break;
     }
     return context;
   };
