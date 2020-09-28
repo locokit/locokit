@@ -21,7 +21,7 @@ export async function retrieveDatabaseByWorkspaceId (databaseId: string) {
   try {
     const result = await lckClient.service('database').get(databaseId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: 'tables' }
+      query: { $eager: 'tables.[columns]' }
     })
     databaseState.data = result
     return result
