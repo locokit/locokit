@@ -31,7 +31,7 @@
 
           <template slot="right">
             <p-button
-              label="Add"
+              :label="$t('form.add')"
               icon="pi pi-plus"
               class="p-mr-2"
               @click="onClickAddButton"
