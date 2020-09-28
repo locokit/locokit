@@ -24,7 +24,8 @@ export class user extends Model {
       type: 'object',
       required: [
         'email',
-        'password'
+        'password',
+        'name'
       ],
 
       properties: {
