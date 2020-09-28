@@ -25,19 +25,9 @@ export async function retrieveUsersData (pageIndex = 0) {
 }
 
 export async function createUser (data: UserCreateDTO) {
-  try {
-    return await lckClient.service('user').create(data)
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
+  return await lckClient.service('user').create(data)
 }
 
 export async function updateUser (id: string, data: object) {
-  try {
-    return await lckClient.service('user').patch(id, data)
-  } catch (error) {
-    console.error(error)
-    return (error)
-  }
+  return await lckClient.service('user').patch(id, data)
 }

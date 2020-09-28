@@ -100,7 +100,7 @@
         </div>
         <div class="p-field">
           <label for="email">{{ $t('pages.userManagement.email') }}</label>
-          <p-input-text id="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitting && !user.last_name}" />
+          <p-input-text id="email" type="email" v-model.trim="user.email" required="true" autofocus :class="{'p-invalid': submitting && !user.last_name}" />
           <small class="p-invalid" v-if="submitting && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
         </div>
         <div class="p-field" v-if="!editingUser">
@@ -137,6 +137,7 @@
           <div class="p-field p-col">
           </div>
         </div>
+        <input type="submit"/>
       </template>
 
       <template #footer v-if="submitted">
@@ -144,6 +145,9 @@
 
       </template>
       <template #footer v-else>
+        <div v-if="hasSubmitError">
+          <p class="p-invalid">Vous avez rencontré une erreur, veuillez reprendre votre saisie</p>
+        </div>
         <p-button
           :label="$t('form.cancel')"
           icon="pi pi-times"
@@ -185,6 +189,10 @@ import {
   updateUser
 } from '@/store/userManagement'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import lckClient from '@/services/lck-api';
+
+const FIELD_CREATION_NUMBER = 4
+const FIELD_UPDATE_NUMBER = 8
 
 export default {
   name: 'UserManagement',
@@ -209,6 +217,7 @@ export default {
       editingUser: null,
       submitting: false,
       submitted: false,
+      hasSubmitError: false,
       profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key }))
     }
   },
@@ -223,6 +232,7 @@ export default {
       this.openDialog = false
       this.submitting = false
       this.submitted = false
+      this.hasSubmitError = false
     },
     editUser (user) {
       this.user = { ...user }
@@ -230,17 +240,27 @@ export default {
       this.editingUser = true
       this.openDialog = true
     },
-    async saveUser (error) {
+    formValid () {
+      return this.editingUser ? (Object.keys(this.user)).length === FIELD_UPDATE_NUMBER : (Object.keys(this.user)).length === FIELD_CREATION_NUMBER
+    },
+    async saveUser () {
       this.submitting = true
-      const res = await error
-      if (this.editingUser) {
-        const userId = this.user.id
-        await updateUser(userId, this.user)
-      } else {
-        await createUser(this.user)
+      if(!this.formValid()) return
+
+      try {
+        debugger
+        if (this.editingUser) {
+          const userId = this.user.id
+          await updateUser(userId, this.user)
+        } else {
+          debugger
+          await lckClient.service('user').create(this.user)
+        }
+        this.submitted = true
+      } catch (e) {
+        this.hasSubmitError = true
       }
-      if (res) alert(res)
-      this.submitted = true
+      this.submitting = false
     },
     inactiveUser (user) {
       this.user = { ...user }
