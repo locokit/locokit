@@ -42,5 +42,11 @@ export async function seed(knex: Knex): Promise<any> {
   }, {
     id: COLUMN_TYPE.FILE,
     text: 'File'
+  }, {
+    id: COLUMN_TYPE.MULTI_USER,
+    text: 'Multi user'
+  }, {
+    id: COLUMN_TYPE.MULTI_GROUP,
+    text: 'Multi group'
   }])
 };
