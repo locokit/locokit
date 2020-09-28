@@ -3,8 +3,7 @@ import { BaseState } from './state'
 
 class User {
   email = ''
-  first_name = ''
-  last_name = ''
+  name = ''
   profile = ''
   id = ''
 }
