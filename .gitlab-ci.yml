@@ -44,7 +44,7 @@ test:
     LCK_PORT: 3030
     LCK_HOST: localhost
     LCK_DATABASE_URL: postgres://postgres:pouicpouic@lck-db:5432/postgres
-    OBJECTION_DEBUG: 'true'
+    OBJECTION_DEBUG: 'false'
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
