@@ -31,20 +31,39 @@
       </div>
       <template #footer>
         <p-button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
+        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" />
       </template>
     </p-dialog>
-    <p-dialog @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
-      <div class="p-field p-mt-4 p-float-label">
-          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" autofocus />
-          <label for="table-name">Nom de la table</label>
+    <p-dialog :contentStyle="{overflow: 'visible'}" @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
+      <div class="p-d-flex">
+        <div>
+            <label for="table-name">Nom de la table</label>
+            <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <div v-if="errorTableNameToUpdate" class="p-invalid">
+            <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
+          </div>
+          <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
+        </div>
       </div>
-      <div v-if="errorTableNameToUpdate" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
+      <div class="p-d-flex p-mt-4">
+        <div>
+            <label for="column-name">Nom de la colonne</label>
+            <p-input-text id="column-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="newColumnName" />
+        </div>
+        <div class="p-d-flex p-ai-end p-mx-2">
+          <p-dropdown style="width: 300px" v-model="selectedColumnType" :options="columnTypes" optionLabel="name" placeholder="Sélectionner un type de colonne" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <div v-if="errorAddColumn" class="p-invalid">
+            <small id="add-column-invalid" class="p-invalid">{{ errorAddColumn }}</small>
+          </div>
+          <p-button @click="addColumn" label="Ajouter" icon="pi pi-check" class="p-button-text" autofocus />
+        </div>
       </div>
       <template #footer>
-        <p-button @click="closeUpdateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmUpdateTableDialog" label="Modifier" icon="pi pi-check" class="p-button-text" autofocus />
+        <p-button @click="closeUpdateTableDialog" label="Fermer" icon="pi pi-times" class="p-button-text"/>
       </template>
     </p-dialog>
   </div>
@@ -60,13 +79,16 @@ import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
+import Dropdown from 'primevue/dropdown'
+
 export default {
   name: 'DatabaseSchema',
   components: {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog),
-    'p-input-text': Vue.extend(InputText)
+    'p-input-text': Vue.extend(InputText),
+    'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
     databaseId: null
@@ -83,7 +105,11 @@ export default {
       showUpdateTableDialog: false,
       tableNameToUpdate: null,
       errorTableNameToUpdate: null,
-      currentTable: null
+      currentTable: null,
+      columnTypes: [],
+      newColumnName: null,
+      selectedColumnType: null,
+      errorAddColumn: null
     }
   },
   computed: {
@@ -135,23 +161,37 @@ export default {
     closeUpdateTableDialog () {
       this.resetUpdateTableDialog()
       this.showUpdateTableDialog = false
+      this.errorTableNameToUpdate = false
+      this.reloadTables()
     },
     resetUpdateTableDialog () {
       this.tableNameToUpdate = null
       this.errorTableNameToUpdate = null
     },
-    async confirmUpdateTableDialog () {
+    async updateTableName () {
       try {
         const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
           text: this.tableNameToUpdate
         })
-        if (updateTableResponse) {
-          this.errorTableNameToUpdate = false
-          this.showUpdateTableDialog = false
-          this.reloadTables()
-        }
       } catch (errorUpdateTable) {
         this.errorTableNameToUpdate = errorUpdateTable.message
+      }
+    },
+    async addColumn () {
+      try {
+        if (this.selectedColumnType && this.newColumnName) {
+          const addColumnResponse = await lckClient.service('column').create({
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: this.currentTable.id,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: this.selectedColumnType.id,
+            text: this.newColumnName
+          })
+        } else {
+          throw new Error('Veuillez renseigner les champs')
+        }
+      } catch (errorAddColumn) {
+        this.errorAddColumn = errorAddColumn.message
       }
     },
     createSource (tables) {
@@ -211,13 +251,16 @@ export default {
       this.SVGPanZoom.resize()
       this.SVGPanZoom.fit()
       this.SVGPanZoom.center()
+    },
+    reloadTables () {
+      this.loadTables()
+      this.resizenomnomlSVG()
     }
   },
-  reloadTables () {
-    this.loadTables()
-    this.resizenomnomlSVG()
-  },
   async mounted () {
+    Object.keys(COLUMN_TYPE).forEach((key) => {
+      this.columnTypes.push({ id: COLUMN_TYPE[key], name: key })
+    })
     this.loadTables()
   },
   updated () {
