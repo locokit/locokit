@@ -29,6 +29,7 @@ export async function createUser (data: UserCreateDTO) {
     return await lckClient.service('user').create(data)
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
@@ -37,5 +38,6 @@ export async function updateUser (id: string, data: object) {
     return await lckClient.service('user').patch(id, data)
   } catch (error) {
     console.error(error)
+    return (error)
   }
 }

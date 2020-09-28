@@ -52,9 +52,14 @@
       "selectProfile": "Choose a profile",
       "userDetails": "User Details",
       "createUserDetails": "Create User",
+      "editUserDetails": "Edit User",
       "isRequired": "The field is required",
       "editUser": "Edit User",
-      "disableUser": "Disable User"
+      "disableUser": "Disable User",
+      "buttons": {
+        "newUser": "Save",
+        "editUser": "Update"
+      }
     }
   },
   "dialog": {
