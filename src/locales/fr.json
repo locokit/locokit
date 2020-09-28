@@ -11,6 +11,9 @@
     },
     "dropdown": {
       "placeholder": "Sélectionnez une option"
+    },
+    "crudtable": {
+      "columnReferenceLabel": "Référence"
     }
   },
   "pages": {
@@ -60,6 +63,7 @@
     "add": "Ajouter",
     "delete": "Supprimer",
     "cancel": "Annuler",
-    "submit": "Valider"
+    "submit": "Valider",
+    "waiting": "Veuillez patienter"
   }
 }

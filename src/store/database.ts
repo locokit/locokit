@@ -20,8 +20,9 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
   databaseState.loading = true
   try {
     const result = await lckClient.service('database').get(databaseId, {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: 'tables.[columns]' }
+      query: {
+        $eager: '[tables.[columns,views.[columns]]]'
+      }
     })
     databaseState.data = result
     return result

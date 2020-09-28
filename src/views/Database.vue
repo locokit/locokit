@@ -46,46 +46,15 @@
         <CrudTable
           :block="block"
           :columns-options="columnsEnhanced"
+          :autocompleteSuggestions="crudAutocompleteItems"
+          :rowsNumber="currentDatatableRows"
           v-if="block.definition"
-          @updateContentBlockTableView="updateContentBlock(table.id, $event)"
+          @update-content="updateContent(table.id, $event)"
+          @update-suggestions="updateCRUDAutocompleteSuggestions"
+          @update-cell="onUpdateCell"
           @sort="onSort"
           @column-resize="onColumnResize"
         />
-        <!--
-        <table
-          v-if="block.definition"
-        >
-          <thead>
-            <tr>
-              <th >
-                Référence
-              </th>
-              <th
-                v-for="column in block.definition.columns"
-                :key="column.id"
-              >
-                {{ column.text }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="d in block.content.data"
-              :key="d.id"
-            >
-              <th >
-                Référence
-              </th>
-              <th
-                v-for="column in block.definition.columns"
-                :key="column.id"
-              >
-                {{ d.data[column.id] }}
-              </th>
-            </tr>
-          </tbody>
-        </table>
-        -->
         <p-dialog
           :visible.sync="displayNewDialog"
           :style="{width: '450px'}"
@@ -99,7 +68,9 @@
           <div
             class="p-field"
           >
-            <label for="reference">Référence</label>
+            <label for="reference">
+              {{ $t('components.crudtable.columnReferenceLabel')}}
+            </label>
             <p-input-text
               id="reference"
               v-model="newRow.text"
@@ -128,8 +99,9 @@
                 :placeholder="$t('components.dropdown.placeholder')"
                 field="label"
                 :suggestions="autocompleteItems"
-                @complete="searchItems(column, $event)"
-                v-model="autocompleteInput"
+                @complete="updateLocalAutocompleteSuggestions(column, $event)"
+                v-model="autocompleteInput[column.id]"
+                :modelValue="newRow.data[column.id]"
                 @item-select="newRow.data[column.id] = $event.value.value"
               />
               <p-dropdown
@@ -161,7 +133,7 @@
             <p-button
               disabled
               v-if="submitting"
-              label="Please wait"
+              :label="$t('form.waiting')"
               icon="pi pi-spin pi-spinner"
               class="p-button-text"
             />
@@ -190,6 +162,7 @@ import {
   retrieveTableViews,
   databaseState,
   saveTableData,
+  patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
 import TabView from 'primevue/tabview'
@@ -255,12 +228,14 @@ export default {
       submitting: false,
       currentTableId: null,
       currentDatatableFirst: 0,
-      currentDatatableRows: 20,
+      currentDatatableRows: 10,
       currentDatatableSort: {
         ...defaultDatatableSort
       },
+      currentPageIndex: 0,
       autocompleteItems: null,
-      autocompleteInput: ''
+      autocompleteInput: {},
+      crudAutocompleteItems: null
     }
   },
   computed: {
@@ -326,7 +301,8 @@ export default {
       }
       this.submitting = false
       this.currentDatatableFirst = 0
-      this.currentDatatableRows = 20
+      this.currentDatatableRows = 10
+      this.currentPageIndex = 0
       this.currentDatatableSort = {
         ...defaultDatatableSort
       }
@@ -360,13 +336,8 @@ export default {
           return true
       }
     },
-    async updateContentBlock (tableId, { first, rows }) {
-      if (
-        this.currentDatatableFirst === first &&
-        this.currentDatatableRows === rows
-      ) return
-      this.currentDatatableFirst = first
-      this.currentDatatableRows = rows
+    async updateContent (tableId, pageIndexToGo) {
+      this.currentPageIndex = pageIndexToGo
       this.loadCurrentTableData()
     },
     handleTabChange (event) {
@@ -385,14 +356,14 @@ export default {
       }
       this.views = await retrieveTableViews(this.currentTableId)
       this.block.loading = false
-      this.loadCurrentTableData(this.currentDatatableRows * 2)
+      this.loadCurrentTableData()
     },
-    async loadCurrentTableData (overwriteDatatableRows) {
+    async loadCurrentTableData () {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
-        this.currentDatatableFirst,
-        overwriteDatatableRows || this.currentDatatableRows,
+        this.currentPageIndex * this.currentDatatableRows,
+        this.currentDatatableRows,
         this.currentDatatableSort
       )
       this.block.loading = false
@@ -426,7 +397,6 @@ export default {
       this.displayNewDialog = true
     },
     async onColumnResize (newWidth, columnId) {
-      console.log(newWidth, columnId)
       // first, find the column related
       const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
       if (!currentColumn) return
@@ -438,23 +408,37 @@ export default {
       })
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
-    async searchItems ({ column_type_id, settings }, { query }) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      if (column_type_id === COLUMN_TYPE.USER) {
+    async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+      this.autocompleteItems = await this.searchItems({
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        columnTypeId: column_type_id,
+        tableId: settings?.tableId,
+        query
+      })
+    },
+    async updateCRUDAutocompleteSuggestions (columnTypeId, tableId, query) {
+      this.crudAutocompleteItems = await this.searchItems({
+        columnTypeId,
+        tableId,
+        query
+      })
+    },
+    async searchItems ({ columnTypeId, tableId, query }) {
+      let items = null
+      if (columnTypeId === COLUMN_TYPE.USER) {
         const result = await lckClient.service('user').find({
           query: {
             blocked: false,
             name: {
-              $ilike: `%${this.autocompleteInput}%`
+              $ilike: `%${query}%`
             }
           }
         })
-        this.autocompleteItems = result.data.map(d => ({
+        items = result.data.map(d => ({
           label: d.name,
           value: d.id
         }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (column_type_id === COLUMN_TYPE.GROUP) {
+      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
         const result = await lckClient.service('group').find({
           query: {
             name: {
@@ -462,26 +446,38 @@ export default {
             }
           }
         })
-        this.autocompleteItems = result.data.map(d => ({
+        items = result.data.map(d => ({
           label: d.name,
           value: d.id
         }))
       // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
         const result = await lckClient.service('row').find({
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: settings.tableId,
+            table_id: tableId,
             text: {
               $ilike: `%${query}%`
             }
           }
         })
-        this.autocompleteItems = result.data.map(d => ({
+        items = result.data.map(d => ({
           label: d.text,
           value: d.id
         }))
       }
+      return items
+    },
+    async onUpdateCell ({ rowIndex, columnId, newValue }) {
+      const currentRow = this.block.content.data[rowIndex]
+      const data = {}
+      if (columnId === 'text') {
+        data.text = newValue
+      } else {
+        data.data = { [columnId]: newValue }
+      }
+      const res = await patchTableData(currentRow.id, data)
+      currentRow.data = res.data
     }
   },
   async mounted () {

@@ -20,7 +20,7 @@
     :lazy="true"
     :loading="block.loading"
 
-    :rows="10"
+    :rows="rowsNumber"
     :totalRecords="block.content.total"
 
     editMode="cell"
@@ -43,11 +43,9 @@
       headerStyle="width: 150px"
     >
       <template #header>
-        <span data-column-id="text">Référence</span>
-      </template>
-
-      <template #loading>
-        <div class="loading-text">Loading</div>
+        <span data-column-id="text">
+          {{ $t('components.crudtable.columnReferenceLabel')}}
+        </span>
       </template>
 
       <template
@@ -79,9 +77,6 @@
           {{ column.text }}
         </span>
       </template>
-      <template #loading>
-        <div class="loading-text">Loading</div>
-      </template>
       <template #editor="slotProps">
         <span v-if="!isEditableColumn(column)" style="padding: 0.5rem">
           {{ getValue(column, slotProps.data.data[column.id]) }}
@@ -94,9 +89,9 @@
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
-          v-model="autocompleteInput"
-          :suggestions="autocompleteItems"
-          @complete="searchItems(column, $event)"
+          v-model="autocompleteInput[column.id]"
+          :suggestions="autocompleteSuggestions"
+          @complete="onComplete(column, $event)"
           @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
         />
         <p-dropdown
@@ -142,9 +137,6 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { patchTableData } from '@/store/database'
-import lckClient from '@/services/lck-api'
-
 export default {
   name: 'LCKRowDatatable',
   components: {
@@ -173,13 +165,20 @@ export default {
     columnsOptions: {
       type: Object,
       required: true
+    },
+    autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    },
+    rowsNumber: {
+      type: Number,
+      default: 10
     }
   },
   data () {
     return {
       editingCellRows: [],
-      autocompleteItems: null,
-      autocompleteInput: ''
+      autocompleteInput: {}
     }
   },
   methods: {
@@ -241,57 +240,15 @@ export default {
       }
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
-    async searchItems ({ column_type_id, settings }, { query }) {
-      this.$emit('update-suggestions', column_type_id, settings, this.autocompleteInput)
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      if (column_type_id === COLUMN_TYPE.USER) {
-        const result = await lckClient.service('user').find({
-          query: {
-            blocked: false,
-            name: {
-              $ilike: `%${this.autocompleteInput}%`
-            }
-          }
-        })
-        this.autocompleteItems = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (column_type_id === COLUMN_TYPE.GROUP) {
-        const result = await lckClient.service('group').find({
-          query: {
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        this.autocompleteItems = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckClient.service('row').find({
-          query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: settings.tableId,
-            text: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        this.autocompleteItems = result.data.map(d => ({
-          label: d.text,
-          value: d.id
-        }))
-      }
-    },
-    logInput (event) {
-      console.log(event)
+    async onComplete ({ column_type_id, settings }, { query }) {
+      this.$emit(
+        'update-suggestions',
+        column_type_id,
+        settings?.tableId,
+        query
+      )
     },
     onColumnResize (header) {
-      console.log(header.delta, header.element, header.element.querySelector('[data-column-id]').attributes['data-column-id'].value)
       this.$emit(
         'column-resize',
         header.element.offsetWidth,
@@ -299,33 +256,34 @@ export default {
       )
     },
     async onDropdownEdit (rowIndex, columnId, event) {
-      const currentRow = this.block.content.data[rowIndex]
-      this.$emit('update-cell', currentRow.id, columnId, event.value)
-      const res = await patchTableData(currentRow.id, {
-        data: { [columnId]: event.value }
+      this.$emit('update-cell', {
+        rowIndex,
+        columnId,
+        newValue: event.value
       })
-      currentRow.data = res.data
     },
     async onAutocompleteEdit (rowIndex, columnId, event) {
-      const currentRow = this.block.content.data[rowIndex]
-      this.$emit('update-cell', currentRow.id, columnId, event.value.value)
-      const res = await patchTableData(currentRow.id, {
-        data: { [columnId]: event.value.value }
+      this.$emit('update-cell', {
+        rowIndex,
+        columnId,
+        newValue: event.value.value
       })
-      this.autocompleteInput = event.value.label
-      currentRow.data = res.data
     },
     async onCellEditComplete (event) {
       if (event.field !== 'text' && !this.editingCellRows[event.index]) {
         return
       }
-      const data = {}
+      let value = null
       if (event.field === 'text') {
-        data.text = event.data.text
+        value = event.data.text
       } else {
-        data.data = { [event.field]: this.editingCellRows[event.index][event.field] }
+        value = this.editingCellRows[event.index][event.field]
       }
-      await patchTableData(this.block.content.data[event.index].id, data)
+      this.$emit('update-cell', {
+        rowIndex: event.index,
+        columnId: event.field,
+        newValue: value
+      })
     },
     onCellEdit (newValue, props) {
       if (!this.editingCellRows[props.index]) {
@@ -334,8 +292,8 @@ export default {
       }
       this.editingCellRows[props.index][props.column.field] = newValue
     },
-    onVirtualScroll (event) {
-      this.$emit('updateContentBlockTableView', event)
+    onPage (event) {
+      this.$emit('update-content', event.page)
     },
     onSort (event) {
       this.$emit(
