@@ -41,7 +41,7 @@ export async function up(knex: Knex): Promise<any> {
   .createTable('block', table => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('title');
-    table.enum('type', ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading']);
+    table.enum('type', ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'CanvaView', 'GridView']);
     table.jsonb('settings')
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
