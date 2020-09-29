@@ -21,19 +21,7 @@
     >
     </div>
     <div v-else>Erreur</div>
-    <p-dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
-      <div class="p-field p-mt-4 p-float-label">
-          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
-          <label for="table-name">Nom de la table</label>
-      </div>
-      <div v-if="errorTableNameToCreate" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
-      </div>
-      <template #footer>
-        <p-button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" />
-      </template>
-    </p-dialog>
+    <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" v-on:on-close="onCloseCreateTableDialog" />
     <p-dialog :contentStyle="{overflow: 'visible'}" @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
       <div class="p-d-flex">
         <div>
@@ -80,6 +68,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import CreateTableModal from '@/components/databaseSchema/CreateTableModal'
 
 export default {
   name: 'DatabaseSchema',
@@ -88,10 +77,11 @@ export default {
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog),
     'p-input-text': Vue.extend(InputText),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
+    'create-table-modal': Vue.extend(CreateTableModal)
   },
   props: {
-    databaseId: null
+    databaseId: String
   },
   data () {
     return {
@@ -126,29 +116,11 @@ export default {
     onClickCreateTableDialogButton () {
       this.showCreateTableDialog = true
     },
-    closeCreateTableDialog () {
-      this.resetCreateTableDialog()
-      this.showCreateTableDialog = false
-    },
-    resetCreateTableDialog () {
-      this.tableNameToCreate = null
-      this.errorTableNameToCreate = null
-    },
-    async confirmCreateTableDialog () {
-      try {
-        const createTableResponse = await lckClient.service('table').create({
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          database_id: this.databaseId,
-          text: this.tableNameToCreate
-        })
-        if (createTableResponse) {
-          this.errorTableNameToCreate = false
-          this.showCreateTableDialog = false
-          this.reloadTables()
-        }
-      } catch (errorCreateTable) {
-        this.errorTableNameToCreate = errorCreateTable.message
+    onCloseCreateTableDialog (shouldReloadTables) {
+      if (shouldReloadTables) {
+        this.reloadTables()
       }
+      this.showCreateTableDialog = false
     },
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
