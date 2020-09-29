@@ -10,12 +10,12 @@ export const MediaStoryWithProps = () => ({
     return {
       block: {
         type: 'Media',
-        title: 'Titre',
+        title: 'Title',
         settings: {
           displayMode: 'image',
           medias: [{
             name: 'Image',
-            srcURL: 'jeSuisUnLienVersUneImage',
+            srcURL: 'IAmALinkToAnImage',
             type: 'image'
           }]
         }
