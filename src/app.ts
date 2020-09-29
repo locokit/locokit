@@ -11,7 +11,6 @@ import express from '@feathersjs/express';
 import socketio from '@feathersjs/socketio';
 import swagger from 'feathers-swagger';
 
-
 import { Application } from './declarations';
 import logger from './logger';
 import middleware from './middleware';
@@ -21,11 +20,35 @@ import channels from './channels';
 import authentication from './authentication';
 import objection from './objection';
 // Don't remove this comment. It's needed to format import lines nicely.
+import * as Sentry from '@sentry/node';
+import * as Apm from '@sentry/apm';
 
 const app: Application = express(feathers());
 
+// Sentry.init({
+//   dsn: "https://e940629c0bb44b63a372e7d62462d042@sentry.makina-corpus.net/90",
+//   integrations: [
+//       // enable HTTP calls tracing
+//       new Sentry.Integrations.Http({ tracing: true }),
+//       // enable Express.js middleware tracing
+//       new Apm.Integrations.Express({ app })
+//   ],
+//   tracesSampleRate: 1.0 // Be sure to lower this in production
+// });
+
+Sentry.init({ dsn: 'https://e940629c0bb44b63a372e7d62462d042@sentry.makina-corpus.net/90' });
+
 // Load app configuration
 app.configure(configuration());
+
+// RequestHandler creates a separate execution context using domains, so that every
+// transaction/span/breadcrumb is attached to its own Hub instance
+app.use(Sentry.Handlers.requestHandler());
+// TracingHandler creates a trace for every incoming request
+// app.use(Sentry.Handlers.tracingHandler());
+
+// the rest of your app
+
 // Enable security, CORS, compression, favicon and body parsing
 app.use(helmet());
 app.use(cors());
@@ -61,7 +84,7 @@ app.configure(swagger({
         }
       }
     },
-    security: [{ 
+    security: [{
       BearerAuth: []
     }]
   },
@@ -79,7 +102,7 @@ app.configure(swagger({
           title: `${modelName} list`,
           type: 'array',
           items: { $ref: `#/components/schemas/${model}_list` }
-        }        
+        }
       };
     }
   }
@@ -93,9 +116,24 @@ app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
 
+app.get('/debug-sentry', function mainHandler(req, res) {
+  throw new Error('My first Sentry error!');
+});
+
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
 app.use(express.errorHandler({ logger } as any));
+app.use(Sentry.Handlers.errorHandler({
+  shouldHandleError: error => error.status as number >= 400
+}));
+
+// // Optional fallthrough error handler
+// app.use(function onError(err, req, res, next) {
+//   // The error id is attached to `res.sentry` to be returned
+//   // and optionally displayed to the user for support.
+//   res.statusCode = 500;
+//   res.end(res.sentry + "\n");
+// });
 
 app.hooks(appHooks);
 

@@ -14,6 +14,7 @@ export class group extends Model {
   createdAt!: string;
   updatedAt!: string;
   workspaces?: LckWorkspaceExtended[];
+  text!: string;
   users?: LckUser[];
 
   static get tableName() {

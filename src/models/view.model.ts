@@ -4,6 +4,7 @@ import { Model } from 'objection';
 import { Application } from '../declarations';
 import { column as LckColumn } from './column.model'
 import { row as LckRow } from './row.model'
+import { QueryBuilder } from 'objection';
 
 export class LckColumnFilter {
   // $eq?: string
@@ -15,7 +16,7 @@ export class LckColumnDTO extends LckColumn {
   sort?: Object
 }
 
-class view extends Model {
+export class view extends Model {
   createdAt!: string;
   updatedAt!: string;
   columns?: LckColumnDTO[]
@@ -52,6 +53,9 @@ class view extends Model {
             extra: ['order', 'filter', 'visible', 'position']
           },
           to: 'table_column.id',
+          modify(query: QueryBuilder<LckColumn>) {
+            query.clear('limit')
+          }
         }
       },
       rows: {

@@ -3,12 +3,15 @@
 import { Model } from 'objection';
 import { Application } from '../declarations';
 import { row as LckRow } from './row.model'
+import { view as LckView } from './view.model'
 import { column as LckColumn } from './column.model'
-
+import { LckColumnDTO } from './view.model';
+import { QueryBuilder } from 'objection';
 
 export class table extends Model {
   createdAt!: string;
   updatedAt!: string;
+  columns?: LckColumnDTO[]
 
   static get tableName() {
     return 'table';
@@ -37,6 +40,9 @@ export class table extends Model {
         join: {
           from: 'table.id',
           to: 'table_column.table_id'
+        },
+        modify(query: QueryBuilder<LckColumn>) {
+          query.clear('limit')
         }
       },
       rows: {
@@ -45,6 +51,14 @@ export class table extends Model {
         join: {
           from: 'table.id',
           to: 'table_row.table_id'
+        }
+      },
+      views: {
+        relation: Model.HasManyRelation,
+        modelClass: LckView,
+        join: {
+          from: 'table.id',
+          to: 'table_view.table_id'
         }
       }
     }
@@ -59,21 +73,6 @@ export class table extends Model {
 }
 
 export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('table').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('table', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created table table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating table table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating table table', e)); // eslint-disable-line no-console
 
   return table;
 }

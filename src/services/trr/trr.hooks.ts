@@ -1,17 +1,12 @@
 import * as authentication from '@feathersjs/authentication';
-import { disablePagination, discardQuery, iff } from 'feathers-hooks-common';
-import { queryContainsKey } from '../../hooks/lck-hooks/queryContainsKey';
+// Don't remove this comment. It's needed to format import lines nicely.
+
 const { authenticate } = authentication.hooks;
 
 export default {
   before: {
     all: [ authenticate('jwt') ],
-    find: [
-      iff(
-        queryContainsKey('table_id'),
-        disablePagination()
-      )
-    ],
+    find: [],
     get: [],
     create: [],
     update: [],

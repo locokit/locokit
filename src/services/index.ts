@@ -11,6 +11,8 @@ import page from './page/page.service';
 import block from './block/block.service';
 import chapter from './chapter/chapter.service';
 import view from './view/view.service';
+import columnrelation from './columnrelation/columnrelation.service';
+import trr from './trr/trr.service';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
@@ -26,4 +28,6 @@ export default function (app: Application) {
   app.configure(block);
   app.configure(chapter);
   app.configure(view);
+  app.configure(columnrelation);
+  app.configure(trr);
 }

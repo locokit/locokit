@@ -5,12 +5,37 @@ import { Application } from '../declarations';
 import { table as LckTable } from './table.model'
 import { columnType as LckColumnType } from './columnType.model'
 
+export interface SingleSelectValue {
+  label: string;
+  color: string;
+  backgroundColor: string;
+}
+
 export class column extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
-  text: string = 'unknown text';
-  data: Object = {};
+  text!: string;
+  settings: {
+    formula?: string,
+    query?: {
+      select: string[],
+      where: Object,
+      sort: { field: string, order: string}[],
+      limit: number,
+      skip: number,
+      aggregate: string // count, avg, sum, min, max, count distinct
+    },
+    table_to_id?: string,
+    column_to_id?: string,
+    column_from_id?: string,
+    tableId?: string,
+    localField?: string,
+    foreignField?: string,
+    values?: Record<string, SingleSelectValue>,
+    width?: number
+  } = {};
+  table_id!: string;
   column_type_id!: number;
 
   static get tableName() {
@@ -24,7 +49,9 @@ export class column extends Model {
 
       properties: {
         text: { type: 'string' },
-        data: { type: 'object'}
+        settings: { type: 'object' },
+        table_id: { type: 'string' },
+        column_type_id: { type: 'number' },
       }
     };
   }
@@ -39,7 +66,7 @@ export class column extends Model {
         // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
-          from: 'table_column.tableid',
+          from: 'table_column.table_id',
           to: 'table.id'
         }
       },

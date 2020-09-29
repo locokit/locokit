@@ -11,7 +11,7 @@ stages:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_DRIVER: overlay2
     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
-    FRONT_VERSION: 0.0.3-alpha.2
+    FRONT_VERSION: 0.0.3-alpha.3
     GITLAB_ACCESS_TOKEN: ${MC_GITLAB_ACCESS_TOKEN}
     FRONT_DOWNLOAD_URL: "https://gitlab.makina-corpus.net/api/v4/projects/1428/jobs/artifacts/${FRONT_VERSION}/download?job=build"
     FRONT_FILE_PATH: "lck-front-${FRONT_VERSION}.zip"
@@ -44,13 +44,14 @@ test:
     LCK_PORT: 3030
     LCK_HOST: localhost
     LCK_DATABASE_URL: postgres://postgres:pouicpouic@lck-db:5432/postgres
-    OBJECTION_DEBUG: 'true'
+    OBJECTION_DEBUG: 'false'
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
   script:
     - npm ci
     - npm run migrate:latest
+    - npm run seed:run
     - npm test
 
 build-lib:

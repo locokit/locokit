@@ -8,7 +8,8 @@ describe('authentication', () => {
   describe('local strategy', () => {
     const userInfo = {
       email: 'someone@example.com',
-      password: 'supersecret'
+      password: 'supersecret',
+      name: 'Someone !'
     };
 
     beforeAll(async () => {
@@ -16,6 +17,7 @@ describe('authentication', () => {
         await app.service('user').create(userInfo);
       } catch (error) {
         // Do nothing, it just means the user already exists and can be tested
+        console.error(error)
       }
     });
 

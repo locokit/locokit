@@ -38,7 +38,7 @@ export default function (app: Application) {
       '$joinEager',
       '$modifyEager',
     ],
-    allowedEager: '[columns, rows]',
+    allowedEager: '[columns, rows, views.[columns]]',
     paginate: app.get('paginate')
   };
 
