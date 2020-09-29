@@ -1,6 +1,5 @@
 // This file overwrite some Prime rules
 
-
 @import "v-logistique/fonts";
 @import "v-logistique/layout";
 @import "v-logistique/buttons";
@@ -36,16 +35,18 @@
   cursor: pointer;
   transition: background-color .2s;
   text-align: center;
+
   a {
+    line-height: 70px;
+    display: flex;
+    align-items: center;
     width: 70px;
     height: 70px;
-    line-height: 70px;
-    align-items: center;
-    display: flex;
     text-align: center;
+
     .p-button {
-      margin: 0 auto;
       display: block;
+      margin: 0 auto;
     }
   }
 }
@@ -62,9 +63,40 @@
 
 .lck-color-page-title {
   font-family: $font-stack;
-  font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary-color);
+}
+
+.lck-color-title {
+  color: #858096;
+}
+
+.lck-color-content {
+  color: #858096;
+}
+
+.lck-color-page-title {
+  color: var(--primary-color);
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1.20rem;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+ul, ol, li, p {
+  font-size: 1rem;
 }
 
 a.no-decoration-link {
@@ -80,20 +112,21 @@ a.no-decoration-link {
   font-family: $font-stack;
   font-size: 1rem
 }
+
 .p-dropdown {
   &.p-invalid {
-    border-color: #f44336;
     color: #f44336;
+    border-color: #f44336;
   }
 }
 
 .p-button {
-  background-color: var(--surface-a);
   border-color: var(--surface-a);
+  background-color: var(--surface-a);
 
   &:active, &:hover {
-    background-color: var(--surface-b);
     border-color: var(--surface-b);
+    background-color: var(--surface-b);
   }
 }
 
@@ -116,9 +149,9 @@ a.no-decoration-link {
     font-weight: bold;
     position: relative;
     margin-bottom: -45px;
-    opacity: 0;
     transition: opacity 0.5s ease-in-out;
     text-align: center;
+    opacity: 0;
     color: #f44336;
 
     &.errorActive {
