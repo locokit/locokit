@@ -5,6 +5,7 @@ import { Application } from '@feathersjs/express';
 import { group as LckGroup} from './group.model'
 
 export class user extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   email!: string;

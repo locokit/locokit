@@ -11,10 +11,11 @@ class LckWorkspaceExtended extends LckWorkspace {
 }
 
 export class group extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   workspaces?: LckWorkspaceExtended[];
-  text!: string;
+  name!: string;
   users?: LckUser[];
 
   static get tableName() {
@@ -24,10 +25,10 @@ export class group extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['name'],
 
       properties: {
-        text: { type: 'string' }
+        name: { type: 'string' }
       }
     };
   }

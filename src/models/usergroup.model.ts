@@ -3,31 +3,33 @@
 import { Model, JSONSchema } from 'objection';
 import { Application } from '../declarations';
 
-export class ColumnRelation extends Model {
+class Usergroup extends Model {
   createdAt!: string;
   updatedAt!: string;
-  table_column_from_id!: string;
-  table_column_to_id!: string;
+  role!:string;
+  user_id!:number;
+  group_id!:string;
 
   static get idColumn() {
-    return ['table_column_from_id', 'table_column_to_id'];
+    return ['user_id', 'group_id'];
   }
 
   static get tableName(): string {
-    return 'table_column_relation';
+    return 'user_has_group';
   }
 
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
       required: [
-        'table_column_from_id',
-        'table_column_to_id'
+        'user_id',
+        'group_id'
       ],
 
       properties: {
-        table_column_from_id: { type: 'string' },
-        table_column_to_id: { type: 'string' }
+        role: { type: 'string' },
+        user_id: { type: 'number' },
+        group_id: { type: 'string' }
       }
     };
   }
@@ -41,6 +43,6 @@ export class ColumnRelation extends Model {
   }
 }
 
-export default function (app: Application): typeof ColumnRelation {
-  return ColumnRelation;
+export default function (app: Application): typeof Usergroup {
+  return Usergroup;
 }
