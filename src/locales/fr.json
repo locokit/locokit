@@ -8,6 +8,12 @@
     },
     "paginator": {
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)"
+    },
+    "dropdown": {
+      "placeholder": "Sélectionnez une option"
+    },
+    "crudtable": {
+      "columnReferenceLabel": "Référence"
     }
   },
   "pages": {
@@ -23,17 +29,21 @@
       "workspaces": "Mes espaces de travail",
       "button-logout": "Déconnexion"
     },
-    "workspaces": {
+    "workspace": {
       "title": "Espaces de travail",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",
       "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
-      "errorUnknownTypeBlock": "Le type de block n'existe pas."
+      "errorUnknownTypeBlock": "Le type de block n'existe pas.",
+      "buttonDatabase": "Base de données",
+      "buttonSchema": "Schéma",
+      "buttonVisu": "Visualisation"
     },
-    "databases": {
+    "database": {
       "title": "Base de données",
-      "noDatabase": "Aucune base de données existante. Veuillez en créer une."
+      "noDatabase": "Aucune base de données existante. Veuillez en créer une.",
+      "addNewRow": "Ajouter une ligne"
     },
     "databaseSchema": {
       "title": "Schéma de la base de données",
@@ -75,11 +85,14 @@
     "403": "Accès interdit",
     "500": "Une erreur a eu lieu..."
   },
-  "form" : {
-    "save": "Enregistrer",
-    "submit": "Envoyer",
-    "update": "Mettre à jour",
+  "form": {
+    "add": "Ajouter",
+    "delete": "Supprimer",
     "cancel": "Annuler",
+    "submit": "Valider",
+    "waiting": "Veuillez patienter",
+    "save": "Enregistrer",
+    "update": "Mettre à jour",
     "submitting": "En cours…"
   }
 }

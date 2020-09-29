@@ -1,6 +1,6 @@
 <template>
   <div
-    class="home p-grid p-justify-center p-align-center vertical-container"
+    class="home p-grid p-jc-center p-ai-center vertical-container w-full"
     :style="{
       'background-image': 'url(' + backgroundImage + ')'
     }"
@@ -30,7 +30,7 @@
 
 <script>
 // @ is an alias to /src
-import Login from '@/components/auth/Login/Login.vue'
+import Login from '@/components/ui/Login/Login.vue'
 import { authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 

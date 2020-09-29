@@ -1,5 +1,9 @@
 <template>
-  <div id="app" :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'">
+  <div
+    id="app"
+    class="p-d-flex p-flex-column"
+    :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
+  >
     <div class="layout-sidebar" :class="sidebarActive ? 'active' : 'hidden'"></div>
     <lck-header
       v-if="displayHeader"
@@ -8,30 +12,24 @@
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
     />
-    <main class="o-auto p-fluid">
+    <main class="p-d-flex p-flex-column d-flex-1 o-auto p-fluid w-full">
       <router-view/>
     </main>
-    <p-toast />
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import Header from '@/components/layout/Header/Header'
-import Toast from 'primevue/toast'
-
-import { appState } from '@/store'
 import {
   authState,
   logout
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
+import Header from '@/components/ui/Header/Header'
 
 export default {
   name: 'app',
   data () {
     return {
-      state: appState,
       // eslint-disable-next-line no-undef
       logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
       sidebarActive: false
@@ -59,8 +57,7 @@ export default {
     }
   },
   components: {
-    'lck-header': Header,
-    'p-toast': Vue.extend(Toast)
+    'lck-header': Header
   }
 }
 </script>
@@ -68,15 +65,7 @@ export default {
 <style lang="scss" src="@/styles/main.scss"></style>
 
 <style lang="scss" scoped>
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  header {
-    height: 4rem;
-  }
-  main {
-    flex: 1;
-  }
+header {
+  height: 4rem;
 }
 </style>

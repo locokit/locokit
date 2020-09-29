@@ -8,6 +8,12 @@
     },
     "paginator": {
       "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries"
+    },
+    "dropdown": {
+      "placeholder": "Select an option"
+    },
+    "crudtable": {
+      "columnReferenceLabel": "Reference"
     }
   },
   "pages": {
@@ -23,17 +29,21 @@
       "workspaces": "My workspaces",
       "button-logout": "Logout"
     },
-    "workspaces": {
+    "workspace": {
       "title": "Workspaces",
       "created": "Created:",
       "updated": "Updated:",
       "noChapter": "No chapter to display",
       "errorTypeBlock": "This {blockType} block type does not exist.",
-      "errorUnknownTypeBlock": "The block type does not exist."
+      "errorUnknownTypeBlock": "The block type does not exist.",
+      "buttonDatabase": "Database",
+      "buttonSchema": "Schema",
+      "buttonVisu": "Visualization"
     },
-    "databases": {
+    "database": {
       "title": "Database",
-      "noDatabase": "No database created. Please create one first."
+      "noDatabase": "No database created. Please create one first.",
+      "addNewRow": "Add new row"
     },
     "databaseSchema": {
       "title": "Database schema",
@@ -73,13 +83,16 @@
   "http": {
     "401": "Access not granted",
     "403": "Access forbidden",
-    "500": "An error occured…"
+    "500": "An error occured..."
   },
   "form" : {
-    "save": "Save",
-    "submit": "Submit",
-    "update": "Update",
+    "add": "Add",
+    "delete": "Delete",
     "cancel": "Cancel",
+    "submit": "Submit",
+    "waiting": "Please wait",
+    "save": "Save",
+    "update": "Update",
     "submitting": "Please wait…"
   }
 }

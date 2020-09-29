@@ -1,18 +1,18 @@
 {
   "name": "lck-front",
-  "version": "0.0.3-alpha.2",
+  "version": "0.0.3-alpha.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "test:unit-stories": "vue-cli-service test:unit --config=jest.stories.config.js",
-    "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006 -s ./public",
-    "storybook:build": "build-storybook"
+    "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
+    "test:unit-stories": "vue-cli-service test:unit --config=jest.stories.config.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^4.5.4",
@@ -24,9 +24,9 @@
     "@sentry/integrations": "^5.19.2",
     "core-js": "^3.6.5",
     "nomnoml": "^1.1.0",
-    "primeflex": "^2.0.0-rc.1",
+    "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",
-    "primevue": "^2.0.5",
+    "primevue": "^2.0.9",
     "register-service-worker": "^1.7.1",
     "svg-pan-zoom": "^3.6.1",
     "vue": "^2.6.11",

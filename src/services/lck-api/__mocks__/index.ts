@@ -7,7 +7,7 @@ export default {
       accessToken: 'jeSuisUnToken'
     },
     user: {
-      name: 'FirstName LastName',
+      name: 'FirstName LASTNAME',
       email: 'email@email.email',
       profile: 'SUPERADMIN'
     }
@@ -18,7 +18,7 @@ export default {
       strategy: 'local'
     },
     user: {
-      name: 'FirstName LastName',
+      name: 'FirstName LASTNAME',
       email: 'email@email.email',
       profile: 'SUPERADMIN'
     }

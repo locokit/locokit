@@ -7,4 +7,4 @@ declare const LCK_SETTINGS: {
   SENTRY_DSN: string;
 }
 
-declare const LCK_VERSION: string;
+declare const LCK_VERSION: string

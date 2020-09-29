@@ -3,7 +3,7 @@
     class="generic-view-container p-mx-auto"
   >
     <header class="p-my-4 lck-color-title">
-      {{ $t('pages.workspaces.title') }}
+      {{ $t('pages.workspace.title') }}
     </header>
 
     <div v-if="!isAuthorized">
@@ -18,19 +18,6 @@
         >
           <template slot="title">
             {{ workspace.text }}
-          </template>
-          <template slot="content">
-            <div>
-              <ul class="lck-ul-content">
-                <li>#{{ workspace.id }}</li>
-                <li>
-                  {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
-                </li>
-                <li>
-                  {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
-                </li>
-              </ul>
-            </div>
           </template>
         </p-card>
       </router-link>
@@ -47,21 +34,15 @@
         </template>
         <template slot="content">
           <div>
-            <ul class="lck-ul-content">
-              <li>#{{ workspace.id }}</li>
-              <li>
-                {{ $t('pages.workspaces.created') }} {{ workspace.createdAt }}
-              </li>
-              <li>
-                {{ $t('pages.workspaces.updated') }} {{ workspace.updatedAt }}
-              </li>
-            </ul>
             <div class="action-button-content p-d-flex">
               <router-link
                 class="no-decoration-link p-mr-2"
                 :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
               >
-                <p-button label="Visualization" icon="pi pi-globe" />
+                <p-button
+                  :label="$t('pages.workspace.buttonVisu')"
+                  icon="pi pi-globe"
+                />
               </router-link>
 
               <template v-if="workspace.databases.length > 0">
@@ -70,19 +51,25 @@
                   class="no-decoration-link p-mr-2"
                   :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
                 >
-                  <p-button label="Database" icon="pi pi-table" />
+                  <p-button
+                    :label="$t('pages.workspace.buttonDatabase')"
+                    icon="pi pi-table"
+                  />
                 </router-link>
                 <p-dropdown-button
                   v-else
                   class="no-decoration-link p-mr-2"
-                  label="Databases"
+                  :label="$t('pages.workspace.buttonDatabase')"
                   :model="transformDatabases(workspace.id, workspace.databases)"
                 />
                 <router-link
                   v-if="workspace.databases.length === 1"
                   :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
                 >
-                  <p-button label="Schéma" icon="pi pi-sitemap" />
+                  <p-button
+                  :label="$t('pages.workspace.buttonSchema')"
+                    icon="pi pi-sitemap"
+                  />
                 </router-link>
               </template>
             </div>
@@ -100,7 +87,7 @@ import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-import DropdownButton from '@/components/DropdownButton/DropdownButton'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 export default {
   name: 'WorkspaceList',

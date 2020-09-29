@@ -7,7 +7,8 @@ class Database {
   tables = []
 }
 
-class DatabaseState extends BaseState<Database> {}
+class DatabaseState extends BaseState<Database> {
+}
 
 export const databaseState: DatabaseState = {
   loading: false,
@@ -15,12 +16,13 @@ export const databaseState: DatabaseState = {
   data: new Database()
 }
 
-export async function retrieveDatabaseByWorkspaceId (databaseId: string) {
+export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
   databaseState.loading = true
   try {
     const result = await lckClient.service('database').get(databaseId, {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: 'tables' }
+      query: {
+        $eager: '[tables.[columns,views.[columns]]]'
+      }
     })
     databaseState.data = result
     return result
@@ -77,6 +79,31 @@ export async function retrieveTableRows (tableId: string, pageIndex = 0) {
   databaseState.loading = false
 }
 
+export async function retrieveTableRowsWithSkipAndLimit (
+  tableId: string,
+  skip = 0,
+  limit = 20,
+  sort = {
+    createdAt: 1
+  }
+) {
+  databaseState.loading = true
+  try {
+    return await lckClient.service('row').find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: {
+        table_id: tableId,
+        $limit: limit,
+        $skip: skip,
+        $sort: sort
+      }
+    })
+  } catch (error) {
+    databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
 export async function retrieveTableViews (tableId: string) {
   databaseState.loading = true
 
@@ -88,6 +115,43 @@ export async function retrieveTableViews (tableId: string) {
     return result.data
   } catch (error) {
     databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
+export async function saveTableData (formData: object) {
+  databaseState.loading = true
+
+  try {
+    const result = await lckClient.service('row').create(formData)
+    databaseState.loading = false
+    return result
+  } catch ({ code, name }) {
+    databaseState.loading = false
+    return { code, name }
+  }
+}
+
+export async function deleteTableData (rowId: string) {
+  databaseState.loading = true
+
+  try {
+    const result = await lckClient.service('row').remove(rowId)
+    databaseState.loading = false
+    return result
+  } catch ({ code, name }) {
+    databaseState.loading = false
+    return { code, name }
+  }
+}
+
+export async function patchTableData (rowId: string, formData: object) {
+  databaseState.loading = true
+  try {
+    const result = await lckClient.service('row').patch(rowId, formData)
+    return result
+  } catch ({ code, name }) {
+    databaseState.error = new Error(`${code}: ${name}`)
   }
   databaseState.loading = false
 }
