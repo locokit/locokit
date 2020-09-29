@@ -4,7 +4,6 @@
       <template slot="left">
           {{ $t('pages.databaseSchema.title') }}
       </template>
-
       <template slot="right">
         <p-button
           label="Table"
@@ -22,41 +21,9 @@
     </div>
     <div v-else>Erreur</div>
     <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" v-on:on-close="onCloseCreateTableDialog" />
-    <p-dialog :contentStyle="{overflow: 'visible'}" @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
-      <div class="p-d-flex">
-        <div>
-            <label for="table-name">Nom de la table</label>
-            <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" />
-        </div>
-        <div class="p-d-flex p-ai-end">
-          <div v-if="errorTableNameToUpdate" class="p-invalid">
-            <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
-          </div>
-          <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
-        </div>
-      </div>
-      <div class="p-d-flex p-mt-4">
-        <div>
-            <label for="column-name">Nom de la colonne</label>
-            <p-input-text id="column-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="newColumnName" />
-        </div>
-        <div class="p-d-flex p-ai-end p-mx-2">
-          <p-dropdown style="width: 300px" v-model="selectedColumnType" :options="columnTypes" optionLabel="name" placeholder="Sélectionner un type de colonne" />
-        </div>
-        <div class="p-d-flex p-ai-end">
-          <div v-if="errorAddColumn" class="p-invalid">
-            <small id="add-column-invalid" class="p-invalid">{{ errorAddColumn }}</small>
-          </div>
-          <p-button @click="addColumn" label="Ajouter" icon="pi pi-check" class="p-button-text" autofocus />
-        </div>
-      </div>
-      <template #footer>
-        <p-button @click="closeUpdateTableDialog" label="Fermer" icon="pi pi-times" class="p-button-text"/>
-      </template>
-    </p-dialog>
+    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" v-on:on-close="onCloseUpdateTableDialog" />
   </div>
 </template>
-
 <script>
 import Vue from 'vue'
 import lckClient from '@/services/lck-api'
@@ -65,20 +32,16 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import InputText from 'primevue/inputtext'
-import Dropdown from 'primevue/dropdown'
 import CreateTableModal from '@/components/databaseSchema/CreateTableModal'
+import UpdateTableModal from '@/components/databaseSchema/UpdateTableModal'
 
 export default {
   name: 'DatabaseSchema',
   components: {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'p-dialog': Vue.extend(Dialog),
-    'p-input-text': Vue.extend(InputText),
-    'p-dropdown': Vue.extend(Dropdown),
-    'create-table-modal': Vue.extend(CreateTableModal)
+    'create-table-modal': Vue.extend(CreateTableModal),
+    'update-table-modal': Vue.extend(UpdateTableModal)
   },
   props: {
     databaseId: String
@@ -90,16 +53,8 @@ export default {
       tables: null,
       errorLoadTables: false,
       showCreateTableDialog: false,
-      tableNameToCreate: null,
-      errorTableNameToCreate: null,
       showUpdateTableDialog: false,
-      tableNameToUpdate: null,
-      errorTableNameToUpdate: null,
-      currentTable: null,
-      columnTypes: [],
-      newColumnName: null,
-      selectedColumnType: null,
-      errorAddColumn: null
+      currentTable: null
     }
   },
   computed: {
@@ -126,45 +81,14 @@ export default {
       const currentTableName = e.target.attributes['data-name']?.value
       if (currentTableName) {
         this.currentTable = this.tablesIndexedByText[currentTableName]
-        this.tableNameToUpdate = currentTableName
         this.showUpdateTableDialog = true
       }
     },
-    closeUpdateTableDialog () {
-      this.resetUpdateTableDialog()
+    onCloseUpdateTableDialog (shouldReloadTables) {
+      if (shouldReloadTables) {
+        this.reloadTables()
+      }
       this.showUpdateTableDialog = false
-      this.errorTableNameToUpdate = false
-      this.reloadTables()
-    },
-    resetUpdateTableDialog () {
-      this.tableNameToUpdate = null
-      this.errorTableNameToUpdate = null
-    },
-    async updateTableName () {
-      try {
-        const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
-          text: this.tableNameToUpdate
-        })
-      } catch (errorUpdateTable) {
-        this.errorTableNameToUpdate = errorUpdateTable.message
-      }
-    },
-    async addColumn () {
-      try {
-        if (this.selectedColumnType && this.newColumnName) {
-          const addColumnResponse = await lckClient.service('column').create({
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: this.currentTable.id,
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            column_type_id: this.selectedColumnType.id,
-            text: this.newColumnName
-          })
-        } else {
-          throw new Error('Veuillez renseigner les champs')
-        }
-      } catch (errorAddColumn) {
-        this.errorAddColumn = errorAddColumn.message
-      }
     },
     createSource (tables) {
       const sourceStyle = [
@@ -230,9 +154,6 @@ export default {
     }
   },
   async mounted () {
-    Object.keys(COLUMN_TYPE).forEach((key) => {
-      this.columnTypes.push({ id: COLUMN_TYPE[key], name: key })
-    })
     this.loadTables()
   },
   updated () {

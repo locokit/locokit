@@ -1,0 +1,108 @@
+<template>
+    <p-dialog :contentStyle="{overflow: 'visible'}" header="Modifier une table" :visible="true" :modal="true" :closable="false">
+      <div class="p-d-flex">
+        <div>
+            <label for="table-name">Nom de la table</label>
+            <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <div v-if="errorTableNameToUpdate" class="p-invalid">
+            <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
+          </div>
+          <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
+        </div>
+      </div>
+      <div class="p-d-flex p-mt-4">
+        <div>
+            <label for="column-name">Nom de la colonne</label>
+            <p-input-text id="column-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="columnNameToCreate" />
+        </div>
+        <div class="p-d-flex p-ai-end p-mx-2">
+          <p-dropdown style="width: 300px" v-model="selectedColumnType" :options="columnTypes" optionLabel="name" placeholder="Sélectionner un type de colonne" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <div v-if="errorAddColumn" class="p-invalid">
+            <small id="add-column-invalid" class="p-invalid">{{ errorAddColumn }}</small>
+          </div>
+          <p-button @click="addColumn" label="Ajouter" icon="pi pi-check" class="p-button-text" autofocus />
+        </div>
+      </div>
+      <template #footer>
+        <p-button @click="closeUpdateTableDialog" label="Fermer" icon="pi pi-times" class="p-button-text"/>
+      </template>
+    </p-dialog>
+</template>
+<script>
+import Vue from 'vue'
+import lckClient from '@/services/lck-api'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
+import InputText from 'primevue/inputtext'
+import Dropdown from 'primevue/dropdown'
+
+export default {
+  name: 'UpdateTableModal',
+  components: {
+    'p-button': Vue.extend(Button),
+    'p-dialog': Vue.extend(Dialog),
+    'p-input-text': Vue.extend(InputText),
+    'p-dropdown': Vue.extend(Dropdown)
+  },
+  props: {
+    currentTable: Object
+  },
+  data () {
+    return {
+      tableNameToUpdate: null,
+      errorTableNameToUpdate: null,
+      columnTypes: [],
+      columnNameToCreate: null,
+      selectedColumnType: null,
+      errorAddColumn: null,
+      shouldReloadTables: false
+    }
+  },
+  methods: {
+    closeUpdateTableDialog () {
+      this.$emit('on-close', this.shouldReloadTables)
+    },
+    async updateTableName () {
+      try {
+        const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
+          text: this.tableNameToUpdate
+        })
+        this.shouldReloadTables = true
+      } catch (errorUpdateTable) {
+        this.errorTableNameToUpdate = errorUpdateTable.message
+      }
+    },
+    async addColumn () {
+      try {
+        if (this.selectedColumnType && this.columnNameToCreate) {
+          const addColumnResponse = await lckClient.service('column').create({
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: this.currentTable.id,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: this.selectedColumnType.id,
+            text: this.columnNameToCreate
+          })
+          this.shouldReloadTables = true
+        } else {
+          throw new Error('Veuillez renseigner les champs')
+        }
+      } catch (errorAddColumn) {
+        this.errorAddColumn = errorAddColumn.message
+      }
+    }
+  },
+  mounted () {
+    Object.keys(COLUMN_TYPE).forEach((key) => {
+      this.columnTypes.push({ id: COLUMN_TYPE[key], name: key })
+    })
+    if (this.currentTable) {
+      this.tableNameToUpdate = this.currentTable.text
+    }
+  }
+}
+</script>
