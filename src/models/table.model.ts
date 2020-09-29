@@ -3,6 +3,7 @@
 import { Model } from 'objection';
 import { Application } from '../declarations';
 import { row as LckRow } from './row.model'
+import { view as LckView } from './view.model'
 import { column as LckColumn } from './column.model'
 import { LckColumnDTO } from './view.model';
 import { QueryBuilder } from 'objection';
@@ -50,6 +51,14 @@ export class table extends Model {
         join: {
           from: 'table.id',
           to: 'table_row.table_id'
+        }
+      },
+      views: {
+        relation: Model.HasManyRelation,
+        modelClass: LckView,
+        join: {
+          from: 'table.id',
+          to: 'table_view.table_id'
         }
       }
     }
