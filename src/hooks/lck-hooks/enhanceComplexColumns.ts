@@ -49,7 +49,7 @@ export function enhanceComplexColumns (): Hook {
             break
           case COLUMN_TYPE.GROUP:
             const matchingGroup: group = await context.app.services.group.get(reference)
-            value = matchingGroup.text
+            value = matchingGroup.name
             context.data.data[currentColumnId] = {
               reference,
               value
