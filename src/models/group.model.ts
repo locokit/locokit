@@ -72,6 +72,7 @@ export class group extends Model {
           through: {
             from: 'user_has_group.group_id',
             to: 'user_has_group.user_id',
+            extra: ['role']
           },
           to: 'user.id',
         }
