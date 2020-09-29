@@ -5,13 +5,6 @@ export default {
   component: Paragraph
 }
 
-export const ParagraphStoryWithoutProps = () => ({
-  components: { Paragraph },
-  template: '<Paragraph />'
-})
-
-ParagraphStoryWithoutProps.storyName = 'Paragraph without props'
-
 export const ParagraphStoryWithProps = () => ({
   components: { Paragraph },
   data () {

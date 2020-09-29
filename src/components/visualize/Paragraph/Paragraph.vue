@@ -13,7 +13,7 @@ export default Vue.extend({
   props: {
     block: {
       type: Object as PropType<BlockParagraph>,
-      default: () => ({})
+      required: true
     }
   }
 })
