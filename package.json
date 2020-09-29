@@ -9,7 +9,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "storybook:build": "build-storybook",
+    "storybook:build": "build-storybook -s ./public",
     "storybook:serve": "start-storybook -p 6006 -s ./public",
     "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
     "test:unit-stories": "vue-cli-service test:unit --config=jest.stories.config.js"
