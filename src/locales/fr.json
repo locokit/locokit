@@ -35,7 +35,10 @@
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",
       "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
-      "errorUnknownTypeBlock": "Le type de block n'existe pas."
+      "errorUnknownTypeBlock": "Le type de block n'existe pas.",
+      "buttonDatabase": "Base de données",
+      "buttonSchema": "Schéma",
+      "buttonVisu": "Visualisation"
     },
     "database": {
       "title": "Base de données",

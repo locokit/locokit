@@ -89,9 +89,11 @@ a.no-decoration-link {
 
 .p-button {
   background-color: var(--surface-a);
+  border-color: var(--surface-a);
 
   &:active, &:hover {
     background-color: var(--surface-b);
+    border-color: var(--surface-b);
   }
 }
 

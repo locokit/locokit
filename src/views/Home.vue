@@ -1,6 +1,6 @@
 <template>
   <div
-    class="home p-grid p-justify-center p-align-center vertical-container"
+    class="home p-grid p-jc-center p-ai-center vertical-container w-full"
     :style="{
       'background-image': 'url(' + backgroundImage + ')'
     }"

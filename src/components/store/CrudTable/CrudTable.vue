@@ -10,9 +10,9 @@
     class="
       p-datatable-sm
       p-datatable-gridlines
-      flex
-      flex-1
-      flex-col
+      p-d-flex
+      d-flex-1
+      p-flex-column
       justify-between
     "
     :value="block.content.data"

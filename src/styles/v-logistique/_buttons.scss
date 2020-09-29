@@ -1,10 +1,14 @@
 // buttons
 
 .p-button {
+  background-color: var(--surface-a);
+  border-color: var(--surface-a);
+
   &:enabled {
     &:hover {
       color: #ffffff;
       background-color: var(--primary-color-darken);
+      border-color: var(--primary-color-darken);
     }
   }
 

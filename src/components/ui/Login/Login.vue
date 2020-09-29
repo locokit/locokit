@@ -23,7 +23,7 @@
             required
           />
         </div>
-        <div class="flex items-center justify-center">
+        <div class="p-d-flex items-center p-jc-center">
           <p-button
             type="submit"
             :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
@@ -68,6 +68,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-</style>

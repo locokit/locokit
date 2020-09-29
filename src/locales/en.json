@@ -35,7 +35,10 @@
       "updated": "Updated:",
       "noChapter": "No chapter to display",
       "errorTypeBlock": "This {blockType} block type does not exist.",
-      "errorUnknownTypeBlock": "The block type does not exist."
+      "errorUnknownTypeBlock": "The block type does not exist.",
+      "buttonDatabase": "Database",
+      "buttonSchema": "Schema",
+      "buttonVisu": "Visualization"
     },
     "database": {
       "title": "Database",

@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="flex flex-col"
+    class="p-d-flex p-flex-column"
     :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
   >
     <div class="layout-sidebar" :class="sidebarActive ? 'active' : 'hidden'"></div>
@@ -12,7 +12,7 @@
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
     />
-    <main class="flex flex-col flex-1 o-auto p-fluid">
+    <main class="p-d-flex p-flex-column d-flex-1 o-auto p-fluid w-full">
       <router-view/>
     </main>
   </div>
@@ -63,7 +63,6 @@ export default {
 </script>
 
 <style lang="scss" src="@/styles/main.scss"></style>
-<style src="@/styles/tailwind.css"></style>
 
 <style lang="scss" scoped>
 header {
