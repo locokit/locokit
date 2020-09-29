@@ -57,7 +57,7 @@ exports[`storyshots Login Login 1`] = `
           </div>
            
           <div
-            class="flex items-center justify-center"
+            class="p-d-flex items-center p-jc-center"
           >
             <button
               class="p-button p-component"
