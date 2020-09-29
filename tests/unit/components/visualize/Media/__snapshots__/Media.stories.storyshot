@@ -13,7 +13,7 @@ exports[`storyshots Media Media with props 1`] = `
       >
         <img
           alt="Image"
-          src="jeSuisUnLienVersUneImage"
+          src="/img/page-construction-vlogistique.png"
         />
       </div>
     </div>

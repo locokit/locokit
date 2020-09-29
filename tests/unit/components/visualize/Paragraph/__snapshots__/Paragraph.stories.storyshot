@@ -13,11 +13,3 @@ exports[`storyshots Paragraph Paragraph with props 1`] = `
   </div>
 </div>
 `;
-
-exports[`storyshots Paragraph Paragraph without props 1`] = `
-<div
-  class="h-full p-fluid"
->
-  <!---->
-</div>
-`;
