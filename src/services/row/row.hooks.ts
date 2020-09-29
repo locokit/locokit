@@ -12,11 +12,9 @@ import { Hook, HookContext, Query } from '@feathersjs/feathers';
 import { column as LckColumn, SingleSelectValue } from '../../models/column.model';
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { row, RowData } from '../../models/row.model';
-import app from '../../app';
 import { ColumnRelation } from '../../models/columnrelation.model';
 import { enhanceComplexColumns } from '../../hooks/lck-hooks/enhanceComplexColumns';
 import { loadColumnsDefinition } from '../../hooks/lck-hooks/loadColumnsDefinition';
-import { Trr } from '../trr/trr.class';
 import { LCK_trr } from '../../models/trr.model';
 
 
@@ -44,12 +42,10 @@ function memorizeColumnsIds (): Hook {
 function completeDataField (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     if (context.method !== 'patch') return context
-    console.log('actual data', context.data)
     if (
       context.data.data &&
       context.params._meta?.item?.data
     ) {
-      console.log('here we clone the row data')
       // find the matching row
       // const currentRow = await context.service.get(context.id as string)
       // enhance the data object
@@ -102,8 +98,6 @@ function computeLookedUpColumns (): Hook {
       }
     })
 
-    console.log(linkedRows)
-
     // find if some of the columns are linked to other via table_column_relation
     const linkedColumns = await context.app.services.columnrelation.find({
       query: {
@@ -112,14 +106,12 @@ function computeLookedUpColumns (): Hook {
         }
       }
     })
-    console.log(linkedColumns, context.params._meta.columnsIdsTransmitted)
 
     // update each linked row, by setting the new value for all columns related to this row
     await Promise.all((linkedRows.data as LCK_trr[]).map(async (currentRowRelation: LCK_trr) => {
       const currentRow = await context.service.get(currentRowRelation.table_row_to_id)
       const columnDataKeysForCurrentRow = Object.keys(currentRow.data)
       const columnsToUpdate = (linkedColumns.data as ColumnRelation[]).filter(c => columnDataKeysForCurrentRow.indexOf(c.table_column_to_id) > -1)
-      console.log(currentRow, columnDataKeysForCurrentRow, columnsToUpdate)
       const newData: Record<string, {
         reference: string,
         value: string
@@ -130,38 +122,10 @@ function computeLookedUpColumns (): Hook {
           value: context.result.data[c.table_column_from_id]
         }
       })
-      console.log(newData)
       await context.service.patch(currentRow.id, {
         data: newData
       })
     }))
-
-    // console.log(relations)
-    // await Promise.all(
-    //   relations.data.map(async (relation: ColumnRelation) => {
-    //     // load the matching column
-    //     const columnLinked: LckColumn = await context.app.services.column.get(relation.column_from_id)
-    //     // find the row(s) to update
-    //     const field =  `(${columnLinked.settings.column_from_id}.reference)`
-    //     console.log(
-    //       columnLinked.settings.column_from_id as string,
-    //       context.result?.data[columnLinked.settings.column_to_id as string].reference,
-    //       field
-    //     )
-    //     const rowsToUpdate = await context.app.services.row.find({
-    //       query: {
-    //         table_id: columnLinked.table_id as string,
-    //         data: {
-    //           [columnLinked.settings.column_from_id as string]: {
-    //             reference: context.result?.data[columnLinked.settings.column_to_id as string].reference
-    //           }
-    //         }
-    //       }
-    //     })
-    //     console.log(columnLinked, rowsToUpdate.data.map((r: any) => r.data))
-    //   })
-    // )
-    console.log('End of this hook...')
     return context;
   };
 }
@@ -174,7 +138,6 @@ function computeLookedUpColumns (): Hook {
  */
 function computeRowLookedUpColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    console.log('computeRowLookedUpColumns', context.data)
     if (
       context.method === 'patch' &&
       !context.data.data
@@ -186,11 +149,10 @@ function computeRowLookedUpColumns (): Hook {
           const foreignColumn: LckColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
           const foreignColumnTypeId = foreignColumn.column_type_id
           const foreignRowId: { reference: string, value: string } = context.data.data[currentColumnDefinition.settings.localField as string]
-          if (foreignRowId.reference) {
-            const matchingRow: row = await context.service.get(foreignRowId.reference)
-            console.log(matchingRow, matchingRow.data[currentColumnDefinition.settings.foreignField as string])
+          if (foreignRowId?.reference) {
+            const matchingRow: row = await context.service.get(foreignRowId?.reference)
             const currentColumnData: RowData = {
-              reference: foreignRowId,
+              reference: foreignRowId.reference,
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string }
             }
             /**
@@ -204,6 +166,7 @@ function computeRowLookedUpColumns (): Hook {
              */
             if (typeof currentColumnData.value === 'object') {
 
+              currentColumnData.reference = currentColumnData.value?.reference
               currentColumnData.value = currentColumnData.value?.value
             }
             context.data.data[currentColumnDefinition.id] = currentColumnData
@@ -241,22 +204,11 @@ function computeRowFormulaColumns () : Hook {
               console.error(error)
             }
           } else {
-            console.log(currentColumnDefinition.settings)
+            // console.log(currentColumnDefinition.settings)
             console.log('not yet implemented...')
           }
         })
     )
-    return context;
-  };
-}
-
-/**
- * Restrict the removal of a row
- * if all its dependencies are still linked.
- */
-function restrictRemoveRow (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    console.log('restrictRemoveRow', context.params.query)
     return context;
   };
 }
@@ -276,7 +228,6 @@ function upsertRowRelation (): Hook {
         return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
       })
       .map(async currentColumnId => {
-        console.log(context.result.id)
         // check if there is alreay a trr for the current row id + currentColumnId
         const matchingRows = await context.app.services.trr.find({
           query: {
@@ -345,7 +296,7 @@ export default {
       computeRowLookedUpColumns()
     ],
     remove: [
-      restrictRemoveRow()
+      commonHooks.disallow()
     ]
   },
 

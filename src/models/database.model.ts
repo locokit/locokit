@@ -5,8 +5,10 @@ import { Application } from '../declarations';
 import { table as LckTable } from './table.model'
 
 export class database extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
+  text!: string;
 
   static get tableName() {
     return 'database';
