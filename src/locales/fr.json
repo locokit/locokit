@@ -94,5 +94,11 @@
     "save": "Enregistrer",
     "update": "Mettre à jour",
     "submitting": "En cours…"
+  },
+  "sw": {
+    "newVersion": "Nouvelle version disponible",
+    "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre application.",
+    "update": "Mettre à jour",
+    "cancel": "Annuler"
   }
 }

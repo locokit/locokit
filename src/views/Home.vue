@@ -20,6 +20,7 @@
       />
 
     </div>
+    <PopupReload />
     <div class="version-block p-p-2">
       {{ version }}
     </div>
@@ -31,13 +32,15 @@
 <script>
 // @ is an alias to /src
 import Login from '@/components/ui/Login/Login.vue'
+import PopupReload from '@/components/ui/PopupReload/PopupReload.vue'
 import { authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Home',
   components: {
-    Login
+    Login,
+    PopupReload
   },
   data () {
     return {
@@ -51,7 +54,6 @@ export default {
     }
   },
   methods: {
-
     async authenticate (data) {
       await authenticate(data)
       if (authState.data.isAuthenticated) {

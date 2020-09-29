@@ -10,6 +10,12 @@ module.exports = {
       enableInSFC: false
     }
   },
+  pwa: {
+    workboxOptions: {
+      importWorkboxFrom: 'local',
+      skipWaiting: true
+    }
+  },
   configureWebpack: {
     devtool: 'source-map'
   },

@@ -21,6 +21,10 @@ if (process.env.NODE_ENV === 'production') {
     },
     updated () {
       console.log('New content is available; please refresh.')
+      // Create a custom event to display an interactive popup which trigger update of the app
+      document.dispatchEvent(
+        new CustomEvent('swUpdated')
+      )
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')
