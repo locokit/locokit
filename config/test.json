@@ -1,6 +1,6 @@
 {
   "postgres": {
     "client": "pg",
-    "connection": "LCK_DATABASE_URL"
+    "connection": "LCK_DATABASE_URL_TEST"
   }
 }

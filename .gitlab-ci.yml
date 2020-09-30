@@ -43,15 +43,14 @@ test:
     POSTGRES_PASSWORD: pouicpouic
     LCK_PORT: 3030
     LCK_HOST: localhost
-    LCK_DATABASE_URL: postgres://postgres:pouicpouic@lck-db:5432/postgres
+    LCK_DATABASE_URL_TEST: postgres://postgres:pouicpouic@lck-db:5432/postgres
     OBJECTION_DEBUG: 'false'
+    NODE_ENV: test
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
   script:
     - npm ci
-    - npm run migrate:latest
-    - npm run seed:run
     - npm test
 
 build-lib:
