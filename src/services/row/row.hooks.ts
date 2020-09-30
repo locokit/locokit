@@ -214,6 +214,54 @@ function computeRowFormulaColumns () : Hook {
 }
 
 /**
+ * Restrict the removal of a row if there are dependencies on this row
+ */
+function restrictRemoveIfRelatedRows () : Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    if (context.method === 'remove') {
+      // find if there are related rows dependent of the current row (table_row_from_id)
+      const matchingRows = await context.app.services.trr.find({
+        query: {
+          table_row_from_id: context.id,
+        }
+      })
+      if (matchingRows.total > 0) {
+        throw new Error('Can\'t remove current row, related rows are still present')
+      }
+    } else {
+      console.log('restrictRemoveIfRelatedRows is remove only hook')
+    }
+    return context
+  }
+}
+
+/**
+ * Clean the related rows for the row deleted
+ */
+function removeRelatedRows () : Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    if (context.method === 'remove') {
+      // remove the related rows pointing to the current row
+      const matchingRows = await context.app.services.trr.find({
+        query: {
+          table_row_to_id: context.id,
+        }
+      })
+      if (matchingRows.total > 0) {
+        await context.app.services.trr.remove(null, {
+          query: {
+            table_row_to_id: context.id,
+          }
+        })
+      }
+    } else {
+      console.log('removeRelatedRows is remove only hook')
+    }
+    return context
+  }
+}
+
+/**
  * Create / Update the table_row_relation if needed
  */
 function upsertRowRelation (): Hook {
@@ -296,7 +344,14 @@ export default {
       computeRowLookedUpColumns()
     ],
     remove: [
-      commonHooks.disallow()
+      commonHooks.iffElse(
+        commonHooks.isProvider('rest'),
+        commonHooks.disallow(),
+        [
+          restrictRemoveIfRelatedRows(),
+          removeRelatedRows()
+        ]
+      )
     ]
   },
 

@@ -90,7 +90,6 @@ describe ('hooks for row service', () => {
   let user1: user
 
   beforeAll(async() => {
-    const service = app.service('row');
     workspace = await app.service('workspace').create({text: 'pouet'})
     database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
     table1 = await app.service('table').create({
@@ -172,6 +171,102 @@ describe ('hooks for row service', () => {
       expect(( rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value).toBe('table 1 ref')
       expect(( rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).reference).toBe(rowTable1.id)
     })
+
+    afterAll(async () => {
+      await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
+    })
+  })
+
+  describe('restrictRemoveIfRelatedRows', () => {
+    let rowTable1: row
+    let rowTable2: row
+    beforeEach(async () => {
+      const service = app.service('row')
+      rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1User.id]: user1.id
+        }
+      })
+      rowTable2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref',
+        data: {
+          [columnTable2RelationBetweenTable1.id]: rowTable1.id
+        }
+      })
+    })
+    it('restrict the deletion of a row if there is a related row', async () => {
+      expect.assertions(1)
+      try {
+        await app.service('row').remove(rowTable1.id)
+      } catch (e) {
+        expect(e).toBeTruthy()
+      }
+    })
+    it('let the removal execute if deletion are ordered correctly', async () => {
+      expect.assertions(4)
+      await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
+      try {
+        await app.service('row').get(rowTable2.id)
+      } catch(e) {
+        expect(e).toBeTruthy()
+        expect(e.code).toBe(404)
+      }
+      try {
+        await app.service('row').get(rowTable1.id)
+      } catch(e) {
+        expect(e).toBeTruthy()
+        expect(e.code).toBe(404)
+      }
+    })
+
+  })
+
+  describe('upsertRowRelation', () => {
+    let rowTable1: row
+    let rowTable2: row
+
+    beforeEach(async () => {
+      const service = app.service('row')
+      rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1User.id]: user1.id
+        }
+      })
+      rowTable2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref',
+        data: {
+          [columnTable2RelationBetweenTable1.id]: rowTable1.id
+        }
+      })
+    })
+    it('create a relation between 2 rows when columns are related', async () => {
+      expect.assertions(1)
+      const relation = await app.services.trr._find({
+        query: {
+          table_row_from_id: rowTable1.id,
+          table_row_to_id: rowTable2.id,
+          table_column_to_id: columnTable2RelationBetweenTable1.id
+        }
+      })
+      expect(relation.total).toBe(1)
+    })
+
+    afterEach(async () => {
+      await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
+    })
+  })
+
+  describe('computeRowLookedUpColumns', () => {
+
   })
 
   afterAll(async () => {
