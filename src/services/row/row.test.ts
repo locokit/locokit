@@ -288,8 +288,17 @@ describe ('hooks for row service', () => {
     })
 
     it('compute the lookedup column of the currentRow', async () => {
-      expect.assertions(1)
+      expect.assertions(5)
       expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
+      const newRowTable2 = await app.service('row').patch(rowTable2.id, {
+        data: {
+          [columnTable2RelationBetweenTable1.id]: rowTable1.id
+        }
+      })
+      expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].reference).toBe(rowTable1.id)
+      expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].value).toBe('table 1 ref')
+      expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].value).toBe('User 1')
+      expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].reference).toBe(user1.id)
     })
 
     afterEach(async () => {
