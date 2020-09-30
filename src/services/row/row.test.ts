@@ -305,8 +305,65 @@ describe ('hooks for row service', () => {
       await app.service('row').remove(rowTable2.id)
       await app.service('row').remove(rowTable1.id)
     })
-
   })
+
+  describe('computeLookedUpColumns', () => {
+    let rowTable1: row
+    let rowTable2: row
+    let user2: user
+
+    beforeEach(async () => {
+      const service = app.service('row')
+      rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1User.id]: user1.id
+        }
+      })
+      rowTable2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref',
+        data: {
+          [columnTable2RelationBetweenTable1.id]: rowTable1.id
+        }
+      })
+      user2 = await app.service('user').create({
+        name: 'User 2',
+        email: 'user2@world.com',
+        password: 'locokit'
+      })
+    })
+
+    it('compute the lookedup column of other rows related', async () => {
+      expect.assertions(8)
+      const currentColumnTable1User = rowTable1.data[columnTable1User.id] as {reference: string, value: string}
+      const currentColumnTable2User = rowTable2.data[columnTable2LookedUpColumnTable1User.id] as {reference: string, value: string}
+      expect(currentColumnTable1User.reference).toBe(user1.id)
+      expect(currentColumnTable1User.value).toBe(user1.name)
+      expect(currentColumnTable2User.reference).toBe(user1.id)
+      expect(currentColumnTable2User.value).toBe(user1.name)
+      const newRowTable1 = await app.service('row').patch(rowTable1.id, {
+        data: {
+          [columnTable1User.id]: user2.id
+        }
+      })
+      const newRowTable2 = await app.service('row').get(rowTable2.id)
+      const newColumnTable1User = newRowTable1.data[columnTable1User.id] as {reference: string, value: string}
+      const newColumnTable2User = newRowTable2.data[columnTable2LookedUpColumnTable1User.id] as {reference: string, value: string}
+      expect(newColumnTable1User.reference).toBe(user2.id)
+      expect(newColumnTable1User.value).toBe(user2.name)
+      expect(newColumnTable2User.reference).toBe(user2.id)
+      expect(newColumnTable2User.value).toBe(user2.name)
+    })
+
+    afterEach(async () => {
+      await app.service('user').remove(user2.id)
+      await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
+    })
+  })
+
   describe('completeDefaultValues', () => {
     it('complete all columns for data field', async () => {
       const service = app.service('row')
