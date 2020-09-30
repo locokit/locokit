@@ -19,7 +19,8 @@ export class LckColumnDTO extends LckColumn {
 export class view extends Model {
   createdAt!: string;
   updatedAt!: string;
-  columns?: LckColumnDTO[]
+  columns?: LckColumnDTO[];
+  text!: string;
 
   static get tableName() {
     return 'table_view';
@@ -50,7 +51,7 @@ export class view extends Model {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['order', 'filter', 'visible', 'position']
+            extra: ['order', 'filter', 'visible', 'position', 'editable']
           },
           to: 'table_column.id',
           modify(query: QueryBuilder<LckColumn>) {

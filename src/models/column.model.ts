@@ -35,6 +35,7 @@ export class column extends Model {
     values?: Record<string, SingleSelectValue>,
     width?: number
   } = {};
+  position!: number;
   table_id!: string;
   column_type_id!: number;
 
@@ -52,6 +53,7 @@ export class column extends Model {
         settings: { type: 'object' },
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },
+        position: { type: 'number' },
       }
     };
   }

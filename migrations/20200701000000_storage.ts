@@ -41,6 +41,7 @@ export async function up(knex: Knex): Promise<any> {
   .createTable('block', table => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.string('title');
+    table.integer('position');
     table.enum('type', ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView']);
     table.jsonb('settings')
     table.timestamp('createdAt').defaultTo('now()');
@@ -105,6 +106,7 @@ export async function up(knex: Knex): Promise<any> {
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
     table.jsonb('settings')
+    table.integer('position')
     table.uuid('table_id').unsigned()
     table.foreign('table_id', 'FK_tc_table_id').references('id').inTable('table')
     table.integer('column_type_id').unsigned()
@@ -163,6 +165,7 @@ export async function up(knex: Knex): Promise<any> {
     table.enum('order', ['ASC', 'DESC'])
     table.jsonb('filter')
     table.boolean('visible')
+    table.boolean('editable')
     table.timestamp('createdAt').defaultTo('now()');
     table.timestamp('updatedAt').defaultTo('now()');
   })
