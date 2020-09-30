@@ -4,12 +4,9 @@
         <div class="p-d-flex">
           <div>
               <label for="table-name">Nom de la table</label>
-              <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" />
+              <p-input-text id="table-name" type="text" v-model="tableNameToUpdate" />
           </div>
           <div class="p-d-flex p-ai-end">
-            <div v-if="errorTableNameToUpdate" class="p-invalid">
-              <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
-            </div>
             <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
           </div>
         </div>
@@ -24,19 +21,19 @@
           <div class="p-d-flex p-ai-end">
             <p-button @click="updateColumn(column)" label="Modifier" icon="pi pi-check" class="p-button-text" />
           </div>
+          <div class="p-d-flex p-ai-end">
+            <p-button @click="deleteColumn(column)" label="Supprimer" icon="pi pi-check" class="p-button-text p-button-danger" />
+          </div>
         </div>
         <div class="p-d-flex p-mt-4">
           <div>
               <label for="column-name">Nom de la colonne</label>
-              <p-input-text id="column-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="columnNameToCreate" />
+              <p-input-text id="column-name" type="text" v-model="columnNameToCreate" />
           </div>
           <div class="p-d-flex p-ai-end p-mx-2">
             <p-dropdown style="width: 300px" v-model="selectedColumnTypeToCreate" :options="columnTypes" optionLabel="name" placeholder="Sélectionner un type de colonne" />
           </div>
           <div class="p-d-flex p-ai-end">
-            <div v-if="errorCreateColumn" class="p-invalid">
-              <small id="create-column-invalid" class="p-invalid">{{ errorCreateColumn }}</small>
-            </div>
             <p-button @click="createColumn" label="Ajouter" icon="pi pi-check" class="p-button-text" />
           </div>
         </div>
@@ -70,10 +67,8 @@ export default {
     return {
       columnTypes: [],
       tableNameToUpdate: null,
-      errorTableNameToUpdate: null,
       columnNameToCreate: null,
       selectedColumnTypeToCreate: null,
-      errorCreateColumn: null,
       currentTableToUpdate: null,
       shouldReloadTables: false
     }
@@ -89,7 +84,7 @@ export default {
         })
         this.shouldReloadTables = true
       } catch (errorUpdateTable) {
-        this.errorTableNameToUpdate = errorUpdateTable.message
+        console.warn(errorUpdateTable.message)
       }
     },
     async createColumn () {
@@ -107,7 +102,7 @@ export default {
           throw new Error('Veuillez renseigner les champs')
         }
       } catch (errorCreateColumn) {
-        this.errorCreateColumn = errorCreateColumn.message
+        console.warn(errorCreateColumn.message)
       }
     },
     async updateColumn (column) {
@@ -124,6 +119,16 @@ export default {
         }
       } catch (errorUpdateColumn) {
         console.warn(errorUpdateColumn)
+      }
+    },
+    async deleteColumn (column) {
+      try {
+        if (column.id) {
+          await lckClient.service('column').remove(column.id)
+          this.shouldReloadTables = true
+        }
+      } catch (errorDeleteColumn) {
+        console.warn(errorDeleteColumn)
       }
     }
   },
