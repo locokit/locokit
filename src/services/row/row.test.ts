@@ -266,6 +266,72 @@ describe ('hooks for row service', () => {
   })
 
   describe('computeRowLookedUpColumns', () => {
+    let rowTable1: row
+    let rowTable2: row
+
+    beforeEach(async () => {
+      const service = app.service('row')
+      rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1User.id]: user1.id
+        }
+      })
+      rowTable2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref',
+        data: {
+          // [columnTable2RelationBetweenTable1.id]: rowTable1.id
+        }
+      })
+    })
+
+    it('compute the lookedup column of the currentRow', async () => {
+      expect.assertions(1)
+      expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
+    })
+
+    afterEach(async () => {
+      await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
+    })
+
+  })
+  describe('completeDefaultValues', () => {
+    it('complete all columns for data field', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {}
+      })
+      expect.assertions(2)
+      const targetKeys = [
+        columnTable1Ref.id,
+        columnTable1User.id,
+      ]
+      Object.keys(rowTable1.data).forEach(key => {
+        expect(targetKeys.indexOf(key) > -1).toBe(true)
+      })
+      await app.service('row').remove(rowTable1.id)
+    })
+    it('even if data is not passed in param', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+      })
+      expect.assertions(2)
+      const targetKeys = [
+        columnTable1Ref.id,
+        columnTable1User.id,
+      ]
+      Object.keys(rowTable1.data).forEach(key => {
+        expect(targetKeys.indexOf(key) > -1).toBe(true)
+      })
+      await app.service('row').remove(rowTable1.id)
+    })
 
   })
 
