@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
-import { disablePagination, discardQuery, iff } from 'feathers-hooks-common';
+import { disablePagination, iff } from 'feathers-hooks-common';
 import { queryContainsKey } from '../../hooks/lck-hooks/queryContainsKey';
 const { authenticate } = authentication.hooks;
 
