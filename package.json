@@ -24,11 +24,14 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run compile && npm run jest",
+    "pretest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
+    "test": "npm run compile && NODE_ENV=test npm run jest",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
-    "jest": "jest --forceExit --coverage",
-    "jest:watch": "jest --watch",
+    "prejest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
+    "jest": "NODE_ENV=test jest --forceExit --coverage",
+    "prejest:watch": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
+    "jest:watch": "NODE_ENV=test jest --watch",
     "compile": "shx rm -rf lib/ && tsc",
     "migrate:make": "knex migrate:make",
     "migrate:latest": "knex migrate:latest",

@@ -9,6 +9,7 @@ import { LckColumnDTO } from './view.model';
 import { QueryBuilder } from 'objection';
 
 export class table extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   columns?: LckColumnDTO[]

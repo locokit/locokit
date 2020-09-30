@@ -14,6 +14,7 @@ const defaultWorkspacePermission: WorkspacePermission = {
 }
 
 export class workspace extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   role!: string;

@@ -82,21 +82,5 @@ export class group extends Model {
 }
 
 export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('group').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('group', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created group table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating group table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating group table', e)); // eslint-disable-line no-console
-
   return group;
 }

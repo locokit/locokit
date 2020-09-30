@@ -22,7 +22,7 @@ export class row extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['table_id', 'text'],
 
       properties: {
         text: { type: 'string' },
