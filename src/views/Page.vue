@@ -50,6 +50,7 @@ export default {
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
       newVal.containers.forEach(container => {
+        container.blocks.sort((a, b) => a.position - b.position)
         container.blocks.forEach(async block => {
           switch (block.type) {
             case 'TableView':
@@ -66,6 +67,7 @@ export default {
     updateContentBlock (data) {
       if (data && data.blockType === 'TableView') {
         this.page.containers.forEach(container => {
+          container.blocks.sort((a, b) => a.position - b.position)
           container.blocks.forEach(async block => {
             if (block.id === data.blockId) {
               this.$set(block, 'loading', true)
