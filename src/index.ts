@@ -11,7 +11,9 @@ export const COLUMN_TYPE = {
   SINGLE_SELECT: 10,
   MULTI_SELECT: 11,
   FORMULA: 12,
-  FILE: 13
+  FILE: 13,
+  MULTI_USER: 14,
+  MULTI_GROUP: 15,
 }
 
 export const USER_PROFILE = {
@@ -22,5 +24,6 @@ export const USER_PROFILE = {
 
 export const GROUP_ROLE = {
   OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
   MEMBER: 'MEMBER'
 }

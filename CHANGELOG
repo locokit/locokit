@@ -1,5 +1,13 @@
 # CHANGELOG
 
+**v0.0.6**
+
+* add the group role`ADMIN`
+
+**v0.0.5**
+
+* add `MULTI_USER` and `MULTI_GROUP`
+
 **v0.0.4**
 
 * transpilation TS > JS
