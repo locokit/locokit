@@ -100,7 +100,7 @@
     "close": "Fermez cette fenêtre"
   },
   "success": {
-    "basic": "Votre demande à bien été enregistré."
+    "basic": "Votre demande à bien été enregistrée."
   },
   "error": {
     "basic": "Une erreur est survenue.",
