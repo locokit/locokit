@@ -21,7 +21,7 @@
     </div>
     <div v-else>Erreur</div>
     <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" v-on:on-close="onCloseCreateTableDialog" />
-    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" v-on:on-close="onCloseUpdateTableDialog" />
+    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" v-on:reload-tables="reloadTables" v-on:on-close="onCloseUpdateTableDialog" />
   </div>
 </template>
 <script>
@@ -84,10 +84,8 @@ export default {
         this.showUpdateTableDialog = true
       }
     },
-    onCloseUpdateTableDialog (shouldReloadTables) {
-      if (shouldReloadTables) {
-        this.reloadTables()
-      }
+    onCloseUpdateTableDialog () {
+      this.currentTable = null
       this.showUpdateTableDialog = false
     },
     createSource (tables) {
@@ -136,6 +134,9 @@ export default {
           }
         })
         this.tables = tablesWithColumns?.data
+        if (this.currentTable) {
+          this.currentTable = tablesWithColumns?.data.find((table) => table.id === this.currentTable.id)
+        }
       } catch (errorLoadTables) {
         this.errorLoadTables = true
       }
