@@ -15,13 +15,13 @@
       p-flex-column
       justify-between
     "
-    :value="block.content.data"
+    :value="block && block.content && block.content.data"
 
     :lazy="true"
     :loading="block.loading"
 
     :rows="rowsNumber"
-    :totalRecords="block.content.total"
+    :totalRecords="block && block.content && block.content.total"
 
     editMode="cell"
     @cell-edit-complete="onCellEditComplete"
@@ -115,12 +115,13 @@
       <template
         #body="slotProps"
       >
-        {{
-          getValue(column, slotProps.data.data[column.id])
-        }}
+        {{ getValue(column, slotProps.data.data[column.id]) }}
       </template>
     </p-column>
 
+    <template #empty>
+        {{ $t('components.crudtable.noDataToDisplay') }}
+    </template>
   </p-datatable>
 
 </template>
@@ -173,6 +174,29 @@ export default {
     rowsNumber: {
       type: Number,
       default: 10
+    },
+    crudMode: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    columnTypeClass () {
+      return {
+        [COLUMN_TYPE.BOOLEAN]: 'text',
+        [COLUMN_TYPE.STRING]: 'text',
+        [COLUMN_TYPE.NUMBER]: 'text',
+        [COLUMN_TYPE.FLOAT]: 'text',
+        [COLUMN_TYPE.DATE]: 'text',
+        [COLUMN_TYPE.USER]: 'p-tag',
+        [COLUMN_TYPE.GROUP]: 'p-tag',
+        [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
+        [COLUMN_TYPE.LOOKED_UP_COLUMN]: 'p-tag',
+        [COLUMN_TYPE.SINGLE_SELECT]: 'p-tag',
+        [COLUMN_TYPE.MULTI_SELECT]: 'p-tag',
+        [COLUMN_TYPE.FORMULA]: 'p-tag',
+        [COLUMN_TYPE.FILE]: 'text'
+      }
     }
   },
   data () {
@@ -223,12 +247,16 @@ export default {
       }
     },
     isEditableColumn (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
-          return false
-        default:
-          return true
+      if (this.crudMode) {
+        switch (column.column_type_id) {
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.FORMULA:
+            return false
+          default:
+            return true
+        }
+      } else {
+        return column.editable
       }
     },
     isSortableColumn (column) {
@@ -324,6 +352,12 @@ export default {
   overflow-y: visible;
   overflow-x: scroll;
   flex: 1;
+}
+tr.p-datatable-emptymessage {
+  height: 10rem;
+}
+.p-datatable .p-datatable-tbody > tr.p-datatable-emptymessage > td {
+  text-align: center;
 }
 /* .loading-text {
   height: 19px;
