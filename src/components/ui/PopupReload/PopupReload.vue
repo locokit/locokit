@@ -4,7 +4,7 @@
       :header="$t('sw.newVersion')"
       :visible.sync="updateExists"
       position="bottomright"
-      modal="true"
+      :modal="true"
     >
       <p class="p-m-0">{{ $t('sw.message') }}</p>
       <template #footer>
