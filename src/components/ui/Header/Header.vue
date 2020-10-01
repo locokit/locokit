@@ -52,9 +52,14 @@ export default {
       const result = []
       if (this.isSuperAdmin) {
         result.push({
-          label: 'Administration',
+          label: 'Utilisateur Administration',
           icon: 'pi pi-cog',
           to: ROUTES_PATH.USERMANAGEMENT
+        })
+        result.push({
+          label: 'Groupe Administration',
+          icon: 'pi pi-cog',
+          to: ROUTES_PATH.GROUPMANAGEMENT
         })
       }
       return result.concat([

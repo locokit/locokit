@@ -69,21 +69,46 @@
         "newUser": "Enregistrer",
         "editUser": "Mettre à jour"
       }
+    },
+    "groupManagement": {
+      "title": "Gestion des groupes",
+      "form": {
+        "action": {
+          "addNewGroup": "Créer un groupe",
+          "editGroup": "Éditer un groupe",
+          "deleteGroup": "Supprimer un groupe",
+          "addNewUserInGroup": "Ajouter un utilisateur",
+          "editUserInGroup": "Éditer un utilisateur",
+          "deleteUserInGroup": "Supprimer un utilisateur"
+        },
+        "input": {
+          "user": "Utilisateur",
+          "group": "Groupe",
+          "role": "Rôle"
+        },
+        "text" : {
+          "selectUser": "Sélectionnez un utilisateur",
+          "selectRole": "Sélectionnez un rôle",
+          "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
+          "editUserInGroup": "Modifier l'utilisateur {userName} du groupe {groupName}",
+          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}."
+        }
+      }
     }
   },
   "dialog": {
     "close": "Fermez cette fenêtre"
   },
   "success": {
-    "basic": "Hmmmmm, Jeune padawan"
+    "basic": "Votre demande à bien été enregistré."
   },
   "error": {
-    "basic": "Une erreur est survenue."
-  },
-  "http": {
-    "401": "Accès non authentifié",
-    "403": "Accès interdit",
-    "500": "Une erreur a eu lieu..."
+    "basic": "Une erreur est survenue.",
+    "http": {
+      "401": "Accès non authentifié",
+      "403": "Accès interdit",
+      "500": "Une erreur a eu lieu..."
+    }
   },
   "form": {
     "add": "Ajouter",
@@ -93,7 +118,11 @@
     "waiting": "Veuillez patienter",
     "save": "Enregistrer",
     "update": "Mettre à jour",
-    "submitting": "En cours…"
+    "submitting": "En cours…",
+    "isRequired": "Ce champ est requis",
+    "yes": "Oui",
+    "no": "Non",
+    "confirmation": "Confirmation"
   },
   "sw": {
     "newVersion": "Nouvelle version disponible",

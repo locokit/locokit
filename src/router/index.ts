@@ -8,6 +8,7 @@ import Profile from '../views/Profile.vue'
 import Page from '@/views/Page.vue'
 import DatabaseSchema from '@/views/DatabaseSchema.vue'
 import UserManagement from '@/views/UserManagement.vue'
+import GroupManagement from '@/views/GroupManagement.vue'
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 
@@ -75,6 +76,14 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.USERMANAGEMENT,
     name: 'UserManagement',
     component: UserManagement,
+    meta: {
+      needAuthentication: true
+    }
+  },
+  {
+    path: ROUTES_PATH.GROUPMANAGEMENT,
+    name: 'GroupManagement',
+    component: GroupManagement,
     meta: {
       needAuthentication: true
     }

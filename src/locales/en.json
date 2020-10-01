@@ -69,21 +69,46 @@
         "newUser": "Save",
         "editUser": "Update"
       }
+    },
+    "groupManagement": {
+      "title": "Groups Management",
+      "form": {
+        "action": {
+          "addNewGroup": "Add a group",
+          "editGroup": "Edit a group",
+          "deleteGroup": "Remove a group",
+          "addNewUserInGroup": "Add an user",
+          "editUserInGroup": "Edit an user",
+          "deleteUserInGroup": "Remove an user"
+        },
+        "input": {
+          "user": "User",
+          "group": "Group",
+          "role": "Role"
+        },
+        "text" : {
+          "selectUser": "Select an user",
+          "selectRole": "Select a role",
+          "addNewUserInGroup": "Add an user in {groupName}",
+          "editUserInGroup": "Edit {userName} user in {groupName} group",
+          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
+        }
+      }
     }
   },
   "dialog": {
     "close": "Close this window"
   },
   "success": {
-    "basic": "You did well, Young Padawan"
+    "basic": "Your request has been registered."
   },
   "error": {
-    "basic": "An error has occurred."
-  },
-  "http": {
-    "401": "Access not granted",
-    "403": "Access forbidden",
-    "500": "An error occured..."
+    "basic": "An error has occurred.",
+    "http": {
+      "401": "Access not granted",
+      "403": "Access forbidden",
+      "500": "An error occured..."
+    }
   },
   "form" : {
     "add": "Add",
@@ -93,7 +118,11 @@
     "waiting": "Please wait",
     "save": "Save",
     "update": "Update",
-    "submitting": "Please wait…"
+    "submitting": "Please wait…",
+    "isRequired": "This field is required",
+    "yes": "Yes",
+    "no": "No",
+    "confirmation": "Confirmation"
   },
   "sw": {
     "newVersion": "New version available",

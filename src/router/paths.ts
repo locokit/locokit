@@ -5,5 +5,6 @@ export const ROUTES_PATH = {
   VISUALIZATION: '/visualization',
   DATABASE: '/database',
   DATABASESCHEMA: '/schema',
-  USERMANAGEMENT: '/usermanagement'
+  USERMANAGEMENT: '/usermanagement',
+  GROUPMANAGEMENT: '/groupmanagement'
 }
