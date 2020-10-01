@@ -71,8 +71,8 @@
             </p-column>
           </p-datatable>
         </div>
-
       </div>
+
       <p-dialog
         :visible.sync="openDialog"
         :contentStyle="{overflow: 'visible'}"
@@ -132,7 +132,15 @@
           </div>
         </template>
 
-        <template #footer>
+        <template #footer v-if="submitted">
+          <p-button
+            :label="$t('dialog.close')"
+            icon="pi pi-check-circle"
+            class="p-button-text"
+            @click="hideDialog"
+          />
+        </template>
+        <template #footer v-else>
           <div v-if="hasSubmitError">
             <p class="p-invalid">{{ $t('error.basic') }}</p>
           </div>
@@ -144,7 +152,7 @@
             @click="hideDialog"
           />
           <p-button
-            v-if="(!submitting || hasSubmitError) && !submitted"
+            v-if="(!submitting || hasSubmitError)"
             :label="$t('form.submit')"
             icon="pi pi-check"
             class="p-button-text"

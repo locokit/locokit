@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import lckClient from '@/services/lck-api'
-import { databaseState } from '@/store/database'
+
 // class UserCreateDTO {
 //   email = ''
 //   name = ''
@@ -9,9 +9,9 @@ import { databaseState } from '@/store/database'
 // }
 
 interface UserGroupDTO {
-  userId: number
-  groupId: string
-  role: string
+  userId: number;
+  groupId: string;
+  role: string;
 }
 
 export async function retrieveUsersData (pageIndex = 0) {
