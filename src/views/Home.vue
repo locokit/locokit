@@ -9,7 +9,7 @@
       <img
         alt="logo"
         :src="logoBgPrimaryURL"
-        class="p-mb-4"
+        class="p-mb-6"
       />
       <div class="p-error" :class="{ 'errorActive' : authState.error }"><p>{{ authState.error }}</p></div>
 
