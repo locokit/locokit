@@ -89,6 +89,7 @@
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
+          appendTo="body"
           v-model="autocompleteInput[column.id]"
           :suggestions="autocompleteSuggestions"
           @complete="onComplete(column, $event)"
@@ -99,6 +100,7 @@
           :options="columnsOptions[column.id].dropdownOptions"
           optionLabel="label"
           optionValue="value"
+          appendTo="body"
           :value="slotProps.data.data[column.id]"
           :showClear="true"
           :placeholder="$t('components.dropdown.placeholder')"
@@ -110,6 +112,7 @@
           v-model="slotProps.data.data[column.id]"
           :value="slotProps.data.data[column.id]"
           @input="onCellEdit($event, slotProps)"
+          appendTo="body"
         />
       </template>
       <template
