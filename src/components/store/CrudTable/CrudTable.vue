@@ -41,6 +41,7 @@
       field="text"
       sortable
       headerStyle="width: 150px"
+      v-if="crudMode"
     >
       <template #header>
         <span data-column-id="text">
