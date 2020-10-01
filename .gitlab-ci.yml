@@ -9,6 +9,8 @@ stages:
 .build_template: &build_definition
   tags: [shared-ci-docker]
   stage: build
+  variables:
+    VUE_APP_TITLE: '{{ vue_app_title }}'
   only:
     - tags
     - merge_requests
