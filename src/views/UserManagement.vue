@@ -6,16 +6,17 @@
       <h1>{{ $t('pages.userManagement.title') }}</h1>
     </div>
 
-    <div v-if="usersWithPagination && usersWithPagination.data.length > 0" class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+    <div
+      class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+    >
       <p-toolbar class="w-full p-my-4">
-        <template slot="left">
-        </template>
-
         <template slot="right">
           <p-button :label="$t('pages.userManagement.addNewUser')" icon="pi pi-plus" class="p-mr-2" @click="addUser" />
         </template>
       </p-toolbar>
+
       <p-datatable
+        v-if="usersWithPagination && usersWithPagination.data.length > 0"
         :value="usersWithPagination.data"
         :paginator="true"
         :lazy="true"
@@ -28,21 +29,45 @@
         :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
         @page="onPage($event)"
       >
-        <p-column field="id" headerClass="lck-datatable-align-center p-col-1" bodyClass="lck-datatable-align-center" :header="$t('pages.userManagement.id')" sortable>
+        <p-column
+          field="id"
+            headerClass="lck-datatable-align-center p-col-1"
+            bodyClass="lck-datatable-align-center"
+            :header="$t('pages.userManagement.id')"
+            sortable
+          >
         </p-column>
-        <p-column field="name" :header="$t('pages.userManagement.name')" sortable>
+        <p-column
+          field="name"
+          :header="$t('pages.userManagement.name')"
+          sortable
+        >
           <template #editor="slotProps">
             <p-input-text v-model="slotProps.data[slotProps.column.field]" />
           </template>
         </p-column>
-        <p-column field="email" :header="$t('pages.userManagement.email')" sortable>
+        <p-column
+          field="email"
+          :header="$t('pages.userManagement.email')"
+          sortable
+        >
           <template #editor="slotProps">
             <p-input-text v-model="slotProps.data[slotProps.column.field]" />
           </template>
         </p-column>
-        <p-column field="profile" headerClass="p-col-1"  :header="$t('pages.userManagement.profile')" sortable>
+        <p-column
+          field="profile"
+          headerClass="p-col-1"
+          :header="$t('pages.userManagement.profile')"
+          sortable
+        >
           <template #editor="slotProps">
-            <p-dropdown v-model="slotProps.data['profile']" :options="profiles" optionLabel="label" optionValue="value" placeholder="$t('page.userManagement.selectProfile">
+            <p-dropdown
+              v-model="slotProps.data['profile']"
+              :options="profiles" optionLabel="label"
+              optionValue="value"
+              placeholder="$t('page.userManagement.selectProfile"
+            >
               <template #option="slotProps">
                 <span>{{slotProps.option.label}}</span>
               </template>
@@ -52,7 +77,10 @@
              {{ slotProps.data['profile'] }}
           </template>
         </p-column>
-        <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
+        <p-column
+          headerClass="p-col-1"
+          bodyClass="lck-datatable-button-group"
+        >
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
@@ -66,20 +94,18 @@
           </template>
         </p-column>
       </p-datatable>
+      <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+        <p>{{ $t('pages.userManagement.noUser') }}</p>
+      </div>
     </div>
 
-    <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
-
-      <p>{{ $t('pages.userManagement.noUser') }}</p>
-
-    </div>
     <p-dialog
       :visible.sync="openDialog"
       :style="{width: '450px'}"
+      :contentStyle="{overflow: 'visible'}"
       :modal="true"
       class="p-fluid"
     >
-
       <template #header v-if="!editingUser">
         <h3>{{ $t('pages.userManagement.createUserDetails') }}</h3>
       </template>
@@ -88,7 +114,7 @@
       </template>
 
       <template v-if="submitted">
-        <p align="center">{{ $t('success.basic') }}</p>
+        <p>{{ $t('success.basic') }}</p>
       </template>
       <template v-else>
         <div class="p-field">
@@ -99,12 +125,6 @@
             autofocus
             :class="{'p-invalid': submitting && !user.name}"
           />
-          <small
-            class="p-invalid"
-            v-if="submitting && !user.name"
-          >
-            {{$t('pages.userManagement.isRequired') }}.
-          </small>
         </div>
         <div class="p-field">
           <label for="email">
@@ -118,7 +138,6 @@
             autofocus
             :class="{'p-invalid': submitting && !user.email}"
           />
-          <small class="p-invalid" v-if="submitting && !user.email">{{ $t('pages.userManagement.isRequired') }}.</small>
         </div>
         <div class="p-field" v-if="!editingUser">
           <label for="password">
@@ -131,35 +150,23 @@
             autofocus
             :class="{'p-invalid': submitting && !user.password}"
           />
-          <small
-            class="p-invalid"
-            v-if="submitting && !user.password"
-          >
-            {{ $t('pages.userManagement.isRequired') }}.
-          </small>
         </div>
         <p class="p-field">
           <label for="profile">{{ $t('pages.userManagement.profile') }}</label>
           <p-dropdown
-              id="profile"
-              v-model.trim="user.profile"
-              :options="profiles"
-              optionLabel="label"
-              optionValue="value"
-              required="true"
-              :class="{'p-invalid': submitting && !user.profile}"
-              :placeholder="$t('pages.userManagement.selectProfile')"
+            id="profile"
+            v-model.trim="user.profile"
+            :options="profiles"
+            optionLabel="label"
+            optionValue="value"
+            required="true"
+            :class="{'p-invalid': submitting && !user.profile}"
+            :placeholder="$t('pages.userManagement.selectProfile')"
           >
             <template #option="slotProps">
               <span>{{slotProps.option.label}}</span>
             </template>
           </p-dropdown>
-          <small
-            class="p-invalid"
-            v-if="submitting && !user.profile"
-          >
-            {{ $t('pages.userManagement.isRequired') }}.
-          </small>
         </p>
       </template>
 
@@ -171,10 +178,9 @@
           @click="hideDialog"
         />
       </template>
-
       <template #footer v-else>
         <div v-if="hasSubmitError">
-          <p class="p-invalid">Vous avez rencontré une erreur, veuillez reprendre votre saisie</p>
+          <p class="p-invalid">{{ $t('error.basic') }}</p>
         </div>
         <p-button
           :label="$t('form.cancel')"
@@ -183,7 +189,7 @@
           @click="hideDialog"
         />
         <p-button
-          v-if="!submitting"
+          v-if="!submitting || hasSubmitError"
           :label="$t(`pages.userManagement.buttons.${ editingUser ? 'editUser' : 'newUser'}`)"
           icon="pi pi-check"
           class="p-button-text"
@@ -191,7 +197,7 @@
         />
         <p-button
           disabled
-          v-if="submitting"
+          v-if="submitting && !hasSubmitError"
           :label="$t('form.submitting')"
           icon="pi pi-spin pi-spinner"
           class="p-button-text"
@@ -276,11 +282,11 @@ export default {
           await lckClient.service('user').create(this.user)
         }
         this.submitted = true
+        this.submitting = false
         this.retrieveUsersData()
       } catch (e) {
         this.hasSubmitError = true
       }
-      this.submitting = false
     },
     inactiveUser (user) {
       this.user = { ...user }
@@ -299,5 +305,4 @@ export default {
     this.retrieveUsersData()
   }
 }
-
 </script>
