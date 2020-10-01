@@ -39,13 +39,11 @@
             <p-column
               field="userName"
               :header="$t('pages.groupManagement.form.input.user')"
-              sortable
             >
             </p-column>
             <p-column
               field="role"
               :header="$t('pages.groupManagement.form.input.role')"
-              sortable
             >
               <template #editor="slotProps">
                 <p-input-text v-model="slotProps.data[slotProps.column.field]" />
@@ -264,9 +262,13 @@ export default {
       this.hasSubmitError = false
     },
     addNewUserInGroup (groupId, groupName) {
+      this.isEditingUser = false
       this.openDialog = true
-      this.usergroup.groupId = groupId
-      this.usergroup.groupName = groupName
+      this.usergroup = {
+        ...defaultUsergroup,
+        groupId,
+        groupName
+      }
       this.submitted = false
     },
     editUserInGroup (data) {
@@ -295,7 +297,6 @@ export default {
     },
     async confirmDeleteUserInGroup () {
       const res = await deleteUserGroup(this.usergroup)
-      console.log(res)
       if (res && res.code) {
         this.hasSubmitError = true
       } else {
