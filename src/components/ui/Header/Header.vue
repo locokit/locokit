@@ -17,8 +17,19 @@
     </router-link>
 
     <div class="p-my-auto">
-      <prime-button icon="pi pi-user"  class="p-button-rounded"  @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
-      <prime-menu id="overlay_menu" ref="menu" :model="items" :popup="true" />
+      <p-button
+        icon="pi pi-user"
+        class="p-button-rounded"
+        @click="toggle"
+        aria-haspopup="true"
+        aria-controls="overlay_menu"
+      />
+      <p-menu
+        id="overlay_menu"
+        ref="menu"
+        :model="items"
+        :popup="true"
+      />
     </div>
   </header>
 </template>
@@ -31,6 +42,10 @@ import Menu from 'primevue/menu'
 
 export default {
   name: 'Header',
+  components: {
+    'p-button': Vue.extend(Button),
+    'p-menu': Vue.extend(Menu)
+  },
   props: {
     logoUrl: {
       type: String,
@@ -83,10 +98,6 @@ export default {
     logoutClick () {
       this.$emit('logoutClick')
     }
-  },
-  components: {
-    'prime-button': Vue.extend(Button),
-    'prime-menu': Vue.extend(Menu)
   }
 }
 </script>

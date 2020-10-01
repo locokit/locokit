@@ -1,14 +1,18 @@
 <template>
   <div v-if="block.definition">
     <p-datatable
-      :value="dataToDisplay"
-      removableSort
-      :paginator="true"
+      class="p-datatable-sm p-datatable-responsive"
+
+      :value="block && block.content && block.content.data"
       :lazy="true"
       :loading="block.loading"
-      :rows="dataTable.limit"
-      :totalRecords="dataTable.total"
-      class="p-datatable-sm p-datatable-responsive"
+
+      removableSort
+
+      :rows="block && block.content && block.content.limit"
+      :totalRecords="block && block.content && block.content.total"
+
+      :paginator="true"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
       :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
       @page="onPage($event)"
@@ -17,12 +21,11 @@
         v-for="column in block.definition.columns"
         :key="column.id"
         :header="column.text"
-        sortable
         :field="column.id"
       >
         <template #body="slotProps">
           <span :class="columnTypeClass[column.column_type_id]">
-            {{ slotProps.data[column.id] }}
+            {{ getValue(column, slotProps.data.data[column.id]) }}
           </span>
         </template>
       </p-column>
@@ -49,41 +52,6 @@ export default {
     'p-column': Vue.extend(Column)
   },
   computed: {
-    dataTable () {
-      if (!this.block.content) return {}
-      return { ...this.block.content }
-    },
-    /**
-     * the data to display help DataTable prime component to display the value
-     * and sort them by alphabetic order
-     * BUT that's not working for Date or other stuff that are not "alphabetical"
-     * TODO: make this computed property and the DataTable component able to sort Dates
-     * cf https://gitlab.makina-corpus.net/lck/lck-front/-/merge_requests/24#note_214704
-     * and https://github.com/primefaces/primevue/issues/412
-     */
-    dataToDisplay () {
-      if (!this.block.content) return []
-      return this.block.content.data.map(d => {
-        const currentData = {}
-        this.block.definition.columns.forEach(currentColumn => {
-          let currentValueForDisplay = d.data[currentColumn.id]
-          if (currentValueForDisplay === '') return
-          switch (currentColumn.column_type_id) {
-            case COLUMN_TYPE.USER:
-            case COLUMN_TYPE.GROUP:
-            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            case COLUMN_TYPE.LOOKED_UP_COLUMN:
-            case COLUMN_TYPE.FORMULA:
-              currentValueForDisplay = d.data[currentColumn.id]?.value
-              break
-            case COLUMN_TYPE.SINGLE_SELECT:
-              currentValueForDisplay = currentColumn.settings.values[d.data[currentColumn.id]]?.label
-          }
-          currentData[currentColumn.id] = currentValueForDisplay
-        })
-        return currentData
-      })
-    },
     columnTypeClass () {
       return {
         [COLUMN_TYPE.BOOLEAN]: 'text',
@@ -103,7 +71,11 @@ export default {
     }
   },
   methods: {
-    getValue (column, data) {
+    getValue (column, data = '') {
+      if (
+        data === '' ||
+        data === null
+      ) return ''
       switch (column.column_type_id) {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
@@ -112,7 +84,9 @@ export default {
         case COLUMN_TYPE.FORMULA:
           return data.value
         case COLUMN_TYPE.SINGLE_SELECT:
-          return column.settings.values[data].label
+          return column.settings.values[data]?.label
+        case COLUMN_TYPE.DATE:
+          return data ? data.substring(0, 10) : ''
         default:
           return data
       }

@@ -1,17 +1,16 @@
 <template>
-  <div class="flex flex-col flex-1">
+  <div class="p-d-flex p-flex-column d-flex-1">
     <header class="p-my-4 lck-color-title p-ml-1">
       {{ $t('pages.database.title')}}
       <strong>{{ databaseState.data.text }}</strong>
     </header>
     <p-tab-view
-      class="flex-1 flex flex-col"
+      class="d-flex-1 p-d-flex p-flex-column"
       @tab-change="handleTabChange"
       v-if="databaseState.data.tables.length > 0"
     >
       <p-tab-panel
         v-for="table in databaseState.data.tables"
-        class="flex-1 flex flex-col"
         :key="table.id"
         :data-table-id="table.id"
         :header="table.text"
@@ -48,6 +47,7 @@
           :columns-options="columnsEnhanced"
           :autocompleteSuggestions="crudAutocompleteItems"
           :rowsNumber="currentDatatableRows"
+          :crud-mode="true"
           v-if="block.definition"
           @update-content="updateContent(table.id, $event)"
           @update-suggestions="updateCRUDAutocompleteSuggestions"
@@ -60,7 +60,7 @@
           :style="{width: '450px'}"
           :header="$t('pages.database.addNewRow')"
           :modal="true"
-          :contentStyle="{ 'max-height': '50vh'}"
+          :contentStyle="{ 'max-height': '60vh'}"
           :closeOnEscape="true"
           :dismissableMask="true"
           class="p-fluid"
@@ -76,7 +76,7 @@
               v-model="newRow.text"
             />
           </div>
-          <div v-if="block.definition">
+          <div v-if="block.definition" style="padding-bottom: 10rem">
             <div
               class="p-field"
               v-for="column in editableColumns"
@@ -505,6 +505,13 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: unset;
+}
+
+/deep/ .p-tabview .p-tabview-panels .p-tabview-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /deep/ .p-tabview .p-tabview-nav li {

@@ -13,7 +13,9 @@
       "placeholder": "Select an option"
     },
     "crudtable": {
-      "columnReferenceLabel": "Reference"
+      "columnReferenceLabel": "Reference",
+      "noDataToDisplay": "No data to display",
+      "loading": "Data is loading... please wait..."
     }
   },
   "pages": {

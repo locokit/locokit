@@ -1,4 +1,5 @@
 import Block from './Block'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   title: 'Block',
@@ -28,7 +29,7 @@ const blockTableView = {
         id: 'e065323c-1151-447f-be0f-6d2728117b38',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-        column_type_id: 3,
+        column_type_id: COLUMN_TYPE.STRING,
         order: null,
         filter: null,
         visible: true,
@@ -60,7 +61,7 @@ const blockTableView = {
           }
         },
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-        column_type_id: 9,
+        column_type_id: COLUMN_TYPE.SINGLE_SELECT,
         order: null,
         filter: null,
         visible: true,
@@ -74,7 +75,7 @@ const blockTableView = {
         id: 'bde4bbbd-2584-447f-acff-f434f53619da',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
-        column_type_id: 5,
+        column_type_id: COLUMN_TYPE.USER,
         order: null,
         filter: null,
         visible: true,

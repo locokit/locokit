@@ -60,147 +60,154 @@ exports[`storyshots Block Block with TableView 1`] = `
         My TableView's block
       </h3>
        
-      <div>
+      <div
+        class="
+      p-datatable-sm
+      p-datatable-gridlines
+      p-d-flex
+      d-flex-1
+      p-flex-column
+      justify-between
+     p-datatable p-component p-datatable-resizable"
+      >
+        <!---->
+         
+        <!---->
+        <!---->
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
         <div
-          class="p-datatable-sm p-datatable-responsive p-datatable p-component"
+          class="p-datatable-wrapper"
         >
-          <!---->
-          <!---->
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-datatable-wrapper"
+          <table
+            role="grid"
           >
-            <table
-              role="grid"
+            <thead
+              class="p-datatable-thead"
             >
-              <thead
-                class="p-datatable-thead"
-              >
-                <tr />
-                 
-                <!---->
-              </thead>
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-              </tbody>
+              <tr />
                
               <!---->
-            </table>
-          </div>
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <div
+          class="p-paginator p-component p-paginator-bottom"
+        >
+          <!---->
            
-          <div
-            class="p-paginator p-component p-paginator-bottom"
+          <button
+            class="p-paginator-first p-paginator-element p-link p-disabled"
+            disabled="disabled"
+            type="button"
           >
-            <!---->
-             
-            <button
-              class="p-paginator-first p-paginator-element p-link p-disabled"
-              disabled="disabled"
-              type="button"
-            >
-              <span
-                class="p-paginator-icon pi pi-angle-double-left"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
-            <button
-              class="p-paginator-prev p-paginator-element p-link p-disabled"
-              disabled="disabled"
-              type="button"
-            >
-              <span
-                class="p-paginator-icon pi pi-angle-left"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
             <span
-              class="p-paginator-pages"
-            >
-              <button
-                class="p-paginator-page p-paginator-element p-link p-highlight"
-                type="button"
-              >
-                1
-                <span
-                  class="p-ink"
-                />
-              </button>
-            </span>
-            <button
-              class="p-paginator-next p-paginator-element p-link p-disabled"
-              disabled="disabled"
-              type="button"
-            >
-              <span
-                class="p-paginator-icon pi pi-angle-right"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
-            <button
-              class="p-paginator-last p-paginator-element p-link p-disabled"
-              disabled="disabled"
-              type="button"
-            >
-              <span
-                class="p-paginator-icon pi pi-angle-double-right"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
+              class="p-paginator-icon pi pi-angle-double-left"
+            />
             <span
-              class="p-paginator-current"
+              class="p-ink"
+            />
+          </button>
+          <button
+            class="p-paginator-prev p-paginator-element p-link p-disabled"
+            disabled="disabled"
+            type="button"
+          >
+            <span
+              class="p-paginator-icon pi pi-angle-left"
+            />
+            <span
+              class="p-ink"
+            />
+          </button>
+          <span
+            class="p-paginator-pages"
+          >
+            <button
+              class="p-paginator-page p-paginator-element p-link p-highlight"
+              type="button"
             >
-              De 1 à 2 sur 2 résultat(s)
-            </span>
-             
-            <!---->
-          </div>
-           
-          <!---->
-           
-          <div
-            class="p-column-resizer-helper"
-            style="display: none;"
-          />
-           
-          <!---->
+              1
+              <span
+                class="p-ink"
+              />
+            </button>
+          </span>
+          <button
+            class="p-paginator-next p-paginator-element p-link p-disabled"
+            disabled="disabled"
+            type="button"
+          >
+            <span
+              class="p-paginator-icon pi pi-angle-right"
+            />
+            <span
+              class="p-ink"
+            />
+          </button>
+          <button
+            class="p-paginator-last p-paginator-element p-link p-disabled"
+            disabled="disabled"
+            type="button"
+          >
+            <span
+              class="p-paginator-icon pi pi-angle-double-right"
+            />
+            <span
+              class="p-ink"
+            />
+          </button>
+          <span
+            class="p-paginator-current"
+          >
+            De 1 à 2 sur 2 résultat(s)
+          </span>
            
           <!---->
         </div>
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
       </div>
     </div>
   </div>
