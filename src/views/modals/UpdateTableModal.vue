@@ -67,13 +67,8 @@ export default {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToCreate: null,
-      selectedColumnTypeToCreate: null
-    }
-  },
-  computed: {
-    currentTableToUpdate () {
-      if (!this.currentTable) return null
-      return JSON.parse(JSON.stringify(this.currentTable))
+      selectedColumnTypeToCreate: null,
+      currentTableToUpdate: JSON.parse(JSON.stringify(this.currentTable))
     }
   },
   methods: {
@@ -142,6 +137,13 @@ export default {
     //     this.$toast.add({ severity: 'error', summary: 'Erreur', detail: errorDeleteColumn.message })
     //   }
     // }
+  },
+  watch: {
+    currentTable () {
+      if (this.currentTable) {
+        this.currentTableToUpdate = JSON.parse(JSON.stringify(this.currentTable))
+      }
+    }
   }
 }
 </script>

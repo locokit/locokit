@@ -9,7 +9,7 @@
       </div>
       <template #footer>
         <p-button @click="closeCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-check" class="p-button-text"/>
+        <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.create')" icon="pi pi-check" class="p-button-text"/>
       </template>
     </p-dialog>
 </template>
