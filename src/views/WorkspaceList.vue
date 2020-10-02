@@ -11,7 +11,7 @@
         v-for="group in authState.data.user.groups"
         :key="group.id"
       >
-        <div v-if="group.role === 'OWNER'">
+        <div >
           <p-card
             class="p-mb-4 p-col"
             v-for="workspace in group.workspaces"
@@ -33,7 +33,7 @@
                     />
                   </router-link>
 
-                  <template v-if="workspace.databases.length > 0">
+                  <template v-if="workspace.databases.length > 0 && workspace.role === 'OWNER'">
                     <router-link
                       v-if="workspace.databases.length === 1"
                       class="no-decoration-link p-mr-2"
@@ -61,32 +61,6 @@
                       />
                     </router-link>
                   </template>
-                </div>
-              </div>
-            </template>
-          </p-card>
-        </div>
-        <div v-else>
-          <p-card
-            class="p-mb-4 p-col"
-            v-for="workspace in group.workspaces"
-            :key="workspace.id"
-          >
-            <template slot="title">
-              {{ workspace.text }}
-            </template>
-            <template slot="content">
-              <div>
-                <div class="action-button-content p-d-flex">
-                  <router-link
-                    class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
-                  >
-                    <p-button
-                      :label="$t('pages.workspace.buttonVisu')"
-                      icon="pi pi-globe"
-                    />
-                  </router-link>
                 </div>
               </div>
             </template>
@@ -143,7 +117,7 @@ export default {
       return accu
     }, [])
     if (
-      !authState?.data?.user?.groups.some(({ role }) => role === 'OWNER') && userWorkspacesAvailable.length === 1
+      !userWorkspacesAvailable.some(({ role }) => role === 'OWNER') && userWorkspacesAvailable.length === 1
       // TODO: don't redirect if the current user is a workspace's admin
     ) {
       // only one workspace, user is not a SUPERADMIN
