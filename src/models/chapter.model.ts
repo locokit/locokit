@@ -1,7 +1,6 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection';
-import Knex from 'knex';
 import { Application } from '../declarations';
 import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
@@ -10,6 +9,10 @@ export class chapter extends Model {
   createdAt!: string;
   updatedAt!: string;
   id!: string;
+  title!: string;
+  position!: number;
+  settings!: object;
+  type!: string;
 
   static get tableName() {
     return 'chapter';
@@ -21,7 +24,9 @@ export class chapter extends Model {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
+        title: { type: 'string' },
+        position: { type: 'number' },
+        settings: { type: 'object' }
       }
     };
   }
