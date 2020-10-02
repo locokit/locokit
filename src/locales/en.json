@@ -126,9 +126,14 @@
     "no": "No",
     "confirmation": "Confirmation"
   },
+  "date": {
+    "dateFormat": "MM/dd/yyyy",
+    "dateFormatPrime": "mm/dd/yy",
+    "datetimeFormat": "MM/dd/yyyy HH:mm"
+  },
   "sw": {
     "newVersion": "New version available",
-    "message": "A new version of the platform is available. To enjoy it, you must reload your app.",
+    "message": "A new version of the platform is available. To enjoy it, you must refresh your browser.",
     "update": "Update",
     "cancel": "Dismiss"
   }
