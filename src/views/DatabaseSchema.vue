@@ -20,8 +20,8 @@
     >
     </div>
     <div v-else>Erreur</div>
-    <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" v-on:on-close="onCloseCreateTableDialog" />
-    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" v-on:reload-tables="reloadTables" v-on:on-close="onCloseUpdateTableDialog" />
+    <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" @close="onCloseCreateTableDialog" />
+    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" @reload-tables="reloadTables" @close="onCloseUpdateTableDialog" />
   </div>
 </template>
 <script>
@@ -32,8 +32,8 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import CreateTableModal from '@/components/databaseSchema/CreateTableModal'
-import UpdateTableModal from '@/components/databaseSchema/UpdateTableModal'
+import CreateTableModal from './modals/CreateTableModal'
+import UpdateTableModal from './modals/UpdateTableModal'
 
 export default {
   name: 'DatabaseSchema',

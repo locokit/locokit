@@ -37,7 +37,23 @@
     },
     "databaseSchema": {
       "title": "Database schema",
-      "noSchema": "No schema to display. Please create one database."
+      "noSchema": "No schema to display. Please create one database.",
+      "createTableModal": {
+        "createTable": "Create table",
+        "tableName": "Table name",
+        "cancel": "Cancel",
+        "create": "Create"
+      },
+      "updateTableModal": {
+        "updateTable": "Update table",
+        "tableName": "Table name",
+        "columnName": "Column name",
+        "selectColumnType": "Select column type",
+        "createColumn": "Add",
+        "updateColumn": "Update",
+        "close": "Close",
+        "errorNoData": "Please fill in the fields"
+      }
     },
     "userManagement": {
       "title": "User Management",

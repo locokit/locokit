@@ -1,15 +1,15 @@
 <template>
-    <p-dialog header="Créer une table" :visible="true" :modal="true" :closable="false">
+    <p-dialog :header="$t('pages.databaseSchema.createTableModal.createTable')" :visible="true" :modal="true" :closable="false">
       <div class="p-field p-mt-4 p-float-label">
           <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
-          <label for="table-name">Nom de la table</label>
+          <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
       </div>
       <div v-if="errorTableNameToCreate" class="p-invalid">
         <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
       </div>
       <template #footer>
-        <p-button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text"/>
+        <p-button @click="closeCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-times" class="p-button-text"/>
+        <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-check" class="p-button-text"/>
       </template>
     </p-dialog>
 </template>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     closeCreateTableDialog () {
-      this.$emit('on-close', false)
+      this.$emit('close', false)
     },
     async confirmCreateTableDialog () {
       try {

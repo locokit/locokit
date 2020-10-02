@@ -36,8 +36,24 @@
       "noDatabase": "Aucune base de données existante. Veuillez en créer une."
     },
     "databaseSchema": {
-      "title": "Schéma de la base de données",
-      "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données."
+      "title": "Database schema",
+      "noSchema": "No schema to display. Please create one database.",
+      "createTableModal": {
+        "createTable": "Créer une table",
+        "tableName": "Nom de la table",
+        "cancel": "Annuler",
+        "create": "Créer"
+      },
+      "updateTableModal": {
+        "updateTable": "Modifier une table",
+        "tableName": "Nom de la table",
+        "columnName": "Nom de la colonne",
+        "selectColumnType": "Sélectionner un type de colonne",
+        "createColumn": "Ajouter",
+        "updateColumn": "Modifier",
+        "close": "Fermer",
+        "errorNoData": "Veuillez renseigner les champs"
+      }
     },
     "userManagement": {
       "title": "Gestion des utilisateurs",

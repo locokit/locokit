@@ -1,9 +1,9 @@
 <template>
-    <p-dialog :contentStyle="{overflow: 'scroll'}" header="Modifier une table" :visible="true" :modal="true" :closable="false">
+    <p-dialog :contentStyle="{overflow: 'scroll'}" :header="$t('pages.databaseSchema.updateTableModal.updateTable')" :visible="true" :modal="true" :closable="false">
       <div v-if="currentTableToUpdate">
         <div class="p-d-flex">
           <div>
-              <label for="table-name">Nom de la table</label>
+              <label for="table-name">{{ $t('pages.databaseSchema.updateTableModal.tableName') }}</label>
               <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
           </div>
           <div class="p-d-flex p-ai-end">
@@ -12,26 +12,26 @@
         </div>
         <div class="p-d-flex p-mt-4">
           <div>
-              <label for="column-name">Nom de la colonne</label>
+              <label for="column-name">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
               <p-input-text id="column-name" type="text" v-model="columnNameToCreate" />
           </div>
           <div class="p-d-flex p-ai-end p-mx-2">
-            <p-dropdown style="width: 300px" v-model="selectedColumnTypeToCreate" :options="columnTypes" optionLabel="name" placeholder="Sélectionner un type de colonne" />
+            <p-dropdown style="width: 300px" v-model="selectedColumnTypeToCreate" :options="columnTypes" optionLabel="name" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
           </div>
           <div class="p-d-flex p-ai-end">
-            <p-button @click="createColumn" label="Ajouter" icon="pi pi-check" class="p-button-text" />
+            <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableModal.createColumn')" icon="pi pi-check" class="p-button-text" />
           </div>
         </div>
         <div v-for="column in currentTableToUpdate.columns" :key="column.id" class="p-d-flex p-mt-4">
           <div>
-              <label :for="'column-name' + column.id">Nom de la colonne</label>
+              <label :for="'column-name' + column.id">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
               <p-input-text :id="'column-name' + column.id" type="text" v-model="column.text" />
           </div>
           <div class="p-d-flex p-ai-end p-mx-2">
-            <p-dropdown style="width: 300px" v-model="column.column_type_id" :options="columnTypes" optionLabel="name" optionValue="id" placeholder="Sélectionner un type de colonne" />
+            <p-dropdown style="width: 300px" v-model="column.column_type_id" :options="columnTypes" optionLabel="name" optionValue="id" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
           </div>
           <div class="p-d-flex p-ai-end">
-            <p-button @click="updateColumn(column)" label="Modifier" icon="pi pi-check" class="p-button-text" />
+            <p-button @click="updateColumn(column)" :label="$t('pages.databaseSchema.updateTableModal.updateColumn')" icon="pi pi-check" class="p-button-text" />
           </div>
           <!-- <div class="p-d-flex p-ai-end">
             <p-button @click="deleteColumn(column)" label="Supprimer" icon="pi pi-check" class="p-button-text p-button-danger" />
@@ -39,7 +39,7 @@
         </div>
       </div>
       <template #footer>
-        <p-button @click="closeUpdateTableDialog" label="Fermer" icon="pi pi-times" class="p-button-text"/>
+        <p-button @click="closeUpdateTableDialog" :label="$t('pages.databaseSchema.updateTableModal.close')" icon="pi pi-times" class="p-button-text"/>
       </template>
     </p-dialog>
 </template>
@@ -65,16 +65,21 @@ export default {
   },
   data () {
     return {
-      columnTypes: [],
+      columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToCreate: null,
-      selectedColumnTypeToCreate: null,
-      currentTableToUpdate: null
+      selectedColumnTypeToCreate: null
+    }
+  },
+  computed: {
+    currentTableToUpdate () {
+      if (!this.currentTable) return null
+      return JSON.parse(JSON.stringify(this.currentTable))
     }
   },
   methods: {
     closeUpdateTableDialog () {
       this.$toast.removeAllGroups()
-      this.$emit('on-close')
+      this.$emit('close')
     },
     async updateTableName () {
       try {
@@ -102,7 +107,7 @@ export default {
           this.$toast.add({ severity: 'success', summary: 'Succès', detail: 'Création de la colonne' })
           this.$emit('reload-tables')
         } else {
-          throw new Error('Veuillez renseigner les champs')
+          throw new Error(this.$t('pages.databaseSchema.updateTableModal.errorNoData'))
         }
       } catch (errorCreateColumn) {
         this.$toast.add({ severity: 'error', summary: 'Erreur', detail: errorCreateColumn.message })
@@ -119,7 +124,7 @@ export default {
           this.$toast.add({ severity: 'success', summary: 'Succès', detail: 'Modification de la colonne' })
           this.$emit('reload-tables')
         } else {
-          throw new Error('Veuillez renseigner les champs')
+          throw new Error(this.$t('pages.databaseSchema.updateTableModal.errorNoData'))
         }
       } catch (errorUpdateColumn) {
         this.$toast.add({ severity: 'error', summary: 'Erreur', detail: errorUpdateColumn.message })
@@ -137,21 +142,6 @@ export default {
     //     this.$toast.add({ severity: 'error', summary: 'Erreur', detail: errorDeleteColumn.message })
     //   }
     // }
-  },
-  mounted () {
-    Object.keys(COLUMN_TYPE).forEach((key) => {
-      this.columnTypes.push({ id: COLUMN_TYPE[key], name: key })
-    })
-    if (this.currentTable) {
-      this.currentTableToUpdate = JSON.parse(JSON.stringify(this.currentTable))
-    }
-  },
-  watch: {
-    currentTable () {
-      if (this.currentTable) {
-        this.currentTableToUpdate = JSON.parse(JSON.stringify(this.currentTable))
-      }
-    }
   }
 }
 </script>
