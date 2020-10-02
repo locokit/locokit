@@ -37,7 +37,7 @@ export default function (app: Application) {
       '$joinRelation',
       '$modifyEager'
     ],
-    allowedEager: '[groups.[workspaces]]',
+    allowedEager: '[groups.[workspaces.[databases]]]',
     paginate: app.get('paginate')
   };
 
