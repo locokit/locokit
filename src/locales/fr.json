@@ -126,9 +126,14 @@
     "no": "Non",
     "confirmation": "Confirmation"
   },
+  "date": {
+    "dateFormat": "dd/MM/yyyy",
+    "dateFormatPrime": "dd/mm/yy",
+    "datetimeFormat": "dd/MM/yyyy HH:mm"
+  },
   "sw": {
     "newVersion": "Nouvelle version disponible",
-    "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre application.",
+    "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre navigateur.",
     "update": "Mettre à jour",
     "cancel": "Annuler"
   }

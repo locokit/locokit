@@ -107,6 +107,15 @@
           :placeholder="$t('components.dropdown.placeholder')"
           @change="onDropdownEdit(slotProps.index, column.id, $event)"
         />
+        <p-calendar
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+          v-model="currentDateToEdit"
+          @show="onShowCalendar(column, slotProps.data.data[column.id])"
+          @date-select="onCellEdit($event, slotProps)"
+          :dateFormat="$t('date.dateFormatPrime')"
+          @input="onCellEdit($event, slotProps)"
+          appendTo="body"
+        />
         <component
           v-else
           :is="getComponentEditableColumn(column.column_type_id)"
@@ -141,6 +150,8 @@ import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import { formatISO, parseISO, lightFormat } from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
@@ -184,6 +195,13 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      editingCellRows: [],
+      autocompleteInput: {},
+      currentDateToEdit: null
+    }
+  },
   computed: {
     columnTypeClass () {
       return {
@@ -203,12 +221,6 @@ export default {
       }
     }
   },
-  data () {
-    return {
-      editingCellRows: [],
-      autocompleteInput: {}
-    }
-  },
   methods: {
     getValue (column, data = '') {
       if (
@@ -225,7 +237,7 @@ export default {
         case COLUMN_TYPE.SINGLE_SELECT:
           return column.settings.values[data]?.label
         case COLUMN_TYPE.DATE:
-          return data ? data.substring(0, 10) : ''
+          return lightFormat(parseISO(data), this.$t('date.dateFormat'))
         default:
           return data
       }
@@ -269,6 +281,19 @@ export default {
           return false
         default:
           return true
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    onShowCalendar ({ column_type_id }, value) {
+      /**
+       * TODO: the event "show" is trigerred right after a calendar is closed... strange.
+       * so, from time to time, the currentDateToEdit is scratched with the previous date edited...
+       */
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      switch (column_type_id) {
+        case COLUMN_TYPE.DATE:
+          this.currentDateToEdit = parseISO(value)
+          break
       }
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -320,9 +345,20 @@ export default {
     onCellEdit (newValue, props) {
       if (!this.editingCellRows[props.index]) {
         this.editingCellRows[props.index] = {}
-        // this.editingCellRows[props.index] = { ...props.data } Todo:  === Update ?
       }
-      this.editingCellRows[props.index][props.column.field] = newValue
+      switch (props.column.column_type_id) {
+        case COLUMN_TYPE.DATE:
+          /**
+           * in case of a Date, we don't care of the timezone,
+           * we just want to store the date
+           */
+          if (newValue instanceof Date) {
+            this.editingCellRows[props.index][props.column.field] = formatISO(newValue, { representation: 'date' })
+          }
+          break
+        default:
+          this.editingCellRows[props.index][props.column.field] = newValue
+      }
     },
     onPage (event) {
       this.$emit('update-content', event.page)

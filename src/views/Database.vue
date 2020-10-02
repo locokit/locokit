@@ -114,6 +114,13 @@
                 :placeholder="$t('components.dropdown.placeholder')"
                 v-model="newRow.data[column.id]"
               />
+              <p-calendar
+                v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+                :id="column.id"
+                :dateFormat="$t('date.dateFormatPrime')"
+                v-model="newRow.data[column.id]"
+                appendTo="body"
+              />
               <component
                 v-else
                 :is="getComponentEditableColumn(column.column_type_id)"
@@ -177,6 +184,7 @@ import Dialog from 'primevue/dialog'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from 'primevue/autocomplete'
 import InputNumber from 'primevue/inputnumber'
+import { formatISO } from 'date-fns'
 
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
@@ -370,8 +378,23 @@ export default {
     },
     async saveRow () {
       this.submitting = true
+      const dataToSubmit = {
+        text: this.newRow.text,
+        data: {
+          ...this.newRow.data
+        }
+      }
+      /**
+       * For date columns, we format the date to ISO, date only
+       */
+      this.block.definition.columns
+        .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
+        .forEach(c => {
+          console.log(this.newRow.data[c.id])
+          dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+        })
       await saveTableData({
-        ...this.newRow,
+        ...dataToSubmit,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: this.currentTableId
       })

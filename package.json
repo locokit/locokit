@@ -23,6 +23,7 @@
     "@sentry/browser": "^5.19.2",
     "@sentry/integrations": "^5.19.2",
     "core-js": "^3.6.5",
+    "date-fns": "^2.16.1",
     "nomnoml": "^1.1.0",
     "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",
