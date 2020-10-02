@@ -27,3 +27,9 @@ export const GROUP_ROLE = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER'
 }
+
+export const WORKSPACE_ROLE = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+}
