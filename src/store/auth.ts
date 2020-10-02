@@ -42,6 +42,7 @@ export async function reAuthenticate () {
     const result = await lckClient.reAuthenticate()
     authState.data.isAuthenticated = true
     authState.data.user = result.user
+    return result.user?.id
   } catch (error) {
     authState.data.isAuthenticated = false
   }
@@ -58,7 +59,7 @@ export async function authenticate (data: AuthDTO) {
       password: data.password
     })
     authState.data.isAuthenticated = true
-    authState.data.user = result.user
+    return result.user?.id
   } catch (error) {
     authState.data.isAuthenticated = false
     authState.error = error
@@ -78,6 +79,20 @@ export async function retrieveGroups () {
       }
     })
     authState.data.groups = result.data
+  } catch (error) {
+    authState.error = error
+  }
+  authState.loading = false
+}
+
+export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
+  authState.loading = true
+  try {
+    authState.data.user = await lckClient.service('user').get(id, {
+      query: {
+        $eager: 'groups.[workspaces.[databases]]'
+      }
+    })
   } catch (error) {
     authState.error = error
   }

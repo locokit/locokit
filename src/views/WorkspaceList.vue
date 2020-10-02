@@ -6,83 +6,99 @@
       {{ $t('pages.workspace.title') }}
     </header>
 
-    <div v-if="!isAuthorized">
-      <router-link
-        class="no-decoration-link"
-        v-for="workspace in workspaceState.data.workspaces"
-        :key="workspace.id"
-        :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+    <div v-if="authState && authState.data && authState.data.user && authState.data.user.groups">
+      <div
+        v-for="group in authState.data.user.groups"
+        :key="group.id"
       >
-        <p-card
-          class="p-mb-4"
-        >
-          <template slot="title">
-            {{ workspace.text }}
-          </template>
-        </p-card>
-      </router-link>
-    </div>
+        <div v-if="group.role === 'OWNER'">
+          <p-card
+            class="p-mb-4 p-col"
+            v-for="workspace in group.workspaces"
+            :key="workspace.id"
+          >
+            <template slot="title">
+              {{ workspace.text }}
+            </template>
+            <template slot="content">
+              <div>
+                <div class="action-button-content p-d-flex">
+                  <router-link
+                    class="no-decoration-link p-mr-2"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+                  >
+                    <p-button
+                      :label="$t('pages.workspace.buttonVisu')"
+                      icon="pi pi-globe"
+                    />
+                  </router-link>
 
-    <div v-else>
-      <p-card
-        class="p-mb-4"
-        v-for="workspace in workspaceState.data.workspaces"
-        :key="workspace.id"
-      >
-        <template slot="title">
-          {{ workspace.text }}
-        </template>
-        <template slot="content">
-          <div>
-            <div class="action-button-content p-d-flex">
-              <router-link
-                class="no-decoration-link p-mr-2"
-                :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
-              >
-                <p-button
-                  :label="$t('pages.workspace.buttonVisu')"
-                  icon="pi pi-globe"
-                />
-              </router-link>
+                  <template v-if="workspace.databases.length > 0">
+                    <router-link
+                      v-if="workspace.databases.length === 1"
+                      class="no-decoration-link p-mr-2"
+                      :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
+                    >
+                      <p-button
+                        :label="$t('pages.workspace.buttonDatabase')"
+                        icon="pi pi-table"
+                      />
+                    </router-link>
+                    <p-dropdown-button
+                      v-else
+                      class="no-decoration-link p-mr-2"
+                      :label="$t('pages.workspace.buttonDatabase')"
+                      :model="transformDatabases(workspace.id, workspace.databases)"
+                    />
 
-              <template v-if="workspace.databases.length > 0">
-                <router-link
-                  v-if="workspace.databases.length === 1"
-                  class="no-decoration-link p-mr-2"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
-                >
-                  <p-button
-                    :label="$t('pages.workspace.buttonDatabase')"
-                    icon="pi pi-table"
-                  />
-                </router-link>
-                <p-dropdown-button
-                  v-else
-                  class="no-decoration-link p-mr-2"
-                  :label="$t('pages.workspace.buttonDatabase')"
-                  :model="transformDatabases(workspace.id, workspace.databases)"
-                />
-                <router-link
-                  v-if="workspace.databases.length === 1"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
-                >
-                  <p-button
-                  :label="$t('pages.workspace.buttonSchema')"
-                    icon="pi pi-sitemap"
-                  />
-                </router-link>
-              </template>
-            </div>
-          </div>
-        </template>
-      </p-card>
+                    <router-link
+                      v-if="workspace.databases.length === 1"
+                      :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+                    >
+                      <p-button
+                        :label="$t('pages.workspace.buttonSchema')"
+                        icon="pi pi-sitemap"
+                      />
+                    </router-link>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </p-card>
+        </div>
+        <div v-else>
+          <p-card
+            class="p-mb-4 p-col"
+            v-for="workspace in group.workspaces"
+            :key="workspace.id"
+          >
+            <template slot="title">
+              {{ workspace.text }}
+            </template>
+            <template slot="content">
+              <div>
+                <div class="action-button-content p-d-flex">
+                  <router-link
+                    class="no-decoration-link p-mr-2"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+                  >
+                    <p-button
+                      :label="$t('pages.workspace.buttonVisu')"
+                      icon="pi pi-globe"
+                    />
+                  </router-link>
+                </div>
+              </div>
+            </template>
+          </p-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { retrieveWorkspacesWithDatabases, workspaceState } from '@/store/visualize'
 import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Card from 'primevue/card'
@@ -94,7 +110,6 @@ export default {
   data () {
     return {
       ROUTES_PATH,
-      workspaceState,
       authState
     }
   },
@@ -102,11 +117,6 @@ export default {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
     'p-dropdown-button': Vue.extend(DropdownButton)
-  },
-  computed: {
-    isAuthorized () {
-      return authState?.data?.user?.profile === 'SUPERADMIN'
-    }
   },
   methods: {
     transformDatabases (workspaceId, databases) {
@@ -126,16 +136,20 @@ export default {
    */
   async beforeRouteEnter (to, from, next) {
     if (to.name !== 'WorkspaceList') next()
-    await retrieveWorkspacesWithDatabases()
+    const userWorkspacesAvailable = authState?.data?.user?.groups.reduce((accu, group) => {
+      group.workspaces.forEach(workspace => {
+        accu.push(workspace)
+      })
+      return accu
+    }, [])
     if (
-      workspaceState.data.workspaces.length === 1 &&
-      authState?.data?.user?.profile !== 'SUPERADMIN'
+      !authState?.data?.user?.groups.some(({ role }) => role === 'OWNER') && userWorkspacesAvailable.length === 1
       // TODO: don't redirect if the current user is a workspace's admin
     ) {
       // only one workspace, user is not a SUPERADMIN
       // we redirect user on the visualization route
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${workspaceState.data.workspaces[0].id}${ROUTES_PATH.VISUALIZATION}`
+        path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].id}${ROUTES_PATH.VISUALIZATION}`
       })
     } else {
       next()

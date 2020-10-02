@@ -6,15 +6,18 @@ import i18n from './plugins/i18n'
 import './plugins/primevue'
 import './plugins/sentry'
 
-import { reAuthenticate } from './store/auth'
+import { reAuthenticate, retrieveUserGroupsAndWorkspacesAndDatabases } from './store/auth'
 
 Vue.config.productionTip = false
 
 async function boot () {
   // first, try to reauthent the user,
   // this allow the app to keep the actual route if authenticated
-  await reAuthenticate()
+  const idUser = await reAuthenticate()
 
+  if (idUser) {
+    await retrieveUserGroupsAndWorkspacesAndDatabases(idUser)
+  }
   new Vue({
     router,
     i18n,
