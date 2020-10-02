@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.0.3-alpha.3",
+  "version": "0.0.3-beta.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -18,7 +18,7 @@
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",
-    "@locokit/lck-glossary": "^0.0.4",
+    "@locokit/lck-glossary": "^0.0.6",
     "@sentry/apm": "^5.19.2",
     "@sentry/browser": "^5.19.2",
     "@sentry/integrations": "^5.19.2",
