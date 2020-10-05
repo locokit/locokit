@@ -4,7 +4,6 @@
       <template slot="left">
           {{ $t('pages.databaseSchema.title') }}
       </template>
-
       <template slot="right">
         <p-button
           label="Table"
@@ -21,35 +20,10 @@
     >
     </div>
     <div v-else>Erreur</div>
-    <p-dialog @hide="resetCreateTableDialog" header="Créer une table" :visible.sync="showCreateTableDialog" :modal="true">
-      <div class="p-field p-mt-4 p-float-label">
-          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
-          <label for="table-name">Nom de la table</label>
-      </div>
-      <div v-if="errorTableNameToCreate" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
-      </div>
-      <template #footer>
-        <p-button @click="closeCreateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" label="Créer" icon="pi pi-check" class="p-button-text" autofocus />
-      </template>
-    </p-dialog>
-    <p-dialog @hide="resetUpdateTableDialog" header="Modifier une table" :visible.sync="showUpdateTableDialog" :modal="true">
-      <div class="p-field p-mt-4 p-float-label">
-          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToUpdate }" type="text" v-model="tableNameToUpdate" autofocus />
-          <label for="table-name">Nom de la table</label>
-      </div>
-      <div v-if="errorTableNameToUpdate" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToUpdate }}</small>
-      </div>
-      <template #footer>
-        <p-button @click="closeUpdateTableDialog" label="Annuler" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmUpdateTableDialog" label="Modifier" icon="pi pi-check" class="p-button-text" autofocus />
-      </template>
-    </p-dialog>
+    <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" @close="onCloseCreateTableDialog" />
+    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" @reload-tables="reloadTables" @close="onCloseUpdateTableDialog" />
   </div>
 </template>
-
 <script>
 import Vue from 'vue'
 import lckClient from '@/services/lck-api'
@@ -58,18 +32,19 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import InputText from 'primevue/inputtext'
+import CreateTableModal from './modals/CreateTableModal'
+import UpdateTableModal from './modals/UpdateTableModal'
+
 export default {
   name: 'DatabaseSchema',
   components: {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'p-dialog': Vue.extend(Dialog),
-    'p-input-text': Vue.extend(InputText)
+    'create-table-modal': Vue.extend(CreateTableModal),
+    'update-table-modal': Vue.extend(UpdateTableModal)
   },
   props: {
-    databaseId: null
+    databaseId: String
   },
   data () {
     return {
@@ -78,11 +53,7 @@ export default {
       tables: null,
       errorLoadTables: false,
       showCreateTableDialog: false,
-      tableNameToCreate: null,
-      errorTableNameToCreate: null,
       showUpdateTableDialog: false,
-      tableNameToUpdate: null,
-      errorTableNameToUpdate: null,
       currentTable: null
     }
   },
@@ -100,59 +71,22 @@ export default {
     onClickCreateTableDialogButton () {
       this.showCreateTableDialog = true
     },
-    closeCreateTableDialog () {
-      this.resetCreateTableDialog()
-      this.showCreateTableDialog = false
-    },
-    resetCreateTableDialog () {
-      this.tableNameToCreate = null
-      this.errorTableNameToCreate = null
-    },
-    async confirmCreateTableDialog () {
-      try {
-        const createTableResponse = await lckClient.service('table').create({
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          database_id: this.databaseId,
-          text: this.tableNameToCreate
-        })
-        if (createTableResponse) {
-          this.errorTableNameToCreate = false
-          this.showCreateTableDialog = false
-          this.reloadTables()
-        }
-      } catch (errorCreateTable) {
-        this.errorTableNameToCreate = errorCreateTable.message
+    onCloseCreateTableDialog (shouldReloadTables) {
+      if (shouldReloadTables) {
+        this.reloadTables()
       }
+      this.showCreateTableDialog = false
     },
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
       if (currentTableName) {
         this.currentTable = this.tablesIndexedByText[currentTableName]
-        this.tableNameToUpdate = currentTableName
         this.showUpdateTableDialog = true
       }
     },
-    closeUpdateTableDialog () {
-      this.resetUpdateTableDialog()
+    onCloseUpdateTableDialog () {
+      this.currentTable = null
       this.showUpdateTableDialog = false
-    },
-    resetUpdateTableDialog () {
-      this.tableNameToUpdate = null
-      this.errorTableNameToUpdate = null
-    },
-    async confirmUpdateTableDialog () {
-      try {
-        const updateTableResponse = await lckClient.service('table').patch(this.currentTable.id, {
-          text: this.tableNameToUpdate
-        })
-        if (updateTableResponse) {
-          this.errorTableNameToUpdate = false
-          this.showUpdateTableDialog = false
-          this.reloadTables()
-        }
-      } catch (errorUpdateTable) {
-        this.errorTableNameToUpdate = errorUpdateTable.message
-      }
     },
     createSource (tables) {
       const sourceStyle = [
@@ -200,6 +134,9 @@ export default {
           }
         })
         this.tables = tablesWithColumns?.data
+        if (this.currentTable) {
+          this.currentTable = tablesWithColumns?.data.find((table) => table.id === this.currentTable.id)
+        }
       } catch (errorLoadTables) {
         this.errorLoadTables = true
       }
@@ -211,11 +148,11 @@ export default {
       this.SVGPanZoom.resize()
       this.SVGPanZoom.fit()
       this.SVGPanZoom.center()
+    },
+    reloadTables () {
+      this.loadTables()
+      this.resizenomnomlSVG()
     }
-  },
-  reloadTables () {
-    this.loadTables()
-    this.resizenomnomlSVG()
   },
   async mounted () {
     this.loadTables()
