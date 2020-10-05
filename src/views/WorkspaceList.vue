@@ -28,12 +28,12 @@
                     :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
                   >
                     <p-button
-                      :label="$t('pages.workspace.buttonVisu')"
+                      :label="$t('pages.workspace.buttonVisualization')"
                       icon="pi pi-globe"
                     />
                   </router-link>
 
-                  <template v-if="workspace.databases.length > 0 && workspace.role === 'OWNER'">
+                  <template v-if="workspace.databases.length > 0 && workspace.role !== WORKSPACE_ROLE.MEMBER">
                     <router-link
                       v-if="workspace.databases.length === 1"
                       class="no-decoration-link p-mr-2"
@@ -78,13 +78,15 @@ import { ROUTES_PATH } from '@/router/paths'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import { WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 export default {
   name: 'WorkspaceList',
   data () {
     return {
       ROUTES_PATH,
-      authState
+      authState,
+      WORKSPACE_ROLE
     }
   },
   components: {
@@ -117,8 +119,7 @@ export default {
       return accu
     }, [])
     if (
-      !userWorkspacesAvailable.some(({ role }) => role === 'OWNER') && userWorkspacesAvailable.length === 1
-      // TODO: don't redirect if the current user is a workspace's admin
+      !userWorkspacesAvailable.some(({ role }) => role !== WORKSPACE_ROLE.MEMBER) && userWorkspacesAvailable.length === 1
     ) {
       // only one workspace, user is not a SUPERADMIN
       // we redirect user on the visualization route

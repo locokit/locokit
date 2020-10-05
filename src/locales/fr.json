@@ -40,7 +40,7 @@
       "errorUnknownTypeBlock": "Le type de block n'existe pas.",
       "buttonDatabase": "Base de données",
       "buttonSchema": "Schéma",
-      "buttonVisu": "Visualisation"
+      "buttonVisualization": "Visualisation"
     },
     "database": {
       "title": "Base de données",
