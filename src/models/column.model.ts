@@ -16,7 +16,7 @@ export class column extends Model {
   createdAt!: string;
   updatedAt!: string;
   text!: string;
-  settings: {
+  settings!: {
     formula?: string,
     query?: {
       select: string[],
@@ -34,7 +34,7 @@ export class column extends Model {
     foreignField?: string,
     values?: Record<string, SingleSelectValue>,
     width?: number
-  } = {};
+  };
   position!: number;
   table_id!: string;
   column_type_id!: number;
