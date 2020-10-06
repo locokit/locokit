@@ -40,7 +40,6 @@ export default {
       disallow()
     ],
     patch: [
-      disallow()
     ],
     remove: [
       disallow()
