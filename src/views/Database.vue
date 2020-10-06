@@ -54,6 +54,7 @@
           @update-cell="onUpdateCell"
           @sort="onSort"
           @column-resize="onColumnResize"
+          @column-reorder="onColumnReorder"
         />
         <p-dialog
           :visible.sync="displayNewDialog"
@@ -390,8 +391,9 @@ export default {
       this.block.definition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          console.log(this.newRow.data[c.id])
-          dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          if (this.newRow.data[c.id] instanceof Date) {
+            dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          }
         })
       await saveTableData({
         ...dataToSubmit,
@@ -429,6 +431,39 @@ export default {
           width: newWidth
         }
       })
+    },
+    async onColumnReorder ({
+      fromIndex,
+      toIndex
+    }) {
+      const newDefinitionColumns = [...this.block.definition.columns]
+      // if from & to indexes are equal, nothing to do => exit
+      if (fromIndex === toIndex) return
+      // first, find the column related
+      await lckClient.service('column').patch(this.block.definition.columns[fromIndex].id, {
+        position: toIndex
+      })
+      newDefinitionColumns[toIndex] = this.block.definition.columns[fromIndex]
+      if (fromIndex > toIndex) {
+        // if the fromIndex is after the toIndex
+        // we need to update all columns after the toIndex, included, fromIndex excluded
+        for (let i1 = toIndex; i1 < fromIndex; i1++) {
+          await lckClient.service('column').patch(this.block.definition.columns[i1].id, {
+            position: i1 + 1
+          })
+          newDefinitionColumns[i1 + 1] = this.block.definition.columns[i1]
+        }
+      } else {
+        // if not,
+        // we need to update all columns between fromIndex and toIndex, fromIndex excluded
+        for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
+          await lckClient.service('column').patch(this.block.definition.columns[i2].id, {
+            position: i2 - 1
+          })
+          newDefinitionColumns[i2 - 1] = this.block.definition.columns[i2]
+        }
+      }
+      this.block.definition.columns = newDefinitionColumns
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
@@ -554,5 +589,9 @@ export default {
   background-color: var(--surface-a);
   border: 1px solid var(--text-color);
   color: var(--text-color);
+}
+
+/deep/ .p-datatable table {
+  width: unset;
 }
 </style>

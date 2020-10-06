@@ -15,6 +15,9 @@
       p-flex-column
       justify-between
     "
+    :class="{
+      'is-reorderable': crudMode
+    }"
     :value="block && block.content && block.content.data"
 
     :lazy="true"
@@ -26,9 +29,12 @@
     editMode="cell"
     @cell-edit-complete="onCellEditComplete"
 
-    :resizableColumns="true"
+    :resizableColumns="crudMode"
     columnResizeMode="expand"
     @column-resize-end="onColumnResize"
+
+    :reorderableColumns="crudMode"
+    @column-reorder="onColumnReorder"
 
     :paginator="true"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -37,33 +43,6 @@
 
     @sort="onSort"
   >
-    <p-column
-      field="text"
-      sortable
-      headerStyle="width: 150px"
-      v-if="crudMode"
-    >
-      <template #header>
-        <span data-column-id="text">
-          {{ $t('components.crudtable.columnReferenceLabel')}}
-        </span>
-      </template>
-
-      <template
-        #body="slotProps"
-      >
-        {{ slotProps.data.text }}
-      </template>
-
-      <template
-        #editor="slotProps"
-      >
-        <p-input-text
-          v-model="slotProps.data.text"
-        />
-      </template>
-
-    </p-column>
     <p-column
       v-for="column in block.definition.columns"
       :key="column.id"
@@ -78,15 +57,12 @@
           {{ column.text }}
         </span>
       </template>
-      <template #editor="slotProps">
-        <span v-if="!isEditableColumn(column)" style="padding: 0.5rem">
-          {{ getValue(column, slotProps.data.data[column.id]) }}
-        </span>
+      <template #editor="slotProps" v-if="isEditableColumn(column)">
         <!--
           @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
         -->
         <p-autocomplete
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+          v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
@@ -98,7 +74,7 @@
         />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-          :options="columnsOptions[column.id].dropdownOptions"
+          :options="columnsOptions && columnsOptions[column.id] && columnsOptions[column.id].dropdownOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
@@ -237,7 +213,13 @@ export default {
         case COLUMN_TYPE.SINGLE_SELECT:
           return column.settings.values[data]?.label
         case COLUMN_TYPE.DATE:
-          return lightFormat(parseISO(data), this.$t('date.dateFormat'))
+          // eslint-disable-next-line no-case-declarations
+          try {
+            return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
+          } catch (error) {
+            console.error('Date with bad format', data, error)
+            return ''
+          }
         default:
           return data
       }
@@ -292,7 +274,15 @@ export default {
       // eslint-disable-next-line @typescript-eslint/camelcase
       switch (column_type_id) {
         case COLUMN_TYPE.DATE:
-          this.currentDateToEdit = parseISO(value)
+          this.currentDateToEdit = ''
+          try {
+            if (value) {
+              const parsedDate = parseISO(value)
+              this.currentDateToEdit = parsedDate
+            }
+          } catch (error) {
+            console.error(error)
+          }
           break
       }
     },
@@ -311,6 +301,13 @@ export default {
         header.element.offsetWidth,
         header.element.querySelector('[data-column-id]').attributes['data-column-id'].value
       )
+    },
+    onColumnReorder (event) {
+      // if we are in crud mode, a ref column is displayed
+      this.$emit('column-reorder', {
+        fromIndex: event.dragIndex,
+        toIndex: event.dropIndex
+      })
     },
     async onDropdownEdit (rowIndex, columnId, event) {
       this.$emit('update-cell', {
@@ -364,13 +361,10 @@ export default {
       this.$emit('update-content', event.page)
     },
     onSort (event) {
-      this.$emit(
-        'sort',
-        {
-          field: event.sortField,
-          order: event.sortOrder
-        }
-      )
+      this.$emit('sort', {
+        field: event.sortField,
+        order: event.sortOrder
+      })
     }
   }
 }
@@ -399,6 +393,15 @@ tr.p-datatable-emptymessage {
 .p-datatable .p-datatable-tbody > tr.p-datatable-emptymessage > td {
   text-align: center;
 }
+
+.p-datatable.is-reorderable th:hover {
+  cursor: grab;
+}
+
+.p-datatable th:hover .p-sortable-column-icon {
+  cursor: pointer;
+}
+
 /* .loading-text {
   height: 19px;
 } */
