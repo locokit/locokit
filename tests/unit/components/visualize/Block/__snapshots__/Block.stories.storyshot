@@ -68,10 +68,8 @@ exports[`storyshots Block Block with TableView 1`] = `
       d-flex-1
       p-flex-column
       justify-between
-     p-datatable p-component p-datatable-resizable"
+     p-datatable p-component"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
