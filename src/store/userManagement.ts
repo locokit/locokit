@@ -46,7 +46,7 @@ export async function retrieveAllUsers () {
   }
 }
 
-export async function retrieveGroupsWihUsers (pageIndex = 0) {
+export async function retrieveGroupsWithUsers (pageIndex = 0) {
   const ITEMS_PER_PAGE = 10
 
   try {
