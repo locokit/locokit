@@ -33,7 +33,7 @@
 // @ is an alias to /src
 import Login from '@/components/ui/Login/Login.vue'
 import PopupReload from '@/components/ui/PopupReload/PopupReload.vue'
-import { authenticate, authState, retrieveUserGroupsAndWorkspacesAndDatabases } from '@/store/auth'
+import { authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
@@ -55,11 +55,7 @@ export default {
   },
   methods: {
     async authenticate (data) {
-      const idUser = await authenticate(data)
-
-      if (idUser) {
-        await retrieveUserGroupsAndWorkspacesAndDatabases(idUser)
-      }
+      await authenticate(data)
 
       if (authState.data.isAuthenticated) {
         // Do not remove the await to prevent Error: Redirected from X to Y via a navigation guard.
