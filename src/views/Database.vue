@@ -182,12 +182,12 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import AutoComplete from 'primevue/autocomplete'
 import InputNumber from 'primevue/inputnumber'
 import { formatISO } from 'date-fns'
 
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
 const defaultDatatableSort = {
   createdAt: 1
