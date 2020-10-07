@@ -33,7 +33,7 @@
                     />
                   </router-link>
 
-                  <template v-if="workspace.databases.length > 0 && workspace.role !== WORKSPACE_ROLE.MEMBER">
+                  <template v-if="workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(workspace.role)">
                     <router-link
                       v-if="workspace.databases.length === 1"
                       class="no-decoration-link p-mr-2"
