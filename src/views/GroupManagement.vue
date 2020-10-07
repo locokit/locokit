@@ -211,7 +211,7 @@ import Vue from 'vue'
 import {
   deleteUserGroup,
   patchUserGroup,
-  retrieveGroupsWihUsers,
+  retrieveGroupsWithUsers,
   saveUserGroup,
   retrieveAllUsers
 } from '@/store/userManagement'
@@ -323,7 +323,7 @@ export default {
       }
     },
     async loadCurrentGroupsWithUser () {
-      const res = await retrieveGroupsWihUsers()
+      const res = await retrieveGroupsWithUsers()
       this.groups = res.map(group => {
         return group.users.map(user => {
           return {

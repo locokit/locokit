@@ -36,12 +36,26 @@ export const authState: AuthState = {
   }
 }
 
+export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
+  authState.loading = true
+  try {
+    authState.data.user = await lckClient.service('user').get(id, {
+      query: {
+        $eager: 'groups.[workspaces.[databases]]'
+      }
+    })
+  } catch (error) {
+    authState.error = error
+  }
+  authState.loading = false
+}
+
 export async function reAuthenticate () {
   authState.loading = true
   try {
     const result = await lckClient.reAuthenticate()
     authState.data.isAuthenticated = true
-    authState.data.user = result.user
+    await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {
     authState.data.isAuthenticated = false
   }
@@ -58,27 +72,9 @@ export async function authenticate (data: AuthDTO) {
       password: data.password
     })
     authState.data.isAuthenticated = true
-    authState.data.user = result.user
+    await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {
     authState.data.isAuthenticated = false
-    authState.error = error
-  }
-  authState.loading = false
-}
-
-export async function retrieveGroups () {
-  if (!authState.data.isAuthenticated) return null
-  authState.loading = true
-  try {
-    const result = await lckClient.service('group').find({
-      query: {
-        $eager: 'users',
-        $joinRelation: 'users',
-        'users.id': authState.data.user?.id
-      }
-    })
-    authState.data.groups = result.data
-  } catch (error) {
     authState.error = error
   }
   authState.loading = false
