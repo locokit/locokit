@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.0.8**
+
+* add the `TEXT` `COLUMN_TYPE`
+
 **v0.0.7**
 
 * add the `WORKSPACE_ROLE`
