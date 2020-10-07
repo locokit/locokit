@@ -117,7 +117,6 @@
 
 <script>
 import Vue from 'vue'
-import AutoComplete from 'primevue/autocomplete'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
@@ -126,6 +125,7 @@ import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
 import { formatISO, parseISO, lightFormat } from 'date-fns'
 
@@ -371,7 +371,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
+  /deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
 /deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
   padding: unset !important;
 }
