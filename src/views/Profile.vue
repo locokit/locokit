@@ -25,31 +25,25 @@
           {{$t('pages.profile.groups')}}
         </template>
         <template slot="content">
-          <div v-for="group in authState.data.groups" :key="group.id">
+          <div v-for="group in authState.data.user.groups" :key="group.id">
             {{ group.name }}
-          </div>
-        </template>
-      </prime-card>
-    </section>
-    <section class="p-mb-4">
-      <prime-card>
-        <template slot="title">
-          {{$t('pages.profile.workspaces')}}
-        </template>
-        <template slot="content">
-          <ul class="lck-ul-content">
-            <li
-              v-for="workspace in workspaceState.data.workspaces"
-              :key="workspace.id"
-            >
-              <router-link
-                class="no-decoration-link"
-                :to="'/workspace/' + workspace.id"
+
+            <ul class="lck-ul-content">
+              <li
+                v-for="workspace in group.workspaces"
+                :key="workspace.id"
               >
-                {{ workspace.text }}
-              </router-link>
-            </li>
-          </ul>
+                <router-link
+                  class="no-decoration-link"
+                  :to="'/workspace/' + workspace.id"
+                >
+                  {{ workspace.text }}
+                </router-link>
+                 ({{ workspace.role }})
+              </li>
+            </ul>
+
+          </div>
         </template>
       </prime-card>
     </section>
@@ -68,8 +62,7 @@
 
 <script>
 // @ is an alias to /src
-import { authState, retrieveGroups, logout } from '@/store/auth'
-import { workspaceState, retrieveWorkspacesWithDatabases } from '@/store/visualize'
+import { authState, logout } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Vue from 'vue'
 import Card from 'primevue/card'
@@ -79,17 +72,12 @@ export default {
   name: 'Profile',
   data () {
     return {
-      authState,
-      workspaceState
+      authState
     }
   },
   components: {
     'prime-card': Vue.extend(Card),
     'prime-button': Vue.extend(Button)
-  },
-  mounted () {
-    retrieveGroups()
-    retrieveWorkspacesWithDatabases()
   },
   methods: {
     logout () {
