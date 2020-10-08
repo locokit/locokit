@@ -14,7 +14,7 @@
 
 <script>
 import Vue from 'vue'
-import { AutoComplete as PrimeAutoComplete } from 'primevue/autocomplete'
+import PrimeAutoComplete from 'primevue/autocomplete'
 
 export default {
   name: 'AutoComplete',
