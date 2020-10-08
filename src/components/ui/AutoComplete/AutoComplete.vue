@@ -26,8 +26,7 @@ export default {
   },
   components: {
     'p-autocomplete': Vue.extend(PrimeAutoComplete)
-  },
-  methods: {}
+  }
 }
 </script>
 
