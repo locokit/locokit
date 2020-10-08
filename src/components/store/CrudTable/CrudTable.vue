@@ -61,7 +61,7 @@
         <!--
           @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
         -->
-        <p-autocomplete
+        <autocomplete
           v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
@@ -132,7 +132,7 @@ import { formatISO, parseISO, lightFormat } from 'date-fns'
 export default {
   name: 'LCKRowDatatable',
   components: {
-    'p-autocomplete': Vue.extend(AutoComplete),
+    'autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
