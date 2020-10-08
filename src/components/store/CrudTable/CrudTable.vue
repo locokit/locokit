@@ -132,7 +132,7 @@ import { formatISO, parseISO, lightFormat } from 'date-fns'
 export default {
   name: 'LCKRowDatatable',
   components: {
-    'autocomplete': Vue.extend(AutoComplete),
+    autocomplete: Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -217,6 +217,7 @@ export default {
           try {
             return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
           } catch (error) {
+            // eslint-disable no-console
             console.error('Date with bad format', data, error)
             return ''
           }
@@ -281,6 +282,7 @@ export default {
               this.currentDateToEdit = parsedDate
             }
           } catch (error) {
+            // eslint-disable no-console
             console.error(error)
           }
           break
