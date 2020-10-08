@@ -13,7 +13,11 @@ module.exports = {
   pwa: {
     workboxOptions: {
       importWorkboxFrom: 'local',
-      skipWaiting: true
+      skipWaiting: true,
+      exclude: [
+        /index\.html$/,
+        /config\.js$/
+      ]
     }
   },
   configureWebpack: {
