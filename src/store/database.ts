@@ -50,7 +50,7 @@ export async function retrieveTableColumns (tableId: string) {
   try {
     const result = await lckClient.service('column').find({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { table_id: tableId, $limit: 50 }
+      query: { table_id: tableId, $limit: 50, $sort: { position: 1 } }
 
     })
     return result.data

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots AutoComplete AutoComplete 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <span
+    aria-haspopup="listbox"
+    aria-owns="pv_id_1_list"
+    class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-controls="pv_id_1_list"
+      autocomplete="off"
+      class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+      placeholder="Sélectionnez une option"
+      role="searchbox"
+      type="text"
+    />
+     
+    <!---->
+     
+    <!---->
+     
+    <button
+      class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+      type="button"
+    >
+      <span
+        class="pi pi-chevron-down p-button-icon"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+         
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </span>
+</div>
+`;
