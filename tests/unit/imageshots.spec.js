@@ -7,7 +7,7 @@ const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
 
 const getMatchOptions = () => {
   return {
-    failureThreshold: 0.25,
+    failureThreshold: 0.2,
     failureThresholdType: 'percent'
   }
 }
