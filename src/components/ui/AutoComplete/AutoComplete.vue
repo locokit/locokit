@@ -9,6 +9,7 @@
     v-on="$listeners"
     v-bind="$attrs"
     class="lck-autocomplete"
+    @complete="searchItems($event)"
   />
 </template>
 
@@ -26,6 +27,11 @@ export default {
   },
   components: {
     'p-autocomplete': Vue.extend(PrimeAutoComplete)
+  },
+  methods: {
+    searchItems (event) {
+      this.$emit('search', event)
+    }
   }
 }
 </script>
