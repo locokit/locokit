@@ -373,7 +373,7 @@ export default {
 </script>
 
 <style scoped>
-  /deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
+/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
 /deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
   padding: unset !important;
 }
