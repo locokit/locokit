@@ -132,7 +132,7 @@ import { formatISO, parseISO, lightFormat } from 'date-fns'
 export default {
   name: 'LCKRowDatatable',
   components: {
-    autocomplete: Vue.extend(AutoComplete),
+    'lck-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -407,4 +407,5 @@ tr.p-datatable-emptymessage {
 /* .loading-text {
   height: 19px;
 } */
+
 </style>
