@@ -119,6 +119,7 @@
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
@@ -136,6 +137,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-datatable': Vue.extend(DataTable),
@@ -186,6 +188,7 @@ export default {
         [COLUMN_TYPE.NUMBER]: 'text',
         [COLUMN_TYPE.FLOAT]: 'text',
         [COLUMN_TYPE.DATE]: 'text',
+        [COLUMN_TYPE.TEXT]: 'p-textarea',
         [COLUMN_TYPE.USER]: 'p-tag',
         [COLUMN_TYPE.GROUP]: 'p-tag',
         [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
@@ -206,6 +209,7 @@ export default {
       switch (column.column_type_id) {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.TEXT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
         case COLUMN_TYPE.LOOKED_UP_COLUMN:
         case COLUMN_TYPE.FORMULA:
@@ -241,6 +245,8 @@ export default {
           return 'p-dropdown'
         case COLUMN_TYPE.DATE:
           return 'p-calendar'
+        case COLUMN_TYPE.TEXT:
+          return 'p-textarea'
         default:
           return 'p-input-text'
       }

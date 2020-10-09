@@ -179,6 +179,7 @@ import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
 import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
@@ -205,6 +206,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
@@ -332,6 +334,8 @@ export default {
           return 'p-dropdown'
         case COLUMN_TYPE.DATE:
           return 'p-calendar'
+        case COLUMN_TYPE.TEXT:
+          return 'p-textarea'
         default:
           return 'p-input-text'
       }
