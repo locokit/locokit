@@ -13,13 +13,13 @@ export const AutoCompleteStory = () => ({
 })
 
 const suggestions = [{
-  label: 'One suggestion',
+  label: 'Suggestion one',
   value: 1
 }, {
-  label: 'Two suggestion',
+  label: 'Suggestion two',
   value: 2
 }, {
-  label: 'Three suggestion',
+  label: 'Suggestion three',
   value: 3
 }]
 
@@ -39,13 +39,6 @@ export const AutoCompleteStoryWithSuggestionsAndDropdownOpened = () => ({
       @search="searchItems"
     />
   `,
-  // render () {
-  //   return <AutoComplete
-  //     vModel={this.autocompleteModel}
-  //     suggestions={this.suggestions}
-  //     vOn:search={this.searchItems}
-  //   />
-  // },
   methods: {
     searchItems () {
       this.suggestions = [...suggestions]
