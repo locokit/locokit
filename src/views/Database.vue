@@ -94,7 +94,7 @@
 
               -->
               <lck-autocomplete
-                v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+                v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
                 :id="column.id"
                 :dropdown="true"
                 :placeholder="$t('components.dropdown.placeholder')"
