@@ -62,7 +62,7 @@
           @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
         -->
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
