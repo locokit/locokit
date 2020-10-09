@@ -61,8 +61,8 @@
         <!--
           @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
         -->
-        <p-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+        <lck-autocomplete
+          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
           field="label"
@@ -117,7 +117,6 @@
 
 <script>
 import Vue from 'vue'
-import AutoComplete from 'primevue/autocomplete'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
@@ -126,13 +125,14 @@ import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
 import { formatISO, parseISO, lightFormat } from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
   components: {
-    'p-autocomplete': Vue.extend(AutoComplete),
+    'lck-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -217,6 +217,7 @@ export default {
           try {
             return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
           } catch (error) {
+            // eslint-disable no-console
             console.error('Date with bad format', data, error)
             return ''
           }
@@ -229,7 +230,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'p-autocomplete'
+          return 'lck-autocomplete'
         case COLUMN_TYPE.BOOLEAN:
           return 'p-input-switch'
         case COLUMN_TYPE.NUMBER:
@@ -281,6 +282,7 @@ export default {
               this.currentDateToEdit = parsedDate
             }
           } catch (error) {
+            // eslint-disable no-console
             console.error(error)
           }
           break
@@ -405,4 +407,5 @@ tr.p-datatable-emptymessage {
 /* .loading-text {
   height: 19px;
 } */
+
 </style>

@@ -14,9 +14,9 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_2_content"
+          aria-controls="pv_id_4_content"
           class="p-accordion-header-link"
-          id="pv_id_2_header"
+          id="pv_id_4_header"
           role="tab"
           tabindex="0"
         >
@@ -34,9 +34,9 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_2_header"
+        aria-labelledby="pv_id_4_header"
         class="p-toggleable-content"
-        id="pv_id_2_content"
+        id="pv_id_4_content"
         role="region"
         style="display: none;"
       >
@@ -67,9 +67,9 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_3_content"
+          aria-controls="pv_id_5_content"
           class="p-accordion-header-link"
-          id="pv_id_3_header"
+          id="pv_id_5_header"
           role="tab"
           tabindex="0"
         >
@@ -87,9 +87,9 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_3_header"
+        aria-labelledby="pv_id_5_header"
         class="p-toggleable-content"
-        id="pv_id_3_content"
+        id="pv_id_5_content"
         role="region"
         style="display: none;"
       >
@@ -131,9 +131,9 @@ exports[`storyshots Sidebar Sidebar without props chapters 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_1_content"
+          aria-controls="pv_id_3_content"
           class="p-accordion-header-link"
-          id="pv_id_1_header"
+          id="pv_id_3_header"
           role="tab"
           tabindex="0"
         >
@@ -151,9 +151,9 @@ exports[`storyshots Sidebar Sidebar without props chapters 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_1_header"
+        aria-labelledby="pv_id_3_header"
         class="p-toggleable-content"
-        id="pv_id_1_content"
+        id="pv_id_3_content"
         role="region"
         style="display: none;"
       >

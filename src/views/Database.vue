@@ -93,8 +93,8 @@
                 @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
 
               -->
-              <p-autocomplete
-                v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
+              <lck-autocomplete
+                v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
                 :id="column.id"
                 :dropdown="true"
                 :placeholder="$t('components.dropdown.placeholder')"
@@ -183,12 +183,12 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import AutoComplete from 'primevue/autocomplete'
 import InputNumber from 'primevue/inputnumber'
 import { formatISO } from 'date-fns'
 
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -201,7 +201,7 @@ export default {
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'p-autocomplete': Vue.extend(AutoComplete),
+    'lck-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -321,7 +321,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'p-autocomplete'
+          return 'lck-autocomplete'
         case COLUMN_TYPE.BOOLEAN:
           return 'p-input-switch'
         case COLUMN_TYPE.NUMBER:
