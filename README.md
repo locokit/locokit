@@ -15,8 +15,10 @@ npm run build
 
 ## Publish instructions
 
-Please
-
 ```
 npm publish
 ```
+
+## CHANGELOG
+
+Please refer to [CHANGELOG](./CHANGELOG)

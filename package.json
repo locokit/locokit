@@ -1,6 +1,6 @@
 {
   "name": "@locokit/lck-glossary",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Glossary for Low-Code Kit platform",
   "main": "lib/index.js",
   "repository": {

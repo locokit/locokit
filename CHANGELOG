@@ -1,5 +1,16 @@
 # CHANGELOG
 
+**v0.0.9**
+
+* add BLOCK_TYPE
+* add MEDIA_TYPE
+* add interfaces definition for Blocks
+  * BlockParagraph
+  * BlockMardown
+  * BlockTableView
+  * BlockKanbanView
+  * BlockMedia
+
 **v0.0.8**
 
 * add the `TEXT` `COLUMN_TYPE`
