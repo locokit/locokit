@@ -321,7 +321,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'p-autocomplete'
+          return 'lck-autocomplete'
         case COLUMN_TYPE.BOOLEAN:
           return 'p-input-switch'
         case COLUMN_TYPE.NUMBER:
