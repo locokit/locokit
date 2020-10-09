@@ -93,7 +93,7 @@
                 @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
 
               -->
-              <p-autocomplete
+              <lck-autocomplete
                 v-if="getComponentEditableColumn(column.column_type_id) === 'p-autocomplete'"
                 :id="column.id"
                 :dropdown="true"
@@ -201,7 +201,7 @@ export default {
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'p-autocomplete': Vue.extend(AutoComplete),
+    'lck-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
