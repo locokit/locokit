@@ -1,6 +1,6 @@
 <template>
   <div
-    class="generic-view-container p-d-flex p-flex-column p-as-center p-mx-auto"
+    class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
   >
     <div class="lck-color-page-title p-my-4">
       <h1>{{ $t('pages.profile.title') }}</h1>
@@ -8,38 +8,39 @@
     <section class="p-mb-4">
       <prime-card>
         <template slot="title">
-          {{$t('pages.profile.title')}}
+          <span class="icon-rounded"><i class="pi pi-user"></i></span> {{ $t('pages.profile.title') }}
         </template>
         <template slot="content">
-          {{ authState.data.user.name }}
+          <h4>{{ authState.data.user.name }}</h4>
           <br>
-          {{ $t('pages.profile.email') }}&nbsp;{{ authState.data.user.email}}
+          <strong>{{ $t('pages.profile.email') }}&nbsp;</strong>{{ authState.data.user.email }}
           <br>
-          {{ $t('pages.profile.role') }}&nbsp;{{ authState.data.user.profile}}
+          <strong>{{ $t('pages.profile.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
         </template>
       </prime-card>
     </section>
     <section class="p-mb-4">
       <prime-card>
         <template slot="title">
-          {{$t('pages.profile.groups')}}
+          <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.profile.groups') }}
         </template>
         <template slot="content">
           <div v-for="group in authState.data.user.groups" :key="group.id">
-            {{ group.name }}
+            <h4 class="group-title">{{ group.name }}</h4>
 
             <ul class="lck-ul-content">
               <li
                 v-for="workspace in group.workspaces"
                 :key="workspace.id"
               >
+                <span class="p-badge">Espace de travail</span>&nbsp;
                 <router-link
                   class="no-decoration-link"
                   :to="'/workspace/' + workspace.id"
                 >
                   {{ workspace.text }}
                 </router-link>
-                 ({{ workspace.role }})
+                ({{ workspace.role }})
               </li>
             </ul>
 
@@ -47,26 +48,18 @@
         </template>
       </prime-card>
     </section>
-    <div>
-      <prime-button
-        class="p-button-warning p-jc-end"
-        type="button"
-        :label="$t('pages.profile.button-logout')"
-        icon="pi pi-sign-out"
-        iconPos="right"
-        @click="logout"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { authState, logout } from '@/store/auth'
+import {
+  authState,
+  logout
+} from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Vue from 'vue'
 import Card from 'primevue/card'
-import Button from 'primevue/button'
 
 export default {
   name: 'Profile',
@@ -76,8 +69,7 @@ export default {
     }
   },
   components: {
-    'prime-card': Vue.extend(Card),
-    'prime-button': Vue.extend(Button)
+    'prime-card': Vue.extend(Card)
   },
   methods: {
     logout () {
@@ -87,3 +79,48 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.icon-rounded {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.icon-rounded i {
+  color: #fff;
+  font-size: 1.5rem !important;
+}
+
+.lck-ul-content span.p-badge {
+  background-color: var(--primary-color) !important;
+  border-radius: var(--border-radius);
+  padding: 0.1rem 0.4rem;
+  position: relative;
+  overflow: visible;
+  margin-right: 1rem;
+  line-height: 1.5rem;
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 0.75rem solid transparent;
+    border-bottom: 0.75rem solid transparent;
+    border-left: 0.7rem solid var(--primary-color);
+    position: absolute;
+    right: -0.7rem;
+    top: 0rem;
+    border-radius: var(--border-radius);
+  }
+}
+
+h4.group-title {
+  margin-top: 1.25rem;
+  margin-bottom: 0rem;
+}
+
+</style>
