@@ -322,8 +322,15 @@ export default {
   before: {
     all: [ authenticate('jwt') ],
     find: [
-      filterRowsByTableViewId(),
-      commonHooks.discardQuery('table_view_id')
+      // commonHooks.iffElse(
+      //   queryContainsKey('table_id') || queryContainsKey('table_view_id'),
+      //   [
+          commonHooks.disablePagination(),
+          filterRowsByTableViewId(),
+          commonHooks.discardQuery('table_view_id'),
+      //   ],
+      //   commonHooks.disallow()
+      // )
     ],
     get: [],
     create: [

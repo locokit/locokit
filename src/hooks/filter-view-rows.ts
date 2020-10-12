@@ -39,12 +39,12 @@ export default function filterRowsByTableViewId(): Hook {
                 filtersToAdd[c.id] = { [filterKey]: currentFilterKeyValue }
                 break;
             }
-            console.log(filterKey, typeof currentFilterKeyValue)
+            // console.log(filterKey, typeof currentFilterKeyValue)
             if (currentFilterKeyValue instanceof Array) {
-              console.log('array')
+              // console.log('array')
             } else if (currentFilterKeyValue instanceof String) {
             } else {
-              console.log('object ?')
+              // console.log('object ?')
             }
           })
         })

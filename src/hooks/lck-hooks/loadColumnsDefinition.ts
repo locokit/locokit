@@ -18,11 +18,11 @@ export function loadColumnsDefinition () : Hook {
             : context.params._meta.item.table_id
         )
         const columns = await context.app.services.column.find({
-          query: { table_id, $limit: 50 },
+          query: { table_id, $limit: (table_id ? -1: 20) },
         })
         context.params._meta = {
           ...context.params._meta,
-          columns: columns.data
+          columns: table_id ? columns : columns.data
         }
         break;
     }
