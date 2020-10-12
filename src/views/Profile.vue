@@ -98,7 +98,7 @@ export default {
 .lck-ul-content span.p-badge {
   background-color: var(--primary-color) !important;
   border-radius: var(--border-radius);
-  padding: 0.1rem 0.4rem;
+  padding: 0.1rem 0.5rem;
   position: relative;
   overflow: visible;
   margin-right: 1rem;
@@ -112,7 +112,7 @@ export default {
     border-bottom: 0.75rem solid transparent;
     border-left: 0.7rem solid var(--primary-color);
     position: absolute;
-    right: -0.7rem;
+    right: -0.6rem;
     top: 0rem;
     border-radius: var(--border-radius);
   }
