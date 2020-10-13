@@ -1,22 +1,22 @@
 
-import * as authentication from '@feathersjs/authentication';
+import * as authentication from '@feathersjs/authentication'
 import * as commonHooks from 'feathers-hooks-common'
-import filterRowsByTableViewId from '../../hooks/filter-view-rows';
+import filterRowsByTableViewId from '../../hooks/filter-view-rows'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
-const { authenticate } = authentication.hooks;
 
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-import { Hook, HookContext, Query } from '@feathersjs/feathers';
-import { column as LckColumn, SingleSelectValue } from '../../models/column.model';
+import { Hook, HookContext } from '@feathersjs/feathers'
+import { column as LckColumn, SingleSelectValue } from '../../models/column.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { row, RowData } from '../../models/row.model';
-import { ColumnRelation } from '../../models/columnrelation.model';
-import { enhanceComplexColumns } from '../../hooks/lck-hooks/enhanceComplexColumns';
-import { loadColumnsDefinition } from '../../hooks/lck-hooks/loadColumnsDefinition';
-import { LCK_trr } from '../../models/trr.model';
-
+import { row, RowData } from '../../models/row.model'
+import { ColumnRelation } from '../../models/columnrelation.model'
+import { enhanceComplexColumns } from '../../hooks/lck-hooks/enhanceComplexColumns'
+import { loadColumnsDefinition } from '../../hooks/lck-hooks/loadColumnsDefinition'
+import { LCK_trr } from '../../models/trr.model'
+import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+const { authenticate } = authentication.hooks
 
 /**
  * Memorize columns ids sent in the row's data.
@@ -30,8 +30,8 @@ function memorizeColumnsIds (): Hook {
       ...context.params._meta,
       columnsIdsTransmitted: Object.keys(context.data.data || {})
     }
-    return context;
-  };
+    return context
+  }
 };
 
 /**
@@ -54,8 +54,8 @@ function completeDataField (): Hook {
         ...context.data.data
       }
     }
-    return context;
-  };
+    return context
+  }
 };
 
 /**
@@ -70,19 +70,19 @@ function completeDefaultValues (): Hook {
         (context.params._meta.columns as LckColumn[]).map(currentColumnDefinition => {
           if (!context.data.data[currentColumnDefinition.id]) {
             context.data.data[currentColumnDefinition.id] = null
-            switch(currentColumnDefinition.column_type_id) {
+            switch (currentColumnDefinition.column_type_id) {
               case COLUMN_TYPE.SINGLE_SELECT:
                 if ((currentColumnDefinition.settings as any).default) {
                   context.data.data[currentColumnDefinition.id] = (currentColumnDefinition.settings as any).default
                 }
-                break;
+                break
             }
           }
         })
       )
     }
-    return context;
-  };
+    return context
+  }
 };
 
 /**
@@ -127,8 +127,8 @@ function computeLookedUpColumns (): Hook {
         data: newData
       })
     }))
-    return context;
-  };
+    return context
+  }
 }
 
 /**
@@ -142,7 +142,7 @@ function computeRowLookedUpColumns (): Hook {
     if (
       context.method === 'patch' &&
       !context.data.data
-    ) return context;
+    ) return context
     await Promise.all(
       (context.params._meta.columns as LckColumn[])
         .filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
@@ -171,7 +171,6 @@ function computeRowLookedUpColumns (): Hook {
              * If the value is an object, we retrieve the sub property of value
              */
             if (typeof currentColumnData.value === 'object') {
-
               currentColumnData.reference = currentColumnData.value?.reference
               currentColumnData.value = currentColumnData.value?.value
             }
@@ -179,8 +178,8 @@ function computeRowLookedUpColumns (): Hook {
           }
         })
     )
-    return context;
-  };
+    return context
+  }
 }
 
 /**
@@ -228,7 +227,7 @@ function restrictRemoveIfRelatedRows () : Hook {
       // find if there are related rows dependent of the current row (table_row_from_id)
       const matchingRows = await context.app.services.trr.find({
         query: {
-          table_row_from_id: context.id,
+          table_row_from_id: context.id
         }
       })
       if (matchingRows.total > 0) {
@@ -250,13 +249,13 @@ function removeRelatedRows () : Hook {
       // remove the related rows pointing to the current row
       const matchingRows = await context.app.services.trr.find({
         query: {
-          table_row_to_id: context.id,
+          table_row_to_id: context.id
         }
       })
       if (matchingRows.total > 0) {
         await context.app.services.trr.remove(null, {
           query: {
-            table_row_to_id: context.id,
+            table_row_to_id: context.id
           }
         })
       }
@@ -272,65 +271,64 @@ function removeRelatedRows () : Hook {
  */
 function upsertRowRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-
     await Promise.all(
-      ( context.params._meta.columnsIdsTransmitted as string[])
-      .filter(currentColumnId => {
+      (context.params._meta.columnsIdsTransmitted as string[])
+        .filter(currentColumnId => {
         // find the matching column
-        const currentColumnDefinition = (context.params._meta.columns as LckColumn[]).find((c: LckColumn) => c.id === currentColumnId)
-        // check if it's a RELATION_BETWEEN_TABLE
-        return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
-      })
-      .map(async currentColumnId => {
-        // check if there is alreay a trr for the current row id + currentColumnId
-        const matchingRows = await context.app.services.trr.find({
-          query: {
-            table_row_to_id: context.result.id,
-            table_column_to_id: currentColumnId
-          }
+          const currentColumnDefinition = (context.params._meta.columns as LckColumn[]).find((c: LckColumn) => c.id === currentColumnId)
+          // check if it's a RELATION_BETWEEN_TABLE
+          return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
         })
-        const tableRowFromId = context.result.data[currentColumnId].reference
-        // if the trr doesn't exist, create it
-        if (matchingRows.total === 0) {
-          await context.app.services.trr.create({
-            table_row_to_id: context.result.id,
-            table_column_to_id: currentColumnId,
-            table_row_from_id: tableRowFromId
+        .map(async currentColumnId => {
+        // check if there is alreay a trr for the current row id + currentColumnId
+          const matchingRows = await context.app.services.trr.find({
+            query: {
+              table_row_to_id: context.result.id,
+              table_column_to_id: currentColumnId
+            }
           })
-        } else if (matchingRows.total === 1) {
-          // if the from is different, update this line
-          if (matchingRows.data[0].table_row_from_id !== tableRowFromId) {
-            await context.app.services.trr.patch({
+          const tableRowFromId = context.result.data[currentColumnId].reference
+          // if the trr doesn't exist, create it
+          if (matchingRows.total === 0) {
+            await context.app.services.trr.create({
               table_row_to_id: context.result.id,
               table_column_to_id: currentColumnId,
-            }, {
               table_row_from_id: tableRowFromId
             })
-          }
+          } else if (matchingRows.total === 1) {
+          // if the from is different, update this line
+            if (matchingRows.data[0].table_row_from_id !== tableRowFromId) {
+              await context.app.services.trr.patch({
+                table_row_to_id: context.result.id,
+                table_column_to_id: currentColumnId
+              }, {
+                table_row_from_id: tableRowFromId
+              })
+            }
           // else do nothing
-        } else {
-          throw new Error('Too much matching rows ?')
-        }
-      })
+          } else {
+            throw new Error('Too much matching rows ?')
+          }
+        })
     )
 
-    return context;
-  };
+    return context
+  }
 }
 
 export default {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt')],
     find: [
-      // commonHooks.iffElse(
-      //   queryContainsKey('table_id') || queryContainsKey('table_view_id'),
-      //   [
+      commonHooks.iffElse(
+        queryContainsKeys(['table_id', 'table_view_id']),
+        [
           commonHooks.disablePagination(),
           filterRowsByTableViewId(),
-          commonHooks.discardQuery('table_view_id'),
-      //   ],
-      //   commonHooks.disallow()
-      // )
+          commonHooks.discardQuery('table_view_id')
+        ],
+        commonHooks.disallow()
+      )
     ],
     get: [],
     create: [
@@ -398,4 +396,4 @@ export default {
     patch: [],
     remove: []
   }
-};
+}
