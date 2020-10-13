@@ -158,7 +158,8 @@ export default {
     },
     columnsOptions: {
       type: Object,
-      required: true
+      required: false,
+      default: () => ({})
     },
     autocompleteSuggestions: {
       type: Array,
