@@ -51,6 +51,7 @@ test:
       alias: lck-db
   script:
     - npm ci
+    - npm run lint
     - npm test
 
 build-lib:
