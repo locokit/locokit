@@ -74,16 +74,16 @@
             @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
           -->
           <lck-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-          :dropdown="true"
-          :placeholder="$t('components.dropdown.placeholder')"
-          field="label"
-          appendTo="body"
-          v-model="autocompleteInput[column.id]"
-          :suggestions="autocompleteSuggestions"
-          @complete="onComplete(column, $event)"
-          @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
-        />
+            v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+            :dropdown="true"
+            :placeholder="$t('components.dropdown.placeholder')"
+            field="label"
+            appendTo="body"
+            v-model="autocompleteInput[column.id]"
+            :suggestions="autocompleteSuggestions"
+            @complete="onComplete(column, $event)"
+            @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+          />
           <p-dropdown
             v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
             :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -129,6 +129,7 @@
 
       </template>
     </p-datatable>
+
     <lck-paginator
       :rows="rowsNumber"
       :skip="block && block.content && block.content.skip"
