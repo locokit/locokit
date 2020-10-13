@@ -1,24 +1,24 @@
-import { Paginated } from '@feathersjs/feathers';
-import { COLUMN_TYPE } from '@locokit/lck-glossary';
-import app from '../../app';
-import { column } from '../../models/column.model';
-import { database } from '../../models/database.model';
-import { table } from '../../models/table.model';
-import { workspace } from '../../models/workspace.model';
-import { Columnrelation } from '../columnrelation/columnrelation.class';
+import { Paginated } from '@feathersjs/feathers'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import app from '../../app'
+import { column } from '../../models/column.model'
+import { database } from '../../models/database.model'
+import { table } from '../../models/table.model'
+import { workspace } from '../../models/workspace.model'
+import { Columnrelation } from '../columnrelation/columnrelation.class'
 
 describe('\'column\' service', () => {
   it('registered the service', () => {
-    const service = app.service('column');
-    expect(service).toBeTruthy();
-  });
+    const service = app.service('column')
+    expect(service).toBeTruthy()
+  })
 
   it('create a column without error', async () => {
-    expect.assertions(1);
-    const service = app.service('column');
-    const workspace = await app.service('workspace').create({text: 'pouet'})
-    const database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
-    const table = await app.service('table').create({text: 'pouet', database_id: database.id})
+    expect.assertions(1)
+    const service = app.service('column')
+    const workspace = await app.service('workspace').create({ text: 'pouet' })
+    const database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const tableColumn = await service.create({
       text: 'myColumn',
       table_id: table.id,
@@ -26,22 +26,22 @@ describe('\'column\' service', () => {
     })
 
     expect(tableColumn).toBeTruthy()
-  });
+  })
 
   it('paginate results by default to 10', async () => {
-    expect.assertions(2);
-    const service = app.service('column');
+    expect.assertions(2)
+    const service = app.service('column')
     const columns: any = await service.find()
     expect(columns.total).toBeDefined()
     expect(columns.limit).toBe(10)
-  });
+  })
 
   it('discard pagination when table_id is set in query param and $limit is -1', async () => {
-    expect.assertions(5);
-    const service = app.service('column');
-    const workspace = await app.service('workspace').create({text: 'pouet'})
-    const database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
-    const table = await app.service('table').create({text: 'pouet', database_id: database.id})
+    expect.assertions(5)
+    const service = app.service('column')
+    const workspace = await app.service('workspace').create({ text: 'pouet' })
+    const database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const column1 = await service.create({
       text: 'myColumn1',
       table_id: table.id,
@@ -64,19 +64,18 @@ describe('\'column\' service', () => {
     expect(columns.length).toBe(2)
     expect(columns[0].id).toBe(column1.id)
     expect(columns[1].id).toBe(column2.id)
-  });
-});
+  })
+})
 
-describe ('hooks for column service', () => {
-
+describe('hooks for column service', () => {
   let workspace: workspace
   let database: database
   let table1: table
   let table2: table
 
-  beforeAll(async() => {
-    workspace = await app.service('workspace').create({text: 'pouet'})
-    database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
+  beforeAll(async () => {
+    workspace = await app.service('workspace').create({ text: 'pouet' })
+    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id
@@ -115,7 +114,7 @@ describe ('hooks for column service', () => {
       const columnrelation = await app.service('columnrelation').find({
         query: {
           table_column_from_id: columnTable1Ref.id,
-          table_column_to_id: columnTable2LookedUpColumnTable1User.id,
+          table_column_to_id: columnTable2LookedUpColumnTable1User.id
         }
       }) as Paginated<Columnrelation>
       expect(columnrelation.total).toBe(1)
@@ -123,15 +122,13 @@ describe ('hooks for column service', () => {
       await app.service('columnrelation')._remove(null, {
         query: {
           table_column_from_id: columnTable1Ref.id,
-          table_column_to_id: columnTable2LookedUpColumnTable1User.id,
+          table_column_to_id: columnTable2LookedUpColumnTable1User.id
         }
       })
       await app.service('column')._remove(columnTable2LookedUpColumnTable1User.id, {})
       await app.service('column')._remove(columnTable1Ref.id, {})
       await app.service('column')._remove(columnTable2RelationBetweenTable1.id, {})
-
     })
-
   })
 
   afterAll(async () => {
