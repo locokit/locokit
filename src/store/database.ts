@@ -62,7 +62,7 @@ export async function retrieveTableColumns (tableId: string) {
 
 export async function retrieveTableRows (tableId: string, pageIndex = 0) {
   databaseState.loading = true
-  const ITEMS_PER_PAGE = 10
+  const ITEMS_PER_PAGE = 20
 
   try {
     return await lckClient.service('row').find({

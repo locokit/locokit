@@ -1,34 +1,34 @@
-import TableView from './TableView'
+import CrudTable from './CrudTable'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
-  title: 'TableView',
-  component: TableView
+  title: 'CrudTable',
+  component: CrudTable
 }
 
-export const TableViewWithoutDefinitionAndDataStory = () => (
+export const CrudTableWithoutDefinitionAndDataStory = () => (
   {
-    components: { TableView },
+    components: { CrudTable },
     data () {
       return {
         block: {
           id: 1,
-          title: 'My TableView\'s block',
-          type: 'TableView'
+          title: 'My CrudTable\'s block',
+          type: 'CrudTable'
         }
       }
     },
-    template: '<TableView :block="block" />'
+    template: '<CrudTable :block="block" />'
   }
 )
 
-TableViewWithoutDefinitionAndDataStory.storyName = 'TableView without no definition and content properties'
+CrudTableWithoutDefinitionAndDataStory.storyName = 'CrudTable without no definition and content properties'
 
 /* eslint-disable @typescript-eslint/camelcase */
 const tableViewData = {
   id: 1,
-  title: 'My TableView\'s block',
-  type: 'TableView',
+  title: 'My CrudTable\'s block',
+  type: 'CrudTable',
   definition: {
     text: 'Ensemble des vélos',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
@@ -134,16 +134,33 @@ const tableViewData = {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
-export const TableViewWithPropsStory = () => (
+export const CrudTableWithoutContent = () => (
   {
-    components: { TableView },
+    components: { CrudTable },
+    data () {
+      return {
+        block: {
+          ...tableViewData,
+          content: []
+        }
+      }
+    },
+    template: '<CrudTable :block="block" />'
+  }
+)
+
+CrudTableWithoutContent.storyName = 'CrudTable without content'
+
+export const CrudTableWithPropsStory = () => (
+  {
+    components: { CrudTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<TableView :block="block" />'
+    template: '<CrudTable :block="block" />'
   }
 )
 
-TableViewWithPropsStory.storyName = 'TableView with expected props'
+CrudTableWithPropsStory.storyName = 'CrudTable with expected props'

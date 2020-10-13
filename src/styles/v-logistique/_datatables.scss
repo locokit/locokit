@@ -19,6 +19,7 @@
 .p-datatable .p-datatable-thead > tr > td {
   white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 .p-datatable {
   &.p-datatable-striped {

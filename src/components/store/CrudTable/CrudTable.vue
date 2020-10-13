@@ -5,6 +5,7 @@
     :virtualScroll="true"
     :virtualRowHeight="38"
     @virtual-scroll="onVirtualScroll"
+
  -->
   <p-datatable
     class="
@@ -19,6 +20,8 @@
       'is-reorderable': crudMode
     }"
     :value="block && block.content && block.content.data"
+
+    v-if="block.definition"
 
     :lazy="true"
     :loading="block.loading"
@@ -48,7 +51,18 @@
       :key="column.id"
       :field="column.id"
       :headerStyle="{
-        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px'
+        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+        'max-width': ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+        overflow: 'hidden',
+        'white-space': 'nowrap',
+        'text-overflow': 'ellipsis'
+      }"
+      :bodyStyle="{
+        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+        'max-width': ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+        overflow: 'hidden',
+        'white-space': 'nowrap',
+        'text-overflow': 'ellipsis'
       }"
       :sortable="isSortableColumn(column)"
     >
@@ -74,7 +88,7 @@
         />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-          :options="columnsOptions && columnsOptions[column.id] && columnsOptions[column.id].dropdownOptions"
+          :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
@@ -87,17 +101,13 @@
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
           v-model="currentDateToEdit"
           @show="onShowCalendar(column, slotProps.data.data[column.id])"
-          @date-select="onCellEdit($event, slotProps)"
           :dateFormat="$t('date.dateFormatPrime')"
-          @input="onCellEdit($event, slotProps)"
           appendTo="body"
         />
         <component
           v-else
           :is="getComponentEditableColumn(column.column_type_id)"
           v-model="slotProps.data.data[column.id]"
-          :value="slotProps.data.data[column.id]"
-          @input="onCellEdit($event, slotProps)"
           appendTo="body"
         />
       </template>
@@ -112,7 +122,9 @@
         {{ $t('components.crudtable.noDataToDisplay') }}
     </template>
   </p-datatable>
-
+  <div v-else>
+    {{ $t('components.crudtable.noDefinitionAvailable') }}
+  </div>
 </template>
 
 <script>
@@ -148,26 +160,13 @@ export default {
       type: Object,
       required: true
     },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    total: {
-      type: Number,
-      default: 0
-    },
-    columnsOptions: {
-      type: Object,
-      required: false,
-      default: () => ({})
-    },
     autocompleteSuggestions: {
       type: Array,
       default: () => ([])
     },
     rowsNumber: {
       type: Number,
-      default: 10
+      default: 20
     },
     crudMode: {
       type: Boolean,
@@ -199,7 +198,28 @@ export default {
         [COLUMN_TYPE.FORMULA]: 'p-tag',
         [COLUMN_TYPE.FILE]: 'text'
       }
+    },
+    columnsEnhanced () {
+      if (!this.block.definition.columns) return {}
+      const result = {}
+      this.block.definition.columns.forEach(currentColumn => {
+        result[currentColumn.id] = {
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          column_type_id: currentColumn.column_type_id
+        }
+        if (
+          currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
+          currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
+        ) {
+          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
+            value: k,
+            label: currentColumn.settings.values[k].label
+          }))
+        }
+      })
+      return result
     }
+
   },
   methods: {
     getValue (column, data = '') {
@@ -333,38 +353,31 @@ export default {
       })
     },
     async onCellEditComplete (event) {
-      if (event.field !== 'text' && !this.editingCellRows[event.index]) {
-        return
-      }
-      let value = null
-      if (event.field === 'text') {
-        value = event.data.text
-      } else {
-        value = this.editingCellRows[event.index][event.field]
+      let value = event.data.data[event.field]
+      const currentColumn = this.block.definition.columns.find(c => c.id === event.field)
+      switch (currentColumn.column_type_id) {
+        case COLUMN_TYPE.SINGLE_SELECT:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          /**
+           * For these type of column
+           * the dropdown edit is already here
+           * to emit the event
+           */
+          return
+        case COLUMN_TYPE.DATE:
+          /**
+           * in case of a Date, value is stored in the currentDateToEdit data
+           * we format it in the date representation,
+           * we just want to store the date
+           */
+          value = formatISO(this.currentDateToEdit, { representation: 'date' })
+          break
       }
       this.$emit('update-cell', {
         rowIndex: event.index,
         columnId: event.field,
         newValue: value
       })
-    },
-    onCellEdit (newValue, props) {
-      if (!this.editingCellRows[props.index]) {
-        this.editingCellRows[props.index] = {}
-      }
-      switch (props.column.column_type_id) {
-        case COLUMN_TYPE.DATE:
-          /**
-           * in case of a Date, we don't care of the timezone,
-           * we just want to store the date
-           */
-          if (newValue instanceof Date) {
-            this.editingCellRows[props.index][props.column.field] = formatISO(newValue, { representation: 'date' })
-          }
-          break
-        default:
-          this.editingCellRows[props.index][props.column.field] = newValue
-      }
     },
     onPage (event) {
       this.$emit('update-content', event.page)
