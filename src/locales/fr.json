@@ -7,7 +7,8 @@
       "passwordHelper": "Renseignez votre mot de passe"
     },
     "paginator": {
-      "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)"
+      "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
+      "selectPagePlaceholder": "Aller à la page"
     },
     "dropdown": {
       "placeholder": "Sélectionnez une option"

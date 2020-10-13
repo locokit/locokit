@@ -30,7 +30,6 @@
 
     :lazy="true"
     :loading="block.loading"
-
     :rows="rowsNumber"
     :totalRecords="block && block.content && block.content.total"
 
@@ -47,7 +46,7 @@
     :paginator="true"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
     :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
-    @page="onPage($event)"
+    @page="onPage($event.page)"
 
     @sort="onSort"
   >
@@ -113,6 +112,7 @@
           v-model="slotProps.data.data[column.id]"
           appendTo="body"
         />
+
       </template>
       <template
         #body="slotProps"
@@ -128,6 +128,19 @@
 
     <template #empty>
         {{ $t('components.crudtable.noDataToDisplay') }}
+    </template>
+    <template #paginatorRight>
+      <p-dropdown
+        v-if="pageslist.length > 0"
+        :dropdown="true"
+        :value="block.content.skip/block.content.limit"
+        optionLabel="label"
+        optionValue="value"
+        appendTo="body"
+        :options="pageslist"
+        @change="onPage($event.value)"
+      >
+      </p-dropdown>
     </template>
   </p-datatable>
   <div v-else>
@@ -148,7 +161,7 @@ import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
-import { formatISO, parseISO, lightFormat } from 'date-fns'
+import { formatISO, lightFormat, parseISO } from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
@@ -207,6 +220,9 @@ export default {
         [COLUMN_TYPE.FILE]: 'text'
       }
     },
+    pageslist () {
+      return Array.from({ length: Math.ceil(this.block.content.total / this.block.content.limit) }, (_, i) => ({ value: i, label: i + 1 }))
+    },
     columnsEnhanced () {
       if (!this.block.definition.columns) return {}
       const result = {}
@@ -231,7 +247,6 @@ export default {
       if (!this.block.definition.columns) return {}
       return this.block.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
     }
-
   },
   methods: {
     getValue (column, data = '') {
@@ -317,8 +332,7 @@ export default {
           this.currentDateToEdit = null
           try {
             if (value) {
-              const parsedDate = parseISO(value)
-              this.currentDateToEdit = parsedDate
+              this.currentDateToEdit = parseISO(value)
             }
           } catch (error) {
             // eslint-disable no-console
@@ -393,8 +407,8 @@ export default {
         newValue: value
       })
     },
-    onPage (event) {
-      this.$emit('update-content', event.page)
+    onPage (pageIndexToGo) {
+      this.$emit('update-content', pageIndexToGo)
     },
     onSort (event) {
       this.$emit('sort', {
