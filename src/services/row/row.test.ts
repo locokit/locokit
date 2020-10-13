@@ -1,45 +1,45 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary';
-import app from '../../app';
-import { column } from '../../models/column.model';
-import { database } from '../../models/database.model';
-import { row } from '../../models/row.model';
-import { table } from '../../models/table.model';
-import { user } from '../../models/user.model';
-import { workspace } from '../../models/workspace.model';
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import app from '../../app'
+import { column } from '../../models/column.model'
+import { database } from '../../models/database.model'
+import { row } from '../../models/row.model'
+import { table } from '../../models/table.model'
+import { user } from '../../models/user.model'
+import { workspace } from '../../models/workspace.model'
 
 describe('\'row\' service', () => {
   it('registered the service', () => {
-    const service = app.service('row');
-    expect(service).toBeTruthy();
-  });
+    const service = app.service('row')
+    expect(service).toBeTruthy()
+  })
 
   let workspace: workspace
   let database: database
   let table: table
   beforeAll(async () => {
-    workspace = await app.service('workspace').create({text: 'pouet'})
-    database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
-    table = await app.service('table').create({text: 'pouet', database_id: database.id})
+    workspace = await app.service('workspace').create({ text: 'pouet' })
+    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    table = await app.service('table').create({ text: 'pouet', database_id: database.id })
   })
 
   it('throw if table_id is not present', async () => {
-    const service = app.service('row');
-    expect.assertions(1);
+    const service = app.service('row')
+    expect.assertions(1)
     await expect(service.create({
-      text: 'test',
+      text: 'test'
     })).rejects.toThrow()
   })
   it('throw if table_id is present but did not exist', async () => {
-    const service = app.service('row');
-    expect.assertions(1);
+    const service = app.service('row')
+    expect.assertions(1)
     await expect(service.create({
       text: 'test',
       table_id: 'you lose'
     })).rejects.toThrow()
   })
   it('succeed if table_id is present and exist', async () => {
-    const service = app.service('row');
-    expect.assertions(1);
+    const service = app.service('row')
+    expect.assertions(1)
     const row: row = await service.create({
       text: 'test',
       table_id: table.id
@@ -48,7 +48,7 @@ describe('\'row\' service', () => {
   })
 
   it('patch only the "text" property when patching "text" (bug of crush "data" property)', async () => {
-    const service = app.service('row');
+    const service = app.service('row')
     const tableColumn = await app.service('column').create({
       text: 'myColumn',
       table_id: table.id,
@@ -64,20 +64,18 @@ describe('\'row\' service', () => {
     const patchedRow: row = await service.patch(currentRow.id, {
       text: 'new test'
     })
-    expect(patchedRow.text).toEqual('new test');
-    expect(patchedRow.data[tableColumn.id]).toEqual('myValue');
-  });
+    expect(patchedRow.text).toEqual('new test')
+    expect(patchedRow.data[tableColumn.id]).toEqual('myValue')
+  })
 
   afterAll(async () => {
     await app.service('table').remove(table.id)
     await app.service('database').remove(database.id)
     await app.service('workspace').remove(workspace.id)
   })
-});
+})
 
-
-describe ('hooks for row service', () => {
-
+describe('hooks for row service', () => {
   let workspace: workspace
   let database: database
   let table1: table
@@ -89,9 +87,9 @@ describe ('hooks for row service', () => {
   let columnTable2LookedUpColumnTable1User: column
   let user1: user
 
-  beforeAll(async() => {
-    workspace = await app.service('workspace').create({text: 'pouet'})
-    database = await app.service('database').create({text: 'pouet', workspace_id: workspace.id})
+  beforeAll(async () => {
+    workspace = await app.service('workspace').create({ text: 'pouet' })
+    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id
@@ -154,8 +152,8 @@ describe ('hooks for row service', () => {
       })
       expect.assertions(3)
       expect(rowTable1).toBeTruthy()
-      expect(( rowTable1.data[columnTable1User.id] as { reference: string, value: string }).value).toBe('User 1')
-      expect(( rowTable1.data[columnTable1User.id] as { reference: string, value: string }).reference).toBe(user1.id)
+      expect((rowTable1.data[columnTable1User.id] as { reference: string, value: string }).value).toBe('User 1')
+      expect((rowTable1.data[columnTable1User.id] as { reference: string, value: string }).reference).toBe(user1.id)
     })
     it('enhance the relation data field with the relation table in value when creating a row with a USER column type', async () => {
       const service = app.service('row')
@@ -168,8 +166,8 @@ describe ('hooks for row service', () => {
       })
       expect.assertions(3)
       expect(rowTable2).toBeTruthy()
-      expect(( rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value).toBe('table 1 ref')
-      expect(( rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).reference).toBe(rowTable1.id)
+      expect((rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value).toBe('table 1 ref')
+      expect((rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).reference).toBe(rowTable1.id)
     })
 
     afterAll(async () => {
@@ -212,18 +210,17 @@ describe ('hooks for row service', () => {
       await app.service('row').remove(rowTable1.id)
       try {
         await app.service('row').get(rowTable2.id)
-      } catch(e) {
+      } catch (e) {
         expect(e).toBeTruthy()
         expect(e.code).toBe(404)
       }
       try {
         await app.service('row').get(rowTable1.id)
-      } catch(e) {
+      } catch (e) {
         expect(e).toBeTruthy()
         expect(e.code).toBe(404)
       }
     })
-
   })
 
   describe('upsertRowRelation', () => {
@@ -375,7 +372,7 @@ describe ('hooks for row service', () => {
       expect.assertions(2)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id,
+        columnTable1User.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
@@ -386,19 +383,18 @@ describe ('hooks for row service', () => {
       const service = app.service('row')
       const rowTable1 = await service.create({
         table_id: table1.id,
-        text: 'table 1 ref',
+        text: 'table 1 ref'
       })
       expect.assertions(2)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id,
+        columnTable1User.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
       })
       await app.service('row').remove(rowTable1.id)
     })
-
   })
 
   afterAll(async () => {
