@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BlockTypes, Block } from '@/types/block'
+import { BLOCK_TYPE, Block } from '@locokit/lck-glossary'
 
 import TableView from '@/components/store/CrudTable/CrudTable.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
@@ -39,7 +39,7 @@ export default Vue.extend({
   },
   computed: {
     isBlockTypeValid () {
-      const values = Object.values(BlockTypes) as string[]
+      const values = Object.values(BLOCK_TYPE) as string[]
       return values.includes(this.block.type)
     }
   },

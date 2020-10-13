@@ -15,7 +15,7 @@ interface UserGroupDTO {
 }
 
 export async function retrieveUsersData (pageIndex = 0) {
-  const ITEMS_PER_PAGE = 10
+  const ITEMS_PER_PAGE = 20
 
   try {
     return await lckClient.service('user').find({
@@ -47,7 +47,7 @@ export async function retrieveAllUsers () {
 }
 
 export async function retrieveGroupsWithUsers (pageIndex = 0) {
-  const ITEMS_PER_PAGE = 10
+  const ITEMS_PER_PAGE = 20
 
   try {
     const res = await lckClient.service('group').find({

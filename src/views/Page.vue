@@ -1,18 +1,22 @@
 <template>
-  <div class="p-mx-2">
+  <div class="p-mx-2" v-if="page">
     <div class="lck-color-page-title p-my-4">
       <h1>{{ page && page.text }}</h1>
     </div>
-    <div v-if="page && page.containers.length > 0">
-      <div
-        v-for="container in page.containers"
-        :key="container.id"
-      >
-          <Container
-            :container="container"
-            @updateContentBlockTableView="updateContentBlock"
-          />
-      </div>
+    <div
+      v-for="container in page.containers"
+      :key="container.id"
+    >
+      <Block
+        v-for="block in container.blocks"
+        :key="block.id"
+        :block="block"
+        class="p-mb-4"
+        v-on="$listeners"
+        @update-cell="onUpdateCell(block, $event)"
+        @update-content="onUpdateContentBlockTableView(block, $event)"
+        @sort="onSort(block, $event)"
+      />
     </div>
   </div>
 </template>
@@ -23,11 +27,15 @@ import {
   retrieveViewDefinition,
   retrieveViewData
 } from '@/store/visualize'
-import Container from '@/components/visualize/Container/Container'
+import {
+  patchTableData
+} from '@/store/database'
+import { BLOCK_TYPE } from '@locokit/lck-glossary'
+import Block from '@/components/visualize/Block/Block'
 
 export default {
   name: 'Page',
-  components: { Container },
+  components: { Block },
   props: {
     pageId: {
       type: [String, Number], // param is string because its form url params
@@ -36,7 +44,10 @@ export default {
   },
   data () {
     return {
-      page: null
+      page: null,
+      blocksOptions: {
+
+      }
     }
   },
   watch: {
@@ -55,29 +66,79 @@ export default {
           switch (block.type) {
             case 'TableView':
               this.$set(block, 'loading', true)
-              this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
-              this.$set(block, 'content', await retrieveViewData(block.definition.id))
-              block.loading = false
+              await this.loadBlockTableViewContentAndDefinition(block)
+              this.$set(block, 'loading', false)
+              break
           }
         })
       })
     }
   },
   methods: {
-    updateContentBlock (data) {
-      if (data && data.blockType === 'TableView') {
-        this.page.containers.forEach(container => {
-          container.blocks.sort((a, b) => a.position - b.position)
-          container.blocks.forEach(async block => {
-            if (block.id === data.blockId) {
-              this.$set(block, 'loading', true)
-              this.$set(block, 'content', await retrieveViewData(block.definition.id, data.pageIndexToGo))
-              this.$set(block, 'loading', false)
-            }
-          })
-        })
+    async loadBlockTableViewContentAndDefinition (block) {
+      this.blocksOptions[block.id] = {
+        sort: {
+          createdAt: 1
+        },
+        page: 0,
+        itemsPerPage: 20
       }
+      this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+      await this.loadBlockTableViewContent(block)
+    },
+    async loadBlockTableViewContent (block) {
+      const currentOptions = this.blocksOptions[block.id]
+      this.$set(block, 'content', await retrieveViewData(
+        block.definition.id,
+        currentOptions.page * currentOptions.itemsPerPage,
+        currentOptions.itemsPerPage,
+        currentOptions.sort
+      ))
+    },
+    async onUpdateContentBlockTableView (block, pageIndexToGo) {
+      block.loading = true
+      switch (block.type) {
+        case BLOCK_TYPE.TABLE_VIEW:
+          this.blocksOptions[block.id].page = pageIndexToGo
+          await this.loadBlockTableViewContent(block)
+          break
+      }
+      block.loading = false
+    },
+    async onUpdateCell ({
+      id: blockId
+    }, {
+      rowIndex,
+      columnId,
+      newValue
+    }) {
+      let currentBlock = null
+      this.page.containers.forEach(container => {
+        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+        blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
+      })
+      const currentRow = currentBlock.content.data[rowIndex]
+      const data = {
+        data: {
+          [columnId]: newValue
+        }
+      }
+      const res = await patchTableData(currentRow.id, data)
+      currentRow.data = res.data
+    },
+    async onSort (block, { field, order }) {
+      block.loading = true
+      switch (block.type) {
+        case BLOCK_TYPE.TABLE_VIEW:
+          this.blocksOptions[block.id].sort = {}
+          // find the matching column_type_id to adapt
+          this.blocksOptions[block.id].sort[`ref(data:${field})`] = order
+          await this.loadBlockTableViewContent(block)
+          break
+      }
+      block.loading = false
     }
+
   }
 }
 </script>

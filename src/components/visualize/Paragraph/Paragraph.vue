@@ -1,12 +1,15 @@
 <template>
-  <div class="lck-color-content" v-if="block.settings && block.settings.content">
+  <div
+    class="lck-color-content"
+    v-if="isValid"
+  >
     {{block.settings.content}}
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BlockParagraph } from '@/types/block'
+import { BlockParagraph } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Paragraph',
@@ -15,10 +18,11 @@ export default Vue.extend({
       type: Object as PropType<BlockParagraph>,
       required: true
     }
+  },
+  computed: {
+    isValid () {
+      return (this.block as BlockParagraph).settings?.content
+    }
   }
 })
 </script>
-
-<style scoped>
-
-</style>

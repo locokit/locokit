@@ -15,7 +15,8 @@
     "crudtable": {
       "columnReferenceLabel": "Référence",
       "noDataToDisplay": "Aucune donnée à afficher",
-      "loading": "En cours de chargement... veuillez patienter..."
+      "loading": "En cours de chargement... veuillez patienter...",
+      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc."
     }
   },
   "pages": {

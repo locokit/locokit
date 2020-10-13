@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots CrudTable CrudTable with expected props 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="
+      p-datatable-sm
+      p-datatable-gridlines
+      p-d-flex
+      d-flex-1
+      p-flex-column
+      justify-between
+     p-datatable p-component"
+  >
+    <!---->
+    <!---->
+    <!---->
+     
+    <!---->
+     
+    <!---->
+     
+    <!---->
+     
+    <div
+      class="p-datatable-wrapper"
+    >
+      <table
+        role="grid"
+      >
+        <thead
+          class="p-datatable-thead"
+        >
+          <tr />
+           
+          <!---->
+        </thead>
+         
+        <tbody
+          class="p-datatable-tbody"
+        >
+          <!---->
+           
+          <tr
+            class=""
+          />
+           
+          <!---->
+           
+          <!---->
+          <!---->
+           
+          <tr
+            class=""
+          />
+           
+          <!---->
+           
+          <!---->
+        </tbody>
+         
+        <!---->
+      </table>
+    </div>
+     
+    <div
+      class="p-paginator p-component p-paginator-bottom"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 2 sur 2 résultat(s)
+      </span>
+       
+      <!---->
+    </div>
+     
+    <!---->
+     
+    <div
+      class="p-column-resizer-helper"
+      style="display: none;"
+    />
+     
+    <!---->
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots CrudTable CrudTable without content 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="
+      p-datatable-sm
+      p-datatable-gridlines
+      p-d-flex
+      d-flex-1
+      p-flex-column
+      justify-between
+     p-datatable p-component"
+  >
+    <!---->
+    <!---->
+    <!---->
+     
+    <!---->
+     
+    <!---->
+     
+    <!---->
+     
+    <div
+      class="p-datatable-wrapper"
+    >
+      <table
+        role="grid"
+      >
+        <thead
+          class="p-datatable-thead"
+        >
+          <tr />
+           
+          <!---->
+        </thead>
+         
+        <tbody
+          class="p-datatable-tbody"
+        >
+          <tr
+            class="p-datatable-emptymessage"
+          >
+            <td
+              colspan="0"
+            >
+              
+        Aucune donnée à afficher
+    
+               
+              <!---->
+            </td>
+          </tr>
+        </tbody>
+         
+        <!---->
+      </table>
+    </div>
+     
+    <div
+      class="p-paginator p-component p-paginator-bottom"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 0 sur 0 résultat(s)
+      </span>
+       
+      <!---->
+    </div>
+     
+    <!---->
+     
+    <div
+      class="p-column-resizer-helper"
+      style="display: none;"
+    />
+     
+    <!---->
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots CrudTable CrudTable without no definition and content properties 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div>
+    
+    Aucune définition disponible. Vérifier la configuration de votre bloc.
+  
+  </div>
+</div>
+`;

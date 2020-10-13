@@ -44,7 +44,6 @@
         </p-toolbar>
         <CrudTable
           :block="block"
-          :columns-options="columnsEnhanced"
           :autocompleteSuggestions="crudAutocompleteItems"
           :rowsNumber="currentDatatableRows"
           :crud-mode="true"
@@ -239,7 +238,7 @@ export default {
       submitting: false,
       currentTableId: null,
       currentDatatableFirst: 0,
-      currentDatatableRows: 10,
+      currentDatatableRows: 20,
       currentDatatableSort: {
         ...defaultDatatableSort
       },
@@ -312,7 +311,7 @@ export default {
       }
       this.submitting = false
       this.currentDatatableFirst = 0
-      this.currentDatatableRows = 10
+      this.currentDatatableRows = 20
       this.currentPageIndex = 0
       this.currentDatatableSort = {
         ...defaultDatatableSort
@@ -423,6 +422,7 @@ export default {
         text: '',
         data: {}
       }
+      this.autocompleteInput = {}
       this.displayNewDialog = true
     },
     async onColumnResize (newWidth, columnId) {
