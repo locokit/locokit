@@ -18,6 +18,30 @@ export async function up (knex: Knex): Promise<any> {
       table.foreign('workspace_id', 'FK_db_workspace_id').references('id').inTable('workspace')
     })
 
+    .createTable('group', function (table) {
+      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
+      table.string('name', 255).notNullable()
+      table.jsonb('permission').defaultTo([])
+      table.uuid('workspace_id').unsigned()
+      table.foreign('workspace_id', 'FK_workspace_id').references('id').inTable('workspace')
+      table.uuid('chapter_id').unsigned()
+      table.foreign('chapter_id', 'FK_chapter_id').references('id').inTable('chapter')
+      table.enum('role', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
+      table.timestamp('createdAt').defaultTo('now()')
+      table.timestamp('updatedAt').defaultTo('now()')
+    })
+
+    .createTable('user_has_group', function (table) {
+      table.integer('user_id').unsigned()
+      table.uuid('group_id').unsigned()
+      table.primary(['user_id', 'group_id'])
+      table.foreign('user_id', 'FK_user_id').references('id').inTable('user')
+      table.foreign('group_id', 'FK_group_id').references('id').inTable('group')
+      table.enum('role', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
+      table.timestamp('createdAt').defaultTo('now()')
+      table.timestamp('updatedAt').defaultTo('now()')
+    })
+
     .createTable('page', table => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
       table.string('text')
@@ -47,30 +71,6 @@ export async function up (knex: Knex): Promise<any> {
       table.timestamp('updatedAt').defaultTo('now()')
       table.uuid('container_id').unsigned()
       table.foreign('container_id', 'FK_block_container_id').references('id').inTable('container')
-    })
-
-    .createTable('group', function (table) {
-      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
-      table.string('name', 255).notNullable()
-      table.jsonb('permission').defaultTo([])
-      table.uuid('workspace_id').unsigned()
-      table.foreign('workspace_id', 'FK_workspace_id').references('id').inTable('workspace')
-      table.uuid('chapter_id').unsigned()
-      table.foreign('chapter_id', 'FK_chapter_id').references('id').inTable('chapter')
-      table.enum('role', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
-      table.timestamp('createdAt').defaultTo('now()')
-      table.timestamp('updatedAt').defaultTo('now()')
-    })
-
-    .createTable('user_has_group', function (table) {
-      table.integer('user_id').unsigned()
-      table.uuid('group_id').unsigned()
-      table.primary(['user_id', 'group_id'])
-      table.foreign('user_id', 'FK_user_id').references('id').inTable('user')
-      table.foreign('group_id', 'FK_group_id').references('id').inTable('group')
-      table.enum('role', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
-      table.timestamp('createdAt').defaultTo('now()')
-      table.timestamp('updatedAt').defaultTo('now()')
     })
 
     .createTable('database', table => {
@@ -192,11 +192,11 @@ export async function down (knex: Knex): Promise<any> {
     .dropTableIfExists('column_type')
     .dropTableIfExists('table')
     .dropTableIfExists('database')
-    .dropTableIfExists('user_has_group')
-    .dropTableIfExists('group')
     .dropTableIfExists('block')
     .dropTableIfExists('container')
     .dropTableIfExists('page')
+    .dropTableIfExists('user_has_group')
+    .dropTableIfExists('group')
     .dropTableIfExists('chapter')
     .dropTableIfExists('workspace')
 }

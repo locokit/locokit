@@ -1,9 +1,9 @@
 // Initializes the `group` service on path `/group`
-import { ServiceAddons } from '@feathersjs/feathers';
-import { Application } from '../../declarations';
-import { Group } from './group.class';
-import createModel from '../../models/group.model';
-import hooks from './group.hooks';
+import { ServiceAddons } from '@feathersjs/feathers'
+import { Application } from '../../declarations'
+import { Group } from './group.class'
+import createModel from '../../models/group.model'
+import hooks from './group.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -39,15 +39,15 @@ export default function (app: Application) {
       '$joinRelated',
       '$joinEager'
     ],
-    allowedEager: '[users, workspaces.[chapters]]',
+    allowedEager: '[users, workspace.[chapters], chapter]',
     paginate: app.get('paginate')
-  };
+  }
 
   // Initialize our service with any options it requires
-  app.use('/group', new Group(options, app));
+  app.use('/group', new Group(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('group');
+  const service = app.service('group')
 
-  service.hooks(hooks);
+  service.hooks(hooks)
 }
