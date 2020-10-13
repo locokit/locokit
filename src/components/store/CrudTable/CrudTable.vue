@@ -302,7 +302,7 @@ export default {
       // eslint-disable-next-line @typescript-eslint/camelcase
       switch (column_type_id) {
         case COLUMN_TYPE.DATE:
-          this.currentDateToEdit = ''
+          this.currentDateToEdit = null
           try {
             if (value) {
               const parsedDate = parseISO(value)
@@ -370,7 +370,9 @@ export default {
            * we format it in the date representation,
            * we just want to store the date
            */
-          value = formatISO(this.currentDateToEdit, { representation: 'date' })
+          if (this.currentDateToEdit) {
+            value = formatISO(this.currentDateToEdit, { representation: 'date' })
+          }
           break
       }
       this.$emit('update-cell', {
