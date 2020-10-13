@@ -16,7 +16,8 @@ module.exports = {
       skipWaiting: true,
       exclude: [
         /index\.html$/,
-        /config\.js$/
+        /config\.js$/,
+        /.*\.map$/
       ]
     }
   },
