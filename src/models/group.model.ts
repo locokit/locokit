@@ -12,6 +12,8 @@ export class group extends Model {
   updatedAt!: string;
   workspace?: LckWorkspace;
   chapter?: LckChapter;
+  // eslint-disable-next-line camelcase
+  chapter_id?: string;
   role?: string;
   name!: string;
   users?: LckUser[];
