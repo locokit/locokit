@@ -1,10 +1,8 @@
-import app from '../../app';
+import app from '../../app'
 
 describe('\'trr\' service', () => {
   it('registered the service', () => {
-    const service = app.service('trr');
-    expect(service).toBeTruthy();
-  });
-
-
-});
+    const service = app.service('trr')
+    expect(service).toBeTruthy()
+  })
+})

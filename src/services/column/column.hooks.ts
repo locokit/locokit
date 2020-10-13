@@ -1,9 +1,9 @@
-import * as authentication from '@feathersjs/authentication';
-import { Hook, HookContext } from '@feathersjs/feathers';
-import { COLUMN_TYPE } from '@locokit/lck-glossary';
-import { disablePagination, disallow, iff } from 'feathers-hooks-common';
-import { queryContainsKey } from '../../hooks/lck-hooks/queryContainsKey';
-const { authenticate } = authentication.hooks;
+import * as authentication from '@feathersjs/authentication'
+import { Hook, HookContext } from '@feathersjs/feathers'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { disablePagination, disallow, iff } from 'feathers-hooks-common'
+import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+const { authenticate } = authentication.hooks
 
 /**
  * Hook exclusive to create
@@ -21,16 +21,16 @@ function upsertColumnRelation (): Hook {
     } else {
       console.log('Hook only for create method. For the moment. Need to think about update / patch methods too.')
     }
-    return context;
-  };
+    return context
+  }
 };
 
 export default {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt')],
     find: [
       iff(
-        queryContainsKey('table_id'),
+        queryContainsKeys(['table_id']),
         disablePagination()
       )
     ],
@@ -51,7 +51,7 @@ export default {
     find: [],
     get: [],
     create: [
-      upsertColumnRelation(),
+      upsertColumnRelation()
     ],
     update: [],
     patch: [],
@@ -67,4 +67,4 @@ export default {
     patch: [],
     remove: []
   }
-};
+}

@@ -6,11 +6,11 @@ describe('[hook] isDataSent', () => {
       type: 'before',
       data: {
         data: {
-          'something': 'yes'
+          something: 'yes'
         }
       }
     })
-    expect(result).toBe(true);
+    expect(result).toBe(true)
   })
   it('return true if data is part of data transmitted', () => {
     const result = isDataSent({
@@ -19,6 +19,6 @@ describe('[hook] isDataSent', () => {
         text: 'something'
       }
     })
-    expect(result).toBe(false);
+    expect(result).toBe(false)
   })
 })
