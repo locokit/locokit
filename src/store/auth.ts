@@ -41,7 +41,7 @@ export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
   try {
     authState.data.user = await lckClient.service('user').get(id, {
       query: {
-        $eager: 'groups.[workspaces.[databases]]'
+        $eager: 'groups.[workspace.[databases]]'
       }
     })
   } catch (error) {

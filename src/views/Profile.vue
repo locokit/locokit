@@ -12,7 +12,6 @@
         </template>
         <template slot="content">
           <h4>{{ authState.data.user.name }}</h4>
-          <br>
           <strong>{{ $t('pages.profile.email') }}&nbsp;</strong>{{ authState.data.user.email }}
           <br>
           <strong>{{ $t('pages.profile.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
@@ -27,22 +26,16 @@
         <template slot="content">
           <div v-for="group in authState.data.user.groups" :key="group.id">
             <h4 class="group-title">{{ group.name }}</h4>
-
-            <ul class="lck-ul-content">
-              <li
-                v-for="workspace in group.workspaces"
-                :key="workspace.id"
+            <div class="lck-ul-content">
+              <span class="p-badge">Espace de travail</span>&nbsp;
+              <router-link
+                class="no-decoration-link"
+                :to="'/workspace/' + group.workspace.id"
               >
-                <span class="p-badge">Espace de travail</span>&nbsp;
-                <router-link
-                  class="no-decoration-link"
-                  :to="'/workspace/' + workspace.id"
-                >
-                  {{ workspace.text }}
-                </router-link>
-                ({{ workspace.role }})
-              </li>
-            </ul>
+                {{ group.workspace.text }}
+              </router-link>
+              ({{ group.role }})
+            </div>
 
           </div>
         </template>
@@ -116,11 +109,6 @@ export default {
     top: 0rem;
     border-radius: var(--border-radius);
   }
-}
-
-h4.group-title {
-  margin-top: 1.25rem;
-  margin-bottom: 0rem;
 }
 
 </style>

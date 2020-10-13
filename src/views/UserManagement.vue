@@ -293,8 +293,7 @@ export default {
       alert(this.user.id)
     },
     async retrieveUsersData () {
-      const res = await retrieveUsersData(this.currentPage)
-      if (res) this.usersWithPagination = res
+      this.usersWithPagination = await retrieveUsersData(this.currentPage)
     },
     async onPage (event) {
       this.currentPage = event.page
