@@ -20,8 +20,17 @@
     >
     </div>
     <div v-else>Erreur</div>
-    <create-table-modal v-if="showCreateTableDialog" :databaseId="databaseId" @close="onCloseCreateTableDialog" />
-    <update-table-modal v-if="showUpdateTableDialog" :currentTable="currentTable" @reload-tables="reloadTables" @close="onCloseUpdateTableDialog" />
+    <create-table-modal
+      v-if="showCreateTableDialog"
+      :databaseId="databaseId"
+      @close="onCloseCreateTableDialog"
+    />
+    <update-table-modal
+      v-if="showUpdateTableDialog"
+      :currentTable="currentTable"
+      @reload-tables="reloadTables"
+      @close="onCloseUpdateTableDialog"
+    />
   </div>
 </template>
 <script>

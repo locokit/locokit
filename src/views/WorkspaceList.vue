@@ -11,61 +11,54 @@
         v-for="group in authState.data.user.groups"
         :key="group.id"
       >
-        <div >
-          <p-card
-            class="p-mb-4 p-col"
-            v-for="workspace in group.workspaces"
-            :key="workspace.id"
-          >
-            <template slot="title">
-              {{ workspace.text }}
-            </template>
-            <template slot="content">
-              <div>
-                <div class="action-button-content p-d-flex">
+        <p-card class="p-mb-4 p-col">
+          <template slot="title">
+            {{ group.workspace.text }}
+          </template>
+          <template slot="content">
+            <div>
+              <div class="action-button-content p-d-flex">
+                <router-link
+                  class="no-decoration-link p-mr-2"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+                >
+                  <p-button
+                    :label="$t('pages.workspace.buttonVisualization')"
+                    icon="pi pi-globe"
+                  />
+                </router-link>
+                <template v-if="group.workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(group.role)">
                   <router-link
+                    v-if="group.workspace.databases.length === 1"
                     class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.DATABASE}/${group.workspace.databases[0].id}`"
                   >
                     <p-button
-                      :label="$t('pages.workspace.buttonVisualization')"
-                      icon="pi pi-globe"
+                      :label="$t('pages.workspace.buttonDatabase')"
+                      icon="pi pi-table"
                     />
                   </router-link>
+                  <p-dropdown-button
+                    v-else
+                    class="no-decoration-link p-mr-2"
+                    :label="$t('pages.workspace.buttonDatabase')"
+                    :model="transformDatabases(group.workspace.id, group.workspace.databases)"
+                  />
 
-                  <template v-if="workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(workspace.role)">
-                    <router-link
-                      v-if="workspace.databases.length === 1"
-                      class="no-decoration-link p-mr-2"
-                      :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}`"
-                    >
-                      <p-button
-                        :label="$t('pages.workspace.buttonDatabase')"
-                        icon="pi pi-table"
-                      />
-                    </router-link>
-                    <p-dropdown-button
-                      v-else
-                      class="no-decoration-link p-mr-2"
-                      :label="$t('pages.workspace.buttonDatabase')"
-                      :model="transformDatabases(workspace.id, workspace.databases)"
+                  <router-link
+                    v-if="group.workspace.databases.length === 1"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.DATABASE}/${group.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+                  >
+                    <p-button
+                      :label="$t('pages.workspace.buttonSchema')"
+                      icon="pi pi-sitemap"
                     />
-
-                    <router-link
-                      v-if="workspace.databases.length === 1"
-                      :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.DATABASE}/${workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
-                    >
-                      <p-button
-                        :label="$t('pages.workspace.buttonSchema')"
-                        icon="pi pi-sitemap"
-                      />
-                    </router-link>
-                  </template>
-                </div>
+                  </router-link>
+                </template>
               </div>
-            </template>
-          </p-card>
-        </div>
+            </div>
+          </template>
+        </p-card>
       </div>
     </div>
   </div>
@@ -113,9 +106,7 @@ export default {
   async beforeRouteEnter (to, from, next) {
     if (to.name !== 'WorkspaceList') next()
     const userWorkspacesAvailable = authState?.data?.user?.groups.reduce((accu, group) => {
-      group.workspaces.forEach(workspace => {
-        accu.push(workspace)
-      })
+      accu.push(group.workspace)
       return accu
     }, [])
     if (

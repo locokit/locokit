@@ -1,47 +1,55 @@
 <template>
-    <p-dialog :contentStyle="{overflow: 'scroll'}" :header="$t('pages.databaseSchema.updateTableModal.updateTable')" :visible="true" :modal="true" :closable="false">
-      <div v-if="currentTableToUpdate">
-        <div class="p-d-flex">
-          <div>
-              <label for="table-name">{{ $t('pages.databaseSchema.updateTableModal.tableName') }}</label>
-              <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
-          </div>
-          <div class="p-d-flex p-ai-end">
-            <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
-          </div>
+  <p-dialog
+    :contentStyle="{overflow: 'scroll'}"
+    :header="$t('pages.databaseSchema.updateTableModal.updateTable')"
+    :visible="true"
+    :modal="true"
+    :closable="true"
+    :closeOnEscape="true"
+    @update:visible="$emit('close', $event)"
+  >
+    <div v-if="currentTableToUpdate">
+      <div class="p-d-flex">
+        <div>
+            <label for="table-name">{{ $t('pages.databaseSchema.updateTableModal.tableName') }}</label>
+            <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
         </div>
-        <div class="p-d-flex p-mt-4">
-          <div>
-              <label for="column-name">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
-              <p-input-text id="column-name" type="text" v-model="columnNameToCreate" />
-          </div>
-          <div class="p-d-flex p-ai-end p-mx-2">
-            <p-dropdown style="width: 300px" v-model="selectedColumnTypeToCreate" :options="columnTypes" optionLabel="name" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
-          </div>
-          <div class="p-d-flex p-ai-end">
-            <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableModal.createColumn')" icon="pi pi-check" class="p-button-text" />
-          </div>
-        </div>
-        <div v-for="column in currentTableToUpdate.columns" :key="column.id" class="p-d-flex p-mt-4">
-          <div>
-              <label :for="'column-name' + column.id">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
-              <p-input-text :id="'column-name' + column.id" type="text" v-model="column.text" />
-          </div>
-          <div class="p-d-flex p-ai-end p-mx-2">
-            <p-dropdown style="width: 300px" v-model="column.column_type_id" :options="columnTypes" optionLabel="name" optionValue="id" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
-          </div>
-          <div class="p-d-flex p-ai-end">
-            <p-button @click="updateColumn(column)" :label="$t('pages.databaseSchema.updateTableModal.updateColumn')" icon="pi pi-check" class="p-button-text" />
-          </div>
-          <!-- <div class="p-d-flex p-ai-end">
-            <p-button @click="deleteColumn(column)" label="Supprimer" icon="pi pi-check" class="p-button-text p-button-danger" />
-          </div> -->
+        <div class="p-d-flex p-ai-end">
+          <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
         </div>
       </div>
-      <template #footer>
-        <p-button @click="closeUpdateTableDialog" :label="$t('pages.databaseSchema.updateTableModal.close')" icon="pi pi-times" class="p-button-text"/>
-      </template>
-    </p-dialog>
+      <div class="p-d-flex p-mt-4">
+        <div>
+            <label for="column-name">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
+            <p-input-text id="column-name" type="text" v-model="columnNameToCreate" />
+        </div>
+        <div class="p-d-flex p-ai-end p-mx-2">
+          <p-dropdown style="width: 300px" v-model="selectedColumnTypeToCreate" :options="columnTypes" optionLabel="name" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableModal.createColumn')" icon="pi pi-check" class="p-button-text" />
+        </div>
+      </div>
+      <div v-for="column in currentTableToUpdate.columns" :key="column.id" class="p-d-flex p-mt-4">
+        <div>
+            <label :for="'column-name' + column.id">{{ $t('pages.databaseSchema.updateTableModal.columnName') }}</label>
+            <p-input-text :id="'column-name' + column.id" type="text" v-model="column.text" />
+        </div>
+        <div class="p-d-flex p-ai-end p-mx-2">
+          <p-dropdown style="width: 300px" v-model="column.column_type_id" :options="columnTypes" optionLabel="name" optionValue="id" :placeholder="$t('pages.databaseSchema.updateTableModal.selectColumnType')" />
+        </div>
+        <div class="p-d-flex p-ai-end">
+          <p-button @click="updateColumn(column)" :label="$t('pages.databaseSchema.updateTableModal.updateColumn')" icon="pi pi-check" class="p-button-text" />
+        </div>
+        <!-- <div class="p-d-flex p-ai-end">
+          <p-button @click="deleteColumn(column)" label="Supprimer" icon="pi pi-check" class="p-button-text p-button-danger" />
+        </div> -->
+      </div>
+    </div>
+    <template #footer>
+      <p-button @click="closeUpdateTableDialog" :label="$t('pages.databaseSchema.updateTableModal.close')" icon="pi pi-times" class="p-button-text"/>
+    </template>
+  </p-dialog>
 </template>
 <script>
 import Vue from 'vue'

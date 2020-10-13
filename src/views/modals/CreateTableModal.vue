@@ -1,17 +1,24 @@
 <template>
-    <p-dialog :header="$t('pages.databaseSchema.createTableModal.createTable')" :visible="true" :modal="true" :closable="false">
-      <div class="p-field p-mt-4 p-float-label">
-          <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
-          <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
-      </div>
-      <div v-if="errorTableNameToCreate" class="p-invalid">
-        <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
-      </div>
-      <template #footer>
-        <p-button @click="closeCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-times" class="p-button-text"/>
-        <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.create')" icon="pi pi-check" class="p-button-text"/>
-      </template>
-    </p-dialog>
+  <p-dialog
+    :header="$t('pages.databaseSchema.createTableModal.createTable')"
+    :visible="true"
+    :modal="true"
+    :closable="true"
+    :closeOnEscape="true"
+    @update:visible="$emit('close', $event)"
+  >
+    <div class="p-field p-mt-4 p-float-label">
+        <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
+        <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
+    </div>
+    <div v-if="errorTableNameToCreate" class="p-invalid">
+      <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
+    </div>
+    <template #footer>
+      <p-button @click="closeCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-times" class="p-button-text"/>
+      <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.create')" icon="pi pi-check" class="p-button-text"/>
+    </template>
+  </p-dialog>
 </template>
 <script>
 import Vue from 'vue'
