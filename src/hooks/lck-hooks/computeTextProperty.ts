@@ -16,11 +16,9 @@ export function computeTextProperty () : Hook {
       case 'update':
       case 'patch':
         // find if columns ids transmitted are in columns "used for reference"
-        const { columnsIdsTransmitted, columns } = context.params._meta
-        console.log(columnsIdsTransmitted, columns)
+        const { columns } = context.params._meta
         const columnsUsedForReference = columns.filter((c: TableColumn) => c.reference)
           .sort((a: TableColumn, b: TableColumn) => a.reference_position > b.reference_position)
-        console.log(columnsUsedForReference)
         // no columns for reference => no reference ?
         let text = ''
         if (columnsUsedForReference.length === 0) {
@@ -31,7 +29,7 @@ export function computeTextProperty () : Hook {
             text += (index > 0 ? ' ' : '') + context.data.data[c.id]
           })
         }
-        context.data.text = text
+        context.data.text = context.data.text || text
         break
       default:
         logger.warn('computeTextProperty is not available for method ' + context.method)
