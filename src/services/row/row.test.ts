@@ -1,8 +1,8 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
-import { column } from '../../models/column.model'
+import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { row } from '../../models/row.model'
+import { TableRow } from '../../models/tablerow.model'
 import { table } from '../../models/table.model'
 import { user } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
@@ -40,7 +40,7 @@ describe('\'row\' service', () => {
   it('succeed if table_id is present and exist', async () => {
     const service = app.service('row')
     expect.assertions(1)
-    const row: row = await service.create({
+    const row: TableRow = await service.create({
       text: 'test',
       table_id: table.id
     })
@@ -54,14 +54,14 @@ describe('\'row\' service', () => {
       table_id: table.id,
       column_type_id: COLUMN_TYPE.STRING
     })
-    const currentRow: row = await service.create({
+    const currentRow: TableRow = await service.create({
       text: 'test',
       data: {
         [tableColumn.id]: 'myValue'
       },
       table_id: table.id
     })
-    const patchedRow: row = await service.patch(currentRow.id, {
+    const patchedRow: TableRow = await service.patch(currentRow.id, {
       text: 'new test'
     })
     expect(patchedRow.text).toEqual('new test')
@@ -80,11 +80,13 @@ describe('hooks for row service', () => {
   let database: database
   let table1: table
   let table2: table
-  let columnTable1Ref: column
-  let columnTable1User: column
-  let columnTable2Ref: column
-  let columnTable2RelationBetweenTable1: column
-  let columnTable2LookedUpColumnTable1User: column
+  let columnTable1Ref: TableColumn
+  let columnTable1User: TableColumn
+  let columnTable1FirstName: TableColumn
+  let columnTable1LastName: TableColumn
+  let columnTable2Ref: TableColumn
+  let columnTable2RelationBetweenTable1: TableColumn
+  let columnTable2LookedUpColumnTable1User: TableColumn
   let user1: user
 
   beforeAll(async () => {
@@ -102,6 +104,20 @@ describe('hooks for row service', () => {
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id
+    })
+    columnTable1FirstName = await app.service('column').create({
+      text: 'FirstName',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 1
+    })
+    columnTable1LastName = await app.service('column').create({
+      text: 'LastName',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 2
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
@@ -139,8 +155,8 @@ describe('hooks for row service', () => {
   })
 
   describe('enhanceComplexColumns', () => {
-    let rowTable1: row
-    let rowTable2: row
+    let rowTable1: TableRow
+    let rowTable2: TableRow
     it('enhance the user data field with the user name in value when creating a row with a USER column type', async () => {
       const service = app.service('row')
       rowTable1 = await service.create({
@@ -177,8 +193,8 @@ describe('hooks for row service', () => {
   })
 
   describe('restrictRemoveIfRelatedRows', () => {
-    let rowTable1: row
-    let rowTable2: row
+    let rowTable1: TableRow
+    let rowTable2: TableRow
     beforeEach(async () => {
       const service = app.service('row')
       rowTable1 = await service.create({
@@ -224,8 +240,8 @@ describe('hooks for row service', () => {
   })
 
   describe('upsertRowRelation', () => {
-    let rowTable1: row
-    let rowTable2: row
+    let rowTable1: TableRow
+    let rowTable2: TableRow
 
     beforeEach(async () => {
       const service = app.service('row')
@@ -263,8 +279,8 @@ describe('hooks for row service', () => {
   })
 
   describe('computeRowLookedUpColumns', () => {
-    let rowTable1: row
-    let rowTable2: row
+    let rowTable1: TableRow
+    let rowTable2: TableRow
 
     beforeEach(async () => {
       const service = app.service('row')
@@ -305,8 +321,8 @@ describe('hooks for row service', () => {
   })
 
   describe('computeLookedUpColumns', () => {
-    let rowTable1: row
-    let rowTable2: row
+    let rowTable1: TableRow
+    let rowTable2: TableRow
     let user2: user
 
     beforeEach(async () => {
@@ -369,10 +385,12 @@ describe('hooks for row service', () => {
         text: 'table 1 ref',
         data: {}
       })
-      expect.assertions(2)
+      expect.assertions(4)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id
+        columnTable1User.id,
+        columnTable1FirstName.id,
+        columnTable1LastName.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
@@ -385,14 +403,50 @@ describe('hooks for row service', () => {
         table_id: table1.id,
         text: 'table 1 ref'
       })
-      expect.assertions(2)
+      expect.assertions(4)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id
+        columnTable1User.id,
+        columnTable1FirstName.id,
+        columnTable1LastName.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
       })
+      await app.service('row').remove(rowTable1.id)
+    })
+  })
+
+  describe('computeTextProperty', () => {
+    it('compute text property automatically', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name'
+        }
+      })
+      expect.assertions(3)
+      expect(rowTable1.text).toBe('first name last name')
+      expect(rowTable1.data[columnTable1FirstName.id]).toBe('first name')
+      expect(rowTable1.data[columnTable1LastName.id]).toBe('last name')
+      await app.service('row').remove(rowTable1.id)
+    })
+    it('do not overwrite text property if transmitted', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name'
+        }
+      })
+      expect.assertions(3)
+      expect(rowTable1.text).toBe('table 1 ref')
+      expect(rowTable1.data[columnTable1FirstName.id]).toBe('first name')
+      expect(rowTable1.data[columnTable1LastName.id]).toBe('last name')
       await app.service('row').remove(rowTable1.id)
     })
   })

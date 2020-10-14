@@ -1,8 +1,8 @@
-import { ServiceAddons } from '@feathersjs/feathers';
-import { Application } from '../../declarations';
-import { Column } from './column.class';
-import createModel from '../../models/column.model';
-import hooks from './column.hooks';
+import { ServiceAddons } from '@feathersjs/feathers'
+import { Application } from '../../declarations'
+import { Column } from './column.class'
+import createModel from '../../models/tablecolumn.model'
+import hooks from './column.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -35,17 +35,17 @@ export default function (app: Application) {
       '$any',
       '$joinRelation',
       '$joinEager',
-      '$modifyEager',
+      '$modifyEager'
     ],
     allowedEager: 'table',
     paginate: app.get('paginate')
-  };
+  }
 
   // Initialize our service with any options it requires
-  app.use('/column', new Column(options, app));
+  app.use('/column', new Column(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('column');
+  const service = app.service('column')
 
-  service.hooks(hooks);
+  service.hooks(hooks)
 }

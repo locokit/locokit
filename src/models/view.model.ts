@@ -1,32 +1,31 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
-import { column as LckColumn } from './column.model'
-import { row as LckRow } from './row.model'
-import { QueryBuilder } from 'objection';
+import { Model, QueryBuilder } from 'objection'
+import { Application } from '../declarations'
+import { TableColumn } from './tablecolumn.model'
+import { TableRow } from './tablerow.model'
 
 export class LckColumnFilter {
   // $eq?: string
   // $neq?: string
   [key: string]: string | Array<string | number> | Object
 }
-export class LckColumnDTO extends LckColumn {
+export class TableColumnDTO extends TableColumn {
   filter?: LckColumnFilter
   sort?: Object
 }
 
-export class view extends Model {
+export class TableView extends Model {
   createdAt!: string;
   updatedAt!: string;
-  columns?: LckColumnDTO[];
+  columns?: TableColumnDTO[];
   text!: string;
 
-  static get tableName() {
-    return 'table_view';
+  static get tableName () {
+    return 'table_view'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -34,10 +33,10 @@ export class view extends Model {
       properties: {
         text: { type: 'string' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       columns: {
         relation: Model.ManyToManyRelation,
@@ -45,7 +44,7 @@ export class view extends Model {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckColumn,
+        modelClass: TableColumn,
         join: {
           from: 'table_view.id',
           through: {
@@ -54,14 +53,14 @@ export class view extends Model {
             extra: ['order', 'filter', 'visible', 'position', 'editable']
           },
           to: 'table_column.id',
-          modify(query: QueryBuilder<LckColumn>) {
+          modify (query: QueryBuilder<TableColumn>) {
             query.clear('limit')
           }
         }
       },
       rows: {
         relation: Model.HasManyRelation,
-        modelClass: LckRow,
+        modelClass: TableRow,
         join: {
           from: 'table_view.table_id',
           to: 'table_row.table_id'
@@ -70,15 +69,15 @@ export class view extends Model {
     }
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
 export default function (app: Application) {
-  return view;
+  return TableView
 }
