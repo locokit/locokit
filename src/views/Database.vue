@@ -4,145 +4,147 @@
       {{ $t('pages.database.title')}}
       <strong>{{ databaseState.data.text }}</strong>
     </header>
-    <p-tab-view
-      class="d-flex-1 p-d-flex p-flex-column"
-      @tab-change="handleTabChange"
+    <div
       v-if="databaseState.data.tables.length > 0"
     >
-      <p-tab-panel
-        v-for="table in databaseState.data.tables"
-        :key="table.id"
-        :data-table-id="table.id"
-        :header="table.text"
+      <p-tab-view
+        class="d-flex-1 p-d-flex p-flex-column"
+        @tab-change="handleTabChange"
       >
-        <p-toolbar class="p-p-1">
-          <template slot="left">
-            <p-dropdown
-              v-model="selectedView"
-              :options="viewsToDisplay"
-              optionLabel="text"
-              optionValue="id"
-              dataKey="id"
-              placeholder="Select a view"
-              style="display: inline-flex"
-            />
-          </template>
-
-          <template slot="right">
-            <p-button
-              :label="$t('form.add')"
-              icon="pi pi-plus"
-              class="p-mr-2"
-              @click="onClickAddButton"
-            />
-            <!-- <p-button
-              label="Export"
-              icon="pi pi-upload"
-              @click="exportCSV($event)"
-            /> -->
-          </template>
-        </p-toolbar>
-        <CrudTable
-          :block="block"
-          :autocompleteSuggestions="crudAutocompleteItems"
-          :rowsNumber="currentDatatableRows"
-          :crud-mode="true"
-          v-if="block.definition"
-          @update-content="updateContent(table.id, $event)"
-          @update-suggestions="updateCRUDAutocompleteSuggestions"
-          @update-cell="onUpdateCell"
-          @sort="onSort"
-          @column-resize="onColumnResize"
-          @column-reorder="onColumnReorder"
+        <p-tab-panel
+          v-for="table in databaseState.data.tables"
+          :key="table.id"
+          :data-table-id="table.id"
+          :header="table.text"
         />
-        <p-dialog
-          :visible.sync="displayNewDialog"
-          :style="{width: '450px'}"
-          :header="$t('pages.database.addNewRow')"
-          :modal="true"
-          :contentStyle="{ 'max-height': '60vh'}"
-          :closeOnEscape="true"
-          class="p-fluid"
-        >
-          <div v-if="block.definition" style="padding-bottom: 10rem">
-            <div
-              class="p-field"
-              v-for="column in editableColumns"
-              :key="column.id"
-            >
-              <label :for="column.id">{{ column.text }}</label>
-              <!--
+      </p-tab-view>
+      <p-toolbar class="p-p-1">
+        <template slot="left">
+          <p-dropdown
+            v-model="selectedView"
+            :options="viewsToDisplay"
+            optionLabel="text"
+            optionValue="id"
+            dataKey="id"
+            placeholder="Select a view"
+            style="display: inline-flex"
+          />
+        </template>
 
-                :value="block.content.data[slotProps.index].data[column.id] && block.content.data[slotProps.index].data[column.id].value"
-                @input="autocompleteInput = $event"
-                :suggestions="autocompleteItems"
-                @complete="searchItems(column, $event)"
-                @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+        <template slot="right">
+          <p-button
+            :label="$t('form.add')"
+            icon="pi pi-plus"
+            class="p-mr-2"
+            @click="onClickAddButton"
+          />
+          <!-- <p-button
+            label="Export"
+            icon="pi pi-upload"
+            @click="exportCSV($event)"
+          /> -->
+        </template>
+      </p-toolbar>
+      <CrudTable
+        :block="block"
+        :autocompleteSuggestions="crudAutocompleteItems"
+        :rowsNumber="currentDatatableRows"
+        :crud-mode="true"
+        v-if="block.definition"
+        @update-content="updateContent(table.id, $event)"
+        @update-suggestions="updateCRUDAutocompleteSuggestions"
+        @update-cell="onUpdateCell"
+        @sort="onSort"
+        @column-resize="onColumnResize"
+        @column-reorder="onColumnReorder"
+      />
+      <p-dialog
+        :visible.sync="displayNewDialog"
+        :style="{width: '450px'}"
+        :header="$t('pages.database.addNewRow')"
+        :modal="true"
+        :contentStyle="{ 'max-height': '60vh'}"
+        :closeOnEscape="true"
+        class="p-fluid"
+      >
+        <div v-if="block.definition" style="padding-bottom: 10rem">
+          <div
+            class="p-field"
+            v-for="column in editableColumns"
+            :key="column.id"
+          >
+            <label :for="column.id">{{ column.text }}</label>
+            <!--
 
-              -->
-              <lck-autocomplete
-                v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-                :id="column.id"
-                :dropdown="true"
-                :placeholder="$t('components.dropdown.placeholder')"
-                field="label"
-                :suggestions="autocompleteItems"
-                @complete="updateLocalAutocompleteSuggestions(column, $event)"
-                v-model="autocompleteInput[column.id]"
-                :modelValue="newRow.data[column.id]"
-                @item-select="newRow.data[column.id] = $event.value.value"
-              />
-              <p-dropdown
-                v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-                :id="column.id"
-                :options="columnsEnhanced[column.id].dropdownOptions"
-                optionLabel="label"
-                optionValue="value"
-                :showClear="true"
-                :placeholder="$t('components.dropdown.placeholder')"
-                v-model="newRow.data[column.id]"
-              />
-              <p-calendar
-                v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-                :id="column.id"
-                :dateFormat="$t('date.dateFormatPrime')"
-                v-model="newRow.data[column.id]"
-                appendTo="body"
-              />
-              <component
-                v-else
-                :is="getComponentEditableColumn(column.column_type_id)"
-                :id="column.id"
-                v-model="newRow.data[column.id]"
-              />
-            </div>
-          </div>
+              :value="block.content.data[slotProps.index].data[column.id] && block.content.data[slotProps.index].data[column.id].value"
+              @input="autocompleteInput = $event"
+              :suggestions="autocompleteItems"
+              @complete="searchItems(column, $event)"
+              @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
 
-          <template #footer>
-            <p-button
-              :label="$t('form.cancel')"
-              icon="pi pi-times"
-              class="p-button-text"
-              @click="displayNewDialog = false"
+            -->
+            <lck-autocomplete
+              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+              :id="column.id"
+              :dropdown="true"
+              :placeholder="$t('components.dropdown.placeholder')"
+              field="label"
+              :suggestions="autocompleteItems"
+              @complete="updateLocalAutocompleteSuggestions(column, $event)"
+              v-model="autocompleteInput[column.id]"
+              :modelValue="newRow.data[column.id]"
+              @item-select="newRow.data[column.id] = $event.value.value"
             />
-            <p-button
-              disabled
-              v-if="submitting"
-              :label="$t('form.waiting')"
-              icon="pi pi-spin pi-spinner"
-              class="p-button-text"
+            <p-dropdown
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+              :id="column.id"
+              :options="columnsEnhanced[column.id].dropdownOptions"
+              optionLabel="label"
+              optionValue="value"
+              :showClear="true"
+              :placeholder="$t('components.dropdown.placeholder')"
+              v-model="newRow.data[column.id]"
             />
-            <p-button
+            <p-calendar
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+              :id="column.id"
+              :dateFormat="$t('date.dateFormatPrime')"
+              v-model="newRow.data[column.id]"
+              appendTo="body"
+            />
+            <component
               v-else
-              :label="$t('form.submit')"
-              icon="pi pi-check"
-              class="p-button-text"
-              @click="saveRow"
+              :is="getComponentEditableColumn(column.column_type_id)"
+              :id="column.id"
+              v-model="newRow.data[column.id]"
             />
-          </template>
-        </p-dialog>
-      </p-tab-panel>
-    </p-tab-view>
+          </div>
+        </div>
+
+        <template #footer>
+          <p-button
+            :label="$t('form.cancel')"
+            icon="pi pi-times"
+            class="p-button-text"
+            @click="displayNewDialog = false"
+          />
+          <p-button
+            disabled
+            v-if="submitting"
+            :label="$t('form.waiting')"
+            icon="pi pi-spin pi-spinner"
+            class="p-button-text"
+          />
+          <p-button
+            v-else
+            :label="$t('form.submit')"
+            icon="pi pi-check"
+            class="p-button-text"
+            @click="saveRow"
+          />
+        </template>
+      </p-dialog>
+    </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
     </div>
