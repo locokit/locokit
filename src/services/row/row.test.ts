@@ -82,6 +82,8 @@ describe('hooks for row service', () => {
   let table2: table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
+  let columnTable1FirstName: TableColumn
+  let columnTable1LastName: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
@@ -102,6 +104,20 @@ describe('hooks for row service', () => {
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id
+    })
+    columnTable1FirstName = await app.service('column').create({
+      text: 'FirstName',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 1
+    })
+    columnTable1LastName = await app.service('column').create({
+      text: 'LastName',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 2
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
@@ -369,10 +385,12 @@ describe('hooks for row service', () => {
         text: 'table 1 ref',
         data: {}
       })
-      expect.assertions(2)
+      expect.assertions(4)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id
+        columnTable1User.id,
+        columnTable1FirstName.id,
+        columnTable1LastName.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
@@ -385,14 +403,50 @@ describe('hooks for row service', () => {
         table_id: table1.id,
         text: 'table 1 ref'
       })
-      expect.assertions(2)
+      expect.assertions(4)
       const targetKeys = [
         columnTable1Ref.id,
-        columnTable1User.id
+        columnTable1User.id,
+        columnTable1FirstName.id,
+        columnTable1LastName.id
       ]
       Object.keys(rowTable1.data).forEach(key => {
         expect(targetKeys.indexOf(key) > -1).toBe(true)
       })
+      await app.service('row').remove(rowTable1.id)
+    })
+  })
+
+  describe('computeTextProperty', () => {
+    it('compute text property automatically', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name'
+        }
+      })
+      expect.assertions(3)
+      expect(rowTable1.text).toBe('first name last name')
+      expect(rowTable1.data[columnTable1FirstName.id]).toBe('first name')
+      expect(rowTable1.data[columnTable1LastName.id]).toBe('last name')
+      await app.service('row').remove(rowTable1.id)
+    })
+    it('do not overwrite text property if transmitted', async () => {
+      const service = app.service('row')
+      const rowTable1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref',
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name'
+        }
+      })
+      expect.assertions(3)
+      expect(rowTable1.text).toBe('table 1 ref')
+      expect(rowTable1.data[columnTable1FirstName.id]).toBe('first name')
+      expect(rowTable1.data[columnTable1LastName.id]).toBe('last name')
       await app.service('row').remove(rowTable1.id)
     })
   })
