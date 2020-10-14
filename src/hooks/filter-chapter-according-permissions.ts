@@ -1,6 +1,6 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-import { Hook, HookContext, Query } from '@feathersjs/feathers';
+import { Hook, HookContext, Query } from '@feathersjs/feathers'
 import { group as LckGroup } from '../models/group.model'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,7 +13,7 @@ export default (options = {}): Hook => {
         // find
         const groupWithWorkspaces: LckGroup[] = await context.app.services.group.find({
           query: {
-            $eager: '[users, workspaces.chapters]',
+            $eager: '[users]',
             $joinRelation: 'users',
             'users.id': context.params.user.id
           },
@@ -21,15 +21,12 @@ export default (options = {}): Hook => {
         })
         const $in: string[] = []
         groupWithWorkspaces.forEach((group: LckGroup) => {
-          group.workspaces?.forEach((workspace) => {
-            console.log(workspace)
-            // if (workspace.role === 'OWNER' && workspace.chapters) {
-            //   $in.push(...workspace.chapters.map(c => c.id))
-            // } else
-            if (workspace.chapter_id) {
-              $in.push(workspace.chapter_id)
-            }
-          })
+          // if (workspace.role === 'OWNER' && workspace.chapters) {
+          //   $in.push(...workspace.chapters.map(c => c.id))
+          // } else
+          if (group.chapter_id) {
+            $in.push(group.chapter_id)
+          }
         });
         // console.log(groupWithWorkspaces, $in);
         (context.params.query as Query).$joinRelation = 'chapters';
@@ -39,11 +36,11 @@ export default (options = {}): Hook => {
               $in
             }
           }
-        };
+        }
         // (context.params.query as Query)['chapters.id'] = { $in }
-        console.log(context.params.query);
+        // console.log(context.params.query)
       }
     }
-    return context;
-  };
-};
+    return context
+  }
+}
