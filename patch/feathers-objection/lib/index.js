@@ -164,7 +164,7 @@ class Service extends _adapterCommons.AdapterService {
 
 
   objectify(query, params, parentKey, methodKey, allowRefs, hierarchy = []) {
-    console.log('objectify', query, params, parentKey, methodKey, allowRefs, hierarchy)
+    // console.log('objectify', query, params, parentKey, methodKey, allowRefs, hierarchy)
     if (params.$eager) {
       delete params.$eager;
     }
