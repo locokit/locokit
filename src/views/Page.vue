@@ -64,7 +64,7 @@ export default {
         container.blocks.sort((a, b) => a.position - b.position)
         container.blocks.forEach(async block => {
           switch (block.type) {
-            case 'TableView':
+            case BLOCK_TYPE.TABLE_VIEW:
               this.$set(block, 'loading', true)
               await this.loadBlockTableViewContentAndDefinition(block)
               this.$set(block, 'loading', false)
