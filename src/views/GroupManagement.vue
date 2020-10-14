@@ -189,16 +189,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import Vue from 'vue'
-import {
-  retrieveGroupsWithUsersWorkspaceAndChapter
-} from '@/store/userManagement'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import lckClient from '@/services/lck-api'
