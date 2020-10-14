@@ -27,8 +27,8 @@ const app: Application = express(feathers())
 
 Sentry.init({
   // dsn: '', // use of SENTRY_DSN
-  environment: process.env.NODE_ENV,
-  release: '0.0.4',
+  // environment: process.env.NODE_ENV, // use of SENTRY_ENVIRONMENT
+  // release: '0.0.4', // use of SENTRY_RELEASE
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
@@ -37,8 +37,6 @@ Sentry.init({
   ],
   tracesSampleRate: 1.0 // Be sure to lower this in production
 })
-
-// Sentry.init({ dsn: 'https://e940629c0bb44b63a372e7d62462d042@sentry.makina-corpus.net/90' })
 
 // Load app configuration
 app.configure(configuration())
