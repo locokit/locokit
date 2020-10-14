@@ -81,22 +81,29 @@ export async function retrieveTableRows (tableId: string, pageIndex = 0) {
 
 export async function retrieveTableRowsWithSkipAndLimit (
   tableId: string,
-  skip = 0,
-  limit = 20,
-  sort = {
-    createdAt: 1
+  {
+    skip = 0,
+    limit = 20,
+    sort = {
+      createdAt: 1
+    },
+    filters = []
   }
 ) {
   databaseState.loading = true
   try {
+    const query: Record<string, any> = {
+      table_id: tableId,
+      $limit: limit,
+      $skip: skip,
+      $sort: sort
+    }
+    filters.forEach((f: { req: string; value: string }) => {
+      query[f.req] = f.value
+    })
+
     return await lckClient.service('row').find({
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: {
-        table_id: tableId,
-        $limit: limit,
-        $skip: skip,
-        $sort: sort
-      }
+      query
     })
   } catch (error) {
     databaseState.error = error

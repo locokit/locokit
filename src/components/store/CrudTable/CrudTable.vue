@@ -1,15 +1,14 @@
 <template>
-  <!--
-      :scrollable="true"
-      scrollHeight="500px"
-      :virtualScroll="true"
-      :virtualRowHeight="38"
-      @virtual-scroll="onVirtualScroll"
-
-   -->
   <div
     v-if="block.definition"
   >
+    <!--
+    :scrollable="true"
+    scrollHeight="500px"
+    :virtualScroll="true"
+    :virtualRowHeight="38"
+    @virtual-scroll="onVirtualScroll"
+   -->
     <p-datatable
       class="
         p-datatable-sm
@@ -156,11 +155,8 @@ import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
-import {
-  formatISO,
-  lightFormat,
-  parseISO
-} from 'date-fns'
+
+import { formatISO, lightFormat, parseISO } from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',

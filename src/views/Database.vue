@@ -29,6 +29,10 @@
             placeholder="Select a view"
             style="display: inline-flex"
           />
+          <lck-filter-button
+            :defintionColumn="block.definition.columns"
+            @input="onFilter"
+          />
         </template>
 
         <template slot="right">
@@ -179,6 +183,7 @@ import { formatISO } from 'date-fns'
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
+import ActionBar from '@/components/store/ActionBar/ActionBar'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -192,6 +197,7 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'lck-autocomplete': Vue.extend(AutoComplete),
+    'lck-filter-button': Vue.extend(ActionBar),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -234,6 +240,7 @@ export default {
       currentDatatableSort: {
         ...defaultDatatableSort
       },
+      currentDatatableFilters: [],
       currentPageIndex: 0,
       autocompleteItems: null,
       autocompleteInput: {},
@@ -307,6 +314,7 @@ export default {
       this.currentDatatableSort = {
         ...defaultDatatableSort
       }
+      this.currentDatatableFilters = []
     },
     getComponentEditableColumn (columnTypeId) {
       switch (columnTypeId) {
@@ -365,9 +373,12 @@ export default {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
-        this.currentPageIndex * this.currentDatatableRows,
-        this.currentDatatableRows,
-        this.currentDatatableSort
+        {
+          skip: this.currentPageIndex * this.currentDatatableRows,
+          limit: this.currentDatatableRows,
+          sort: this.currentDatatableSort,
+          filters: this.currentDatatableFilters
+        }
       )
       this.block.loading = false
     },
@@ -401,6 +412,14 @@ export default {
       this.currentDatatableSort = {
         [`ref(data:${field})`]: order
       }
+      this.loadCurrentTableData()
+    },
+    onFilter (filters = []) {
+      this.currentDatatableFilters = filters.map((filter, index) => ({
+        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action}]`,
+        value: filter.motif
+      }))
+      // }
       this.loadCurrentTableData()
     },
     onClickAddButton () {
