@@ -1,12 +1,12 @@
 <template>
-<!--
-    :scrollable="true"
-    scrollHeight="500px"
-    :virtualScroll="true"
-    :virtualRowHeight="38"
-    @virtual-scroll="onVirtualScroll"
+  <!--
+      :scrollable="true"
+      scrollHeight="500px"
+      :virtualScroll="true"
+      :virtualRowHeight="38"
+      @virtual-scroll="onVirtualScroll"
 
- -->
+   -->
   <p-datatable
     class="
       p-datatable-sm
@@ -78,16 +78,16 @@
           @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
         -->
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-          :dropdown="true"
-          :placeholder="$t('components.dropdown.placeholder')"
-          field="label"
-          appendTo="body"
-          v-model="autocompleteInput[column.id]"
-          :suggestions="autocompleteSuggestions"
-          @complete="onComplete(column, $event)"
-          @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
-        />
+        v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+        :dropdown="true"
+        :placeholder="$t('components.dropdown.placeholder')"
+        field="label"
+        appendTo="body"
+        v-model="autocompleteInput[column.id]"
+        :suggestions="autocompleteSuggestions"
+        @complete="onComplete(column, $event)"
+        @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+      />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
           :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -127,7 +127,7 @@
     </p-column>
 
     <template #empty>
-        {{ $t('components.crudtable.noDataToDisplay') }}
+      {{ $t('components.crudtable.noDataToDisplay') }}
     </template>
     <template #paginatorRight>
       <p-dropdown
@@ -142,7 +142,16 @@
       >
       </p-dropdown>
     </template>
+    <lck-paginator
+      :rows="rowsNumber"
+      :options="pageslist"
+      :totalRecords="block && block.content && block.content.total"
+      v-on="$listeners"
+      paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+      :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
+    />
   </p-datatable>
+
   <div v-else>
     {{ $t('components.crudtable.noDefinitionAvailable') }}
   </div>
@@ -160,13 +169,18 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-
-import { formatISO, lightFormat, parseISO } from 'date-fns'
+import Paginator from '@/components/ui/Paginator/Paginator'
+import {
+  formatISO,
+  lightFormat,
+  parseISO
+} from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
+    'lck-paginator': Vue.extend(Paginator),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -221,7 +235,10 @@ export default {
       }
     },
     pageslist () {
-      return Array.from({ length: Math.ceil(this.block.content.total / this.block.content.limit) }, (_, i) => ({ value: i, label: i + 1 }))
+      return Array.from({ length: Math.ceil(this.block.content.total / this.block.content.limit) }, (_, i) => ({
+        value: i,
+        label: i + 1
+      }))
     },
     columnsEnhanced () {
       if (!this.block.definition.columns) return {}
@@ -421,11 +438,12 @@ export default {
 </script>
 
 <style scoped>
-/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
-/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
+/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
+/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
   padding: unset !important;
 }
-/deep/.p-editable-column.p-cell-editing .p-dropdown {
+
+/deep/ .p-editable-column.p-cell-editing .p-dropdown {
   border: unset;
   border-radius: 0;
 }
@@ -437,9 +455,11 @@ export default {
   overflow-x: scroll;
   flex: 1;
 }
+
 tr.p-datatable-emptymessage {
   height: 10rem;
 }
+
 .p-datatable .p-datatable-tbody > tr.p-datatable-emptymessage > td {
   text-align: center;
 }
