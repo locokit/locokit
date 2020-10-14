@@ -116,6 +116,8 @@ export async function up (knex: Knex): Promise<any> {
       table.timestamp('updatedAt').defaultTo('now()')
       table.jsonb('settings')
       table.integer('position')
+      table.boolean('reference').defaultTo(false)
+      table.integer('reference_position')
       table.uuid('table_id').unsigned()
       table.foreign('table_id', 'FK_tc_table_id').references('id').inTable('table')
       table.integer('column_type_id').unsigned()
