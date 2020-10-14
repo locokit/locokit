@@ -62,7 +62,6 @@
           :modal="true"
           :contentStyle="{ 'max-height': '60vh'}"
           :closeOnEscape="true"
-          :dismissableMask="true"
           class="p-fluid"
         >
           <div
