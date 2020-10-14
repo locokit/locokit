@@ -1,9 +1,9 @@
 // Initializes the `trr` service on path `/trr`
-import { ServiceAddons } from '@feathersjs/feathers';
-import { Application } from '../../declarations';
-import { Trr } from './trr.class';
-import createModel from '../../models/trr.model';
-import hooks from './trr.hooks';
+import { ServiceAddons } from '@feathersjs/feathers'
+import { Application } from '../../declarations'
+import { Trr } from './trr.class'
+import createModel from '../../models/tablerowrelation.model'
+import hooks from './trr.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -18,13 +18,13 @@ export default function (app: Application): void {
     Model: createModel(app),
     paginate: app.get('paginate'),
     multi: ['remove']
-  };
+  }
 
   // Initialize our service with any options it requires
-  app.use('/trr', new Trr(options, app));
+  app.use('/trr', new Trr(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('trr');
+  const service = app.service('trr')
 
-  service.hooks(hooks);
+  service.hooks(hooks)
 }

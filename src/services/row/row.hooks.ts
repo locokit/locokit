@@ -8,14 +8,15 @@ import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { column as LckColumn, SingleSelectValue } from '../../models/column.model'
+import { TableColumn, SingleSelectValue } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { row, RowData } from '../../models/row.model'
-import { ColumnRelation } from '../../models/columnrelation.model'
+import { TableRow, RowData } from '../../models/tablerow.model'
+import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
 import { enhanceComplexColumns } from '../../hooks/lck-hooks/enhanceComplexColumns'
 import { loadColumnsDefinition } from '../../hooks/lck-hooks/loadColumnsDefinition'
-import { LCK_trr } from '../../models/trr.model'
+import { TableRowRelation } from '../../models/tablerowrelation.model'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+import { computeTextProperty } from '../../hooks/lck-hooks/computeTextProperty'
 const { authenticate } = authentication.hooks
 
 /**
@@ -67,7 +68,7 @@ function completeDefaultValues (): Hook {
     if (context.method === 'create') {
       if (!context.data.data) context.data.data = {}
       await Promise.all(
-        (context.params._meta.columns as LckColumn[]).map(currentColumnDefinition => {
+        (context.params._meta.columns as TableColumn[]).map(currentColumnDefinition => {
           if (!context.data.data[currentColumnDefinition.id]) {
             context.data.data[currentColumnDefinition.id] = null
             switch (currentColumnDefinition.column_type_id) {
@@ -109,10 +110,10 @@ function computeLookedUpColumns (): Hook {
     })
 
     // update each linked row, by setting the new value for all columns related to this row
-    await Promise.all((linkedRows.data as LCK_trr[]).map(async (currentRowRelation: LCK_trr) => {
+    await Promise.all((linkedRows.data as TableRowRelation[]).map(async (currentRowRelation: TableRowRelation) => {
       const currentRow = await context.service.get(currentRowRelation.table_row_to_id)
       const columnDataKeysForCurrentRow = Object.keys(currentRow.data)
-      const columnsToUpdate = (linkedColumns.data as ColumnRelation[]).filter(c => columnDataKeysForCurrentRow.indexOf(c.table_column_to_id) > -1)
+      const columnsToUpdate = (linkedColumns.data as TableColumnRelation[]).filter(c => columnDataKeysForCurrentRow.indexOf(c.table_column_to_id) > -1)
       const newData: Record<string, {
         reference: string,
         value: string
@@ -144,14 +145,14 @@ function computeRowLookedUpColumns (): Hook {
       !context.data.data
     ) return context
     await Promise.all(
-      (context.params._meta.columns as LckColumn[])
+      (context.params._meta.columns as TableColumn[])
         .filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
         .map(async currentColumnDefinition => {
-          const foreignColumn: LckColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
+          const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
           const foreignColumnTypeId = foreignColumn.column_type_id
           const foreignRowId: { reference: string, value: string } = context.data.data[currentColumnDefinition.settings.localField as string]
           if (foreignRowId?.reference) {
-            const matchingRow: row = await context.service.get(foreignRowId?.reference)
+            const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
             const currentColumnData: RowData = {
               reference: foreignRowId.reference,
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string }
@@ -188,7 +189,7 @@ function computeRowLookedUpColumns (): Hook {
 // function computeRowFormulaColumns () : Hook {
 //   return async (context: HookContext): Promise<HookContext> => {
 //     await Promise.all(
-//       (context.params._meta.columns as LckColumn[])
+//       (context.params._meta.columns as TableColumn[])
 //         .filter(c => c.column_type_id === COLUMN_TYPE.FORMULA)
 //         .map(currentColumnDefinition => {
 //           if (currentColumnDefinition.settings.formula) {
@@ -275,7 +276,7 @@ function upsertRowRelation (): Hook {
       (context.params._meta.columnsIdsTransmitted as string[])
         .filter(currentColumnId => {
         // find the matching column
-          const currentColumnDefinition = (context.params._meta.columns as LckColumn[]).find((c: LckColumn) => c.id === currentColumnId)
+          const currentColumnDefinition = (context.params._meta.columns as TableColumn[]).find((c: TableColumn) => c.id === currentColumnId)
           // check if it's a RELATION_BETWEEN_TABLE
           return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
         })
@@ -336,7 +337,8 @@ export default {
       memorizeColumnsIds(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
-      completeDefaultValues()
+      completeDefaultValues(),
+      computeTextProperty()
     ],
     update: [
       getCurrentItem(),
@@ -344,7 +346,8 @@ export default {
       memorizeColumnsIds(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
-      completeDefaultValues()
+      completeDefaultValues(),
+      computeTextProperty()
     ],
     patch: [
       getCurrentItem(),
@@ -352,7 +355,8 @@ export default {
       memorizeColumnsIds(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       completeDataField(),
-      computeRowLookedUpColumns()
+      computeRowLookedUpColumns(),
+      computeTextProperty()
     ],
     remove: [
       commonHooks.iffElse(

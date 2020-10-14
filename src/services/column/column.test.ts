@@ -1,7 +1,7 @@
 import { Paginated } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
-import { column } from '../../models/column.model'
+import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
@@ -88,12 +88,12 @@ describe('hooks for column service', () => {
 
   describe('upsertColumnRelation', () => {
     it('create a column relation when a lookedup column reference another column', async () => {
-      const columnTable1Ref: column = await app.service('column').create({
+      const columnTable1Ref: TableColumn = await app.service('column').create({
         text: 'column table 1',
         column_type_id: COLUMN_TYPE.STRING,
         table_id: table1.id
       })
-      const columnTable2RelationBetweenTable1: column = await app.service('column').create({
+      const columnTable2RelationBetweenTable1: TableColumn = await app.service('column').create({
         text: 'LKDP column table 1',
         column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
         table_id: table2.id,
@@ -101,7 +101,7 @@ describe('hooks for column service', () => {
           tableId: table1.id
         }
       })
-      const columnTable2LookedUpColumnTable1User: column = await app.service('column').create({
+      const columnTable2LookedUpColumnTable1User: TableColumn = await app.service('column').create({
         text: 'Ref',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,

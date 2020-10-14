@@ -1,4 +1,4 @@
-import { Hook, HookContext } from '@feathersjs/feathers';
+import { Hook, HookContext } from '@feathersjs/feathers'
 
 /**
  * Get the current item to get all the actual data,
@@ -17,8 +17,8 @@ export function getCurrentItem () : Hook {
             item: await context.service.get(context.id as string)
           }
         }
-        break;
+        break
     }
-    return context;
-  };
-};
+    return context
+  }
+}

@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
+import { Model } from 'objection'
+import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
 import { columnType as LckColumnType } from './columnType.model'
 
@@ -11,11 +12,13 @@ export interface SingleSelectValue {
   backgroundColor: string;
 }
 
-export class column extends Model {
+export class TableColumn extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
   text!: string;
+  reference!: boolean;
+  reference_position!: number;
   settings!: {
     formula?: string,
     query?: {
@@ -35,15 +38,16 @@ export class column extends Model {
     values?: Record<string, SingleSelectValue>,
     width?: number
   };
+
   position!: number;
   table_id!: string;
   column_type_id!: number;
 
-  static get tableName() {
-    return 'table_column';
+  static get tableName () {
+    return 'table_column'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -53,12 +57,12 @@ export class column extends Model {
         settings: { type: 'object' },
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },
-        position: { type: 'number' },
+        position: { type: 'number' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       table: {
         relation: Model.BelongsToOneRelation,
@@ -83,36 +87,19 @@ export class column extends Model {
           from: 'table_column.column_type_id',
           to: 'column_type.id'
         }
-      },
+      }
     }
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
 export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('row').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('row', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt').defaultTo('now()');
-  //       table.timestamp('updatedAt').defaultTo('now()');
-  //       table.jsonb('data')
-  //     })
-  //       .then(() => console.log('Created row table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating row table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating row table', e)); // eslint-disable-line no-console
-
-  return column;
+  return TableColumn
 }

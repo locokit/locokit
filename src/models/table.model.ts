@@ -1,24 +1,22 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
-import { row as LckRow } from './row.model'
-import { view as LckView } from './view.model'
-import { column as LckColumn } from './column.model'
-import { LckColumnDTO } from './view.model';
-import { QueryBuilder } from 'objection';
+import { Model, QueryBuilder } from 'objection'
+import { Application } from '../declarations'
+import { TableRow } from './tablerow.model'
+import { TableView, TableColumnDTO } from './view.model'
+import { TableColumn } from './tablecolumn.model'
 
 export class table extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
-  columns?: LckColumnDTO[]
+  columns?: TableColumnDTO[]
 
-  static get tableName() {
-    return 'table';
+  static get tableName () {
+    return 'table'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -26,10 +24,10 @@ export class table extends Model {
       properties: {
         text: { type: 'string' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       columns: {
         relation: Model.HasManyRelation,
@@ -37,18 +35,18 @@ export class table extends Model {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckColumn,
+        modelClass: TableColumn,
         join: {
           from: 'table.id',
           to: 'table_column.table_id'
         },
-        modify(query: QueryBuilder<LckColumn>) {
+        modify (query: QueryBuilder<TableColumn>) {
           query.clear('limit')
         }
       },
       rows: {
         relation: Model.HasManyRelation,
-        modelClass: LckRow,
+        modelClass: TableRow,
         join: {
           from: 'table.id',
           to: 'table_row.table_id'
@@ -56,7 +54,7 @@ export class table extends Model {
       },
       views: {
         relation: Model.HasManyRelation,
-        modelClass: LckView,
+        modelClass: TableView,
         join: {
           from: 'table.id',
           to: 'table_view.table_id'
@@ -64,16 +62,16 @@ export class table extends Model {
       }
     }
   }
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
 export default function (app: Application) {
-
-  return table;
+  return table
 }
