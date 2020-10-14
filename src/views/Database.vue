@@ -64,17 +64,6 @@
           :closeOnEscape="true"
           class="p-fluid"
         >
-          <div
-            class="p-field"
-          >
-            <label for="reference">
-              {{ $t('components.crudtable.columnReferenceLabel')}}
-            </label>
-            <p-input-text
-              id="reference"
-              v-model="newRow.text"
-            />
-          </div>
           <div v-if="block.definition" style="padding-bottom: 10rem">
             <div
               class="p-field"
@@ -231,8 +220,7 @@ export default {
       displayNewDialog: false,
       newRow: {
         data: {
-        },
-        text: ''
+        }
       },
       submitting: false,
       currentTableId: null,
@@ -305,8 +293,7 @@ export default {
       this.displayNewDialog = false
       this.newRow = {
         data: {
-        },
-        text: ''
+        }
       }
       this.submitting = false
       this.currentDatatableFirst = 0
@@ -382,7 +369,6 @@ export default {
     async saveRow () {
       this.submitting = true
       const dataToSubmit = {
-        text: this.newRow.text,
         data: {
           ...this.newRow.data
         }
@@ -408,17 +394,12 @@ export default {
     },
     onSort ({ field, order }) {
       this.currentDatatableSort = {}
-      if (field === 'text') {
-        this.currentDatatableSort.text = order
-      } else {
-        // find the matching column_type_id to adapt
-        this.currentDatatableSort[`ref(data:${field})`] = order
-      }
+      // find the matching column_type_id to adapt
+      this.currentDatatableSort[`ref(data:${field})`] = order
       this.loadCurrentTableData()
     },
     onClickAddButton () {
       this.newRow = {
-        text: '',
         data: {}
       }
       this.autocompleteInput = {}
@@ -531,11 +512,10 @@ export default {
     },
     async onUpdateCell ({ rowIndex, columnId, newValue }) {
       const currentRow = this.block.content.data[rowIndex]
-      const data = {}
-      if (columnId === 'text') {
-        data.text = newValue
-      } else {
-        data.data = { [columnId]: newValue }
+      const data = {
+        data: {
+          [columnId]: newValue
+        }
       }
       const res = await patchTableData(currentRow.id, data)
       currentRow.data = res.data
