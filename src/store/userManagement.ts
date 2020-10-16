@@ -11,7 +11,7 @@ import lckClient from '@/services/lck-api'
 interface UserGroupDTO {
   userId: number;
   groupId: string;
-  role: string;
+  uhg_role: string;
 }
 
 export async function retrieveUsersData (pageIndex = 0) {
