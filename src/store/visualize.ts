@@ -24,10 +24,17 @@ export const workspaceState: WorkspaceState = {
 export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number) {
   workspaceState.loading = true
   try {
-    return await lckClient.service('workspace').get(workspaceId, {
+    const workspace = await lckClient.service('workspace').get(workspaceId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: 'chapters.[pages]' }
     })
+    return {
+      ...workspace,
+      chapters: workspace.chapters?.map((c: { pages: { position: number }[]}) => ({
+        ...c,
+        pages: c.pages?.sort((a, b) => a.position - b.position)
+      }))
+    }
   } catch (error) {
     workspaceState.error = error
   }
