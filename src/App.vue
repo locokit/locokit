@@ -25,6 +25,7 @@ import {
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 export default {
   name: 'app',
@@ -53,7 +54,7 @@ export default {
       return result
     },
     isSuperAdmin () {
-      return authState.data.user.profile === 'SUPERADMIN'
+      return authState.data.user.profile === USER_PROFILE.SUPERADMIN
     }
   },
   components: {
