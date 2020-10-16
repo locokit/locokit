@@ -44,7 +44,7 @@
     @column-reorder="onColumnReorder"
 
     :paginator="true"
-    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+    paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
     :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
     @page="onPage($event.page)"
 
@@ -129,27 +129,33 @@
     <template #empty>
       {{ $t('components.crudtable.noDataToDisplay') }}
     </template>
-    <template #paginatorRight>
-      <p-dropdown
-        v-if="pageslist.length > 0"
-        :dropdown="true"
-        :value="block.content.skip/block.content.limit"
-        optionLabel="label"
-        optionValue="value"
-        appendTo="body"
-        :options="pageslist"
-        @change="onPage($event.value)"
-      >
-      </p-dropdown>
+    <template #paginatorLeft>
+
     </template>
-    <lck-paginator
-      :rows="rowsNumber"
-      :options="pageslist"
-      :totalRecords="block && block.content && block.content.total"
-      v-on="$listeners"
-      paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-      :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
-    />
+    <template #paginatorRight>
+      <div class="paginator-nav">
+        <p class="label">Aller à la page</p>
+        <p-dropdown
+          v-if="pageslist.length > 0"
+          :dropdown="true"
+          :value="block.content.skip/block.content.limit"
+          optionLabel="label"
+          optionValue="value"
+          appendTo="body"
+          :options="pageslist"
+          @change="onPage($event.value)"
+        >
+        </p-dropdown>
+      </div>
+    </template>
+    <template #footer>
+      <lck-paginator
+        v-if="pageslist.length > 1"
+        :rows="rowsNumber"
+        :totalRecords="block && block.content && block.content.total"
+        @page="onPage"
+      />
+    </template>
   </p-datatable>
 
   <div v-else>
@@ -476,4 +482,14 @@ tr.p-datatable-emptymessage {
   height: 19px;
 } */
 
+.paginator-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.paginator-nav p {
+  margin: 0;
+  font-size: 0.90rem;
+}
 </style>

@@ -1,12 +1,15 @@
 <template>
-  <div>
-    <p-paginator
-      :totalRecords="totalRecords"
-      v-bind="$attrs"
-      @click="onPage($event.value)"
-    />
-  </div>
-
+  <p-paginator
+    paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <template #right="slotProps">
+      first : {{slotProps.state.first}}
+      page : {{slotProps.state.page}}
+      rows : {{slotProps.state.rows}}
+    </template>
+  </p-paginator>
 </template>
 
 <script>
@@ -15,24 +18,8 @@ import PrimePaginator from 'primevue/paginator'
 
 export default {
   name: 'Paginator',
-  props: {
-    rowsNumber: {
-      type: Number,
-      default: 20
-    },
-    totalRecords: {
-      type: Number
-    }
-  },
   components: {
     'p-paginator': Vue.extend(PrimePaginator)
-  },
-  computed: {
-  },
-  methods: {
-    onPage (pageIndexToGo) {
-      this.$emit('update-content', pageIndexToGo)
-    }
   }
 }
 </script>
