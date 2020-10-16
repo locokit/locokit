@@ -114,7 +114,7 @@
       <template
         #body="slotProps"
       >
-        {{ getValue(column, slotProps.data.data[column.id]) }}
+        <span :title="getValue(column, slotProps.data.data[column.id])">{{ getValue(column, slotProps.data.data[column.id]) }}</span>
       </template>
     </p-column>
 
