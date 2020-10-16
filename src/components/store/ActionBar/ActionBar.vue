@@ -15,7 +15,7 @@
             v-if="filters.length > 0"
           >
             <div
-              class="filter-row p-formgroup-inline"
+              class="filter-row p-formgroup-inline p-jc-end"
               v-for="(filter, index) in filters"
               :key="`filter-${index}`"
             >
@@ -42,7 +42,6 @@
                   :options="columns"
                   optionLabel="label"
                   v-model="filter.column"
-                  @hide="hidehide"
                 />
               </div>
               <div
@@ -77,12 +76,15 @@
           <p-toolbar>
             <template slot="left">
               <p-button
+                class="p-mr-2 p-button-outlined"
                 type="button"
                 icon="pi pi-plus-circle"
                 label="Add filter"
                 @click="addFilter"
               />
               <p-button
+                v-if="this.filters.length > 0"
+                class="p-button-outlined"
                 type="button"
                 icon="pi pi-undo"
                 label="Reset filter"
@@ -91,12 +93,15 @@
             </template>
             <template slot="right">
               <p-button
+                class="p-mr-2 p-button-outlined"
                 type="button"
                 icon="pi pi-check-circle"
                 label="Submit"
                 @click="submitFilters"
+                :disabled="this.filters.length === 0"
               />
               <p-button
+                class="p-button-outlined"
                 type="button"
                 icon="pi pi-times-circle"
                 label="Close"
@@ -112,23 +117,13 @@
 
 <script>
 import Vue from 'vue'
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
-import InputSwitch from 'primevue/inputswitch'
-import Calendar from 'primevue/calendar'
-import Dialog from 'primevue/dialog'
 import OverlayPanel from 'primevue/overlaypanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import InputNumber from 'primevue/inputnumber'
-
-import lckClient from '@/services/lck-api'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 
 const OPERATORS = [{
   label: 'OR',
@@ -140,43 +135,35 @@ const OPERATORS = [{
 
 const ACTIONS = [{
   label: 'match',
-  value: '$like'
+  value: '$ilike'
 }, {
   label: 'does not match',
-  value: '$notLike'
+  value: '$notILike'
 }, {
   label: 'is equal to',
   value: '$eq'
-}, {
-  label: 'is different than',
-  value: '$ne'
-}, {
+// }, {
+//   label: 'is different than',
+//   value: '$ne'
+// }, {
 //   label: 'is empty',
 //   value: 'and'
 // }, {
 //   label: 'is not empty',
 //   value: 'and'
 // }, {
-  label: 'is greater than',
-  value: '$gte'
-}, {
-  label: 'is less than',
-  value: '$lte'
+//   label: 'is greater than',
+//   value: '$gte'
+// }, {
+//   label: 'is less than',
+//   value: '$lte'
 }]
 
 export default {
   name: 'ActionBar',
   components: {
-    // 'p-dialog': Vue.extend(Dialog),
-    // 'p-tab-view': Vue.extend(TabView),
-    // 'p-tab-panel': Vue.extend(TabPanel),
-    // 'lck-autocomplete': Vue.extend(AutoComplete),
     'p-dropdown': Vue.extend(Dropdown),
-    // 'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
-    // 'p-textarea': Vue.extend(Textarea),
-    // 'p-input-switch': Vue.extend(InputSwitch),
-    // 'p-calendar': Vue.extend(Calendar),
     'p-button': Vue.extend(Button),
     'p-overlay-panel': Vue.extend(OverlayPanel),
     'p-toolbar': Vue.extend(Toolbar)
@@ -215,9 +202,11 @@ export default {
     },
     resetFilters () {
       this.filters = []
+      this.$emit('input', this.filters)
     },
     submitFilters () {
       this.$emit('input', this.filters)
+      this.$refs.filtersPanel.hide()
     },
     addFilter () {
       this.filters.push({
@@ -239,3 +228,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/deep/ .p-overlaypanel-content {
+  min-width: 650px;
+}
+</style>
