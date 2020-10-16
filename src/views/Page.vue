@@ -11,10 +11,12 @@
         v-for="block in container.blocks"
         :key="block.id"
         :block="block"
+        :autocompleteSuggestions="autocompleteItems"
         class="p-mb-4"
         v-on="$listeners"
         @update-cell="onUpdateCell(block, $event)"
         @update-content="onUpdateContentBlockTableView(block, $event)"
+        @update-suggestions="onUpdateSuggestions"
         @sort="onSort(block, $event)"
       />
     </div>
@@ -30,8 +32,9 @@ import {
 import {
   patchTableData
 } from '@/store/database'
-import { BLOCK_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import Block from '@/components/visualize/Block/Block'
+import lckClient from '@/services/lck-api'
 
 export default {
   name: 'Page',
@@ -47,7 +50,8 @@ export default {
       page: null,
       blocksOptions: {
 
-      }
+      },
+      autocompleteItems: null
     }
   },
   watch: {
@@ -104,6 +108,59 @@ export default {
           break
       }
       block.loading = false
+    },
+    async onUpdateSuggestions (columnTypeId, tableId, query) {
+      this.autocompleteItems = await this.searchItems({
+        columnTypeId,
+        tableId,
+        query
+      })
+    },
+    async searchItems ({ columnTypeId, tableId, query }) {
+      let items = null
+      if (columnTypeId === COLUMN_TYPE.USER) {
+        const result = await lckClient.service('user').find({
+          query: {
+            blocked: false,
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
+        const result = await lckClient.service('group').find({
+          query: {
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+        const result = await lckClient.service('row').find({
+          query: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: tableId,
+            text: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.text,
+          value: d.id
+        }))
+      }
+      console.log(items)
+      return items
     },
     async onUpdateCell ({
       id: blockId

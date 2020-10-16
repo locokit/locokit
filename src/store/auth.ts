@@ -81,8 +81,10 @@ export async function authenticate (data: AuthDTO) {
 }
 
 export function logout () {
-  authState.data.isAuthenticated = false
-  authState.data.groups = []
-  authState.data.user = null
+  authState.data = {
+    isAuthenticated: false,
+    user: null,
+    groups: []
+  }
   return lckClient.logout()
 }
