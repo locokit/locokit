@@ -42,7 +42,7 @@ describe('\'usergroup\' service', () => {
       user_id: user.id,
       group_id: group.id
     })
-    expect(uhg.role).toBe(GROUP_ROLE.MEMBER)
+    expect(uhg.uhg_role).toBe(GROUP_ROLE.MEMBER)
     expect(uhg.user_id).toBe(user.id)
     expect(uhg.group_id).toBe(group.id)
   })

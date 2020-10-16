@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection'
@@ -12,9 +13,8 @@ export class group extends Model {
   updatedAt!: string;
   workspace?: LckWorkspace;
   chapter?: LckChapter;
-  // eslint-disable-next-line camelcase
   chapter_id?: string;
-  role?: string;
+  workspace_role?: string;
   name!: string;
   users?: LckUser[];
 
@@ -29,7 +29,7 @@ export class group extends Model {
 
       properties: {
         name: { type: 'string' },
-        role: { type: 'string' }
+        workspace_role: { type: 'string' }
       }
     }
   }
@@ -80,7 +80,7 @@ export class group extends Model {
           through: {
             from: 'user_has_group.group_id',
             to: 'user_has_group.user_id',
-            extra: ['role']
+            extra: ['uhg_role']
           },
           to: 'user.id'
         }
