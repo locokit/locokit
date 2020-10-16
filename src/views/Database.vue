@@ -51,7 +51,7 @@
         :rowsNumber="currentDatatableRows"
         :crud-mode="true"
         v-if="block.definition"
-        @update-content="updateContent(table.id, $event)"
+        @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
         @sort="onSort"
@@ -336,7 +336,7 @@ export default {
           return true
       }
     },
-    async updateContent (tableId, pageIndexToGo) {
+    onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
       this.loadCurrentTableData()
     },
@@ -395,9 +395,9 @@ export default {
       this.loadCurrentTableData()
     },
     onSort ({ field, order }) {
-      this.currentDatatableSort = {}
-      // find the matching column_type_id to adapt
-      this.currentDatatableSort[`ref(data:${field})`] = order
+      this.currentDatatableSort = {
+        [`ref(data:${field})`]: order
+      }
       this.loadCurrentTableData()
     },
     onClickAddButton () {
