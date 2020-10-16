@@ -41,7 +41,7 @@
           :header="$t('pages.groupManagement.form.input.user')"
         />
         <p-column
-          field="role"
+          field="uhg_role"
           :header="$t('pages.groupManagement.form.input.role')"
         />
         <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
@@ -189,6 +189,8 @@
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/camelcase */
+
 import Vue from 'vue'
 
 import DataTable from 'primevue/datatable'
@@ -265,7 +267,7 @@ export default {
         userName: data.name,
         groupId: group.id,
         groupName: group.name,
-        role: data.role
+        role: data.uhg_role
       }
       this.submitted = false
     },
@@ -277,7 +279,7 @@ export default {
         userName: data.name,
         groupId: group.id,
         groupName: group.name,
-        role: data.role
+        role: data.uhg_role
       }
     },
     async confirmDeleteUserInGroup () {
@@ -298,15 +300,13 @@ export default {
         if (this.isEditingUser) {
           await lckClient.service('usergroup').patch(
             `${this.usergroup.userId},${this.usergroup.groupId}`,
-            { role: this.usergroup.role }
+            { uhg_role: this.usergroup.role }
           )
         } else {
           await lckClient.service('usergroup').create({
-            // eslint-disable-next-line @typescript-eslint/camelcase
             user_id: this.usergroup.userId,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             group_id: this.usergroup.groupId,
-            role: this.usergroup.role
+            uhg_role: this.usergroup.role
           })
         }
       } catch ({ code, name }) {

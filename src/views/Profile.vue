@@ -34,7 +34,7 @@
               >
                 {{ group.workspace.text }}
               </router-link>
-              ({{ group.role }})
+              ({{ group.workspace_role }})
             </div>
 
           </div>

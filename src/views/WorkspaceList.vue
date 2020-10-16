@@ -27,7 +27,7 @@
                     icon="pi pi-globe"
                   />
                 </router-link>
-                <template v-if="group.workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(group.role)">
+                <template v-if="group.workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(group.workspace_role)">
                   <router-link
                     v-if="group.workspace.databases.length === 1"
                     class="no-decoration-link p-mr-2"
@@ -105,17 +105,15 @@ export default {
    */
   async beforeRouteEnter (to, from, next) {
     if (to.name !== 'WorkspaceList') next()
-    const userWorkspacesAvailable = authState?.data?.user?.groups.reduce((accu, group) => {
-      accu.push(group.workspace)
-      return accu
-    }, [])
+    const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
-      !userWorkspacesAvailable.some(({ role }) => role !== WORKSPACE_ROLE.MEMBER) && userWorkspacesAvailable.length === 1
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      !userWorkspacesAvailable.some(({ workspace_role }) => workspace_role !== WORKSPACE_ROLE.MEMBER) && userWorkspacesAvailable.length === 1
     ) {
       // only one workspace, user is not a SUPERADMIN
       // we redirect user on the visualization route
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].id}${ROUTES_PATH.VISUALIZATION}`
+        path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].workspace_id}${ROUTES_PATH.VISUALIZATION}`
       })
     } else {
       next()
