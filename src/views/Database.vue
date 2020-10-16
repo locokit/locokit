@@ -417,7 +417,7 @@ export default {
     onFilter (filters = []) {
       this.currentDatatableFilters = filters.map((filter, index) => ({
         req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action}]`,
-        value: ['$ilike', '$notILike'].includes(filter.action) ? `${filter.motif}%` : filter.motif
+        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.motif}%` : filter.motif
       }))
       this.loadCurrentTableData()
     },

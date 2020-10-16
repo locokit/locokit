@@ -3,7 +3,7 @@
     <p-button
       type="button"
       icon="pi pi-filter"
-      label="Filters"
+      :label="$t('components.crudtable.toolbar.filters.name')"
       :badge="`${this.filters.length}`"
       @click="toggleFiltersPanel"
     />
@@ -23,31 +23,38 @@
                 v-if="filters.length > 1 && index !== 0"
                 class="p-field"
               >
-                <label for="operator">Operator</label>
+                <label for="operator">{{ $t('components.crudtable.toolbar.filters.form.operator') }}</label>
                 <p-dropdown
                   id="operator"
-                  dataKey="and"
                   :options="operators"
                   optionLabel="label"
                   optionValue="value"
                   v-model="filter.operator"
                   :disabled="index !== 1"
                   @change="oneOperatorToRuleAll"
-                />
+                >
+                  <template #value="slotProps">
+                    {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.value}`) }}
+                  </template>
+                  <template #option="slotProps">
+                    {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.option.value}`) }}
+                  </template>
+                </p-dropdown>
               </div>
               <div class="p-field">
-                <label for="column">Column</label>
+                <label for="column">{{ $t('components.crudtable.toolbar.filters.form.column') }}</label>
                 <p-dropdown
                   id="column"
                   :options="columns"
                   optionLabel="label"
+                  :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
                   v-model="filter.column"
                 />
               </div>
               <div
                 class="p-field"
               >
-                <label for="action">Action</label>
+                <label for="action">{{ $t('components.crudtable.toolbar.filters.form.action') }}</label>
                 <p-dropdown
                   id="action"
                   type="text"
@@ -55,23 +62,30 @@
                   optionLabel="label"
                   optionValue="value"
                   v-model="filter.action"
-                />
+                  :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+                >
+                  <template #value="slotProps">
+                    {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder }}
+                  </template>
+                  <template #option="slotProps">
+                    {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.value}`) }}
+                  </template>
+                </p-dropdown>
               </div>
               <div
                 class="p-field"
               >
-                <label for="motif">Motif</label>
+                <label for="motif">{{ $t('components.crudtable.toolbar.filters.form.motif') }}</label>
                 <p-input-text
                   id="motif"
                   type="text"
                   v-model="filter.motif"
-                  :disabled="filter.column && filter.column.type && getComponentColumn(filter.column.type) !== 'p-input-text'"
                 />
               </div>
             </div>
           </div>
           <div v-else>
-            <p>Aucun filtre n'est appliqué.</p>
+            <p>{{ $t('components.crudtable.toolbar.filters.noFilters') }}</p>
           </div>
           <p-toolbar>
             <template slot="left">
@@ -79,7 +93,7 @@
                 class="p-mr-2 p-button-outlined"
                 type="button"
                 icon="pi pi-plus-circle"
-                label="Add filter"
+                :label="$t('components.crudtable.toolbar.filters.action.addFilter')"
                 @click="addFilter"
               />
               <p-button
@@ -87,7 +101,7 @@
                 class="p-button-outlined"
                 type="button"
                 icon="pi pi-undo"
-                label="Reset filter"
+                :label="$t('form.reset')"
                 @click="resetFilters"
               />
             </template>
@@ -96,7 +110,7 @@
                 class="p-mr-2 p-button-outlined"
                 type="button"
                 icon="pi pi-check-circle"
-                label="Submit"
+                :label="$t('form.submit')"
                 @click="submitFilters"
                 :disabled="this.filters.length === 0"
               />
@@ -104,7 +118,7 @@
                 class="p-button-outlined"
                 type="button"
                 icon="pi pi-times-circle"
-                label="Close"
+                :label="$t('components.crudtable.toolbar.filters.action.close')"
                 @click="toggleFiltersPanel"
               />
             </template>
@@ -126,10 +140,10 @@ import OverlayPanel from 'primevue/overlaypanel'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 const OPERATORS = [{
-  label: 'OR',
+  label: 'or',
   value: '$or'
 }, {
-  label: 'AND',
+  label: 'and',
   value: '$and'
 }]
 
@@ -142,9 +156,9 @@ const ACTIONS = [{
 }, {
   label: 'is equal to',
   value: '$eq'
-// }, {
-//   label: 'is different than',
-//   value: '$ne'
+}, {
+  label: 'is different than',
+  value: '$ne'
 // }, {
 //   label: 'is empty',
 //   value: 'and'
@@ -184,19 +198,29 @@ export default {
   },
   computed: {
     columns () {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      return this.defintionColumn.map(({ text, id, column_type_id }) => ({ value: id, label: text, type: column_type_id }))
+      return this.defintionColumn.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
+        // Todo : In fine this condition will be remove. When all type will be filterable.
+        if (columnTypeId === COLUMN_TYPE.STRING) {
+          acc.push({ value: id, label: text, type: columnTypeId })
+        }
+        return acc
+      }, [])
     }
   },
   methods: {
-    getComponentColumn (columnTypeId) {
-      switch (columnTypeId) {
-        case COLUMN_TYPE.STRING:
-          return 'p-input-text'
-        default:
-          return 'disable'
-      }
-    },
+    // getComponentColumn (columnTypeId) {
+    //   switch (columnTypeId) {
+    //     case COLUMN_TYPE.STRING:
+    //       return 'p-input-text'
+    //     case COLUMN_TYPE.BOOLEAN:
+    //       return 'p-input-switch'
+    //     case COLUMN_TYPE.NUMBER:
+    //     case COLUMN_TYPE.FLOAT:
+    //       return 'p-input-number'
+    //     default:
+    //       return 'disable'
+    //   }
+    // },
     toggleFiltersPanel (event) {
       this.$refs.filtersPanel.toggle(event)
     },
@@ -215,9 +239,6 @@ export default {
         action: null,
         motif: null
       })
-    },
-    hidehide () {
-      console.log('bouh')
     },
     oneOperatorToRuleAll (event) {
       this.selectedOperator = event.value

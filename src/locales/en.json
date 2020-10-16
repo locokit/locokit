@@ -15,8 +15,37 @@
     },
     "crudtable": {
       "noDataToDisplay": "No data to display",
-      "loading": "Data is loading... please wait...",
-      "noDefinitionAvailable": "No definition available. Please check your block's configuration."
+      "loading": "Data is loading… please wait…",
+      "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
+      "toolbar": {
+        "filters": {
+          "name": "Filters",
+          "noFilters": "No filters are applied.",
+          "form" : {
+            "operator": "Operator",
+            "column": "Column",
+            "action": "Action",
+            "motif": "Motif",
+            "placeholder": "Select an option"
+          },
+          "action": {
+            "addFilter": "Add a filter",
+            "close": "Close"
+          },
+          "select": {
+            "operator": {
+              "$or": "OR",
+              "$and": "AND"
+            },
+            "action": {
+              "$ilike": "match",
+              "$notILike": "does not match",
+              "$eq": "is equal to",
+              "$ne": "is different than"
+            }
+          }
+        }
+      }
     }
   },
   "pages": {
@@ -126,7 +155,7 @@
     "http": {
       "401": "Access not granted",
       "403": "Access forbidden",
-      "500": "An error occured..."
+      "500": "An error occured…"
     }
   },
   "form" : {
