@@ -114,7 +114,12 @@
       <template
         #body="slotProps"
       >
-        <span :title="getValue(column, slotProps.data.data[column.id])">{{ getValue(column, slotProps.data.data[column.id]) }}</span>
+        <span
+          style="pointer-events: none"
+          :title="getValue(column, slotProps.data.data[column.id])"
+        >
+          {{ getValue(column, slotProps.data.data[column.id]) }}
+        </span>
       </template>
     </p-column>
 
