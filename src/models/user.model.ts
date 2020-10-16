@@ -1,8 +1,8 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '@feathersjs/express';
-import { group as LckGroup} from './group.model'
+import { Model } from 'objection'
+import { Application } from '@feathersjs/express'
+import { group as LckGroup } from './group.model'
 
 export class user extends Model {
   id!: string;
@@ -15,11 +15,11 @@ export class user extends Model {
   blocked!: boolean;
   // auth0Id: string = '';
 
-  static get tableName() {
-    return 'user';
+  static get tableName () {
+    return 'user'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       title: 'User',
       type: 'object',
@@ -35,15 +35,15 @@ export class user extends Model {
         password: { type: 'string' },
         name: { type: 'string' },
         profile: { type: 'string' },
-        blocked: { type: 'boolean' },
+        blocked: { type: 'boolean' }
 
         // auth0Id: { type: 'string' },
 
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       groups: {
         relation: Model.ManyToManyRelation,
@@ -57,23 +57,23 @@ export class user extends Model {
           through: {
             from: 'user_has_group.user_id',
             to: 'user_has_group.group_id',
-            extra: ['role']
+            extra: ['uhg_role']
           },
-          to: 'user.id',
+          to: 'user.id'
         }
-      },
+      }
     }
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
 export default function (app: Application) {
-  return user;
+  return user
 }
