@@ -33,7 +33,9 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
-      sidebarActive: false
+      sidebarActive: false,
+      // keep it here in the data to make it reactive
+      authState
     }
   },
   methods: {
@@ -54,7 +56,7 @@ export default {
       return result
     },
     isSuperAdmin () {
-      return authState.data.user.profile === USER_PROFILE.SUPERADMIN
+      return authState.data.user?.profile === USER_PROFILE.SUPERADMIN
     }
   },
   components: {
