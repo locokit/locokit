@@ -63,6 +63,7 @@
                   optionValue="value"
                   v-model="filter.action"
                   :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+                  @change="actionControlMotif(index, $event)"
                 >
                   <template #value="slotProps">
                     {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder }}
@@ -74,6 +75,7 @@
               </div>
               <div
                 class="p-field"
+                v-if="!['$null', '$notNull'].includes(selectedAction)"
               >
                 <label for="motif">{{ $t('components.crudtable.toolbar.filters.form.motif') }}</label>
                 <p-input-text
@@ -159,12 +161,12 @@ const ACTIONS = [{
 }, {
   label: 'is different than',
   value: '$ne'
-// }, {
-//   label: 'is empty',
-//   value: 'and'
-// }, {
-//   label: 'is not empty',
-//   value: 'and'
+}, {
+  label: 'is empty',
+  value: '$null'
+}, {
+  label: 'is not empty',
+  value: '$notNull'
 // }, {
 //   label: 'is greater than',
 //   value: '$gte'
@@ -193,7 +195,8 @@ export default {
       filters: [],
       operators: OPERATORS,
       actions: ACTIONS,
-      selectedOperator: OPERATORS[0].value
+      selectedOperator: OPERATORS[0].value,
+      selectedAction: ''
     }
   },
   computed: {
@@ -244,6 +247,14 @@ export default {
       this.selectedOperator = event.value
       if (this.filters.length > 1) {
         this.filters.forEach(filter => (filter.operator = this.selectedOperator))
+      }
+    },
+    actionControlMotif (index, event) {
+      this.selectedAction = event.value
+      if (this.selectedAction === '$null') {
+        this.filters[index].motif = true
+      } else if (this.selectedAction === '$notNull') {
+        this.filters[index].motif = false
       }
     }
   }

@@ -416,7 +416,8 @@ export default {
     },
     onFilter (filters = []) {
       this.currentDatatableFilters = filters.map((filter, index) => ({
-        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action}]`,
+        // Override action $notNull with a valid query
+        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
         value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.motif}%` : filter.motif
       }))
       this.loadCurrentTableData()

@@ -41,7 +41,9 @@
               "$ilike": "match",
               "$notILike": "does not match",
               "$eq": "is equal to",
-              "$ne": "is different than"
+              "$ne": "is different than",
+              "$null": "is empty",
+              "$notNull": "is not empty"
             }
           }
         }
