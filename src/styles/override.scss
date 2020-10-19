@@ -68,7 +68,8 @@
 }
 
 .lck-color-title {
-  color: #858096;
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .lck-color-content {
