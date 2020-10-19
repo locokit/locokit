@@ -20,6 +20,18 @@
               :key="`filter-${index}`"
             >
               <div
+                class="p-field"
+              >
+                <label :for="`filter-${index}`"><i class="pi pi-times"></i></label>
+                <p-checkbox
+                  :id="`filter-${index}`"
+                  name="filter"
+                  :value="{filter, id: index}"
+                  v-model="filtersRemoved"
+                >
+                </p-checkbox>
+              </div>
+              <div
                 v-if="filters.length > 1 && index !== 0"
                 class="p-field"
               >
@@ -138,6 +150,7 @@ import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import OverlayPanel from 'primevue/overlaypanel'
+import Checkbox from 'primevue/checkbox'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -181,6 +194,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox),
     'p-overlay-panel': Vue.extend(OverlayPanel),
     'p-toolbar': Vue.extend(Toolbar)
   },
@@ -193,6 +207,7 @@ export default {
   data () {
     return {
       filters: [],
+      filtersRemoved: [],
       operators: OPERATORS,
       actions: ACTIONS,
       selectedOperator: OPERATORS[0].value,
@@ -232,8 +247,17 @@ export default {
       this.$emit('input', this.filters)
     },
     submitFilters () {
+      if (this.filtersRemoved.length > 0) {
+        this.filtersRemoved.forEach(elem => {
+          const found = this.filters.indexOf(elem.filter)
+          this.filters.splice(found, 1)
+        })
+      }
       this.$emit('input', this.filters)
-      this.$refs.filtersPanel.hide()
+      if (this.filtersRemoved.length === 0 && this.filters.length > 0) {
+        this.$refs.filtersPanel.hide()
+      }
+      this.filtersRemoved = []
     },
     addFilter () {
       this.filters.push({

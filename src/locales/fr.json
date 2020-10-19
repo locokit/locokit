@@ -162,9 +162,10 @@
   },
   "form": {
     "add": "Ajouter",
-    "delete": "Supprimer",
+    "delete": "Effacer",
     "reset": "Réinitialiser",
     "cancel": "Annuler",
+    "remove": "Supprimer",
     "submit": "Valider",
     "waiting": "Veuillez patienter",
     "save": "Enregistrer",
