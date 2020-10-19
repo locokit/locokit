@@ -7,6 +7,9 @@
       @virtual-scroll="onVirtualScroll"
 
    -->
+  <div
+    v-if="block.definition"
+  >
   <p-datatable
     class="
       p-datatable-sm
@@ -26,8 +29,6 @@
 
     :value="block && block.content && block.content.data"
 
-    v-if="block.definition"
-
     :lazy="true"
     :loading="block.loading"
     :rows="rowsNumber"
@@ -43,10 +44,12 @@
     :reorderableColumns="crudMode"
     @column-reorder="onColumnReorder"
 
-    :paginator="true"
+    :paginator="false"
     paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
     :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
     @page="onPage($event.page)"
+
+    style="width: unset !important;"
 
     @sort="onSort"
   >
@@ -148,16 +151,13 @@
         </p-dropdown>
       </div>
     </template>
-    <template #footer>
-      <lck-paginator
-        v-if="pageslist.length > 1"
-        :rows="rowsNumber"
-        :totalRecords="block && block.content && block.content.total"
-        @page="onPage"
-      />
-    </template>
   </p-datatable>
-
+    <lck-paginator
+      :rows="20"
+      :totalRecords="block && block.content && block.content.total"
+      @page="onPage($event.page)"
+    />
+  </div>
   <div v-else>
     {{ $t('components.crudtable.noDefinitionAvailable') }}
   </div>
