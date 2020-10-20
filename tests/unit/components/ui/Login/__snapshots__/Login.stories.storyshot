@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Login Login 1`] = `
+exports[`storyshots components/ui/Login Login 1`] = `
 <div
   class="h-full p-fluid"
 >

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/Block Block with Markdown 1`] = `
+exports[`storyshots components/visualize/Block Markdown 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -27,7 +27,7 @@ exports[`storyshots components/visualize/Block Block with Markdown 1`] = `
 </div>
 `;
 
-exports[`storyshots components/visualize/Block Block with Paragraph (Text) 1`] = `
+exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -54,7 +54,7 @@ exports[`storyshots components/visualize/Block Block with Paragraph (Text) 1`] =
 </div>
 `;
 
-exports[`storyshots components/visualize/Block Block with TableView 1`] = `
+exports[`storyshots components/visualize/Block TableView 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -284,7 +284,24 @@ exports[`storyshots components/visualize/Block Block with TableView 1`] = `
 </div>
 `;
 
-exports[`storyshots components/visualize/Block Block with unknown type 1`] = `
+exports[`storyshots components/visualize/Block default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div>
+    <span
+      class="lck-color-content"
+    >
+      
+    Le type de block n'existe pas.
+  
+    </span>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/Block unknown type 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -305,23 +322,6 @@ exports[`storyshots components/visualize/Block Block with unknown type 1`] = `
     
       </span>
     </div>
-  </div>
-</div>
-`;
-
-exports[`storyshots components/visualize/Block Block without props 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <div>
-    <span
-      class="lck-color-content"
-    >
-      
-    Le type de block n'existe pas.
-  
-    </span>
   </div>
 </div>
 `;

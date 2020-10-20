@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/Paragraph Paragraph with props 1`] = `
+exports[`storyshots components/visualize/Paragraph with props 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -11,8 +11,17 @@ exports[`storyshots components/visualize/Paragraph Paragraph with props 1`] = `
     type="Paragraph"
   >
     
-  Je suis un texte.
+  I am a paragraph.
 
   </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/Paragraph without content 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <!---->
 </div>
 `;

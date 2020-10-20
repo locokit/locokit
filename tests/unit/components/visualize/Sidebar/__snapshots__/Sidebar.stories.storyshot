@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`] = `
+exports[`storyshots components/visualize/Sidebar default 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -28,7 +28,7 @@ exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`]
           <span
             class="p-accordion-header-text"
           >
-            Premier chapitre
+            Aucun chapitre à afficher
           </span>
            
         </a>
@@ -43,24 +43,21 @@ exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`]
       >
         <div
           class="p-accordion-content"
-        >
-          <a
-            class="mock-link"
-          >
-            
-      Première page
-    
-          </a>
-          <a
-            class="mock-link"
-          >
-            
-      Deuxième page
-    
-          </a>
-        </div>
+        />
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/Sidebar with props items 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="p-accordion p-component lck-bg-primary"
+  >
     <div
       class="p-accordion-tab"
     >
@@ -81,7 +78,7 @@ exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`]
           <span
             class="p-accordion-header-text"
           >
-            Deuxième chapitre
+            First item
           </span>
            
         </a>
@@ -101,14 +98,67 @@ exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`]
             class="mock-link"
           >
             
-      Troisième page
+      First subitem
     
           </a>
           <a
             class="mock-link"
           >
             
-      Quatrième page
+      Second subitem
+    
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-accordion-tab"
+    >
+      <div
+        class="p-accordion-header"
+      >
+        <a
+          aria-controls="pv_id_6_content"
+          class="p-accordion-header-link"
+          id="pv_id_6_header"
+          role="tab"
+          tabindex="0"
+        >
+          <span
+            class="p-accordion-toggle-icon pi pi-chevron-right"
+          />
+           
+          <span
+            class="p-accordion-header-text"
+          >
+            Second item
+          </span>
+           
+        </a>
+      </div>
+       
+      <div
+        aria-labelledby="pv_id_6_header"
+        class="p-toggleable-content"
+        id="pv_id_6_content"
+        role="region"
+        style="display: none;"
+      >
+        <div
+          class="p-accordion-content"
+        >
+          <a
+            class="mock-link"
+          >
+            
+      Third subitem
+    
+          </a>
+          <a
+            class="mock-link"
+          >
+            
+      Fourth subitem
     
           </a>
         </div>
@@ -118,7 +168,7 @@ exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`]
 </div>
 `;
 
-exports[`storyshots components/visualize/Sidebar Sidebar without props chapters 1`] = `
+exports[`storyshots components/visualize/Sidebar with props items and active 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -133,9 +183,9 @@ exports[`storyshots components/visualize/Sidebar Sidebar without props chapters 
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_3_content"
+          aria-controls="pv_id_7_content"
           class="p-accordion-header-link"
-          id="pv_id_3_header"
+          id="pv_id_7_header"
           role="tab"
           tabindex="0"
         >
@@ -146,22 +196,90 @@ exports[`storyshots components/visualize/Sidebar Sidebar without props chapters 
           <span
             class="p-accordion-header-text"
           >
-            Aucun chapitre à afficher
+            First item
           </span>
            
         </a>
       </div>
        
       <div
-        aria-labelledby="pv_id_3_header"
+        aria-labelledby="pv_id_7_header"
         class="p-toggleable-content"
-        id="pv_id_3_content"
+        id="pv_id_7_content"
         role="region"
         style="display: none;"
       >
         <div
           class="p-accordion-content"
-        />
+        >
+          <a
+            class="mock-link"
+          >
+            
+      First subitem
+    
+          </a>
+          <a
+            class="mock-link"
+          >
+            
+      Second subitem
+    
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-accordion-tab p-accordion-tab-active"
+    >
+      <div
+        class="p-accordion-header p-highlight"
+      >
+        <a
+          aria-controls="pv_id_8_content"
+          aria-expanded="true"
+          class="p-accordion-header-link"
+          id="pv_id_8_header"
+          role="tab"
+          tabindex="0"
+        >
+          <span
+            class="p-accordion-toggle-icon pi pi-chevron-down"
+          />
+           
+          <span
+            class="p-accordion-header-text"
+          >
+            Second item
+          </span>
+           
+        </a>
+      </div>
+       
+      <div
+        aria-labelledby="pv_id_8_header"
+        class="p-toggleable-content"
+        id="pv_id_8_content"
+        role="region"
+      >
+        <div
+          class="p-accordion-content"
+        >
+          <a
+            class="mock-link"
+          >
+            
+      Third subitem
+    
+          </a>
+          <a
+            class="mock-link router-link-exact-active"
+          >
+            
+      Fourth subitem
+    
+          </a>
+        </div>
       </div>
     </div>
   </div>

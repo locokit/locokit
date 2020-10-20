@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/DropdownButton default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="p-splitbutton p-component"
+  >
+    <button
+      aria-controls="pv_id_1_overlay"
+      aria-haspopup="true"
+      class="p-splitbutton-menubutton p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-chevron-down p-button-icon p-button-icon-right"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Choose an option
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="p-splitbutton p-component no-decoration-link p-mr-2"
+  >
+    <button
+      aria-controls="pv_id_3_overlay"
+      aria-haspopup="true"
+      class="p-splitbutton-menubutton p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-chevron-down p-button-icon p-button-icon-right"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        This is a dropdown button
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/DropdownButton with model 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="p-splitbutton p-component no-decoration-link p-mr-2"
+  >
+    <button
+      aria-controls="pv_id_2_overlay"
+      aria-haspopup="true"
+      class="p-splitbutton-menubutton p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-chevron-down p-button-icon p-button-icon-right"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        This is a dropdown button
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
