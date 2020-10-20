@@ -87,7 +87,7 @@
               </div>
               <div
                 class="p-field"
-                v-if="!['$null', '$notNull'].includes(selectedAction)"
+                v-if="!['$null', '$notNull'].includes(filter.action)"
               >
                 <label for="motif">{{ $t('components.crudtable.toolbar.filters.form.motif') }}</label>
                 <p-input-text
@@ -189,7 +189,7 @@ const ACTIONS = [{
 }]
 
 export default {
-  name: 'ActionBar',
+  name: 'FilterButton',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
@@ -210,8 +210,7 @@ export default {
       filtersRemoved: [],
       operators: OPERATORS,
       actions: ACTIONS,
-      selectedOperator: OPERATORS[0].value,
-      selectedAction: ''
+      selectedOperator: OPERATORS[0].value
     }
   },
   computed: {
@@ -274,10 +273,9 @@ export default {
       }
     },
     actionControlMotif (index, event) {
-      this.selectedAction = event.value
-      if (this.selectedAction === '$null') {
+      if (event.value === '$null') {
         this.filters[index].motif = true
-      } else if (this.selectedAction === '$notNull') {
+      } else if (event.value === '$notNull') {
         this.filters[index].motif = false
       }
     }
