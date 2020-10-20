@@ -9,25 +9,57 @@ export default {
   ]
 }
 
-const chapters = [{
+const items = [{
   id: 1,
-  text: 'Premier chapitre',
-  pages: [{
+  label: 'First item',
+  subitems: [{
     id: 1,
-    text: 'Première page'
+    label: 'First subitem',
+    to: '/first-link'
   }, {
     id: 2,
-    text: 'Deuxième page'
+    label: 'Second subitem',
+    to: '/second-link'
   }]
 }, {
   id: 2,
-  text: 'Deuxième chapitre',
-  pages: [{
+  label: 'Second item',
+  subitems: [{
     id: 3,
-    text: 'Troisième page'
+    label: 'Third subitem',
+    to: '/third-link'
   }, {
     id: 4,
-    text: 'Quatrième page'
+    label: 'Fourth subitem',
+    to: '/fourth-link'
+  }]
+}]
+
+const items1 = [{
+  id: 1,
+  label: 'First item',
+  subitems: [{
+    id: 1,
+    label: 'First subitem',
+    to: '/first-link'
+  }, {
+    id: 2,
+    label: 'Second subitem',
+    to: '/second-link'
+  }]
+}, {
+  id: 2,
+  label: 'Second item',
+  active: true,
+  subitems: [{
+    id: 3,
+    label: 'Third subitem',
+    to: '/third-link'
+  }, {
+    id: 4,
+    label: 'Fourth subitem',
+    to: '/fourth-link',
+    active: true
   }]
 }]
 
@@ -42,10 +74,22 @@ export const withPropsStory = () => ({
   components: { Sidebar },
   data () {
     return {
-      chapters
+      items
     }
   },
-  template: '<Sidebar :chapters="chapters" />'
+  template: '<Sidebar :items="items" />'
 })
 
-withPropsStory.storyName = 'with props chapters'
+withPropsStory.storyName = 'with props items'
+
+export const withPropsAndSubItemActiveStory = () => ({
+  components: { Sidebar },
+  data () {
+    return {
+      items: items1
+    }
+  },
+  template: '<Sidebar :items="items" />'
+})
+
+withPropsAndSubItemActiveStory.storyName = 'with props items and active'

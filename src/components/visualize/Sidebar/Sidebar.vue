@@ -13,6 +13,7 @@
         v-for="subitem in item.subitems"
         :key="subitem.id"
         :to="subitem.to"
+        :class="{ 'router-link-exact-active': subitem.active }"
       >
         {{subitem.label}}
       </router-link>
@@ -30,12 +31,12 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => ([
-        {
-          text: this.$t('pages.workspace.noChapter'),
+      default () {
+        return [{
+          label: this.$t('pages.workspace.noChapter'),
           subitems: []
-        }
-      ])
+        }]
+      }
     }
   },
   components: {
