@@ -31,11 +31,16 @@
                     v-model="filtersRemoved"
                   >
                   </p-checkbox>
-                  <label :for="`filter-${index}`" class="remove-filter"><i class="pi pi-times"></i></label>
+                  <label
+                    class="remove-filter"
+                    :for="`filter-${index}`"
+                  >
+                    <i class="pi pi-times"/>
+                  </label>
                 </div>
                 <div
-                  v-if="filters.length > 1 && index !== 0"
                   class="p-field p-col-6 p-md-2"
+                  v-if="filters.length > 1 && index !== 0"
                 >
                   <label for="operator">{{ $t('components.crudtable.toolbar.filters.form.operator') }}</label>
                   <p-dropdown
@@ -83,9 +88,7 @@
                     @change="actionControlMotif(index, $event)"
                   >
                     <template #value="slotProps">
-                      {{
-                        slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder
-                      }}
+                      {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder }}
                     </template>
                     <template #option="slotProps">
                       {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.value}`) }}
@@ -129,10 +132,10 @@
             </template>
             <template slot="right">
               <p-button
-                class="p-button-primary"
+                :class="filtersRemoved.length > 0 ? 'p-button-danger': 'p-button-primary'"
                 type="button"
                 icon="pi pi-check-circle"
-                :label="$t('form.submit')"
+                :label="filtersRemoved.length > 0 ? $t('form.remove') : $t('form.submit')"
                 @click="submitFilters"
                 :disabled="this.filters.length === 0"
               />
@@ -296,7 +299,6 @@ export default {
   width: 100%;
   align-items: center;
   margin-bottom: 0.5rem;
-  align-items: center;
 }
 
 .p-formgroup-inline .p-field {
@@ -310,7 +312,7 @@ export default {
 
 .filter-row .p-field:last-of-type {
   margin-bottom: 0.15rem;
-  padding-right: 0rem;
+  padding-right: 0;
 }
 
 .filter-row .p-field label {
@@ -383,7 +385,7 @@ p.filter-row .remove-filter {
 
 .select-filter label i {
   text-rendering: optimizeLegibility;
-  padding: 0.25rem 0rem;
+  padding: 0.25rem 0;
   cursor: pointer;
   width: 1.5rem;
   height: 1.5rem;
@@ -433,7 +435,7 @@ p.filter-row .remove-filter {
   /deep/ .p-toolbar-group-left button:first-of-type,
   /deep/ .p-toolbar-group-right button:first-of-type {
     width: 100%;
-    margin-right: 0rem;
+    margin-right: 0;
   }
 }
 
