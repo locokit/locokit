@@ -215,6 +215,9 @@ export default {
         content: {
           total: 0,
           data: null
+        },
+        definition: {
+          columns: []
         }
       },
       views: [],
@@ -409,13 +412,17 @@ export default {
     },
     async onColumnResize (newWidth, columnId) {
       // first, find the column related
-      const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
-      if (!currentColumn) return
-      await lckClient.service('column').patch(columnId, {
+      const currentColumnIndex = this.block.definition.columns.findIndex(c => c.id === columnId)
+      if (currentColumnIndex === -1) return
+      const newColumn = await lckClient.service('column').patch(columnId, {
         settings: {
-          ...currentColumn.settings,
+          ...this.block.definition.columns[currentColumnIndex].settings,
           width: newWidth
         }
+      })
+      // replace existing definition with new column
+      this.block.definition.columns = this.block.definition.columns.map(c => {
+        return c.id === columnId ? newColumn : c
       })
     },
     async onColumnReorder ({
@@ -576,7 +583,4 @@ export default {
   color: var(--text-color);
 }
 
-/deep/ .p-datatable table {
-  width: unset;
-}
 </style>
