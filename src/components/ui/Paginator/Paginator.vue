@@ -1,8 +1,10 @@
 <template>
   <p-paginator
-    paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-    v-bind="$attrs"
-    v-on="$listeners"
+    :rows="rows"
+    :totalRecords="totalRecords"
+    :template="paginatorTemplate"
+    :currentPageReportTemplate="currentPageReportTemplate"
+    @page="onPage($event.page)"
   >
     <template #right>
       <div class="paginator-nav">
@@ -10,7 +12,7 @@
         <p-dropdown
           v-if="pageslist.length > 0"
           :dropdown="true"
-          :value="block.content.skip/block.content.limit"
+          :value="skip/rows"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
@@ -29,10 +31,45 @@ import PrimePaginator from 'primevue/paginator'
 import Dropdown from 'primevue/dropdown'
 
 export default {
-  name: 'Paginator',
+  name: 'LCKPaginator',
   components: {
-    'p-paginator': Vue.extend(PrimePaginator),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-paginator': Vue.extend(PrimePaginator)
+  },
+  props: {
+    rows: {
+      type: Number,
+      required: true
+    },
+    skip: {
+      type: Number,
+      required: true
+    },
+    totalRecords: {
+      type: Number,
+      required: true
+    },
+    paginatorTemplate: {
+      type: String,
+      default: 'FirstPageLink PrevPageLink NextPageLink LastPageLink'
+    },
+    currentPageReportTemplate: {
+      type: String,
+      default: "$t('components.paginator.currentPageReportTemplate')"
+    }
+  },
+  computed: {
+    pageslist () {
+      return Array.from({ length: Math.ceil(this.totalRecords / this.rows) }, (_, i) => ({
+        value: i,
+        label: i + 1
+      }))
+    }
+  },
+  methods: {
+    onPage (pageIndexToGo) {
+      this.$emit('update-content', pageIndexToGo)
+    }
   }
 }
 </script>

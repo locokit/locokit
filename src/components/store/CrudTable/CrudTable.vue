@@ -31,8 +31,6 @@
 
     :lazy="true"
     :loading="block.loading"
-    :rows="rowsNumber"
-    :totalRecords="block && block.content && block.content.total"
 
     editMode="cell"
     @cell-edit-complete="onCellEditComplete"
@@ -43,11 +41,6 @@
 
     :reorderableColumns="crudMode"
     @column-reorder="onColumnReorder"
-
-    :paginator="false"
-    paginatorTemplate="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-    :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
-    @page="onPage($event.page)"
 
     style="width: unset !important;"
 
@@ -136,11 +129,13 @@
 
     </template>
   </p-datatable>
-    <lck-paginator
-      :rows="20"
-      :totalRecords="block && block.content && block.content.total"
-      @page="onPage($event.page)"
-    />
+  <lck-paginator
+    :rows="rowsNumber"
+    :skip="block && block.content && block.content.skip"
+    :limit="block && block.content && block.content.limit"
+    :totalRecords="block && block.content && block.content.total"
+    v-on="$listeners"
+  />
   </div>
   <div v-else>
     {{ $t('components.crudtable.noDefinitionAvailable') }}
@@ -171,6 +166,7 @@ export default {
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
     'lck-paginator': Vue.extend(Paginator),
+    'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
@@ -222,12 +218,6 @@ export default {
         [COLUMN_TYPE.FORMULA]: 'p-tag',
         [COLUMN_TYPE.FILE]: 'text'
       }
-    },
-    pageslist () {
-      return Array.from({ length: Math.ceil(this.block.content.total / this.block.content.limit) }, (_, i) => ({
-        value: i,
-        label: i + 1
-      }))
     },
     columnsEnhanced () {
       if (!this.block.definition.columns) return {}
@@ -412,9 +402,6 @@ export default {
         columnId: event.field,
         newValue: value
       })
-    },
-    onPage (pageIndexToGo) {
-      this.$emit('update-content', pageIndexToGo)
     },
     onSort (event) {
       this.$emit('sort', {
