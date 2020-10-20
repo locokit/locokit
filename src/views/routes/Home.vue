@@ -6,23 +6,20 @@
 
     {{ $t('pages.home.subtitle') }}
 
-    <login
+    <lck-login
       class="p-mt-4"
       @submit="authenticate"
       :loading="authState.loading"
       :error="authState.error"
     />
-    <lck-popup-reload />
-
   </layout-with-background>
-
 </template>
 
 <script lang="ts">
-// @ is an alias to /src
 import Vue from 'vue'
+
 import Login from '@/components/auth/Login/Login.vue'
-import PopupReload from '@/components/ui/PopupReload/PopupReload.vue'
+
 import { AuthDTO, authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import LayoutWithBackground from '@/layouts/WithBackground.vue'
@@ -31,8 +28,7 @@ export default {
   name: 'Home',
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
-    login: Vue.extend(Login),
-    'lck-popup-reload': Vue.extend(PopupReload)
+    'lck-login': Login
   },
   data () {
     return {

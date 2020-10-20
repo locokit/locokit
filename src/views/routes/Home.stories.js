@@ -4,9 +4,10 @@ export default {
   component: Home
 }
 
-export const HomeStory = () => ({
+export const defaultStory = () => ({
   components: { Home },
   template: '<Home />'
 })
 
-HomeStory.storyName = 'default'
+defaultStory.storyName = 'default'
+defaultStory.parameters = { storyshots: { disable: true } }

@@ -7,7 +7,8 @@
       p-ai-center
     "
    :style="{
-      'background-image': 'url(' + backgroundImage + ')'
+      'background-image': 'url(' + backgroundImage + ')',
+       position: 'relative'
     }"
   >
     <div

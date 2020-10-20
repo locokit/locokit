@@ -1,24 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots routes/user/Profile default 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <!---->
-</div>
-`;
-
 exports[`storyshots routes/user/Profile with auth user 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <!---->
-</div>
-`;
-
-exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
