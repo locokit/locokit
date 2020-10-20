@@ -404,6 +404,14 @@ export default {
       this.newRow = {
         data: {}
       }
+      this.block.definition.columns.forEach(c => {
+        if (
+          c.column_type_id === COLUMN_TYPE.SINGLE_SELECT &&
+          c.settings?.default
+        ) {
+          this.newRow.data[c.id] = c.settings.default
+        }
+      })
       this.autocompleteInput = {}
       this.displayNewDialog = true
     },
