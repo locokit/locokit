@@ -1,18 +1,25 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
-import Workspace from '../views/Workspace.vue'
-import WorkspaceList from '../views/WorkspaceList.vue'
-import Database from '../views/Database.vue'
-import Profile from '../views/routes/user/Profile.vue'
+
+import Home from '@/views/routes/Home.vue'
+import Profile from '@/views/routes/user/Profile.vue'
+
+import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
+import WorkspaceList from '@/views/routes/workspace/visualization/WorkspaceList.vue'
+import Page from '@/views/routes/workspace/visualization/Page.vue'
+import Database from '@/views/routes/workspace/admin/database/Database.vue'
+import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
+
+import Admin from '@/views/routes/admin/Admin.vue'
+import UserManagement from '@/views/routes/admin/UserManagement.vue'
+import GroupManagement from '@/views/routes/admin/GroupManagement.vue'
+
 import LostPassword from '../views/routes/user/LostPassword.vue'
 import ResetPassword from '../views/routes/user/ResetPassword.vue'
 import VerifySignup from '../views/routes/user/VerifySignup.vue'
-import Page from '@/views/Page.vue'
-import DatabaseSchema from '@/views/DatabaseSchema.vue'
-import UserManagement from '@/views/UserManagement.vue'
-import GroupManagement from '@/views/GroupManagement.vue'
+
 import Page404 from '@/views/routes/404.vue'
+
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 
@@ -69,8 +76,8 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION
   }, {
-    name: 'WorkspaceVisualization',
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
+    name: 'WorkspaceVisualization',
     component: Workspace,
     props: true,
     children: [{
@@ -90,8 +97,7 @@ const routes: Array<RouteConfig> = [
     meta: {
       needAuthentication: true
     }
-  },
-  {
+  }, {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
     name: 'DatabaseSchema',
     component: DatabaseSchema,
@@ -99,19 +105,26 @@ const routes: Array<RouteConfig> = [
     meta: {
       needAuthentication: true
     }
-  },
-  {
-    path: ROUTES_PATH.USERMANAGEMENT,
-    name: 'UserManagement',
-    component: UserManagement,
-    meta: {
-      needAuthentication: true
-    }
-  },
-  {
-    path: ROUTES_PATH.GROUPMANAGEMENT,
-    name: 'GroupManagement',
-    component: GroupManagement,
+  }, {
+    path: ROUTES_PATH.ADMIN,
+    name: 'Administration',
+    component: Admin,
+    redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
+    children: [{
+      name: 'UserManagement',
+      path: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
+      component: UserManagement,
+      meta: {
+        needAuthentication: true
+      }
+    }, {
+      name: 'GroupManagement',
+      path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUPMANAGEMENT,
+      component: GroupManagement,
+      meta: {
+        needAuthentication: true
+      }
+    }],
     meta: {
       needAuthentication: true
     }

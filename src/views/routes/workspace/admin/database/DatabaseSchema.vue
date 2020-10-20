@@ -41,8 +41,8 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import CreateTableModal from './modals/CreateTableModal'
-import UpdateTableModal from './modals/UpdateTableModal'
+import CreateTableModal from '@/views/modals/CreateTableModal'
+import UpdateTableModal from '@/views/modals/UpdateTableModal'
 
 export default {
   name: 'DatabaseSchema',

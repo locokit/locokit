@@ -67,14 +67,9 @@ export default {
       const result = []
       if (this.isSuperAdmin) {
         result.push({
-          label: this.$t('pages.userManagement.title'),
+          label: this.$t('pages.admin.title'),
           icon: 'pi pi-cog',
-          to: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT
-        })
-        result.push({
-          label: this.$t('pages.groupManagement.title'),
-          icon: 'pi pi-cog',
-          to: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUPMANAGEMENT
+          to: ROUTES_PATH.ADMIN
         })
       }
       return result.concat([

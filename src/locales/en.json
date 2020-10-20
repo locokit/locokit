@@ -155,6 +155,12 @@
         "errorNoData": "Please fill in the fields"
       }
     },
+    "admin": {
+      "title": "Administration",
+      "sidebar": {
+        "usersAndGroups": "Users & Groups"
+      }
+    },
     "userManagement": {
       "title": "User Management",
       "noUser": "No user created. Please create one first.",

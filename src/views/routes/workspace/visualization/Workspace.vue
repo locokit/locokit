@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
     <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <Sidebar :chapters="workspaceContent.chapters" />
+      <Sidebar :items="sidebarItems" />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />
@@ -21,6 +21,29 @@ export default {
   data () {
     return {
       workspaceContent: []
+    }
+  },
+  computed: {
+    sidebarItems () {
+      if (!this.workspaceContent?.chapters) return []
+      return this.workspaceContent.chapters.map(({ id, text, pages }) => {
+        const subitems = pages.map(({ text, id }) => (
+          {
+            id,
+            label: text,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            active: id === this.$route.params.pageId
+          }
+        ))
+        return (
+          {
+            id,
+            label: text,
+            subitems,
+            active: subitems.some(({ active }) => active)
+          }
+        )
+      })
     }
   },
   methods: {

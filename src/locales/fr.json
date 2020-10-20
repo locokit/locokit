@@ -156,6 +156,12 @@
         "errorNoData": "Veuillez renseigner les champs"
       }
     },
+    "admin": {
+      "title": "Administration",
+      "sidebar": {
+        "usersAndGroups": "Utilisateurs & Groupes"
+      }
+    },
     "userManagement": {
       "title": "Gestion des utilisateurs",
       "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un.",
