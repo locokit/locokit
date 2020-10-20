@@ -2,6 +2,7 @@
   <div class="action-bar">
     <p-button
       type="button"
+      class="button-filter"
       icon="pi pi-filter"
       :label="$t('components.crudtable.toolbar.filters.name')"
       :badge="`${this.filters.length}`"
@@ -11,90 +12,97 @@
       <div>
         <div>
           <div
-            class="container p-d-flex"
+            class="container"
             v-if="filters.length > 0"
           >
-            <div
-              class="filter-row p-formgroup-inline p-jc-end"
-              v-for="(filter, index) in filters"
-              :key="`filter-${index}`"
-            >
+            <div class="form-container">
               <div
-                class="p-field"
+                class="filter-row p-md-12 p-formgroup-inline"
+                v-for="(filter, index) in filters"
+                :key="`filter-${index}`"
               >
-                <label :for="`filter-${index}`"><i class="pi pi-times"></i></label>
-                <p-checkbox
-                  :id="`filter-${index}`"
-                  name="filter"
-                  :value="{filter, id: index}"
-                  v-model="filtersRemoved"
+                <div
+                  class="p-field p-d-inline-flex p-sm-6 p-md-1 select-filter"
                 >
-                </p-checkbox>
-              </div>
-              <div
-                v-if="filters.length > 1 && index !== 0"
-                class="p-field"
-              >
-                <label for="operator">{{ $t('components.crudtable.toolbar.filters.form.operator') }}</label>
-                <p-dropdown
-                  id="operator"
-                  :options="operators"
-                  optionLabel="label"
-                  optionValue="value"
-                  v-model="filter.operator"
-                  :disabled="index !== 1"
-                  @change="oneOperatorToRuleAll"
+                  <p-checkbox
+                    :id="`filter-${index}`"
+                    name="filter"
+                    :value="{filter, id: index}"
+                    v-model="filtersRemoved"
+                  >
+                  </p-checkbox>
+                  <label :for="`filter-${index}`" class="remove-filter"><i class="pi pi-times"></i></label>
+                </div>
+                <div
+                  v-if="filters.length > 1 && index !== 0"
+                  class="p-field p-col-6 p-md-2"
                 >
-                  <template #value="slotProps">
-                    {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.value}`) }}
-                  </template>
-                  <template #option="slotProps">
-                    {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.option.value}`) }}
-                  </template>
-                </p-dropdown>
-              </div>
-              <div class="p-field">
-                <label for="column">{{ $t('components.crudtable.toolbar.filters.form.column') }}</label>
-                <p-dropdown
-                  id="column"
-                  :options="columns"
-                  optionLabel="label"
-                  :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
-                  v-model="filter.column"
-                />
-              </div>
-              <div
-                class="p-field"
-              >
-                <label for="action">{{ $t('components.crudtable.toolbar.filters.form.action') }}</label>
-                <p-dropdown
-                  id="action"
-                  type="text"
-                  :options="actions"
-                  optionLabel="label"
-                  optionValue="value"
-                  v-model="filter.action"
-                  :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
-                  @change="actionControlMotif(index, $event)"
+                  <label for="operator">{{ $t('components.crudtable.toolbar.filters.form.operator') }}</label>
+                  <p-dropdown
+                    id="operator"
+                    :options="operators"
+                    optionLabel="label"
+                    optionValue="value"
+                    v-model="filter.operator"
+                    :disabled="index !== 1"
+                    @change="oneOperatorToRuleAll"
+                  >
+                    <template #value="slotProps">
+                      {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.value}`) }}
+                    </template>
+                    <template #option="slotProps">
+                      {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.option.value}`) }}
+                    </template>
+                  </p-dropdown>
+                </div>
+                <div
+                  class="p-field p-col-12 p-md-3"
+                  :class="index === 0 && 'p-offset-0 p-md-offset-2'"
                 >
-                  <template #value="slotProps">
-                    {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder }}
-                  </template>
-                  <template #option="slotProps">
-                    {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.value}`) }}
-                  </template>
-                </p-dropdown>
-              </div>
-              <div
-                class="p-field"
-                v-if="!['$null', '$notNull'].includes(filter.action)"
-              >
-                <label for="motif">{{ $t('components.crudtable.toolbar.filters.form.motif') }}</label>
-                <p-input-text
-                  id="motif"
-                  type="text"
-                  v-model="filter.motif"
-                />
+                  <label for="column">{{ $t('components.crudtable.toolbar.filters.form.column') }}</label>
+                  <p-dropdown
+                    id="column"
+                    :options="columns"
+                    optionLabel="label"
+                    :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+                    v-model="filter.column"
+                  />
+                </div>
+                <div
+                  class="p-field p-col-12 p-md-2"
+                >
+                  <label for="action">{{ $t('components.crudtable.toolbar.filters.form.action') }}</label>
+                  <p-dropdown
+                    id="action"
+                    type="text"
+                    :options="actions"
+                    optionLabel="label"
+                    optionValue="value"
+                    v-model="filter.action"
+                    :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+                    @change="actionControlMotif(index, $event)"
+                  >
+                    <template #value="slotProps">
+                      {{
+                        slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder
+                      }}
+                    </template>
+                    <template #option="slotProps">
+                      {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.value}`) }}
+                    </template>
+                  </p-dropdown>
+                </div>
+                <div
+                  class="p-field p-col-12 p-md-4"
+                  v-if="!['$null', '$notNull'].includes(filter.action)"
+                >
+                  <label for="motif">{{ $t('components.crudtable.toolbar.filters.form.motif') }}</label>
+                  <p-input-text
+                    id="motif"
+                    type="text"
+                    v-model="filter.motif"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -104,7 +112,7 @@
           <p-toolbar>
             <template slot="left">
               <p-button
-                class="p-mr-2 p-button-outlined"
+                class="p-button-outlined"
                 type="button"
                 icon="pi pi-plus-circle"
                 :label="$t('components.crudtable.toolbar.filters.action.addFilter')"
@@ -121,7 +129,7 @@
             </template>
             <template slot="right">
               <p-button
-                class="p-mr-2 p-button-outlined"
+                class="p-button-primary"
                 type="button"
                 icon="pi pi-check-circle"
                 :label="$t('form.submit')"
@@ -284,7 +292,132 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-overlaypanel-content {
-  min-width: 650px;
+.filter-row {
+  width: 100%;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  align-items: center;
 }
+
+.p-formgroup-inline .p-field {
+  margin-right: 0;
+}
+
+.filter-row .p-field {
+  margin-bottom: 0.15rem;
+  padding-right: 0.30rem;
+}
+
+.filter-row .p-field:last-of-type {
+  margin-bottom: 0.15rem;
+  padding-right: 0rem;
+}
+
+.filter-row .p-field label {
+  font-family: 'Raleway', sans-serif;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.filter-row .p-field:last-of-type {
+  margin-right: 0;
+}
+
+.button-filter {
+  margin-left: 0.5rem;
+}
+/deep/ .button-filter .p-badge {
+  line-height: 0.85rem;
+  font-size: 0.9rem;
+}
+
+.input,
+.p-inputwrapper {
+  max-width: 100%;
+  width: 100%;
+}
+
+.input,
+.p-inputwrapper {
+  font-family: 'Raleway', sans-serif;
+}
+
+/deep/ .filter-row .p-component,
+/deep/ .filter-row .p-inputtext,
+/deep/ .filter-row ul.p-dropdown-items,
+/deep/ .filter-row ul.p-dropdown-items li {
+  font-size: 0.85rem;
+}
+
+.p-overlaypanel {
+  width: 60%;
+}
+
+p.filter-row .remove-filter {
+  margin: 0;
+  width: 1rem;
+  padding: 0.5rem;
+  border: 1px solid red;
+}
+
+/deep/ .p-toolbar-group-left button,
+/deep/ .p-toolbar-group-right button {
+  width: 100%;
+  white-space: nowrap;
+  padding-right: 1rem;
+}
+
+/deep/ .p-toolbar-group-left button:first-of-type,
+/deep/ .p-toolbar-group-right button:first-of-type {
+  width: 100%;
+  margin-right: 0.5rem;
+}
+
+/deep/ .select-filter .p-checkbox-box {
+  display: none;
+  visibility: hidden;
+  border: 1px solid;
+}
+.select-filter label i {
+  padding: 0.25rem 0rem;
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+/deep/ .select-filter .p-checkbox-checked + label i {
+  color: white;
+  background-color: red;
+  border-radius: 0.75rem;
+}
+
+@media only screen and (max-width: 768px) {
+  /deep/ .p-toolbar-group-left,
+  /deep/ .p-toolbar-group-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%
+  }
+
+  .p-overlaypanel {
+    margin-left: -10%;
+    width: 70%;
+   }
+
+  /deep/ .p-toolbar-group-left button,
+  /deep/ .p-toolbar-group-right button {
+    width: 100%;
+    margin-bottom: 0.2rem;
+  }
+
+  /deep/ .p-toolbar-group-left button:first-of-type,
+  /deep/ .p-toolbar-group-right button:first-of-type {
+    width: 100%;
+    margin-right: 0rem;
+  }
+}
+
 </style>
