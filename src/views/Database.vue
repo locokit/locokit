@@ -183,7 +183,7 @@ import { formatISO } from 'date-fns'
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import ActionBar from '@/components/store/ActionBar/ActionBar'
+import FilterButton from '@/components/store/FilterButton/FilterButton'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -197,7 +197,7 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'lck-autocomplete': Vue.extend(AutoComplete),
-    'lck-filter-button': Vue.extend(ActionBar),
+    'lck-filter-button': Vue.extend(FilterButton),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
