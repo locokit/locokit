@@ -31,14 +31,14 @@ const chapters = [{
   }]
 }]
 
-export const ChaptersStoryWithoutProps = () => ({
+export const defaultStory = () => ({
   components: { Sidebar },
   template: '<Sidebar />'
 })
 
-ChaptersStoryWithoutProps.storyName = 'Sidebar without props chapters'
+defaultStory.storyName = 'default'
 
-export const ChaptersStoryWithProps = () => ({
+export const withPropsStory = () => ({
   components: { Sidebar },
   data () {
     return {
@@ -48,4 +48,4 @@ export const ChaptersStoryWithProps = () => ({
   template: '<Sidebar :chapters="chapters" />'
 })
 
-ChaptersStoryWithProps.storyName = 'Sidebar with props chapters'
+withPropsStory.storyName = 'with props chapters'

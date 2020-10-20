@@ -21,6 +21,7 @@ module.exports = {
     return config;
   },
   addons: [
+    '@storybook/addon-essentials',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     {

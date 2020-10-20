@@ -5,14 +5,14 @@ export default {
   title: 'components/visualize/Block',
   component: Block
 }
-export const BlockStoryWithoutProps = () => (
+export const defaultStory = () => (
   {
     components: { Block },
     template: '<Block />'
   }
 )
 
-BlockStoryWithoutProps.storyName = 'Block without props'
+defaultStory.storyName = 'default'
 
 /* eslint-disable @typescript-eslint/camelcase */
 const blockTableView = {
@@ -124,7 +124,7 @@ const blockTableView = {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
-export const BlockTableViewStory = () => (
+export const tableViewStory = () => (
   {
     components: { Block },
     data () {
@@ -136,9 +136,9 @@ export const BlockTableViewStory = () => (
   }
 )
 
-BlockTableViewStory.storyName = 'Block with TableView'
+tableViewStory.storyName = 'TableView'
 
-export const BlockParagraphStory = () => (
+export const paragraphStory = () => (
   {
     components: { Block },
     data () {
@@ -156,9 +156,9 @@ export const BlockParagraphStory = () => (
   }
 )
 
-BlockParagraphStory.storyName = 'Block with Paragraph (Text)'
+paragraphStory.storyName = 'Paragraph (Text)'
 
-export const BlockMarkownStory = () => (
+export const markownStory = () => (
   {
     components: { Block },
     data () {
@@ -176,9 +176,9 @@ export const BlockMarkownStory = () => (
   }
 )
 
-BlockMarkownStory.storyName = 'Block with Markdown'
+markownStory.storyName = 'Markdown'
 
-export const BlockTypeNotKnownStory = () => (
+export const unknownTypeStory = () => (
   {
     components: { Block },
     data () {
@@ -193,4 +193,4 @@ export const BlockTypeNotKnownStory = () => (
   }
 )
 
-BlockTypeNotKnownStory.storyName = 'Block with unknown type'
+unknownTypeStory.storyName = 'unknown type'

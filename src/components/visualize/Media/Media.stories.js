@@ -4,7 +4,7 @@ export default {
   component: Media
 }
 
-export const MediaStoryWithProps = () => ({
+export const withPropsStory = () => ({
   components: { Media },
   data () {
     return {
@@ -25,4 +25,4 @@ export const MediaStoryWithProps = () => ({
   template: '<Media v-bind="{...block}" />'
 })
 
-MediaStoryWithProps.storyName = 'Media with props'
+withPropsStory.storyName = 'with props'

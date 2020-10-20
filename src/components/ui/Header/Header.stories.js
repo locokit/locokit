@@ -19,7 +19,7 @@ Vue.component('RouterLink', {
   template: '<a class="mock-link" @click="log()"><slot>RouterLink</slot></a>'
 })
 
-export const HeaderStoryWithProps = () => (
+export const withLogo = () => (
   {
     components: { Header },
     data () {
@@ -33,4 +33,4 @@ export const HeaderStoryWithProps = () => (
   }
 )
 
-HeaderStoryWithProps.storyName = 'Header with logo (required)'
+withLogo.storyName = 'Header with logo (required)'

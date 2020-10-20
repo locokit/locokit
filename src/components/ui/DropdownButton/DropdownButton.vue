@@ -40,7 +40,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: null
+      default: 'Choose an option'
     },
     icon: {
       type: String,
@@ -48,7 +48,10 @@ export default {
     },
     model: {
       type: Array,
-      default: null
+      default: () => ([{
+        id: 0,
+        label: 'No option defined'
+      }])
     },
     disabled: {
       type: Boolean,
