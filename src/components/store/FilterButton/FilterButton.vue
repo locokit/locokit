@@ -380,17 +380,24 @@ p.filter-row .remove-filter {
   border: 1px solid;
 }
 .select-filter label i {
+  text-rendering: optimizeLegibility;
   padding: 0.25rem 0rem;
   cursor: pointer;
   width: 1.5rem;
   height: 1.5rem;
   text-align: center;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 0.85rem;
+  line-height: 0.85rem;
+  border: 1px solid red;
+  color: red;
+  border-radius: 0.75rem;
+
 }
 /deep/ .select-filter .p-checkbox-checked + label i {
+  text-rendering: optimizeLegibility;
   color: white;
   background-color: red;
+  border: 1px solid red;
   border-radius: 0.75rem;
 }
 
