@@ -135,22 +135,6 @@
     <template #paginatorLeft>
 
     </template>
-    <template #paginatorRight>
-      <div class="paginator-nav">
-        <p class="label">Aller à la page</p>
-        <p-dropdown
-          v-if="pageslist.length > 0"
-          :dropdown="true"
-          :value="block.content.skip/block.content.limit"
-          optionLabel="label"
-          optionValue="value"
-          appendTo="body"
-          :options="pageslist"
-          @change="onPage($event.value)"
-        >
-        </p-dropdown>
-      </div>
-    </template>
   </p-datatable>
     <lck-paginator
       :rows="20"
@@ -187,7 +171,6 @@ export default {
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
     'lck-paginator': Vue.extend(Paginator),
-    'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
@@ -478,18 +461,4 @@ tr.p-datatable-emptymessage {
   cursor: pointer;
 }
 
-/* .loading-text {
-  height: 19px;
-} */
-
-.paginator-nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.paginator-nav p {
-  margin: 0;
-  font-size: 0.90rem;
-}
 </style>
