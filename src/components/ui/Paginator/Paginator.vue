@@ -43,7 +43,8 @@ export default {
     },
     skip: {
       type: Number,
-      required: true
+      required: true,
+      default: 0
     },
     totalRecords: {
       type: Number,
@@ -84,5 +85,9 @@ export default {
 .paginator-nav p {
   margin: 0;
   font-size: 0.90rem;
+}
+
+/deep/ .p-paginator-right-content {
+  margin-left: unset;
 }
 </style>
