@@ -1,5 +1,13 @@
 # CHANGELOG
 
+**v0.0.10**
+
+* use of `enum` instead of `const` for
+  * `COLUMN_TYPE`
+  * `USER_PROFILE`
+  * `GROUP_ROLE`
+  * `WORKSPACE_ROLE`
+
 **v0.0.9**
 
 * add BLOCK_TYPE

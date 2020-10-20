@@ -1,38 +1,38 @@
-export const COLUMN_TYPE = {
-  BOOLEAN: 1,
-  STRING: 2,
-  NUMBER: 3,
-  FLOAT: 4,
-  DATE: 5,
-  USER: 6,
-  GROUP: 7,
-  RELATION_BETWEEN_TABLES: 8,
-  LOOKED_UP_COLUMN: 9,
-  SINGLE_SELECT: 10,
-  MULTI_SELECT: 11,
-  FORMULA: 12,
-  FILE: 13,
-  MULTI_USER: 14,
-  MULTI_GROUP: 15,
-  TEXT: 16
+export enum COLUMN_TYPE {
+  BOOLEAN = 1,
+  STRING = 2,
+  NUMBER = 3,
+  FLOAT = 4,
+  DATE = 5,
+  USER = 6,
+  GROUP = 7,
+  RELATION_BETWEEN_TABLES = 8,
+  LOOKED_UP_COLUMN = 9,
+  SINGLE_SELECT = 10,
+  MULTI_SELECT = 11,
+  FORMULA = 12,
+  FILE = 13,
+  MULTI_USER = 14,
+  MULTI_GROUP = 15,
+  TEXT = 16
 }
 
-export const USER_PROFILE = {
-  ADMIN: 'ADMIN',
-  SUPERADMIN: 'SUPERADMIN',
-  USER: 'USER'
+export enum USER_PROFILE {
+  ADMIN = 'ADMIN',
+  SUPERADMIN = 'SUPERADMIN',
+  USER = 'USER'
 }
 
-export const GROUP_ROLE = {
-  OWNER: 'OWNER',
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+export enum GROUP_ROLE {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER'
 }
 
-export const WORKSPACE_ROLE = {
-  OWNER: 'OWNER',
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+export enum WORKSPACE_ROLE {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER'
 }
 
 export enum BLOCK_TYPE {
@@ -49,6 +49,23 @@ export enum MEDIA_TYPE {
   VIDEO = 'video',
   GALLERY = 'gallery',
   CAROUSEL = 'carousel',
+}
+
+export interface TableViewDefinition {
+  id: string;
+  columns: {
+    id: string;
+    column_type_id: COLUMN_TYPE;
+    position: number;
+    editable: boolean;
+    text: string;
+    settings: object;
+    table_id: string;
+  }[]
+}
+
+export interface TableViewContent {
+
 }
 
 export interface Block {
@@ -78,6 +95,11 @@ export interface BlockTableView extends Block {
      */
     id: string;
   };
+}
+
+export interface BlockTableViewEnhanced extends BlockTableView {
+  definition: TableViewDefinition;
+  content: TableViewContent;
 }
 
 export interface BlockKanbanView extends Block {
