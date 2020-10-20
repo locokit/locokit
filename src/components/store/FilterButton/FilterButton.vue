@@ -327,6 +327,7 @@ export default {
 .button-filter {
   margin-left: 0.5rem;
 }
+
 /deep/ .button-filter .p-badge {
   line-height: 0.85rem;
   font-size: 0.9rem;
@@ -379,6 +380,7 @@ p.filter-row .remove-filter {
   visibility: hidden;
   border: 1px solid;
 }
+
 .select-filter label i {
   text-rendering: optimizeLegibility;
   padding: 0.25rem 0rem;
@@ -391,8 +393,16 @@ p.filter-row .remove-filter {
   border: 1px solid red;
   color: red;
   border-radius: 0.75rem;
-
+  transition: all 0.5s;
 }
+
+.select-filter label:hover i {
+  color: white;
+  background-color: rgba(255, 0, 0, 0.7);
+  border-color: rgba(255,0,0,0);
+  transform: scale(1.2);
+}
+
 /deep/ .select-filter .p-checkbox-checked + label i {
   text-rendering: optimizeLegibility;
   color: white;
@@ -412,7 +422,7 @@ p.filter-row .remove-filter {
   .p-overlaypanel {
     margin-left: -10%;
     width: 70%;
-   }
+  }
 
   /deep/ .p-toolbar-group-left button,
   /deep/ .p-toolbar-group-right button {
