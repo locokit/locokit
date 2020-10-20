@@ -13,6 +13,7 @@ exports[`storyshots CrudTable CrudTable with expected props 1`] = `
       p-flex-column
       justify-between
      p-datatable p-component"
+    style="width: 450px;"
   >
     <!---->
     <!---->
@@ -167,6 +168,7 @@ exports[`storyshots CrudTable CrudTable without content 1`] = `
       p-flex-column
       justify-between
      p-datatable p-component"
+    style="width: 450px;"
   >
     <!---->
     <!---->

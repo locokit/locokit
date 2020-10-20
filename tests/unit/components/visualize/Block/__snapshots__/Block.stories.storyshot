@@ -69,6 +69,7 @@ exports[`storyshots Block Block with TableView 1`] = `
       p-flex-column
       justify-between
      p-datatable p-component"
+        style="width: 450px;"
       >
         <!---->
         <!---->

@@ -19,6 +19,11 @@
     :class="{
       'is-reorderable': crudMode
     }"
+
+    :style="{
+      width: tableWidth + 'px'
+    }"
+
     :value="block && block.content && block.content.data"
 
     v-if="block.definition"
@@ -52,14 +57,12 @@
       :field="column.id"
       :headerStyle="{
         width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-        'max-width': ( ( column.settings && column.settings.width ) || '150' ) + 'px',
         overflow: 'hidden',
         'white-space': 'nowrap',
         'text-overflow': 'ellipsis'
       }"
       :bodyStyle="{
         width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-        'max-width': ( ( column.settings && column.settings.width ) || '150' ) + 'px',
         overflow: 'hidden',
         'white-space': 'nowrap',
         'text-overflow': 'ellipsis'
@@ -223,6 +226,10 @@ export default {
         }
       })
       return result
+    },
+    tableWidth () {
+      if (!this.block.definition.columns) return {}
+      return this.block.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
     }
 
   },
