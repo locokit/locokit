@@ -88,6 +88,6 @@ export default {
 }
 
 /deep/ .p-paginator-right-content {
-  margin-left: unset;
+  //margin-left: unset;
 }
 </style>

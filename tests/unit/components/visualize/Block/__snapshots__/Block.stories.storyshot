@@ -63,13 +63,13 @@ exports[`storyshots Block Block with TableView 1`] = `
       <div>
         <div
           class="
-    p-datatable-sm
-    p-datatable-gridlines
-    p-d-flex
-    d-flex-1
-    p-flex-column
-    justify-between
-   p-datatable p-component"
+      p-datatable-sm
+      p-datatable-gridlines
+      p-d-flex
+      d-flex-1
+      p-flex-column
+      justify-between
+     p-datatable p-component"
           style="width: 450px;"
         >
           <!---->
@@ -139,6 +139,7 @@ exports[`storyshots Block Block with TableView 1`] = `
          
         <div
           class="p-paginator p-component"
+          last="20"
           limit="10"
         >
           <!---->
@@ -167,6 +168,19 @@ exports[`storyshots Block Block with TableView 1`] = `
               class="p-ink"
             />
           </button>
+          <span
+            class="p-paginator-pages"
+          >
+            <button
+              class="p-paginator-page p-paginator-element p-link p-highlight"
+              type="button"
+            >
+              1
+              <span
+                class="p-ink"
+              />
+            </button>
+          </span>
           <button
             class="p-paginator-next p-paginator-element p-link p-disabled"
             disabled="disabled"
@@ -191,6 +205,11 @@ exports[`storyshots Block Block with TableView 1`] = `
               class="p-ink"
             />
           </button>
+          <span
+            class="p-paginator-current"
+          >
+            De 2 à 2 sur 2 résultat(s)
+          </span>
            
           <div
             class="p-paginator-right-content"
