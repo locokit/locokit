@@ -1,6 +1,7 @@
 <template>
   <p-paginator
     :rows="rows"
+    :first="skip+1"
     :totalRecords="totalRecords"
     :template="paginatorTemplate"
     :currentPageReportTemplate="currentPageReportTemplate"
@@ -52,7 +53,7 @@ export default {
     },
     paginatorTemplate: {
       type: String,
-      default: 'FirstPageLink PrevPageLink NextPageLink LastPageLink'
+      default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink currentPageReportTemplate'
     },
     currentPageReportTemplate: {
       type: String,
@@ -65,6 +66,11 @@ export default {
         value: i,
         label: i + 1
       }))
+    }
+  },
+  data () {
+    return {
+      first: 0
     }
   },
   methods: {
