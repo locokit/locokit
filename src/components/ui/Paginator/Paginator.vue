@@ -1,18 +1,18 @@
 <template>
   <p-paginator
     :rows="rows"
-    :first="skip+1"
-    :last="skip+rows"
+    :first="skip"
     :totalRecords="totalRecords"
     template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
     :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
     @page="onPage($event.page)"
   >
     <template #right>
-      <div class="paginator-nav">
+      <div class="paginator-nav"
+        v-if="pagesList.length > 0"
+      >
         <p class="label">Aller à la page</p>
         <p-dropdown
-          v-if="pagesList.length > 0"
           :dropdown="true"
           :value="skip/rows"
           optionLabel="label"
@@ -41,16 +41,18 @@ export default {
   props: {
     rows: {
       type: Number,
-      required: true
+      required: false,
+      default: 20
     },
     skip: {
       type: Number,
-      required: true,
+      required: false,
       default: 0
     },
     totalRecords: {
       type: Number,
-      required: true
+      required: false,
+      default: 0
     }
   },
   computed: {
@@ -59,12 +61,6 @@ export default {
         value: i,
         label: i + 1
       }))
-    }
-  },
-  data () {
-    return {
-      first: 0,
-      last: 0
     }
   },
   methods: {
@@ -85,9 +81,5 @@ export default {
 .paginator-nav p {
   margin: 0;
   font-size: 0.90rem;
-}
-
-/deep/ .p-paginator-right-content {
-  //margin-left: unset;
 }
 </style>
