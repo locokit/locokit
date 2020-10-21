@@ -139,7 +139,6 @@ exports[`storyshots Block Block with TableView 1`] = `
          
         <div
           class="p-paginator p-component"
-          last="20"
           limit="10"
         >
           <!---->
@@ -208,7 +207,7 @@ exports[`storyshots Block Block with TableView 1`] = `
           <span
             class="p-paginator-current"
           >
-            De 2 à 2 sur 2 résultat(s)
+            De 1 à 2 sur 2 résultat(s)
           </span>
            
           <div

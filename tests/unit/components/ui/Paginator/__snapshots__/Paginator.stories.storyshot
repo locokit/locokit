@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots Paginator default 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="p-paginator p-component"
+  >
+    <!---->
+     
+    <button
+      class="p-paginator-first p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-double-left"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <button
+      class="p-paginator-prev p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-left"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <span
+      class="p-paginator-pages"
+    >
+      <button
+        class="p-paginator-page p-paginator-element p-link p-highlight"
+        type="button"
+      >
+        1
+        <span
+          class="p-ink"
+        />
+      </button>
+    </span>
+    <button
+      class="p-paginator-next p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-right"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <button
+      class="p-paginator-last p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-double-right"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <span
+      class="p-paginator-current"
+    >
+      De 1 à 0 sur 0 résultat(s)
+    </span>
+     
+    <div
+      class="p-paginator-right-content"
+    />
+  </div>
+</div>
+`;
+
+exports[`storyshots Paginator with props 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="p-paginator p-component"
+  >
+    <!---->
+     
+    <button
+      class="p-paginator-first p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-double-left"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <button
+      class="p-paginator-prev p-paginator-element p-link p-disabled"
+      disabled="disabled"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-left"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <span
+      class="p-paginator-pages"
+    >
+      <button
+        class="p-paginator-page p-paginator-element p-link p-highlight"
+        type="button"
+      >
+        1
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-page p-paginator-element p-link"
+        type="button"
+      >
+        2
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-page p-paginator-element p-link"
+        type="button"
+      >
+        3
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-page p-paginator-element p-link"
+        type="button"
+      >
+        4
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-page p-paginator-element p-link"
+        type="button"
+      >
+        5
+        <span
+          class="p-ink"
+        />
+      </button>
+    </span>
+    <button
+      class="p-paginator-next p-paginator-element p-link"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-right"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <button
+      class="p-paginator-last p-paginator-element p-link"
+      type="button"
+    >
+      <span
+        class="p-paginator-icon pi pi-angle-double-right"
+      />
+      <span
+        class="p-ink"
+      />
+    </button>
+    <span
+      class="p-paginator-current"
+    >
+      De 1 à 20 sur 100 résultat(s)
+    </span>
+     
+    <div
+      class="p-paginator-right-content"
+    >
+      <div
+        class="paginator-nav"
+      >
+        <p
+          class="label"
+        >
+          Aller à la page
+        </p>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper"
+          dropdown="true"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext"
+          >
+            
+            1
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
