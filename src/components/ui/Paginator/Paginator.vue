@@ -2,22 +2,23 @@
   <p-paginator
     :rows="rows"
     :first="skip+1"
+    :last="skip+rows"
     :totalRecords="totalRecords"
-    :template="paginatorTemplate"
-    :currentPageReportTemplate="currentPageReportTemplate"
+    template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+    :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
     @page="onPage($event.page)"
   >
     <template #right>
       <div class="paginator-nav">
         <p class="label">Aller à la page</p>
         <p-dropdown
-          v-if="pageslist.length > 0"
+          v-if="pagesList.length > 0"
           :dropdown="true"
           :value="skip/rows"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
-          :options="pageslist"
+          :options="pagesList"
           @change="onPage($event.value)"
         >
         </p-dropdown>
@@ -50,18 +51,10 @@ export default {
     totalRecords: {
       type: Number,
       required: true
-    },
-    paginatorTemplate: {
-      type: String,
-      default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink currentPageReportTemplate'
-    },
-    currentPageReportTemplate: {
-      type: String,
-      default: "$t('components.paginator.currentPageReportTemplate')"
     }
   },
   computed: {
-    pageslist () {
+    pagesList () {
       return Array.from({ length: Math.ceil(this.totalRecords / this.rows) }, (_, i) => ({
         value: i,
         label: i + 1
@@ -70,7 +63,8 @@ export default {
   },
   data () {
     return {
-      first: 0
+      first: 0,
+      last: 0
     }
   },
   methods: {
