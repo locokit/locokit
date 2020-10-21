@@ -30,7 +30,7 @@
             style="display: inline-flex"
           />
           <lck-filter-button
-            :defintionColumn="block.definition.columns"
+            :definitionColumn="block.definition.columns"
             @input="onFilter"
           />
         </template>
@@ -418,7 +418,7 @@ export default {
       this.currentDatatableFilters = filters.map((filter, index) => ({
         // Override action $notNull with a valid query
         req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
-        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.motif}%` : filter.motif
+        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.pattern}%` : filter.pattern
       }))
       this.loadCurrentTableData()
     },
