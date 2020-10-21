@@ -1,8 +1,8 @@
 <template>
-  <div class="action-bar">
+  <div class="filter-button">
     <p-button
       type="button"
-      class="button-filter p-ml-2"
+      class="p-ml-2"
       icon="pi pi-filter"
       :label="$t('components.crudtable.toolbar.filters.name')"
       :badge="`${this.filters.length}`"
@@ -203,7 +203,6 @@ export default {
   data () {
     return {
       filters: [],
-      filtersRemoved: [],
       operators: OPERATORS,
       actions: ACTIONS,
       selectedOperator: OPERATORS[0].value
@@ -233,17 +232,8 @@ export default {
       this.$emit('input', this.filters)
     },
     submitFilters () {
-      if (this.filtersRemoved.length > 0) {
-        this.filtersRemoved.forEach(elem => {
-          const found = this.filters.indexOf(elem.filter)
-          this.filters.splice(found, 1)
-        })
-      }
       this.$emit('input', this.filters)
-      if (this.filtersRemoved.length === 0 && this.filters.length > 0) {
-        this.$refs.filtersPanel.hide()
-      }
-      this.filtersRemoved = []
+      this.$refs.filtersPanel.hide()
     },
     addFilter () {
       this.filters.push({
@@ -287,16 +277,20 @@ label {
   font-weight: 600;
 }
 
-/deep/ .button-filter .p-badge {
+.input,
+.p-inputwrapper {
+  max-width: 100%;
+  width: 100%;
+}
+
+/deep/ .p-button .p-badge {
   line-height: 0.85rem;
   font-size: 0.9rem;
   color: var(--primary-color);
 }
 
-.input,
-.p-inputwrapper {
-  max-width: 100%;
-  width: 100%;
+/deep/ .p-button {
+  width: auto;
 }
 
 /deep/ .filters-listing .p-component,
