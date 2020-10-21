@@ -31,7 +31,9 @@
           />
           <lck-filter-button
             :definitionColumn="block.definition.columns"
-            @input="onFilter"
+            v-model="currentDatatableFilters"
+            @submit="onSubmitFilter"
+            @reset="onResetFilter"
           />
         </template>
 
@@ -371,13 +373,18 @@ export default {
     },
     async loadCurrentTableData () {
       this.block.loading = true
+      const filters = this.currentDatatableFilters.map((filter, index) => ({
+        // Override action $notNull with a valid query
+        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
+        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.pattern}%` : filter.pattern
+      }))
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
         {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
           sort: this.currentDatatableSort,
-          filters: this.currentDatatableFilters
+          filters
         }
       )
       this.block.loading = false
@@ -414,12 +421,11 @@ export default {
       }
       this.loadCurrentTableData()
     },
-    onFilter (filters = []) {
-      this.currentDatatableFilters = filters.map((filter, index) => ({
-        // Override action $notNull with a valid query
-        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
-        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.pattern}%` : filter.pattern
-      }))
+    onSubmitFilter () {
+      this.loadCurrentTableData()
+    },
+    onResetFilter () {
+      this.currentDatatableFilters = []
       this.loadCurrentTableData()
     },
     onClickAddButton () {

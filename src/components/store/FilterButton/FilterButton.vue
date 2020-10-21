@@ -5,7 +5,7 @@
       class="p-ml-2"
       icon="pi pi-filter"
       :label="$t('components.crudtable.toolbar.filters.name')"
-      :badge="`${this.filters.length}`"
+      :badge="`${this.value.length}`"
       @click="toggleFiltersPanel"
     />
     <p-overlay-panel
@@ -14,11 +14,11 @@
     >
       <div
         class="p-mb-2 filters-listing"
-        v-if="filters.length > 0"
+        v-if="value.length > 0"
       >
         <div
           class="p-ai-center p-md-12 p-formgroup-inline p-mb-1"
-          v-for="(filter, index) in filters"
+          v-for="(filter, index) in value"
           :key="`filter-${index}`"
         >
           <div
@@ -122,7 +122,7 @@
           @click="addFilter"
         />
         <p-button
-          v-if="this.filters.length > 0"
+          v-if="this.value.length > 0"
           class="p-button-outlined"
           type="button"
           icon="pi pi-undo"
@@ -135,7 +135,7 @@
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
           @click="submitFilters"
-          :disabled="this.filters.length === 0"
+          :disabled="this.value.length === 0"
         />
       </div>
     </p-overlay-panel>
@@ -186,7 +186,7 @@ const ACTIONS = [{
 }]
 
 export default {
-  name: 'FilterButton',
+  name: 'LCKFilterButton',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
@@ -198,11 +198,16 @@ export default {
       type: Array,
       required: false,
       default: () => ([])
+    },
+    value: {
+      type: Array,
+      required: false,
+      default: () => ([])
     }
   },
   data () {
     return {
-      filters: [],
+      // value: [],
       operators: OPERATORS,
       actions: ACTIONS,
       selectedOperator: OPERATORS[0].value
@@ -225,18 +230,18 @@ export default {
       this.$refs.filtersPanel.toggle(event)
     },
     removeFilter (filterToRemove) {
-      this.filters = this.filters.filter(f => (f !== filterToRemove))
+      this.value = this.value.filter(f => (f !== filterToRemove))
     },
     resetFilters () {
-      this.filters = []
-      this.$emit('input', this.filters)
+      this.$emit('reset')
+      this.$refs.filtersPanel.hide()
     },
     submitFilters () {
-      this.$emit('input', this.filters)
+      this.$emit('submit')
       this.$refs.filtersPanel.hide()
     },
     addFilter () {
-      this.filters.push({
+      this.value.push({
         operator: this.selectedOperator,
         column: null,
         action: null,
@@ -245,15 +250,15 @@ export default {
     },
     onChangeOperator (event) {
       this.selectedOperator = event.value
-      if (this.filters.length > 1) {
-        this.filters.forEach(filter => (filter.operator = this.selectedOperator))
+      if (this.value.length > 1) {
+        this.value.forEach(filter => (filter.operator = this.selectedOperator))
       }
     },
     actionControlPattern (index, event) {
       if (event.value === '$null') {
-        this.filters[index].pattern = true
+        this.value[index].pattern = true
       } else if (event.value === '$notNull') {
-        this.filters[index].pattern = false
+        this.value[index].pattern = false
       }
     }
   }
