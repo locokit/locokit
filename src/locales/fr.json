@@ -25,7 +25,7 @@
             "operator": "Opérateur",
             "column": "Colonne",
             "action": "Action",
-            "motif": "Motif",
+            "pattern": "Motif",
             "placeholder": "Sélectionner une option"
           },
           "action": {
