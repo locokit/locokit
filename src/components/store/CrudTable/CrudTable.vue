@@ -34,7 +34,7 @@
       editMode="cell"
       @cell-edit-complete="onCellEditComplete"
 
-      :resizableColumns="crudMode"
+      :resizableColumns="true"
       columnResizeMode="expand"
       @column-resize-end="onColumnResize"
 
