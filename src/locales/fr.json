@@ -15,8 +15,39 @@
     },
     "crudtable": {
       "noDataToDisplay": "Aucune donnée à afficher",
-      "loading": "En cours de chargement... veuillez patienter...",
-      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc."
+      "loading": "En cours de chargement… veuillez patienter…",
+      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
+      "toolbar": {
+        "filters": {
+          "name": "Filtres",
+          "noFilters": "Aucun filtre n'est appliqué.",
+          "form" : {
+            "operator": "Opérateur",
+            "column": "Colonne",
+            "action": "Action",
+            "pattern": "Motif",
+            "placeholder": "Sélectionner une option"
+          },
+          "action": {
+            "addFilter": "Ajouter un filtre",
+            "close": "Fermer"
+          },
+          "select": {
+            "operator": {
+              "$or": "OU",
+              "$and": "ET"
+            },
+            "action": {
+              "$ilike": "contient",
+              "$notILike": "ne contient pas",
+              "$eq": "est égale à",
+              "$ne": "est différent de",
+              "$null": "est vide",
+              "$notNull": "n'est pas vide"
+            }
+          }
+        }
+      }
     }
   },
   "pages": {
@@ -126,13 +157,15 @@
     "http": {
       "401": "Accès non authentifié",
       "403": "Accès interdit",
-      "500": "Une erreur a eu lieu..."
+      "500": "Une erreur a eu lieu…"
     }
   },
   "form": {
     "add": "Ajouter",
-    "delete": "Supprimer",
+    "delete": "Effacer",
+    "reset": "Réinitialiser",
     "cancel": "Annuler",
+    "remove": "Supprimer",
     "submit": "Valider",
     "waiting": "Veuillez patienter",
     "save": "Enregistrer",

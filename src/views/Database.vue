@@ -29,6 +29,12 @@
             placeholder="Select a view"
             style="display: inline-flex"
           />
+          <lck-filter-button
+            :definitionColumn="block.definition.columns"
+            v-model="currentDatatableFilters"
+            @submit="onSubmitFilter"
+            @reset="onResetFilter"
+          />
         </template>
 
         <template slot="right">
@@ -179,6 +185,7 @@ import { formatISO } from 'date-fns'
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
+import FilterButton from '@/components/store/FilterButton/FilterButton'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -192,6 +199,7 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'lck-autocomplete': Vue.extend(AutoComplete),
+    'lck-filter-button': Vue.extend(FilterButton),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -234,6 +242,7 @@ export default {
       currentDatatableSort: {
         ...defaultDatatableSort
       },
+      currentDatatableFilters: [],
       currentPageIndex: 0,
       autocompleteItems: null,
       autocompleteInput: {},
@@ -307,6 +316,7 @@ export default {
       this.currentDatatableSort = {
         ...defaultDatatableSort
       }
+      this.currentDatatableFilters = []
     },
     getComponentEditableColumn (columnTypeId) {
       switch (columnTypeId) {
@@ -363,11 +373,19 @@ export default {
     },
     async loadCurrentTableData () {
       this.block.loading = true
+      const filters = this.currentDatatableFilters.map((filter, index) => ({
+        // Override action $notNull with a valid query
+        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
+        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.pattern}%` : filter.pattern
+      }))
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
-        this.currentPageIndex * this.currentDatatableRows,
-        this.currentDatatableRows,
-        this.currentDatatableSort
+        {
+          skip: this.currentPageIndex * this.currentDatatableRows,
+          limit: this.currentDatatableRows,
+          sort: this.currentDatatableSort,
+          filters
+        }
       )
       this.block.loading = false
     },
@@ -401,6 +419,13 @@ export default {
       this.currentDatatableSort = {
         [`ref(data:${field})`]: order
       }
+      this.loadCurrentTableData()
+    },
+    onSubmitFilter () {
+      this.loadCurrentTableData()
+    },
+    onResetFilter () {
+      this.currentDatatableFilters = []
       this.loadCurrentTableData()
     },
     onClickAddButton () {

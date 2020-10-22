@@ -1,15 +1,14 @@
 <template>
-  <!--
-      :scrollable="true"
-      scrollHeight="500px"
-      :virtualScroll="true"
-      :virtualRowHeight="38"
-      @virtual-scroll="onVirtualScroll"
-
-   -->
   <div
     v-if="block.definition"
   >
+    <!--
+    :scrollable="true"
+    scrollHeight="500px"
+    :virtualScroll="true"
+    :virtualRowHeight="38"
+    @virtual-scroll="onVirtualScroll"
+   -->
     <p-datatable
       class="
         p-datatable-sm
@@ -74,16 +73,16 @@
             @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
           -->
           <lck-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-          :dropdown="true"
-          :placeholder="$t('components.dropdown.placeholder')"
-          field="label"
-          appendTo="body"
-          v-model="autocompleteInput[column.id]"
-          :suggestions="autocompleteSuggestions"
-          @complete="onComplete(column, $event)"
-          @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
-        />
+            v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+            :dropdown="true"
+            :placeholder="$t('components.dropdown.placeholder')"
+            field="label"
+            appendTo="body"
+            v-model="autocompleteInput[column.id]"
+            :suggestions="autocompleteSuggestions"
+            @complete="onComplete(column, $event)"
+            @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+          />
           <p-dropdown
             v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
             :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -129,6 +128,7 @@
 
       </template>
     </p-datatable>
+
     <lck-paginator
       :rows="rowsNumber"
       :skip="block && block.content && block.content.skip"
@@ -155,11 +155,8 @@ import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
-import {
-  formatISO,
-  lightFormat,
-  parseISO
-} from 'date-fns'
+
+import { formatISO, lightFormat, parseISO } from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',

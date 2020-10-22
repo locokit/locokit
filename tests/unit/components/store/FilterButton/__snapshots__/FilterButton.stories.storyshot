@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots FilterButton default 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="filter-button"
+  >
+    <button
+      class="p-ml-2 p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-filter p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Filtres
+      </span>
+       
+      <span
+        class="p-badge"
+      >
+        0
+      </span>
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots FilterButton overlay opened 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <div
+    class="filter-button"
+  >
+    <button
+      class="p-ml-2 p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-filter p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Filtres
+      </span>
+       
+      <span
+        class="p-badge"
+      >
+        0
+      </span>
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
