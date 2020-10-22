@@ -1,84 +1,79 @@
 <template>
-<!--
-    :scrollable="true"
-    scrollHeight="500px"
-    :virtualScroll="true"
-    :virtualRowHeight="38"
-    @virtual-scroll="onVirtualScroll"
+  <!--
+      :scrollable="true"
+      scrollHeight="500px"
+      :virtualScroll="true"
+      :virtualRowHeight="38"
+      @virtual-scroll="onVirtualScroll"
 
- -->
-  <p-datatable
-    class="
-      p-datatable-sm
-      p-datatable-gridlines
-      p-d-flex
-      d-flex-1
-      p-flex-column
-      justify-between
-    "
-    :class="{
-      'is-reorderable': crudMode
-    }"
-
-    :style="{
-      width: tableWidth + 'px'
-    }"
-
-    :value="block && block.content && block.content.data"
-
+   -->
+  <div
     v-if="block.definition"
-
-    :lazy="true"
-    :loading="block.loading"
-
-    :rows="rowsNumber"
-    :totalRecords="block && block.content && block.content.total"
-
-    editMode="cell"
-    @cell-edit-complete="onCellEditComplete"
-
-    :resizableColumns="crudMode"
-    columnResizeMode="expand"
-    @column-resize-end="onColumnResize"
-
-    :reorderableColumns="crudMode"
-    @column-reorder="onColumnReorder"
-
-    :paginator="true"
-    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-    :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
-    @page="onPage($event)"
-
-    @sort="onSort"
   >
-    <p-column
-      v-for="column in block.definition.columns"
-      :key="column.id"
-      :field="column.id"
-      :headerStyle="{
-        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-        overflow: 'hidden',
-        'white-space': 'nowrap',
-        'text-overflow': 'ellipsis'
+    <p-datatable
+      class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        d-flex-1
+        p-flex-column
+        justify-between
+      "
+      :class="{
+        'is-reorderable': crudMode
       }"
-      :bodyStyle="{
-        width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-        overflow: 'hidden',
-        'white-space': 'nowrap',
-        'text-overflow': 'ellipsis'
+
+      :style="{
+        width: tableWidth + 'px'
       }"
-      :sortable="isSortableColumn(column)"
+
+      :value="block && block.content && block.content.data"
+
+      :lazy="true"
+      :loading="block.loading"
+
+      editMode="cell"
+      @cell-edit-complete="onCellEditComplete"
+
+      :resizableColumns="crudMode"
+      columnResizeMode="expand"
+      @column-resize-end="onColumnResize"
+
+      :reorderableColumns="crudMode"
+      @column-reorder="onColumnReorder"
+
+      style="width: unset !important;"
+
+      @sort="onSort"
     >
-      <template #header>
-        <span :data-column-id="column.id">
-          {{ column.text }}
-        </span>
-      </template>
-      <template #editor="slotProps" v-if="isEditableColumn(column)">
-        <!--
-          @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
-        -->
-        <lck-autocomplete
+      <p-column
+        v-for="column in block.definition.columns"
+        :key="column.id"
+        :field="column.id"
+        :headerStyle="{
+          width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+          overflow: 'hidden',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis'
+        }"
+        :bodyStyle="{
+          width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+          overflow: 'hidden',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis'
+        }"
+        :sortable="isSortableColumn(column)"
+      >
+        <template #header>
+          <span :data-column-id="column.id">
+            {{ column.text }}
+          </span>
+        </template>
+        <template #editor="slotProps" v-if="isEditableColumn(column)">
+          <!--
+            @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
+          -->
+          <lck-autocomplete
           v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :dropdown="true"
           :placeholder="$t('components.dropdown.placeholder')"
@@ -89,47 +84,59 @@
           @complete="onComplete(column, $event)"
           @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
         />
-        <p-dropdown
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-          :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
-          optionLabel="label"
-          optionValue="value"
-          appendTo="body"
-          :value="slotProps.data.data[column.id]"
-          :showClear="true"
-          :placeholder="$t('components.dropdown.placeholder')"
-          @change="onDropdownEdit(slotProps.index, column.id, $event)"
-        />
-        <p-calendar
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-          v-model="currentDateToEdit"
-          @show="onShowCalendar(column, slotProps.data.data[column.id])"
-          :dateFormat="$t('date.dateFormatPrime')"
-          appendTo="body"
-        />
-        <component
-          v-else
-          :is="getComponentEditableColumn(column.column_type_id)"
-          v-model="slotProps.data.data[column.id]"
-          appendTo="body"
-        />
-      </template>
-      <template
-        #body="slotProps"
-      >
-        <span
-          style="pointer-events: none"
-          :title="getValue(column, slotProps.data.data[column.id])"
-        >
-          {{ getValue(column, slotProps.data.data[column.id]) }}
-        </span>
-      </template>
-    </p-column>
+          <p-dropdown
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+            :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            appendTo="body"
+            :value="slotProps.data.data[column.id]"
+            :showClear="true"
+            :placeholder="$t('components.dropdown.placeholder')"
+            @change="onDropdownEdit(slotProps.index, column.id, $event)"
+          />
+          <p-calendar
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+            v-model="currentDateToEdit"
+            @show="onShowCalendar(column, slotProps.data.data[column.id])"
+            :dateFormat="$t('date.dateFormatPrime')"
+            appendTo="body"
+          />
+          <component
+            v-else
+            :is="getComponentEditableColumn(column.column_type_id)"
+            v-model="slotProps.data.data[column.id]"
+            appendTo="body"
+          />
 
-    <template #empty>
+        </template>
+        <template
+          #body="slotProps"
+        >
+          <span
+            style="pointer-events: none"
+            :title="getValue(column, slotProps.data.data[column.id])"
+          >
+            {{ getValue(column, slotProps.data.data[column.id]) }}
+          </span>
+        </template>
+      </p-column>
+
+      <template #empty>
         {{ $t('components.crudtable.noDataToDisplay') }}
-    </template>
-  </p-datatable>
+      </template>
+      <template #paginatorLeft>
+
+      </template>
+    </p-datatable>
+    <lck-paginator
+      :rows="rowsNumber"
+      :skip="block && block.content && block.content.skip"
+      :limit="block && block.content && block.content.limit"
+      :totalRecords="block && block.content && block.content.total"
+      v-on="$listeners"
+    />
+  </div>
   <div v-else>
     {{ $t('components.crudtable.noDefinitionAvailable') }}
   </div>
@@ -147,13 +154,18 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-
-import { formatISO, parseISO, lightFormat } from 'date-fns'
+import Paginator from '@/components/ui/Paginator/Paginator'
+import {
+  formatISO,
+  lightFormat,
+  parseISO
+} from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
+    'lck-paginator': Vue.extend(Paginator),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -231,7 +243,6 @@ export default {
       if (!this.block.definition.columns) return {}
       return this.block.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
     }
-
   },
   methods: {
     getValue (column, data = '') {
@@ -317,8 +328,7 @@ export default {
           this.currentDateToEdit = null
           try {
             if (value) {
-              const parsedDate = parseISO(value)
-              this.currentDateToEdit = parsedDate
+              this.currentDateToEdit = parseISO(value)
             }
           } catch (error) {
             // eslint-disable no-console
@@ -393,9 +403,6 @@ export default {
         newValue: value
       })
     },
-    onPage (event) {
-      this.$emit('update-content', event.page)
-    },
     onSort (event) {
       this.$emit('sort', {
         field: event.sortField,
@@ -407,11 +414,11 @@ export default {
 </script>
 
 <style scoped>
-/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
-/deep/.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
-  padding: unset !important;
+/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
+/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
 }
-/deep/.p-editable-column.p-cell-editing .p-dropdown {
+
+/deep/ .p-editable-column.p-cell-editing .p-dropdown {
   border: unset;
   border-radius: 0;
 }
@@ -423,9 +430,11 @@ export default {
   overflow-x: scroll;
   flex: 1;
 }
+
 tr.p-datatable-emptymessage {
   height: 10rem;
 }
+
 .p-datatable .p-datatable-tbody > tr.p-datatable-emptymessage > td {
   text-align: center;
 }
@@ -437,9 +446,5 @@ tr.p-datatable-emptymessage {
 .p-datatable th:hover .p-sortable-column-icon {
   cursor: pointer;
 }
-
-/* .loading-text {
-  height: 19px;
-} */
 
 </style>

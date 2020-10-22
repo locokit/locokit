@@ -4,8 +4,9 @@ exports[`storyshots CrudTable CrudTable with expected props 1`] = `
 <div
   class="h-full p-fluid"
 >
-  <div
-    class="
+  <div>
+    <div
+      class="
       p-datatable-sm
       p-datatable-gridlines
       p-d-flex
@@ -13,61 +14,76 @@ exports[`storyshots CrudTable CrudTable with expected props 1`] = `
       p-flex-column
       justify-between
      p-datatable p-component"
-    style="width: 450px;"
-  >
-    <!---->
-    <!---->
-    <!---->
-     
-    <!---->
-     
-    <!---->
-     
-    <!---->
-     
-    <div
-      class="p-datatable-wrapper"
+      style="width: 450px;"
     >
-      <table
-        role="grid"
+      <!---->
+      <!---->
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-datatable-wrapper"
       >
-        <thead
-          class="p-datatable-thead"
+        <table
+          role="grid"
         >
-          <tr />
+          <thead
+            class="p-datatable-thead"
+          >
+            <tr />
+             
+            <!---->
+          </thead>
+           
+          <tbody
+            class="p-datatable-tbody"
+          >
+            <!---->
+             
+            <tr
+              class=""
+            />
+             
+            <!---->
+             
+            <!---->
+            <!---->
+             
+            <tr
+              class=""
+            />
+             
+            <!---->
+             
+            <!---->
+          </tbody>
            
           <!---->
-        </thead>
-         
-        <tbody
-          class="p-datatable-tbody"
-        >
-          <!---->
-           
-          <tr
-            class=""
-          />
-           
-          <!---->
-           
-          <!---->
-          <!---->
-           
-          <tr
-            class=""
-          />
-           
-          <!---->
-           
-          <!---->
-        </tbody>
-         
-        <!---->
-      </table>
+        </table>
+      </div>
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-column-resizer-helper"
+        style="display: none;"
+      />
+       
+      <!---->
+       
+      <!---->
     </div>
      
     <div
-      class="p-paginator p-component p-paginator-bottom"
+      class="p-paginator p-component"
+      limit="10"
     >
       <!---->
        
@@ -138,19 +154,59 @@ exports[`storyshots CrudTable CrudTable with expected props 1`] = `
         De 1 à 2 sur 2 résultat(s)
       </span>
        
-      <!---->
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            Aller à la page
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
     </div>
-     
-    <!---->
-     
-    <div
-      class="p-column-resizer-helper"
-      style="display: none;"
-    />
-     
-    <!---->
-     
-    <!---->
   </div>
 </div>
 `;
@@ -159,8 +215,9 @@ exports[`storyshots CrudTable CrudTable without content 1`] = `
 <div
   class="h-full p-fluid"
 >
-  <div
-    class="
+  <div>
+    <div
+      class="
       p-datatable-sm
       p-datatable-gridlines
       p-d-flex
@@ -168,56 +225,70 @@ exports[`storyshots CrudTable CrudTable without content 1`] = `
       p-flex-column
       justify-between
      p-datatable p-component"
-    style="width: 450px;"
-  >
-    <!---->
-    <!---->
-    <!---->
-     
-    <!---->
-     
-    <!---->
-     
-    <!---->
-     
-    <div
-      class="p-datatable-wrapper"
+      style="width: 450px;"
     >
-      <table
-        role="grid"
+      <!---->
+      <!---->
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-datatable-wrapper"
       >
-        <thead
-          class="p-datatable-thead"
+        <table
+          role="grid"
         >
-          <tr />
+          <thead
+            class="p-datatable-thead"
+          >
+            <tr />
+             
+            <!---->
+          </thead>
+           
+          <tbody
+            class="p-datatable-tbody"
+          >
+            <tr
+              class="p-datatable-emptymessage"
+            >
+              <td
+                colspan="0"
+              >
+                
+      Aucune donnée à afficher
+    
+                 
+                <!---->
+              </td>
+            </tr>
+          </tbody>
            
           <!---->
-        </thead>
-         
-        <tbody
-          class="p-datatable-tbody"
-        >
-          <tr
-            class="p-datatable-emptymessage"
-          >
-            <td
-              colspan="0"
-            >
-              
-        Aucune donnée à afficher
-    
-               
-              <!---->
-            </td>
-          </tr>
-        </tbody>
-         
-        <!---->
-      </table>
+        </table>
+      </div>
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-column-resizer-helper"
+        style="display: none;"
+      />
+       
+      <!---->
+       
+      <!---->
     </div>
      
     <div
-      class="p-paginator p-component p-paginator-bottom"
+      class="p-paginator p-component"
     >
       <!---->
        
@@ -288,19 +359,10 @@ exports[`storyshots CrudTable CrudTable without content 1`] = `
         De 1 à 0 sur 0 résultat(s)
       </span>
        
-      <!---->
+      <div
+        class="p-paginator-right-content"
+      />
     </div>
-     
-    <!---->
-     
-    <div
-      class="p-column-resizer-helper"
-      style="display: none;"
-    />
-     
-    <!---->
-     
-    <!---->
   </div>
 </div>
 `;
@@ -311,8 +373,8 @@ exports[`storyshots CrudTable CrudTable without no definition and content proper
 >
   <div>
     
-    Aucune définition disponible. Vérifier la configuration de votre bloc.
-  
+  Aucune définition disponible. Vérifier la configuration de votre bloc.
+
   </div>
 </div>
 `;
