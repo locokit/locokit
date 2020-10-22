@@ -39,5 +39,13 @@
   "postgres": {
     "client": "pg",
     "connection": "LCK_DATABASE_URL"
+  },
+  "mail": {
+    "host": "MAIL_SERVER",
+    "port": "MAIL_PORT",
+    "user": "MAIL_USERNAME",
+    "pass": "MAIL_PASSWORD",
+    "from": "MAIL_DEFAULT_FROM",
+    "secure": "MAIL_SECURE"
   }
 }
