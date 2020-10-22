@@ -156,7 +156,11 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
 
-import { formatISO, lightFormat, parseISO } from 'date-fns'
+import {
+  formatISO,
+  lightFormat,
+  parseISO
+} from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
@@ -422,7 +426,10 @@ export default {
 }
 
 /deep/ .p-datatable-resizable > .p-datatable-wrapper {
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
 }
 
 </style>
@@ -430,7 +437,12 @@ export default {
 <style>
 
 .p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow-x: initial;
 }
 
 tr.p-datatable-emptymessage {
@@ -452,8 +464,6 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  background: rgb(237,237,237);
-  background: linear-gradient(180deg, rgba(237,237,237,1) 2.3rem, rgba(255,255,255,1) 2.3rem, rgba(255,255,255,1) 100%);
 }
 
 </style>
