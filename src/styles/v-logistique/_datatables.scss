@@ -46,7 +46,6 @@
   .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
     overflow: auto;
     border: unset;
-    border: 1px solid red;
   }
 
   .p-sortable-column {
@@ -77,7 +76,6 @@
   .p-datatable {
     &.p-datatable-responsive {
       &.editable-cell-table {
-        border: 1px solid red;
         overflow-y: visible ;
       }
       .p-datatable-thead > tr > th,
