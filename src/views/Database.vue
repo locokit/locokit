@@ -18,6 +18,7 @@
           :header="table.text"
         />
       </p-tab-view>
+
       <p-toolbar class="p-p-1">
         <template slot="left">
           <p-dropdown
@@ -51,6 +52,7 @@
           /> -->
         </template>
       </p-toolbar>
+
       <CrudTable
         :block="block"
         :autocompleteSuggestions="crudAutocompleteItems"
@@ -64,6 +66,7 @@
         @column-resize="onColumnResize"
         @column-reorder="onColumnReorder"
       />
+
       <p-dialog
         :visible.sync="displayNewDialog"
         :style="{width: '450px'}"
@@ -117,6 +120,12 @@
               :dateFormat="$t('date.dateFormatPrime')"
               v-model="newRow.data[column.id]"
               appendTo="body"
+            />
+            <p-input-number
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+              v-model="newRow.data[column.id]"
+              mode="decimal"
+              :minFractionDigits="2"
             />
             <component
               v-else
@@ -178,9 +187,10 @@ import Textarea from 'primevue/textarea'
 import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import InputNumber from 'primevue/inputnumber'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { formatISO } from 'date-fns'
+import { getComponentEditableColumn } from '@/utils/columns'
 
 import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
@@ -297,6 +307,7 @@ export default {
     }
   },
   methods: {
+    getComponentEditableColumn,
     resetToDefault () {
       this.block = {
         loading: false,
@@ -317,28 +328,6 @@ export default {
         ...defaultDatatableSort
       }
       this.currentDatatableFilters = []
-    },
-    getComponentEditableColumn (columnTypeId) {
-      switch (columnTypeId) {
-        case COLUMN_TYPE.USER:
-        case COLUMN_TYPE.GROUP:
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'lck-autocomplete'
-        case COLUMN_TYPE.BOOLEAN:
-          return 'p-input-switch'
-        case COLUMN_TYPE.NUMBER:
-        case COLUMN_TYPE.FLOAT:
-          return 'p-input-number'
-        case COLUMN_TYPE.MULTI_SELECT:
-        case COLUMN_TYPE.SINGLE_SELECT:
-          return 'p-dropdown'
-        case COLUMN_TYPE.DATE:
-          return 'p-calendar'
-        case COLUMN_TYPE.TEXT:
-          return 'p-textarea'
-        default:
-          return 'p-input-text'
-      }
     },
     isEditableColumn (column) {
       switch (column.column_type_id) {
