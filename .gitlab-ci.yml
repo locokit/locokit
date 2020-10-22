@@ -51,6 +51,7 @@ test:
       alias: lck-db
   script:
     - npm ci
+    - cp -r patch/** node_modules/
     - npm run lint
     - npm test
 
@@ -60,6 +61,7 @@ build-lib:
   stage: build
   script:
     - npm ci
+    - cp -r patch/** node_modules/
     - npm run compile
   artifacts:
     expire_in: 3 mos
