@@ -135,7 +135,7 @@
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
           @click="submitFilters"
-          :disabled="value.length === 0"
+          :disabled="value.length === 0 || value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
         />
       </div>
     </p-overlay-panel>
