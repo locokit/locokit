@@ -659,10 +659,10 @@ export default {
 
       if ((
         end - start
-      ) === value.length) newValueStr = '' else if (start === 0) newValueStr = value.slice(end) else if (end === value.length) newValueStr = value.slice(
+      ) === value.length) newValueStr = ''; else if (start === 0) newValueStr = value.slice(end); else if (end === value.length) newValueStr = value.slice(
         0,
         start
-      ) else newValueStr = value.slice(0, start) + value.slice(end)
+      ); else newValueStr = value.slice(0, start) + value.slice(end)
 
       return newValueStr
     },
@@ -809,10 +809,10 @@ export default {
           if (operation === 'insert' || operation === 'delete-back-single') this.$refs.input.$el.setSelectionRange(
             selectionEnd + 1,
             selectionEnd + 1
-          ) else if (operation === 'delete-single') this.$refs.input.$el.setSelectionRange(
+          ); else if (operation === 'delete-single') this.$refs.input.$el.setSelectionRange(
             selectionEnd - 1,
             selectionEnd - 1
-          ) else if (operation === 'delete-range' || operation === 'spin') this.$refs.input.$el.setSelectionRange(
+          ); else if (operation === 'delete-range' || operation === 'spin') this.$refs.input.$el.setSelectionRange(
             selectionEnd,
             selectionEnd
           )
