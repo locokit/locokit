@@ -5,7 +5,7 @@
       class="p-ml-2"
       icon="pi pi-filter"
       :label="$t('components.crudtable.toolbar.filters.name')"
-      :badge="`${this.value.length}`"
+      :badge="`${value.length}`"
       @click="toggleFiltersPanel"
     />
     <p-overlay-panel
@@ -122,7 +122,7 @@
           @click="addFilter"
         />
         <p-button
-          v-if="this.value.length > 0"
+          v-if="value.length > 0"
           class="p-button-outlined"
           type="button"
           icon="pi pi-undo"
@@ -135,7 +135,7 @@
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
           @click="submitFilters"
-          :disabled="this.value.length === 0"
+          :disabled="value.length === 0"
         />
       </div>
     </p-overlay-panel>
@@ -230,7 +230,7 @@ export default {
       this.$refs.filtersPanel.toggle(event)
     },
     removeFilter (filterToRemove) {
-      this.value = this.value.filter(f => (f !== filterToRemove))
+      this.$emit('input', this.value.filter(f => (f !== filterToRemove)))
     },
     resetFilters () {
       this.$emit('reset')
