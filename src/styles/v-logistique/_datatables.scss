@@ -65,6 +65,19 @@
     }
   }
 }
+.p-cell-editing {
+  padding: 0 !important;
+  input {
+    &.p-inputtext {
+      border-radius: 0;
+      &:enabled,
+      &:focus {
+        border: 1px solid var(--primary-color);
+        box-shadow: 0 0 0 0.1rem var(--primary-color);
+      }
+    }
+  }
+}
 
 // Datatables responsive
 
