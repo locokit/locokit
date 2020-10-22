@@ -411,6 +411,7 @@ export default {
 </script>
 
 <style scoped>
+
 /deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
 /deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
 }
@@ -419,15 +420,17 @@ export default {
   border: unset;
   border-radius: 0;
 }
-</style>
-
-<style>
-.p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
-  flex: 1;
-}
 
 /deep/ .p-datatable-resizable > .p-datatable-wrapper {
   overflow-x: hidden;
+}
+
+</style>
+
+<style>
+
+.p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
+  flex: 1;
 }
 
 tr.p-datatable-emptymessage {
@@ -449,7 +452,8 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  background-color: #fff;
+  background: rgb(237,237,237);
+  background: linear-gradient(180deg, rgba(237,237,237,1) 2.3rem, rgba(255,255,255,1) 2.3rem, rgba(255,255,255,1) 100%);
 }
 
 </style>
