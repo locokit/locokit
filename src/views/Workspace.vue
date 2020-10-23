@@ -43,3 +43,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.p-grid .main-container .responsive-table-wrapper {
+  background: rgb(237,237,237) !important;
+  background: linear-gradient(180deg, rgba(237,237,237,1) 2.3rem, rgba(255,255,255,1) 2.3rem, rgba(255,255,255,1) 100%) !important;
+}
+</style>
