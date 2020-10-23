@@ -172,15 +172,22 @@ a.no-decoration-link {
 .p-dropdown,
 .p-inputtext {
   &:enabled {
-
     &:focus {
       border: 0px solid var(--primary-color);
       box-shadow: 0 0 0 0.1rem var(--primary-color);
     }
   }
 
-  &:focus {
+  &:focus,
+  &.p-focus {
     border: 0px solid var(--primary-color);
     box-shadow: 0 0 0 0.1rem var(--primary-color);
   }
+  &:not(.p-disabled) {
+    &.p-focus {
+      border: 0px solid var(--primary-color);
+      box-shadow: 0 0 0 0.1rem var(--primary-color);
+    }
+  }
 }
+
