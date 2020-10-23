@@ -17,6 +17,7 @@ stages:
     - master
   script:
     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true CYPRESS_INSTALL_BINARY=0 npm ci
+    - cp -r patch/** node_modules/
     - npm run build
   artifacts:
     expire_in: 3 mos
@@ -52,6 +53,7 @@ quality:
     - master
   script:
     - CYPRESS_INSTALL_BINARY=0 npm ci
+    - cp -r patch/** node_modules/
     - npm run lint
     - npm run test:unit -- --coverage
   dependencies:
