@@ -8,50 +8,56 @@
 .p-datatable-scrollable-wrapper {
   .p-datatable-thead {
     > tr > th {
+      font-weight: normal;
       align-items: center;
       color: var(--primary-color-text);
-      font-weight: normal;
       background-color: #ededed;
     }
   }
 }
+
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-thead > tr > td {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;
 }
+
 .p-datatable {
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
       color: var(--primary-color-text);
       background-color: #ffffff;
     }
+
     &.editable-cell-table {
       .p-datatable-wrapper {
-        overflow: visible ; // this property unleash the power of the select or datepicker
+        overflow: visible; // this property unleash the power of the select or datepicker
       }
     }
+
     .p-datatable-tbody > tr:nth-child(2n) {
       color: var(--primary-color-text);
       background-color: #ededed;
     }
   }
+
   .p-datatable-tbody > tr > td {
-    white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
     overflow-y: visible;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
+
   .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
     overflow: auto;
     border: unset;
-    border: 1px solid red;
   }
 
   .p-sortable-column {
     .p-sortable-column-icon {
       color: var(--primary-color-text);
+
       &.pi::before {
         font-size: 0.8rem !important;
       }
@@ -67,6 +73,22 @@
   }
 }
 
+.p-cell-editing {
+  padding: 0 !important;
+
+  input {
+    &.p-inputtext {
+      border-radius: 0;
+
+      &:enabled,
+      &:focus {
+        border: 1px solid var(--primary-color);
+        box-shadow: 0 0 0 0.1rem var(--primary-color);
+      }
+    }
+  }
+}
+
 // Datatables responsive
 
 .p-datatable-responsive .p-datatable-tbody > tr > td .p-column-title {
@@ -77,9 +99,9 @@
   .p-datatable {
     &.p-datatable-responsive {
       &.editable-cell-table {
-        border: 1px solid red;
-        overflow-y: visible ;
+        overflow-y: visible;
       }
+
       .p-datatable-thead > tr > th,
       .p-datatable-tfoot > tr > td {
         display: none !important;

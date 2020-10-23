@@ -9,132 +9,126 @@
     :virtualRowHeight="38"
     @virtual-scroll="onVirtualScroll"
    -->
-    <p-datatable
-      class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-      "
-      :class="{
-        'is-reorderable': crudMode
-      }"
-
-      :style="{
-        width: tableWidth + 'px'
-      }"
-
-      :value="block && block.content && block.content.data"
-
-      :lazy="true"
-      :loading="block.loading"
-
-      editMode="cell"
-      @cell-edit-complete="onCellEditComplete"
-
-      :resizableColumns="crudMode"
-      columnResizeMode="expand"
-      @column-resize-end="onColumnResize"
-
-      :reorderableColumns="crudMode"
-      @column-reorder="onColumnReorder"
-
-      style="width: unset !important;"
-
-      @sort="onSort"
+    <div
+      class="responsive-table-wrapper"
     >
-      <p-column
-        v-for="column in block.definition.columns"
-        :key="column.id"
-        :field="column.id"
-        :headerStyle="{
-          width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-          overflow: 'hidden',
-          'white-space': 'nowrap',
-          'text-overflow': 'ellipsis'
+      <p-datatable
+        class="
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+        "
+        :class="{
+          'is-reorderable': crudMode
         }"
-        :bodyStyle="{
-          width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-          overflow: 'hidden',
-          'white-space': 'nowrap',
-          'text-overflow': 'ellipsis'
+
+        :style="{
+          width: tableWidth + 'px'
         }"
-        :sortable="isSortableColumn(column)"
+
+        :value="block && block.content && block.content.data"
+
+        :lazy="true"
+        :loading="block.loading"
+
+        editMode="cell"
+        @cell-edit-complete="onCellEditComplete"
+
+        :resizableColumns="true"
+        columnResizeMode="expand"
+        @column-resize-end="onColumnResize"
+
+        :reorderableColumns="crudMode"
+        @column-reorder="onColumnReorder"
+
+        style="width: unset !important;"
+
+        @sort="onSort"
       >
-        <template #header>
-          <span :data-column-id="column.id">
-            {{ column.text }}
-          </span>
-        </template>
-        <template #editor="slotProps" v-if="isEditableColumn(column)">
-          <!--
-            @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
-          -->
-          <lck-autocomplete
-            v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-            :dropdown="true"
-            :placeholder="$t('components.dropdown.placeholder')"
-            field="label"
-            appendTo="body"
-            v-model="autocompleteInput[column.id]"
-            :suggestions="autocompleteSuggestions"
-            @complete="onComplete(column, $event)"
-            @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
-          />
-          <p-dropdown
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-            :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
-            optionLabel="label"
-            optionValue="value"
-            appendTo="body"
-            :value="slotProps.data.data[column.id]"
-            :showClear="true"
-            :placeholder="$t('components.dropdown.placeholder')"
-            @change="onDropdownEdit(slotProps.index, column.id, $event)"
-          />
-          <p-calendar
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-            v-model="currentDateToEdit"
-            @show="onShowCalendar(column, slotProps.data.data[column.id])"
-            :dateFormat="$t('date.dateFormatPrime')"
-            appendTo="body"
-          />
-          <p-input-number
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
-            v-model="slotProps.data.data[column.id]"
-            mode="decimal"
-            :minFractionDigits="2"
-          />
-          <component
-            v-else
-            :is="getComponentEditableColumn(column.column_type_id)"
-            v-model="slotProps.data.data[column.id]"
-            appendTo="body"
-          />
-
-        </template>
-        <template
-          #body="slotProps"
+        <p-column
+          v-for="column in block.definition.columns"
+          :key="column.id"
+          :field="column.id"
+          :headerStyle="{
+            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            overflow: 'hidden',
+            'white-space': 'nowrap',
+            'text-overflow': 'ellipsis'
+          }"
+          :bodyStyle="{
+            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            overflow: 'hidden',
+            'white-space': 'nowrap',
+            'text-overflow': 'ellipsis'
+          }"
+          :sortable="isSortableColumn(column)"
         >
-          <span
-            style="pointer-events: none"
-            :title="getValue(column, slotProps.data.data[column.id])"
+          <template #header>
+            <span :data-column-id="column.id">
+              {{ column.text }}
+            </span>
+          </template>
+          <template #editor="slotProps" v-if="isEditableColumn(column)">
+            <!--
+              @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
+            -->
+            <lck-autocomplete
+              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+              :dropdown="true"
+              :placeholder="$t('components.dropdown.placeholder')"
+              field="label"
+              appendTo="body"
+              v-model="autocompleteInput[column.id]"
+              :suggestions="autocompleteSuggestions"
+              @complete="onComplete(column, $event)"
+              @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+            />
+            <p-dropdown
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+              optionLabel="label"
+              optionValue="value"
+              appendTo="body"
+              :value="slotProps.data.data[column.id]"
+              :showClear="true"
+              :placeholder="$t('components.dropdown.placeholder')"
+              @change="onDropdownEdit(slotProps.index, column.id, $event)"
+            />
+            <p-calendar
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+              v-model="currentDateToEdit"
+              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              :dateFormat="$t('date.dateFormatPrime')"
+              appendTo="body"
+            />
+            <component
+              v-else
+              :is="getComponentEditableColumn(column.column_type_id)"
+              v-model="slotProps.data.data[column.id]"
+              appendTo="body"
+            />
+
+          </template>
+          <template
+            #body="slotProps"
           >
-            {{ getValue(column, slotProps.data.data[column.id]) }}
-          </span>
+            <span
+              style="pointer-events: none"
+              :title="getValue(column, slotProps.data.data[column.id])"
+            >
+              {{ getValue(column, slotProps.data.data[column.id]) }}
+            </span>
+          </template>
+        </p-column>
+
+        <template #empty>
+          {{ $t('components.crudtable.noDataToDisplay') }}
         </template>
-      </p-column>
-
-      <template #empty>
-        {{ $t('components.crudtable.noDataToDisplay') }}
-      </template>
-      <template #paginatorLeft>
-
-      </template>
-    </p-datatable>
-
+      </p-datatable>
+    </div>
     <lck-paginator
       :rows="rowsNumber"
       :skip="block && block.content && block.content.skip"
@@ -158,13 +152,15 @@ import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { formatISO, parseISO, lightFormat } from 'date-fns'
-
-import { getComponentEditableColumn } from '@/utils/columns'
+import {
+  formatISO,
+  lightFormat,
+  parseISO
+} from 'date-fns'
 
 export default {
   name: 'LCKRowDatatable',
@@ -250,7 +246,6 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
     getValue (column, data = '') {
       if (
         data === '' ||
@@ -277,6 +272,28 @@ export default {
           }
         default:
           return data
+      }
+    },
+    getComponentEditableColumn (columnTypeId) {
+      switch (columnTypeId) {
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          return 'lck-autocomplete'
+        case COLUMN_TYPE.BOOLEAN:
+          return 'p-input-switch'
+        case COLUMN_TYPE.NUMBER:
+        case COLUMN_TYPE.FLOAT:
+          return 'p-input-number'
+        case COLUMN_TYPE.MULTI_SELECT:
+        case COLUMN_TYPE.SINGLE_SELECT:
+          return 'p-dropdown'
+        case COLUMN_TYPE.DATE:
+          return 'p-calendar'
+        case COLUMN_TYPE.TEXT:
+          return 'p-textarea'
+        default:
+          return 'p-input-text'
       }
     },
     isEditableColumn (column) {
@@ -398,6 +415,7 @@ export default {
 </script>
 
 <style scoped>
+
 /deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
 /deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
 }
@@ -406,13 +424,25 @@ export default {
   border: unset;
   border-radius: 0;
 }
+
+/deep/ .p-datatable-resizable > .p-datatable-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
 </style>
 
 <style>
+
 .p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
-  overflow-y: visible;
-  overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow-x: initial;
 }
 
 tr.p-datatable-emptymessage {
@@ -429,6 +459,11 @@ tr.p-datatable-emptymessage {
 
 .p-datatable th:hover .p-sortable-column-icon {
   cursor: pointer;
+}
+
+.responsive-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 </style>
