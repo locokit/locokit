@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     async submitPassword () {
-      await updatePassword(authState.data.user.id, this.password)
+      await updatePassword(authState.data.user.email, this.password)
       this.password = {
         oldPassword: null,
         password: null
