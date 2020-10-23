@@ -104,14 +104,20 @@
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
             />
+            <p-input-number
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+              v-model="slotProps.data.data[column.id]"
+              mode="decimal"
+              :minFractionDigits="2"
+            />
             <component
               v-else
               :is="getComponentEditableColumn(column.column_type_id)"
               v-model="slotProps.data.data[column.id]"
               appendTo="body"
             />
-
           </template>
+
           <template
             #body="slotProps"
           >
@@ -129,6 +135,7 @@
         </template>
       </p-datatable>
     </div>
+
     <lck-paginator
       :rows="rowsNumber"
       :skip="block && block.content && block.content.skip"
@@ -152,15 +159,17 @@ import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
 
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import {
   formatISO,
   lightFormat,
   parseISO
 } from 'date-fns'
+
+import { getComponentEditableColumn } from '@/utils/columns'
 
 export default {
   name: 'LCKRowDatatable',
@@ -246,6 +255,7 @@ export default {
     }
   },
   methods: {
+    getComponentEditableColumn,
     getValue (column, data = '') {
       if (
         data === '' ||
@@ -272,28 +282,6 @@ export default {
           }
         default:
           return data
-      }
-    },
-    getComponentEditableColumn (columnTypeId) {
-      switch (columnTypeId) {
-        case COLUMN_TYPE.USER:
-        case COLUMN_TYPE.GROUP:
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'lck-autocomplete'
-        case COLUMN_TYPE.BOOLEAN:
-          return 'p-input-switch'
-        case COLUMN_TYPE.NUMBER:
-        case COLUMN_TYPE.FLOAT:
-          return 'p-input-number'
-        case COLUMN_TYPE.MULTI_SELECT:
-        case COLUMN_TYPE.SINGLE_SELECT:
-          return 'p-dropdown'
-        case COLUMN_TYPE.DATE:
-          return 'p-calendar'
-        case COLUMN_TYPE.TEXT:
-          return 'p-textarea'
-        default:
-          return 'p-input-text'
       }
     },
     isEditableColumn (column) {
