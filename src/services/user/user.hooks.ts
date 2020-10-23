@@ -1,6 +1,9 @@
 import * as feathersAuthentication from '@feathersjs/authentication'
 import * as local from '@feathersjs/authentication-local'
-// Don't remove this comment. It's needed to format import lines nicely.
+import { accountService, AuthenticationManagementAction } from '../authmanagement/notifier'
+import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
+import { HookContext } from '@feathersjs/feathers'
+import { Application } from '@feathersjs/express'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -10,7 +13,10 @@ export default {
     all: [authenticate('jwt')],
     find: [],
     get: [],
-    create: [hashPassword('password')],
+    create: [
+      hashPassword('password'),
+      feathersAuthenticationManagementHooks.addVerification()
+    ],
     update: [hashPassword('password')],
     patch: [hashPassword('password')],
     remove: []
@@ -24,7 +30,15 @@ export default {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [
+      (context: HookContext) => {
+        accountService(context.app as Application).notifier(
+          AuthenticationManagementAction.resendVerifySignup,
+          context.result
+        )
+      }
+      // feathersAuthenticationManagementHooks.removeVerification()
+    ],
     update: [],
     patch: [],
     remove: []

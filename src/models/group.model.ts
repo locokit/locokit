@@ -3,7 +3,7 @@
 // for more of what you can do here.
 import { Model } from 'objection'
 import { Application } from '../declarations'
-import { user as LckUser } from './user.model'
+import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
 
@@ -16,7 +16,7 @@ export class group extends Model {
   chapter_id?: string;
   workspace_role?: string;
   name!: string;
-  users?: LckUser[];
+  users?: User[];
 
   static get tableName () {
     return 'group'
@@ -74,7 +74,7 @@ export class group extends Model {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckUser,
+        modelClass: User,
         join: {
           from: 'group.id',
           through: {

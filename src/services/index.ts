@@ -15,6 +15,7 @@ import columnrelation from './columnrelation/columnrelation.service'
 import trr from './trr/trr.service'
 import usergroup from './usergroup/usergroup.service'
 import mailer from './mailer/mailer.service'
+import authmanagement from './authmanagement/authmanagement.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
@@ -34,4 +35,5 @@ export default function (app: Application) {
   app.configure(trr)
   app.configure(usergroup)
   app.configure(mailer)
+  app.configure(authmanagement)
 }

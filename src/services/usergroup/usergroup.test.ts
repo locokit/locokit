@@ -1,7 +1,7 @@
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { group as LckGroup } from '../../models/group.model'
-import { user as LckUser } from '../../models/user.model'
+import { User as LckUser } from '../../models/user.model'
 
 let group: LckGroup
 let user: LckUser
