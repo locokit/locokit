@@ -87,13 +87,21 @@
       "verifyOK": "Email verification and password update OK ! You can now log in on the portal.",
       "homelink": "Return to home page"
     },
-    "profile": {
-      "title": "My profile",
-      "email:": "E-mail:",
-      "role": "Role:",
-      "groups": "My groups",
-      "workspaces": "My workspaces",
-      "nodata": "No data to display"
+    "account": {
+      "title": "My account",
+      "view": {
+        "email:": "E-mail:",
+        "role": "Role:",
+        "profile": "My profile",
+        "groups": "My groups",
+        "workspaces": "My workspaces",
+        "nodata": "No data to display"
+      },
+      "edit": {
+        "title": "Update my account",
+        "oldPassword": "Old password",
+        "newPassword": "New password"
+      }
     },
     "workspace": {
       "title": "Workspaces",
@@ -218,5 +226,9 @@
     "message": "A new version of the platform is available. To enjoy it, you must refresh your browser.",
     "update": "Update",
     "cancel": "Dismiss"
+  },
+  "common": {
+    "loading": "Loading…",
+    "logout": "Log out"
   }
 }

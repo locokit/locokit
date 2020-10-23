@@ -90,6 +90,25 @@ export async function authenticate (data: AuthDTO) {
   authState.loading = false
 }
 
+export async function updatePassword (userId: string, formData: object) {
+  authState.loading = true
+  try {
+    await lckClient.service('authManagement').update(
+      userId,
+      {
+        action: 'passwordChange',
+        value: {
+          user: userId,
+          ...formData
+        }
+      }
+    )
+  } catch (error) {
+    authState.error = error
+  }
+  authState.loading = false
+}
+
 export function logout () {
   authState.data = {
     isAuthenticated: false,

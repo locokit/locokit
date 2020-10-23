@@ -67,24 +67,24 @@ export default {
       const result = []
       if (this.isSuperAdmin) {
         result.push({
-          label: 'Utilisateur Administration',
+          label: this.$t('pages.userManagement.title'),
           icon: 'pi pi-cog',
           to: ROUTES_PATH.USERMANAGEMENT
         })
         result.push({
-          label: 'Groupe Administration',
+          label: this.$t('pages.groupManagement.title'),
           icon: 'pi pi-cog',
           to: ROUTES_PATH.GROUPMANAGEMENT
         })
       }
       return result.concat([
         {
-          label: 'Votre profil',
+          label: this.$t('pages.account.title'),
           icon: 'pi pi-user',
           to: ROUTES_PATH.PROFILE
         },
         {
-          label: 'Déconnexion',
+          label: this.$t('common.logout'),
           icon: 'pi pi-lock-open',
           command: () => {
             this.logoutClick()

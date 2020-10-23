@@ -87,13 +87,22 @@
       "verifyOK": "Vérification de votre mail et enregistrement de votre mot de passe OK ! Vous pouvez dès à présent vous connecter sur la plateforme.",
       "homelink": "Retour à la page d'accueil"
     },
-    "profile": {
-      "title": "Mon profil",
-      "email": "E-mail :",
-      "role": "Rôle :",
-      "groups": "Mes groupes",
-      "workspaces": "Mes espaces de travail",
-      "nodata": "Aucune donnée à afficher"
+    "account": {
+      "title": "Mon compte",
+      "view": {
+        "email": "E-mail :",
+        "role": "Rôle :",
+        "password": "Mot de passe ",
+        "profile": "Mon profil",
+        "groups": "Mes groupes",
+        "workspaces": "Mes espaces de travail",
+        "nodata": "Aucune donnée à afficher"
+      },
+      "edit": {
+        "title": "Mettre à jour mon compte",
+        "oldPassword": "Ancien mot de passe",
+        "newPassword": "Nouveau mot de passe"
+      }
     },
     "workspace": {
       "title": "Espaces de travail",
@@ -219,5 +228,9 @@
     "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre navigateur.",
     "update": "Mettre à jour",
     "cancel": "Annuler"
+  },
+  "common": {
+    "loading": "Chargement en cours…",
+    "logout": "Se déconnecter"
   }
 }
