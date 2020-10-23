@@ -7,7 +7,7 @@ export async function up (knex: Knex): Promise<any> {
       table.string('verifyToken')
       table.string('verifyShortToken')
       table.date('verifyExpires')
-      table.boolean('verifyChanges').defaultTo(false)
+      table.jsonb('verifyChanges')
       table.string('resetToken')
       table.date('resetExpires')
     })
