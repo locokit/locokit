@@ -13,6 +13,7 @@ export function getComponentEditableColumn (columnTypeId: number) {
     case COLUMN_TYPE.FLOAT:
       return 'p-input-float' // not a real component
     case COLUMN_TYPE.MULTI_SELECT:
+      return 'lck-multiselect'
     case COLUMN_TYPE.SINGLE_SELECT:
       return 'p-dropdown'
     case COLUMN_TYPE.DATE:

@@ -100,6 +100,16 @@
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
+            <lck-multiselect
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+              optionLabel="label"
+              optionValue="value"
+              appendTo="body"
+              :value="slotProps.data.data[column.id]"
+              :placeholder="$t('components.dropdown.placeholder')"
+              @change="onDropdownEdit(slotProps.index, column.id, $event)"
+            />
             <p-calendar
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
@@ -166,6 +176,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
 import Paginator from '@/components/ui/Paginator/Paginator'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import {
@@ -181,6 +192,7 @@ export default {
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
     'lck-paginator': Vue.extend(Paginator),
+    'lck-multiselect': Vue.extend(MultiSelect),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -252,6 +264,7 @@ export default {
           }))
         }
       })
+      console.log('dropdown', result)
       return result
     },
     tableWidth () {
@@ -354,6 +367,7 @@ export default {
       })
     },
     async onDropdownEdit (rowIndex, columnId, event) {
+      console.log('onDropdownEdit', rowIndex, columnId, event)
       this.$emit('update-cell', {
         rowIndex,
         columnId,
