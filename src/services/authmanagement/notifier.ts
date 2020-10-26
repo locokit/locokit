@@ -13,8 +13,7 @@ export enum AuthenticationManagementAction {
 
 export function accountService (app: Application) {
   function getLink (type: string, hash: string) {
-    const url = 'http://localhost:3030/' + type + '?token=' + hash
-    return url
+    return app.get('publicUrl') + '/#/' + type + '?token=' + hash
   }
 
   function sendEmail (email: Mail.Options) {
@@ -26,15 +25,14 @@ export function accountService (app: Application) {
   }
 
   return {
+    service: '/user',
     notifier (
       type: AuthenticationManagementAction,
       user: LckUser
     ) {
-      let tokenLink
       let email: Mail.Options
       switch (type) {
         case AuthenticationManagementAction.resendVerifySignup: // sending the user the verification email
-          tokenLink = getLink('verify', user.verifyToken as string)
           email = {
             to: user.email,
             subject: 'Verify Signup',
@@ -45,7 +43,7 @@ export function accountService (app: Application) {
 
               Please follow the link
 
-              ${tokenLink}
+              ${getLink('verify-signup', user.verifyToken as string)}
 
               to confirm your email is correct and you are a human.
             `
@@ -53,7 +51,6 @@ export function accountService (app: Application) {
           return sendEmail(email)
 
         case AuthenticationManagementAction.verifySignup: // confirming verification
-          tokenLink = getLink('verify', user.verifyToken as string)
           email = {
             to: user.email,
             subject: 'Confirm Signup',
@@ -64,7 +61,7 @@ export function accountService (app: Application) {
 
               Please follow the link
 
-              ${tokenLink}
+              ${getLink('verify-signup', user.verifyToken as string)}
 
               to confirm your email is correct and you are a human.
             `
@@ -72,16 +69,15 @@ export function accountService (app: Application) {
           return sendEmail(email)
 
         case AuthenticationManagementAction.sendResetPwd:
-          tokenLink = getLink('reset', user.resetToken as string)
           email = {
             to: user.email,
-            subject: 'Verify Signup',
+            subject: 'Reset password temporary link',
             text: `
               You ask for resetting your password.
 
               Please follow the link
 
-              ${tokenLink}
+              ${getLink('reset-password', user.resetToken as string)}
 
               to update your password.
             `
@@ -89,18 +85,13 @@ export function accountService (app: Application) {
           return sendEmail(email)
 
         case AuthenticationManagementAction.resetPwd:
-          tokenLink = getLink('reset', user.resetToken as string)
           email = {
             to: user.email,
-            subject: 'Reset password',
+            subject: 'Password reset',
             text: `
-              You ask for resetting your password.
+              Your password has been reset.
 
-              Please follow the link
-
-              ${tokenLink}
-
-              to update your password.
+              If this action was not from you, please contact us quickly to avoid an impersonation.
             `
           }
           return sendEmail(email)
@@ -109,16 +100,24 @@ export function accountService (app: Application) {
           email = {
             to: user.email,
             subject: 'Password updated',
-            text: 'Your password has been updated'
+            text: `
+            Your password has been updated.
+
+            If this action was not from you, please contact us quickly to avoid an impersonation.
+          `
           }
           return sendEmail(email)
 
         case AuthenticationManagementAction.identityChange:
-          tokenLink = getLink('verifyChanges', user.verifyToken as string)
+          // tokenLink = getLink('verifyChanges', user.verifyToken as string)
           email = {
             to: user.email,
             subject: 'Verify Changes',
-            text: 'Your account has been updated'
+            text: `
+            Your account has been updated.
+
+            If this action was not from you, please contact us quickly to avoid an impersonation.
+          `
           }
           return sendEmail(email)
       }

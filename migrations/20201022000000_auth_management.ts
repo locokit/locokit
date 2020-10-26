@@ -6,10 +6,11 @@ export async function up (knex: Knex): Promise<any> {
       table.boolean('isVerified').defaultTo(false)
       table.string('verifyToken')
       table.string('verifyShortToken')
-      table.date('verifyExpires')
+      table.dateTime('verifyExpires')
       table.jsonb('verifyChanges')
       table.string('resetToken')
-      table.date('resetExpires')
+      table.string('resetShortToken')
+      table.dateTime('resetExpires')
     })
 }
 
@@ -22,6 +23,7 @@ export async function down (knex: Knex): Promise<any> {
       table.dropColumn('verifyExpires')
       table.dropColumn('verifyChanges')
       table.dropColumn('resetToken')
+      table.dropColumn('resetShortToken')
       table.dropColumn('resetExpires')
     })
 }

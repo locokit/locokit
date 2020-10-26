@@ -26,6 +26,7 @@
   "scripts": {
     "pretest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "test": "npm run compile && NODE_ENV=test npm run jest",
+    "debug": "DEBUG=* ts-node-dev --no-notify src/",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "lint": "eslint ./src",
@@ -103,5 +104,8 @@
     "ts-node-dev": "^1.0.0-pre.49",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
+  },
+  "volta": {
+    "node": "14.14.0"
   }
 }

@@ -9,17 +9,18 @@ export class User extends Model {
   createdAt!: string;
   updatedAt!: string;
   email!: string;
-  name: string = '';
+  name!: string;
   password!: string;
-  profile: string = 'USER';
+  profile!: string;
   blocked!: boolean;
   isVerified!: boolean;
-  verifyToken!: string;
-  verifyShortToken!: string;
-  verifyExpires!: string;
-  verifyChanges!: Object;
-  resetToken!: string;
-  resetExpires!: string;
+  verifyToken?: string;
+  verifyShortToken?: string;
+  verifyExpires?: string;
+  verifyChanges?: Object;
+  resetToken?: string | null;
+  resetShortToken?: string | null;
+  resetExpires?: string;
 
   static get tableName () {
     return 'user'
@@ -43,11 +44,12 @@ export class User extends Model {
         profile: { type: 'string' },
         blocked: { type: 'boolean' },
         isVerified: { type: 'boolean' },
-        verifyToken: { type: 'string' },
-        verifyShortToken: { type: 'string' },
+        verifyToken: { type: ['string', 'null'] },
+        verifyShortToken: { type: ['string', 'null'] },
         verifyExpires: { type: 'date' },
         verifyChanges: { type: 'object' },
-        resetToken: { type: 'string' },
+        resetToken: { type: ['string', 'null'] },
+        resetShortToken: { type: ['string', 'null'] },
         resetExpires: { type: 'date' }
 
       }
