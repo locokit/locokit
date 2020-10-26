@@ -17,17 +17,18 @@ export function accountService (app: Application) {
     return app.get('publicUrl') + '/#/' + type + '?token=' + hash
   }
 
-  function sendEmail (email: Mail.Options) {
-    return app.service('mailer').create(email).then(function (result) {
-      console.log('Sent email', result)
-    }).catch(err => {
+  async function sendEmail (email: Mail.Options) {
+    try {
+      const resultSendEmail = await app.service('mailer').create(email)
+      console.log('Sent email', resultSendEmail)
+    } catch (err) {
       console.log('Error sending email', err)
-    })
+    }
   }
 
   return {
     service: '/user',
-    notifier (
+    async notifier (
       type: AuthenticationManagementAction,
       user: LckUser
     ) {
@@ -49,7 +50,7 @@ export function accountService (app: Application) {
               to confirm your email is correct and you are a human.
             `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.verifySignup: // confirming verification
           email = {
@@ -67,7 +68,7 @@ export function accountService (app: Application) {
               to confirm your email is correct and you are a human.
             `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.verifySignupSetPassword: // confirming verification
           email = {
@@ -83,7 +84,7 @@ export function accountService (app: Application) {
               Welcome on board !
             `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.sendResetPwd:
           email = {
@@ -99,7 +100,7 @@ export function accountService (app: Application) {
               to update your password.
             `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.resetPwd:
           email = {
@@ -111,7 +112,7 @@ export function accountService (app: Application) {
               If this action was not from you, please contact us quickly to avoid an impersonation.
             `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.passwordChange:
           email = {
@@ -123,7 +124,7 @@ export function accountService (app: Application) {
             If this action was not from you, please contact us quickly to avoid an impersonation.
           `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
 
         case AuthenticationManagementAction.identityChange:
           // tokenLink = getLink('verifyChanges', user.verifyToken as string)
@@ -136,7 +137,7 @@ export function accountService (app: Application) {
             If this action was not from you, please contact us quickly to avoid an impersonation.
           `
           }
-          return sendEmail(email)
+          return await sendEmail(email)
       }
     }
   }
