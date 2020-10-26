@@ -16,7 +16,6 @@ import middleware from './middleware'
 import services from './services'
 import appHooks from './app.hooks'
 // import channels from './channels';
-import authentication from './authentication'
 import objection from './objection'
 // Don't remove this comment. It's needed to format import lines nicely.
 import * as Sentry from '@sentry/node'
@@ -111,7 +110,7 @@ app.configure(swagger({
 
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware)
-app.configure(authentication)
+
 // Set up our services (see `services/index.js`)
 app.configure(services)
 // Set up event channels (see channels.js)

@@ -16,9 +16,11 @@ import trr from './trr/trr.service'
 import usergroup from './usergroup/usergroup.service'
 import mailer from './mailer/mailer.service'
 import authmanagement from './authmanagement/authmanagement.service'
+import authentication from './authentication/authentication.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
+  app.configure(authentication)
   app.configure(user)
   app.configure(row)
   app.configure(column)
