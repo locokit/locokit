@@ -1,8 +1,7 @@
-import { ServiceAddons } from '@feathersjs/feathers'
+import { HookContext, ServiceAddons } from '@feathersjs/feathers'
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 // import { expressOauth } from '@feathersjs/authentication-oauth';
-import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
 
 import { Application } from '../../declarations'
 
@@ -22,9 +21,14 @@ export default function (app: Application) {
 
   const service = app.service('authentication')
   service.hooks({
-    before: {
+    after: {
       create: [
-        feathersAuthenticationManagementHooks.isVerified()
+        (context: HookContext) => {
+          if (!context.result.user.isVerified) {
+            throw new Error('User email is not verified. You can\'t login.')
+          }
+          return context
+        }
       ]
     }
   })
