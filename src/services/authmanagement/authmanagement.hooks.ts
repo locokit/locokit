@@ -9,37 +9,11 @@ const isAction = (...args:string[]) => (hook: HookContext) => args.includes(hook
 
 export default {
   before: {
-    all: [],
-    find: [],
-    get: [],
     create: [
       hooks.iff(
         isAction('passwordChange', 'identityChange'),
         authenticate('jwt')
       )
-    ],
-    update: [],
-    patch: [],
-    remove: []
-  },
-
-  after: {
-    all: [],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
-  },
-
-  error: {
-    all: [],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    ]
   }
 }

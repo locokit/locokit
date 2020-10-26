@@ -11,8 +11,7 @@ describe('authentication', () => {
   describe('local strategy', () => {
     const userInfo = {
       email: 'mathieu.dartigues@makina-corpus.com',
-      name: 'Someone !',
-      isVerified: true
+      name: 'Someone !'
     }
     const password = 'supersecret'
     let user: User
