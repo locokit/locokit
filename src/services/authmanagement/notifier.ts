@@ -5,6 +5,7 @@ import { User as LckUser } from '../../models/user.model'
 export enum AuthenticationManagementAction {
   verifySignup = 'verifySignup',
   resendVerifySignup = 'resendVerifySignup',
+  verifySignupSetPassword = 'verifySignupSetPassword',
   sendResetPwd = 'sendResetPwd',
   resetPwd = 'resetPwd',
   passwordChange = 'passwordChange',
@@ -64,6 +65,22 @@ export function accountService (app: Application) {
               ${getLink('verify-signup', user.verifyToken as string)}
 
               to confirm your email is correct and you are a human.
+            `
+          }
+          return sendEmail(email)
+
+        case AuthenticationManagementAction.verifySignupSetPassword: // confirming verification
+          email = {
+            to: user.email,
+            subject: 'Account enabled',
+            text: `
+              Your account is enabled.
+
+              You can now connect to the platform by clicking on the following link :
+
+              ${app.get('publicUrl')}
+
+              Welcome on board !
             `
           }
           return sendEmail(email)
