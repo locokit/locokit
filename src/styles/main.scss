@@ -2,8 +2,9 @@ html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
   Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
+  line-height: 1.4rem;
   box-sizing: border-box;
-  word-spacing: 1px;
+  // word-spacing: 1px;
   background-color: #f7fafc;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -73,145 +74,33 @@ html, body, #app {
   color: var(--primary-color);
 }
 
-/*
-
-.el-menu {
-  border-right: none ;
-}
-
-.sidebar {
-  width:360px;
-  background-color: #000;
-  margin-right: 20px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  &-inner {
-    display:-webkit-box;
-    display:flex;
-    -webkit-box-orient:vertical;
-    flex-direction:column;
-    height:100%;
-    .flex-scroll {
-      overflow-y:auto;
-      min-height:0;
-      -webkit-box-flex:1;
-      flex:1;
-      padding: 0;
-      height: calc(100vw - 60px)
-    }
-  }
-}
-
-.el-header {
-  display: flex;
-  align-content: center;
-  justify-content: space-between;
-  height: 4rem;
-  border-bottom: 1px solid #e2e8f0;
-
-  .logo, .profile {
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-}
-
-main {
-  padding: 0;
-  background-color: #ccc;
-  height: 100%;
-  border: 1px solid red;
-}
-
-.text-2xl {
-  color: #000;
-}
-*/
-
 /**
- * This file overwrite some Prime rules
+ * Colors
  */
-/**
- * Remove margin / padding of Prime grid system
- */
-.p-sm-1, .p-sm-2, .p-sm-3, .p-sm-4, .p-sm-5, .p-sm-6, .p-sm-7, .p-sm-8, .p-sm-9, .p-sm-10, .p-sm-11, .p-sm-12, .p-md-1, .p-md-2, .p-md-3, .p-md-4, .p-md-5, .p-md-6, .p-md-7, .p-md-8, .p-md-9, .p-md-10, .p-md-11, .p-md-12, .p-lg-1, .p-lg-2, .p-lg-3, .p-lg-4, .p-lg-5, .p-lg-6, .p-lg-7, .p-lg-8, .p-lg-9, .p-lg-10, .p-lg-11, .p-lg-12, .p-xl-1, .p-xl-2, .p-xl-3, .p-xl-4, .p-xl-5, .p-xl-6, .p-xl-7, .p-xl-8, .p-xl-9, .p-xl-10, .p-xl-11, .p-xl-12,
-.p-col {
-  padding: unset;
+.p-text-error {
+  color: var(--color-error);
 }
-
-.p-grid {
-  margin: unset;
+.p-text-warning {
+  color: var(--color-warning);
 }
-
-/**
- * Accordion's customisation
- */
-
-.p-accordion .p-accordion-header .p-accordion-header-link {
-  font-weight: 500;
-  padding: 1rem .5rem;
-  transition: box-shadow 0.15s;
-  color: var(--text-color);
-  border: unset;
-  border-radius: var(--border-radius);
-  background: unset;
+.p-text-success {
+  color: var(--color-success);
 }
-
-.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
-  margin-right: 0.5rem;
+.p-border-error {
+  border: 1px solid var(--color-error);
 }
-
-.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: unset;
+.p-border-warning {
+  border: 1px solid var(--color-warning);
 }
-
-.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
-  color: var(--primary-color);
-  border: unset;
-  background-color: var(--text-color);
+.p-border-success {
+  border: 1px solid var(--color-success);
 }
-
-.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
-  color: var(--text-color);
-  border: unset;
-  background: unset;
+.p-bg-error {
+  background-color: var(--color-error-light);
 }
-
-.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
-  color: var(--text-color);
-  border: unset;
-  background: unset;
+.p-bg-warning {
+  background-color: var(--color-warning-light);
 }
-
-.p-accordion .p-accordion-content {
-  padding: unset;
-  color: var(--text-color);
-  border: unset;
-  background: unset;
-}
-
-.p-accordion .p-accordion-tab {
-  margin-bottom: 0;
-}
-
-.p-accordion .p-accordion-tab .p-accordion-header .p-accordion-header-link {
-  border-radius: 0;
-}
-
-.p-accordion .p-accordion-tab:not(:first-child) .p-accordion-header .p-accordion-header-link {
-  border: unset;
-}
-
-.p-accordion .p-accordion-tab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, .p-accordion .p-accordion-tab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
-  border: unset;
-}
-
-.p-accordion .p-accordion-tab:first-child .p-accordion-header .p-accordion-header-link {
-  border: unset;
-}
-
-.p-accordion .p-accordion-tab:last-child .p-accordion-header:not(.p-highlight) .p-accordion-header-link {
-  border: unset;
+.p-bg-success {
+  background-color: var(--color-success-light);
 }

@@ -4,6 +4,7 @@
   min-width: 5rem;
 }
 
+.p-datatable.p-datatable-gridlines .p-datatable-thead > tr > td,
 .p-datatable.p-datatable-gridlines .p-datatable-thead > tr > th {
   border-width: 0 0 0 0 ;
 }
@@ -96,7 +97,7 @@
       &:enabled,
       &:focus {
         border: 1px solid var(--primary-color);
-        box-shadow: 0 0 0 0.1rem var(--primary-color);
+        box-shadow: unset;
       }
     }
   }
@@ -143,14 +144,4 @@
       }
     }
   }
-}
-
-// tools
-
-.lck-datatable-align-center {
-  text-align: center !important;
-}
-
-.lck-datatable-button-group {
-  text-align: center !important;
 }
