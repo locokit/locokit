@@ -1,5 +1,5 @@
 // import { Service } from 'feathers-objection'
-import { Application } from '../../declarations'
+import { Application } from '../../../declarations'
 import nodemailer, { SendMailOptions, SentMessageInfo, Transporter } from 'nodemailer'
 import { SmtpOptions } from 'nodemailer-smtp-transport'
 import { Params } from '@feathersjs/feathers'
