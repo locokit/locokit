@@ -92,6 +92,7 @@ export async function authenticate (data: AuthDTO) {
 
 export async function updatePassword (email: string, formData: object) {
   authState.loading = true
+  authState.error = null
   try {
     await lckClient.service('authManagement').create(
       {

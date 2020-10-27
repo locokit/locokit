@@ -101,7 +101,9 @@
       "edit": {
         "title": "Mettre à jour mon compte",
         "oldPassword": "Ancien mot de passe",
-        "newPassword": "Nouveau mot de passe"
+        "newPassword": "Nouveau mot de passe",
+        "passwordCheck": "Mot de passe (vérification)",
+        "passwordMismatch": "Les mots de passe ne sont pas identiques."
       }
     },
     "workspace": {

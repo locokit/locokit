@@ -100,7 +100,9 @@
       "edit": {
         "title": "Update my account",
         "oldPassword": "Old password",
-        "newPassword": "New password"
+        "newPassword": "New password",
+        "passwordCheck": "Password (check)",
+        "passwordMismatch": "Passwords mismatch"
       }
     },
     "workspace": {

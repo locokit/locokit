@@ -80,7 +80,7 @@
               />
             </div>
           </div>
-          <div class="p-field p-grid">
+          <div class="p-field p-grid p-mb-3">
             <label
               class="p-col p-md-3"
               for="password"
@@ -88,13 +88,38 @@
               {{ $t('pages.account.edit.newPassword') }}
             </label>
             <div class="p-col p-md-3">
-              <p-password
+              <p-input-text
                 id="password"
+                type="password"
                 v-model="password.password"
               />
             </div>
           </div>
-          <div v-if="authState.error">
+          <div class="p-field p-grid">
+            <label
+              class="p-col p-md-3"
+              for="passwordCheck"
+            >
+              {{ $t('pages.account.edit.passwordCheck') }}
+            </label>
+            <div class="p-col p-md-3">
+              <p-input-text
+                id="passwordCheck"
+                type="password"
+                v-model="password.passwordCheck"
+              />
+            </div>
+          </div>
+          <div
+            class="p-mb-2 p-p-1 p-text-error"
+            v-if="displayErrorMismatch"
+          >
+            {{ $t('pages.account.edit.passwordMismatch') }}
+          </div>
+          <div
+            class="p-mb-2 p-p-1 p-text-error"
+            v-if="authState.error"
+          >
             <p class="p-invalid">{{ $t('error.basic') }}</p>
           </div>
         </template>
@@ -106,7 +131,7 @@
                 type="button"
                 :icon="authState.loading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"
                 :label="authState.loading ? $t('form.submitting') : $t('form.submit')"
-                :disabled="(!password.oldPassword || !password.password ) || authState.loading"
+                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || authState.loading"
                 @click="submitPassword"
               />
             </div>
@@ -125,7 +150,6 @@ import { ROUTES_PATH } from '@/router/paths'
 import Vue from 'vue'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-import Password from 'primevue/password'
 import InputText from 'primevue/inputtext'
 
 export default {
@@ -135,18 +159,21 @@ export default {
       authState,
       password: {
         oldPassword: null,
-        password: null
-      }
+        password: null,
+        passwordCheck: null
+      },
+      displayErrorMismatch: false
     }
   },
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
-    'p-password': Vue.extend(Password),
     'p-input-text': Vue.extend(InputText)
   },
   methods: {
     async submitPassword () {
+      this.displayErrorMismatch = (this.password.password !== this.password.passwordCheck)
+      if (this.displayErrorMismatch) return
       await updatePassword(authState.data.user.email, this.password)
       this.password = {
         oldPassword: null,
