@@ -1,0 +1,93 @@
+<template>
+  <div
+    class="
+      layout-with-background
+      p-grid
+      p-jc-center
+      p-ai-center
+    "
+   :style="{
+      'background-image': 'url(' + backgroundImage + ')'
+    }"
+  >
+    <div
+      class="p-col"
+      style="max-width: 600px"
+    >
+      <router-link
+        class="p-d-block p-text-center"
+        to="/"
+      >
+        <img
+          alt="logo"
+          :src="logoBgPrimaryURL"
+          class="p-mb-4 p-mx-auto"
+        />
+      </router-link>
+
+      <p-card class="p-col">
+        <template slot="title">
+          <slot name="title"></slot>
+        </template>
+        <template slot="header">
+          <slot name="header"></slot>
+        </template>
+        <template slot="content">
+          <slot>
+            This is the main content of the content card.
+          </slot>
+        </template>
+        <template slot="footer">
+          <slot name="footer"></slot>
+        </template>
+      </p-card>
+    </div>
+
+    <div class="version-block p-p-2">
+      {{ version }}
+    </div>
+
+  </div>
+
+</template>
+
+<script>
+import Vue from 'vue'
+import Card from 'primevue/card'
+
+export default Vue.extend({
+  name: 'LayoutWithBackground',
+  data () {
+    return {
+      // eslint-disable-next-line no-undef
+      backgroundImage: LCK_SETTINGS.HOME_BACKGROUND_IMAGE_URL,
+      // eslint-disable-next-line no-undef
+      logoBgPrimaryURL: LCK_SETTINGS.LOGO_BG_PRIMARY_URL,
+      // eslint-disable-next-line no-undef
+      version: LCK_VERSION
+    }
+  },
+  components: {
+    'p-card': Vue.extend(Card)
+  }
+})
+
+</script>
+
+<style scoped>
+.layout-with-background {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+}
+.version-block {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: var(--surface-d);
+}
+/deep/ .p-card .p-card-title {
+  text-align: center;
+}
+</style>

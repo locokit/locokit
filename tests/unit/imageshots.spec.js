@@ -18,7 +18,8 @@ initStoryshots({
   configPath: path.join(__dirname, '../../.storybook'),
   test: imageSnapshot({
     getMatchOptions,
-    beforeScreenshot (page) {
+    beforeScreenshot (page, { url }) {
+      console.log(url)
       page.setViewport({ width: 1024, height: 768 })
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'

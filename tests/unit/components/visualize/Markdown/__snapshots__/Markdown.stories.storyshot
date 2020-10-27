@@ -1,22 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Markdown Markdown with props 1`] = `
+exports[`storyshots components/visualize/Markdown Markdown with props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="lck-color-content"
   >
     
-  En cours d'implémentation.
+  This is the content.
 
   </div>
 </div>
 `;
 
-exports[`storyshots Markdown Markdown without props 1`] = `
+exports[`storyshots components/visualize/Markdown Markdown without props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <!---->
 </div>

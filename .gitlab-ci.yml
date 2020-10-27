@@ -4,7 +4,6 @@ stages:
   - storybook
   - lint-tests
   - build
-  - deploy
 
 .build_template: &build_definition
   tags: [shared-ci-docker]

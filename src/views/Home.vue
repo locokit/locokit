@@ -1,46 +1,38 @@
 <template>
-  <div
-    class="home p-grid p-jc-center p-ai-center vertical-container w-full"
-    :style="{
-      'background-image': 'url(' + backgroundImage + ')'
-    }"
-  >
-    <div class="login-block p-col-11 p-sm-5 p-md-6 p-xl-4">
-      <img
-        alt="logo"
-        :src="logoBgPrimaryURL"
-        class="p-mb-6"
-      />
-      <div class="p-error" :class="{ 'errorActive' : authState.error }"><p>{{ authState.error }}</p></div>
+  <layout-with-background>
+    <template slot="title">
+      {{ $t('pages.home.title') }}
+    </template>
 
-      <Login
-        @submit="authenticate"
-        :loading="authState.loading"
-        :error="authState.error"
-      />
+    {{ $t('pages.home.subtitle') }}
 
-    </div>
-    <PopupReload />
-    <div class="version-block p-p-2">
-      {{ version }}
-    </div>
+    <login
+      class="p-mt-4"
+      @submit="authenticate"
+      :loading="authState.loading"
+      :error="authState.error"
+    />
+    <lck-popup-reload />
 
-  </div>
+  </layout-with-background>
 
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-import Login from '@/components/ui/Login/Login.vue'
+import Vue from 'vue'
+import Login from '@/components/auth/Login/Login.vue'
 import PopupReload from '@/components/ui/PopupReload/PopupReload.vue'
-import { authenticate, authState } from '@/store/auth'
+import { AuthDTO, authenticate, authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
+import LayoutWithBackground from '@/layouts/WithBackground.vue'
 
 export default {
   name: 'Home',
   components: {
-    Login,
-    PopupReload
+    'layout-with-background': Vue.extend(LayoutWithBackground),
+    login: Vue.extend(Login),
+    'lck-popup-reload': Vue.extend(PopupReload)
   },
   data () {
     return {
@@ -54,7 +46,7 @@ export default {
     }
   },
   methods: {
-    async authenticate (data) {
+    async authenticate (data: AuthDTO) {
       await authenticate(data)
 
       if (authState.data.isAuthenticated) {
@@ -68,20 +60,10 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 100vh;
-}
-.login-block {
-  text-align: center;
-  margin-top: -45px;
-}
-.version-block {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: var(--surface-d);
+.p-error {
+  font-weight: bold;
+  position: relative;
+  transition: opacity 0.5s ease-in-out;
+  color: var(--color-error);
 }
 </style>

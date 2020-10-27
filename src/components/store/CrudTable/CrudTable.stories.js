@@ -2,7 +2,7 @@ import CrudTable from './CrudTable'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
-  title: 'CrudTable',
+  title: 'components/store/CrudTable',
   component: CrudTable
 }
 

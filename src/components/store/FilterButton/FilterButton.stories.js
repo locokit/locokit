@@ -1,7 +1,7 @@
 import FilterButton from './FilterButton'
 
 export default {
-  title: 'FilterButton',
+  title: 'components/store/FilterButton',
   component: FilterButton
 }
 

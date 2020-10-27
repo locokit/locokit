@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Paragraph Paragraph with props 1`] = `
+exports[`storyshots components/visualize/Paragraph Paragraph with props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="lck-color-content"

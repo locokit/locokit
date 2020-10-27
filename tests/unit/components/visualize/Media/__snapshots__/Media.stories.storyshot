@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Media Media with props 1`] = `
+exports[`storyshots components/visualize/Media Media with props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="lck-color-content"
@@ -13,7 +14,7 @@ exports[`storyshots Media Media with props 1`] = `
       >
         <img
           alt="Image"
-          src="/img/page-construction-vlogistique.png"
+          src="./img/page-construction-vlogistique.png"
         />
       </div>
     </div>

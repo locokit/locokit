@@ -108,9 +108,32 @@ export default {
 </script>
 
 <style scoped>
-  .lck-header {
-    height: var(--header-height) !important;
-    border-bottom: 1px solid var(--header-border-bottom-color);
-    background-color: var(--header-background-color);
+.lck-header {
+  height: var(--header-height) !important;
+  border-bottom: 1px solid var(--header-border-bottom-color);
+  background-color: var(--header-background-color);
+}
+.menu-button {
+  line-height: 70px;
+  display: none;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: background-color .2s;
+  text-align: center;
+  color: var(--primary-color);
+}
+.menu-button:hover {
+  background-color: var(--surface-c);
+}
+.menu-button i {
+  font-size: 24px;
+  line-height: inherit;
+}
+
+@media screen and (max-width: 900px) {
+  .menu-button {
+    display: block;
   }
+}
 </style>

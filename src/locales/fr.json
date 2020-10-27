@@ -4,7 +4,18 @@
       "email": "E-mail",
       "password": "Mot de passe",
       "signin": "Se connecter",
-      "passwordHelper": "Renseignez votre mot de passe"
+      "passwordHelper": "Renseignez votre mot de passe",
+      "lostpassword": "Mot de passe perdu ?"
+    },
+    "lostpassword": {
+      "email": "E-mail",
+      "submit": "Obtenir un lien temporaire"
+    },
+    "resetpassword": {
+      "password": "Mot de passe",
+      "passwordCheck": "Mot de passe (vérification)",
+      "submit": "Réinitialiser le mot de passe",
+      "passwordMismatch": "Les mots de passe ne sont pas identiques."
     },
     "paginator": {
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
@@ -51,9 +62,30 @@
     }
   },
   "pages": {
+    "404": {
+      "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
+      "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
+    },
     "home": {
-      "title": "Votre flotte de demain, aujourd'hui",
-      "subtitle": "Valeur ajoutée à la punchline"
+      "title": "Bienvenue sur la plateforme v-logistique",
+      "subtitle": ""
+    },
+    "lostpassword": {
+      "title": "Mot de passe, où es tu ?",
+      "subtitle": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
+      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué."
+    },
+    "resetpassword": {
+      "title": "Réinitialisation du mot de passe",
+      "subtitle": "Vous pouvez réinitialiser votre mot de passe.",
+      "resetOK": "Mot de passe réinitialisé. Vous pouvez vous connecter avec ce nouveau mot de passe.",
+      "homelink": "Retour à la page d'accueil"
+    },
+    "verifysignup": {
+      "title": "Vérification de votre email et enregistrement du mot de passe",
+      "subtitle": "Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.",
+      "verifyOK": "Vérification de votre mail et enregistrement de votre mot de passe OK ! Vous pouvez dès à présent vous connecter sur la plateforme.",
+      "homelink": "Retour à la page d'accueil"
     },
     "profile": {
       "title": "Mon profil",
@@ -61,7 +93,7 @@
       "role": "Rôle :",
       "groups": "Mes groupes",
       "workspaces": "Mes espaces de travail",
-      "button-logout": "Déconnexion"
+      "nodata": "Aucune donnée à afficher"
     },
     "workspace": {
       "title": "Espaces de travail",
@@ -106,6 +138,7 @@
       "id": "id",
       "name": "Nom",
       "email": "E-mail",
+      "isVerified": "Vérifié",
       "password": "Mot de passe",
       "profile": "Profil",
       "selectProfile": "Sélectionnez un profil",

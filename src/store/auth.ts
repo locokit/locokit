@@ -1,16 +1,26 @@
 import lckClient from '@/services/lck-api'
+import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 import { BaseState } from './state'
 
 class User {
-  email = ''
-  name = ''
-  profile = ''
-  id = ''
+  id!: number
+  email!: string
+  name!: string
+  isVerified!: boolean
+  profile!: typeof USER_PROFILE
+  groups?: Group[]
 }
 
 class Group {
   name = ''
-  permissions: string[] = []
+  workspace?: Workspace
+  workspace_id?: number
+  workspace_role?: typeof WORKSPACE_ROLE
+}
+
+class Workspace {
+  id!: string
+  text!: string
 }
 
 class AuthData {
@@ -19,7 +29,7 @@ class AuthData {
   groups: Group[] = []
 }
 
-class AuthDTO {
+export class AuthDTO {
   email = ''
   password = ''
 }

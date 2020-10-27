@@ -4,11 +4,15 @@ import Home from '../views/Home.vue'
 import Workspace from '../views/Workspace.vue'
 import WorkspaceList from '../views/WorkspaceList.vue'
 import Database from '../views/Database.vue'
-import Profile from '../views/Profile.vue'
+import Profile from '../views/routes/user/Profile.vue'
+import LostPassword from '../views/routes/user/LostPassword.vue'
+import ResetPassword from '../views/routes/user/ResetPassword.vue'
+import VerifySignup from '../views/routes/user/VerifySignup.vue'
 import Page from '@/views/Page.vue'
 import DatabaseSchema from '@/views/DatabaseSchema.vue'
 import UserManagement from '@/views/UserManagement.vue'
 import GroupManagement from '@/views/GroupManagement.vue'
+import Page404 from '@/views/routes/404.vue'
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 
@@ -19,6 +23,30 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.HOME,
     name: 'Home',
     component: Home,
+    meta: {
+      needHeader: false,
+      needGuest: true
+    }
+  }, {
+    path: ROUTES_PATH.LOSTPASSWORD,
+    name: 'LostPassword',
+    component: LostPassword,
+    meta: {
+      needHeader: false,
+      needGuest: true
+    }
+  }, {
+    path: ROUTES_PATH.RESETPASSWORD,
+    name: 'ResetPassword',
+    component: ResetPassword,
+    meta: {
+      needHeader: false,
+      needGuest: true
+    }
+  }, {
+    path: ROUTES_PATH.VERIFYSIGNUP,
+    name: 'VerifySignup',
+    component: VerifySignup,
     meta: {
       needHeader: false,
       needGuest: true
@@ -87,6 +115,11 @@ const routes: Array<RouteConfig> = [
     meta: {
       needAuthentication: true
     }
+  },
+  {
+    path: '*',
+    name: '404',
+    component: Page404
   }
 ]
 

@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
+exports[`storyshots components/visualize/Sidebar Sidebar with props chapters 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="p-accordion p-component lck-bg-primary"
@@ -117,9 +118,10 @@ exports[`storyshots Sidebar Sidebar with props chapters 1`] = `
 </div>
 `;
 
-exports[`storyshots Sidebar Sidebar without props chapters 1`] = `
+exports[`storyshots components/visualize/Sidebar Sidebar without props chapters 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="p-accordion p-component lck-bg-primary"

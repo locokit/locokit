@@ -44,7 +44,7 @@
           field="uhg_role"
           :header="$t('pages.groupManagement.form.input.role')"
         />
-        <p-column headerClass="p-col-1" bodyClass="lck-datatable-button-group">
+        <p-column headerClass="p-col-1" bodyClass="p-text-center">
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button

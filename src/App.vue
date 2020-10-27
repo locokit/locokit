@@ -4,7 +4,10 @@
     class="p-d-flex p-flex-column"
     :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
   >
-    <div class="layout-sidebar" :class="sidebarActive ? 'active' : 'hidden'"></div>
+    <div
+      class="layout-sidebar"
+      :class="sidebarActive ? 'active' : 'hidden'"
+    />
     <lck-header
       v-if="displayHeader"
       :logo-url="logoURL"

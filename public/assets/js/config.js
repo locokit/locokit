@@ -4,8 +4,10 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LCK_SETTINGS = {
-  API_URL: 'http://localhost:8000/api',
+  // API_URL: 'http://localhost:8000/api',
+  API_URL: 'http://localhost:3030',
   HOME_BACKGROUND_IMAGE_URL: '/img/bg-intro.jpg',
+  PAGE_404_BACKGROUND_IMAGE_URL: '/img/page-construction-vlogistique.png',
   LOGO_BG_WHITE_URL: '/img/logo-bg-white.png',
   LOGO_BG_PRIMARY_URL: '/img/logo-bg-primary.png',
   STORAGE_KEY: 'lck-auth',

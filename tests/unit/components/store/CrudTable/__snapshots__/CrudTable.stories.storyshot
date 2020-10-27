@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots CrudTable CrudTable with expected props 1`] = `
+exports[`storyshots components/store/CrudTable CrudTable with expected props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div>
     <div
@@ -215,9 +216,10 @@ exports[`storyshots CrudTable CrudTable with expected props 1`] = `
 </div>
 `;
 
-exports[`storyshots CrudTable CrudTable without content 1`] = `
+exports[`storyshots components/store/CrudTable CrudTable without content 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div>
     <div
@@ -375,9 +377,10 @@ exports[`storyshots CrudTable CrudTable without content 1`] = `
 </div>
 `;
 
-exports[`storyshots CrudTable CrudTable without no definition and content properties 1`] = `
+exports[`storyshots components/store/CrudTable CrudTable without no definition and content properties 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div>
     

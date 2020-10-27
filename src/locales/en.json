@@ -4,7 +4,18 @@
       "email": "email",
       "password": "password",
       "signin": "Sign in",
-      "passwordHelper": "Please choose a password"
+      "passwordHelper": "Please choose a password",
+      "lostpassword": "Forgot your password ?"
+    },
+    "lostpassword": {
+      "email": "email",
+      "submit": "Get the temporary link"
+    },
+    "resetpassword": {
+      "password": "Password",
+      "passwordCheck": "Password (check)",
+      "submit": "Reset the password",
+      "passwordMismatch": "Passwords mismatch"
     },
     "paginator": {
       "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries",
@@ -51,9 +62,30 @@
     }
   },
   "pages": {
+    "404": {
+      "title": "Whooops ?!... sounds you're lost... Sorry. Really.",
+      "link": "Please, please... come back home."
+    },
     "home": {
-      "title": "Punchline !",
-      "subtitle": "Punchline"
+      "title": "Welcome on v-logistique platform",
+      "subtitle": ""
+    },
+    "lostpassword": {
+      "title": "Password... where are you ?!",
+      "subtitle": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
+      "sendResetOK": "Mail sent ! Please now check your mailbox to open the email we've just sent. Please click on the link."
+    },
+    "resetpassword": {
+      "title": "Password reset",
+      "subtitle": "You can reset your password.",
+      "resetOK": "Password reset. You can use this new password.",
+      "homelink": "Return to home page"
+    },
+    "verifysignup": {
+      "title": "Email verification and password update",
+      "subtitle": "Please update your password before we authorize you to connect.",
+      "verifyOK": "Email verification and password update OK ! You can now log in on the portal.",
+      "homelink": "Return to home page"
     },
     "profile": {
       "title": "My profile",
@@ -61,7 +93,7 @@
       "role": "Role:",
       "groups": "My groups",
       "workspaces": "My workspaces",
-      "button-logout": "Logout"
+      "nodata": "No data to display"
     },
     "workspace": {
       "title": "Workspaces",
@@ -106,6 +138,7 @@
       "id": "id",
       "name": "Name",
       "email": "E-mail",
+      "isVerified": "Verified",
       "password": "Password",
       "profile": "Profile",
       "selectProfile": "Choose a profile",

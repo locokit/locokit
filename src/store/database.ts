@@ -92,7 +92,7 @@ export async function retrieveTableRowsWithSkipAndLimit (
 ) {
   databaseState.loading = true
   try {
-    const query: Record<string, any> = {
+    const query: Record<string, string | number | object> = {
       table_id: tableId,
       $limit: limit,
       $skip: skip,

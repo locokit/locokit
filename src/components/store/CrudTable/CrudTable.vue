@@ -62,7 +62,8 @@
             width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
             overflow: 'hidden',
             'white-space': 'nowrap',
-            'text-overflow': 'ellipsis'
+            'text-overflow': 'ellipsis',
+            'position': 'relative'
           }"
           :sortable="isSortableColumn(column)"
         >
@@ -85,6 +86,7 @@
               :suggestions="autocompleteSuggestions"
               @complete="onComplete(column, $event)"
               @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+              class="field-editable"
             />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
@@ -96,6 +98,7 @@
               :showClear="true"
               :placeholder="$t('components.dropdown.placeholder')"
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
+              class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
@@ -103,6 +106,7 @@
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
+              class="field-editable"
             />
             <p-input-number
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
@@ -115,6 +119,7 @@
               :is="getComponentEditableColumn(column.column_type_id)"
               v-model="slotProps.data.data[column.id]"
               appendTo="body"
+              class="field-editable"
             />
           </template>
 
@@ -172,7 +177,7 @@ import {
 import { getComponentEditableColumn } from '@/utils/columns'
 
 export default {
-  name: 'LCKRowDatatable',
+  name: 'LckDatatable',
   components: {
     'lck-autocomplete': Vue.extend(AutoComplete),
     'lck-paginator': Vue.extend(Paginator),
@@ -404,12 +409,8 @@ export default {
 
 <style scoped>
 
-/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td,
-/deep/ .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
-}
-
 /deep/ .p-editable-column.p-cell-editing .p-dropdown {
-  border: unset;
+  border: 1px solid var(--primary-color);
   border-radius: 0;
 }
 
@@ -452,6 +453,15 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
+}
+
+.field-editable {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
 }
 
 </style>

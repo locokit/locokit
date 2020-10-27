@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Paginator default 1`] = `
+exports[`storyshots components/ui/Paginator default 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="p-paginator p-component"
@@ -83,9 +84,10 @@ exports[`storyshots Paginator default 1`] = `
 </div>
 `;
 
-exports[`storyshots Paginator with props 1`] = `
+exports[`storyshots components/ui/Paginator with props 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="p-paginator p-component"
