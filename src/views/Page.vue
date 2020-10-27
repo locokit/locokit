@@ -159,7 +159,6 @@ export default {
           value: d.id
         }))
       }
-      console.log(items)
       return items
     },
     async onUpdateCell ({
