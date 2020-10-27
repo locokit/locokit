@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots routes/user/Profile default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <!---->
+</div>
+`;

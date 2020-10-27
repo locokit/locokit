@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots AutoComplete Auto Complete Story With Suggestions And Dropdown Opened 1`] = `
+exports[`storyshots components/ui/AutoComplete Auto Complete Story With Suggestions And Dropdown Opened 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
@@ -49,9 +50,10 @@ exports[`storyshots AutoComplete Auto Complete Story With Suggestions And Dropdo
 </div>
 `;
 
-exports[`storyshots AutoComplete AutoComplete 1`] = `
+exports[`storyshots components/ui/AutoComplete AutoComplete 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"

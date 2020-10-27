@@ -1,89 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Login Login 1`] = `
+exports[`storyshots components/auth/Login Login 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
-  <div
-    class="p-card p-component p-col"
+  <form
+    class="p-text-left"
   >
+    <div
+      class="p-field"
+    >
+      <label
+        for="email"
+      >
+        E-mail
+      </label>
+       
+      <input
+        class="p-inputtext p-component"
+        id="email"
+        placeholder="E-mail"
+        required="required"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="password"
+      >
+        Mot de passe
+      </label>
+       
+      <input
+        class="rounded-sm p-inputtext p-component"
+        id="password"
+        placeholder="Mot de passe"
+        required="required"
+        type="password"
+      />
+    </div>
+     
     <!---->
      
     <div
-      class="p-card-body"
+      class="p-d-flex p-flex-column"
     >
-      <!---->
-       
-      <!---->
-       
-      <div
-        class="p-card-content"
+      <button
+        class="p-mb-4 p-button p-component"
+        type="submit"
       >
-        <form>
-          <div
-            class="p-field p-text-left"
-          >
-            <label
-              for="email"
-            >
-              E-mail
-            </label>
-             
-            <input
-              class="p-inputtext p-component"
-              id="email"
-              placeholder="E-mail"
-              required="required"
-              type="text"
-            />
-          </div>
-           
-          <div
-            class="p-field p-text-left"
-          >
-            <label
-              for="password"
-            >
-              Mot de passe
-            </label>
-             
-            <input
-              class="rounded-sm p-inputtext p-component"
-              id="password"
-              placeholder="Mot de passe"
-              required="required"
-              type="password"
-            />
-          </div>
-           
-          <div
-            class="flex items-center justify-center"
-          >
-            <button
-              class="p-button p-component"
-              type="submit"
-            >
-              <span
-                class="pi pi-sign-in p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Se connecter
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </form>
-      </div>
+        <span
+          class="pi pi-sign-in p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Se connecter
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
        
-      <!---->
+      <a
+        class="mock-link p-d-block p-text-center"
+      >
+        
+      Mot de passe perdu ?
+    
+      </a>
     </div>
-  </div>
+  </form>
 </div>
 `;

@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots Header Header with logo (required) 1`] = `
+exports[`storyshots components/ui/Header Header with logo (required) 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots routes/404 default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="p-d-flex p-flex-column p-jc-center p-ai-center h-full"
+  >
+    <h1>
+      Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.
+    </h1>
+     
+    <br />
+     
+    <a
+      class="mock-link"
+    >
+      
+    Vous pouvez tenter de revenir sur la page d'accueil ?
+  
+    </a>
+     
+    <img
+      class="p-mt-4"
+    />
+  </div>
+</div>
+`;

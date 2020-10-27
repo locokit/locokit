@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots FilterButton default 1`] = `
+exports[`storyshots components/store/FilterButton default 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="filter-button"
@@ -36,9 +37,10 @@ exports[`storyshots FilterButton default 1`] = `
 </div>
 `;
 
-exports[`storyshots FilterButton overlay opened 1`] = `
+exports[`storyshots components/store/FilterButton overlay opened 1`] = `
 <div
-  class="h-full p-fluid"
+  class="p-fluid"
+  style="height: 100%;"
 >
   <div
     class="filter-button"
