@@ -19,7 +19,7 @@ class AuthData {
   groups: Group[] = []
 }
 
-class AuthDTO {
+export class AuthDTO {
   email = ''
   password = ''
 }
