@@ -10,11 +10,20 @@
         <template slot="title">
           <span class="icon-rounded"><i class="pi pi-user"></i></span> {{ $t('pages.profile.title') }}
         </template>
-        <template slot="content">
+        <template
+          slot="content"
+          v-if="authState.data.user"
+        >
           <h4>{{ authState.data.user.name }}</h4>
           <strong>{{ $t('pages.profile.email') }}&nbsp;</strong>{{ authState.data.user.email }}
           <br>
           <strong>{{ $t('pages.profile.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
+        </template>
+        <template
+          slot="content"
+          v-else
+        >
+          {{ $t('pages.profile.nodata') }}
         </template>
       </prime-card>
     </section>
@@ -23,7 +32,9 @@
         <template slot="title">
           <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.profile.groups') }}
         </template>
-        <template slot="content">
+        <template slot="content"
+          v-if="authState.data.user && authState.data.user.groups"
+        >
           <div v-for="group in authState.data.user.groups" :key="group.id">
             <h4 class="group-title">{{ group.name }}</h4>
             <div class="lck-ul-content">
@@ -36,8 +47,13 @@
               </router-link>
               ({{ group.workspace_role }})
             </div>
-
           </div>
+        </template>
+        <template
+          slot="content"
+          v-else
+        >
+          {{ $t('pages.profile.nodata') }}
         </template>
       </prime-card>
     </section>

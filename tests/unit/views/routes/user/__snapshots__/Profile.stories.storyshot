@@ -5,6 +5,307 @@ exports[`storyshots routes/user/Profile default 1`] = `
   class="p-fluid"
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+  >
+    <div
+      class="lck-color-page-title p-my-4"
+    >
+      <h1>
+        Mon profil
+      </h1>
+    </div>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user"
+              />
+            </span>
+             Mon profil
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-users"
+              />
+            </span>
+             Mes groupes
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`storyshots routes/user/Profile with auth user 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+  >
+    <div
+      class="lck-color-page-title p-my-4"
+    >
+      <h1>
+        Mon profil
+      </h1>
+    </div>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user"
+              />
+            </span>
+             Mon profil
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-users"
+              />
+            </span>
+             Mes groupes
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+  >
+    <div
+      class="lck-color-page-title p-my-4"
+    >
+      <h1>
+        Mon profil
+      </h1>
+    </div>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user"
+              />
+            </span>
+             Mon profil
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            <h4>
+              Mathieu DARTIGUES
+            </h4>
+             
+            <strong>
+              E-mail : 
+            </strong>
+            mathieu.dartigues@makina-corpus.com
+        
+            <br />
+             
+            <strong>
+              Rôle : 
+            </strong>
+            SUPERADMIN
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-users"
+              />
+            </span>
+             Mes groupes
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
 `;

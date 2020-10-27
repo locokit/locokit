@@ -93,7 +93,7 @@
       "role": "Role:",
       "groups": "My groups",
       "workspaces": "My workspaces",
-      "button-logout": "Logout"
+      "nodata": "No data to display"
     },
     "workspace": {
       "title": "Workspaces",

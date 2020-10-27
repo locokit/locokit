@@ -93,7 +93,7 @@
       "role": "Rôle :",
       "groups": "Mes groupes",
       "workspaces": "Mes espaces de travail",
-      "button-logout": "Déconnexion"
+      "nodata": "Aucune donnée à afficher"
     },
     "workspace": {
       "title": "Espaces de travail",
