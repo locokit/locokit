@@ -12,7 +12,7 @@ exports[`storyshots routes/user/Profile default 1`] = `
       class="lck-color-page-title p-my-4"
     >
       <h1>
-        Mon profil
+        Mon compte
       </h1>
     </div>
      
@@ -78,6 +78,46 @@ exports[`storyshots routes/user/Profile default 1`] = `
               />
             </span>
              Mes groupes
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user-edit"
+              />
+            </span>
+             Mettre à jour mon mot de passe
       
           </div>
            
@@ -111,7 +151,7 @@ exports[`storyshots routes/user/Profile with auth user 1`] = `
       class="lck-color-page-title p-my-4"
     >
       <h1>
-        Mon profil
+        Mon compte
       </h1>
     </div>
      
@@ -194,6 +234,46 @@ exports[`storyshots routes/user/Profile with auth user 1`] = `
         </div>
       </div>
     </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user-edit"
+              />
+            </span>
+             Mettre à jour mon mot de passe
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        Aucune donnée à afficher
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 `;
@@ -210,7 +290,7 @@ exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
       class="lck-color-page-title p-my-4"
     >
       <h1>
-        Mon profil
+        Mon compte
       </h1>
     </div>
      
@@ -303,6 +383,146 @@ exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
           </div>
            
           <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-user-edit"
+              />
+            </span>
+             Mettre à jour mon mot de passe
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            <div
+              class="p-field p-grid p-mb-3"
+            >
+              <label
+                class="p-col p-md-3"
+                for="oldPassword"
+              >
+                
+            Ancien mot de passe
+          
+              </label>
+               
+              <div
+                class="p-col p-md-3"
+              >
+                <input
+                  class="p-inputtext p-component"
+                  id="oldPassword"
+                  type="password"
+                />
+              </div>
+            </div>
+             
+            <div
+              class="p-field p-grid p-mb-3"
+            >
+              <label
+                class="p-col p-md-3"
+                for="password"
+              >
+                
+            Nouveau mot de passe
+          
+              </label>
+               
+              <div
+                class="p-col p-md-3"
+              >
+                <input
+                  class="p-inputtext p-component"
+                  id="password"
+                  type="password"
+                />
+              </div>
+            </div>
+             
+            <div
+              class="p-field p-grid"
+            >
+              <label
+                class="p-col p-md-3"
+                for="passwordCheck"
+              >
+                
+            Mot de passe (vérification)
+          
+              </label>
+               
+              <div
+                class="p-col p-md-3"
+              >
+                <input
+                  class="p-inputtext p-component"
+                  id="passwordCheck"
+                  type="password"
+                />
+              </div>
+            </div>
+             
+            <!---->
+             
+            <!---->
+          </div>
+           
+          <div
+            class="p-card-footer"
+          >
+            <div
+              class="p-field p-grid p-jc-end"
+            >
+              <div
+                class="p-col p-md-3"
+              >
+                <button
+                  class="p-button-primary p-button p-component"
+                  disabled="disabled"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-check-circle p-button-icon p-button-icon-left"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                    Valider
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
