@@ -24,6 +24,7 @@ exports[`storyshots routes/404 default 1`] = `
      
     <img
       class="p-mt-4"
+      src="/img/page-construction-vlogistique.png"
     />
   </div>
 </div>

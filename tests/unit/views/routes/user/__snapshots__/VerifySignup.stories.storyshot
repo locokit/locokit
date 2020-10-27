@@ -12,7 +12,7 @@ exports[`storyshots routes/user/VerifySignup default 1`] = `
     p-jc-center
     p-ai-center
    p-text-left"
-    style="background-image: url(undefined);"
+    style="background-image: url(/img/bg-intro.jpg);"
   >
     <div
       class="p-col"
@@ -24,6 +24,7 @@ exports[`storyshots routes/user/VerifySignup default 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
+          src="/img/logo-bg-primary.png"
         />
       </a>
        
@@ -138,7 +139,7 @@ exports[`storyshots routes/user/VerifySignup default 1`] = `
       class="version-block p-p-2"
     >
       
-    
+    0.0.4
   
     </div>
   </div>

@@ -55,6 +55,7 @@ module.exports = {
   },
 
   setupFiles: [
-    '<rootDir>/tests/unit/register-context.js'
+    '<rootDir>/tests/unit/register-context.js',
+    '<rootDir>/.storybook/setupGlobalVars.js'
   ]
 }
