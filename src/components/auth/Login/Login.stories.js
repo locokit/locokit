@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import Login from './Login'
 
 export default {
-  title: 'Login',
+  title: 'components/auth/Login',
   component: Login
 }
 
