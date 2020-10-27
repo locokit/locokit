@@ -4,8 +4,7 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 global.LCK_SETTINGS = {
-  API_URL: 'http://localhost:3030',
-  // API_URL: 'http://localhost:8000/api',
+  API_URL: null, // we don't have to fetch API data. By setting to null, we are sure there will be no mistake.
   HOME_BACKGROUND_IMAGE_URL: '/img/bg-intro.jpg',
   PAGE_404_BACKGROUND_IMAGE_URL: '/img/page-construction-vlogistique.png',
   LOGO_BG_WHITE_URL: '/img/logo-bg-white.png',
