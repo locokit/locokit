@@ -16,8 +16,8 @@
   </div>
 </template>
 
-<script>
-import Sidebar from '@/components/visualize/Sidebar/Sidebar'
+<script lang="ts">
+import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
 
 export default {
   name: 'LayoutWithSidebar',
