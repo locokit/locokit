@@ -22,7 +22,13 @@ Vue.component('RouterLink', {
 export const HeaderStoryWithProps = () => (
   {
     components: { Header },
-    template: '<Header logoUrl="/img/logo-bg-white.png" />',
+    data () {
+      return {
+        // eslint-disable-next-line no-undef
+        logoUrl: LCK_SETTINGS.LOGO_BG_WHITE_URL
+      }
+    },
+    template: '<Header :logoUrl="logoUrl" />',
     decorators: [StoryRouter]
   }
 )

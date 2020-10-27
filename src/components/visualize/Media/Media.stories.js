@@ -15,7 +15,7 @@ export const MediaStoryWithProps = () => ({
           displayMode: 'image',
           medias: [{
             name: 'Image',
-            srcURL: '/img/page-construction-vlogistique.png',
+            srcURL: './img/page-construction-vlogistique.png',
             type: 'image'
           }]
         }
