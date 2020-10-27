@@ -31,8 +31,8 @@
       >
         <p-column
           field="id"
-            headerClass="lck-datatable-align-center p-col-1"
-            bodyClass="lck-datatable-align-center"
+            headerClass="p-text-center p-col-1"
+            bodyClass="p-text-center"
             :header="$t('pages.userManagement.id')"
             sortable
           >
@@ -42,44 +42,31 @@
           :header="$t('pages.userManagement.name')"
           sortable
         >
-          <template #editor="slotProps">
-            <p-input-text v-model="slotProps.data[slotProps.column.field]" />
-          </template>
         </p-column>
         <p-column
           field="email"
           :header="$t('pages.userManagement.email')"
           sortable
         >
-          <template #editor="slotProps">
-            <p-input-text v-model="slotProps.data[slotProps.column.field]" />
-          </template>
         </p-column>
+        <p-column
+          field="isVerified"
+          :header="$t('pages.userManagement.isVerified')"
+          sortable
+        />
         <p-column
           field="profile"
           headerClass="p-col-1"
           :header="$t('pages.userManagement.profile')"
           sortable
         >
-          <template #editor="slotProps">
-            <p-dropdown
-              v-model="slotProps.data['profile']"
-              :options="profiles" optionLabel="label"
-              optionValue="value"
-              placeholder="$t('page.userManagement.selectProfile"
-            >
-              <template #option="slotProps">
-                <span>{{slotProps.option.label}}</span>
-              </template>
-            </p-dropdown>
-          </template>
           <template #body="slotProps">
              {{ slotProps.data['profile'] }}
           </template>
         </p-column>
         <p-column
           headerClass="p-col-1"
-          bodyClass="lck-datatable-button-group"
+          bodyClass="p-text-center"
         >
           <template #body="slotProps">
             <span class="p-buttonset">
@@ -133,22 +120,21 @@
           <p-input-text
             id="email"
             type="email"
-            v-model.trim="user.email"
-            required="true"
-            autofocus
-            :class="{'p-invalid': submitting && !user.email}"
+            v-model="user.email"
+            :disabled="editingUser"
           />
         </div>
-        <div class="p-field" v-if="!editingUser">
-          <label for="password">
-            {{ $t('pages.userManagement.password') }}
+        <div class="p-field"
+          v-if="editingUser"
+        >
+          <label for="isVerified">
+            {{ $t('pages.userManagement.isVerified') }}
           </label>
-          <p-password
-            id="password"
-            v-model.trim="user.password"
-            required="true"
-            autofocus
-            :class="{'p-invalid': submitting && !user.password}"
+          <p-input-switch
+            class="p-d-block"
+            id="isVerified"
+            v-model="user.isVerified"
+            :disabled="true"
           />
         </div>
         <p class="p-field">
@@ -215,13 +201,13 @@ import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import Password from 'primevue/password'
 import Vue from 'vue'
 import {
   retrieveUsersData
 } from '@/store/userManagement'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import lckClient from '@/services/lck-api'
+import InputSwitch from 'primevue/inputswitch'
 
 export default {
   name: 'UserManagement',
@@ -230,10 +216,10 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
+    'p-input-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
-    'p-dialog': Vue.extend(Dialog),
-    'p-password': Vue.extend(Password)
+    'p-dialog': Vue.extend(Dialog)
   },
   data: function () {
     return {
@@ -250,7 +236,9 @@ export default {
   },
   methods: {
     addUser () {
-      this.user = {}
+      this.user = {
+        profile: USER_PROFILE.USER
+      }
       this.submitted = false
       this.editingUser = false
       this.openDialog = true
@@ -266,6 +254,7 @@ export default {
         id: user.id,
         name: user.name,
         profile: user.profile,
+        isVerified: user.isVerified,
         email: user.email
       }
       this.submitted = false
@@ -277,7 +266,10 @@ export default {
       try {
         if (this.editingUser) {
           const userId = this.user.id
-          await lckClient.service('user').patch(userId, this.user)
+          await lckClient.service('user').patch(userId, {
+            name: this.user.name,
+            profile: this.user.profile
+          })
         } else {
           await lckClient.service('user').create(this.user)
         }
