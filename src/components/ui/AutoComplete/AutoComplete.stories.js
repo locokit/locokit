@@ -2,7 +2,7 @@ import AutoComplete from './AutoComplete'
 // import { action } from '@storybook/addon-actions'
 
 export default {
-  title: 'AutoComplete',
+  title: 'components/ui/AutoComplete',
   component: AutoComplete
 }
 

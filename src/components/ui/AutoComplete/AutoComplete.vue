@@ -39,8 +39,8 @@ export default {
 <style scoped>
 
 .lck-autocomplete {
-  border: 1px solid #ced4da;
-  border-radius: 3px;
+  border: unset;
+  border-radius: 0;
 }
 
 /deep/ .p-button {
