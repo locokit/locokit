@@ -7,7 +7,7 @@ class User {
   email!: string
   name!: string
   isVerified!: boolean
-  profile!: USER_PROFILE
+  profile!: typeof USER_PROFILE
   groups?: Group[]
 }
 
@@ -15,7 +15,7 @@ class Group {
   name = ''
   workspace?: Workspace
   workspace_id?: number
-  workspace_role?: WORKSPACE_ROLE
+  workspace_role?: typeof WORKSPACE_ROLE
 }
 
 class Workspace {
