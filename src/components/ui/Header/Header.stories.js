@@ -5,7 +5,7 @@ import StoryRouter from 'storybook-vue-router'
 import { action } from '@storybook/addon-actions'
 
 export default {
-  title: 'Header',
+  title: 'components/ui/Header',
   component: Header
 }
 
