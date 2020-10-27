@@ -15,7 +15,7 @@
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",
       "submit": "Réinitialiser le mot de passe",
-      "passwordMismatch": "Les mots de passe ne sont pas identiques"
+      "passwordMismatch": "Les mots de passe ne sont pas identiques."
     },
     "paginator": {
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
