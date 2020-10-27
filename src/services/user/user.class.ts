@@ -1,22 +1,22 @@
-import { Service, ObjectionServiceOptions } from 'feathers-objection';
-import { ServiceSwaggerOptions } from 'feathers-swagger';
-import { Application } from '../../declarations';
-import { user } from '../../models/user.model';
+import { Service, ObjectionServiceOptions } from 'feathers-objection'
+import { ServiceSwaggerOptions } from 'feathers-swagger'
+import { Application } from '../../declarations'
+import { User } from '../../models/user.model'
 
 interface Options extends ObjectionServiceOptions {
   Model: any;
 }
 
-export class User extends Service {
+export class UserService extends Service {
   public docs: ServiceSwaggerOptions;
 
-  constructor(options: Partial<Options>, app: Application) {
-    const { Model, ...otherOptions } = options;
+  constructor (options: Partial<Options>, app: Application) {
+    const { Model, ...otherOptions } = options
 
     super({
       ...otherOptions,
       model: Model
-    });
+    })
 
     this.docs = {
       description: 'A service to send and receive users',
@@ -26,24 +26,24 @@ export class User extends Service {
             BearerAuth: []
           }],
           description: 'Retrieves a single resource with the given id from the service.',
-          parameters:[{
-            description: `User id`,
+          parameters: [{
+            description: 'User id',
             in: 'path',
             required: true,
             name: 'id',
-            schema: {type: 'integer'}
+            schema: { type: 'integer' }
           }],
           responses: {
-            '200' : {
+            200: {
               description: 'An user',
               content: {
                 'application/json': {
-                  schema: user.jsonSchema
+                  schema: User.jsonSchema
                 }
               }
             }
-          },
-        },
+          }
+        }
       }
     }
   }

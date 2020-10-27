@@ -12,11 +12,9 @@ import swagger from 'feathers-swagger'
 
 import { Application } from './declarations'
 import logger from './logger'
-import middleware from './middleware'
 import services from './services'
 import appHooks from './app.hooks'
 // import channels from './channels';
-import authentication from './authentication'
 import objection from './objection'
 // Don't remove this comment. It's needed to format import lines nicely.
 import * as Sentry from '@sentry/node'
@@ -109,17 +107,11 @@ app.configure(swagger({
   }
 }))
 
-// Configure other middleware (see `middleware/index.js`)
-app.configure(middleware)
-app.configure(authentication)
 // Set up our services (see `services/index.js`)
 app.configure(services)
+
 // Set up event channels (see channels.js)
 // app.configure(channels);
-
-app.get('/debug-sentry', function mainHandler (req, res) {
-  throw new Error('My first Sentry error!')
-})
 
 // Configure a middleware for 404s and the error handler
 app.use(Sentry.Handlers.errorHandler({

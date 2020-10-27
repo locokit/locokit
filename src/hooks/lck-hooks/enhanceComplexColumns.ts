@@ -3,7 +3,7 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableRow } from '../../models/tablerow.model'
-import { user } from '../../models/user.model'
+import { User } from '../../models/user.model'
 import { group } from '../../models/group.model'
 
 /**
@@ -41,7 +41,7 @@ export function enhanceComplexColumns (): Hook {
               }
               break
             case COLUMN_TYPE.USER:
-              const matchingUser: user = await context.app.services.user.get(reference)
+              const matchingUser: User = await context.app.services.user.get(reference)
               value = matchingUser.name
               context.data.data[currentColumnId] = {
                 reference,

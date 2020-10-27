@@ -26,6 +26,7 @@
   "scripts": {
     "pretest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "test": "npm run compile && NODE_ENV=test npm run jest",
+    "debug": "DEBUG=* ts-node-dev --no-notify src/",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "lint": "eslint ./src",
@@ -58,18 +59,21 @@
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/socketio": "^4.5.4",
     "@feathersjs/transport-commons": "^4.5.3",
-    "@locokit/lck-glossary": "0.0.8",
-    "@sentry/tracing": "^5.26.0",
+    "@locokit/lck-glossary": "0.0.10",
     "@sentry/node": "^5.26.0",
+    "@sentry/tracing": "^5.26.0",
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "feathers-authentication-management": "^3.0.1",
     "feathers-hooks-common": "^5.0.3",
     "feathers-objection": "^5.5.2",
     "feathers-swagger": "^1.2.1",
     "helmet": "^3.23.3",
     "knex": "^0.21.5",
+    "nodemailer": "^6.4.14",
+    "nodemailer-smtp-transport": "^2.7.4",
     "objection": "^2.2.0",
     "pg": "^8.3.3",
     "serve-favicon": "^2.5.0",
@@ -82,6 +86,8 @@
     "@types/helmet": "0.0.47",
     "@types/jest": "^26.0.3",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/nodemailer": "^6.4.0",
+    "@types/nodemailer-smtp-transport": "^2.7.4",
     "@types/serve-favicon": "^2.5.0",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
@@ -98,5 +104,8 @@
     "ts-node-dev": "^1.0.0-pre.49",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
+  },
+  "volta": {
+    "node": "14.14.0"
   }
 }

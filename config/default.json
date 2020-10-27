@@ -1,6 +1,7 @@
 {
   "host": "LCK_HOST",
   "port": "LCK_PORT",
+  "publicUrl": "LCK_PUBLIC_URL",
   "public": "../public/",
   "paginate": {
     "default": 10,
@@ -39,5 +40,13 @@
   "postgres": {
     "client": "pg",
     "connection": "LCK_DATABASE_URL"
+  },
+  "mail": {
+    "host": "MAIL_SERVER",
+    "port": "MAIL_PORT",
+    "user": "MAIL_USERNAME",
+    "pass": "MAIL_PASSWORD",
+    "from": "MAIL_DEFAULT_FROM",
+    "secure": "MAIL_SECURE"
   }
 }

@@ -4,7 +4,7 @@ import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
 import { table } from '../../models/table.model'
-import { user } from '../../models/user.model'
+import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
 describe('\'row\' service', () => {
@@ -87,7 +87,7 @@ describe('hooks for row service', () => {
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
-  let user1: user
+  let user1: User
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -323,7 +323,7 @@ describe('hooks for row service', () => {
   describe('computeLookedUpColumns', () => {
     let rowTable1: TableRow
     let rowTable2: TableRow
-    let user2: user
+    let user2: User
 
     beforeEach(async () => {
       const service = app.service('row')

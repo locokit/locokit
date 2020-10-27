@@ -4,16 +4,23 @@ import { Model } from 'objection'
 import { Application } from '@feathersjs/express'
 import { group as LckGroup } from './group.model'
 
-export class user extends Model {
+export class User extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
   email!: string;
-  name: string = '';
+  name!: string;
   password!: string;
-  profile: string = 'USER';
+  profile!: string;
   blocked!: boolean;
-  // auth0Id: string = '';
+  isVerified!: boolean;
+  verifyToken?: string;
+  verifyShortToken?: string;
+  verifyExpires?: string;
+  verifyChanges?: Object;
+  resetToken?: string | null;
+  resetShortToken?: string | null;
+  resetExpires?: string;
 
   static get tableName () {
     return 'user'
@@ -35,9 +42,15 @@ export class user extends Model {
         password: { type: 'string' },
         name: { type: 'string' },
         profile: { type: 'string' },
-        blocked: { type: 'boolean' }
-
-        // auth0Id: { type: 'string' },
+        blocked: { type: 'boolean' },
+        isVerified: { type: 'boolean' },
+        verifyToken: { type: ['string', 'null'] },
+        verifyShortToken: { type: ['string', 'null'] },
+        verifyExpires: { type: 'date' },
+        verifyChanges: { type: 'object' },
+        resetToken: { type: ['string', 'null'] },
+        resetShortToken: { type: ['string', 'null'] },
+        resetExpires: { type: 'date' }
 
       }
     }
@@ -66,14 +79,27 @@ export class user extends Model {
   }
 
   $beforeInsert () {
+    // eslint-disable-next-line no-multi-assign
     this.createdAt = this.updatedAt = new Date().toISOString()
+    if (typeof (this.resetExpires) === 'number') {
+      this.resetExpires = new Date(this.resetExpires).toISOString()
+    }
+    if (typeof (this.verifyExpires) === 'number') {
+      this.verifyExpires = new Date(this.verifyExpires).toISOString()
+    }
   }
 
   $beforeUpdate () {
     this.updatedAt = new Date().toISOString()
+    if (typeof (this.resetExpires) === 'number') {
+      this.resetExpires = new Date(this.resetExpires).toISOString()
+    }
+    if (typeof (this.verifyExpires) === 'number') {
+      this.verifyExpires = new Date(this.verifyExpires).toISOString()
+    }
   }
 }
 
 export default function (app: Application) {
-  return user
+  return User
 }
