@@ -14,7 +14,7 @@ exports[`storyshots components/visualize/Media Media with props 1`] = `
       >
         <img
           alt="Image"
-          src="/img/page-construction-vlogistique.png"
+          src="./img/page-construction-vlogistique.png"
         />
       </div>
     </div>
