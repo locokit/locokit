@@ -33,7 +33,8 @@
         <template slot="title">
           <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.account.view.groups') }}
         </template>
-        <template slot="content"
+        <template
+          slot="content"
           v-if="authState.data.user && authState.data.user.groups"
         >
           <div v-for="group in authState.data.user.groups" :key="group.id">
@@ -64,7 +65,11 @@
         <template slot="title">
           <span class="icon-rounded"><i class="pi pi-user-edit"></i></span> {{ $t('pages.account.edit.title') }}
         </template>
-        <template slot="content">
+
+        <template
+          slot="content"
+          v-if="authState.data.user && authState.data.user.email"
+        >
           <div class="p-field p-grid p-mb-3">
             <label
               class="p-col p-md-3"
@@ -123,7 +128,17 @@
             <p class="p-invalid">{{ $t('error.basic') }}</p>
           </div>
         </template>
-        <template #footer>
+        <template
+          slot="content"
+          v-else
+        >
+          {{ $t('pages.account.view.nodata') }}
+        </template>
+
+        <template
+          slot="footer"
+          v-if="authState.data.user && authState.data.user.email"
+        >
           <div class="p-field p-grid p-jc-end">
             <div class="p-col p-md-3">
               <p-button

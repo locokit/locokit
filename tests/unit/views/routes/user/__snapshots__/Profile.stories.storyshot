@@ -117,7 +117,7 @@ exports[`storyshots routes/user/Profile default 1`] = `
                 class="pi pi-user-edit"
               />
             </span>
-             Mettre à jour mon compte
+             Mettre à jour mon mot de passe
       
           </div>
            
@@ -126,112 +126,12 @@ exports[`storyshots routes/user/Profile default 1`] = `
           <div
             class="p-card-content"
           >
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <label
-                class="p-col p-md-3"
-                for="oldPassword"
-              >
-                
-            Ancien mot de passe
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="oldPassword"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <label
-                class="p-col p-md-3"
-                for="password"
-              >
-                
-            Nouveau mot de passe
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="password"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field p-grid"
-            >
-              <label
-                class="p-col p-md-3"
-                for="passwordCheck"
-              >
-                
-            Mot de passe (vérification)
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="passwordCheck"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <!---->
-             
-            <!---->
+            
+        Aucune donnée à afficher
+      
           </div>
            
-          <div
-            class="p-card-footer"
-          >
-            <div
-              class="p-field p-grid p-jc-end"
-            >
-              <div
-                class="p-col p-md-3"
-              >
-                <button
-                  class="p-button-primary p-button p-component"
-                  disabled="disabled"
-                  type="button"
-                >
-                  <span
-                    class="pi pi-check-circle p-button-icon p-button-icon-left"
-                  />
-                   
-                  <span
-                    class="p-button-label"
-                  >
-                    Valider
-                  </span>
-                   
-                  <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
+          <!---->
         </div>
       </div>
     </section>
@@ -356,7 +256,7 @@ exports[`storyshots routes/user/Profile with auth user 1`] = `
                 class="pi pi-user-edit"
               />
             </span>
-             Mettre à jour mon compte
+             Mettre à jour mon mot de passe
       
           </div>
            
@@ -365,112 +265,12 @@ exports[`storyshots routes/user/Profile with auth user 1`] = `
           <div
             class="p-card-content"
           >
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <label
-                class="p-col p-md-3"
-                for="oldPassword"
-              >
-                
-            Ancien mot de passe
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="oldPassword"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <label
-                class="p-col p-md-3"
-                for="password"
-              >
-                
-            Nouveau mot de passe
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="password"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field p-grid"
-            >
-              <label
-                class="p-col p-md-3"
-                for="passwordCheck"
-              >
-                
-            Mot de passe (vérification)
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="passwordCheck"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <!---->
-             
-            <!---->
+            
+        Aucune donnée à afficher
+      
           </div>
            
-          <div
-            class="p-card-footer"
-          >
-            <div
-              class="p-field p-grid p-jc-end"
-            >
-              <div
-                class="p-col p-md-3"
-              >
-                <button
-                  class="p-button-primary p-button p-component"
-                  disabled="disabled"
-                  type="button"
-                >
-                  <span
-                    class="pi pi-check-circle p-button-icon p-button-icon-left"
-                  />
-                   
-                  <span
-                    class="p-button-label"
-                  >
-                    Valider
-                  </span>
-                   
-                  <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
+          <!---->
         </div>
       </div>
     </section>
@@ -608,7 +408,7 @@ exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
                 class="pi pi-user-edit"
               />
             </span>
-             Mettre à jour mon compte
+             Mettre à jour mon mot de passe
       
           </div>
            

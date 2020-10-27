@@ -98,7 +98,7 @@
         "nodata": "No data to display"
       },
       "edit": {
-        "title": "Update my account",
+        "title": "Update my password",
         "oldPassword": "Old password",
         "newPassword": "New password",
         "passwordCheck": "Password (check)",

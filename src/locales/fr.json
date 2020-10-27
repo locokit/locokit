@@ -99,7 +99,7 @@
         "nodata": "Aucune donnée à afficher"
       },
       "edit": {
-        "title": "Mettre à jour mon compte",
+        "title": "Mettre à jour mon mot de passe",
         "oldPassword": "Ancien mot de passe",
         "newPassword": "Nouveau mot de passe",
         "passwordCheck": "Mot de passe (vérification)",
