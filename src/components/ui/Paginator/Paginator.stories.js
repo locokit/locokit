@@ -1,7 +1,7 @@
 import Paginator from './Paginator'
 
 export default {
-  title: 'Paginator',
+  title: 'components/ui/Paginator',
   component: Paginator
 }
 

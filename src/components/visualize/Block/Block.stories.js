@@ -2,7 +2,7 @@ import Block from './Block'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
-  title: 'Block',
+  title: 'components/visualize/Block',
   component: Block
 }
 export const BlockStoryWithoutProps = () => (
@@ -167,7 +167,7 @@ export const BlockMarkownStory = () => (
           type: 'Markdown',
           title: 'Futur Markdown',
           settings: {
-            content: "En cours d'implémentation"
+            content: 'This is the content.'
           }
         }
       }

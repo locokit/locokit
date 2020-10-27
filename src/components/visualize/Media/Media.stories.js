@@ -1,6 +1,6 @@
 import Media from './Media'
 export default {
-  title: 'Media',
+  title: 'components/visualize/Media',
   component: Media
 }
 

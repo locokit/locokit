@@ -1,7 +1,7 @@
 import Markdown from './Markdown'
 
 export default {
-  title: 'Markdown',
+  title: 'components/visualize/Markdown',
   component: Markdown
 }
 
@@ -20,7 +20,7 @@ export const MarkdownStoryWithProps = () => ({
         type: 'Markdown',
         title: 'Futur Markdown',
         settings: {
-          content: "En cours d'implémentation."
+          content: 'This is the content.'
         }
       }
     }

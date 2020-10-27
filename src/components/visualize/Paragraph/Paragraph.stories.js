@@ -1,7 +1,7 @@
 import Paragraph from './Paragraph'
 
 export default {
-  title: 'Paragraph',
+  title: 'components/visualize/Paragraph',
   component: Paragraph
 }
 

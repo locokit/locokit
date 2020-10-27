@@ -2,7 +2,7 @@ import Sidebar from './Sidebar'
 import StoryRouter from 'storybook-vue-router'
 
 export default {
-  title: 'Sidebar',
+  title: 'components/visualize/Sidebar',
   component: Sidebar,
   decorators: [
     StoryRouter()
