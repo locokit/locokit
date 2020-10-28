@@ -106,6 +106,7 @@
               ref="multiselect"
               :placeholder="$t('components.dropdown.placeholder')"
               @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
+              class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
@@ -466,7 +467,8 @@ export default {
 
 <style scoped>
 
-/deep/ .p-editable-column.p-cell-editing .p-dropdown {
+/deep/ .p-editable-column.p-cell-editing .p-dropdown,
+/deep/ .p-editable-column.p-cell-editing .p-multiselect {
   border: 1px solid var(--primary-color);
   border-radius: 0;
 }

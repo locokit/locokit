@@ -554,7 +554,6 @@ export default {
     },
     async onUpdateCell ({ rowIndex, columnId, newValue }) {
       const currentRow = this.block.content.data[rowIndex]
-      console.log('onUpdateCell', newValue)
 
       const data = {
         data: {
