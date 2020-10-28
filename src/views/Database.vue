@@ -109,8 +109,15 @@
               :id="column.id"
               :options="columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
-              optionValue="value"
               :showClear="true"
+              :placeholder="$t('components.dropdown.placeholder')"
+              v-model="newRow.data[column.id]"
+            />
+            <lck-multiselect
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              :id="column.id"
+              :options="columnsEnhanced[column.id].dropdownOptions"
+              optionLabel="label"
               :placeholder="$t('components.dropdown.placeholder')"
               v-model="newRow.data[column.id]"
             />
@@ -177,6 +184,8 @@ import {
   patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
+import { getComponentEditableColumn } from '@/utils/columns'
+
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Dropdown from 'primevue/dropdown'
@@ -188,14 +197,15 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { formatISO } from 'date-fns'
-import { getComponentEditableColumn } from '@/utils/columns'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import CrudTable from '@/components/store/CrudTable/CrudTable'
 import lckClient from '@/services/lck-api'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import FilterButton from '@/components/store/FilterButton/FilterButton'
+
+import CrudTable from '@/components/store/CrudTable/CrudTable.vue'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -205,11 +215,12 @@ export default {
   name: 'Database',
   components: {
     CrudTable,
+    'lck-autocomplete': AutoComplete,
+    'lck-filter-button': FilterButton,
+    'lck-multiselect': MultiSelect,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'lck-autocomplete': Vue.extend(AutoComplete),
-    'lck-filter-button': Vue.extend(FilterButton),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -543,6 +554,8 @@ export default {
     },
     async onUpdateCell ({ rowIndex, columnId, newValue }) {
       const currentRow = this.block.content.data[rowIndex]
+      console.log('onUpdateCell', newValue)
+
       const data = {
         data: {
           [columnId]: newValue

@@ -104,7 +104,6 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
-              optionValue="value"
               appendTo="body"
               :value="slotProps.data.data[column.id]"
               :placeholder="$t('components.dropdown.placeholder')"
@@ -174,9 +173,10 @@ import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import Paginator from '@/components/ui/Paginator/Paginator'
-import MultiSelect from '@/components/ui/MultiSelect/MultiSelect'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import Paginator from '@/components/ui/Paginator/Paginator.vue'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import {
@@ -190,9 +190,9 @@ import { getComponentEditableColumn } from '@/utils/columns'
 export default {
   name: 'LckDatatable',
   components: {
-    'lck-autocomplete': Vue.extend(AutoComplete),
-    'lck-paginator': Vue.extend(Paginator),
-    'lck-multiselect': Vue.extend(MultiSelect),
+    'lck-autocomplete': AutoComplete,
+    'lck-paginator': Paginator,
+    'lck-multiselect': MultiSelect,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
