@@ -447,8 +447,10 @@ export default {
         case COLUMN_TYPE.MULTI_SELECT:
           this.multiSelectValues = data.data[field].map(fieldValue => (currentColumnDefinition.dropdownOptions.find(ddO => ddO.value === fieldValue)))
           break
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          this.autocompleteInput = data.data[field].value
+          this.autocompleteInput = data.data[field]?.value || null
           break
       }
     },
