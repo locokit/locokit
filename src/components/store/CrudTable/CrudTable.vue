@@ -74,16 +74,13 @@
             </span>
           </template>
           <template #editor="slotProps" v-if="isEditableColumn(column)">
-            <!--
-              @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
-            -->
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
               :placeholder="$t('components.dropdown.placeholder')"
               field="label"
               appendTo="body"
-              v-model="autocompleteInput[column.id]"
+              v-model="autocompleteInput"
               :suggestions="autocompleteSuggestions"
               @complete="onComplete(column, $event)"
               @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
@@ -226,7 +223,7 @@ export default {
   data () {
     return {
       editingCellRows: [],
-      autocompleteInput: {},
+      autocompleteInput: null,
       currentDateToEdit: null,
       multiSelectValues: []
     }
@@ -446,8 +443,13 @@ export default {
     },
     onCellEditInit ({ data, field }) {
       const currentColumnDefinition = this.columnsEnhanced[field]
-      if (currentColumnDefinition.column_type_id === COLUMN_TYPE.MULTI_SELECT) {
-        this.multiSelectValues = data.data[field].map(fieldValue => (currentColumnDefinition.dropdownOptions.find(ddO => ddO.value === fieldValue)))
+      switch (currentColumnDefinition.column_type_id) {
+        case COLUMN_TYPE.MULTI_SELECT:
+          this.multiSelectValues = data.data[field].map(fieldValue => (currentColumnDefinition.dropdownOptions.find(ddO => ddO.value === fieldValue)))
+          break
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          this.autocompleteInput = data.data[field].value
+          break
       }
     },
     onSort (event) {
