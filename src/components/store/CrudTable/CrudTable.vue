@@ -102,6 +102,7 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
+              optionValue="value"
               v-model="multiSelectValues"
               ref="multiselect"
               :placeholder="$t('components.crudtable.placeholder')"
@@ -384,7 +385,7 @@ export default {
       this.$emit('update-cell', {
         rowIndex,
         columnId,
-        newValue: event.value.map(v => v.value)
+        newValue: event.value // .map(v => v.value)
       })
     },
     async onAutocompleteEdit (rowIndex, columnId, event) {
@@ -446,7 +447,7 @@ export default {
       const currentColumnDefinition = this.columnsEnhanced[field]
       switch (currentColumnDefinition.column_type_id) {
         case COLUMN_TYPE.MULTI_SELECT:
-          this.multiSelectValues = data.data[field].map(fieldValue => (currentColumnDefinition.dropdownOptions.find(ddO => ddO.value === fieldValue)))
+          this.multiSelectValues = data.data[field]
           break
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
