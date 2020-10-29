@@ -2,13 +2,9 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { TableRow } from '../../models/tablerow.model'
 import { table } from '../../models/table.model'
-import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
-import { Group } from '../../models/group.model'
-
-import { BadRequest, NotAcceptable } from '@feathersjs/errors'
+import { NotAcceptable } from '@feathersjs/errors'
 
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: workspace

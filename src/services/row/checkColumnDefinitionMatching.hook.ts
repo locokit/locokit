@@ -4,8 +4,6 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
-import { User } from '../../models/user.model'
-import { Group } from '../group/group.class'
 import dayjs from 'dayjs'
 
 class CheckError {
