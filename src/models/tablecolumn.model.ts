@@ -4,9 +4,9 @@
 import { Model } from 'objection'
 import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
-import { columnType as LckColumnType } from './columnType.model'
+import { ColumnType as LckColumnType } from './columnType.model'
 
-export interface SingleSelectValue {
+export interface SelectValue {
   label: string;
   color: string;
   backgroundColor: string;
@@ -35,13 +35,16 @@ export class TableColumn extends Model {
     tableId?: string,
     localField?: string,
     foreignField?: string,
-    values?: Record<string, SingleSelectValue>,
-    width?: number
+    values?: Record<string, SelectValue>,
+    width?: number,
+    required?: boolean
   };
 
   position!: number;
   table_id!: string;
+  table?: LckTable;
   column_type_id!: number;
+  column_type?: LckColumnType;
 
   static get tableName () {
     return 'table_column'
@@ -76,7 +79,7 @@ export class TableColumn extends Model {
           to: 'table.id'
         }
       },
-      type: {
+      column_type: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path

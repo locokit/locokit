@@ -1,4 +1,6 @@
-import { Hook, HookContext } from "@feathersjs/feathers";
+/* eslint-disable camelcase */
+/* eslint-disable no-case-declarations */
+import { Hook, HookContext } from '@feathersjs/feathers'
 
 /**
  * Load the columns of the row being inserted / updated.
@@ -18,14 +20,14 @@ export function loadColumnsDefinition () : Hook {
             : context.params._meta.item.table_id
         )
         const columns = await context.app.services.column.find({
-          query: { table_id, $limit: (table_id ? -1: 20) },
+          query: { table_id, $limit: (table_id ? -1 : 20) }
         })
         context.params._meta = {
           ...context.params._meta,
           columns: table_id ? columns : columns.data
         }
-        break;
+        break
     }
-    return context;
-  };
+    return context
+  }
 };

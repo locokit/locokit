@@ -20,6 +20,7 @@ export function enhanceComplexColumns (): Hook {
         .map(async currentColumnId => {
           const currentColumnDefinition = (context.params._meta.columns as TableColumn[]).find((c: TableColumn) => c.id === currentColumnId)
           const reference = context.data.data[currentColumnId]
+          if (!reference) return
           let value = ''
           switch (currentColumnDefinition?.column_type_id) {
             case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
