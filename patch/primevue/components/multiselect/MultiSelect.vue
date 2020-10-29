@@ -19,7 +19,7 @@
     </div>
     <div class="p-multiselect-label-container">
       <div :class="labelClass">
-        <slot name="value" :value="value" :placeholder="placeholder">
+        <slot name="value" :value="value" :options="options" :optionLabel="optionLabel" :optionValue="optionValue" :placeholder="placeholder">
           {{ label }}
         </slot>
       </div>
