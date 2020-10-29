@@ -269,11 +269,12 @@ export default {
       switch (column.column_type_id) {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.GROUP:
-        case COLUMN_TYPE.TEXT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
         case COLUMN_TYPE.LOOKED_UP_COLUMN:
         case COLUMN_TYPE.FORMULA:
           return data.value
+        case COLUMN_TYPE.TEXT:
+          return data
         case COLUMN_TYPE.SINGLE_SELECT:
           return column.settings.values[data]?.label
         case COLUMN_TYPE.DATE:
