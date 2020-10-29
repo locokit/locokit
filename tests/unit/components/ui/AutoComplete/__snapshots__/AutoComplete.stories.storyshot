@@ -1,19 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/ui/AutoComplete Auto Complete Story With Suggestions And Dropdown Opened 1`] = `
+exports[`storyshots components/ui/AutoComplete default 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_2_list"
+    aria-owns="pv_id_1_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-    suggestions=""
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_2_list"
+      aria-controls="pv_id_1_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Sélectionnez une option"
@@ -50,19 +49,20 @@ exports[`storyshots components/ui/AutoComplete Auto Complete Story With Suggesti
 </div>
 `;
 
-exports[`storyshots components/ui/AutoComplete AutoComplete 1`] = `
+exports[`storyshots components/ui/AutoComplete with suggestions and dropdown opened 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_1_list"
+    aria-owns="pv_id_2_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+    suggestions=""
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_1_list"
+      aria-controls="pv_id_2_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Sélectionnez une option"

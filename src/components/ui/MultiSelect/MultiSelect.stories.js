@@ -5,11 +5,12 @@ export default {
   component: LckMultiSelect
 }
 
-export const MultiSelectStory = () => ({
+export const defaultStory = () => ({
   components: { LckMultiSelect },
   template: '<LckMultiSelect />',
   methods: {}
 })
+defaultStory.storyName = 'default'
 
 const suggestions = [{
   label: 'Option one',
@@ -22,7 +23,7 @@ const suggestions = [{
   value: 3
 }]
 
-export const MultiSelectStoryWithSuggestions = () => ({
+export const withSuggestions = () => ({
   components: { LckMultiSelect },
   data () {
     return {
@@ -43,4 +44,6 @@ export const MultiSelectStoryWithSuggestions = () => ({
   }
 })
 
-MultiSelectStory.storyName = 'MultiSelect'
+withSuggestions.storyName = 'with suggestions'
+withSuggestions.timeoutBeforeScreenshot = 1000
+withSuggestions.args = { timeoutBeforeScreenshot: 1000 }

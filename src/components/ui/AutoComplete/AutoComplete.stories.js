@@ -6,11 +6,12 @@ export default {
   component: AutoComplete
 }
 
-export const AutoCompleteStory = () => ({
+export const defaultStory = () => ({
   components: { AutoComplete },
   template: '<AutoComplete />',
   methods: { }
 })
+defaultStory.storyName = 'default'
 
 const suggestions = [{
   label: 'Suggestion one',
@@ -23,7 +24,7 @@ const suggestions = [{
   value: 3
 }]
 
-export const AutoCompleteStoryWithSuggestionsAndDropdownOpened = () => ({
+export const withSuggestionsAndDropdownOpened = () => ({
   components: { AutoComplete },
   data () {
     return {
@@ -49,4 +50,5 @@ export const AutoCompleteStoryWithSuggestionsAndDropdownOpened = () => ({
   }
 })
 
-AutoCompleteStory.storyName = 'AutoComplete'
+withSuggestionsAndDropdownOpened.storyName = 'with suggestions and dropdown opened'
+withSuggestionsAndDropdownOpened.args = { timeoutBeforeScreenshot: 1000 }

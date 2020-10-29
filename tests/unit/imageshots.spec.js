@@ -18,9 +18,18 @@ initStoryshots({
   configPath: path.join(__dirname, '../../.storybook'),
   test: imageSnapshot({
     getMatchOptions,
-    beforeScreenshot (page, { url }) {
-      console.log(url)
-      page.setViewport({ width: 1024, height: 768 })
+    async beforeScreenshot (page, { context: { args }, url }) {
+      /**
+       * if there is a special "property" named timeoutBeforeScreenshot
+       * we wait this time and resolve it
+       */
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('Taking screenshot for url ', url, 'with args ', args)
+          page.setViewport({ width: 1024, height: 768 })
+          resolve()
+        }, args.timeoutBeforeScreenshot || 0)
+      })
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'
   })
