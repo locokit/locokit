@@ -39,11 +39,7 @@ export const MultiSelectStoryWithSuggestions = () => ({
     />
   `,
   mounted () {
-    // this.$refs.ms.$el.click()
-    const event = document.createEvent('HTMLEvents')
-    event.initEvent('click', true, true)
-    event.eventName = 'click'
-    this.$refs.ms.$el.dispatchEvent(event)
+    this.$refs.ms.$el.click()
   }
 })
 
