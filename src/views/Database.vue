@@ -406,6 +406,14 @@ export default {
             dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
           }
         })
+      /**
+       * For multiselect columns, we return an array of string
+       */
+      this.block.definition.columns
+        .filter(c => c.column_type_id === COLUMN_TYPE.MULTI_SELECT)
+        .forEach(c => {
+          dataToSubmit.data[c.id] = this.newRow.data[c.id]?.map(v => v.value)
+        })
       await saveTableData({
         ...dataToSubmit,
         // eslint-disable-next-line @typescript-eslint/camelcase

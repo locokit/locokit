@@ -28,7 +28,7 @@ import Vue from 'vue'
 import PrimeMultiSelect from 'primevue/multiselect'
 
 export default {
-  name: 'LCKMultiSelect',
+  name: 'LckMultiSelect',
   components: {
     'p-multiselect': Vue.extend(PrimeMultiSelect)
   },
@@ -47,10 +47,6 @@ export default {
 
 <style scoped lang="scss">
 
-.p-multiselect {
-  min-width: 15rem;
-}
-
 .multiselect-custom {
   .p-multiselect-label:not(.p-placeholder) {
     padding-top: .25rem;
@@ -58,7 +54,7 @@ export default {
   }
 
   .option-item-value {
-    padding: .25rem .5rem;
+    padding: 0 .5rem;
     border-radius: 3px;
     display: inline-flex;
     margin-right: .5rem;
