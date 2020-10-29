@@ -6,20 +6,15 @@
     :placeholder="$t('components.crudtable.placeholder')"
     :appendTo="appendTo"
   >
-    <template #value="slotProps">
+    <!-- <template #value="slotProps">
       <div
         class="option-item option-item-value"
-        v-for="option of slotProps.value"
-        :key="option.value"
+        v-for="currentValue in slotProps.value"
+        :key="currentValue"
       >
-        <div>{{ option.label }}</div>
+        {{ slotProps.options.find(option => option[slotProps.optionValue] === currentValue)[slotProps.optionLabel] }}
       </div>
-    </template>
-    <template #option="slotProps">
-      <div class="country-item">
-        <div>{{ slotProps.option.label }}</div>
-      </div>
-    </template>
+    </template> -->
   </p-multiselect>
 </template>
 
@@ -43,21 +38,21 @@ export default {
 
 <style scoped lang="scss">
 
-.multiselect-custom {
-  .p-multiselect-label:not(.p-placeholder) {
-    padding-top: .25rem;
-    padding-bottom: .25rem;
-  }
+// .multiselect-custom {
+//   .p-multiselect-label:not(.p-placeholder) {
+//     padding-top: .25rem;
+//     padding-bottom: .25rem;
+//   }
 
-  .option-item-value {
-    padding: 0 .5rem;
-    border-radius: 3px;
-    display: inline-flex;
-    margin-right: .5rem;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-  }
-}
+//   .option-item-value {
+//     padding: 0 .5rem;
+//     border-radius: 3px;
+//     display: inline-flex;
+//     margin-right: .5rem;
+//     background-color: var(--primary-color);
+//     color: var(--text-color);
+//   }
+// }
 </style>
 
 <style>

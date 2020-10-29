@@ -37,6 +37,7 @@ export const withSuggestions = () => ({
       :options="options"
       v-model="multiselectModel"
       optionLabel="label"
+      optionValue="value"
     />
   `,
   mounted () {
