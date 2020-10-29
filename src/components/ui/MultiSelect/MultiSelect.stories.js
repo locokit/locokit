@@ -1,29 +1,29 @@
-import LCKMultiSelect from './MultiSelect'
+import LckMultiSelect from './MultiSelect'
 
 export default {
-  title: 'MultiSelect',
-  component: LCKMultiSelect
+  title: 'components/ui/MultiSelect',
+  component: LckMultiSelect
 }
 
 export const MultiSelectStory = () => ({
-  components: { LCKMultiSelect },
-  template: '<LCKMultiSelect />',
+  components: { LckMultiSelect },
+  template: '<LckMultiSelect />',
   methods: {}
 })
 
 const suggestions = [{
-  label: 'Suggestion one',
+  label: 'Option one',
   value: 1
 }, {
-  label: 'Suggestion two',
+  label: 'Option two',
   value: 2
 }, {
-  label: 'Suggestion three',
+  label: 'Option three',
   value: 3
 }]
 
 export const MultiSelectStoryWithSuggestions = () => ({
-  components: { LCKMultiSelect },
+  components: { LckMultiSelect },
   data () {
     return {
       options: suggestions,
@@ -31,13 +31,20 @@ export const MultiSelectStoryWithSuggestions = () => ({
     }
   },
   template: `
-    <LCKMultiSelect
+    <LckMultiSelect
+      ref="ms"
       :options="options"
-      :filter="true"
       v-model="multiselectModel"
       optionLabel="label"
     />
-  `
+  `,
+  mounted () {
+    // this.$refs.ms.$el.click()
+    const event = document.createEvent('HTMLEvents')
+    event.initEvent('click', true, true)
+    event.eventName = 'click'
+    this.$refs.ms.$el.dispatchEvent(event)
+  }
 })
 
 MultiSelectStory.storyName = 'MultiSelect'

@@ -77,7 +77,7 @@
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               field="label"
               appendTo="body"
               v-model="autocompleteInput"
@@ -94,7 +94,7 @@
               appendTo="body"
               :value="slotProps.data.data[column.id]"
               :showClear="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -104,7 +104,7 @@
               optionLabel="label"
               v-model="multiSelectValues"
               ref="multiselect"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />

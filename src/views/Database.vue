@@ -96,7 +96,7 @@
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :id="column.id"
               :dropdown="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               field="label"
               :suggestions="autocompleteItems"
               @complete="updateLocalAutocompleteSuggestions(column, $event)"
@@ -110,7 +110,7 @@
               :options="columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               :showClear="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               v-model="newRow.data[column.id]"
             />
             <lck-multiselect
@@ -118,7 +118,7 @@
               :id="column.id"
               :options="columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               v-model="newRow.data[column.id]"
             />
             <p-calendar

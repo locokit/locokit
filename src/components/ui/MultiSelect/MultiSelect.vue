@@ -3,7 +3,7 @@
     class="multiselect-custom"
     v-on="$listeners"
     v-bind="$attrs"
-    :placeholder="placeholder"
+    :placeholder="$t('components.crudtable.placeholder')"
     :appendTo="appendTo"
   >
     <template #value="slotProps">
@@ -36,10 +36,6 @@ export default {
     appendTo: {
       type: String,
       default: 'body'
-    },
-    placeholder: {
-      type: String,
-      default: "$t('components.dropdown.placeholder')"
     }
   }
 }
@@ -61,5 +57,11 @@ export default {
     background-color: var(--primary-color);
     color: var(--text-color);
   }
+}
+</style>
+
+<style>
+.p-multiselect-header .p-multiselect-close {
+  display: none;
 }
 </style>
