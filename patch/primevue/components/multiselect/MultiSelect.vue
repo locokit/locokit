@@ -204,7 +204,7 @@ export default {
       if (!this.disabled && (
         !this.overlay || !this.overlay.contains(event.target)
       ) && !DomHandler.hasClass(event.target, 'p-multiselect-close')) {
-        if (this.overlayVisible) this.hide() else this.show()
+        if (this.overlayVisible) this.hide(); else this.show()
 
         this.$refs.focusInput.focus()
       }
@@ -259,7 +259,7 @@ export default {
         val,
         this.getOptionValue(option),
         this.equalityKey
-      )) else value = [...this.value || [], this.getOptionValue(option)]
+      )); else value = [...this.value || [], this.getOptionValue(option)]
 
       this.$emit('input', value)
       this.$emit(
@@ -311,7 +311,7 @@ export default {
       if (nextItem) return DomHandler.hasClass(
         nextItem,
         'p-disabled'
-      ) ? this.findNextItem(nextItem) : nextItem else return null
+      ) ? this.findNextItem(nextItem) : nextItem; else return null
     },
     findPrevItem (item) {
       let prevItem = item.previousElementSibling
@@ -319,7 +319,7 @@ export default {
       if (prevItem) return DomHandler.hasClass(
         prevItem,
         'p-disabled'
-      ) ? this.findPrevItem(prevItem) : prevItem else return null
+      ) ? this.findPrevItem(prevItem) : prevItem; else return null
     },
     onOverlayEnter () {
       this.$refs.overlay.style.zIndex = String(DomHandler.generateZIndex())
@@ -430,13 +430,13 @@ export default {
     },
     appendContainer () {
       if (this.appendTo) {
-        if (this.appendTo === 'body') document.body.appendChild(this.$refs.overlay) else document.getElementById(this.appendTo).appendChild(
+        if (this.appendTo === 'body') document.body.appendChild(this.$refs.overlay); else document.getElementById(this.appendTo).appendChild(
           this.$refs.overlay)
       }
     },
     restoreAppend () {
       if (this.$refs.overlay && this.appendTo) {
-        if (this.appendTo === 'body') document.body.removeChild(this.$refs.overlay) else document.getElementById(this.appendTo).removeChild(
+        if (this.appendTo === 'body') document.body.removeChild(this.$refs.overlay); else document.getElementById(this.appendTo).removeChild(
           this.$refs.overlay)
       }
     },
@@ -453,7 +453,7 @@ export default {
   computed: {
     visibleOptions () {
       if (this.filterValue && this.filterValue.trim().length > 0) return this.options.filter(option => this.getOptionLabel(
-        option).toLocaleLowerCase(this.filterLocale).indexOf(this.filterValue.toLocaleLowerCase(this.filterLocale)) > -1) else return this.options
+        option).toLocaleLowerCase(this.filterLocale).indexOf(this.filterValue.toLocaleLowerCase(this.filterLocale)) > -1); else return this.options
     },
     containerClass () {
       return [
