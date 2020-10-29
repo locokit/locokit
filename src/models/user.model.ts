@@ -2,7 +2,7 @@
 // for more of what you can do here.
 import { Model } from 'objection'
 import { Application } from '@feathersjs/express'
-import { group as LckGroup } from './group.model'
+import { Group as LckGroup } from './group.model'
 
 export class User extends Model {
   id!: string;

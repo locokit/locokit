@@ -4,7 +4,7 @@ import { TableColumn } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableRow } from '../../models/tablerow.model'
 import { User } from '../../models/user.model'
-import { group } from '../../models/group.model'
+import { Group } from '../../models/group.model'
 
 /**
  * Retrieve the display value
@@ -50,7 +50,7 @@ export function enhanceComplexColumns (): Hook {
               }
               break
             case COLUMN_TYPE.GROUP:
-              const matchingGroup: group = await context.app.services.group.get(reference)
+              const matchingGroup: Group = await context.app.services.group.get(reference)
               value = matchingGroup.name
               context.data.data[currentColumnId] = {
                 reference,
