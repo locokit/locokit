@@ -53,6 +53,7 @@ exports[`storyshots components/ui/MultiSelect with suggestions 1`] = `
     class="multiselect-custom p-multiselect p-component p-inputwrapper"
     optionlabel="label"
     options="[object Object],[object Object],[object Object]"
+    optionvalue="value"
   >
     <div
       class="p-hidden-accessible"
