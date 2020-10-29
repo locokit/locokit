@@ -1,0 +1,279 @@
+/* eslint-disable no-case-declarations */
+import { Hook, HookContext } from '@feathersjs/feathers'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
+import { GeneralError, NotAcceptable } from '@feathersjs/errors'
+import { TableRow } from '../../models/tablerow.model'
+import dayjs from 'dayjs'
+
+class CheckError {
+  columnName!: string
+  columnError!: string
+}
+
+/**
+ * Check that the value we have for a column
+ * match its definition :
+ * * a BOOLEAN is a boolean, true / false or nullable value
+ * * a NUMBER is a number or nullable value
+ * * a DATE is a ISO 8601 Date, or nullable value
+ * * a STRING is a string or nullable value
+ * * a FLOAT is a float or nullable value
+ * * a USER is an existing user, defined by its reference
+ * * a GROUP is an existing group, defined by its reference
+ * * a RELATION_BETWEEN_TABLES is a value pointing to an existing row, from the right table, or a nullable value
+ * * a LOOKED_UP_COLUMN can't be sent
+ * * a SINGLE_SELECT has only one value, and this value is from the column definition values set, or nullable value
+ * * a MULTI_SELECT has a value's array, and all values are from the column definition values set, or nullable value
+ * * a FORMULA can't be sent
+ * * a FILE is not yet implemented
+ * * a MULTI_USER is not yet implemented
+ * * a MULTI_GROUP is not yet implemented
+ * * a TEXT is a string
+ *
+ * Need the loadColumnsDefinition hook before.
+ */
+export function checkColumnDefinitionMatching (): Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    if (!['patch', 'create', 'update'].includes(context.method)) {
+      throw new GeneralError('[checkColumnDefinitionMatching] hook available only for create / update / patch methods')
+    }
+    /**
+     * Need column definitions and columnsIds transmitted
+     */
+    if (!context.params._meta?.columns) {
+      throw new GeneralError('[checkColumnDefinitionMatching] columns definitions needed')
+    }
+    if (!context.params._meta?.columnsIdsTransmitted) {
+      throw new GeneralError('[checkColumnDefinitionMatching] columnsIdsTransmitted definitions needed')
+    }
+
+    const columnsDefinitionByColumnId: Record<string, TableColumn> = {}
+    context.params._meta.columns.forEach((column: TableColumn) => {
+      columnsDefinitionByColumnId[column.id] = column
+    })
+    // console.log('checkColumnDefinitionMatching hook', context.params._meta?.columnsIdsTransmitted, columnsDefinitionByColumnId)
+
+    /**
+     * For each values sent, check the matching
+     */
+    const checkErrors: CheckError[] = []
+    await Promise.all(
+      context.params._meta.columnsIdsTransmitted.map(async (columnId: string) => {
+        const currentColumn = columnsDefinitionByColumnId[columnId]
+        const currentColumnValue = context.data.data[columnId]
+        /**
+       * If the current value is null
+       */
+        if (currentColumnValue === null) {
+        /**
+         * and is required, we add an error
+         */
+          if (currentColumn.settings?.required) {
+            checkErrors.push({
+              columnName: currentColumn.text,
+              columnError: 'The current field is required (received: ' + currentColumnValue + ')'
+            })
+          }
+          /**
+         * for both case -required or not- we don't have to check the type
+         */
+          return
+        }
+        switch (currentColumn.column_type_id) {
+          case COLUMN_TYPE.BOOLEAN:
+            if (!(typeof currentColumnValue === 'boolean')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a boolean (received: ' + currentColumnValue + ')'
+              })
+            }
+            break
+          case COLUMN_TYPE.NUMBER:
+          case COLUMN_TYPE.FLOAT:
+            if (!(typeof currentColumnValue === 'number')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a number / float (received: ' + currentColumnValue + ')'
+              })
+            }
+            break
+          case COLUMN_TYPE.DATE:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value need to be sent as a string (received: ' + currentColumnValue + ')'
+              })
+            } else if (!dayjs(currentColumnValue).isValid()) {
+              /**
+               * Check that the date is in a ISO 8601 format
+               */
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a ISO8601 date (received: ' + currentColumnValue + ')'
+              })
+            }
+            break
+          case COLUMN_TYPE.SINGLE_SELECT:
+          /**
+           * A single select is sent as a string
+           */
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+              })
+            } else {
+            /**
+             * The single select is one of the settings values ids
+             */
+              const currentSingleSelectSettingsValues = currentColumn.settings.values as Record<string, SelectValue>
+              if (!Object.keys(currentSingleSelectSettingsValues).includes(currentColumnValue as string)) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+                })
+              }
+            }
+            break
+          case COLUMN_TYPE.MULTI_SELECT:
+            /**
+           * A multi select is sent as a string array
+           */
+            if (!(currentColumnValue instanceof Array)) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not an array of value (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              /**
+               * Each value of a multi select is a string,
+               * and each value is one of the settings values ids
+               */
+              const currentSettingsValues = currentColumn.settings?.values as Record<string, SelectValue>
+              if (!currentSettingsValues) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current multi select column is not well configured. Please add values in the column\'s settings.'
+                })
+              } else {
+                currentColumnValue.forEach((multiSelectValue: string | any) => {
+                  if (!(typeof multiSelectValue === 'string')) {
+                    checkErrors.push({
+                      columnName: currentColumn.text,
+                      columnError: 'The current multi select value is not a string (received: ' + multiSelectValue + ')'
+                    })
+                  } else {
+                    if (!Object.keys(currentSettingsValues).includes(multiSelectValue as string)) {
+                      checkErrors.push({
+                        columnName: currentColumn.text,
+                        columnError: 'The current value is not a string (received: ' + multiSelectValue + ')'
+                      })
+                    }
+                  }
+                })
+              }
+            }
+            break
+          case COLUMN_TYPE.STRING:
+          case COLUMN_TYPE.TEXT:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a string / text (received: ' + currentColumnValue + ')'
+              })
+            }
+            break
+          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a string reference (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              /**
+               * We have to check this reference exist
+               * and is related to the table_id from column definition
+               */
+              try {
+                const relatedRow: TableRow = await context.service.get(currentColumnValue)
+                if (relatedRow.table_id !== currentColumn.settings.tableId) {
+                  checkErrors.push({
+                    columnName: currentColumn.text,
+                    columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')'
+                  })
+                }
+              } catch (error) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')'
+                })
+              }
+            }
+            break
+          case COLUMN_TYPE.USER:
+            if (!(typeof currentColumnValue === 'number')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a user reference (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              /**
+               * We have to check this user exist
+               */
+              try {
+                await context.app.service('user').get(currentColumnValue)
+              } catch (error) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not an existing user (received: ' + currentColumnValue + ')'
+                })
+              }
+            }
+            break
+          case COLUMN_TYPE.GROUP:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a group reference (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              /**
+               * We have to check this group exist
+               */
+              try {
+                await context.app.service('group').get(currentColumnValue)
+              } catch (error) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not an existing group (received: ' + currentColumnValue + ')'
+                })
+              }
+            }
+            break
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.FORMULA:
+            checkErrors.push({
+              columnName: currentColumn.text,
+              columnError: 'This type of column can\'t be set. It\'s automagically computed.'
+            })
+            break
+          case COLUMN_TYPE.FILE:
+          case COLUMN_TYPE.MULTI_USER:
+          case COLUMN_TYPE.MULTI_GROUP:
+          default:
+            checkErrors.push({
+              columnName: currentColumn.text,
+              columnError: 'We are sorry, this column type is not yet implemented'
+            })
+            break
+        }
+      })
+    )
+
+    if (checkErrors.length > 0) {
+      throw new NotAcceptable('Several values sent are incorrect', checkErrors)
+    }
+    return context
+  }
+};

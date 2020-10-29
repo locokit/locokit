@@ -4,7 +4,7 @@ import { TableColumn } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableRow } from '../../models/tablerow.model'
 import { User } from '../../models/user.model'
-import { group } from '../../models/group.model'
+import { Group } from '../../models/group.model'
 
 /**
  * Retrieve the display value
@@ -20,6 +20,7 @@ export function enhanceComplexColumns (): Hook {
         .map(async currentColumnId => {
           const currentColumnDefinition = (context.params._meta.columns as TableColumn[]).find((c: TableColumn) => c.id === currentColumnId)
           const reference = context.data.data[currentColumnId]
+          if (!reference) return
           let value = ''
           switch (currentColumnDefinition?.column_type_id) {
             case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
@@ -49,7 +50,7 @@ export function enhanceComplexColumns (): Hook {
               }
               break
             case COLUMN_TYPE.GROUP:
-              const matchingGroup: group = await context.app.services.group.get(reference)
+              const matchingGroup: Group = await context.app.services.group.get(reference)
               value = matchingGroup.name
               context.data.data[currentColumnId] = {
                 reference,

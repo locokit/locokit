@@ -7,315 +7,21 @@ import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-import { Hook, HookContext } from '@feathersjs/feathers'
-import { TableColumn, SingleSelectValue } from '../../models/tablecolumn.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { TableRow, RowData } from '../../models/tablerow.model'
-import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
-import { enhanceComplexColumns } from '../../hooks/lck-hooks/enhanceComplexColumns'
-import { loadColumnsDefinition } from '../../hooks/lck-hooks/loadColumnsDefinition'
-import { TableRowRelation } from '../../models/tablerowrelation.model'
+import { enhanceComplexColumns } from './enhanceComplexColumns.hook'
+import { loadColumnsDefinition } from './loadColumnsDefinition.hook'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
-import { computeTextProperty } from '../../hooks/lck-hooks/computeTextProperty'
+import { computeTextProperty } from './computeTextProperty.hook'
+import { memorizeColumnsIds } from './memorizeColumnsIds.hook'
+import { completeDataField } from './completeDataField.hook'
+import { completeDefaultValues } from './completeDefaultValues.hook'
+import { computeLookedUpColumns } from './computeLookedUpColumns.hook'
+import { computeRowLookedUpColumns } from './computeRowLookedUpColumns.hook'
+import { removeRelatedRows } from './removeRelatedRows.hook'
+import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
+import { upsertRowRelation } from './upsertRowRelation.hook'
+import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
+import { TableRow } from '../../models/tablerow.model'
 const { authenticate } = authentication.hooks
-
-/**
- * Memorize columns ids sent in the row's data.
- * Useful for the after hook historizeDataEvents.
- *
- * We have to memorize them before "completing" data field.
- */
-function memorizeColumnsIds (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    context.params._meta = {
-      ...context.params._meta,
-      columnsIdsTransmitted: Object.keys(context.data.data || {})
-    }
-    return context
-  }
-};
-
-/**
- * Complete the data field of a row,
- * useful when patching a row,
- * to avoid an erase of all column values.
- */
-function completeDataField (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    if (context.method !== 'patch') return context
-    if (
-      context.data.data &&
-      context.params._meta?.item?.data
-    ) {
-      // find the matching row
-      // const currentRow = await context.service.get(context.id as string)
-      // enhance the data object
-      context.data.data = {
-        ...context.params._meta.item.data,
-        ...context.data.data
-      }
-    }
-    return context
-  }
-};
-
-/**
- * Hook exclusive to create
- * Add default values for single_select fields if not set
- */
-function completeDefaultValues (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'create') {
-      if (!context.data.data) context.data.data = {}
-      await Promise.all(
-        (context.params._meta.columns as TableColumn[]).map(currentColumnDefinition => {
-          if (!context.data.data[currentColumnDefinition.id]) {
-            context.data.data[currentColumnDefinition.id] = null
-            switch (currentColumnDefinition.column_type_id) {
-              case COLUMN_TYPE.SINGLE_SELECT:
-                if ((currentColumnDefinition.settings as any).default) {
-                  context.data.data[currentColumnDefinition.id] = (currentColumnDefinition.settings as any).default
-                }
-                break
-            }
-          }
-        })
-      )
-    }
-    return context
-  }
-};
-
-/**
- * Hook updating looked up columns linked to the current row
- * * by a field updated for the current row (tcr.table_column_from_id)
- * *
- */
-function computeLookedUpColumns (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    // first, find rows linked to this current row (trr.table_row_from_id)
-    const linkedRows = await context.app.services.trr.find({
-      query: {
-        table_row_from_id: context.result.id
-      }
-    })
-
-    // find if some of the columns are linked to other via table_column_relation
-    const linkedColumns = await context.app.services.columnrelation.find({
-      query: {
-        table_column_from_id: {
-          $in: context.params._meta.columnsIdsTransmitted
-        }
-      }
-    })
-
-    // update each linked row, by setting the new value for all columns related to this row
-    await Promise.all((linkedRows.data as TableRowRelation[]).map(async (currentRowRelation: TableRowRelation) => {
-      const currentRow = await context.service.get(currentRowRelation.table_row_to_id)
-      const columnDataKeysForCurrentRow = Object.keys(currentRow.data)
-      const columnsToUpdate = (linkedColumns.data as TableColumnRelation[]).filter(c => columnDataKeysForCurrentRow.indexOf(c.table_column_to_id) > -1)
-      const newData: Record<string, {
-        reference: string,
-        value: string
-      }> = {}
-      columnsToUpdate.forEach(c => {
-        newData[c.table_column_to_id] = {
-          reference: context.result.id,
-          value: context.result.data[c.table_column_from_id]
-        }
-      })
-      await context.service.patch(currentRow.id, {
-        data: newData
-      })
-    }))
-    return context
-  }
-}
-
-/**
- * Compute the looked up columns for the current row,
- * if some of the depedencies of the looked up columns
- * are in the data currently sent.
- * (that means one of the dependency of the looked up column has mutated => refresh the computed value)
- */
-function computeRowLookedUpColumns (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    if (
-      context.method === 'patch' &&
-      !context.data.data
-    ) return context
-    await Promise.all(
-      (context.params._meta.columns as TableColumn[])
-        .filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
-        .map(async currentColumnDefinition => {
-          const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
-          const foreignColumnTypeId = foreignColumn.column_type_id
-          const foreignRowId: { reference: string, value: string } = context.data.data[currentColumnDefinition.settings.localField as string]
-          if (foreignRowId?.reference) {
-            const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
-            const currentColumnData: RowData = {
-              reference: foreignRowId.reference,
-              value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string }
-            }
-            /**
-             * In the case of a foreign column "SINGLE_SELECT", we have to duplicate the SINGLE_SELECT label for display
-             */
-            if (
-              typeof currentColumnData.value === 'string' &&
-              foreignColumnTypeId === COLUMN_TYPE.SINGLE_SELECT
-            ) {
-              currentColumnData.value = (
-                foreignColumn.settings.values as Record<string, SingleSelectValue>
-              )[currentColumnData.value].label
-            } else
-            /**
-             * If the value is an object, we retrieve the sub property of value
-             */
-            if (typeof currentColumnData.value === 'object') {
-              currentColumnData.reference = currentColumnData.value?.reference
-              currentColumnData.value = currentColumnData.value?.value
-            }
-            context.data.data[currentColumnDefinition.id] = currentColumnData
-          }
-        })
-    )
-    return context
-  }
-}
-
-/**
- * Compute the formula of the columns
- */
-// function computeRowFormulaColumns () : Hook {
-//   return async (context: HookContext): Promise<HookContext> => {
-//     await Promise.all(
-//       (context.params._meta.columns as TableColumn[])
-//         .filter(c => c.column_type_id === COLUMN_TYPE.FORMULA)
-//         .map(currentColumnDefinition => {
-//           if (currentColumnDefinition.settings.formula) {
-//             const formula = currentColumnDefinition.settings.formula
-//             // only the formula {{ $columns[columnId] }} is recognized, need a lexical parser
-//             const newFormula = formula.replace(/{{\ ?\$column\['([a-z0-9\-]*)'\]\ ?}}/,
-//               function replacer(match, columnId) {
-//                 if (context.data.data[columnId]) {
-//                   return context.data.data[columnId]
-//                 } else {
-//                   return ''
-//                 }
-//               })
-//             try {
-//               context.data.data[currentColumnDefinition.id] = eval(newFormula)
-//             } catch (error) {
-//               // TODO: historize or send to sentry
-//               console.error(error)
-//             }
-//           } else {
-//             // console.log(currentColumnDefinition.settings)
-//             console.log('not yet implemented...')
-//           }
-//         })
-//     )
-//     return context;
-//   };
-// }
-
-/**
- * Restrict the removal of a row if there are dependencies on this row
- */
-function restrictRemoveIfRelatedRows () : Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'remove') {
-      // find if there are related rows dependent of the current row (table_row_from_id)
-      const matchingRows = await context.app.services.trr.find({
-        query: {
-          table_row_from_id: context.id
-        }
-      })
-      if (matchingRows.total > 0) {
-        throw new Error('Can\'t remove current row, related rows are still present')
-      }
-    } else {
-      console.log('restrictRemoveIfRelatedRows is remove only hook')
-    }
-    return context
-  }
-}
-
-/**
- * Clean the related rows for the row deleted
- */
-function removeRelatedRows () : Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'remove') {
-      // remove the related rows pointing to the current row
-      const matchingRows = await context.app.services.trr.find({
-        query: {
-          table_row_to_id: context.id
-        }
-      })
-      if (matchingRows.total > 0) {
-        await context.app.services.trr.remove(null, {
-          query: {
-            table_row_to_id: context.id
-          }
-        })
-      }
-    } else {
-      console.log('removeRelatedRows is remove only hook')
-    }
-    return context
-  }
-}
-
-/**
- * Create / Update the table_row_relation if needed
- */
-function upsertRowRelation (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
-    await Promise.all(
-      (context.params._meta.columnsIdsTransmitted as string[])
-        .filter(currentColumnId => {
-        // find the matching column
-          const currentColumnDefinition = (context.params._meta.columns as TableColumn[]).find((c: TableColumn) => c.id === currentColumnId)
-          // check if it's a RELATION_BETWEEN_TABLE
-          return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
-        })
-        .map(async currentColumnId => {
-        // check if there is alreay a trr for the current row id + currentColumnId
-          const matchingRows = await context.app.services.trr.find({
-            query: {
-              table_row_to_id: context.result.id,
-              table_column_to_id: currentColumnId
-            }
-          })
-          const tableRowFromId = context.result.data[currentColumnId].reference
-          // if the trr doesn't exist, create it
-          if (matchingRows.total === 0) {
-            await context.app.services.trr.create({
-              table_row_to_id: context.result.id,
-              table_column_to_id: currentColumnId,
-              table_row_from_id: tableRowFromId
-            })
-          } else if (matchingRows.total === 1) {
-          // if the from is different, update this line
-            if (matchingRows.data[0].table_row_from_id !== tableRowFromId) {
-              await context.app.services.trr.patch({
-                table_row_to_id: context.result.id,
-                table_column_to_id: currentColumnId
-              }, {
-                table_row_from_id: tableRowFromId
-              })
-            }
-          // else do nothing
-          } else {
-            throw new Error('Too much matching rows ?')
-          }
-        })
-    )
-
-    return context
-  }
-}
 
 export default {
   before: {
@@ -333,8 +39,10 @@ export default {
     ],
     get: [],
     create: [
+      commonHooks.required(...TableRow.jsonSchema.required),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
+      checkColumnDefinitionMatching(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
       completeDefaultValues(),
@@ -344,6 +52,7 @@ export default {
       getCurrentItem(),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
+      checkColumnDefinitionMatching(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
       completeDefaultValues(),
@@ -353,6 +62,7 @@ export default {
       getCurrentItem(),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
+      checkColumnDefinitionMatching(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       completeDataField(),
       computeRowLookedUpColumns(),

@@ -4,6 +4,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 // import { expressOauth } from '@feathersjs/authentication-oauth';
 
 import { Application } from '../../declarations'
+import { Forbidden } from '@feathersjs/errors'
 
 declare module '../../declarations' {
   interface ServiceTypes {
@@ -25,7 +26,7 @@ export default function (app: Application) {
       create: [
         (context: HookContext) => {
           if (!context.result.user.isVerified) {
-            throw new Error('User email is not verified. You can\'t login.')
+            throw new Forbidden('User email is not verified. You can\'t login.')
           }
           return context
         }

@@ -32,7 +32,7 @@ export function computeTextProperty () : Hook {
               text = context.data.data?.[columns[0].id]?.value || 'No reference'
               break
             default:
-              text = context.data.data?.[columns[0].id] || 'No reference'
+              text = context.data.data?.[columns[0].id]?.toString() || 'No reference'
           }
         } else {
           columnsUsedForReference.forEach((c: TableColumn, index: number) => {

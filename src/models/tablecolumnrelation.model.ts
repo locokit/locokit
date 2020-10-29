@@ -3,12 +3,15 @@
 // for more of what you can do here.
 import { Model, JSONSchema } from 'objection'
 import { Application } from '../declarations'
+import { TableColumn } from './tablecolumn.model'
 
 export class TableColumnRelation extends Model {
   createdAt!: string;
   updatedAt!: string;
   table_column_from_id!: string;
   table_column_to_id!: string;
+  from?:TableColumn;
+  to?:TableColumn;
 
   static get idColumn () {
     return ['table_column_from_id', 'table_column_to_id']
@@ -29,6 +32,35 @@ export class TableColumnRelation extends Model {
       properties: {
         table_column_from_id: { type: 'string' },
         table_column_to_id: { type: 'string' }
+      }
+    }
+  }
+
+  static get relationMappings () {
+    return {
+      from: {
+        relation: Model.HasOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column_relation.table_column_from_id',
+          to: 'table_column.id'
+        }
+      },
+      to: {
+        relation: Model.HasOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column_relation.table_column_to_id',
+          to: 'table_column.id'
+        }
       }
     }
   }

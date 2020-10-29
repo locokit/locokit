@@ -7,7 +7,7 @@ import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
 
-export class group extends Model {
+export class Group extends Model {
   id!: string;
   createdAt!: string;
   updatedAt!: string;
@@ -90,5 +90,5 @@ export class group extends Model {
 }
 
 export default function (app: Application) {
-  return group
+  return Group
 }

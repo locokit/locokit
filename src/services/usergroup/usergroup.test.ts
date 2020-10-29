@@ -1,6 +1,6 @@
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
-import { group as LckGroup } from '../../models/group.model'
+import { Group as LckGroup } from '../../models/group.model'
 import { User as LckUser } from '../../models/user.model'
 
 let group: LckGroup
@@ -12,7 +12,7 @@ describe('\'usergroup\' service', () => {
     })
     user = await app.service('user').create({
       name: 'user group test',
-      email: 'hello1@world.com',
+      email: 'hello1@locokit.io',
       password: 'yo'
     })
   })

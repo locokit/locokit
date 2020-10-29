@@ -14,6 +14,8 @@ export class TableRow extends Model {
   updatedAt!: string;
   text!: string;
   data!: RowData;
+  // eslint-disable-next-line camelcase
+  table_id!: string;
 
   static get tableName () {
     return 'table_row'
@@ -22,7 +24,7 @@ export class TableRow extends Model {
   static get jsonSchema () {
     return {
       type: 'object',
-      required: ['table_id', 'text'],
+      required: ['table_id'],
 
       properties: {
         text: { type: 'string' },

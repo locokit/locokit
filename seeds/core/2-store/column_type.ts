@@ -1,32 +1,32 @@
-import * as Knex from "knex";
+import * as Knex from 'knex'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary';
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-export async function seed(knex: Knex): Promise<any> {
-  await knex("column_type").insert([{
+export async function seed (knex: Knex): Promise<any> {
+  await knex('column_type').insert([{
     id: COLUMN_TYPE.BOOLEAN,
-    text: 'Boolean',
+    text: 'Boolean'
   }, {
     id: COLUMN_TYPE.NUMBER,
-    text: 'Number',
+    text: 'Number'
   }, {
     id: COLUMN_TYPE.DATE,
-    text: 'Date',
+    text: 'Date'
   }, {
     id: COLUMN_TYPE.STRING,
-    text: 'String',
+    text: 'String'
   }, {
     id: COLUMN_TYPE.FLOAT,
-    text: 'Float',
+    text: 'Float'
   }, {
     id: COLUMN_TYPE.USER,
-    text: 'User',
+    text: 'User'
   }, {
     id: COLUMN_TYPE.GROUP,
-    text: 'Group',
+    text: 'Group'
   }, {
     id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-    text: 'Link / relation between tables',
+    text: 'Link / relation between tables'
   }, {
     id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     text: 'Looked up column'

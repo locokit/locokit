@@ -5,7 +5,7 @@ import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authent
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import crypto from 'crypto'
-import commonHooks from 'feathers-hooks-common'
+import commonHooks, { iff } from 'feathers-hooks-common'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -62,12 +62,18 @@ export default {
     find: [],
     get: [],
     create: [
-      (context: HookContext) => {
-        accountService(context.app as Application).notifier(
-          AuthenticationManagementAction.resendVerifySignup,
-          context.result
-        )
-      }
+      /**
+       * We don't notify when we are testing.
+       */
+      iff(
+        process.env.NODE_ENV !== 'test',
+        (context: HookContext) => {
+          accountService(context.app as Application).notifier(
+            AuthenticationManagementAction.resendVerifySignup,
+            context.result
+          )
+        }
+      )
       // feathersAuthenticationManagementHooks.removeVerification()
     ],
     update: [],
