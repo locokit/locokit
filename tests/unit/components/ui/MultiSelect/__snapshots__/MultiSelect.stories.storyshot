@@ -28,8 +28,8 @@ exports[`storyshots components/ui/MultiSelect Multi Select Story With Suggestion
         class="p-multiselect-label p-placeholder"
       >
         
-                Sélectionnez une option
-            
+        Sélectionnez une option
+      
       </div>
     </div>
      
@@ -72,8 +72,8 @@ exports[`storyshots components/ui/MultiSelect MultiSelect 1`] = `
         class="p-multiselect-label p-placeholder"
       >
         
-                Sélectionnez une option
-            
+        Sélectionnez une option
+      
       </div>
     </div>
      
