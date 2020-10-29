@@ -3,7 +3,7 @@
 
 import { HookContext } from '@feathersjs/feathers'
 import { GeneralError } from '@feathersjs/errors'
-import { iff } from 'feathers-hooks-common/types'
+import { iff } from 'feathers-hooks-common'
 
 export default {
   before: {
