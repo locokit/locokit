@@ -113,6 +113,7 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              @date-select="onCalendarEdit(slotProps.index, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -395,6 +396,18 @@ export default {
         newValue: event.value.value
       })
     },
+    async onCalendarEdit (rowIndex, columnId) {
+      /**
+       * in case of a Date, value is stored in the currentDateToEdit data
+       * we format it in the date representation,
+       * we just want to store the date
+       */
+      this.$emit('update-cell', {
+        rowIndex,
+        columnId,
+        newValue: this.currentDateToEdit ? formatISO(this.currentDateToEdit, { representation: 'date' }) : null
+      })
+    },
     /**
      * This method have to be called only for fields that don't trigger an "update-cell" event
      *
@@ -429,6 +442,17 @@ export default {
            */
           return
         case COLUMN_TYPE.DATE:
+          /**
+           * For the date, and the Calendar component,
+           * we need to check if the user has really click outside the calendar,
+           * or if he's just switching between months.
+           * For that, we'll check in the DOM directly with the event target.
+           */
+          if (event.originalEvent.target.className.indexOf('p-datepicker') > -1) {
+            event.preventDefault()
+            return
+          }
+
           /**
            * in case of a Date, value is stored in the currentDateToEdit data
            * we format it in the date representation,
