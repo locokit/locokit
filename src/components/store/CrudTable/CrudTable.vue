@@ -420,6 +420,8 @@ export default {
           return
         case COLUMN_TYPE.SINGLE_SELECT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
           /**
            * For these type of column
            * the dropdown edit is already here
