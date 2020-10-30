@@ -21,13 +21,11 @@
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
       "selectPagePlaceholder": "Aller à la page"
     },
-    "dropdown": {
-      "placeholder": "Sélectionnez une option"
-    },
     "crudtable": {
       "noDataToDisplay": "Aucune donnée à afficher",
       "loading": "En cours de chargement… veuillez patienter…",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
+      "placeholder": "Sélectionnez une option",
       "toolbar": {
         "filters": {
           "name": "Filtres",

@@ -36,6 +36,7 @@
 
         editMode="cell"
         @cell-edit-complete="onCellEditComplete"
+        @cell-edit-init="onCellEditInit"
 
         :resizableColumns="true"
         columnResizeMode="expand"
@@ -73,16 +74,13 @@
             </span>
           </template>
           <template #editor="slotProps" v-if="isEditableColumn(column)">
-            <!--
-              @focus="autocompleteInput = slotProps.data.data[column.id] && slotProps.data.data[column.id].value"
-            -->
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               field="label"
               appendTo="body"
-              v-model="autocompleteInput[column.id]"
+              v-model="autocompleteInput"
               :suggestions="autocompleteSuggestions"
               @complete="onComplete(column, $event)"
               @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
@@ -96,8 +94,19 @@
               appendTo="body"
               :value="slotProps.data.data[column.id]"
               :showClear="true"
-              :placeholder="$t('components.dropdown.placeholder')"
+              :placeholder="$t('components.crudtable.placeholder')"
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
+              class="field-editable"
+            />
+            <lck-multiselect
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+              optionLabel="label"
+              optionValue="value"
+              v-model="multiSelectValues"
+              ref="multiselect"
+              :placeholder="$t('components.crudtable.placeholder')"
+              @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
             <p-calendar
@@ -155,6 +164,8 @@
 </template>
 
 <script>
+/* eslint-disable no-case-declarations */
+
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
@@ -164,8 +175,10 @@ import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import Paginator from '@/components/ui/Paginator/Paginator'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import Paginator from '@/components/ui/Paginator/Paginator.vue'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import {
@@ -179,8 +192,9 @@ import { getComponentEditableColumn } from '@/utils/columns'
 export default {
   name: 'LckDatatable',
   components: {
-    'lck-autocomplete': Vue.extend(AutoComplete),
-    'lck-paginator': Vue.extend(Paginator),
+    'lck-autocomplete': AutoComplete,
+    'lck-paginator': Paginator,
+    'lck-multiselect': MultiSelect,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
@@ -211,8 +225,9 @@ export default {
   data () {
     return {
       editingCellRows: [],
-      autocompleteInput: {},
-      currentDateToEdit: null
+      autocompleteInput: null,
+      currentDateToEdit: null,
+      multiSelectValues: []
     }
   },
   computed: {
@@ -266,26 +281,32 @@ export default {
         data === '' ||
         data === null
       ) return ''
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.USER:
-        case COLUMN_TYPE.GROUP:
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
-          return data.value
-        case COLUMN_TYPE.SINGLE_SELECT:
-          return column.settings.values[data]?.label
-        case COLUMN_TYPE.DATE:
+      try {
+        switch (column.column_type_id) {
+          case COLUMN_TYPE.USER:
+          case COLUMN_TYPE.GROUP:
+          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.FORMULA:
+            return data.value
+          case COLUMN_TYPE.SINGLE_SELECT:
+            return column.settings.values[data]?.label
+          case COLUMN_TYPE.MULTI_SELECT:
+            if (data.length > 0) {
+              return data.map(d => column.settings.values[d]?.label).join(', ')
+            } else {
+              return ''
+            }
+          case COLUMN_TYPE.DATE:
           // eslint-disable-next-line no-case-declarations
-          try {
             return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
-          } catch (error) {
-            // eslint-disable no-console
-            console.error('Date with bad format', data, error)
-            return ''
-          }
-        default:
-          return data
+          default:
+            return data
+        }
+      } catch (error) {
+        // eslint-disable no-console
+        console.error('Field with bad format', data, error)
+        return ''
       }
     },
     isEditableColumn (column) {
@@ -360,6 +381,13 @@ export default {
         newValue: event.value
       })
     },
+    async onMultiSelectEdit (rowIndex, columnId, event) {
+      this.$emit('update-cell', {
+        rowIndex,
+        columnId,
+        newValue: event.value // .map(v => v.value)
+      })
+    },
     async onAutocompleteEdit (rowIndex, columnId, event) {
       this.$emit('update-cell', {
         rowIndex,
@@ -367,12 +395,33 @@ export default {
         newValue: event.value.value
       })
     },
+    /**
+     * This method have to be called only for fields that don't trigger an "update-cell" event
+     *
+     * So, please add your column_type if you already trigger this event in a specific handler
+     */
     async onCellEditComplete (event) {
       let value = event.data.data[event.field]
       const currentColumn = this.block.definition.columns.find(c => c.id === event.field)
       switch (currentColumn.column_type_id) {
+        case COLUMN_TYPE.MULTI_SELECT:
+          /**
+           * On this case, we'll need to preventDefault the cell-edit-complete event
+           * to avoid the hiding of the MultiSelect component.
+           * To do this, we need to know if the user click outside the MultiSelect component.
+           * We have two DOM Element to check : the MultiSelect ref + the panel.
+           */
+          const currentMultiSelectElement = this.$refs.multiselect?.[0]?.$el
+          const currentMultiSelectPanelElement = document.querySelector('.p-multiselect-panel.p-component')
+          if (
+            currentMultiSelectElement.contains(event.originalEvent.target) ||
+            currentMultiSelectPanelElement.contains(event.originalEvent.target)
+          ) event.preventDefault()
+          return
         case COLUMN_TYPE.SINGLE_SELECT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
           /**
            * For these type of column
            * the dropdown edit is already here
@@ -396,6 +445,19 @@ export default {
         newValue: value
       })
     },
+    onCellEditInit ({ data, field }) {
+      const currentColumnDefinition = this.columnsEnhanced[field]
+      switch (currentColumnDefinition.column_type_id) {
+        case COLUMN_TYPE.MULTI_SELECT:
+          this.multiSelectValues = data.data[field]
+          break
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          this.autocompleteInput = data.data[field]?.value || null
+          break
+      }
+    },
     onSort (event) {
       this.$emit('sort', {
         field: event.sortField,
@@ -408,7 +470,8 @@ export default {
 
 <style scoped>
 
-/deep/ .p-editable-column.p-cell-editing .p-dropdown {
+/deep/ .p-editable-column.p-cell-editing .p-dropdown,
+/deep/ .p-editable-column.p-cell-editing .p-multiselect {
   border: 1px solid var(--primary-color);
   border-radius: 0;
 }

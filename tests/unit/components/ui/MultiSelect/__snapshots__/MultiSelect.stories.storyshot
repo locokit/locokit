@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/MultiSelect default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="multiselect-custom p-multiselect p-component p-inputwrapper"
+  >
+    <div
+      class="p-hidden-accessible"
+    >
+      <input
+        aria-haspopup="listbox"
+        readonly="readonly"
+        role="listbox"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="p-multiselect-label-container"
+    >
+      <div
+        class="p-multiselect-label p-placeholder"
+      >
+        
+        Sélectionnez une option
+      
+      </div>
+    </div>
+     
+    <div
+      class="p-multiselect-trigger"
+    >
+      <span
+        class="p-multiselect-trigger-icon pi pi-chevron-down"
+      />
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/MultiSelect with suggestions 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="multiselect-custom p-multiselect p-component p-inputwrapper"
+    optionlabel="label"
+    options="[object Object],[object Object],[object Object]"
+    optionvalue="value"
+  >
+    <div
+      class="p-hidden-accessible"
+    >
+      <input
+        aria-haspopup="listbox"
+        readonly="readonly"
+        role="listbox"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="p-multiselect-label-container"
+    >
+      <div
+        class="p-multiselect-label p-placeholder"
+      >
+        
+        Sélectionnez une option
+      
+      </div>
+    </div>
+     
+    <div
+      class="p-multiselect-trigger"
+    >
+      <span
+        class="p-multiselect-trigger-icon pi pi-chevron-down"
+      />
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
