@@ -28,7 +28,8 @@
             optionValue="id"
             dataKey="id"
             placeholder="Select a view"
-            style="display: inline-flex"
+            class="p-d-inline-flex"
+            @change="loadCurrentTableDefinition"
           />
           <lck-filter-button
             :definitionColumn="block.definition.columns"
@@ -54,11 +55,13 @@
       </p-toolbar>
 
       <CrudTable
-        :block="block"
+        v-if="block.definition"
+        :definition="block.definition"
+        :content="block.content"
+        :loading="block.loading"
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
         :crud-mode="true"
-        v-if="block.definition"
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -371,6 +374,13 @@ export default {
       this.views = await retrieveTableViews(this.currentTableId)
       this.block.loading = false
       this.loadCurrentTableData()
+    },
+    async loadCurrentTableDefinition () {
+      this.block.loading = true
+      this.block.definition = {
+        columns: this.views.find(({ id }) => this.selectedView === id)?.columns
+      }
+      this.block.loading = false
     },
     async loadCurrentTableData () {
       this.block.loading = true

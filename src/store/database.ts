@@ -117,7 +117,10 @@ export async function retrieveTableViews (tableId: string) {
   try {
     const result = await lckClient.service('view').find({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { table_id: tableId }
+      query: {
+        table_id: tableId,
+        $eager: 'columns'
+      }
     })
     return result.data
   } catch (error) {

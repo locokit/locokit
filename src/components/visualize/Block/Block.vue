@@ -2,13 +2,25 @@
   <div>
     <div v-if="block">
       <h3 v-if="block.title" class="lck-color-title">{{ block.title }}</h3>
-      <component
+      <div
         v-if="isBlockTypeValid"
-        :is="block.type"
-        :block="block"
-        v-on="$listeners"
-        v-bind="$attrs"
-      />
+      >
+        <TableView
+          v-if="block.type === BLOCK_TYPE.TABLE_VIEW"
+          :definition="block.definition"
+          :content="block.content"
+          :loading="block.loading"
+          v-on="$listeners"
+          v-bind="$attrs"
+        />
+        <component
+          v-else
+          :is="block.type"
+          :block="block"
+          v-on="$listeners"
+          v-bind="$attrs"
+        />
+      </div>
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}
       </span>
@@ -37,6 +49,11 @@ export default Vue.extend({
     Markdown,
     Media,
     Error
+  },
+  data () {
+    return {
+      BLOCK_TYPE
+    }
   },
   computed: {
     isBlockTypeValid () {
