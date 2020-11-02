@@ -18,7 +18,7 @@ export const ParagraphStoryWithProps = () => ({
       }
     }
   },
-  template: '<Paragraph :block="block" />'
+  template: '<Paragraph v-bind="{...block}" />'
 })
 
 ParagraphStoryWithProps.storyName = 'Paragraph with props'

@@ -1,15 +1,21 @@
 <template>
-  <div class="lck-color-content" v-if="block.settings && block.settings.content">
-    {{block.settings.content}}
+  <div
+    class="lck-color-content"
+    v-if="settings && settings.content"
+  >
+    {{settings.content}}
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { BlockMardown } from '@locokit/lck-glossary'
+import { PropType } from 'vue'
+
 export default {
   name: 'Markdown',
   props: {
-    block: {
-      type: Object,
+    settings: {
+      type: Object as PropType<BlockMardown>,
       default: () => ({})
     }
   }

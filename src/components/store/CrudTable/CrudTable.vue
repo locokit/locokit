@@ -216,7 +216,7 @@ export default {
     },
     loading: {
       type: Boolean,
-      required: true
+      default: false
     },
     autocompleteSuggestions: {
       type: Array,

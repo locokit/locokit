@@ -5,13 +5,6 @@ export default {
   component: Markdown
 }
 
-export const MarkdownStoryWithoutProps = () => ({
-  components: { Markdown },
-  template: '<Markdown />'
-})
-
-MarkdownStoryWithoutProps.storyName = 'Markdown without props'
-
 export const MarkdownStoryWithProps = () => ({
   components: { Markdown },
   data () {
@@ -25,7 +18,7 @@ export const MarkdownStoryWithProps = () => ({
       }
     }
   },
-  template: '<Markdown :block="block" />'
+  template: '<Markdown v-bind="{...block}" />'
 })
 
 MarkdownStoryWithProps.storyName = 'Markdown with props'
