@@ -7,19 +7,12 @@ exports[`storyshots components/visualize/Markdown Markdown with props 1`] = `
 >
   <div
     class="lck-color-content"
+    title="Futur Markdown"
+    type="Markdown"
   >
     
   This is the content.
 
   </div>
-</div>
-`;
-
-exports[`storyshots components/visualize/Markdown Markdown without props 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <!---->
 </div>
 `;
