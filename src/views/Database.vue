@@ -56,7 +56,7 @@
 
       <CrudTable
         v-if="block.definition"
-        :definition="block.definition"
+        :definition="displayColumnsView"
         :content="block.content"
         :loading="block.loading"
         :autocompleteSuggestions="crudAutocompleteItems"
@@ -255,6 +255,9 @@ export default {
       },
       views: [],
       selectedView: 'complete',
+      displayColumnsView: {
+        columns: []
+      },
       displayNewDialog: false,
       newRow: {
         data: {
@@ -371,14 +374,20 @@ export default {
       this.block.definition = {
         columns: await retrieveTableColumns(this.currentTableId)
       }
+      const col = await retrieveTableColumns(this.currentTableId)
+      this.block.definition.columns = col
+      this.displayColumnsView.columns = col
+
       this.views = await retrieveTableViews(this.currentTableId)
       this.block.loading = false
       this.loadCurrentTableData()
     },
     async loadCurrentTableDefinition () {
       this.block.loading = true
-      this.block.definition = {
-        columns: this.views.find(({ id }) => this.selectedView === id)?.columns
+      if (this.selectedView !== 'complete') {
+        this.displayColumnsView.columns = this.views.find(({ id }) => this.selectedView === id).columns
+      } else {
+        this.displayColumnsView.columns = this.block.definition.columns
       }
       this.block.loading = false
     },
