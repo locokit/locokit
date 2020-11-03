@@ -207,12 +207,10 @@ export default {
   },
   props: {
     definition: {
-      type: Object,
-      required: true
+      type: Object
     },
     content: {
-      type: Object,
-      required: true
+      type: Object
     },
     loading: {
       type: Boolean,

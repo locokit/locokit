@@ -26,8 +26,8 @@ exports[`storyshots components/ui/MultiSelect default 1`] = `
         class="p-multiselect-label p-placeholder"
       >
         
-                Sélectionnez une option
-            
+        Sélectionnez une option
+      
       </div>
     </div>
      
@@ -73,8 +73,8 @@ exports[`storyshots components/ui/MultiSelect with suggestions 1`] = `
         class="p-multiselect-label p-placeholder"
       >
         
-                Sélectionnez une option
-            
+        Sélectionnez une option
+      
       </div>
     </div>
      
