@@ -21,13 +21,13 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BlockMedia } from '@locokit/lck-glossary'
+import { MediaSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Media',
   props: {
     settings: {
-      type: Object as PropType<BlockMedia>,
+      type: Object as PropType<MediaSettings>,
       default: () => ({})
     }
   }

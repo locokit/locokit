@@ -8,20 +8,16 @@
 </template>
 
 <script lang="ts">
-import { BlockMardown } from '@locokit/lck-glossary'
+import { MarkdownSettings } from '@locokit/lck-glossary'
 import { PropType } from 'vue'
 
 export default {
   name: 'Markdown',
   props: {
     settings: {
-      type: Object as PropType<BlockMardown>,
+      type: Object as PropType<MarkdownSettings>,
       default: () => ({})
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

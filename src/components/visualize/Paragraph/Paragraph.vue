@@ -9,13 +9,13 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BlockParagraph } from '@locokit/lck-glossary'
+import { ParagraphSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Paragraph',
   props: {
     settings: {
-      type: Object as PropType<BlockParagraph>,
+      type: Object as PropType<ParagraphSettings>,
       default: () => ({})
     }
   }
