@@ -80,6 +80,8 @@
     "nodemailer": "^6.4.14",
     "nodemailer-smtp-transport": "^2.7.4",
     "objection": "^2.2.0",
+    "password-generator": "^2.3.2",
+    "password-validator": "^5.1.0",
     "pg": "^8.3.3",
     "serve-favicon": "^2.5.0",
     "winston": "^3.3.3"

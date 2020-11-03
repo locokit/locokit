@@ -7,7 +7,12 @@ import { iff } from 'feathers-hooks-common'
 
 export default {
   before: {
-    all: [],
+    all: [
+      (context: HookContext) => {
+        // console.log(`[${context.method.toUpperCase()}] ${context.path}`)
+        return context
+      }
+    ],
     find: [],
     get: [],
     create: [],

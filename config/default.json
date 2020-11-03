@@ -11,7 +11,7 @@
   "authentication": {
     "entity": "user",
     "service": "user",
-    "secret": "UrYADdyChNfV8FngbehAPxt1WUk=",
+    "secret": "LCK_AUTH_SECRET",
     "authStrategies": [
       "jwt",
       "local"
@@ -20,8 +20,8 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
-      "issuer": "feathers",
+      "audience": "LCK_PUBLIC_URL",
+      "issuer": "locokit",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
@@ -29,13 +29,13 @@
       "usernameField": "email",
       "passwordField": "password"
     },
-    "oauth": {
-      "redirect": "/",
-      "auth0": {
-        "key": "<auth0 oauth key>",
-        "secret": "<auth0 oauth secret>",
-        "subdomain": "<auth0 subdomain>"
-      }
+    "passwordPolicy": {
+      "minLength": 8,
+      "maxLength": 128,
+      "uppercase": true,
+      "lowercase": true,
+      "digits": true,
+      "symbols": true
     }
   },
   "postgres": {

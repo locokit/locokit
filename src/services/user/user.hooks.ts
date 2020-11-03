@@ -4,9 +4,10 @@ import { authManagementSettings, AuthenticationManagementAction } from '../authm
 import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import crypto from 'crypto'
 import commonHooks from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
+import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -14,6 +15,8 @@ const { hashPassword, protect } = local.hooks
 const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
   return context.params.user?.profile === profile
 }
+
+const getPassword = (hook: HookContext) => hook.data.password
 
 export default {
   before: {
@@ -34,12 +37,8 @@ export default {
          * Because we don't take in consideration the user password at the creation.
          * It will be defined by the user himself after the signup verification.
          */
-        (context: HookContext) => {
-          const buf = Buffer.alloc(10)
-          const password = crypto.randomFillSync(buf).toString('hex')
-          context.data.password = password
-          return context
-        },
+        generatePassword(),
+        enforcePasswordPolicy(getPassword),
         hashPassword('password'),
         feathersAuthenticationManagementHooks.addVerification()
       )

@@ -14,6 +14,7 @@ declare module '../../declarations' {
 export default function (app: Application): void {
   // Initialize our service with any options it requires
   const mailerConfiguration = app.get('mail')
+
   app.use('/mailer', new Mailer({
     host: mailerConfiguration.host,
     port: mailerConfiguration.port,
