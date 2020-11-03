@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="block.definition"
+    v-if="definition"
   >
     <!--
     :scrollable="true"
@@ -29,10 +29,10 @@
           width: tableWidth + 'px'
         }"
 
-        :value="block && block.content && block.content.data"
+        :value="content && content.data"
 
         :lazy="true"
-        :loading="block.loading"
+        :loading="loading"
 
         editMode="cell"
         @cell-edit-complete="onCellEditComplete"
@@ -50,7 +50,7 @@
         @sort="onSort"
       >
         <p-column
-          v-for="column in block.definition.columns"
+          v-for="column in definition.columns"
           :key="column.id"
           :field="column.id"
           :headerStyle="{
@@ -153,9 +153,9 @@
 
     <lck-paginator
       :rows="rowsNumber"
-      :skip="block && block.content && block.content.skip"
-      :limit="block && block.content && block.content.limit"
-      :totalRecords="block && block.content && block.content.total"
+      :skip="content && content.skip"
+      :limit="content && content.limit"
+      :totalRecords="content && content.total"
       v-on="$listeners"
     />
   </div>
@@ -206,9 +206,15 @@ export default {
     'p-column': Vue.extend(Column)
   },
   props: {
-    block: {
-      type: Object,
-      required: true
+    definition: {
+      type: Object
+    },
+    content: {
+      type: Object
+    },
+    loading: {
+      type: Boolean,
+      default: false
     },
     autocompleteSuggestions: {
       type: Array,
@@ -251,9 +257,9 @@ export default {
       }
     },
     columnsEnhanced () {
-      if (!this.block.definition.columns) return {}
+      if (!this.definition.columns) return {}
       const result = {}
-      this.block.definition.columns.forEach(currentColumn => {
+      this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
           column_type_id: currentColumn.column_type_id
@@ -271,8 +277,8 @@ export default {
       return result
     },
     tableWidth () {
-      if (!this.block.definition.columns) return {}
-      return this.block.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
+      if (!this.definition.columns) return {}
+      return this.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
     }
   },
   methods: {
@@ -415,7 +421,7 @@ export default {
      */
     async onCellEditComplete (event) {
       let value = event.data.data[event.field]
-      const currentColumn = this.block.definition.columns.find(c => c.id === event.field)
+      const currentColumn = this.definition.columns.find(c => c.id === event.field)
       switch (currentColumn.column_type_id) {
         case COLUMN_TYPE.MULTI_SELECT:
           /**

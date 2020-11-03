@@ -5,9 +5,11 @@
       <component
         v-if="isBlockTypeValid"
         :is="block.type"
-        :block="block"
         v-on="$listeners"
-        v-bind="$attrs"
+        v-bind="{
+          ...$attrs,
+          ...block
+        }"
       />
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}

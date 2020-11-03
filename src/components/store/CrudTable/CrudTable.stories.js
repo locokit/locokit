@@ -7,23 +7,20 @@ export default {
   component: CrudTable
 }
 
-export const CrudTableWithoutDefinitionAndDataStory = () => (
+export const CrudTableWithEmptyDefinitionAndDataStory = () => (
   {
     components: { CrudTable },
     data () {
       return {
-        block: {
-          id: 1,
-          title: 'My CrudTable\'s block',
-          type: 'CrudTable'
-        }
+        definition: { column: [] },
+        content: { data: [] }
       }
     },
-    template: '<CrudTable :block="block" />'
+    template: '<CrudTable :definition="definition" :content="content"/>'
   }
 )
 
-CrudTableWithoutDefinitionAndDataStory.storyName = 'CrudTable without no definition and content properties'
+CrudTableWithEmptyDefinitionAndDataStory.storyName = 'CrudTable with empty definition and content properties'
 
 /* eslint-disable @typescript-eslint/camelcase */
 const tableViewData = {
@@ -154,11 +151,11 @@ export const CrudTableWithoutContent = () => (
       return {
         block: {
           ...tableViewData,
-          content: []
+          content: {}
         }
       }
     },
-    template: '<CrudTable :block="block" />'
+    template: '<CrudTable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -172,7 +169,7 @@ export const CrudTableWithPropsStory = () => (
         block: tableViewData
       }
     },
-    template: '<CrudTable :block="block" />'
+    template: '<CrudTable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -186,7 +183,7 @@ export const crudModeWithCalendar = () => (
         block: tableViewData
       }
     },
-    template: '<CrudTable :block="block" :crud-mode="true" ref="lck-datatable" />',
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()
@@ -202,4 +199,4 @@ export const crudModeWithCalendar = () => (
 )
 
 crudModeWithCalendar.storyName = 'with calendar opened and month changed'
-crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1000 }
+crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1500 }

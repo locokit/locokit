@@ -22,7 +22,7 @@ export const MediaStoryWithProps = () => ({
       }
     }
   },
-  template: '<Media :block="block" />'
+  template: '<Media v-bind="{...block}" />'
 })
 
 MediaStoryWithProps.storyName = 'Media with props'

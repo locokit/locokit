@@ -7,6 +7,8 @@ exports[`storyshots components/visualize/Paragraph Paragraph with props 1`] = `
 >
   <div
     class="lck-color-content"
+    title="Titre"
+    type="Paragraph"
   >
     
   Je suis un texte.

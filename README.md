@@ -8,8 +8,12 @@ The frontend for the Low-Code Kit platform.
 
 ## Project setup
 ```
-npm run install
+npm install
+cp -r patch/** node_modules
 ```
+
+The last line is here to fix temporary some dependencies,
+waiting for our PR to be merged.
 
 ### Compiles and hot-reloads for development
 ```
