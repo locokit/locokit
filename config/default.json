@@ -11,7 +11,7 @@
   "authentication": {
     "entity": "user",
     "service": "user",
-    "secret": "UrYADdyChNfV8FngbehAPxt1WUk=",
+    "secret": "LCK_AUTH_SECRET",
     "authStrategies": [
       "jwt",
       "local"
@@ -20,8 +20,8 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
-      "issuer": "feathers",
+      "audience": "LCK_PUBLIC_URL",
+      "issuer": "locokit",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
