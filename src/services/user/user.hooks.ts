@@ -6,12 +6,13 @@ import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import crypto from 'crypto'
 import commonHooks, { iff } from 'feathers-hooks-common'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
 
-const isSuperAdmin = (context: HookContext) => {
-  return context.params.user.profile === 'SUPERADMIN'
+const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
+  return context.params.user?.profile === profile
 }
 
 export default {
@@ -21,7 +22,7 @@ export default {
     get: [],
     create: [
       commonHooks.iff(
-        isSuperAdmin,
+        isUserProfile(USER_PROFILE.SUPERADMIN),
         /**
          * Generate a password randomly
          * Because we don't take in consideration the user password at the creation.
