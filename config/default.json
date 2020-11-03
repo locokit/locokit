@@ -29,13 +29,13 @@
       "usernameField": "email",
       "passwordField": "password"
     },
-    "oauth": {
-      "redirect": "/",
-      "auth0": {
-        "key": "<auth0 oauth key>",
-        "secret": "<auth0 oauth secret>",
-        "subdomain": "<auth0 subdomain>"
-      }
+    "passwordPolicy": {
+      "minLength": 8,
+      "maxLength": 128,
+      "uppercase": true,
+      "lowercase": true,
+      "digits": true,
+      "symbols": true
     }
   },
   "postgres": {

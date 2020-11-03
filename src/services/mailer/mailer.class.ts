@@ -6,22 +6,17 @@ import { Params } from '@feathersjs/feathers'
 
 export class Mailer {
   transporter: Transporter
-  app: Application
+  defaultFrom: string
 
   constructor (options: SmtpOptions, app: Application) {
     this.transporter = nodemailer.createTransport(options)
-    this.app = app
+    this.defaultFrom = app.get('mail').from
   }
 
-  create (data: Partial<SendMailOptions>, params?: Params | undefined): Promise<SentMessageInfo> {
-    return new Promise((resolve, reject) => {
-      this.transporter.sendMail({
-        from: this.app.get('mail').from,
-        ...data
-      }, (error, info) => {
-        if (error) reject(error)
-        resolve(info)
-      })
+  async create (data: Partial<SendMailOptions>, params?: Params | undefined): Promise<SentMessageInfo> {
+    return await this.transporter.sendMail({
+      from: this.defaultFrom,
+      ...data
     })
   }
 }

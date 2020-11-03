@@ -1,9 +1,9 @@
-import { disallow } from 'feathers-hooks-common'
+import commonHooks from 'feathers-hooks-common'
 
 export default {
   before: {
     all: [
-      disallow('external')
+      commonHooks.disallow('external')
     ],
     find: [],
     get: [],
