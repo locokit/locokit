@@ -10,25 +10,32 @@ import commonHooks, { iff } from 'feathers-hooks-common'
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
 
+const isSuperAdmin = (context: HookContext) => {
+  return context.params.user.profile === 'SUPERADMIN'
+}
+
 export default {
   before: {
     all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [
-      /**
-       * Generate a password randomly
-       * Because we don't take in consideration the user password at the creation.
-       * It will be defined by the user himself after the signup verification.
-       */
-      (context: HookContext) => {
-        const buf = Buffer.alloc(10)
-        const password = crypto.randomFillSync(buf).toString('hex')
-        context.data.password = password
-        return context
-      },
-      hashPassword('password'),
-      feathersAuthenticationManagementHooks.addVerification()
+      commonHooks.iff(
+        isSuperAdmin,
+        /**
+         * Generate a password randomly
+         * Because we don't take in consideration the user password at the creation.
+         * It will be defined by the user himself after the signup verification.
+         */
+        (context: HookContext) => {
+          const buf = Buffer.alloc(10)
+          const password = crypto.randomFillSync(buf).toString('hex')
+          context.data.password = password
+          return context
+        },
+        hashPassword('password'),
+        feathersAuthenticationManagementHooks.addVerification()
+      ).else(commonHooks.disallow())
     ],
     update: [
       commonHooks.disallow('external')
