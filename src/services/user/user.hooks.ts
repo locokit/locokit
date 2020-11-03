@@ -1,14 +1,19 @@
 import * as feathersAuthentication from '@feathersjs/authentication'
 import * as local from '@feathersjs/authentication-local'
-import { accountService, AuthenticationManagementAction } from '../authmanagement/notifier'
+import { authManagementSettings, AuthenticationManagementAction } from '../authmanagement/authmanagement.settings'
 import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import crypto from 'crypto'
-import commonHooks, { iff } from 'feathers-hooks-common'
+import commonHooks from 'feathers-hooks-common'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
+
+const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
+  return context.params.user?.profile === profile
+}
 
 export default {
   before: {
@@ -17,18 +22,27 @@ export default {
     get: [],
     create: [
       /**
-       * Generate a password randomly
-       * Because we don't take in consideration the user password at the creation.
-       * It will be defined by the user himself after the signup verification.
+       * We disable the creation of user for users not SUPERADMIN
+       * or for manipulating this service from the code (provider !== external)
        */
-      (context: HookContext) => {
-        const buf = Buffer.alloc(10)
-        const password = crypto.randomFillSync(buf).toString('hex')
-        context.data.password = password
-        return context
-      },
-      hashPassword('password'),
-      feathersAuthenticationManagementHooks.addVerification()
+      commonHooks.iff(
+        commonHooks.isProvider('external') && !isUserProfile(USER_PROFILE.SUPERADMIN),
+        commonHooks.disallow()
+      ).else(
+        /**
+         * Generate a password randomly
+         * Because we don't take in consideration the user password at the creation.
+         * It will be defined by the user himself after the signup verification.
+         */
+        (context: HookContext) => {
+          const buf = Buffer.alloc(10)
+          const password = crypto.randomFillSync(buf).toString('hex')
+          context.data.password = password
+          return context
+        },
+        hashPassword('password'),
+        feathersAuthenticationManagementHooks.addVerification()
+      )
     ],
     update: [
       commonHooks.disallow('external')
@@ -65,16 +79,16 @@ export default {
       /**
        * We don't notify when we are testing.
        */
-      iff(
+      commonHooks.iff(
         process.env.NODE_ENV !== 'test',
         (context: HookContext) => {
-          accountService(context.app as Application).notifier(
-            AuthenticationManagementAction.resendVerifySignup,
+          authManagementSettings(context.app as Application).notifier(
+            AuthenticationManagementAction.sendVerifySignup,
             context.result
           )
         }
-      )
-      // feathersAuthenticationManagementHooks.removeVerification()
+      ),
+      feathersAuthenticationManagementHooks.removeVerification()
     ],
     update: [],
     patch: [],

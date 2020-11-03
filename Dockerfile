@@ -13,7 +13,6 @@ COPY lib /code/lib/
 COPY config /code/config/
 COPY migrations /code/migrations/
 COPY seeds /code/seeds/
-COPY dist /code/public/
 COPY tsconfig.json /code/
 COPY knexfile.ts /code/
 RUN npm ci

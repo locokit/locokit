@@ -2,6 +2,7 @@
   "host": "LCK_HOST",
   "port": "LCK_PORT",
   "publicUrl": "LCK_PUBLIC_URL",
+  "publicPortalName": "LCK_PUBLIC_PORTAL_NAME",
   "public": "../public/",
   "paginate": {
     "default": 10,

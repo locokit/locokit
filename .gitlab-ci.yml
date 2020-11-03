@@ -11,10 +11,6 @@ stages:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_DRIVER: overlay2
     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
-    FRONT_VERSION: 0.0.4-alpha.0
-    GITLAB_ACCESS_TOKEN: ${MC_GITLAB_ACCESS_TOKEN}
-    FRONT_DOWNLOAD_URL: "https://gitlab.makina-corpus.net/api/v4/projects/1428/jobs/artifacts/${FRONT_VERSION}/download?job=build"
-    FRONT_FILE_PATH: "lck-front-${FRONT_VERSION}.zip"
 
 .build_template: &build_definition
   image: docker:stable
@@ -29,9 +25,6 @@ stages:
     - docker info
     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
     - docker pull $IMAGE_NAME:latest || true
-    - wget --header="PRIVATE-TOKEN:${GITLAB_ACCESS_TOKEN}" ${FRONT_DOWNLOAD_URL} -O ${FRONT_FILE_PATH}
-    - ls -al
-    - unzip ${FRONT_FILE_PATH}
 
 test:
   image: node:14
@@ -54,6 +47,11 @@ test:
     - cp -r patch/** node_modules/
     - npm run lint
     - npm test
+  artifacts:
+    expire_in: 1 day
+    name: 'lck-api-${CI_COMMIT_REF_SLUG}-coverage'
+    paths:
+    - coverage/
 
 build-lib:
   image: node:14

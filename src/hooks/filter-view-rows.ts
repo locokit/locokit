@@ -57,7 +57,6 @@ export default function filterRowsByTableViewId (): Hook {
           ...filtersToAdd
         }
       }
-      console.log(context.params.query)
     }
     return context
   }
