@@ -13,12 +13,13 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 ## Getting Started
 
 1. npm ci / install
-2. Get docker and docker-compose
-3. docker-compose up
-4. write a `.env` file with vars as in `.env.example`
-5. npm run migrate:latest
-6. npm run seed:run
-7. npm run start
+2. cp -r patch/** node_modules
+3. Get docker and docker-compose
+4. docker-compose up
+5. write a `.env` file with vars as in `.env.example`
+6. npm run migrate:latest
+7. npm run seed:run
+8. npm run start
 
 ## Scaffolding
 
