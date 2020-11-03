@@ -1,6 +1,6 @@
 import * as feathersAuthentication from '@feathersjs/authentication'
 import * as local from '@feathersjs/authentication-local'
-import { accountService, AuthenticationManagementAction } from '../authmanagement/notifier'
+import { authManagementSettings, AuthenticationManagementAction } from '../authmanagement/authmanagement.settings'
 import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
@@ -75,13 +75,13 @@ export default {
       iff(
         process.env.NODE_ENV !== 'test',
         (context: HookContext) => {
-          accountService(context.app as Application).notifier(
-            AuthenticationManagementAction.resendVerifySignup,
+          authManagementSettings(context.app as Application).notifier(
+            AuthenticationManagementAction.sendVerifySignup,
             context.result
           )
         }
-      )
-      // feathersAuthenticationManagementHooks.removeVerification()
+      ),
+      feathersAuthenticationManagementHooks.removeVerification()
     ],
     update: [],
     patch: [],
