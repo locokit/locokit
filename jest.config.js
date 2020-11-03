@@ -6,7 +6,7 @@ module.exports = {
       diagnostics: false
     }
   },
-  coverageReporters: ['json', 'lcov'],
+  coverageReporters: ['json', 'lcov', 'text'],
   collectCoverageFrom: [
     'src/**/*.{js,ts}',
     '!src/**/*.test.ts',
