@@ -5,7 +5,7 @@ import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authent
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import crypto from 'crypto'
-import commonHooks, { iff } from 'feathers-hooks-common'
+import commonHooks from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 
 const { authenticate } = feathersAuthentication.hooks
@@ -21,8 +21,14 @@ export default {
     find: [],
     get: [],
     create: [
+      /**
+       * We disable the creation of user for users not SUPERADMIN
+       * or for manipulating this service from the code (provider !== external)
+       */
       commonHooks.iff(
-        isUserProfile(USER_PROFILE.SUPERADMIN),
+        commonHooks.isProvider('external') && !isUserProfile(USER_PROFILE.SUPERADMIN),
+        commonHooks.disallow()
+      ).else(
         /**
          * Generate a password randomly
          * Because we don't take in consideration the user password at the creation.
@@ -36,7 +42,7 @@ export default {
         },
         hashPassword('password'),
         feathersAuthenticationManagementHooks.addVerification()
-      ).else(commonHooks.disallow())
+      )
     ],
     update: [
       commonHooks.disallow('external')
@@ -73,7 +79,7 @@ export default {
       /**
        * We don't notify when we are testing.
        */
-      iff(
+      commonHooks.iff(
         process.env.NODE_ENV !== 'test',
         (context: HookContext) => {
           authManagementSettings(context.app as Application).notifier(
