@@ -7,18 +7,13 @@ This repository is the inventory of all the types used in the LCK API.
 This glossary is published in the
 [`@locokit/lck-glossary` npm package](https://www.npmjs.com/package/@locokit/lck-glossary).
 
-## Build instructions
+## How to publish this package
 
-```
-npm run build
-```
-
-## Publish instructions
-
-```
-npm publish
-```
+* upgrade the `package.json` version
+* write the [`CHANGELOG`](./CHANGELOG)
+* `npm run build`
+* `npm run publish`
 
 ## CHANGELOG
 
-Please refer to [CHANGELOG](./CHANGELOG)
+Please refer to [`CHANGELOG`](./CHANGELOG)

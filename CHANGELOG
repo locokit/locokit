@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.0.11**
+
+* dissociate settings in separated interfaces for all type of Blocks
+
 **v0.0.10**
 
 * use of `enum` instead of `const` for
