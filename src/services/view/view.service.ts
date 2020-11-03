@@ -1,9 +1,9 @@
 // Initializes the `view` service on path `/view`
-import { ServiceAddons } from '@feathersjs/feathers';
-import { Application } from '../../declarations';
-import { View } from './view.class';
-import createModel from '../../models/view.model';
-import hooks from './view.hooks';
+import { ServiceAddons } from '@feathersjs/feathers'
+import { Application } from '../../declarations'
+import { View } from './view.class'
+import createModel from '../../models/view.model'
+import hooks from './view.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -36,15 +36,15 @@ export default function (app: Application) {
       '$eager',
       '$modifyEager'
     ],
-    allowedEager: '[columns.[type], rows]',
+    allowedEager: '[columns.[column_type], rows]',
     paginate: app.get('paginate')
-  };
+  }
 
   // Initialize our service with any options it requires
-  app.use('/view', new View(options, app));
+  app.use('/view', new View(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('view');
+  const service = app.service('view')
 
-  service.hooks(hooks);
+  service.hooks(hooks)
 }
