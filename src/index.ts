@@ -61,11 +61,16 @@ export interface TableViewDefinition {
     text: string;
     settings: object;
     table_id: string;
-  }[]
+  }[];
 }
 
 export interface TableViewContent {
-
+  data: {
+    id: string;
+    text: string;
+    table_id: string;
+    data: object;
+  }[];
 }
 
 export interface Block {
@@ -75,26 +80,17 @@ export interface Block {
 
 export interface BlockParagraph extends Block {
   type: BLOCK_TYPE.PARAGRAPH;
-  settings: {
-    content: string;
-  };
+  settings: ParagraphSettings;
 }
 
-export interface BlockMardown extends Block {
+export interface BlockMarkdown extends Block {
   type: BLOCK_TYPE.MARKDOWN;
-  settings: {
-    content: string;
-  };
+  settings: MarkdownSettings;
 }
 
 export interface BlockTableView extends Block {
   type: BLOCK_TYPE.TABLE_VIEW;
-  settings: {
-    /**
-     * Id of the table_view in database
-     */
-    id: string;
-  };
+  settings: TableViewSettings;
 }
 
 export interface BlockTableViewEnhanced extends BlockTableView {
@@ -104,38 +100,49 @@ export interface BlockTableViewEnhanced extends BlockTableView {
 
 export interface BlockKanbanView extends Block {
   type: BLOCK_TYPE.KANBAN_VIEW;
-  settings: {
-    /**
-     * Id of the table_view in database
-     */
-    id: string;
-    /**
-     * View's column id on which the kanban's columns is displayed
-     */
-    columnId: string;
-    /**
-     * View's column values to use for creating kanban's columns
-     */
-    columnValues: {
-      valueId: string;
-      position: number;
-    }[]
-  };
+  settings: KanbanSettings;
 }
 
 export interface BlockMedia extends Block {
   type: BLOCK_TYPE.MEDIA;
-  settings: {
-    /**
-     * Display mode
-     * Single image, Single Video
-     * Carousel or Gallery
-     */
-    displayMode: MEDIA_TYPE;
-    medias: {
-      name: string;
-      srcURL: string;
-      type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
-    }[];
-  };
+  settings: MediaSettings;
+}
+
+export interface ParagraphSettings {
+  content: string;
+}
+
+export interface MarkdownSettings {
+  content: string;
+}
+
+export interface MediaSettings {
+  displayMode: MEDIA_TYPE;
+  medias: {
+    name: string;
+    srcURL: string;
+    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
+  }[];
+}
+
+export interface KanbanSettings {
+  /**
+   * Id of the table_view in database
+   */
+  id: string;
+  /**
+   * View's column id on which the kanban's columns is displayed
+   */
+  columnId: string;
+  /**
+   * View's column values to use for creating kanban's columns
+   */
+  columnValues: {
+    valueId: string;
+    position: number;
+  }[];
+}
+
+export interface TableViewSettings {
+  id: string; // Id of the table_view in database
 }
