@@ -21,6 +21,8 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 7. npm run seed:run
 8. npm run start
 
+## [CHANGELOG](CHANGELOG.md)
+
 ## Scaffolding
 
 Feathers has a powerful command line interface. Here are a few things it can do:
