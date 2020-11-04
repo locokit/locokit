@@ -179,9 +179,9 @@
               <p-button
                 class="p-button-primary"
                 type="button"
-                :icon="authState.loading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"
-                :label="authState.loading ? $t('form.submitting') : $t('form.submit')"
-                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || authState.loading || displayErrorMismatch"
+                :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"
+                :label="loading ? $t('form.submitting') : $t('form.submit')"
+                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || loading || displayErrorMismatch"
                 @click="submitPassword"
               />
             </div>
@@ -213,6 +213,7 @@ export default {
   data () {
     return {
       authState,
+      loading: false,
       password: {
         oldPassword: null,
         password: null,
@@ -240,7 +241,7 @@ export default {
           {
             action: 'passwordChange',
             value: {
-              user: { email: authState.data.user.email },
+              user: { email: authState.data.user?.email },
               ...this.password
             }
           }
