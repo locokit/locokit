@@ -96,11 +96,16 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.DATE,
         order: null,
         filter: null,
-        visible: true,
-        type: {
-          text: 'User',
-          id: 5
-        }
+        visible: true
+      }, {
+        text: 'Textarea',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+        column_type_id: COLUMN_TYPE.TEXT,
+        order: null,
+        filter: null,
+        visible: true
       }
     ]
   },
@@ -118,7 +123,8 @@ const tableViewData = {
             reference: 4
 
           },
-          'e065323c-1151-447f-be0f-6d2728117b38': 'Trek'
+          'e065323c-1151-447f-be0f-6d2728117b38': 'Trek',
+          '413bf240-b8fb-4a5b-87eb-074bef2ee21a': 'Welcome at home, \nthis is a multi line text\nand it works'
 
         },
         id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
@@ -133,7 +139,8 @@ const tableViewData = {
             reference: 3
 
           },
-          'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin'
+          'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin',
+          '413bf240-b8fb-4a5b-87eb-074bef2ee21a': 'Welcome at home, \nthis is a multi line text\nand it works'
 
         },
         id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
@@ -200,3 +207,25 @@ export const crudModeWithCalendar = () => (
 
 crudModeWithCalendar.storyName = 'with calendar opened and month changed'
 crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1500 }
+
+export const crudModeWithTextarea = () => (
+  {
+    components: { CrudTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const textareaCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(5)')
+      textareaCellFirstRow.click()
+      await Vue.nextTick()
+    }
+  }
+)
+
+crudModeWithTextarea.storyName = 'with textarea opened'
+crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }
