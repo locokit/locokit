@@ -61,4 +61,8 @@ export default {
   border-bottom-right-radius: 3px;
   border: none;
 }
+
+/deep/ .p-autocomplete-input {
+  padding-right: 2.357rem;
+}
 </style>
