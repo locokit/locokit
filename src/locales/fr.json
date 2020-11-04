@@ -101,7 +101,23 @@
         "oldPassword": "Ancien mot de passe",
         "newPassword": "Nouveau mot de passe",
         "passwordCheck": "Mot de passe (vérification)",
-        "passwordMismatch": "Les mots de passe ne sont pas identiques."
+        "passwordMismatch": "Les mots de passe ne sont pas identiques.",
+        "passwordIncorrect": "Le mot de passe actuel est incorrect.",
+        "passwordRules": {
+          "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
+          "error": "Le mot de passe ne respecte pas les règles suivantes :",
+          "min": "Minimun 8 caractères",
+          "uppercase": "Une majuscule",
+          "lowercase": "Une minuscule",
+          "digits": "Un chiffre",
+          "symbols": "Un caractère spécial tel que : !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+        },
+        "prompt": "Saisissez un mot de passe",
+        "passwordStrength": {
+          "weak": "Faible",
+          "medium": "Moyen",
+          "strong": "Fort"
+        }
       }
     },
     "workspace": {

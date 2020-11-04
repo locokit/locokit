@@ -443,24 +443,38 @@ exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
             <div
               class="p-field p-grid p-mb-3"
             >
-              <label
-                class="p-col p-md-3"
-                for="password"
+              <div
+                class="p-d-flex p-md-12"
+              >
+                <label
+                  class="p-col p-md-3"
+                  for="password"
+                >
+                  
+              Nouveau mot de passe
+            
+                </label>
+                 
+                <div
+                  class="p-col p-md-3"
+                >
+                  <input
+                    aria-describedby="password-rules"
+                    class="p-inputtext p-component"
+                    id="password"
+                    type="password"
+                  />
+                </div>
+              </div>
+               
+              <small
+                class="p-text-italic"
+                id="password-rules"
               >
                 
-            Nouveau mot de passe
+            Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
           
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="password"
-                  type="password"
-                />
-              </div>
+              </small>
             </div>
              
             <div
@@ -486,9 +500,15 @@ exports[`storyshots routes/user/Profile with auth user and groups 1`] = `
               </div>
             </div>
              
-            <!---->
-             
-            <!---->
+            <div
+              class="p-text-error"
+            >
+              <!---->
+               
+              <!---->
+               
+              <!---->
+            </div>
           </div>
            
           <div
