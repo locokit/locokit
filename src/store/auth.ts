@@ -104,7 +104,8 @@ export async function updatePassword (email: string, formData: object) {
       }
     )
   } catch (error) {
-    authState.error = error
+    authState.loading = false
+    return error
   }
   authState.loading = false
 }

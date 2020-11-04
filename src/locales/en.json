@@ -100,7 +100,23 @@
         "oldPassword": "Old password",
         "newPassword": "New password",
         "passwordCheck": "Password (check)",
-        "passwordMismatch": "Passwords mismatch"
+        "passwordMismatch": "Passwords mismatch",
+        "passwordIncorrect": "Le mot de passe actuel est incorrect.",
+        "passwordRules": {
+          "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+          "error": "The password does not respect the following rules:",
+          "min": "At least 8 characters",
+          "uppercase": "A uppercase",
+          "lowercase": "A lowercase",
+          "digits": "A digit",
+          "symbols": "A special character spécial such as: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+        },
+        "prompt": "Enter a password",
+        "passwordStrength": {
+          "weak": "Weak",
+          "medium": "Medium",
+          "strong": "Strong"
+        }
       }
     },
     "workspace": {

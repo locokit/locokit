@@ -86,19 +86,34 @@
             </div>
           </div>
           <div class="p-field p-grid p-mb-3">
-            <label
-              class="p-col p-md-3"
-              for="password"
-            >
-              {{ $t('pages.account.edit.newPassword') }}
-            </label>
-            <div class="p-col p-md-3">
-              <p-input-text
-                id="password"
-                type="password"
-                v-model="password.password"
-              />
+            <div class="p-d-flex p-md-12">
+              <label
+                class="p-col p-md-3"
+                for="password"
+              >
+                {{ $t('pages.account.edit.newPassword') }}
+              </label>
+              <div class="p-col p-md-3">
+                <p-password
+                  id="password"
+                  v-model="password.password"
+                  :mediumRegex="`${regexPasswordRules}(?=.{8,})`"
+                  :strongRegex="`${regexPasswordRules}(?=.{12,})`"
+                  :weakLabel="$t('pages.account.edit.passwordStrength.weak')"
+                  :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
+                  :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
+                  :promptLabel="$t('pages.account.edit.prompt')"
+                  @blur="handleBlur"
+                  aria-describedby="password-rules"
+                />
+              </div>
             </div>
+            <small
+              class="p-text-italic"
+              id="password-rules"
+            >
+              {{ $t('pages.account.edit.passwordRules.rules') }}
+            </small>
           </div>
           <div class="p-field p-grid">
             <label
@@ -112,20 +127,40 @@
                 id="passwordCheck"
                 type="password"
                 v-model="password.passwordCheck"
+                @blur="handleBlur"
               />
             </div>
           </div>
           <div
-            class="p-mb-2 p-p-1 p-text-error"
-            v-if="displayErrorMismatch"
+            class="p-text-error"
           >
-            {{ $t('pages.account.edit.passwordMismatch') }}
-          </div>
-          <div
-            class="p-mb-2 p-p-1 p-text-error"
-            v-if="authState.error"
-          >
-            <p class="p-invalid">{{ $t('error.basic') }}</p>
+            <p
+              class="p-invalid"
+              v-if="displayErrorMismatch"
+            >
+              {{ $t('pages.account.edit.passwordMismatch') }}
+            </p>
+            <p
+              class="p-invalid"
+              v-if="incorrectPassword"
+            >
+              {{ $t('pages.account.edit.passwordIncorrect') }}
+            </p>
+            <div
+              v-if="errorPasswordRules"
+            >
+              <p class="p-invalid">
+                {{ $t('pages.account.edit.passwordRules.error') }}
+              </p>
+              <ul class="p-invalid">
+                <li
+                  v-for="error in errorPasswordRules"
+                  :key="error"
+                >
+                  {{ $t(`pages.account.edit.passwordRules.${error}`) }}
+                </li>
+              </ul>
+            </div>
           </div>
         </template>
         <template
@@ -146,7 +181,7 @@
                 type="button"
                 :icon="authState.loading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"
                 :label="authState.loading ? $t('form.submitting') : $t('form.submit')"
-                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || authState.loading"
+                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || authState.loading || displayErrorMismatch"
                 @click="submitPassword"
               />
             </div>
@@ -166,6 +201,9 @@ import Vue from 'vue'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+
+const regexPasswordRules = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])"
 
 export default {
   name: 'Profile',
@@ -177,22 +215,47 @@ export default {
         password: null,
         passwordCheck: null
       },
-      displayErrorMismatch: false
+      displayErrorMismatch: false,
+      incorrectPassword: false,
+      errorPasswordRules: null,
+      regexPasswordRules
     }
   },
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
+    'p-password': Vue.extend(Password),
     'p-input-text': Vue.extend(InputText)
   },
   methods: {
     async submitPassword () {
-      this.displayErrorMismatch = (this.password.password !== this.password.passwordCheck)
-      if (this.displayErrorMismatch) return
-      await updatePassword(authState.data.user.email, this.password)
-      this.password = {
-        oldPassword: null,
-        password: null
+      const res = await updatePassword(authState.data.user.email, this.password)
+      if (res && res.code) {
+        this.errorPasswordRules = null
+        this.incorrectPassword = false
+
+        if (res.data && res.data.failedRules) {
+          this.errorPasswordRules = res.data.failedRules
+        }
+        if (res.errors && res.errors.oldPassword) {
+          this.incorrectPassword = true
+        }
+      } else {
+        this.password = {
+          oldPassword: null,
+          password: null,
+          passwordCheck: null
+        }
+      }
+    },
+    // Check if mismatch between the password input
+    handleBlur () {
+      if (this.password.password && this.password.passwordCheck) {
+        this.displayErrorMismatch = (this.password.password !== this.password.passwordCheck)
+      }
+
+      if (!this.password.password && !this.password.passwordCheck) {
+        this.displayErrorMismatch = false
       }
     },
     logout () {
