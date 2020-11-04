@@ -32,10 +32,6 @@
         type="password"
         v-model="passwordCheck"
         :placeholder="$t('components.resetpassword.passwordCheck')"
-        :weakLabel="$t('pages.account.edit.passwordStrength.weak')"
-        :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
-        :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
-        :promptLabel="$t('pages.account.edit.prompt')"
         @blur="handleBlur"
         required
       />
@@ -82,8 +78,7 @@ import Vue from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Password from 'primevue/password'
-
-const regexPasswordRules = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])"
+import { regexPasswordRules } from '@/utils/regex'
 
 export default Vue.extend({
   name: 'LckResetPassword',

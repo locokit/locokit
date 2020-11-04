@@ -192,18 +192,21 @@
   </div>
 </template>
 
-<script>
-import {
-  authState, logout, updatePassword
-} from '@/store/auth'
-import { ROUTES_PATH } from '@/router/paths'
+<script lang="ts">
 import Vue from 'vue'
+
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 
-const regexPasswordRules = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])"
+import lckClient from '@/services/lck-api'
+import {
+  authState,
+  logout
+} from '@/store/auth'
+import { ROUTES_PATH } from '@/router/paths'
+import { regexPasswordRules } from '@/utils/regex'
 
 export default {
   name: 'Profile',
@@ -229,24 +232,33 @@ export default {
   },
   methods: {
     async submitPassword () {
-      const res = await updatePassword(authState.data.user.email, this.password)
-      if (res && res.code) {
-        this.errorPasswordRules = null
-        this.incorrectPassword = false
-
-        if (res.data && res.data.failedRules) {
-          this.errorPasswordRules = res.data.failedRules
-        }
-        if (res.errors && res.errors.oldPassword) {
-          this.incorrectPassword = true
-        }
-      } else {
+      this.loading = true
+      this.errorPasswordRules = null
+      this.incorrectPassword = false
+      try {
+        await lckClient.service('authManagement').create(
+          {
+            action: 'passwordChange',
+            value: {
+              user: { email: authState.data.user.email },
+              ...this.password
+            }
+          }
+        )
         this.password = {
           oldPassword: null,
           password: null,
           passwordCheck: null
         }
+      } catch (error) {
+        if (error.data && error.data.failedRules) {
+          this.errorPasswordRules = error.data.failedRules
+        }
+        if (error.errors && error.errors.oldPassword) {
+          this.incorrectPassword = true
+        }
       }
+      this.loading = false
     },
     // Check if mismatch between the password input
     handleBlur () {
