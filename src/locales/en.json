@@ -156,6 +156,7 @@
       "isRequired": "The field is required",
       "editUser": "Edit User",
       "disableUser": "Disable User",
+      "resendVerifySignup": "Resend verify link",
       "buttons": {
         "newUser": "Save",
         "editUser": "Update"

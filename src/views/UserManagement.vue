@@ -76,7 +76,42 @@
                 @click="editUser(slotProps.data)"
                 :title="$t('pages.userManagement.editUser')"
               />
-              <p-button icon="pi pi-eye" class="p-button-rounded p-button-outlined p-disabled" :title="$t('pages.userManagement.disableUser')" />
+              <p-button
+                :icon="
+                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading
+                    ? 'pi pi-spin pi-spinner'
+                    : (
+                      resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
+                      ? 'pi pi-exclamation-circle'
+                      : 'pi pi-envelope'
+                    )
+                "
+                class="p-button-rounded p-button p-mr-2"
+                :class="
+                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
+                  ? 'p-button-danger'
+                  : (
+                    slotProps.data.isVerified
+                    ? 'p-button-outlined p-disabled'
+                    : ''
+                  )
+                "
+                @click="resendVerifySignup(slotProps.data)"
+                :disabled="
+                  slotProps.data.isVerified
+                  || ( resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading )
+                "
+                :title="
+                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
+                  ? resendVerifySignupUsers[slotProps.data.id].error
+                  : $t('pages.userManagement.resendVerifySignup')
+                "
+              />
+              <p-button
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-outlined p-disabled"
+                :title="$t('pages.userManagement.disableUser')"
+              />
             </span>
           </template>
         </p-column>
@@ -231,7 +266,8 @@ export default {
       submitted: false,
       hasSubmitError: false,
       profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
-      currentPage: 0
+      currentPage: 0,
+      resendVerifySignupUsers: {}
     }
   },
   methods: {
@@ -260,6 +296,21 @@ export default {
       this.submitted = false
       this.editingUser = true
       this.openDialog = true
+    },
+    async resendVerifySignup (user) {
+      this.$set(this.resendVerifySignupUsers, user.id, { loading: true, error: null })
+      try {
+        await lckClient.service('authManagement').create(
+          {
+            action: 'resendVerifySignup',
+            value: { email: user.email }
+          }
+        )
+        this.retrieveUsersData()
+      } catch (error) {
+        this.resendVerifySignupUsers[user.id].error = error
+      }
+      this.resendVerifySignupUsers[user.id].loading = false
     },
     async saveUser () {
       this.submitting = true
