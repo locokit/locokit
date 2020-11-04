@@ -1,10 +1,7 @@
-**0.0.4**
-
-* password verification
-* row injection verification
+## 0.0.4
 
 **Data**
-* Implement the multi select column type https://gitlab.makina-corpus.net/lck/lck-api/-/issues/20
+* Implement the multi select column type + verification of data type before injection https://gitlab.makina-corpus.net/lck/lck-api/-/issues/20
 * Add a unique constraint for table + database_id https://gitlab.makina-corpus.net/lck/lck-api/-/issues/53
 * Store the column order https://gitlab.makina-corpus.net/lck/lck-api/-/issues/60
 * Compute the text property according to column's ids https://gitlab.makina-corpus.net/lck/lck-api/-/issues/72
@@ -30,14 +27,14 @@
 * Hide database error messages https://gitlab.makina-corpus.net/lck/lck-api/-/issues/83
 * Remove front from docker build to avoid incompatibility between front & back https://gitlab.makina-corpus.net/lck/lck-api/-/issues/93
 
-**0.0.3**
+## 0.0.3
 
 **Architecture**
 * Make knexfile.ts use an env variable for the database https://gitlab.makina-corpus.net/lck/lck-api/-/issues/41
 * Make test write data in another DB https://gitlab.makina-corpus.net/lck/lck-api/-/issues/62
 * Update front to v0.0.3-beta.0 https://gitlab.makina-corpus.net/lck/lck-api/-/issues/70
 
-**0.0.2**
+## 0.0.2
 
 **Data**
 * Divide seeds between core and "templates" https://gitlab.makina-corpus.net/lck/lck-api/-/issues/40
@@ -46,7 +43,7 @@
 * Create a POC of API's typings, and use it in the frontend to see if it's a viable option https://gitlab.makina-corpus.net/lck/lck-api/-/issues/36
 * View endpoint, add the editable field to know if the current user can update the cell value https://gitlab.makina-corpus.net/lck/lck-api/-/issues/10
 
-**0.0.1**
+## 0.0.1
 
 **Data**
 * Add data to view endpoint https://gitlab.makina-corpus.net/lck/lck-api/-/issues/11
