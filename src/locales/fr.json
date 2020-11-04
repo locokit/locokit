@@ -157,7 +157,7 @@
       "isRequired": "Ce champ est requis",
       "editUser": "Modifier l'utilisateur",
       "disableUser": "Désactiver l'utilisateur",
-      "resendVerifySignup": "Renvoyer lien de vérification de compte",
+      "resendVerifySignup": "Renvoyer le lien de vérification de compte",
       "buttons": {
         "newUser": "Enregistrer",
         "editUser": "Mettre à jour"
