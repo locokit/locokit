@@ -27,7 +27,9 @@ export default {
         hooks.iff(
           isAction(
             'verifySignupSetPasswordLong',
-            'verifySignupSetPasswordShort'
+            'verifySignupSetPasswordShort',
+            'resetPwdLong',
+            'resetPwdShort'
           ),
           enforcePasswordPolicy(getPassword)
         )
