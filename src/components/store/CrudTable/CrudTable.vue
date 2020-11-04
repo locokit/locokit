@@ -61,7 +61,7 @@
           }"
           :bodyStyle="{
             width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
-            overflow: 'hidden',
+
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
             'position': 'relative'
@@ -511,6 +511,15 @@ export default {
   flex-direction: column;
   flex: 1;
   height: 100%;
+}
+
+/deep/ .p-cell-editing  .p-inputtextarea {
+  border: 1px solid var(--primary-color);
+  border-radius: 0;
+  background-color: white;
+  z-index: 2;
+  width: 320px;
+  height: 160px;
 }
 
 </style>
