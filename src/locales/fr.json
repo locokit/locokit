@@ -11,6 +11,10 @@
       "email": "E-mail",
       "submit": "Obtenir un lien temporaire"
     },
+    "dropdownButton": {
+      "noOption": "Aucune action disponible",
+      "label": "Choisissez une action"
+    },
     "resetpassword": {
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",

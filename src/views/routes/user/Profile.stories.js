@@ -8,7 +8,7 @@ import {
 } from '@/store/auth'
 
 export default {
-  title: 'routes/user/Profile',
+  title: 'views/routes/user/Profile',
   component: Profile
 }
 
@@ -36,6 +36,7 @@ export const withAuthUser = () => ({
 })
 
 withAuthUser.storyName = 'with auth user'
+withAuthUser.parameters = { storyshots: { disable: true } }
 
 export const withAuthUserAndGroup = () => ({
   components: { Profile },

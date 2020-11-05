@@ -24,7 +24,7 @@ export const withEmptyDefinitionAndDataStory = () => (
         content: { data: [] }
       }
     },
-    template: '<div><CrudTable :definition="definition" :content="content"/></div>'
+    template: '<CrudTable :definition="definition" :content="content"/>'
   }
 )
 
@@ -170,7 +170,7 @@ export const withoutContent = () => (
         }
       }
     },
-    template: '<div><CrudTable :content="block.content" :definition="block.definition" /></div>'
+    template: '<CrudTable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -184,7 +184,7 @@ export const withExpectedProps = () => (
         block: tableViewData
       }
     },
-    template: '<div><CrudTable :content="block.content" :definition="block.definition" /></div>'
+    template: '<CrudTable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -198,7 +198,7 @@ export const withExpectedPropsAndCrudMode = () => (
         block: tableViewData
       }
     },
-    template: '<div><CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" /></div>'
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" />'
   }
 )
 
@@ -238,7 +238,7 @@ export const crudModeWithTextarea = () => (
         block: tableViewData
       }
     },
-    template: '<div><CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" /></div>',
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()

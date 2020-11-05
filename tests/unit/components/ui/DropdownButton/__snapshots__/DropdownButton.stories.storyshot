@@ -21,7 +21,7 @@ exports[`storyshots components/ui/DropdownButton default 1`] = `
       <span
         class="p-button-label"
       >
-        Choose an option
+        Choisissez une action
       </span>
        
       <!---->

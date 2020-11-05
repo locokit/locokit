@@ -15,10 +15,10 @@ export const defaultStory = () => ({
   },
   template: `
     <PopupReload
-      v-if="displayPopup"
       @cancel="displayPopup = false"
     />
   `
 })
 
 defaultStory.storyName = 'default'
+defaultStory.args = { timeoutBeforeScreenshot: 1000 }

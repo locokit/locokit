@@ -17,7 +17,7 @@ class Group {
   workspace?: Workspace;
   workspace_id?: string;
   workspace_role?: typeof WORKSPACE_ROLE;
-  uhg_role!: GROUP_ROLE;
+  uhg_role?: typeof GROUP_ROLE;
 }
 
 class User {

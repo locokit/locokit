@@ -11,6 +11,10 @@
       "email": "email",
       "submit": "Get the temporary link"
     },
+    "dropdownButton": {
+      "noOption": "No action available",
+      "label": "Choose an action"
+    },
     "resetpassword": {
       "password": "Password",
       "passwordCheck": "Password (check)",

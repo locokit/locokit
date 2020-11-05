@@ -40,7 +40,9 @@ export default {
   props: {
     label: {
       type: String,
-      default: 'Choose an option'
+      default: function () {
+        return this.$t('components.dropdownButton.label')
+      }
     },
     icon: {
       type: String,
@@ -48,10 +50,12 @@ export default {
     },
     model: {
       type: Array,
-      default: () => ([{
-        id: 0,
-        label: 'No option defined'
-      }])
+      default: function () {
+        return [{
+          id: 0,
+          label: this.$t('components.dropdownButton.noOption')
+        }]
+      }
     },
     disabled: {
       type: Boolean,
