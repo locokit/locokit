@@ -14,7 +14,7 @@ addParameters({
 });
 
 /**
- * Use of a special wrapper to add Tailwind CSS
+ * Use of a special wrapper to add local styles
  */
 Vue.component('theme-wrapper', ThemeWrapper)
 addDecorator(() => ({

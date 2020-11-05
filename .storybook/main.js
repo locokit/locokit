@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  stories: ['../src/**/*.stories.@(js|mdx)'],
+  stories: ['../src/**/*.stories.@(js|ts|mdx)'],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
@@ -21,6 +21,7 @@ module.exports = {
     return config;
   },
   addons: [
+    '@storybook/addon-essentials',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     {

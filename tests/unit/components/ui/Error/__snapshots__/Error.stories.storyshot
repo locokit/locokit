@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/Error default 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div
+    class="text-gray-600"
+  >
+    <p>
+      Une erreur est survenue.
+    </p>
+  </div>
+</div>
+`;

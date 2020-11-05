@@ -2,22 +2,22 @@ import router, { checkPathAvailable } from './index'
 import { authState } from '../store/auth'
 
 jest.mock('@/services/lck-api')
-jest.mock('@/views/Home.vue', () => ({
+jest.mock('@/views/routes/Home.vue', () => ({
   name: 'Home',
   render: h => h('section')
 }))
 
-jest.mock('@/views/Page.vue', () => ({
+jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
   name: 'Page',
   render: h => h('section')
 }))
 
-jest.mock('@/views/Workspace.vue', () => ({
+jest.mock('@/views/routes/workspace/visualization/Workspace.vue', () => ({
   name: 'Workspace',
   render: h => h('section')
 }))
 
-jest.mock('@/views/WorkspaceList.vue', () => ({
+jest.mock('@/views/routes/workspace/visualization/WorkspaceList.vue', () => ({
   name: 'WorkspaceList',
   render: h => h('section')
 }))

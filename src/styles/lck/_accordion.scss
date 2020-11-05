@@ -70,7 +70,7 @@
       }
     }
 
-    &:not(:first-chid) {
+    &:not(:first-child) {
       .p-accordion-header {
         .p-accordion-header-link {
           border: unset;

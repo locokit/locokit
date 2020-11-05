@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/Profile default 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots views/routes/Profile with user 1`] = `
+<div
+  class="h-full p-fluid"
+>
+  <!---->
+</div>
+`;

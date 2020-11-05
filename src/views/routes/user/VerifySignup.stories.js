@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import VerifySignup from './VerifySignup'
 
 export default {
-  title: 'routes/user/VerifySignup',
+  title: 'views/routes/user/VerifySignup',
   component: VerifySignup
 }
 

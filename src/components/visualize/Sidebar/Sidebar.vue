@@ -4,17 +4,18 @@
     class="lck-bg-primary"
   >
     <p-accordion-tab
-      v-for="chapter in formatedChapters"
-      :key="chapter.id"
-      :header="chapter.label"
-      :active="chapter.active"
+      v-for="item in items"
+      :key="item.id"
+      :header="item.label"
+      :active="item.active"
     >
       <router-link
-        v-for="page in chapter.items"
-        :key="page.id"
-        :to="page.to"
+        v-for="subitem in item.subitems"
+        :key="subitem.id"
+        :to="subitem.to"
+        :class="{ 'router-link-exact-active': subitem.active }"
       >
-        {{page.label}}
+        {{subitem.label}}
       </router-link>
     </p-accordion-tab>
   </p-accordion>
@@ -24,56 +25,23 @@
 import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
-import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Sidebar',
   props: {
-    chapters: {
+    items: {
       type: Array,
-      default: function () {
-        return (
-          [
-            {
-              text: this.$t('pages.workspace.noChapter'),
-              pages: []
-            }
-          ]
-        )
+      default () {
+        return [{
+          label: this.$t('pages.workspace.noChapter'),
+          subitems: []
+        }]
       }
-    }
-  },
-  data () {
-    return {
-      ROUTES_PATH
     }
   },
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab)
-  },
-  computed: {
-    // Formated chapters in the standard api (MenuModel)
-    formatedChapters () {
-      return this.chapters.map(({ id, text, pages }) => {
-        const formatedPages = pages.map(({ text, id }) => (
-          {
-            id,
-            label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
-            active: id === this.$route.params.pageId
-          }
-        ))
-        return (
-          {
-            id,
-            label: text,
-            items: formatedPages,
-            active: formatedPages.some(({ active }) => active)
-          }
-        )
-      })
-    }
   }
 }
 </script>

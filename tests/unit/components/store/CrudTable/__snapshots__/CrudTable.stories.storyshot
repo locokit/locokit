@@ -1,544 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/store/CrudTable CrudTable with empty definition and content properties 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <div>
-    <div
-      class="responsive-table-wrapper"
-    >
-      <div
-        class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
-      >
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-datatable-wrapper"
-        >
-          <table
-            role="grid"
-          >
-            <thead
-              class="p-datatable-thead"
-            >
-              <tr />
-               
-              <!---->
-            </thead>
-             
-            <tbody
-              class="p-datatable-tbody"
-            >
-              <tr
-                class="p-datatable-emptymessage"
-              >
-                <td
-                  colspan="0"
-                >
-                  
-        Aucune donnée à afficher
-      
-                   
-                  <!---->
-                </td>
-              </tr>
-            </tbody>
-             
-            <!---->
-          </table>
-        </div>
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-column-resizer-helper"
-          style="display: none;"
-        />
-         
-        <!---->
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="p-paginator p-component"
-    >
-      <!---->
-       
-      <button
-        class="p-paginator-first p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-prev p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-pages"
-      >
-        <button
-          class="p-paginator-page p-paginator-element p-link p-highlight"
-          type="button"
-        >
-          1
-          <span
-            class="p-ink"
-          />
-        </button>
-      </span>
-      <button
-        class="p-paginator-next p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-last p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-current"
-      >
-        De 1 à 0 sur 0 résultat(s)
-      </span>
-       
-      <div
-        class="p-paginator-right-content"
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`storyshots components/store/CrudTable CrudTable with expected props 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <div>
-    <div
-      class="responsive-table-wrapper"
-    >
-      <div
-        class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
-        style="width: 750px;"
-      >
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-datatable-wrapper"
-        >
-          <table
-            role="grid"
-          >
-            <thead
-              class="p-datatable-thead"
-            >
-              <tr />
-               
-              <!---->
-            </thead>
-             
-            <tbody
-              class="p-datatable-tbody"
-            >
-              <!---->
-               
-              <tr
-                class=""
-              />
-               
-              <!---->
-               
-              <!---->
-              <!---->
-               
-              <tr
-                class=""
-              />
-               
-              <!---->
-               
-              <!---->
-            </tbody>
-             
-            <!---->
-          </table>
-        </div>
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-column-resizer-helper"
-          style="display: none;"
-        />
-         
-        <!---->
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="p-paginator p-component"
-      limit="10"
-    >
-      <!---->
-       
-      <button
-        class="p-paginator-first p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-prev p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-pages"
-      >
-        <button
-          class="p-paginator-page p-paginator-element p-link p-highlight"
-          type="button"
-        >
-          1
-          <span
-            class="p-ink"
-          />
-        </button>
-      </span>
-      <button
-        class="p-paginator-next p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-last p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-current"
-      >
-        De 1 à 2 sur 2 résultat(s)
-      </span>
-       
-      <div
-        class="p-paginator-right-content"
-      >
-        <div
-          class="paginator-nav"
-        >
-          <p
-            class="label"
-          >
-            Aller à la page
-          </p>
-           
-          <div
-            class="p-dropdown p-component p-inputwrapper"
-            dropdown="true"
-          >
-            <div
-              class="p-hidden-accessible"
-            >
-              <input
-                aria-haspopup="listbox"
-                readonly="readonly"
-                type="text"
-              />
-            </div>
-             
-            <!---->
-             
-            <span
-              class="p-dropdown-label p-inputtext"
-            >
-              
-            1
-        
-            </span>
-             
-            <!---->
-             
-            <div
-              aria-haspopup="listbox"
-              class="p-dropdown-trigger"
-              role="button"
-            >
-              <span
-                class="p-dropdown-trigger-icon pi pi-chevron-down"
-              />
-            </div>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`storyshots components/store/CrudTable CrudTable without content 1`] = `
-<div
-  class="p-fluid"
-  style="height: 100%;"
->
-  <div>
-    <div
-      class="responsive-table-wrapper"
-    >
-      <div
-        class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
-        style="width: 750px;"
-      >
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-datatable-wrapper"
-        >
-          <table
-            role="grid"
-          >
-            <thead
-              class="p-datatable-thead"
-            >
-              <tr />
-               
-              <!---->
-            </thead>
-             
-            <tbody
-              class="p-datatable-tbody"
-            >
-              <tr
-                class="p-datatable-emptymessage"
-              >
-                <td
-                  colspan="0"
-                >
-                  
-        Aucune donnée à afficher
-      
-                   
-                  <!---->
-                </td>
-              </tr>
-            </tbody>
-             
-            <!---->
-          </table>
-        </div>
-         
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="p-column-resizer-helper"
-          style="display: none;"
-        />
-         
-        <!---->
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="p-paginator p-component"
-    >
-      <!---->
-       
-      <button
-        class="p-paginator-first p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-prev p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-left"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-pages"
-      >
-        <button
-          class="p-paginator-page p-paginator-element p-link p-highlight"
-          type="button"
-        >
-          1
-          <span
-            class="p-ink"
-          />
-        </button>
-      </span>
-      <button
-        class="p-paginator-next p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <button
-        class="p-paginator-last p-paginator-element p-link p-disabled"
-        disabled="disabled"
-        type="button"
-      >
-        <span
-          class="p-paginator-icon pi pi-angle-double-right"
-        />
-        <span
-          class="p-ink"
-        />
-      </button>
-      <span
-        class="p-paginator-current"
-      >
-        De 1 à 0 sur 0 résultat(s)
-      </span>
-       
-      <div
-        class="p-paginator-right-content"
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`storyshots components/store/CrudTable with calendar opened and month changed 1`] = `
+exports[`storyshots components/store/CrudTable CRUD mode with calendar opened and month changed 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -762,7 +224,7 @@ exports[`storyshots components/store/CrudTable with calendar opened and month ch
 </div>
 `;
 
-exports[`storyshots components/store/CrudTable with textarea opened 1`] = `
+exports[`storyshots components/store/CrudTable CRUD mode with expected props 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"
@@ -981,6 +443,768 @@ exports[`storyshots components/store/CrudTable with textarea opened 1`] = `
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/CrudTable CRUD mode with textarea opened 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="responsive-table-wrapper"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        d-flex-1
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: 750px;"
+      >
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 2 sur 2 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            Aller à la page
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/CrudTable Empty definition and content properties 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="responsive-table-wrapper"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        d-flex-1
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  
+        Aucune donnée à afficher
+      
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 0 sur 0 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/CrudTable Expected props 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="responsive-table-wrapper"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        d-flex-1
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: 750px;"
+      >
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 2 sur 2 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            Aller à la page
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/CrudTable No content 1`] = `
+<div
+  class="p-fluid"
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="responsive-table-wrapper"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        d-flex-1
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: 750px;"
+      >
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  
+        Aucune donnée à afficher
+      
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 0 sur 0 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      />
     </div>
   </div>
 </div>

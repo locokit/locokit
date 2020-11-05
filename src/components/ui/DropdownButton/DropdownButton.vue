@@ -40,7 +40,9 @@ export default {
   props: {
     label: {
       type: String,
-      default: null
+      default: function () {
+        return this.$t('components.dropdownButton.label')
+      }
     },
     icon: {
       type: String,
@@ -48,7 +50,12 @@ export default {
     },
     model: {
       type: Array,
-      default: null
+      default: function () {
+        return [{
+          id: 0,
+          label: this.$t('components.dropdownButton.noOption')
+        }]
+      }
     },
     disabled: {
       type: Boolean,

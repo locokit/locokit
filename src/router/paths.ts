@@ -20,6 +20,7 @@ export const ROUTES_PATH = {
   /**
    * Admin paths
    */
+  ADMIN: '/admin',
   USERMANAGEMENT: '/usermanagement',
   GROUPMANAGEMENT: '/groupmanagement'
 }

@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import LostPassword from './LostPassword'
 
 export default {
-  title: 'routes/user/LostPassword',
+  title: 'views/routes/user/LostPassword',
   component: LostPassword
 }
 

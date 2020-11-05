@@ -1,32 +1,37 @@
 import lckClient from '@/services/lck-api'
-import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import {
+  USER_PROFILE,
+  GROUP_ROLE,
+  WORKSPACE_ROLE
+} from '@locokit/lck-glossary'
 import { BaseState } from './state'
 
+class Workspace {
+  id!: string;
+  text!: string;
+}
+
+class Group {
+  id!: string;
+  name!: string;
+  workspace?: Workspace;
+  workspace_id?: string;
+  workspace_role?: typeof WORKSPACE_ROLE;
+  uhg_role?: typeof GROUP_ROLE;
+}
+
 class User {
-  id!: number
-  email!: string
-  name!: string
+  id!: number;
+  email!: string;
+  name!: string;
   isVerified!: boolean
   profile!: typeof USER_PROFILE
   groups?: Group[]
 }
 
-class Group {
-  name = ''
-  workspace?: Workspace
-  workspace_id?: number
-  workspace_role?: typeof WORKSPACE_ROLE
-}
-
-class Workspace {
-  id!: string
-  text!: string
-}
-
 class AuthData {
   isAuthenticated = false
   user: User | null = null
-  groups: Group[] = []
 }
 
 export class AuthDTO {
@@ -41,8 +46,7 @@ export const authState: AuthState = {
   error: null,
   data: {
     isAuthenticated: false,
-    user: null,
-    groups: []
+    user: null
   }
 }
 
@@ -93,8 +97,7 @@ export async function authenticate (data: AuthDTO) {
 export function logout () {
   authState.data = {
     isAuthenticated: false,
-    user: null,
-    groups: []
+    user: null
   }
   return lckClient.logout()
 }

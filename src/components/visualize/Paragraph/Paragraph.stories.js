@@ -5,7 +5,7 @@ export default {
   component: Paragraph
 }
 
-export const ParagraphStoryWithProps = () => ({
+export const withPropsStory = () => ({
   components: { Paragraph },
   data () {
     return {
@@ -13,7 +13,7 @@ export const ParagraphStoryWithProps = () => ({
         type: 'Paragraph',
         title: 'Titre',
         settings: {
-          content: 'Je suis un texte.'
+          content: 'I am a paragraph.'
         }
       }
     }
@@ -21,4 +21,19 @@ export const ParagraphStoryWithProps = () => ({
   template: '<Paragraph v-bind="{...block}" />'
 })
 
-ParagraphStoryWithProps.storyName = 'Paragraph with props'
+withPropsStory.storyName = 'with props'
+
+export const withoutContentStory = () => ({
+  components: { Paragraph },
+  data () {
+    return {
+      block: {
+        type: 'Paragraph',
+        title: 'Titre'
+      }
+    }
+  },
+  template: '<Paragraph :block="block" />'
+})
+
+withoutContentStory.storyName = 'without content'

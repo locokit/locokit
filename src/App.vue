@@ -4,6 +4,10 @@
     class="p-d-flex p-flex-column"
     :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
   >
+    <lck-popup-reload
+      v-if="displayPopupReload"
+      @cancel="displayPopupReload = false"
+    />
     <div
       class="layout-sidebar"
       :class="sidebarActive ? 'active' : 'hidden'"
@@ -28,26 +32,23 @@ import {
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
+import PopupReload from '@/components/ui/PopupReload/PopupReload'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 
 export default {
   name: 'app',
+  components: {
+    'lck-header': Header,
+    'lck-popup-reload': PopupReload
+  },
   data () {
     return {
       // eslint-disable-next-line no-undef
       logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
       sidebarActive: false,
       // keep it here in the data to make it reactive
-      authState
-    }
-  },
-  methods: {
-    onMenuButtonClick: function () {
-      this.sidebarActive = !this.sidebarActive
-    },
-    onLogoutClick: function () {
-      logout()
-      this.$router.push(ROUTES_PATH.HOME)
+      authState,
+      displayPopupReload: false
     }
   },
   computed: {
@@ -62,9 +63,22 @@ export default {
       return authState.data.user?.profile === USER_PROFILE.SUPERADMIN
     }
   },
-  components: {
-    'lck-header': Header
+  methods: {
+    onMenuButtonClick: function () {
+      this.sidebarActive = !this.sidebarActive
+    },
+    onLogoutClick: function () {
+      logout()
+      this.$router.push(ROUTES_PATH.HOME)
+    }
+  },
+  created () {
+    // Listen for swUpdated event and display refresh modal.
+    document.addEventListener('swUpdated', () => {
+      this.displayPopupReload = true
+    }, { once: true })
   }
+
 }
 </script>
 

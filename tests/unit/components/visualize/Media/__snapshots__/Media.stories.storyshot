@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/Media Media with props 1`] = `
+exports[`storyshots components/visualize/Media with props 1`] = `
 <div
   class="p-fluid"
   style="height: 100%;"

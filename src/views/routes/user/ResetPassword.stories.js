@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import ResetPassword from './ResetPassword'
 
 export default {
-  title: 'routes/user/ResetPassword',
+  title: 'views/routes/user/ResetPassword',
   component: ResetPassword
 }
 

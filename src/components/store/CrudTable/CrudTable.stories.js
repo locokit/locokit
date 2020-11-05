@@ -4,10 +4,18 @@ import Vue from 'vue'
 
 export default {
   title: 'components/store/CrudTable',
-  component: CrudTable
+  component: CrudTable,
+  parameters: {
+    docs: {
+      description: `
+        This component represent data with the Prime Datatable component.
+        It is enhanced for ordering columns and resizing them.
+      `
+    }
+  }
 }
 
-export const CrudTableWithEmptyDefinitionAndDataStory = () => (
+export const withEmptyDefinitionAndDataStory = () => (
   {
     components: { CrudTable },
     data () {
@@ -20,7 +28,7 @@ export const CrudTableWithEmptyDefinitionAndDataStory = () => (
   }
 )
 
-CrudTableWithEmptyDefinitionAndDataStory.storyName = 'CrudTable with empty definition and content properties'
+withEmptyDefinitionAndDataStory.storyName = 'Empty definition and content properties'
 
 /* eslint-disable @typescript-eslint/camelcase */
 const tableViewData = {
@@ -151,7 +159,7 @@ const tableViewData = {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
-export const CrudTableWithoutContent = () => (
+export const withoutContent = () => (
   {
     components: { CrudTable },
     data () {
@@ -166,9 +174,9 @@ export const CrudTableWithoutContent = () => (
   }
 )
 
-CrudTableWithoutContent.storyName = 'CrudTable without content'
+withoutContent.storyName = 'No content'
 
-export const CrudTableWithPropsStory = () => (
+export const withExpectedProps = () => (
   {
     components: { CrudTable },
     data () {
@@ -180,7 +188,21 @@ export const CrudTableWithPropsStory = () => (
   }
 )
 
-CrudTableWithPropsStory.storyName = 'CrudTable with expected props'
+withExpectedProps.storyName = 'Expected props'
+
+export const withExpectedPropsAndCrudMode = () => (
+  {
+    components: { CrudTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" />'
+  }
+)
+
+withExpectedPropsAndCrudMode.storyName = 'CRUD mode with expected props'
 
 export const crudModeWithCalendar = () => (
   {
@@ -205,7 +227,7 @@ export const crudModeWithCalendar = () => (
   }
 )
 
-crudModeWithCalendar.storyName = 'with calendar opened and month changed'
+crudModeWithCalendar.storyName = 'CRUD mode with calendar opened and month changed'
 crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1500 }
 
 export const crudModeWithTextarea = () => (
@@ -227,5 +249,5 @@ export const crudModeWithTextarea = () => (
   }
 )
 
-crudModeWithTextarea.storyName = 'with textarea opened'
+crudModeWithTextarea.storyName = 'CRUD mode with textarea opened'
 crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }

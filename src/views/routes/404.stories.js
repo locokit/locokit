@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 import Page404 from './404.vue'
 
 export default {
-  title: 'routes/404',
+  title: 'views/routes/404',
   component: Page404
 }
 
