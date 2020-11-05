@@ -5,6 +5,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 
 import { Application } from '../../declarations'
 import { Forbidden } from '@feathersjs/errors'
+import { alterItems } from 'feathers-hooks-common'
 
 declare module '../../declarations' {
   interface ServiceTypes {
@@ -29,7 +30,16 @@ export default function (app: Application) {
             throw new Forbidden('User email is not verified. You can\'t login.')
           }
           return context
-        }
+        },
+        alterItems(rec => {
+          delete rec.user.verifyToken
+          delete rec.user.verifyShortToken
+          delete rec.user.verifyExpires
+          delete rec.user.verifyChanges
+          delete rec.user.resetToken
+          delete rec.user.resetShortToken
+          delete rec.user.resetExpires
+        })
       ]
     }
   })
