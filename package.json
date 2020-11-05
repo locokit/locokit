@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.0.4-rc.1",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
