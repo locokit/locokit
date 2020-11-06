@@ -54,7 +54,7 @@
         </template>
       </p-toolbar>
 
-      <CrudTable
+      <lck-datatable
         v-if="block.definition"
         :definition="displayColumnsView"
         :content="block.content"
@@ -207,7 +207,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import lckClient from '@/services/lck-api'
 
-import CrudTable from '@/components/store/CrudTable/CrudTable.vue'
+import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
@@ -219,7 +219,7 @@ const defaultDatatableSort = {
 export default {
   name: 'Database',
   components: {
-    CrudTable,
+    'lck-datatable': DataTable,
     'lck-autocomplete': AutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
