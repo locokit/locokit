@@ -26,13 +26,13 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         <!---->
         <!---->
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -43,64 +43,64 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
       limit="10"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -167,7 +167,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       >
         De 1 à 2 sur 2 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       >
@@ -177,11 +177,11 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
           <p
             class="label"
           >
-            
+
         Aller à la page
-      
+
           </p>
-           
+
           <div
             class="p-dropdown p-component p-inputwrapper"
             dropdown="true"
@@ -195,19 +195,19 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
                 type="text"
               />
             </div>
-             
+
             <!---->
-             
+
             <span
               class="p-dropdown-label p-inputtext"
             >
-              
+
             1
-        
+
             </span>
-             
+
             <!---->
-             
+
             <div
               aria-haspopup="listbox"
               class="p-dropdown-trigger"
@@ -217,7 +217,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
                 class="p-dropdown-trigger-icon pi pi-chevron-down"
               />
             </div>
-             
+
             <!---->
           </div>
         </div>
@@ -253,13 +253,13 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         <!---->
         <!---->
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -270,64 +270,64 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
       limit="10"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -394,7 +394,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       >
         De 1 à 2 sur 2 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       >
@@ -404,11 +404,11 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
           <p
             class="label"
           >
-            
+
         Aller à la page
-      
+
           </p>
-           
+
           <div
             class="p-dropdown p-component p-inputwrapper"
             dropdown="true"
@@ -422,19 +422,19 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
                 type="text"
               />
             </div>
-             
+
             <!---->
-             
+
             <span
               class="p-dropdown-label p-inputtext"
             >
-              
+
             1
-        
+
             </span>
-             
+
             <!---->
-             
+
             <div
               aria-haspopup="listbox"
               class="p-dropdown-trigger"
@@ -444,7 +444,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
                 class="p-dropdown-trigger-icon pi pi-chevron-down"
               />
             </div>
-             
+
             <!---->
           </div>
         </div>
@@ -480,13 +480,13 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         <!---->
         <!---->
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -497,64 +497,64 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
-         
+
         <span
           class="pi pi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
       limit="10"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -621,7 +621,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       >
         De 1 à 2 sur 2 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       >
@@ -631,11 +631,11 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
           <p
             class="label"
           >
-            
+
         Aller à la page
-      
+
           </p>
-           
+
           <div
             class="p-dropdown p-component p-inputwrapper"
             dropdown="true"
@@ -649,19 +649,19 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
                 type="text"
               />
             </div>
-             
+
             <!---->
-             
+
             <span
               class="p-dropdown-label p-inputtext"
             >
-              
+
             1
-        
+
             </span>
-             
+
             <!---->
-             
+
             <div
               aria-haspopup="listbox"
               class="p-dropdown-trigger"
@@ -671,7 +671,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
                 class="p-dropdown-trigger-icon pi pi-chevron-down"
               />
             </div>
-             
+
             <!---->
           </div>
         </div>
@@ -701,13 +701,13 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
         justify-between
        p-datatable p-component p-datatable-resizable"
       >
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -718,10 +718,10 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
@@ -731,39 +731,39 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
                 <td
                   colspan="0"
                 >
-                  
+
         Aucune donnée à afficher
-      
-                   
+
+
                   <!---->
                 </td>
               </tr>
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <!---->
-         
+
         <!---->
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -830,7 +830,7 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
       >
         De 1 à 0 sur 0 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       />
@@ -865,13 +865,13 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         <!---->
         <!---->
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -882,58 +882,58 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
               <!---->
-               
+
               <tr
                 class=""
               />
-               
+
               <!---->
-               
+
               <!---->
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <!---->
-         
+
         <!---->
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
       limit="10"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -1000,7 +1000,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       >
         De 1 à 2 sur 2 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       >
@@ -1010,11 +1010,11 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
           <p
             class="label"
           >
-            
+
         Aller à la page
-      
+
           </p>
-           
+
           <div
             class="p-dropdown p-component p-inputwrapper"
             dropdown="true"
@@ -1028,19 +1028,19 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
                 type="text"
               />
             </div>
-             
+
             <!---->
-             
+
             <span
               class="p-dropdown-label p-inputtext"
             >
-              
+
             1
-        
+
             </span>
-             
+
             <!---->
-             
+
             <div
               aria-haspopup="listbox"
               class="p-dropdown-trigger"
@@ -1050,7 +1050,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
                 class="p-dropdown-trigger-icon pi pi-chevron-down"
               />
             </div>
-             
+
             <!---->
           </div>
         </div>
@@ -1086,13 +1086,13 @@ exports[`storyshots components/store/DataTable No content 1`] = `
         <!---->
         <!---->
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-datatable-wrapper"
         >
@@ -1103,10 +1103,10 @@ exports[`storyshots components/store/DataTable No content 1`] = `
               class="p-datatable-thead"
             >
               <tr />
-               
+
               <!---->
             </thead>
-             
+
             <tbody
               class="p-datatable-tbody"
             >
@@ -1116,39 +1116,39 @@ exports[`storyshots components/store/DataTable No content 1`] = `
                 <td
                   colspan="0"
                 >
-                  
+
         Aucune donnée à afficher
-      
-                   
+
+
                   <!---->
                 </td>
               </tr>
             </tbody>
-             
+
             <!---->
           </table>
         </div>
-         
+
         <!---->
-         
+
         <!---->
-         
+
         <div
           class="p-column-resizer-helper"
           style="display: none;"
         />
-         
+
         <!---->
-         
+
         <!---->
       </div>
     </div>
-     
+
     <div
       class="p-paginator p-component"
     >
       <!---->
-       
+
       <button
         class="p-paginator-first p-paginator-element p-link p-disabled"
         disabled="disabled"
@@ -1215,7 +1215,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
       >
         De 1 à 0 sur 0 résultat(s)
       </span>
-       
+
       <div
         class="p-paginator-right-content"
       />
