@@ -16,6 +16,7 @@ export async function up (knex: Knex): Promise<any> {
     .createTable('process_trigger', table => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
       table.string('text')
+      table.boolean('automatic').defaultTo(false)
       table.jsonb('settings')
       table.timestamp('createdAt').defaultTo('now()')
       table.timestamp('updatedAt').defaultTo('now()')
