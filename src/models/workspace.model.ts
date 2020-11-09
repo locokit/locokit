@@ -4,6 +4,7 @@ import { Model } from 'objection'
 import { Application } from '../declarations'
 import { chapter as LckChapter } from './chapter.model'
 import { database as LckDatabase } from './database.model'
+import { Process } from './process.model'
 
 export class workspace extends Model {
   id!: string;
@@ -52,6 +53,18 @@ export class workspace extends Model {
         join: {
           from: 'workspace.id',
           to: 'database.workspace_id'
+        }
+      },
+      processes: {
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: Process,
+        join: {
+          from: 'workspace.id',
+          to: 'process.workspace_id'
         }
       }
     }
