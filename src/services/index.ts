@@ -17,6 +17,7 @@ import usergroup from './usergroup/usergroup.service'
 import mailer from './mailer/mailer.service'
 import authmanagement from './authmanagement/authmanagement.service'
 import authentication from './authentication/authentication.service'
+import tableViewHasTableColumn from './table_view_has_table_column/table_view_has_table_column.service';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
@@ -38,4 +39,5 @@ export default function (app: Application) {
   app.configure(usergroup)
   app.configure(mailer)
   app.configure(authmanagement)
+  app.configure(tableViewHasTableColumn);
 }
