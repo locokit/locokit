@@ -156,12 +156,18 @@
           <template
             #body="slotProps"
           >
-            <span
+            <div
+              class="cell-state"
               style="pointer-events: none"
-              :title="getValue(column, slotProps.data.data[column.id])"
+              :class="(waiting.rowId === slotProps.data.id && waiting.columnId === column.id) && 'saving' "
             >
-              {{ getValue(column, slotProps.data.data[column.id]) }}
-            </span>
+              <span
+                style="pointer-events: none"
+                :title="getValue(column, slotProps.data.data[column.id])"
+              >
+                {{ getValue(column, slotProps.data.data[column.id]) }}
+              </span>
+            </div>
           </template>
         </p-column>
 

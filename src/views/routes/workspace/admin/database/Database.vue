@@ -95,8 +95,12 @@
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
+<<<<<<< HEAD
         :crudMode="crudMode"
         :displayDetailButton="true"
+=======
+        :waiting="waiting"
+>>>>>>> Add class only on the good cell
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -713,9 +717,60 @@ export default {
         query
       })
     },
+<<<<<<< HEAD
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
 
+=======
+    async searchItems ({ columnTypeId, tableId, query }) {
+      let items = null
+      if (columnTypeId === COLUMN_TYPE.USER) {
+        const result = await lckServices.user.find({
+          query: {
+            blocked: false,
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
+        const result = await lckServices.group.find({
+          query: {
+            name: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.name,
+          value: d.id
+        }))
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+        const result = await lckServices.tableRow.find({
+          query: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            table_id: tableId,
+            text: {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        items = result.data.map(d => ({
+          label: d.text,
+          value: d.id
+        }))
+      }
+      return items
+    },
+    async onUpdateCell ({ rowIndex, columnId, newValue }) {
+      const currentRow = this.block.content.data[rowIndex]
+      this.waiting = { rowId: currentRow.id, columnId }
+>>>>>>> Add class only on the good cell
       const data = {
         data: {
           [columnId]: newValue
@@ -723,6 +778,7 @@ export default {
       }
       const res = await patchTableData(currentRow.id, data)
       currentRow.data = res.data
+      this.waiting = {}
     }
   },
   async mounted () {
