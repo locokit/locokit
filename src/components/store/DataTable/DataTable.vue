@@ -159,7 +159,11 @@
             <div
               class="cell-state"
               style="pointer-events: none"
-              :class="(waiting.rowId === slotProps.data.id && waiting.columnId === column.id) && 'saving' "
+              :class="
+                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting === true) && 'saving' ||
+                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid === true) && 'saved valid' ||
+                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid === false) && 'saved error'
+              "
             >
               <span
                 style="pointer-events: none"
@@ -271,6 +275,17 @@ export default {
     displayDetailButton: {
       type: Boolean,
       default: false
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
     }
   },
   data () {

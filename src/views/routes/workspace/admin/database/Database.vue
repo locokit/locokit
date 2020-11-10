@@ -96,11 +96,14 @@
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
 <<<<<<< HEAD
+<<<<<<< HEAD
         :crudMode="crudMode"
         :displayDetailButton="true"
 =======
         :waiting="waiting"
 >>>>>>> Add class only on the good cell
+=======
+>>>>>>> Props name change
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -109,7 +112,11 @@
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
+<<<<<<< HEAD
         @open-detail="onOpenDetail"
+=======
+        :cellState="cellState"
+>>>>>>> Props name change
       />
 
       <p-dialog
@@ -311,6 +318,7 @@ export default {
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
       crudMode: true,
+      cellState: {},
       block: {
         loading: false,
         content: {
@@ -769,16 +777,21 @@ export default {
     },
     async onUpdateCell ({ rowIndex, columnId, newValue }) {
       const currentRow = this.block.content.data[rowIndex]
+<<<<<<< HEAD
       this.waiting = { rowId: currentRow.id, columnId }
 >>>>>>> Add class only on the good cell
+=======
+      this.cellState = { rowId: currentRow.id, columnId, waiting: true }
+>>>>>>> Props name change
       const data = {
         data: {
           [columnId]: newValue
         }
       }
       const res = await patchTableData(currentRow.id, data)
+      this.cellState.isValid = !!res
       currentRow.data = res.data
-      this.waiting = {}
+      this.cellState.waiting = false
     }
   },
   async mounted () {
