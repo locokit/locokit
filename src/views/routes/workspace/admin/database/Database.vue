@@ -112,6 +112,7 @@
               :id="column.id"
               :options="columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
+              optionValue="value"
               :showClear="true"
               :placeholder="$t('components.crudtable.placeholder')"
               v-model="newRow.data[column.id]"
