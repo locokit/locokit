@@ -3,7 +3,7 @@
 import { Model, QueryBuilder } from 'objection'
 import { Application } from '../declarations'
 import { TableRow } from './tablerow.model'
-import { TableView, TableColumnDTO } from './view.model'
+import { TableView, TableColumnDTO } from './tableview.model'
 import { TableColumn } from './tablecolumn.model'
 
 export class table extends Model {
