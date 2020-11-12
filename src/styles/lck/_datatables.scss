@@ -69,6 +69,9 @@
   }
 
   .p-sortable-column {
+    &:focus {
+      box-shadow: unset;
+    }
     .p-sortable-column-icon {
       color: var(--primary-color-text);
 
