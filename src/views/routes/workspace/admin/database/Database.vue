@@ -539,7 +539,6 @@ export default {
       /**
        * Update the view definition
        */
-      console.log('here', updatePromises)
       const newViewDefinition = await lckServices.tableView.get(this.selectedView, {
         query: {
           $eager: 'columns'
