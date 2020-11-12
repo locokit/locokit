@@ -98,6 +98,7 @@
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
+        @row-content="onRowDialog"
       />
 
       <p-dialog
@@ -124,9 +125,8 @@
               :placeholder="$t('components.datatable.placeholder')"
               field="label"
               :suggestions="autocompleteItems"
-              @complete="updateLocalAutocompleteSuggestions(column, $event)"
+              @search="updateLocalAutocompleteSuggestions(column, $event)"
               v-model="autocompleteInput[column.id]"
-              :modelValue="newRow.data[column.id]"
               @item-select="newRow.data[column.id] = $event.value.value"
             />
             <p-dropdown
@@ -193,6 +193,31 @@
           />
         </template>
       </p-dialog>
+
+      <p-dialog
+        :visible.sync="displayRowDialog"
+        :style="{width: '450px'}"
+        header="Test"
+        :modal="true"
+        :contentStyle="{ 'max-height': '60vh'}"
+        :closeOnEscape="true"
+        class="p-fluid"
+      >
+        <lck-dataDetail
+          :crudMode="true"
+          :definition="displayColumnsView"
+          :row="row"
+          :autocompleteItems="autocompleteItems"
+          @update-suggestions="updateLocalAutocompleteSuggestions"
+          @update-cell="onUpdateCell"
+        />
+        <p-toolbar>
+          <template slot="left">
+            <p-button label="Action 1" />
+            <p-button label="Action 2" />
+          </template>
+        </p-toolbar>
+      </p-dialog>
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -205,6 +230,10 @@
 
 import Vue from 'vue'
 import saveAs from 'file-saver'
+
+import { formatISO } from 'date-fns'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
 import {
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
@@ -215,6 +244,7 @@ import {
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
 import { getComponentEditableColumn } from '@/utils/columns'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -227,10 +257,6 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
-import { formatISO } from 'date-fns'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-
-import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -239,6 +265,7 @@ import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -254,6 +281,7 @@ export default {
     'lck-view-dialog': ViewDialog,
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
+    'lck-dataDetail': DataDetail,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -311,7 +339,9 @@ export default {
        * View part, display the dialog and edit data
        */
       displayViewDialog: false,
-      viewDialogData: {}
+      viewDialogData: {},
+      displayRowDialog: false,
+      row: {}
     }
   },
   computed: {
@@ -667,6 +697,16 @@ export default {
       })
       await lckServices.tableRow.create({ data: duplicatedData, table_id })
       this.loadCurrentTableData()
+    },
+    async onRowDialog (rowId) {
+      this.displayRowDialog = true
+      this.row = await this.block.content.data.find(({ id }) => id === rowId)
+      // Object.keys(this.row.data).forEach(key => {
+      //   if (typeof this.row.data[key] === 'object' && this.row.data[key] !== null) {
+      //     const copy = this.row.data[key]
+      //     this.row.data[key] = copy.value
+      //   }
+      // })
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {

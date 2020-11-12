@@ -10,6 +10,7 @@
     :virtualRowHeight="38"
     @virtual-scroll="onVirtualScroll"
    -->
+    {{ definition.columns }}
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
     >
@@ -56,6 +57,13 @@
         :context-menu-selection.sync="selectedRow"
         @row-contextmenu="onRowContextMenu"
       >
+        <p-column headerStyle="width: 3em">
+          <template #body="slotProps">
+            <p-button
+              icon="pi pi-th-large"
+              @click="displayDetail(slotProps.data.id)"/>
+          </template>
+        </p-column>
         <p-column
           v-for="column in definition.columns"
           :key="column.id"
@@ -68,7 +76,6 @@
           }"
           :bodyStyle="{
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
             'position': 'relative',
@@ -90,7 +97,7 @@
               appendTo="body"
               v-model="autocompleteInput"
               :suggestions="autocompleteSuggestions"
-              @complete="onComplete(column, $event)"
+              @search="onComplete(column, $event)"
               @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -183,6 +190,7 @@
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import DataTable from 'primevue/datatable'
@@ -218,7 +226,8 @@ export default {
     'p-calendar': Vue.extend(Calendar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'p-context-menu': Vue.extend(ContextMenu)
+    'p-context-menu': Vue.extend(ContextMenu),
+    'p-button': Vue.extend(Button)
   },
   props: {
     definition: {
@@ -312,6 +321,9 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
+    displayDetail (rowId) {
+      this.$emit('row-content', rowId)
+    },
     getValue (column, data = '') {
       if (
         data === '' ||
@@ -324,6 +336,7 @@ export default {
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
           case COLUMN_TYPE.FORMULA:
+            console.log('data.value', data.value)
             return data.value
           case COLUMN_TYPE.SINGLE_SELECT:
             return column.settings.values[data]?.label
@@ -569,7 +582,7 @@ export default {
   height: 100%;
 }
 
-/deep/ .p-cell-editing  .p-inputtextarea {
+/deep/ .p-cell-editing .p-inputtextarea {
   border: 1px solid var(--primary-color);
   border-radius: 0;
   background-color: white;

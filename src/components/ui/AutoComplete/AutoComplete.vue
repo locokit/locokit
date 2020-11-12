@@ -4,7 +4,7 @@
   <p-autocomplete
     :dropdown="true"
     :placeholder="$t('components.datatable.placeholder')"
-    field="label"
+    :field="field"
     :appendTo="appendTo"
     v-on="$listeners"
     v-bind="$attrs"
@@ -23,6 +23,10 @@ export default {
     appendTo: {
       type: String,
       default: 'body'
+    },
+    field: {
+      type: String,
+      required: true
     }
   },
   components: {
