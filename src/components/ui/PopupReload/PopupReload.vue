@@ -32,7 +32,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 
 export default Vue.extend({
-  name: 'lck-popup-reload',
+  name: 'LckPopupReload',
   components: {
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog)

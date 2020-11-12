@@ -36,7 +36,7 @@ const prefix = 'pv_id_'
 // Todo: Upgrade the display of the chevron-down by using a span (css after) and so allow the display of an icon in the button in the left position
 
 export default {
-  name: 'DropdownButton',
+  name: 'LckDropdownButton',
   props: {
     label: {
       type: String,

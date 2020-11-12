@@ -41,7 +41,7 @@ import Button from 'primevue/button'
 import Menu from 'primevue/menu'
 
 export default {
-  name: 'Header',
+  name: 'LckHeader',
   components: {
     'p-button': Vue.extend(Button),
     'p-menu': Vue.extend(Menu)

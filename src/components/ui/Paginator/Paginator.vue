@@ -33,7 +33,7 @@ import PrimePaginator from 'primevue/paginator'
 import Dropdown from 'primevue/dropdown'
 
 export default {
-  name: 'LCKPaginator',
+  name: 'LckPaginator',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-paginator': Vue.extend(PrimePaginator)
