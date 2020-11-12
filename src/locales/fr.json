@@ -51,12 +51,18 @@
               "$and": "ET"
             },
             "action": {
-              "$ilike": "contient",
-              "$notILike": "ne contient pas",
-              "$eq": "est égale à",
-              "$ne": "est différent de",
-              "$null": "est vide",
-              "$notNull": "n'est pas vide"
+              "match": "contient",
+              "doesNotMatch": "ne contient pas",
+              "isEqualTo": "est égale à",
+              "isDifferentThan": "est différent de",
+              "isEmpty": "est vide",
+              "isNotEmpty": "n'est pas vide",
+              "isTrue": "est vrai",
+              "isFalse": "est faux",
+              "isGreaterThan": "est supérieur à",
+              "isLowerThan": "est inférieur à",
+              "isGreaterThanOrEqualTo": "est supérieur ou égal à",
+              "isLowerThanOrEqualTo": "est inférieur ou égal à"
             }
           }
         }
