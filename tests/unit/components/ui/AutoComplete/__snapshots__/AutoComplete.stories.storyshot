@@ -2,17 +2,16 @@
 
 exports[`storyshots components/ui/AutoComplete default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_1_list"
+    aria-owns="pv_id_3_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_1_list"
+      aria-controls="pv_id_3_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Sélectionnez une option"
@@ -51,18 +50,17 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
 
 exports[`storyshots components/ui/AutoComplete with suggestions and dropdown opened 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_2_list"
+    aria-owns="pv_id_4_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
     suggestions=""
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_2_list"
+      aria-controls="pv_id_4_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Sélectionnez une option"

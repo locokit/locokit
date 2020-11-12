@@ -2,7 +2,6 @@
 
 exports[`storyshots components/ui/DropdownButton default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
@@ -37,7 +36,6 @@ exports[`storyshots components/ui/DropdownButton default 1`] = `
 
 exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
@@ -72,7 +70,6 @@ exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] 
 
 exports[`storyshots components/ui/DropdownButton with model 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div

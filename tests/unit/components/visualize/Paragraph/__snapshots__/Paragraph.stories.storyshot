@@ -2,7 +2,6 @@
 
 exports[`storyshots components/visualize/Paragraph with props 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
@@ -19,7 +18,6 @@ exports[`storyshots components/visualize/Paragraph with props 1`] = `
 
 exports[`storyshots components/visualize/Paragraph without content 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <!---->

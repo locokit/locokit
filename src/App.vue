@@ -19,7 +19,7 @@
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
     />
-    <main class="p-d-flex p-flex-column d-flex-1 o-auto p-fluid w-full">
+    <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
       <router-view/>
     </main>
   </div>

@@ -2,7 +2,6 @@
 
 exports[`storyshots components/visualize/Block Markdown 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div>
@@ -29,7 +28,6 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
 
 exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div>
@@ -56,7 +54,6 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
 
 exports[`storyshots components/visualize/Block TableView 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div>
@@ -68,12 +65,13 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       </h3>
        
       <div
+        class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
         id="1"
         title="My TableView's block"
         type="TableView"
       >
         <div
-          class="responsive-table-wrapper"
+          class="responsive-table-wrapper p-fluid d-flex-1"
         >
           <div
             class="
@@ -286,7 +284,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
 
 exports[`storyshots components/visualize/Block default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div>
@@ -303,7 +300,6 @@ exports[`storyshots components/visualize/Block default 1`] = `
 
 exports[`storyshots components/visualize/Block unknown type 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div>

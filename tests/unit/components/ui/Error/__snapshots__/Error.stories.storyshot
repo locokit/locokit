@@ -2,7 +2,6 @@
 
 exports[`storyshots components/ui/Error default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div

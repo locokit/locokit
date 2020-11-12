@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/store/FilterButton default 1`] = `
+exports[`storyshots components/store/View/ViewButton default 1`] = `
 <div
   style="height: 100%;"
 >
@@ -12,13 +12,13 @@ exports[`storyshots components/store/FilterButton default 1`] = `
       type="button"
     >
       <span
-        class="pi pi-filter p-button-icon p-button-icon-left"
+        class="pi pi-list p-button-icon p-button-icon-left"
       />
        
       <span
         class="p-button-label"
       >
-        aucun filtre
+        Aucune vue. Merci d'en créer une.
       </span>
        
       <!---->
@@ -32,7 +32,7 @@ exports[`storyshots components/store/FilterButton default 1`] = `
 </div>
 `;
 
-exports[`storyshots components/store/FilterButton overlay opened 1`] = `
+exports[`storyshots components/store/View/ViewButton overlay opened 1`] = `
 <div
   style="height: 100%;"
 >
@@ -44,13 +44,13 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
       type="button"
     >
       <span
-        class="pi pi-filter p-button-icon p-button-icon-left"
+        class="pi pi-list p-button-icon p-button-icon-left"
       />
        
       <span
         class="p-button-label"
       >
-        aucun filtre
+        Aucune vue. Merci d'en créer une.
       </span>
        
       <!---->
@@ -64,33 +64,28 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
 </div>
 `;
 
-exports[`storyshots components/store/FilterButton overlay opened with specified column and action 1`] = `
+exports[`storyshots components/store/View/ViewButton overlay opened with views 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
-    class="filter-button"
+    class="lck-overlay-panel"
   >
     <button
-      class="p-ml-2 p-button p-component"
+      class="p-button p-component p-button-outlined p-button-secondary"
       type="button"
     >
       <span
-        class="pi pi-filter p-button-icon p-button-icon-left"
+        class="pi pi-list p-button-icon p-button-icon-left"
       />
        
       <span
         class="p-button-label"
       >
-        Filtres
+        First view
       </span>
        
-      <span
-        class="p-badge"
-      >
-        0
-      </span>
+      <!---->
       <span
         class="p-ink"
       />

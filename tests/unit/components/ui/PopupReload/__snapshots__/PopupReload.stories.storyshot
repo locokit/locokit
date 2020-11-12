@@ -2,26 +2,25 @@
 
 exports[`storyshots components/ui/PopupReload default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
     class="p-dialog-mask p-dialog-bottomright"
-    style="z-index: 1003;"
+    style="z-index: 1011;"
   >
     <div
-      aria-labelledby="pv_id_3_header"
+      aria-labelledby="pv_id_7_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1004;"
+      style="z-index: 1012;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_3_header"
+          id="pv_id_7_header"
         >
           Nouvelle version disponible
         </span>

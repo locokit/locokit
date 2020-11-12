@@ -2,12 +2,13 @@
 
 exports[`storyshots components/store/DataTable CRUD mode with calendar opened and month changed 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
@@ -226,12 +227,13 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
 
 exports[`storyshots components/store/DataTable CRUD mode with expected props 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
@@ -450,12 +452,13 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
 
 exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
@@ -674,12 +677,13 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
 
 exports[`storyshots components/store/DataTable Empty definition and content properties 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
@@ -831,12 +835,13 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
 
 exports[`storyshots components/store/DataTable Expected props 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
@@ -1049,12 +1054,13 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
 
 exports[`storyshots components/store/DataTable No content 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <div
         class="
