@@ -19,4 +19,8 @@ lckClient.configure(auth({
 //   text: 'A new message'
 // })
 
+export const lckServices = {
+  database: lckClient.service('database')
+}
+
 export default lckClient

@@ -25,14 +25,26 @@
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
       "selectPagePlaceholder": "Aller à la page"
     },
-    "crudtable": {
+    "datatable": {
       "noDataToDisplay": "Aucune donnée à afficher",
       "loading": "En cours de chargement… veuillez patienter…",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "placeholder": "Sélectionnez une option",
       "toolbar": {
+        "lists": {
+          "label": "aucune colonne | {n} colonne | {n} colonnes"
+        },
+        "views": {
+          "noview": "Aucune vue. Merci d'en créer une.",
+          "createLabel": "Créer une nouvelle vue",
+          "editLabel": "Modifier la vue",
+          "editButtonLabel": "Modifier",
+          "removeButtonLabel": "Supprimer",
+          "removeLabel": "Supprimer la vue",
+          "viewTextLabel": "Nom"
+        },
         "filters": {
-          "name": "Filtres",
+          "label": "aucun filtre | {n} filtre | {n} filtres",
           "noFilters": "Aucun filtre n'est appliqué.",
           "form" : {
             "operator": "Opérateur",

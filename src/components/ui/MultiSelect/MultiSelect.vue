@@ -3,9 +3,13 @@
     class="multiselect-custom"
     v-on="$listeners"
     v-bind="$attrs"
-    :placeholder="$t('components.crudtable.placeholder')"
+    :placeholder="$t('components.datatable.placeholder')"
     :appendTo="appendTo"
   >
+    <template #value>
+      <slot name='value'>
+      </slot>
+    </template>
     <!-- <template #value="slotProps">
       <div
         class="option-item option-item-value"

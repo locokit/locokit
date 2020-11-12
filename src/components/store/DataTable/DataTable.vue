@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="definition"
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <!--
     :scrollable="true"
@@ -10,7 +11,7 @@
     @virtual-scroll="onVirtualScroll"
    -->
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <p-datatable
         class="
@@ -77,7 +78,7 @@
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               field="label"
               appendTo="body"
               v-model="autocompleteInput"
@@ -94,7 +95,7 @@
               appendTo="body"
               :value="slotProps.data.data[column.id]"
               :showClear="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -105,7 +106,7 @@
               optionValue="value"
               v-model="multiSelectValues"
               ref="multiselect"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -146,7 +147,7 @@
         </p-column>
 
         <template #empty>
-          {{ $t('components.crudtable.noDataToDisplay') }}
+          {{ $t('components.datatable.noDataToDisplay') }}
         </template>
       </p-datatable>
     </div>
@@ -160,7 +161,7 @@
     />
   </div>
   <div v-else>
-    {{ $t('components.crudtable.noDefinitionAvailable') }}
+    {{ $t('components.datatable.noDefinitionAvailable') }}
   </div>
 </template>
 

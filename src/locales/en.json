@@ -25,14 +25,24 @@
       "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries",
       "selectPagePlaceholder": "Jump to page"
     },
-    "crudtable": {
+    "datatable": {
       "noDataToDisplay": "No data to display",
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "toolbar": {
+        "lists": {
+          "label": "no column | {n} column | {n} columns"
+        },
+        "views": {
+          "noview": "No view. Please create one.",
+          "createLabel": "Create a new view",
+          "editLabel": "Edit the view",
+          "removeLabel": "Remove the view",
+          "viewTextLabel": "Name"
+        },
         "filters": {
-          "name": "Filters",
+          "label": "no filter | {n} filter | {n} filters",
           "noFilters": "No filters are applied.",
           "form" : {
             "operator": "Operator",

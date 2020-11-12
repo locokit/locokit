@@ -1,14 +1,17 @@
 <template>
-  <div class="p-d-flex p-flex-column d-flex-1">
+  <div class="p-d-flex p-flex-column d-flex-1 o-auto">
+    <!--
     <header class="p-my-4 lck-color-title p-ml-1">
       {{ $t('pages.database.title')}}
       <strong>{{ databaseState.data.text }}</strong>
     </header>
+    -->
     <div
       v-if="databaseState.data.tables.length > 0"
+      class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
       <p-tab-view
-        class="d-flex-1 p-d-flex p-flex-column"
+        class="p-d-flex p-flex-column p-mt-2"
         @tab-change="handleTabChange"
       >
         <p-tab-panel
@@ -19,40 +22,56 @@
         />
       </p-tab-view>
 
-      <p-toolbar class="p-p-1">
-        <template slot="left">
-          <p-dropdown
+      <div
+        class="p-p-1 p-d-flex p-jc-between p-flex-wrap lck-database-toolbar"
+      >
+        <div class="p-d-flex p-flex-wrap">
+          <lck-view-button
+            :views="views"
             v-model="selectedView"
-            :options="viewsToDisplay"
-            optionLabel="text"
-            optionValue="id"
-            dataKey="id"
-            placeholder="Select a view"
-            class="p-d-inline-flex"
-            @change="loadCurrentTableDefinition"
+            @create="onCreateView"
+            @update="onUpdateView"
+            @delete="onDeleteView"
           />
+
+          <lck-view-dialog
+            :visible="displayViewDialog"
+            :value="viewDialogData"
+            @close="displayViewDialog=false"
+            @input="saveView"
+          />
+
+          <lck-view-column-button
+            class="p-ml-2"
+            :columns="block.definition.columns"
+            :value="viewColumnsIds"
+            @change="onChangeViewColumns"
+          />
+
           <lck-filter-button
-            :definitionColumn="block.definition.columns"
+            class="p-ml-2"
+            :columns="displayColumnsView.columns"
             v-model="currentDatatableFilters"
             @submit="onSubmitFilter"
             @reset="onResetFilter"
           />
-        </template>
+        </div>
 
-        <template slot="right">
+        <div class="p-d-flex p-flex-wrap">
           <p-button
             :label="$t('form.add')"
-            icon="pi pi-plus"
+            icon="pi pi-plus-circle"
             class="p-mr-2"
             @click="onClickAddButton"
           />
-          <!-- <p-button
+          <p-button
             label="Export"
-            icon="pi pi-upload"
-            @click="exportCSV($event)"
-          /> -->
-        </template>
-      </p-toolbar>
+            class="p-button-secondary"
+            :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+            @click="onClickExportButton"
+          />
+        </div>
+      </div>
 
       <lck-datatable
         v-if="block.definition"
@@ -86,20 +105,12 @@
             :key="column.id"
           >
             <label :for="column.id">{{ column.text }}</label>
-            <!--
 
-              :value="block.content.data[slotProps.index].data[column.id] && block.content.data[slotProps.index].data[column.id].value"
-              @input="autocompleteInput = $event"
-              :suggestions="autocompleteItems"
-              @complete="searchItems(column, $event)"
-              @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
-
-            -->
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :id="column.id"
               :dropdown="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               field="label"
               :suggestions="autocompleteItems"
               @complete="updateLocalAutocompleteSuggestions(column, $event)"
@@ -114,7 +125,7 @@
               optionLabel="label"
               optionValue="value"
               :showClear="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               v-model="newRow.data[column.id]"
             />
             <lck-multiselect
@@ -123,7 +134,7 @@
               :options="columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               v-model="newRow.data[column.id]"
             />
             <p-calendar
@@ -179,6 +190,8 @@
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/camelcase */
+
 import Vue from 'vue'
 import {
   retrieveDatabaseTableAndViewsDefinitions,
@@ -210,6 +223,9 @@ import lckClient from '@/services/lck-api'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
+import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
+import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
+import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 const defaultDatatableSort = {
@@ -222,6 +238,9 @@ export default {
     'lck-datatable': DataTable,
     'lck-autocomplete': AutoComplete,
     'lck-filter-button': FilterButton,
+    'lck-view-button': ViewButton,
+    'lck-view-dialog': ViewDialog,
+    'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
@@ -255,16 +274,14 @@ export default {
         }
       },
       views: [],
-      selectedView: 'complete',
-      displayColumnsView: {
-        columns: []
-      },
+      selectedView: null,
       displayNewDialog: false,
       newRow: {
         data: {
         }
       },
       submitting: false,
+      exporting: false,
       currentTableId: null,
       currentDatatableFirst: 0,
       currentDatatableRows: 20,
@@ -275,16 +292,15 @@ export default {
       currentPageIndex: 0,
       autocompleteItems: null,
       autocompleteInput: {},
-      crudAutocompleteItems: null
+      crudAutocompleteItems: null,
+      /**
+       * View part, display the dialog and edit data
+       */
+      displayViewDialog: false,
+      viewDialogData: {}
     }
   },
   computed: {
-    viewsToDisplay () {
-      return [{
-        text: 'Complete',
-        id: 'complete'
-      }].concat(this.views)
-    },
     currentBlockDropdownOptions () {
       const result = {}
       this.block.definition.columns.forEach(currentColumn => {
@@ -323,6 +339,20 @@ export default {
         }
       })
       return result
+    },
+    displayColumnsView () {
+      let columns = []
+      if (this.selectedView) {
+        console.log(this.views.find(({ id }) => this.selectedView === id))
+        columns = this.views.find(({ id }) => this.selectedView === id)?.columns
+      }
+      return {
+        columns
+      }
+    },
+    viewColumnsIds () {
+      if (!this.displayColumnsView.columns) return {}
+      return this.displayColumnsView.columns.map(c => c.id)
     }
   },
   methods: {
@@ -330,10 +360,13 @@ export default {
     resetToDefault () {
       this.block = {
         loading: false,
-        content: null
+        content: null,
+        definition: {
+          columns: []
+        }
       }
       this.views = []
-      this.selectedView = 'complete'
+      this.selectedView = null
       this.displayNewDialog = false
       this.newRow = {
         data: {
@@ -372,40 +405,29 @@ export default {
         total: 0,
         data: null
       }
-      this.block.definition = {
-        columns: await retrieveTableColumns(this.currentTableId)
-      }
-      const col = await retrieveTableColumns(this.currentTableId)
-      this.block.definition.columns = col
-      this.displayColumnsView.columns = col
+      this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
 
       this.views = await retrieveTableViews(this.currentTableId)
+      this.views.length > 0 && (this.selectedView = this.views[0].id)
       this.block.loading = false
       this.loadCurrentTableData()
     },
-    async loadCurrentTableDefinition () {
-      this.block.loading = true
-      if (this.selectedView !== 'complete') {
-        this.displayColumnsView.columns = this.views.find(({ id }) => this.selectedView === id).columns
-      } else {
-        this.displayColumnsView.columns = this.block.definition.columns
-      }
-      this.block.loading = false
-    },
-    async loadCurrentTableData () {
-      this.block.loading = true
-      const filters = this.currentDatatableFilters.map((filter, index) => ({
+    getCurrentFilters () {
+      return this.currentDatatableFilters.map((filter, index) => ({
         // Override action $notNull with a valid query
         req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action.value}]`,
         value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
       }))
+    },
+    async loadCurrentTableData () {
+      this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
         {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
           sort: this.currentDatatableSort,
-          filters
+          filters: this.getCurrentFilters()
         }
       )
       this.block.loading = false
@@ -427,14 +449,6 @@ export default {
             dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
           }
         })
-      /**
-       * For multiselect columns, we return an array of string
-       */
-      // this.block.definition.columns
-      //   .filter(c => c.column_type_id === COLUMN_TYPE.MULTI_SELECT)
-      //   .forEach(c => {
-      //     dataToSubmit.data[c.id] = this.newRow.data[c.id]?.map(v => v.value)
-      //   })
       await saveTableData({
         ...dataToSubmit,
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -471,6 +485,85 @@ export default {
       })
       this.autocompleteInput = {}
       this.displayNewDialog = true
+    },
+    async onClickExportButton () {
+      this.exporting = true
+      await retrieveTableRowsWithSkipAndLimit(
+        this.currentTableId,
+        {
+          skip: this.currentPageIndex * this.currentDatatableRows,
+          limit: this.currentDatatableRows,
+          sort: this.currentDatatableSort,
+          filters: this.getCurrentFilters()
+        }
+      )
+      this.exporting = false
+    },
+    /**
+     * When the user update the column's listing of the current view,
+     * we update accordingly the view on the backend side (add/remove column in the view)
+     */
+    async onChangeViewColumns ({ value }) {
+      // if (this.selectedView === 'complete') return
+      /**
+       * Compute the diff between the new value and the existing columns
+       * if we aren't on the complete selectedView
+       */
+      const columnsIdsToAdd = value.filter(v => this.viewColumnsIds.indexOf(v) === -1)
+      const columnsIdsToRemove = this.viewColumnsIds.filter(v => value.indexOf(v) === -1)
+      const updatePromises = []
+      if (columnsIdsToAdd.length > 0) {
+        columnsIdsToAdd.forEach(id => updatePromises.push(
+          lckClient.service('table-view-has-table-column').create({
+            table_column_id: id,
+            table_view_id: this.selectedView
+          })
+        ))
+      }
+      if (columnsIdsToRemove.length > 0) {
+        columnsIdsToRemove.forEach(id => updatePromises.push(
+          lckClient.service('table-view-has-table-column').remove(`${id},${this.selectedView}`)
+        ))
+      }
+      await Promise.all(updatePromises)
+      /**
+       * Update the view definition
+       */
+      console.log('here', updatePromises)
+      const newViewDefinition = await lckClient.service('view').get(this.selectedView, {
+        query: {
+          $eager: 'columns'
+        }
+      })
+      this.$set(this.views, this.views.findIndex(({ id }) => this.selectedView === id), newViewDefinition)
+    },
+    async onCreateView () {
+      this.viewDialogData = {}
+      this.displayViewDialog = true
+    },
+    async onUpdateView (viewToUpdate) {
+      this.viewDialogData = viewToUpdate
+      this.displayViewDialog = true
+    },
+    async onDeleteView (viewToRemove) {
+      await lckClient.service('view').remove(viewToRemove.id)
+      this.views = await retrieveTableViews(this.currentTableId)
+    },
+    async saveView (view) {
+      if (view.id) {
+        await lckClient.service('view').patch(view.id, {
+          text: view.text
+        })
+        this.views = await retrieveTableViews(this.currentTableId)
+      } else {
+        const newView = await lckClient.service('view').create({
+          table_id: this.currentTableId,
+          ...view
+        })
+        this.views = await retrieveTableViews(this.currentTableId)
+        this.selectedView = newView.id
+      }
+      this.displayViewDialog = false
     },
     async onColumnResize (newWidth, columnId) {
       // first, find the column related
@@ -635,15 +728,30 @@ export default {
   padding: 0.5rem;
   background-color: var(--text-color);
   border: 1px solid var(--surface-a);
+  border-bottom: 0;
   color: var(--surface-a);
   font-weight: normal;
-  margin-right: 0.5rem;
+  margin: 0 0.25rem;
 }
 
 /deep/ .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background-color: var(--surface-a);
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--primary-color-darken);
+  border-bottom: 0;
   color: var(--text-color);
+}
+
+ .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+  box-shadow: unset;
+}
+
+/deep/ .p-tabview {
+  border-bottom: 1px solid var(--header-border-bottom-color);
+}
+
+.lck-database-toolbar {
+  border-bottom: 1px solid var(--header-border-bottom-color);
+  background-color: var(--header-background-color);
 }
 
 </style>
