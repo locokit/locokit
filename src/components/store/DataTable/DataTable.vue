@@ -49,6 +49,8 @@
         style="width: unset !important;"
 
         @sort="onSort"
+
+        ref="p-datatable"
       >
         <p-column
           v-for="column in definition.columns"
@@ -494,6 +496,24 @@ export default {
         field: event.sortField,
         order: event.sortOrder
       })
+    }
+  },
+  watch: {
+    definition: {
+      handler () {
+        /**
+         * Special hack for Prime DataTable,
+         * when we resize columns, the table[style] keep the width,
+         * even if we change the columns.
+         * Here, we remove the style attribute from the table DOM Element.
+         * Related to https://gitlab.makina-corpus.net/lck/lck-front/-/issues/150
+         */
+        const tableWithStyle = this.$refs['p-datatable'].$el.querySelector('table[style]')
+        if (tableWithStyle) {
+          tableWithStyle.removeAttribute('style')
+        }
+      },
+      deep: true
     }
   }
 }
