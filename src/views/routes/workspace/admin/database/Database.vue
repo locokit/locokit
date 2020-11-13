@@ -1,5 +1,9 @@
 <template>
   <div class="p-d-flex p-flex-column d-flex-1 o-auto">
+    <div
+      class="lck-database-background"
+      :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
+    />
     <!--
     <header class="p-my-4 lck-color-title p-ml-1">
       {{ $t('pages.database.title')}}
@@ -262,6 +266,8 @@ export default {
   },
   data () {
     return {
+      // eslint-disable-next-line no-undef
+      PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
       block: {
         loading: false,
@@ -752,6 +758,19 @@ export default {
 .lck-database-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+}
+
+.lck-database-background {
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.1;
+  pointer-events: none;
 }
 
 </style>
