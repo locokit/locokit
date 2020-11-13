@@ -88,6 +88,7 @@
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
         :crud-mode="true"
+        :locked="currentView && currentView.locked"
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -349,14 +350,14 @@ export default {
       })
       return result
     },
+    currentView () {
+      if (!this.selectedView) return null
+      return this.views.find(({ id }) => this.selectedView === id)
+    },
     displayColumnsView () {
-      let columns = []
-      if (this.selectedView) {
-        columns = this.views.find(({ id }) => this.selectedView === id)?.columns
-      }
-      return {
-        columns
-      }
+      if (!this.currentView) return { columns: [] }
+      const columns = this.currentView.columns.slice(0).sort((a, b) => a.position - b.position)
+      return { columns }
     },
     viewColumnsIds () {
       if (!this.displayColumnsView.columns) return {}
@@ -521,16 +522,17 @@ export default {
       const columnsIdsToRemove = this.viewColumnsIds.filter(v => value.indexOf(v) === -1)
       const updatePromises = []
       if (columnsIdsToAdd.length > 0) {
-        columnsIdsToAdd.forEach(id => updatePromises.push(
+        columnsIdsToAdd.forEach((id, index) => updatePromises.push(
           lckServices.tableViewColumn.create({
             table_column_id: id,
-            table_view_id: this.selectedView
+            table_view_id: this.selectedView,
+            position: value.length + index
           })
         ))
       }
       if (columnsIdsToRemove.length > 0) {
         columnsIdsToRemove.forEach(id => updatePromises.push(
-          lckServices.tableViewColumn.remove(`${id},${this.selectedView}`)
+          lckServices.tableViewColumn.remove(`${this.selectedView},${id}`)
         ))
       }
       await Promise.all(updatePromises)
@@ -543,7 +545,11 @@ export default {
           $eager: 'columns'
         }
       })
-      this.$set(this.views, this.views.findIndex(({ id }) => this.selectedView === id), newViewDefinition)
+      this.$set(
+        this.views,
+        this.views.findIndex(({ id }) => this.selectedView === id),
+        newViewDefinition
+      )
     },
     async onCreateView () {
       this.viewDialogData = {}
@@ -554,8 +560,21 @@ export default {
       this.displayViewDialog = true
     },
     async onDeleteView (viewToRemove) {
-      await lckServices.tableView.remove(viewToRemove.id)
-      this.views = await retrieveTableViews(this.currentTableId)
+      try {
+        await lckServices.tableView.remove(viewToRemove.id)
+        this.views = await retrieveTableViews(this.currentTableId)
+        /**
+         * We change the view if the previous one is the one that has been removed
+         */
+        if (viewToRemove.id === this.selectedView) this.selectedView = this.views[0].id
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: this.$t('error.lck.' + error.data.code),
+          life: 3000
+        })
+      }
     },
     async onReorderView (views) {
       await Promise.all(
@@ -587,7 +606,7 @@ export default {
       const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
-        `${columnId},${this.selectedView}`, {
+        `${this.selectedView},${columnId}`, {
           display: {
             ...currentColumn.display,
             width: newWidth
@@ -598,36 +617,38 @@ export default {
     },
     async onColumnReorder ({
       fromIndex,
-      toIndex
+      toIndex,
+      fromId,
+      toId
     }) {
-      const newDefinitionColumns = [...this.block.definition.columns]
+      console.log('onColumnReorder', fromId, toId)
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
-      await lckServices.tableColumn.patch(this.block.definition.columns[fromIndex].id, {
-        position: toIndex
-      })
-      newDefinitionColumns[toIndex] = this.block.definition.columns[fromIndex]
+      await lckServices.tableViewColumn.patch(
+        `${this.selectedView},${this.currentView.columns[fromIndex].id}`, {
+          position: toIndex
+        })
       if (fromIndex > toIndex) {
         // if the fromIndex is after the toIndex
         // we need to update all columns after the toIndex, included, fromIndex excluded
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
-          await lckServices.tableColumn.patch(this.block.definition.columns[i1].id, {
-            position: i1 + 1
-          })
-          newDefinitionColumns[i1 + 1] = this.block.definition.columns[i1]
+          await lckServices.tableViewColumn.patch(
+            `${this.selectedView},${this.currentView.columns[i1].id}`, {
+              position: i1 + 1
+            })
         }
       } else {
         // if not,
         // we need to update all columns between fromIndex and toIndex, fromIndex excluded
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
-          await lckServices.tableColumn.patch(this.block.definition.columns[i2].id, {
-            position: i2 - 1
-          })
-          newDefinitionColumns[i2 - 1] = this.block.definition.columns[i2]
+          await lckServices.tableViewColumn.patch(
+            `${this.selectedView},${this.currentView.columns[i2].id}`, {
+              position: i2 - 1
+            })
         }
       }
-      this.block.definition.columns = newDefinitionColumns
+      // this.views = await retrieveTableViews(this.currentTableId)
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {

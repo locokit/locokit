@@ -57,13 +57,13 @@
           :key="column.id"
           :field="column.id"
           :headerStyle="{
-            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             overflow: 'hidden',
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis'
           }"
           :bodyStyle="{
-            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
 
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
@@ -285,7 +285,7 @@ export default {
     },
     tableWidth () {
       if (!this.definition.columns) return {}
-      return this.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
+      return this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
     }
   },
   methods: {
@@ -385,7 +385,9 @@ export default {
       // if we are in crud mode, a ref column is displayed
       this.$emit('column-reorder', {
         fromIndex: event.dragIndex,
-        toIndex: event.dropIndex
+        toIndex: event.dropIndex,
+        fromId: this.definition.columns[event.dragIndex]?.id,
+        toId: this.definition.columns[event.dropIndex]?.id
       })
     },
     async onDropdownEdit (rowIndex, columnId, event) {
