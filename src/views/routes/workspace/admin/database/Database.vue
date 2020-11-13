@@ -96,6 +96,7 @@
         @column-resize="onColumnResize"
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
+        @row-duplicate="onRowDuplicate"
       />
 
       <p-dialog
@@ -655,6 +656,16 @@ export default {
       this.loadCurrentTableData()
     },
     async onRowDuplicate ({ data, table_id }) {
+      const duplicatedData = {}
+      this.block.definition.columns.forEach(c => {
+        if (c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
+          duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
+        }
+      })
+      console.log(duplicatedData)
+      await lckServices.tableRow.create({ data: duplicatedData, table_id })
+      this.loadCurrentTableData()
+    },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteItems = await this.searchItems({
