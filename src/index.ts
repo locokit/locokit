@@ -51,6 +51,11 @@ export enum MEDIA_TYPE {
   CAROUSEL = 'carousel',
 }
 
+export enum ERROR_CODE {
+  VIEW_LOCKED = 'VIEW_LOCKED',
+  VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK',
+}
+
 export interface TableViewDefinition {
   id: string;
   columns: {
