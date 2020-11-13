@@ -104,7 +104,8 @@
             <label for="pattern">{{ $t('components.crudtable.toolbar.filters.form.pattern') }}</label>
             <component
               id="pattern"
-              :is="getColumnFilterConfig(filter.column.type).patternComponent || 'p-input-text'"
+              :is="getComponentEditableColumn(filter.column.type) || 'p-input-text'"
+              v-bind="getColumnFilterConfig(filter.column.type).patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
             />
@@ -152,6 +153,7 @@ import InputNumber from 'primevue/inputnumber'
 import OverlayPanel from 'primevue/overlaypanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { getComponentEditableColumn } from '@/utils/columns'
 
 // Available operators
 const OPERATORS = [{
@@ -222,7 +224,7 @@ const ACTIONS = {
 
 // Filterable types
 // Each one must have an "actions" array.
-// A "patternComponent" attribute is used to display a custom input component for the pattern (p-input-text is used by default).
+// A "patternComponentOptions" attribute (object) can be added to customize the pattern component
 const COLUMN_TYPE_FILTERS_CONFIG = {
   [COLUMN_TYPE.BOOLEAN]: {
     actions: [
@@ -243,7 +245,6 @@ const COLUMN_TYPE_FILTERS_CONFIG = {
     ]
   },
   [COLUMN_TYPE.NUMBER]: {
-    patternComponent: 'p-input-number',
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -252,6 +253,17 @@ const COLUMN_TYPE_FILTERS_CONFIG = {
       ACTIONS.GREATER_THAN,
       ACTIONS.GREATER_EQUAL_THAN
     ]
+  },
+  [COLUMN_TYPE.FLOAT]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.LOWER_THAN,
+      ACTIONS.LOWER_EQUAL_THAN,
+      ACTIONS.GREATER_THAN,
+      ACTIONS.GREATER_EQUAL_THAN
+    ],
+    patternComponentOptions: { minFractionDigits: 2 }
   }
 }
 
@@ -263,6 +275,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
+    'p-input-float': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
     'p-overlay-panel': Vue.extend(OverlayPanel)
   },
@@ -298,8 +311,9 @@ export default {
     }
   },
   methods: {
+    getComponentEditableColumn,
     getColumnFilterConfig (columnType) {
-      return COLUMN_TYPE_FILTERS_CONFIG[columnType]
+      return COLUMN_TYPE_FILTERS_CONFIG[columnType] || {}
     },
     toggleFiltersPanel (event) {
       this.$refs.filtersPanel.toggle(event)
