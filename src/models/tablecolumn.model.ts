@@ -19,6 +19,7 @@ export class TableColumn extends Model {
   text!: string;
   reference!: boolean;
   reference_position!: number;
+  locked!: boolean;
   settings!: {
     formula?: string,
     query?: {
@@ -57,6 +58,9 @@ export class TableColumn extends Model {
 
       properties: {
         text: { type: 'string' },
+        reference: { type: 'boolean' },
+        reference_position: { type: 'number' },
+        locked: { type: 'boolean' },
         settings: { type: 'object' },
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },

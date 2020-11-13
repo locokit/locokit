@@ -10,8 +10,9 @@ class TableViewHasTableColumn extends Model {
   table_column_id!: string;
   table_view_id!: string;
   position!: number;
-  order!: string;
+  sort!: string;
   filter!: object;
+  display!: object;
   visible!: boolean;
   editable!: boolean;
 
@@ -33,8 +34,9 @@ class TableViewHasTableColumn extends Model {
         table_column_id: { type: 'string' },
         table_view_id: { type: 'string' },
         position: { type: 'number' },
-        order: { type: 'string' },
+        sort: { type: 'string' },
         filter: { type: 'object' },
+        display: { type: 'object' },
         visible: { type: 'boolean' },
         editable: { type: 'boolean' }
       }
