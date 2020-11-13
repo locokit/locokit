@@ -55,6 +55,10 @@ export enum ERROR_CODE {
   VIEW_LOCKED = 'VIEW_LOCKED',
   VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK',
 }
+export enum ERROR_LABEL {
+  VIEW_LOCKED = 'View is locked',
+  VIEW_USED_IN_BLOCK = 'View is used in a Block',
+}
 
 export interface TableViewDefinition {
   id: string;
