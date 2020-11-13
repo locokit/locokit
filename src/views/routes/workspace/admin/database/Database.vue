@@ -222,7 +222,7 @@ import InputNumber from 'primevue/inputnumber'
 import { formatISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import lckClient from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -349,7 +349,6 @@ export default {
     displayColumnsView () {
       let columns = []
       if (this.selectedView) {
-        console.log(this.views.find(({ id }) => this.selectedView === id))
         columns = this.views.find(({ id }) => this.selectedView === id)?.columns
       }
       return {
@@ -520,7 +519,7 @@ export default {
       const updatePromises = []
       if (columnsIdsToAdd.length > 0) {
         columnsIdsToAdd.forEach(id => updatePromises.push(
-          lckClient.service('table-view-has-table-column').create({
+          lckServices.tableViewColumn.create({
             table_column_id: id,
             table_view_id: this.selectedView
           })
@@ -528,7 +527,7 @@ export default {
       }
       if (columnsIdsToRemove.length > 0) {
         columnsIdsToRemove.forEach(id => updatePromises.push(
-          lckClient.service('table-view-has-table-column').remove(`${id},${this.selectedView}`)
+          lckServices.tableViewColumn.remove(`${id},${this.selectedView}`)
         ))
       }
       await Promise.all(updatePromises)
@@ -536,7 +535,7 @@ export default {
        * Update the view definition
        */
       console.log('here', updatePromises)
-      const newViewDefinition = await lckClient.service('view').get(this.selectedView, {
+      const newViewDefinition = await lckServices.tableView.get(this.selectedView, {
         query: {
           $eager: 'columns'
         }
@@ -552,17 +551,17 @@ export default {
       this.displayViewDialog = true
     },
     async onDeleteView (viewToRemove) {
-      await lckClient.service('view').remove(viewToRemove.id)
+      await lckServices.tableView.remove(viewToRemove.id)
       this.views = await retrieveTableViews(this.currentTableId)
     },
     async saveView (view) {
       if (view.id) {
-        await lckClient.service('view').patch(view.id, {
+        await lckServices.tableView.patch(view.id, {
           text: view.text
         })
         this.views = await retrieveTableViews(this.currentTableId)
       } else {
-        const newView = await lckClient.service('view').create({
+        const newView = await lckServices.tableView.create({
           table_id: this.currentTableId,
           ...view
         })
@@ -573,18 +572,17 @@ export default {
     },
     async onColumnResize (newWidth, columnId) {
       // first, find the column related
-      const currentColumnIndex = this.block.definition.columns.findIndex(c => c.id === columnId)
-      if (currentColumnIndex === -1) return
-      const newColumn = await lckClient.service('column').patch(columnId, {
-        settings: {
-          ...this.block.definition.columns[currentColumnIndex].settings,
-          width: newWidth
-        }
-      })
+      const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
+      if (!currentColumn) return
+      const newColumn = await lckServices.tableViewColumn.patch(
+        `${columnId},${this.selectedView}`, {
+          display: {
+            ...currentColumn.display,
+            width: newWidth
+          }
+        })
       // replace existing definition with new column
-      this.block.definition.columns = this.block.definition.columns.map(c => {
-        return c.id === columnId ? newColumn : c
-      })
+      currentColumn.display = newColumn.display
     },
     async onColumnReorder ({
       fromIndex,
@@ -594,7 +592,7 @@ export default {
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
-      await lckClient.service('column').patch(this.block.definition.columns[fromIndex].id, {
+      await lckServices.tableColumn.patch(this.block.definition.columns[fromIndex].id, {
         position: toIndex
       })
       newDefinitionColumns[toIndex] = this.block.definition.columns[fromIndex]
@@ -602,7 +600,7 @@ export default {
         // if the fromIndex is after the toIndex
         // we need to update all columns after the toIndex, included, fromIndex excluded
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
-          await lckClient.service('column').patch(this.block.definition.columns[i1].id, {
+          await lckServices.tableColumn.patch(this.block.definition.columns[i1].id, {
             position: i1 + 1
           })
           newDefinitionColumns[i1 + 1] = this.block.definition.columns[i1]
@@ -611,7 +609,7 @@ export default {
         // if not,
         // we need to update all columns between fromIndex and toIndex, fromIndex excluded
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
-          await lckClient.service('column').patch(this.block.definition.columns[i2].id, {
+          await lckServices.tableColumn.patch(this.block.definition.columns[i2].id, {
             position: i2 - 1
           })
           newDefinitionColumns[i2 - 1] = this.block.definition.columns[i2]
@@ -638,7 +636,7 @@ export default {
     async searchItems ({ columnTypeId, tableId, query }) {
       let items = null
       if (columnTypeId === COLUMN_TYPE.USER) {
-        const result = await lckClient.service('user').find({
+        const result = await lckServices.user.find({
           query: {
             blocked: false,
             name: {
@@ -651,7 +649,7 @@ export default {
           value: d.id
         }))
       } else if (columnTypeId === COLUMN_TYPE.GROUP) {
-        const result = await lckClient.service('group').find({
+        const result = await lckServices.group.find({
           query: {
             name: {
               $ilike: `%${query}%`
@@ -664,7 +662,7 @@ export default {
         }))
       // eslint-disable-next-line @typescript-eslint/camelcase
       } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckClient.service('row').find({
+        const result = await lckServices.tableRow.find({
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             table_id: tableId,
