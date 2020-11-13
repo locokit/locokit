@@ -8,10 +8,11 @@
       <draggable
         class="view-group"
         tag="div"
-        v-model="views"
+        :value="views"
         v-bind="dragOptions"
         @start="drag = true"
         @end="drag = false"
+        @input="$emit('reorder', $event)"
         handle=".handle"
       >
         <transition-group

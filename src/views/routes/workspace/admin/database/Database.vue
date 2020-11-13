@@ -36,6 +36,7 @@
             @create="onCreateView"
             @update="onUpdateView"
             @delete="onDeleteView"
+            @reorder="onReorderView"
           />
 
           <lck-view-dialog
@@ -554,6 +555,14 @@ export default {
     },
     async onDeleteView (viewToRemove) {
       await lckServices.tableView.remove(viewToRemove.id)
+      this.views = await retrieveTableViews(this.currentTableId)
+    },
+    async onReorderView (views) {
+      await Promise.all(
+        views.map((v, index) => lckServices.tableView.patch(v.id, {
+          position: index
+        }))
+      )
       this.views = await retrieveTableViews(this.currentTableId)
     },
     async saveView (view) {
