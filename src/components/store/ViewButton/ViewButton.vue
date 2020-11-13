@@ -22,7 +22,6 @@
             class="view-group-item p-d-flex p-jc-between p-ai-center"
             v-for="element in views"
             :key="element.id"
-            @click="$emit('input', element.id)"
           >
             <span class="p-d-flex p-ai-baseline">
               <p-button
@@ -31,12 +30,12 @@
               />
               <span
                 :class="element.id === value ? 'p-text-bold' : ''"
+                @click="$emit('input', element.id)"
               >
-              <span v-if="element.locked">
-                <i class="pi pi-lock" />
-              </span>
-
-              {{ element.text }}
+                <span v-if="element.locked">
+                  <i class="pi pi-lock" />
+                </span>
+                {{ element.text }}
               </span>
             </span>
             <span class="p-ml-4" v-if="!element.locked">
@@ -48,7 +47,7 @@
               <p-button
                 class="p-button-sm p-button-text p-button-danger"
                 icon="pi pi-trash"
-                @click="emitEvent('remove', slotProps.toggleOverlayPanel, element)"
+                @click="emitEvent('delete', slotProps.toggleOverlayPanel, element)"
               />
             </span>
           </div>
