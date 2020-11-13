@@ -10,9 +10,19 @@
 }
 
 .p-datatable .p-column-resizer {
-  width: 7px;
+  width: .25rem;
+  margin: .2rem 0;
+  height: calc(100% - .4rem);
   border: unset;
-  border-left: 4px solid #e9ecef;
+  border-radius: var(--border-radius);
+}
+.p-datatable .p-column-resizer::before {
+  content: '';
+  background-color: transparent;
+  width: .5rem;
+  display: inline-block;
+  height: 100%;
+  margin-left: -.5rem;
 }
 .p-datatable .p-column-resizer:hover {
   background-color: var(--primary-color);
