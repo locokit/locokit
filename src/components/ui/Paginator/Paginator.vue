@@ -11,7 +11,9 @@
       <div class="paginator-nav"
         v-if="pagesList.length > 0"
       >
-        <p class="label">Aller à la page</p>
+        <p class="label">
+          {{ $t('components.paginator.selectPagePlaceholder') }}
+        </p>
         <p-dropdown
           :dropdown="true"
           :value="skip/rows"
