@@ -50,17 +50,52 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
         class="p-dialog-content"
         style="max-height: 60vh;"
       >
-        <label
-          for="viewTextField"
+        <div
+          class="p-field"
         >
-          
-    Nom
-        </label>
+          <label
+            for="viewTextField"
+          >
+            
+      Nom
+          </label>
+           
+          <input
+            class="p-inputtext p-component"
+            id="viewTextField"
+          />
+        </div>
          
-        <input
-          class="p-inputtext p-component"
-          id="viewTextField"
-        />
+        <div
+          class="p-field"
+        >
+          <label
+            for="viewLockedField"
+          >
+            
+      Verrouillée
+          </label>
+           
+          <div
+            class="p-button p-togglebutton p-component"
+            id="viewLockedField"
+            role="checkbox"
+            tabindex="0"
+          >
+            <span
+              class="pi pi-unlock p-button-icon p-button-icon-right"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Déverrouillée
+            </span>
+            <span
+              class="p-ink"
+            />
+          </div>
+        </div>
       </div>
        
       <div
@@ -161,17 +196,52 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
         class="p-dialog-content"
         style="max-height: 60vh;"
       >
-        <label
-          for="viewTextField"
+        <div
+          class="p-field"
         >
-          
-    Nom
-        </label>
+          <label
+            for="viewTextField"
+          >
+            
+      Nom
+          </label>
+           
+          <input
+            class="p-inputtext p-component p-filled"
+            id="viewTextField"
+          />
+        </div>
          
-        <input
-          class="p-inputtext p-component p-filled"
-          id="viewTextField"
-        />
+        <div
+          class="p-field"
+        >
+          <label
+            for="viewLockedField"
+          >
+            
+      Verrouillée
+          </label>
+           
+          <div
+            class="p-button p-togglebutton p-component"
+            id="viewLockedField"
+            role="checkbox"
+            tabindex="0"
+          >
+            <span
+              class="pi pi-unlock p-button-icon p-button-icon-right"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Déverrouillée
+            </span>
+            <span
+              class="p-ink"
+            />
+          </div>
+        </div>
       </div>
        
       <div

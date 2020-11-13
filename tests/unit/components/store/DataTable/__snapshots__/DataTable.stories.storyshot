@@ -177,7 +177,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
           <p
             class="label"
           >
-            Aller à la page
+            
+        Aller à la page
+      
           </p>
            
           <div
@@ -402,7 +404,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
           <p
             class="label"
           >
-            Aller à la page
+            
+        Aller à la page
+      
           </p>
            
           <div
@@ -627,7 +631,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
           <p
             class="label"
           >
-            Aller à la page
+            
+        Aller à la page
+      
           </p>
            
           <div
@@ -1004,7 +1010,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
           <p
             class="label"
           >
-            Aller à la page
+            
+        Aller à la page
+      
           </p>
            
           <div

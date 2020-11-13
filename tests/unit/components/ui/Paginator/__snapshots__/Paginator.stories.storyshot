@@ -202,7 +202,9 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
         <p
           class="label"
         >
-          Aller à la page
+          
+        Aller à la page
+      
         </p>
          
         <div
