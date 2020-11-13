@@ -95,6 +95,7 @@
         @sort="onSort"
         @column-resize="onColumnResize"
         @column-reorder="onColumnReorder"
+        @row-delete="onRowDelete"
       />
 
       <p-dialog
@@ -649,6 +650,11 @@ export default {
       }
       // this.views = await retrieveTableViews(this.currentTableId)
     },
+    async onRowDelete (row) {
+      await lckServices.tableRow.remove(row.id)
+      this.loadCurrentTableData()
+    },
+    async onRowDuplicate ({ data, table_id }) {
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteItems = await this.searchItems({
