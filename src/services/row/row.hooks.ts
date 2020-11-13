@@ -69,14 +69,8 @@ export default {
       computeTextProperty()
     ],
     remove: [
-      commonHooks.iffElse(
-        commonHooks.isProvider('rest'),
-        commonHooks.disallow(),
-        [
-          restrictRemoveIfRelatedRows(),
-          removeRelatedRows()
-        ]
-      )
+      restrictRemoveIfRelatedRows(),
+      removeRelatedRows()
     ]
   },
 
