@@ -79,6 +79,10 @@
             }
           }
         }
+      },
+      "contextmenu": {
+        "duplicate": "Duplicate",
+        "delete": "Remove"
       }
     },
     "overlayPanel": {

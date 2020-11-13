@@ -51,6 +51,10 @@
         @sort="onSort"
 
         ref="p-datatable"
+
+        :context-menu="crudMode"
+        :context-menu-selection.sync="selectedRow"
+        @row-contextmenu="onRowContextMenu"
       >
         <p-column
           v-for="column in definition.columns"
@@ -152,6 +156,11 @@
           {{ $t('components.datatable.noDataToDisplay') }}
         </template>
       </p-datatable>
+
+      <p-context-menu
+        :model="menuModel"
+        ref="cm"
+      />
     </div>
 
     <lck-paginator
@@ -179,6 +188,7 @@ import DataTable from 'primevue/datatable'
 import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
+import ContextMenu from 'primevue/contextmenu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
@@ -206,7 +216,8 @@ export default {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-datatable': Vue.extend(DataTable),
-    'p-column': Vue.extend(Column)
+    'p-column': Vue.extend(Column),
+    'p-context-menu': Vue.extend(ContextMenu)
   },
   props: {
     definition: {
@@ -238,10 +249,20 @@ export default {
   },
   data () {
     return {
-      editingCellRows: [],
       autocompleteInput: null,
       currentDateToEdit: null,
-      multiSelectValues: []
+      multiSelectValues: [],
+      selectedRow: null,
+      menuModel: [{
+        label: this.$t('components.datatable.contextmenu.duplicate'),
+        icon: 'pi pi-fw pi-search',
+        command: () => this.$emit('row-duplicate', this.selectedRow)
+      }, {
+        label: this.$t('components.datatable.contextmenu.delete'),
+        icon: 'pi pi-fw pi-times',
+        command: () => this.$emit('row-delete', this.selectedRow)
+      }
+      ]
     }
   },
   computed: {
@@ -506,6 +527,10 @@ export default {
         field: event.sortField,
         order: event.sortOrder
       })
+    },
+    onRowContextMenu (event) {
+      console.log(event.originalEvent)
+      this.$refs.cm.show(event.originalEvent)
     }
   },
   watch: {
@@ -576,6 +601,10 @@ tr.p-datatable-emptymessage {
 
 .p-datatable.is-reorderable th:hover {
   cursor: grab;
+}
+
+.p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
+  background-color: var(--primary-color)
 }
 
 .p-datatable th:hover .p-sortable-column-icon {
