@@ -5,6 +5,7 @@ import { Application } from '../declarations'
 import { TableRow } from './tablerow.model'
 import { TableView, TableColumnDTO } from './tableview.model'
 import { TableColumn } from './tablecolumn.model'
+import { ProcessTrigger } from './process_trigger.model'
 
 export class table extends Model {
   id!: string;
@@ -58,6 +59,14 @@ export class table extends Model {
         join: {
           from: 'table.id',
           to: 'table_view.table_id'
+        }
+      },
+      triggers: {
+        relation: Model.HasManyRelation,
+        modelClass: ProcessTrigger,
+        join: {
+          from: 'table.id',
+          to: 'process_trigger.table_id'
         }
       }
     }

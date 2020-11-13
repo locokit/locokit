@@ -1,7 +1,7 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
+import { Model } from 'objection'
+import { Application } from '../declarations'
 import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
 
@@ -14,11 +14,11 @@ export class chapter extends Model {
   settings!: object;
   type!: string;
 
-  static get tableName() {
-    return 'chapter';
+  static get tableName () {
+    return 'chapter'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -28,10 +28,10 @@ export class chapter extends Model {
         position: { type: 'number' },
         settings: { type: 'object' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       workspace: {
         relation: Model.BelongsToOneRelation,
@@ -56,12 +56,12 @@ export class chapter extends Model {
     }
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
@@ -82,5 +82,5 @@ export default function (app: Application) {
   // })
   //   .catch(e => console.error('Error creating chapter table', e)); // eslint-disable-line no-console
 
-  return chapter;
+  return chapter
 }
