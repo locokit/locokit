@@ -8,6 +8,7 @@
     :closeOnEscape="true"
     class="p-fluid"
     @hide="$emit('close')"
+    @update:visible="$emit('close')"
   >
     <slot>
     </slot>
