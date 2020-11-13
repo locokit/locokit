@@ -16,6 +16,7 @@ export class TableColumnDTO extends TableColumn {
 }
 
 export class TableView extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   columns?: TableColumnDTO[];

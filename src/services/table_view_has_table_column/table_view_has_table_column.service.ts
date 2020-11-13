@@ -2,7 +2,7 @@
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
 import { TableViewHasTableColumn } from './table_view_has_table_column.class'
-import createModel from '../../models/tableviewcolumn'
+import createModel from '../../models/tableviewcolumn.model'
 import hooks from './table_view_has_table_column.hooks'
 
 // Add this service to the service type index

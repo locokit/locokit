@@ -16,13 +16,13 @@ export default {
     get: [],
     create: [],
     update: [
-      disallow()
+      disallow('external')
     ],
     patch: [
       preventChanges(true, 'column_type_id')
     ],
     remove: [
-      disallow()
+      disallow('external')
     ]
   },
 
