@@ -22,6 +22,8 @@
     <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
       <router-view/>
     </main>
+
+    <p-toast position="top-right" />
   </div>
 </template>
 
@@ -34,12 +36,14 @@ import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
 import PopupReload from '@/components/ui/PopupReload/PopupReload'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import Toast from 'primevue/toast'
 
 export default {
   name: 'app',
   components: {
     'lck-header': Header,
-    'lck-popup-reload': PopupReload
+    'lck-popup-reload': PopupReload,
+    'p-toast': Toast
   },
   data () {
     return {
