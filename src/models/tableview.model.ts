@@ -16,10 +16,12 @@ export class TableColumnDTO extends TableColumn {
 }
 
 export class TableView extends Model {
+  id!: string;
   createdAt!: string;
   updatedAt!: string;
   columns?: TableColumnDTO[];
   text!: string;
+  locked!: boolean;
 
   static get tableName () {
     return 'table_view'
@@ -31,7 +33,8 @@ export class TableView extends Model {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
+        text: { type: 'string' },
+        locked: { type: 'boolean' }
       }
     }
   }
@@ -50,7 +53,7 @@ export class TableView extends Model {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['order', 'filter', 'visible', 'position', 'editable']
+            extra: ['sort', 'display', 'filter', 'visible', 'position', 'editable']
           },
           to: 'table_column.id',
           modify (query: QueryBuilder<TableColumn>) {
