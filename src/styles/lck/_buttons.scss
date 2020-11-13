@@ -10,9 +10,6 @@
       background-color: var(--primary-color-darken);
       border-color: var(--primary-color-darken);
     }
-    &:focus {
-      box-shadow: unset !important;
-    }
   }
 
   &.p-button-outlined {

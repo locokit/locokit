@@ -738,15 +738,17 @@ export default {
   margin: 0 0.25rem;
 }
 
+/deep/ .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+  color: var(--primary-color-darken);
+  border: 1px solid var(--primary-color-darken);
+  border-bottom: 0;
+}
+
 /deep/ .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
   color: var(--text-color);
-}
-
- .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
-  box-shadow: unset;
 }
 
 /deep/ .p-tabview {
