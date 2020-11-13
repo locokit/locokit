@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="emitSubmit" class="p-text-left">
+  <form @submit.prevent="emitSubmit" class="p-text-left p-fluid">
     <div class="p-field">
       <label for="email">{{ $t('components.login.email') }}</label>
       <p-input-text
