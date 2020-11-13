@@ -2,6 +2,7 @@
   <lck-overlaypanel
     icon="pi pi-filter"
     class-button="p-button-outlined p-button-secondary"
+    :disabled="disabled"
     :label="$tc('components.datatable.toolbar.filters.label', value.length)"
   >
     <template #overlay-content="overlaySlotProps">
@@ -282,6 +283,10 @@ export default {
       type: Array,
       required: false,
       default: () => ([])
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

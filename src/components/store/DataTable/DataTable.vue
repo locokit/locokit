@@ -43,7 +43,7 @@
         columnResizeMode="expand"
         @column-resize-end="onColumnResize"
 
-        :reorderableColumns="crudMode"
+        :reorderableColumns="crudMode && !locked"
         @column-reorder="onColumnReorder"
 
         style="width: unset !important;"
@@ -228,6 +228,10 @@ export default {
       default: 20
     },
     crudMode: {
+      type: Boolean,
+      default: false
+    },
+    locked: {
       type: Boolean,
       default: false
     }

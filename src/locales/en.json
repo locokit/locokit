@@ -39,7 +39,10 @@
           "createLabel": "Create a new view",
           "editLabel": "Edit the view",
           "removeLabel": "Remove the view",
-          "viewTextLabel": "Name"
+          "viewTextLabel": "Name",
+          "viewLockedLabel": "Locked",
+          "viewLockedLabelOff": "Unlocked",
+          "viewLockedLabelOn": "Locked"
         },
         "filters": {
           "label": "no filter | {n} filter | {n} filters",
@@ -241,7 +244,13 @@
     "http": {
       "401": "Access not granted",
       "403": "Access forbidden",
+      "404": "Not found",
+      "406": "Not acceptable",
       "500": "An error occured…"
+    },
+    "lck": {
+      "VIEW_LOCKED": "View is locked.",
+      "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
     }
   },
   "form" : {

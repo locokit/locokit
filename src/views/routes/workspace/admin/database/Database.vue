@@ -49,6 +49,7 @@
             class="p-ml-2"
             :columns="block.definition.columns"
             :value="viewColumnsIds"
+            :disabled="currentView && currentView.locked"
             @change="onChangeViewColumns"
           />
 
@@ -56,6 +57,7 @@
             class="p-ml-2"
             :columns="displayColumnsView.columns"
             v-model="currentDatatableFilters"
+            :disabled="currentView && currentView.locked"
             @submit="onSubmitFilter"
             @reset="onResetFilter"
           />
@@ -557,7 +559,8 @@ export default {
     async saveView (view) {
       if (view.id) {
         await lckServices.tableView.patch(view.id, {
-          text: view.text
+          text: view.text,
+          locked: view.locked
         })
         this.views = await retrieveTableViews(this.currentTableId)
       } else {
