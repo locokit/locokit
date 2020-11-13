@@ -368,11 +368,11 @@ export default {
         query
       )
     },
-    onColumnResize (header) {
+    onColumnResize (event) {
       this.$emit(
         'column-resize',
-        header.element.offsetWidth,
-        header.element.querySelector('[data-column-id]').attributes['data-column-id'].value
+        event.element.offsetWidth,
+        event.element.querySelector('[data-column-id]').attributes['data-column-id'].value
       )
     },
     onColumnReorder (event) {
