@@ -16,22 +16,6 @@ export const defaultStory = () => (
 
 defaultStory.storyName = 'default'
 
-export const overlayOpenedStory = () => (
-  {
-    components: { FilterButton },
-    template: '<FilterButton ref="fb" />',
-    async mounted () {
-      this.$refs.fb.$el.querySelector('button').click()
-      setTimeout(() => {
-        document.querySelector('.pi.pi-plus-circle').parentElement.click()
-        document.querySelector('.pi.pi-plus-circle').parentElement.click()
-      }, 500)
-    }
-  }
-)
-
-overlayOpenedStory.storyName = 'overlay opened'
-
 /* eslint-disable @typescript-eslint/camelcase */
 const definitionColumn = [
   {
@@ -86,3 +70,19 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
 )
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
+
+export const overlayOpenedStory = () => (
+  {
+    components: { FilterButton },
+    template: '<FilterButton ref="fb" />',
+    async mounted () {
+      this.$refs.fb.$el.querySelector('button').click()
+      setTimeout(() => {
+        document.querySelector('.pi.pi-plus-circle').parentElement.click()
+        document.querySelector('.pi.pi-plus-circle').parentElement.click()
+      }, 500)
+    }
+  }
+)
+
+overlayOpenedStory.storyName = 'overlay opened'
