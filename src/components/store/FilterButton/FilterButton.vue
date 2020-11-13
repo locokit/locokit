@@ -82,7 +82,7 @@
             <p-dropdown
               id="action"
               type="text"
-              :options="filter.column && getColumnFilterConfig(filter.column.type).actions || []"
+              :options="filter.column && columnFiltersConfig[filter.column.type].actions || []"
               :disabled="!filter.column"
               optionLabel="label"
               v-model="filter.action"
@@ -105,7 +105,7 @@
             <component
               id="pattern"
               :is="getComponentEditableColumn(filter.column.type) || 'p-input-text'"
-              v-bind="getColumnFilterConfig(filter.column.type).patternComponentOptions || {}"
+              v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
             />
@@ -225,7 +225,7 @@ const ACTIONS = {
 // Filterable types
 // Each one must have an "actions" array.
 // A "patternComponentOptions" attribute (object) can be added to customize the pattern component
-const COLUMN_TYPE_FILTERS_CONFIG = {
+const COLUMN_FILTERS_CONFIG = {
   [COLUMN_TYPE.BOOLEAN]: {
     actions: [
       ACTIONS.TRUE,
@@ -267,8 +267,6 @@ const COLUMN_TYPE_FILTERS_CONFIG = {
   }
 }
 
-const SUPPORTED_TYPES = Object.keys(COLUMN_TYPE_FILTERS_CONFIG).map(action => parseInt(action))
-
 export default {
   name: 'LCKFilterButton',
   components: {
@@ -293,7 +291,7 @@ export default {
   },
   data () {
     return {
-      // value: [],
+      columnFiltersConfig: COLUMN_FILTERS_CONFIG,
       operators: OPERATORS,
       selectedOperator: OPERATORS[0].value
     }
@@ -303,18 +301,18 @@ export default {
       if (this.definitionColumn?.length < 1) return []
       return this.definitionColumn.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
-        if (SUPPORTED_TYPES.includes(columnTypeId)) {
+        if (this.supportedTypes.includes(columnTypeId)) {
           acc.push({ value: id, label: text, type: columnTypeId })
         }
         return acc
       }, [])
+    },
+    supportedTypes () {
+      return Object.keys(this.columnFiltersConfig).map(action => parseInt(action))
     }
   },
   methods: {
     getComponentEditableColumn,
-    getColumnFilterConfig (columnType) {
-      return COLUMN_TYPE_FILTERS_CONFIG[columnType] || {}
-    },
     toggleFiltersPanel (event) {
       this.$refs.filtersPanel.toggle(event)
     },
