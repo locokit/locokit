@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import { Forbidden } from '@feathersjs/errors'
+import { NotAcceptable } from '@feathersjs/errors'
 import { HookContext } from '@feathersjs/feathers'
+import { ERROR_CODE, ERROR_LABEL } from '@locokit/lck-glossary'
 import { TableView } from '../../models/tableview.model'
 import { TableViewColumn } from '../../models/tableviewcolumn.model'
 
@@ -20,8 +21,8 @@ export async function checkIfTableViewIsLocked (context: HookContext): Promise<H
   }
   const currentView: TableView = await context.app.services.view.get(table_view_id)
   if (currentView.locked) {
-    throw new Forbidden('The view is locked', {
-      code: 'VIEW_LOCKED'
+    throw new NotAcceptable(ERROR_LABEL.VIEW_LOCKED, {
+      code: ERROR_CODE.VIEW_LOCKED
     })
   }
   return context
