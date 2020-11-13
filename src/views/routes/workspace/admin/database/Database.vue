@@ -622,7 +622,6 @@ export default {
       fromId,
       toId
     }) {
-      console.log('onColumnReorder', fromId, toId)
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
@@ -662,7 +661,6 @@ export default {
           duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
         }
       })
-      console.log(duplicatedData)
       await lckServices.tableRow.create({ data: duplicatedData, table_id })
       this.loadCurrentTableData()
     },

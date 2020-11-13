@@ -529,7 +529,6 @@ export default {
       })
     },
     onRowContextMenu (event) {
-      console.log(event.originalEvent)
       this.$refs.cm.show(event.originalEvent)
     }
   },
