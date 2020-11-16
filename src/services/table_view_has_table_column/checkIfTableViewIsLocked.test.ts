@@ -1,6 +1,6 @@
 import app from '../../app'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { Forbidden } from '@feathersjs/errors'
+import { NotAcceptable } from '@feathersjs/errors'
 
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
@@ -105,7 +105,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
         table_view_id: tableview.id,
         table_column_id: columnTable1Boolean.id
       })
-    ).rejects.toThrow(Forbidden)
+    ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
       tableview.id, {
         locked: false
@@ -129,7 +129,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
         table_column_id: columnTable1Boolean.id,
         display: { width: '100px' }
       })
-    ).rejects.toThrow(Forbidden)
+    ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
       tableview.id, {
         locked: false
@@ -152,7 +152,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
       service.patch(`${tableview.id},${columnTable1Boolean.id}`, {
         display: { width: '100px' }
       })
-    ).rejects.toThrow(Forbidden)
+    ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
       tableview.id, {
         locked: false
@@ -173,7 +173,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     )
     await expect(
       service.remove(`${tableview.id},${columnTable1Boolean.id}`)
-    ).rejects.toThrow(Forbidden)
+    ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
       tableview.id, {
         locked: false
