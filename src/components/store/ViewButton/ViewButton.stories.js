@@ -18,7 +18,7 @@ export const overlayOpenedStory = () => (
   {
     components: { ViewButton },
     template: '<ViewButton ref="vb" />',
-    async mounted () {
+    mounted () {
       this.$refs.vb.$el.querySelector('button').click()
     }
   }
@@ -47,7 +47,7 @@ export const overlayOpenedStoryWithViews = () => (
       }
     },
     template: '<ViewButton ref="vb" :views="views" v-model="value" />',
-    async mounted () {
+    mounted () {
       this.$refs.vb.$el.querySelector('button').click()
     }
   }
