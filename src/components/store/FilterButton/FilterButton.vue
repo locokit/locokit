@@ -367,7 +367,6 @@ label {
 
 /deep/ .p-dropdown-label.p-inputtext {
   line-height: normal;
-  /* padding: 0.25rem 0.5rem; */
 }
 
 /deep/ .p-button {
@@ -377,13 +376,5 @@ label {
 .filters-listing {
   width: 700px;
 }
-
-/* .filters-listing .p-component,
-.filters-listing .p-inputtext,
-.filters-listing .p-dropdown,
-.filters-listing ul.p-dropdown-items,
-.filters-listing ul.p-dropdown-items li {
-  font-size: 0.85rem;
-} */
 
 </style>
