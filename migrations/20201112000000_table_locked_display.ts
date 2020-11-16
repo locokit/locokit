@@ -8,6 +8,7 @@ export async function up (knex: Knex): Promise<any> {
     })
     .alterTable('table_view', table => {
       table.boolean('locked').defaultTo(false)
+      table.integer('position')
     })
     .alterTable('table_column', table => {
       table.boolean('locked').defaultTo(false)
@@ -22,6 +23,7 @@ export async function down (knex: Knex): Promise<any> {
     })
     .alterTable('table_view', table => {
       table.dropColumn('locked')
+      table.dropColumn('position')
     })
     .alterTable('table_column', table => {
       table.dropColumn('locked')

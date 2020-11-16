@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model, QueryBuilder } from 'objection'
@@ -22,6 +23,8 @@ export class TableView extends Model {
   columns?: TableColumnDTO[];
   text!: string;
   locked!: boolean;
+  position?: number;
+  table_id!: string;
 
   static get tableName () {
     return 'table_view'
@@ -34,7 +37,8 @@ export class TableView extends Model {
 
       properties: {
         text: { type: 'string' },
-        locked: { type: 'boolean' }
+        locked: { type: 'boolean' },
+        position: { type: ['number', 'null'] }
       }
     }
   }
