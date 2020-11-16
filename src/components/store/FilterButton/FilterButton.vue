@@ -33,9 +33,6 @@
               width: '5rem'
             }"
           >
-            <!-- <label for="operator" v-if="index > 0">
-              {{ $t('components.datatable.toolbar.filters.form.operator') }}
-            </label> -->
             <p-dropdown
               id="operator"
               :options="operators"
