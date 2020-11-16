@@ -61,7 +61,7 @@ export default {
   },
   watch: {
     value: {
-      handler (newValue: any) {
+      handler (newValue: {}) {
         this.currentData = {
           ...newValue
         }
