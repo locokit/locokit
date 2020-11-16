@@ -243,7 +243,7 @@ import {
   patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
@@ -362,7 +362,7 @@ export default {
     },
     editableColumns () {
       if (!this.block.definition.columns) return []
-      return this.block.definition.columns.filter(c => this.isEditableColumn(c))
+      return this.block.definition.columns.filter(c => this.isEditableColumn(this.crudMode, c))
     },
     columnsEnhanced () {
       if (!this.block.definition.columns) return {}
@@ -400,6 +400,7 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
+    isEditableColumn,
     resetToDefault () {
       this.block = {
         loading: false,
@@ -423,15 +424,6 @@ export default {
         ...defaultDatatableSort
       }
       this.currentDatatableFilters = []
-    },
-    isEditableColumn (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
-          return false
-        default:
-          return true
-      }
     },
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
@@ -769,8 +761,8 @@ export default {
       }
       return items
     },
-    async onUpdateCell ({ rowIndex, columnId, newValue }) {
-      const currentRow = this.block.content.data[rowIndex]
+    async onUpdateCell ({ rowId, columnId, newValue }) {
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
 
       const data = {
         data: {

@@ -16,7 +16,7 @@
           :suggestions="autocompleteItems"
           @search="onComplete(column, $event)"
           v-model="row.data[column.id].value"
-          @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+          @item-select="onAutocompleteEdit(row.id, column.id, $event)"
         />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
@@ -77,7 +77,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
 
 export default {
   name: 'LckDataDetail',
@@ -135,7 +135,7 @@ export default {
     },
     editableColumns () {
       if (!this.definition.columns) return []
-      return this.definition.columns.filter(c => this.isEditableColumn(c))
+      return this.definition.columns.filter(c => this.isEditableColumn(this.crudMode, c))
     },
     columnsEnhanced () {
       if (!this.definition.columns) return {}
@@ -160,35 +160,21 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
+    isEditableColumn,
     // eslint-disable-next-line @typescript-eslint/camelcase
     onComplete ({ column_type_id, settings }, { query }) {
-      console.log('onComplete', column_type_id, settings, query)
-      this.$emit(
-        'update-suggestions', {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          column_type_id,
-          settings
-        }, { query })
+      this.$emit('update-suggestions', {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        column_type_id,
+        settings
+      }, { query })
     },
-    async onAutocompleteEdit (rowIndex, columnId, event) {
+    async onAutocompleteEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value.value
       })
-    },
-    isEditableColumn (column) {
-      if (this.crudMode) {
-        switch (column.column_type_id) {
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
-          case COLUMN_TYPE.FORMULA:
-            return false
-          default:
-            return true
-        }
-      } else {
-        return column.editable
-      }
     }
   }
 }

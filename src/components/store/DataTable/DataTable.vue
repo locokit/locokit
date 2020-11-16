@@ -88,7 +88,7 @@
               {{ column.text }}
             </span>
           </template>
-          <template #editor="slotProps" v-if="isEditableColumn(column)">
+          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
@@ -98,7 +98,7 @@
               v-model="autocompleteInput"
               :suggestions="autocompleteSuggestions"
               @search="onComplete(column, $event)"
-              @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+              @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <p-dropdown
@@ -210,7 +210,7 @@ import {
   parseISO
 } from 'date-fns'
 
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
 
 export default {
   name: 'LckDatatable',
@@ -321,6 +321,7 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
+    isEditableColumn,
     displayDetail (rowId) {
       this.$emit('row-content', rowId)
     },
@@ -356,19 +357,6 @@ export default {
         // eslint-disable no-console
         console.error('Field with bad format', data, error)
         return ''
-      }
-    },
-    isEditableColumn (column) {
-      if (this.crudMode) {
-        switch (column.column_type_id) {
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
-          case COLUMN_TYPE.FORMULA:
-            return false
-          default:
-            return true
-        }
-      } else {
-        return column.editable
       }
     },
     isSortableColumn (column) {
@@ -439,9 +427,9 @@ export default {
         newValue: event.value // .map(v => v.value)
       })
     },
-    async onAutocompleteEdit (rowIndex, columnId, event) {
+    async onAutocompleteEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value.value
       })
