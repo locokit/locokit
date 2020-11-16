@@ -18,7 +18,7 @@ exports[`storyshots components/ui/OverlayPanel default 1`] = `
       <span
         class="p-button-label"
       >
-        No button label
+        Pas de texte de bouton
       </span>
        
       <!---->

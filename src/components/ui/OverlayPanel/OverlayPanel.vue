@@ -35,7 +35,9 @@ export default {
   props: {
     label: {
       type: String,
-      default: 'No button label'
+      default () {
+        return this.$t('components.overlayPanel.defaultLabel')
+      }
     },
     icon: {
       type: String,

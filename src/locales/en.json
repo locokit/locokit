@@ -80,6 +80,12 @@
           }
         }
       }
+    },
+    "overlayPanel": {
+      "defaultLabel": "No button label"
+    },
+    "dialog": {
+      "defaultHeader": "Header of the dialog box"
     }
   },
   "pages": {

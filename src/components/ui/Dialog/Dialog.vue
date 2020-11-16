@@ -54,7 +54,9 @@ export default {
   props: {
     header: {
       type: String,
-      default: ''
+      default () {
+        return this.$t('components.dialog.defaultHeader')
+      }
     },
     visible: {
       type: Boolean,
