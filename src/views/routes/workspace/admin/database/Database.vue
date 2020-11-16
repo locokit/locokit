@@ -32,7 +32,7 @@
         <div class="p-d-flex p-flex-wrap">
           <lck-view-button
             :views="views"
-            v-model="selectedView"
+            v-model="selectedViewId"
             @create="onCreateView"
             @update="onUpdateView"
             @delete="onDeleteView"
@@ -203,6 +203,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
+import saveAs from 'file-saver'
 import {
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
@@ -228,7 +229,7 @@ import InputNumber from 'primevue/inputnumber'
 import { formatISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { lckServices } from '@/services/lck-api'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -286,7 +287,7 @@ export default {
         }
       },
       views: [],
-      selectedView: null,
+      selectedViewId: null,
       displayNewDialog: false,
       newRow: {
         data: {
@@ -353,8 +354,8 @@ export default {
       return result
     },
     currentView () {
-      if (!this.selectedView) return null
-      return this.views.find(({ id }) => this.selectedView === id)
+      if (!this.selectedViewId) return null
+      return this.views.find(({ id }) => this.selectedViewId === id)
     },
     displayColumnsView () {
       if (!this.currentView) return { columns: [] }
@@ -377,7 +378,7 @@ export default {
         }
       }
       this.views = []
-      this.selectedView = null
+      this.selectedViewId = null
       this.displayNewDialog = false
       this.newRow = {
         data: {
@@ -419,7 +420,7 @@ export default {
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
 
       this.views = await retrieveTableViews(this.currentTableId)
-      this.views.length > 0 && (this.selectedView = this.views[0].id)
+      this.views.length > 0 && (this.selectedViewId = this.views[0].id)
       this.block.loading = false
       this.loadCurrentTableData()
     },
@@ -499,15 +500,17 @@ export default {
     },
     async onClickExportButton () {
       this.exporting = true
-      await retrieveTableRowsWithSkipAndLimit(
-        this.currentTableId,
-        {
-          skip: this.currentPageIndex * this.currentDatatableRows,
-          limit: this.currentDatatableRows,
-          sort: this.currentDatatableSort,
-          filters: this.getCurrentFilters()
-        }
+      const data = await lckHelpers.exportTableRowData(
+        this.selectedViewId,
+        this.getCurrentFilters()
       )
+      const currentView = this.views.find(v => v.id === this.selectedViewId)
+      saveAs(
+        new Blob([data]),
+        currentView.text + '.csv',
+        {
+          type: 'text/csv;charset=utf-8'
+        })
       this.exporting = false
     },
     /**
@@ -515,7 +518,7 @@ export default {
      * we update accordingly the view on the backend side (add/remove column in the view)
      */
     async onChangeViewColumns ({ value }) {
-      // if (this.selectedView === 'complete') return
+      // if (this.selectedViewId === 'complete') return
       /**
        * Compute the diff between the new value and the existing columns
        * if we aren't on the complete selectedView
@@ -527,28 +530,28 @@ export default {
         columnsIdsToAdd.forEach((id, index) => updatePromises.push(
           lckServices.tableViewColumn.create({
             table_column_id: id,
-            table_view_id: this.selectedView,
+            table_view_id: this.selectedViewId,
             position: value.length + index
           })
         ))
       }
       if (columnsIdsToRemove.length > 0) {
         columnsIdsToRemove.forEach(id => updatePromises.push(
-          lckServices.tableViewColumn.remove(`${this.selectedView},${id}`)
+          lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
         ))
       }
       await Promise.all(updatePromises)
       /**
        * Update the view definition
        */
-      const newViewDefinition = await lckServices.tableView.get(this.selectedView, {
+      const newViewDefinition = await lckServices.tableView.get(this.selectedViewId, {
         query: {
           $eager: 'columns'
         }
       })
       this.$set(
         this.views,
-        this.views.findIndex(({ id }) => this.selectedView === id),
+        this.views.findIndex(({ id }) => this.selectedViewId === id),
         newViewDefinition
       )
     },
@@ -567,7 +570,7 @@ export default {
         /**
          * We change the view if the previous one is the one that has been removed
          */
-        if (viewToRemove.id === this.selectedView) this.selectedView = this.views[0].id
+        if (viewToRemove.id === this.selectedViewId) this.selectedViewId = this.views[0].id
       } catch (error) {
         this.$toast.add({
           severity: 'error',
@@ -598,7 +601,7 @@ export default {
           ...view
         })
         this.views = await retrieveTableViews(this.currentTableId)
-        this.selectedView = newView.id
+        this.selectedViewId = newView.id
       }
       this.displayViewDialog = false
     },
@@ -607,7 +610,7 @@ export default {
       const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
-        `${this.selectedView},${columnId}`, {
+        `${this.selectedViewId},${columnId}`, {
           display: {
             ...currentColumn.display,
             width: newWidth
@@ -618,15 +621,15 @@ export default {
     },
     async onColumnReorder ({
       fromIndex,
-      toIndex,
-      fromId,
-      toId
+      toIndex
+      // fromId,
+      // toId
     }) {
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
       await lckServices.tableViewColumn.patch(
-        `${this.selectedView},${this.currentView.columns[fromIndex].id}`, {
+        `${this.selectedViewId},${this.currentView.columns[fromIndex].id}`, {
           position: toIndex
         })
       if (fromIndex > toIndex) {
@@ -634,7 +637,7 @@ export default {
         // we need to update all columns after the toIndex, included, fromIndex excluded
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
           await lckServices.tableViewColumn.patch(
-            `${this.selectedView},${this.currentView.columns[i1].id}`, {
+            `${this.selectedViewId},${this.currentView.columns[i1].id}`, {
               position: i1 + 1
             })
         }
@@ -643,7 +646,7 @@ export default {
         // we need to update all columns between fromIndex and toIndex, fromIndex excluded
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
           await lckServices.tableViewColumn.patch(
-            `${this.selectedView},${this.currentView.columns[i2].id}`, {
+            `${this.selectedViewId},${this.currentView.columns[i2].id}`, {
               position: i2 - 1
             })
         }
