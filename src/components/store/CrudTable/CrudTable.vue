@@ -420,8 +420,10 @@ export default {
      * So, please add your column_type if you already trigger this event in a specific handler
      */
     async onCellEditComplete (event) {
+      // we init the value to the current value
       let value = event.data.data[event.field]
       const currentColumn = this.definition.columns.find(c => c.id === event.field)
+      // then we update it
       switch (currentColumn.column_type_id) {
         case COLUMN_TYPE.MULTI_SELECT:
           /**
@@ -466,6 +468,8 @@ export default {
            */
           if (this.currentDateToEdit) {
             value = formatISO(this.currentDateToEdit, { representation: 'date' })
+          } else {
+            value = null
           }
           break
       }
