@@ -56,7 +56,8 @@ export class View extends Service<TableView> {
      */
     await this.app.services['table-view-has-table-column']._remove(null, {
       query: {
-        table_view_id: id
+        table_view_id: id,
+        $noSelect: true
       }
     })
 

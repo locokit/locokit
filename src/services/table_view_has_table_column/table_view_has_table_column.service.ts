@@ -15,6 +15,26 @@ declare module '../../declarations' {
 export default function (app: Application): void {
   const options = {
     Model: createModel(app),
+    whitelist: [
+      '$eq',
+      '$ne',
+      '$gte',
+      '$gt',
+      '$lte',
+      '$lt',
+      '$in',
+      '$nin',
+      '$like',
+      '$notLike',
+      '$ilike',
+      '$notILike',
+      '$contains',
+      '$or',
+      '$and',
+      '$sort',
+      '$any',
+      '$noSelect'
+    ],
     paginate: app.get('paginate')
   }
 
