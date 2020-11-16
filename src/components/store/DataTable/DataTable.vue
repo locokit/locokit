@@ -10,7 +10,6 @@
     :virtualRowHeight="38"
     @virtual-scroll="onVirtualScroll"
    -->
-    {{ definition.columns }}
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
     >
@@ -57,11 +56,15 @@
         :context-menu-selection.sync="selectedRow"
         @row-contextmenu="onRowContextMenu"
       >
-        <p-column headerStyle="width: 3em">
+        <p-column
+          headerStyle="width: 3rem;padding: unset;margin: unset;"
+          bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
+        >
           <template #body="slotProps">
             <p-button
-              icon="pi pi-th-large"
-              @click="displayDetail(slotProps.data.id)"/>
+              class="p-button-sm p-button-text p-button-rounded"
+              icon="pi pi-window-maximize"
+              @click="$emit('open-detail', slotProps.data.id)"/>
           </template>
         </p-column>
         <p-column
@@ -322,9 +325,6 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
-    displayDetail (rowId) {
-      this.$emit('row-content', rowId)
-    },
     getValue (column, data = '') {
       if (
         data === '' ||

@@ -98,7 +98,7 @@
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
-        @row-content="onRowDialog"
+        @open-detail="onOpenDetail"
       />
 
       <p-dialog
@@ -690,7 +690,7 @@ export default {
       await lckServices.tableRow.create({ data: duplicatedData, table_id })
       this.loadCurrentTableData()
     },
-    async onRowDialog (rowId) {
+    async onOpenDetail (rowId) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       // Object.keys(this.row.data).forEach(key => {
