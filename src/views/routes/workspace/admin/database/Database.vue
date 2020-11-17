@@ -493,7 +493,7 @@ export default {
           c.column_type_id === COLUMN_TYPE.SINGLE_SELECT &&
           c.settings?.default
         ) {
-          this.newRow.data[c.id] = c.settings.default
+          this.$set(this.newRow.data, c.id, c.settings.default)
         }
       })
       this.autocompleteInput = {}
