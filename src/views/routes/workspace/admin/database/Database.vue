@@ -209,7 +209,7 @@
           :row="row"
           :autocompleteItems="autocompleteItems"
           @update-suggestions="updateLocalAutocompleteSuggestions"
-          @update-cell="onUpdateCell"
+          @update-row="onUpdateCell"
         />
       </p-dialog>
     </div>
@@ -237,7 +237,7 @@ import {
   patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
-import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn, searchItems } from '@/utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
@@ -396,6 +396,7 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    searchItems,
     resetToDefault () {
       this.block = {
         loading: false,
@@ -704,51 +705,6 @@ export default {
         tableId,
         query
       })
-    },
-    async searchItems ({ columnTypeId, tableId, query }) {
-      let items = null
-      if (columnTypeId === COLUMN_TYPE.USER) {
-        const result = await lckServices.user.find({
-          query: {
-            blocked: false,
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
-        const result = await lckServices.group.find({
-          query: {
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckServices.tableRow.find({
-          query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: tableId,
-            text: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.text,
-          value: d.id
-        }))
-      }
-      return items
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)

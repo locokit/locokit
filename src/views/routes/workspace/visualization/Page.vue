@@ -25,6 +25,9 @@
 </template>
 
 <script>
+
+import { BLOCK_TYPE } from '@locokit/lck-glossary'
+
 import {
   retrievePageWithContainersAndBlocks,
   retrieveViewDefinition,
@@ -33,9 +36,9 @@ import {
 import {
   patchTableData
 } from '@/store/database'
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { searchItems } from '@/utils/columns'
+
 import Block from '@/components/visualize/Block/Block'
-import lckClient from '@/services/lck-api'
 
 export default {
   name: 'Page',
@@ -80,6 +83,7 @@ export default {
     }
   },
   methods: {
+    searchItems,
     async loadBlockTableViewContentAndDefinition (block) {
       this.blocksOptions[block.id] = {
         sort: {
@@ -116,51 +120,6 @@ export default {
         tableId,
         query
       })
-    },
-    async searchItems ({ columnTypeId, tableId, query }) {
-      let items = null
-      if (columnTypeId === COLUMN_TYPE.USER) {
-        const result = await lckClient.service('user').find({
-          query: {
-            blocked: false,
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
-        const result = await lckClient.service('group').find({
-          query: {
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckClient.service('row').find({
-          query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: tableId,
-            text: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.text,
-          value: d.id
-        }))
-      }
-      return items
     },
     async onUpdateCell ({
       id: blockId

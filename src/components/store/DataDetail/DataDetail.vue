@@ -27,6 +27,7 @@
           :showClear="true"
           :placeholder="$t('components.crudtable.placeholder')"
           v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
@@ -36,17 +37,20 @@
           optionValue="value"
           :placeholder="$t('components.crudtable.placeholder')"
           v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
+          @input="onDateEdit(row.id, column.id, $event)"
           appendTo="body"
         />
         <p-input-number
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
           v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
           mode="decimal"
           :minFractionDigits="2"
         />
@@ -55,6 +59,7 @@
           :is="getComponentEditableColumn(column.column_type_id)"
           :id="column.id"
           v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
         />
       </div>
     </div>
@@ -78,6 +83,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
+import { formatISO } from 'date-fns'
 
 export default {
   name: 'LckDataDetail',
@@ -170,10 +176,16 @@ export default {
       }, { query })
     },
     async onAutocompleteEdit (rowId, columnId, event) {
-      this.$emit('update-cell', {
+      await this.onEdit(rowId, columnId, event.value.value)
+    },
+    async onDateEdit (rowId, columnId, value) {
+      await this.onEdit(rowId, columnId, formatISO(value, { representation: 'date' }))
+    },
+    async onEdit (rowId, columnId, value) {
+      this.$emit('update-row', {
         rowId,
         columnId,
-        newValue: event.value.value
+        newValue: value
       })
     }
   }

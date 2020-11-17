@@ -1,4 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import lckClient, { lckServices } from '@/services/lck-api'
 
 interface Column {
   column_type_id: number;
@@ -42,4 +43,50 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
   } else {
     return column.editable
   }
+}
+
+export async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: number; tableId: string; query: object}) {
+  let items = null
+  if (columnTypeId === COLUMN_TYPE.USER) {
+    const result = await lckServices.user.find({
+      query: {
+        blocked: false,
+        name: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { name: string; id: string }) => ({
+      label: d.name,
+      value: d.id
+    }))
+  } else if (columnTypeId === COLUMN_TYPE.GROUP) {
+    const result = await lckServices.group.find({
+      query: {
+        name: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { name: string; id: string }) => ({
+      label: d.name,
+      value: d.id
+    }))
+    // eslint-disable-next-line @typescript-eslint/camelcase
+  } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+    const result = await lckServices.tableRow.find({
+      query: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        table_id: tableId,
+        text: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { text: string; id: string }) => ({
+      label: d.text,
+      value: d.id
+    }))
+  }
+  return items
 }
