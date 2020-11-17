@@ -24,12 +24,12 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
         >
           Nouvelle version disponible
         </span>
-
+         
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-
+           
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -45,7 +45,7 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           </button>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-content"
       >
@@ -55,7 +55,7 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
            Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre navigateur.
         </p>
       </div>
-
+       
       <div
         class="p-dialog-footer"
       >
@@ -66,19 +66,19 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Annuler
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
           />
         </button>
-
+         
         <button
           autofocus="autofocus"
           class="p-button-text p-button p-component"
@@ -87,13 +87,13 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Mettre à jour
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
