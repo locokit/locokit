@@ -71,7 +71,8 @@
 
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
-            'position': 'relative'
+            'position': 'relative',
+            'height': '2.5rem'
           }"
           :sortable="isSortableColumn(column)"
         >
