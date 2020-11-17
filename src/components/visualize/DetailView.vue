@@ -1,6 +1,15 @@
 <template>
-  <div v-if="row && row.data">
-    <lck-dataDetail
+  <div
+    v-if="row && row.data"
+    style="max-width: 600px;margin: auto;"
+  >
+    <p-button
+      @click="$router.go(-1)"
+      class="p-button-link"
+    >
+      {{ $t('components.detailview.goback') }}
+    </p-button>
+    <lck-data-detail
       :definition="definition"
       :row="row"
       :autocompleteItems="autocompleteItems"
@@ -14,6 +23,7 @@
 import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
+import Button from 'primevue/button'
 
 import { retrieveRow, retrieveViewDefinition } from '@/store/visualize'
 import { patchTableData } from '@/store/database'
@@ -22,7 +32,8 @@ import { lckHelpers } from '@/services/lck-api'
 export default Vue.extend({
   name: 'DetailView',
   components: {
-    'lck-dataDetail': DataDetail
+    'lck-data-detail': DataDetail,
+    'p-button': Button
   },
   props: {
     settings: {

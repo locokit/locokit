@@ -10,6 +10,7 @@
           ...$attrs,
           ...block
         }"
+        :display-detail-button="displayDetailButton"
       />
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}
@@ -23,7 +24,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BLOCK_TYPE, Block } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, Block, BlockTableView } from '@locokit/lck-glossary'
 
 import TableView from '@/components/store/DataTable/DataTable.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
@@ -46,6 +47,10 @@ export default Vue.extend({
     isBlockTypeValid () {
       const values = Object.values(BLOCK_TYPE) as string[]
       return values.includes(this.block.type)
+    },
+    displayDetailButton () {
+      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
+      return (this.block as BlockTableView).settings?.pageDetailId
     }
   },
   props: {

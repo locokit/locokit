@@ -94,6 +94,9 @@
     },
     "datadetail": {
       "nodata": "No data to display"
+    },
+    "detailview": {
+      "goback": "Return to results"
     }
   },
   "pages": {

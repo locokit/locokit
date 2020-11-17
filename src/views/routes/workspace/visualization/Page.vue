@@ -155,7 +155,7 @@ export default {
       block.loading = false
     },
     async onPageDetail (block, rowId) {
-      await this.$router.push(`${block.settings.detail_page_id}?rowId=${rowId}`)
+      await this.$router.push(`${block.settings.pageDetailId}?rowId=${rowId}`)
     }
   }
 }
