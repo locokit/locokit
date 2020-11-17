@@ -113,7 +113,7 @@
               :value="slotProps.data.data[column.id]"
               :showClear="true"
               :placeholder="$t('components.datatable.placeholder')"
-              @change="onDropdownEdit(slotProps.index, column.id, $event)"
+              @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <lck-multiselect
@@ -124,14 +124,14 @@
               v-model="multiSelectValues"
               ref="multiselect"
               :placeholder="$t('components.datatable.placeholder')"
-              @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
+              @change="onMultiSelectEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.index, column.id)"
+              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -412,16 +412,16 @@ export default {
         toId: this.definition.columns[event.dropIndex]?.id
       })
     },
-    async onDropdownEdit (rowIndex, columnId, event) {
+    async onDropdownEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value
       })
     },
-    async onMultiSelectEdit (rowIndex, columnId, event) {
+    async onMultiSelectEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value // .map(v => v.value)
       })
@@ -433,14 +433,14 @@ export default {
         newValue: event.value.value
       })
     },
-    async onCalendarEdit (rowIndex, columnId) {
+    async onCalendarEdit (rowId, columnId) {
       /**
        * in case of a Date, value is stored in the currentDateToEdit data
        * we format it in the date representation,
        * we just want to store the date
        */
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: this.currentDateToEdit ? formatISO(this.currentDateToEdit, { representation: 'date' }) : null
       })
@@ -505,7 +505,7 @@ export default {
           break
       }
       this.$emit('update-cell', {
-        rowIndex: event.index,
+        rowId: event.data.id,
         columnId: event.field,
         newValue: value
       })
