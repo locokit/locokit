@@ -75,6 +75,7 @@
             label="Export"
             class="p-button-secondary"
             :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+            :disabled="!this.selectedViewId"
             @click="onClickExportButton"
           />
         </div>
@@ -499,15 +500,15 @@ export default {
       this.displayNewDialog = true
     },
     async onClickExportButton () {
+      if (!this.selectedViewId) return
       this.exporting = true
       const data = await lckHelpers.exportTableRowData(
         this.selectedViewId,
         this.getCurrentFilters()
       )
-      const currentView = this.views.find(v => v.id === this.selectedViewId)
       saveAs(
         new Blob([data]),
-        currentView.text + '.csv',
+        this.currentView.text + '.csv',
         {
           type: 'text/csv;charset=utf-8'
         })
