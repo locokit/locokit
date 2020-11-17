@@ -32,7 +32,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       <div
         class="p-fluid p-inputtext p-component"
         disabled="disabled"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; background-color: transparent;"
       >
         
       Trek
@@ -51,7 +51,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       <div
         class="p-fluid p-inputtext p-component"
         disabled="disabled"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; background-color: transparent;"
       >
         
       En maintenance
@@ -70,7 +70,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       <div
         class="p-fluid p-inputtext p-component"
         disabled="disabled"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; background-color: transparent;"
       >
         
       AMSTERDAMAIR
@@ -89,7 +89,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       <div
         class="p-fluid p-inputtext p-component"
         disabled="disabled"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; background-color: transparent;"
       >
         
       2020-10-30
@@ -108,7 +108,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       <div
         class="p-fluid p-inputtext p-component"
         disabled="disabled"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; background-color: transparent;"
       >
         
       Welcome at home, 
