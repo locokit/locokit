@@ -53,7 +53,7 @@ export class LckRow {
  * @param data
  * The data to be analyzed
  */
-function getColumnDisplayValue (column: LckColumn, data: string[] | string | LckDataComplex = '') {
+export function getColumnDisplayValue (column: LckColumn, data: string[] | string | LckDataComplex = '') {
   if (
     data === '' ||
     data === undefined ||
@@ -92,7 +92,7 @@ function getColumnDisplayValue (column: LckColumn, data: string[] | string | Lck
  *
  * @param param0
  */
-async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: number; tableId: string; query: object}) {
+export async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: number; tableId: string; query: object}) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER) {
     const result = await lckServices.user.find({
@@ -138,7 +138,7 @@ async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: nu
   return items
 }
 
-async function exportTableRowData (tableViewId: string, filters: []) {
+export async function exportTableRowData (tableViewId: string, filters: []) {
   const rowsPerRequest = 20
   const { columns } = await lckServices.tableView.get(tableViewId, {
     query: {

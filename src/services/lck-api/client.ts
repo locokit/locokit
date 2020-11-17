@@ -8,7 +8,11 @@ export const lckClient = feathers()
 const restClient = rest(LCK_SETTINGS.API_URL)
 
 // Configure an AJAX library (see below) with that client
-lckClient.configure(restClient.fetch(window.fetch))
+lckClient.configure(
+  restClient.fetch(
+    process.env.NODE_ENV === 'test' ? {} : window.fetch
+  )
+)
 lckClient.configure(auth({
   storageKey: LCK_SETTINGS.STORAGE_KEY
 }))

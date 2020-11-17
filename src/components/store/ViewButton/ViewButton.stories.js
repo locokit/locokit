@@ -43,7 +43,7 @@ export const overlayOpenedStoryWithViews = () => (
           text: 'Second view',
           locked: true
         }],
-        value: 1
+        value: '1'
       }
     },
     template: '<ViewButton ref="vb" :views="views" v-model="value" />',
