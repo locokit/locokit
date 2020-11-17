@@ -200,13 +200,13 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import {
   authState,
   logout
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
-import { regexPasswordRules } from '@/utils/regex'
+import { regexPasswordRules } from '@/services/regex'
 
 export default {
   name: 'Profile',

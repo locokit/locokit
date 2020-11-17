@@ -19,8 +19,10 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: 750px;"
+        style="width: calc(3rem + 750px);"
       >
+        <!---->
+         
         <!---->
         <!---->
         <!---->
@@ -250,8 +252,10 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: 750px;"
+        style="width: calc(3rem + 750px);"
       >
+        <!---->
+         
         <!---->
         <!---->
         <!---->
@@ -481,8 +485,10 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: 750px;"
+        style="width: calc(3rem + 750px);"
       >
+        <!---->
+         
         <!---->
         <!---->
         <!---->
@@ -712,6 +718,7 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
+        style="width: 100%;"
       >
          
         <!---->
@@ -872,8 +879,10 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: 750px;"
+        style="width: calc(3rem + 750px);"
       >
+        <!---->
+         
         <!---->
         <!---->
         <!---->
@@ -1095,8 +1104,10 @@ exports[`storyshots components/store/DataTable No content 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: 750px;"
+        style="width: calc(3rem + 750px);"
       >
+        <!---->
+         
         <!---->
         <!---->
         <!---->

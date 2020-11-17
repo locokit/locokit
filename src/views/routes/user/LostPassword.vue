@@ -27,7 +27,7 @@ import Vue from 'vue'
 
 import LayoutWithBackground from '@/layouts/WithBackground.vue'
 import LostPassword from '@/components/auth/LostPassword/LostPassword.vue'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 
 export default Vue.extend({
   name: 'LostPassword',

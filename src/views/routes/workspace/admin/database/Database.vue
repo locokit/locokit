@@ -88,8 +88,9 @@
         :loading="block.loading"
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
-        :crud-mode="true"
         :locked="currentView && currentView.locked"
+        :crudMode="crudMode"
+        :displayDetailButton="true"
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -98,14 +99,15 @@
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
+        @open-detail="onOpenDetail"
       />
 
       <p-dialog
         :visible.sync="displayNewDialog"
-        :style="{width: '450px'}"
+        :style="{width: '600px'}"
         :header="$t('pages.database.addNewRow')"
         :modal="true"
-        :contentStyle="{ 'max-height': '60vh'}"
+        :contentStyle="{ 'max-height': '70vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
@@ -124,9 +126,8 @@
               :placeholder="$t('components.datatable.placeholder')"
               field="label"
               :suggestions="autocompleteItems"
-              @complete="updateLocalAutocompleteSuggestions(column, $event)"
+              @search="updateLocalAutocompleteSuggestions(column, $event)"
               v-model="autocompleteInput[column.id]"
-              :modelValue="newRow.data[column.id]"
               @item-select="newRow.data[column.id] = $event.value.value"
             />
             <p-dropdown
@@ -193,6 +194,25 @@
           />
         </template>
       </p-dialog>
+
+      <p-dialog
+        :visible.sync="displayRowDialog"
+        :style="{width: '600px'}"
+        :header="$t('components.datatable.detail')"
+        :modal="true"
+        :contentStyle="{ 'max-height': '70vh'}"
+        :closeOnEscape="true"
+        class="p-fluid"
+      >
+        <lck-dataDetail
+          :crudMode="crudMode"
+          :definition="block.definition"
+          :row="row"
+          :autocompleteItems="autocompleteItems"
+          @update-suggestions="updateLocalAutocompleteSuggestions"
+          @update-row="onUpdateCell"
+        />
+      </p-dialog>
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -205,6 +225,10 @@
 
 import Vue from 'vue'
 import saveAs from 'file-saver'
+
+import { formatISO } from 'date-fns'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
 import {
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
@@ -214,7 +238,8 @@ import {
   patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -227,10 +252,6 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
-import { formatISO } from 'date-fns'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-
-import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -239,6 +260,7 @@ import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -254,6 +276,7 @@ export default {
     'lck-view-dialog': ViewDialog,
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
+    'lck-dataDetail': DataDetail,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -277,6 +300,7 @@ export default {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
+      crudMode: true,
       block: {
         loading: false,
         content: {
@@ -311,7 +335,9 @@ export default {
        * View part, display the dialog and edit data
        */
       displayViewDialog: false,
-      viewDialogData: {}
+      viewDialogData: {},
+      displayRowDialog: false,
+      row: {}
     }
   },
   computed: {
@@ -332,7 +358,7 @@ export default {
     },
     editableColumns () {
       if (!this.block.definition.columns) return []
-      return this.block.definition.columns.filter(c => this.isEditableColumn(c))
+      return this.block.definition.columns.filter(c => this.isEditableColumn(this.crudMode, c))
     },
     columnsEnhanced () {
       if (!this.block.definition.columns) return {}
@@ -370,6 +396,8 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
+    isEditableColumn,
+    searchItems: lckHelpers.searchItems,
     resetToDefault () {
       this.block = {
         loading: false,
@@ -393,15 +421,6 @@ export default {
         ...defaultDatatableSort
       }
       this.currentDatatableFilters = []
-    },
-    isEditableColumn (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        case COLUMN_TYPE.FORMULA:
-          return false
-        default:
-          return true
-      }
     },
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
@@ -460,6 +479,8 @@ export default {
         .forEach(c => {
           if (this.newRow.data[c.id] instanceof Date) {
             dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          } else {
+            dataToSubmit.data[c.id] = null
           }
         })
       await saveTableData({
@@ -668,6 +689,10 @@ export default {
       await lckServices.tableRow.create({ data: duplicatedData, table_id })
       this.loadCurrentTableData()
     },
+    async onOpenDetail (rowId) {
+      this.displayRowDialog = true
+      this.row = await this.block.content.data.find(({ id }) => id === rowId)
+    },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteItems = await this.searchItems({
@@ -684,53 +709,8 @@ export default {
         query
       })
     },
-    async searchItems ({ columnTypeId, tableId, query }) {
-      let items = null
-      if (columnTypeId === COLUMN_TYPE.USER) {
-        const result = await lckServices.user.find({
-          query: {
-            blocked: false,
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
-        const result = await lckServices.group.find({
-          query: {
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckServices.tableRow.find({
-          query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: tableId,
-            text: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.text,
-          value: d.id
-        }))
-      }
-      return items
-    },
-    async onUpdateCell ({ rowIndex, columnId, newValue }) {
-      const currentRow = this.block.content.data[rowIndex]
+    async onUpdateCell ({ rowId, columnId, newValue }) {
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
 
       const data = {
         data: {

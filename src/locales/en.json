@@ -30,6 +30,7 @@
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
+      "detail": "Detail",
       "toolbar": {
         "lists": {
           "label": "no column | {n} column | {n} columns"
@@ -90,6 +91,12 @@
     },
     "dialog": {
       "defaultHeader": "Header of the dialog box"
+    },
+    "datadetail": {
+      "nodata": "No data to display"
+    },
+    "detailview": {
+      "goback": "Return to results"
     }
   },
   "pages": {

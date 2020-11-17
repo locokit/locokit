@@ -27,7 +27,7 @@
         }"
 
         :style="{
-          width: tableWidth + 'px'
+          width: tableWidth
         }"
 
         :value="content && content.data"
@@ -57,6 +57,18 @@
         @row-contextmenu="onRowContextMenu"
       >
         <p-column
+          v-if="displayDetailButton"
+          headerStyle="width: 3rem;padding: unset;margin: unset;"
+          bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
+        >
+          <template #body="slotProps">
+            <p-button
+              class="p-button-sm p-button-text p-button-rounded"
+              icon="pi pi-window-maximize"
+              @click="$emit('open-detail', slotProps.data.id)"/>
+          </template>
+        </p-column>
+        <p-column
           v-for="column in definition.columns"
           :key="column.id"
           :field="column.id"
@@ -64,11 +76,11 @@
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             overflow: 'hidden',
             'white-space': 'nowrap',
-            'text-overflow': 'ellipsis'
+            'text-overflow': 'ellipsis',
+            'height': '2.5rem'
           }"
           :bodyStyle="{
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
             'position': 'relative',
@@ -81,7 +93,7 @@
               {{ column.text }}
             </span>
           </template>
-          <template #editor="slotProps" v-if="isEditableColumn(column)">
+          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
@@ -90,8 +102,8 @@
               appendTo="body"
               v-model="autocompleteInput"
               :suggestions="autocompleteSuggestions"
-              @complete="onComplete(column, $event)"
-              @item-select="onAutocompleteEdit(slotProps.index, column.id, $event)"
+              @search="onComplete(column, $event)"
+              @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <p-dropdown
@@ -103,7 +115,7 @@
               :value="slotProps.data.data[column.id]"
               :showClear="true"
               :placeholder="$t('components.datatable.placeholder')"
-              @change="onDropdownEdit(slotProps.index, column.id, $event)"
+              @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <lck-multiselect
@@ -114,14 +126,14 @@
               v-model="multiSelectValues"
               ref="multiselect"
               :placeholder="$t('components.datatable.placeholder')"
-              @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
+              @change="onMultiSelectEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.index, column.id)"
+              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -183,6 +195,7 @@
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import DataTable from 'primevue/datatable'
@@ -202,7 +215,7 @@ import {
   parseISO
 } from 'date-fns'
 
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 
 export default {
   name: 'LckDatatable',
@@ -218,7 +231,8 @@ export default {
     'p-calendar': Vue.extend(Calendar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'p-context-menu': Vue.extend(ContextMenu)
+    'p-context-menu': Vue.extend(ContextMenu),
+    'p-button': Vue.extend(Button)
   },
   props: {
     definition: {
@@ -244,6 +258,10 @@ export default {
       default: false
     },
     locked: {
+      type: Boolean,
+      default: false
+    },
+    displayDetailButton: {
       type: Boolean,
       default: false
     }
@@ -306,12 +324,14 @@ export default {
       return result
     },
     tableWidth () {
-      if (!this.definition.columns) return {}
-      return this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      if (!this.definition.columns) return '100%'
+      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      return 'calc(3rem + ' + columnsTotalWidth + 'px)'
     }
   },
   methods: {
     getComponentEditableColumn,
+    isEditableColumn,
     getValue (column, data = '') {
       if (
         data === '' ||
@@ -343,19 +363,6 @@ export default {
         // eslint-disable no-console
         console.error('Field with bad format', data, error)
         return ''
-      }
-    },
-    isEditableColumn (column) {
-      if (this.crudMode) {
-        switch (column.column_type_id) {
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
-          case COLUMN_TYPE.FORMULA:
-            return false
-          default:
-            return true
-        }
-      } else {
-        return column.editable
       }
     },
     isSortableColumn (column) {
@@ -412,35 +419,35 @@ export default {
         toId: this.definition.columns[event.dropIndex]?.id
       })
     },
-    async onDropdownEdit (rowIndex, columnId, event) {
+    async onDropdownEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value
       })
     },
-    async onMultiSelectEdit (rowIndex, columnId, event) {
+    async onMultiSelectEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value // .map(v => v.value)
       })
     },
-    async onAutocompleteEdit (rowIndex, columnId, event) {
+    async onAutocompleteEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: event.value.value
       })
     },
-    async onCalendarEdit (rowIndex, columnId) {
+    async onCalendarEdit (rowId, columnId) {
       /**
        * in case of a Date, value is stored in the currentDateToEdit data
        * we format it in the date representation,
        * we just want to store the date
        */
       this.$emit('update-cell', {
-        rowIndex,
+        rowId,
         columnId,
         newValue: this.currentDateToEdit ? formatISO(this.currentDateToEdit, { representation: 'date' }) : null
       })
@@ -505,7 +512,7 @@ export default {
           break
       }
       this.$emit('update-cell', {
-        rowIndex: event.index,
+        rowId: event.data.id,
         columnId: event.field,
         newValue: value
       })
@@ -569,7 +576,7 @@ export default {
   height: 100%;
 }
 
-/deep/ .p-cell-editing  .p-inputtextarea {
+/deep/ .p-cell-editing .p-inputtextarea {
   border: 1px solid var(--primary-color);
   border-radius: 0;
   background-color: white;

@@ -1,5 +1,10 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
+interface Column {
+  column_type_id: number;
+  editable: boolean;
+}
+
 export function getComponentEditableColumn (columnTypeId: number) {
   switch (columnTypeId) {
     case COLUMN_TYPE.USER:
@@ -22,5 +27,19 @@ export function getComponentEditableColumn (columnTypeId: number) {
       return 'p-textarea'
     default:
       return 'p-input-text'
+  }
+}
+
+export function isEditableColumn (crudMode: boolean, column: Column) {
+  if (crudMode) {
+    switch (column.column_type_id) {
+      case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      case COLUMN_TYPE.FORMULA:
+        return false
+      default:
+        return true
+    }
+  } else {
+    return column.editable
   }
 }

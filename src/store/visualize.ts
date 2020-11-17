@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import lckClient, { lckServices } from '@/services/lck-api'
+import { lckClient, lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 
 class Workspace {
@@ -30,9 +30,9 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
     })
     return {
       ...workspace,
-      chapters: workspace.chapters?.map((c: { pages: { position: number }[]}) => ({
+      chapters: workspace.chapters?.map((c: { pages: { position: number; hidden: boolean }[]}) => ({
         ...c,
-        pages: c.pages?.sort((a, b) => a.position - b.position)
+        pages: c.pages?.filter(p => !p.hidden).sort((a, b) => a.position - b.position)
       }))
     }
   } catch (error) {
@@ -95,6 +95,16 @@ export async function retrieveViewData (
         $sort: sort
       }
     })
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}
+
+export async function retrieveRow (rowId: string) {
+  workspaceState.loading = true
+  try {
+    return await lckClient.service('row').get(rowId)
   } catch (error) {
     workspaceState.error = error
   }

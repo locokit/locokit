@@ -53,7 +53,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'

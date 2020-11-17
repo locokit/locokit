@@ -82,7 +82,7 @@ exports[`storyshots components/store/View/ViewButton overlay opened with views 1
       <span
         class="p-button-label"
       >
-        First view
+        Pas de texte de bouton
       </span>
        
       <!---->

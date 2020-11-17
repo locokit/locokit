@@ -22,7 +22,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'

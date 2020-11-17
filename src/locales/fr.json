@@ -28,8 +28,9 @@
     "datatable": {
       "noDataToDisplay": "Aucune donnée à afficher",
       "loading": "En cours de chargement… veuillez patienter…",
-      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "placeholder": "Sélectionnez une option",
+      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
+      "detail": "Détail",
       "toolbar": {
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"
@@ -92,6 +93,12 @@
     },
     "dialog": {
       "defaultHeader": "En-tête de la boîte de dialogue"
+    },
+    "datadetail": {
+      "nodata": "Aucune donnée à afficher"
+    },
+    "detailview": {
+      "goback": "Retourner aux résultats"
     }
   },
   "pages": {
