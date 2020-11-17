@@ -361,6 +361,10 @@ export default {
       this.currentPageIndex = pageIndexToGo
       this.loadCurrentTableData()
     },
+    onDropdownEdit (column, event) {
+      // console.log('Dropdown edit', column, event.value)
+      this.newRow.data[column.id] = event.value
+    },
     handleTabChange (event) {
       this.resetToDefault()
       this.currentTableId = event.tab.$el.dataset?.tableId
@@ -466,7 +470,7 @@ export default {
           c.column_type_id === COLUMN_TYPE.SINGLE_SELECT &&
           c.settings?.default
         ) {
-          this.newRow.data[c.id] = c.settings.default
+          this.$set(this.newRow.data, c.id, c.settings.default)
         }
       })
       this.autocompleteInput = {}
