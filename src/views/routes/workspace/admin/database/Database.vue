@@ -90,6 +90,7 @@
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
         :crudMode="crudMode"
+        :displayDetailButton="true"
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -103,10 +104,10 @@
 
       <p-dialog
         :visible.sync="displayNewDialog"
-        :style="{width: '450px'}"
+        :style="{width: '600px'}"
         :header="$t('pages.database.addNewRow')"
         :modal="true"
-        :contentStyle="{ 'max-height': '60vh'}"
+        :contentStyle="{ 'max-height': '70vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
@@ -196,16 +197,16 @@
 
       <p-dialog
         :visible.sync="displayRowDialog"
-        :style="{width: '450px'}"
+        :style="{width: '600px'}"
         :header="$t('components.datatable.detail')"
         :modal="true"
-        :contentStyle="{ 'max-height': '60vh'}"
+        :contentStyle="{ 'max-height': '70vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
         <lck-dataDetail
           :crudMode="crudMode"
-          :definition="displayColumnsView"
+          :definition="block.definition"
           :row="row"
           :autocompleteItems="autocompleteItems"
           @update-suggestions="updateLocalAutocompleteSuggestions"
@@ -237,7 +238,7 @@ import {
   patchTableData,
   retrieveTableRowsWithSkipAndLimit
 } from '@/store/database'
-import { getComponentEditableColumn, isEditableColumn, searchItems } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
@@ -396,7 +397,7 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
-    searchItems,
+    searchItems: lckHelpers.searchItems,
     resetToDefault () {
       this.block = {
         loading: false,
@@ -478,6 +479,8 @@ export default {
         .forEach(c => {
           if (this.newRow.data[c.id] instanceof Date) {
             dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          } else {
+            dataToSubmit.data[c.id] = null
           }
         })
       await saveTableData({
