@@ -100,3 +100,13 @@ export async function retrieveViewData (
   }
   workspaceState.loading = false
 }
+
+export async function retrieveRow (rowId: string) {
+  workspaceState.loading = true
+  try {
+    return await lckClient.service('row').get(rowId)
+  } catch (error) {
+    workspaceState.error = error
+  }
+  workspaceState.loading = false
+}

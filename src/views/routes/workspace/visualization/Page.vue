@@ -18,6 +18,7 @@
         @update-content="onUpdateContentBlockTableView(block, $event)"
         @update-suggestions="onUpdateSuggestions"
         @sort="onSort(block, $event)"
+        @open-detail="onPageDetail(block, $event)"
       />
     </div>
   </div>
@@ -193,8 +194,10 @@ export default {
           break
       }
       block.loading = false
+    },
+    async onPageDetail (block, rowId) {
+      await this.$router.push(`${block.settings.detail_page_id}?rowId=${rowId}`)
     }
-
   }
 }
 </script>

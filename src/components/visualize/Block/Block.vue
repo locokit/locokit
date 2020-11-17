@@ -30,11 +30,13 @@ import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 import Media from '@/components/visualize/Media/Media.vue'
 import Error from '@/components/ui/Error/Error.vue'
+import DetailView from '@/components/visualize/DetailView.vue'
 
 export default Vue.extend({
   name: 'Block',
   components: {
     TableView,
+    DetailView,
     Paragraph,
     Markdown,
     Media,
