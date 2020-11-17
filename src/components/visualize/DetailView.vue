@@ -1,7 +1,6 @@
 <template>
   <div v-if="row && row.data">
     <lck-dataDetail
-      :crudMode="true"
       :definition="definition"
       :row="row"
       :autocompleteItems="autocompleteItems"
@@ -18,7 +17,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
 import { retrieveRow, retrieveViewDefinition } from '@/store/visualize'
 import { patchTableData } from '@/store/database'
-import { searchItems } from '@/utils/columns'
+import { lckHelpers } from '@/services/lck-api'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -42,7 +41,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    searchItems,
+    searchItems: lckHelpers.searchItems,
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteItems = await this.searchItems({

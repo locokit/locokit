@@ -1,4 +1,4 @@
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import {
   USER_PROFILE,
   GROUP_ROLE,

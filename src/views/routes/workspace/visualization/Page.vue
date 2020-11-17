@@ -36,7 +36,7 @@ import {
 import {
   patchTableData
 } from '@/store/database'
-import { searchItems } from '@/utils/columns'
+import { lckHelpers } from '@/services/lck-api'
 
 import Block from '@/components/visualize/Block/Block'
 

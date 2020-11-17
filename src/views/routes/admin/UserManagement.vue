@@ -241,7 +241,7 @@ import {
   retrieveUsersData
 } from '@/store/userManagement'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import InputSwitch from 'primevue/inputswitch'
 
 export default {

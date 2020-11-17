@@ -35,7 +35,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'

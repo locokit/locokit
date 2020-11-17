@@ -146,7 +146,7 @@ import InputNumber from 'primevue/inputnumber'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { getComponentEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn } from '@/services/lck-utils/columns'
 
 // Available operators
 const OPERATORS = [{

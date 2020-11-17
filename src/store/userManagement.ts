@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 
 // class UserCreateDTO {
 //   email = ''

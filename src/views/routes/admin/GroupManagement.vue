@@ -201,7 +201,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import lckClient from '@/services/lck-api'
+import { lckClient } from '@/services/lck-api'
 
 const defaultUsergroup = {
   userId: null,

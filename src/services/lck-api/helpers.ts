@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { lckServices } from './services'
 
 class LckDataComplex {
   reference!: string;
@@ -40,7 +42,18 @@ export class LckRow {
   data!: Record<string, string[] | string | LckDataComplex>;
 }
 
-export function getValue (column: LckColumn, data: string[] | string | LckDataComplex = '') {
+/**
+ * Return the display value for a column.
+ * By taking the backend data column value,
+ * retrieve the good part of the data to be displayed.
+ *
+ * @param column
+ * The column definition
+ *
+ * @param data
+ * The data to be analyzed
+ */
+function getColumnDisplayValue (column: LckColumn, data: string[] | string | LckDataComplex = '') {
   if (
     data === '' ||
     data === undefined ||
@@ -71,4 +84,102 @@ export function getValue (column: LckColumn, data: string[] | string | LckDataCo
     console.error('Field with bad format', data, error)
     return ''
   }
+}
+
+/**
+ * Contact the API for searching items.
+ * Useful for autocomplete fields.
+ *
+ * @param param0
+ */
+async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: number; tableId: string; query: object}) {
+  let items = null
+  if (columnTypeId === COLUMN_TYPE.USER) {
+    const result = await lckServices.user.find({
+      query: {
+        blocked: false,
+        name: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { name: string; id: string }) => ({
+      label: d.name,
+      value: d.id
+    }))
+  } else if (columnTypeId === COLUMN_TYPE.GROUP) {
+    const result = await lckServices.group.find({
+      query: {
+        name: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { name: string; id: string }) => ({
+      label: d.name,
+      value: d.id
+    }))
+    // eslint-disable-next-line @typescript-eslint/camelcase
+  } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+    const result = await lckServices.tableRow.find({
+      query: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        table_id: tableId,
+        text: {
+          $ilike: `%${query}%`
+        }
+      }
+    })
+    items = result.data.map((d: { text: string; id: string }) => ({
+      label: d.text,
+      value: d.id
+    }))
+  }
+  return items
+}
+
+async function exportTableRowData (tableViewId: string, filters: []) {
+  const rowsPerRequest = 20
+  const { columns } = await lckServices.tableView.get(tableViewId, {
+    query: {
+      $eager: 'columns'
+    }
+  }) as { columns: LckColumnView[]}
+  columns.sort((a, b) => a.position - b.position)
+  const query: Record<string, string | number | object> = {
+    table_view_id: tableViewId,
+    $limit: rowsPerRequest,
+    $skip: 0,
+    $sort: {
+      createdAt: 1
+    }
+  }
+  filters.forEach((f: { req: string; value: string }) => {
+    query[f.req] = f.value
+  })
+  const { data: allData, total } = await lckServices.tableRow.find({ query })
+  for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
+    query.$skip = i
+    const { data } = await lckServices.tableRow.find({
+      query
+    })
+    allData.push(...data)
+  }
+  let exportCSV = columns.map(c => '"' + c.text + '"').join(',') + '\n'
+  exportCSV += allData.map(
+    (currentRow: LckRow) =>
+      columns.map((currentColumn: LckColumn) =>
+        '"' + getColumnDisplayValue(
+          currentColumn,
+          currentRow.data[currentColumn.id]
+        ) + '"'
+      ).join(',')
+  ).join('\n')
+  return exportCSV
+}
+
+export default {
+  searchItems,
+  exportTableRowData,
+  getColumnDisplayValue
 }
