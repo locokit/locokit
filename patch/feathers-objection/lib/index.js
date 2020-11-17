@@ -25,7 +25,8 @@ const METHODS = {
   $ne: 'whereNot',
   $in: 'whereIn',
   $nin: 'whereNotIn',
-  $null: 'whereNull'
+  $null: 'whereNull',
+  $notNull: 'whereNotNull'
 };
 const OPERATORS = {
   eq: '$eq',

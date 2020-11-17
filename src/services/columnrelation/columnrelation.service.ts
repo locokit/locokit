@@ -25,6 +25,7 @@ export default function (app: Application): void {
       '$in',
       '$nin',
       '$null',
+      '$notNull',
       '$like',
       '$notLike',
       '$ilike',
