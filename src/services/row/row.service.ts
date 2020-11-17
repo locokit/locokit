@@ -25,6 +25,7 @@ export default function (app: Application) {
       '$in',
       '$nin',
       '$null',
+      '$notNull',
       '$like',
       '$notLike',
       '$ilike',
