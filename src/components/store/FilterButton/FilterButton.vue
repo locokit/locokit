@@ -377,4 +377,12 @@ label {
   width: 700px;
 }
 
+/* .filters-listing .p-component,
+.filters-listing .p-inputtext,
+.filters-listing .p-dropdown,
+.filters-listing ul.p-dropdown-items,
+.filters-listing ul.p-dropdown-items li {
+  font-size: 0.85rem;
+} */
+
 </style>

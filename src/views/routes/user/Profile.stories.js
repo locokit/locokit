@@ -28,7 +28,6 @@ export const withAuthUser = () => ({
   template: '<Profile @submit="this.submit" />',
   methods: { submit: action('submit') },
   async mounted () {
-    console.log(this.data)
     this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
@@ -51,7 +50,6 @@ export const withAuthUserAndGroup = () => ({
   template: '<Profile @submit="this.submit" />',
   methods: { submit: action('submit') },
   async mounted () {
-    console.log(this.$data.authState)
     this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',

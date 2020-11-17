@@ -81,6 +81,10 @@
             }
           }
         }
+      },
+      "contextmenu": {
+        "duplicate": "Dupliquer",
+        "delete": "Supprimer"
       }
     },
     "overlayPanel": {

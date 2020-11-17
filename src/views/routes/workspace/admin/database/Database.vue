@@ -95,6 +95,8 @@
         @sort="onSort"
         @column-resize="onColumnResize"
         @column-reorder="onColumnReorder"
+        @row-delete="onRowDelete"
+        @row-duplicate="onRowDuplicate"
       />
 
       <p-dialog
@@ -539,7 +541,6 @@ export default {
       /**
        * Update the view definition
        */
-      console.log('here', updatePromises)
       const newViewDefinition = await lckServices.tableView.get(this.selectedView, {
         query: {
           $eager: 'columns'
@@ -621,7 +622,6 @@ export default {
       fromId,
       toId
     }) {
-      console.log('onColumnReorder', fromId, toId)
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
@@ -649,6 +649,20 @@ export default {
         }
       }
       // this.views = await retrieveTableViews(this.currentTableId)
+    },
+    async onRowDelete (row) {
+      await lckServices.tableRow.remove(row.id)
+      this.loadCurrentTableData()
+    },
+    async onRowDuplicate ({ data, table_id }) {
+      const duplicatedData = {}
+      this.block.definition.columns.forEach(c => {
+        if (c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
+          duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
+        }
+      })
+      await lckServices.tableRow.create({ data: duplicatedData, table_id })
+      this.loadCurrentTableData()
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {

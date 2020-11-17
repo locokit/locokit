@@ -221,7 +221,6 @@ export const crudModeWithCalendar = () => (
       await Vue.nextTick()
 
       const nextMonthButton = document.querySelector('.p-datepicker-next.p-link')
-      console.log(nextMonthButton)
       nextMonthButton && nextMonthButton.click()
     }
   }
