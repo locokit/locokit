@@ -120,7 +120,8 @@ export async function retrieveTableViews (tableId: string) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
-        $eager: 'columns'
+        $eager: 'columns',
+        $limit: 50
       }
     })
     return result.data.map((view: { columns: LckColumnView[] }) => ({
