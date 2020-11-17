@@ -27,7 +27,7 @@
         }"
 
         :style="{
-          width: tableWidth + 'px'
+          width: tableWidth
         }"
 
         :value="content && content.data"
@@ -57,6 +57,7 @@
         @row-contextmenu="onRowContextMenu"
       >
         <p-column
+          v-if="displayDetailButton"
           headerStyle="width: 3rem;padding: unset;margin: unset;"
           bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
         >
@@ -75,7 +76,8 @@
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             overflow: 'hidden',
             'white-space': 'nowrap',
-            'text-overflow': 'ellipsis'
+            'text-overflow': 'ellipsis',
+            'height': '2.5rem'
           }"
           :bodyStyle="{
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
@@ -213,7 +215,7 @@ import {
   parseISO
 } from 'date-fns'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 
 export default {
   name: 'LckDatatable',
@@ -256,6 +258,10 @@ export default {
       default: false
     },
     locked: {
+      type: Boolean,
+      default: false
+    },
+    displayDetailButton: {
       type: Boolean,
       default: false
     }
@@ -318,8 +324,9 @@ export default {
       return result
     },
     tableWidth () {
-      if (!this.definition.columns) return {}
-      return this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      if (!this.definition.columns) return '100%'
+      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      return 'calc(3rem + ' + columnsTotalWidth + 'px)'
     }
   },
   methods: {
