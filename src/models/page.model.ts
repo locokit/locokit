@@ -1,30 +1,39 @@
+/* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
+import { Model } from 'objection'
+import { Application } from '../declarations'
 import { container as LckContainer } from './container.model'
 
 export class page extends Model {
+  id!: string;
+  text!: string;
   createdAt!: string;
   updatedAt!: string;
+  chapter_id!: string;
+  hidden!: boolean;
 
-  static get tableName() {
-    return 'page';
+  static get tableName () {
+    return 'page'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
+        id: { type: 'string' },
+        text: { type: ['string', 'null'] },
+        createdAt: { type: ['string', 'null'] },
+        updatedAt: { type: ['string', 'null'] },
+        chapter_id: { type: ['string', 'null'] },
+        hidden: { type: ['boolean', 'null'] }
       }
-    };
+    }
   }
 
-
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       containers: {
         relation: Model.HasManyRelation,
@@ -37,19 +46,19 @@ export class page extends Model {
           from: 'page.id',
           to: 'container.page_id'
         }
-      },
+      }
     }
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  $beforeInsert () {
+    this.createdAt = this.updatedAt = new Date().toISOString()
   }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
+  $beforeUpdate () {
+    this.updatedAt = new Date().toISOString()
   }
 }
 
 export default function (app: Application) {
-  return page;
+  return page
 }
