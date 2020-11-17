@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
+import { LckColumnView } from '@/services/lck-api/helpers'
 import { BaseState } from './state'
 
 class Database {
@@ -122,7 +123,10 @@ export async function retrieveTableViews (tableId: string) {
         $eager: 'columns'
       }
     })
-    return result.data
+    return result.data.map((view: { columns: LckColumnView[] }) => ({
+      ...view,
+      columns: view.columns.slice(0).sort((a, b) => a.position - b.position)
+    }))
   } catch (error) {
     databaseState.error = error
   }

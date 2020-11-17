@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import feathers from '@feathersjs/feathers'
 import rest from '@feathersjs/rest-client'
 import auth from '@feathersjs/authentication-client'
+import { getValue, LckColumn, LckColumnView, LckRow } from './helpers'
 
 const lckClient = feathers()
 
@@ -41,6 +43,49 @@ export const lckServices = {
    */
   user: lckClient.service('user'),
   group: lckClient.service('group')
+}
+
+export const lckHelpers = {
+  async exportTableRowData (tableViewId: string, filters: []) {
+    const rowsPerRequest = 20
+    const { columns } = await lckServices.tableView.get(tableViewId, {
+      query: {
+        $eager: 'columns'
+      }
+    }) as { columns: LckColumnView[]}
+    columns.sort((a, b) => a.position - b.position)
+    const query: Record<string, string | number | object> = {
+      table_view_id: tableViewId,
+      $limit: rowsPerRequest,
+      $skip: 0,
+      $sort: {
+        createdAt: 1
+      }
+    }
+    filters.forEach((f: { req: string; value: string }) => {
+      query[f.req] = f.value
+    })
+    const { data: allData, total } = await lckServices.tableRow.find({ query })
+    for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
+      query.$skip = i
+      const { data } = await lckServices.tableRow.find({
+        query
+      })
+      allData.push(...data)
+    }
+    let exportCSV = columns.map(c => '"' + c.text + '"').join(',') + '\n'
+    exportCSV += allData.map(
+      (currentRow: LckRow) =>
+        columns.map((currentColumn: LckColumn) =>
+          '"' + getValue(
+            currentColumn,
+            currentRow.data[currentColumn.id]
+          ) + '"'
+        ).join(',')
+    ).join('\n')
+    return exportCSV
+  }
+
 }
 
 export default lckClient
