@@ -159,11 +159,12 @@
             <div
               class="cell-state"
               style="pointer-events: none"
-              :class="
-                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting === true) && 'saving' ||
-                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid === true) && 'saved valid' ||
-                (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid === false) && 'saved error'
-              "
+ 	              :class="{
+                        'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
+                        'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
+                        'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
+                        'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
+	              }"
             >
               <span
                 style="pointer-events: none"
