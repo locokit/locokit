@@ -191,8 +191,8 @@ const ACTIONS = {
   },
   NOT_EMPTY: {
     label: 'isNotEmpty',
-    value: '$null',
-    predefinedPattern: false
+    value: '$notNull',
+    predefinedPattern: true
   },
   TRUE: {
     label: 'isTrue',
