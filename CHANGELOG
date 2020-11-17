@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.1.2**
+
+* add `pageDetailId` for `TableViewSettings`
+
 **v0.1.1**
 
 * add errors labels

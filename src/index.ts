@@ -154,4 +154,5 @@ export interface KanbanSettings {
 
 export interface TableViewSettings {
   id: string; // Id of the table_view in database
+  pageDetailId: string; // Id of the page to open for detail purpose
 }
