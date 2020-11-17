@@ -83,7 +83,7 @@ export default {
     }
   },
   methods: {
-    searchItems,
+    searchItems: lckHelpers.searchItems,
     async loadBlockTableViewContentAndDefinition (block) {
       this.blocksOptions[block.id] = {
         sort: {
@@ -124,7 +124,7 @@ export default {
     async onUpdateCell ({
       id: blockId
     }, {
-      rowIndex,
+      rowId,
       columnId,
       newValue
     }) {
@@ -133,7 +133,7 @@ export default {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = currentBlock.content.data[rowIndex]
+      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
       const data = {
         data: {
           [columnId]: newValue
