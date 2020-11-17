@@ -791,6 +791,25 @@ export default {
       const res = await patchTableData(currentRow.id, data)
       this.cellState.isValid = !!res
       currentRow.data = res.data
+      const currentRow = this.block.content.data[rowIndex]
+
+      this.cellState = {
+        rowId: currentRow.id,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+      try {
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newValue
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+      }
       this.cellState.waiting = false
     }
   },
