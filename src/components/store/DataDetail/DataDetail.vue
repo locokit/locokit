@@ -11,7 +11,7 @@
           v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :id="column.id"
           :dropdown="true"
-          :placeholder="$t('components.crudtable.placeholder')"
+          :placeholder="$t('components.datatable.placeholder')"
           field="label"
           :suggestions="autocompleteItems"
           @search="onComplete(column, $event)"
@@ -25,7 +25,7 @@
           optionLabel="label"
           optionValue="value"
           :showClear="true"
-          :placeholder="$t('components.crudtable.placeholder')"
+          :placeholder="$t('components.datatable.placeholder')"
           v-model="row.data[column.id]"
           @input="onEdit(row.id, column.id, $event)"
         />
@@ -35,7 +35,7 @@
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
           optionValue="value"
-          :placeholder="$t('components.crudtable.placeholder')"
+          :placeholder="$t('components.datatable.placeholder')"
           v-model="row.data[column.id]"
           @input="onEdit(row.id, column.id, $event)"
         />

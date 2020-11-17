@@ -197,7 +197,7 @@
       <p-dialog
         :visible.sync="displayRowDialog"
         :style="{width: '450px'}"
-        :header="$t('components.crudtable.detail')"
+        :header="$t('components.datatable.detail')"
         :modal="true"
         :contentStyle="{ 'max-height': '60vh'}"
         :closeOnEscape="true"

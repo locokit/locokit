@@ -1,5 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import lckClient, { lckServices } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 
 interface Column {
   column_type_id: number;
