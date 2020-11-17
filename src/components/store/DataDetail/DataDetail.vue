@@ -71,7 +71,7 @@
       <div
         v-else
         class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem;"
+        style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
         disabled
       >
         {{ getColumnDisplayValue(column, row.data[column.id]) }}
