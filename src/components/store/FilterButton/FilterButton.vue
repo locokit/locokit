@@ -104,7 +104,7 @@
             <label for="pattern">{{ $t('components.crudtable.toolbar.filters.form.pattern') }}</label>
             <component
               id="pattern"
-              :is="getComponentEditableColumn(filter.column.type) || 'p-input-text'"
+              :is="getComponentEditableColumn(filter.column.type)"
               v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"

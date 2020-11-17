@@ -71,6 +71,7 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
 selectedColumnAndActionOverlayOpenedStory.args = { timeoutBeforeScreenshot: 1000 }
+
 export const overlayOpenedStory = () => (
   {
     components: { FilterButton },
