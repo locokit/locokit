@@ -30,7 +30,9 @@
                 icon="pi pi-ellipsis-v"
               />
               <span
-                :class="element.id === value ? 'p-text-bold' : ''"
+                :class="{
+                  'p-text-bold': element.id === value
+                }"
                 @click="$emit('input', element.id)"
               >
                 <span v-if="element.locked">
