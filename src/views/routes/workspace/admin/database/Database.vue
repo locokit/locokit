@@ -791,7 +791,7 @@ export default {
       const res = await patchTableData(currentRow.id, data)
       this.cellState.isValid = !!res
       currentRow.data = res.data
-      const currentRow = this.block.content.data[rowIndex]
+      //const currentRow = this.block.content.data[rowIndex]
 
       this.cellState = {
         rowId: currentRow.id,

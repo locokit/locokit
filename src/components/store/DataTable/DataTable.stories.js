@@ -250,3 +250,84 @@ export const crudModeWithTextarea = () => (
 
 crudModeWithTextarea.storyName = 'CRUD mode with textarea opened'
 crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }
+
+export const crudModeWithSaving = () => (
+  {
+    components: { CrudTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
+      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
+      setTimeout(() => {
+        inputCellSecondRow.click()
+      }, 500)
+      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
+      inputCellFirstRowState.classList.add('saving')
+    }
+  }
+)
+
+crudModeWithSaving.storyName = 'CRUD mode, edition state saving'
+crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
+
+export const crudModeSavedOk = () => (
+  {
+    components: { CrudTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
+      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
+      setTimeout(() => {
+        inputCellSecondRow.click()
+        inputCellSecondRow.click()
+      }, 500)
+      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
+      inputCellFirstRowState.classList.add("saved")
+      inputCellFirstRowState.classList.add("valid")
+    }
+  }
+)
+
+crudModeSavedOk.storyName = 'CRUD mode, edition state saved ok'
+crudModeSavedOk.args = { timeoutBeforeScreenshot: 800 }
+
+export const crudModeSavedError = () => (
+  {
+    components: { CrudTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
+      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
+      setTimeout(() => {
+        inputCellSecondRow.click()
+      }, 500)
+      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
+      inputCellFirstRowState.classList.add("saved")
+      inputCellFirstRowState.classList.add("error")
+    }
+  }
+)
+
+crudModeSavedError.storyName = 'CRUD mode, edition state saved error'
+crudModeSavedError.args = { timeoutBeforeScreenshot: 800 }

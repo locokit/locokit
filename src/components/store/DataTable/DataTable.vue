@@ -166,12 +166,7 @@
                         'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
 	              }"
             >
-              <span
-                style="pointer-events: none"
-                :title="getValue(column, slotProps.data.data[column.id])"
-              >
-                {{ getValue(column, slotProps.data.data[column.id]) }}
-              </span>
+             {{ getValue(column, slotProps.data.data[column.id]) }}
             </div>
           </template>
         </p-column>
