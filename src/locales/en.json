@@ -91,6 +91,9 @@
     },
     "dialog": {
       "defaultHeader": "Header of the dialog box"
+    },
+    "datadetail": {
+      "nodata": "No data to display"
     }
   },
   "pages": {

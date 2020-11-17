@@ -1,12 +1,17 @@
 <template>
-  <div v-if="definition" style="padding-bottom: 10rem">
-      <div
-        class="p-field"
-        v-for="column in editableColumns"
-        :key="column.id"
-      >
-        <label :for="column.id">{{ column.text }}</label>
+  <div
+    style="padding-bottom: 10rem"
+    class="p-fluid"
+    v-if="row"
+  >
+    <div
+      class="p-field"
+      v-for="column in definition.columns"
+      :key="column.id"
+    >
+      <label :for="column.id">{{ column.text }}</label>
 
+      <div v-if="editableColumns.indexOf(column) > -1">
         <lck-autocomplete
           v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :id="column.id"
@@ -15,7 +20,7 @@
           field="label"
           :suggestions="autocompleteItems"
           @search="onComplete(column, $event)"
-          v-model="row.data[column.id].value"
+          :value="row.data[column.id] && row.data[column.id].value"
           @item-select="onAutocompleteEdit(row.id, column.id, $event)"
         />
         <p-dropdown
@@ -62,7 +67,21 @@
           @input="onEdit(row.id, column.id, $event)"
         />
       </div>
+
+      <div
+        v-else
+        class="p-fluid p-inputtext p-component"
+        style="height: 2.5rem;"
+        disabled
+      >
+        {{ getColumnDisplayValue(column, row.data[column.id]) }}
+      </div>
+
     </div>
+  </div>
+  <div v-else>
+    {{ $t('components.datadetail.nodata') }}
+  </div>
 </template>
 
 <script>
@@ -82,8 +101,9 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import { getComponentEditableColumn, isEditableColumn } from '@/utils/columns'
+import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
+import { lckHelpers } from '@/services/lck-api'
 
 export default {
   name: 'LckDataDetail',
@@ -93,11 +113,12 @@ export default {
     },
     row: {
       type: Object,
-      required: true
+      required: false
     },
     definition: {
       type: Object,
-      required: true
+      required: false,
+      default: () => ({ columns: [] })
     },
     crudMode: {
       type: Boolean,
@@ -167,6 +188,7 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
     // eslint-disable-next-line @typescript-eslint/camelcase
     onComplete ({ column_type_id, settings }, { query }) {
       this.$emit('update-suggestions', {
@@ -179,7 +201,11 @@ export default {
       await this.onEdit(rowId, columnId, event.value.value)
     },
     async onDateEdit (rowId, columnId, value) {
-      await this.onEdit(rowId, columnId, formatISO(value, { representation: 'date' }))
+      await this.onEdit(
+        rowId,
+        columnId,
+        value ? formatISO(value, { representation: 'date' }) : null
+      )
     },
     async onEdit (rowId, columnId, value) {
       this.$emit('update-row', {
@@ -187,6 +213,16 @@ export default {
         columnId,
         newValue: value
       })
+    },
+    updateAutocompleteField (rowData, columnId, event) {
+      console.log(event)
+      if (!rowData[columnId]) {
+        rowData[columnId] = {
+          value: event.value
+        }
+      } else {
+        rowData[columnId].value = event.value
+      }
     }
   }
 }

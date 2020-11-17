@@ -93,6 +93,9 @@
     },
     "dialog": {
       "defaultHeader": "En-tête de la boîte de dialogue"
+    },
+    "datadetail": {
+      "nodata": "Aucune donnée à afficher"
     }
   },
   "pages": {
