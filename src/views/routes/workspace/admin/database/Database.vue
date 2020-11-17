@@ -88,8 +88,8 @@
         :loading="block.loading"
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
-        :crud-mode="true"
         :locked="currentView && currentView.locked"
+        :crudMode="crudMode"
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -197,26 +197,20 @@
       <p-dialog
         :visible.sync="displayRowDialog"
         :style="{width: '450px'}"
-        header="Test"
+        :header="$t('components.crudtable.detail')"
         :modal="true"
         :contentStyle="{ 'max-height': '60vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
         <lck-dataDetail
-          :crudMode="true"
+          :crudMode="crudMode"
           :definition="displayColumnsView"
           :row="row"
           :autocompleteItems="autocompleteItems"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-cell="onUpdateCell"
         />
-        <p-toolbar>
-          <template slot="left">
-            <p-button label="Action 1" />
-            <p-button label="Action 2" />
-          </template>
-        </p-toolbar>
       </p-dialog>
     </div>
     <div v-else>
@@ -305,6 +299,7 @@ export default {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
+      crudMode: true,
       block: {
         loading: false,
         content: {
@@ -693,12 +688,6 @@ export default {
     async onOpenDetail (rowId) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
-      // Object.keys(this.row.data).forEach(key => {
-      //   if (typeof this.row.data[key] === 'object' && this.row.data[key] !== null) {
-      //     const copy = this.row.data[key]
-      //     this.row.data[key] = copy.value
-      //   }
-      // })
     },
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {

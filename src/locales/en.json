@@ -30,6 +30,7 @@
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
+      "detail": "Detail",
       "toolbar": {
         "lists": {
           "label": "no column | {n} column | {n} columns"

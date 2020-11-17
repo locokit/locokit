@@ -337,7 +337,6 @@ export default {
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
           case COLUMN_TYPE.FORMULA:
-            console.log('data.value', data.value)
             return data.value
           case COLUMN_TYPE.SINGLE_SELECT:
             return column.settings.values[data]?.label
