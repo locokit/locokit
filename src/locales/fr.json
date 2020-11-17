@@ -25,14 +25,29 @@
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
       "selectPagePlaceholder": "Aller à la page"
     },
-    "crudtable": {
+    "datatable": {
       "noDataToDisplay": "Aucune donnée à afficher",
       "loading": "En cours de chargement… veuillez patienter…",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "placeholder": "Sélectionnez une option",
       "toolbar": {
+        "lists": {
+          "label": "aucune colonne | {n} colonne | {n} colonnes"
+        },
+        "views": {
+          "noview": "Aucune vue. Merci d'en créer une.",
+          "createLabel": "Créer une nouvelle vue",
+          "editLabel": "Modifier la vue",
+          "editButtonLabel": "Modifier",
+          "removeButtonLabel": "Supprimer",
+          "removeLabel": "Supprimer la vue",
+          "viewTextLabel": "Nom",
+          "viewLockedLabel": "Verrouillée",
+          "viewLockedLabelOff": "Déverrouillée",
+          "viewLockedLabelOn": "Verrouillée"
+        },
         "filters": {
-          "name": "Filtres",
+          "label": "aucun filtre | {n} filtre | {n} filtres",
           "noFilters": "Aucun filtre n'est appliqué.",
           "form" : {
             "operator": "Opérateur",
@@ -67,6 +82,12 @@
           }
         }
       }
+    },
+    "overlayPanel": {
+      "defaultLabel": "Pas de texte de bouton"
+    },
+    "dialog": {
+      "defaultHeader": "En-tête de la boîte de dialogue"
     }
   },
   "pages": {
@@ -232,7 +253,13 @@
     "http": {
       "401": "Accès non authentifié",
       "403": "Accès interdit",
+      "404": "Non trouvé",
+      "406": "Non acceptable",
       "500": "Une erreur a eu lieu…"
+    },
+    "lck": {
+      "VIEW_LOCKED": "La vue est verrouillée.",
+      "VIEW_USED_IN_BLOCK": "La vue est toujours utilisée dans un bloc. Merci de supprimer le bloc au préalable."
     }
   },
   "form": {

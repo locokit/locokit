@@ -1,11 +1,9 @@
 import { action } from '@storybook/addon-actions'
 import { GROUP_ROLE, USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
-
+import Vue from 'vue'
 import Profile from './Profile'
 
-import {
-  authState
-} from '@/store/auth'
+import { authState } from '../../../store/auth'
 
 export default {
   title: 'views/routes/user/Profile',
@@ -19,31 +17,42 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
-defaultStory.parameters = { storyshots: { disable: true } }
+// defaultStory.parameters = { storyshots: { disable: true } }
+defaultStory.args = { timeoutBeforeScreenshot: 1000 }
 
 export const withAuthUser = () => ({
+  data () {
+    return { authState }
+  },
   components: { Profile },
   template: '<Profile @submit="this.submit" />',
   methods: { submit: action('submit') },
-  mounted () {
-    authState.data.user = {
+  async mounted () {
+    console.log(this.data)
+    this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
       email: 'mathieu.dartigues@makina-corpus.com',
       profile: USER_PROFILE.SUPERADMIN
     }
+    await Vue.nextTick()
   }
 })
 
 withAuthUser.storyName = 'with auth user'
-withAuthUser.parameters = { storyshots: { disable: true } }
+// withAuthUser.parameters = { storyshots: { disable: true } }
+withAuthUser.args = { timeoutBeforeScreenshot: 1000 }
 
 export const withAuthUserAndGroup = () => ({
+  data () {
+    return { authState }
+  },
   components: { Profile },
   template: '<Profile @submit="this.submit" />',
   methods: { submit: action('submit') },
-  mounted () {
-    authState.data.user = {
+  async mounted () {
+    console.log(this.$data.authState)
+    this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
       email: 'mathieu.dartigues@makina-corpus.com',
@@ -63,11 +72,13 @@ export const withAuthUserAndGroup = () => ({
         }
       }]
     }
+    await Vue.nextTick()
   },
   beforeDestroy () {
-    authState.data.user = null
+    this.authState.data.user = null
   }
 })
 
 withAuthUserAndGroup.storyName = 'with auth user and groups'
-withAuthUserAndGroup.parameters = { storyshots: { disable: true } }
+// withAuthUserAndGroup.parameters = { storyshots: { disable: true } }
+withAuthUserAndGroup.args = { timeoutBeforeScreenshot: 1000 }

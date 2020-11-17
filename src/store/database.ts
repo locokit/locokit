@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import lckClient from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 
 class Database {
@@ -19,7 +19,7 @@ export const databaseState: DatabaseState = {
 export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
   databaseState.loading = true
   try {
-    const result = await lckClient.service('database').get(databaseId, {
+    const result = await lckServices.database.get(databaseId, {
       query: {
         $eager: '[tables.[columns,views.[columns]]]'
       }
@@ -35,7 +35,7 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
 export async function retrieveTableColumsAndTableRows (tableId: string) {
   databaseState.loading = true
   try {
-    return await lckClient.service('table').get(tableId, {
+    return await lckServices.table.get(tableId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: '[columns, rows]' }
     })
@@ -48,7 +48,7 @@ export async function retrieveTableColumsAndTableRows (tableId: string) {
 export async function retrieveTableColumns (tableId: string) {
   databaseState.loading = true
   try {
-    const result = await lckClient.service('column').find({
+    const result = await lckServices.tableColumn.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { table_id: tableId, $limit: 50, $sort: { position: 1 } }
 
@@ -65,7 +65,7 @@ export async function retrieveTableRows (tableId: string, pageIndex = 0) {
   const ITEMS_PER_PAGE = 20
 
   try {
-    return await lckClient.service('row').find({
+    return await lckServices.tableRow.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
@@ -102,7 +102,7 @@ export async function retrieveTableRowsWithSkipAndLimit (
       query[f.req] = f.value
     })
 
-    return await lckClient.service('row').find({
+    return await lckServices.tableRow.find({
       query
     })
   } catch (error) {
@@ -115,7 +115,7 @@ export async function retrieveTableViews (tableId: string) {
   databaseState.loading = true
 
   try {
-    const result = await lckClient.service('view').find({
+    const result = await lckServices.tableView.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
@@ -133,7 +133,7 @@ export async function saveTableData (formData: object) {
   databaseState.loading = true
 
   try {
-    const result = await lckClient.service('row').create(formData)
+    const result = await lckServices.tableRow.create(formData)
     databaseState.loading = false
     return result
   } catch ({ code, name }) {
@@ -146,7 +146,7 @@ export async function deleteTableData (rowId: string) {
   databaseState.loading = true
 
   try {
-    const result = await lckClient.service('row').remove(rowId)
+    const result = await lckServices.tableRow.remove(rowId)
     databaseState.loading = false
     return result
   } catch ({ code, name }) {
@@ -158,7 +158,7 @@ export async function deleteTableData (rowId: string) {
 export async function patchTableData (rowId: string, formData: object) {
   databaseState.loading = true
   try {
-    const result = await lckClient.service('row').patch(rowId, formData)
+    const result = await lckServices.tableRow.patch(rowId, formData)
     return result
   } catch ({ code, name }) {
     databaseState.error = new Error(`${code}: ${name}`)

@@ -29,7 +29,6 @@ storybook:build:
   tags: [shared-ci-docker]
   stage: storybook
   only:
-    - tags
     - merge_requests
     - master
   script:
@@ -47,7 +46,6 @@ quality:
   tags: [shared-ci-docker]
   stage: lint-tests
   only:
-    - tags
     - merge_requests
     - master
   script:

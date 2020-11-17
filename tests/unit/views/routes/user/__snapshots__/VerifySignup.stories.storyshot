@@ -2,7 +2,6 @@
 
 exports[`storyshots views/routes/user/VerifySignup default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div

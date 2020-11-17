@@ -2,11 +2,10 @@
 
 exports[`storyshots components/auth/Login Login 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <form
-    class="p-text-left"
+    class="p-text-left p-fluid"
   >
     <div
       class="p-field"

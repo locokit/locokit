@@ -3,7 +3,7 @@
 <template>
   <p-autocomplete
     :dropdown="true"
-    :placeholder="$t('components.crudtable.placeholder')"
+    :placeholder="$t('components.datatable.placeholder')"
     field="label"
     :appendTo="appendTo"
     v-on="$listeners"
@@ -18,7 +18,7 @@ import Vue from 'vue'
 import PrimeAutoComplete from 'primevue/autocomplete'
 
 export default {
-  name: 'AutoComplete',
+  name: 'LckAutoComplete',
   props: {
     appendTo: {
       type: String,

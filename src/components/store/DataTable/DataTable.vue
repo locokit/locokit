@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="definition"
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <!--
     :scrollable="true"
@@ -10,7 +11,7 @@
     @virtual-scroll="onVirtualScroll"
    -->
     <div
-      class="responsive-table-wrapper"
+      class="responsive-table-wrapper p-fluid d-flex-1"
     >
       <p-datatable
         class="
@@ -42,25 +43,27 @@
         columnResizeMode="expand"
         @column-resize-end="onColumnResize"
 
-        :reorderableColumns="crudMode"
+        :reorderableColumns="crudMode && !locked"
         @column-reorder="onColumnReorder"
 
         style="width: unset !important;"
 
         @sort="onSort"
+
+        ref="p-datatable"
       >
         <p-column
           v-for="column in definition.columns"
           :key="column.id"
           :field="column.id"
           :headerStyle="{
-            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             overflow: 'hidden',
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis'
           }"
           :bodyStyle="{
-            width: ( ( column.settings && column.settings.width ) || '150' ) + 'px',
+            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
 
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
@@ -77,7 +80,7 @@
             <lck-autocomplete
               v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
               :dropdown="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               field="label"
               appendTo="body"
               v-model="autocompleteInput"
@@ -94,7 +97,7 @@
               appendTo="body"
               :value="slotProps.data.data[column.id]"
               :showClear="true"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               @change="onDropdownEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -105,7 +108,7 @@
               optionValue="value"
               v-model="multiSelectValues"
               ref="multiselect"
-              :placeholder="$t('components.crudtable.placeholder')"
+              :placeholder="$t('components.datatable.placeholder')"
               @change="onMultiSelectEdit(slotProps.index, column.id, $event)"
               class="field-editable"
             />
@@ -146,7 +149,7 @@
         </p-column>
 
         <template #empty>
-          {{ $t('components.crudtable.noDataToDisplay') }}
+          {{ $t('components.datatable.noDataToDisplay') }}
         </template>
       </p-datatable>
     </div>
@@ -160,7 +163,7 @@
     />
   </div>
   <div v-else>
-    {{ $t('components.crudtable.noDefinitionAvailable') }}
+    {{ $t('components.datatable.noDefinitionAvailable') }}
   </div>
 </template>
 
@@ -227,6 +230,10 @@ export default {
     crudMode: {
       type: Boolean,
       default: false
+    },
+    locked: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -278,7 +285,7 @@ export default {
     },
     tableWidth () {
       if (!this.definition.columns) return {}
-      return this.definition.columns.reduce((acc, c) => acc + (c.settings?.width || 150), 0)
+      return this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
     }
   },
   methods: {
@@ -367,18 +374,20 @@ export default {
         query
       )
     },
-    onColumnResize (header) {
+    onColumnResize (event) {
       this.$emit(
         'column-resize',
-        header.element.offsetWidth,
-        header.element.querySelector('[data-column-id]').attributes['data-column-id'].value
+        event.element.offsetWidth,
+        event.element.querySelector('[data-column-id]').attributes['data-column-id'].value
       )
     },
     onColumnReorder (event) {
       // if we are in crud mode, a ref column is displayed
       this.$emit('column-reorder', {
         fromIndex: event.dragIndex,
-        toIndex: event.dropIndex
+        toIndex: event.dropIndex,
+        fromId: this.definition.columns[event.dragIndex]?.id,
+        toId: this.definition.columns[event.dropIndex]?.id
       })
     },
     async onDropdownEdit (rowIndex, columnId, event) {
@@ -497,6 +506,24 @@ export default {
         field: event.sortField,
         order: event.sortOrder
       })
+    }
+  },
+  watch: {
+    definition: {
+      handler () {
+        /**
+         * Special hack for Prime DataTable,
+         * when we resize columns, the table[style] keep the width,
+         * even if we change the columns.
+         * Here, we remove the style attribute from the table DOM Element.
+         * Related to https://gitlab.makina-corpus.net/lck/lck-front/-/issues/150
+         */
+        const tableWithStyle = this.$refs['p-datatable'].$el.querySelector('table[style]')
+        if (tableWithStyle) {
+          tableWithStyle.removeAttribute('style')
+        }
+      },
+      deep: true
     }
   }
 }

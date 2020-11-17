@@ -2,14 +2,13 @@
 
 exports[`storyshots components/store/FilterButton default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
-    class="filter-button"
+    class="lck-overlay-panel"
   >
     <button
-      class="p-ml-2 p-button p-component"
+      class="p-button p-component p-button-outlined p-button-secondary"
       type="button"
     >
       <span
@@ -19,14 +18,10 @@ exports[`storyshots components/store/FilterButton default 1`] = `
       <span
         class="p-button-label"
       >
-        Filtres
+        aucun filtre
       </span>
        
-      <span
-        class="p-badge"
-      >
-        0
-      </span>
+      <!---->
       <span
         class="p-ink"
       />
@@ -39,14 +34,13 @@ exports[`storyshots components/store/FilterButton default 1`] = `
 
 exports[`storyshots components/store/FilterButton overlay opened 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
-    class="filter-button"
+    class="lck-overlay-panel"
   >
     <button
-      class="p-ml-2 p-button p-component"
+      class="p-button p-component p-button-outlined p-button-secondary"
       type="button"
     >
       <span
@@ -56,14 +50,10 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
       <span
         class="p-button-label"
       >
-        Filtres
+        aucun filtre
       </span>
        
-      <span
-        class="p-badge"
-      >
-        0
-      </span>
+      <!---->
       <span
         class="p-ink"
       />
@@ -76,14 +66,13 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
 
 exports[`storyshots components/store/FilterButton overlay opened with specified column and action 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
-    class="filter-button"
+    class="lck-overlay-panel"
   >
     <button
-      class="p-ml-2 p-button p-component"
+      class="p-button p-component p-button-outlined p-button-secondary"
       type="button"
     >
       <span
@@ -93,14 +82,10 @@ exports[`storyshots components/store/FilterButton overlay opened with specified 
       <span
         class="p-button-label"
       >
-        Filtres
+        aucun filtre
       </span>
        
-      <span
-        class="p-badge"
-      >
-        0
-      </span>
+      <!---->
       <span
         class="p-ink"
       />

@@ -2,7 +2,6 @@
 
 exports[`storyshots components/ui/MultiSelect default 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div
@@ -46,7 +45,6 @@ exports[`storyshots components/ui/MultiSelect default 1`] = `
 
 exports[`storyshots components/ui/MultiSelect with suggestions 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <div

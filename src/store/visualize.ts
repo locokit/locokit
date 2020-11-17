@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import lckClient from '@/services/lck-api'
+import lckClient, { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 
 class Workspace {
@@ -57,7 +57,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
 export async function retrieveViewDefinition (id: number) {
   workspaceState.loading = true
   try {
-    const result = await lckClient.service('view').get(id, {
+    const result = await lckServices.tableView.get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         $eager: 'columns.[column_type]',

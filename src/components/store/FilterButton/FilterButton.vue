@@ -1,28 +1,22 @@
 <template>
-  <div class="filter-button">
-    <p-button
-      type="button"
-      class="p-ml-2"
-      icon="pi pi-filter"
-      :label="$t('components.crudtable.toolbar.filters.name')"
-      :badge="`${value.length}`"
-      @click="toggleFiltersPanel"
-    />
-    <p-overlay-panel
-      ref="filtersPanel"
-      appendTo="body"
-    >
+  <lck-overlaypanel
+    icon="pi pi-filter"
+    class-button="p-button-outlined p-button-secondary"
+    :disabled="disabled"
+    :label="$tc('components.datatable.toolbar.filters.label', value.length)"
+  >
+    <template #overlay-content="overlaySlotProps">
       <div
         class="p-mb-2 filters-listing"
         v-if="value.length > 0"
       >
         <div
-          class="p-ai-center p-md-12 p-formgroup-inline p-mb-1"
+          class="p-md-12 p-formgroup-inline p-mb-1"
           v-for="(filter, index) in value"
           :key="`filter-${index}`"
         >
           <div
-            class="p-col-fixed p-p-0 p-mr-2"
+            class="p-col-fixed p-p-0 p-mr-2 p-as-end"
             :style="{
               width: '2rem'
             }"
@@ -39,9 +33,6 @@
               width: '5rem'
             }"
           >
-            <label for="operator" v-if="index > 0">
-              {{ $t('components.crudtable.toolbar.filters.form.operator') }}
-            </label>
             <p-dropdown
               id="operator"
               :options="operators"
@@ -53,22 +44,22 @@
               @change="onChangeOperator"
             >
               <template #value="slotProps">
-                {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.value}`) }}
+                {{ $t(`components.datatable.toolbar.filters.select.operator.${slotProps.value}`) }}
               </template>
               <template #option="slotProps">
-                {{ $t(`components.crudtable.toolbar.filters.select.operator.${slotProps.option.value}`) }}
+                {{ $t(`components.datatable.toolbar.filters.select.operator.${slotProps.option.value}`) }}
               </template>
             </p-dropdown>
           </div>
           <div class="p-col p-md-3 p-mr-2">
-            <label for="column">
-              {{ $t('components.crudtable.toolbar.filters.form.column') }}
+            <label for="column" v-if="index === 0">
+              {{ $t('components.datatable.toolbar.filters.form.column') }}
             </label>
             <p-dropdown
               id="column"
-              :options="columns"
+              :options="columnsDisplayable"
               optionLabel="label"
-              :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+              :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="onChangeColumn(index)"
               v-model="filter.column"
             />
@@ -76,8 +67,8 @@
           <div
             class="p-col-12 p-md-2 p-mr-2"
           >
-            <label for="action">
-              {{ $t('components.crudtable.toolbar.filters.form.action') }}
+            <label for="action" v-if="index === 0">
+              {{ $t('components.datatable.toolbar.filters.form.action') }}
             </label>
             <p-dropdown
               id="action"
@@ -86,14 +77,14 @@
               :disabled="!filter.column"
               optionLabel="label"
               v-model="filter.action"
-              :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+              :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="actionControlPattern(index, $event)"
             >
               <template #value="slotProps">
-                {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value.label}`) : slotProps.placeholder }}
+                {{ slotProps.value ? $t(`components.datatable.toolbar.filters.select.action.${slotProps.value.label}`) : slotProps.placeholder }}
               </template>
               <template #option="slotProps">
-                {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.label}`) }}
+                {{ $t(`components.datatable.toolbar.filters.select.action.${slotProps.option.label}`) }}
               </template>
             </p-dropdown>
           </div>
@@ -101,7 +92,9 @@
             class="p-col"
             v-if="filter.action && filter.action.predefinedPattern === undefined"
           >
-            <label for="pattern">{{ $t('components.crudtable.toolbar.filters.form.pattern') }}</label>
+            <label for="pattern" v-if="index === 0">
+              {{ $t('components.datatable.toolbar.filters.form.pattern') }}
+            </label>
             <component
               id="pattern"
               :is="getComponentEditableColumn(filter.column.type)"
@@ -113,14 +106,14 @@
         </div>
       </div>
       <div v-else>
-        <p>{{ $t('components.crudtable.toolbar.filters.noFilters') }}</p>
+        <p>{{ $t('components.datatable.toolbar.filters.noFilters') }}</p>
       </div>
       <div class="p-d-flex">
         <p-button
           class="p-button-outlined p-mr-2"
           type="button"
           icon="pi pi-plus-circle"
-          :label="$t('components.crudtable.toolbar.filters.action.addFilter')"
+          :label="$t('components.datatable.toolbar.filters.action.addFilter')"
           @click="addFilter"
         />
         <p-button
@@ -129,19 +122,19 @@
           type="button"
           icon="pi pi-undo"
           :label="$t('form.reset')"
-          @click="resetFilters"
+          @click="resetFilters(overlaySlotProps)"
         />
         <p-button
           class="p-button-primary p-ml-auto"
           type="button"
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
-          @click="submitFilters"
+          @click="submitFilters(overlaySlotProps)"
           :disabled="value.length === 0 || value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
         />
       </div>
-    </p-overlay-panel>
-  </div>
+    </template>
+  </lck-overlaypanel>
 </template>
 
 <script>
@@ -150,7 +143,7 @@ import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
-import OverlayPanel from 'primevue/overlaypanel'
+import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getComponentEditableColumn } from '@/utils/columns'
@@ -268,17 +261,17 @@ const COLUMN_FILTERS_CONFIG = {
 }
 
 export default {
-  name: 'LCKFilterButton',
+  name: 'LckFilterButton',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-float': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
-    'p-overlay-panel': Vue.extend(OverlayPanel)
+    'lck-overlaypanel': Vue.extend(OverlayPanel)
   },
   props: {
-    definitionColumn: {
+    columns: {
       type: Array,
       required: false,
       default: () => ([])
@@ -287,6 +280,10 @@ export default {
       type: Array,
       required: false,
       default: () => ([])
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -297,9 +294,9 @@ export default {
     }
   },
   computed: {
-    columns () {
-      if (this.definitionColumn?.length < 1) return []
-      return this.definitionColumn.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
+    columnsDisplayable () {
+      if (this.columns?.length < 1) return []
+      return this.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(columnTypeId)) {
           acc.push({ value: id, label: text, type: columnTypeId })
@@ -313,19 +310,16 @@ export default {
   },
   methods: {
     getComponentEditableColumn,
-    toggleFiltersPanel (event) {
-      this.$refs.filtersPanel.toggle(event)
-    },
     removeFilter (filterToRemove) {
       this.$emit('input', this.value.filter(f => (f !== filterToRemove)))
     },
-    resetFilters () {
+    resetFilters (overlaySlotProps) {
       this.$emit('reset')
-      this.$refs.filtersPanel.hide()
+      overlaySlotProps.toggleOverlayPanel()
     },
-    submitFilters () {
+    submitFilters (overlaySlotProps) {
       this.$emit('submit')
-      this.$refs.filtersPanel.hide()
+      overlaySlotProps.toggleOverlayPanel()
     },
     addFilter () {
       this.value.push({
@@ -353,10 +347,6 @@ export default {
 </script>
 
 <style scoped>
-.p-overlaypanel {
-  width: 700px;
-}
-
 label,
 .input,
 .p-inputwrapper {
@@ -365,7 +355,7 @@ label,
 
 label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
@@ -375,21 +365,16 @@ label {
   width: 100%;
 }
 
-/deep/ .p-button .p-badge {
-  line-height: 0.85rem;
-  font-size: 0.9rem;
-  color: var(--primary-color);
+/deep/ .p-dropdown-label.p-inputtext {
+  line-height: normal;
 }
 
 /deep/ .p-button {
   width: auto;
 }
 
-/deep/ .filters-listing .p-component,
-/deep/ .filters-listing .p-inputtext,
-/deep/ .filters-listing ul.p-dropdown-items,
-/deep/ .filters-listing ul.p-dropdown-items li {
-  font-size: 0.85rem;
+.filters-listing {
+  width: 700px;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%" class="p-fluid">
+  <div style="height: 100%">
     <slot/>
   </div>
 </template>

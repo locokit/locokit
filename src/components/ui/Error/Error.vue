@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'Error'
+  name: 'LckError'
 }
 </script>

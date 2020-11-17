@@ -2,7 +2,22 @@
 
 exports[`storyshots views/routes/user/Profile default 1`] = `
 <div
-  class="p-fluid"
+  style="height: 100%;"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots views/routes/user/Profile with auth user 1`] = `
+<div
+  style="height: 100%;"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
+<div
   style="height: 100%;"
 >
   <!---->

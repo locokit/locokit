@@ -47,7 +47,7 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
     data () {
       return { definitionColumn }
     },
-    template: '<FilterButton ref="fb" :definitionColumn="definitionColumn" />',
+    template: '<FilterButton ref="fb" :columns="definitionColumn" />',
     async mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()
@@ -87,3 +87,4 @@ export const overlayOpenedStory = () => (
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
+overlayOpenedStory.args = { timeoutBeforeScreenshot: 1000 }

@@ -25,14 +25,27 @@
       "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries",
       "selectPagePlaceholder": "Jump to page"
     },
-    "crudtable": {
+    "datatable": {
       "noDataToDisplay": "No data to display",
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "toolbar": {
+        "lists": {
+          "label": "no column | {n} column | {n} columns"
+        },
+        "views": {
+          "noview": "No view. Please create one.",
+          "createLabel": "Create a new view",
+          "editLabel": "Edit the view",
+          "removeLabel": "Remove the view",
+          "viewTextLabel": "Name",
+          "viewLockedLabel": "Locked",
+          "viewLockedLabelOff": "Unlocked",
+          "viewLockedLabelOn": "Locked"
+        },
         "filters": {
-          "name": "Filters",
+          "label": "no filter | {n} filter | {n} filters",
           "noFilters": "No filters are applied.",
           "form" : {
             "operator": "Operator",
@@ -67,6 +80,12 @@
           }
         }
       }
+    },
+    "overlayPanel": {
+      "defaultLabel": "No button label"
+    },
+    "dialog": {
+      "defaultHeader": "Header of the dialog box"
     }
   },
   "pages": {
@@ -231,7 +250,13 @@
     "http": {
       "401": "Access not granted",
       "403": "Access forbidden",
+      "404": "Not found",
+      "406": "Not acceptable",
       "500": "An error occured…"
+    },
+    "lck": {
+      "VIEW_LOCKED": "View is locked.",
+      "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
     }
   },
   "form" : {

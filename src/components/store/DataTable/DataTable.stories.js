@@ -1,10 +1,10 @@
-import CrudTable from './CrudTable'
+import DataTable from './DataTable'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Vue from 'vue'
 
 export default {
-  title: 'components/store/CrudTable',
-  component: CrudTable,
+  title: 'components/store/DataTable',
+  component: DataTable,
   parameters: {
     docs: {
       description: `
@@ -17,14 +17,14 @@ export default {
 
 export const withEmptyDefinitionAndDataStory = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         definition: { column: [] },
         content: { data: [] }
       }
     },
-    template: '<CrudTable :definition="definition" :content="content"/>'
+    template: '<lck-datatable :definition="definition" :content="content"/>'
   }
 )
 
@@ -33,8 +33,8 @@ withEmptyDefinitionAndDataStory.storyName = 'Empty definition and content proper
 /* eslint-disable @typescript-eslint/camelcase */
 const tableViewData = {
   id: 1,
-  title: 'My CrudTable\'s block',
-  type: 'CrudTable',
+  title: 'My DataTable\'s block',
+  type: 'TableView',
   definition: {
     text: 'Ensemble des vélos',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
@@ -161,7 +161,7 @@ const tableViewData = {
 
 export const withoutContent = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: {
@@ -170,7 +170,7 @@ export const withoutContent = () => (
         }
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" />'
+    template: '<lck-datatable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -178,13 +178,13 @@ withoutContent.storyName = 'No content'
 
 export const withExpectedProps = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" />'
+    template: '<lck-datatable :content="block.content" :definition="block.definition" />'
   }
 )
 
@@ -192,13 +192,13 @@ withExpectedProps.storyName = 'Expected props'
 
 export const withExpectedPropsAndCrudMode = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" />'
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" />'
   }
 )
 
@@ -206,13 +206,13 @@ withExpectedPropsAndCrudMode.storyName = 'CRUD mode with expected props'
 
 export const crudModeWithCalendar = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()
@@ -232,13 +232,13 @@ crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1500 }
 
 export const crudModeWithTextarea = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()

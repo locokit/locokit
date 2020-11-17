@@ -25,7 +25,7 @@
 import Vue, { PropType } from 'vue'
 import { BLOCK_TYPE, Block } from '@locokit/lck-glossary'
 
-import TableView from '@/components/store/CrudTable/CrudTable.vue'
+import TableView from '@/components/store/DataTable/DataTable.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 import Media from '@/components/visualize/Media/Media.vue'

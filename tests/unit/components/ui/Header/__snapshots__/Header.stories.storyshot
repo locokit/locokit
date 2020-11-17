@@ -2,7 +2,6 @@
 
 exports[`storyshots components/ui/Header Header with logo (required) 1`] = `
 <div
-  class="p-fluid"
   style="height: 100%;"
 >
   <header
