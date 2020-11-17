@@ -69,6 +69,7 @@
               :options="columns"
               optionLabel="label"
               :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
+              @change="onChangeColumn(index)"
               v-model="filter.column"
             />
           </div>
@@ -81,29 +82,30 @@
             <p-dropdown
               id="action"
               type="text"
-              :options="actions"
+              :options="filter.column && columnFiltersConfig[filter.column.type].actions || []"
+              :disabled="!filter.column"
               optionLabel="label"
-              optionValue="value"
               v-model="filter.action"
               :placeholder="$t('components.crudtable.toolbar.filters.form.placeholder')"
               @change="actionControlPattern(index, $event)"
             >
               <template #value="slotProps">
-                {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value}`) : slotProps.placeholder }}
+                {{ slotProps.value ? $t(`components.crudtable.toolbar.filters.select.action.${slotProps.value.label}`) : slotProps.placeholder }}
               </template>
               <template #option="slotProps">
-                {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.value}`) }}
+                {{ $t(`components.crudtable.toolbar.filters.select.action.${slotProps.option.label}`) }}
               </template>
             </p-dropdown>
           </div>
           <div
             class="p-col"
-            v-if="!['$null', '$notNull'].includes(filter.action)"
+            v-if="filter.action && filter.action.predefinedPattern === undefined"
           >
             <label for="pattern">{{ $t('components.crudtable.toolbar.filters.form.pattern') }}</label>
-            <p-input-text
+            <component
               id="pattern"
-              type="text"
+              :is="getComponentEditableColumn(filter.column.type)"
+              v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
             />
@@ -147,10 +149,13 @@ import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import InputNumber from 'primevue/inputnumber'
 import OverlayPanel from 'primevue/overlaypanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { getComponentEditableColumn } from '@/utils/columns'
 
+// Available operators
 const OPERATORS = [{
   label: 'or',
   value: '$or'
@@ -159,37 +164,116 @@ const OPERATORS = [{
   value: '$and'
 }]
 
-const ACTIONS = [{
-  label: 'match',
-  value: '$ilike'
-}, {
-  label: 'does not match',
-  value: '$notILike'
-}, {
-  label: 'is equal to',
-  value: '$eq'
-}, {
-  label: 'is different than',
-  value: '$ne'
-}, {
-  label: 'is empty',
-  value: '$null'
-}, {
-  label: 'is not empty',
-  value: '$notNull'
-// }, {
-//   label: 'is greater than',
-//   value: '$gte'
-// }, {
-//   label: 'is less than',
-//   value: '$lte'
-}]
+// Available actions
+// Each one must have a "label" used for translation and a "value" corresponding to the FeatherJS Query Operators.
+// The "predefinedPattern" attribute is used to give a value to an implicit pattern.
+const ACTIONS = {
+  MATCH: {
+    label: 'match',
+    value: '$ilike'
+  },
+  NOT_MATCH: {
+    label: 'doesNotMatch',
+    value: '$notILike'
+  },
+  EQUAL: {
+    label: 'isEqualTo',
+    value: '$eq'
+  },
+  NOT_EQUAL: {
+    label: 'isDifferentThan',
+    value: '$ne'
+  },
+  EMPTY: {
+    label: 'isEmpty',
+    value: '$null',
+    predefinedPattern: true
+  },
+  NOT_EMPTY: {
+    label: 'isNotEmpty',
+    value: '$notNull',
+    predefinedPattern: true
+  },
+  TRUE: {
+    label: 'isTrue',
+    value: '$eq',
+    predefinedPattern: true
+  },
+  FALSE: {
+    label: 'isFalse',
+    value: '$eq',
+    predefinedPattern: false
+  },
+  GREATER_THAN: {
+    label: 'isGreaterThan',
+    value: '$gt'
+  },
+  LOWER_THAN: {
+    label: 'isLowerThan',
+    value: '$lt'
+  },
+  GREATER_EQUAL_THAN: {
+    label: 'isGreaterThanOrEqualTo',
+    value: '$gte'
+  },
+  LOWER_EQUAL_THAN: {
+    label: 'isLowerThanOrEqualTo',
+    value: '$lte'
+  }
+}
+
+// Filterable types
+// Each one must have an "actions" array.
+// A "patternComponentOptions" attribute (object) can be added to customize the pattern component
+const COLUMN_FILTERS_CONFIG = {
+  [COLUMN_TYPE.BOOLEAN]: {
+    actions: [
+      ACTIONS.TRUE,
+      ACTIONS.FALSE,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ]
+  },
+  [COLUMN_TYPE.STRING]: {
+    actions: [
+      ACTIONS.MATCH,
+      ACTIONS.NOT_MATCH,
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ]
+  },
+  [COLUMN_TYPE.NUMBER]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.LOWER_THAN,
+      ACTIONS.LOWER_EQUAL_THAN,
+      ACTIONS.GREATER_THAN,
+      ACTIONS.GREATER_EQUAL_THAN
+    ]
+  },
+  [COLUMN_TYPE.FLOAT]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.LOWER_THAN,
+      ACTIONS.LOWER_EQUAL_THAN,
+      ACTIONS.GREATER_THAN,
+      ACTIONS.GREATER_EQUAL_THAN
+    ],
+    patternComponentOptions: { minFractionDigits: 2 }
+  }
+}
 
 export default {
   name: 'LCKFilterButton',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
+    'p-input-number': Vue.extend(InputNumber),
+    'p-input-float': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
     'p-overlay-panel': Vue.extend(OverlayPanel)
   },
@@ -207,9 +291,8 @@ export default {
   },
   data () {
     return {
-      // value: [],
+      columnFiltersConfig: COLUMN_FILTERS_CONFIG,
       operators: OPERATORS,
-      actions: ACTIONS,
       selectedOperator: OPERATORS[0].value
     }
   },
@@ -218,14 +301,18 @@ export default {
       if (this.definitionColumn?.length < 1) return []
       return this.definitionColumn.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
-        if (columnTypeId === COLUMN_TYPE.STRING) {
+        if (this.supportedTypes.includes(columnTypeId)) {
           acc.push({ value: id, label: text, type: columnTypeId })
         }
         return acc
       }, [])
+    },
+    supportedTypes () {
+      return Object.keys(this.columnFiltersConfig).map(action => parseInt(action))
     }
   },
   methods: {
+    getComponentEditableColumn,
     toggleFiltersPanel (event) {
       this.$refs.filtersPanel.toggle(event)
     },
@@ -254,12 +341,12 @@ export default {
         this.value.forEach(filter => (filter.operator = this.selectedOperator))
       }
     },
-    actionControlPattern (index, event) {
-      if (event.value === '$null') {
-        this.value[index].pattern = true
-      } else if (event.value === '$notNull') {
-        this.value[index].pattern = false
-      }
+    onChangeColumn (index) {
+      this.value[index].action = null
+      this.value[index].pattern = null
+    },
+    actionControlPattern (index, { value: { predefinedPattern } = {} }) {
+      this.value[index].pattern = predefinedPattern !== undefined ? predefinedPattern : null
     }
   }
 }

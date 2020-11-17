@@ -396,8 +396,8 @@ export default {
       this.block.loading = true
       const filters = this.currentDatatableFilters.map((filter, index) => ({
         // Override action $notNull with a valid query
-        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action !== '$notNull' ? filter.action : '$null'}]`,
-        value: ['$ilike', '$notILike'].includes(filter.action) ? `%${filter.pattern}%` : filter.pattern
+        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action.value}]`,
+        value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
       }))
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
