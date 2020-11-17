@@ -26,7 +26,8 @@ export default {
     },
     field: {
       type: String,
-      required: true
+      required: false,
+      default: 'label'
     }
   },
   components: {
