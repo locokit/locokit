@@ -82,8 +82,10 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-            style="width: 450px;"
+            style="width: calc(3rem + 450px);"
           >
+            <!---->
+             
             <!---->
             <!---->
             <!---->
