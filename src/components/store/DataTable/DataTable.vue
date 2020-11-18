@@ -165,8 +165,7 @@
                 'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
                 'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
               }"
-            >
-            </span>
+            />
           </template>
         </p-column>
 
