@@ -1,10 +1,10 @@
 <template>
   <p-dialog
     :visible="visible"
-    :style="{width: '450px'}"
+    :style="{width: '600px'}"
     :header="header"
     :modal="true"
-    :contentStyle="{ 'max-height': '60vh'}"
+    :contentStyle="{ 'max-height': '70vh'}"
     :closeOnEscape="true"
     class="p-fluid"
     @hide="$emit('close')"
