@@ -34,6 +34,7 @@
 
         :lazy="true"
         :loading="loading"
+        :cellState="cellState"
 
         editMode="cell"
         @cell-edit-complete="onCellEditComplete"
@@ -82,7 +83,6 @@
           :bodyStyle="{
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
             'position': 'relative',
             'height': '2.5rem'
           }"
@@ -156,9 +156,9 @@
           <template
             #body="slotProps"
           >
-            <div
+            <span
               class="cell-state"
-              style="pointer-events: none"
+              style="pointer-events: none;text-overflow: ellipsis"
               :class="{
                 'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
                 'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
@@ -167,7 +167,7 @@
               }"
             >
              {{ getValue(column, slotProps.data.data[column.id]) }}
-            </div>
+            </span>
           </template>
         </p-column>
 

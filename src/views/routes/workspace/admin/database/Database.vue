@@ -97,6 +97,8 @@
         :locked="currentView && currentView.locked"
         :crudMode="crudMode"
         :displayDetailButton="true"
+        :cellState="cellState"
+
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -106,7 +108,6 @@
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
         @open-detail="onOpenDetail"
-        :cellState="cellState"
       />
 
       <p-dialog

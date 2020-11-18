@@ -285,7 +285,7 @@ export const crudModeSavedOk = () => (
         block: tableViewData
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="block.cellState" />'
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="cellState" />'
   }
 )
 
