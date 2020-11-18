@@ -253,13 +253,13 @@ crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }
 
 export const crudModeWithSaving = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()
@@ -279,13 +279,13 @@ crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedOk = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()
@@ -307,13 +307,13 @@ crudModeSavedOk.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedError = () => (
   {
-    components: { CrudTable },
+    components: { 'lck-datatable': DataTable },
     data () {
       return {
         block: tableViewData
       }
     },
-    template: '<CrudTable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
     async mounted () {
       const crudElement = this.$refs['lck-datatable'].$el
       await Vue.nextTick()

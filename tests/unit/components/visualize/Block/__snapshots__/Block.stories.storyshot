@@ -101,13 +101,13 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           >
             <div
               class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable"
               style="width: calc(3rem + 450px);"
             >
               <!---->

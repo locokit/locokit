@@ -12,13 +12,13 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable is-reorderable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
@@ -245,13 +245,13 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable is-reorderable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
@@ -478,13 +478,13 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable is-reorderable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
@@ -711,13 +711,13 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable"
         style="width: 100%;"
       >
          
@@ -751,8 +751,8 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
                   colspan="0"
                 >
                   
-        Aucune donnée à afficher
-      
+          Aucune donnée à afficher
+        
                    
                   <!---->
                 </td>
@@ -872,13 +872,13 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
@@ -1097,13 +1097,13 @@ exports[`storyshots components/store/DataTable No content 1`] = `
     >
       <div
         class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        d-flex-1
-        p-flex-column
-        justify-between
-       p-datatable p-component p-datatable-resizable"
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          d-flex-1
+          p-flex-column
+          justify-between
+         p-datatable p-component p-datatable-resizable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
@@ -1144,8 +1144,8 @@ exports[`storyshots components/store/DataTable No content 1`] = `
                   colspan="0"
                 >
                   
-        Aucune donnée à afficher
-      
+          Aucune donnée à afficher
+        
                    
                   <!---->
                 </td>
