@@ -191,6 +191,7 @@
 
 <script>
 /* eslint-disable no-case-declarations */
+/* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
@@ -394,13 +395,11 @@ export default {
           break
       }
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     async onComplete ({ column_type_id, settings }, { query }) {
       this.$emit(
         'update-suggestions',
-        column_type_id,
-        settings?.tableId,
-        query
+        { column_type_id, settings },
+        { query }
       )
     },
     onColumnResize (event) {

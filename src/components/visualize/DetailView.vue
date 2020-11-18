@@ -15,7 +15,7 @@
       class="detail-view"
       :definition="definition"
       :row="row"
-      :autocompleteItems="autocompleteItems"
+      :autocompleteSuggestions="autocompleteSuggestions"
       @update-suggestions="updateLocalAutocompleteSuggestions"
       @update-row="onUpdateCell"
     />
@@ -49,7 +49,7 @@ export default Vue.extend({
   data () {
     return {
       definition: {},
-      autocompleteItems: null,
+      autocompleteSuggestions: null,
       row: {},
       rowId: this.$route.query?.rowId
     }
@@ -58,7 +58,7 @@ export default Vue.extend({
     searchItems: lckHelpers.searchItems,
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
-      this.autocompleteItems = await this.searchItems({
+      this.autocompleteSuggestions = await this.searchItems({
         // eslint-disable-next-line @typescript-eslint/camelcase
         columnTypeId: column_type_id,
         tableId: settings?.tableId,

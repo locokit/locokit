@@ -11,7 +11,7 @@
         v-for="block in container.blocks"
         :key="block.id"
         :block="block"
-        :autocompleteSuggestions="autocompleteItems"
+        :autocompleteSuggestions="autocompleteSuggestions"
         class="p-mb-4"
         v-on="$listeners"
         @update-cell="onUpdateCell(block, $event)"
@@ -114,10 +114,11 @@ export default {
       }
       block.loading = false
     },
-    async onUpdateSuggestions (columnTypeId, tableId, query) {
-      this.autocompleteItems = await this.searchItems({
-        columnTypeId,
-        tableId,
+    async onUpdateSuggestions ({ column_type_id, settings }, { query }) {
+      console.log('onUpdateSuggestions', column_type_id, settings, query)
+      this.autocompleteSuggestions = await this.searchItems({
+        columnTypeId: column_type_id,
+        tableId: settings?.tableId,
         query
       })
     },
