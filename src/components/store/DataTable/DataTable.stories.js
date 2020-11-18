@@ -256,10 +256,23 @@ export const crudModeWithSaving = () => (
     components: { 'lck-datatable': DataTable },
     data () {
       return {
-        block: tableViewData
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: true,
+          isValid: null
+        }
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" :cell-state="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: true,isValid: null}" />'
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
+
   }
 )
 
@@ -271,10 +284,22 @@ export const crudModeSavedOk = () => (
     components: { 'lck-datatable': DataTable },
     data () {
       return {
-        block: tableViewData
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: true
+        }
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: false,isValid: true}" />'
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
   }
 )
 
@@ -286,10 +311,22 @@ export const crudModeSavedError = () => (
     components: { 'lck-datatable': DataTable },
     data () {
       return {
-        block: tableViewData
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: false
+        }
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" :cell-state="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: false,isValid: false}"/>'
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
   }
 )
 
