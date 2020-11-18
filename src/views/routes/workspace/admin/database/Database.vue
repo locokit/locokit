@@ -27,7 +27,13 @@
       </p-tab-view>
 
       <div
-        class="p-p-1 p-d-flex p-jc-between p-flex-wrap lck-database-toolbar"
+        class="
+          p-p-1
+          p-d-flex
+          p-jc-between
+          p-flex-wrap
+          lck-database-toolbar
+        "
       >
         <div class="p-d-flex p-flex-wrap">
           <lck-view-button
@@ -204,7 +210,7 @@
         :closeOnEscape="true"
         class="p-fluid"
       >
-        <lck-dataDetail
+        <lck-data-detail
           :crudMode="crudMode"
           :definition="block.definition"
           :row="row"
@@ -276,7 +282,7 @@ export default {
     'lck-view-dialog': ViewDialog,
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
-    'lck-dataDetail': DataDetail,
+    'lck-data-detail': DataDetail,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -784,11 +790,6 @@ export default {
 
 /deep/ .p-tabview {
   border-bottom: 1px solid var(--header-border-bottom-color);
-}
-
-.lck-database-toolbar {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
 }
 
 .lck-database-background {
