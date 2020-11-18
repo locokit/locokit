@@ -56,7 +56,7 @@
         <p-input-number
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
           v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
@@ -65,7 +65,7 @@
           :is="getComponentEditableColumn(column.column_type_id)"
           :id="column.id"
           v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
         />
       </div>
 
