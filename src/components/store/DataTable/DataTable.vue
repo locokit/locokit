@@ -156,9 +156,9 @@
           <template
             #body="slotProps"
           >
+            {{ getValue(column, slotProps.data.data[column.id]) }}
             <span
               class="cell-state"
-              style="pointer-events: none;text-overflow: ellipsis"
               :class="{
                 'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
                 'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
@@ -166,7 +166,6 @@
                 'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
               }"
             >
-             {{ getValue(column, slotProps.data.data[column.id]) }}
             </span>
           </template>
         </p-column>

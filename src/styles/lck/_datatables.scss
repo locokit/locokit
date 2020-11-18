@@ -4,10 +4,11 @@
   min-width: 5rem;
 
   .cell-state {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: block;
-    overflow: hidden;
-    margin: -0.5rem;
     padding: 0.5rem;
 
     &.saving,
@@ -63,9 +64,6 @@
       overflow: hidden;
       cursor: wait;
       color: #666666;
-
-      &:before {
-      }
 
       &:after {
         position: absolute;
