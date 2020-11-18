@@ -611,7 +611,7 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color)
+  background-color: var(--primary-color-lighten)
 }
 
 .p-datatable th:hover .p-sortable-column-icon {
