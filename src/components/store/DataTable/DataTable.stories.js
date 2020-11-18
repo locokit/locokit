@@ -264,7 +264,7 @@ export const crudModeWithSaving = () => (
 )
 
 crudModeWithSaving.storyName = 'CRUD mode, edition state saving'
-kecrudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
+crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedOk = () => (
   {
