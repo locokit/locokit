@@ -11,6 +11,8 @@
           ...block
         }"
         :display-detail-button="displayDetailButton"
+        :add-allowed="addAllowed"
+        :export-allowed="exportAllowed"
       />
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}
@@ -26,7 +28,7 @@
 import Vue, { PropType } from 'vue'
 import { BLOCK_TYPE, Block, BlockTableView } from '@locokit/lck-glossary'
 
-import TableView from '@/components/store/DataTable/DataTable.vue'
+import TableView from '@/components/visualize/TableView/TableView.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 import Media from '@/components/visualize/Media/Media.vue'
@@ -50,7 +52,15 @@ export default Vue.extend({
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
-      return (this.block as BlockTableView).settings?.pageDetailId
+      return !!(this.block as BlockTableView).settings?.pageDetailId
+    },
+    addAllowed () {
+      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
+      return (this.block as BlockTableView).settings?.addAllowed
+    },
+    exportAllowed () {
+      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
+      return (this.block as BlockTableView).settings?.exportAllowed
     }
   },
   props: {

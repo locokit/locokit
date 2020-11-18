@@ -31,15 +31,11 @@ export function getComponentEditableColumn (columnTypeId: number) {
 }
 
 export function isEditableColumn (crudMode: boolean, column: Column) {
-  if (crudMode) {
-    switch (column.column_type_id) {
-      case COLUMN_TYPE.LOOKED_UP_COLUMN:
-      case COLUMN_TYPE.FORMULA:
-        return false
-      default:
-        return true
-    }
-  } else {
-    return column.editable
+  switch (column.column_type_id) {
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
+    case COLUMN_TYPE.FORMULA:
+      return false
+    default:
+      return crudMode || column.editable
   }
 }
