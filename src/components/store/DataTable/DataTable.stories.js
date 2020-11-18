@@ -285,20 +285,7 @@ export const crudModeSavedOk = () => (
         block: tableViewData
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
-    async mounted () {
-      const crudElement = this.$refs['lck-datatable'].$el
-      await Vue.nextTick()
-      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
-      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
-      setTimeout(() => {
-        inputCellSecondRow.click()
-        inputCellSecondRow.click()
-      }, 500)
-      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
-      inputCellFirstRowState.classList.add("saved")
-      inputCellFirstRowState.classList.add("valid")
-    }
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="block.cellState" />'
   }
 )
 

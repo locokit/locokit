@@ -95,15 +95,8 @@
         :autocompleteSuggestions="crudAutocompleteItems"
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
-<<<<<<< HEAD
-<<<<<<< HEAD
         :crudMode="crudMode"
         :displayDetailButton="true"
-=======
-        :waiting="waiting"
->>>>>>> Add class only on the good cell
-=======
->>>>>>> Props name change
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -112,11 +105,8 @@
         @column-reorder="onColumnReorder"
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
-<<<<<<< HEAD
         @open-detail="onOpenDetail"
-=======
         :cellState="cellState"
->>>>>>> Props name change
       />
 
       <p-dialog
@@ -725,64 +715,9 @@ export default {
         query
       })
     },
-<<<<<<< HEAD
-    async onUpdateCell ({ rowId, columnId, newValue }) {
-      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
-
-=======
-    async searchItems ({ columnTypeId, tableId, query }) {
-      let items = null
-      if (columnTypeId === COLUMN_TYPE.USER) {
-        const result = await lckServices.user.find({
-          query: {
-            blocked: false,
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      } else if (columnTypeId === COLUMN_TYPE.GROUP) {
-        const result = await lckServices.group.find({
-          query: {
-            name: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.name,
-          value: d.id
-        }))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
-        const result = await lckServices.tableRow.find({
-          query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            table_id: tableId,
-            text: {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        items = result.data.map(d => ({
-          label: d.text,
-          value: d.id
-        }))
-      }
-      return items
-    },
     async onUpdateCell ({ rowIndex, columnId, newValue }) {
       const currentRow = this.block.content.data[rowIndex]
-<<<<<<< HEAD
-      this.waiting = { rowId: currentRow.id, columnId }
->>>>>>> Add class only on the good cell
-=======
       this.cellState = { rowId: currentRow.id, columnId, waiting: true }
->>>>>>> Props name change
       const data = {
         data: {
           [columnId]: newValue
@@ -791,7 +726,7 @@ export default {
       const res = await patchTableData(currentRow.id, data)
       this.cellState.isValid = !!res
       currentRow.data = res.data
-      //const currentRow = this.block.content.data[rowIndex]
+      // const currentRow = this.block.content.data[rowIndex]
 
       this.cellState = {
         rowId: currentRow.id,
