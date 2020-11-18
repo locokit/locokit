@@ -1,18 +1,21 @@
 <template>
   <div
     v-if="row && row.data"
-    style="max-width: 600px;margin: auto;"
   >
     <p-button
       @click="$router.go(-1)"
       class="p-button-link"
-    >
-      {{ $t('components.detailview.goback') }}
-    </p-button>
+      icon="pi pi-arrow-circle-left"
+      iconPos="left"
+      style="padding-left: 0"
+      :label="$t('components.detailview.goback')"
+    />
+
     <lck-data-detail
+      class="detail-view"
       :definition="definition"
       :row="row"
-      :autocompleteItems="autocompleteItems"
+      :autocompleteSuggestions="autocompleteSuggestions"
       @update-suggestions="updateLocalAutocompleteSuggestions"
       @update-row="onUpdateCell"
     />
@@ -33,7 +36,7 @@ export default Vue.extend({
   name: 'DetailView',
   components: {
     'lck-data-detail': DataDetail,
-    'p-button': Button
+    'p-button': Vue.extend(Button)
   },
   props: {
     settings: {
@@ -46,7 +49,7 @@ export default Vue.extend({
   data () {
     return {
       definition: {},
-      autocompleteItems: null,
+      autocompleteSuggestions: null,
       row: {},
       rowId: this.$route.query?.rowId
     }
@@ -55,7 +58,7 @@ export default Vue.extend({
     searchItems: lckHelpers.searchItems,
     // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
-      this.autocompleteItems = await this.searchItems({
+      this.autocompleteSuggestions = await this.searchItems({
         // eslint-disable-next-line @typescript-eslint/camelcase
         columnTypeId: column_type_id,
         tableId: settings?.tableId,
@@ -77,3 +80,13 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.detail-view {
+  max-width: 600px;
+  margin: auto;
+  border: 1px solid gray;
+  padding: 0 1rem;
+  border-radius: 2px;
+}
+</style>

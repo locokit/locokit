@@ -48,7 +48,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 60vh;"
+        style="max-height: 70vh;"
       >
         <div
           class="p-field"
@@ -194,7 +194,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 60vh;"
+        style="max-height: 70vh;"
       >
         <div
           class="p-field"

@@ -191,6 +191,7 @@
 
 <script>
 /* eslint-disable no-case-declarations */
+/* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
@@ -394,13 +395,11 @@ export default {
           break
       }
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     async onComplete ({ column_type_id, settings }, { query }) {
       this.$emit(
         'update-suggestions',
-        column_type_id,
-        settings?.tableId,
-        query
+        { column_type_id, settings },
+        { query }
       )
     },
     onColumnResize (event) {
@@ -550,7 +549,7 @@ export default {
          * Here, we remove the style attribute from the table DOM Element.
          * Related to https://gitlab.makina-corpus.net/lck/lck-front/-/issues/150
          */
-        const tableWithStyle = this.$refs['p-datatable'].$el.querySelector('table[style]')
+        const tableWithStyle = this.$refs['p-datatable']?.$el.querySelector('table[style]')
         if (tableWithStyle) {
           tableWithStyle.removeAttribute('style')
         }
@@ -611,7 +610,7 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color)
+  background-color: var(--primary-color-lighten)
 }
 
 .p-datatable th:hover .p-sortable-column-icon {

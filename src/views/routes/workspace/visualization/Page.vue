@@ -11,7 +11,8 @@
         v-for="block in container.blocks"
         :key="block.id"
         :block="block"
-        :autocompleteSuggestions="autocompleteItems"
+        :autocompleteSuggestions="autocompleteSuggestions"
+        :exporting="exporting"
         class="p-mb-4"
         v-on="$listeners"
         @update-cell="onUpdateCell(block, $event)"
@@ -19,14 +20,19 @@
         @update-suggestions="onUpdateSuggestions"
         @sort="onSort(block, $event)"
         @open-detail="onPageDetail(block, $event)"
+        @create-row="onCreateRow(block, $event)"
+        @export-view="onExportView(block)"
       />
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/camelcase */
 
-import { BLOCK_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import saveAs from 'file-saver'
+import { lckHelpers } from '@/services/lck-api'
 
 import {
   retrievePageWithContainersAndBlocks,
@@ -34,11 +40,11 @@ import {
   retrieveViewData
 } from '@/store/visualize'
 import {
-  patchTableData
+  patchTableData, saveTableData
 } from '@/store/database'
-import { lckHelpers } from '@/services/lck-api'
 
 import Block from '@/components/visualize/Block/Block'
+import { formatISO } from 'date-fns'
 
 export default {
   name: 'Page',
@@ -55,7 +61,8 @@ export default {
       blocksOptions: {
 
       },
-      autocompleteItems: null
+      autocompleteSuggestions: null,
+      exporting: false
     }
   },
   watch: {
@@ -114,10 +121,10 @@ export default {
       }
       block.loading = false
     },
-    async onUpdateSuggestions (columnTypeId, tableId, query) {
-      this.autocompleteItems = await this.searchItems({
-        columnTypeId,
-        tableId,
+    async onUpdateSuggestions ({ column_type_id, settings }, { query }) {
+      this.autocompleteSuggestions = await this.searchItems({
+        columnTypeId: column_type_id,
+        tableId: settings?.tableId,
         query
       })
     },
@@ -156,6 +163,46 @@ export default {
     },
     async onPageDetail (block, rowId) {
       await this.$router.push(`${block.settings.pageDetailId}?rowId=${rowId}`)
+    },
+    async onCreateRow (block, newRow) {
+      this.$set(block, 'submitting', true)
+      const dataToSubmit = {
+        data: {
+          ...newRow.data
+        }
+      }
+      /**
+       * For date columns, we format the date to ISO, date only
+       */
+      block.definition.columns
+        .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
+        .forEach(c => {
+          if (newRow.data[c.id] instanceof Date) {
+            dataToSubmit.data[c.id] = formatISO(newRow.data[c.id], { representation: 'date' })
+          } else {
+            dataToSubmit.data[c.id] = null
+          }
+        })
+      await saveTableData({
+        ...dataToSubmit,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        table_id: block.definition.table_id
+      })
+      this.$set(block, 'submitting', false)
+      this.$set(block, 'displayNewDialog', false)
+      await this.loadBlockTableViewContent(block)
+    },
+    async onExportView (block) {
+      if (!block.settings?.id) return
+      this.exporting = true
+      const data = await lckHelpers.exportTableRowData(block.settings?.id)
+      saveAs(
+        new Blob([data]),
+        block.title + '.csv',
+        {
+          type: 'text/csv;charset=utf-8'
+        })
+      this.exporting = false
     }
   }
 }

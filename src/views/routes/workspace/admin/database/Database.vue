@@ -27,7 +27,13 @@
       </p-tab-view>
 
       <div
-        class="p-p-1 p-d-flex p-jc-between p-flex-wrap lck-database-toolbar"
+        class="
+          p-p-1
+          p-d-flex
+          p-jc-between
+          p-flex-wrap
+          lck-database-toolbar
+        "
       >
         <div class="p-d-flex p-flex-wrap">
           <lck-view-button
@@ -125,7 +131,7 @@
               :dropdown="true"
               :placeholder="$t('components.datatable.placeholder')"
               field="label"
-              :suggestions="autocompleteItems"
+              :suggestions="autocompleteSuggestions"
               @search="updateLocalAutocompleteSuggestions(column, $event)"
               v-model="autocompleteInput[column.id]"
               @item-select="newRow.data[column.id] = $event.value.value"
@@ -204,11 +210,11 @@
         :closeOnEscape="true"
         class="p-fluid"
       >
-        <lck-dataDetail
+        <lck-data-detail
           :crudMode="crudMode"
           :definition="block.definition"
           :row="row"
-          :autocompleteItems="autocompleteItems"
+          :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
         />
@@ -276,7 +282,7 @@ export default {
     'lck-view-dialog': ViewDialog,
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
-    'lck-dataDetail': DataDetail,
+    'lck-data-detail': DataDetail,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -328,7 +334,7 @@ export default {
       },
       currentDatatableFilters: [],
       currentPageIndex: 0,
-      autocompleteItems: null,
+      autocompleteSuggestions: null,
       autocompleteInput: {},
       crudAutocompleteItems: null,
       /**
@@ -693,19 +699,17 @@ export default {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
-      this.autocompleteItems = await this.searchItems({
-        // eslint-disable-next-line @typescript-eslint/camelcase
+      this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: column_type_id,
         tableId: settings?.tableId,
         query
       })
     },
-    async updateCRUDAutocompleteSuggestions (columnTypeId, tableId, query) {
+    async updateCRUDAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
-        columnTypeId,
-        tableId,
+        columnTypeId: column_type_id,
+        tableId: settings?.tableId,
         query
       })
     },
@@ -786,11 +790,6 @@ export default {
   border-bottom: 1px solid var(--header-border-bottom-color);
 }
 
-.lck-database-toolbar {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
-}
-
 .lck-database-background {
   content: "";
   background-repeat: no-repeat;
@@ -804,4 +803,8 @@ export default {
   pointer-events: none;
 }
 
+.lck-database-toolbar {
+  border-bottom: 1px solid var(--header-border-bottom-color);
+  background-color: var(--header-background-color);
+}
 </style>

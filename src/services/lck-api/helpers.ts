@@ -138,7 +138,7 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
   return items
 }
 
-export async function exportTableRowData (tableViewId: string, filters: []) {
+export async function exportTableRowData (tableViewId: string, filters: [] = []) {
   const rowsPerRequest = 20
   const { columns } = await lckServices.tableView.get(tableViewId, {
     query: {

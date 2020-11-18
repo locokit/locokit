@@ -48,7 +48,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 60vh;"
+        style="max-height: 70vh;"
       />
        
       <div
@@ -147,7 +147,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 60vh;"
+        style="max-height: 70vh;"
       >
         
         This is the dialog content

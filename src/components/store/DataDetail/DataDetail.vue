@@ -1,9 +1,10 @@
 <template>
   <div
-    style="padding-bottom: 10rem"
+    style="padding-bottom: 10rem;"
     class="p-fluid"
     v-if="row"
   >
+    <h2> {{ row.text }} </h2>
     <div
       class="p-field"
       v-for="column in definition.columns"
@@ -18,9 +19,9 @@
           :dropdown="true"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
-          :suggestions="autocompleteItems"
+          :suggestions="autocompleteSuggestions"
           @search="onComplete(column, $event)"
-          :value="row.data[column.id] && row.data[column.id].value"
+          v-model="autocompleteInput[column.id]"
           @item-select="onAutocompleteEdit(row.id, column.id, $event)"
         />
         <p-dropdown
@@ -55,7 +56,7 @@
         <p-input-number
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
           v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
@@ -64,7 +65,7 @@
           :is="getComponentEditableColumn(column.column_type_id)"
           :id="column.id"
           v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
         />
       </div>
 
@@ -108,7 +109,7 @@ import { lckHelpers } from '@/services/lck-api'
 export default {
   name: 'LckDataDetail',
   props: {
-    autocompleteItems: {
+    autocompleteSuggestions: {
       type: Array
     },
     row: {
@@ -191,11 +192,12 @@ export default {
     getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
     // eslint-disable-next-line @typescript-eslint/camelcase
     onComplete ({ column_type_id, settings }, { query }) {
-      this.$emit('update-suggestions', {
+      this.$emit(
+        'update-suggestions', {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        column_type_id,
-        settings
-      }, { query })
+          column_type_id,
+          settings
+        }, { query })
     },
     async onAutocompleteEdit (rowId, columnId, event) {
       await this.onEdit(rowId, columnId, event.value.value)
@@ -213,16 +215,32 @@ export default {
         columnId,
         newValue: value
       })
-    },
-    updateAutocompleteField (rowData, columnId, event) {
-      console.log(event)
-      if (!rowData[columnId]) {
-        rowData[columnId] = {
-          value: event.value
+    }
+  },
+  watch: {
+    row: {
+      handler (newRef, oldRef) {
+        if (newRef !== oldRef) {
+          /**
+         * we go through every data prop,
+         * and init the autocompleteInput if needed
+         */
+          if (newRef.data) {
+            this.autocompleteInput = {}
+            Object.keys(newRef.data).forEach((columnId) => {
+              const currentColumnDefinition = this.columnsEnhanced[columnId]
+              switch (currentColumnDefinition.column_type_id) {
+                case COLUMN_TYPE.USER:
+                case COLUMN_TYPE.GROUP:
+                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                  this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                  break
+              }
+            })
+          }
         }
-      } else {
-        rowData[columnId].value = event.value
-      }
+      },
+      immediate: true
     }
   }
 }
