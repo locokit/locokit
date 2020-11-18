@@ -550,7 +550,7 @@ export default {
          * Here, we remove the style attribute from the table DOM Element.
          * Related to https://gitlab.makina-corpus.net/lck/lck-front/-/issues/150
          */
-        const tableWithStyle = this.$refs['p-datatable'].$el.querySelector('table[style]')
+        const tableWithStyle = this.$refs['p-datatable']?.$el.querySelector('table[style]')
         if (tableWithStyle) {
           tableWithStyle.removeAttribute('style')
         }
