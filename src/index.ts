@@ -155,4 +155,6 @@ export interface KanbanSettings {
 export interface TableViewSettings {
   id: string; // Id of the table_view in database
   pageDetailId: string; // Id of the page to open for detail purpose
+  addAllowed: boolean; // Allow the user to create a row from this table view
+  exportAllowed: boolean; // Allow the user to export data from this table view
 }

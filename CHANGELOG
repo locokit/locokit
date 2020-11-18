@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.1.3**
+
+* add `addAllowed` and `exportAllowed` for `TableViewSettings`
+
 **v0.1.2**
 
 * add `pageDetailId` for `TableViewSettings`
