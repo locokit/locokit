@@ -719,17 +719,6 @@ export default {
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
 
-      this.cellState = { rowId, columnId, waiting: true }
-      const data = {
-        data: {
-          [columnId]: newValue
-        }
-      }
-      const res = await patchTableData(currentRow.id, data)
-      this.cellState.isValid = !!res
-      currentRow.data = res.data
-      // const currentRow = this.block.content.data[rowIndex]
-
       this.cellState = {
         rowId: currentRow.id,
         columnId,
