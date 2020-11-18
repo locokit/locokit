@@ -716,9 +716,10 @@ export default {
         query
       })
     },
-    async onUpdateCell ({ rowIndex, columnId, newValue }) {
-      const currentRow = this.block.content.data[rowIndex]
-      this.cellState = { rowId: currentRow.id, columnId, waiting: true }
+    async onUpdateCell ({ rowId, columnId, newValue }) {
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+
+      this.cellState = { rowId, columnId, waiting: true }
       const data = {
         data: {
           [columnId]: newValue

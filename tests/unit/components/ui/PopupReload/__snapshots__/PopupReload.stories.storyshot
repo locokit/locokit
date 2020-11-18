@@ -6,14 +6,14 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
 >
   <div
     class="p-dialog-mask p-dialog-bottomright"
-    style="z-index: 1015;"
+    style="z-index: 1014;"
   >
     <div
       aria-labelledby="pv_id_8_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1016;"
+      style="z-index: 1015;"
     >
       <div
         class="p-dialog-header"

@@ -259,23 +259,12 @@ export const crudModeWithSaving = () => (
         block: tableViewData
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
-    async mounted () {
-      const crudElement = this.$refs['lck-datatable'].$el
-      await Vue.nextTick()
-      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
-      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
-      setTimeout(() => {
-        inputCellSecondRow.click()
-      }, 500)
-      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
-      inputCellFirstRowState.classList.add('saving')
-    }
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" :cell-state="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: true,isValid: null}" />'
   }
 )
 
 crudModeWithSaving.storyName = 'CRUD mode, edition state saving'
-crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
+kecrudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedOk = () => (
   {
@@ -285,7 +274,7 @@ export const crudModeSavedOk = () => (
         block: tableViewData
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="cellState" />'
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" :cellState="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: false,isValid: true}" />'
   }
 )
 
@@ -300,19 +289,7 @@ export const crudModeSavedError = () => (
         block: tableViewData
       }
     },
-    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" />',
-    async mounted () {
-      const crudElement = this.$refs['lck-datatable'].$el
-      await Vue.nextTick()
-      const inputCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(1)')
-      const inputCellSecondRow = crudElement.querySelector('table > tbody > tr > td:nth-child(2)')
-      setTimeout(() => {
-        inputCellSecondRow.click()
-      }, 500)
-      const inputCellFirstRowState = crudElement.querySelector('table > tbody > tr > td:nth-child(1) > div')
-      inputCellFirstRowState.classList.add("saved")
-      inputCellFirstRowState.classList.add("error")
-    }
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :crud-mode="true" ref="lck-datatable" :cell-state="{rowId: \'38ed19db-588d-4ca1-8ab3-c8b17d60db2d\',columnId: \'e065323c-1151-447f-be0f-6d2728117b38\',waiting: false,isValid: false}"/>'
   }
 )
 
