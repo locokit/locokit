@@ -85,45 +85,9 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           <div
             class="p-d-flex p-flex-wrap"
           >
-            <button
-              class="p-mr-2 p-button p-component"
-              type="button"
-            >
-              <span
-                class="pi pi-plus-circle p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Ajouter
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
+            <!---->
              
-            <button
-              class="p-button-secondary p-button p-component"
-              type="button"
-            >
-              <span
-                class="pi pi-download p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Export
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
+            <!---->
           </div>
         </div>
          
