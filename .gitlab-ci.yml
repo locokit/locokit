@@ -4,8 +4,9 @@ pages:
   script:
     - npm ci
     - npm run build
+    - mv docs/.vitepress/dist public/
   artifacts:
     paths:
-      - docs/.vitepress/dist
+      - public
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
