@@ -6,6 +6,6 @@ pages:
     - npm run build
   artifacts:
     paths:
-      - public
+      - docs/.vitepress/dist
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
