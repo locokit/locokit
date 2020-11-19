@@ -2,7 +2,7 @@ image: "node:lts-alpine"
 
 pages:
   variables:
-    - BASE_URL: '/lck-docs/'
+    BASE_URL: '/lck-docs/'
   script:
     - npm ci
     - npm run build
