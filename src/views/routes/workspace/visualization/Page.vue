@@ -13,6 +13,7 @@
         :block="block"
         :autocompleteSuggestions="autocompleteSuggestions"
         :exporting="exporting"
+        :cellState="cellState"
         class="p-mb-4"
         v-on="$listeners"
         @update-cell="onUpdateCell(block, $event)"
@@ -62,7 +63,8 @@ export default {
 
       },
       autocompleteSuggestions: null,
-      exporting: false
+      exporting: false,
+      cellState: {}
     }
   },
   watch: {
@@ -141,13 +143,24 @@ export default {
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
       const currentRow = currentBlock.content.data.find(d => d.id === rowId)
-      const data = {
-        data: {
-          [columnId]: newValue
-        }
+      this.cellState = {
+        rowId: currentRow.id,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
       }
-      const res = await patchTableData(currentRow.id, data)
-      currentRow.data = res.data
+      try {
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newValue
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+      }
+      this.cellState.waiting = false
     },
     async onSort (block, { field, order }) {
       block.loading = true

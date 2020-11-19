@@ -34,6 +34,7 @@
 
         :lazy="true"
         :loading="loading"
+        :cellState="cellState"
 
         editMode="cell"
         @cell-edit-complete="onCellEditComplete"
@@ -82,7 +83,6 @@
           :bodyStyle="{
             width: ( ( column.display && column.display.width ) || '150' ) + 'px',
             'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
             'position': 'relative',
             'height': '2.5rem'
           }"
@@ -156,12 +156,16 @@
           <template
             #body="slotProps"
           >
+            {{ getValue(column, slotProps.data.data[column.id]) }}
             <span
-              style="pointer-events: none"
-              :title="getValue(column, slotProps.data.data[column.id])"
-            >
-              {{ getValue(column, slotProps.data.data[column.id]) }}
-            </span>
+              class="cell-state"
+              :class="{
+                'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
+                'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
+                'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
+                'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
+              }"
+            />
           </template>
         </p-column>
 
@@ -265,6 +269,17 @@ export default {
     displayDetailButton: {
       type: Boolean,
       default: false
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
     }
   },
   data () {

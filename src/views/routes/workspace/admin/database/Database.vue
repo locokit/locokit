@@ -97,6 +97,8 @@
         :locked="currentView && currentView.locked"
         :crudMode="crudMode"
         :displayDetailButton="true"
+        :cellState="cellState"
+
         @update-content="onUpdateContent"
         @update-suggestions="updateCRUDAutocompleteSuggestions"
         @update-cell="onUpdateCell"
@@ -307,6 +309,7 @@ export default {
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
       crudMode: true,
+      cellState: {},
       block: {
         loading: false,
         content: {
@@ -716,13 +719,24 @@ export default {
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
 
-      const data = {
-        data: {
-          [columnId]: newValue
-        }
+      this.cellState = {
+        rowId: currentRow.id,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
       }
-      const res = await patchTableData(currentRow.id, data)
-      currentRow.data = res.data
+      try {
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newValue
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+      }
+      this.cellState.waiting = false
     }
   },
   async mounted () {
