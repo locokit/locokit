@@ -1,6 +1,7 @@
 image: "node:lts-alpine"
 
 pages:
+  tags: [shared-ci-docker]
   variables:
     BASE_URL: '/lck-docs/'
   script:
