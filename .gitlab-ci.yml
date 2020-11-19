@@ -87,12 +87,12 @@ deploy-vlog-staging:
 deploy-storybook:
   tags: [shared-ci-docker]
   dependencies:
-    - build
+    - storybook:build
   stage: deploy
   only:
     - merge_requests
   script:
-    - npx surge storybook-build lck-storybook-${CI_COMMIT_REF_SLUG}.surge.sh
+    - npx surge storybook-static lck-storybook-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-storybook-${CI_COMMIT_REF_SLUG}
     url: http://lck-storybook-${CI_COMMIT_REF_SLUG}.surge.sh
