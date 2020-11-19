@@ -1,0 +1,11 @@
+image: "node:lts-alpine"
+
+pages:
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
