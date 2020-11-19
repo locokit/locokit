@@ -1,14 +1,15 @@
+console.log(process.env)
 module.exports = {
   title: 'LocoKit documentation',
   description: 'Documentation of the Low-Code Kit platform, store, share, visualize your data',
+  base: process.env.BASE_URL ? process.env.BASE_URL : '',
   themeConfig: {
     author: 'Mathieu DARTIGUES',
-    search: true,
     sidebar: [{
       link: '/',
       text: 'Home'
     }, {
-      text: 'Users and groups',
+      text: 'Admin manual',
       link: '/admin-manual/',
       children: [{
         link: '/admin-manual/cicd',
@@ -30,15 +31,25 @@ module.exports = {
         text: 'Visualization'
       }]
     }, {
+      text: 'User manual',
+      link: '/user-manual/',
+      children: [{
+        link: '/user-manual/admin/users',
+        text: 'User management'
+      }]
+    }, {
       link: '/roadmap',
       text: 'Roadmap'
+    }, {
+      link: '/storybook',
+      text: 'Storybook'
     }],
     nav: [
       { text: 'Home', link: '/' },
       { text: 'User manual', link: '/user-manual/' },
       { text: 'Admin manual', link: '/admin-manual/' },
       { text: 'Swagger API', link: '/swagger' },
-      { text: 'Storybook Front', link: '/storybook' },
+      { text: 'Storybook Front', link: 'http://lck-storybook.surge.sh' },
       { text: 'Repo gitlab', link: 'https://gitlab.com/locokit/' },
     ],
   },
