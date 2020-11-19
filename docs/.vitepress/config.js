@@ -1,4 +1,3 @@
-console.log(process.env)
 module.exports = {
   title: 'LocoKit documentation',
   description: 'Documentation of the Low-Code Kit platform, store, share, visualize your data',

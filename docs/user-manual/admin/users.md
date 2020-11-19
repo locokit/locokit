@@ -4,17 +4,17 @@ You can create a user by going on the Administration panel.
 
 This panel is only available for users with the `SUPERADMIN` profile.
 
-![](assets/lck-panel-admin.png)
+![](./assets/lck-panel-admin.png)
 
 Then you access the management page, with users and groups.
 
 To create a user, click on the "Add user" button :
 
-![](assets/lck-add-user.png)
+![](./assets/lck-add-user.png)
 
 Then fill the form :
 
-![](assets/lck-user-form.png)
+![](./assets/lck-user-form.png)
 
 Once this is done, the user will receive an email in its mailbox.
 
