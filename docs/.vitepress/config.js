@@ -46,9 +46,6 @@ module.exports = {
     }],
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'User manual', link: '/user-manual/' },
-      { text: 'Admin manual', link: '/admin-manual/' },
-      { text: 'Swagger API', link: '/swagger' },
       { text: 'Storybook Front', link: 'http://lck-storybook.surge.sh' },
       { text: 'Repo gitlab', link: 'https://gitlab.com/locokit/' },
     ],
