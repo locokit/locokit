@@ -98,6 +98,19 @@ deploy-storybook:
     url: http://lck-storybook-${CI_COMMIT_REF_SLUG}.surge.sh
     on_stop: teardown-storybook
 
+deploy-storybook-master:
+  tags: [shared-ci-docker]
+  dependencies:
+    - storybook:build
+  stage: deploy
+  only:
+    - master
+  script:
+    - npx surge storybook-static lck-storybook.surge.sh
+  environment:
+    name: review/lck-storybook
+    url: http://lck-storybook.surge.sh
+
 teardown-vlog-staging:
   tags: [shared-ci-docker]
   stage: deploy
