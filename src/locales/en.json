@@ -172,7 +172,7 @@
           "uppercase": "A uppercase",
           "lowercase": "A lowercase",
           "digits": "A digit",
-          "symbols": "A special character spécial such as: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+          "symbols": "A special character such as: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
         },
         "prompt": "Enter a password",
         "passwordStrength": {
