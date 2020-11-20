@@ -15,6 +15,7 @@ module.exports = {
 
     config.resolve.alias = {
       'vue$': 'vue/dist/vue.esm.js',
+      '@/services/lck-api/definitions': path.resolve(__dirname, "../src/services/lck-api/definitions"),
       '@/services/lck-api': path.resolve(__dirname, "../src/services/lck-api/__mocks__"),
       '@': path.resolve(__dirname, "../src/")
     }
