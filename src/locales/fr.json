@@ -187,14 +187,20 @@
         "cancel": "Annuler",
         "create": "Créer"
       },
-      "updateTableModal": {
+      "updateTableSidebar": {
         "updateTable": "Modifier une table",
         "tableName": "Nom de la table",
         "columnName": "Nom de la colonne",
-        "selectColumnType": "Sélectionner un type de colonne",
-        "createColumn": "Ajouter",
+        "columnType": "Type de colonne",
+        "createColumn": "Créer une colonne",
         "updateColumn": "Modifier",
-        "close": "Fermer",
+        "close": "Fermer"
+      },
+      "createColumnModal": {
+        "createColumn": "Créer une colonne",
+        "columnName": "Nom de la colonne",
+        "columnType": "Type de colonne",
+        "selectColumnType": "Sélectionner un type de colonne",
         "errorNoData": "Veuillez renseigner les champs"
       }
     },
