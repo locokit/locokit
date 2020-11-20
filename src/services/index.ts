@@ -6,7 +6,6 @@ import workspace from './workspace/workspace.service'
 import database from './database/database.service'
 import table from './table/table.service'
 import group from './group/group.service'
-import permission from './permission/permission.service'
 import page from './page/page.service'
 import block from './block/block.service'
 import chapter from './chapter/chapter.service'
@@ -32,7 +31,6 @@ export default function (app: Application) {
   app.configure(database)
   app.configure(table)
   app.configure(group)
-  app.configure(permission)
   app.configure(page)
   app.configure(block)
   app.configure(chapter)
