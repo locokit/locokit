@@ -206,7 +206,7 @@ import {
   logout
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
-import { regexPasswordRules } from '@/services/regex'
+import { regexPasswordRules } from '@/services/lck-utils/regex'
 
 export default {
   name: 'Profile',
