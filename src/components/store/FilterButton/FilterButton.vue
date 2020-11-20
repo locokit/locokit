@@ -24,7 +24,7 @@
             <p-button
               icon="pi pi-trash"
               class="p-button-rounded p-button-danger p-button-text p-button-sm"
-              @click="removeFilter(filter)"
+              @click.stop="removeFilter(filter)"
             />
           </div>
           <div
