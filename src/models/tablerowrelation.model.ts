@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, JSONSchema } from 'objection'
+import { BaseModel } from './base.model'
+import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 
-export class TableRowRelation extends Model {
-  createdAt!: string;
-  updatedAt!: string;
+export class TableRowRelation extends BaseModel {
   table_row_from_id!: string;
   table_row_to_id!: string;
   table_column_to_id!: string;

@@ -6,11 +6,9 @@ import { Application } from '../declarations'
 import { Process } from './process.model'
 import { ProcessExecution } from './process_execution.model'
 import { TableColumn } from './tablecolumn.model'
+import { BaseModel } from './base.model'
 
-export class ProcessTrigger extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  id!: string;
+export class ProcessTrigger extends BaseModel {
   text?: string;
   automatic!: boolean;
   settings?: object;

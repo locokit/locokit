@@ -1,12 +1,10 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
 import { Application } from '../declarations'
+import { BaseModel } from './base.model'
 
-export class block extends Model {
-  createdAt!: string;
-  updatedAt!: string;
+export class block extends BaseModel {
   title?: string;
   container_id!: string;
   type!: string;
@@ -30,14 +28,6 @@ export class block extends Model {
         settings: { type: ['object', 'null'] }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

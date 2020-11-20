@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, JSONSchema } from 'objection'
+import { BaseModel } from './base.model'
+import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 
-class Usergroup extends Model {
-  createdAt!: string;
-  updatedAt!: string;
+class Usergroup extends BaseModel {
   uhg_role!:string;
   user_id!:number;
   group_id!:string;

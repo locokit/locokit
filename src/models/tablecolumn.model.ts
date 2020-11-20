@@ -2,6 +2,7 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
@@ -12,10 +13,7 @@ export interface SelectValue {
   backgroundColor: string;
 }
 
-export class TableColumn extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class TableColumn extends BaseModel {
   text!: string;
   reference!: boolean;
   reference_position!: number;
@@ -96,14 +94,6 @@ export class TableColumn extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

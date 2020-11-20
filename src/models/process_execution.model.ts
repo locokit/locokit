@@ -1,13 +1,11 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, JSONSchema } from 'objection'
+import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
+import { BaseModel } from './base.model'
 
-export class ProcessExecution extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  id!: string;
+export class ProcessExecution extends BaseModel {
   when?: Date;
   result?: string;
   duration?: number;

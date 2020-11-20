@@ -5,21 +5,16 @@ import { Model, QueryBuilder } from 'objection'
 import { Application } from '../declarations'
 import { TableColumn } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
+import { BaseModel } from './base.model'
 
-export class LckColumnFilter {
-  // $eq?: string
-  // $neq?: string
-  [key: string]: string | Array<string | number> | Object
-}
+export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
+
 export class TableColumnDTO extends TableColumn {
   filter?: LckColumnFilter
   sort?: Object
 }
 
-export class TableView extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class TableView extends BaseModel {
   columns?: TableColumnDTO[];
   text!: string;
   locked!: boolean;
@@ -74,14 +69,6 @@ export class TableView extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

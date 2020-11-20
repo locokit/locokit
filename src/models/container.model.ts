@@ -1,18 +1,16 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
+import { BaseModel } from './base.model'
+import { Application } from '../declarations'
 import { block as LckBlock } from './block.model'
+import { Model } from 'objection'
 
-export class container extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-
-  static get tableName() {
-    return 'container';
+export class container extends BaseModel {
+  static get tableName () {
+    return 'container'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -20,10 +18,10 @@ export class container extends Model {
       properties: {
         text: { type: 'string' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       blocks: {
         relation: Model.HasManyRelation,
@@ -36,19 +34,11 @@ export class container extends Model {
           from: 'container.id',
           to: 'block.container_id'
         }
-      },
+      }
     }
-  }
-
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
   }
 }
 
 export default function (app: Application) {
-  return container;
+  return container
 }

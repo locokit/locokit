@@ -5,11 +5,9 @@ import { Model, JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { workspace as LckWorkspace } from './workspace.model'
 import { ProcessTrigger } from './process_trigger.model'
+import { BaseModel } from './base.model'
 
-export class Process extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  id!: string;
+export class Process extends BaseModel {
   text?: string;
   url?: string;
   settings?: object;

@@ -2,14 +2,13 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { container as LckContainer } from './container.model'
 
-export class page extends Model {
+export class page extends BaseModel {
   id!: string;
   text!: string;
-  createdAt!: string;
-  updatedAt!: string;
   chapter_id!: string;
   hidden!: boolean;
 
@@ -48,14 +47,6 @@ export class page extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 
