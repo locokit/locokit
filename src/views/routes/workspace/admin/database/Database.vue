@@ -650,14 +650,12 @@ export default {
     async onColumnReorder ({
       fromIndex,
       toIndex
-      // fromId,
-      // toId
     }) {
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
       await lckServices.tableViewColumn.patch(
-        `${this.selectedViewId},${this.currentView.columns[fromIndex].id}`, {
+        `${this.selectedViewId},${this.viewColumnsIds[fromIndex]}`, {
           position: toIndex
         })
       if (fromIndex > toIndex) {
@@ -665,7 +663,7 @@ export default {
         // we need to update all columns after the toIndex, included, fromIndex excluded
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
           await lckServices.tableViewColumn.patch(
-            `${this.selectedViewId},${this.currentView.columns[i1].id}`, {
+            `${this.selectedViewId},${this.viewColumnsIds[i1]}`, {
               position: i1 + 1
             })
         }
@@ -674,12 +672,12 @@ export default {
         // we need to update all columns between fromIndex and toIndex, fromIndex excluded
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
           await lckServices.tableViewColumn.patch(
-            `${this.selectedViewId},${this.currentView.columns[i2].id}`, {
+            `${this.selectedViewId},${this.viewColumnsIds[i2]}`, {
               position: i2 - 1
             })
         }
       }
-      // this.views = await retrieveTableViews(this.currentTableId)
+      this.views = await retrieveTableViews(this.currentTableId)
     },
     async onRowDelete (row) {
       await lckServices.tableRow.remove(row.id)
