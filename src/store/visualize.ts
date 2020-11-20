@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
+import { LckTableView } from '@/services/lck-api/definitions'
 import { BaseState } from './state'
 
 class Workspace {
@@ -30,7 +31,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
     })
     return {
       ...workspace,
-      chapters: workspace.chapters?.map((c: { pages: { position: number; hidden: boolean }[]}) => ({
+      chapters: workspace.chapters?.map(c => ({
         ...c,
         pages: c.pages?.filter(p => !p.hidden).sort((a, b) => a.position - b.position)
       }))
@@ -44,7 +45,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
 export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = true
   try {
-    return await lckServices.visuPage.get(id, {
+    return await lckServices.page.get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: 'containers.[blocks]' }
     })
@@ -67,8 +68,8 @@ export async function retrieveViewDefinition (id: number) {
           }
         }
       }
-    })
-    result.columns = result.columns.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
+    }) as LckTableView
+    result.columns = result.columns?.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
     return result
   } catch (error) {
     workspaceState.error = error
