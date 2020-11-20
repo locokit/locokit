@@ -1,7 +1,7 @@
 import WithSidebar from './WithSidebar'
 
 export default {
-  title: 'layouts/with a sidebar',
+  title: 'layouts/sidebar',
   component: WithSidebar
 }
 

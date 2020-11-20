@@ -1,7 +1,7 @@
 import WithBackground from './WithBackground'
 
 export default {
-  title: 'layouts/with a background',
+  title: 'layouts/background',
   component: WithBackground
 }
 
