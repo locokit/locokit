@@ -23,7 +23,6 @@ export default {
   },
   computed: {
     markdownToDisplay () {
-      console.log(this.settings, marked(this.settings.content))
       return marked(this.settings.content || '')
     }
   }
