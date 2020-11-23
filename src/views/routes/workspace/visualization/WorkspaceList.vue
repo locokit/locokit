@@ -61,6 +61,12 @@
         </p-card>
       </div>
     </div>
+
+    <!-- <p-button
+      label="Create a workspace"
+      icon="pi pi-plus-circle"
+      class="p-button-primary p-mx-auto"
+    /> -->
   </div>
 </template>
 

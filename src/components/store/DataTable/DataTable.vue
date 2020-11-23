@@ -597,6 +597,7 @@ export default {
       })
     },
     onCellEditInit ({ data, field }) {
+      console.log(data, field)
       const currentColumnDefinition = this.columnsEnhanced[field]
       switch (currentColumnDefinition.column_type_id) {
         case COLUMN_TYPE.MULTI_SELECT:

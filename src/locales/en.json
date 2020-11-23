@@ -120,6 +120,18 @@
       "noLog": "No additional information",
       "noDataToDisplay": "No data to display",
       "successNewRun": "Process has run correctly."
+    },
+    "process": {
+      "textLabel": "Name",
+      "enabledLabel": "Enabled",
+      "urlLabel": "URL",
+      "removeButtonLabel": "Remove",
+      "duplicateButtonLabel": "Duplicate",
+      "noRun": "No run for this process yet.",
+      "noTrigger": "No trigger for this process. Please create one.",
+      "headerProperties": "Properties",
+      "headerTriggers": "Triggers",
+      "headerRuns": "Runs"
     }
   },
   "pages": {

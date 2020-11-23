@@ -26,7 +26,7 @@ export class LckWorkspace extends LckBaseModel {
  */
 export class LckDatabase extends LckBaseModel {
   text!: string;
-  tables?: LckTable[]
+  tables: LckTable[] = []
 }
 
 export class LckTable extends LckBaseModel {
@@ -109,12 +109,27 @@ export class LckBlock extends LckBaseModel {
  */
 export class LckProcess extends LckBaseModel {
   text!: string;
+  url!: string;
+  triggers?: LckProcessTrigger[];
+  runs?: LckProcessExecution[];
 }
 export class LckProcessTrigger extends LckBaseModel {
   text!: string;
+  process?: LckProcess;
+}
+
+enum EXECUTION_RESULT {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING'
 }
 export class LckProcessExecution extends LckBaseModel {
   text!: string;
+  trigger_id!: string;
+  when!: Date;
+  result!: EXECUTION_RESULT;
+  duration!: number;
+  log!: string;
 }
 
 /**

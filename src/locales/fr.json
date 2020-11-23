@@ -122,6 +122,18 @@
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
       "successNewRun": "Le processus a éte exécuté correctement."
+    },
+    "process": {
+      "textLabel": "Nom",
+      "enabledLabel": "Activé",
+      "urlLabel": "URL",
+      "removeButtonLabel": "Supprimer",
+      "duplicateButtonLabel": "Dupliquer",
+      "noRun": "Pas encore d'exécution pour ce processus.",
+      "noTrigger": "Pas de déclencheur pour ce processus. Veuillez en créer un.",
+      "headerProperties": "Propriétés",
+      "headerTriggers": "Déclencheurs",
+      "headerRuns": "Exécutions"
     }
   },
   "pages": {

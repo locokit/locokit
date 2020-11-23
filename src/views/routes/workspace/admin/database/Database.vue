@@ -4,7 +4,7 @@
       v-if="databaseState.data.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
-      <div class="p-d-flex p-jc-between o-auto">
+      <div class="p-d-flex p-jc-between o-auto lck-database-nav">
         <p-tab-view
           class="p-d-flex p-flex-column p-mt-2 o-auto"
           @tab-change="handleTabChange"
@@ -17,10 +17,10 @@
           />
         </p-tab-view>
 
-        <div class="p-d-flex p-as-center">
+        <div class="p-d-flex p-as-end">
           <p-button
             label="Processes"
-            class="p-button-sm p-button-info"
+            class="p-button-sm p-button-info p-m-1 p-p-1"
             icon="pi pi-th-large"
             :class="{
               'p-button-text': !displayPanel
@@ -90,7 +90,7 @@
                 label="Export"
                 class="p-button-secondary"
                 :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-                :disabled="!this.selectedViewId"
+                :disabled="!selectedViewId"
                 @click="onClickExportButton"
               />
             </div>
@@ -121,27 +121,11 @@
             @create-process-run="onTriggerProcess"
           />
         </layout-with-toolbar>
-        <layout-with-toolbar
+        <lck-process-listing
+          :tableId="currentTableId"
           v-if="displayPanel"
-          class="p-d-flex p-flex-column o-auto"
-          style="background-color: white; width: 30rem; border-left: 1px solid var(--header-border-bottom-color);"
-        >
-          <template #toolbar>
-            <span class="p-pl-1">
-              <span class="pi pi-th-large"/>
-              Processes
-            </span>
-
-            <div class="p-d-flex p-flex-wrap">
-              <p-button
-                :label="$t('form.add')"
-                icon="pi pi-plus-circle"
-                class="p-button-text p-button-primary"
-                @click="onClickCreateProcess"
-              />
-            </div>
-          </template>
-        </layout-with-toolbar>
+          display-mode="BY_TABLE"
+        />
       </div>
       <p-dialog
         :visible.sync="displayNewDialog"
@@ -326,6 +310,8 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing'
+
 const defaultDatatableSort = {
   createdAt: 1
 }
@@ -343,6 +329,7 @@ export default {
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
     'layout-with-toolbar': WithToolbar,
+    'lck-process-listing': ProcessListing,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -406,7 +393,7 @@ export default {
       viewDialogData: {},
       displayRowDialog: false,
       row: {},
-      displayPanel: true
+      displayPanel: false
     }
   },
   computed: {
@@ -929,7 +916,7 @@ export default {
   color: var(--text-color);
 }
 
-/deep/ .p-tabview {
+.lck-database-nav {
   border-bottom: 1px solid var(--header-border-bottom-color);
 }
 
