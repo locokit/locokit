@@ -11,7 +11,6 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
-        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -87,6 +86,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       </div>
        
       <div
+        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -317,7 +317,6 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
-        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -393,6 +392,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       </div>
        
       <div
+        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -623,19 +623,91 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+        data-table-fixed
+       p-datatable p-component"
+        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -854,22 +926,94 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+        data-table-fixed
+       p-datatable p-component"
+        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -1088,22 +1232,94 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+        data-table-fixed
+       p-datatable p-component"
+        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -1322,10 +1538,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
-        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -1401,6 +1616,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
       </div>
        
       <div
+        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -1794,7 +2010,6 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
-        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -1868,6 +2083,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       </div>
        
       <div
+        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -2090,7 +2306,6 @@ exports[`storyshots components/store/DataTable No content 1`] = `
       class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
       <div
-        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
@@ -2157,6 +2372,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
       </div>
        
       <div
+        cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines

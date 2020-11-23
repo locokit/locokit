@@ -100,7 +100,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
           >
             <div
-              cellstate="[object Object]"
               class="
         p-datatable-sm
         p-datatable-gridlines
@@ -174,6 +173,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             </div>
              
             <div
+              cellstate="[object Object]"
               class="
         p-datatable-sm
         p-datatable-gridlines
