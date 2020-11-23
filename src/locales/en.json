@@ -294,7 +294,8 @@
   "date": {
     "dateFormat": "MM/dd/yyyy",
     "dateFormatPrime": "mm/dd/yy",
-    "datetimeFormat": "MM/dd/yyyy HH:mm"
+    "datetimeFormat": "MM/dd/yyyy HH:mm",
+    "datetimeLogFormat": "MM/dd/yyyy HH:mm:ss"
   },
   "sw": {
     "newVersion": "New version available",

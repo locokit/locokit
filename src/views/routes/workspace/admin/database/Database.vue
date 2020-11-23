@@ -96,6 +96,7 @@
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
         :crudMode="crudMode"
+        :manualProcesses="manualProcesses"
         :displayDetailButton="true"
         :cellState="cellState"
 
@@ -108,6 +109,7 @@
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
         @open-detail="onOpenDetail"
+        @process-trigger="onTriggerProcess"
       />
 
       <p-dialog
@@ -205,21 +207,90 @@
 
       <p-dialog
         :visible.sync="displayRowDialog"
-        :style="{width: '600px'}"
-        :header="$t('components.datatable.detail')"
+        :style="{width: '800px'}"
         :modal="true"
         :contentStyle="{ 'max-height': '70vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
-        <lck-data-detail
-          :crudMode="crudMode"
-          :definition="block.definition"
-          :row="row"
-          :autocompleteSuggestions="autocompleteSuggestions"
-          @update-suggestions="updateLocalAutocompleteSuggestions"
-          @update-row="onUpdateCell"
-        />
+        <template #header>
+          <h2>{{ $t('components.datatable.detail') }}</h2>
+          <p-button
+            icon="pi pi-play"
+            class="p-button-outlined p-col-2"
+          />
+        </template>
+
+        <div
+          class="p-grid"
+        >
+          <div class="p-col-12">
+            <div
+              v-if="processesByRow.length > 0"
+            >
+              <h3>Actions</h3>
+              <p-panel
+                v-for="process in processesByRow"
+                :key="process.id"
+                :toggleable="true"
+                :collapsed="true"
+              >
+                <template #header>
+                  <div class="p-d-flex">
+                    <div
+                      v-if="!process.automatic"
+                    >
+                      <p-button
+                        icon="pi pi-play"
+                        :label="process.text"
+                        class="p-button-sm p-button-outlined"
+                        @click="onTriggerProcess({ rowId: row.id, processTriggerId: process.id, name: process.text })"
+                        :disabled="process.executions.length > 0 && process.executions[0].result === 'SUCCESS'"
+                      />
+                    </div>
+                    <span class="p-tag p-tag-rounded p-m-auto">{{ process.automatic ? 'Auto' : 'Manuel' }}</span>
+                  </div>
+                </template>
+                <ul>
+                  <li
+                    v-for="run in process.executions"
+                    :key="run.id"
+                    class="p-grid"
+                  >
+                    <div class="p-col-2">
+                      <span
+                        class="p-tag p-tag-success p-tag-rounded"
+                        :class="run.result === 'SUCCESS' && 'p-tag-success' || run.result === 'WARNING' && 'p-tag-warning' || run.result === 'ERROR' && 'p-tag-danger'"
+                      >
+                        {{ run.result }}
+                      </span>
+                    </div>
+
+                    <div class="p-col-4">
+                      <span>{{ run.log }}</span>
+                    </div>
+
+                    <div class="p-col-2">
+                      <span>{{ run.duration }}</span>
+                    </div>
+
+                    <div class="p-col-4">
+                      <span>{{ formatDate(run.createdAt) }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </p-panel>
+            </div>
+            <lck-data-detail
+              :crudMode="crudMode"
+              :definition="block.definition"
+              :row="row"
+              :autocompleteSuggestions="autocompleteSuggestions"
+              @update-suggestions="updateLocalAutocompleteSuggestions"
+              @update-row="onUpdateCell"
+            />
+          </div>
+        </div>
       </p-dialog>
     </div>
     <div v-else>
@@ -234,17 +305,20 @@
 import Vue from 'vue'
 import saveAs from 'file-saver'
 
-import { formatISO } from 'date-fns'
+import { formatISO, lightFormat, parseISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
-  retrieveDatabaseTableAndViewsDefinitions,
-  retrieveTableColumns,
-  retrieveTableViews,
+  createManualProcessExecution,
   databaseState,
-  saveTableData,
   patchTableData,
-  retrieveTableRowsWithSkipAndLimit
+  retrieveDatabaseTableAndViewsDefinitions,
+  retrieveManualProcessTrigger,
+  retrieveProcessesByRow,
+  retrieveTableColumns,
+  retrieveTableRowsWithSkipAndLimit,
+  retrieveTableViews,
+  saveTableData
 } from '@/store/database'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
@@ -260,6 +334,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
+import Panel from 'primevue/panel'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -294,6 +369,7 @@ export default {
     'p-textarea': Vue.extend(Textarea),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
+    'p-panel': Vue.extend(Panel),
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button)
   },
@@ -327,6 +403,8 @@ export default {
         data: {
         }
       },
+      manualProcesses: [],
+      processesByRow: [],
       submitting: false,
       exporting: false,
       currentTableId: null,
@@ -407,6 +485,9 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     searchItems: lckHelpers.searchItems,
+    formatDate (date) {
+      return lightFormat(parseISO(date), this.$t('date.datetimeLogFormat'))
+    },
     resetToDefault () {
       this.block = {
         loading: false,
@@ -438,20 +519,20 @@ export default {
     handleTabChange (event) {
       this.resetToDefault()
       this.currentTableId = event.tab.$el.dataset?.tableId
-      this.loadTable()
+      this.loadTableAndProcess()
     },
-    async loadTable () {
+    async loadTableAndProcess () {
       this.block.loading = true
       this.block.content = {
         total: 0,
         data: null
       }
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
-
       this.views = await retrieveTableViews(this.currentTableId)
       this.views.length > 0 && (this.selectedViewId = this.views[0].id)
       this.block.loading = false
-      this.loadCurrentTableData()
+      await this.loadCurrentTableData()
+      this.manualProcesses = await retrieveManualProcessTrigger(this.currentTableId)
     },
     getCurrentFilters () {
       return this.currentDatatableFilters.map((filter, index) => ({
@@ -699,6 +780,7 @@ export default {
     async onOpenDetail (rowId) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
+      this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
@@ -735,6 +817,18 @@ export default {
         this.cellState.isValid = false
       }
       this.cellState.waiting = false
+    },
+    async onTriggerProcess ({ rowId, processTriggerId, name }) {
+      const res = await createManualProcessExecution({
+        table_row_id: rowId,
+        process_trigger_id: processTriggerId
+      })
+      if (res) {
+        this.$toast.add({ severity: 'success', summary: 'Updated', detail: name, life: 3000 })
+        // Todo: To improve
+        this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
+        this.manualProcesses = await retrieveManualProcessTrigger(this.currentTableId)
+      }
     }
   },
   async mounted () {
@@ -742,7 +836,7 @@ export default {
     // load the first table
     if (this.databaseState.data.tables.length > 0) {
       this.currentTableId = this.databaseState.data.tables[0].id
-      this.loadTable()
+      this.loadTableAndProcess()
     }
   }
 }
@@ -807,10 +901,10 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   opacity: 0.1;
   pointer-events: none;
 }
@@ -818,5 +912,11 @@ export default {
 .lck-database-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 </style>

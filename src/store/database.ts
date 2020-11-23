@@ -163,10 +163,61 @@ export async function deleteTableData (rowId: string) {
 export async function patchTableData (rowId: string, formData: object) {
   databaseState.loading = true
   try {
-    const result = await lckServices.tableRow.patch(rowId, formData)
-    return result
+    return await lckServices.tableRow.patch(rowId, formData)
   } catch ({ code, name }) {
     databaseState.error = new Error(`${code}: ${name}`)
+  }
+  databaseState.loading = false
+}
+
+export async function retrieveManualProcessTrigger (tableId: string) {
+  databaseState.error = null
+
+  try {
+    const res = await lckServices.processTrigger.find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: {
+        table_id: tableId,
+        $eager: 'executions'
+      }
+    })
+    return res.data.filter((process: {automatic: boolean}) => !process.automatic)
+  } catch (error) {
+    databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
+export async function retrieveProcessesByRow (tableId: string, rowId: string) {
+  databaseState.error = null
+
+  try {
+    const res = await lckServices.processTrigger.find({
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      query: {
+        table_id: tableId,
+        $eager: 'executions'
+      }
+    })
+    return res.data.map((process: { executions: { table_row_id: string }[] }) => {
+      if (process.executions.length > 0) {
+        process.executions = [...process.executions.filter(exec => exec.table_row_id === rowId)]
+      }
+      return process
+    })
+  } catch (error) {
+    databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
+export async function createManualProcessExecution (formData: { process_trigger_id: string; table_row_id: string }) {
+  databaseState.error = null
+
+  try {
+    return await lckServices.processExecution.create(formData)
+  } catch (error) {
+    databaseState.error = error
   }
   databaseState.loading = false
 }

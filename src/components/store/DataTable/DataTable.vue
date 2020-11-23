@@ -41,13 +41,20 @@
       >
         <p-column
           v-if="displayDetailButton"
-          headerStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset;"
-          bodyStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset; text-align: center;"
+          headerStyle="width: 3rem;padding: unset;margin: unset;"
+          bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
         >
           <template #body="slotProps">
             <p-button
+              v-if="manualProcesses.length === 0"
               class="p-button-sm p-button-text p-button-rounded"
               icon="pi pi-window-maximize"
+              @click="$emit('open-detail', slotProps.data.id)"/>
+            <p-split-button
+              v-else
+              class="p-button-sm p-button-text p-button-rounded"
+              icon="pi pi-window-maximize"
+              :model="manualProcessesTrigger(slotProps.data.id)"
               @click="$emit('open-detail', slotProps.data.id)"/>
           </template>
         </p-column>
@@ -236,17 +243,14 @@ import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
+import SplitButton from 'primevue/splitbutton'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import {
-  formatISO,
-  lightFormat,
-  parseISO
-} from 'date-fns'
+import { formatISO, lightFormat, parseISO } from 'date-fns'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 
@@ -258,6 +262,7 @@ export default {
     'lck-multiselect': MultiSelect,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
+    'p-split-button': Vue.extend(SplitButton),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-input-switch': Vue.extend(InputSwitch),
@@ -279,6 +284,10 @@ export default {
       default: false
     },
     autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    },
+    manualProcesses: {
       type: Array,
       default: () => ([])
     },
@@ -376,6 +385,22 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    manualProcessesTrigger (rowId) {
+      return this.manualProcesses.map(process => (
+        {
+          label: process.text,
+          icon: 'pi pi-play',
+          command: () => {
+            this.$emit('process-trigger', {
+              rowId,
+              processTriggerId: process.id,
+              name: process.text
+            })
+          },
+          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.result === 'SUCCESS')
+        }
+      ))
+    },
     getValue (column, data = '') {
       if (
         data === '' ||
