@@ -14,8 +14,9 @@ export function computeLookedUpColumns (): Hook {
     const linkedRows = await context.app.services.trr.find({
       query: {
         table_row_from_id: context.result.id
-      }
-    })
+      },
+      paginate: false
+    }) as TableRowRelation[]
 
     // find if some of the columns are linked to other via table_column_relation
     const linkedColumns = await context.app.services.columnrelation.find({
@@ -24,17 +25,18 @@ export function computeLookedUpColumns (): Hook {
           $in: context.params._meta.columnsIdsTransmitted
         },
         $eager: 'from'
-      }
-    })
+      },
+      paginate: false
+    }) as TableColumnRelation[]
 
     // update each linked row, by setting the new value for all columns related to this row
     await Promise.all(
-      (linkedRows.data as TableRowRelation[]).map(async (currentRowRelation: TableRowRelation) => {
+      linkedRows.map(async currentRowRelation => {
         const rowToUpdate = await context.service.get(currentRowRelation.table_row_to_id)
 
         const columnIdsOfRowToUpdate = Object.keys(rowToUpdate.data)
 
-        const columnsToUpdate = (linkedColumns.data as TableColumnRelation[])
+        const columnsToUpdate = linkedColumns
           .filter(c => columnIdsOfRowToUpdate.indexOf(c.table_column_to_id) > -1)
 
         const newData: Record<string, {
