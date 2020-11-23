@@ -14,6 +14,7 @@ export class ProcessTrigger extends BaseModel {
   settings?: object;
   process_id!: string;
   table_id?: string;
+  process?: Process;
 
   static get tableName (): string {
     return 'process_trigger'

@@ -9,7 +9,7 @@ import { BaseModel } from './base.model'
 
 export class Process extends BaseModel {
   text?: string;
-  url?: string;
+  url!: string;
   settings?: object;
   workspace_id!: string;
   workspace?: LckWorkspace;
@@ -27,7 +27,7 @@ export class Process extends BaseModel {
         id: { type: 'string' },
         text: { type: 'string' },
         url: { type: 'string' },
-        settings: { type: 'object' },
+        settings: { type: ['object', 'null'] },
         workspace_id: { type: 'string' }
       }
     }

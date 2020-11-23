@@ -1,4 +1,6 @@
 import * as authentication from '@feathersjs/authentication'
+import { disallow } from 'feathers-hooks-common'
+import { runTheProcess } from './runTheProcess'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -9,16 +11,22 @@ export default {
     find: [],
     get: [],
     create: [],
-    update: [],
+    update: [
+      disallow()
+    ],
     patch: [],
-    remove: []
+    remove: [
+      disallow()
+    ]
   },
 
   after: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      runTheProcess
+    ],
     update: [],
     patch: [],
     remove: []
