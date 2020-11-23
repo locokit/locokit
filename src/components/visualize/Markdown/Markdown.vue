@@ -34,15 +34,16 @@ export default {
 /deep/ table td,
 /deep/ table th {
   border: 1px solid #e9ecef;
-  padding: 0.25rem;
+  padding: 0.5rem;
 }
 
 /deep/ table th {
-
+  background-color: #ededed;
 }
 
 /deep/ table {
   margin: auto;
+  border-collapse: collapse;
 }
 
 </style>
