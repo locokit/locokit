@@ -250,3 +250,85 @@ export const crudModeWithTextarea = () => (
 
 crudModeWithTextarea.storyName = 'CRUD mode with textarea opened'
 crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }
+
+export const crudModeWithSaving = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: true,
+          isValid: null
+        }
+      }
+    },
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
+
+  }
+)
+
+crudModeWithSaving.storyName = 'CRUD mode, edition state saving'
+crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
+
+export const crudModeSavedOk = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: true
+        }
+      }
+    },
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
+  }
+)
+
+crudModeSavedOk.storyName = 'CRUD mode, edition state saved ok'
+crudModeSavedOk.args = { timeoutBeforeScreenshot: 800 }
+
+export const crudModeSavedError = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: false
+        }
+      }
+    },
+    template: `
+    <lck-datatable
+      :content="block.content"
+      :definition="block.definition"
+      :crud-mode="true"
+      :cellState="cellState"
+    />`
+  }
+)
+
+crudModeSavedError.storyName = 'CRUD mode, edition state saved error'
+crudModeSavedError.args = { timeoutBeforeScreenshot: 800 }

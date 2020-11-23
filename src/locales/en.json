@@ -184,14 +184,20 @@
         "cancel": "Cancel",
         "create": "Create"
       },
-      "updateTableModal": {
+      "updateTableSidebar": {
         "updateTable": "Update table",
         "tableName": "Table name",
         "columnName": "Column name",
-        "selectColumnType": "Select column type",
-        "createColumn": "Add",
+        "columnType": "Column type",
+        "createColumn": "Create column",
         "updateColumn": "Update",
-        "close": "Close",
+        "close": "Close"
+      },
+      "createColumnModal": {
+        "createColumn": "Create column",
+        "columnName": "Column name",
+        "columnType": "Column type",
+        "selectColumnType": "Select column type",
         "errorNoData": "Please fill in the fields"
       }
     },

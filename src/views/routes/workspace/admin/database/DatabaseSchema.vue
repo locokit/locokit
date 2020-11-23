@@ -8,7 +8,7 @@
         <p-button
           label="Table"
           icon="pi pi-plus"
-          @click="onClickCreateTableDialogButton"
+          @click="onClickCreateTableModalButton"
         />
       </template>
     </p-toolbar>
@@ -21,15 +21,15 @@
     </div>
     <div v-else>Erreur</div>
     <create-table-modal
-      v-if="showCreateTableDialog"
+      :visible="showCreateTableModal"
       :databaseId="databaseId"
-      @close="onCloseCreateTableDialog"
+      @close="onCloseCreateTableModal"
     />
-    <update-table-modal
-      v-if="showUpdateTableDialog"
+    <update-table-sidebar
+      :showUpdateTableSidebar="showUpdateTableSidebar"
       :currentTable="currentTable"
       @reload-tables="reloadTables"
-      @close="onCloseUpdateTableDialog"
+      @close="onCloseUpdateTableSidebar"
     />
   </div>
 </template>
@@ -42,7 +42,7 @@ import svgPanZoom from 'svg-pan-zoom'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import CreateTableModal from '@/views/modals/CreateTableModal'
-import UpdateTableModal from '@/views/modals/UpdateTableModal'
+import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar'
 
 export default {
   name: 'DatabaseSchema',
@@ -50,7 +50,7 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'create-table-modal': Vue.extend(CreateTableModal),
-    'update-table-modal': Vue.extend(UpdateTableModal)
+    'update-table-sidebar': Vue.extend(UpdateTableSidebar)
   },
   props: {
     databaseId: String
@@ -61,8 +61,8 @@ export default {
       SVGPanZoom: null,
       tables: null,
       errorLoadTables: false,
-      showCreateTableDialog: false,
-      showUpdateTableDialog: false,
+      showCreateTableModal: false,
+      showUpdateTableSidebar: false,
       currentTable: null
     }
   },
@@ -77,25 +77,25 @@ export default {
     }
   },
   methods: {
-    onClickCreateTableDialogButton () {
-      this.showCreateTableDialog = true
+    onClickCreateTableModalButton () {
+      this.showCreateTableModal = true
     },
-    onCloseCreateTableDialog (shouldReloadTables) {
+    onCloseCreateTableModal (shouldReloadTables) {
       if (shouldReloadTables) {
         this.reloadTables()
       }
-      this.showCreateTableDialog = false
+      this.showCreateTableModal = false
     },
     onClickTable (e) {
       const currentTableName = e.target.attributes['data-name']?.value
       if (currentTableName) {
         this.currentTable = this.tablesIndexedByText[currentTableName]
-        this.showUpdateTableDialog = true
+        this.showUpdateTableSidebar = true
       }
     },
-    onCloseUpdateTableDialog () {
+    onCloseUpdateTableSidebar () {
       this.currentTable = null
-      this.showUpdateTableDialog = false
+      this.showUpdateTableSidebar = false
     },
     createSource (tables) {
       const sourceStyle = [

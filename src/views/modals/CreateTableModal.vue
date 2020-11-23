@@ -1,40 +1,36 @@
 <template>
-  <p-dialog
+  <lck-dialog
+    :visible.sync="visible"
     :header="$t('pages.databaseSchema.createTableModal.createTable')"
-    :visible="true"
-    :modal="true"
-    :closable="true"
-    :closeOnEscape="true"
-    @update:visible="$emit('close', $event)"
+    @input="confirmCreateTableModal"
+    @close="closeCreateTableModal"
   >
-    <div class="p-field p-mt-4 p-float-label">
-        <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
+    <div class="p-field p-mt-4">
         <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
+        <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
     </div>
     <div v-if="errorTableNameToCreate" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
     </div>
-    <template #footer>
-      <p-button @click="closeCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.cancel')" icon="pi pi-times" class="p-button-text"/>
-      <p-button @click="confirmCreateTableDialog" :label="$t('pages.databaseSchema.createTableModal.create')" icon="pi pi-check" class="p-button-text"/>
-    </template>
-  </p-dialog>
+  </lck-dialog>
 </template>
 <script>
 import Vue from 'vue'
 import { lckClient } from '@/services/lck-api'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
+import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 
 export default {
   name: 'CreateTableModal',
   components: {
-    'p-button': Vue.extend(Button),
-    'p-dialog': Vue.extend(Dialog),
+    'lck-dialog': Vue.extend(Dialog),
     'p-input-text': Vue.extend(InputText)
   },
   props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
     databaseId: String
   },
   data () {
@@ -44,10 +40,11 @@ export default {
     }
   },
   methods: {
-    closeCreateTableDialog () {
+    closeCreateTableModal () {
+      this.tableNameToCreate = null
       this.$emit('close', false)
     },
-    async confirmCreateTableDialog () {
+    async confirmCreateTableModal () {
       try {
         const createTableResponse = await lckClient.service('table').create({
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -55,8 +52,9 @@ export default {
           text: this.tableNameToCreate
         })
         if (createTableResponse) {
+          this.tableNameToCreate = null
           this.errorTableNameToCreate = false
-          this.$emit('on-close', true)
+          this.$emit('close', true)
         }
       } catch (errorCreateTable) {
         this.errorTableNameToCreate = errorCreateTable.message
