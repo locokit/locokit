@@ -4,7 +4,7 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 
 export class ColumnType extends BaseModel {
-  text: string = 'unknown text';
+  text!: string;
 
   static get tableName () {
     return 'column_type'
