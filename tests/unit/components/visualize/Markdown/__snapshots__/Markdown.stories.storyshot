@@ -1,16 +1,115 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/Markdown Markdown with props 1`] = `
+exports[`storyshots components/visualize/Markdown default 1`] = `
 <div
   style="height: 100%;"
 >
   <div
-    class="lck-color-content"
+    class="lck-markdown"
     title="Futur Markdown"
     type="Markdown"
   >
+    <p>
+      This is the content.
+    </p>
     
-  This is the content.
+
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/Markdown with a markdown demo 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-markdown"
+    title="Futur Markdown"
+    type="Markdown"
+  >
+    <h1
+      id="this-is-the-title"
+    >
+      This is the title
+    </h1>
+    
+
+    <h2
+      id="and-the-subtitle"
+    >
+      And the subtitle
+    </h2>
+    
+
+    <p>
+      This is the content.
+    </p>
+    
+
+    <p>
+      We can write in 
+      <em>
+        italic
+      </em>
+      , 
+      <strong>
+        bold
+      </strong>
+      , and 
+      <strong>
+        <em>
+          both
+        </em>
+      </strong>
+      .
+    </p>
+    
+
+    <table>
+      
+
+      <thead>
+        
+
+        <tr>
+          
+
+          <th>
+            Head 1
+          </th>
+          
+
+          <th>
+            Head2
+          </th>
+          
+
+        </tr>
+        
+
+      </thead>
+      
+
+      <tbody>
+        <tr>
+          
+
+          <td>
+            And with table
+          </td>
+          
+
+          <td>
+            too
+          </td>
+          
+
+        </tr>
+        
+
+      </tbody>
+    </table>
+    
 
   </div>
 </div>

@@ -5,7 +5,7 @@ export default {
   component: Markdown
 }
 
-export const MarkdownStoryWithProps = () => ({
+export const defaultStory = () => ({
   components: { Markdown },
   data () {
     return {
@@ -21,4 +21,34 @@ export const MarkdownStoryWithProps = () => ({
   template: '<Markdown v-bind="{...block}" />'
 })
 
-MarkdownStoryWithProps.storyName = 'Markdown with props'
+defaultStory.storyName = 'default'
+
+export const markdownDemonstration = () => ({
+  components: { Markdown },
+  data () {
+    return {
+      block: {
+        type: 'Markdown',
+        title: 'Futur Markdown',
+        settings: {
+          content: `
+# This is the title
+
+## And the subtitle
+
+This is the content.
+
+We can write in *italic*, **bold**, and ***both***.
+
+|Head 1|Head2|
+|------|-----|
+|And with table | too |
+`
+        }
+      }
+    }
+  },
+  template: '<Markdown v-bind="{...block}" />'
+})
+
+markdownDemonstration.storyName = 'with a markdown demo'

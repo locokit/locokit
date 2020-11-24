@@ -13,12 +13,14 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
       </h3>
        
       <div
-        class="lck-color-content"
+        class="lck-markdown"
         title="Futur Markdown"
         type="Markdown"
       >
+        <p>
+          This is the content.
+        </p>
         
-  This is the content.
 
       </div>
     </div>
