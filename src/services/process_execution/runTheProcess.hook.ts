@@ -11,17 +11,11 @@ import { ProcessExecutionStatus } from '../../models/process_execution.model'
  */
 export async function runTheProcess (context: HookContext): Promise<HookContext> {
   /**
-   * Retrieve the process to run and its params
-   */
-  const processTriggerId = context.data.process_trigger_id
-  const currentTrigger: ProcessTrigger = await context.app.services['process-trigger'].get(processTriggerId, { query: { $eager: 'process' } })
-
-  /**
    * Spawn a new process to run it, in fire&forget mode
    */
   const now = Date.now()
-  axios.post(currentTrigger.process?.url as string, {
-    process_trigger_id: processTriggerId,
+  axios.post((context.result.process_trigger as ProcessTrigger).process?.url as string, {
+    process_trigger_id: context.result.process_trigger_id,
     process_execution_id: context.data.id,
     table_row_id: context.data.table_row_id
   })
@@ -29,7 +23,7 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessExecutionStatus.SUCCESS,
-        log: value.data.log
+        log: value.data?.log
       })
     })
     .catch(reason => {

@@ -4,6 +4,7 @@
 import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
+import { ProcessTrigger as ProcessTriggerModel } from './process_trigger.model'
 
 export enum ProcessExecutionStatus {
   SUCCESS = 'SUCCESS',
@@ -18,6 +19,7 @@ export class ProcessExecution extends BaseModel {
   log?: string;
   settings?: object;
   process_trigger_id!: string;
+  process_trigger?: ProcessTriggerModel;
   table_row_id?: string;
 
   static get tableName (): string {
