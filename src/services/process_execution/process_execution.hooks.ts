@@ -1,6 +1,8 @@
 import * as authentication from '@feathersjs/authentication'
+import { HookContext } from '@feathersjs/feathers'
 import { disallow } from 'feathers-hooks-common'
-import { runTheProcess } from './runTheProcess'
+import { ProcessExecutionStatus } from '../../models/process_execution.model'
+import { runTheProcess } from './runTheProcess.hook'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -10,7 +12,11 @@ export default {
     all: [authenticate('jwt')],
     find: [],
     get: [],
-    create: [],
+    create: [
+      (context: HookContext) => {
+        context.data.status = context.data.status || ProcessExecutionStatus.RUNNING
+      }
+    ],
     update: [
       disallow()
     ],
