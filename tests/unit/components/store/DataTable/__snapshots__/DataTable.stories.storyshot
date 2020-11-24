@@ -19,7 +19,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -325,7 +325,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -631,7 +631,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -937,7 +937,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -1243,7 +1243,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -1549,7 +1549,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -2018,7 +2018,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->
@@ -2314,7 +2314,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
         justify-between
         data-table-fixed
        p-datatable p-component"
-        style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
       >
          
         <!---->

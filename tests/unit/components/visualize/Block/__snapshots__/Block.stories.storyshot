@@ -110,7 +110,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
         justify-between
         data-table-fixed
        p-datatable p-component"
-              style="width: 3rem; position: sticky; left: 0px; z-index: 1;"
+              style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
             >
                
               <!---->
