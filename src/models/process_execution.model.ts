@@ -5,9 +5,15 @@ import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 
+export enum ProcessExecutionStatus {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  RUNNING = 'RUNNING'
+}
 export class ProcessExecution extends BaseModel {
   when?: Date;
-  result?: string;
+  status?: ProcessExecutionStatus;
   duration?: number;
   log?: string;
   settings?: object;
