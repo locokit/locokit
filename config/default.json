@@ -49,5 +49,8 @@
     "pass": "MAIL_PASSWORD",
     "from": "MAIL_DEFAULT_FROM",
     "secure": "MAIL_SECURE"
+  },
+  "cors": {
+    "origin": "CORS_ORIGIN"
   }
 }

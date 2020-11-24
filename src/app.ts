@@ -49,7 +49,7 @@ app.use(Sentry.Handlers.tracingHandler())
 
 // Enable security, CORS, compression, favicon and body parsing
 app.use(helmet())
-app.use(cors())
+app.use(cors(app.get('cors')))
 app.use(compress())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
