@@ -21,7 +21,6 @@
           p-d-flex
           p-flex-column
           justify-between
-          data-table-fixed
         "
 
         :style="{
@@ -670,10 +669,6 @@ tr.p-datatable-emptymessage {
   left: 0;
   bottom: 0;
   height: 100%;
-}
-
-.data-table-fixed table[role=grid] {
-  box-shadow: 1px 0px 5px rgb(226, 226, 226);
 }
 
 </style>
