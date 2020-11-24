@@ -25,7 +25,7 @@
         "
 
         :style="{
-          width: '3rem',
+          'flex-basis': '0',
           position: 'sticky',
           left: 0,
           'z-index': 1
