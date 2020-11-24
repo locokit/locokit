@@ -181,6 +181,7 @@
     </div>
 
     <lck-paginator
+      v-if="content && content.total > 0"
       :rows="rowsNumber"
       :skip="content && content.skip"
       :limit="content && content.limit"
