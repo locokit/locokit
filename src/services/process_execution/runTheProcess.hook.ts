@@ -30,7 +30,7 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessExecutionStatus.ERROR,
-        log: reason
+        log: reason?.toString()
       })
     })
   /**
