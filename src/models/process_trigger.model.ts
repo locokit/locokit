@@ -20,7 +20,10 @@ export enum ProcessTriggerEvent {
 export class ProcessTrigger extends BaseModel {
   text?: string;
   event!: ProcessTriggerEvent;
-  settings?: object;
+  settings?: {
+    column_id: string
+  };
+
   process_id!: string;
   table_id?: string;
   process?: Process;

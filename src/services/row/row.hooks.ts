@@ -5,6 +5,8 @@ import filterRowsByTableViewId from '../../hooks/filter-view-rows'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
+import { TableRow } from '../../models/tablerow.model'
+
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { enhanceComplexColumns } from './enhanceComplexColumns.hook'
@@ -20,7 +22,8 @@ import { removeRelatedRows } from './removeRelatedRows.hook'
 import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
-import { TableRow } from '../../models/tablerow.model'
+import { triggerProcess } from './triggerProcess.hook'
+
 const { authenticate } = authentication.hooks
 
 export default {
@@ -82,17 +85,22 @@ export default {
     get: [],
     create: [
       upsertRowRelation(),
-      computeLookedUpColumns()
+      computeLookedUpColumns(),
+      triggerProcess
     ],
     update: [
       upsertRowRelation(),
-      computeLookedUpColumns()
+      computeLookedUpColumns(),
+      triggerProcess
     ],
     patch: [
       upsertRowRelation(),
-      computeLookedUpColumns()
+      computeLookedUpColumns(),
+      triggerProcess
     ],
-    remove: []
+    remove: [
+      triggerProcess
+    ]
   },
 
   error: {
