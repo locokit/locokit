@@ -165,6 +165,103 @@ describe('\'process_execution\' service', () => {
       await app.service('process-trigger').remove(processTriggerCRON.id)
     })
 
+    it('allow the creation of the execution if the provider is not external', async () => {
+      expect.assertions(12)
+      /**
+       * create an execution
+       */
+      const processTriggerCRON = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.CRON
+      })
+      const processTriggerMANUAL = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.MANUAL
+      })
+      const processTriggerCreateRow = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.CREATE_ROW
+      })
+      const processTriggerUpdateRow = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.UPDATE_ROW
+      })
+      const processTriggerDeleteRow = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.DELETE_ROW
+      })
+      const processTriggerUpdateRowData = await app.service('process-trigger').create({
+        table_id: table1.id,
+        process_id: process.id,
+        event: ProcessTriggerEvent.UPDATE_ROW_DATA
+      })
+
+      const processExecutionCRON = await app.service('process-execution').create({
+        process_trigger_id: processTriggerCRON.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionCRON).toBeTruthy()
+      expect(processExecutionCRON.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      const processExecutionMANUAL = await app.service('process-execution').create({
+        process_trigger_id: processTriggerMANUAL.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionMANUAL).toBeTruthy()
+      expect(processExecutionMANUAL.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      const processExecutionCreateRow = await app.service('process-execution').create({
+        process_trigger_id: processTriggerCreateRow.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionCreateRow).toBeTruthy()
+      expect(processExecutionCreateRow.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      const processExecutionUpdateRow = await app.service('process-execution').create({
+        process_trigger_id: processTriggerUpdateRow.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionUpdateRow).toBeTruthy()
+      expect(processExecutionUpdateRow.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      const processExecutionUpdateRowData = await app.service('process-execution').create({
+        process_trigger_id: processTriggerUpdateRowData.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionUpdateRowData).toBeTruthy()
+      expect(processExecutionUpdateRowData.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      const processExecutionDeleteRow = await app.service('process-execution').create({
+        process_trigger_id: processTriggerDeleteRow.id,
+        table_row_id: tableRow.id
+      })
+      expect(processExecutionDeleteRow).toBeTruthy()
+      expect(processExecutionDeleteRow.status).toBe(ProcessExecutionStatus.RUNNING)
+
+      await wait(1000)
+
+      /**
+       * check the status
+       */
+      await app.service('process-execution').remove(processExecutionDeleteRow.id)
+      await app.service('process-execution').remove(processExecutionUpdateRowData.id)
+      await app.service('process-execution').remove(processExecutionUpdateRow.id)
+      await app.service('process-execution').remove(processExecutionCreateRow.id)
+      await app.service('process-execution').remove(processExecutionMANUAL.id)
+      await app.service('process-execution').remove(processExecutionCRON.id)
+      await app.service('process-trigger').remove(processTriggerDeleteRow.id)
+      await app.service('process-trigger').remove(processTriggerUpdateRowData.id)
+      await app.service('process-trigger').remove(processTriggerUpdateRow.id)
+      await app.service('process-trigger').remove(processTriggerCreateRow.id)
+      await app.service('process-trigger').remove(processTriggerMANUAL.id)
+      await app.service('process-trigger').remove(processTriggerCRON.id)
+    })
+
     it('throw the creation of the execution if the provider is external and the trigger not MANUAL | CRON', async () => {
       expect.assertions(4)
       /**
