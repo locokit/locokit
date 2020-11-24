@@ -2,6 +2,7 @@
 import { HookContext } from '@feathersjs/feathers'
 import { ProcessTrigger } from '../../models/process_trigger.model'
 import axios from 'axios'
+import { ProcessExecutionStatus } from '../../models/process_execution.model'
 
 /**
  * Run the process id.
@@ -27,14 +28,14 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
     .then(value => {
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
-        result: 'SUCCESS',
+        status: ProcessExecutionStatus.SUCCESS,
         log: value.data.log
       })
     })
     .catch(reason => {
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
-        result: 'ERROR',
+        status: ProcessExecutionStatus.ERROR,
         log: reason
       })
     })
