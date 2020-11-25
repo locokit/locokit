@@ -23,7 +23,7 @@ export class ProcessTrigger extends BaseModel {
     column_id: string
   };
 
-  enabled: boolean;
+  enabled!: boolean;
 
   process_id!: string;
   table_id?: string;
