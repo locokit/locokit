@@ -22,7 +22,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           class="p-dialog-title"
           id="pv_id_2_header"
         >
-          Créer une nouvelle vue
+          Create a new view
         </span>
          
         <div
@@ -57,7 +57,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
             for="viewTextField"
           >
             
-      Nom
+      Name
           </label>
            
           <input
@@ -73,7 +73,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
             for="viewLockedField"
           >
             
-      Verrouillée
+      Locked
           </label>
            
           <div
@@ -89,7 +89,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
             <span
               class="p-button-label"
             >
-              Déverrouillée
+              Unlocked
             </span>
             <span
               class="p-ink"
@@ -112,7 +112,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           <span
             class="p-button-label"
           >
-            Annuler
+            Cancel
           </span>
            
           <!---->
@@ -132,7 +132,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           <span
             class="p-button-label"
           >
-            Valider
+            Submit
           </span>
            
           <!---->
@@ -168,7 +168,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           class="p-dialog-title"
           id="pv_id_3_header"
         >
-          Modifier la vue
+          Edit the view
         </span>
          
         <div
@@ -203,7 +203,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
             for="viewTextField"
           >
             
-      Nom
+      Name
           </label>
            
           <input
@@ -219,7 +219,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
             for="viewLockedField"
           >
             
-      Verrouillée
+      Locked
           </label>
            
           <div
@@ -235,7 +235,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
             <span
               class="p-button-label"
             >
-              Déverrouillée
+              Unlocked
             </span>
             <span
               class="p-ink"
@@ -258,7 +258,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           <span
             class="p-button-label"
           >
-            Annuler
+            Cancel
           </span>
            
           <!---->
@@ -278,7 +278,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           <span
             class="p-button-label"
           >
-            Valider
+            Submit
           </span>
            
           <!---->

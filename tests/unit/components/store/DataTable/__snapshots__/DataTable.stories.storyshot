@@ -243,7 +243,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -256,7 +256,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -548,7 +548,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -561,7 +561,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -853,7 +853,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -866,7 +866,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -1158,7 +1158,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -1171,7 +1171,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -1463,7 +1463,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -1476,7 +1476,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -1768,7 +1768,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -1781,7 +1781,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -1884,7 +1884,7 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
                   colspan="0"
                 >
                   
-        Aucune donnée à afficher
+        No data to display
       
                    
                   <!---->
@@ -2151,7 +2151,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -2164,7 +2164,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -2447,7 +2447,7 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
       <span
         class="p-paginator-current"
       >
-        De 1 à 2 sur 2 résultat(s)
+        Showing 1 to 2 of 2 entries
       </span>
        
       <div
@@ -2460,7 +2460,7 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
             class="label"
           >
             
-        Aller à la page
+        Jump to page
       
           </p>
            
@@ -2631,7 +2631,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
                   colspan="0"
                 >
                   
-        Aucune donnée à afficher
+        No data to display
       
                    
                   <!---->
@@ -2788,7 +2788,7 @@ exports[`storyshots components/store/DataTable No content with the detail button
                   colspan="0"
                 >
                   
-        Aucune donnée à afficher
+        No data to display
       
                    
                   <!---->

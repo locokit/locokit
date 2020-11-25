@@ -22,7 +22,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           class="p-dialog-title"
           id="pv_id_6_header"
         >
-          En-tête de la boîte de dialogue
+          Header of the dialog box
         </span>
          
         <div
@@ -65,7 +65,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           <span
             class="p-button-label"
           >
-            Annuler
+            Cancel
           </span>
            
           <!---->
@@ -85,7 +85,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           <span
             class="p-button-label"
           >
-            Valider
+            Submit
           </span>
            
           <!---->
@@ -168,7 +168,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           <span
             class="p-button-label"
           >
-            Annuler
+            Cancel
           </span>
            
           <!---->
@@ -188,7 +188,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           <span
             class="p-button-label"
           >
-            Valider
+            Submit
           </span>
            
           <!---->

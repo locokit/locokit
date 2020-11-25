@@ -8,7 +8,7 @@ exports[`storyshots components/ui/Error default 1`] = `
     class="text-gray-600"
   >
     <p>
-      Une erreur est survenue.
+      An error has occurred.
     </p>
   </div>
 </div>

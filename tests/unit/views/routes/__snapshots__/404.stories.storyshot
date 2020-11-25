@@ -8,7 +8,7 @@ exports[`storyshots views/routes/404 default 1`] = `
     class="p-d-flex p-flex-column p-jc-center p-ai-center h-full"
   >
     <h1>
-      Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.
+      Whooops ?!... sounds you're lost... Sorry. Really.
     </h1>
      
     <br />
@@ -17,7 +17,7 @@ exports[`storyshots views/routes/404 default 1`] = `
       class="mock-link"
     >
       
-    Vous pouvez tenter de revenir sur la page d'accueil ?
+    Please, please... come back home.
   
     </a>
      
