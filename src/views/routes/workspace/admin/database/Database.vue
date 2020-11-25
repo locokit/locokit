@@ -4,12 +4,7 @@
       class="lck-database-background"
       :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
     />
-    <!--
-    <header class="p-my-4 lck-color-title p-ml-1">
-      {{ $t('pages.database.title')}}
-      <strong>{{ databaseState.data.text }}</strong>
-    </header>
-    -->
+
     <div
       v-if="databaseState.data.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
@@ -215,70 +210,85 @@
       >
         <template #header>
           <h2>{{ $t('components.datatable.detail') }}</h2>
-          <p-button
-            icon="pi pi-play"
-            class="p-button-outlined p-col-2"
-          />
         </template>
 
         <div
           class="p-grid"
         >
           <div class="p-col-12">
-            <div
-              v-if="processesByRow.length > 0"
-            >
-              <h3>Actions</h3>
+            <div class="card">
               <p-panel
-                v-for="process in processesByRow"
-                :key="process.id"
-                :toggleable="true"
-                :collapsed="true"
-              >
-                <template #header>
-                  <div class="p-d-flex">
-                    <div
-                      v-if="!process.automatic"
-                    >
-                      <p-button
-                        icon="pi pi-play"
-                        :label="process.text"
-                        class="p-button-sm p-button-outlined"
-                        @click="onTriggerProcess({ rowId: row.id, processTriggerId: process.id, name: process.text })"
-                        :disabled="process.executions.length > 0 && process.executions[0].result === 'SUCCESS'"
-                      />
-                    </div>
-                    <span class="p-tag p-tag-rounded p-m-auto">{{ process.automatic ? 'Auto' : 'Manuel' }}</span>
-                  </div>
-                </template>
-                <ul>
-                  <li
-                    v-for="run in process.executions"
-                    :key="run.id"
-                    class="p-grid"
+              v-for="process in processesByRow"
+              :key="process.id"
+              :toggleable="true"
+              :collapsed="true"
+            >
+              <template #header>
+                <div class="p-d-flex">
+                  <div
+                    v-if="!process.automatic"
                   >
-                    <div class="p-col-2">
+                    <p-button
+                      icon="pi pi-play"
+                      :label="process.text"
+                      class="p-button-sm p-button-outlined"
+                      @click="onTriggerProcess({ rowId: row.id, processTriggerId: process.id, name: process.text })"
+                      :disabled="process.executions.length > 0 && process.executions[0].result === 'SUCCESS'"
+                    />
+                  </div>
+                  <span class="p-tag p-tag-rounded p-m-auto">{{ process.automatic ? 'Auto' : 'Manuel' }}</span>
+                </div>
+              </template>
+                <p-datatable
+                  class="
+                    p-datatable-sm
+                    p-d-flex
+                    p-flex-column
+                    justify-between
+                  "
+                  :value="process.executions"
+                  :expandedRows.sync="expandedRows"
+                  dataKey="id"
+                >
+                  <p-column
+                    headerStyle="height: 2.5rem; width: 3rem"
+                    bodyStyle="height: 2.5rem; width: 3rem"
+                    :expander="true"
+                  />
+                  <p-column
+                    headerStyle="height: 2.5rem"
+                    bodyStyle="height: 2.5rem"
+                    field="status"
+                    header="Status"
+                  >
+                    <template #body="slotProps">
                       <span
-                        class="p-tag p-tag-success p-tag-rounded"
-                        :class="run.result === 'SUCCESS' && 'p-tag-success' || run.result === 'WARNING' && 'p-tag-warning' || run.result === 'ERROR' && 'p-tag-danger'"
+                        class="p-tag p-tag-rounded"
+                        :class="
+                          slotProps.data.status === 'SUCCESS' && 'p-tag-success' ||
+                          slotProps.data.status === 'WARNING' && 'p-tag-warning' ||
+                          slotProps.data.status === 'ERROR' && 'p-tag-danger'
+                        "
                       >
-                        {{ run.result }}
+                        {{ slotProps.data.status }}
                       </span>
+                    </template>
+                  </p-column>
+                  <p-column field="createdAt" header="When">
+                    <template #body="slotProps">
+                      {{ formatDate(slotProps.data.createdAt) }}
+                    </template>
+                  </p-column>
+                  <template #expansion="slotProps">
+                    <div class="car-details" >
+                      <ul v-if="slotProps.data.duration || slotProps.data.log">
+                        <li>{{ slotProps.data.duration }}</li>
+                        <li>{{ slotProps.data.log }}</li>
+                      </ul>
+                      <p v-else>Pas d'info</p>
                     </div>
-
-                    <div class="p-col-4">
-                      <span>{{ run.log }}</span>
-                    </div>
-
-                    <div class="p-col-2">
-                      <span>{{ run.duration }}</span>
-                    </div>
-
-                    <div class="p-col-4">
-                      <span>{{ formatDate(run.createdAt) }}</span>
-                    </div>
-                  </li>
-                </ul>
+                  </template>
+                </p-datatable>
               </p-panel>
             </div>
             <lck-data-detail
@@ -337,6 +347,9 @@ import InputNumber from 'primevue/inputnumber'
 import Panel from 'primevue/panel'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
+import PrimeDataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
@@ -371,6 +384,8 @@ export default {
     'p-calendar': Vue.extend(Calendar),
     'p-panel': Vue.extend(Panel),
     'p-toolbar': Vue.extend(Toolbar),
+    'p-datatable': Vue.extend(PrimeDataTable),
+    'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button)
   },
   props: {
@@ -405,6 +420,7 @@ export default {
       },
       manualProcesses: [],
       processesByRow: [],
+      expandedRows: [],
       submitting: false,
       exporting: false,
       currentTableId: null,
