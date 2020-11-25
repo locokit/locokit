@@ -8,22 +8,93 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -242,22 +313,93 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -476,22 +618,93 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -710,22 +923,93 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -944,22 +1228,93 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -1178,22 +1533,93 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(3rem + 750px);"
       >
-        <!---->
-         
         <!---->
         <!---->
         <!---->
@@ -1412,15 +1838,16 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <!---->
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
@@ -1499,22 +1926,387 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
          
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 2 sur 2 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Aller à la page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataTable Expected props with the detail buttons column 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(3rem + 750px);"
+      >
         <!---->
         <!---->
         <!---->
@@ -1725,22 +2517,316 @@ exports[`storyshots components/store/DataTable No content 1`] = `
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
   >
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <!---->
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
       <div
         cellstate="[object Object]"
         class="
         p-datatable-sm
         p-datatable-gridlines
         p-d-flex
-        d-flex-1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
         style="width: calc(3rem + 750px);"
       >
         <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
          
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  
+        Aucune donnée à afficher
+      
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        De 1 à 0 sur 0 résultat(s)
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataTable No content with the detail buttons column 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+    >
+      <div
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+        style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
+      >
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <!---->
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(3rem + 750px);"
+      >
         <!---->
         <!---->
         <!---->

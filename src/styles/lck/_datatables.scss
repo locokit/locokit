@@ -11,6 +11,7 @@
     top: 0;
     display: block;
     padding: 0.5rem;
+    pointer-events: none;
 
     &.saving,
     &.saved {

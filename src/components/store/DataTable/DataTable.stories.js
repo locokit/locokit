@@ -176,6 +176,23 @@ export const withoutContent = () => (
 
 withoutContent.storyName = 'No content'
 
+export const withoutContentWithDetailButtons = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: {
+          ...tableViewData,
+          content: {}
+        }
+      }
+    },
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :displayDetailButton="true" />'
+  }
+)
+
+withoutContentWithDetailButtons.storyName = 'No content with the detail buttons column'
+
 export const withExpectedProps = () => (
   {
     components: { 'lck-datatable': DataTable },
@@ -189,6 +206,20 @@ export const withExpectedProps = () => (
 )
 
 withExpectedProps.storyName = 'Expected props'
+
+export const withExpectedPropsWithDetailButtons = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :displayDetailButton="true" />'
+  }
+)
+
+withExpectedPropsWithDetailButtons.storyName = 'Expected props with the detail buttons column'
 
 export const withExpectedPropsAndCrudMode = () => (
   {
