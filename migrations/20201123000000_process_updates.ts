@@ -4,7 +4,7 @@ export async function up (knex: Knex): Promise<any> {
   return knex.schema
     .alterTable('process_trigger', table => {
       table.boolean('enabled')
-      table.enum('event', ['CREATE_ROW', 'UPDATE_ROW', 'DELETE_ROW', 'UPDATE_ROW_DATA', 'CRON', 'MANUAL'])
+      table.enum('event', ['CREATE_ROW', 'UPDATE_ROW', 'UPDATE_ROW_DATA', 'CRON', 'MANUAL'])
       table.dropColumn('automatic')
     })
     .alterTable('process_execution', table => {
