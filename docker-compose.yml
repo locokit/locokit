@@ -24,10 +24,6 @@ services:
 
   mailhog:
     image: mailhog/mailhog:latest
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /home/mailhog
