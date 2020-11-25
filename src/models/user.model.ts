@@ -1,11 +1,11 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
 import { Application } from '@feathersjs/express'
 import { Group as LckGroup } from './group.model'
+import { Model } from 'objection'
 
 export class User extends Model {
-  id!: string;
+  id!: number;
   createdAt!: string;
   updatedAt!: string;
   email!: string;

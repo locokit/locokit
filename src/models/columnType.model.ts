@@ -1,12 +1,10 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 
-export class ColumnType extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  text: string = 'unknown text';
+export class ColumnType extends BaseModel {
+  text!: string;
 
   static get tableName () {
     return 'column_type'
@@ -21,14 +19,6 @@ export class ColumnType extends Model {
         text: { type: 'string' }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

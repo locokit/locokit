@@ -1,20 +1,18 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection';
-import { Application } from '../declarations';
+import { BaseModel } from './base.model'
+import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
+import { Model } from 'objection'
 
-export class database extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class database extends BaseModel {
   text!: string;
 
-  static get tableName() {
-    return 'database';
+  static get tableName () {
+    return 'database'
   }
 
-  static get jsonSchema() {
+  static get jsonSchema () {
     return {
       type: 'object',
       required: ['text'],
@@ -22,10 +20,10 @@ export class database extends Model {
       properties: {
         text: { type: 'string' }
       }
-    };
+    }
   }
 
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       tables: {
         relation: Model.HasManyRelation,
@@ -40,14 +38,6 @@ export class database extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
   }
 }
 
@@ -68,5 +58,5 @@ export default function (app: Application) {
   // })
   //   .catch(e => console.error('Error creating database table', e)); // eslint-disable-line no-console
 
-  return database;
+  return database
 }

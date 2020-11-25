@@ -1,19 +1,25 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, JSONSchema } from 'objection'
+import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
+import { BaseModel } from './base.model'
+import { ProcessTrigger as ProcessTriggerModel } from './process_trigger.model'
 
-export class ProcessExecution extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  id!: string;
+export enum ProcessExecutionStatus {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  RUNNING = 'RUNNING'
+}
+export class ProcessExecution extends BaseModel {
   when?: Date;
-  result?: string;
+  status?: ProcessExecutionStatus;
   duration?: number;
   log?: string;
   settings?: object;
   process_trigger_id!: string;
+  process_trigger?: ProcessTriggerModel;
   table_row_id?: string;
 
   static get tableName (): string {

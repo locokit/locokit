@@ -2,12 +2,11 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model, JSONSchema } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { TableColumn } from './tablecolumn.model'
 
-export class TableColumnRelation extends Model {
-  createdAt!: string;
-  updatedAt!: string;
+export class TableColumnRelation extends BaseModel {
   table_column_from_id!: string;
   table_column_to_id!: string;
   from?:TableColumn;

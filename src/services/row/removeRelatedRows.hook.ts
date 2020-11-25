@@ -25,3 +25,27 @@ export function removeRelatedRows () : Hook {
     return context
   }
 }
+
+export function removeRelatedExecutions () : Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    if (context.method === 'remove') {
+      // remove the related rows pointing to the current row
+      const matchingExecution = await context.app.service('process-execution').find({
+        query: {
+          table_row_id: context.id
+        },
+        paginate: false
+      })
+      if (matchingExecution.length > 0) {
+        await context.app.service('process-execution').remove(null, {
+          query: {
+            table_row_id: context.id
+          }
+        })
+      }
+    } else {
+      console.log('removeRelatedRows is remove only hook')
+    }
+    return context
+  }
+}

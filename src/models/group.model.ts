@@ -1,16 +1,14 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
+import { Model } from 'objection'
 
-export class Group extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class Group extends BaseModel {
   workspace?: LckWorkspace;
   chapter?: LckChapter;
   chapter_id?: string;
@@ -32,14 +30,6 @@ export class Group extends Model {
         workspace_role: { type: 'string' }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 
   static get relationMappings () {

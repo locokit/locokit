@@ -1,15 +1,13 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { chapter as LckChapter } from './chapter.model'
 import { database as LckDatabase } from './database.model'
 import { Process } from './process.model'
 
-export class workspace extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class workspace extends BaseModel {
   text!: string;
   chapters?: LckChapter[];
   databases?: LckDatabase[];
@@ -68,14 +66,6 @@ export class workspace extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

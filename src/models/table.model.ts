@@ -6,11 +6,9 @@ import { TableRow } from './tablerow.model'
 import { TableView, TableColumnDTO } from './tableview.model'
 import { TableColumn } from './tablecolumn.model'
 import { ProcessTrigger } from './process_trigger.model'
+import { BaseModel } from './base.model'
 
-export class table extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class table extends BaseModel {
   columns?: TableColumnDTO[]
 
   static get tableName () {
@@ -70,14 +68,6 @@ export class table extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

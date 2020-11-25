@@ -6,16 +6,28 @@ import { Application } from '../declarations'
 import { Process } from './process.model'
 import { ProcessExecution } from './process_execution.model'
 import { TableColumn } from './tablecolumn.model'
+import { BaseModel } from './base.model'
 
-export class ProcessTrigger extends Model {
-  createdAt!: string;
-  updatedAt!: string;
-  id!: string;
+export enum ProcessTriggerEvent {
+  CREATE_ROW = 'CREATE_ROW', // when a row in inserted
+  UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
+  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
+  CRON = 'CRON',
+  MANUAL = 'MANUAL',
+}
+
+export class ProcessTrigger extends BaseModel {
   text?: string;
-  automatic!: boolean;
-  settings?: object;
+  event!: ProcessTriggerEvent;
+  settings?: {
+    column_id: string
+  };
+
+  enabled!: boolean;
+
   process_id!: string;
   table_id?: string;
+  process?: Process;
 
   static get tableName (): string {
     return 'process_trigger'
@@ -31,7 +43,8 @@ export class ProcessTrigger extends Model {
       properties: {
         id: { type: 'string' },
         text: { type: 'string' },
-        automatic: { type: 'boolean' },
+        enabled: { type: 'boolean' },
+        event: { type: 'string' },
         settings: { type: 'object' },
         process_id: { type: 'string' },
         table_id: { type: 'string' }

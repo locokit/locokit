@@ -1,17 +1,15 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
+import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
+import { Model } from 'objection'
 
 export interface RowData {
   [key: string]: string | { reference: string, value: string }
 }
 
-export class TableRow extends Model {
-  id!: string;
-  createdAt!: string;
-  updatedAt!: string;
+export class TableRow extends BaseModel {
   text!: string;
   data!: RowData;
   // eslint-disable-next-line camelcase
@@ -49,14 +47,6 @@ export class TableRow extends Model {
         }
       }
     }
-  }
-
-  $beforeInsert () {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate () {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

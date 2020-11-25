@@ -2,6 +2,15 @@ import * as Knex from 'knex'
 
 export async function seed (knex: Knex): Promise<any> {
   // Deletes ALL existing entries
+  /**
+   * Process part
+   */
+  await knex('process_execution').del()
+  await knex('process_trigger').del()
+  await knex('process').del()
+  /**
+   * Storage
+   */
   await knex('table_view_has_table_column').del()
   await knex('table_view').del()
   await knex('table_row_relation').del()
