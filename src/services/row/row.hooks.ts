@@ -18,7 +18,7 @@ import { completeDataField } from './completeDataField.hook'
 import { completeDefaultValues } from './completeDefaultValues.hook'
 import { computeLookedUpColumns } from './computeLookedUpColumns.hook'
 import { computeRowLookedUpColumns } from './computeRowLookedUpColumns.hook'
-import { removeRelatedRows } from './removeRelatedRows.hook'
+import { removeRelatedExecutions, removeRelatedRows } from './removeRelatedRows.hook'
 import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
@@ -73,6 +73,7 @@ export default {
     ],
     remove: [
       restrictRemoveIfRelatedRows(),
+      removeRelatedExecutions(),
       removeRelatedRows()
     ]
   },

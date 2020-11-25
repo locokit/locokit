@@ -190,11 +190,6 @@ describe('\'process_execution\' service', () => {
         process_id: process.id,
         event: ProcessTriggerEvent.UPDATE_ROW
       })
-      const processTriggerDeleteRow = await app.service('process-trigger').create({
-        table_id: table1.id,
-        process_id: process.id,
-        event: ProcessTriggerEvent.DELETE_ROW
-      })
       const processTriggerUpdateRowData = await app.service('process-trigger').create({
         table_id: table1.id,
         process_id: process.id,
@@ -236,25 +231,16 @@ describe('\'process_execution\' service', () => {
       expect(processExecutionUpdateRowData).toBeTruthy()
       expect(processExecutionUpdateRowData.status).toBe(ProcessExecutionStatus.RUNNING)
 
-      const processExecutionDeleteRow = await app.service('process-execution').create({
-        process_trigger_id: processTriggerDeleteRow.id,
-        table_row_id: tableRow.id
-      })
-      expect(processExecutionDeleteRow).toBeTruthy()
-      expect(processExecutionDeleteRow.status).toBe(ProcessExecutionStatus.RUNNING)
-
       await wait(1000)
 
       /**
        * check the status
        */
-      await app.service('process-execution').remove(processExecutionDeleteRow.id)
       await app.service('process-execution').remove(processExecutionUpdateRowData.id)
       await app.service('process-execution').remove(processExecutionUpdateRow.id)
       await app.service('process-execution').remove(processExecutionCreateRow.id)
       await app.service('process-execution').remove(processExecutionMANUAL.id)
       await app.service('process-execution').remove(processExecutionCRON.id)
-      await app.service('process-trigger').remove(processTriggerDeleteRow.id)
       await app.service('process-trigger').remove(processTriggerUpdateRowData.id)
       await app.service('process-trigger').remove(processTriggerUpdateRow.id)
       await app.service('process-trigger').remove(processTriggerCreateRow.id)
@@ -277,11 +263,6 @@ describe('\'process_execution\' service', () => {
         process_id: process.id,
         event: ProcessTriggerEvent.UPDATE_ROW
       })
-      const processTriggerDeleteRow = await app.service('process-trigger').create({
-        table_id: table1.id,
-        process_id: process.id,
-        event: ProcessTriggerEvent.DELETE_ROW
-      })
       const processTriggerUpdateRowData = await app.service('process-trigger').create({
         table_id: table1.id,
         process_id: process.id,
@@ -297,10 +278,6 @@ describe('\'process_execution\' service', () => {
         table_row_id: tableRow.id
       }, params)).rejects.toThrow()
       await expect(app.service('process-execution').create({
-        process_trigger_id: processTriggerDeleteRow.id,
-        table_row_id: tableRow.id
-      }, params)).rejects.toThrow()
-      await expect(app.service('process-execution').create({
         process_trigger_id: processTriggerUpdateRowData.id,
         table_row_id: tableRow.id
       }, params)).rejects.toThrow()
@@ -312,7 +289,6 @@ describe('\'process_execution\' service', () => {
        */
       await app.service('process-trigger').remove(processTriggerCreateRow.id)
       await app.service('process-trigger').remove(processTriggerUpdateRow.id)
-      await app.service('process-trigger').remove(processTriggerDeleteRow.id)
       await app.service('process-trigger').remove(processTriggerUpdateRowData.id)
     })
 

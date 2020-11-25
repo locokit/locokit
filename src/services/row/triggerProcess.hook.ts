@@ -16,8 +16,7 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
         $in: [
           ProcessTriggerEvent.CREATE_ROW,
           ProcessTriggerEvent.UPDATE_ROW,
-          ProcessTriggerEvent.UPDATE_ROW_DATA,
-          ProcessTriggerEvent.DELETE_ROW
+          ProcessTriggerEvent.UPDATE_ROW_DATA
         ]
       },
       enabled: true
@@ -28,32 +27,35 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
   /**
    * Filter triggers that are with the "good" events
    */
-  triggersForTheCurrentRow.forEach((currentTrigger: ProcessTrigger) => {
-    let needExecution = false
-    switch (currentTrigger.event) {
-      case ProcessTriggerEvent.CREATE_ROW:
-        if (context.method === 'create') needExecution = true
-        break
-      case ProcessTriggerEvent.UPDATE_ROW:
-        if (context.method === 'update') needExecution = true
-        break
-      case ProcessTriggerEvent.UPDATE_ROW_DATA:
-        if (context.method === 'patch') {
-          if (context.params._meta.columnsIdsTransmitted.indexOf(currentTrigger.settings?.column_id) > -1) {
-            needExecution = true
+  await Promise.all(
+    triggersForTheCurrentRow.map(async (currentTrigger: ProcessTrigger) => {
+      let needExecution = false
+      switch (currentTrigger.event) {
+        case ProcessTriggerEvent.CREATE_ROW:
+          if (context.method === 'create') needExecution = true
+          break
+        case ProcessTriggerEvent.UPDATE_ROW:
+          if (context.method === 'update' ||
+          context.method === 'patch'
+          ) needExecution = true
+          break
+        case ProcessTriggerEvent.UPDATE_ROW_DATA:
+          if (context.method === 'update' ||
+          context.method === 'patch'
+          ) {
+            if (context.params._meta.columnsIdsTransmitted.indexOf(currentTrigger.settings?.column_id) > -1) {
+              needExecution = true
+            }
           }
-        }
-        break
-      case ProcessTriggerEvent.DELETE_ROW:
-        if (context.method === 'remove') needExecution = true
-        break
-    }
-    needExecution && context.app.services['process-execution'].create({
-      text: 'Triggering process ' + Date.now(),
-      process_trigger_id: currentTrigger.id,
-      table_row_id: context.result.id
+          break
+      }
+      needExecution && await context.app.services['process-execution'].create({
+        text: 'Triggering process ' + Date.now(),
+        process_trigger_id: currentTrigger.id,
+        table_row_id: context.result.id
+      })
     })
-  })
+  )
 
   return context
 }
