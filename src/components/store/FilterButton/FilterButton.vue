@@ -97,7 +97,7 @@
             </label>
             <component
               id="pattern"
-              :is="getComponentEditableColumn(filter.column.type)"
+              :is="columnFiltersConfig[filter.column.type].patternComponent || getComponentEditableColumn(filter.column.type)"
               v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
@@ -217,6 +217,7 @@ const ACTIONS = {
 
 // Filterable types
 // Each one must have an "actions" array.
+// A "patternComponent" attribute (string) can be added to replace the default pattern component (coming from "getComponentEditableColumn")
 // A "patternComponentOptions" attribute (object) can be added to customize the pattern component
 const COLUMN_FILTERS_CONFIG = {
   [COLUMN_TYPE.BOOLEAN]: {
@@ -256,7 +257,19 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.GREATER_THAN,
       ACTIONS.GREATER_EQUAL_THAN
     ],
+    patternComponent: 'p-input-number',
     patternComponentOptions: { minFractionDigits: 2 }
+  },
+  [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.MATCH,
+      ACTIONS.NOT_MATCH,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponent: 'p-input-text'
   }
 }
 
@@ -266,7 +279,6 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
-    'p-input-float': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
     'lck-overlaypanel': Vue.extend(OverlayPanel)
   },

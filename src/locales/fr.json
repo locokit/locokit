@@ -69,7 +69,7 @@
             "action": {
               "match": "contient",
               "doesNotMatch": "ne contient pas",
-              "isEqualTo": "est égale à",
+              "isEqualTo": "est égal à",
               "isDifferentThan": "est différent de",
               "isEmpty": "est vide",
               "isNotEmpty": "n'est pas vide",

@@ -37,6 +37,11 @@ const definitionColumn = [
     text: 'Float column',
     id: 4,
     column_type_id: COLUMN_TYPE.FLOAT
+  },
+  {
+    text: 'Relation between tables column',
+    id: 5,
+    column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
