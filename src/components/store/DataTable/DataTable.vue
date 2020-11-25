@@ -11,14 +11,53 @@
     @virtual-scroll="onVirtualScroll"
    -->
     <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+      class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
     >
+      <p-datatable
+        v-if="definition.columns && definition.columns.length > 0"
+        class="
+          p-datatable-sm
+          p-datatable-gridlines
+          p-d-flex
+          p-flex-column
+          justify-between
+        "
+
+        :style="{
+          'flex-basis': '0',
+          position: 'sticky',
+          left: 0,
+          'z-index': 1
+        }"
+
+        :value="content && content.data"
+
+        :lazy="true"
+        :loading="loading"
+
+        :context-menu="crudMode"
+        :context-menu-selection.sync="selectedRow"
+        @row-contextmenu="onRowContextMenu"
+      >
+        <p-column
+          v-if="displayDetailButton"
+          headerStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset;"
+          bodyStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset; text-align: center;"
+        >
+          <template #body="slotProps">
+            <p-button
+              class="p-button-sm p-button-text p-button-rounded"
+              icon="pi pi-window-maximize"
+              @click="$emit('open-detail', slotProps.data.id)"/>
+          </template>
+        </p-column>
+      </p-datatable>
+
       <p-datatable
         class="
           p-datatable-sm
           p-datatable-gridlines
           p-d-flex
-          d-flex-1
           p-flex-column
           justify-between
         "
@@ -57,18 +96,6 @@
         :context-menu-selection.sync="selectedRow"
         @row-contextmenu="onRowContextMenu"
       >
-        <p-column
-          v-if="displayDetailButton"
-          headerStyle="width: 3rem;padding: unset;margin: unset;"
-          bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
-        >
-          <template #body="slotProps">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"/>
-          </template>
-        </p-column>
         <p-column
           v-for="column in definition.columns"
           :key="column.id"
@@ -428,9 +455,7 @@ export default {
       // if we are in crud mode, a ref column is displayed
       this.$emit('column-reorder', {
         fromIndex: event.dragIndex,
-        toIndex: event.dropIndex,
-        fromId: this.definition.columns[event.dragIndex]?.id,
-        toId: this.definition.columns[event.dropIndex]?.id
+        toIndex: event.dropIndex
       })
     },
     async onDropdownEdit (rowId, columnId, event) {
