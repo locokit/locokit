@@ -166,7 +166,7 @@ describe('\'process_execution\' service', () => {
     })
 
     it('allow the creation of the execution if the provider is not external', async () => {
-      expect.assertions(12)
+      expect.assertions(10)
       /**
        * create an execution
        */
@@ -249,7 +249,7 @@ describe('\'process_execution\' service', () => {
     })
 
     it('throw the creation of the execution if the provider is external and the trigger not MANUAL | CRON', async () => {
-      expect.assertions(4)
+      expect.assertions(3)
       /**
        * create an execution
        */
