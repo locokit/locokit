@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
-import { LckColumnView } from '@/services/lck-api/helpers'
 import { BaseState } from './state'
+import { LckColumnView } from '@/services/lck-api/helpers'
+import { ProcessTriggerEvent } from '@/services/lck-utils/process'
 
 class Database {
   text = ''
@@ -181,7 +182,7 @@ export async function retrieveManualProcessTrigger (tableId: string) {
         $eager: 'executions'
       }
     })
-    return res.data.filter((process: {automatic: boolean}) => !process.automatic)
+    return res.data.filter((process: {event: ProcessTriggerEvent}) => process.event === 'MANUAL')
   } catch (error) {
     databaseState.error = error
   }
@@ -190,13 +191,20 @@ export async function retrieveManualProcessTrigger (tableId: string) {
 
 export async function retrieveProcessesByRow (tableId: string, rowId: string) {
   databaseState.error = null
-
+  /*
+    * Warning
+    * Pagination is computed from the executions and no longer from the number of triggers.
+    * So the skip information is wrong (it is always correlated to the trigger).
+   */
   try {
     const res = await lckServices.processTrigger.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
-        $eager: 'executions'
+        $eager: 'executions',
+        $joinEager: 'executions',
+        $sort: { createdAt: -1, 'executions.createdAt': -1 },
+        $limit: 50
       }
     })
     return res.data.map((process: { executions: { table_row_id: string }[] }) => {

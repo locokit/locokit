@@ -97,6 +97,19 @@
     },
     "detailview": {
       "goback": "Return to results"
+    },
+    "processPanel": {
+      "title": "Process",
+      "automatic": "Automatic",
+      "MANUAL": "Manual",
+      "CRON": "Cron",
+      "SUCCESS": "SUCCESS",
+      "WARNING": "WARNING",
+      "RUNNING": "RUNNING",
+      "ERROR": "ERROR",
+      "status": "Status",
+      "when": "When",
+      "noLog": "No additional information"
     }
   },
   "pages": {

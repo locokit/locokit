@@ -104,3 +104,11 @@ html, body, #app {
 .p-bg-success {
   background-color: var(--color-success-light);
 }
+
+/**
+ *  Preformatted text
+ */
+.pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+}

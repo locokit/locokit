@@ -213,84 +213,9 @@
         </template>
 
         <div
-          class="p-grid"
+          class="p-fluid"
         >
-          <div class="p-col-12">
-            <div class="card">
-              <p-panel
-              v-for="process in processesByRow"
-              :key="process.id"
-              :toggleable="true"
-              :collapsed="true"
-            >
-              <template #header>
-                <div class="p-d-flex">
-                  <div
-                    v-if="!process.automatic"
-                  >
-                    <p-button
-                      icon="pi pi-play"
-                      :label="process.text"
-                      class="p-button-sm p-button-outlined"
-                      @click="onTriggerProcess({ rowId: row.id, processTriggerId: process.id, name: process.text })"
-                      :disabled="process.executions.length > 0 && process.executions[0].result === 'SUCCESS'"
-                    />
-                  </div>
-                  <span class="p-tag p-tag-rounded p-m-auto">{{ process.automatic ? 'Auto' : 'Manuel' }}</span>
-                </div>
-              </template>
-                <p-datatable
-                  class="
-                    p-datatable-sm
-                    p-d-flex
-                    p-flex-column
-                    justify-between
-                  "
-                  :value="process.executions"
-                  :expandedRows.sync="expandedRows"
-                  dataKey="id"
-                >
-                  <p-column
-                    headerStyle="height: 2.5rem; width: 3rem"
-                    bodyStyle="height: 2.5rem; width: 3rem"
-                    :expander="true"
-                  />
-                  <p-column
-                    headerStyle="height: 2.5rem"
-                    bodyStyle="height: 2.5rem"
-                    field="status"
-                    header="Status"
-                  >
-                    <template #body="slotProps">
-                      <span
-                        class="p-tag p-tag-rounded"
-                        :class="
-                          slotProps.data.status === 'SUCCESS' && 'p-tag-success' ||
-                          slotProps.data.status === 'WARNING' && 'p-tag-warning' ||
-                          slotProps.data.status === 'ERROR' && 'p-tag-danger'
-                        "
-                      >
-                        {{ slotProps.data.status }}
-                      </span>
-                    </template>
-                  </p-column>
-                  <p-column field="createdAt" header="When">
-                    <template #body="slotProps">
-                      {{ formatDate(slotProps.data.createdAt) }}
-                    </template>
-                  </p-column>
-                  <template #expansion="slotProps">
-                    <div class="car-details" >
-                      <ul v-if="slotProps.data.duration || slotProps.data.log">
-                        <li>{{ slotProps.data.duration }}</li>
-                        <li>{{ slotProps.data.log }}</li>
-                      </ul>
-                      <p v-else>Pas d'info</p>
-                    </div>
-                  </template>
-                </p-datatable>
-              </p-panel>
-            </div>
+          <div>
             <lck-data-detail
               :crudMode="crudMode"
               :definition="block.definition"
@@ -298,6 +223,11 @@
               :autocompleteSuggestions="autocompleteSuggestions"
               @update-suggestions="updateLocalAutocompleteSuggestions"
               @update-row="onUpdateCell"
+            />
+            <lck-process-panel
+              :processesByRow="processesByRow"
+              :rowId="row.id"
+              @process-trigger="onTriggerProcess"
             />
           </div>
         </div>
@@ -315,7 +245,7 @@
 import Vue from 'vue'
 import saveAs from 'file-saver'
 
-import { formatISO, lightFormat, parseISO } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -335,21 +265,17 @@ import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
-import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
+import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
-import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
-import Panel from 'primevue/panel'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
-import PrimeDataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-
+import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
@@ -373,6 +299,7 @@ export default {
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
     'lck-data-detail': DataDetail,
+    'lck-process-panel': ProcessPanel,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -380,12 +307,8 @@ export default {
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
-    'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
-    'p-panel': Vue.extend(Panel),
     'p-toolbar': Vue.extend(Toolbar),
-    'p-datatable': Vue.extend(PrimeDataTable),
-    'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button)
   },
   props: {
@@ -420,7 +343,6 @@ export default {
       },
       manualProcesses: [],
       processesByRow: [],
-      expandedRows: [],
       submitting: false,
       exporting: false,
       currentTableId: null,
@@ -501,9 +423,6 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     searchItems: lckHelpers.searchItems,
-    formatDate (date) {
-      return lightFormat(parseISO(date), this.$t('date.datetimeLogFormat'))
-    },
     resetToDefault () {
       this.block = {
         loading: false,
@@ -841,9 +760,18 @@ export default {
       })
       if (res) {
         this.$toast.add({ severity: 'success', summary: 'Updated', detail: name, life: 3000 })
-        // Todo: To improve
-        this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
-        this.manualProcesses = await retrieveManualProcessTrigger(this.currentTableId)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { process_trigger: useless, ...rest } = res
+        // Add execution when event is triggered in datatable to check if the trigger must be disabled
+        const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processTriggerId)
+        if (indexManualProcess >= 0) {
+          this.manualProcesses[indexManualProcess].executions = [rest, ...this.manualProcesses[indexManualProcess].executions]
+        }
+        // Add/Update execution when event is triggered in the processPanel
+        const indexProcessRow = this.processesByRow.findIndex(process => process.id === processTriggerId)
+        if (indexProcessRow >= 0) {
+          this.processesByRow[indexProcessRow].executions.push(res)
+        }
       }
     }
   },
@@ -928,11 +856,5 @@ export default {
 .lck-database-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
 }
 </style>

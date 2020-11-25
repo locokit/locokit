@@ -397,7 +397,7 @@ export default {
               name: process.text
             })
           },
-          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.result === 'SUCCESS')
+          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === 'SUCCESS')
         }
       ))
     },

@@ -99,6 +99,19 @@
     },
     "detailview": {
       "goback": "Retourner aux résultats"
+    },
+    "processPanel": {
+      "title": "Processus",
+      "automatic": "Automatique",
+      "MANUAL": "Manuel",
+      "CRON": "Cron",
+      "SUCCESS": "SUCCÈS",
+      "WARNING": "ATTENTION",
+      "RUNNING": "EN COURS",
+      "ERROR": "ERREUR",
+      "status": "Statut",
+      "when": "Executé le",
+      "noLog": "Aucune information supplémentaire"
     }
   },
   "pages": {
