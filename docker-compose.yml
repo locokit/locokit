@@ -22,5 +22,21 @@ services:
       POSTGRES_PASSWORD: pouicpouic
     # restart: always
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      - 1025:1025
+      - 8025:8025
+
 volumes:
   lck-db-data:
+  mailhog:
