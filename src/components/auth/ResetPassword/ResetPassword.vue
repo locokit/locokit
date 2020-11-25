@@ -1,7 +1,7 @@
 <template>
   <form
     @submit.prevent="emitSubmit"
-    class="p-text-left"
+    class="p-text-left p-fluid"
   >
     <div class="p-field">
       <label for="password">{{ $t('components.resetpassword.password') }}</label>
