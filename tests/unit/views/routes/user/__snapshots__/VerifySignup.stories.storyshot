@@ -54,7 +54,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
     Please update your password before we authorize you to connect.
     
               <form
-                class="p-text-left p-mt-4"
+                class="p-text-left p-fluid p-mt-4"
               >
                 <div
                   class="p-field"
