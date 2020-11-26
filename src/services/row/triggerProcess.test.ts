@@ -1,7 +1,7 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { database } from '../../models/database.model'
-import { Process, ProcessTrigger } from '../../models/process.model'
+import { ProcessTrigger } from '../../models/process.model'
 
 import { table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
