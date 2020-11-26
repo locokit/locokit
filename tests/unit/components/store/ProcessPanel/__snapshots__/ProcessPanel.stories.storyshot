@@ -47,7 +47,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
               </span>
                
               <span
-                class="p-badge p-badge-info"
+                class="p-badge lck-badge-process"
               >
                 2
               </span>
@@ -59,7 +59,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
               <span
                 class="p-tag p-tag-rounded p-m-auto"
               >
-                Manuel
+                
+              Manuel
+            
               </span>
             </div>
              
@@ -222,7 +224,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
               <span
                 class="p-tag p-tag-rounded p-m-auto"
               >
-                Cron
+                
+              Cron
+            
               </span>
             </div>
              
@@ -315,7 +319,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
               <span
                 class="p-tag p-tag-rounded p-m-auto"
               >
-                Automatique
+                
+              Automatique
+            
               </span>
             </div>
              

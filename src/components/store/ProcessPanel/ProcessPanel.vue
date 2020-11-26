@@ -17,11 +17,13 @@
               <span>{{ process.text }} </span>
               <span
                 v-if="process.executions && process.executions.length > 0"
-                class="p-badge p-badge-info"
+                class="p-badge lck-badge-process"
               >{{ process.executions.length }}</span>
             </div>
             <div class="p-col-2">
-              <span class="p-tag p-tag-rounded p-m-auto">{{ ['CRON', 'MANUAL'].includes(process.event) ? $t(`components.processPanel.${process.event}`) : $t('components.processPanel.automatic') }}</span>
+              <span class="p-tag p-tag-rounded p-m-auto">
+                {{ [ProcessTriggerEvent.CRON, ProcessTriggerEvent.MANUAL].includes(process.event) ? $t(`components.processPanel.${process.event}`) : $t('components.processPanel.automatic') }}
+              </span>
             </div>
             <div
               v-if="['CRON', 'MANUAL'].includes(process.event)"
@@ -31,7 +33,7 @@
                 icon="pi pi-play"
                 class="p-button-sm"
                 @click="onProcessTrigger(rowId, process)"
-                :disabled="process.executions && process.executions.length > 0 && process.executions[0].status === 'SUCCESS'"
+                :disabled="process.executions && process.executions.length > 0 && process.executions[0].status === ProcessExecutionStatus.SUCCESS"
               />
             </div>
             <div
@@ -72,9 +74,9 @@
             <span
               class="p-tag p-tag-rounded"
               :class="
-                slotProps.data.status === 'SUCCESS' && 'p-tag-success' ||
-                slotProps.data.status === 'WARNING' && 'p-tag-warning' ||
-                slotProps.data.status === 'ERROR' && 'p-tag-danger' ||
+                slotProps.data.status === ProcessExecutionStatus.SUCCESS && 'p-tag-success' ||
+                slotProps.data.status === ProcessExecutionStatus.WARNING && 'p-tag-warning' ||
+                slotProps.data.status === ProcessExecutionStatus.ERROR && 'p-tag-danger' ||
                'p-tag-info'
               "
             >
@@ -87,9 +89,9 @@
             :header="$t('components.processPanel.when')"
           >
             <template #body="slotProps">
-              <span>{{ formatDate(slotProps.data.createdAt) }}</span>
+              <span>{{ formatDate(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
               <span
-                v-if="slotProps.data.status !== 'RUNNING' && slotProps.data.duration"
+                v-if="slotProps.data.status !== ProcessTriggerEvent.RUNNING && slotProps.data.duration"
               >
               ({{ slotProps.data.duration }}ms)
             </span>
@@ -126,7 +128,8 @@ import Panel from 'primevue/panel'
 import PrimeDataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
-import { lightFormat, parseISO } from 'date-fns'
+import { ProcessExecutionStatus, ProcessTriggerEvent } from '@/services/lck-utils/process'
+import { formatDate } from '@/services/lck-utils/date'
 
 export default Vue.extend({
   name: 'ProcessPanel',
@@ -149,13 +152,13 @@ export default Vue.extend({
   },
   data () {
     return {
+      ProcessExecutionStatus,
+      ProcessTriggerEvent,
       expandedRows: []
     }
   },
   methods: {
-    formatDate (date: string) {
-      return lightFormat(parseISO(date), this.$t('date.datetimeLogFormat'))
-    },
+    formatDate,
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
       this.$emit('create-process-runs', {
         rowId,
@@ -188,9 +191,7 @@ export default Vue.extend({
   text-overflow: ellipsis;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+.lck-badge-process {
+  background-color: #7d9399;
 }
 </style>

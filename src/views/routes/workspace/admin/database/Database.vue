@@ -250,18 +250,20 @@ import { formatISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
-  createManualProcessExecution,
   databaseState,
-  patchProcessTrigger,
   patchTableData,
   retrieveDatabaseTableAndViewsDefinitions,
-  retrieveManualProcessTrigger,
-  retrieveProcessesByRow,
   retrieveTableColumns,
   retrieveTableRowsWithSkipAndLimit,
   retrieveTableViews,
   saveTableData
 } from '@/store/database'
+import {
+  createManualProcessExecution,
+  patchProcessTrigger,
+  retrieveManualProcessTrigger,
+  retrieveProcessesByRow
+} from '@/store/process'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 

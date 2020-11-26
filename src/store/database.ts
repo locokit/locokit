@@ -2,6 +2,11 @@
 import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 import { LckColumnView } from '@/services/lck-api/helpers'
+import {
+  LckProcessExecution,
+  LckProcessTriggerWithExecutions,
+  ProcessTriggerEvent
+} from '@/services/lck-utils/process'
 
 class Database {
   text = ''
@@ -164,76 +169,6 @@ export async function patchTableData (rowId: string, formData: object) {
   databaseState.loading = true
   try {
     return await lckServices.tableRow.patch(rowId, formData)
-  } catch ({ code, name }) {
-    databaseState.error = new Error(`${code}: ${name}`)
-  }
-  databaseState.loading = false
-}
-
-export async function retrieveManualProcessTrigger (tableId: string) {
-  databaseState.error = null
-
-  try {
-    const res = await lckServices.processTrigger.find({
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: {
-        table_id: tableId,
-        event: 'MANUAL',
-        $eager: 'executions'
-      }
-    })
-    return res.data
-  } catch (error) {
-    databaseState.error = error
-  }
-  databaseState.loading = false
-}
-
-export async function retrieveProcessesByRow (tableId: string, rowId: string) {
-  databaseState.error = null
-  /*
-    * Warning
-    * Pagination is computed from the executions and no longer from the number of triggers.
-    * So the skip information is wrong (it is always correlated to the trigger).
-   */
-  try {
-    const res = await lckServices.processTrigger.find({
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: {
-        table_id: tableId,
-        $eager: 'executions',
-        $joinEager: 'executions',
-        $sort: { createdAt: 1, 'executions.createdAt': -1 },
-        $limit: -1
-      }
-    })
-    return res.map((process: { executions: { table_row_id: string }[] }) => {
-      if (process.executions.length > 0) {
-        process.executions = [...process.executions.filter(exec => exec.table_row_id === rowId)]
-      }
-      return process
-    })
-  } catch (error) {
-    databaseState.error = error
-  }
-  databaseState.loading = false
-}
-
-export async function createManualProcessExecution (formData: { process_trigger_id: string; table_row_id: string }) {
-  databaseState.error = null
-
-  try {
-    return await lckServices.processExecution.create(formData)
-  } catch (error) {
-    databaseState.error = error
-  }
-  databaseState.loading = false
-}
-
-export async function patchProcessTrigger (processTriggerId: string, formData: object) {
-  databaseState.loading = true
-  try {
-    return await lckServices.processTrigger.patch(processTriggerId, formData)
   } catch ({ code, name }) {
     databaseState.error = new Error(`${code}: ${name}`)
   }

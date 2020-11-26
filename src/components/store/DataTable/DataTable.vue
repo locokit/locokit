@@ -250,9 +250,11 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { formatISO, lightFormat, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import { ProcessTriggerEvent } from '@/services/lck-utils/process'
+import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 
 export default {
   name: 'LckDatatable',
@@ -397,7 +399,7 @@ export default {
               name: process.text
             })
           },
-          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === 'SUCCESS')
+          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === ProcessTriggerEvent.SUCCESS)
         }
       ))
     },
@@ -424,7 +426,7 @@ export default {
             }
           case COLUMN_TYPE.DATE:
           // eslint-disable-next-line no-case-declarations
-            return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
+            return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
         }
@@ -514,7 +516,7 @@ export default {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: this.currentDateToEdit ? formatISO(this.currentDateToEdit, { representation: 'date' }) : null
+        newValue: this.currentDateToEdit ? formatDateISO(this.currentDateToEdit) : null
       })
     },
     /**
@@ -570,7 +572,7 @@ export default {
            * we just want to store the date
            */
           if (this.currentDateToEdit) {
-            value = formatISO(this.currentDateToEdit, { representation: 'date' })
+            value = formatDateISO(this.currentDateToEdit)
           } else {
             value = null
           }
