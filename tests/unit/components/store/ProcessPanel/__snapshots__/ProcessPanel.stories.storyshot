@@ -1,0 +1,387 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/store/ProcessPanel default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <h3>
+      Processus
+    </h3>
+     
+    <div>
+      <p>
+        Aucune donnée à afficher
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/ProcessPanel with all processes according to a specific row 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <h3>
+      Processus
+    </h3>
+     
+    <div
+      class="p-pb-6"
+    >
+      <div
+        class="p-panel p-component p-panel-toggleable"
+      >
+        <div
+          class="p-panel-header"
+        >
+          <div
+            class="p-grid process-panel-header"
+          >
+            <div
+              class="p-col-8 process-header-title p-m-auto"
+            >
+              <span>
+                Trigger 1 
+              </span>
+               
+              <span
+                class="p-badge p-badge-info"
+              >
+                2
+              </span>
+            </div>
+             
+            <div
+              class="p-col-2"
+            >
+              <span
+                class="p-tag p-tag-rounded p-m-auto"
+              >
+                Manuel
+              </span>
+            </div>
+             
+            <div
+              class="p-col-2 p-m-auto"
+            >
+              <button
+                class="p-button-sm p-button p-component p-button-icon-only"
+                disabled="disabled"
+                type="button"
+              >
+                <span
+                  class="pi pi-play p-button-icon"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                   
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
+           
+          <div
+            class="p-panel-icons"
+          >
+             
+            <button
+              aria-controls="pv_id_2_content"
+              class="p-panel-header-icon p-panel-toggler p-link"
+              id="pv_id_2_header"
+              type="button"
+            >
+              <span
+                class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </div>
+         
+        <div
+          aria-labelledby="pv_id_2_header"
+          class="p-toggleable-content"
+          id="pv_id_2_content"
+          role="region"
+          style="display: none;"
+        >
+          <div
+            class="p-panel-content"
+          >
+             
+            <div
+              class="
+        p-datatable-sm
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+            >
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-datatable-wrapper"
+              >
+                <table
+                  role="grid"
+                >
+                  <thead
+                    class="p-datatable-thead"
+                  >
+                    <tr />
+                     
+                    <!---->
+                  </thead>
+                   
+                  <tbody
+                    class="p-datatable-tbody"
+                  >
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                  </tbody>
+                   
+                  <!---->
+                </table>
+              </div>
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-column-resizer-helper"
+                style="display: none;"
+              />
+               
+              <!---->
+               
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-panel p-component p-panel-toggleable"
+      >
+        <div
+          class="p-panel-header"
+        >
+          <div
+            class="p-grid process-panel-header"
+          >
+            <div
+              class="p-col-8 process-header-title p-m-auto"
+            >
+              <span>
+                Trigger 2 
+              </span>
+               
+              <!---->
+            </div>
+             
+            <div
+              class="p-col-2"
+            >
+              <span
+                class="p-tag p-tag-rounded p-m-auto"
+              >
+                Cron
+              </span>
+            </div>
+             
+            <div
+              class="p-col-2 p-m-auto"
+            >
+              <button
+                class="p-button-sm p-button p-component p-button-icon-only"
+                type="button"
+              >
+                <span
+                  class="pi pi-play p-button-icon"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                   
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
+           
+          <div
+            class="p-panel-icons"
+          >
+             
+            <button
+              aria-controls="pv_id_3_content"
+              class="p-panel-header-icon p-panel-toggler p-link"
+              id="pv_id_3_header"
+              type="button"
+            >
+              <span
+                class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </div>
+         
+        <div
+          aria-labelledby="pv_id_3_header"
+          class="p-toggleable-content"
+          id="pv_id_3_content"
+          role="region"
+          style="display: none;"
+        >
+          <div
+            class="p-panel-content"
+          >
+             
+            <span>
+              
+        Aucune donnée à afficher
+      
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-panel p-component p-panel-toggleable"
+      >
+        <div
+          class="p-panel-header"
+        >
+          <div
+            class="p-grid process-panel-header"
+          >
+            <div
+              class="p-col-8 process-header-title p-m-auto"
+            >
+              <span>
+                Trigger 3 
+              </span>
+               
+              <!---->
+            </div>
+             
+            <div
+              class="p-col-2"
+            >
+              <span
+                class="p-tag p-tag-rounded p-m-auto"
+              >
+                Automatique
+              </span>
+            </div>
+             
+            <div
+              class="p-col-2 p-m-auto"
+            >
+              <div
+                class="p-inputswitch p-component p-inputswitch-checked"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    aria-checked="true"
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="p-panel-icons"
+          >
+             
+            <button
+              aria-controls="pv_id_4_content"
+              class="p-panel-header-icon p-panel-toggler p-link"
+              id="pv_id_4_header"
+              type="button"
+            >
+              <span
+                class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </div>
+         
+        <div
+          aria-labelledby="pv_id_4_header"
+          class="p-toggleable-content"
+          id="pv_id_4_content"
+          role="region"
+          style="display: none;"
+        >
+          <div
+            class="p-panel-content"
+          >
+             
+            <span>
+              
+        Aucune donnée à afficher
+      
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
