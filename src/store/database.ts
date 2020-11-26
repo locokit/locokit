@@ -2,7 +2,6 @@
 import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 import { LckColumnView } from '@/services/lck-api/helpers'
-import { ProcessTriggerEvent } from '@/services/lck-utils/process'
 
 class Database {
   text = ''
@@ -179,10 +178,11 @@ export async function retrieveManualProcessTrigger (tableId: string) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
+        event: 'MANUAL',
         $eager: 'executions'
       }
     })
-    return res.data.filter((process: {event: ProcessTriggerEvent}) => process.event === 'MANUAL')
+    return res.data
   } catch (error) {
     databaseState.error = error
   }
@@ -203,11 +203,11 @@ export async function retrieveProcessesByRow (tableId: string, rowId: string) {
         table_id: tableId,
         $eager: 'executions',
         $joinEager: 'executions',
-        $sort: { createdAt: -1, 'executions.createdAt': -1 },
-        $limit: 50
+        $sort: { createdAt: 1, 'executions.createdAt': -1 },
+        $limit: -1
       }
     })
-    return res.data.map((process: { executions: { table_row_id: string }[] }) => {
+    return res.map((process: { executions: { table_row_id: string }[] }) => {
       if (process.executions.length > 0) {
         process.executions = [...process.executions.filter(exec => exec.table_row_id === rowId)]
       }
@@ -226,6 +226,16 @@ export async function createManualProcessExecution (formData: { process_trigger_
     return await lckServices.processExecution.create(formData)
   } catch (error) {
     databaseState.error = error
+  }
+  databaseState.loading = false
+}
+
+export async function patchProcessTrigger (processTriggerId: string, formData: object) {
+  databaseState.loading = true
+  try {
+    return await lckServices.processTrigger.patch(processTriggerId, formData)
+  } catch ({ code, name }) {
+    databaseState.error = new Error(`${code}: ${name}`)
   }
   databaseState.loading = false
 }

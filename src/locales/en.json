@@ -109,7 +109,8 @@
       "ERROR": "ERROR",
       "status": "Status",
       "when": "When",
-      "noLog": "No additional information"
+      "noLog": "No additional information",
+      "noDataToDisplay": "No data to display"
     }
   },
   "pages": {

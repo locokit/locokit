@@ -104,7 +104,7 @@
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
         @open-detail="onOpenDetail"
-        @process-trigger="onTriggerProcess"
+        @create-process-runs="onTriggerProcess"
       />
 
       <p-dialog
@@ -227,7 +227,8 @@
             <lck-process-panel
               :processesByRow="processesByRow"
               :rowId="row.id"
-              @process-trigger="onTriggerProcess"
+              @create-process-runs="onTriggerProcess"
+              @update-process-trigger="onUpdateProcessTrigger"
             />
           </div>
         </div>
@@ -251,6 +252,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import {
   createManualProcessExecution,
   databaseState,
+  patchProcessTrigger,
   patchTableData,
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveManualProcessTrigger,
@@ -753,6 +755,13 @@ export default {
       }
       this.cellState.waiting = false
     },
+    async onUpdateProcessTrigger ({ processTriggerId, enabled }) {
+      const res = await patchProcessTrigger(processTriggerId, { enabled })
+      const indexProcessRow = this.processesByRow.findIndex(process => process.id === processTriggerId)
+      if (res && indexProcessRow >= 0) {
+        this.processesByRow[indexProcessRow].enabled = res.enabled
+      }
+    },
     async onTriggerProcess ({ rowId, processTriggerId, name }) {
       const res = await createManualProcessExecution({
         table_row_id: rowId,
@@ -762,6 +771,7 @@ export default {
         this.$toast.add({ severity: 'success', summary: 'Updated', detail: name, life: 3000 })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { process_trigger: useless, ...rest } = res
+
         // Add execution when event is triggered in datatable to check if the trigger must be disabled
         const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processTriggerId)
         if (indexManualProcess >= 0) {

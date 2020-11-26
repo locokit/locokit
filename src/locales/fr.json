@@ -111,7 +111,8 @@
       "ERROR": "ERREUR",
       "status": "Statut",
       "when": "Executé le",
-      "noLog": "Aucune information supplémentaire"
+      "noLog": "Aucune information supplémentaire",
+      "noDataToDisplay": "Aucune donnée à afficher"
     }
   },
   "pages": {

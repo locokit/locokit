@@ -391,7 +391,7 @@ export default {
           label: process.text,
           icon: 'pi pi-play',
           command: () => {
-            this.$emit('process-trigger', {
+            this.$emit('create-process-runs', {
               rowId,
               processTriggerId: process.id,
               name: process.text

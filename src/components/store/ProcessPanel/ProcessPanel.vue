@@ -1,66 +1,74 @@
 <template>
-  <div
-    v-if="processesByRow.length > 0 || !!rowId"
-  >
+  <div>
     <h3>{{ $t('components.processPanel.title') }}</h3>
-    <p-panel
-      v-for="process in processesByRow"
-      :key="process.id"
-      :toggleable="true"
-      :collapsed="true"
+    <div
+      v-if="processesByRow.length > 0 || !!rowId"
+      class="p-pb-6"
     >
-      <template #header>
-        <div class="p-grid process-panel-header">
-          <div class="p-col-8 process-header-title p-m-auto">
-            <span>{{ process.text }}</span>
+      <p-panel
+        v-for="process in processesByRow"
+        :key="process.id"
+        :toggleable="true"
+        :collapsed="true"
+      >
+        <template #header>
+          <div class="p-grid process-panel-header">
+            <div class="p-col-8 process-header-title p-m-auto">
+              <span>{{ process.text }} </span>
+              <span
+                v-if="process.executions && process.executions.length > 0"
+                class="p-badge p-badge-info"
+              >{{ process.executions.length }}</span>
+            </div>
+            <div class="p-col-2">
+              <span class="p-tag p-tag-rounded p-m-auto">{{ ['CRON', 'MANUAL'].includes(process.event) ? $t(`components.processPanel.${process.event}`) : $t('components.processPanel.automatic') }}</span>
+            </div>
+            <div
+              v-if="['CRON', 'MANUAL'].includes(process.event)"
+              class="p-col-2 p-m-auto"
+            >
+              <p-button
+                icon="pi pi-play"
+                class="p-button-sm"
+                @click="onProcessTrigger(rowId, process)"
+                :disabled="process.executions && process.executions.length > 0 && process.executions[0].status === 'SUCCESS'"
+              />
+            </div>
+            <div
+              v-else
+              class="p-col-2 p-m-auto"
+            >
+              <p-input-switch
+                :value="!!process.enabled"
+                @input="onActivityProcess(process.id, $event)"
+              />
+            </div>
           </div>
-          <div class="p-col-2">
-            <span class="p-tag p-tag-rounded p-m-auto">{{ ['CRON', 'MANUAL'].includes(process.event) ? $t(`components.processPanel.${process.event}`) : $t('components.processPanel.automatic') }}</span>
-          </div>
-          <div
-            v-if="['CRON', 'MANUAL'].includes(process.event)"
-            class="p-col-2 p-m-auto"
-          >
-            <p-button
-              icon="pi pi-play"
-              class="p-button-sm"
-              @click="onProcessTrigger(rowId, process)"
-              :disabled="process.executions.length > 0 && process.executions[0].status === 'SUCCESS'"
-            />
-          </div>
-          <div
-            v-else
-            class="p-col-2 p-m-auto"
-          >
-            <p-input-switch
-              :value="process.enabled"
-            />
-          </div>
-        </div>
-      </template>
-      <p-datatable
-        class="
+        </template>
+        <p-datatable
+          v-if="process.executions && process.executions.length > 0"
+          class="
           p-datatable-sm
           p-d-flex
           p-flex-column
           justify-between
         "
-        :value="process.executions"
-        :expandedRows.sync="expandedRows"
-        dataKey="id"
-      >
-        <p-column
-          headerStyle="height: 2.5rem; width: 3rem"
-          bodyStyle="height: 2.5rem; width: 3rem"
-          :expander="true"
-        />
-        <p-column
-          headerStyle="height: 2.5rem"
-          bodyStyle="height: 2.5rem"
-          field="status"
-          :header="$t('components.processPanel.status')"
+          :value="process.executions"
+          :expandedRows.sync="expandedRows"
+          dataKey="id"
         >
-          <template #body="slotProps">
+          <p-column
+            headerStyle="height: 2.5rem; width: 3rem"
+            bodyStyle="height: 2.5rem; width: 3rem"
+            :expander="true"
+          />
+          <p-column
+            headerStyle="height: 2.5rem"
+            bodyStyle="height: 2.5rem"
+            field="status"
+            :header="$t('components.processPanel.status')"
+          >
+            <template #body="slotProps">
             <span
               class="p-tag p-tag-rounded"
               :class="
@@ -72,27 +80,41 @@
             >
               {{ $t(`components.processPanel.${slotProps.data.status}`) }}
             </span>
-          </template>
-        </p-column>
-        <p-column
-          field="createdAt"
-          :header="$t('components.processPanel.when')"
-        >
-          <template #body="slotProps">
-            {{ formatDate(slotProps.data.createdAt) }} ({{ slotProps.data.duration }}ms)
-          </template>
-        </p-column>
-        <template #expansion="slotProps">
-          <div
-            v-if="!!slotProps.data.log"
-            class="pre"
+            </template>
+          </p-column>
+          <p-column
+            field="createdAt"
+            :header="$t('components.processPanel.when')"
           >
-            {{ slotProps.data.log }}
-          </div>
-          <p v-else>{{ $t('components.processPanel.noLog') }}</p>
-        </template>
-      </p-datatable>
-    </p-panel>
+            <template #body="slotProps">
+              <span>{{ formatDate(slotProps.data.createdAt) }}</span>
+              <span
+                v-if="slotProps.data.status !== 'RUNNING' && slotProps.data.duration"
+              >
+              ({{ slotProps.data.duration }}ms)
+            </span>
+            </template>
+          </p-column>
+          <template #expansion="slotProps">
+            <div
+              v-if="!!slotProps.data.log"
+              class="pre"
+            >
+              {{ slotProps.data.log }}
+            </div>
+            <p v-else>{{ $t('components.processPanel.noLog') }}</p>
+          </template>
+        </p-datatable>
+        <span
+          v-else
+        >
+          {{ $t('components.processPanel.noDataToDisplay') }}
+        </span>
+      </p-panel>
+    </div>
+    <div v-else>
+      <p>{{ $t('components.processPanel.noDataToDisplay') }}</p>
+    </div>
   </div>
 </template>
 
@@ -117,10 +139,12 @@ export default Vue.extend({
   },
   props: {
     processesByRow: {
-      type: Array
+      type: Array,
+      default: () => ([])
     },
     rowId: {
-      type: null
+      type: String,
+      default: null
     }
   },
   data () {
@@ -133,10 +157,16 @@ export default Vue.extend({
       return lightFormat(parseISO(date), this.$t('date.datetimeLogFormat'))
     },
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
-      this.$emit('process-trigger', {
+      this.$emit('create-process-runs', {
         rowId,
         processTriggerId: process.id,
         name: process.text
+      })
+    },
+    onActivityProcess (processTriggerId, event) {
+      this.$emit('update-process-trigger', {
+        processTriggerId,
+        enabled: event
       })
     }
   }
@@ -147,6 +177,7 @@ export default Vue.extend({
 /deep/ .p-panel-header {
   flex-direction: row-reverse;
 }
+
 .process-panel-header{
   width: 100%;
 }
