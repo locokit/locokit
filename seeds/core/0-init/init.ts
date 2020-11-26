@@ -5,8 +5,7 @@ export async function seed (knex: Knex): Promise<any> {
   /**
    * Process part
    */
-  await knex('process_execution').del()
-  await knex('process_trigger').del()
+  await knex('process_run').del()
   await knex('process').del()
   /**
    * Storage

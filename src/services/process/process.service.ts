@@ -38,7 +38,7 @@ export default function (app: Application): void {
       '$joinEager',
       '$modifyEager'
     ],
-    allowedEager: '[triggers.[executions]]',
+    allowedEager: '[runs, table]',
     paginate: app.get('paginate')
   }
 

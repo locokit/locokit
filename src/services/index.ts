@@ -18,8 +18,7 @@ import authmanagement from './authmanagement/authmanagement.service'
 import authentication from './authentication/authentication.service'
 import tableViewHasTableColumn from './table_view_has_table_column/table_view_has_table_column.service'
 import process from './process/process.service'
-import processTrigger from './process_trigger/process_trigger.service'
-import processExecution from './process_execution/process_execution.service'
+import processRun from './process_run/process_run.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application) {
@@ -42,6 +41,5 @@ export default function (app: Application) {
   app.configure(authmanagement)
   app.configure(tableViewHasTableColumn)
   app.configure(process)
-  app.configure(processTrigger)
-  app.configure(processExecution)
+  app.configure(processRun)
 }

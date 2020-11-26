@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { HookContext } from '@feathersjs/feathers'
-import { ProcessTrigger } from '../../models/process_trigger.model'
+import { Process } from '../../models/process.model'
 import axios from 'axios'
-import { ProcessExecutionStatus } from '../../models/process_execution.model'
+import { ProcessRunStatus } from '../../models/process_run.model'
 
 /**
  * Run the process id.
@@ -14,27 +14,27 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
    * Spawn a new process to run it, in fire&forget mode
    */
   const now = Date.now()
-  axios.post((context.result.process_trigger as ProcessTrigger).process?.url as string, {
-    process_trigger_id: context.result.process_trigger_id,
-    process_execution_id: context.data.id,
+  axios.post((context.result.process as Process).url as string, {
+    process_id: context.result.process_id,
+    process_run_id: context.data.id,
     table_row_id: context.data.table_row_id
   })
     .then(value => {
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
-        status: ProcessExecutionStatus.SUCCESS,
+        status: ProcessRunStatus.SUCCESS,
         log: value.data?.log
       })
     })
     .catch(reason => {
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
-        status: ProcessExecutionStatus.ERROR,
+        status: ProcessRunStatus.ERROR,
         log: reason?.toString()
       })
     })
   /**
-   * Return the context, maybe by updating the status of execution to 'RUNNING'
+   * Return the context, maybe by updating the status of run to 'RUNNING'
    */
   return context
 }

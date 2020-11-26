@@ -30,14 +30,14 @@ export function removeRelatedExecutions () : Hook {
   return async (context: HookContext): Promise<HookContext> => {
     if (context.method === 'remove') {
       // remove the related rows pointing to the current row
-      const matchingExecution = await context.app.service('process-execution').find({
+      const matchingExecution = await context.app.service('process-run').find({
         query: {
           table_row_id: context.id
         },
         paginate: false
       })
       if (matchingExecution.length > 0) {
-        await context.app.service('process-execution').remove(null, {
+        await context.app.service('process-run').remove(null, {
           query: {
             table_row_id: context.id
           }

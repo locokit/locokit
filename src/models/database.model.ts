@@ -4,6 +4,7 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
 import { Model } from 'objection'
+import { workspace } from './workspace.model'
 
 export class database extends BaseModel {
   text!: string;
@@ -35,6 +36,14 @@ export class database extends BaseModel {
         join: {
           from: 'database.id',
           to: 'table.database_id'
+        }
+      },
+      workspace: {
+        relation: Model.HasOneRelation,
+        modelClass: workspace,
+        join: {
+          from: 'database.workspace_id',
+          to: 'workspace.id'
         }
       }
     }
