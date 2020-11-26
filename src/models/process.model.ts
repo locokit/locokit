@@ -42,7 +42,7 @@ export class Process extends BaseModel {
         id: { type: 'string' },
         text: { type: 'string' },
         enabled: { type: 'boolean' },
-        maximumNumberSuccess: { type: 'string' },
+        maximumNumberSuccess: { type: 'number' },
         url: { type: 'string' },
         trigger: { type: 'string' },
         settings: { type: 'object' },
