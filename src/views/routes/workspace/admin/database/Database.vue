@@ -625,9 +625,6 @@ export default {
         })
       this.exporting = false
     },
-    onClickCreateProcess () {
-      console.log('onClickCreateProcess')
-    },
     /**
      * When the user update the column's listing of the current view,
      * we update accordingly the view on the backend side (add/remove column in the view)

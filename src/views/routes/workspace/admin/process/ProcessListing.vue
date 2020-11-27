@@ -155,7 +155,6 @@ export default {
   },
   methods: {
     async onInputProcess (data: Partial<LckProcess>) {
-      console.log(JSON.parse(JSON.stringify(data)))
       this.submitting = true
       try {
         if (data.id) {
