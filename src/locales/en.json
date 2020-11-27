@@ -68,7 +68,7 @@
               "match": "match",
               "doesNotMatch": "does not match",
               "isEqualTo": "is equal to",
-              "isDifferentThan": "is different than",
+              "isDifferentFrom": "is different from",
               "in": "is included in",
               "notIn": "is not included in",
               "all": "contains all the elements",
@@ -283,6 +283,7 @@
   "form" : {
     "add": "Add",
     "delete": "Delete",
+    "reset": "Reset",
     "cancel": "Cancel",
     "submit": "Submit",
     "remove": "Remove",

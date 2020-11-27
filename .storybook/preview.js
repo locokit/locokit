@@ -6,6 +6,9 @@ import i18n from '../src/plugins/i18n'
 import '../src/plugins/primevue'
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 
+i18n.locale = 'en'
+i18n.fallbackLocale = 'en'
+
 addParameters({
   docs: {
     container: DocsContainer,

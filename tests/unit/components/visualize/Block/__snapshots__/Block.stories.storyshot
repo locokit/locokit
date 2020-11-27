@@ -322,7 +322,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             <span
               class="p-paginator-current"
             >
-              De 1 à 2 sur 2 résultat(s)
+              Showing 1 to 2 of 2 entries
             </span>
              
             <div
@@ -335,7 +335,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
                   class="label"
                 >
                   
-        Aller à la page
+        Jump to page
       
                 </p>
                  
@@ -398,7 +398,7 @@ exports[`storyshots components/visualize/Block default 1`] = `
       class="lck-color-content"
     >
       
-    Le type de block n'existe pas.
+    The block type does not exist.
   
     </span>
   </div>
@@ -421,7 +421,7 @@ exports[`storyshots components/visualize/Block unknown type 1`] = `
         class="lck-color-content"
       >
         
-      Ce type de block NotKnown n'existe pas.
+      This NotKnown block type does not exist.
     
       </span>
     </div>

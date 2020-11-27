@@ -1,7 +1,7 @@
 <template>
   <form
     @submit.prevent="emitSubmit"
-    class="p-text-left"
+    class="p-text-left p-fluid"
   >
     <div class="p-field">
       <label for="password">{{ $t('components.resetpassword.password') }}</label>
@@ -15,7 +15,7 @@
         :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
         :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
         :promptLabel="$t('pages.account.edit.prompt')"
-        @blur="handleBlur"
+        @blur="checkPasswordMismatch"
         required
       />
       <small
@@ -32,7 +32,7 @@
         type="password"
         v-model="passwordCheck"
         :placeholder="$t('components.resetpassword.passwordCheck')"
-        @blur="handleBlur"
+        @blur="checkPasswordMismatch"
         required
       />
     </div>
@@ -107,10 +107,12 @@ export default Vue.extend({
   },
   methods: {
     emitSubmit () {
+      this.checkPasswordMismatch()
+      if (this.displayErrorMismatch) return
       this.$emit('submit', this.password)
     },
     // Check if mismatch between the password input
-    handleBlur () {
+    checkPasswordMismatch () {
       if (this.password && this.passwordCheck) {
         this.displayErrorMismatch = (this.password !== this.passwordCheck)
       }

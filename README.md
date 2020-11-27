@@ -85,12 +85,17 @@ to match your environement configuration.
 If you encounter a bug, please submit an issue.
 
 If you want to contribute to the code,
-first ask to the team where to begin.
+first ask to the team where to begin (with an issue).
 
-When making a contribution, please name your branch with the issue's id.
-
-For example, on the issue n° 23, you could name your branch `23-add-of-a-new-feature` or `23-fix-this-horrible-bug`.
-
-Then you could submit a Merge Request.
-
-The CI is configured, so you could check also if your branch is not breaking anything.
+1. create an issue, or be assigned on an issue
+2. put the issue in the "Doing" column of the board
+3. create a local branch prefixed by the issue's id (this help gitlab to wire issue / branch / MR)
+4. add some tests / stories for the code you're writing
+5. when your work is ok for you, push it to the repo
+6. create a MR
+7. check the CI is ok. CD is configured too, you could check your storybook & on surge.sh to see if it's working (this will help us for the review process)
+8. if all is green, put your issue in "To be reviewed" column of the board
+9. affect your MR to someone in the team to be reviewed
+10. maybe you'll have to take in consideration some aspects of your code, so discuss and take in consideration the remarks (restart to 4.)
+11. if review is ok, the reviewer will approve it
+12. now, you can merge it !!!... Congratulations !

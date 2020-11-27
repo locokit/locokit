@@ -70,7 +70,7 @@
               "match": "contient",
               "doesNotMatch": "ne contient pas",
               "isEqualTo": "est égal à",
-              "isDifferentThan": "est différent de",
+              "isDifferentFrom": "est différent de",
               "in": "est compris dans",
               "notIn": "n'est pas compris dans",
               "all": "contient tous les éléments",

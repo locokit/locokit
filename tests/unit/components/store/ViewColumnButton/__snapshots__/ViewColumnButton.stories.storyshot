@@ -18,7 +18,7 @@ exports[`storyshots components/store/View/ViewColumnButton default 1`] = `
       <span
         class="p-button-label"
       >
-        aucune colonne
+        no column
       </span>
        
       <!---->
@@ -51,7 +51,7 @@ exports[`storyshots components/store/View/ViewColumnButton disabled 1`] = `
       <span
         class="p-button-label"
       >
-        aucune colonne
+        no column
       </span>
        
       <!---->
@@ -83,7 +83,7 @@ exports[`storyshots components/store/View/ViewColumnButton with value and column
       <span
         class="p-button-label"
       >
-        4 colonnes
+        4 columns
       </span>
        
       <!---->

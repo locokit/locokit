@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.0.5-alpha.4",
+  "version": "0.0.5-alpha.6",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -81,7 +81,6 @@
     "storybook-vue-router": "^1.0.7",
     "style-loader": "^1.2.1",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-element": "~1.0.1",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11"
   },
