@@ -16,24 +16,24 @@
             <div class="p-col-8 process-header-title p-m-auto">
               <span>{{ process.text }} </span>
               <span
-                v-if="process.executions && process.executions.length > 0"
+                v-if="process.runs && process.runs.length > 0"
                 class="p-badge lck-badge-process"
-              >{{ process.executions.length }}</span>
+              >{{ process.runs.length }}</span>
             </div>
             <div class="p-col-2">
               <span class="p-tag p-tag-rounded p-m-auto">
-                {{ [ProcessTriggerEvent.CRON, ProcessTriggerEvent.MANUAL].includes(process.event) ? $t(`components.processPanel.${process.event}`) : $t('components.processPanel.automatic') }}
+                {{ [ProcessEvent.CRON, ProcessEvent.MANUAL].includes(process.trigger) ? $t(`components.processPanel.${process.trigger}`) : $t('components.processPanel.automatic') }}
               </span>
             </div>
             <div
-              v-if="['CRON', 'MANUAL'].includes(process.event)"
+              v-if="[ProcessEvent.CRON, ProcessEvent.MANUAL].includes(process.trigger)"
               class="p-col-2 p-m-auto"
             >
               <p-button
                 icon="pi pi-play"
                 class="p-button-sm"
                 @click="onProcessTrigger(rowId, process)"
-                :disabled="process.executions && process.executions.length > 0 && process.executions[0].status === ProcessExecutionStatus.SUCCESS"
+                :disabled="getDisabledProcessTrigger(process, rowId)"
               />
             </div>
             <div
@@ -48,14 +48,14 @@
           </div>
         </template>
         <p-datatable
-          v-if="process.executions && process.executions.length > 0"
+          v-if="process.runs && process.runs.length > 0"
           class="
           p-datatable-sm
           p-d-flex
           p-flex-column
           justify-between
         "
-          :value="process.executions"
+          :value="process.runs"
           :expandedRows.sync="expandedRows"
           dataKey="id"
         >
@@ -74,9 +74,9 @@
             <span
               class="p-tag p-tag-rounded"
               :class="
-                slotProps.data.status === ProcessExecutionStatus.SUCCESS && 'p-tag-success' ||
-                slotProps.data.status === ProcessExecutionStatus.WARNING && 'p-tag-warning' ||
-                slotProps.data.status === ProcessExecutionStatus.ERROR && 'p-tag-danger' ||
+                slotProps.data.status === ProcessRunStatus.SUCCESS && 'p-tag-success' ||
+                slotProps.data.status === ProcessRunStatus.WARNING && 'p-tag-warning' ||
+                slotProps.data.status === ProcessRunStatus.ERROR && 'p-tag-danger' ||
                'p-tag-info'
               "
             >
@@ -91,7 +91,7 @@
             <template #body="slotProps">
               <span>{{ formatDate(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
               <span
-                v-if="slotProps.data.status !== ProcessTriggerEvent.RUNNING && slotProps.data.duration"
+                v-if="slotProps.data.status !== ProcessEvent.RUNNING && slotProps.data.duration"
               >
               ({{ slotProps.data.duration }}ms)
             </span>
@@ -128,7 +128,11 @@ import Panel from 'primevue/panel'
 import PrimeDataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
-import { ProcessExecutionStatus, ProcessTriggerEvent } from '@/services/lck-utils/process'
+import {
+  ProcessRunStatus,
+  ProcessEvent,
+  getDisabledProcessTrigger
+} from '@/services/lck-utils/process'
 import { formatDate } from '@/services/lck-utils/date'
 
 export default Vue.extend({
@@ -152,23 +156,24 @@ export default Vue.extend({
   },
   data () {
     return {
-      ProcessExecutionStatus,
-      ProcessTriggerEvent,
+      ProcessRunStatus,
+      ProcessEvent,
       expandedRows: []
     }
   },
   methods: {
     formatDate,
+    getDisabledProcessTrigger,
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
       this.$emit('create-process-runs', {
         rowId,
-        processTriggerId: process.id,
+        processId: process.id,
         name: process.text
       })
     },
-    onActivityProcess (processTriggerId, event) {
+    onActivityProcess (processId, event) {
       this.$emit('update-process-trigger', {
-        processTriggerId,
+        processId,
         enabled: event
       })
     }

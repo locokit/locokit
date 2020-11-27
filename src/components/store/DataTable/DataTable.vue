@@ -54,7 +54,7 @@
               v-else
               class="p-button-sm p-button-text p-button-rounded"
               icon="pi pi-window-maximize"
-              :model="manualProcessesTrigger(slotProps.data.id)"
+              :model="formatManualProcesses(slotProps.data.id)"
               @click="$emit('open-detail', slotProps.data.id)"/>
           </template>
         </p-column>
@@ -253,7 +253,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
-import { ProcessExecutionStatus } from '@/services/lck-utils/process'
+import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 
 export default {
@@ -387,7 +387,8 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
-    manualProcessesTrigger (rowId) {
+    getDisabledProcessTrigger,
+    formatManualProcesses (rowId) {
       return this.manualProcesses.map(process => (
         {
           label: process.text,
@@ -395,11 +396,11 @@ export default {
           command: () => {
             this.$emit('create-process-runs', {
               rowId,
-              processTriggerId: process.id,
+              processId: process.id,
               name: process.text
             })
           },
-          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === ProcessExecutionStatus.SUCCESS)
+          disabled: this.getDisabledProcessTrigger(process, rowId)
         }
       ))
     },

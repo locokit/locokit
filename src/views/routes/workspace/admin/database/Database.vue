@@ -259,9 +259,9 @@ import {
   saveTableData
 } from '@/store/database'
 import {
-  createManualProcessExecution,
-  patchProcessTrigger,
-  retrieveManualProcessTrigger,
+  createProcessRun,
+  patchProcess,
+  retrieveManualProcessWithRuns,
   retrieveProcessesByRow
 } from '@/store/process'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
@@ -471,7 +471,7 @@ export default {
       this.views.length > 0 && (this.selectedViewId = this.views[0].id)
       this.block.loading = false
       await this.loadCurrentTableData()
-      this.manualProcesses = await retrieveManualProcessTrigger(this.currentTableId)
+      this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
     getCurrentFilters () {
       return this.currentDatatableFilters.map((filter, index) => ({
@@ -757,32 +757,32 @@ export default {
       }
       this.cellState.waiting = false
     },
-    async onUpdateProcessTrigger ({ processTriggerId, enabled }) {
-      const res = await patchProcessTrigger(processTriggerId, { enabled })
-      const indexProcessRow = this.processesByRow.findIndex(process => process.id === processTriggerId)
+    async onUpdateProcessTrigger ({ processId, enabled }) {
+      const res = await patchProcess(processId, { enabled })
+      const indexProcessRow = this.processesByRow.findIndex(process => process.id === processId)
       if (res && indexProcessRow >= 0) {
         this.processesByRow[indexProcessRow].enabled = res.enabled
       }
     },
-    async onTriggerProcess ({ rowId, processTriggerId, name }) {
-      const res = await createManualProcessExecution({
+    async onTriggerProcess ({ rowId, processId, name }) {
+      const res = await createProcessRun({
         table_row_id: rowId,
-        process_trigger_id: processTriggerId
+        process_id: processId
       })
       if (res) {
         this.$toast.add({ severity: 'success', summary: 'Updated', detail: name, life: 3000 })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { process_trigger: useless, ...rest } = res
+        const { process: useless, ...rest } = res
 
         // Add execution when event is triggered in datatable to check if the trigger must be disabled
-        const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processTriggerId)
+        const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processId)
         if (indexManualProcess >= 0) {
-          this.manualProcesses[indexManualProcess].executions = [rest, ...this.manualProcesses[indexManualProcess].executions]
+          this.manualProcesses[indexManualProcess].runs = [rest, ...this.manualProcesses[indexManualProcess].runs]
         }
         // Add/Update execution when event is triggered in the processPanel
-        const indexProcessRow = this.processesByRow.findIndex(process => process.id === processTriggerId)
+        const indexProcessRow = this.processesByRow.findIndex(process => process.id === processId)
         if (indexProcessRow >= 0) {
-          this.processesByRow[indexProcessRow].executions.push(res)
+          this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
         }
       }
     }

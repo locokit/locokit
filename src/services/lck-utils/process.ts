@@ -1,11 +1,11 @@
-export enum ProcessExecutionStatus {
+export enum ProcessRunStatus {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
   WARNING = 'WARNING',
   RUNNING = 'RUNNING'
 }
 
-export enum ProcessTriggerEvent {
+export enum ProcessEvent {
   MANUAL = 'MANUAL',
   CRON = 'CRON',
   CREATE_ROW = 'CREATE_ROW',
@@ -13,20 +13,21 @@ export enum ProcessTriggerEvent {
   UPDATE_ROW_DATA = 'UPDATE_ROW_DATA',
 }
 
-export interface LckProcessTriggerWithExecutions {
+export interface LckProcessWithRuns {
   id: string;
   text: string;
   setting: [];
-  executions: {}[];
   createdAt: Date;
   updateAt: Date;
-  process_id: string;
   table_id: string;
+  url: string;
   enabled: boolean;
-  event: ProcessTriggerEvent;
+  trigger: ProcessEvent;
+  maximumNumberSuccess: number;
+  runs: LckProcessRun[];
 }
 
-export interface LckProcessExecution {
+export interface LckProcessRun {
   id: string;
   text: string;
   duration: number;
@@ -34,7 +35,15 @@ export interface LckProcessExecution {
   setting: [];
   createdAt: Date;
   updateAt: Date;
-  process_trigger_id: string;
+  process_id: string;
   table_row_id: string;
-  status: ProcessExecutionStatus;
+  status: ProcessRunStatus;
+}
+
+export function getDisabledProcessTrigger (process: LckProcessWithRuns, rowId: string) {
+  if (process.runs && process.runs.length > 0) {
+    const res = process.runs.filter(run => rowId === run.table_row_id && run.status === ProcessRunStatus.SUCCESS)
+    return res.length === process.maximumNumberSuccess
+  }
+  return false
 }

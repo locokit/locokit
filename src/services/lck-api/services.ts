@@ -29,6 +29,6 @@ export const lckServices = {
   /**
    * Process
    */
-  processTrigger: lckClient.service('process-trigger'),
-  processExecution: lckClient.service('process-execution')
+  process: lckClient.service('process'),
+  processRun: lckClient.service('process-run')
 }
