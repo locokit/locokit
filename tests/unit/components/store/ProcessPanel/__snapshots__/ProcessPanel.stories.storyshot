@@ -6,12 +6,12 @@ exports[`storyshots components/store/ProcessPanel default 1`] = `
 >
   <div>
     <h3>
-      Processus
+      Process
     </h3>
      
     <div>
       <p>
-        Aucune donnée à afficher
+        No data to display
       </p>
     </div>
   </div>
@@ -24,7 +24,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
 >
   <div>
     <h3>
-      Processus
+      Process
     </h3>
      
     <div
@@ -49,7 +49,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
               <span
                 class="p-badge lck-badge-process"
               >
-                2
+                3
               </span>
             </div>
              
@@ -60,7 +60,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 class="p-tag p-tag-rounded p-m-auto"
               >
                 
-              Manuel
+              Manual
             
               </span>
             </div>
@@ -159,6 +159,15 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                   <tbody
                     class="p-datatable-tbody"
                   >
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
                     <!---->
                      
                     <tr
@@ -288,7 +297,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
              
             <span>
               
-        Aucune donnée à afficher
+        No data to display
       
             </span>
           </div>
@@ -310,7 +319,11 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 Trigger 3 
               </span>
                
-              <!---->
+              <span
+                class="p-badge lck-badge-process"
+              >
+                1
+              </span>
             </div>
              
             <div
@@ -320,7 +333,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 class="p-tag p-tag-rounded p-m-auto"
               >
                 
-              Automatique
+              Automatic
             
               </span>
             </div>
@@ -379,11 +392,71 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
             class="p-panel-content"
           >
              
-            <span>
-              
-        Aucune donnée à afficher
-      
-            </span>
+            <div
+              class="
+        p-datatable-sm
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component"
+            >
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-datatable-wrapper"
+              >
+                <table
+                  role="grid"
+                >
+                  <thead
+                    class="p-datatable-thead"
+                  >
+                    <tr />
+                     
+                    <!---->
+                  </thead>
+                   
+                  <tbody
+                    class="p-datatable-tbody"
+                  >
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                  </tbody>
+                   
+                  <!---->
+                </table>
+              </div>
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-column-resizer-helper"
+                style="display: none;"
+              />
+               
+              <!---->
+               
+              <!---->
+            </div>
           </div>
         </div>
       </div>
