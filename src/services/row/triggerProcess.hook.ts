@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { HookContext } from '@feathersjs/feathers'
-import { ProcessTrigger, ProcessTriggerEvent } from '../../models/process_trigger.model'
+import { Process, ProcessTrigger } from '../../models/process.model'
 
 /**
  * Trigger processes linked to this table and the actual method called
@@ -9,14 +9,14 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
   /**
    * Find all triggers on this table that are not MANUAL or CRON events
    */
-  const triggersForTheCurrentRow = await context.app.services['process-trigger'].find({
+  const triggersForTheCurrentRow = await context.app.services.process.find({
     query: {
       table_id: context.result.table_id,
-      event: {
+      trigger: {
         $in: [
-          ProcessTriggerEvent.CREATE_ROW,
-          ProcessTriggerEvent.UPDATE_ROW,
-          ProcessTriggerEvent.UPDATE_ROW_DATA
+          ProcessTrigger.CREATE_ROW,
+          ProcessTrigger.UPDATE_ROW,
+          ProcessTrigger.UPDATE_ROW_DATA
         ]
       },
       enabled: true
@@ -28,18 +28,18 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
    * Filter triggers that are with the "good" events
    */
   await Promise.all(
-    triggersForTheCurrentRow.map(async (currentTrigger: ProcessTrigger) => {
+    triggersForTheCurrentRow.map(async (currentTrigger: Process) => {
       let needExecution = false
-      switch (currentTrigger.event) {
-        case ProcessTriggerEvent.CREATE_ROW:
+      switch (currentTrigger.trigger) {
+        case ProcessTrigger.CREATE_ROW:
           if (context.method === 'create') needExecution = true
           break
-        case ProcessTriggerEvent.UPDATE_ROW:
+        case ProcessTrigger.UPDATE_ROW:
           if (context.method === 'update' ||
           context.method === 'patch'
           ) needExecution = true
           break
-        case ProcessTriggerEvent.UPDATE_ROW_DATA:
+        case ProcessTrigger.UPDATE_ROW_DATA:
           if (context.method === 'update' ||
           context.method === 'patch'
           ) {
@@ -49,9 +49,9 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
           }
           break
       }
-      needExecution && await context.app.services['process-execution'].create({
+      needExecution && await context.app.services['process-run'].create({
         text: 'Triggering process ' + Date.now(),
-        process_trigger_id: currentTrigger.id,
+        process_id: currentTrigger.id,
         table_row_id: context.result.id
       })
     })

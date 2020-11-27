@@ -1,18 +1,31 @@
 /* eslint-disable camelcase */
-// See// See https://vincit.github.io/objection.js/#models
+// See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Model, JSONSchema } from 'objection'
 import { Application } from '../declarations'
-import { workspace as LckWorkspace } from './workspace.model'
-import { ProcessTrigger } from './process_trigger.model'
+import { ProcessRun } from './process_run.model'
 import { BaseModel } from './base.model'
+import { table } from './table.model'
+
+export enum ProcessTrigger {
+  CREATE_ROW = 'CREATE_ROW', // when a row in inserted
+  UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
+  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
+  CRON = 'CRON',
+  MANUAL = 'MANUAL',
+}
 
 export class Process extends BaseModel {
   text?: string;
+  trigger!: ProcessTrigger;
+  settings?: {
+    column_id: string
+  };
+
+  enabled!: boolean;
+  maximumNumberSuccess?: number;
   url!: string;
-  settings?: object;
-  workspace_id!: string;
-  workspace?: LckWorkspace;
+  table_id!: string;
 
   static get tableName (): string {
     return 'process'
@@ -21,42 +34,39 @@ export class Process extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['workspace_id'],
+      required: [
+        'table_id'
+      ],
 
       properties: {
         id: { type: 'string' },
         text: { type: 'string' },
+        enabled: { type: 'boolean' },
+        maximumNumberSuccess: { type: 'number' },
         url: { type: 'string' },
-        settings: { type: ['object', 'null'] },
-        workspace_id: { type: 'string' }
+        trigger: { type: 'string' },
+        settings: { type: 'object' },
+        table_id: { type: 'string' }
       }
     }
   }
 
   static get relationMappings () {
     return {
-      workspace: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
-        modelClass: LckWorkspace,
-        join: {
-          from: 'process.workspace_id',
-          to: 'workspace.id'
-        }
-      },
-      triggers: {
+      runs: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
-        modelClass: ProcessTrigger,
+        modelClass: ProcessRun,
         join: {
           from: 'process.id',
-          to: 'process_trigger.process_id'
+          to: 'process_run.process_id'
+        }
+      },
+      table: {
+        relation: Model.HasOneRelation,
+        modelClass: table,
+        join: {
+          from: 'process.table_id',
+          to: 'table.id'
         }
       }
     }

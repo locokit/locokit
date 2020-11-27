@@ -1,8 +1,8 @@
 import * as authentication from '@feathersjs/authentication'
 import { HookContext } from '@feathersjs/feathers'
 import { disallow, discard, fastJoin, iff, isProvider } from 'feathers-hooks-common'
-import { ProcessExecution, ProcessExecutionStatus } from '../../models/process_execution.model'
-import { ProcessTriggerEvent } from '../../models/process_trigger.model'
+import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
+import { ProcessTrigger } from '../../models/process.model'
 import { runTheProcess } from './runTheProcess.hook'
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -11,8 +11,8 @@ const { authenticate } = authentication.hooks
 const peResolvers = (context: HookContext) => {
   return {
     joins: {
-      process_trigger: () => async (pe: ProcessExecution) => {
-        pe.process_trigger = await context.app.services['process-trigger'].get(pe.process_trigger_id, { query: { $eager: 'process' } })
+      process: () => async (pe: ProcessRun) => {
+        pe.process = await context.app.services.process.get(pe.process_id)
       }
     }
   }
@@ -25,9 +25,9 @@ export default {
     get: [],
     create: [
       (context: HookContext) => {
-        context.data.status = context.data.status || ProcessExecutionStatus.RUNNING
+        context.data.status = context.data.status || ProcessRunStatus.RUNNING
       },
-      fastJoin(peResolvers, { process_trigger: true }),
+      fastJoin(peResolvers, { process: true }),
       /**
        * Forbid access to external + trigger event !== [ MANUAL, CRON ]
        */
@@ -39,16 +39,16 @@ export default {
            */
           (context: HookContext) => {
             return [
-              ProcessTriggerEvent.MANUAL,
-              ProcessTriggerEvent.CRON
-            ].indexOf((context.data as ProcessExecution).process_trigger?.event as ProcessTriggerEvent) === -1
+              ProcessTrigger.MANUAL,
+              ProcessTrigger.CRON
+            ].indexOf((context.data as ProcessRun).process?.trigger as ProcessTrigger) === -1
           },
           disallow()
         ).else(
-          discard('process_trigger')
+          discard('process')
         )
       ).else(
-        discard('process_trigger')
+        discard('process')
       )
     ],
     update: [
@@ -65,7 +65,7 @@ export default {
     find: [],
     get: [],
     create: [
-      fastJoin(peResolvers, { process_trigger: true }),
+      fastJoin(peResolvers, { process: true }),
       runTheProcess
     ],
     update: [],

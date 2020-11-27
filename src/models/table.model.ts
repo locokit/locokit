@@ -5,8 +5,9 @@ import { Application } from '../declarations'
 import { TableRow } from './tablerow.model'
 import { TableView, TableColumnDTO } from './tableview.model'
 import { TableColumn } from './tablecolumn.model'
-import { ProcessTrigger } from './process_trigger.model'
+import { Process } from './process.model'
 import { BaseModel } from './base.model'
+import { database } from './database.model'
 
 export class table extends BaseModel {
   columns?: TableColumnDTO[]
@@ -59,12 +60,20 @@ export class table extends BaseModel {
           to: 'table_view.table_id'
         }
       },
-      triggers: {
+      processes: {
         relation: Model.HasManyRelation,
-        modelClass: ProcessTrigger,
+        modelClass: Process,
         join: {
           from: 'table.id',
-          to: 'process_trigger.table_id'
+          to: 'process.table_id'
+        }
+      },
+      database: {
+        relation: Model.HasOneRelation,
+        modelClass: database,
+        join: {
+          from: 'table.database_id',
+          to: 'database.id'
         }
       }
     }

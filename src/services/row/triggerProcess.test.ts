@@ -1,8 +1,8 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { database } from '../../models/database.model'
-import { Process } from '../../models/process.model'
-import { ProcessTriggerEvent } from '../../models/process_trigger.model'
+import { ProcessTrigger } from '../../models/process.model'
+
 import { table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
@@ -17,7 +17,6 @@ describe('\'triggerProcess\' hook', () => {
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
   let tableRow: TableRow
-  let process: Process
   const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined) : Promise<any> => {
     return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
   })
@@ -46,11 +45,6 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       column_type_id: COLUMN_TYPE.STRING
     })
-    process = await app.service('process').create({
-      text: 'My Process',
-      workspace_id: workspace.id,
-      url: ''
-    })
   })
 
   it('do not trigger if no process trigger are configured', async () => {
@@ -70,7 +64,7 @@ describe('\'triggerProcess\' hook', () => {
     })
     await app.service('row').remove(tableRow.id)
 
-    const allExecutions = await app.service('process-execution').find({
+    const allExecutions = await app.service('process-run').find({
       paginate: false
     })
     expect(allExecutions.length).toBe(0)
@@ -79,14 +73,14 @@ describe('\'triggerProcess\' hook', () => {
   it('do not trigger if process triggers are MANUAL or CRON', async () => {
     expect.assertions(1)
 
-    const processTriggerManual = await app.service('process-trigger').create({
-      process_id: process.id,
-      event: ProcessTriggerEvent.MANUAL,
+    const processTriggerManual = await app.service('process').create({
+      table_id: table1.id,
+      trigger: ProcessTrigger.MANUAL,
       enabled: true
     })
-    const processTriggerCron = await app.service('process-trigger').create({
-      process_id: process.id,
-      event: ProcessTriggerEvent.MANUAL,
+    const processTriggerCron = await app.service('process').create({
+      table_id: table1.id,
+      trigger: ProcessTrigger.MANUAL,
       enabled: true
     })
     tableRow = await app.service('row').create({
@@ -104,21 +98,20 @@ describe('\'triggerProcess\' hook', () => {
     })
     await app.service('row').remove(tableRow.id)
 
-    const allExecutions = await app.service('process-execution').find({
+    const allExecutions = await app.service('process-run').find({
       paginate: false
     })
     expect(allExecutions.length).toBe(0)
 
-    await app.service('process-trigger').remove(processTriggerCron.id)
-    await app.service('process-trigger').remove(processTriggerManual.id)
+    await app.service('process').remove(processTriggerCron.id)
+    await app.service('process').remove(processTriggerManual.id)
   })
   it('trigger CREATE_ROW if process triggers is enabled and well configured', async () => {
     expect.assertions(3)
 
-    const processTriggerCreateRow = await app.service('process-trigger').create({
-      process_id: process.id,
+    const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
-      event: ProcessTriggerEvent.CREATE_ROW,
+      trigger: ProcessTrigger.CREATE_ROW,
       enabled: true
     })
     tableRow = await app.service('row').create({
@@ -135,25 +128,24 @@ describe('\'triggerProcess\' hook', () => {
       }
     })
 
-    const allExecutions = await app.service('process-execution').find({
+    const allExecutions = await app.service('process-run').find({
       paginate: false
     })
     expect(allExecutions.length).toBe(1)
-    expect(allExecutions[0].process_trigger_id).toBe(processTriggerCreateRow.id)
+    expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
     expect(allExecutions[0].table_row_id).toBe(tableRow.id)
 
     await app.service('row').remove(tableRow.id)
-    // await app.service('process-execution').remove(allExecutions[0].id)
-    await app.service('process-trigger').remove(processTriggerCreateRow.id)
+    // await app.service('process-run').remove(allExecutions[0].id)
+    await app.service('process').remove(processTriggerCreateRow.id)
   })
 
   it('trigger UPDATE_ROW if process triggers is enabled and well configured', async () => {
     expect.assertions(4)
 
-    const processTriggerCreateRow = await app.service('process-trigger').create({
-      process_id: process.id,
+    const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
-      event: ProcessTriggerEvent.UPDATE_ROW,
+      trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true
     })
     tableRow = await app.service('row').create({
@@ -164,7 +156,7 @@ describe('\'triggerProcess\' hook', () => {
         [tableColumn1.id]: 'This is another string'
       }
     })
-    let allExecutions = await app.service('process-execution').find({
+    let allExecutions = await app.service('process-run').find({
       paginate: false
     })
     expect(allExecutions.length).toBe(0)
@@ -175,27 +167,26 @@ describe('\'triggerProcess\' hook', () => {
       }
     })
 
-    allExecutions = await app.service('process-execution').find({
+    allExecutions = await app.service('process-run').find({
       paginate: false
     })
 
     expect(allExecutions.length).toBe(1)
 
-    expect(allExecutions[0].process_trigger_id).toBe(processTriggerCreateRow.id)
+    expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
     expect(allExecutions[0].table_row_id).toBe(tableRow.id)
 
     await app.service('row').remove(tableRow.id)
-    // await app.service('process-execution').remove(allExecutions[0].id)
-    await app.service('process-trigger').remove(processTriggerCreateRow.id)
+    // await app.service('process-run').remove(allExecutions[0].id)
+    await app.service('process').remove(processTriggerCreateRow.id)
   })
 
   it('trigger UPDATE_ROW_DATA if process triggers is enabled and well configured', async () => {
     expect.assertions(5)
 
-    const processTriggerCreateRow = await app.service('process-trigger').create({
-      process_id: process.id,
+    const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
-      event: ProcessTriggerEvent.UPDATE_ROW_DATA,
+      trigger: ProcessTrigger.UPDATE_ROW_DATA,
       enabled: true,
       settings: {
         column_id: tableColumn1.id
@@ -209,7 +200,7 @@ describe('\'triggerProcess\' hook', () => {
         [tableColumn1.id]: 'This is another string'
       }
     })
-    let allExecutions = await app.service('process-execution').find({
+    let allExecutions = await app.service('process-run').find({
       paginate: false
     })
     expect(allExecutions.length).toBe(0)
@@ -224,7 +215,7 @@ describe('\'triggerProcess\' hook', () => {
       }
     })
 
-    allExecutions = await app.service('process-execution').find({
+    allExecutions = await app.service('process-run').find({
       paginate: false
     })
 
@@ -240,22 +231,21 @@ describe('\'triggerProcess\' hook', () => {
       }
     })
 
-    allExecutions = await app.service('process-execution').find({
+    allExecutions = await app.service('process-run').find({
       paginate: false
     })
 
     expect(allExecutions.length).toBe(1)
 
-    expect(allExecutions[0].process_trigger_id).toBe(processTriggerCreateRow.id)
+    expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
     expect(allExecutions[0].table_row_id).toBe(tableRow.id)
 
     await app.service('row').remove(tableRow.id)
-    // await app.service('process-execution').remove(allExecutions[0].id)
-    await app.service('process-trigger').remove(processTriggerCreateRow.id)
+    // await app.service('process-run').remove(allExecutions[0].id)
+    await app.service('process').remove(processTriggerCreateRow.id)
   })
 
   afterEach(async () => {
-    await app.service('process').remove(process.id)
     await app.service('column').remove(tableColumn1.id)
     await app.service('column').remove(tableColumn.id)
     await app.service('table').remove(table1.id)

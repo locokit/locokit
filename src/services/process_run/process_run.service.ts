@@ -1,14 +1,14 @@
-// Initializes the `process_execution` service on path `/process-execution`
+// Initializes the `process_run` service on path `/process-run`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { ProcessExecution } from './process_execution.class'
-import createModel from '../../models/process_execution.model'
-import hooks from './process_execution.hooks'
+import { ProcessRun } from './process_run.class'
+import createModel from '../../models/process_run.model'
+import hooks from './process_run.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'process-execution': ProcessExecution & ServiceAddons<any>;
+    'process-run': ProcessRun & ServiceAddons<any>;
   }
 }
 
@@ -20,10 +20,10 @@ export default function (app: Application): void {
   }
 
   // Initialize our service with any options it requires
-  app.use('/process-execution', new ProcessExecution(options, app))
+  app.use('/process-run', new ProcessRun(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('process-execution')
+  const service = app.service('process-run')
 
   service.hooks(hooks)
 }
