@@ -16,6 +16,7 @@ export const ROUTES_PATH = {
   VISUALIZATION: '/visualization',
   DATABASE: '/database',
   DATABASESCHEMA: '/schema',
+  PROCESS: '/process',
 
   /**
    * Admin paths

@@ -1,12 +1,14 @@
 import { StoryContext, StoryFn } from '@storybook/addons/dist/types'
 
-let dataToReturn = {
+const dataToReturn = {
   limit: 0,
   total: 0,
   data: []
 }
 function defaultServiceFunction () {
-  return dataToReturn
+  return new Promise(resolve => {
+    resolve(dataToReturn)
+  })
 }
 
 const feathersService = {
@@ -18,6 +20,7 @@ const feathersService = {
 }
 
 export const lckServices = {
+  __mock: true,
   /**
    * Database part
    */
@@ -38,8 +41,7 @@ export const lckServices = {
    * Processes
    */
   process: feathersService,
-  processTrigger: feathersService,
-  processExecution: feathersService,
+  processRun: feathersService,
   /**
    * User
    */
@@ -47,12 +49,19 @@ export const lckServices = {
   group: feathersService
 }
 
+type lckServicesName = 'database' | 'table' | 'tableColumn' | 'tableView' | 'tableRow' | 'tableViewColumn'
+  | 'visuChapter' | 'visuPage' | 'visuContainer' | 'visuBlock'
+  | 'process' | 'processRun'
+  | 'user' | 'group'
+
 export function lckServicesDecorator (
   story: StoryFn,
   { parameters }: StoryContext
 ) {
-  if (parameters && parameters.lckServices) {
-    dataToReturn = parameters.lckServices.data
+  if (parameters?.lckServices) {
+    (Object.keys(parameters.lckServices) as lckServicesName[]).forEach(serviceName => {
+      lckServices[serviceName] = parameters.lckServices[serviceName]
+    })
   }
   return story()
 }

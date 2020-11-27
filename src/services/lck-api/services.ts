@@ -8,7 +8,7 @@ import {
   LckGroup,
   LckPage,
   LckProcess,
-  LckProcessExecution,
+  LckProcessRun,
   LckTable,
   LckTableColumn,
   LckTableRow,
@@ -40,7 +40,7 @@ export const lckServices = {
    * Process
    */
   process: lckClient.service('process') as Service<LckProcess>,
-  processRun: lckClient.service('process-run') as Service<LckProcessExecution>,
+  processRun: lckClient.service('process-run') as Service<LckProcessRun>,
   /**
    * User
    */

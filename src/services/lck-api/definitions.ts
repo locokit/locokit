@@ -8,11 +8,11 @@ export class LckBaseModel {
   /**
    * Creation date of the instance
    */
-  createdAt!: string;
+  createdAt?: string;
   /**
    * Last update date of the current instance
    */
-  updatedAt!: string;
+  updatedAt?: string;
 }
 
 export class LckWorkspace extends LckBaseModel {
@@ -110,12 +110,25 @@ export class LckBlock extends LckBaseModel {
 export class LckProcess extends LckBaseModel {
   text!: string;
   url!: string;
-  triggers?: LckProcessTrigger[];
-  runs?: LckProcessExecution[];
+  enabled!: boolean;
+  trigger!: LckProcessTrigger;
+  table_id?: string;
+  maximumNumberSuccess?: number;
+  settings?: {
+    column_id?: string;
+    column?: LckTableColumn;
+  };
+
+  runs?: LckProcessRun[];
+  table?: LckTable;
 }
-export class LckProcessTrigger extends LckBaseModel {
-  text!: string;
-  process?: LckProcess;
+
+export enum LckProcessTrigger {
+  CREATE_ROW = 'CREATE_ROW', // when a row in inserted
+  UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
+  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
+  CRON = 'CRON',
+  MANUAL = 'MANUAL',
 }
 
 enum EXECUTION_RESULT {
@@ -123,10 +136,9 @@ enum EXECUTION_RESULT {
   ERROR = 'ERROR',
   WARNING = 'WARNING'
 }
-export class LckProcessExecution extends LckBaseModel {
+export class LckProcessRun extends LckBaseModel {
   text!: string;
-  trigger_id!: string;
-  when!: Date;
+  process_id!: string;
   result!: EXECUTION_RESULT;
   duration!: number;
   log!: string;

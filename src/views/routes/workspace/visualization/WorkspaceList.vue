@@ -44,14 +44,23 @@
                     :label="$t('pages.workspace.buttonDatabase')"
                     :model="transformDatabases(group.workspace.id, group.workspace.databases)"
                   />
-
                   <router-link
                     v-if="group.workspace.databases.length === 1"
+                    class="no-decoration-link p-mr-2"
                     :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.DATABASE}/${group.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonSchema')"
                       icon="pi pi-sitemap"
+                    />
+                  </router-link>
+                  <router-link
+                    class="no-decoration-link p-mr-2"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.PROCESS}`"
+                  >
+                    <p-button
+                      :label="$t('pages.workspace.buttonProcess')"
+                      icon="pi pi-th-large"
                     />
                   </router-link>
                 </template>

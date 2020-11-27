@@ -19,7 +19,7 @@
 
         <div class="p-d-flex p-as-end">
           <p-button
-            label="Processes"
+            :label="$t('pages.process.titleButton')"
             class="p-button-sm p-button-info p-m-1 p-p-1"
             icon="pi pi-th-large"
             :class="{
@@ -82,8 +82,7 @@
               <p-button
                 :label="$t('form.add')"
                 icon="pi pi-plus-circle"
-                class="p-mr-2 p-button-text p-button-info"
-
+                class="p-mr-2 p-button-text p-button-primary"
                 @click="onClickAddButton"
               />
               <p-button
@@ -121,11 +120,17 @@
             @create-process-run="onTriggerProcess"
           />
         </layout-with-toolbar>
-        <lck-process-listing
-          :tableId="currentTableId"
+
+        <div
+          class="lck-database-panel"
           v-if="displayPanel"
-          display-mode="BY_TABLE"
-        />
+        >
+          <lck-process-listing
+            :workspaceId="workspaceId"
+            :tableId="currentTableId"
+            display-mode="BY_TABLE"
+          />
+        </div>
       </div>
       <p-dialog
         :visible.sync="displayNewDialog"
@@ -343,6 +348,10 @@ export default {
   },
   props: {
     databaseId: {
+      type: String,
+      required: true
+    },
+    workspaceId: {
       type: String,
       required: true
     }
@@ -867,14 +876,14 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-tabview .p-tabview-nav {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav {
   background-color: transparent;
   overflow: auto;
   border: unset;
   flex-wrap: unset;
 }
 
-/deep/ .p-tabview .p-tabview-panels {
+/deep/ .lck-database-nav .p-tabview .p-tabview-panels {
   padding: 0;
   flex: 1;
   display: flex;
@@ -882,18 +891,18 @@ export default {
   background-color: unset;
 }
 
-/deep/ .p-tabview .p-tabview-panels .p-tabview-panel {
+/deep/ .lck-database-nav .p-tabview .p-tabview-panels .p-tabview-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/deep/ .p-tabview .p-tabview-nav li {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }
 
-/deep/ .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.5rem;
   background-color: var(--text-color);
   border: 1px solid var(--surface-a);
@@ -903,13 +912,13 @@ export default {
   margin: 0 0.25rem;
 }
 
-/deep/ .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
   color: var(--primary-color-darken);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
 }
 
-/deep/ .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
@@ -936,5 +945,11 @@ export default {
 .lck-database-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+}
+
+.lck-database-panel {
+  background-color: white;
+  width: 30rem;
+  border-left: 1px solid var(--header-border-bottom-color);
 }
 </style>
