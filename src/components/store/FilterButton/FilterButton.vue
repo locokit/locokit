@@ -65,7 +65,7 @@
             />
           </div>
           <div
-            class="p-col-12 p-md-2 p-mr-2"
+            class="p-col-12 p-md-3 p-mr-2"
           >
             <label for="action" v-if="index === 0">
               {{ $t('components.datatable.toolbar.filters.form.action') }}
@@ -89,7 +89,7 @@
             </p-dropdown>
           </div>
           <div
-            class="p-col"
+            class="p-col p-md-3"
             v-if="filter.action && filter.action.predefinedPattern === undefined"
           >
             <label for="pattern" v-if="index === 0">
@@ -98,6 +98,7 @@
             <component
               id="pattern"
               :is="columnFiltersConfig[filter.column.type].patternComponent || getComponentEditableColumn(filter.column.type)"
+              :options="filter.column.dropdownOptions"
               v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
@@ -143,6 +144,7 @@ import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -176,6 +178,22 @@ const ACTIONS = {
   NOT_EQUAL: {
     label: 'isDifferentThan',
     value: '$ne'
+  },
+  IN: {
+    label: 'in',
+    value: '$in'
+  },
+  NOT_IN: {
+    label: 'notIn',
+    value: '$nin'
+  },
+  ALL: {
+    label: 'all',
+    value: '$all'
+  },
+  ANY: {
+    label: 'any',
+    value: '$any'
   },
   EMPTY: {
     label: 'isEmpty',
@@ -270,6 +288,33 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.NOT_EMPTY
     ],
     patternComponent: 'p-input-text'
+  },
+  [COLUMN_TYPE.SINGLE_SELECT]: {
+    actions: [
+      ACTIONS.IN,
+      ACTIONS.NOT_IN,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponentOptions: {
+      optionLabel: 'label',
+      optionValue: 'value',
+      appendTo: null
+    },
+    patternComponent: 'lck-multiselect'
+  },
+  [COLUMN_TYPE.MULTI_SELECT]: {
+    actions: [
+      ACTIONS.ALL,
+      ACTIONS.ANY,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponentOptions: {
+      optionLabel: 'label',
+      optionValue: 'value',
+      appendTo: null
+    }
   }
 }
 
@@ -280,11 +325,17 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
+    'lck-multiselect': Vue.extend(MultiSelect),
     'lck-overlaypanel': Vue.extend(OverlayPanel)
   },
   props: {
     columns: {
       type: Array,
+      required: false,
+      default: () => ([])
+    },
+    dropdownOptionsColumns: {
+      type: Object,
       required: false,
       default: () => ([])
     },
@@ -311,7 +362,12 @@ export default {
       return this.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(columnTypeId)) {
-          acc.push({ value: id, label: text, type: columnTypeId })
+          acc.push({
+            value: id,
+            label: text,
+            type: columnTypeId,
+            dropdownOptions: this.dropdownOptionsColumns[id]?.dropdownOptions
+          })
         }
         return acc
       }, [])
@@ -375,6 +431,7 @@ label {
 .p-inputwrapper {
   max-width: 100%;
   width: 100%;
+  line-height: normal;
 }
 
 /deep/ .p-dropdown-label.p-inputtext {

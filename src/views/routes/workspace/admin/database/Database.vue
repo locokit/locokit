@@ -63,6 +63,7 @@
           <lck-filter-button
             class="p-ml-2"
             :columns="displayColumnsView.columns"
+            :dropdownOptionsColumns="columnsEnhanced"
             v-model="currentDatatableFilters"
             :disabled="currentView && currentView.locked"
             @submit="onSubmitFilter"
