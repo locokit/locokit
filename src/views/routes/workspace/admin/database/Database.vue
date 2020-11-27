@@ -455,8 +455,20 @@ export default {
     },
     getCurrentFilters () {
       return this.currentDatatableFilters.map((filter, index) => ({
-        // Override action $notNull with a valid query
-        req: `${filter.operator}[${index}][data][${filter.column.value}][${filter.action.value}]`,
+        req:
+          // Operator
+          `${filter.operator}[${index}]` +
+          // Field
+          ((column_type) => {
+            switch (column_type) {
+              case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                return `[data][${filter.column.value}.value]`
+              default:
+                return `[data][${filter.column.value}]`
+            }
+          })(filter.column.type) +
+          // Action
+          `[${filter.action.value}]`,
         value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
       }))
     },

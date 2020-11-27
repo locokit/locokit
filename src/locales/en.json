@@ -68,7 +68,7 @@
               "match": "match",
               "doesNotMatch": "does not match",
               "isEqualTo": "is equal to",
-              "isDifferentThan": "is different than",
+              "isDifferentFrom": "is different from",
               "isEmpty": "is empty",
               "isNotEmpty": "is not empty",
               "isTrue": "is true",
@@ -279,6 +279,7 @@
   "form" : {
     "add": "Add",
     "delete": "Delete",
+    "reset": "Reset",
     "cancel": "Cancel",
     "submit": "Submit",
     "remove": "Remove",
