@@ -43,13 +43,13 @@
             </span>
             <span class="p-ml-4" >
               <p-button
-                class="p-button-sm p-button-text p-button-info"
+                class="p-button-sm p-button-text p-button-rounded p-button-info"
                 icon="pi pi-pencil"
                 @click="emitEvent('update', slotProps.toggleOverlayPanel, element)"
               />
               <p-button
                 v-if="!element.locked"
-                class="p-button-sm p-button-text p-button-danger"
+                class="p-button-sm p-button-text p-button-rounded p-button-danger"
                 icon="pi pi-trash"
                 @click="emitEvent('delete', slotProps.toggleOverlayPanel, element)"
               />
