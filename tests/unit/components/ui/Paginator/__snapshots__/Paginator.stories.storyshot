@@ -73,7 +73,7 @@ exports[`storyshots components/ui/Paginator default 1`] = `
     <span
       class="p-paginator-current"
     >
-      De 1 à 0 sur 0 résultat(s)
+      Showing 1 to 0 of 0 entries
     </span>
      
     <div
@@ -190,7 +190,7 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
     <span
       class="p-paginator-current"
     >
-      De 1 à 20 sur 100 résultat(s)
+      Showing 1 to 20 of 100 entries
     </span>
      
     <div
@@ -203,7 +203,7 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
           class="label"
         >
           
-        Aller à la page
+        Jump to page
       
         </p>
          

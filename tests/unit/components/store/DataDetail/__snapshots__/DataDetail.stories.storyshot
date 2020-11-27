@@ -6,7 +6,7 @@ exports[`storyshots components/store/DataDetail default 1`] = `
 >
   <div>
     
-  Aucune donnée à afficher
+  No data to display
 
   </div>
 </div>
@@ -221,7 +221,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="bde4bbbd-2584-447f-acff-f434f53619da"
-          placeholder="Sélectionnez une option"
+          placeholder="Select an option"
           value="AMSTERDAMAIR"
         >
           <input
@@ -230,7 +230,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Sélectionnez une option"
+            placeholder="Select an option"
             role="searchbox"
             type="text"
           />
