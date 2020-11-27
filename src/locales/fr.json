@@ -70,7 +70,7 @@
               "match": "contient",
               "doesNotMatch": "ne contient pas",
               "isEqualTo": "est égal à",
-              "isDifferentThan": "est différent de",
+              "isDifferentFrom": "est différent de",
               "isEmpty": "est vide",
               "isNotEmpty": "n'est pas vide",
               "isTrue": "est vrai",

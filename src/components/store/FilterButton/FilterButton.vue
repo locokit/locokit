@@ -174,7 +174,7 @@ const ACTIONS = {
     value: '$eq'
   },
   NOT_EQUAL: {
-    label: 'isDifferentThan',
+    label: 'isDifferentFrom',
     value: '$ne'
   },
   EMPTY: {
@@ -230,10 +230,10 @@ const COLUMN_FILTERS_CONFIG = {
   },
   [COLUMN_TYPE.STRING]: {
     actions: [
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
+      ACTIONS.MATCH,
+      ACTIONS.NOT_MATCH,
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY
     ]
