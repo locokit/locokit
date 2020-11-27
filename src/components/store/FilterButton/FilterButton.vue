@@ -337,7 +337,7 @@ export default {
     dropdownOptionsColumns: {
       type: Object,
       required: false,
-      default: () => ([])
+      default: () => ({})
     },
     value: {
       type: Array,
