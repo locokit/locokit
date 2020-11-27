@@ -71,7 +71,7 @@
               "isDifferentFrom": "is different from",
               "in": "is included in",
               "notIn": "is not included in",
-              "all": "contains all the elements",
+              "all": "contains all elements",
               "any": "contains at least one element",
               "isEmpty": "is empty",
               "isNotEmpty": "is not empty",
