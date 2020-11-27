@@ -43,10 +43,14 @@
     }
 
     &:last-child {
-      .p-accordion-header {
+      .p-accordion-header,
+      .p-accordion-header:not(.p-highlight) {
         .p-accordion-header-link {
           border-radius: unset;
         }
+      }
+      .p-accordion-content {
+        border-radius: unset;
       }
     }
   }
