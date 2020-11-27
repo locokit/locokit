@@ -27,7 +27,7 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
           <span
             class="p-accordion-header-text"
           >
-            Aucun chapitre à afficher
+            No chapter to display
           </span>
            
         </a>

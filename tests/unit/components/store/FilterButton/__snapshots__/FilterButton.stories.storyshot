@@ -18,7 +18,7 @@ exports[`storyshots components/store/FilterButton default 1`] = `
       <span
         class="p-button-label"
       >
-        aucun filtre
+        no filter
       </span>
        
       <!---->
@@ -50,7 +50,7 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
       <span
         class="p-button-label"
       >
-        aucun filtre
+        no filter
       </span>
        
       <!---->
@@ -82,7 +82,7 @@ exports[`storyshots components/store/FilterButton overlay opened with specified 
       <span
         class="p-button-label"
       >
-        aucun filtre
+        no filter
       </span>
        
       <!---->

@@ -13,13 +13,13 @@ exports[`storyshots components/auth/Login Login 1`] = `
       <label
         for="email"
       >
-        E-mail
+        email
       </label>
        
       <input
         class="p-inputtext p-component"
         id="email"
-        placeholder="E-mail"
+        placeholder="email"
         required="required"
         type="text"
       />
@@ -31,13 +31,13 @@ exports[`storyshots components/auth/Login Login 1`] = `
       <label
         for="password"
       >
-        Mot de passe
+        password
       </label>
        
       <input
         class="rounded-sm p-inputtext p-component"
         id="password"
-        placeholder="Mot de passe"
+        placeholder="password"
         required="required"
         type="password"
       />
@@ -59,7 +59,7 @@ exports[`storyshots components/auth/Login Login 1`] = `
         <span
           class="p-button-label"
         >
-          Se connecter
+          Sign in
         </span>
          
         <!---->
@@ -72,7 +72,7 @@ exports[`storyshots components/auth/Login Login 1`] = `
         class="mock-link p-d-block p-text-center"
       >
         
-      Mot de passe perdu ?
+      Forgot your password ?
     
       </a>
     </div>

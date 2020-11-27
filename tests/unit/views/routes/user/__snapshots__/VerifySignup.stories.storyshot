@@ -39,7 +39,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
             class="p-card-title"
           >
             
-    Vérification de votre email et enregistrement du mot de passe
+    Email verification and password update
   
           </div>
            
@@ -51,10 +51,10 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
              
             <div>
               
-    Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.
+    Please update your password before we authorize you to connect.
     
               <form
-                class="p-text-left p-mt-4"
+                class="p-text-left p-fluid p-mt-4"
               >
                 <div
                   class="p-field"
@@ -62,13 +62,13 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
                   <label
                     for="password"
                   >
-                    Mot de passe
+                    Password
                   </label>
                    
                   <input
                     class="p-inputtext p-component"
                     id="password"
-                    placeholder="Mot de passe"
+                    placeholder="Password"
                     required="required"
                     type="password"
                   />
@@ -78,7 +78,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
                     id="password-rules"
                   >
                     
-      Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
+      Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
     
                   </small>
                 </div>
@@ -89,13 +89,13 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
                   <label
                     for="passwordCheck"
                   >
-                    Mot de passe (vérification)
+                    Password (check)
                   </label>
                    
                   <input
                     class="p-inputtext p-component"
                     id="passwordCheck"
-                    placeholder="Mot de passe (vérification)"
+                    placeholder="Password (check)"
                     required="required"
                     type="password"
                   />
@@ -123,7 +123,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
                     <span
                       class="p-button-label"
                     >
-                      Réinitialiser le mot de passe
+                      Reset the password
                     </span>
                      
                     <!---->
