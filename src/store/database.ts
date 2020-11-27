@@ -2,11 +2,6 @@
 import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 import { LckColumnView } from '@/services/lck-api/helpers'
-import {
-  LckProcessExecution,
-  LckProcessTriggerWithExecutions,
-  ProcessTriggerEvent
-} from '@/services/lck-utils/process'
 
 class Database {
   text = ''

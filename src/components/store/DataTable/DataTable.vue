@@ -41,8 +41,8 @@
       >
         <p-column
           v-if="displayDetailButton"
-          headerStyle="width: 3rem;padding: unset;margin: unset;"
-          bodyStyle="width: 3rem;padding: unset;margin: unset;text-align: center;"
+          headerStyle="width: 4rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 4rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
         >
           <template #body="slotProps">
             <p-button
@@ -253,7 +253,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
-import { ProcessTriggerEvent } from '@/services/lck-utils/process'
+import { ProcessExecutionStatus } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 
 export default {
@@ -399,7 +399,7 @@ export default {
               name: process.text
             })
           },
-          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === ProcessTriggerEvent.SUCCESS)
+          disabled: process.executions.length > 0 && process.executions.find(run => rowId === run.table_row_id && run.status === ProcessExecutionStatus.SUCCESS)
         }
       ))
     },
