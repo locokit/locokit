@@ -270,6 +270,17 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.NOT_EMPTY
     ],
     patternComponent: 'p-input-text'
+  },
+  [COLUMN_TYPE.LOOKED_UP_COLUMN]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      ACTIONS.MATCH,
+      ACTIONS.NOT_MATCH,
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponent: 'p-input-text'
   }
 }
 

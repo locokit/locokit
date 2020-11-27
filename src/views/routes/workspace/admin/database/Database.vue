@@ -462,6 +462,7 @@ export default {
           ((column_type) => {
             switch (column_type) {
               case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+              case COLUMN_TYPE.LOOKED_UP_COLUMN:
                 return `[data][${filter.column.value}.value]`
               default:
                 return `[data][${filter.column.value}]`
