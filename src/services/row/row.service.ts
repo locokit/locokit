@@ -37,6 +37,7 @@ export default function (app: Application) {
       '$sort',
       '$eager',
       '$any',
+      '$all',
       '$joinRelation',
       '$joinEager',
       '$modifyEager'
