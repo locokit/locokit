@@ -9,7 +9,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
     style="z-index: 1008;"
   >
     <div
-      aria-labelledby="pv_id_9_header"
+      aria-labelledby="pv_id_12_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -20,16 +20,16 @@ exports[`storyshots components/ui/Dialog default 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_9_header"
+          id="pv_id_12_header"
         >
           Header of the dialog box
         </span>
-         
+
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-           
+
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -45,12 +45,12 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           </button>
         </div>
       </div>
-       
+
       <div
         class="p-dialog-content"
         style="max-height: 70vh;"
       />
-       
+
       <div
         class="p-dialog-footer"
       >
@@ -61,19 +61,19 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-           
+
           <span
             class="p-button-label"
           >
             Cancel
           </span>
-           
+
           <!---->
           <span
             class="p-ink"
           />
         </button>
-         
+
         <button
           class="p-button-primary p-button p-component"
           type="button"
@@ -81,13 +81,13 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-           
+
           <span
             class="p-button-label"
           >
             Submit
           </span>
-           
+
           <!---->
           <span
             class="p-ink"
@@ -108,7 +108,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
     style="z-index: 1009;"
   >
     <div
-      aria-labelledby="pv_id_10_header"
+      aria-labelledby="pv_id_13_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -119,16 +119,16 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_10_header"
+          id="pv_id_13_header"
         >
           This is the header
         </span>
-         
+
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-           
+
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -144,16 +144,16 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           </button>
         </div>
       </div>
-       
+
       <div
         class="p-dialog-content"
         style="max-height: 70vh;"
       >
-        
+
         This is the dialog content
-      
+
       </div>
-       
+
       <div
         class="p-dialog-footer"
       >
@@ -164,19 +164,19 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-           
+
           <span
             class="p-button-label"
           >
             Cancel
           </span>
-           
+
           <!---->
           <span
             class="p-ink"
           />
         </button>
-         
+
         <button
           class="p-button-primary p-button p-component"
           type="button"
@@ -184,13 +184,13 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-           
+
           <span
             class="p-button-label"
           >
             Submit
           </span>
-           
+
           <!---->
           <span
             class="p-ink"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots layouts/with a sidebar default 1`] = `
+exports[`storyshots layouts/sidebar default 1`] = `
 <div
   style="height: 100%;"
 >

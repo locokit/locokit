@@ -10,7 +10,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
     p-grid
     p-jc-center
     p-ai-center
-   p-text-left"
+   p-text-left p-fluid"
     style="background-image: url(/img/bg-intro.jpg); position: relative;"
   >
     <div

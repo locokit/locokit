@@ -6,23 +6,23 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_7_list"
+    aria-owns="pv_id_10_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_7_list"
+      aria-controls="pv_id_10_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Select an option"
       role="searchbox"
       type="text"
     />
-     
+
     <!---->
-     
+
     <!---->
-     
+
     <button
       class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
       type="button"
@@ -30,19 +30,19 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
       <span
         class="pi pi-chevron-down p-button-icon"
       />
-       
+
       <span
         class="p-button-label"
       >
          
       </span>
-       
+
       <!---->
       <span
         class="p-ink"
       />
     </button>
-     
+
     <!---->
   </span>
 </div>
@@ -54,24 +54,24 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_8_list"
+    aria-owns="pv_id_11_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
     suggestions=""
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_8_list"
+      aria-controls="pv_id_11_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Select an option"
       role="searchbox"
       type="text"
     />
-     
+
     <!---->
-     
+
     <!---->
-     
+
     <button
       class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
       type="button"
@@ -79,19 +79,19 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
       <span
         class="pi pi-chevron-down p-button-icon"
       />
-       
+
       <span
         class="p-button-label"
       >
          
       </span>
-       
+
       <!---->
       <span
         class="p-ink"
       />
     </button>
-     
+
     <!---->
   </span>
 </div>

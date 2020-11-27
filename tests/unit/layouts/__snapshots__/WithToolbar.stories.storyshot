@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots layouts/toolbar default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="
+      p-p-1
+      p-d-flex
+      p-jc-between
+      p-ai-center
+      lck-toolbar
+    "
+    >
+      
+        This is the toolbar slot
+      
+    </div>
+     
+    <div
+      class="
+      lck-toolbar-content
+      p-d-flex
+      p-flex-column
+      d-flex-1
+      o-auto
+    "
+    >
+      
+      This is the main content
+    
+    </div>
+  </div>
+</div>
+`;

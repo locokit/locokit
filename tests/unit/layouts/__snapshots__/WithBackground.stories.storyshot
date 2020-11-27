@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots layouts/with a background default 1`] = `
+exports[`storyshots layouts/background default 1`] = `
 <div
   style="height: 100%;"
 >
@@ -63,7 +63,7 @@ exports[`storyshots layouts/with a background default 1`] = `
 </div>
 `;
 
-exports[`storyshots layouts/with a background with all slots 1`] = `
+exports[`storyshots layouts/background with all slots 1`] = `
 <div
   style="height: 100%;"
 >
@@ -144,7 +144,7 @@ exports[`storyshots layouts/with a background with all slots 1`] = `
 </div>
 `;
 
-exports[`storyshots layouts/with a background with slot title 1`] = `
+exports[`storyshots layouts/background with slot title 1`] = `
 <div
   style="height: 100%;"
 >
