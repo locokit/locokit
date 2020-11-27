@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { HookContext } from '@feathersjs/feathers'
 import { Process } from '../../models/process.model'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ProcessRunStatus } from '../../models/process_run.model'
 
 /**
@@ -19,18 +19,61 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
     process_run_id: context.data.id,
     table_row_id: context.data.table_row_id
   })
-    .then(value => {
+    .then((value: AxiosResponse) => {
+      const log = `
+Log for the run ${context.result.id}
+
+Process n° : ${context.result.process_id}
+
+Row n° : ${context.data.table_row_id}
+
+Begin : ${context.result.createdAt}
+
+End : ${new Date().toISOString()}
+
+Status : ${value.status} ${value.statusText}
+
+Log (eventually) :
+
+${value.data && value.data.log}
+
+HTTP Response
+
+${value.data.toString()}
+
+`
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessRunStatus.SUCCESS,
-        log: value.data?.log
+        log
       })
     })
-    .catch(reason => {
+    .catch((reason: AxiosError) => {
+      const log = `
+An error occured during the run ${context.result.id}
+
+Process n° : ${context.result.process_id}
+
+Row n° : ${context.data.table_row_id}
+
+Begin : ${context.result.createdAt}
+
+End : ${new Date().toISOString()}
+
+HTTP Code : ${reason.code}
+
+Axios error ? : ${reason.isAxiosError}
+
+Message : ${reason.message}
+
+Stack :
+
+${reason.stack}
+`
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessRunStatus.ERROR,
-        log: reason?.toString()
+        log
       })
     })
   /**
