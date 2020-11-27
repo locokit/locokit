@@ -325,7 +325,7 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
     'p-button': Vue.extend(Button),
-    'lck-multiselect': Vue.extend(MultiSelect),
+    'lck-multiselect': MultiSelect,
     'lck-overlaypanel': Vue.extend(OverlayPanel)
   },
   props: {
