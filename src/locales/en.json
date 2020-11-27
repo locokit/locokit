@@ -122,16 +122,26 @@
       "successNewRun": "Process has run correctly."
     },
     "process": {
-      "textLabel": "Name",
-      "enabledLabel": "Enabled",
-      "urlLabel": "URL",
+      "form": {
+        "textLabel": "Name",
+        "textPlaceholder": "Enter a trigger name",
+        "enabledLabel": "Enabled",
+        "tableLabel": "Table",
+        "tablePlaceholder": "Choose a table",
+        "triggerLabel": "Trigger",
+        "eventLabel": "Event",
+        "eventPlaceholder": "Choose the trigger event",
+        "columnLabel": "Column",
+        "columnPlaceholder": "Choose the column",
+        "urlLabel": "URL",
+        "maximumNumberSuccessLabel": "Maximum number of success (0 if no limit)"
+      },
       "removeButtonLabel": "Remove",
       "duplicateButtonLabel": "Duplicate",
       "noRun": "No run for this process yet.",
-      "noTrigger": "No trigger for this process. Please create one.",
       "headerProperties": "Properties",
-      "headerTriggers": "Triggers",
-      "headerRuns": "Runs"
+      "headerRuns": "Runs",
+      "chooseTableFirst": "Please choose a table first."
     }
   },
   "pages": {
@@ -203,7 +213,8 @@
       "errorUnknownTypeBlock": "The block type does not exist.",
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
-      "buttonVisualization": "Visualization"
+      "buttonVisualization": "Visualization",
+      "buttonProcess": "Processes"
     },
     "database": {
       "title": "Database",
@@ -288,6 +299,20 @@
           "editUserInGroup": "Edit {userName} user in {groupName} group",
           "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
         }
+      }
+    },
+    "process": {
+      "titleButton": "Processes",
+      "allProcessesHeader": "All processes",
+      "oneProcessHeader": "Detail of the process",
+      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button above.",
+      "defaultTriggerName": "Default trigger name",
+      "eventTrigger": {
+        "UPDATE_ROW_DATA": "Update on data",
+        "UPDATE_ROW": "Update",
+        "CREATE_ROW": "Create",
+        "MANUAL": "Manual",
+        "CRON": "Cron"
       }
     }
   },

@@ -2,7 +2,7 @@
 import Process from './Process'
 
 export default {
-  title: 'components/store/Process',
+  title: 'components/store/process/Process',
   component: Process
 }
 
@@ -18,7 +18,6 @@ export const defaultStory = () => (
           triggers: [{
             id: 'uuid-v4-t1',
             text: 'Trigger 1',
-            automatic: false,
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
@@ -27,7 +26,6 @@ export const defaultStory = () => (
           }, {
             id: 'uuid-v4-t2',
             text: 'Trigger 2',
-            automatic: true,
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
@@ -39,7 +37,6 @@ export const defaultStory = () => (
           }, {
             id: 'uuid-v4-t3',
             text: 'Trigger 3',
-            automatic: true,
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
@@ -56,24 +53,50 @@ export const defaultStory = () => (
             id: 'uuid-v4-run-1',
             text: 'Run 1',
             trigger_id: 'uuid-v4-t1',
-            when: '2020-11-22T22:00:00Z',
-            result: 'SUCCESS',
+            status: 'SUCCESS',
             duration: 100,
-            log: 'This is the log'
+            log: `
+This is the log
+
+And it is big.
+
+So big...
+
+I'm lost...
+
+At the end...
+
+Of the log...
+
+And,
+
+In
+
+Fact,
+
+This
+
+is
+
+...
+
+Game
+
+...
+
+Over.`
           }, {
             id: 'uuid-v4-run-2',
             text: 'Run 2',
             trigger_id: 'uuid-v4-t2',
-            when: '2020-11-22T22:06:00Z',
-            result: 'SUCCESS',
+            status: 'SUCCESS',
             duration: 250,
             log: 'This is the log'
           }, {
             id: 'uuid-v4-run-3',
             text: 'Run 3',
             trigger_id: 'uuid-v4-t3',
-            when: '2020-11-22T22:03:00Z',
-            result: 'SUCCESS',
+            status: 'SUCCESS',
             duration: 5365,
             log: 'This is the log'
           }]

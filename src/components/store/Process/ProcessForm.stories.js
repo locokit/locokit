@@ -12,9 +12,15 @@ export const defaultStory = () => (
     data () {
       return {
         process: {
-          id: 'uuid-v4-p1',
-          text: 'process\'s title',
-          url: 'http://myurl.com'
+          id: 'uuid-v4-t1',
+          text: 'Trigger 1',
+          table_id: 'uuid-v4-table-1',
+          table: {
+            text: 'My Table',
+            id: 'uuid-v4-table-1'
+          },
+          trigger: 'CREATE_ROW',
+          enabled: true
         }
       }
     },
@@ -23,3 +29,27 @@ export const defaultStory = () => (
 )
 
 defaultStory.storyName = 'default'
+
+export const submittingStory = () => (
+  {
+    components: { ProcessForm },
+    data () {
+      return {
+        process: {
+          id: 'uuid-v4-t1',
+          text: 'Trigger 1',
+          table_id: 'uuid-v4-table-1',
+          table: {
+            text: 'My Table',
+            id: 'uuid-v4-table-1'
+          },
+          trigger: 'CREATE_ROW',
+          enabled: false
+        }
+      }
+    },
+    template: '<ProcessForm :process="process" :submitting="true"/>'
+  }
+)
+
+submittingStory.storyName = 'submitting'

@@ -13,10 +13,19 @@
         @click="$emit('cancel')"
       />
       <p-button
+        disabled
+        v-if="submitting"
+        :label="$t('form.waiting')"
+        icon="pi pi-spin pi-spinner"
+        class="p-button-text"
+      />
+      <p-button
+        v-else
         :label="$t('form.save')"
         icon="pi pi-save"
         type="submit"
       />
+
     </div>
   </form>
 
@@ -30,6 +39,12 @@ export default {
   name: 'LckForm',
   components: {
     'p-button': Vue.extend(Button)
+  },
+  props: {
+    submitting: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
