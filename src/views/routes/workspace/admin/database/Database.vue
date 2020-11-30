@@ -455,24 +455,26 @@ export default {
       this.loadCurrentTableData()
     },
     getCurrentFilters () {
-      return this.currentDatatableFilters.map((filter, index) => ({
-        req:
-          // Operator
-          `${filter.operator}[${index}]` +
-          // Field
-          ((column_type) => {
-            switch (column_type) {
-              case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-              case COLUMN_TYPE.LOOKED_UP_COLUMN:
-                return `[data][${filter.column.value}.value]`
-              default:
-                return `[data][${filter.column.value}]`
-            }
-          })(filter.column.type) +
-          // Action
-          `[${filter.action.value}]`,
-        value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
-      }))
+      return this.currentDatatableFilters
+        .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
+        .map((filter, index) => ({
+          req:
+            // Operator
+            `${filter.operator}[${index}]` +
+            // Field
+            ((column_type) => {
+              switch (column_type) {
+                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                  return `[data][${filter.column.value}.value]`
+                default:
+                  return `[data][${filter.column.value}]`
+              }
+            })(filter.column.type) +
+            // Action
+            `[${filter.action.value}]`,
+          value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
+        }))
     },
     async loadCurrentTableData () {
       this.block.loading = true
