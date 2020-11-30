@@ -44,20 +44,46 @@ const definitionColumn = [
     column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES
   },
   {
-    text: 'Looked up column',
+    text: 'Single select',
     id: 6,
+    column_type_id: COLUMN_TYPE.SINGLE_SELECT
+  },
+  {
+    text: 'Multi select',
+    id: 7,
+    column_type_id: COLUMN_TYPE.MULTI_SELECT
+  },
+  {
+    text: 'Looked up column',
+    id: 8,
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
+const dropdownOptionsColumns = {
+  6: {
+    dropdownOptions: [
+      { label: 'option 1', value: 1 },
+      { label: 'option 2', value: 2 },
+      { label: 'option 3', value: 3 }
+    ]
+  },
+  7: {
+    dropdownOptions: [
+      { label: 'option A', value: 1 },
+      { label: 'option B', value: 2 },
+      { label: 'option C', value: 3 }
+    ]
+  }
+}
 
 export const selectedColumnAndActionOverlayOpenedStory = () => (
   {
     components: { FilterButton },
     data () {
-      return { definitionColumn }
+      return { definitionColumn, dropdownOptionsColumns }
     },
-    template: '<FilterButton ref="fb" :columns="definitionColumn" />',
+    template: '<FilterButton ref="fb" :columns="definitionColumn" :dropdownOptionsColumns="dropdownOptionsColumns"/>',
     async mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()

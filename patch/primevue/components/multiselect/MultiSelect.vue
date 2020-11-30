@@ -202,7 +202,7 @@ export default {
     },
     onClick (event) {
       if (!this.disabled && (
-        !this.overlay || !this.overlay.contains(event.target)
+        !this.$refs.overlay || !this.$refs.overlay.contains(event.target)
       ) && !DomHandler.hasClass(event.target, 'p-multiselect-close')) {
         if (this.overlayVisible) this.hide(); else this.show()
 
