@@ -18,7 +18,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
 >
   <div
     class="p-fluid p-pb-6"
-    style="padding-bottom: 10rem;"
   >
     <h3>
        Vélo n° 42 
@@ -131,7 +130,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
 >
   <div
     class="p-fluid p-pb-6"
-    style="padding-bottom: 10rem;"
   >
     <h3>
        Vélo n° 42 
