@@ -11,6 +11,8 @@
     <p-overlay-panel
       ref="overlayPanel"
       appendTo="body"
+      :showCloseIcon="showCloseIcon"
+      :dismissable="dismissable"
     >
       <slot
         name='overlay-content'
@@ -50,6 +52,14 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    showCloseIcon: {
+      type: Boolean,
+      default: false
+    },
+    dismissable: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {

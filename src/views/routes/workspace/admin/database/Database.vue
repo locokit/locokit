@@ -462,7 +462,7 @@ export default {
             // Operator
             `${filter.operator}[${index}]` +
             // Field
-            ((column_type) => {
+            (column_type => {
               switch (column_type) {
                 case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                 case COLUMN_TYPE.LOOKED_UP_COLUMN:
@@ -473,7 +473,15 @@ export default {
             })(filter.column.type) +
             // Action
             `[${filter.action.value}]`,
-          value: ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
+          value: (column_type => {
+            switch (column_type) {
+              case COLUMN_TYPE.DATE:
+                try {
+                  return formatISO(filter.pattern, { representation: 'date' })
+                } catch (RangeError) {}
+            }
+            return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
+          })(filter.column.type)
         }))
     },
     async loadCurrentTableData () {

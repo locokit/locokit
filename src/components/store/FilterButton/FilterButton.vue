@@ -4,6 +4,8 @@
     class-button="p-button-outlined p-button-secondary"
     :disabled="disabled"
     :label="$tc('components.datatable.toolbar.filters.label', value.length)"
+    :showCloseIcon="true"
+    :dismissable="false"
   >
     <template #overlay-content="overlaySlotProps">
       <div
@@ -140,8 +142,10 @@
 
 <script>
 import Vue from 'vue'
+import i18n from '@/plugins/i18n'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
+import Calendar from 'primevue/calendar'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
@@ -326,6 +330,22 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.NOT_EMPTY
     ],
     patternComponent: 'p-input-text'
+  },
+  [COLUMN_TYPE.DATE]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
+      { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
+      { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
+      { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponentOptions: {
+      dateFormat: i18n.t('date.dateFormatPrime'),
+      locale: i18n.t('date.localePrime')
+    }
   }
 }
 
@@ -335,6 +355,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-input-number': Vue.extend(InputNumber),
+    'p-calendar': Vue.extend(Calendar),
     'p-button': Vue.extend(Button),
     'lck-multiselect': MultiSelect,
     'lck-overlaypanel': Vue.extend(OverlayPanel)

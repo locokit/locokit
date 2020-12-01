@@ -57,6 +57,11 @@ const definitionColumn = [
     text: 'Looked up column',
     id: 8,
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
+  },
+  {
+    text: 'Date',
+    id: 9,
+    column_type_id: COLUMN_TYPE.DATE
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
