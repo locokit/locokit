@@ -51,6 +51,7 @@
               @click="$emit('open-detail', slotProps.data.id)"
             />
             <lck-dropdown-button
+              v-if="crudMode"
               :disabled="manualProcesses.length === 0"
               buttonClass="p-button-sm p-button-text p-button-rounded"
               icon="pi specific-icon lightning"

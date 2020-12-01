@@ -1,6 +1,5 @@
 import { lckServices } from '@/services/lck-api'
 import { LckProcessRun, LckProcessWithRuns, ProcessEvent } from '@/services/lck-utils/process'
-import { databaseState } from '@/store/database'
 
 export async function retrieveManualProcessWithRuns (tableId: string) {
   try {
