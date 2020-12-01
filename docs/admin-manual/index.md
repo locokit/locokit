@@ -2,4 +2,4 @@
 
 ## Database schema
 
-![](./dbschema_201119.png)
+![](./dbschema_201126.png)
