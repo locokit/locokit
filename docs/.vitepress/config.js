@@ -11,6 +11,9 @@ module.exports = {
       text: 'Admin manual',
       link: '/admin-manual/',
       children: [{
+        link: '/admin-manual/database',
+        text: 'Database'
+      }, {
         link: '/admin-manual/cicd',
         text: 'CI / CD'
       }, {
