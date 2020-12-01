@@ -4,7 +4,7 @@
       <Sidebar :items="sidebarItems" v-on="$listeners" />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
