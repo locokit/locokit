@@ -1,6 +1,5 @@
 <template>
   <div
-    style="padding-bottom: 10rem;"
     class="p-fluid p-pb-6"
     v-if="row"
   >

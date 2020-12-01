@@ -165,14 +165,14 @@ export default Vue.extend({
     formatDate,
     getDisabledProcessTrigger,
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
-      this.$emit('create-process-runs', {
+      this.$emit('create-process-run', {
         rowId,
         processId: process.id,
         name: process.text
       })
     },
-    onActivityProcess (processId, event) {
-      this.$emit('update-process-trigger', {
+    onActivityProcess (processId: string, event: boolean) {
+      this.$emit('toggle-process', {
         processId,
         enabled: event
       })

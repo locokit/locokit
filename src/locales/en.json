@@ -110,7 +110,8 @@
       "status": "Status",
       "when": "When",
       "noLog": "No additional information",
-      "noDataToDisplay": "No data to display"
+      "noDataToDisplay": "No data to display",
+      "successNewRun": "Process has run correctly."
     }
   },
   "pages": {

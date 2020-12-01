@@ -104,7 +104,7 @@
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
         @open-detail="onOpenDetail"
-        @create-process-runs="onTriggerProcess"
+        @create-process-run="onTriggerProcess"
       />
 
       <p-dialog
@@ -227,8 +227,8 @@
             <lck-process-panel
               :processesByRow="processesByRow"
               :rowId="row.id"
-              @create-process-runs="onTriggerProcess"
-              @update-process-trigger="onUpdateProcessTrigger"
+              @create-process-run="onTriggerProcess"
+              @toggle-process="onUpdateProcessTrigger"
             />
           </div>
         </div>
@@ -769,8 +769,20 @@ export default {
         table_row_id: rowId,
         process_id: processId
       })
-      if (res) {
-        this.$toast.add({ severity: 'success', summary: 'Updated', detail: name, life: 3000 })
+      if (res && res.error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: name,
+          detail: this.$t('error.http.' + res.code),
+          life: 3000
+        })
+      } else {
+        this.$toast.add({
+          severity: 'success',
+          summary: name,
+          detail: this.$t('components.processPanel.successNewRun'),
+          life: 3000
+        })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { process: useless, ...rest } = res
 

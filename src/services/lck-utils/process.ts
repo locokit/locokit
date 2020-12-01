@@ -40,7 +40,7 @@ export interface LckProcessRun {
   status: ProcessRunStatus;
 }
 
-export function getDisabledProcessTrigger (process: LckProcessWithRuns, rowId: string) {
+export function getDisabledProcessTrigger (process: LckProcessWithRuns, rowId: string): boolean {
   if (process.runs && process.runs.length > 0) {
     const res = process.runs.filter(run => rowId === run.table_row_id && run.status === ProcessRunStatus.SUCCESS)
     return res.length === process.maximumNumberSuccess

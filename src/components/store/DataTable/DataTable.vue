@@ -41,21 +41,21 @@
       >
         <p-column
           v-if="displayDetailButton"
-          headerStyle="width: 4rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 4rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
+          headerStyle="width: 16rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 16rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
         >
           <template #body="slotProps">
             <p-button
-              v-if="manualProcesses.length === 0"
               class="p-button-sm p-button-text p-button-rounded"
               icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"/>
-            <p-split-button
-              v-else
-              class="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-window-maximize"
+              @click="$emit('open-detail', slotProps.data.id)"
+            />
+            <lck-dropdown-button
+              buttonClass="p-button-sm p-button-text p-button-rounded"
+              icon="pi pi-cog"
+              appendTo="body"
               :model="formatManualProcesses(slotProps.data.id)"
-              @click="$emit('open-detail', slotProps.data.id)"/>
+            />
           </template>
         </p-column>
       </p-datatable>
@@ -248,6 +248,7 @@ import SplitButton from 'primevue/splitbutton'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -262,6 +263,7 @@ export default {
     'lck-autocomplete': AutoComplete,
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
+    'lck-dropdown-button': LckDropdownButton,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -389,20 +391,27 @@ export default {
     isEditableColumn,
     getDisabledProcessTrigger,
     formatManualProcesses (rowId) {
-      return this.manualProcesses.map(process => (
-        {
-          label: process.text,
-          icon: 'pi pi-play',
-          command: () => {
-            this.$emit('create-process-runs', {
-              rowId,
-              processId: process.id,
-              name: process.text
+      if (this.manualProcesses.length > 0) {
+        return [
+          {
+            label: 'Process',
+            items: this.manualProcesses.map(process => {
+              return {
+                label: process.text,
+                disabled: getDisabledProcessTrigger(process, rowId),
+                icon: 'pi pi-play',
+                command: () => {
+                  this.$emit('create-process-run', {
+                    rowId,
+                    processId: process.id,
+                    name: process.text
+                  })
+                }
+              }
             })
-          },
-          disabled: this.getDisabledProcessTrigger(process, rowId)
-        }
-      ))
+          }
+        ]
+      }
     },
     getValue (column, data = '') {
       if (

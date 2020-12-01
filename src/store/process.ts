@@ -3,8 +3,6 @@ import { LckProcessRun, LckProcessWithRuns, ProcessEvent } from '@/services/lck-
 import { databaseState } from '@/store/database'
 
 export async function retrieveManualProcessWithRuns (tableId: string) {
-  databaseState.error = null
-
   try {
     const res = await lckServices.process.find({
       query: {
@@ -17,14 +15,12 @@ export async function retrieveManualProcessWithRuns (tableId: string) {
       }
     })
     return res.data
-  } catch (error) {
-    databaseState.error = error
+  } catch ({ code, name }) {
+    return { code, name }
   }
-  databaseState.loading = false
 }
 
 export async function retrieveProcessesByRow (tableId: string, rowId: string) {
-  databaseState.error = null
   try {
     const resProcess = await lckServices.process.find({
       query: {
@@ -53,29 +49,23 @@ export async function retrieveProcessesByRow (tableId: string, rowId: string) {
       })
       return trigger
     })
-  } catch (error) {
-    databaseState.error = error
+  } catch ({ code, name }) {
+    return { code, name }
   }
-  databaseState.loading = false
 }
 
 export async function createProcessRun (formData: { process_id: string; table_row_id: string }) {
-  databaseState.error = null
-
   try {
     return await lckServices.processRun.create(formData)
-  } catch (error) {
-    databaseState.error = error
+  } catch ({ code, name }) {
+    return { code, name }
   }
-  databaseState.loading = false
 }
 
 export async function patchProcess (processId: string, formData: object) {
-  databaseState.loading = true
   try {
     return await lckServices.process.patch(processId, formData)
   } catch ({ code, name }) {
-    databaseState.error = new Error(`${code}: ${name}`)
+    return { code, name }
   }
-  databaseState.loading = false
 }
