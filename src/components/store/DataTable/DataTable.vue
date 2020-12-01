@@ -41,8 +41,8 @@
       >
         <p-column
           v-if="displayDetailButton"
-          headerStyle="width: 16rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 16rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
+          headerStyle="width: 6rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 6rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
         >
           <template #body="slotProps">
             <p-button
@@ -51,8 +51,9 @@
               @click="$emit('open-detail', slotProps.data.id)"
             />
             <lck-dropdown-button
+              :disabled="manualProcesses.length === 0"
               buttonClass="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-cog"
+              icon="pi specific-icon lightning"
               appendTo="body"
               :model="formatManualProcesses(slotProps.data.id)"
             />
@@ -394,7 +395,7 @@ export default {
       if (this.manualProcesses.length > 0) {
         return [
           {
-            label: 'Process',
+            label: this.$t('components.processPanel.title'),
             items: this.manualProcesses.map(process => {
               return {
                 label: process.text,

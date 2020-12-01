@@ -16,6 +16,7 @@
     />
     <p-menu
       :id="ariaId + '_overlay'"
+      class="lck-dropdownbutton-menu"
       ref="menu"
       :model="model"
       :popup="true"
@@ -132,10 +133,17 @@ export default {
       }
     }
   }
-
-  .p-menu {
-    min-width: 100%;
-  }
 }
 
+.lck-dropdownbutton-menu {
+  width: 100%;
+  max-width: 450px
+}
+</style>
+
+<style scoped>
+::v-deep .specific-icon.lightning:after {
+  mask: url("/img/lowcokit/ligthning.svg") no-repeat center center;
+  mask-size: cover;
+}
 </style>

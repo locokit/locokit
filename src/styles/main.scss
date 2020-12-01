@@ -106,9 +106,26 @@ html, body, #app {
 }
 
 /**
- *  Preformatted text
+ * Preformatted text
  */
 .pre {
   white-space: pre-wrap;
   font-family: monospace;
+}
+
+/*
+ * Custom icon
+ */
+
+.specific-icon {
+  width: 1.2em;
+  height: 1.2em;
+
+  &:after {
+    width: 1.2em;
+    height: 1.2em;
+    content: '';
+    display: inline-block;
+    background-color: var(--primary-color);
+  }
 }
