@@ -4,8 +4,7 @@
     class-button="p-button-outlined p-button-secondary"
     :disabled="disabled"
     :label="$tc('components.datatable.toolbar.filters.label', value.length)"
-    :showCloseIcon="true"
-    :dismissable="false"
+    :appendTo="null"
   >
     <template #overlay-content="overlaySlotProps">
       <div
