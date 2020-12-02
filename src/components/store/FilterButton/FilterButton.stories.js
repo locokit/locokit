@@ -92,10 +92,9 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
     mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()
-      // await Vue.nextTick()
       setTimeout(async () => {
         // Add a new filter
-        document.querySelector('.pi.pi-plus-circle').parentNode.click()
+        document.querySelector('.pi.pi-plus-circle').parentElement.click()
         await Vue.nextTick()
         // Select a column
         document.querySelector('#column .p-dropdown-trigger').click()
