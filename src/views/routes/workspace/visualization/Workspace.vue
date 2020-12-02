@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
     <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <Sidebar :items="sidebarItems" />
+      <Sidebar :items="sidebarItems" v-on="$listeners" />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />

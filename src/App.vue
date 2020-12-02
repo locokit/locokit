@@ -20,7 +20,7 @@
       @logoutClick="onLogoutClick"
     />
     <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
-      <router-view/>
+      <router-view @sideBarItemClick="onMenuButtonClick"/>
     </main>
 
     <p-toast position="top-right" />
