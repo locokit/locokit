@@ -1,10 +1,9 @@
 <template>
   <div
-    style="padding-bottom: 10rem;"
-    class="p-fluid"
+    class="p-fluid p-pb-6"
     v-if="row"
   >
-    <h2> {{ row.text }} </h2>
+    <h3> {{ row.text }} </h3>
     <div
       class="p-field"
       v-for="column in definition.columns"

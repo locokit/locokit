@@ -157,6 +157,27 @@ const tableViewData = {
     ]
   }
 }
+
+const manualProcesses = [
+  {
+    id: '17',
+    maximumNumberSuccess: 1,
+    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+    text: 'Action 1 to run',
+    trigger: 'MANUAL',
+    runs: [{
+      process_id: '17',
+      table_row_id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+      status: 'SUCCESS',
+      id: '42'
+    }]
+  }, {
+    id: '12',
+    maximumNumberSuccess: 0,
+    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+    text: 'Action 2 to run',
+    trigger: 'MANUAL'
+  }]
 /* eslint-enable @typescript-eslint/camelcase */
 
 export const withoutContent = () => (
@@ -220,6 +241,21 @@ export const withExpectedPropsWithDetailButtons = () => (
 )
 
 withExpectedPropsWithDetailButtons.storyName = 'Expected props with the detail buttons column'
+
+export const withExpectedPropsWithDetailProcessButtons = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData,
+        manualProcesses: manualProcesses
+      }
+    },
+    template: '<lck-datatable :crud-mode="true" :manualProcesses="manualProcesses" :content="block.content" :definition="block.definition" :displayDetailButton="true"  />'
+  }
+)
+
+withExpectedPropsWithDetailProcessButtons.storyName = 'Expected props with detail and process buttons column'
 
 export const withExpectedPropsAndCrudMode = () => (
   {

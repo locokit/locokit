@@ -5,22 +5,20 @@ exports[`storyshots components/ui/DropdownButton default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-splitbutton p-component"
+    class="lck-dropdownbutton"
   >
     <button
-      aria-controls="pv_id_1_overlay"
+      aria-controls="pv_id_3_overlay"
       aria-haspopup="true"
-      class="p-splitbutton-menubutton p-button p-component"
+      class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"
     >
-      <span
-        class="pi pi-chevron-down p-button-icon p-button-icon-right"
-      />
+      <!---->
        
       <span
         class="p-button-label"
       >
-        Choose an action
+         
       </span>
        
       <!---->
@@ -39,17 +37,15 @@ exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] 
   style="height: 100%;"
 >
   <div
-    class="p-splitbutton p-component no-decoration-link p-mr-2"
+    class="lck-dropdownbutton no-decoration-link p-mr-2"
   >
     <button
-      aria-controls="pv_id_3_overlay"
+      aria-controls="pv_id_5_overlay"
       aria-haspopup="true"
-      class="p-splitbutton-menubutton p-button p-component"
+      class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"
     >
-      <span
-        class="pi pi-chevron-down p-button-icon p-button-icon-right"
-      />
+      <!---->
        
       <span
         class="p-button-label"
@@ -73,17 +69,15 @@ exports[`storyshots components/ui/DropdownButton with model 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-splitbutton p-component no-decoration-link p-mr-2"
+    class="lck-dropdownbutton no-decoration-link p-mr-2"
   >
     <button
-      aria-controls="pv_id_2_overlay"
+      aria-controls="pv_id_4_overlay"
       aria-haspopup="true"
-      class="p-splitbutton-menubutton p-button p-component"
+      class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"
     >
-      <span
-        class="pi pi-chevron-down p-button-icon p-button-icon-right"
-      />
+      <!---->
        
       <span
         class="p-button-label"
