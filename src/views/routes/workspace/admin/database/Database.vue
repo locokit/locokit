@@ -476,9 +476,11 @@ export default {
           value: (column_type => {
             switch (column_type) {
               case COLUMN_TYPE.DATE:
-                try {
-                  return formatISO(filter.pattern, { representation: 'date' })
-                } catch (RangeError) {}
+                if (filter.pattern instanceof Date) {
+                  try {
+                    return formatISO(filter.pattern, { representation: 'date' })
+                  } catch (RangeError) {}
+                }
             }
             return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
           })(filter.column.type)
