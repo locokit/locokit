@@ -52,6 +52,11 @@ const definitionColumn = [
     text: 'Multi select',
     id: 7,
     column_type_id: COLUMN_TYPE.MULTI_SELECT
+  },
+  {
+    text: 'Looked up column',
+    id: 8,
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
