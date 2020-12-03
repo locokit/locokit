@@ -111,7 +111,7 @@ export class LckProcess extends LckBaseModel {
   text!: string;
   url!: string;
   enabled!: boolean;
-  trigger!: LckProcessTrigger;
+  trigger!: PROCESS_TRIGGER;
   table_id?: string;
   maximumNumberSuccess?: number;
   settings?: {
@@ -123,7 +123,7 @@ export class LckProcess extends LckBaseModel {
   table?: LckTable;
 }
 
-export enum LckProcessTrigger {
+export enum PROCESS_TRIGGER {
   CREATE_ROW = 'CREATE_ROW', // when a row in inserted
   UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
   UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
@@ -131,15 +131,18 @@ export enum LckProcessTrigger {
   MANUAL = 'MANUAL',
 }
 
-enum EXECUTION_RESULT {
+export enum PROCESS_RUN_STATUS {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
-  WARNING = 'WARNING'
+  WARNING = 'WARNING',
+  RUNNING = 'RUNNING'
 }
+
 export class LckProcessRun extends LckBaseModel {
   text!: string;
   process_id!: string;
-  result!: EXECUTION_RESULT;
+  table_row_id!: string;
+  status!: PROCESS_RUN_STATUS;
   duration!: number;
   log!: string;
 }

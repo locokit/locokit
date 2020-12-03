@@ -1,48 +1,8 @@
-export enum ProcessRunStatus {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  WARNING = 'WARNING',
-  RUNNING = 'RUNNING'
-}
+import { LckProcess, PROCESS_RUN_STATUS } from '../lck-api/definitions'
 
-export enum ProcessEvent {
-  MANUAL = 'MANUAL',
-  CRON = 'CRON',
-  CREATE_ROW = 'CREATE_ROW',
-  UPDATE_ROW = 'UPDATE_ROW',
-  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA',
-}
-
-export interface LckProcessWithRuns {
-  id: string;
-  text: string;
-  setting: [];
-  createdAt: Date;
-  updateAt: Date;
-  table_id: string;
-  url: string;
-  enabled: boolean;
-  trigger: ProcessEvent;
-  maximumNumberSuccess: number;
-  runs: LckProcessRun[];
-}
-
-export interface LckProcessRun {
-  id: string;
-  text: string;
-  duration: number;
-  log: string;
-  setting: [];
-  createdAt: Date;
-  updateAt: Date;
-  process_id: string;
-  table_row_id: string;
-  status: ProcessRunStatus;
-}
-
-export function getDisabledProcessTrigger (process: LckProcessWithRuns, rowId: string): boolean {
+export function getDisabledProcessTrigger (process: LckProcess, rowId: string): boolean {
   if (process.runs && process.runs.length > 0) {
-    const res = process.runs.filter(run => rowId === run.table_row_id && run.status === ProcessRunStatus.SUCCESS)
+    const res = process.runs?.filter(run => rowId === run.table_row_id && run.status === PROCESS_RUN_STATUS.SUCCESS)
     return res.length === process.maximumNumberSuccess
   }
   return false
