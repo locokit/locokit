@@ -6,30 +6,30 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
 >
   <div
     class="p-dialog-mask p-dialog-bottomright"
-    style="z-index: 1013;"
+    style="z-index: 1012;"
   >
     <div
-      aria-labelledby="pv_id_14_header"
+      aria-labelledby="pv_id_17_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1014;"
+      style="z-index: 1013;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_14_header"
+          id="pv_id_17_header"
         >
           New version available
         </span>
-
+         
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-
+           
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -45,7 +45,7 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           </button>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-content"
       >
@@ -55,7 +55,7 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           A new version of the platform is available. To enjoy it, you must refresh your browser.
         </p>
       </div>
-
+       
       <div
         class="p-dialog-footer"
       >
@@ -66,19 +66,19 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Dismiss
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
           />
         </button>
-
+         
         <button
           autofocus="autofocus"
           class="p-button-text p-button p-component"
@@ -87,13 +87,13 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Update
           </span>
-
+           
           <!---->
           <span
             class="p-ink"

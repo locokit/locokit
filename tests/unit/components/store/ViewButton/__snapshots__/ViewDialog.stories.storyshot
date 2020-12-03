@@ -9,7 +9,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
     style="z-index: 1004;"
   >
     <div
-      aria-labelledby="pv_id_8_header"
+      aria-labelledby="pv_id_11_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -20,16 +20,16 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_8_header"
+          id="pv_id_11_header"
         >
           Create a new view
         </span>
-
+         
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-
+           
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -45,7 +45,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           </button>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-content"
         style="max-height: 70vh;"
@@ -56,26 +56,26 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           <label
             for="viewTextField"
           >
-
+            
       Name
           </label>
-
+           
           <input
             class="p-inputtext p-component"
             id="viewTextField"
           />
         </div>
-
+         
         <div
           class="p-field"
         >
           <label
             for="viewLockedField"
           >
-
+            
       Locked
           </label>
-
+           
           <div
             class="p-button p-togglebutton p-component"
             id="viewLockedField"
@@ -85,7 +85,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
             <span
               class="pi pi-unlock p-button-icon p-button-icon-right"
             />
-
+             
             <span
               class="p-button-label"
             >
@@ -97,7 +97,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           </div>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-footer"
       >
@@ -108,19 +108,19 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Cancel
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
           />
         </button>
-
+         
         <button
           class="p-button-primary p-button p-component"
           type="button"
@@ -128,13 +128,13 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Submit
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
@@ -155,7 +155,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
     style="z-index: 1005;"
   >
     <div
-      aria-labelledby="pv_id_9_header"
+      aria-labelledby="pv_id_12_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -166,16 +166,16 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_9_header"
+          id="pv_id_12_header"
         >
           Edit the view
         </span>
-
+         
         <div
           class="p-dialog-header-icons"
         >
           <!---->
-
+           
           <button
             aria-label="close"
             class="p-dialog-header-icon p-dialog-header-close p-link"
@@ -191,7 +191,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           </button>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-content"
         style="max-height: 70vh;"
@@ -202,26 +202,26 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           <label
             for="viewTextField"
           >
-
+            
       Name
           </label>
-
+           
           <input
             class="p-inputtext p-component p-filled"
             id="viewTextField"
           />
         </div>
-
+         
         <div
           class="p-field"
         >
           <label
             for="viewLockedField"
           >
-
+            
       Locked
           </label>
-
+           
           <div
             class="p-button p-togglebutton p-component"
             id="viewLockedField"
@@ -231,7 +231,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
             <span
               class="pi pi-unlock p-button-icon p-button-icon-right"
             />
-
+             
             <span
               class="p-button-label"
             >
@@ -243,7 +243,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           </div>
         </div>
       </div>
-
+       
       <div
         class="p-dialog-footer"
       >
@@ -254,19 +254,19 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           <span
             class="pi pi-times p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Cancel
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
           />
         </button>
-
+         
         <button
           class="p-button-primary p-button p-component"
           type="button"
@@ -274,13 +274,13 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           <span
             class="pi pi-check p-button-icon p-button-icon-left"
           />
-
+           
           <span
             class="p-button-label"
           >
             Submit
           </span>
-
+           
           <!---->
           <span
             class="p-ink"
