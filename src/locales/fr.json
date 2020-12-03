@@ -122,6 +122,36 @@
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
       "successNewRun": "Le processus a éte exécuté correctement."
+    },
+    "process": {
+      "form": {
+        "text": {
+          "label": "Nom",
+          "placeholder": "Saisir un nom"
+        },
+        "table": {
+          "label": "Table",
+          "placeholder": "Choisissez une table"
+        },
+        "event": {
+          "label": "Événement",
+          "placeholder": "Choisissez l'événement déclencheur"
+        },
+        "column": {
+          "label": "Colonne",
+          "placeholder": "Choisissez la colonne concernée"
+        },
+        "enabled": "Activé",
+        "trigger": "Déclencheur",
+        "url": "URL",
+        "maximumNumberSuccessLabel": "Nombre de succès maximum (0 si infini)"
+      },
+      "removeButtonLabel": "Supprimer",
+      "duplicateButtonLabel": "Dupliquer",
+      "noRun": "Pas encore d'exécution pour ce processus.",
+      "headerProperties": "Propriétés",
+      "headerRuns": "Exécutions",
+      "chooseTableFirst": "Merci de sélectionner une table."
     }
   },
   "pages": {
@@ -194,7 +224,8 @@
       "errorUnknownTypeBlock": "Le type de block n'existe pas.",
       "buttonDatabase": "Base de données",
       "buttonSchema": "Schéma",
-      "buttonVisualization": "Visualisation"
+      "buttonVisualization": "Visualisation",
+      "buttonProcess": "Processus"
     },
     "database": {
       "title": "Base de données",
@@ -280,6 +311,20 @@
           "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}."
         }
       }
+    },
+    "process": {
+      "titleButton": "Processus",
+      "allProcessesHeader": "Tous les processus",
+      "oneProcessHeader": "Détail d'un processus",
+      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\" ci-dessus.",
+      "defaultTriggerName": "Nom du déclencheur par défaut",
+      "eventTrigger": {
+        "UPDATE_ROW_DATA": "Mise à jour d'une donnée",
+        "UPDATE_ROW": "Mise à jour",
+        "CREATE_ROW": "Création",
+        "MANUAL": "Manuel",
+        "CRON": "Cron"
+      }
     }
   },
   "dialog": {
@@ -304,7 +349,7 @@
   },
   "form": {
     "add": "Ajouter",
-    "delete": "Effacer",
+    "delete": "Supprimer",
     "reset": "Réinitialiser",
     "cancel": "Annuler",
     "remove": "Supprimer",

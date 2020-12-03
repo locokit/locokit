@@ -1,34 +1,49 @@
+import { Service } from '@feathersjs/feathers'
 import { lckClient } from './client'
+import {
+  LckBlock,
+  LckChapter,
+  LckContainer,
+  LckDatabase,
+  LckGroup,
+  LckPage,
+  LckProcess,
+  LckProcessRun,
+  LckTable,
+  LckTableColumn,
+  LckTableRow,
+  LckTableView,
+  LckTableViewColumn,
+  LckUser,
+  LckWorkspace
+} from './definitions'
 
 export const lckServices = {
-  /**
-   * Workspace
-   */
-  workspace: lckClient.service('workspace'),
+  workspace: lckClient.service('workspace') as Service<LckWorkspace>,
   /**
    * Database
    */
-  database: lckClient.service('database'),
-  table: lckClient.service('table'),
-  tableColumn: lckClient.service('column'),
-  tableView: lckClient.service('view'),
-  tableRow: lckClient.service('row'),
-  tableViewColumn: lckClient.service('table-view-has-table-column'),
+  database: lckClient.service('database') as Service<LckDatabase>,
+  table: lckClient.service('table') as Service<LckTable>,
+  tableColumn: lckClient.service('column') as Service<LckTableColumn>,
+  tableView: lckClient.service('view') as Service<LckTableView>,
+  tableRow: lckClient.service('row') as Service<LckTableRow>,
+  tableViewColumn: lckClient.service('table-view-has-table-column') as Service<LckTableViewColumn>,
   /**
    * Visualization
    */
-  visuChapter: lckClient.service('chapter'),
-  visuPage: lckClient.service('page'),
-  visuContainer: lckClient.service('container'),
-  visuBlock: lckClient.service('block'),
-  /**
-   * User
-   */
-  user: lckClient.service('user'),
-  group: lckClient.service('group'),
+  chapter: lckClient.service('chapter') as Service<LckChapter>,
+  page: lckClient.service('page') as Service<LckPage>,
+  container: lckClient.service('container') as Service<LckContainer>,
+  block: lckClient.service('block') as Service<LckBlock>,
   /**
    * Process
    */
-  process: lckClient.service('process'),
-  processRun: lckClient.service('process-run')
+  process: lckClient.service('process') as Service<LckProcess>,
+  processRun: lckClient.service('process-run') as Service<LckProcessRun>,
+  /**
+   * User
+   */
+  user: lckClient.service('user') as Service<LckUser>,
+  group: lckClient.service('group') as Service<LckGroup>
 }

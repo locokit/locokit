@@ -1,46 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { Paginated } from '@feathersjs/feathers'
+import { LckGroup, LckTableColumn, LckTableRow, LckTableRowData, LckTableRowDataComplex, LckUser } from './definitions'
 import { lckServices } from './services'
-
-class LckDataComplex {
-  reference!: string;
-  value!: string;
-}
-
-export class LckColumn {
-  /**
-   * Column id, UUID v4
-   */
-  id!: string;
-  /**
-   * Text / Title of the column
-   */
-  text!: string;
-  column_type_id!: COLUMN_TYPE;
-  settings!: {
-    values: Record<string, { label: string}>;
-  }
-}
-
-export class LckColumnView extends LckColumn {
-  /**
-   * Display position
-   */
-  position!: number;
-  /**
-   * Sort properties
-   */
-  sort!: object;
-  /**
-   * Filters
-   */
-  filters?: object[]
-}
-
-export class LckRow {
-  id!: string;
-  data!: Record<string, string[] | string | LckDataComplex>;
-}
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 /**
  * Return the display value for a column.
@@ -53,7 +15,10 @@ export class LckRow {
  * @param data
  * The data to be analyzed
  */
-export function getColumnDisplayValue (column: LckColumn, data: string[] | string | LckDataComplex = '') {
+export function getColumnDisplayValue (
+  column: LckTableColumn,
+  data: LckTableRowData = ''
+) {
   if (
     data === '' ||
     data === undefined ||
@@ -66,7 +31,7 @@ export function getColumnDisplayValue (column: LckColumn, data: string[] | strin
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
       case COLUMN_TYPE.FORMULA:
-        return (data as LckDataComplex).value
+        return (data as LckTableRowDataComplex).value
       case COLUMN_TYPE.SINGLE_SELECT:
         return column.settings.values[data as string]?.label
       case COLUMN_TYPE.MULTI_SELECT:
@@ -102,8 +67,8 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
           $ilike: `%${query}%`
         }
       }
-    })
-    items = result.data.map((d: { name: string; id: string }) => ({
+    }) as Paginated<LckUser>
+    items = result.data.map(d => ({
       label: d.name,
       value: d.id
     }))
@@ -114,8 +79,8 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
           $ilike: `%${query}%`
         }
       }
-    })
-    items = result.data.map((d: { name: string; id: string }) => ({
+    }) as Paginated<LckGroup>
+    items = result.data.map(d => ({
       label: d.name,
       value: d.id
     }))
@@ -129,8 +94,8 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
           $ilike: `%${query}%`
         }
       }
-    })
-    items = result.data.map((d: { text: string; id: string }) => ({
+    }) as Paginated<LckTableRow>
+    items = result.data.map(d => ({
       label: d.text,
       value: d.id
     }))
@@ -140,12 +105,12 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
 
 export async function exportTableRowData (tableViewId: string, filters: [] = []) {
   const rowsPerRequest = 20
-  const { columns } = await lckServices.tableView.get(tableViewId, {
+  const result = await lckServices.tableView.get(tableViewId, {
     query: {
       $eager: 'columns'
     }
-  }) as { columns: LckColumnView[]}
-  columns.sort((a, b) => a.position - b.position)
+  })
+  result.columns = result.columns?.sort((a, b) => a.position - b.position)
   const query: Record<string, string | number | object> = {
     table_view_id: tableViewId,
     $limit: rowsPerRequest,
@@ -157,23 +122,22 @@ export async function exportTableRowData (tableViewId: string, filters: [] = [])
   filters.forEach((f: { req: string; value: string }) => {
     query[f.req] = f.value
   })
-  const { data: allData, total } = await lckServices.tableRow.find({ query })
+  const { data: allData, total } = await lckServices.tableRow.find({ query }) as Paginated<LckTableRow>
   for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
     query.$skip = i
     const { data } = await lckServices.tableRow.find({
       query
-    })
+    }) as Paginated<LckTableRow>
     allData.push(...data)
   }
-  let exportCSV = columns.map(c => '"' + c.text + '"').join(',') + '\n'
-  exportCSV += allData.map(
-    (currentRow: LckRow) =>
-      columns.map((currentColumn: LckColumn) =>
-        '"' + getColumnDisplayValue(
-          currentColumn,
-          currentRow.data[currentColumn.id]
-        ) + '"'
-      ).join(',')
+  let exportCSV = result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
+  exportCSV += allData.map(currentRow =>
+    result.columns?.map(currentColumn =>
+      '"' + getColumnDisplayValue(
+        currentColumn,
+        currentRow.data[currentColumn.id]
+      ) + '"'
+    ).join(',')
   ).join('\n')
   return exportCSV
 }

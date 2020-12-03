@@ -4,6 +4,7 @@
   min-width: 5rem;
 
   .cell-state {
+    pointer-events: none;
     position: absolute;
     bottom: 0;
     left: 0;

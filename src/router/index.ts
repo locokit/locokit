@@ -9,6 +9,7 @@ import WorkspaceList from '@/views/routes/workspace/visualization/WorkspaceList.
 import Page from '@/views/routes/workspace/visualization/Page.vue'
 import Database from '@/views/routes/workspace/admin/database/Database.vue'
 import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 import Admin from '@/views/routes/admin/Admin.vue'
 import UserManagement from '@/views/routes/admin/UserManagement.vue'
@@ -101,6 +102,14 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
     name: 'DatabaseSchema',
     component: DatabaseSchema,
+    props: true,
+    meta: {
+      needAuthentication: true
+    }
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.PROCESS,
+    name: 'ProcessListing',
+    component: ProcessListing,
     props: true,
     meta: {
       needAuthentication: true

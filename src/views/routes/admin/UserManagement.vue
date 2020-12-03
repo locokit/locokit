@@ -67,12 +67,12 @@
         <p-column
           headerClass="p-col-1"
           bodyClass="p-text-center"
+          headerStyle="width: 10rem;"
         >
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
                 icon="pi pi-pencil"
-                class="p-button-rounded p-button p-mr-2"
                 @click="editUser(slotProps.data)"
                 :title="$t('pages.userManagement.editUser')"
               />
@@ -86,7 +86,6 @@
                       : 'pi pi-envelope'
                     )
                 "
-                class="p-button-rounded p-button p-mr-2"
                 :class="
                   resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
                   ? 'p-button-danger'
@@ -109,7 +108,7 @@
               />
               <p-button
                 icon="pi pi-eye"
-                class="p-button-rounded p-button-outlined p-disabled"
+                class="p-button-outlined p-disabled"
                 :title="$t('pages.userManagement.disableUser')"
               />
             </span>

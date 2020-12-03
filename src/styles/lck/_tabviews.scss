@@ -1,0 +1,8 @@
+.p-tabview .p-tabview-panels {
+  border-radius: var(--border-radius);
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}

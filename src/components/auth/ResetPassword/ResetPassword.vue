@@ -78,7 +78,7 @@ import Vue from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Password from 'primevue/password'
-import { regexPasswordRules } from '@/services/regex'
+import { regexPasswordRules } from '@/services/lck-utils/regex'
 
 export default Vue.extend({
   name: 'LckResetPassword',

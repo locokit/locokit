@@ -1,5 +1,5 @@
 <template>
-  <layout-with-background class="p-text-left">
+  <layout-with-background class="p-text-left p-fluid">
     <template slot="title">
       {{ $t('pages.verifysignup.title') }}
     </template>

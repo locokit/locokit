@@ -4,7 +4,8 @@ import { addDecorator, addParameters } from '@storybook/vue';
 import ThemeWrapper from './ThemeWrapper.vue'
 import i18n from '../src/plugins/i18n'
 import '../src/plugins/primevue'
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks'
+import { lckServicesDecorator } from '../src/services/lck-api/__mocks__/services'
 
 i18n.locale = 'en'
 i18n.fallbackLocale = 'en'
@@ -31,3 +32,8 @@ addDecorator(() => ({
   template: '<story/>',
   i18n,
 }));
+
+/**
+ * Add lckServicesDecorator for mocking lck services
+ */
+addDecorator(lckServicesDecorator)

@@ -7,11 +7,7 @@
     .p-accordion-header-link {
       font-weight: 500;
       padding: var(--accordion-header-link-padding);
-      transition: box-shadow 0.15s;
-      color: var(--text-color);
-      border: unset;
       border-radius: var(--border-radius);
-      background: unset;
     }
 
     .p-accordion-toggle-icon {
@@ -26,39 +22,7 @@
           box-shadow: unset;
         }
       }
-
-      &:not(.p-highlight) {
-        &:hover {
-          .p-accordion-header-link {
-            color: var(--primary-color);
-            border: unset;
-            background-color: var(--text-color);
-          }
-        }
-      }
-
-      &.p-highlight {
-        .p-accordion-header-link {
-          color: var(--primary-color);
-          background-color: var(--surface-w);
-        }
-        &:hover {
-          .p-accordion-header-link {
-            color: var(--primary-color);
-            border: unset;
-            background: unset;
-            background-color: var(--text-color);
-          }
-        }
-      }
     }
-  }
-
-  .p-accordion-content {
-    padding: unset;
-    color: var(--text-color);
-    border: unset;
-    background: unset;
   }
 
   .p-accordion-tab {
@@ -66,15 +30,7 @@
 
     .p-accordion-header {
       .p-accordion-header-link {
-        border-radius: 0;
-      }
-    }
-
-    &:not(:first-child) {
-      .p-accordion-header {
-        .p-accordion-header-link {
-          border: unset;
-        }
+        border-radius: unset;
       }
     }
 
@@ -87,10 +43,14 @@
     }
 
     &:last-child {
-      .p-accordion-header {
+      .p-accordion-header,
+      .p-accordion-header:not(.p-highlight) {
         .p-accordion-header-link {
           border-radius: unset;
         }
+      }
+      .p-accordion-content {
+        border-radius: unset;
       }
     }
   }
@@ -103,35 +63,4 @@
 
 .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
   margin-right: 0.5rem;
-}
-
-.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
-  color: var(--text-color);
-  border: unset;
-  background: unset;
-}
-
-.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
-  color: var(--text-color);
-  border: unset;
-  background: unset;
-}
-
-.p-accordion .p-accordion-content {
-  padding: unset;
-  color: var(--text-color);
-  border: unset;
-  background: unset;
-}
-
-.p-accordion .p-accordion-tab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, .p-accordion .p-accordion-tab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
-  border: unset;
-}
-
-.p-accordion .p-accordion-tab:first-child .p-accordion-header .p-accordion-header-link {
-  border: unset;
-}
-
-.p-accordion .p-accordion-tab:last-child .p-accordion-header:not(.p-highlight) .p-accordion-header-link {
-  border: unset;
 }

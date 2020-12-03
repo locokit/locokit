@@ -1,113 +1,137 @@
 <template>
   <div class="p-d-flex p-flex-column d-flex-1 o-auto">
     <div
-      class="lck-database-background"
-      :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
-    />
-
-    <div
       v-if="databaseState.data.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
-      <p-tab-view
-        class="p-d-flex p-flex-column p-mt-2"
-        @tab-change="handleTabChange"
-      >
-        <p-tab-panel
-          v-for="table in databaseState.data.tables"
-          :key="table.id"
-          :data-table-id="table.id"
-          :header="table.text"
-        />
-      </p-tab-view>
-
-      <div
-        class="
-          p-p-1
-          p-d-flex
-          p-jc-between
-          p-flex-wrap
-          lck-database-toolbar
-        "
-      >
-        <div class="p-d-flex p-flex-wrap">
-          <lck-view-button
-            :views="views"
-            v-model="selectedViewId"
-            @create="onCreateView"
-            @update="onUpdateView"
-            @delete="onDeleteView"
-            @reorder="onReorderView"
+      <div class="p-d-flex p-jc-between o-auto lck-database-nav">
+        <p-tab-view
+          class="p-d-flex p-flex-column p-mt-2 o-auto"
+          @tab-change="handleTabChange"
+        >
+          <p-tab-panel
+            v-for="table in databaseState.data.tables"
+            :key="table.id"
+            :data-table-id="table.id"
+            :header="table.text"
           />
+        </p-tab-view>
 
-          <lck-view-dialog
-            :visible="displayViewDialog"
-            :value="viewDialogData"
-            @close="displayViewDialog=false"
-            @input="saveView"
-          />
-
-          <lck-view-column-button
-            class="p-ml-2"
-            :columns="block.definition.columns"
-            :value="viewColumnsIds"
-            :disabled="currentView && currentView.locked"
-            @change="onChangeViewColumns"
-          />
-
-          <lck-filter-button
-            class="p-ml-2"
-            :columns="displayColumnsView.columns"
-            :dropdownOptionsColumns="columnsEnhanced"
-            v-model="currentDatatableFilters"
-            :disabled="currentView && currentView.locked"
-            @submit="onSubmitFilter"
-            @reset="onResetFilter"
-          />
-        </div>
-
-        <div class="p-d-flex p-flex-wrap">
+        <div class="p-d-flex p-as-end">
           <p-button
-            :label="$t('form.add')"
-            icon="pi pi-plus-circle"
-            class="p-mr-2"
-            @click="onClickAddButton"
-          />
-          <p-button
-            label="Export"
-            class="p-button-secondary"
-            :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-            :disabled="!this.selectedViewId"
-            @click="onClickExportButton"
+            :label="$t('pages.process.titleButton')"
+            class="p-button-sm p-button-info p-m-1 p-p-1"
+            icon="pi pi-th-large"
+            :class="{
+              'p-button-text': !displayPanel
+            }"
+            @click="displayPanel = !displayPanel"
           />
         </div>
       </div>
 
-      <lck-datatable
-        v-if="block.definition"
-        :definition="displayColumnsView"
-        :content="block.content"
-        :loading="block.loading"
-        :autocompleteSuggestions="crudAutocompleteItems"
-        :rowsNumber="currentDatatableRows"
-        :locked="currentView && currentView.locked"
-        :crudMode="crudMode"
-        :manualProcesses="manualProcesses"
-        :displayDetailButton="true"
-        :cellState="cellState"
+      <div class="p-d-flex d-flex-1 o-auto">
+        <layout-with-toolbar
+          class="p-d-flex p-flex-column d-flex-1 o-auto"
+          style="position: relative;"
+        >
+          <div
+            class="lck-database-background"
+            :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
+          />
 
-        @update-content="onUpdateContent"
-        @update-suggestions="updateCRUDAutocompleteSuggestions"
-        @update-cell="onUpdateCell"
-        @sort="onSort"
-        @column-resize="onColumnResize"
-        @column-reorder="onColumnReorder"
-        @row-delete="onRowDelete"
-        @row-duplicate="onRowDuplicate"
-        @open-detail="onOpenDetail"
-        @create-process-run="onTriggerProcess"
-      />
+          <template #toolbar>
+            <div class="p-d-flex p-flex-wrap">
+              <lck-view-button
+                :views="views"
+                v-model="selectedViewId"
+                @create="onCreateView"
+                @update="onUpdateView"
+                @delete="onDeleteView"
+                @reorder="onReorderView"
+              />
 
+              <lck-view-dialog
+                :visible="displayViewDialog"
+                :value="viewDialogData"
+                @close="displayViewDialog=false"
+                @input="saveView"
+              />
+
+              <lck-view-column-button
+                class="p-ml-2"
+                :columns="block.definition.columns"
+                :value="viewColumnsIds"
+                :disabled="currentView && currentView.locked"
+                @change="onChangeViewColumns"
+              />
+
+              <lck-filter-button
+                class="p-ml-2"
+                :columns="displayColumnsView.columns"
+                :dropdownOptionsColumns="columnsEnhanced"
+                v-model="currentDatatableFilters"
+                :disabled="currentView && currentView.locked"
+                @submit="onSubmitFilter"
+                @reset="onResetFilter"
+              />
+
+            </div>
+
+            <div class="p-d-flex p-flex-wrap">
+              <p-button
+                :label="$t('form.add')"
+                icon="pi pi-plus-circle"
+                class="p-mr-2 p-button-text p-button-primary"
+                @click="onClickAddButton"
+              />
+              <p-button
+                label="Export"
+                class="p-button-secondary"
+                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+                :disabled="!selectedViewId"
+                @click="onClickExportButton"
+              />
+            </div>
+          </template>
+
+          <lck-datatable
+            v-if="block.definition"
+            :definition="displayColumnsView"
+            :content="block.content"
+            :loading="block.loading"
+            :autocompleteSuggestions="crudAutocompleteItems"
+            :rowsNumber="currentDatatableRows"
+            :locked="currentView && currentView.locked"
+            :crudMode="crudMode"
+            :manualProcesses="manualProcesses"
+            :displayDetailButton="true"
+            :cellState="cellState"
+
+            @update-content="onUpdateContent"
+            @update-suggestions="updateCRUDAutocompleteSuggestions"
+            @update-cell="onUpdateCell"
+            @sort="onSort"
+            @column-resize="onColumnResize"
+            @column-reorder="onColumnReorder"
+            @row-delete="onRowDelete"
+            @row-duplicate="onRowDuplicate"
+            @open-detail="onOpenDetail"
+            @create-process-run="onTriggerProcess"
+          />
+        </layout-with-toolbar>
+
+        <div
+          class="lck-database-panel"
+          v-if="displayPanel"
+        >
+          <lck-process-listing
+            :workspaceId="workspaceId"
+            :tableId="currentTableId"
+            display-mode="BY_TABLE"
+          />
+        </div>
+      </div>
       <p-dialog
         :visible.sync="displayNewDialog"
         :style="{width: '600px'}"
@@ -289,6 +313,10 @@ import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButt
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
+import WithToolbar from '@/layouts/WithToolbar'
+
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing'
+
 const defaultDatatableSort = {
   createdAt: 1
 }
@@ -305,6 +333,8 @@ export default {
     'lck-multiselect': MultiSelect,
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
+    'layout-with-toolbar': WithToolbar,
+    'lck-process-listing': ProcessListing,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -318,6 +348,10 @@ export default {
   },
   props: {
     databaseId: {
+      type: String,
+      required: true
+    },
+    workspaceId: {
       type: String,
       required: true
     }
@@ -367,7 +401,8 @@ export default {
       displayViewDialog: false,
       viewDialogData: {},
       displayRowDialog: false,
-      row: {}
+      row: {},
+      displayPanel: false
     }
   },
   computed: {
@@ -827,6 +862,7 @@ export default {
   },
   async mounted () {
     await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
+
     // load the first table
     if (this.databaseState.data.tables.length > 0) {
       this.currentTableId = this.databaseState.data.tables[0].id
@@ -837,14 +873,14 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-tabview .p-tabview-nav {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav {
   background-color: transparent;
   overflow: auto;
   border: unset;
   flex-wrap: unset;
 }
 
-/deep/ .p-tabview .p-tabview-panels {
+/deep/ .lck-database-nav .p-tabview .p-tabview-panels {
   padding: 0;
   flex: 1;
   display: flex;
@@ -852,18 +888,18 @@ export default {
   background-color: unset;
 }
 
-/deep/ .p-tabview .p-tabview-panels .p-tabview-panel {
+/deep/ .lck-database-nav .p-tabview .p-tabview-panels .p-tabview-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/deep/ .p-tabview .p-tabview-nav li {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }
 
-/deep/ .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.5rem;
   background-color: var(--text-color);
   border: 1px solid var(--surface-a);
@@ -873,20 +909,20 @@ export default {
   margin: 0 0.25rem;
 }
 
-/deep/ .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
   color: var(--primary-color-darken);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
 }
 
-/deep/ .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+/deep/ .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
   color: var(--text-color);
 }
 
-/deep/ .p-tabview {
+.lck-database-nav {
   border-bottom: 1px solid var(--header-border-bottom-color);
 }
 
@@ -906,5 +942,11 @@ export default {
 .lck-database-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+}
+
+.lck-database-panel {
+  background-color: white;
+  width: 30rem;
+  border-left: 1px solid var(--header-border-bottom-color);
 }
 </style>

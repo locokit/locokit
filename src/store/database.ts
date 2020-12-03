@@ -1,20 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
-import { LckColumnView } from '@/services/lck-api/helpers'
+import { LckDatabase, LckTableColumn, LckTableView } from '@/services/lck-api/definitions'
+import { Paginated } from '@feathersjs/feathers'
 
-class Database {
-  text = ''
-  tables = []
-}
-
-class DatabaseState extends BaseState<Database> {
+class DatabaseState extends BaseState<LckDatabase> {
 }
 
 export const databaseState: DatabaseState = {
   loading: false,
   error: null,
-  data: new Database()
+  data: new LckDatabase()
 }
 
 export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
@@ -32,28 +28,19 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
   }
   databaseState.loading = false
 }
-
-export async function retrieveTableColumsAndTableRows (tableId: string) {
-  databaseState.loading = true
-  try {
-    return await lckServices.table.get(tableId, {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { $eager: '[columns, rows]' }
-    })
-  } catch (error) {
-    databaseState.error = error
-  }
-  databaseState.loading = false
-}
-
 export async function retrieveTableColumns (tableId: string) {
   databaseState.loading = true
   try {
     const result = await lckServices.tableColumn.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
-      query: { table_id: tableId, $limit: 50, $sort: { position: 1 } }
-
-    })
+      query: {
+        table_id: tableId,
+        $limit: 50,
+        $sort: {
+          position: 1
+        }
+      }
+    }) as Paginated<LckTableColumn>
     return result.data
   } catch (error) {
     databaseState.error = error
@@ -123,10 +110,10 @@ export async function retrieveTableViews (tableId: string) {
         $eager: 'columns',
         $limit: 50
       }
-    })
-    return result.data.map((view: { columns: LckColumnView[] }) => ({
+    }) as Paginated<LckTableView>
+    return result.data.map(view => ({
       ...view,
-      columns: view.columns.slice(0).sort((a, b) => a.position - b.position)
+      columns: view.columns?.slice(0).sort((a, b) => a.position - b.position)
     }))
   } catch (error) {
     databaseState.error = error
@@ -139,19 +126,6 @@ export async function saveTableData (formData: object) {
 
   try {
     const result = await lckServices.tableRow.create(formData)
-    databaseState.loading = false
-    return result
-  } catch ({ code, name }) {
-    databaseState.loading = false
-    return { code, name }
-  }
-}
-
-export async function deleteTableData (rowId: string) {
-  databaseState.loading = true
-
-  try {
-    const result = await lckServices.tableRow.remove(rowId)
     databaseState.loading = false
     return result
   } catch ({ code, name }) {

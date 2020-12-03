@@ -53,16 +53,19 @@ quality:
     - npm ci
     - cp -r patch/** node_modules/
     - npm run lint
-    - npm run test:unit -- --coverage
+    - npm run test:unit -- --coverage --reporters=default --reporters=jest-junit
   dependencies:
     - storybook:build
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     expire_in: 1 week
     name: 'lck-front-snapshots-${CI_COMMIT_REF_SLUG}'
-    when: on_failure
+    when: always
     paths:
     - tests/unit/__image_snapshots__
+    reports:
+      junit:
+        - junit.xml
 
 # Build stage
 build:

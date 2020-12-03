@@ -120,6 +120,36 @@
       "noLog": "No additional information",
       "noDataToDisplay": "No data to display",
       "successNewRun": "Process has run correctly."
+    },
+    "process": {
+      "form": {
+        "text": {
+          "label": "Name",
+          "placeholder": "Enter a trigger name"
+        },
+        "table": {
+          "label": "Table",
+          "placeholder": "Choose a table"
+        },
+        "event": {
+          "label": "Event",
+          "placeholder": "Choose the trigger event"
+        },
+        "column": {
+          "label": "Column",
+          "placeholder": "Choose the column"
+        },
+        "enabled": "Enabled",
+        "trigger": "Trigger",
+        "url": "URL",
+        "maximumNumberSuccessLabel": "Maximum number of success (0 if no limit)"
+      },
+      "removeButtonLabel": "Remove",
+      "duplicateButtonLabel": "Duplicate",
+      "noRun": "No run for this process yet.",
+      "headerProperties": "Properties",
+      "headerRuns": "Runs",
+      "chooseTableFirst": "Please choose a table first."
     }
   },
   "pages": {
@@ -172,7 +202,7 @@
           "uppercase": "A uppercase",
           "lowercase": "A lowercase",
           "digits": "A digit",
-          "symbols": "A special character spécial such as: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+          "symbols": "A special character such as: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
         },
         "prompt": "Enter a password",
         "passwordStrength": {
@@ -191,7 +221,8 @@
       "errorUnknownTypeBlock": "The block type does not exist.",
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
-      "buttonVisualization": "Visualization"
+      "buttonVisualization": "Visualization",
+      "buttonProcess": "Processes"
     },
     "database": {
       "title": "Database",
@@ -276,6 +307,20 @@
           "editUserInGroup": "Edit {userName} user in {groupName} group",
           "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
         }
+      }
+    },
+    "process": {
+      "titleButton": "Processes",
+      "allProcessesHeader": "All processes",
+      "oneProcessHeader": "Detail of the process",
+      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button above.",
+      "defaultTriggerName": "Default trigger name",
+      "eventTrigger": {
+        "UPDATE_ROW_DATA": "Update on data",
+        "UPDATE_ROW": "Update",
+        "CREATE_ROW": "Create",
+        "MANUAL": "Manual",
+        "CRON": "Cron"
       }
     }
   },
