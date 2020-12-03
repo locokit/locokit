@@ -105,6 +105,21 @@
     },
     "detailview": {
       "goback": "Return to results"
+    },
+    "processPanel": {
+      "title": "Process",
+      "automatic": "Automatic",
+      "MANUAL": "Manual",
+      "CRON": "Cron",
+      "SUCCESS": "SUCCESS",
+      "WARNING": "WARNING",
+      "RUNNING": "RUNNING",
+      "ERROR": "ERROR",
+      "status": "Status",
+      "when": "When",
+      "noLog": "No additional information",
+      "noDataToDisplay": "No data to display",
+      "successNewRun": "Process has run correctly."
     }
   },
   "pages": {
@@ -315,7 +330,8 @@
       "clear": "Clear",
       "dateFormat": "mm/dd/yy",
       "weekHeader": "Wk"
-    }
+    },
+    "datetimeLogFormat": "MM/dd/yyyy HH:mm:ss"
   },
   "sw": {
     "newVersion": "New version available",

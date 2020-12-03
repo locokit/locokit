@@ -14,6 +14,7 @@
         :key="subitem.id"
         :to="subitem.to"
         :class="{ 'router-link-exact-active': subitem.active }"
+        @click.native="clickRouter"
       >
         {{subitem.label}}
       </router-link>
@@ -37,6 +38,11 @@ export default {
           subitems: []
         }]
       }
+    }
+  },
+  methods: {
+    clickRouter (event) {
+      this.$emit('sideBarItemClick')
     }
   },
   components: {

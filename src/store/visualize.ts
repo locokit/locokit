@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { lckClient, lckServices } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import { BaseState } from './state'
 
 class Workspace {
@@ -24,7 +24,7 @@ export const workspaceState: WorkspaceState = {
 export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number) {
   workspaceState.loading = true
   try {
-    const workspace = await lckClient.service('workspace').get(workspaceId, {
+    const workspace = await lckServices.workspace.get(workspaceId, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: 'chapters.[pages]' }
     })
@@ -44,7 +44,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
 export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = true
   try {
-    return await lckClient.service('page').get(id, {
+    return await lckServices.visuPage.get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: { $eager: 'containers.[blocks]' }
     })
@@ -86,7 +86,7 @@ export async function retrieveViewData (
 ) {
   workspaceState.loading = true
   try {
-    return await lckClient.service('row').find({
+    return await lckServices.tableRow.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_view_id,
@@ -104,7 +104,7 @@ export async function retrieveViewData (
 export async function retrieveRow (rowId: string) {
   workspaceState.loading = true
   try {
-    return await lckClient.service('row').get(rowId)
+    return await lckServices.tableRow.get(rowId)
   } catch (error) {
     workspaceState.error = error
   }

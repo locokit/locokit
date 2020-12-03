@@ -107,6 +107,21 @@
     },
     "detailview": {
       "goback": "Retourner aux résultats"
+    },
+    "processPanel": {
+      "title": "Processus",
+      "automatic": "Automatique",
+      "MANUAL": "Manuel",
+      "CRON": "Cron",
+      "SUCCESS": "SUCCÈS",
+      "WARNING": "ATTENTION",
+      "RUNNING": "EN COURS",
+      "ERROR": "ERREUR",
+      "status": "Statut",
+      "when": "Executé le",
+      "noLog": "Aucune information supplémentaire",
+      "noDataToDisplay": "Aucune donnée à afficher",
+      "successNewRun": "Le processus a éte exécuté correctement."
     }
   },
   "pages": {
@@ -318,7 +333,8 @@
       "clear": "Réinitialiser",
       "dateFormat": "dd/mm/yy",
       "weekHeader": "Sm"
-    }
+    },
+    "datetimeLogFormat": "dd/MM/yyyy HH:mm:ss"
   },
   "sw": {
     "newVersion": "Nouvelle version disponible",

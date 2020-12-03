@@ -41,14 +41,23 @@
       >
         <p-column
           v-if="displayDetailButton"
-          headerStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset;"
-          bodyStyle="width: 3rem; height: 2.5rem; padding: unset; margin: unset; text-align: center;"
+          headerStyle="width: 6rem; height: 2.5rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 6rem; height: 2.5rem; padding: 0 0.1rem; margin: unset; text-align: center;"
         >
           <template #body="slotProps">
             <p-button
               class="p-button-sm p-button-text p-button-rounded"
               icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"/>
+              @click="$emit('open-detail', slotProps.data.id)"
+            />
+            <lck-dropdown-button
+              v-if="crudMode"
+              :disabled="manualProcesses.length === 0"
+              buttonClass="p-button-sm p-button-text p-button-rounded"
+              icon="pi specific-icon lightning"
+              appendTo="body"
+              :model="formatManualProcesses(slotProps.data.id)"
+            />
           </template>
         </p-column>
       </p-datatable>
@@ -236,19 +245,19 @@ import Calendar from 'primevue/calendar'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
+import SplitButton from 'primevue/splitbutton'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import {
-  formatISO,
-  lightFormat,
-  parseISO
-} from 'date-fns'
+import { parseISO } from 'date-fns'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
+import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 
 export default {
   name: 'LckDatatable',
@@ -256,8 +265,10 @@ export default {
     'lck-autocomplete': AutoComplete,
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
+    'lck-dropdown-button': LckDropdownButton,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
+    'p-split-button': Vue.extend(SplitButton),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-input-switch': Vue.extend(InputSwitch),
@@ -279,6 +290,10 @@ export default {
       default: false
     },
     autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    },
+    manualProcesses: {
       type: Array,
       default: () => ([])
     },
@@ -376,6 +391,30 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    getDisabledProcessTrigger,
+    formatManualProcesses (rowId) {
+      if (this.manualProcesses.length > 0) {
+        return [
+          {
+            label: this.$t('components.processPanel.title'),
+            items: this.manualProcesses.map(process => {
+              return {
+                label: process.text,
+                disabled: getDisabledProcessTrigger(process, rowId),
+                icon: 'pi pi-play',
+                command: () => {
+                  this.$emit('create-process-run', {
+                    rowId,
+                    processId: process.id,
+                    name: process.text
+                  })
+                }
+              }
+            })
+          }
+        ]
+      }
+    },
     getValue (column, data = '') {
       if (
         data === '' ||
@@ -399,7 +438,7 @@ export default {
             }
           case COLUMN_TYPE.DATE:
           // eslint-disable-next-line no-case-declarations
-            return lightFormat(parseISO(data), this.$t('date.dateFormat')) || ''
+            return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
         }
@@ -489,7 +528,7 @@ export default {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: this.currentDateToEdit ? formatISO(this.currentDateToEdit, { representation: 'date' }) : null
+        newValue: this.currentDateToEdit ? formatDateISO(this.currentDateToEdit) : null
       })
     },
     /**
@@ -545,7 +584,7 @@ export default {
            * we just want to store the date
            */
           if (this.currentDateToEdit) {
-            value = formatISO(this.currentDateToEdit, { representation: 'date' })
+            value = formatDateISO(this.currentDateToEdit)
           } else {
             value = null
           }

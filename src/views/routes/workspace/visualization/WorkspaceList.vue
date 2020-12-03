@@ -38,7 +38,7 @@
                       icon="pi pi-table"
                     />
                   </router-link>
-                  <p-dropdown-button
+                  <lck-dropdown-button
                     v-else
                     class="no-decoration-link p-mr-2"
                     :label="$t('pages.workspace.buttonDatabase')"
@@ -68,10 +68,12 @@
 import Vue from 'vue'
 import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
+import { WORKSPACE_ROLE } from '@locokit/lck-glossary'
+
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
-import { WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 export default {
   name: 'WorkspaceList',
@@ -85,7 +87,7 @@ export default {
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
-    'p-dropdown-button': Vue.extend(DropdownButton)
+    'lck-dropdown-button': Vue.extend(DropdownButton)
   },
   methods: {
     transformDatabases (workspaceId, databases) {

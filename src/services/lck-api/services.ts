@@ -2,7 +2,11 @@ import { lckClient } from './client'
 
 export const lckServices = {
   /**
-   * Database part
+   * Workspace
+   */
+  workspace: lckClient.service('workspace'),
+  /**
+   * Database
    */
   database: lckClient.service('database'),
   table: lckClient.service('table'),
@@ -21,5 +25,10 @@ export const lckServices = {
    * User
    */
   user: lckClient.service('user'),
-  group: lckClient.service('group')
+  group: lckClient.service('group'),
+  /**
+   * Process
+   */
+  process: lckClient.service('process'),
+  processRun: lckClient.service('process-run')
 }

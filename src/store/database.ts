@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
-import { LckColumnView } from '@/services/lck-api/helpers'
 import { BaseState } from './state'
+import { LckColumnView } from '@/services/lck-api/helpers'
 
 class Database {
   text = ''
@@ -163,8 +163,7 @@ export async function deleteTableData (rowId: string) {
 export async function patchTableData (rowId: string, formData: object) {
   databaseState.loading = true
   try {
-    const result = await lckServices.tableRow.patch(rowId, formData)
-    return result
+    return await lckServices.tableRow.patch(rowId, formData)
   } catch ({ code, name }) {
     databaseState.error = new Error(`${code}: ${name}`)
   }

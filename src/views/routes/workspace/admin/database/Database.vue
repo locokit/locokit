@@ -4,12 +4,7 @@
       class="lck-database-background"
       :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
     />
-    <!--
-    <header class="p-my-4 lck-color-title p-ml-1">
-      {{ $t('pages.database.title')}}
-      <strong>{{ databaseState.data.text }}</strong>
-    </header>
-    -->
+
     <div
       v-if="databaseState.data.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
@@ -97,6 +92,7 @@
         :rowsNumber="currentDatatableRows"
         :locked="currentView && currentView.locked"
         :crudMode="crudMode"
+        :manualProcesses="manualProcesses"
         :displayDetailButton="true"
         :cellState="cellState"
 
@@ -109,6 +105,7 @@
         @row-delete="onRowDelete"
         @row-duplicate="onRowDuplicate"
         @open-detail="onOpenDetail"
+        @create-process-run="onTriggerProcess"
       />
 
       <p-dialog
@@ -206,21 +203,36 @@
 
       <p-dialog
         :visible.sync="displayRowDialog"
-        :style="{width: '600px'}"
-        :header="$t('components.datatable.detail')"
+        :style="{width: '800px'}"
         :modal="true"
         :contentStyle="{ 'max-height': '70vh'}"
         :closeOnEscape="true"
         class="p-fluid"
       >
-        <lck-data-detail
-          :crudMode="crudMode"
-          :definition="block.definition"
-          :row="row"
-          :autocompleteSuggestions="autocompleteSuggestions"
-          @update-suggestions="updateLocalAutocompleteSuggestions"
-          @update-row="onUpdateCell"
-        />
+        <template #header>
+          <h2>{{ $t('components.datatable.detail') }}</h2>
+        </template>
+
+        <div
+          class="p-fluid"
+        >
+          <div>
+            <lck-data-detail
+              :crudMode="crudMode"
+              :definition="block.definition"
+              :row="row"
+              :autocompleteSuggestions="autocompleteSuggestions"
+              @update-suggestions="updateLocalAutocompleteSuggestions"
+              @update-row="onUpdateCell"
+            />
+            <lck-process-panel
+              :processesByRow="processesByRow"
+              :rowId="row.id"
+              @create-process-run="onTriggerProcess"
+              @toggle-process="onUpdateProcessTrigger"
+            />
+          </div>
+        </div>
       </p-dialog>
     </div>
     <div v-else>
@@ -239,30 +251,36 @@ import { formatISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
+  databaseState,
+  patchTableData,
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
+  retrieveTableRowsWithSkipAndLimit,
   retrieveTableViews,
-  databaseState,
-  saveTableData,
-  patchTableData,
-  retrieveTableRowsWithSkipAndLimit
+  saveTableData
 } from '@/store/database'
+import {
+  createProcessRun,
+  patchProcess,
+  retrieveManualProcessWithRuns,
+  retrieveProcessesByRow
+} from '@/store/process'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
-import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
+import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
+import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
-import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
+import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
@@ -286,6 +304,7 @@ export default {
     'lck-view-column-button': ViewColumnButton,
     'lck-multiselect': MultiSelect,
     'lck-data-detail': DataDetail,
+    'lck-process-panel': ProcessPanel,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -293,7 +312,6 @@ export default {
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
-    'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button)
@@ -328,6 +346,8 @@ export default {
         data: {
         }
       },
+      manualProcesses: [],
+      processesByRow: [],
       submitting: false,
       exporting: false,
       currentTableId: null,
@@ -439,20 +459,20 @@ export default {
     handleTabChange (event) {
       this.resetToDefault()
       this.currentTableId = event.tab.$el.dataset?.tableId
-      this.loadTable()
+      this.loadTableAndProcess()
     },
-    async loadTable () {
+    async loadTableAndProcess () {
       this.block.loading = true
       this.block.content = {
         total: 0,
         data: null
       }
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
-
       this.views = await retrieveTableViews(this.currentTableId)
       this.views.length > 0 && (this.selectedViewId = this.views[0].id)
       this.block.loading = false
-      this.loadCurrentTableData()
+      await this.loadCurrentTableData()
+      this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
     getCurrentFilters () {
       return this.currentDatatableFilters
@@ -725,6 +745,7 @@ export default {
     async onOpenDetail (rowId) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
+      this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
     async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
@@ -761,6 +782,47 @@ export default {
         this.cellState.isValid = false
       }
       this.cellState.waiting = false
+    },
+    async onUpdateProcessTrigger ({ processId, enabled }) {
+      const res = await patchProcess(processId, { enabled })
+      const indexProcessRow = this.processesByRow.findIndex(process => process.id === processId)
+      if (res && indexProcessRow >= 0) {
+        this.processesByRow[indexProcessRow].enabled = res.enabled
+      }
+    },
+    async onTriggerProcess ({ rowId, processId, name }) {
+      const res = await createProcessRun({
+        table_row_id: rowId,
+        process_id: processId
+      })
+      if (res && res.error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: name,
+          detail: this.$t('error.http.' + res.code),
+          life: 3000
+        })
+      } else {
+        this.$toast.add({
+          severity: 'success',
+          summary: name,
+          detail: this.$t('components.processPanel.successNewRun'),
+          life: 3000
+        })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { process: useless, ...rest } = res
+
+        // Add execution when event is triggered in datatable to check if the trigger must be disabled
+        const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processId)
+        if (indexManualProcess >= 0) {
+          this.manualProcesses[indexManualProcess].runs = [rest, ...this.manualProcesses[indexManualProcess].runs]
+        }
+        // Add/Update execution when event is triggered in the processPanel
+        const indexProcessRow = this.processesByRow.findIndex(process => process.id === processId)
+        if (indexProcessRow >= 0) {
+          this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
+        }
+      }
     }
   },
   async mounted () {
@@ -768,7 +830,7 @@ export default {
     // load the first table
     if (this.databaseState.data.tables.length > 0) {
       this.currentTableId = this.databaseState.data.tables[0].id
-      this.loadTable()
+      this.loadTableAndProcess()
     }
   }
 }
@@ -833,10 +895,10 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   opacity: 0.1;
   pointer-events: none;
 }
