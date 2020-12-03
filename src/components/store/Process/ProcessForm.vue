@@ -5,29 +5,29 @@
   >
     <div class="p-field">
       <label for="text">
-        {{ $t('components.process.form.textLabel') }}
+        {{ $t('components.process.form.text.label') }}
       </label>
       <p-input-text
         id="text"
         type="text"
         v-model="processCloned.text"
-        :placeholder="$t('components.process.form.textPlaceholder')"
+        :placeholder="$t('components.process.form.text.placeholder')"
       />
     </div>
     <div class="p-field">
       <label for="url">
-        {{ $t('components.process.form.urlLabel') }}
+        {{ $t('components.process.form.url') }}
       </label>
       <p-input-text
         id="url"
         type="text"
         v-model="processCloned.url"
-        :placeholder="$t('components.process.form.urlLabel')"
+        :placeholder="$t('components.process.form.url')"
       />
     </div>
     <div class="p-field">
       <label for="enabled">
-        {{ $t('components.process.form.enabledLabel') }}
+        {{ $t('components.process.form.enabled') }}
       </label>
       <br/>
       <p-input-switch
@@ -37,12 +37,12 @@
     </div>
     <div class="p-field">
       <label for="table">
-        {{ $t('components.process.form.tableLabel') }}
+        {{ $t('components.process.form.table.label') }}
       </label>
       <lck-autocomplete
         id="table"
         :dropdown="true"
-        :placeholder="$t('components.process.form.tablePlaceholder')"
+        :placeholder="$t('components.process.form.table.placeholder')"
         field="text"
         :suggestions="tables"
         @search="$emit('search-table', $event)"
@@ -54,7 +54,7 @@
     </div>
     <div class="p-field">
       <label for="trigger">
-        {{ $t('components.process.form.triggerLabel') }}
+        {{ $t('components.process.form.trigger') }}
       </label>
       <p-dropdown
         id="trigger"
@@ -71,7 +71,7 @@
       v-if="triggerWithSettings"
     >
       <label for="column_id">
-        {{ $t('components.process.form.columnLabel') }}
+        {{ $t('components.process.form.column.label') }}
         <span v-if="!processCloned.table_id" class="p-text-warning">
           {{ $t('components.process.chooseTableFirst') }}
         </span>
@@ -80,7 +80,7 @@
         id="column_id"
         :disabled="!processCloned.table_id"
         :dropdown="true"
-        :placeholder="$t('components.process.form.columnPlaceholder')"
+        :placeholder="$t('components.process.form.column.placeholder')"
         field="text"
         :suggestions="columns"
         @search="$emit('search-column', { query: $event.query, tableId: processCloned.table_id })"

@@ -125,17 +125,25 @@
     },
     "process": {
       "form": {
-        "textLabel": "Nom",
-        "textPlaceholder": "Saisir un nom",
-        "enabledLabel": "Activé",
-        "tableLabel": "Table",
-        "tablePlaceholder": "Choisissez une table",
-        "triggerLabel": "Déclencheur",
-        "eventLabel": "Événement",
-        "eventPlaceholder": "Choisissez l'événement déclencheur",
-        "columnLabel": "Colonne",
-        "columnPlaceholder": "Choisissez la colonne concernée",
-        "urlLabel": "URL",
+        "text": {
+          "label": "Nom",
+          "placeholder": "Saisir un nom"
+        },
+        "table": {
+          "label": "Table",
+          "placeholder": "Choisissez une table"
+        },
+        "event": {
+          "label": "Événement",
+          "placeholder": "Choisissez l'événement déclencheur"
+        },
+        "column": {
+          "label": "Colonne",
+          "placeholder": "Choisissez la colonne concernée"
+        },
+        "enabled": "Activé",
+        "trigger": "Déclencheur",
+        "url": "URL",
         "maximumNumberSuccessLabel": "Nombre de succès maximum (0 si infini)"
       },
       "removeButtonLabel": "Supprimer",

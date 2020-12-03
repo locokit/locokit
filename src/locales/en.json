@@ -123,17 +123,25 @@
     },
     "process": {
       "form": {
-        "textLabel": "Name",
-        "textPlaceholder": "Enter a trigger name",
-        "enabledLabel": "Enabled",
-        "tableLabel": "Table",
-        "tablePlaceholder": "Choose a table",
-        "triggerLabel": "Trigger",
-        "eventLabel": "Event",
-        "eventPlaceholder": "Choose the trigger event",
-        "columnLabel": "Column",
-        "columnPlaceholder": "Choose the column",
-        "urlLabel": "URL",
+        "text": {
+          "label": "Name",
+          "placeholder": "Enter a trigger name"
+        },
+        "table": {
+          "label": "Table",
+          "placeholder": "Choose a table"
+        },
+        "event": {
+          "label": "Event",
+          "placeholder": "Choose the trigger event"
+        },
+        "column": {
+          "label": "Column",
+          "placeholder": "Choose the column"
+        },
+        "enabled": "Enabled",
+        "trigger": "Trigger",
+        "url": "URL",
         "maximumNumberSuccessLabel": "Maximum number of success (0 if no limit)"
       },
       "removeButtonLabel": "Remove",
