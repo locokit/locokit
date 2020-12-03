@@ -51,7 +51,10 @@
                 ({{ process.runs.length }})
               </span>
               <br />
-              <span class="lck-chips">
+              <span
+                class="p-tag"
+                style="border: 1px solid var(--primary-color); color: var(--primary-color);"
+              >
                 {{ $t('pages.process.eventTrigger.' + process.trigger) }}
               </span>
               <div
@@ -387,16 +390,4 @@ export default {
   margin: 0.25rem;
 }
 
-.lck-chips {
-  border-radius: var(--border-radius);
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 0.25rem 0.5rem;
-  font-size: 0.7rem;
-}
-.lck-chips-highlight {
-  background-color: var(--color-success-light);
-  color: var(--text-color);
-  border: unset;
-}
 </style>
