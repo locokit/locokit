@@ -82,7 +82,11 @@
               "isGreaterThan": "est supérieur à",
               "isLowerThan": "est inférieur à",
               "isGreaterThanOrEqualTo": "est supérieur ou égal à",
-              "isLowerThanOrEqualTo": "est inférieur ou égal à"
+              "isLowerThanOrEqualTo": "est inférieur ou égal à",
+              "isLaterThan": "est postérieur à",
+              "isEarlierThan": "est antérieur à",
+              "isEarlierThanOrEqualTo": "est antérieur ou égal à",
+              "isLaterThanOrEqualTo": "est postérieur ou égal à"
             }
           }
         }
@@ -318,6 +322,18 @@
     "dateFormat": "dd/MM/yyyy",
     "dateFormatPrime": "dd/mm/yy",
     "datetimeFormat": "dd/MM/yyyy HH:mm",
+    "localePrime": {
+      "firstDayOfWeek": 1,
+      "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+      "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+      "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
+      "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+      "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+      "today": "Aujourd'hui",
+      "clear": "Réinitialiser",
+      "dateFormat": "dd/mm/yy",
+      "weekHeader": "Sm"
+    },
     "datetimeLogFormat": "dd/MM/yyyy HH:mm:ss"
   },
   "sw": {

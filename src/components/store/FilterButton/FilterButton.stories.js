@@ -57,6 +57,11 @@ const definitionColumn = [
     text: 'Looked up column',
     id: 8,
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
+  },
+  {
+    text: 'Date',
+    id: 9,
+    column_type_id: COLUMN_TYPE.DATE
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
@@ -84,23 +89,24 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
       return { definitionColumn, dropdownOptionsColumns }
     },
     template: '<FilterButton ref="fb" :columns="definitionColumn" :dropdownOptionsColumns="dropdownOptionsColumns"/>',
-    async mounted () {
+    mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()
-      await Vue.nextTick()
-      // Add a new filter
-      document.querySelector('.pi.pi-plus-circle').parentElement.click()
-      await Vue.nextTick()
-      // Select a column
-      document.querySelector('#column .p-dropdown-trigger').click()
-      await Vue.nextTick()
-      document.querySelector('#column .p-dropdown-item').click()
-      await Vue.nextTick()
-      // Select an action
-      document.querySelector('#action .p-dropdown-trigger').click()
-      await Vue.nextTick()
-      document.querySelector('#action .p-dropdown-item').click()
-      await Vue.nextTick()
+      setTimeout(async () => {
+        // Add a new filter
+        document.querySelector('.pi.pi-plus-circle').parentElement.click()
+        await Vue.nextTick()
+        // Select a column
+        document.querySelector('#column .p-dropdown-trigger').click()
+        await Vue.nextTick()
+        document.querySelector('#column .p-dropdown-item').click()
+        await Vue.nextTick()
+        // Select an action
+        document.querySelector('#action .p-dropdown-trigger').click()
+        await Vue.nextTick()
+        document.querySelector('#action .p-dropdown-item').click()
+        await Vue.nextTick()
+      }, 500)
     }
   }
 )

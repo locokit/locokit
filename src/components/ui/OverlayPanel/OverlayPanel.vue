@@ -1,5 +1,5 @@
 <template>
-  <div class='lck-overlay-panel'>
+  <div class='lck-overlay-panel' @click="onOverlayPanelClick">
     <p-button
       type="button"
       :class="classButton"
@@ -10,7 +10,7 @@
     />
     <p-overlay-panel
       ref="overlayPanel"
-      appendTo="body"
+      :appendTo="appendTo"
     >
       <slot
         name='overlay-content'
@@ -50,11 +50,20 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    appendTo: {
+      type: String,
+      default: 'body'
     }
   },
   methods: {
     toggleOverlayPanel (event) {
       this.$refs.overlayPanel.toggle(event)
+    },
+    onOverlayPanelClick (event) {
+      if (event?.target?.className.indexOf('p-datepicker') > -1) {
+        event.stopPropagation()
+      }
     }
   }
 }
