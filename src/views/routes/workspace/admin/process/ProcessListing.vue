@@ -167,6 +167,7 @@ export default {
             enabled: data.enabled,
             table_id: data.table_id,
             trigger: data.trigger,
+            maximumNumberSuccess: data.maximumNumberSuccess,
             settings: {
               column_id: data.settings?.column_id
             }
@@ -204,6 +205,7 @@ export default {
             enabled: data.enabled,
             table_id: data.table_id,
             trigger: data.trigger,
+            maximumNumberSuccess: data.maximumNumberSuccess,
             settings: {
               column_id: data.settings?.column_id
             }

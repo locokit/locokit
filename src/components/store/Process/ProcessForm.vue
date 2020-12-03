@@ -177,8 +177,8 @@ export default {
     process: {
       handler (newValue) {
         if (!newValue) return
-        const { id, text, trigger, settings, enabled, url, table_id, table } = newValue
-        this.processCloned = { id, text, trigger, enabled, url, table_id, settings, table }
+        const { id, text, trigger, settings, enabled, url, table_id, table, maximumNumberSuccess } = newValue
+        this.processCloned = { id, text, trigger, enabled, url, table_id, settings, table, maximumNumberSuccess }
         if (settings?.columns) {
           this.processCloned.settings = {
             ...settings,
