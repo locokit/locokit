@@ -113,8 +113,8 @@ import Form from '@/components/ui/Form/Form.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 import {
-  LckProcessTrigger,
-  LckProcess
+  LckProcess,
+  PROCESS_TRIGGER
 } from '@/services/lck-api/definitions'
 
 export default {
@@ -146,31 +146,31 @@ export default {
   },
   data (): {
     processCloned: LckProcess;
-    triggerOptions: { label: LckProcessTrigger; value: LckProcessTrigger }[];
+    triggerOptions: { label: PROCESS_TRIGGER; value: PROCESS_TRIGGER }[];
     } {
     return {
       processCloned: new LckProcess(),
       triggerOptions: [{
-        label: LckProcessTrigger.CREATE_ROW,
-        value: LckProcessTrigger.CREATE_ROW
+        label: PROCESS_TRIGGER.CREATE_ROW,
+        value: PROCESS_TRIGGER.CREATE_ROW
       }, {
-        label: LckProcessTrigger.UPDATE_ROW,
-        value: LckProcessTrigger.UPDATE_ROW
+        label: PROCESS_TRIGGER.UPDATE_ROW,
+        value: PROCESS_TRIGGER.UPDATE_ROW
       }, {
-        label: LckProcessTrigger.UPDATE_ROW_DATA,
-        value: LckProcessTrigger.UPDATE_ROW_DATA
+        label: PROCESS_TRIGGER.UPDATE_ROW_DATA,
+        value: PROCESS_TRIGGER.UPDATE_ROW_DATA
       }, {
-        label: LckProcessTrigger.CRON,
-        value: LckProcessTrigger.CRON
+        label: PROCESS_TRIGGER.CRON,
+        value: PROCESS_TRIGGER.CRON
       }, {
-        label: LckProcessTrigger.MANUAL,
-        value: LckProcessTrigger.MANUAL
+        label: PROCESS_TRIGGER.MANUAL,
+        value: PROCESS_TRIGGER.MANUAL
       }]
     }
   },
   computed: {
     triggerWithSettings (): boolean {
-      return this.processCloned.trigger === LckProcessTrigger.UPDATE_ROW_DATA
+      return this.processCloned.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA
     }
   },
   watch: {

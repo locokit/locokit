@@ -22,11 +22,11 @@
             </div>
             <div class="p-col-2">
               <span class="p-tag p-tag-rounded p-m-auto">
-                {{ [ProcessEvent.CRON, ProcessEvent.MANUAL].includes(process.trigger) ? $t(`components.processPanel.${process.trigger}`) : $t('components.processPanel.automatic') }}
+                {{ [PROCESS_TRIGGER.CRON, PROCESS_TRIGGER.MANUAL].includes(process.trigger) ? $t(`components.processPanel.${process.trigger}`) : $t('components.processPanel.automatic') }}
               </span>
             </div>
             <div
-              v-if="[ProcessEvent.CRON, ProcessEvent.MANUAL].includes(process.trigger)"
+              v-if="[PROCESS_TRIGGER.CRON, PROCESS_TRIGGER.MANUAL].includes(process.trigger)"
               class="p-col-2 p-m-auto"
             >
               <p-button
@@ -74,9 +74,9 @@
             <span
               class="p-tag p-tag-rounded"
               :class="
-                slotProps.data.status === ProcessRunStatus.SUCCESS && 'p-tag-success' ||
-                slotProps.data.status === ProcessRunStatus.WARNING && 'p-tag-warning' ||
-                slotProps.data.status === ProcessRunStatus.ERROR && 'p-tag-danger' ||
+                slotProps.data.status === PROCESS_RUN_STATUS.SUCCESS && 'p-tag-success' ||
+                slotProps.data.status === PROCESS_RUN_STATUS.WARNING && 'p-tag-warning' ||
+                slotProps.data.status === PROCESS_RUN_STATUS.ERROR && 'p-tag-danger' ||
                'p-tag-info'
               "
             >
@@ -91,7 +91,7 @@
             <template #body="slotProps">
               <span>{{ formatDate(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
               <span
-                v-if="slotProps.data.status !== ProcessEvent.RUNNING && slotProps.data.duration"
+                v-if="slotProps.data.status !== PROCESS_TRIGGER.RUNNING && slotProps.data.duration"
               >
               ({{ slotProps.data.duration }}ms)
             </span>
@@ -128,12 +128,9 @@ import Panel from 'primevue/panel'
 import PrimeDataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
-import {
-  ProcessRunStatus,
-  ProcessEvent,
-  getDisabledProcessTrigger
-} from '@/services/lck-utils/process'
+import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate } from '@/services/lck-utils/date'
+import { PROCESS_RUN_STATUS, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'ProcessPanel',
@@ -156,8 +153,8 @@ export default Vue.extend({
   },
   data () {
     return {
-      ProcessRunStatus,
-      ProcessEvent,
+      PROCESS_RUN_STATUS,
+      PROCESS_TRIGGER,
       expandedRows: []
     }
   },

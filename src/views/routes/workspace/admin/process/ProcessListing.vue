@@ -117,7 +117,7 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 
 import { lckServices } from '@/services/lck-api'
-import { LckProcess, LckProcessRun, LckProcessTrigger, LckTable, LckTableColumn } from '@/services/lck-api/definitions'
+import { LckProcess, LckProcessRun, LckTable, LckTableColumn, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
 
 import WithToolbar from '@/layouts/WithToolbar.vue'
 import Process from '@/components/store/Process/Process.vue'
@@ -284,7 +284,7 @@ export default {
        * Load the column if the process is with settings
        */
       if (
-        process.trigger === LckProcessTrigger.UPDATE_ROW_DATA &&
+        process.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA &&
         process.settings?.column_id
       ) {
         this.$set(process.settings, 'column', await lckServices.tableColumn.get(process.settings.column_id))
