@@ -18,6 +18,7 @@
       @menuButtonClick="toggleSidebar"
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
+      :has-burger-menu="appState.hasBurgerMenu"
     />
     <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
       <router-view
@@ -34,6 +35,7 @@ import {
   authState,
   logout
 } from '@/store/auth'
+import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
 import PopupReload from '@/components/ui/PopupReload/PopupReload'
@@ -54,7 +56,8 @@ export default {
       sidebarActive: false,
       // keep it here in the data to make it reactive
       authState,
-      displayPopupReload: false
+      displayPopupReload: false,
+      appState
     }
   },
   computed: {

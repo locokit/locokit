@@ -2,8 +2,11 @@
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
-
-    <a class="menu-button p-my-auto" @click="onToggle">
+    <a
+      v-if="hasBurgerMenu"
+      class="menu-button p-my-auto"
+      @click="onToggle"
+    >
       <i class="pi pi-bars"></i>
     </a>
     <router-link
@@ -52,6 +55,11 @@ export default {
       required: true
     },
     isSuperAdmin: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    hasBurgerMenu: {
       type: Boolean,
       required: false,
       default: false
