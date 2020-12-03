@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid h-full">
     <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <Sidebar :items="items" />
+      <lck-sidebar :items="sidebarItems" v-on="$listeners" />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />
@@ -15,9 +15,11 @@ import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Admin',
-  components: { Sidebar },
+  components: {
+    'lck-sidebar': Sidebar
+  },
   computed: {
-    items () {
+    sidebarItems () {
       return [{
         id: 0,
         label: this.$t('pages.admin.sidebar.usersAndGroups'),

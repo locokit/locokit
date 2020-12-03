@@ -15,12 +15,14 @@
     <lck-header
       v-if="displayHeader"
       :logo-url="logoURL"
-      @menuButtonClick="onMenuButtonClick"
+      @menuButtonClick="toggleSidebar"
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
     />
     <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
-      <router-view @sideBarItemClick="onMenuButtonClick"/>
+      <router-view
+        @click-sidebar-item="toggleSidebar"
+      />
     </main>
 
     <p-toast position="top-right" />
@@ -68,10 +70,10 @@ export default {
     }
   },
   methods: {
-    onMenuButtonClick: function () {
+    toggleSidebar () {
       this.sidebarActive = !this.sidebarActive
     },
-    onLogoutClick: function () {
+    onLogoutClick () {
       logout()
       this.$router.push(ROUTES_PATH.HOME)
     }
