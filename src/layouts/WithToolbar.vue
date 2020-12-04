@@ -32,4 +32,7 @@
   height: 3rem;
   max-height: 3rem;
 }
+.lck-toolbar-content {
+  position: relative;
+}
 </style>
