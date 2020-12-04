@@ -33,7 +33,6 @@
       <div class="p-d-flex d-flex-1 o-auto">
         <layout-with-toolbar
           class="p-d-flex p-flex-column d-flex-1 o-auto"
-          style="position: relative;"
         >
           <div
             class="lck-database-background"
