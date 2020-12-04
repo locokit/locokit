@@ -1,5 +1,6 @@
 <template>
   <header
+    :class="{'has-burger-menu' : hasBurgerMenu}"
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
@@ -11,11 +12,17 @@
     </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
-      class="p-my-auto"
+      class="p-my-auto p-m-auto"
     >
       <img
+        class="mobile-hide"
         alt="logo"
         :src="logoUrl"
+      />
+      <img
+        class="mobile-show mobile-logo"
+        alt="logo mobile"
+        :src="logoMobileUrl"
       />
     </router-link>
 
@@ -54,6 +61,10 @@ export default {
       type: String,
       required: true
     },
+    logoMobileUrl: {
+      type: String,
+      required: true
+    },
     isSuperAdmin: {
       type: Boolean,
       required: false,
@@ -77,14 +88,20 @@ export default {
         result.push({
           label: this.$t('pages.admin.title'),
           icon: 'pi pi-cog',
-          to: ROUTES_PATH.ADMIN
+          command: () => {
+            this.$refs.menu.hide()
+            this.$router.push(ROUTES_PATH.ADMIN)
+          }
         })
       }
       return result.concat([
         {
           label: this.$t('pages.account.title'),
           icon: 'pi pi-user',
-          to: ROUTES_PATH.PROFILE
+          command: () => {
+            this.$refs.menu.hide()
+            this.$router.push(ROUTES_PATH.PROFILE)
+          }
         },
         {
           label: this.$t('common.logout'),
@@ -99,6 +116,7 @@ export default {
   methods: {
     toggle (event) {
       this.$refs.menu.toggle(event)
+      console.log(event)
     },
     onToggle () {
       this.$emit('menuButtonClick')

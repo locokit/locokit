@@ -16,6 +16,7 @@
       v-if="displayHeader"
       :logo-url="logoURL"
       @menuButtonClick="toggleSidebar"
+      :logo-mobile-url="logoMobileUrl"
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
       :has-burger-menu="appState.hasBurgerMenu"
@@ -53,6 +54,8 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       logoURL: LCK_SETTINGS.LOGO_BG_WHITE_URL,
+      // eslint-disable-next-line no-undef
+      logoMobileUrl: LCK_SETTINGS.LOGO_MOBILE_URL,
       sidebarActive: false,
       // keep it here in the data to make it reactive
       authState,

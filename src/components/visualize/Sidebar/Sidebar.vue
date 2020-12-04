@@ -41,6 +41,11 @@ export default {
       }
     }
   },
+  methods: {
+    clickRouter () {
+      this.$emit('sideBarItemClick')
+    }
+  },
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab)
