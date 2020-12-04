@@ -140,6 +140,7 @@
               :suggestions="autocompleteSuggestions"
               @search="onComplete(column, $event)"
               @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
+              @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
               class="field-editable"
             />
             <p-dropdown
@@ -512,11 +513,11 @@ export default {
         newValue: event.value // .map(v => v.value)
       })
     },
-    async onAutocompleteEdit (rowId, columnId, event) {
+    async onAutocompleteEdit (rowId, columnId, event = null) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: event.value.value
+        newValue: event ? event?.value?.value : null
       })
     },
     async onCalendarEdit (rowId, columnId) {

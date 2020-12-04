@@ -159,6 +159,7 @@
               @search="updateLocalAutocompleteSuggestions(column, $event)"
               v-model="autocompleteInput[column.id]"
               @item-select="newRow.data[column.id] = $event.value.value"
+              @clear="newRow.data[column.id] = null"
             />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
