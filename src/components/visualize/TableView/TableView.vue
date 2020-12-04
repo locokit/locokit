@@ -11,6 +11,7 @@
     >
       <div class="p-d-flex p-flex-wrap">
         <lck-filter-button
+          v-if="filterAllowed"
           :columns="definition && definition.columns"
           :columnsDropdownOptions="getColumnsDropdownOptions"
           v-model="currentDatatableFilters"
@@ -93,6 +94,10 @@ export default {
     exportAllowed: {
       type: Boolean,
       default: false
+    },
+    filterAllowed: {
+      type: Boolean,
+      default: true
     },
     definition: {
       type: Object
