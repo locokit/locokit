@@ -643,7 +643,8 @@ export default {
           lckServices.tableViewColumn.create({
             table_column_id: id,
             table_view_id: this.selectedViewId,
-            position: value.length + index
+            position: value.length + index,
+            visible: true
           })
         ))
       }
