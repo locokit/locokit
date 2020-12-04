@@ -25,10 +25,12 @@ export const withLogo = () => (
     data () {
       return {
         // eslint-disable-next-line no-undef
-        logoUrl: LCK_SETTINGS.LOGO_BG_WHITE_URL
+        logoUrl: LCK_SETTINGS.LOGO_BG_WHITE_URL,
+        // eslint-disable-next-line no-undef
+        logoMobileUrl: LCK_SETTINGS.LOGO_MOBILE_URL
       }
     },
-    template: '<Header :logoUrl="logoUrl" />',
+    template: '<Header :logoUrl="logoUrl" :logoMobileUrl="logoMobileUrl"/>',
     decorators: [StoryRouter]
   }
 )

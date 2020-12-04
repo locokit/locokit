@@ -1,0 +1,22 @@
+Update snapshots
+
+# Veuillez saisir le message de validation pour vos modifications. Les lignes
+# commençant par '#' seront ignorées, et un message vide abandonne la validation.
+#
+# Date :       Fri Dec 4 15:23:38 2020 +0100
+#
+# Sur la branche 170-display-burger-menu
+# Votre branche est à jour avec 'origin/170-display-burger-menu'.
+#
+# Modifications qui seront validées :
+#	modifié :         .storybook/preview-head.html
+#	modifié :         .storybook/setupGlobalVars.js
+#	modifié :         public/assets/js/config.js
+#	modifié :         src/components/ui/Header/Header.stories.js
+#	modifié :         tests/unit/__image_snapshots__/imageshots-spec-js-storyshots-puppeteer-components-store-data-detail-with-editable-columns-and-row-1-snap.png
+#	modifié :         tests/unit/__image_snapshots__/imageshots-spec-js-storyshots-puppeteer-components-ui-popup-reload-default-1-snap.png
+#	modifié :         tests/unit/components/store/DataDetail/__snapshots__/DataDetail.stories.storyshot
+#	modifié :         tests/unit/components/ui/Header/__snapshots__/Header.stories.storyshot
+#	modifié :         tests/unit/components/ui/MultiSelect/__snapshots__/MultiSelect.stories.storyshot
+#	modifié :         tests/unit/components/ui/PopupReload/__snapshots__/PopupReload.stories.storyshot
+#

@@ -1,6 +1,6 @@
 /**
  * These vars are available in the index.html, globally
- * You could write a config.js defining these vars for your infra.x@
+ * You could write a config.js defining these vars for your infra.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LCK_SETTINGS = {

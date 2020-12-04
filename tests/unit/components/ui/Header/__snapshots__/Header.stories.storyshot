@@ -7,20 +7,21 @@ exports[`storyshots components/ui/Header Header with logo (required) 1`] = `
   <header
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
-    <a
-      class="menu-button p-my-auto"
-    >
-      <i
-        class="pi pi-bars"
-      />
-    </a>
+    <!---->
      
     <a
-      class="mock-link p-my-auto"
+      class="mock-link p-my-auto p-m-auto"
     >
       <img
         alt="logo"
+        class="mobile-hide"
         src="/img/logo-bg-white.png"
+      />
+       
+      <img
+        alt="logo mobile"
+        class="mobile-show mobile-logo"
+        src="/img/vlo-logo-mobile.png"
       />
     </a>
      
