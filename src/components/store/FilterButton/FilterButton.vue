@@ -132,7 +132,7 @@
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
           @click="submitFilters(overlaySlotProps)"
-          :disabled="value.length === 0 || value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
+          :disabled="value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
         />
       </div>
     </template>
@@ -365,7 +365,7 @@ export default {
       required: false,
       default: () => ([])
     },
-    dropdownOptionsColumns: {
+    columnsDropdownOptions: {
       type: Object,
       required: false,
       default: () => ({})
@@ -397,7 +397,7 @@ export default {
             value: id,
             label: text,
             type: columnTypeId,
-            dropdownOptions: this.dropdownOptionsColumns[id]?.dropdownOptions
+            dropdownOptions: this.columnsDropdownOptions[id]
           })
         }
         return acc

@@ -65,7 +65,7 @@ const definitionColumn = [
   }
 ]
 /* eslint-enable @typescript-eslint/camelcase */
-const dropdownOptionsColumns = {
+const columnsDropdownOptions = {
   6: {
     dropdownOptions: [
       { label: 'option 1', value: 1 },
@@ -86,9 +86,9 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
   {
     components: { FilterButton },
     data () {
-      return { definitionColumn, dropdownOptionsColumns }
+      return { definitionColumn, columnsDropdownOptions }
     },
-    template: '<FilterButton ref="fb" :columns="definitionColumn" :dropdownOptionsColumns="dropdownOptionsColumns"/>',
+    template: '<FilterButton ref="fb" :columns="definitionColumn" :columnsDropdownOptions="columnsDropdownOptions"/>',
     mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()

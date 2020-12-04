@@ -68,7 +68,7 @@
               <lck-filter-button
                 class="p-ml-2"
                 :columns="displayColumnsView.columns"
-                :dropdownOptionsColumns="columnsEnhanced"
+                :columnsDropdownOptions="currentBlockDropdownOptions"
                 v-model="currentDatatableFilters"
                 :disabled="currentView && currentView.locked"
                 @submit="onSubmitFilter"
@@ -509,15 +509,16 @@ export default {
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
     getCurrentFilters () {
-      return this.currentDatatableFilters
+      const formattedFilters = {}
+      this.currentDatatableFilters
         .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
-        .map((filter, index) => ({
-          req:
+        .forEach((filter, index) => {
+          formattedFilters[
             // Operator
             `${filter.operator}[${index}]` +
             // Field
-            (column_type => {
-              switch (column_type) {
+            (columnType => {
+              switch (columnType) {
                 case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                 case COLUMN_TYPE.LOOKED_UP_COLUMN:
                   return `[data][${filter.column.value}.value]`
@@ -526,19 +527,20 @@ export default {
               }
             })(filter.column.type) +
             // Action
-            `[${filter.action.value}]`,
-          value: (column_type => {
-            switch (column_type) {
-              case COLUMN_TYPE.DATE:
-                if (filter.pattern instanceof Date) {
-                  try {
-                    return formatISO(filter.pattern, { representation: 'date' })
-                  } catch (RangeError) {}
+            `[${filter.action.value}]`] =
+              (columnType => {
+                switch (columnType) {
+                  case COLUMN_TYPE.DATE:
+                    if (filter.pattern instanceof Date) {
+                      try {
+                        return formatISO(filter.pattern, { representation: 'date' })
+                      } catch (RangeError) {}
+                    }
                 }
-            }
-            return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
-          })(filter.column.type)
-        }))
+                return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
+              })(filter.column.type)
+        })
+      return formattedFilters
     },
     async loadCurrentTableData () {
       this.block.loading = true

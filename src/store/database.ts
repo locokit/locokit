@@ -75,7 +75,7 @@ export async function retrieveTableRowsWithSkipAndLimit (
     sort = {
       createdAt: 1
     },
-    filters = []
+    filters = {}
   }
 ) {
   databaseState.loading = true
@@ -84,12 +84,9 @@ export async function retrieveTableRowsWithSkipAndLimit (
       table_id: tableId,
       $limit: limit,
       $skip: skip,
-      $sort: sort
+      $sort: sort,
+      ...filters
     }
-    filters.forEach((f: { req: string; value: string }) => {
-      query[f.req] = f.value
-    })
-
     return await lckServices.tableRow.find({
       query
     })

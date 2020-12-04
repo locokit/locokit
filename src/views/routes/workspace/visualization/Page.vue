@@ -23,6 +23,7 @@
         @open-detail="onPageDetail(block, $event)"
         @create-row="onCreateRow(block, $event)"
         @export-view="onExportView(block)"
+        @update-filters="onUpdateFilters(block, $event)"
       />
     </div>
   </div>
@@ -99,7 +100,8 @@ export default {
           createdAt: 1
         },
         page: 0,
-        itemsPerPage: 20
+        itemsPerPage: 20,
+        filters: {}
       }
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       await this.loadBlockTableViewContent(block)
@@ -110,7 +112,8 @@ export default {
         block.definition.id,
         currentOptions.page * currentOptions.itemsPerPage,
         currentOptions.itemsPerPage,
-        currentOptions.sort
+        currentOptions.sort,
+        currentOptions.filters
       ))
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
@@ -174,6 +177,16 @@ export default {
       }
       block.loading = false
     },
+    async onUpdateFilters (block, filters) {
+      block.loading = true
+      switch (block.type) {
+        case BLOCK_TYPE.TABLE_VIEW:
+          this.blocksOptions[block.id].filters = filters
+          await this.loadBlockTableViewContent(block)
+          break
+      }
+      block.loading = false
+    },
     async onPageDetail (block, rowId) {
       await this.$router.push(`${block.settings.pageDetailId}?rowId=${rowId}`)
     },
@@ -208,7 +221,7 @@ export default {
     async onExportView (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(block.settings?.id)
+      const data = await lckHelpers.exportTableRowData(block.settings?.id, this.blocksOptions[block.id]?.filters)
       saveAs(
         new Blob([data]),
         block.title + '.csv',
