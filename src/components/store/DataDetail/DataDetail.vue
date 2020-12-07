@@ -22,6 +22,7 @@
           @search="onComplete(column, $event)"
           v-model="autocompleteInput[column.id]"
           @item-select="onAutocompleteEdit(row.id, column.id, $event)"
+          @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
@@ -198,8 +199,8 @@ export default {
           settings
         }, { query })
     },
-    async onAutocompleteEdit (rowId, columnId, event) {
-      await this.onEdit(rowId, columnId, event.value.value)
+    async onAutocompleteEdit (rowId, columnId, event = null) {
+      await this.onEdit(rowId, columnId, event ? event.value.value : null)
     },
     async onDateEdit (rowId, columnId, value) {
       await this.onEdit(

@@ -96,6 +96,7 @@
             :suggestions="autocompleteUserSuggestions"
             @complete="updateUserSuggestions"
             @item-select="usergroup.userId = $event.value.value"
+            @clear="usergroup.userId = null"
           />
         </div>
 
