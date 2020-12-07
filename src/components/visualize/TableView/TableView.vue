@@ -28,7 +28,7 @@
           @click="onClickAddButton"
         />
         <p-button
-          v-if="exportAllowed"
+          v-if="exportAllowed && hasColumns"
           label="Export"
           class="p-button-secondary"
           :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
@@ -92,7 +92,7 @@ export default {
     },
     exportAllowed: {
       type: Boolean,
-      default: false
+      default: true
     },
     filterAllowed: {
       type: Boolean,
