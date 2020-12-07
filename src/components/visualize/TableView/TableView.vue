@@ -2,7 +2,7 @@
   <div>
     <div
       class="
-        p-p-1
+        p-py-1
         p-d-flex
         p-jc-between
         p-flex-wrap
@@ -11,11 +11,10 @@
     >
       <div class="p-d-flex p-flex-wrap">
         <lck-filter-button
-          v-if="filterAllowed"
+          v-if="filterAllowed && hasColumns"
           :columns="definition && definition.columns"
           :columnsDropdownOptions="getColumnsDropdownOptions"
           v-model="currentDatatableFilters"
-          :disabled="definition && definition.locked"
           @submit="onSubmitFilters"
           @reset="onResetFilters"
         />
@@ -128,7 +127,7 @@ export default {
   computed: {
     getColumnsDropdownOptions () {
       const result = {}
-      if (this.definition?.columns?.length > 0) {
+      if (this.hasColumns) {
         this.definition.columns.forEach(currentColumn => {
           if (
             currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
@@ -142,6 +141,9 @@ export default {
         })
       }
       return result
+    },
+    hasColumns () {
+      return this.definition?.columns?.length > 0
     }
   },
   methods: {

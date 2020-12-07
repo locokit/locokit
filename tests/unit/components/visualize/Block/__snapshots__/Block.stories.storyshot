@@ -73,7 +73,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       >
         <div
           class="
-      p-p-1
+      p-py-1
       p-d-flex
       p-jc-between
       p-flex-wrap

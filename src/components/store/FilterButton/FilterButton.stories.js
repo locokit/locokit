@@ -66,20 +66,16 @@ const definitionColumn = [
 ]
 /* eslint-enable @typescript-eslint/camelcase */
 const columnsDropdownOptions = {
-  6: {
-    dropdownOptions: [
-      { label: 'option 1', value: 1 },
-      { label: 'option 2', value: 2 },
-      { label: 'option 3', value: 3 }
-    ]
-  },
-  7: {
-    dropdownOptions: [
-      { label: 'option A', value: 1 },
-      { label: 'option B', value: 2 },
-      { label: 'option C', value: 3 }
-    ]
-  }
+  6: [
+    { label: 'option 1', value: 1 },
+    { label: 'option 2', value: 2 },
+    { label: 'option 3', value: 3 }
+  ],
+  7: [
+    { label: 'option A', value: 1 },
+    { label: 'option B', value: 2 },
+    { label: 'option C', value: 3 }
+  ]
 }
 
 export const selectedColumnAndActionOverlayOpenedStory = () => (
