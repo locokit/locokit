@@ -67,7 +67,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       </h3>
        
       <div
-        content="[object Object]"
         id="1"
         type="TableView"
       >
@@ -115,25 +114,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           >
             <!---->
              
-            <button
-              class="p-button-secondary p-button p-component"
-              type="button"
-            >
-              <span
-                class="pi pi-download p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Export
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
+            <!---->
           </div>
         </div>
          

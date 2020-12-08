@@ -11,9 +11,10 @@
     >
       <div class="p-d-flex p-flex-wrap">
         <lck-filter-button
-          v-if="filterAllowed && hasColumns"
+          v-if="filterAllowed"
+          :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
           :columns="definition && definition.columns"
-          :columnsDropdownOptions="getColumnsDropdownOptions"
+          :columnsDropdownOptions="columnsDropdownOptions"
           v-model="currentDatatableFilters"
           @submit="onSubmitFilters"
           @reset="onResetFilters"
@@ -28,7 +29,8 @@
           @click="onClickAddButton"
         />
         <p-button
-          v-if="exportAllowed && hasColumns"
+          v-if="exportAllowed"
+          :disabled="!hasDataToDisplay"
           label="Export"
           class="p-button-secondary"
           :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
@@ -40,6 +42,7 @@
     <lck-datatable
       v-if="definition"
       :definition="definition"
+      :content="content"
       :crud-mode="false"
       v-bind="$attrs"
       v-on="$listeners"
@@ -92,13 +95,16 @@ export default {
     },
     exportAllowed: {
       type: Boolean,
-      default: true
+      default: false
     },
     filterAllowed: {
       type: Boolean,
       default: true
     },
     definition: {
+      type: Object
+    },
+    content: {
       type: Object
     },
     settings: {
@@ -125,7 +131,7 @@ export default {
     }
   },
   computed: {
-    getColumnsDropdownOptions () {
+    columnsDropdownOptions () {
       const result = {}
       if (this.hasColumns) {
         this.definition.columns.forEach(currentColumn => {
@@ -144,6 +150,9 @@ export default {
     },
     hasColumns () {
       return this.definition?.columns?.length > 0
+    },
+    hasDataToDisplay () {
+      return this.hasColumns && this.content?.total > 0
     }
   },
   methods: {

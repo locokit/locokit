@@ -70,7 +70,7 @@
                 :columns="displayColumnsView.columns"
                 :columnsDropdownOptions="currentBlockDropdownOptions"
                 v-model="currentDatatableFilters"
-                :disabled="currentView && currentView.locked"
+                :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
                 @submit="onSubmitFilter"
                 @reset="onResetFilter"
               />
@@ -88,7 +88,7 @@
                 label="Export"
                 class="p-button-secondary"
                 :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-                :disabled="!selectedViewId"
+                :disabled="!hasDataToDisplay"
                 @click="onClickExportButton"
               />
             </div>
@@ -457,6 +457,9 @@ export default {
     viewColumnsIds () {
       if (!this.displayColumnsView.columns) return {}
       return this.displayColumnsView.columns.map(c => c.id)
+    },
+    hasDataToDisplay () {
+      return this.displayColumnsView.columns.length > 0 && this.block?.content?.total > 0
     }
   },
   methods: {

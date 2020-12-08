@@ -23,6 +23,7 @@
             }"
           >
             <p-button
+              v-show="value.length > 1"
               icon="pi pi-trash"
               class="p-button-rounded p-button-danger p-button-text p-button-sm"
               @click.stop="removeFilter(filter)"
@@ -132,7 +133,7 @@
           icon="pi pi-check-circle"
           :label="$t('form.submit')"
           @click="submitFilters(overlaySlotProps)"
-          :disabled="value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
+          :disabled="value.length === 0 || value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
         />
       </div>
     </template>

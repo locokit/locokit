@@ -60,7 +60,7 @@ export default Vue.extend({
     },
     exportAllowed () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
-      return (this.block as BlockTableView).settings?.exportAllowed !== false
+      return (this.block as BlockTableView).settings?.exportAllowed
     }
   },
   props: {
