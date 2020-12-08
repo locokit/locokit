@@ -15,12 +15,12 @@
             <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
         </div>
         <div class="p-d-flex p-ai-end">
-          <p-button @click="updateTableName" label="Modifier" icon="pi pi-check" class="p-button-text" />
+          <p-button @click="updateTableName" :label="$t('pages.databaseSchema.updateTableSidebar.updateColumn')" icon="pi pi-check" class="p-button-text" />
         </div>
       </div>
       <div class="p-d-flex p-my-4">
         <div class="p-ai-start">
-          <p-button @click="showCreateColumn" :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')" icon="pi pi-plus" class="p-button-text" />
+          <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')" icon="pi pi-plus" class="p-button-text" />
         </div>
       </div>
       <p-datatable :value="currentTableToUpdate.columns">
@@ -32,15 +32,22 @@
           </p-column>
           <p-column>
             <template #body="props">
-                <p-button icon="pi pi-pencil" class="p-button-rounded lck-color-content p-column-button-color p-mr-2" @click="updateColumn(props.data)" disabled="disabled" />
-                <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="deleteColumn(props.data)" disabled="disabled" />
+                <p-button icon="pi pi-pencil" class="p-button-rounded lck-color-content p-column-button-color p-mr-2" @click="updateColumn(props.data)" />
+                <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="deleteColumn(props.data)" />
             </template>
           </p-column>
       </p-datatable>
-      <create-column-modal
-        :visible="showCreateColumnModal"
+      <handle-column-modal
+        :visible="showHandleColumnModal"
         :tableId="currentTable.id"
-        @close="onCloseCreateColumnModal"
+        :columnToHandle="columnToHandle"
+        @close="onCloseHandleColumnModal"
+      />
+      <delete-column-modal
+        :visible="showDeleteColumnModal"
+        :tableId="currentTable.id"
+        :columnToHandle="columnToHandle"
+        @close="onCloseDeleteColumnModal"
       />
     </div>
   </p-sidebar>
@@ -54,7 +61,8 @@ import Sidebar from 'primevue/sidebar'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import CreateColumnModal from '@/views/modals/CreateColumnModal'
+import HandleColumnModal from '@/views/modals/HandleColumnModal'
+import DeleteColumnModal from '@/views/modals/DeleteColumnModal'
 
 export default {
   name: 'UpdateTableSidebar',
@@ -64,7 +72,8 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'create-column-modal': Vue.extend(CreateColumnModal)
+    'handle-column-modal': Vue.extend(HandleColumnModal),
+    'delete-column-modal': Vue.extend(DeleteColumnModal)
   },
   props: {
     currentTable: {
@@ -82,9 +91,9 @@ export default {
   data () {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
-      columnNameToCreate: null,
-      selectedColumnTypeToCreate: null,
-      showCreateColumnModal: false
+      showHandleColumnModal: false,
+      showDeleteColumnModal: false,
+      columnToHandle: null
     }
   },
   methods: {
@@ -98,20 +107,30 @@ export default {
         console.log(errorUpdateTable.message)
       }
     },
-    showCreateColumn () {
-      this.showCreateColumnModal = true
+    createColumn () {
+      this.showHandleColumnModal = true
     },
-    onCloseCreateColumnModal (shouldReloadTable) {
+    updateColumn (column) {
+      this.columnToHandle = column
+      this.showHandleColumnModal = true
+    },
+    onCloseHandleColumnModal (shouldReloadTable) {
       if (shouldReloadTable) {
         this.$emit('reload-tables')
       }
-      this.showCreateColumnModal = false
+      this.columnToHandle = null
+      this.showHandleColumnModal = false
     },
-    updateColumn (column) {
-      console.log('updateColumn', column)
+    async deleteColumn (column) {
+      this.columnToHandle = column
+      this.showDeleteColumnModal = true
     },
-    deleteColumn (column) {
-      console.log('deleteColumn', column)
+    onCloseDeleteColumnModal (shouldReloadTable) {
+      if (shouldReloadTable) {
+        this.$emit('reload-tables')
+      }
+      this.columnToHandle = null
+      this.showDeleteColumnModal = false
     },
     getColumnType (columnTypeId) {
       return this.columnTypes.find((columnType) => columnType.id === columnTypeId).name
