@@ -1,0 +1,423 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="p-d-flex"
+    >
+      <div
+        class="p-ai-start p-my-4"
+      >
+        <button
+          class="p-button-text p-button p-component"
+          type="button"
+        >
+          <span
+            class="pi pi-plus p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Add value
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </div>
+     
+    <div
+      class="p-datatable p-component p-datatable-scrollable"
+    >
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-datatable-scrollable-wrapper"
+      >
+        <!---->
+         
+        <div
+          class="p-datatable-scrollable-view"
+        >
+          <div
+            class="p-datatable-scrollable-header"
+          >
+            <div
+              class="p-datatable-scrollable-header-box"
+              style="padding-right: 0px;"
+            >
+              <table
+                class="p-datatable-scrollable-header-table"
+              >
+                <colgroup />
+                 
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+              </table>
+            </div>
+          </div>
+           
+          <div
+            class="p-datatable-scrollable-body"
+            style="max-height: 200px; overflow-y: scroll;"
+          >
+            <table
+              class="p-datatable-scrollable-body-table"
+            >
+              <colgroup />
+               
+              <tbody
+                class="p-datatable-tbody"
+              >
+                <tr
+                  class="p-datatable-emptymessage"
+                >
+                  <td
+                    colspan="0"
+                  >
+                    
+        No data
+    
+                     
+                    <!---->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+             
+            <!---->
+             
+            <div
+              class="p-datatable-virtual-scroller"
+            />
+          </div>
+           
+          <div
+            class="p-datatable-scrollable-footer"
+          >
+            <div
+              class="p-datatable-scrollable-footer-box"
+              style="padding-right: 0px;"
+            >
+              <table
+                class="p-datatable-scrollable-footer-table"
+              >
+                <colgroup />
+                 
+                <!---->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-column-resizer-helper"
+        style="display: none;"
+      />
+       
+      <!---->
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-d-flex"
+    >
+      <div
+        class="p-ai-start p-mt-2"
+      >
+        <label
+          for="default-select-type-value-id"
+        >
+          Default value
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper"
+          id="default-select-type-value-id"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            
+            Select default value
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="p-d-flex"
+    >
+      <div
+        class="p-ai-start p-my-4"
+      >
+        <button
+          class="p-button-text p-button p-component"
+          type="button"
+        >
+          <span
+            class="pi pi-plus p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Add value
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </div>
+     
+    <div
+      class="p-datatable p-component p-datatable-scrollable"
+    >
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-datatable-scrollable-wrapper"
+      >
+        <!---->
+         
+        <div
+          class="p-datatable-scrollable-view"
+        >
+          <div
+            class="p-datatable-scrollable-header"
+          >
+            <div
+              class="p-datatable-scrollable-header-box"
+              style="padding-right: 0px;"
+            >
+              <table
+                class="p-datatable-scrollable-header-table"
+              >
+                <colgroup />
+                 
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+              </table>
+            </div>
+          </div>
+           
+          <div
+            class="p-datatable-scrollable-body"
+            style="max-height: 200px; overflow-y: scroll;"
+          >
+            <table
+              class="p-datatable-scrollable-body-table"
+            >
+              <colgroup />
+               
+              <tbody
+                class="p-datatable-tbody"
+              >
+                <tr
+                  class="p-datatable-emptymessage"
+                >
+                  <td
+                    colspan="0"
+                  >
+                    
+        No data
+    
+                     
+                    <!---->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+             
+            <!---->
+             
+            <div
+              class="p-datatable-virtual-scroller"
+            />
+          </div>
+           
+          <div
+            class="p-datatable-scrollable-footer"
+          >
+            <div
+              class="p-datatable-scrollable-footer-box"
+              style="padding-right: 0px;"
+            >
+              <table
+                class="p-datatable-scrollable-footer-table"
+              >
+                <colgroup />
+                 
+                <!---->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="p-column-resizer-helper"
+        style="display: none;"
+      />
+       
+      <!---->
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-d-flex"
+    >
+      <div
+        class="p-ai-start p-mt-2"
+      >
+        <label
+          for="default-select-type-value-id"
+        >
+          Default value
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper"
+          id="default-select-type-value-id"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            
+            Select default value
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
