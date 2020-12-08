@@ -103,7 +103,7 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
   return items
 }
 
-export async function exportTableRowData (tableViewId: string, filters: [] = []) {
+export async function exportTableRowData (tableViewId: string, filters: object = {}) {
   const rowsPerRequest = 20
   const result = await lckServices.tableView.get(tableViewId, {
     query: {
@@ -117,11 +117,9 @@ export async function exportTableRowData (tableViewId: string, filters: [] = [])
     $skip: 0,
     $sort: {
       createdAt: 1
-    }
+    },
+    ...filters
   }
-  filters.forEach((f: { req: string; value: string }) => {
-    query[f.req] = f.value
-  })
   const { data: allData, total } = await lckServices.tableRow.find({ query }) as Paginated<LckTableRow>
   for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
     query.$skip = i

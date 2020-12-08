@@ -2,14 +2,24 @@
   <div>
     <div
       class="
-        p-p-1
+        p-py-1
         p-d-flex
         p-jc-between
         p-flex-wrap
         lck-data-toolbar
       "
     >
-      <div class="p-d-flex p-flex-wrap" />
+      <div class="p-d-flex p-flex-wrap">
+        <lck-filter-button
+          v-if="filterAllowed"
+          :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
+          :columns="definition && definition.columns"
+          :columnsDropdownOptions="columnsDropdownOptions"
+          v-model="currentDatatableFilters"
+          @submit="onSubmitFilters"
+          @reset="onResetFilters"
+        />
+      </div>
       <div class="p-d-flex p-flex-wrap">
         <p-button
           v-if="addAllowed"
@@ -20,6 +30,7 @@
         />
         <p-button
           v-if="exportAllowed"
+          :disabled="!hasDataToDisplay"
           label="Export"
           class="p-button-secondary"
           :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
@@ -31,6 +42,7 @@
     <lck-datatable
       v-if="definition"
       :definition="definition"
+      :content="content"
       :crud-mode="false"
       v-bind="$attrs"
       v-on="$listeners"
@@ -60,16 +72,19 @@ import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import Button from 'primevue/button'
+import { formatISO } from 'date-fns'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
 export default {
   name: 'TableView',
   components: {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
+    'lck-filter-button': FilterButton,
     'lck-dialog': Vue.extend(Dialog),
     'p-button': Vue.extend(Button)
   },
@@ -82,7 +97,14 @@ export default {
       type: Boolean,
       default: false
     },
+    filterAllowed: {
+      type: Boolean,
+      default: true
+    },
     definition: {
+      type: Object
+    },
+    content: {
       type: Object
     },
     settings: {
@@ -104,7 +126,33 @@ export default {
   data () {
     return {
       displayNewDialog: false,
-      newRow: {}
+      newRow: {},
+      currentDatatableFilters: []
+    }
+  },
+  computed: {
+    columnsDropdownOptions () {
+      const result = {}
+      if (this.hasColumns) {
+        this.definition.columns.forEach(currentColumn => {
+          if (
+            currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
+            currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
+          ) {
+            result[currentColumn.id] = Object.keys(currentColumn.settings.values).map(k => ({
+              value: k,
+              label: currentColumn.settings.values[k].label
+            }))
+          }
+        })
+      }
+      return result
+    },
+    hasColumns () {
+      return this.definition?.columns?.length > 0
+    },
+    hasDataToDisplay () {
+      return this.hasColumns && this.content?.total > 0
     }
   },
   methods: {
@@ -125,6 +173,47 @@ export default {
     },
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
+    },
+    onSubmitFilters () {
+      this.$emit('update-filters', this.getFormattedFilters())
+    },
+    onResetFilters () {
+      this.currentDatatableFilters = []
+      this.onSubmitFilters()
+    },
+    getFormattedFilters () {
+      const formattedFilters = {}
+      this.currentDatatableFilters
+        .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
+        .forEach((filter, index) => {
+          formattedFilters[
+            // Operator
+            `${filter.operator}[${index}]` +
+            // Field
+            (columnType => {
+              switch (columnType) {
+                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                  return `[data][${filter.column.value}.value]`
+                default:
+                  return `[data][${filter.column.value}]`
+              }
+            })(filter.column.type) +
+            // Action
+            `[${filter.action.value}]`] =
+              (columnType => {
+                switch (columnType) {
+                  case COLUMN_TYPE.DATE:
+                    if (filter.pattern instanceof Date) {
+                      try {
+                        return formatISO(filter.pattern, { representation: 'date' })
+                      } catch (RangeError) {}
+                    }
+                }
+                return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
+              })(filter.column.type)
+        })
+      return formattedFilters
     }
   }
 }

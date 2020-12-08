@@ -67,13 +67,12 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       </h3>
        
       <div
-        content="[object Object]"
         id="1"
         type="TableView"
       >
         <div
           class="
-      p-p-1
+      p-py-1
       p-d-flex
       p-jc-between
       p-flex-wrap
@@ -82,7 +81,33 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
         >
           <div
             class="p-d-flex p-flex-wrap"
-          />
+          >
+            <div
+              class="lck-overlay-panel"
+            >
+              <button
+                class="p-button p-component p-button-outlined p-button-secondary"
+                type="button"
+              >
+                <span
+                  class="pi pi-filter p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  no filter
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
+              <!---->
+            </div>
+          </div>
            
           <div
             class="p-d-flex p-flex-wrap"

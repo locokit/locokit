@@ -23,6 +23,7 @@
             }"
           >
             <p-button
+              v-show="value.length > 1"
               icon="pi pi-trash"
               class="p-button-rounded p-button-danger p-button-text p-button-sm"
               @click.stop="removeFilter(filter)"
@@ -365,7 +366,7 @@ export default {
       required: false,
       default: () => ([])
     },
-    dropdownOptionsColumns: {
+    columnsDropdownOptions: {
       type: Object,
       required: false,
       default: () => ({})
@@ -397,7 +398,7 @@ export default {
             value: id,
             label: text,
             type: columnTypeId,
-            dropdownOptions: this.dropdownOptionsColumns[id]?.dropdownOptions
+            dropdownOptions: this.columnsDropdownOptions[id]
           })
         }
         return acc

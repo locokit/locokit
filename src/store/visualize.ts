@@ -83,7 +83,8 @@ export async function retrieveViewData (
   limit = 20,
   sort = {
     createdAt: 1
-  }
+  },
+  filters = {}
 ) {
   workspaceState.loading = true
   try {
@@ -93,7 +94,8 @@ export async function retrieveViewData (
         table_view_id,
         $limit: limit,
         $skip: skip,
-        $sort: sort
+        $sort: sort,
+        ...filters
       }
     })
   } catch (error) {
