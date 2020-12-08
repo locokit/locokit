@@ -247,12 +247,29 @@
         "updateColumn": "Update",
         "close": "Close"
       },
-      "createColumnModal": {
+      "handleColumnModal": {
         "createColumn": "Create column",
+        "updateColumn": "Update column",
         "columnName": "Column name",
         "columnType": "Column type",
         "selectColumnType": "Select column type",
         "errorNoData": "Please fill in the fields"
+      },
+      "selectType": {
+        "addValue": "Add value",
+        "deleteValue": "Delete value",
+        "deleteConfirmation": "Are you sure you want to delete value \"{label}\" ?",
+        "noData": "No data",
+        "label": "Label",
+        "color": "Color",
+        "backgroundColor": "Background color",
+        "position": "Position",
+        "defaultValue": "Default value",
+        "defaultValuePlaceholder": "Select default value"
+      },
+      "deleteColumnModal": {
+        "deleteColumn": "Delete column",
+        "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"
       }
     },
     "admin": {
