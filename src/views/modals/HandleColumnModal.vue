@@ -16,7 +16,7 @@
       <p-dropdown @change="onSelectedColumnTypeTohandleChange" appendTo="body" v-model="selectedColumnTypeIdToHandle" :options="columnTypes" dataKey="id" optionValue="id" optionLabel="name" :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')" />
     </div>
     <lck-select-type-column
-      v-if="selectedColumnTypeIdToHandle && selectedColumnTypeIdToHandle === accessibleColumnTypes.SINGLE_SELECT"
+      v-if="selectedColumnTypeIdToHandle && isSelectColumnType"
       @select-type-values-change="selectTypeValuesChange"
       @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
       :columnToHandle="columnToHandle"
@@ -56,12 +56,16 @@ export default {
   },
   data () {
     return {
-      accessibleColumnTypes: COLUMN_TYPE,
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
       settings: { default: null }
+    }
+  },
+  computed: {
+    isSelectColumnType () {
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
     }
   },
   methods: {
@@ -78,7 +82,7 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
-              settings: this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT ? this.settings : {}
+              settings: this.isSelectColumnType ? this.settings : {}
             })
           } else {
             await lckClient.service('column').create({
@@ -87,7 +91,7 @@ export default {
               text: this.columnNameToHandle,
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT ? this.settings : {}
+              settings: this.isSelectColumnType ? this.settings : {}
             })
           }
           this.columnNameToHandle = null
