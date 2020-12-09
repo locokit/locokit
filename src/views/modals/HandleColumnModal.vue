@@ -21,6 +21,11 @@
       @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
       :columnToHandle="columnToHandle"
     />
+    <lck-relation-between-tables-type-column
+      v-if="selectedColumnTypeIdToHandle && isRelationBetweenTablesType"
+      @relation-table-id-change="relationTableIdChange"
+      :columnToHandle="columnToHandle"
+    />
     <div v-if="errorHandleColumn" class="p-invalid">
       <small id="error-column-to-handle" class="p-invalid">{{ errorHandleColumn }}</small>
     </div>
@@ -32,6 +37,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckClient } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn'
+import RelationBetweenTablesTypeColumn from '@/components/admin/database/RelationBetweenTablesTypeColumn/RelationBetweenTablesTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
@@ -40,6 +46,7 @@ export default {
   components: {
     'lck-dialog': Vue.extend(Dialog),
     'lck-select-type-column': Vue.extend(SelectTypeColumn),
+    'lck-relation-between-tables-type-column': Vue.extend(RelationBetweenTablesTypeColumn),
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown)
   },
@@ -48,6 +55,7 @@ export default {
       type: Boolean,
       default: false
     },
+    databaseId: String,
     tableId: String,
     columnToHandle: {
       type: Object,
@@ -60,12 +68,15 @@ export default {
       columnNameToHandle: null,
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
-      settings: { default: null }
+      settings: {}
     }
   },
   computed: {
     isSelectColumnType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
+    },
+    isRelationBetweenTablesType () {
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
     }
   },
   methods: {
@@ -82,7 +93,9 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
-              settings: this.isSelectColumnType ? this.settings : {}
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              // column_type_id: this.selectedColumnTypeIdToHandle,
+              settings: this.isSelectColumnType || this.isRelationBetweenTablesType ? this.settings : {}
             })
           } else {
             await lckClient.service('column').create({
@@ -91,7 +104,7 @@ export default {
               text: this.columnNameToHandle,
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType ? this.settings : {}
+              settings: this.isSelectColumnType || this.isRelationBetweenTablesType ? this.settings : {}
             })
           }
           this.columnNameToHandle = null
@@ -105,7 +118,7 @@ export default {
       }
     },
     onSelectedColumnTypeTohandleChange () {
-      this.settings = { default: null }
+      this.settings = {}
     },
     selectTypeValuesChange (data) {
       let settings = {}
@@ -119,6 +132,9 @@ export default {
     },
     defaultSelectTypeValueIdChange (data) {
       this.settings.default = data
+    },
+    relationTableIdChange (data) {
+      this.settings.tableId = data
     }
   },
   watch: {
