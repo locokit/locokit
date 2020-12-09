@@ -54,6 +54,12 @@
                       icon="pi pi-sitemap"
                     />
                   </router-link>
+                  <lck-dropdown-button
+                    v-else
+                    class="no-decoration-link p-mr-2"
+                    :label="$t('pages.workspace.buttonSchema')"
+                    :model="transformDatabases(group.workspace.id, group.workspace.databases, true)"
+                  />
                   <router-link
                     class="no-decoration-link p-mr-2"
                     :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.PROCESS}`"
@@ -99,12 +105,12 @@ export default {
     'lck-dropdown-button': Vue.extend(DropdownButton)
   },
   methods: {
-    transformDatabases (workspaceId, databases) {
+    transformDatabases (workspaceId, databases, schema = false) {
       return databases.map(({ text, id }) => (
         {
           id,
           label: text,
-          to: `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}`
+          to: schema ? `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}${ROUTES_PATH.DATABASESCHEMA}` : `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}`
         }
       ))
     }
