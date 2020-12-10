@@ -60,7 +60,7 @@
         <p-column
           v-if="displayDetailButton && definition.columns && definition.columns.length > 0"
           headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee;"
+          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
           headerClass="sticky-column-cells"
           bodyClass="sticky-column-cells"
           columnKey="detail-column"
