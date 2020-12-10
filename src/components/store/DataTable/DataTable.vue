@@ -705,4 +705,9 @@ tr.p-datatable-emptymessage {
   cursor: default;
 }
 
+.p-datatable .p-datatable-reorder-indicator-up,
+.p-datatable .p-datatable-reorder-indicator-down {
+  z-index: 1;
+}
+
 </style>
