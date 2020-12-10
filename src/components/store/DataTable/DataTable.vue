@@ -470,7 +470,7 @@ export default {
       this.$emit(
         'column-resize',
         event.element.offsetWidth,
-        event.element.querySelector('[data-column-id]').attributes['data-column-id'].value
+        event.element.querySelector('[data-column-id]')?.attributes['data-column-id'].value
       )
     },
     onColumnReorder (event) {
