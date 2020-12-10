@@ -700,4 +700,9 @@ tr.p-datatable-emptymessage {
   background-color: inherit;
   background-clip: padding-box;
 }
+
+.p-datatable.is-reorderable th.sticky-column-cells:hover {
+  cursor: default;
+}
+
 </style>

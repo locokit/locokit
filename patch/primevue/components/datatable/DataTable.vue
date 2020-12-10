@@ -287,7 +287,7 @@ export default {
         },
         minColumnReorderIndex: {
             type: Number,
-            default: null
+            default: 0
         },
         expandedRows: {
             type: Array,
