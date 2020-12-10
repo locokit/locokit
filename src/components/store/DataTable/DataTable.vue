@@ -364,7 +364,7 @@ export default {
     tableWidth () {
       if (!this.definition.columns) return '100%'
       const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
-      return 'calc(3rem + ' + columnsTotalWidth + 'px)'
+      return 'calc(6rem + ' + columnsTotalWidth + 'px)'
     },
     unorderableColumnsNumber () {
       return [this.displayDetailButton].filter(Boolean).length

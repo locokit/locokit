@@ -19,7 +19,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -252,7 +252,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -485,7 +485,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -718,7 +718,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -951,7 +951,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -1184,7 +1184,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -1503,7 +1503,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -1728,7 +1728,7 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable is-reorderable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -1961,7 +1961,7 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -2186,7 +2186,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
@@ -2279,7 +2279,7 @@ exports[`storyshots components/store/DataTable No content with the detail button
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-        style="width: calc(3rem + 750px);"
+        style="width: calc(6rem + 750px);"
       >
         <!---->
          
