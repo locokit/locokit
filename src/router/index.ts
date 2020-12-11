@@ -23,6 +23,7 @@ import Page404 from '@/views/routes/404.vue'
 
 import { ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
+import { appState } from '@/store/app'
 
 Vue.use(VueRouter)
 
@@ -88,7 +89,8 @@ const routes: Array<RouteConfig> = [
       component: Page
     }],
     meta: {
-      needAuthentication: true
+      needAuthentication: true,
+      hasBurgerMenu: true
     }
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId',
@@ -135,7 +137,8 @@ const routes: Array<RouteConfig> = [
       }
     }],
     meta: {
-      needAuthentication: true
+      needAuthentication: true,
+      hasBurgerMenu: true
     }
   },
   {
@@ -163,6 +166,7 @@ router.beforeEach(function (to, from, next) {
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
   // @see: https://github.com/vuejs/vue-router/issues/704
   const needAuthentication = to.matched.some(m => m.meta.needAuthentication)
+  appState.hasBurgerMenu = to.matched.some(m => m.meta.hasBurgerMenu)
   const needGuest = to.matched.some(m => m.meta.needGuest)
   const isAuthenticated = authState.data.isAuthenticated
 

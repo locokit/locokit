@@ -8,6 +8,17 @@ body {
   z-index: 999;
 }
 
+.mobile-logo {
+  display: block;
+  height: 50px;
+  //margin-left: 20px;
+  margin-right: -2.357rem;
+}
+
+.has-burger-menu .mobile-logo {
+  margin-left: -55px;
+}
+
 .sidebar-menu-container {
   position: fixed;
   top: var(--header-height);
@@ -62,6 +73,16 @@ body {
 
 // Responsive
 
+@media screen and (max-device-width: 1400px) {
+  html  {
+    font-size: 13px;
+  }
+}
+@media screen and (min-device-width: 1401px) {
+  html  {
+    font-size: 15px;
+  }
+}
 @media screen and (max-width: 900px) {
   .sidebar-menu-container {
     position: fixed;
@@ -80,4 +101,18 @@ body {
   .main-container {
     margin-left: 0px;
   }
+}
+
+.centered-content-view {
+    max-width: 800px;
+    margin: auto;
+}
+
+.box-with-shadow {
+  border: 1px solid var(--surface-c);
+  padding: 0 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  border-radius: var(--border-radius);
 }

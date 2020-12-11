@@ -12,7 +12,7 @@
     />
 
     <lck-data-detail
-      class="detail-view"
+      class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
       :row="row"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -80,13 +80,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style scoped>
-.detail-view {
-  max-width: 600px;
-  margin: auto;
-  border: 1px solid gray;
-  padding: 0 1rem;
-  border-radius: 2px;
-}
-</style>
