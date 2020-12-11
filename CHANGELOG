@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.1.4**
+
+* add new `URL` `COLUMN_TYPE`
+
 **v0.1.3**
 
 * add `addAllowed` and `exportAllowed` for `TableViewSettings`

@@ -14,7 +14,8 @@ export enum COLUMN_TYPE {
   FILE = 13,
   MULTI_USER = 14,
   MULTI_GROUP = 15,
-  TEXT = 16
+  TEXT = 16,
+  URL = 17
 }
 
 export enum USER_PROFILE {
