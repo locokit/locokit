@@ -116,7 +116,6 @@ export default {
   methods: {
     toggle (event) {
       this.$refs.menu.toggle(event)
-      console.log(event)
     },
     onToggle () {
       this.$emit('menuButtonClick')

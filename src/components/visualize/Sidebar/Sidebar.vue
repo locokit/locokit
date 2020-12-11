@@ -13,7 +13,6 @@
         v-for="subitem in item.subitems"
         :key="subitem.id"
         :to="subitem.to"
-        @click="$emit('click')"
         :class="{ 'router-link-exact-active': subitem.active }"
         @click.native="$emit('click-sidebar-item')"
       >
@@ -39,11 +38,6 @@ export default {
           subitems: []
         }]
       }
-    }
-  },
-  methods: {
-    clickRouter () {
-      this.$emit('sideBarItemClick')
     }
   },
   components: {
