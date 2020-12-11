@@ -271,6 +271,12 @@
         "relationTable": "Relation table",
         "relationTablePlaceholder": "Select table"
       },
+      "lookedUpType": {
+        "localField": "Local field",
+        "localFieldPlaceholder": "Select field",
+        "foreignField": "Foreign field",
+        "foreignFieldPlaceholder": "Select field"
+      },
       "deleteColumnModal": {
         "deleteColumn": "Delete column",
         "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"

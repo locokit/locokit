@@ -43,8 +43,16 @@
     />
     <lck-relation-between-tables-type-column
       v-if="selectedColumnTypeIdToHandle && isRelationBetweenTablesType"
-      @relation-table-id-change="relationTableIdChange"
+      @relation-table-id-change="tableIdChange"
       :columnToHandle="columnToHandle"
+    />
+    <lck-looked-up-type-column
+      v-if="selectedColumnTypeIdToHandle && isLookedUpType"
+      @local-field-id-change="localFieldIdChange"
+      @foreign-field-id-change="foreignFieldIdChange"
+      @relation-table-id-change="tableIdChange"
+      :columnToHandle="columnToHandle"
+      :tableId="tableId"
     />
     <div v-if="errorHandleColumn" class="p-invalid">
       <small id="error-column-to-handle" class="p-invalid">
@@ -61,6 +69,7 @@ import { lckClient } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn'
 import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
+import LookedUpTypeColumn from '@/components/admin/database/LookedUpTypeColumn/LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
@@ -70,6 +79,7 @@ export default {
     'lck-dialog': Vue.extend(Dialog),
     'lck-select-type-column': Vue.extend(SelectTypeColumn),
     'lck-relation-between-tables-type-column': Vue.extend(RelationBetweenTablesTypeColumn),
+    'lck-looked-up-type-column': Vue.extend(LookedUpTypeColumn),
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown)
   },
@@ -100,6 +110,9 @@ export default {
     },
     isRelationBetweenTablesType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
+    },
+    isLookedUpType () {
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN
     }
   },
   methods: {
@@ -118,7 +131,7 @@ export default {
               text: this.columnNameToHandle,
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType ? this.settings : {}
+              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
             })
           } else {
             await lckClient.service('column').create({
@@ -127,7 +140,7 @@ export default {
               text: this.columnNameToHandle,
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType ? this.settings : {}
+              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
             })
           }
           this.columnNameToHandle = null
@@ -156,8 +169,14 @@ export default {
     defaultSelectTypeValueIdChange (data) {
       this.settings.default = data
     },
-    relationTableIdChange (data) {
+    tableIdChange (data) {
       this.settings.tableId = data
+    },
+    localFieldIdChange (data) {
+      this.settings.localField = data
+    },
+    foreignFieldIdChange (data) {
+      this.settings.foreignField = data
     }
   },
   watch: {
