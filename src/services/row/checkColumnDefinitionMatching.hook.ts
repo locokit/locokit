@@ -258,6 +258,25 @@ export function checkColumnDefinitionMatching (): Hook {
               columnError: 'This type of column can\'t be set. It\'s automagically computed.'
             })
             break
+          case COLUMN_TYPE.URL:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              try {
+                // eslint-disable-next-line no-unused-vars
+                const url = new URL(currentColumnValue)
+              } catch (error) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not a valid URL (received: ' + currentColumnValue + ')'
+                })
+              }
+            }
+            break
+
           case COLUMN_TYPE.FILE:
           case COLUMN_TYPE.MULTI_USER:
           case COLUMN_TYPE.MULTI_GROUP:

@@ -58,7 +58,7 @@
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/socketio": "^4.5.4",
     "@feathersjs/transport-commons": "^4.5.3",
-    "@locokit/lck-glossary": "^0.1.1",
+    "@locokit/lck-glossary": "^0.1.4",
     "@sentry/node": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
     "@types/debug": "^4.1.5",
