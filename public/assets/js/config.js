@@ -5,8 +5,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LCK_SETTINGS = {
   // API_URL: 'http://localhost:8000/api',
-  // API_URL: 'http://localhost:3030',
-  API_URL: 'https://staging-v-logistique-lck.makina-corpus.net/api',
+  API_URL: 'http://localhost:3030',
+  // API_URL: 'https://staging-v-logistique-lck.makina-corpus.net/api',
   HOME_BACKGROUND_IMAGE_URL: '/img/bg-intro.jpg',
   PAGE_DATABASE_BACKGROUND_IMAGE_URL: '/img/logo-white-bg-grey.png',
   PAGE_404_BACKGROUND_IMAGE_URL: '/img/page-construction-vlogistique.png',
