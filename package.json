@@ -19,7 +19,7 @@
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",
-    "@locokit/lck-glossary": "^0.1.3",
+    "@locokit/lck-glossary": "^0.1.4",
     "@sentry/browser": "^5.26.0",
     "@sentry/integrations": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
