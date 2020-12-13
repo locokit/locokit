@@ -163,9 +163,11 @@ export default {
   },
   mounted () {
     if (this.columnToHandle && this.columnToHandle.settings) {
-      Object.keys(this.columnToHandle.settings.values).map((key) => {
-        this.selectTypeValues.push({ id: key, ...this.columnToHandle.settings.values[key] })
-      })
+      if (this.columnToHandle.settings.values) {
+        Object.keys(this.columnToHandle.settings.values).map((key) => {
+          this.selectTypeValues.push({ id: key, ...this.columnToHandle.settings.values[key] })
+        })
+      }
       if (this.columnToHandle.settings.default) {
         this.defaultSelectTypeValueId = this.columnToHandle.settings.default
       }
