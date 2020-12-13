@@ -274,6 +274,12 @@
         "relationTable": "En relation avec la table",
         "relationTablePlaceholder": "Choisir une table"
       },
+      "lookedUpType": {
+        "localField": "Colonne locale",
+        "localFieldPlaceholder": "Choisir une colonne",
+        "foreignField": "Colonne étrangère",
+        "foreignFieldPlaceholder": "Choisir une colonne"
+      },
       "deleteColumnModal": {
         "deleteColumn": "Supprimer une colonne",
         "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer la colonne \"{columnName}\" ?"

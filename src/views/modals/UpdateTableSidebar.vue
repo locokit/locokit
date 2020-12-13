@@ -55,7 +55,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
@@ -101,7 +101,7 @@ export default {
   methods: {
     async updateTableName () {
       try {
-        await lckClient.service('table').patch(this.currentTable.id, {
+        await lckServices.table.patch(this.currentTable.id, {
           text: this.currentTableToUpdate.text
         })
         this.$emit('reload-tables')

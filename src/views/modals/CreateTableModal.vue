@@ -25,7 +25,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 
@@ -55,7 +55,7 @@ export default {
     },
     async confirmCreateTableModal () {
       try {
-        const createTableResponse = await lckClient.service('table').create({
+        const createTableResponse = await lckServices.table.create({
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
           text: this.tableNameToCreate
