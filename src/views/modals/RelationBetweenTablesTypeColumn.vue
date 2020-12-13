@@ -17,7 +17,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dropdown from 'primevue/dropdown'
 
 export default {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     async loadRelationTables () {
-      const relationTables = await lckClient.service('table').find({
+      const relationTables = await lckServices.table.find({
         query: {
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,

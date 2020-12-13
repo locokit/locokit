@@ -35,8 +35,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dropdown from 'primevue/dropdown'
+import { Paginated } from '@feathersjs/feathers'
+import { LckTableColumn } from '@/services/lck-api/definitions'
 
 export default {
   name: 'LookedUpTypeColumn',
@@ -53,16 +55,16 @@ export default {
   },
   data () {
     return {
-      relationTableId: null,
-      localFields: [],
-      localFieldId: null,
-      foreignFields: [],
-      foreignFieldId: null
+      relationTableId: null as string | null,
+      localFields: [] as LckTableColumn[],
+      localFieldId: null as string | null,
+      foreignFields: [] as LckTableColumn[],
+      foreignFieldId: null as string | null
     }
   },
   methods: {
     async loadLocalFields () {
-      const localFields = await lckClient.service('column').find({
+      const localFields = await lckServices.tableColumn.find({
         query: {
           // eslint-disable-next-line @typescript-eslint/camelcase
           column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
@@ -70,23 +72,23 @@ export default {
           table_id: this.tableId,
           $limit: 100
         }
-      })
+      }) as Paginated<LckTableColumn>
       this.localFields = localFields?.data
     },
     async loadForeignFields () {
       if (this.relationTableId) {
-        const foreignFields = await lckClient.service('column').find({
+        const foreignFields = await lckServices.tableColumn.find({
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             table_id: this.relationTableId,
             $limit: 100
           }
-        })
+        }) as Paginated<LckTableColumn>
         this.foreignFields = foreignFields?.data
       }
     },
-    onLocalFieldChange (data) {
-      this.relationTableId = this.localFields.find((field) => field.id === data.value).table_id
+    onLocalFieldChange (data: { value: string }) {
+      this.relationTableId = this.localFields?.find(field => field.id === data.value)?.table_id || null
       this.loadForeignFields()
     }
   },

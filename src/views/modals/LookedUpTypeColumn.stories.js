@@ -1,7 +1,7 @@
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 
 export default {
-  title: 'components/admin/database/LookedUpTypeColumn',
+  title: 'views/modals/LookedUpTypeColumn',
   component: LookedUpTypeColumn
 }
 

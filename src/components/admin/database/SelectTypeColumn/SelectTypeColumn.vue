@@ -68,22 +68,20 @@
         </template>
       </p-column>
     </p-datatable>
-    <div class="p-d-flex">
-      <div class="p-ai-start p-mt-2">
-        <label for="default-select-type-value-id">
-          {{ $t('pages.databaseSchema.selectType.defaultValue') }}
-        </label>
-        <p-dropdown
-          id="default-select-type-value-id"
-          appendTo="body"
-          v-model="defaultSelectTypeValueId"
-          :options="selectTypeValues"
-          dataKey="id"
-          optionValue="id"
-          optionLabel="label"
-          :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
-        />
-      </div>
+    <div class="p-mt-2 p-fluid">
+      <label for="default-select-type-value-id">
+        {{ $t('pages.databaseSchema.selectType.defaultValue') }}
+      </label>
+      <p-dropdown
+        id="default-select-type-value-id"
+        appendTo="body"
+        v-model="defaultSelectTypeValueId"
+        :options="selectTypeValues"
+        dataKey="id"
+        optionValue="id"
+        optionLabel="label"
+        :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
+      />
     </div>
     <lck-dialog
       :visible="showDeleteColumnModal"

@@ -65,11 +65,11 @@
 <script>
 import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn'
 import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
-import LookedUpTypeColumn from '@/components/admin/database/LookedUpTypeColumn/LookedUpTypeColumn'
+import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
@@ -125,7 +125,7 @@ export default {
       try {
         if (this.columnNameToHandle && this.selectedColumnTypeIdToHandle) {
           if (this.columnToHandle) {
-            await lckClient.service('column').patch(this.columnToHandle.id, {
+            await lckServices.tableColumn.patch(this.columnToHandle.id, {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
@@ -134,7 +134,7 @@ export default {
               settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
             })
           } else {
-            await lckClient.service('column').create({
+            await lckServices.tableColumn.create({
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
