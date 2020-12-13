@@ -154,57 +154,53 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
     </div>
      
     <div
-      class="p-d-flex"
+      class="p-mt-2 p-fluid"
     >
-      <div
-        class="p-ai-start p-mt-2"
+      <label
+        for="default-select-type-value-id"
       >
-        <label
-          for="default-select-type-value-id"
+        
+      Default value
+    
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper"
+        id="default-select-type-value-id"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-placeholder"
         >
           
-        Default value
-      
-        </label>
-         
-        <div
-          class="p-dropdown p-component p-inputwrapper"
-          id="default-select-type-value-id"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              aria-haspopup="listbox"
-              readonly="readonly"
-              type="text"
-            />
-          </div>
-           
-          <!---->
-           
-          <span
-            class="p-dropdown-label p-inputtext p-placeholder"
-          >
-            
             Select default value
         
-          </span>
-           
-          <!---->
-           
-          <div
-            aria-haspopup="listbox"
-            class="p-dropdown-trigger"
-            role="button"
-          >
-            <span
-              class="p-dropdown-trigger-icon pi pi-chevron-down"
-            />
-          </div>
-           
-          <!---->
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
         </div>
+         
+        <!---->
       </div>
     </div>
      
@@ -367,57 +363,53 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
     </div>
      
     <div
-      class="p-d-flex"
+      class="p-mt-2 p-fluid"
     >
-      <div
-        class="p-ai-start p-mt-2"
+      <label
+        for="default-select-type-value-id"
       >
-        <label
-          for="default-select-type-value-id"
+        
+      Default value
+    
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper"
+        id="default-select-type-value-id"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-placeholder"
         >
           
-        Default value
-      
-        </label>
-         
-        <div
-          class="p-dropdown p-component p-inputwrapper"
-          id="default-select-type-value-id"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              aria-haspopup="listbox"
-              readonly="readonly"
-              type="text"
-            />
-          </div>
-           
-          <!---->
-           
-          <span
-            class="p-dropdown-label p-inputtext p-placeholder"
-          >
-            
             Select default value
         
-          </span>
-           
-          <!---->
-           
-          <div
-            aria-haspopup="listbox"
-            class="p-dropdown-trigger"
-            role="button"
-          >
-            <span
-              class="p-dropdown-trigger-icon pi pi-chevron-down"
-            />
-          </div>
-           
-          <!---->
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
         </div>
+         
+        <!---->
       </div>
     </div>
      
