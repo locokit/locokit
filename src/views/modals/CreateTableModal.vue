@@ -6,11 +6,20 @@
     @close="closeCreateTableModal"
   >
     <div class="p-field p-mt-4">
-        <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
-        <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
+      <label for="table-name">
+        {{ $t('pages.databaseSchema.createTableModal.tableName') }}
+      </label>
+      <p-input-text
+        id="table-name"
+        :class="{ 'p-invalid': errorTableNameToCreate }"
+        type="text"
+        v-model="tableNameToCreate" autofocus
+      />
     </div>
     <div v-if="errorTableNameToCreate" class="p-invalid">
-      <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
+      <small id="table-name-invalid" class="p-invalid">
+        {{ errorTableNameToCreate }}
+      </small>
     </div>
   </lck-dialog>
 </template>

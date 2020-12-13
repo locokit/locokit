@@ -2,43 +2,87 @@
   <div>
     <div class="p-d-flex">
       <div class="p-ai-start p-my-4">
-        <p-button @click="addSelectTypeValue" icon="pi pi-plus" class="p-button-text" :label="$t('pages.databaseSchema.selectType.addValue')" />
+        <p-button
+          @click="addSelectTypeValue"
+          icon="pi pi-plus"
+          class="p-button-text"
+          :label="$t('pages.databaseSchema.selectType.addValue')"
+        />
       </div>
     </div>
-    <p-datatable :value="selectTypeValues" :scrollable="true" scrollHeight="200px">
+    <p-datatable
+      :value="selectTypeValues"
+      :scrollable="true"
+      scrollHeight="200px"
+    >
       <template #empty>
           {{ $t('pages.databaseSchema.selectType.noData') }}
       </template>
-      <p-column field="label" :header="$t('pages.databaseSchema.selectType.label')">
+      <p-column
+        field="label"
+        :header="$t('pages.databaseSchema.selectType.label')"
+      >
         <template #body="props">
           <p-input-text v-model="props.data.label" type="text" />
         </template>
       </p-column>
-      <p-column field="color" :header="$t('pages.databaseSchema.selectType.color')">
+      <p-column
+        field="color"
+        :header="$t('pages.databaseSchema.selectType.color')"
+      >
         <template #body="props">
-          <p-color-picker v-model="props.data.color" class="single-select-color" :inline="false" />
+          <p-color-picker
+            v-model="props.data.color"
+            class="single-select-color"
+            :inline="false"
+          />
         </template>
       </p-column>
-      <p-column field="backgroundColor" :header="$t('pages.databaseSchema.selectType.backgroundColor')">
+      <p-column
+        field="backgroundColor"
+        :header="$t('pages.databaseSchema.selectType.backgroundColor')"
+      >
         <template #body="props">
-          <p-color-picker v-model="props.data.backgroundColor" class="single-select-background-color" :inline="false" />
+          <p-color-picker
+            v-model="props.data.backgroundColor"
+            class="single-select-background-color"
+            :inline="false"
+          />
         </template>
       </p-column>
-      <p-column field="position" :header="$t('pages.databaseSchema.selectType.position')">
+      <p-column
+        field="position"
+        :header="$t('pages.databaseSchema.selectType.position')"
+      >
         <template #body="props">
           <p-input-number v-model="props.data.position" :min="0" />
         </template>
       </p-column>
       <p-column>
         <template #body="props">
-            <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="handleDeleteColumnModalVisibility(true, props.data)" />
+          <p-button
+            icon="pi pi-trash"
+            class="p-button-rounded lck-color-content p-column-button-color"
+            @click="handleDeleteColumnModalVisibility(true, props.data)"
+          />
         </template>
       </p-column>
     </p-datatable>
     <div class="p-d-flex">
       <div class="p-ai-start p-mt-2">
-        <Label for="default-select-type-value-id">{{ $t('pages.databaseSchema.selectType.defaultValue') }}</Label>
-        <p-dropdown id="default-select-type-value-id" appendTo="body" v-model="defaultSelectTypeValueId" :options="selectTypeValues" dataKey="id" optionValue="id" optionLabel="label" :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')" />
+        <label for="default-select-type-value-id">
+          {{ $t('pages.databaseSchema.selectType.defaultValue') }}
+        </label>
+        <p-dropdown
+          id="default-select-type-value-id"
+          appendTo="body"
+          v-model="defaultSelectTypeValueId"
+          :options="selectTypeValues"
+          dataKey="id"
+          optionValue="id"
+          optionLabel="label"
+          :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
+        />
       </div>
     </div>
     <lck-dialog
@@ -47,7 +91,10 @@
       @close="handleDeleteColumnModalVisibility(false, null)"
       @input="deleteSelectTypeValue"
     >
-      {{ currentSelectTypeValue && $t('pages.databaseSchema.selectType.deleteConfirmation', { label: currentSelectTypeValue.label }) }}
+      {{
+        currentSelectTypeValue
+        && $t('pages.databaseSchema.selectType.deleteConfirmation', { label: currentSelectTypeValue.label })
+      }}
     </lck-dialog>
   </div>
 </template>
@@ -91,14 +138,22 @@ export default {
   },
   methods: {
     addSelectTypeValue () {
-      this.selectTypeValues.push({ id: uuidv4(), label: '', color: 'ff0000', backgroundColor: 'ff0000', position: 0 })
+      this.selectTypeValues.push({
+        id: uuidv4(),
+        label: '',
+        color: 'ff0000',
+        backgroundColor: 'ff0000',
+        position: 0
+      })
     },
     handleDeleteColumnModalVisibility (visibility, data) {
       this.currentSelectTypeValue = data
       this.showDeleteColumnModal = visibility
     },
     deleteSelectTypeValue () {
-      const selectTypeValueIndex = this.selectTypeValues.findIndex((selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id)
+      const selectTypeValueIndex = this.selectTypeValues.findIndex(
+        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id
+      )
       if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
         this.defaultSelectTypeValueId = null
       }
@@ -106,7 +161,7 @@ export default {
       this.handleDeleteColumnModalVisibility(false, null)
     }
   },
-  mounted: function () {
+  mounted () {
     if (this.columnToHandle && this.columnToHandle.settings) {
       Object.keys(this.columnToHandle.settings.values).map((key) => {
         this.selectTypeValues.push({ id: key, ...this.columnToHandle.settings.values[key] })
@@ -123,7 +178,7 @@ export default {
       },
       deep: true
     },
-    defaultSelectTypeValueId: function () {
+    defaultSelectTypeValueId () {
       this.$emit('default-select-type-value-id-change', this.defaultSelectTypeValueId)
     }
   }
