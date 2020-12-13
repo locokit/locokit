@@ -9,7 +9,9 @@
       {{ $t('pages.databaseSchema.deleteColumnModal.deleteConfirmation', { columnName: columnToHandle.text }) }}
     </div>
     <div v-if="errorColumnToDelete" class="p-invalid">
-      <small id="delete-column-error" class="p-invalid">{{ errorColumnToDelete }}</small>
+      <small id="delete-column-error" class="p-invalid">
+        {{ errorColumnToDelete }}
+      </small>
     </div>
   </lck-dialog>
 </template>

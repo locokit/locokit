@@ -267,6 +267,10 @@
         "defaultValue": "Default value",
         "defaultValuePlaceholder": "Select default value"
       },
+      "relationBetweenTablesType": {
+        "relationTable": "Relation table",
+        "relationTablePlaceholder": "Select table"
+      },
       "deleteColumnModal": {
         "deleteColumn": "Delete column",
         "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"

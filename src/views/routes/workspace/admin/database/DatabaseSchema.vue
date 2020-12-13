@@ -27,6 +27,7 @@
     />
     <update-table-sidebar
       :showUpdateTableSidebar="showUpdateTableSidebar"
+      :databaseId="databaseId"
       :currentTable="currentTable"
       @reload-tables="reloadTables"
       @close="onCloseUpdateTableSidebar"
@@ -163,7 +164,7 @@ export default {
       this.resizenomnomlSVG()
     }
   },
-  async mounted () {
+  mounted () {
     this.loadTables()
   },
   updated () {

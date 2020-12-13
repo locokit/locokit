@@ -39,6 +39,7 @@
       </p-datatable>
       <handle-column-modal
         :visible="showHandleColumnModal"
+        :databaseId="databaseId"
         :tableId="currentTable.id"
         :columnToHandle="columnToHandle"
         @close="onCloseHandleColumnModal"
@@ -76,6 +77,7 @@ export default {
     'delete-column-modal': Vue.extend(DeleteColumnModal)
   },
   props: {
+    databaseId: String,
     currentTable: {
       type: Object,
       default: () => ({})

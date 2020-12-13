@@ -162,7 +162,9 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
         <label
           for="default-select-type-value-id"
         >
-          Default value
+          
+        Default value
+      
         </label>
          
         <div
@@ -373,7 +375,9 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
         <label
           for="default-select-type-value-id"
         >
-          Default value
+          
+        Default value
+      
         </label>
          
         <div
