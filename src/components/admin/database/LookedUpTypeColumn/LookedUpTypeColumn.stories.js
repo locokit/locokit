@@ -8,7 +8,7 @@ export default {
 export const createStory = () => (
   {
     components: { LookedUpTypeColumn },
-    template: '<LookedUpTypeColumn />'
+    template: '<div class="p-fluid"><LookedUpTypeColumn /></div>'
   }
 )
 
