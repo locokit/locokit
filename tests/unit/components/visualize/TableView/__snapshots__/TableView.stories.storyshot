@@ -119,73 +119,8 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
     >
       <div
-        class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+        class="responsive-table-wrapper p-fluid d-flex-1"
       >
-        <div
-          class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        p-flex-column
-        justify-between
-       p-datatable p-component"
-          style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
-        >
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-datatable-wrapper"
-          >
-            <table
-              role="grid"
-            >
-              <thead
-                class="p-datatable-thead"
-              >
-                <tr />
-                 
-                <!---->
-              </thead>
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <tr
-                  class="p-datatable-emptymessage"
-                >
-                  <td
-                    colspan="0"
-                  >
-                    <!---->
-                     
-                    <!---->
-                  </td>
-                </tr>
-              </tbody>
-               
-              <!---->
-            </table>
-          </div>
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-column-resizer-helper"
-            style="display: none;"
-          />
-           
-          <!---->
-           
-          <!---->
-        </div>
-         
         <div
           cellstate="[object Object]"
           class="
@@ -195,8 +130,10 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-          style="width: calc(3rem + 450px);"
+          style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
           <!---->
           <!---->
@@ -325,80 +262,8 @@ exports[`storyshots components/visualize/TableView with definition and content 1
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
     >
       <div
-        class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+        class="responsive-table-wrapper p-fluid d-flex-1"
       >
-        <div
-          class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        p-flex-column
-        justify-between
-       p-datatable p-component"
-          style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
-        >
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-datatable-wrapper"
-          >
-            <table
-              role="grid"
-            >
-              <thead
-                class="p-datatable-thead"
-              >
-                <tr />
-                 
-                <!---->
-              </thead>
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-              </tbody>
-               
-              <!---->
-            </table>
-          </div>
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-column-resizer-helper"
-            style="display: none;"
-          />
-           
-          <!---->
-           
-          <!---->
-        </div>
-         
         <div
           cellstate="[object Object]"
           class="
@@ -408,8 +273,10 @@ exports[`storyshots components/visualize/TableView with definition and content 1
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-          style="width: calc(3rem + 450px);"
+          style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
           <!---->
           <!---->
@@ -706,80 +573,8 @@ exports[`storyshots components/visualize/TableView with definition and content a
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
     >
       <div
-        class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+        class="responsive-table-wrapper p-fluid d-flex-1"
       >
-        <div
-          class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        p-flex-column
-        justify-between
-       p-datatable p-component"
-          style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
-        >
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-datatable-wrapper"
-          >
-            <table
-              role="grid"
-            >
-              <thead
-                class="p-datatable-thead"
-              >
-                <tr />
-                 
-                <!---->
-              </thead>
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-                <!---->
-                 
-                <tr
-                  class=""
-                />
-                 
-                <!---->
-                 
-                <!---->
-              </tbody>
-               
-              <!---->
-            </table>
-          </div>
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-column-resizer-helper"
-            style="display: none;"
-          />
-           
-          <!---->
-           
-          <!---->
-        </div>
-         
         <div
           cellstate="[object Object]"
           class="
@@ -789,8 +584,10 @@ exports[`storyshots components/visualize/TableView with definition and content a
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-          style="width: calc(3rem + 450px);"
+          style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
           <!---->
           <!---->
@@ -1089,73 +886,8 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
     >
       <div
-        class="responsive-table-wrapper p-fluid d-flex-1 p-d-flex"
+        class="responsive-table-wrapper p-fluid d-flex-1"
       >
-        <div
-          class="
-        p-datatable-sm
-        p-datatable-gridlines
-        p-d-flex
-        p-flex-column
-        justify-between
-       p-datatable p-component"
-          style="flex-basis: 0px; position: sticky; left: 0px; z-index: 1;"
-        >
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-datatable-wrapper"
-          >
-            <table
-              role="grid"
-            >
-              <thead
-                class="p-datatable-thead"
-              >
-                <tr />
-                 
-                <!---->
-              </thead>
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <tr
-                  class="p-datatable-emptymessage"
-                >
-                  <td
-                    colspan="0"
-                  >
-                    <!---->
-                     
-                    <!---->
-                  </td>
-                </tr>
-              </tbody>
-               
-              <!---->
-            </table>
-          </div>
-           
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="p-column-resizer-helper"
-            style="display: none;"
-          />
-           
-          <!---->
-           
-          <!---->
-        </div>
-         
         <div
           cellstate="[object Object]"
           class="
@@ -1165,8 +897,10 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
-          style="width: calc(3rem + 450px);"
+          style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
           <!---->
           <!---->
