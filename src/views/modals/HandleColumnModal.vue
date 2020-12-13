@@ -1,19 +1,39 @@
 <template>
   <lck-dialog
     :visible.sync="visible"
-    :header="columnToHandle ? $t('pages.databaseSchema.handleColumnModal.updateColumn') : $t('pages.databaseSchema.handleColumnModal.createColumn')"
+    :header="
+      columnToHandle
+      ? $t('pages.databaseSchema.handleColumnModal.updateColumn')
+      : $t('pages.databaseSchema.handleColumnModal.createColumn')
+    "
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
   >
     <div class="p-field">
-      <label for="column-name">{{ $t('pages.databaseSchema.handleColumnModal.columnName') }}</label>
-      <p-input-text v-model="columnNameToHandle" id="column-name" type="text" autofocus />
+      <label for="column-name">
+        {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
+      </label>
+      <p-input-text
+        v-model="columnNameToHandle"
+        id="column-name"
+        type="text"
+        autofocus
+      />
     </div>
     <div v-if="columnToHandle" class="p-mb-3">
       UUID : {{ columnToHandle.id }}
     </div>
     <div>
-      <p-dropdown @change="onSelectedColumnTypeTohandleChange" appendTo="body" v-model="selectedColumnTypeIdToHandle" :options="columnTypes" dataKey="id" optionValue="id" optionLabel="name" :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')" />
+      <p-dropdown
+        @change="onSelectedColumnTypeTohandleChange"
+        appendTo="body"
+        v-model="selectedColumnTypeIdToHandle"
+        :options="columnTypes"
+        dataKey="id"
+        optionValue="id"
+        optionLabel="name"
+        :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')"
+      />
     </div>
     <lck-select-type-column
       v-if="selectedColumnTypeIdToHandle && isSelectColumnType"
@@ -27,17 +47,20 @@
       :columnToHandle="columnToHandle"
     />
     <div v-if="errorHandleColumn" class="p-invalid">
-      <small id="error-column-to-handle" class="p-invalid">{{ errorHandleColumn }}</small>
+      <small id="error-column-to-handle" class="p-invalid">
+        {{ errorHandleColumn }}
+      </small>
     </div>
   </lck-dialog>
 </template>
+
 <script>
 import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckClient } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn'
-import RelationBetweenTablesTypeColumn from '@/components/admin/database/RelationBetweenTablesTypeColumn/RelationBetweenTablesTypeColumn'
+import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 

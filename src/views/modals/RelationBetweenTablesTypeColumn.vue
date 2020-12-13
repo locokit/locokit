@@ -1,9 +1,18 @@
 <template>
-  <div class="p-d-flex">
-    <div class="p-ai-start p-my-4">
-      <Label for="relation-between-tables-id">{{ $t('pages.databaseSchema.relationBetweenTablesType.relationTable') }}</Label>
-      <p-dropdown id="relation-between-tables-id" appendTo="body" v-model="relationTableId" :options="relationTables" dataKey="id" optionValue="id" optionLabel="text" :placeholder="$t('pages.databaseSchema.relationBetweenTablesType.relationTablePlaceholder')" />
-    </div>
+  <div class="p-my-4">
+    <label for="relation-between-tables-id">
+      {{ $t('pages.databaseSchema.relationBetweenTablesType.relationTable') }}
+    </label>
+    <p-dropdown
+      id="relation-between-tables-id"
+      appendTo="body"
+      v-model="relationTableId"
+      :options="relationTables"
+      dataKey="id"
+      optionValue="id"
+      optionLabel="text"
+      :placeholder="$t('pages.databaseSchema.relationBetweenTablesType.relationTablePlaceholder')"
+    />
   </div>
 </template>
 <script>
@@ -48,7 +57,7 @@ export default {
     }
   },
   watch: {
-    relationTableId: function () {
+    relationTableId () {
       this.$emit('relation-table-id-change', this.relationTableId)
     }
   }
