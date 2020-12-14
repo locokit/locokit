@@ -27,6 +27,7 @@ describe('checkColumnDefinitionMatching hook', () => {
   let columnTable1MultiUser: TableColumn
   let columnTable1MultiGroup: TableColumn
   let columnTable1Text: TableColumn
+  let columnTable1URL: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2Name: TableColumn
   // let user1: User
@@ -168,6 +169,11 @@ describe('checkColumnDefinitionMatching hook', () => {
     columnTable1Text = await app.service('column').create({
       text: 'Text',
       column_type_id: COLUMN_TYPE.TEXT,
+      table_id: table1.id
+    })
+    columnTable1URL = await app.service('column').create({
+      text: 'URL',
+      column_type_id: COLUMN_TYPE.URL,
       table_id: table1.id
     })
   })
@@ -880,6 +886,58 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
+  it('throw an error if a URL column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1URL.id]: 123
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a URL column receive a string value which is not a valid url', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1URL.id]: 'www.makina-corpus.com'
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a URL column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1URL.id]: null
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a string value which is a valid URL for a URL column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1URL.id]: 'http://www.makina-corpus.com'
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
   afterAll(async () => {
     // await app.service('group').remove(group1.id)
     // await app.service('user').remove(user1.id)
@@ -899,6 +957,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1MultiUser.id)
     await app.service('column').remove(columnTable1MultiGroup.id)
     await app.service('column').remove(columnTable1Text.id)
+    await app.service('column').remove(columnTable1URL.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2Name.id)
     await app.service('table').remove(table1.id)
