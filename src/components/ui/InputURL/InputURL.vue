@@ -12,9 +12,14 @@
       ref="inputURL"
     >
     </p-input-text>
-    <i v-show="validURL" class="pi pi-external-link" @click="openLink" />
+    <i
+      v-show="validURL"
+      class="pi pi-external-link"
+      :title="$t('components.inputURL.openTheLink')"
+      :aria-label="$t('components.inputURL.openTheLink')"
+      @click="openLink"
+    />
   </span>
-
 </template>
 
 <script>
@@ -52,7 +57,7 @@ export default {
       } catch (error) {}
     },
     urlValidity () {
-      return this.value && this.$refs?.inputURL?.$el.checkValidity()
+      return this.value && this.$refs?.inputURL?.$el.validity.valid
     }
   },
   watch: {
@@ -70,5 +75,4 @@ export default {
 .pi-external-link {
   cursor: pointer;
 }
-
 </style>
