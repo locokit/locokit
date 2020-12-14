@@ -108,6 +108,9 @@
     "detailview": {
       "goback": "Retourner aux résultats"
     },
+    "inputURL": {
+      "openTheLink": "Ouvrir le lien"
+    },
     "processPanel": {
       "title": "Processus",
       "automatic": "Automatique",

@@ -297,6 +297,7 @@ import TabPanel from 'primevue/tabpanel'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
+import InputSwitch from 'primevue/inputswitch'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
@@ -312,6 +313,7 @@ import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
+import InputURL from '@/components/ui/InputURL/InputURL.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -335,11 +337,13 @@ export default {
     'lck-process-panel': ProcessPanel,
     'layout-with-toolbar': WithToolbar,
     'lck-process-listing': ProcessListing,
+    'lck-input-url': InputURL,
     'p-dialog': Vue.extend(Dialog),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
+    'p-input-switch': Vue.extend(InputSwitch),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-calendar': Vue.extend(Calendar),

@@ -230,6 +230,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import InputURL from '@/components/ui/InputURL/InputURL.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -245,6 +246,7 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
+    'lck-input-url': InputURL,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -338,7 +340,8 @@ export default {
         [COLUMN_TYPE.SINGLE_SELECT]: 'p-tag',
         [COLUMN_TYPE.MULTI_SELECT]: 'p-tag',
         [COLUMN_TYPE.FORMULA]: 'p-tag',
-        [COLUMN_TYPE.FILE]: 'text'
+        [COLUMN_TYPE.FILE]: 'text',
+        [COLUMN_TYPE.URL]: 'text'
       }
     },
     columnsEnhanced () {

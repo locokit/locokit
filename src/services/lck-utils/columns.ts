@@ -25,6 +25,8 @@ export function getComponentEditableColumn (columnTypeId: number) {
       return 'p-calendar'
     case COLUMN_TYPE.TEXT:
       return 'p-textarea'
+    case COLUMN_TYPE.URL:
+      return 'lck-input-url'
     default:
       return 'p-input-text'
   }

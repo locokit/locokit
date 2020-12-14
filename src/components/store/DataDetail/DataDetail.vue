@@ -102,6 +102,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
 import { lckHelpers } from '@/services/lck-api'
@@ -135,6 +136,7 @@ export default {
     'lck-autocomplete': AutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
+    'lck-input-url': InputURL,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
