@@ -10,8 +10,7 @@
       :value="value"
       type="url"
       ref="inputURL"
-    >
-    </p-input-text>
+    />
     <i
       v-show="validURL"
       class="pi pi-external-link"
