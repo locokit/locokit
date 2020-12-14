@@ -51,5 +51,8 @@ export async function seed (knex: Knex): Promise<any> {
   }, {
     id: COLUMN_TYPE.TEXT,
     text: 'Text'
+  }, {
+    id: COLUMN_TYPE.URL,
+    text: 'URL'
   }])
 };
