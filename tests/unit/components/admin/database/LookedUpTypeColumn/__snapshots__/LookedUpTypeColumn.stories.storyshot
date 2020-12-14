@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/admin/database/LookedUpTypeColumn Create 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid"
+  >
+    <div>
+      <label
+        class="p-mt-4 p-d-block"
+        for="local-field-id"
+      >
+        
+    Local field
+  
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-disabled"
+        id="local-field-id"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            disabled="disabled"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-placeholder"
+        >
+          
+            Select field
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+       
+      <label
+        class="p-mt-4 p-d-block"
+        for="foreign-field-id"
+      >
+        
+    Foreign field
+  
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-disabled"
+        id="foreign-field-id"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            disabled="disabled"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-placeholder"
+        >
+          
+            Select field
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -6,17 +6,26 @@
     @close="closeCreateTableModal"
   >
     <div class="p-field p-mt-4">
-        <label for="table-name">{{ $t('pages.databaseSchema.createTableModal.tableName') }}</label>
-        <p-input-text id="table-name" v-bind:class="{ 'p-invalid': errorTableNameToCreate }" type="text" v-model="tableNameToCreate" autofocus />
+      <label for="table-name">
+        {{ $t('pages.databaseSchema.createTableModal.tableName') }}
+      </label>
+      <p-input-text
+        id="table-name"
+        :class="{ 'p-invalid': errorTableNameToCreate }"
+        type="text"
+        v-model="tableNameToCreate" autofocus
+      />
     </div>
     <div v-if="errorTableNameToCreate" class="p-invalid">
-      <small id="table-name-invalid" class="p-invalid">{{ errorTableNameToCreate }}</small>
+      <small id="table-name-invalid" class="p-invalid">
+        {{ errorTableNameToCreate }}
+      </small>
     </div>
   </lck-dialog>
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 
@@ -46,7 +55,7 @@ export default {
     },
     async confirmCreateTableModal () {
       try {
-        const createTableResponse = await lckClient.service('table').create({
+        const createTableResponse = await lckServices.table.create({
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
           text: this.tableNameToCreate

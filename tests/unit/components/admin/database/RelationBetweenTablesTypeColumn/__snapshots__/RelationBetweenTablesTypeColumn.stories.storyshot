@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/admin/database/RelationBetweenTablesTypeColumn Create 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-d-flex"
+  >
+    <div
+      class="p-ai-start p-my-4"
+    >
+      <label
+        for="relation-between-tables-id"
+      >
+        Relation table
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper"
+        id="relation-between-tables-id"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-placeholder"
+        >
+          
+            Select table
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>
+`;

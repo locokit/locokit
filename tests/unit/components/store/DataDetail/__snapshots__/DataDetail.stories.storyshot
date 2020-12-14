@@ -19,7 +19,9 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
   <div
     class="p-fluid p-pb-6"
   >
-    <h3>
+    <h3
+      class="lck-block-title"
+    >
        Vélo n° 42 
     </h3>
      
@@ -27,6 +29,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="e065323c-1151-447f-be0f-6d2728117b38"
       >
         Nom du vélo
@@ -46,6 +49,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="3a659ea1-446f-4755-8db9-583a204279cc"
       >
         État du vélo
@@ -65,6 +69,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="bde4bbbd-2584-447f-acff-f434f53619da"
       >
         Fournisseur
@@ -84,6 +89,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="b9058b15-44b7-4cd9-a121-a942b69a0434"
       >
         Date
@@ -103,6 +109,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
       >
         Textarea
@@ -131,7 +138,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
   <div
     class="p-fluid p-pb-6"
   >
-    <h3>
+    <h3
+      class="lck-block-title"
+    >
        Vélo n° 42 
     </h3>
      
@@ -139,6 +148,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="e065323c-1151-447f-be0f-6d2728117b38"
       >
         Nom du vélo
@@ -155,6 +165,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="3a659ea1-446f-4755-8db9-583a204279cc"
       >
         État du vélo
@@ -207,6 +218,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="bde4bbbd-2584-447f-acff-f434f53619da"
       >
         Fournisseur
@@ -265,6 +277,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="b9058b15-44b7-4cd9-a121-a942b69a0434"
       >
         Date
@@ -291,6 +304,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
       class="p-field"
     >
       <label
+        class="lck-color-subtitle"
         for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
       >
         Textarea

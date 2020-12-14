@@ -3,13 +3,13 @@
     class="p-fluid p-pb-6"
     v-if="row"
   >
-    <h3> {{ row.text }} </h3>
+    <h3 class="lck-block-title"> {{ row.text }} </h3>
     <div
       class="p-field"
       v-for="column in definition.columns"
       :key="column.id"
     >
-      <label :for="column.id">{{ column.text }}</label>
+      <label class="lck-color-subtitle" :for="column.id">{{ column.text }}</label>
 
       <div v-if="editableColumns.indexOf(column) > -1">
         <lck-autocomplete

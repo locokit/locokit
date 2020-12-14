@@ -27,6 +27,7 @@
     />
     <update-table-sidebar
       :showUpdateTableSidebar="showUpdateTableSidebar"
+      :databaseId="databaseId"
       :currentTable="currentTable"
       @reload-tables="reloadTables"
       @close="onCloseUpdateTableSidebar"
@@ -35,7 +36,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
@@ -134,7 +135,7 @@ export default {
     },
     async loadTables () {
       try {
-        const tablesWithColumns = await lckClient.service('table').find({
+        const tablesWithColumns = await lckServices.table.find({
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             database_id: this.databaseId,
@@ -163,7 +164,7 @@ export default {
       this.resizenomnomlSVG()
     }
   },
-  async mounted () {
+  mounted () {
     this.loadTables()
   },
   updated () {

@@ -39,6 +39,7 @@
       </p-datatable>
       <handle-column-modal
         :visible="showHandleColumnModal"
+        :databaseId="databaseId"
         :tableId="currentTable.id"
         :columnToHandle="columnToHandle"
         @close="onCloseHandleColumnModal"
@@ -54,7 +55,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
@@ -76,6 +77,7 @@ export default {
     'delete-column-modal': Vue.extend(DeleteColumnModal)
   },
   props: {
+    databaseId: String,
     currentTable: {
       type: Object,
       default: () => ({})
@@ -99,7 +101,7 @@ export default {
   methods: {
     async updateTableName () {
       try {
-        await lckClient.service('table').patch(this.currentTable.id, {
+        await lckServices.table.patch(this.currentTable.id, {
           text: this.currentTableToUpdate.text
         })
         this.$emit('reload-tables')

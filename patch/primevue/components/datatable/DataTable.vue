@@ -285,6 +285,10 @@ export default {
             type: Boolean,
             default: false
         },
+        minColumnReorderIndex: {
+            type: Number,
+            default: 0
+        },
         expandedRows: {
             type: Array,
             default: null
@@ -424,6 +428,18 @@ export default {
             if (this.dataKey) {
                 this.updateEditingRowKeys(newValue);
             }
+        },
+        allChildren(newValue) {
+            // Patch to update the d_column_order
+            if (this.reorderableColumns) {
+                let columnOrder = [];
+                for (let child of newValue) {
+                    if (child.$options._propKeys.indexOf('columnKey') !== -1) {
+                        columnOrder.push(child.columnKey||child.field);
+                    }
+                }
+                this.d_columnOrder = columnOrder;
+            }
         }
     },
     beforeMount() {
@@ -433,16 +449,6 @@ export default {
     },
     mounted() {
         this.allChildren = this.$children;
-
-        if (this.reorderableColumns) {
-            let columnOrder = [];
-            for (let child of this.allChildren) {
-                if (child.$options._propKeys.indexOf('columnKey') !== -1) {
-                    columnOrder.push(child.columnKey||child.field);
-                }
-            }
-            this.d_columnOrder = columnOrder;
-        }
     },
     beforeDestroy() {
         this.unbindColumnResizeEvents();
@@ -1165,6 +1171,12 @@ export default {
                 let dropHeaderOffset = DomHandler.getOffset(dropHeader);
 
                 if (this.draggedColumn !== dropHeader) {
+
+                    const dropIndex = DomHandler.index(dropHeader);
+                    if (dropIndex < this.minColumnReorderIndex) {
+                        return
+                    }
+
                     let targetLeft =  dropHeaderOffset.left - containerOffset.left;
                     let columnCenter = dropHeaderOffset.left + dropHeader.offsetWidth / 2;
 
@@ -1203,9 +1215,10 @@ export default {
                 if (allowDrop && ((dropIndex - dragIndex === 1 && this.dropPosition === -1) || (dragIndex - dropIndex === 1 && this.dropPosition === 1))) {
                     allowDrop = false;
                 }
-
+                if (allowDrop && dropIndex < this.minColumnReorderIndex) {
+                    allowDrop = false;
+                }
                 if (allowDrop) {
-                    this.d_columnOrder = this.columns.map(c => c.columnKey || c.field);
                     ObjectUtils.reorderArray(this.d_columnOrder, dragIndex, dropIndex);
 
                     this.$emit('column-reorder', {

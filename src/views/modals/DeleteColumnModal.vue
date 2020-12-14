@@ -9,13 +9,15 @@
       {{ $t('pages.databaseSchema.deleteColumnModal.deleteConfirmation', { columnName: columnToHandle.text }) }}
     </div>
     <div v-if="errorColumnToDelete" class="p-invalid">
-      <small id="delete-column-error" class="p-invalid">{{ errorColumnToDelete }}</small>
+      <small id="delete-column-error" class="p-invalid">
+        {{ errorColumnToDelete }}
+      </small>
     </div>
   </lck-dialog>
 </template>
 <script>
 import Vue from 'vue'
-import { lckClient } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 
 export default {
@@ -47,7 +49,7 @@ export default {
     async confirmDeleteColumnModal () {
       try {
         if (this.columnToHandle) {
-          await lckClient.service('column').remove(this.columnToHandle)
+          await lckServices.tableColumn.remove(this.columnToHandle)
           this.errorColumnToDelete = null
           this.$emit('close', true)
         }
