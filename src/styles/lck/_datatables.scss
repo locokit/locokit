@@ -138,6 +138,10 @@
   }
 }
 
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+}
+
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-thead > tr > td {
   overflow: hidden;
@@ -183,11 +187,11 @@
 
     .p-sortable-column-icon {
       position: absolute;
+      z-index: 1;
       right: 5px;
       padding: 0.1rem;
       color: var(--primary-color-text);
       background-color: #ededed;
-      z-index: 1;
 
       &.pi::before {
         font-size: 0.8rem !important;
@@ -201,6 +205,7 @@
         color: var(--primary-color-text);
         background-color: #f8f9fa;
       }
+
       &:hover {
         .p-sortable-column-icon {
           background-color: #e9ecef;
