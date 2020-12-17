@@ -248,20 +248,23 @@ export default {
             this.autocompleteInput = {}
             this.multipleAutocompleteInput = {}
             Object.keys(newRef.data).forEach((columnId) => {
-              const currentColumnDefinition = this.columnsEnhanced[columnId]
-              switch (currentColumnDefinition.column_type_id) {
-                case COLUMN_TYPE.USER:
-                case COLUMN_TYPE.GROUP:
-                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                  this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
-                  break
-                case COLUMN_TYPE.MULTI_USER:
-                  this.$set(
-                    this.multipleAutocompleteInput,
-                    columnId,
-                    zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
-                  )
-                  break
+              // Allow to ignore lookup column
+              if (this.columnsEnhanced[columnId]) {
+                const currentColumnDefinition = this.columnsEnhanced[columnId]
+                switch (currentColumnDefinition.column_type_id) {
+                  case COLUMN_TYPE.USER:
+                  case COLUMN_TYPE.GROUP:
+                  case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                    this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                    break
+                  case COLUMN_TYPE.MULTI_USER:
+                    this.$set(
+                      this.multipleAutocompleteInput,
+                      columnId,
+                      zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
+                    )
+                    break
+                }
               }
             })
           }

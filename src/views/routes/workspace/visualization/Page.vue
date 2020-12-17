@@ -1,7 +1,18 @@
 <template>
-  <div class="p-mx-2" v-if="page">
+  <div
+    v-if="page"
+    class="p-mx-2"
+  >
     <div class="lck-color-page-title p-my-4">
-      <h1>{{ page && page.text }}</h1>
+      <h1>{{ page.text }}</h1>
+    </div>
+    <div
+      v-if="page.hidden"
+    >
+      <p-breadcrumb
+        :home="{ icon: 'pi pi-home', to: '/' }"
+        :model="breadcrumb"
+        />
     </div>
     <div
       v-for="container in page.containers"
@@ -30,11 +41,16 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
+import Vue from 'vue'
+
+import saveAs from 'file-saver'
+import { formatISO } from 'date-fns'
 
 import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
-import saveAs from 'file-saver'
-import { lckHelpers } from '@/services/lck-api'
+
+import Breadcrumb from 'primevue/breadcrumb'
+
+import Block from '@/components/visualize/Block/Block'
 
 import {
   retrievePageWithContainersAndBlocks,
@@ -44,17 +60,22 @@ import {
 import {
   patchTableData, saveTableData
 } from '@/store/database'
-
-import Block from '@/components/visualize/Block/Block'
-import { formatISO } from 'date-fns'
+import { lckHelpers } from '@/services/lck-api'
 
 export default {
   name: 'Page',
-  components: { Block },
+  components: {
+    Block,
+    'p-breadcrumb': Vue.extend(Breadcrumb)
+  },
   props: {
     pageId: {
       type: [String, Number], // param is string because its form url params
       required: true
+    },
+    pageDetailId: {
+      type: [String, Number], // param is string because its form url params
+      required: false
     }
   },
   data () {
@@ -69,12 +90,6 @@ export default {
     }
   },
   watch: {
-    pageId: {
-      immediate: true,
-      async handler () {
-        this.page = await retrievePageWithContainersAndBlocks(this.pageId)
-      }
-    },
     page (newVal) {
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
@@ -90,6 +105,27 @@ export default {
           }
         })
       })
+    }
+  },
+  computed: {
+    breadcrumb: function () {
+      const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
+        console.log('chapter', chapter)
+        chapter.subitems.find(page => {
+          if (page.id === this.$route.params.pageId) acc = page
+        })
+        return acc
+      }, {})
+      return [
+        {
+          label: parent.label,
+          to: this.$route.params.pageId
+        },
+        {
+          label: this.page.text,
+          disabled: true
+        }
+      ]
     }
   },
   methods: {
@@ -126,9 +162,9 @@ export default {
       }
       block.loading = false
     },
-    async onUpdateSuggestions ({ column_type_id, settings }, { query }) {
+    async onUpdateSuggestions ({ column_type_id: columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query
       })
@@ -188,7 +224,7 @@ export default {
       block.loading = false
     },
     async onPageDetail (block, rowId) {
-      await this.$router.push(`${block.settings.pageDetailId}?rowId=${rowId}`)
+      await this.$router.push({ name: 'PageDetail', params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId }, query: { rowId } })
     },
     async onCreateRow (block, newRow) {
       this.$set(block, 'submitting', true)
@@ -230,6 +266,36 @@ export default {
         })
       this.exporting = false
     }
+  },
+  async mounted () {
+    if (this.$route.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
+    } else {
+      this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+    }
+  },
+  async beforeRouteUpdate (to, from, next) {
+    console.log('beforeRouteUpdate')
+    if (to.params.pageId !== from.params.pageId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      next()
+    }
+    if (to.params.pageDetailId !== from.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      next()
+    }
+  },
+  async beforeRouteLeave (to, from, next) {
+    console.log('beforeRouteLeave', to)
+    if (to.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      next()
+    }
+    if (from.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      next()
+    }
+    next()
   }
 }
 </script>
