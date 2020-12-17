@@ -10,190 +10,186 @@
     :virtualRowHeight="38"
     @virtual-scroll="onVirtualScroll"
    -->
-    <div
-      class="responsive-table-wrapper p-fluid d-flex-1"
+    <p-datatable
+      class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+      "
+      :class="{
+        'is-reorderable': crudMode
+      }"
+
+      :style="{
+        // width: tableWidth
+      }"
+
+      :value="content && content.data"
+
+      :lazy="true"
+      :loading="loading"
+      :cellState="cellState"
+
+      editMode="cell"
+      @cell-edit-complete="onCellEditComplete"
+      @cell-edit-init="onCellEditInit"
+
+      :resizableColumns="true"
+      columnResizeMode="expand"
+      @column-resize-end="onColumnResize"
+      :scrollable="true" scrollHeight="400px"
+      :reorderableColumns="crudMode && !locked"
+      @column-reorder="onColumnReorder"
+      :minColumnReorderIndex="unorderableColumnsNumber"
+
+      style="width: unset !important;"
+
+      @sort="onSort"
+
+      ref="p-datatable"
+
+      :context-menu="crudMode"
+      :context-menu-selection.sync="selectedRow"
+      @row-contextmenu="onRowContextMenu"
     >
-      <p-datatable
-        class="
-          p-datatable-sm
-          p-datatable-gridlines
-          p-d-flex
-          p-flex-column
-          justify-between
-        "
-        :class="{
-          'is-reorderable': crudMode
-        }"
-
-        :style="{
-          width: tableWidth
-        }"
-
-        :value="content && content.data"
-
-        :lazy="true"
-        :loading="loading"
-        :cellState="cellState"
-
-        editMode="cell"
-        @cell-edit-complete="onCellEditComplete"
-        @cell-edit-init="onCellEditInit"
-
-        :resizableColumns="true"
-        columnResizeMode="expand"
-        @column-resize-end="onColumnResize"
-
-        :reorderableColumns="crudMode && !locked"
-        @column-reorder="onColumnReorder"
-        :minColumnReorderIndex="unorderableColumnsNumber"
-
-        style="width: unset !important;"
-
-        @sort="onSort"
-
-        ref="p-datatable"
-
-        :context-menu="crudMode"
-        :context-menu-selection.sync="selectedRow"
-        @row-contextmenu="onRowContextMenu"
+      <p-column
+        v-if="displayDetailButton && definition.columns && definition.columns.length > 0"
+        headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
+        bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+        headerClass="sticky-column-cells"
+        bodyClass="sticky-column-cells"
+        columnKey="detail-column"
+        :reorderableColumn="false"
       >
-        <p-column
-          v-if="displayDetailButton && definition.columns && definition.columns.length > 0"
-          headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
-          headerClass="sticky-column-cells"
-          bodyClass="sticky-column-cells"
-          columnKey="detail-column"
-          :reorderableColumn="false"
-        >
-          <template #body="slotProps">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"
-            />
-            <lck-dropdown-button
-              v-if="crudMode"
-              :disabled="manualProcesses.length === 0"
-              buttonClass="p-button-sm p-button-text p-button-rounded"
-              icon="pi specific-icon lightning"
-              appendTo="body"
-              :model="formatManualProcesses(slotProps.data.id)"
-            />
-          </template>
-        </p-column>
-        <p-column
-          v-for="column in definition.columns"
-          :key="column.id"
-          :field="column.id"
-          :headerStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            overflow: 'hidden',
-            'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
-            'height': '2.5rem'
-          }"
-          :bodyStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            'white-space': 'nowrap',
-            'position': 'relative',
-            'height': '2.5rem'
-          }"
-          :sortable="isSortableColumn(column)"
-        >
-          <template #header>
-            <span :data-column-id="column.id">
-              {{ column.text }}
-            </span>
-          </template>
-          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
-            <lck-autocomplete
-              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-              :dropdown="true"
-              :placeholder="$t('components.datatable.placeholder')"
-              field="label"
-              appendTo="body"
-              v-model="autocompleteInput"
-              :suggestions="autocompleteSuggestions"
-              @search="onComplete(column, $event)"
-              @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
-              @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
-              class="field-editable"
-            />
-            <p-dropdown
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
-              optionLabel="label"
-              optionValue="value"
-              appendTo="body"
-              :value="slotProps.data.data[column.id]"
-              :showClear="true"
-              :placeholder="$t('components.datatable.placeholder')"
-              @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
-              class="field-editable"
-            />
-            <lck-multiselect
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
-              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
-              optionLabel="label"
-              optionValue="value"
-              v-model="multiSelectValues"
-              ref="multiselect"
-              :placeholder="$t('components.datatable.placeholder')"
-              @change="onMultiSelectEdit(slotProps.data.id, column.id, $event)"
-              class="field-editable"
-            />
-            <p-calendar
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-              v-model="currentDateToEdit"
-              @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
-              :dateFormat="$t('date.dateFormatPrime')"
-              appendTo="body"
-              class="field-editable"
-            />
-            <p-input-number
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
-              v-model="slotProps.data.data[column.id]"
-              mode="decimal"
-              :minFractionDigits="2"
-            />
-            <component
-              v-else
-              :is="getComponentEditableColumn(column.column_type_id)"
-              v-model="slotProps.data.data[column.id]"
-              appendTo="body"
-              class="field-editable"
-            />
-          </template>
-
-          <template
-            #body="slotProps"
-          >
-            {{ getValue(column, slotProps.data.data[column.id]) }}
-            <span
-              class="cell-state"
-              :class="{
-                'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
-                'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
-                'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
-                'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
-              }"
-            />
-          </template>
-        </p-column>
-
-        <template #empty>
-          {{ $t('components.datatable.noDataToDisplay') }}
+        <template #body="slotProps">
+          <p-button
+            class="p-button-sm p-button-text p-button-rounded"
+            icon="pi pi-window-maximize"
+            @click="$emit('open-detail', slotProps.data.id)"
+          />
+          <lck-dropdown-button
+            v-if="crudMode"
+            :disabled="manualProcesses.length === 0"
+            buttonClass="p-button-sm p-button-text p-button-rounded"
+            icon="pi specific-icon lightning"
+            appendTo="body"
+            :model="formatManualProcesses(slotProps.data.id)"
+          />
         </template>
-      </p-datatable>
+      </p-column>
+      <p-column
+        v-for="column in definition.columns"
+        :key="column.id"
+        :field="column.id"
+        :headerStyle="{
+          width: ( ( column.display && column.display.width ) || '150' ) + 'px',
+          overflow: 'hidden',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          'height': '2.5rem'
+        }"
+        :bodyStyle="{
+          width: ( ( column.display && column.display.width ) || '150' ) + 'px',
+          'white-space': 'nowrap',
+          'position': 'relative',
+          'height': '2.5rem'
+        }"
+        :sortable="isSortableColumn(column)"
+      >
+        <template #header>
+          <span :data-column-id="column.id">
+            {{ column.text }}
+          </span>
+        </template>
+        <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
+          <lck-autocomplete
+            v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+            :dropdown="true"
+            :placeholder="$t('components.datatable.placeholder')"
+            field="label"
+            appendTo="body"
+            v-model="autocompleteInput"
+            :suggestions="autocompleteSuggestions"
+            @search="onComplete(column, $event)"
+            @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
+            @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
+            class="field-editable"
+          />
+          <p-dropdown
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+            :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            appendTo="body"
+            :value="slotProps.data.data[column.id]"
+            :showClear="true"
+            :placeholder="$t('components.datatable.placeholder')"
+            @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
+            class="field-editable"
+          />
+          <lck-multiselect
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+            :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            v-model="multiSelectValues"
+            ref="multiselect"
+            :placeholder="$t('components.datatable.placeholder')"
+            @change="onMultiSelectEdit(slotProps.data.id, column.id, $event)"
+            class="field-editable"
+          />
+          <p-calendar
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+            v-model="currentDateToEdit"
+            @show="onShowCalendar(column, slotProps.data.data[column.id])"
+            @date-select="onCalendarEdit(slotProps.data.id, column.id)"
+            :dateFormat="$t('date.dateFormatPrime')"
+            appendTo="body"
+            class="field-editable"
+          />
+          <p-input-number
+            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+            v-model="slotProps.data.data[column.id]"
+            mode="decimal"
+            :minFractionDigits="2"
+          />
+          <component
+            v-else
+            :is="getComponentEditableColumn(column.column_type_id)"
+            v-model="slotProps.data.data[column.id]"
+            appendTo="body"
+            class="field-editable"
+          />
+        </template>
 
-      <p-context-menu
-        :model="menuModel"
-        appendTo="body"
-        ref="cm"
-      />
-    </div>
+        <template
+          #body="slotProps"
+        >
+          {{ getValue(column, slotProps.data.data[column.id]) }}
+          <span
+            class="cell-state"
+            :class="{
+              'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
+              'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
+              'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
+              'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
+            }"
+          />
+        </template>
+      </p-column>
+
+      <template #empty>
+        {{ $t('components.datatable.noDataToDisplay') }}
+      </template>
+    </p-datatable>
+
+    <p-context-menu
+      :model="menuModel"
+      appendTo="body"
+      ref="cm"
+    />
 
     <lck-paginator
       v-if="content && content.total > 0"
