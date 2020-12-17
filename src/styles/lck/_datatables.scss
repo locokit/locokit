@@ -4,14 +4,14 @@
   min-width: 5rem;
 
   .cell-state {
-    pointer-events: none;
     position: absolute;
+    top: 0;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
-    top: 0;
     display: block;
     padding: 0.5rem;
+    pointer-events: none;
     pointer-events: none;
 
     &.saving,
@@ -107,18 +107,19 @@
 
 .p-datatable .p-column-resizer {
   width: .25rem;
-  margin: .2rem 0;
   height: calc(100% - .4rem);
+  margin: .2rem 0;
   border: unset;
   border-radius: var(--border-radius);
 }
+
 .p-datatable .p-column-resizer::before {
-  content: '';
-  background-color: transparent;
-  width: .5rem;
   display: inline-block;
+  width: .5rem;
   height: 100%;
   margin-left: -.5rem;
+  content: '';
+  background-color: transparent;
 }
 
 .p-datatable .p-column-resizer:hover {
@@ -148,7 +149,7 @@
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
       color: var(--primary-color-text);
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.7);
     }
 
     &.editable-cell-table {
@@ -179,8 +180,14 @@
     &:focus {
       box-shadow: unset;
     }
+
     .p-sortable-column-icon {
+      position: absolute;
+      right: 5px;
+      padding: 0.1rem;
       color: var(--primary-color-text);
+      background-color: #ededed;
+      z-index: 1;
 
       &.pi::before {
         font-size: 0.8rem !important;
@@ -192,6 +199,12 @@
 
       .p-sortable-column-icon {
         color: var(--primary-color-text);
+        background-color: #f8f9fa;
+      }
+      &:hover {
+        .p-sortable-column-icon {
+          background-color: #e9ecef;
+        }
       }
     }
   }
