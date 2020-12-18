@@ -28,6 +28,7 @@ export function computeRowLookedUpColumns (): Hook {
               reference: foreignRowId.reference,
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string }
             }
+
             /**
              * In the case of a foreign column "SINGLE_SELECT", we have to duplicate the SINGLE_SELECT label for display
              */
@@ -44,7 +45,11 @@ export function computeRowLookedUpColumns (): Hook {
              */
             if (typeof currentColumnData.value === 'object') {
               currentColumnData.reference = currentColumnData.value?.reference
-              currentColumnData.value = currentColumnData.value?.value
+              if (foreignColumnTypeId === COLUMN_TYPE.MULTI_USER && Array.isArray(currentColumnData.value?.value)) {
+                currentColumnData.value = currentColumnData.value.value.join(', ')
+              } else {
+                currentColumnData.value = currentColumnData.value?.value
+              }
             }
             context.data.data[currentColumnDefinition.id] = currentColumnData
           }

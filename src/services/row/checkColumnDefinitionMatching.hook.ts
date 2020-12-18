@@ -277,8 +277,45 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
 
-          case COLUMN_TYPE.FILE:
           case COLUMN_TYPE.MULTI_USER:
+            /**
+             * A multi user is sent as a number array
+             */
+            if (!(currentColumnValue instanceof Array)) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not an array of value (received: ' + currentColumnValue + ')'
+              })
+            } else if (currentColumnValue.length > 0) {
+              /**
+               * Each value of a multi user is a number,
+               * and each value is associated to an existed user
+               */
+              if (!currentColumnValue.every((userID: number | any) => typeof userID === 'number')) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'The current value is not an array of user references (received: ' + currentColumnValue + ')'
+                })
+              } else {
+                /**
+                 * We have to check that all users exist
+                 */
+                const users = await context.app.service('user').find({
+                  query: {
+                    id: { $in: currentColumnValue },
+                    $limit: 0
+                  }
+                })
+                if (currentColumnValue.length !== users.total) {
+                  checkErrors.push({
+                    columnName: currentColumn.text,
+                    columnError: 'The current value is not an array of existing and distinct user references (received: ' + currentColumnValue + ')'
+                  })
+                }
+              }
+            }
+            break
+          case COLUMN_TYPE.FILE:
           case COLUMN_TYPE.MULTI_GROUP:
           default:
             checkErrors.push({

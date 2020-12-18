@@ -834,12 +834,24 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
-  it('throw an error if a MULTI_USER column receive a value', async () => {
+  it('throw an error if a MULTI_USER column receive a number value', async () => {
     expect.assertions(1)
     await expect(app.service('row')
       .create({
         data: {
           [columnTable1MultiUser.id]: 123456
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a MULTI_USER column receive a string value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiUser.id]: 'you lose'
         },
         table_id: table1.id
       }))
@@ -858,6 +870,71 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept an empty array value for a MULTI_USER column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiUser.id]: []
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a MULTI_USER column receive an array which does not only contain numbers', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiUser.id]: [1, '2', 3]
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a MULTI_USER column receive an array from which one number is not a reference to an existing user', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiUser.id]: [-1, -2, -3]
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a number array corresponding to existing users for a MULTI_USER column type', async () => {
+    expect.assertions(2)
+    const user1 = await app.service('user')
+      .create({
+        name: 'Jack',
+        email: 'hello-check-1@locokit.io'
+      })
+    const user2 = await app.service('user')
+      .create({
+        name: 'Jack',
+        email: 'hello-check-2@locokit.io'
+      })
+
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiUser.id]: [user1.id, user2.id]
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+    await app.service('user').remove(user1.id)
+    await app.service('user').remove(user2.id)
   })
 
   it('throw an error if a MULTI_GROUP column receive a value', async () => {

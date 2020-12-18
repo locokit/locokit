@@ -14,12 +14,14 @@ describe('enhanceComplexColumns hook', () => {
   let table2: table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
+  let columnTable1MultiUser: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
   let user1: User
   let rowTable1: TableRow
   let rowTable2: TableRow
+  let rowTable3: TableRow
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -40,6 +42,11 @@ describe('enhanceComplexColumns hook', () => {
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
+      table_id: table1.id
+    })
+    columnTable1MultiUser = await app.service('column').create({
+      text: 'MultiUser',
+      column_type_id: COLUMN_TYPE.MULTI_USER,
       table_id: table1.id
     })
     columnTable2Ref = await app.service('column').create({
@@ -100,7 +107,20 @@ describe('enhanceComplexColumns hook', () => {
     expect((rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value).toBe('table 1 ref')
     expect((rowTable2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).reference).toBe(rowTable1.id)
   })
-
+  it('enhance the user data field with the users names in value when creating a row with a MULTI_USER column type', async () => {
+    const service = app.service('row')
+    rowTable3 = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref multi',
+      data: {
+        [columnTable1MultiUser.id]: [user1.id]
+      }
+    })
+    expect.assertions(3)
+    expect(rowTable3).toBeTruthy()
+    expect((rowTable3.data[columnTable1MultiUser.id] as { reference: string, value: string }).value).toEqual(['User 1'])
+    expect((rowTable3.data[columnTable1MultiUser.id] as { reference: string, value: string }).reference).toEqual([user1.id])
+  })
   afterAll(async () => {
     await app.service('row').remove(rowTable2.id)
     await app.service('row').remove(rowTable1.id)

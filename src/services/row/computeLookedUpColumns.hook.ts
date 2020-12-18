@@ -57,6 +57,12 @@ export function computeLookedUpColumns (): Hook {
                 ...currentValue
               }
               break
+            case COLUMN_TYPE.MULTI_USER:
+              newData[c.table_column_to_id] = {
+                reference: currentValue.reference,
+                value: currentValue.value.join(', ')
+              }
+              break
             default:
               newData[c.table_column_to_id] = {
                 reference: context.result.id,

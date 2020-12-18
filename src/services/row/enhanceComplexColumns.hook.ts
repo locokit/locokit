@@ -49,6 +49,23 @@ export function enhanceComplexColumns (): Hook {
                 value
               }
               break
+            case COLUMN_TYPE.MULTI_USER:
+              const matchingUsers = await context.app.services.user.find({
+                query: {
+                  id: { $in: reference }
+                }
+              })
+              const references: Array<number> = []
+              const values: Array<string> = []
+              matchingUsers.data.forEach((user: User) => {
+                references.push(user.id)
+                values.push(user.name)
+              })
+              context.data.data[currentColumnId] = {
+                reference: references,
+                value: values
+              }
+              break
             case COLUMN_TYPE.GROUP:
               const matchingGroup: Group = await context.app.services.group.get(reference)
               value = matchingGroup.name
