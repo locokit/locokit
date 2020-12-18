@@ -12,13 +12,12 @@
     display: block;
     padding: 0.5rem;
     pointer-events: none;
-    pointer-events: none;
 
     &.saving,
     &.saved {
       &:before {
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         left: 0;
         display: flex;
         width: 100%;
@@ -140,6 +139,26 @@
 
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
   padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+}
+
+.p-datatable-wrapper {
+  table {
+    position: relative;
+  }
+
+  .p-datatable-thead {
+    th {
+      position: sticky;
+      z-index: 10;
+
+      top: 0;
+
+      &.sticky-column-cells {
+        z-index: 11;
+        left: 0;
+      }
+    }
+  }
 }
 
 .p-datatable .p-datatable-thead > tr > th,
