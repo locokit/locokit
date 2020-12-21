@@ -13,7 +13,10 @@
     <slot>
     </slot>
 
-    <template #footer>
+    <template
+      #footer
+      v-if="isActionForm"
+    >
       <slot name='footer'>
         <p-button
           :label="$t('form.cancel')"
@@ -53,16 +56,17 @@ export default {
   },
   props: {
     header: {
-      type: String,
-      default () {
-        return this.$t('components.dialog.defaultHeader')
-      }
+      type: String
     },
     visible: {
       type: Boolean,
       default: false
     },
     submitting: {
+      type: Boolean,
+      default: false
+    },
+    isActionForm: {
       type: Boolean,
       default: false
     }

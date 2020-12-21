@@ -110,7 +110,6 @@ export default {
   computed: {
     breadcrumb: function () {
       const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
-        console.log('chapter', chapter)
         chapter.subitems.find(page => {
           if (page.id === this.$route.params.pageId) acc = page
         })
@@ -275,7 +274,6 @@ export default {
     }
   },
   async beforeRouteUpdate (to, from, next) {
-    console.log('beforeRouteUpdate')
     if (to.params.pageId !== from.params.pageId) {
       this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
@@ -286,7 +284,6 @@ export default {
     }
   },
   async beforeRouteLeave (to, from, next) {
-    console.log('beforeRouteLeave', to)
     if (to.params.pageDetailId) {
       this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()

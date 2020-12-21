@@ -3,13 +3,18 @@
     class="p-fluid p-pb-6"
     v-if="row"
   >
-    <h3 class="lck-block-title"> {{ row.text }} </h3>
+    <h3 class="lck-block-title">{{ $t('components.datatable.detail') }}</h3>
     <div
       class="p-field"
       v-for="column in definition.columns"
       :key="column.id"
     >
-      <label class="lck-color-subtitle" :for="column.id">{{ column.text }}</label>
+      <label
+        class="lck-color-subtitle"
+        :for="column.id"
+      >
+        {{ column.text }}
+      </label>
 
       <div v-if="editableColumns.indexOf(column) > -1">
         <lck-autocomplete
@@ -83,7 +88,6 @@
         v-else
         class="p-fluid p-inputtext p-component"
         style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
-        disabled
       >
         {{ getColumnDisplayValue(column, row.data[column.id]) }}
       </div>
@@ -114,6 +118,7 @@ import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComple
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
 import { lckHelpers } from '@/services/lck-api'

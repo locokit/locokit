@@ -50,8 +50,9 @@
 
     <lck-dialog
       :visible.sync="displayNewDialog"
-      :header="$t('components.datatable.detail')"
+      :header="$t('components.datatable.addNewRow')"
       :submitting="submitting"
+      :isActionForm="true"
       @close="displayNewDialog = false"
       @input="$emit('create-row', newRow)"
     >
@@ -85,7 +86,7 @@ export default {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
-    'lck-dialog': Vue.extend(Dialog),
+    'lck-dialog': Dialog,
     'p-button': Vue.extend(Button)
   },
   props: {
