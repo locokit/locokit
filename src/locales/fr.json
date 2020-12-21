@@ -111,6 +111,9 @@
     "inputURL": {
       "openTheLink": "Ouvrir le lien"
     },
+    "multiAutocomplete": {
+      "placeholder": "Rechercher"
+    },
     "processPanel": {
       "title": "Processus",
       "automatic": "Automatique",

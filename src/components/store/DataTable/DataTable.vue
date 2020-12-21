@@ -120,6 +120,17 @@
               @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
               class="field-editable"
             />
+            <lck-multi-autocomplete
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              field="label"
+              :suggestions="autocompleteSuggestions"
+              v-model="multipleAutocompleteInput"
+              @search="onComplete(column, $event)"
+              @item-select="onMultipleAutocompleteEdit(slotProps.data.id, column.id,)"
+              @item-unselect="onMultipleAutocompleteEdit(slotProps.data.id, column.id)"
+              class="field-editable"
+              :multiLine="false"
+            />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -227,6 +238,7 @@ import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
@@ -238,11 +250,13 @@ import { parseISO } from 'date-fns'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
+import { zipArrays } from '@/services/lck-utils/arrays'
 
 export default {
   name: 'LckDatatable',
   components: {
     'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
@@ -309,6 +323,7 @@ export default {
   data () {
     return {
       autocompleteInput: null,
+      multipleAutocompleteInput: [],
       currentDateToEdit: null,
       multiSelectValues: [],
       selectedRow: null,
@@ -334,6 +349,7 @@ export default {
         [COLUMN_TYPE.DATE]: 'text',
         [COLUMN_TYPE.TEXT]: 'p-textarea',
         [COLUMN_TYPE.USER]: 'p-tag',
+        [COLUMN_TYPE.MULTI_USER]: 'p-tag',
         [COLUMN_TYPE.GROUP]: 'p-tag',
         [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
         [COLUMN_TYPE.LOOKED_UP_COLUMN]: 'p-tag',
@@ -413,6 +429,8 @@ export default {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
           case COLUMN_TYPE.FORMULA:
             return data.value
+          case COLUMN_TYPE.MULTI_USER:
+            return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:
             return column.settings.values[data]?.label
           case COLUMN_TYPE.MULTI_SELECT:
@@ -503,6 +521,13 @@ export default {
         newValue: event ? event?.value?.value : null
       })
     },
+    async onMultipleAutocompleteEdit (rowId, columnId) {
+      this.$emit('update-cell', {
+        rowId,
+        columnId,
+        newValue: this.multipleAutocompleteInput.map(item => item.value)
+      })
+    },
     async onCalendarEdit (rowId, columnId) {
       /**
        * in case of a Date, value is stored in the currentDateToEdit data
@@ -543,6 +568,7 @@ export default {
         case COLUMN_TYPE.SINGLE_SELECT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
         case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
           /**
            * For these type of column
@@ -572,7 +598,7 @@ export default {
           } else {
             value = null
           }
-          break
+          return
       }
       this.$emit('update-cell', {
         rowId: event.data.id,
@@ -590,6 +616,9 @@ export default {
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           this.autocompleteInput = data.data[field]?.value || null
+          break
+        case COLUMN_TYPE.MULTI_USER:
+          this.multipleAutocompleteInput = zipArrays(data.data[field]?.reference, data.data[field]?.value, 'value', 'label')
           break
       }
     },

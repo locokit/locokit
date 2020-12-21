@@ -160,6 +160,15 @@
               @item-select="newRow.data[column.id] = $event.value.value"
               @clear="newRow.data[column.id] = null"
             />
+            <lck-multi-autocomplete
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              field="label"
+              :suggestions="autocompleteSuggestions"
+              v-model="multipleAutocompleteInput[column.id]"
+              @search="updateLocalAutocompleteSuggestions(column, $event)"
+              @item-select="newRow.data[column.id]=multipleAutocompleteInput[column.id].map(item => item.value)"
+              @item-unselect="newRow.data[column.id]=multipleAutocompleteInput[column.id].map(item => item.value)"
+            />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
               :id="column.id"
@@ -307,6 +316,7 @@ import Dialog from 'primevue/dialog'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
@@ -328,6 +338,7 @@ export default {
   components: {
     'lck-datatable': DataTable,
     'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-view-button': ViewButton,
     'lck-view-dialog': ViewDialog,
@@ -398,6 +409,7 @@ export default {
       currentPageIndex: 0,
       autocompleteSuggestions: null,
       autocompleteInput: {},
+      multipleAutocompleteInput: [],
       crudAutocompleteItems: null,
       /**
        * View part, display the dialog and edit data
@@ -617,6 +629,7 @@ export default {
         }
       })
       this.autocompleteInput = {}
+      this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
     async onClickExportButton () {
