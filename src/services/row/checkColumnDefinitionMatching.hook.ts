@@ -284,7 +284,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(currentColumnValue instanceof Array)) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not an array of value (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not an array of values (received: ' + currentColumnValue + ')'
               })
             } else if (currentColumnValue.length > 0) {
               /**
