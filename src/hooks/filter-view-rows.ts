@@ -43,7 +43,7 @@ export default function filterRowsByTableViewId (): Hook {
                 currentFilterKeyValue = (currentFilterKeyValue as []).map(item => {
                   return item === '{userId}' ? context.params.user.id : item
                 })
-                if (c.column_type_id === COLUMN_TYPE.SINGLE_SELECT) {
+                if (c.column_type_id === COLUMN_TYPE.MULTI_SELECT) {
                   filtersToAdd[c.id] = { [filterKey]: currentFilterKeyValue }
                 } else {
                   filtersToAdd[c.id + '.reference'] = { [filterKey]: currentFilterKeyValue }
