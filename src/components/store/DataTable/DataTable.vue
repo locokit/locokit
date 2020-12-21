@@ -126,7 +126,7 @@
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput"
               @search="onComplete(column, $event)"
-              @item-select="onMultipleAutocompleteEdit(slotProps.data.id, column.id,)"
+              @item-select="onMultipleAutocompleteEdit(slotProps.data.id, column.id)"
               @item-unselect="onMultipleAutocompleteEdit(slotProps.data.id, column.id)"
               class="field-editable"
               :multiLine="false"

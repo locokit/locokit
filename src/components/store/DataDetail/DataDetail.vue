@@ -31,7 +31,7 @@
           :suggestions="autocompleteSuggestions"
           v-model="multipleAutocompleteInput[column.id]"
           @search="onComplete(column, $event)"
-          @item-select="onMultipleAutocompleteEdit(row.id, column.id,)"
+          @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown

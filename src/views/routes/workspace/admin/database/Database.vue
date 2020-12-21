@@ -166,8 +166,8 @@
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput[column.id]"
               @search="updateLocalAutocompleteSuggestions(column, $event)"
-              @item-select="newRow.data[column.id]=multipleAutocompleteInput[column.id].map(item => item.value)"
-              @item-unselect="newRow.data[column.id]=multipleAutocompleteInput[column.id].map(item => item.value)"
+              @item-select="onMultipleAutocompleteEditNewRow(column.id)"
+              @item-unselect="onMultipleAutocompleteEditNewRow(column.id)"
             />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
@@ -881,6 +881,9 @@ export default {
           this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
         }
       }
+    },
+    async onMultipleAutocompleteEditNewRow (columnId) {
+      this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
     }
   },
   async mounted () {
