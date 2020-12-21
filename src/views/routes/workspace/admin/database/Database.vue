@@ -162,6 +162,7 @@
             />
             <lck-multi-autocomplete
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              :id="column.id"
               field="label"
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput[column.id]"
@@ -409,7 +410,7 @@ export default {
       currentPageIndex: 0,
       autocompleteSuggestions: null,
       autocompleteInput: {},
-      multipleAutocompleteInput: [],
+      multipleAutocompleteInput: {},
       crudAutocompleteItems: null,
       /**
        * View part, display the dialog and edit data
