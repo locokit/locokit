@@ -147,7 +147,6 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -503,18 +502,6 @@ export default {
         newValue: event ? event?.value?.value : null
       })
     },
-    async onCalendarEdit (rowId, columnId) {
-      /**
-       * in case of a Date, value is stored in the currentDateToEdit data
-       * we format it in the date representation,
-       * we just want to store the date
-       */
-      this.$emit('update-cell', {
-        rowId,
-        columnId,
-        newValue: this.currentDateToEdit ? formatDateISO(this.currentDateToEdit) : null
-      })
-    },
     /**
      * This method have to be called only for fields that don't trigger an "update-cell" event
      *
@@ -522,7 +509,7 @@ export default {
      */
     async onCellEditComplete (event) {
       // we init the value to the current value
-      const value = event.data.data[event.field]
+      let value = event.data.data[event.field]
       const currentColumn = this.definition.columns.find(c => c.id === event.field)
       // then we update it
       switch (currentColumn.column_type_id) {
@@ -559,8 +546,21 @@ export default {
            */
           if (event.originalEvent.target.className.indexOf('p-datepicker') > -1) {
             event.preventDefault()
+            return
           }
-          return
+          /**
+           * in case of a Date, value is stored in the currentDateToEdit data
+           * we format it in the date representation,
+           * we just want to store the date
+           */
+          if (this.currentDateToEdit instanceof Date) {
+            value = formatDateISO(this.currentDateToEdit)
+          } else if (this.currentDateToEdit === '') {
+            value = null
+          } else {
+            return
+          }
+          break
       }
       this.$emit('update-cell', {
         rowId: event.data.id,
