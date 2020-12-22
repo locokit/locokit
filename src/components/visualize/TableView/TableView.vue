@@ -54,7 +54,7 @@
       :submitting="submitting"
       :isActionForm="true"
       @close="displayNewDialog = false"
-      @input="$emit('create-row', newRow)"
+      @input="handleSubmitCreateRow"
     >
       <lck-data-detail
         :crudMode="false"
@@ -215,6 +215,10 @@ export default {
               })(filter.column.type)
         })
       return formattedFilters
+    },
+    handleSubmitCreateRow () {
+      this.$emit('create-row', this.newRow)
+      this.displayNewDialog = false
     }
   }
 }

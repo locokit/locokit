@@ -44,7 +44,7 @@
 import Vue from 'vue'
 
 import saveAs from 'file-saver'
-import { formatISO } from 'date-fns'
+import { formatISO, isValid, parseISO } from 'date-fns'
 
 import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -138,11 +138,17 @@ export default {
         itemsPerPage: 20,
         filters: {}
       }
+      if (this.$route.query.rowId) {
+        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+      }
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       await this.loadBlockTableViewContent(block)
     },
     async loadBlockTableViewContent (block) {
       const currentOptions = this.blocksOptions[block.id]
+      if (this.$route.query.rowId) {
+        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+      }
       this.$set(block, 'content', await retrieveViewData(
         block.definition.id,
         currentOptions.page * currentOptions.itemsPerPage,
@@ -226,26 +232,29 @@ export default {
       await this.$router.push({ name: 'PageDetail', params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId }, query: { rowId } })
     },
     async onCreateRow (block, newRow) {
-      this.$set(block, 'submitting', true)
-      const dataToSubmit = {
-        data: {
-          ...newRow.data
-        }
+      const data = { ...newRow.data }
+      if (this.$route.query.rowId) {
+        // Todo: Add property in table_view_has_column to get the column id target
+        // Todo: Discuss about the property visible (impossible to find the column is visible has true)
+        const columnTargetDetail = block.definition.columns.find(column => !column.editable && !!column.filter)
+        data[columnTargetDetail.id] = this.$route.query.rowId
       }
+      this.$set(block, 'submitting', true)
+
       /**
        * For date columns, we format the date to ISO, date only
        */
       block.definition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          if (newRow.data[c.id] instanceof Date) {
-            dataToSubmit.data[c.id] = formatISO(newRow.data[c.id], { representation: 'date' })
+          if (isValid(parseISO(newRow.data[c.id]))) {
+            data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
           } else {
-            dataToSubmit.data[c.id] = null
+            data[c.id] = null
           }
         })
       await saveTableData({
-        ...dataToSubmit,
+        data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: block.definition.table_id
       })
