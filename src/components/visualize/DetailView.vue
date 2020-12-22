@@ -4,6 +4,7 @@
   >
     <lck-data-detail
       class="detail-view centered-content-view box-with-shadow"
+      :title="$t('components.datatable.detail')"
       :definition="definition"
       :row="row"
       :autocompleteSuggestions="autocompleteSuggestions"

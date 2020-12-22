@@ -3,7 +3,12 @@
     class="p-fluid p-pb-6"
     v-if="row"
   >
-    <h3 class="lck-block-title">{{ $t('components.datatable.detail') }}</h3>
+    <h3
+      v-if="title"
+      class="lck-block-title"
+    >
+      {{ title }}
+    </h3>
     <div
       class="p-field"
       v-for="column in definition.columns"
@@ -141,6 +146,9 @@ export default {
     crudMode: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String
     }
   },
   data () {
