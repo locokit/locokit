@@ -6,9 +6,21 @@
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
-      :header="item.label"
       :active="item.active"
     >
+      <template #header>
+        {{item.label}}
+        <span class="action-set" v-if="displayEditActions">
+          <span
+            @click.stop="$emit('edit-item', item.id)"
+            class="pi pi-pencil action-button"
+          />
+          <span
+            @click.stop="$emit('delete-item', item.id)"
+            class="pi pi-trash action-button"
+          />
+        </span>
+      </template>
       <router-link
         v-for="subitem in item.subitems"
         :key="subitem.id"
@@ -38,6 +50,10 @@ export default {
           subitems: []
         }]
       }
+    },
+    displayEditActions: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -65,6 +81,24 @@ a:hover,
   background-color: var(--text-color);
   color: var(--primary-color);
 }
+
+.action-button {
+  padding: 0.5em;
+  margin: -0.5em 0.0em;
+}
+
+.action-button:hover {
+  color: white;
+  background-color: var(--primary-color-darken);
+  transition-duration: 0.5s;
+}
+
+.action-set {
+  padding: 0 0.5em;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 </style>
 
 <style>

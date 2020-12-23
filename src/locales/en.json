@@ -225,7 +225,12 @@
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
       "buttonVisualization": "Visualization",
-      "buttonProcess": "Processes"
+      "buttonProcess": "Processes",
+      "createChapter": "Create a new chapter",
+      "editChapter": "Edit a chapter",
+      "chapter": "chapter",
+      "chapterName": "Chapter name",
+      "editMode": "Edit mode"
     },
     "database": {
       "title": "Database",
@@ -388,7 +393,9 @@
     "isRequired": "This field is required",
     "yes": "Yes",
     "no": "No",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "deleteConfirmation": "Confirm that you want to delete the element.",
+    "specificDeleteConfirmation": "Confirm that you want to delete the following element:"
   },
   "date": {
     "dateFormat": "MM/dd/yyyy",

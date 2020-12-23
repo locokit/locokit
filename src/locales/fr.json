@@ -228,7 +228,12 @@
       "buttonDatabase": "Base de données",
       "buttonSchema": "Schéma",
       "buttonVisualization": "Visualisation",
-      "buttonProcess": "Processus"
+      "buttonProcess": "Processus",
+      "createChapter": "Créer un nouveau chapitre",
+      "editChapter": "Modifier un chapitre",
+      "chapter": "chapitre",
+      "chapterName": "Nom du chapitre",
+      "editMode": "Mode édition"
     },
     "database": {
       "title": "Base de données",
@@ -391,7 +396,9 @@
     "isRequired": "Ce champ est requis",
     "yes": "Oui",
     "no": "Non",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "deleteConfirmation": "Confirmer la suppression.",
+    "specificDeleteConfirmation": "Confirmer la suppression de l'élément suivant:"
   },
   "date": {
     "dateFormat": "dd/MM/yyyy",
