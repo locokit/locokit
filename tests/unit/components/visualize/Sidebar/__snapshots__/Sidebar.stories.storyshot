@@ -44,6 +44,8 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
         />
       </div>
     </div>
+     
+    <!---->
   </div>
 </div>
 `;
@@ -181,6 +183,26 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         </div>
       </div>
     </div>
+     
+    <button
+      class="new-item-button p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-plus p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Create a new element
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
   </div>
 </div>
 `;
@@ -298,6 +320,8 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
         </div>
       </div>
     </div>
+     
+    <!---->
   </div>
 </div>
 `;
@@ -415,6 +439,8 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
         </div>
       </div>
     </div>
+     
+    <!---->
   </div>
 </div>
 `;

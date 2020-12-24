@@ -233,7 +233,8 @@
       "editChapter": "Modifier un chapitre",
       "chapter": "chapitre",
       "chapterName": "Nom du chapitre",
-      "editMode": "Mode édition"
+      "editMode": "Mode édition",
+      "createElement": "Créer un nouvel élément"
     },
     "database": {
       "title": "Base de données",

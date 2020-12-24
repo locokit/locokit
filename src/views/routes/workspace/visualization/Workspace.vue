@@ -6,16 +6,11 @@
         :displayEditActions="editMode"
         :editableItems="editableChapters"
         :isAdmin="isAdmin"
+        :createItemLabel="$t('pages.workspace.createChapter')"
+        @add-item="dialogVisibility.chapterEdit = true;"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
         v-on="$listeners"
-      />
-      <p-button
-        v-if="editMode && isAdmin"
-        :label="$t('pages.workspace.createChapter')"
-        icon="pi pi-plus"
-        @click="dialogVisibility.chapterEdit = true;"
-        class="lck-new-chapter-button"
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
@@ -54,7 +49,6 @@ import { authState } from '@/store/auth'
 import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
-import Button from 'primevue/button'
 
 import { lckServices } from '@/services/lck-api'
 import { objectIsEmpty } from '@/services/lck-utils/object'
@@ -70,8 +64,7 @@ export default {
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
     'lck-confirmation-dialog': DeleteConfirmationDialog,
-    'p-toggle-button': Vue.extend(ToggleButton),
-    'p-button': Vue.extend(Button)
+    'p-toggle-button': Vue.extend(ToggleButton)
   },
   props: ['workspaceId'],
   data () {
@@ -219,12 +212,5 @@ export default {
   bottom: 1em;
   right: 1em;
   z-index: 2;
-}
-
-/deep/ .sidebar-menu-container .lck-new-chapter-button {
-  width: 100%;
-  text-align: left;
-  padding-left: 5px;
-  line-height: 2rem;
 }
 </style>

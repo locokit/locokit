@@ -230,7 +230,8 @@
       "editChapter": "Edit a chapter",
       "chapter": "chapter",
       "chapterName": "Chapter name",
-      "editMode": "Edit mode"
+      "editMode": "Edit mode",
+      "createElement": "Create a new element"
     },
     "database": {
       "title": "Database",

@@ -31,6 +31,13 @@
         {{subitem.label}}
       </router-link>
     </p-accordion-tab>
+    <p-button
+      v-if="displayEditActions && isAdmin"
+      :label="createItemLabel"
+      icon="pi pi-plus"
+      class="new-item-button"
+      @click="$emit('add-item')"
+    />
   </p-accordion>
 </template>
 
@@ -38,6 +45,7 @@
 import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
+import Button from 'primevue/button'
 
 export default {
   name: 'Sidebar',
@@ -64,11 +72,16 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false
+    },
+    createItemLabel: {
+      type: String,
+      default () { return this.$t('pages.workspace.createElement') }
     }
   },
   components: {
     'p-accordion': Vue.extend(Accordion),
-    'p-accordion-tab': Vue.extend(AccordionTab)
+    'p-accordion-tab': Vue.extend(AccordionTab),
+    'p-button': Vue.extend(Button)
   }
 }
 </script>
@@ -107,6 +120,13 @@ a:hover,
   padding: 0 0.5em;
   margin-left: auto;
   flex-shrink: 0;
+}
+
+.new-item-button {
+  width: 100%;
+  text-align: left;
+  padding-left: 5px;
+  line-height: 2rem;
 }
 
 </style>
