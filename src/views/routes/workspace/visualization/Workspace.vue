@@ -4,12 +4,14 @@
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
+        :editableItems="editableChapters"
+        :isAdmin="isAdmin"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
         v-on="$listeners"
       />
       <p-button
-        v-if="editMode"
+        v-if="editMode && isAdmin"
         :label="$t('pages.workspace.createChapter')"
         icon="pi pi-plus"
         @click="dialogVisibility.chapterEdit = true;"
@@ -49,12 +51,13 @@
 
 import Vue from 'vue'
 import { authState } from '@/store/auth'
-import { WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 import Button from 'primevue/button'
 
 import { lckServices } from '@/services/lck-api'
+import { objectIsEmpty } from '@/services/lck-utils/object'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
@@ -104,10 +107,22 @@ export default {
         )
       })
     },
+    isAdmin () {
+      return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
+    },
+    editableChapters () {
+      const editableChapters = {}
+      if (authState.data.user?.groups) {
+        authState.data.user.groups.forEach(({ chapter_id, workspace_role }) => {
+          if ([WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
+            editableChapters[chapter_id] = true
+          }
+        })
+      }
+      return editableChapters
+    },
     canEditWorkspace () {
-      return authState?.data?.user?.groups.some(
-        ({ workspace_id, workspace_role }) => workspace_id === this.workspaceId && [WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)
-      )
+      return this.isAdmin || !objectIsEmpty(this.editableChapters)
     }
   },
   methods: {
@@ -174,7 +189,7 @@ export default {
     displayToastOnError (error) {
       this.$toast.add({
         severity: 'error',
-        summary: this.$t('error.basic'),
+        summary: this.$t('error.http.' + error.code),
         detail: error.message,
         life: 3000
       })

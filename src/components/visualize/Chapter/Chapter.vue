@@ -8,7 +8,7 @@
     class="p-fluid"
     @hide="$emit('close')"
     @update:visible="$emit('close')"
-    :header="Number.isInteger(value.id) ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    :header="value.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
   >
     <lck-form
       @submit="$emit('input', currentData)"
@@ -20,6 +20,7 @@
           id="chapterTextField"
           v-model="currentData.text"
           required
+          autofocus
         />
       </div>
     </lck-form>

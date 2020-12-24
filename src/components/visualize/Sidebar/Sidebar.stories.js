@@ -101,7 +101,7 @@ export const withEditionAndPropsStory = () => ({
       items
     }
   },
-  template: '<Sidebar :items="items" :displayEditActions="true" />'
+  template: '<Sidebar :items="items" :isAdmin="true" :displayEditActions="true" />'
 })
 
 withEditionAndPropsStory.storyName = 'with edition and props items'

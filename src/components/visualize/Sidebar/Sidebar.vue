@@ -10,7 +10,7 @@
     >
       <template #header>
         {{item.label}}
-        <span class="action-set" v-if="displayEditActions">
+        <span class="action-set" v-if="displayEditActions && (isAdmin || editableItems[item.id])">
           <span
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
@@ -52,6 +52,16 @@ export default {
       }
     },
     displayEditActions: {
+      type: Boolean,
+      default: false
+    },
+    editableItems: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    isAdmin: {
       type: Boolean,
       default: false
     }

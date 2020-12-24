@@ -368,6 +368,7 @@
   "error": {
     "basic": "An error has occurred.",
     "http": {
+      "400": "Bad request",
       "401": "Access not granted",
       "403": "Access forbidden",
       "404": "Not found",

@@ -63,6 +63,7 @@ exports[`storyshots components/visualize/Chapter chapter create 1`] = `
             </label>
              
             <input
+              autofocus="autofocus"
               class="p-inputtext p-component"
               id="chapterTextField"
               required="required"
@@ -184,6 +185,7 @@ exports[`storyshots components/visualize/Chapter chapter edit 1`] = `
             </label>
              
             <input
+              autofocus="autofocus"
               class="p-inputtext p-component p-filled"
               id="chapterTextField"
               required="required"
