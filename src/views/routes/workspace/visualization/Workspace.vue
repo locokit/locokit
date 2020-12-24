@@ -10,6 +10,7 @@
         @add-item="dialogVisibility.chapterEdit = true;"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
+        @add-subitem="onPageEditClick"
         @edit-subitem="onPageEditClick"
         @delete-subitem="onPageDeleteClick"
         v-on="$listeners"
@@ -165,9 +166,11 @@ export default {
       this.dialogVisibility.chapterDelete = false
     },
     onPageEditClick (data) {
-      if (data.item && data.subitem) {
+      if (data.item) {
         this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
-        this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
+        if (data.subitem) {
+          this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
+        }
         this.dialogVisibility.pageEdit = true
       }
     },
@@ -238,7 +241,7 @@ export default {
           const newPage = await lckServices.page.create({
             text: event.text,
             position: event.position,
-            chapter_id: event.chapter_id
+            chapter_id: this.currentChapterToEdit.id
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
             this.currentChapterToEdit.pages.push(newPage)

@@ -40,6 +40,13 @@
           />
         </span>
       </router-link>
+        <p-button
+          v-if="displayEditActions && (isAdmin || editableItems[item.id])"
+          :label="createSubItemLabel"
+          icon="pi pi-plus"
+          class="new-item-button new-subitem-button"
+          @click="$emit('add-subitem', { item: item.id })"
+      />
     </p-accordion-tab>
     <p-button
       v-if="displayEditActions && isAdmin"
@@ -84,6 +91,10 @@ export default {
       default: false
     },
     createItemLabel: {
+      type: String,
+      default () { return this.$t('pages.workspace.createElement') }
+    },
+    createSubItemLabel: {
       type: String,
       default () { return this.$t('pages.workspace.createElement') }
     }
@@ -154,6 +165,10 @@ a:hover,
   text-align: left;
   padding-left: 5px;
   line-height: 2rem;
+}
+
+.new-subitem-button {
+  padding-left: 2rem;
 }
 
 </style>
