@@ -93,3 +93,15 @@ export const withPropsAndSubItemActiveStory = () => ({
 })
 
 withPropsAndSubItemActiveStory.storyName = 'with props items and active'
+
+export const withEditionAndPropsStory = () => ({
+  components: { Sidebar },
+  data () {
+    return {
+      items
+    }
+  },
+  template: '<Sidebar :items="items" :displayEditActions="true" />'
+})
+
+withEditionAndPropsStory.storyName = 'with edition and props items'

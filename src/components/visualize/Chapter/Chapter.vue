@@ -8,8 +8,7 @@
     class="p-fluid"
     @hide="$emit('close')"
     @update:visible="$emit('close')"
-    :header="value.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')
-    "
+    :header="Number.isInteger(value.id) ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
   >
     <lck-form
       @submit="$emit('input', currentData)"

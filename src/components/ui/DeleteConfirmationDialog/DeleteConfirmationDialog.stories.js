@@ -11,6 +11,7 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
+defaultStory.args = { timeoutBeforeScreenshot: 800 }
 
 export const withElementName = () => ({
   components: { DeleteConfirmationDialog },
@@ -23,6 +24,7 @@ export const withElementName = () => ({
 })
 
 withElementName.storyName = 'with a name'
+withElementName.args = { timeoutBeforeScreenshot: 800 }
 
 export const withElementNameAndCategory = () => ({
   components: { DeleteConfirmationDialog },
@@ -35,3 +37,4 @@ export const withElementNameAndCategory = () => ({
 })
 
 withElementNameAndCategory.storyName = 'with a name and a category'
+withElementNameAndCategory.args = { timeoutBeforeScreenshot: 800 }
