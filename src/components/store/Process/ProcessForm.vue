@@ -47,8 +47,8 @@
         :suggestions="tables"
         @search="$emit('search-table', $event)"
         v-model="processCloned.table"
-        @item-select="processCloned.table_id = processCloned.table.value"
-        @clear="processCloned.table_id = null"
+        @item-select="processCloned.table_id = processCloned.table.value; processCloned.settings={}"
+        @clear="processCloned.table_id = null; processCloned.settings={}"
 
       />
     </div>
@@ -63,6 +63,7 @@
         optionLabel="label"
         optionValue="value"
         appendTo="body"
+        @change="processCloned.settings={}"
         :options="triggerOptions"
       />
     </div>
@@ -177,7 +178,7 @@ export default {
     process: {
       handler (newValue) {
         if (!newValue) return
-        const { id, text, trigger, settings, enabled, url, table_id, table, maximumNumberSuccess } = newValue
+        const { id, text, trigger, settings = {}, enabled, url, table_id, table, maximumNumberSuccess } = newValue
         this.processCloned = { id, text, trigger, enabled, url, table_id, settings, table, maximumNumberSuccess }
         if (settings?.columns) {
           this.processCloned.settings = {
