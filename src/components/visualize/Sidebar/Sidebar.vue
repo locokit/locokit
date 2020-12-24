@@ -29,6 +29,16 @@
         @click.native="$emit('click-sidebar-item')"
       >
         {{subitem.label}}
+        <span class="action-subset" v-if="displayEditActions && (isAdmin || editableItems[item.id])">
+          <span
+            @click.stop="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
+            class="pi pi-pencil action-button"
+          />
+          <span
+            @click.stop="$emit('delete-subitem', { item: item.id, subitem: subitem.id })"
+            class="pi pi-trash action-button"
+          />
+        </span>
       </router-link>
     </p-accordion-tab>
     <p-button
@@ -117,9 +127,26 @@ a:hover,
 }
 
 .action-set {
-  padding: 0 0.5em;
+  padding-left: 0.5em;
   margin-left: auto;
   flex-shrink: 0;
+}
+
+.p-accordion-content > a {
+  display: flex;
+  align-items: center;
+}
+
+.p-accordion-content {
+  padding-right: 0.5em;
+}
+
+.action-subset {
+  flex-shrink: 0;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-left: auto;
+  color: var(--primary-color-darken);
 }
 
 .new-item-button {

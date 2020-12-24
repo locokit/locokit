@@ -10,6 +10,8 @@
         @add-item="dialogVisibility.chapterEdit = true;"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
+        @edit-subitem="onPageEditClick"
+        @delete-subitem="onPageDeleteClick"
         v-on="$listeners"
       />
     </div>
@@ -37,6 +39,19 @@
         @close="onChapterDeleteReset"
         @input="onChapterDeleteInput"
       />
+      <lck-page-dialog
+        :visible="dialogVisibility.pageEdit"
+        :value="currentPageToEdit"
+        @close="onPageEditReset"
+        @input="onPageEditInput"
+      />
+      <lck-confirmation-dialog
+        :visible="dialogVisibility.pageDelete"
+        :value="currentPageToEdit"
+        :itemCategory="$t('pages.workspace.page')"
+        @close="onPageDeleteReset"
+        @input="onPageDeleteInput"
+      />
     </div>
   </div>
 </template>
@@ -56,6 +71,7 @@ import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 import ChapterDialog from '@/components/visualize/Chapter/Chapter'
+import PageDialog from '@/components/visualize/Page/Page'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
@@ -63,6 +79,7 @@ export default {
   components: {
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
+    'lck-page-dialog': PageDialog,
     'lck-confirmation-dialog': DeleteConfirmationDialog,
     'p-toggle-button': Vue.extend(ToggleButton)
   },
@@ -73,9 +90,12 @@ export default {
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
-        chapterDelete: false
+        chapterDelete: false,
+        pageEdit: false,
+        pageDelete: false
       },
-      currentChapterToEdit: {}
+      currentChapterToEdit: {},
+      currentPageToEdit: {}
     }
   },
   computed: {
@@ -144,6 +164,28 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterDelete = false
     },
+    onPageEditClick (data) {
+      if (data.item && data.subitem) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
+        this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
+        this.dialogVisibility.pageEdit = true
+      }
+    },
+    onPageDeleteClick (data) {
+      if (data.item && data.subitem) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
+        this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
+        this.dialogVisibility.pageDelete = true
+      }
+    },
+    onPageEditReset () {
+      this.currentPageToEdit = {}
+      this.dialogVisibility.pageEdit = false
+    },
+    onPageDeleteReset () {
+      this.currentPageToEdit = {}
+      this.dialogVisibility.pageDelete = false
+    },
     async onChapterEditInput (event) {
       try {
         if (event.id) {
@@ -175,6 +217,48 @@ export default {
         const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
         if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
         this.onChapterDeleteReset()
+      } catch (error) {
+        this.displayToastOnError(error)
+      }
+    },
+    async onPageEditInput (event) {
+      try {
+        if (event.id) {
+          // On update
+          const updatedPage = await lckServices.page.patch(event.id, {
+            text: event.text,
+            position: event.position,
+            hidden: event.hidden
+          })
+          for (const key in updatedPage) {
+            this.currentPageToEdit[key] = updatedPage[key]
+          }
+        } else {
+          // On create
+          const newPage = await lckServices.page.create({
+            text: event.text,
+            position: event.position,
+            chapter_id: event.chapter_id
+          })
+          if (Array.isArray(this.currentChapterToEdit.pages)) {
+            this.currentChapterToEdit.pages.push(newPage)
+          } else {
+            this.currentChapterToEdit.pages = [newPage]
+          }
+        }
+        this.onPageEditReset()
+      } catch (error) {
+        this.displayToastOnError(error)
+      }
+    },
+    async onPageDeleteInput (event) {
+      try {
+        if (event.id) {
+          await lckServices.page.remove(event.id)
+        }
+        const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === event.id)
+        if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
+        this.onPageDeleteReset()
       } catch (error) {
         this.displayToastOnError(error)
       }
