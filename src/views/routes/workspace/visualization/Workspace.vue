@@ -89,7 +89,7 @@ export default {
   data () {
     return {
       workspaceContent: [],
-      editMode: true,
+      editMode: false,
       dialogVisibility: {
         chapterEdit: false,
         chapterDelete: false,
