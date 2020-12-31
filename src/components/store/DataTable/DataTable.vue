@@ -598,7 +598,7 @@ export default {
           } else {
             value = null
           }
-          return
+          break
       }
       this.$emit('update-cell', {
         rowId: event.data.id,
