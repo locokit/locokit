@@ -4,15 +4,16 @@
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
-        :editableItems="editableChapters"
         :isAdmin="isAdmin"
         :createItemLabel="$t('pages.workspace.createChapter')"
-        @add-item="dialogVisibility.chapterEdit = true;"
+        :createSubItemLabel="$t('pages.workspace.createPage')"
+        @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
         @add-subitem="onPageEditClick"
         @edit-subitem="onPageEditClick"
         @delete-subitem="onPageDeleteClick"
+        @reorder-subitem="onPageReorderClick"
         v-on="$listeners"
       />
     </div>
@@ -88,7 +89,7 @@ export default {
   data () {
     return {
       workspaceContent: [],
-      editMode: false,
+      editMode: true,
       dialogVisibility: {
         chapterEdit: false,
         chapterDelete: false,
@@ -103,11 +104,12 @@ export default {
     sidebarItems () {
       if (!this.workspaceContent?.chapters) return []
       return this.workspaceContent.chapters.map(({ id, text, pages = [] }) => {
-        const subitems = pages.map(({ text, id }) => (
+        const subitems = pages.map(({ text, id, hidden }) => (
           {
             id,
             label: text,
             to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            hidden: hidden === true,
             active: id === this.$route.params.pageId
           }
         ))
@@ -116,6 +118,7 @@ export default {
             id,
             label: text,
             subitems,
+            editable: this.isAdmin || this.editableChapters[id] === true,
             active: subitems.some(({ active }) => active)
           }
         )
@@ -150,7 +153,9 @@ export default {
       }
     },
     onChapterEditClick (data) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+      if (data) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+      }
       this.dialogVisibility.chapterEdit = true
     },
     onChapterDeleteClick (data) {
@@ -181,12 +186,51 @@ export default {
         this.dialogVisibility.pageDelete = true
       }
     },
+    async onPageReorderClick (chapterId, data) {
+      try {
+        if (chapterId && data && data.moved) {
+          this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
+
+          // first, update the dragged page
+          let currentPage = this.currentChapterToEdit.pages[data.moved.oldIndex]
+          currentPage.position = data.moved.newIndex
+          const updatedPages = [lckServices.page.patch(currentPage.id, { position: currentPage.position })]
+
+          if (data.moved.oldIndex > data.moved.newIndex) {
+            // if the oldIndex is after the newIndex, we need to update all pages from the newIndex to the oldIndex (excluded)
+            for (let index = data.moved.newIndex; index < data.moved.oldIndex; index++) {
+              currentPage = this.currentChapterToEdit.pages[index]
+              currentPage.position = index + 1
+              updatedPages.push(lckServices.page.patch(currentPage.id, {
+                position: currentPage.position
+              }))
+            }
+          } else {
+            // if not, we need to update all pages from the oldIndex (excluded) to the newIndex
+            for (let index = data.moved.oldIndex + 1; index <= data.moved.newIndex; index++) {
+              currentPage = this.currentChapterToEdit.pages[index]
+              currentPage.position = index - 1
+              updatedPages.push(lckServices.page.patch(currentPage.id, {
+                position: currentPage.position
+              }))
+            }
+          }
+          this.currentChapterToEdit.pages.sort((p1, p2) => p1.position - p2.position)
+          await Promise.all(updatedPages)
+        }
+      } catch (error) {
+        this.displayToastOnError(error)
+      }
+      this.currentChapterToEdit = {}
+    },
     onPageEditReset () {
       this.currentPageToEdit = {}
+      this.currentChapterToEdit = {}
       this.dialogVisibility.pageEdit = false
     },
     onPageDeleteReset () {
       this.currentPageToEdit = {}
+      this.currentChapterToEdit = {}
       this.dialogVisibility.pageDelete = false
     },
     async onChapterEditInput (event) {
@@ -230,7 +274,6 @@ export default {
           // On update
           const updatedPage = await lckServices.page.patch(event.id, {
             text: event.text,
-            position: event.position,
             hidden: event.hidden
           })
           for (const key in updatedPage) {
@@ -240,13 +283,12 @@ export default {
           // On create
           const newPage = await lckServices.page.create({
             text: event.text,
-            position: event.position,
             chapter_id: this.currentChapterToEdit.id
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
             this.currentChapterToEdit.pages.push(newPage)
           } else {
-            this.currentChapterToEdit.pages = [newPage]
+            this.$set(this.currentChapterToEdit, 'pages', [newPage])
           }
         }
         this.onPageEditReset()

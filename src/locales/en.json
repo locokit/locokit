@@ -231,7 +231,13 @@
       "chapter": "chapter",
       "chapterName": "Chapter name",
       "editMode": "Edit mode",
-      "createElement": "Create a new element"
+      "createElement": "Create a new element",
+      "page": "page",
+      "createPage": "Create a new page",
+      "editPage": "Edit a page",
+      "pageName": "Page Name",
+      "pageHidden": "Hide the page",
+      "pagePosition": "Page position"
     },
     "database": {
       "title": "Database",

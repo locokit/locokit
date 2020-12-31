@@ -10,7 +10,7 @@
     >
       <template #header>
         {{item.label}}
-        <span class="action-set" v-if="displayEditActions && (isAdmin || editableItems[item.id])">
+        <span class="action-set" v-if="displayEditActions && item.editable">
           <span
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
@@ -21,29 +21,42 @@
           />
         </span>
       </template>
-      <router-link
-        v-for="subitem in item.subitems"
-        :key="subitem.id"
-        :to="subitem.to"
-        :class="{ 'router-link-exact-active': subitem.active }"
-        @click.native="$emit('click-sidebar-item')"
+      <draggable
+        :key="item.id"
+        v-model="item.subitems"
+        handle=".handle"
+        @change="$emit('reorder-subitem', item.id, $event)"
       >
-        {{subitem.label}}
-        <span class="action-subset" v-if="displayEditActions && (isAdmin || editableItems[item.id])">
-          <span
-            @click.stop="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
-            class="pi pi-pencil action-button"
-          />
-          <span
-            @click.stop="$emit('delete-subitem', { item: item.id, subitem: subitem.id })"
-            class="pi pi-trash action-button"
-          />
-        </span>
-      </router-link>
+          <router-link
+            v-for="subitem in item.subitems"
+            :key="subitem.id"
+            :to="subitem.to"
+            :class="{ 'router-link-exact-active': subitem.active }"
+            @click.native="$emit('click-sidebar-item')"
+            v-show="displayEditActions || subitem.hidden !== true"
+          >
+            <span
+              v-if="displayEditActions && item.editable"
+              class="pi pi-ellipsis-v handle"
+              />
+            {{subitem.label}}
+            <span class="action-subset" v-if="displayEditActions && item.editable">
+              <span
+                @click.stop.prevent="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
+                class="pi pi-pencil action-button"
+              />
+              <span
+                @click.stop.prevent="$emit('delete-subitem', { item: item.id, subitem: subitem.id })"
+                class="pi pi-trash action-button"
+              />
+            </span>
+          </router-link>
+      </draggable>
         <p-button
-          v-if="displayEditActions && (isAdmin || editableItems[item.id])"
+          v-if="displayEditActions && item.editable"
           :label="createSubItemLabel"
           icon="pi pi-plus"
+          iconPos="right"
           class="new-item-button new-subitem-button"
           @click="$emit('add-subitem', { item: item.id })"
       />
@@ -51,6 +64,7 @@
     <p-button
       v-if="displayEditActions && isAdmin"
       :label="createItemLabel"
+      iconPos="right"
       icon="pi pi-plus"
       class="new-item-button"
       @click="$emit('add-item')"
@@ -63,6 +77,7 @@ import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Button from 'primevue/button'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Sidebar',
@@ -80,12 +95,6 @@ export default {
       type: Boolean,
       default: false
     },
-    editableItems: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
     isAdmin: {
       type: Boolean,
       default: false
@@ -102,7 +111,8 @@ export default {
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    draggable: Vue.extend(draggable)
   }
 }
 </script>
@@ -143,7 +153,7 @@ a:hover,
   flex-shrink: 0;
 }
 
-.p-accordion-content > a {
+.p-accordion-content a {
   display: flex;
   align-items: center;
 }
@@ -163,12 +173,18 @@ a:hover,
 .new-item-button {
   width: 100%;
   text-align: left;
-  padding-left: 5px;
+  padding-left: 0.5em;
   line-height: 2rem;
 }
 
 .new-subitem-button {
   padding-left: 2rem;
+}
+
+.handle {
+  cursor: move;
+  position: absolute;
+  left: 0.5rem;
 }
 
 </style>
