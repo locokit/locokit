@@ -147,7 +147,6 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -503,18 +502,6 @@ export default {
         newValue: event ? event?.value?.value : null
       })
     },
-    async onCalendarEdit (rowId, columnId) {
-      /**
-       * in case of a Date, value is stored in the currentDateToEdit data
-       * we format it in the date representation,
-       * we just want to store the date
-       */
-      this.$emit('update-cell', {
-        rowId,
-        columnId,
-        newValue: this.currentDateToEdit ? formatDateISO(this.currentDateToEdit) : null
-      })
-    },
     /**
      * This method have to be called only for fields that don't trigger an "update-cell" event
      *
@@ -561,16 +548,17 @@ export default {
             event.preventDefault()
             return
           }
-
           /**
            * in case of a Date, value is stored in the currentDateToEdit data
            * we format it in the date representation,
            * we just want to store the date
            */
-          if (this.currentDateToEdit) {
+          if (this.currentDateToEdit instanceof Date) {
             value = formatDateISO(this.currentDateToEdit)
-          } else {
+          } else if (this.currentDateToEdit === '') {
             value = null
+          } else {
+            return
           }
           break
       }
