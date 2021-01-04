@@ -130,8 +130,8 @@ export default {
     editableChapters () {
       const editableChapters = {}
       if (authState.data.user?.groups) {
-        authState.data.user.groups.forEach(({ chapter_id, workspace_role }) => {
-          if ([WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
+        authState.data.user.groups.forEach(({ chapter_id, workspace_role, workspace_id }) => {
+          if (this.workspaceId === workspace_id && [WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
             editableChapters[chapter_id] = true
           }
         })
@@ -150,6 +150,16 @@ export default {
         this.workspaceContent.chapters[0].pages.length > 0
       ) {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
+      }
+    },
+    async goToSpecificPageChapter (chapter, page = {}) {
+      if (Array.isArray(chapter.pages) && chapter.pages.length > 0) {
+        const targetPageId = !page.id ? chapter.pages[0].id : page.id
+        if (!this.$route.path.includes(`/page/${targetPageId}`)) {
+          await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${targetPageId}`)
+        }
+      } else {
+        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}`)
       }
     },
     onChapterEditClick (data) {
@@ -186,42 +196,58 @@ export default {
         this.dialogVisibility.pageDelete = true
       }
     },
-    async onPageReorderClick (chapterId, data) {
-      try {
-        if (chapterId && data && data.moved) {
-          this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
+    onPageReorderClick (chapterId, { moved }) {
+      if (chapterId && moved) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
+        const updatedPages = {}
+        // first, update the dragged page
+        let currentPage = this.currentChapterToEdit.pages[moved.oldIndex]
+        updatedPages[currentPage.id] = { ref: currentPage, oldPos: currentPage.position }
+        currentPage.position = moved.newIndex
 
-          // first, update the dragged page
-          let currentPage = this.currentChapterToEdit.pages[data.moved.oldIndex]
-          currentPage.position = data.moved.newIndex
-          const updatedPages = [lckServices.page.patch(currentPage.id, { position: currentPage.position })]
-
-          if (data.moved.oldIndex > data.moved.newIndex) {
-            // if the oldIndex is after the newIndex, we need to update all pages from the newIndex to the oldIndex (excluded)
-            for (let index = data.moved.newIndex; index < data.moved.oldIndex; index++) {
-              currentPage = this.currentChapterToEdit.pages[index]
-              currentPage.position = index + 1
-              updatedPages.push(lckServices.page.patch(currentPage.id, {
-                position: currentPage.position
-              }))
-            }
-          } else {
-            // if not, we need to update all pages from the oldIndex (excluded) to the newIndex
-            for (let index = data.moved.oldIndex + 1; index <= data.moved.newIndex; index++) {
-              currentPage = this.currentChapterToEdit.pages[index]
-              currentPage.position = index - 1
-              updatedPages.push(lckServices.page.patch(currentPage.id, {
-                position: currentPage.position
-              }))
-            }
+        if (moved.oldIndex > moved.newIndex) {
+          // if the oldIndex is after the newIndex, we need to update all pages from the newIndex to the oldIndex (excluded)
+          for (let index = moved.newIndex; index < moved.oldIndex; index++) {
+            currentPage = this.currentChapterToEdit.pages[index]
+            updatedPages[currentPage.id] = { ref: currentPage, oldPos: currentPage.position }
+            currentPage.position = index + 1
           }
-          this.currentChapterToEdit.pages.sort((p1, p2) => p1.position - p2.position)
-          await Promise.all(updatedPages)
+        } else {
+          // if not, we need to update all pages from the oldIndex (excluded) to the newIndex
+          for (let index = moved.oldIndex + 1; index <= moved.newIndex; index++) {
+            currentPage = this.currentChapterToEdit.pages[index]
+            updatedPages[currentPage.id] = { ref: currentPage, oldPos: currentPage.position }
+            currentPage.position = index - 1
+          }
         }
-      } catch (error) {
-        this.displayToastOnError(error)
+        this.currentChapterToEdit.pages.sort((p1, p2) => p1.position - p2.position)
+        Promise.allSettled(
+          Object.entries(updatedPages).map(
+            ([pageId, { ref }]) => lckServices.page.patch(pageId, { position: ref.position })
+          ))
+          .then(results => {
+            results.forEach(result => {
+              if (result.value) {
+                // Success
+                delete updatedPages[result.value.id]
+              } else if (result.reason) {
+                // Error
+                this.displayToastOnError(result.reason)
+              }
+            })
+            if (!objectIsEmpty(updatedPages)) {
+              // Reset the page position if the related patch request is invalid
+              for (const pageId in updatedPages) {
+                updatedPages[pageId].ref.position = updatedPages[pageId].oldPos
+              }
+              // Reorder the list
+              this.currentChapterToEdit.pages.sort((p1, p2) => p1.position - p2.position)
+            }
+          })
+          .finally(() => {
+            this.currentChapterToEdit = {}
+          })
       }
-      this.currentChapterToEdit = {}
     },
     onPageEditReset () {
       this.currentPageToEdit = {}
@@ -281,16 +307,17 @@ export default {
           }
         } else {
           // On create
-          const newPage = await lckServices.page.create({
+          this.currentPageToEdit = await lckServices.page.create({
             text: event.text,
             chapter_id: this.currentChapterToEdit.id
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
-            this.currentChapterToEdit.pages.push(newPage)
+            this.currentChapterToEdit.pages.push(this.currentPageToEdit)
           } else {
-            this.$set(this.currentChapterToEdit, 'pages', [newPage])
+            this.$set(this.currentChapterToEdit, 'pages', [this.currentPageToEdit])
           }
         }
+        await this.goToSpecificPageChapter(this.currentChapterToEdit, this.currentPageToEdit)
         this.onPageEditReset()
       } catch (error) {
         this.displayToastOnError(error)
@@ -303,6 +330,7 @@ export default {
         }
         const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === event.id)
         if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
+        await this.goToSpecificPageChapter(this.currentChapterToEdit)
         this.onPageDeleteReset()
       } catch (error) {
         this.displayToastOnError(error)
@@ -311,7 +339,7 @@ export default {
     displayToastOnError (error) {
       this.$toast.add({
         severity: 'error',
-        summary: this.$t('error.http.' + error.code),
+        summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         detail: error.message,
         life: 3000
       })

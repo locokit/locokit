@@ -23,7 +23,7 @@
       </template>
       <draggable
         :key="item.id"
-        v-model="item.subitems"
+        :value="item.subitems"
         handle=".handle"
         @change="$emit('reorder-subitem', item.id, $event)"
       >
@@ -154,6 +154,7 @@ a:hover,
 }
 
 .p-accordion-content a {
+  position: relative;
   display: flex;
   align-items: center;
 }
