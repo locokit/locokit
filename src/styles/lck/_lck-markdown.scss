@@ -7,14 +7,17 @@
   background-color: #fafafa;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-  h1, h3, h6 {
+  h1, h3, h5 {
     color: var(--primary-color);
+  }
+
+  h2, h4, h6 {
+    color: #858096;
   }
 
   h2 {
     font-weight: 700;
     padding: 0.5rem 0;
-    color: #858096;
 
     &:after {
       display: block;
@@ -23,10 +26,6 @@
       content: "";
       background-color: var(--primary-color);
     }
-  }
-
-  h4, h5 {
-    color: #858096;
   }
 
   p, ol, ul, li {
