@@ -22,22 +22,22 @@ export const updateStory = () => (
         columnToHandle: {
           settings: {
             values: {
-              "1":
+              1:
                 {
-                  label: "Type 1",
-                  color: "#FFFFFF",
-                  backgroundColor: "#000000",
+                  label: 'Type 1',
+                  color: '#FFFFFF',
+                  backgroundColor: '#000000',
                   position: 1
                 },
-              "2":
+              2:
                 {
-                  label: "Type 2",
-                  color: "#000000",
-                  backgroundColor: "#FFFFFF",
+                  label: 'Type 2',
+                  color: '#000000',
+                  backgroundColor: '#FFFFFF',
                   position: 2
                 }
             },
-            default: "2"
+            default: '2'
           }
         }
       }
