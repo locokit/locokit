@@ -160,6 +160,23 @@
     }
   }
 }
+td.sticky-column-cells {
+  background-color: rgba(256, 256, 256, 0.9) !important;
+  button {
+    &:hover {
+     background-color: rgba(33, 150, 243, 0.04);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      border: none;
+      &:hover {
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
+}
 
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-thead > tr > td {
@@ -172,7 +189,7 @@
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
       color: var(--primary-color-text);
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.8);
     }
 
     &.editable-cell-table {
@@ -188,7 +205,7 @@
   }
 
   .p-datatable-tbody tr {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.8);
   }
 
   .p-datatable-tbody > tr > td {
