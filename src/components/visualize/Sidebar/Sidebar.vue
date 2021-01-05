@@ -148,7 +148,7 @@ a:hover,
 }
 
 .action-set {
-  padding-left: 0.5em;
+  padding-left: 0.5rem;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -174,7 +174,7 @@ a:hover,
 .new-item-button {
   width: 100%;
   text-align: left;
-  padding-left: 0.5em;
+  padding-left: 0.5rem;
   line-height: 2rem;
 }
 
