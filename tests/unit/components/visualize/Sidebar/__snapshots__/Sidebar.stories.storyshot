@@ -189,7 +189,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
       type="button"
     >
       <span
-        class="pi pi-plus p-button-icon p-button-icon-left"
+        class="pi pi-plus p-button-icon p-button-icon-right"
       />
        
       <span

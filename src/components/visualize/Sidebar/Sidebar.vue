@@ -10,7 +10,7 @@
     >
       <template #header>
         {{item.label}}
-        <span class="action-set" v-if="displayEditActions && (isAdmin || editableItems[item.id])">
+        <span class="action-set" v-if="displayEditActions && item.editable">
           <span
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
@@ -34,6 +34,7 @@
     <p-button
       v-if="displayEditActions && isAdmin"
       :label="createItemLabel"
+      iconPos="right"
       icon="pi pi-plus"
       class="new-item-button"
       @click="$emit('add-item')"
@@ -62,12 +63,6 @@ export default {
     displayEditActions: {
       type: Boolean,
       default: false
-    },
-    editableItems: {
-      type: Object,
-      default () {
-        return {}
-      }
     },
     isAdmin: {
       type: Boolean,
@@ -117,7 +112,7 @@ a:hover,
 }
 
 .action-set {
-  padding: 0 0.5em;
+  padding-left: 0.5rem;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -125,7 +120,7 @@ a:hover,
 .new-item-button {
   width: 100%;
   text-align: left;
-  padding-left: 5px;
+  padding-left: 0.5rem;
   line-height: 2rem;
 }
 

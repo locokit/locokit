@@ -12,6 +12,7 @@ export default {
 const items = [{
   id: 1,
   label: 'First item',
+  editable: true,
   subitems: [{
     id: 1,
     label: 'First subitem',
@@ -24,6 +25,7 @@ const items = [{
 }, {
   id: 2,
   label: 'Second item',
+  editable: true,
   subitems: [{
     id: 3,
     label: 'Third subitem',

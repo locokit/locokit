@@ -7,7 +7,7 @@
         :editableItems="editableChapters"
         :isAdmin="isAdmin"
         :createItemLabel="$t('pages.workspace.createChapter')"
-        @add-item="dialogVisibility.chapterEdit = true;"
+        @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
         v-on="$listeners"
@@ -95,6 +95,7 @@ export default {
             id,
             label: text,
             subitems,
+            editable: this.isAdmin || this.editableChapters[id] === true,
             active: subitems.some(({ active }) => active)
           }
         )
@@ -106,8 +107,8 @@ export default {
     editableChapters () {
       const editableChapters = {}
       if (authState.data.user?.groups) {
-        authState.data.user.groups.forEach(({ chapter_id, workspace_role }) => {
-          if ([WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
+        authState.data.user.groups.forEach(({ chapter_id, workspace_role, workspace_id }) => {
+          if (this.workspaceId === workspace_id && [WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
             editableChapters[chapter_id] = true
           }
         })
@@ -129,7 +130,9 @@ export default {
       }
     },
     onChapterEditClick (data) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+      if (data) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+      }
       this.dialogVisibility.chapterEdit = true
     },
     onChapterDeleteClick (data) {
@@ -182,7 +185,7 @@ export default {
     displayToastOnError (error) {
       this.$toast.add({
         severity: 'error',
-        summary: this.$t('error.http.' + error.code),
+        summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         detail: error.message,
         life: 3000
       })
