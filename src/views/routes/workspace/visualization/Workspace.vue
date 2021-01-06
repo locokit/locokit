@@ -4,7 +4,6 @@
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
-        :editableItems="editableChapters"
         :isAdmin="isAdmin"
         :createItemLabel="$t('pages.workspace.createChapter')"
         @add-item="onChapterEditClick"
@@ -45,13 +44,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
+import isEmpty from 'lodash.isempty'
 import { authState } from '@/store/auth'
 import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 
 import { lckServices } from '@/services/lck-api'
-import { objectIsEmpty } from '@/services/lck-utils/object'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
@@ -116,7 +115,7 @@ export default {
       return editableChapters
     },
     canEditWorkspace () {
-      return this.isAdmin || !objectIsEmpty(this.editableChapters)
+      return this.isAdmin || !isEmpty(this.editableChapters)
     }
   },
   methods: {

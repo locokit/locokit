@@ -10,12 +10,14 @@
     >
       <template #header>
         {{item.label}}
-        <span class="action-set" v-if="displayEditActions && item.editable">
+        <span class="action-set" v-if="displayEditActions">
           <span
+            v-if="item.editable"
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
           />
           <span
+            v-if="isAdmin"
             @click.stop="$emit('delete-item', item.id)"
             class="pi pi-trash action-button"
           />
