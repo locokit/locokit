@@ -128,14 +128,14 @@ export default {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
       }
     },
-    onChapterEditClick (data) {
-      if (data) {
-        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+    onChapterEditClick (chapterId) {
+      if (chapterId) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
       }
       this.dialogVisibility.chapterEdit = true
     },
-    onChapterDeleteClick (data) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+    onChapterDeleteClick (chapterId) {
+      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
       this.dialogVisibility.chapterDelete = true
     },
     onChapterEditReset () {
@@ -146,20 +146,19 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterDelete = false
     },
-    async onChapterEditInput (event) {
+    async onChapterEditInput (chapter = {}) {
       try {
-        if (event.id) {
+        if (chapter.id) {
           // On update
-          const updatedChapter = await lckServices.chapter.patch(event.id, {
-            text: event.text
+          const updatedChapter = await lckServices.chapter.patch(chapter.id, {
+            text: chapter.text
           })
           for (const key in updatedChapter) {
             this.currentChapterToEdit[key] = updatedChapter[key]
           }
         } else {
-          // On create
           const newChapter = await lckServices.chapter.create({
-            text: event.text,
+            text: chapter.text,
             workspace_id: this.workspaceId
           })
           this.workspaceContent.chapters.push(newChapter)
@@ -169,13 +168,13 @@ export default {
         this.displayToastOnError(error)
       }
     },
-    async onChapterDeleteInput (chapter) {
+    async onChapterDeleteInput (chapter = {}) {
       try {
         if (chapter.id) {
           await lckServices.chapter.remove(chapter.id)
+          const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
+          if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
         }
-        const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-        if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
         this.onChapterDeleteReset()
       } catch (error) {
         this.displayToastOnError(error)
