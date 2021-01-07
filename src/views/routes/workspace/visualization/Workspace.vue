@@ -62,13 +62,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
+import isEmpty from 'lodash.isempty'
 import { authState } from '@/store/auth'
 import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 
 import { lckServices } from '@/services/lck-api'
-import { objectIsEmpty } from '@/services/lck-utils/object'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
@@ -139,7 +139,7 @@ export default {
       return editableChapters
     },
     canEditWorkspace () {
-      return this.isAdmin || !objectIsEmpty(this.editableChapters)
+      return this.isAdmin || !isEmpty(this.editableChapters)
     }
   },
   methods: {
@@ -162,14 +162,14 @@ export default {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}`)
       }
     },
-    onChapterEditClick (data) {
-      if (data) {
-        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+    onChapterEditClick (chapterId) {
+      if (chapterId) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
       }
       this.dialogVisibility.chapterEdit = true
     },
-    onChapterDeleteClick (data) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data)
+    onChapterDeleteClick (chapterId) {
+      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
       this.dialogVisibility.chapterDelete = true
     },
     onChapterEditReset () {
@@ -232,12 +232,13 @@ export default {
                 delete updatedPages[result.value.id]
               } else if (result.reason) {
                 // Error
-                this.displayToastOnError(result.reason)
+                updatedPages[result.value.id].error = result.reason
               }
             })
-            if (!objectIsEmpty(updatedPages)) {
+            if (!isEmpty(updatedPages)) {
               // Reset the page position if the related patch request is invalid
               for (const pageId in updatedPages) {
+                this.displayToastOnError(updatedPages[pageId].ref.text, updatedPages[pageId].error)
                 updatedPages[pageId].ref.position = updatedPages[pageId].oldPos
               }
               // Reorder the list
@@ -259,12 +260,12 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.pageDelete = false
     },
-    async onChapterEditInput (event) {
+    async onChapterEditInput (chapter = {}) {
       try {
-        if (event.id) {
+        if (chapter.id) {
           // On update
-          const updatedChapter = await lckServices.chapter.patch(event.id, {
-            text: event.text
+          const updatedChapter = await lckServices.chapter.patch(chapter.id, {
+            text: chapter.text
           })
           for (const key in updatedChapter) {
             this.currentChapterToEdit[key] = updatedChapter[key]
@@ -272,26 +273,26 @@ export default {
         } else {
           // On create
           const newChapter = await lckServices.chapter.create({
-            text: event.text,
+            text: chapter.text,
             workspace_id: this.workspaceId
           })
           this.workspaceContent.chapters.push(newChapter)
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(chapter.text, error)
       }
     },
-    async onChapterDeleteInput (chapter) {
+    async onChapterDeleteInput (chapter = {}) {
       try {
         if (chapter.id) {
           await lckServices.chapter.remove(chapter.id)
+          const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
+          if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
         }
-        const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-        if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
         this.onChapterDeleteReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(chapter.text, error)
       }
     },
     async onPageEditInput (event) {
@@ -320,7 +321,7 @@ export default {
         await this.goToSpecificPageChapter(this.currentChapterToEdit, this.currentPageToEdit)
         this.onPageEditReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(event.text, error)
       }
     },
     async onPageDeleteInput (event) {
@@ -333,14 +334,14 @@ export default {
         await this.goToSpecificPageChapter(this.currentChapterToEdit)
         this.onPageDeleteReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(event.text, error)
       }
     },
-    displayToastOnError (error) {
+    displayToastOnError (summary, error) {
       this.$toast.add({
         severity: 'error',
-        summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        detail: error.message,
+        summary,
+        detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         life: 3000
       })
     }
@@ -364,7 +365,7 @@ export default {
 </style>
 
 <style scoped>
-/deep/ .lck-edit-button {
+.lck-edit-button {
   position: fixed;
   bottom: 1em;
   right: 1em;

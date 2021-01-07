@@ -26,6 +26,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "file-saver": "^2.0.2",
+    "lodash.isempty": "^4.4.0",
     "marked": "^1.2.5",
     "nomnoml": "^1.1.0",
     "primeflex": "^2.0.0",

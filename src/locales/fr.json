@@ -406,7 +406,7 @@
     "no": "Non",
     "confirmation": "Confirmation",
     "deleteConfirmation": "Confirmer la suppression.",
-    "specificDeleteConfirmation": "Confirmer la suppression de l'élément suivant:"
+    "specificDeleteConfirmation": "Confirmer la suppression de l'élément suivant :"
   },
   "date": {
     "dateFormat": "dd/MM/yyyy",
