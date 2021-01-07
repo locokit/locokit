@@ -7,7 +7,7 @@
   >
     <p>
       <template v-if="value && value.text">
-        {{ $t('form.specificDeleteConfirmation') }} {{ itemCategory }} {{ value.text }}.
+        {{ $t('form.specificDeleteConfirmation') }} <em>{{ itemCategory }} {{ value.text }}</em>.
       </template>
       <template v-else>{{$t('form.deleteConfirmation')}}</template>
     </p>

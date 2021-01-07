@@ -539,8 +539,8 @@ describe('Workspace', () => {
 
     beforeAll(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
-      wrapper.vm.displayToastOnError(new Error('an error without a code'))
-      wrapper.vm.displayToastOnError(new MockError(404, 'an error with a code'))
+      wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
+      wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
     })
 
     afterAll(() => {
@@ -550,8 +550,8 @@ describe('Workspace', () => {
     it('Display a toast with the specified parameters for an error without code', () => {
       expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(1,
         expect.objectContaining({
-          summary: 'error.basic',
-          detail: 'an error without a code'
+          summary: 'summary',
+          detail: 'error.basic'
         })
       )
     })
@@ -559,8 +559,8 @@ describe('Workspace', () => {
     it('Display a toast with the specified parameters for an error with a code', () => {
       expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(2,
         expect.objectContaining({
-          summary: 'error.http.404',
-          detail: 'an error with a code'
+          summary: 'summary',
+          detail: 'error.http.404'
         })
       )
     })

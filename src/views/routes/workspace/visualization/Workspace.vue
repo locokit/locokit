@@ -157,6 +157,7 @@ export default {
             this.currentChapterToEdit[key] = updatedChapter[key]
           }
         } else {
+          // On create
           const newChapter = await lckServices.chapter.create({
             text: chapter.text,
             workspace_id: this.workspaceId
@@ -165,7 +166,7 @@ export default {
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(chapter.text, error)
       }
     },
     async onChapterDeleteInput (chapter = {}) {
@@ -177,14 +178,14 @@ export default {
         }
         this.onChapterDeleteReset()
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(chapter.text, error)
       }
     },
-    displayToastOnError (error) {
+    displayToastOnError (summary, error) {
       this.$toast.add({
         severity: 'error',
-        summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        detail: error.message,
+        summary,
+        detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         life: 3000
       })
     }
