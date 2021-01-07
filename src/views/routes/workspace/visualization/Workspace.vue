@@ -209,7 +209,7 @@ export default {
 </style>
 
 <style scoped>
-/deep/ .lck-edit-button {
+.lck-edit-button {
   position: fixed;
   bottom: 1em;
   right: 1em;
