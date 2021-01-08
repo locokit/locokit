@@ -94,10 +94,6 @@ const mockUserGroups = [
   { chapter_id: '3', workspace_id: '1', workspace_role: WORKSPACE_ROLE.OWNER }
 ]
 
-function mockRouterPath (workspaceId, pageId) {
-  return `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${pageId}`
-}
-
 function mockDeepCloneObject (object) {
   return JSON.parse(JSON.stringify(object))
 }
