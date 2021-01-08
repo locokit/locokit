@@ -5,13 +5,15 @@ import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
 import ToggleButton from 'primevue/togglebutton'
 import VueRouter from 'vue-router'
 
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { authState } from '@/store/auth'
 import { lckServices } from '@/services/lck-api'
 
 import Workspace from './Workspace.vue'
+import Page from '@/views/routes/workspace/visualization/Page'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import ChapterDialog from '@/components/visualize/Chapter/Chapter'
+import PageDialog from '@/components/visualize/Page/Page'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
 // Mock glossary
@@ -72,7 +74,7 @@ const mockWorkspaceContent = {
           updatedAt: '2020-11-02T16:11:03.109Z',
           chapter_id: '1',
           position: 1,
-          hidden: false
+          hidden: true
         }
       ]
     },
@@ -110,6 +112,13 @@ jest.mock('@/services/lck-api', () => ({
       create: jest.fn(data =>
         ({ ...mockWorkspaceContent.chapters[0], ...data, id: '2' })),
       remove: jest.fn()
+    },
+    page: {
+      patch: jest.fn((id, data) =>
+        ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id })),
+      create: jest.fn(data =>
+        ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id: '13' })),
+      remove: jest.fn()
     }
   }
 }))
@@ -134,16 +143,41 @@ jest.mock('@/router/paths', () => ({
   ROUTES_PATH: {
     WORKSPACE: '/workspace',
     VISUALIZATION: '/visualization'
+  },
+  ROUTES_NAMES: {
+    VISUALIZATION: 'WorkspaceVisualization',
+    PAGE: 'Page'
   }
 }))
 
+// Mock Vue components
+jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
+  name: 'Page',
+  render: h => h('section')
+}))
+
+// Mock routes
+const mockRoutes = [
+  {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
+    name: ROUTES_NAMES.VISUALIZATION,
+    component: Workspace,
+    props: true,
+    children: [{
+      name: ROUTES_NAMES.PAGE,
+      path: 'page/:pageId',
+      props: true,
+      component: Page
+    }]
+  }
+]
 // Tests
 
 describe('Workspace', () => {
   // For vue router
   const localVue = createLocalVue()
   localVue.use(VueRouter)
-  const router = new VueRouter()
+  const router = new VueRouter({ routes: mockRoutes })
 
   // Default workspace component configuration
   const globalComponentParams = {
@@ -220,16 +254,11 @@ describe('Workspace', () => {
         authState.data.user.profile = USER_PROFILE.USER
         authState.data.user.groups = mockUserGroups
         wrapper = await shallowMount(Workspace, globalComponentParams)
-        wrapper.setData({ workspaceContent: currentMockWorkspaceContent })
-        wrapper.vm.$route.params.pageId = firstChapter.pages[0].id
-        wrapper.vm.$route.params.workspaceId = firstChapter.workspace_id
       })
 
       afterAll(() => {
         authState.data.user.profile = ''
         authState.data.user.groups = []
-        wrapper.vm.$route.params.pageId = undefined
-        wrapper.vm.$route.params.workspaceId = undefined
       })
 
       it('The items are passed in Sidebar props', () => {
@@ -273,7 +302,13 @@ describe('Workspace', () => {
 
         it('Return the right link', () => {
           expect(wrapper.vm.sidebarItems[0].subitems[0].to).toBe(
-            mockRouterPath(firstChapter.workspace_id, firstChapter.pages[0].id)
+            wrapper.vm.$router.resolve({
+              name: ROUTES_NAMES.PAGE,
+              params: {
+                worspaceId: firstChapter.workspace_id,
+                pageId: firstChapter.pages[0].id
+              }
+            }).route.path
           )
         })
 
@@ -281,16 +316,20 @@ describe('Workspace', () => {
           expect(wrapper.vm.sidebarItems[0].subitems[0].active).toBe(true)
           expect(wrapper.vm.sidebarItems[0].subitems[1].active).toBe(false)
         })
+
+        it('Indicate if the page are hidden', () => {
+          expect(wrapper.vm.sidebarItems[0].subitems[0].hidden).toBe(false)
+          expect(wrapper.vm.sidebarItems[0].subitems[1].hidden).toBe(true)
+        })
       })
     })
+
     describe('Return the right items for a SUPERADMIN user', () => {
       let wrapper
-      const currentMockWorkspaceContent = mockDeepCloneObject(mockWorkspaceContent)
 
       beforeAll(async () => {
         authState.data.user.profile = USER_PROFILE.SUPERADMIN
         wrapper = await shallowMount(Workspace, globalComponentParams)
-        wrapper.setData({ workspaceContent: currentMockWorkspaceContent })
       })
 
       afterAll(() => {
@@ -455,23 +494,27 @@ describe('Workspace', () => {
       })
 
       it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
         lckServices.chapter.create.mockImplementationOnce(() => { throw new Error() })
         await wrapper.findComponent(ChapterDialog).vm.$emit('input')
-        expect(wrapper.vm.$toast.add).toHaveBeenCalledTimes(1)
-        wrapper.vm.$toast.add.mockReset()
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('Delete a chapter', () => {
+      let deleteConfirmationWrapper
+
+      beforeEach(() => {
+        deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(0)
+      })
+
       it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('delete-item', '1')
-        const deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
         expect(deleteConfirmationWrapper.props('visible')).toBe(true)
         expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
       })
 
       it('Hide the confirmation dialog if the close event is emitted', async () => {
-        const deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
         // Display the dialog
         await deleteConfirmationWrapper.setProps({ visible: true })
         // Hide it
@@ -481,27 +524,200 @@ describe('Workspace', () => {
 
       it('Delete a chapter if the input event is emitted with an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick('1')
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '1' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeUndefined()
       })
 
       it('Do nothing if the input event is emitted without an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input')
+        await deleteConfirmationWrapper.vm.$emit('input')
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
       it('Do nothing if the input event is emitted with an unknown chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '-1' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
       it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
         lckServices.chapter.remove.mockImplementationOnce(() => { throw new Error() })
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '1' })
-        expect(wrapper.vm.$toast.add).toHaveBeenCalledTimes(1)
-        wrapper.vm.$toast.add.mockReset()
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  describe('Page crud', () => {
+    let wrapper
+    let pageWrapper
+    const newPageName = 'newPageName'
+    const pageIsHidden = true
+
+    beforeEach(async () => {
+      wrapper = await shallowMount(Workspace, globalComponentParams)
+      pageWrapper = wrapper.findComponent(PageDialog)
+    })
+
+    describe('Add a new page', () => {
+      it('Do not display the page edit dialog if the add-subitem event is emitted from sidebar without an existing chapter', async () => {
+        await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', {})
+        expect(pageWrapper.props('visible')).toBe(false)
+      })
+
+      it('Display the page edit dialog with an empty object when the add-subitem event is emitted from sidebar with an existing chapter', async () => {
+        await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1' })
+        expect(pageWrapper.props('value')).toStrictEqual({})
+        expect(pageWrapper.props('visible')).toBe(true)
+      })
+
+      it('Create a new page if the input event is emitted with an existing chapter which already has some pages', async () => {
+        await wrapper.vm.onPageEditClick({ item: '1' })
+        await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        const newPage = wrapper.vm.workspaceContent.chapters[0].pages[2]
+        expect(newPage).toBeDefined()
+        expect(newPage.text).toBe(newPageName)
+        expect(newPage.hidden).toBe(pageIsHidden)
+      })
+
+      it('Create a new page if the input event is emitted with an existing chapter which has not got any pages', async () => {
+        await wrapper.vm.onPageEditClick({ item: '2' })
+        await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        const newPage = wrapper.vm.workspaceContent.chapters[1].pages[0]
+        expect(newPage).toBeDefined()
+        expect(newPage.text).toBe(newPageName)
+        expect(newPage.hidden).toBe(pageIsHidden)
+      })
+    })
+
+    describe('Update a page', () => {
+      it('Display the page edit dialog when the edit-item event is emitted from sidebar with an existing chapter', async () => {
+        await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1', subitem: '12' })
+        expect(pageWrapper.props('visible')).toBe(true)
+        expect(pageWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
+      })
+
+      it('Hide the page edit dialog if it emits the close event', async () => {
+        // Display the dialog
+        await pageWrapper.setProps({ visible: true })
+        // Hide it
+        await pageWrapper.vm.$emit('close')
+        expect(pageWrapper.props('visible')).toBe(false)
+      })
+
+      it('Update the page if the input event is emitted with an existing chapter and an existing page', async () => {
+        await wrapper.vm.onPageEditClick({ item: '1', subitem: '12' })
+        await pageWrapper.vm.$emit('input', { id: '12', text: newPageName, hidden: pageIsHidden })
+        const updatedPage = wrapper.vm.workspaceContent.chapters[0].pages[1]
+        expect(updatedPage).toBeDefined()
+        expect(updatedPage.text).toBe(newPageName)
+        expect(updatedPage.hidden).toBe(pageIsHidden)
+      })
+
+      it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+        lckServices.page.create.mockImplementationOnce(() => { throw new Error() })
+        await pageWrapper.vm.$emit('input')
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('Delete a page', () => {
+      let deleteConfirmationWrapper
+
+      beforeEach(() => {
+        deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+      })
+
+      it('Display the confirmation dialog with the specified page when the delete-subitem event is emitted', async () => {
+        await wrapper.findComponent(Sidebar).vm.$emit('delete-subitem', { item: '1', subitem: '12' })
+        expect(deleteConfirmationWrapper.props('visible')).toBe(true)
+        expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
+      })
+
+      it('Hide the confirmation dialog if the close event is emitted', async () => {
+        // Display the dialog
+        await deleteConfirmationWrapper.setProps({ visible: true })
+        // Hide it
+        await deleteConfirmationWrapper.vm.$emit('close')
+        expect(deleteConfirmationWrapper.props('visible')).toBe(false)
+      })
+
+      it('Delete a page if the input event is emitted with an existing page and an existing chapter', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        expect(wrapper.vm.workspaceContent.chapters[0].pages.find(p => p.id === '12')).toBeUndefined()
+      })
+
+      it('Do nothing if the input event is emitted without an existing page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1' })
+        await deleteConfirmationWrapper.vm.$emit('input')
+        expect(wrapper.vm.workspaceContent.chapters[0].pages)
+          .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
+      })
+
+      it('Do nothing if the input event is emitted with an unknown page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '-12' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '-12' })
+        expect(wrapper.vm.workspaceContent.chapters[0].pages)
+          .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
+      })
+
+      it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+        lckServices.page.remove.mockImplementationOnce(() => { throw new Error() })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('Reorder pages', () => {
+      it('Reorder the pages if the reorder-subitem event is emitted with an existing chapter and valid positions', async () => {
+        await wrapper.vm.onPageReorderClick('1', { moved: { oldIndex: 0, newIndex: 1 } })
+        const updatedPages = wrapper.vm.workspaceContent.chapters[0].pages
+        const originalPages = mockWorkspaceContent.chapters[0].pages
+        expect(updatedPages[0].position).toBe(0)
+        expect(updatedPages[0].id).toBe(originalPages[1].id)
+        expect(updatedPages[1].position).toBe(1)
+        expect(updatedPages[1].id).toBe(originalPages[0].id)
+      })
+
+      it('Reorder the pages if the reorder-subitem event is emitted with an existing chapter and valid positions', async () => {
+        await wrapper.vm.onPageReorderClick('1', { moved: { oldIndex: 1, newIndex: 0 } })
+        const updatedPages = wrapper.vm.workspaceContent.chapters[0].pages
+        const originalPages = mockWorkspaceContent.chapters[0].pages
+        expect(updatedPages[0].position).toBe(0)
+        expect(updatedPages[0].id).toBe(originalPages[1].id)
+        expect(updatedPages[1].position).toBe(1)
+        expect(updatedPages[1].id).toBe(originalPages[0].id)
+      })
+
+      it('Do nothing if the drag over event is not a moved event', async () => {
+        await wrapper.vm.onPageReorderClick('1', { added: { newIndex: 0 } })
+        const updatedPages = wrapper.vm.workspaceContent.chapters[0].pages
+        const originalPages = mockWorkspaceContent.chapters[0].pages
+        expect(updatedPages[0].position).toBe(0)
+        expect(updatedPages[0].id).toBe(originalPages[0].id)
+        expect(updatedPages[1].position).toBe(1)
+        expect(updatedPages[1].id).toBe(originalPages[1].id)
+      })
+
+      it('Do nothing if the chapter id is not provided', async () => {
+        await wrapper.vm.onPageReorderClick(null, { moved: { oldIndex: 1, newIndex: 0 } })
+        const updatedPages = wrapper.vm.workspaceContent.chapters[0].pages
+        const originalPages = mockWorkspaceContent.chapters[0].pages
+        expect(updatedPages[0].position).toBe(0)
+        expect(updatedPages[0].id).toBe(originalPages[0].id)
+        expect(updatedPages[1].position).toBe(1)
+        expect(updatedPages[1].id).toBe(originalPages[1].id)
+      })
+
+      it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+        lckServices.page.patch.mockRejectedValue(new Error())
+        await wrapper.vm.onPageReorderClick('1', { moved: { oldIndex: 1, newIndex: 0 } })
+        expect(spyOnToast).toHaveBeenCalled()
       })
     })
   })
@@ -513,17 +729,25 @@ describe('Workspace', () => {
 
     beforeAll(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
-      firstPagePath = mockRouterPath(
-        mockWorkspaceContent.id,
-        mockWorkspaceContent.chapters[0].pages[0].id
-      )
-      secondPagePath = mockRouterPath(
-        mockWorkspaceContent.id,
-        mockWorkspaceContent.chapters[0].pages[1].id
-      )
+      firstPagePath = wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: mockWorkspaceContent.chapters[0].pages[0].id
+        }
+      }).route.path
+      secondPagePath = wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: mockWorkspaceContent.chapters[0].pages[1].id
+        }
+      }).route.path
     })
 
-    it('Redirect to the first page by default', async () => {
+    it('Redirect to the first page', async () => {
+      wrapper.vm.$router.push('/')
+      await wrapper.vm.goToFirstPage()
       expect(wrapper.vm.$router.history.current.path).toBe(firstPagePath)
     })
 
@@ -534,21 +758,78 @@ describe('Workspace', () => {
     })
   })
 
+  describe('goToSpecificChapterPage', () => {
+    let wrapper
+    let firstPagePath
+    let secondPagePath
+    let defaultWorkspacePath
+    let firstChapter
+
+    beforeAll(async () => {
+      wrapper = await shallowMount(Workspace, globalComponentParams)
+      firstChapter = wrapper.vm.workspaceContent.chapters[0]
+      firstPagePath = wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: firstChapter.pages[0].id
+        }
+      }).route.path
+      secondPagePath = wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: firstChapter.pages[1].id
+        }
+      }).route.path
+      defaultWorkspacePath = wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.VISUALIZATION,
+        params: {
+          worspaceId: mockWorkspaceContent.id
+        }
+      }).route.path
+    })
+
+    it('Redirect to the specific page of a specific chapter', async () => {
+      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
+      expect(wrapper.vm.$router.history.current.path).toBe(secondPagePath)
+    })
+
+    it('Redirect to the first page of a specific chapter', async () => {
+      await wrapper.vm.goToSpecificChapterPage(firstChapter)
+      expect(wrapper.vm.$router.history.current.path).toBe(firstPagePath)
+    })
+
+    it('Do nothing if we are already on the same page', async () => {
+      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
+      const spyOnRouterReplace = jest.spyOn(wrapper.vm.$router, 'replace')
+      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
+      expect(wrapper.vm.$router.history.current.path).toBe(secondPagePath)
+      expect(spyOnRouterReplace).not.toHaveBeenCalled()
+    })
+
+    it('Redirect to a default page if there is no page in the specified chapter', async () => {
+      await wrapper.setData({ workspaceContent: { chapters: [{ pages: [] }] } })
+      await wrapper.vm.goToSpecificChapterPage(wrapper.vm.workspaceContent.chapters[0])
+      expect(wrapper.vm.$router.history.current.path).toBe(defaultWorkspacePath)
+    })
+  })
+
   describe('displayToastOnError', () => {
     let wrapper
 
     beforeAll(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
-      wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
-      wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
+      wrapper.vm.$toast.add.mockReset()
     })
 
-    afterAll(() => {
+    afterEach(() => {
       wrapper.vm.$toast.add.mockReset()
     })
 
     it('Display a toast with the specified parameters for an error without code', () => {
-      expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(1,
+      wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
+      expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.basic'
@@ -557,7 +838,8 @@ describe('Workspace', () => {
     })
 
     it('Display a toast with the specified parameters for an error with a code', () => {
-      expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(2,
+      wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
+      expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.http.404'

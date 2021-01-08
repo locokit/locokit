@@ -6,7 +6,6 @@
     :contentStyle="{ 'max-height': '70vh' }"
     :closeOnEscape="true"
     class="p-fluid"
-    @hide="$emit('close')"
     @update:visible="$emit('close')"
     :header="value.id ? $t('pages.workspace.editPage') : $t('pages.workspace.createPage')"
   >
@@ -42,7 +41,7 @@ import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 
 export default {
-  name: 'ChapterDialog',
+  name: 'PageDialog',
   components: {
     'lck-form': LckForm,
     'p-dialog': Vue.extend(Dialog),

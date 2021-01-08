@@ -14,9 +14,9 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_23_content"
+          aria-controls="pv_id_25_content"
           class="p-accordion-header-link"
-          id="pv_id_23_header"
+          id="pv_id_25_header"
           role="tab"
           tabindex="0"
         >
@@ -33,9 +33,9 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_23_header"
+        aria-labelledby="pv_id_25_header"
         class="p-toggleable-content"
-        id="pv_id_23_content"
+        id="pv_id_25_content"
         role="region"
         style="display: none;"
       >
@@ -69,9 +69,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_28_content"
+          aria-controls="pv_id_30_content"
           class="p-accordion-header-link"
-          id="pv_id_28_header"
+          id="pv_id_30_header"
           role="tab"
           tabindex="0"
         >
@@ -96,9 +96,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
       </div>
        
       <div
-        aria-labelledby="pv_id_28_header"
+        aria-labelledby="pv_id_30_header"
         class="p-toggleable-content"
-        id="pv_id_28_content"
+        id="pv_id_30_content"
         role="region"
         style="display: none;"
       >
@@ -180,9 +180,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_29_content"
+          aria-controls="pv_id_31_content"
           class="p-accordion-header-link"
-          id="pv_id_29_header"
+          id="pv_id_31_header"
           role="tab"
           tabindex="0"
         >
@@ -207,9 +207,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
       </div>
        
       <div
-        aria-labelledby="pv_id_29_header"
+        aria-labelledby="pv_id_31_header"
         class="p-toggleable-content"
-        id="pv_id_29_content"
+        id="pv_id_31_content"
         role="region"
         style="display: none;"
       >
@@ -217,20 +217,70 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
           class="p-accordion-content"
         >
            
-          <a
-            class="mock-link"
+          <div>
+            <a
+              class="mock-link"
+            >
+              <span
+                class="pi pi-ellipsis-v handle"
+              />
+              
+          Third subitem
+          
+              <span
+                class="action-subset"
+              >
+                <span
+                  class="pi pi-pencil action-button"
+                />
+                 
+                <span
+                  class="pi pi-trash action-button"
+                />
+              </span>
+            </a>
+            <a
+              class="mock-link"
+            >
+              <span
+                class="pi pi-ellipsis-v handle"
+              />
+              
+          Fourth subitem
+          
+              <span
+                class="action-subset"
+              >
+                <span
+                  class="pi pi-pencil action-button"
+                />
+                 
+                <span
+                  class="pi pi-trash action-button"
+                />
+              </span>
+            </a>
+          </div>
+           
+          <button
+            class="new-item-button new-subitem-button p-button p-component"
+            type="button"
           >
-            
-      Third subitem
-    
-          </a>
-          <a
-            class="mock-link"
-          >
-            
-      Fourth subitem
-    
-          </a>
+            <span
+              class="pi pi-plus p-button-icon p-button-icon-right"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Create a new element
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -254,9 +304,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_30_content"
+          aria-controls="pv_id_32_content"
           class="p-accordion-header-link"
-          id="pv_id_30_header"
+          id="pv_id_32_header"
           role="tab"
           tabindex="0"
         >
@@ -283,9 +333,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
       </div>
        
       <div
-        aria-labelledby="pv_id_30_header"
+        aria-labelledby="pv_id_32_header"
         class="p-toggleable-content"
-        id="pv_id_30_content"
+        id="pv_id_32_content"
         role="region"
         style="display: none;"
       >
@@ -293,20 +343,70 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
           class="p-accordion-content"
         >
            
-          <a
-            class="mock-link"
+          <div>
+            <a
+              class="mock-link"
+            >
+              <span
+                class="pi pi-ellipsis-v handle"
+              />
+              
+          First subitem
+          
+              <span
+                class="action-subset"
+              >
+                <span
+                  class="pi pi-pencil action-button"
+                />
+                 
+                <span
+                  class="pi pi-trash action-button"
+                />
+              </span>
+            </a>
+            <a
+              class="mock-link"
+            >
+              <span
+                class="pi pi-ellipsis-v handle"
+              />
+              
+          Second subitem
+          
+              <span
+                class="action-subset"
+              >
+                <span
+                  class="pi pi-pencil action-button"
+                />
+                 
+                <span
+                  class="pi pi-trash action-button"
+                />
+              </span>
+            </a>
+          </div>
+           
+          <button
+            class="new-item-button new-subitem-button p-button p-component"
+            type="button"
           >
-            
-      First subitem
-    
-          </a>
-          <a
-            class="mock-link"
-          >
-            
-      Second subitem
-    
-          </a>
+            <span
+              class="pi pi-plus p-button-icon p-button-icon-right"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Create a new element
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -317,9 +417,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_31_content"
+          aria-controls="pv_id_33_content"
           class="p-accordion-header-link"
-          id="pv_id_31_header"
+          id="pv_id_33_header"
           role="tab"
           tabindex="0"
         >
@@ -346,9 +446,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
       </div>
        
       <div
-        aria-labelledby="pv_id_31_header"
+        aria-labelledby="pv_id_33_header"
         class="p-toggleable-content"
-        id="pv_id_31_content"
+        id="pv_id_33_content"
         role="region"
         style="display: none;"
       >
@@ -461,141 +561,6 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_24_content"
-          class="p-accordion-header-link"
-          id="pv_id_24_header"
-          role="tab"
-          tabindex="0"
-        >
-          <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
-          />
-           
-          <!---->
-           
-      First item
-      
-          <!---->
-        </a>
-      </div>
-       
-      <div
-        aria-labelledby="pv_id_24_header"
-        class="p-toggleable-content"
-        id="pv_id_24_content"
-        role="region"
-        style="display: none;"
-      >
-        <div
-          class="p-accordion-content"
-        >
-           
-          <div>
-            <a
-              class="mock-link"
-            >
-              <!---->
-              
-          First subitem
-          
-              <!---->
-            </a>
-            <a
-              class="mock-link"
-            >
-              <!---->
-              
-          Second subitem
-          
-              <!---->
-            </a>
-          </div>
-           
-          <!---->
-        </div>
-      </div>
-    </div>
-    <div
-      class="p-accordion-tab"
-    >
-      <div
-        class="p-accordion-header"
-      >
-        <a
-          aria-controls="pv_id_25_content"
-          class="p-accordion-header-link"
-          id="pv_id_25_header"
-          role="tab"
-          tabindex="0"
-        >
-          <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
-          />
-           
-          <!---->
-           
-      Second item
-      
-          <!---->
-        </a>
-      </div>
-       
-      <div
-        aria-labelledby="pv_id_25_header"
-        class="p-toggleable-content"
-        id="pv_id_25_content"
-        role="region"
-        style="display: none;"
-      >
-        <div
-          class="p-accordion-content"
-        >
-           
-          <div>
-            <a
-              class="mock-link"
-            >
-              <!---->
-              
-          Third subitem
-          
-              <!---->
-            </a>
-            <a
-              class="mock-link"
-            >
-              <!---->
-              
-          Fourth subitem
-          
-              <!---->
-            </a>
-          </div>
-           
-          <!---->
-        </div>
-      </div>
-    </div>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`storyshots components/visualize/Sidebar with props items and active 1`] = `
-<div
-  style="height: 100%;"
->
-  <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
-  >
-    <div
-      class="p-accordion-tab"
-    >
-      <div
-        class="p-accordion-header"
-      >
-        <a
           aria-controls="pv_id_26_content"
           class="p-accordion-header-link"
           id="pv_id_26_header"
@@ -651,16 +616,151 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
     </div>
     <div
+      class="p-accordion-tab"
+    >
+      <div
+        class="p-accordion-header"
+      >
+        <a
+          aria-controls="pv_id_27_content"
+          class="p-accordion-header-link"
+          id="pv_id_27_header"
+          role="tab"
+          tabindex="0"
+        >
+          <span
+            class="p-accordion-toggle-icon pi pi-chevron-right"
+          />
+           
+          <!---->
+           
+      Second item
+      
+          <!---->
+        </a>
+      </div>
+       
+      <div
+        aria-labelledby="pv_id_27_header"
+        class="p-toggleable-content"
+        id="pv_id_27_content"
+        role="region"
+        style="display: none;"
+      >
+        <div
+          class="p-accordion-content"
+        >
+           
+          <div>
+            <a
+              class="mock-link"
+            >
+              <!---->
+              
+          Third subitem
+          
+              <!---->
+            </a>
+            <a
+              class="mock-link"
+            >
+              <!---->
+              
+          Fourth subitem
+          
+              <!---->
+            </a>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/Sidebar with props items and active 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-accordion p-component lck-bg-primary lck-sidebar"
+  >
+    <div
+      class="p-accordion-tab"
+    >
+      <div
+        class="p-accordion-header"
+      >
+        <a
+          aria-controls="pv_id_28_content"
+          class="p-accordion-header-link"
+          id="pv_id_28_header"
+          role="tab"
+          tabindex="0"
+        >
+          <span
+            class="p-accordion-toggle-icon pi pi-chevron-right"
+          />
+           
+          <!---->
+           
+      First item
+      
+          <!---->
+        </a>
+      </div>
+       
+      <div
+        aria-labelledby="pv_id_28_header"
+        class="p-toggleable-content"
+        id="pv_id_28_content"
+        role="region"
+        style="display: none;"
+      >
+        <div
+          class="p-accordion-content"
+        >
+           
+          <div>
+            <a
+              class="mock-link"
+            >
+              <!---->
+              
+          First subitem
+          
+              <!---->
+            </a>
+            <a
+              class="mock-link"
+            >
+              <!---->
+              
+          Second subitem
+          
+              <!---->
+            </a>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+    <div
       class="p-accordion-tab p-accordion-tab-active"
     >
       <div
         class="p-accordion-header p-highlight"
       >
         <a
-          aria-controls="pv_id_27_content"
+          aria-controls="pv_id_29_content"
           aria-expanded="true"
           class="p-accordion-header-link"
-          id="pv_id_27_header"
+          id="pv_id_29_header"
           role="tab"
           tabindex="0"
         >
@@ -677,9 +777,9 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
        
       <div
-        aria-labelledby="pv_id_27_header"
+        aria-labelledby="pv_id_29_header"
         class="p-toggleable-content"
-        id="pv_id_27_content"
+        id="pv_id_29_content"
         role="region"
       >
         <div
