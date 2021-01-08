@@ -6,7 +6,6 @@
     :contentStyle="{ 'max-height': '70vh' }"
     :closeOnEscape="true"
     class="p-fluid"
-    @hide="$emit('close')"
     @update:visible="$emit('close')"
     :header="value.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
   >
