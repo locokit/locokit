@@ -61,12 +61,12 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     })
     const tvhtc: TableViewColumn = await service.update(
       `${tableview.id},${columnTable1Boolean.id}`, {
-        display: { width: '100px' }
+        style: { width: '100px' }
       })
     expect(tvhtc).toBeTruthy()
     expect(tvhtc.table_view_id).toBe(tableview.id)
     expect(tvhtc.table_column_id).toBe(columnTable1Boolean.id)
-    expect(tvhtc.display).toEqual({ width: '100px' })
+    expect(tvhtc.style).toEqual({ width: '100px' })
     await service.remove(`${tableview.id},${columnTable1Boolean.id}`)
   })
   it(' patch of tvhtc if view is not locked', async () => {
@@ -77,10 +77,10 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     })
     const tvhtc: TableViewColumn = await service.patch(
       `${tableview.id},${columnTable1Boolean.id}`, {
-        display: { width: '100px' }
+        style: { width: '100px' }
       })
     expect(tvhtc).toBeTruthy()
-    expect(tvhtc.display).toEqual({ width: '100px' })
+    expect(tvhtc.style).toEqual({ width: '100px' })
     await service.remove(`${tableview.id},${columnTable1Boolean.id}`)
   })
   it(' remove of tvhtc if view is not locked', async () => {
@@ -127,7 +127,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
       service.update(`${tableview.id},${columnTable1Boolean.id}`, {
         table_view_id: tableview.id,
         table_column_id: columnTable1Boolean.id,
-        display: { width: '100px' }
+        style: { width: '100px' }
       })
     ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
@@ -150,7 +150,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     )
     await expect(
       service.patch(`${tableview.id},${columnTable1Boolean.id}`, {
-        display: { width: '100px' }
+        style: { width: '100px' }
       })
     ).rejects.toThrow(NotAcceptable)
     await app.service('view').patch(
