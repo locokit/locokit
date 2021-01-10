@@ -98,49 +98,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
         </div>
       </div>
        
-      <div
-        class="p-dialog-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-check p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Submit
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
+      <!---->
     </div>
   </div>
 </div>
@@ -244,49 +202,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
         </div>
       </div>
        
-      <div
-        class="p-dialog-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-check p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Submit
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
+      <!---->
     </div>
   </div>
 </div>

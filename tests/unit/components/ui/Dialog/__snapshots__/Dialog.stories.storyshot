@@ -9,7 +9,6 @@ exports[`storyshots components/ui/Dialog default 1`] = `
     style="z-index: 1008;"
   >
     <div
-      aria-labelledby="pv_id_15_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -18,12 +17,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
       <div
         class="p-dialog-header"
       >
-        <span
-          class="p-dialog-title"
-          id="pv_id_15_header"
-        >
-          Header of the dialog box
-        </span>
+        <!---->
          
         <div
           class="p-dialog-header-icons"
@@ -51,49 +45,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
         style="max-height: 70vh;"
       />
        
-      <div
-        class="p-dialog-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-check p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Submit
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
+      <!---->
     </div>
   </div>
 </div>
@@ -108,7 +60,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
     style="z-index: 1009;"
   >
     <div
-      aria-labelledby="pv_id_16_header"
+      aria-labelledby="pv_id_15_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
@@ -119,7 +71,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_16_header"
+          id="pv_id_15_header"
         >
           This is the header
         </span>
@@ -154,49 +106,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
       
       </div>
        
-      <div
-        class="p-dialog-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-check p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Submit
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
+      <!---->
     </div>
   </div>
 </div>

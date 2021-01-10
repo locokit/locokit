@@ -53,15 +53,29 @@ export class LckTableViewColumn extends LckTableColumn {
    */
   position!: number;
   /**
-   * Sort properties
-   */
-  sort!: object;
-  /**
    * Filters
    */
   filters?: object[]
+  /**
+   * Whether editable
+   */
   editable!: boolean;
-  visible!: boolean;
+  /**
+   * Whether displayed
+   */
+  displayed!: boolean;
+  /**
+   * Whether transmitted
+   */
+  transmitted!: boolean;
+  /**
+   * Whether transmitted
+   */
+  default!: string;
+  /**
+   * Style css rules
+   */
+  style!: object;
 }
 
 export class LckTableView extends LckBaseModel {

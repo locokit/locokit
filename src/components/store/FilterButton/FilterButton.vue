@@ -391,9 +391,9 @@ export default {
   computed: {
     columnsDisplayable () {
       if (this.columns?.length < 1) return []
-      return this.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
+      return this.columns.reduce((acc, { text, id, column_type_id: columnTypeId, displayed }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
-        if (this.supportedTypes.includes(columnTypeId)) {
+        if (this.supportedTypes.includes(columnTypeId) && displayed === true) {
           acc.push({
             value: id,
             label: text,

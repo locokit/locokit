@@ -139,9 +139,15 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             >
               <!---->
                
-              <!---->
-              <!---->
-              <!---->
+              <div>
+                <!---->
+              </div>
+              <div>
+                <!---->
+              </div>
+              <div>
+                <!---->
+              </div>
                
               <!---->
                

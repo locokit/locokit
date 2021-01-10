@@ -23,11 +23,21 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -256,11 +266,21 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -489,11 +509,21 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -722,11 +752,21 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -955,11 +995,21 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -1188,11 +1238,21 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -1507,11 +1567,21 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -1732,11 +1802,21 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -1965,11 +2045,21 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -2190,11 +2280,21 @@ exports[`storyshots components/store/DataTable No content 1`] = `
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          
@@ -2283,11 +2383,21 @@ exports[`storyshots components/store/DataTable No content with the detail button
       >
         <!---->
          
-        <!---->
-        <!---->
-        <!---->
-        <!---->
-        <!---->
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
          
         <!---->
          

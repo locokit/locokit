@@ -547,7 +547,7 @@ export default {
             table_column_id: id,
             table_view_id: this.selectedViewId,
             position: value.length + index,
-            visible: true
+            displayed: true
           })
         ))
       }
@@ -627,13 +627,13 @@ export default {
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
-          display: {
-            ...currentColumn.display,
+          style: {
+            ...currentColumn.style,
             width: newWidth
           }
         })
       // replace existing definition with new column
-      currentColumn.display = newColumn.display
+      currentColumn.style = newColumn.style
     },
     async onColumnReorder ({
       fromIndex,

@@ -234,9 +234,7 @@ export default {
     async onCreateRow (block, newRow) {
       const data = { ...newRow.data }
       if (this.$route.query.rowId) {
-        // Todo: Add property in table_view_has_column to get the column id target
-        // Todo: Discuss about the property visible (impossible to find the column is visible has true)
-        const columnTargetDetail = block.definition.columns.find(column => !column.editable && !!column.filter)
+        const columnTargetDetail = block.definition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
       }
       this.$set(block, 'submitting', true)
