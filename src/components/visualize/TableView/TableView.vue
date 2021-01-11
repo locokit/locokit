@@ -13,7 +13,7 @@
         <lck-filter-button
           v-if="filterAllowed"
           :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
-          :columns="definition && definition.columns"
+          :definition="columnsDisplayed"
           :columnsDropdownOptions="columnsDropdownOptions"
           v-model="currentDatatableFilters"
           @submit="onSubmitFilters"
@@ -41,7 +41,7 @@
 
     <lck-datatable
       v-if="definition"
-      :definition="definition"
+      :definition="columnsDisplayed"
       :content="content"
       :crud-mode="false"
       v-bind="$attrs"
@@ -58,7 +58,7 @@
     >
       <lck-data-detail
         :crudMode="false"
-        :definition="definition"
+        :definition="columnsDisplayed"
         :row="newRow"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         @update-suggestions="$listeners['update-suggestions']"
@@ -132,10 +132,16 @@ export default {
     }
   },
   computed: {
+    hasColumns () {
+      return this.definition?.columns?.length > 0
+    },
+    columnsDisplayed () {
+      return this.hasColumns ? { columns: this.definition.columns.filter(currentColumn => currentColumn.displayed === true) } : null
+    },
     columnsDropdownOptions () {
       const result = {}
       if (this.hasColumns) {
-        this.definition.columns.forEach(currentColumn => {
+        this.columnsDisplayed.columns.forEach(currentColumn => {
           if (
             currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
             currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
@@ -148,9 +154,6 @@ export default {
         })
       }
       return result
-    },
-    hasColumns () {
-      return this.definition?.columns?.length > 0
     },
     hasDataToDisplay () {
       return this.hasColumns && this.content?.total > 0

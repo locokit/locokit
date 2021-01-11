@@ -67,7 +67,7 @@
 
               <lck-filter-button
                 class="p-ml-2"
-                :columns="displayColumnsView.columns"
+                :definition="displayColumnsView"
                 :columnsDropdownOptions="currentBlockDropdownOptions"
                 v-model="currentDatatableFilters"
                 :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"

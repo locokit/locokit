@@ -14,92 +14,88 @@
       v-for="column in definition.columns"
       :key="column.id"
     >
-      <div
-        v-if="column.displayed === true"
+      <label
+        class="lck-color-subtitle"
+        :for="column.id"
       >
-        <label
-          class="lck-color-subtitle"
-          :for="column.id"
-        >
-          {{ column.text }}
-        </label>
+        {{ column.text }}
+      </label>
 
-        <div
-          v-if="editableColumns.indexOf(column) > -1"
-        >
-          <lck-autocomplete
-            v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-            :id="column.id"
-            :placeholder="$t('components.datatable.placeholder')"
-            field="label"
-            :suggestions="autocompleteSuggestions"
-            @search="onComplete(column, $event)"
-            v-model="autocompleteInput[column.id]"
-            @item-select="onAutocompleteEdit(row.id, column.id, $event)"
-            @clear="onAutocompleteEdit(row.id, column.id, null)"
-          />
-          <lck-multi-autocomplete
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
-            :id="column.id"
-            field="label"
-            :suggestions="autocompleteSuggestions"
-            v-model="multipleAutocompleteInput[column.id]"
-            @search="onComplete(column, $event)"
-            @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
-            @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
-          />
-          <p-dropdown
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-            :id="column.id"
-            :options="columnsEnhanced[column.id].dropdownOptions"
-            optionLabel="label"
-            optionValue="value"
-            :showClear="true"
-            :placeholder="$t('components.datatable.placeholder')"
-            v-model="row.data[column.id]"
-            @input="onEdit(row.id, column.id, $event)"
-          />
-          <lck-multiselect
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
-            :id="column.id"
-            :options="columnsEnhanced[column.id].dropdownOptions"
-            optionLabel="label"
-            optionValue="value"
-            :placeholder="$t('components.datatable.placeholder')"
-            v-model="row.data[column.id]"
-            @input="onEdit(row.id, column.id, $event)"
-          />
-          <p-calendar
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-            :id="column.id"
-            :dateFormat="$t('date.dateFormatPrime')"
-            v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event)"
-            appendTo="body"
-          />
-          <p-input-number
-            v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
-            v-model="row.data[column.id]"
-            @blur="onEdit(row.id, column.id, row.data[column.id])"
-            mode="decimal"
-            :minFractionDigits="2"
-          />
-          <component
-            v-else
-            :is="getComponentEditableColumn(column.column_type_id)"
-            :id="column.id"
-            v-model="row.data[column.id]"
-            @blur="onEdit(row.id, column.id, row.data[column.id])"
-          />
-        </div>
-
-        <div
+      <div
+        v-if="editableColumns.indexOf(column) > -1"
+      >
+        <lck-autocomplete
+          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+          :id="column.id"
+          :placeholder="$t('components.datatable.placeholder')"
+          field="label"
+          :suggestions="autocompleteSuggestions"
+          @search="onComplete(column, $event)"
+          v-model="autocompleteInput[column.id]"
+          @item-select="onAutocompleteEdit(row.id, column.id, $event)"
+          @clear="onAutocompleteEdit(row.id, column.id, null)"
+        />
+        <lck-multi-autocomplete
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+          :id="column.id"
+          field="label"
+          :suggestions="autocompleteSuggestions"
+          v-model="multipleAutocompleteInput[column.id]"
+          @search="onComplete(column, $event)"
+          @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
+          @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
+        />
+        <p-dropdown
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+          :id="column.id"
+          :options="columnsEnhanced[column.id].dropdownOptions"
+          optionLabel="label"
+          optionValue="value"
+          :showClear="true"
+          :placeholder="$t('components.datatable.placeholder')"
+          v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
+        />
+        <lck-multiselect
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+          :id="column.id"
+          :options="columnsEnhanced[column.id].dropdownOptions"
+          optionLabel="label"
+          optionValue="value"
+          :placeholder="$t('components.datatable.placeholder')"
+          v-model="row.data[column.id]"
+          @input="onEdit(row.id, column.id, $event)"
+        />
+        <p-calendar
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+          :id="column.id"
+          :dateFormat="$t('date.dateFormatPrime')"
+          v-model="row.data[column.id]"
+          @input="onDateEdit(row.id, column.id, $event)"
+          appendTo="body"
+        />
+        <p-input-number
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+          v-model="row.data[column.id]"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
+          mode="decimal"
+          :minFractionDigits="2"
+        />
+        <component
           v-else
-          class="p-fluid p-inputtext p-component"
-          style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
-        >
-          {{ getColumnDisplayValue(column, row.data[column.id]) }}
-        </div>
+          :is="getComponentEditableColumn(column.column_type_id)"
+          :id="column.id"
+          v-model="row.data[column.id]"
+          @blur="onEdit(row.id, column.id, row.data[column.id])"
+        />
+      </div>
+
+      <div
+        v-else
+        class="p-fluid p-inputtext p-component"
+        style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
+      >
+        {{ getColumnDisplayValue(column, row.data[column.id]) }}
       </div>
     </div>
   </div>

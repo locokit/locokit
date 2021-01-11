@@ -87,7 +87,6 @@
           :key="column.id"
         >
           <p-column
-            v-if="column.displayed === true"
             :field="column.id"
             :headerStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
