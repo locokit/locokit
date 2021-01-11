@@ -69,13 +69,22 @@ export class LckTableViewColumn extends LckTableColumn {
    */
   transmitted!: boolean;
   /**
-   * Whether transmitted
+   * Value which specify a data/template in order to parameterize a behaviour
    */
   default!: string;
   /**
    * Style css rules
    */
   style!: object;
+  /**
+   * Sort of value
+   */
+  sort!: SORT_COLUMN;
+}
+
+export enum SORT_COLUMN {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
 export class LckTableView extends LckBaseModel {
