@@ -796,12 +796,11 @@ describe('Workspace', () => {
       expect(wrapper.vm.$router.history.current.path).toBe(firstPagePath)
     })
 
-    it('Do nothing if we are already on the same page', async () => {
+    it('Refresh the necessary children components keys if we want to access the current path', async () => {
       await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      const spyOnRouterReplace = jest.spyOn(wrapper.vm.$router, 'replace')
+      const originalKey = wrapper.vm.forceUpdateKey
       await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      expect(wrapper.vm.$router.history.current.path).toBe(secondPagePath)
-      expect(spyOnRouterReplace).not.toHaveBeenCalled()
+      expect(wrapper.vm.forceUpdateKey).toBe(!originalKey)
     })
 
     it('Redirect to a default page if there is no page in the specified chapter', async () => {

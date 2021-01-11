@@ -18,7 +18,7 @@
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
-      <router-view />
+      <router-view :key="forceUpdateKey" />
       <p-toggle-button
         v-if="canEditWorkspace"
         v-model="editMode"
@@ -97,7 +97,8 @@ export default {
         pageDelete: false
       },
       currentChapterToEdit: {},
-      currentPageToEdit: {}
+      currentPageToEdit: {},
+      forceUpdateKey: true
     }
   },
   computed: {
@@ -157,6 +158,8 @@ export default {
         const targetPageId = !page.id ? chapter.pages[0].id : page.id
         if (this.$route.params.workspaceId !== this.workspaceId || this.$route.params.pageId !== targetPageId) {
           await this.$router.replace({ name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: targetPageId } })
+        } else {
+          this.forceUpdateKey = !this.forceUpdateKey
         }
       } else {
         await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
@@ -265,6 +268,7 @@ export default {
             this.$set(this.currentChapterToEdit, 'pages', [this.currentPageToEdit])
           }
         }
+        await this.goToSpecificChapterPage(this.currentChapterToEdit, this.currentPageToEdit)
         this.onPageEditReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
