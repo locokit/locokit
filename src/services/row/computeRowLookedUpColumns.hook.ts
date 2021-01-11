@@ -44,7 +44,11 @@ export function computeRowLookedUpColumns (): Hook {
              */
             if (typeof currentColumnData.value === 'object') {
               currentColumnData.reference = currentColumnData.value?.reference
-              currentColumnData.value = currentColumnData.value?.value
+              if (foreignColumnTypeId === COLUMN_TYPE.MULTI_USER && Array.isArray(currentColumnData.value?.value)) {
+                currentColumnData.value = currentColumnData.value.value.join(', ')
+              } else {
+                currentColumnData.value = currentColumnData.value?.value
+              }
             }
             context.data.data[currentColumnDefinition.id] = currentColumnData
           }
