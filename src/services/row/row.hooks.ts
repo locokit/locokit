@@ -35,7 +35,8 @@ export default {
         [
           commonHooks.disablePagination(),
           filterRowsByTableViewId(),
-          commonHooks.discardQuery('table_view_id')
+          commonHooks.discardQuery('table_view_id'),
+          commonHooks.discardQuery('rowId')
         ],
         commonHooks.disallow()
       )

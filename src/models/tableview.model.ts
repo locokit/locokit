@@ -52,7 +52,7 @@ export class TableView extends BaseModel {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['sort', 'display', 'filter', 'visible', 'position', 'editable']
+            extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default']
           },
           to: 'table_column.id',
           modify (query: QueryBuilder<TableColumn>) {

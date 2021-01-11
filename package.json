@@ -37,6 +37,7 @@
     "migrate:make": "knex migrate:make",
     "migrate:latest": "knex migrate:latest",
     "migrate:up": "knex migrate:up",
+    "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
     "seed:make": "knex seed:make",
     "seed:run": "knex seed:run"

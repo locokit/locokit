@@ -29,6 +29,7 @@ export default function filterRowsByTableViewId (): Hook {
                 currentFilterKeyValue = (
                   (c.filter as LckColumnFilter)[filterKey] as string
                 ).replace('{userId}', context.params.user.id)
+                 .replace('{rowId}', context.params?.query?.rowId)
                 if (c.column_type_id === COLUMN_TYPE.SINGLE_SELECT) {
                   filtersToAdd[c.id] = currentFilterKeyValue
                 } else {
