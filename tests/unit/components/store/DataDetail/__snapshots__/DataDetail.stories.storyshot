@@ -17,7 +17,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6"
+    class="p-fluid p-pb-6 p-pt-4"
   >
     <!---->
      
@@ -137,7 +137,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6"
+    class="p-fluid p-pb-6 p-pt-4"
   >
     <!---->
      

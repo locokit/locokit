@@ -134,10 +134,10 @@ export default {
   background-color: var(--header-background-color);
 }
 .menu-button {
-  line-height: 70px;
+  line-height: var(--header-height);
   display: none;
-  width: 70px;
-  height: 70px;
+  width: var(--header-height);
+  height: var(--header-height);
   cursor: pointer;
   transition: background-color .2s;
   text-align: center;
