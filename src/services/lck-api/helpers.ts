@@ -35,10 +35,10 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
-        return column.settings.values[data as string]?.label
+        return column.settings.values?.[data as string]?.label
       case COLUMN_TYPE.MULTI_SELECT:
         if ((data as string[]).length > 0) {
-          return (data as string[]).map(d => column.settings.values[d]?.label).join(', ')
+          return (data as string[]).map(d => column.settings.values?.[d]?.label).join(', ')
         } else {
           return ''
         }
