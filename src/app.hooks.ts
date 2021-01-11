@@ -3,15 +3,12 @@
 
 import { HookContext } from '@feathersjs/feathers'
 import { GeneralError } from '@feathersjs/errors'
-import { iff } from 'feathers-hooks-common'
+import { iff /*, debug */ } from 'feathers-hooks-common'
 
 export default {
   before: {
     all: [
-      (context: HookContext) => {
-        // console.log(`[${context.method.toUpperCase()}] ${context.path}`)
-        return context
-      }
+      // debug('app debug')
     ],
     find: [],
     get: [],

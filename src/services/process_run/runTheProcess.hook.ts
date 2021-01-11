@@ -39,7 +39,7 @@ ${value.data && value.data.log}
 
 HTTP Response
 
-${value.data.toString()}
+${JSON.stringify(value.data)}
 
 `
       context.service.patch(context.result?.id, {
@@ -60,11 +60,15 @@ Begin : ${context.result.createdAt}
 
 End : ${new Date().toISOString()}
 
-HTTP Code : ${reason.code}
+Status : ${reason.response?.status} ${reason.response?.statusText}
 
 Axios error ? : ${reason.isAxiosError}
 
 Message : ${reason.message}
+
+Response :
+
+${JSON.stringify(reason.response?.data)}
 
 Stack :
 
