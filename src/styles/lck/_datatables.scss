@@ -4,12 +4,11 @@
   min-width: 5rem;
 
   .cell-state {
-    pointer-events: none;
     position: absolute;
+    top: 0;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
-    top: 0;
     display: block;
     padding: 0.5rem;
     pointer-events: none;
@@ -18,7 +17,7 @@
     &.saved {
       &:before {
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         left: 0;
         display: flex;
         width: 100%;
@@ -107,18 +106,19 @@
 
 .p-datatable .p-column-resizer {
   width: .25rem;
-  margin: .2rem 0;
   height: calc(100% - .4rem);
+  margin: .2rem 0;
   border: unset;
   border-radius: var(--border-radius);
 }
+
 .p-datatable .p-column-resizer::before {
-  content: '';
-  background-color: transparent;
-  width: .5rem;
   display: inline-block;
+  width: .5rem;
   height: 100%;
   margin-left: -.5rem;
+  content: '';
+  background-color: transparent;
 }
 
 .p-datatable .p-column-resizer:hover {
@@ -137,6 +137,47 @@
   }
 }
 
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+}
+
+.p-datatable-wrapper {
+  table {
+    position: relative;
+  }
+
+  .p-datatable-thead {
+    th {
+      position: sticky;
+      z-index: 10;
+
+      top: 0;
+
+      &.sticky-column-cells {
+        z-index: 11;
+        left: 0;
+      }
+    }
+  }
+}
+td.sticky-column-cells {
+  background-color: rgba(256, 256, 256, 0.9) !important;
+  button {
+    &:hover {
+     background-color: rgba(33, 150, 243, 0.04);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      border: none;
+      &:hover {
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
+}
+
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-thead > tr > td {
   overflow: hidden;
@@ -148,7 +189,7 @@
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
       color: var(--primary-color-text);
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.8);
     }
 
     &.editable-cell-table {
@@ -161,6 +202,10 @@
       color: var(--primary-color-text);
       background-color: #ededed;
     }
+  }
+
+  .p-datatable-tbody tr {
+    background-color: rgba(255, 255, 255, 0.8);
   }
 
   .p-datatable-tbody > tr > td {
@@ -179,8 +224,14 @@
     &:focus {
       box-shadow: unset;
     }
+
     .p-sortable-column-icon {
+      position: absolute;
+      z-index: 1;
+      right: 5px;
+      padding: 0.1rem;
       color: var(--primary-color-text);
+      background-color: #ededed;
 
       &.pi::before {
         font-size: 0.8rem !important;
@@ -192,6 +243,13 @@
 
       .p-sortable-column-icon {
         color: var(--primary-color-text);
+        background-color: #f8f9fa;
+      }
+
+      &:hover {
+        .p-sortable-column-icon {
+          background-color: #e9ecef;
+        }
       }
     }
   }
