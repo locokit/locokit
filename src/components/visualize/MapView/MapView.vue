@@ -2,25 +2,32 @@
   <div id="map-view"></div>
 </template>
 
-<script>
-import Vue from 'vue'
-import mapboxgl from 'mapbox-gl'
+<script lang='ts'>
+import Vue, { PropType } from 'vue'
+import { AnyLayer, Map, MapboxOptions } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { Feature } from 'geojson';
+
+interface Resource {
+  id: string,
+  features: Feature[],
+  layers: AnyLayer[]
+}
 
 export default Vue.extend({
   name: 'MapView',
   props: {
     options: {
-      type: Object,
+      type: Object as PropType<MapboxOptions>,
       default: () => ({})
     },
     resources: {
-      type: Array,
+      type: Array as PropType<Resource[]>,
       default: () => []
     }
   },
   mounted () {
-    const map = new mapboxgl.Map({
+    const map = new Map({
       container: 'map-view',
       style: {
         version: 8,
@@ -60,7 +67,7 @@ export default Vue.extend({
           }
         })
         resource.layers.forEach((layer) => {
-          map.addLayer({ source: resource.id, ...layer })
+          map.addLayer({ source: resource.id, ...layer } as AnyLayer)
         })
       })
     })
