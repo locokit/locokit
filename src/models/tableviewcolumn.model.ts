@@ -16,14 +16,16 @@ export class TableViewColumn extends BaseModel {
   filter?: object;
   /* inject style css rules to the column (e.g `{"width": 583}`) */
   style?: object;
-  /* whether the column is displayed for users available. */
+  /* whether the column has to be displayed */
   displayed?: boolean;
-  /* whether the column is transmitted to the platform. Default value: `true` */
+  /* whether the column is transmitted in the API response. Default value: `true` */
   transmitted?: boolean;
   /* whether the column is editable. */
   editable?: boolean;
   /* value which specify a data/template in order to parameterize a behaviour (e.g `{rowId}`) */
   default?: string;
+  /* sorts values into a column. (e.g `ASC` or `DESC`) */
+  sort?: string;
 
   static get idColumn (): string[] {
     return [
@@ -43,6 +45,7 @@ export class TableViewColumn extends BaseModel {
         createdAt: { type: ['string', 'null'] },
         updatedAt: { type: ['string', 'null'] },
         position: { type: ['number', 'null'] },
+        sort: { type: ['string', 'null'] },
         filter: { type: ['object', 'null'] },
         style: { type: ['object', 'null'] },
         displayed: { type: ['boolean', 'null'], default: true },
