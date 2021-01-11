@@ -47,9 +47,8 @@
         :suggestions="tables"
         @search="$emit('search-table', $event)"
         v-model="processCloned.table"
-        @item-select="processCloned.table_id = processCloned.table.value"
-        @clear="processCloned.table_id = null"
-
+        @item-select="processCloned.table_id = processCloned.table.value; resetProcessSettings()"
+        @clear="processCloned.table_id = null; resetProcessSettings()"
       />
     </div>
     <div class="p-field">
@@ -63,6 +62,7 @@
         optionLabel="label"
         optionValue="value"
         appendTo="body"
+        @change="resetProcessSettings"
         :options="triggerOptions"
       />
     </div>
@@ -171,6 +171,11 @@ export default {
   computed: {
     triggerWithSettings (): boolean {
       return this.processCloned.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA
+    }
+  },
+  methods: {
+    resetProcessSettings () {
+      this.processCloned.settings = this.triggerWithSettings ? {} : undefined
     }
   },
   watch: {
