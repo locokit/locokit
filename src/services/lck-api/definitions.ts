@@ -78,7 +78,12 @@ export class LckTableRowDataComplex {
   value!: string;
 }
 
-export type LckTableRowData = string[] | string | number | LckTableRowDataComplex;
+export class LCKTableRowMultiDataComplex {
+  reference!: string[];
+  value!: string[];
+}
+
+export type LckTableRowData = string[] | string | number | LckTableRowDataComplex | LCKTableRowMultiDataComplex;
 
 export class LckTableRow extends LckBaseModel {
   text!: string;
