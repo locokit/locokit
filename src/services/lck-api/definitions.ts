@@ -119,13 +119,18 @@ export class LckProcess extends LckBaseModel {
   trigger!: PROCESS_TRIGGER;
   table_id?: string;
   maximumNumberSuccess?: number;
-  settings?: {
+  settings!: {
     column_id?: string;
     column?: LckTableColumn;
   };
 
   runs?: LckProcessRun[];
   table?: LckTable;
+
+  constructor () {
+    super()
+    this.settings = {}
+  }
 }
 
 export enum PROCESS_TRIGGER {
