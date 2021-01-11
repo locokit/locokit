@@ -246,7 +246,10 @@ import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
@@ -439,7 +442,7 @@ export default {
               return ''
             }
           case COLUMN_TYPE.DATE:
-          // eslint-disable-next-line no-case-declarations
+            // eslint-disable-next-line no-case-declarations
             return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
