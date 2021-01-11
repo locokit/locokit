@@ -47,7 +47,7 @@ export default {
 
 </style>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .lck-markdown {
   max-width: 800px;
   margin: 0 auto;
