@@ -82,25 +82,27 @@
             />
           </template>
         </p-column>
-        <p-column
+        <div
           v-for="column in definition.columns"
           :key="column.id"
-          :field="column.id"
-          :headerStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            overflow: 'hidden',
-            'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
-            'height': '2.5rem'
-          }"
-          :bodyStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            'white-space': 'nowrap',
-            'position': 'relative',
-            'height': '2.5rem'
-          }"
-          :sortable="isSortableColumn(column)"
         >
+          <p-column
+            :field="column.id"
+            :headerStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              overflow: 'hidden',
+              'white-space': 'nowrap',
+              'text-overflow': 'ellipsis',
+              'height': '2.5rem'
+            }"
+            :bodyStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              'white-space': 'nowrap',
+              'position': 'relative',
+              'height': '2.5rem'
+            }"
+            :sortable="isSortableColumn(column)"
+          >
           <template #header>
             <span :data-column-id="column.id">
               {{ column.text }}
@@ -192,7 +194,7 @@
             />
           </template>
         </p-column>
-
+        </div>
         <template #empty>
           {{ $t('components.datatable.noDataToDisplay') }}
         </template>
@@ -384,7 +386,7 @@ export default {
     },
     tableWidth () {
       if (!this.definition.columns) return '100%'
-      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.style?.width || 150), 0)
       return 'calc(6rem + ' + columnsTotalWidth + 'px)'
     },
     unorderableColumnsNumber () {

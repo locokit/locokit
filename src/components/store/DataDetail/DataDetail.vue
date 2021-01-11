@@ -3,19 +3,30 @@
     class="p-fluid p-pb-6"
     v-if="row"
   >
-    <h3 class="lck-block-title"> {{ row.text }} </h3>
+    <h3
+      v-if="title"
+      class="lck-block-title"
+    >
+      {{ title }}
+    </h3>
     <div
       class="p-field"
       v-for="column in definition.columns"
       :key="column.id"
     >
-      <label class="lck-color-subtitle" :for="column.id">{{ column.text }}</label>
+      <label
+        class="lck-color-subtitle"
+        :for="column.id"
+      >
+        {{ column.text }}
+      </label>
 
-      <div v-if="editableColumns.indexOf(column) > -1">
+      <div
+        v-if="editableColumns.indexOf(column) > -1"
+      >
         <lck-autocomplete
           v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
           :id="column.id"
-          :dropdown="true"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -83,11 +94,9 @@
         v-else
         class="p-fluid p-inputtext p-component"
         style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
-        disabled
       >
         {{ getColumnDisplayValue(column, row.data[column.id]) }}
       </div>
-
     </div>
   </div>
   <div v-else>
@@ -114,6 +123,7 @@ import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComple
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
 import { lckHelpers } from '@/services/lck-api'
@@ -137,6 +147,9 @@ export default {
     crudMode: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String
     }
   },
   data () {
@@ -248,20 +261,23 @@ export default {
             this.autocompleteInput = {}
             this.multipleAutocompleteInput = {}
             Object.keys(newRef.data).forEach((columnId) => {
-              const currentColumnDefinition = this.columnsEnhanced[columnId]
-              switch (currentColumnDefinition.column_type_id) {
-                case COLUMN_TYPE.USER:
-                case COLUMN_TYPE.GROUP:
-                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                  this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
-                  break
-                case COLUMN_TYPE.MULTI_USER:
-                  this.$set(
-                    this.multipleAutocompleteInput,
-                    columnId,
-                    zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
-                  )
-                  break
+              // Allow to ignore lookup column
+              if (this.columnsEnhanced[columnId]) {
+                const currentColumnDefinition = this.columnsEnhanced[columnId]
+                switch (currentColumnDefinition.column_type_id) {
+                  case COLUMN_TYPE.USER:
+                  case COLUMN_TYPE.GROUP:
+                  case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                    this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                    break
+                  case COLUMN_TYPE.MULTI_USER:
+                    this.$set(
+                      this.multipleAutocompleteInput,
+                      columnId,
+                      zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
+                    )
+                    break
+                }
               }
             })
           }

@@ -47,7 +47,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.STRING,
         order: null,
         filter: null,
-        visible: true,
+        displayed: true,
         type: {
           text: 'String',
           id: 3
@@ -78,7 +78,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.SINGLE_SELECT,
         order: null,
         filter: null,
-        visible: true,
+        displayed: true,
         type: {
           text: 'Single select',
           id: 9
@@ -91,7 +91,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.USER,
         order: null,
         filter: null,
-        visible: true,
+        displayed: true,
         type: {
           text: 'User',
           id: 5
@@ -104,7 +104,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.DATE,
         order: null,
         filter: null,
-        visible: true
+        displayed: true
       }, {
         text: 'Textarea',
         id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
@@ -113,7 +113,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.TEXT,
         order: null,
         filter: null,
-        visible: true
+        displayed: true
       }
     ]
   },

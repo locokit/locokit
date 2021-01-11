@@ -33,6 +33,12 @@ export class LckTable extends LckBaseModel {
   text!: string;
 }
 
+export interface SelectValue {
+  label: string;
+  color: string;
+  backgroundColor: string;
+}
+
 export class LckTableColumn extends LckBaseModel {
   /**
    * Text / Title of the column
@@ -41,7 +47,24 @@ export class LckTableColumn extends LckBaseModel {
   table_id!: string;
   column_type_id!: COLUMN_TYPE;
   settings!: {
-    values: Record<string, { label: string}>;
+    formula?: string;
+    query?: {
+      select: string[];
+      where: Record<string, {}>;
+      sort: { field: string; order: string}[];
+      limit: number;
+      skip: number;
+      aggregate: string; // count, avg, sum, min, max, count distinct
+    };
+    table_to_id?: string;
+    column_to_id?: string;
+    column_from_id?: string;
+    tableId?: string;
+    localField?: string;
+    foreignField?: string;
+    values?: Record<string, SelectValue>;
+    width?: number;
+    required?: boolean;
   }
 }
 
@@ -53,15 +76,38 @@ export class LckTableViewColumn extends LckTableColumn {
    */
   position!: number;
   /**
-   * Sort properties
-   */
-  sort!: object;
-  /**
    * Filters
    */
   filters?: object[]
+  /**
+   * Whether editable
+   */
   editable!: boolean;
-  visible!: boolean;
+  /**
+   * Whether displayed
+   */
+  displayed!: boolean;
+  /**
+   * Whether transmitted
+   */
+  transmitted!: boolean;
+  /**
+   * Value which specify a data/template in order to parameterize a behaviour
+   */
+  default!: string;
+  /**
+   * Style css rules
+   */
+  style!: object;
+  /**
+   * Sort of value
+   */
+  sort!: SORT_COLUMN;
+}
+
+export enum SORT_COLUMN {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
 export class LckTableView extends LckBaseModel {

@@ -17,53 +17,55 @@ export const defaultStory = () => (
 defaultStory.storyName = 'default'
 
 /* eslint-disable @typescript-eslint/camelcase */
-const definitionColumn = [
-  {
-    text: 'String column',
-    id: 1,
-    column_type_id: COLUMN_TYPE.STRING
-  },
-  {
-    text: 'Boolean column',
-    id: 2,
-    column_type_id: COLUMN_TYPE.BOOLEAN
-  },
-  {
-    text: 'Number column',
-    id: 3,
-    column_type_id: COLUMN_TYPE.NUMBER
-  },
-  {
-    text: 'Float column',
-    id: 4,
-    column_type_id: COLUMN_TYPE.FLOAT
-  },
-  {
-    text: 'Relation between tables column',
-    id: 5,
-    column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES
-  },
-  {
-    text: 'Single select',
-    id: 6,
-    column_type_id: COLUMN_TYPE.SINGLE_SELECT
-  },
-  {
-    text: 'Multi select',
-    id: 7,
-    column_type_id: COLUMN_TYPE.MULTI_SELECT
-  },
-  {
-    text: 'Looked up column',
-    id: 8,
-    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
-  },
-  {
-    text: 'Date',
-    id: 9,
-    column_type_id: COLUMN_TYPE.DATE
-  }
-]
+const definitionColumn = {
+  columns: [
+    {
+      text: 'String column',
+      id: 1,
+      column_type_id: COLUMN_TYPE.STRING
+    },
+    {
+      text: 'Boolean column',
+      id: 2,
+      column_type_id: COLUMN_TYPE.BOOLEAN
+    },
+    {
+      text: 'Number column',
+      id: 3,
+      column_type_id: COLUMN_TYPE.NUMBER
+    },
+    {
+      text: 'Float column',
+      id: 4,
+      column_type_id: COLUMN_TYPE.FLOAT
+    },
+    {
+      text: 'Relation between tables column',
+      id: 5,
+      column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES
+    },
+    {
+      text: 'Single select',
+      id: 6,
+      column_type_id: COLUMN_TYPE.SINGLE_SELECT
+    },
+    {
+      text: 'Multi select',
+      id: 7,
+      column_type_id: COLUMN_TYPE.MULTI_SELECT
+    },
+    {
+      text: 'Looked up column',
+      id: 8,
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN
+    },
+    {
+      text: 'Date',
+      id: 9,
+      column_type_id: COLUMN_TYPE.DATE
+    }
+  ]
+}
 /* eslint-enable @typescript-eslint/camelcase */
 const columnsDropdownOptions = {
   6: [
@@ -84,7 +86,7 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
     data () {
       return { definitionColumn, columnsDropdownOptions }
     },
-    template: '<FilterButton ref="fb" :columns="definitionColumn" :columnsDropdownOptions="columnsDropdownOptions"/>',
+    template: '<FilterButton ref="fb" :definition="definitionColumn" :columnsDropdownOptions="columnsDropdownOptions"/>',
     mounted () {
       // Open the panel
       this.$refs.fb.$el.querySelector('button').click()

@@ -19,11 +19,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
   <div
     class="p-fluid p-pb-6"
   >
-    <h3
-      class="lck-block-title"
-    >
-       Vélo n° 42 
-    </h3>
+    <!---->
      
     <div
       class="p-field"
@@ -32,12 +28,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         class="lck-color-subtitle"
         for="e065323c-1151-447f-be0f-6d2728117b38"
       >
-        Nom du vélo
+        
+      Nom du vélo
+    
       </label>
        
       <div
         class="p-fluid p-inputtext p-component"
-        disabled="disabled"
         style="height: 2.5rem; background-color: transparent;"
       >
         
@@ -52,12 +49,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         class="lck-color-subtitle"
         for="3a659ea1-446f-4755-8db9-583a204279cc"
       >
-        État du vélo
+        
+      État du vélo
+    
       </label>
        
       <div
         class="p-fluid p-inputtext p-component"
-        disabled="disabled"
         style="height: 2.5rem; background-color: transparent;"
       >
         
@@ -72,12 +70,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         class="lck-color-subtitle"
         for="bde4bbbd-2584-447f-acff-f434f53619da"
       >
-        Fournisseur
+        
+      Fournisseur
+    
       </label>
        
       <div
         class="p-fluid p-inputtext p-component"
-        disabled="disabled"
         style="height: 2.5rem; background-color: transparent;"
       >
         
@@ -92,12 +91,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         class="lck-color-subtitle"
         for="b9058b15-44b7-4cd9-a121-a942b69a0434"
       >
-        Date
+        
+      Date
+    
       </label>
        
       <div
         class="p-fluid p-inputtext p-component"
-        disabled="disabled"
         style="height: 2.5rem; background-color: transparent;"
       >
         
@@ -112,12 +112,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         class="lck-color-subtitle"
         for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
       >
-        Textarea
+        
+      Textarea
+    
       </label>
        
       <div
         class="p-fluid p-inputtext p-component"
-        disabled="disabled"
         style="height: 2.5rem; background-color: transparent;"
       >
         
@@ -138,11 +139,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
   <div
     class="p-fluid p-pb-6"
   >
-    <h3
-      class="lck-block-title"
-    >
-       Vélo n° 42 
-    </h3>
+    <!---->
      
     <div
       class="p-field"
@@ -151,7 +148,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         class="lck-color-subtitle"
         for="e065323c-1151-447f-be0f-6d2728117b38"
       >
-        Nom du vélo
+        
+      Nom du vélo
+    
       </label>
        
       <div>
@@ -168,7 +167,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         class="lck-color-subtitle"
         for="3a659ea1-446f-4755-8db9-583a204279cc"
       >
-        État du vélo
+        
+      État du vélo
+    
       </label>
        
       <div>
@@ -221,7 +222,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         class="lck-color-subtitle"
         for="bde4bbbd-2584-447f-acff-f434f53619da"
       >
-        Fournisseur
+        
+      Fournisseur
+    
       </label>
        
       <div>
@@ -229,7 +232,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           aria-haspopup="listbox"
           aria-owns="pv_id_1_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
-          dropdown="true"
           id="bde4bbbd-2584-447f-acff-f434f53619da"
           placeholder="Select an option"
           value="AMSTERDAMAIR"
@@ -280,7 +282,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         class="lck-color-subtitle"
         for="b9058b15-44b7-4cd9-a121-a942b69a0434"
       >
-        Date
+        
+      Date
+    
       </label>
        
       <div>
@@ -307,7 +311,9 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         class="lck-color-subtitle"
         for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
       >
-        Textarea
+        
+      Textarea
+    
       </label>
        
       <div>
