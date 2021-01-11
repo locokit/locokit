@@ -46,3 +46,52 @@ export default {
 }
 
 </style>
+
+<style lang="scss" scoped>
+.lck-markdown {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: var(--background-color-light);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h1, h3, h5 {
+    color: var(--primary-color);
+  }
+
+  h2, h4, h6 {
+    color: var(--surface-lck-1);
+  }
+
+  h2 {
+    font-weight: 700;
+    padding: 0.5rem 0;
+
+    &:after {
+      display: block;
+      width: 30px;
+      height: 4px;
+      content: "";
+      background-color: var(--primary-color);
+    }
+  }
+
+  p, ol, ul, li {
+    color: #495057;
+  }
+
+  a {
+    text-decoration: underline;
+    color: var(--primary-color);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  table th {
+    color: var(--primary-color-text);;
+    background-color: #ededed;
+  }
+}
+</style>

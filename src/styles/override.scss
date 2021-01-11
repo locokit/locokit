@@ -7,7 +7,6 @@
 @import "lck/accordion";
 @import "lck/paginator";
 @import "lck/tabviews";
-@import "lck/lck-markdown";
 
 // Typos
 .lck-color-page-title {
@@ -18,12 +17,12 @@
 
 .lck-color-title {
   font-weight: 500;
-  color: #858096;
+  color: var(--surface-lck-1);
 }
 
 .lck-block-title {
   font-weight: 700;
-  color: #858096;
+  color: var(--surface-lck-1);
   padding: 0.5rem 0;
   &:after {
     content: '';
@@ -40,7 +39,7 @@
 }
 
 .lck-color-content {
-  color: #858096;
+  color: var(--surface-lck-1);
 }
 
 .lck-color-page-title {
@@ -83,8 +82,8 @@ a.no-decoration-link {
 
 .p-dropdown {
   &.p-invalid {
-    color: #f44336;
-    border-color: #f44336;
+    color: var(--color-error);
+    border-color: var(--color-error);
   }
 }
 

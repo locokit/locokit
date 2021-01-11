@@ -112,7 +112,7 @@ body {
   border: 1px solid var(--surface-c);
   padding: 0 1rem;
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface-lck-2);
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border-radius: var(--border-radius);
 }
