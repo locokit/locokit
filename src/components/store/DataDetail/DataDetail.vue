@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-fluid p-pb-6"
+    class="p-fluid p-pb-6 p-pt-4"
     v-if="row"
   >
     <h3

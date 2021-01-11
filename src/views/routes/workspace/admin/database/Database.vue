@@ -155,7 +155,6 @@
         :header="row.text"
       >
         <lck-data-detail
-          :title="$t('components.datatable.detail')"
           :crudMode="crudMode"
           :definition="block.definition"
           :row="row"

@@ -8,6 +8,7 @@
     </div>
     <div
       v-if="page.hidden"
+      class="p-mb-4"
     >
       <p-breadcrumb
         :home="{ icon: 'pi pi-home', to: '/' }"
