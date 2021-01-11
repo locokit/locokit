@@ -6,7 +6,7 @@ exports[`storyshots components/ui/MultiAutoComplete default 1`] = `
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_16_list"
+    aria-owns="pv_id_17_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple lck-multi-autocomplete-multiLine"
   >
     <!---->
@@ -20,7 +20,7 @@ exports[`storyshots components/ui/MultiAutoComplete default 1`] = `
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_16_list"
+          aria-controls="pv_id_17_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"
@@ -44,8 +44,88 @@ exports[`storyshots components/ui/MultiAutoComplete multi line with values 1`] =
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_19_list"
+    aria-owns="pv_id_20_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-multiLine"
+    style="width: 400px;"
+    suggestions=""
+    value="[object Object],[object Object],[object Object]"
+  >
+    <!---->
+     
+    <ul
+      class="p-autocomplete-multiple-container p-component p-inputtext"
+    >
+      <li
+        class="p-autocomplete-token"
+      >
+        <span
+          class="p-autocomplete-token-label"
+        >
+          Suggestion one
+        </span>
+         
+        <span
+          class="p-autocomplete-token-icon pi pi-times-circle"
+        />
+      </li>
+      <li
+        class="p-autocomplete-token"
+      >
+        <span
+          class="p-autocomplete-token-label"
+        >
+          Suggestion two
+        </span>
+         
+        <span
+          class="p-autocomplete-token-icon pi pi-times-circle"
+        />
+      </li>
+      <li
+        class="p-autocomplete-token"
+      >
+        <span
+          class="p-autocomplete-token-label"
+        >
+          Suggestion three
+        </span>
+         
+        <span
+          class="p-autocomplete-token-icon pi pi-times-circle"
+        />
+      </li>
+       
+      <li
+        class="p-autocomplete-input-token"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_20_list"
+          autocomplete="off"
+          placeholder="Search"
+          role="searchbox"
+          type="text"
+        />
+      </li>
+    </ul>
+     
+    <!---->
+     
+    <!---->
+     
+    <!---->
+  </span>
+</div>
+`;
+
+exports[`storyshots components/ui/MultiAutoComplete single line with values 1`] = `
+<div
+  style="height: 100%;"
+>
+  <span
+    aria-haspopup="listbox"
+    aria-owns="pv_id_19_list"
+    class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-singleLine"
     style="width: 400px;"
     suggestions=""
     value="[object Object],[object Object],[object Object]"
@@ -118,93 +198,13 @@ exports[`storyshots components/ui/MultiAutoComplete multi line with values 1`] =
 </div>
 `;
 
-exports[`storyshots components/ui/MultiAutoComplete single line with values 1`] = `
-<div
-  style="height: 100%;"
->
-  <span
-    aria-haspopup="listbox"
-    aria-owns="pv_id_18_list"
-    class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-singleLine"
-    style="width: 400px;"
-    suggestions=""
-    value="[object Object],[object Object],[object Object]"
-  >
-    <!---->
-     
-    <ul
-      class="p-autocomplete-multiple-container p-component p-inputtext"
-    >
-      <li
-        class="p-autocomplete-token"
-      >
-        <span
-          class="p-autocomplete-token-label"
-        >
-          Suggestion one
-        </span>
-         
-        <span
-          class="p-autocomplete-token-icon pi pi-times-circle"
-        />
-      </li>
-      <li
-        class="p-autocomplete-token"
-      >
-        <span
-          class="p-autocomplete-token-label"
-        >
-          Suggestion two
-        </span>
-         
-        <span
-          class="p-autocomplete-token-icon pi pi-times-circle"
-        />
-      </li>
-      <li
-        class="p-autocomplete-token"
-      >
-        <span
-          class="p-autocomplete-token-label"
-        >
-          Suggestion three
-        </span>
-         
-        <span
-          class="p-autocomplete-token-icon pi pi-times-circle"
-        />
-      </li>
-       
-      <li
-        class="p-autocomplete-input-token"
-      >
-        <input
-          aria-autocomplete="list"
-          aria-controls="pv_id_18_list"
-          autocomplete="off"
-          placeholder="Search"
-          role="searchbox"
-          type="text"
-        />
-      </li>
-    </ul>
-     
-    <!---->
-     
-    <!---->
-     
-    <!---->
-  </span>
-</div>
-`;
-
 exports[`storyshots components/ui/MultiAutoComplete with suggestions 1`] = `
 <div
   style="height: 100%;"
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_17_list"
+    aria-owns="pv_id_18_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-multiLine"
     suggestions=""
     value=""
@@ -220,7 +220,7 @@ exports[`storyshots components/ui/MultiAutoComplete with suggestions 1`] = `
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_17_list"
+          aria-controls="pv_id_18_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"
