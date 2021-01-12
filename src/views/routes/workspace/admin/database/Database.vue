@@ -146,6 +146,7 @@
           :row="newRow"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
+          @update-row="onUpdateRow"
         />
       </lck-dialog>
 
@@ -362,6 +363,9 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     searchItems: lckHelpers.searchItems,
+    async onUpdateRow ({ columnId, newValue }) {
+      this.$set(this.newRow.data, columnId, newValue)
+    },
     resetToDefault () {
       this.block = {
         loading: false,
