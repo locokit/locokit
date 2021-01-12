@@ -6,6 +6,7 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -249,6 +250,7 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -492,6 +494,7 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -735,6 +738,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -978,6 +982,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -1221,6 +1226,7 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -1464,6 +1470,7 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -1550,6 +1557,7 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -1785,6 +1793,7 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -2028,6 +2037,7 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -2263,6 +2273,7 @@ exports[`storyshots components/store/DataTable No content 1`] = `
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
@@ -2366,6 +2377,7 @@ exports[`storyshots components/store/DataTable No content with the detail button
 >
   <div
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <div
       class="responsive-table-wrapper p-fluid d-flex-1"
