@@ -16,7 +16,8 @@ export class container extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
+        text: { type: 'string' },
+        position: { type: ['number', 'null'] }
       }
     }
   }
