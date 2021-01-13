@@ -136,7 +136,7 @@ withPointLayerStory.args = {
   ]
 }
 withPointLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
 
 export const withPointAndTextLayersStory = (args, { argTypes }) => {
@@ -148,14 +148,14 @@ export const withPointAndTextLayersStory = (args, { argTypes }) => {
 }
 
 withPointAndTextLayersStory.storyName = 'with Point and Text layers'
-withPointAndTextLayersStory.args = { 
+withPointAndTextLayersStory.args = {
   timeoutBeforeScreenshot: 500,
   resources: [
     resourcesExamples.pointAndText
   ]
 }
 withPointAndTextLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
 
 export const withLineStringLayerStory = (args, { argTypes }) => {
@@ -167,14 +167,14 @@ export const withLineStringLayerStory = (args, { argTypes }) => {
 }
 
 withLineStringLayerStory.storyName = 'with LineString layer'
-withLineStringLayerStory.args = { 
+withLineStringLayerStory.args = {
   timeoutBeforeScreenshot: 500,
   resources: [
     resourcesExamples.lineString
   ]
 }
 withLineStringLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
 
 export const withPolygonLayerStory = (args, { argTypes }) => {
@@ -186,14 +186,14 @@ export const withPolygonLayerStory = (args, { argTypes }) => {
 }
 
 withPolygonLayerStory.storyName = 'with Polygon layer'
-withPolygonLayerStory.args = { 
+withPolygonLayerStory.args = {
   timeoutBeforeScreenshot: 500,
   resources: [
     resourcesExamples.polygon
   ]
 }
 withPolygonLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
 
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
@@ -205,12 +205,12 @@ export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
 }
 
 withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
-withMultipleSourcesAndLayersStory.args = { 
+withMultipleSourcesAndLayersStory.args = {
   timeoutBeforeScreenshot: 500,
   resources: Object.values(resourcesExamples)
 }
 withMultipleSourcesAndLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
 
 export const withCustomOptionsStory = (args, { argTypes }) => {
@@ -222,10 +222,10 @@ export const withCustomOptionsStory = (args, { argTypes }) => {
 }
 
 withCustomOptionsStory.storyName = 'with custom options'
-withCustomOptionsStory.args = { 
+withCustomOptionsStory.args = {
   timeoutBeforeScreenshot: 500,
   resources: []
 }
 withCustomOptionsStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })]}, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 })}
+  options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })] }, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }) }
 }

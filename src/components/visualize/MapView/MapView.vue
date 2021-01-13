@@ -9,9 +9,9 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { Feature } from 'geojson'
 
 interface Resource {
-  id: string,
-  features: Feature[],
-  layers: AnyLayer[]
+  id: string;
+  features: Feature[];
+  layers: AnyLayer[];
 }
 
 export default Vue.extend({
@@ -59,7 +59,7 @@ export default Vue.extend({
         ]
       },
       ...this.options
-    });
+    })
     this.map.on('load', () => {
       this.loadResources()
     })
@@ -77,7 +77,7 @@ export default Vue.extend({
         this.map!.addLayer({ source: resource.id, ...layer, id: `${resource.id}-${layer.id}` } as AnyLayer)
       })
     },
-    updateResource (resourceToUpdate: Resource, resourceToCompare: Resource) {      
+    updateResource (resourceToUpdate: Resource, resourceToCompare: Resource) {
       const layersToAdd: AnyLayer[] = []
       const layersToUpdate: AnyLayer[] = []
       const layersToRemove: AnyLayer[] = []
@@ -112,7 +112,7 @@ export default Vue.extend({
           })
         }
       });
-      
+
       (this.map!.getSource(resourceToUpdate.id) as any).setData(
         {
           type: 'FeatureCollection',
