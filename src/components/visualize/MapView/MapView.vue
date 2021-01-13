@@ -65,18 +65,70 @@ export default Vue.extend({
     })
   },
   methods: {
+    addResource (resource: Resource) {
+      this.map!.addSource(resource.id, {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: resource.features
+        }
+      })
+      resource.layers.forEach((layer) => {
+        this.map!.addLayer({ source: resource.id, ...layer, id: `${resource.id}-${layer.id}` } as AnyLayer)
+      })
+    },
+    updateResource (resourceToUpdate: Resource, resourceToCompare: Resource) {      
+      const layersToAdd: AnyLayer[] = []
+      const layersToUpdate: AnyLayer[] = []
+      const layersToRemove: AnyLayer[] = []
+      layersToAdd.push(...resourceToUpdate.layers.filter((resourceToUpdateLayer) => !resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id)))
+      layersToUpdate.push(...resourceToUpdate.layers.filter((resourceToUpdateLayer) => resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id)))
+      layersToRemove.push(...resourceToCompare.layers.filter((resourceToCompareLayer) => !resourceToUpdate.layers.find((resourceToUpdateLayer) => resourceToUpdateLayer.id === resourceToCompareLayer.id)))
+
+      layersToRemove.forEach((layerToRemove) => {
+        this.map!.removeLayer(`${resourceToUpdate.id}-${layerToRemove.id}`)
+      })
+      layersToAdd.forEach((layerToAdd) => {
+        this.map!.addLayer({ source: resourceToUpdate.id, ...layerToAdd, id: `${resourceToUpdate.id}-${layerToAdd.id}` } as AnyLayer)
+      })
+      layersToUpdate.forEach((layer: any) => {
+        const layerToCompare: AnyLayer = resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === layer.id)!
+        const paintPropertiesToReset: string[] = []
+        const layoutPropertiesToReset: string[] = []
+
+        paintPropertiesToReset.push(...Object.keys((layerToCompare as any).paint ? (layerToCompare as any).paint : []).filter((layerToComparePaintProperty) => !Object.keys(layer.paint ? layer.paint : []).find((layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty)))
+        paintPropertiesToReset.forEach((paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layer.id}`, paintPropertyToReset, null))
+        if (layer.paint) {
+          Object.keys(layer.paint).filter((paintProperty) => (!Object.keys((layerToCompare as any).paint) ? (layerToCompare as any).paint : []) || ((layerToCompare as any).paint && (layerToCompare as any).paint[paintProperty] !== layer.paint[paintProperty])).forEach((paintProperty) => {
+            this.map!.setPaintProperty(`${resourceToUpdate.id}-${layer.id}`, paintProperty, layer.paint[paintProperty])
+          })
+        }
+
+        layoutPropertiesToReset.push(...Object.keys((layerToCompare as any).layout ? (layerToCompare as any).layout : []).filter((layerToCompareLayoutProperty) => !Object.keys(layer.layout ? layer.layout : []).find((layerLayoutProperty) => layerLayoutProperty === layerToCompareLayoutProperty)))
+        layoutPropertiesToReset.forEach((layoutPropertyToReset) => this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layer.id}`, layoutPropertyToReset, null))
+        if (layer.layout) {
+          Object.keys(layer.layout).filter((layoutProperty) => (!Object.keys((layerToCompare as any).layout) ? (layerToCompare as any).layout : []) || ((layerToCompare as any).layout && (layerToCompare as any).layout[layoutProperty] !== layer.layout[layoutProperty])).forEach((layoutProperty) => {
+            this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layer.id}`, layoutProperty, layer.layout[layoutProperty])
+          })
+        }
+      });
+      
+      (this.map!.getSource(resourceToUpdate.id) as any).setData(
+        {
+          type: 'FeatureCollection',
+          features: resourceToUpdate.features
+        }
+      )
+    },
+    removeResource (resource: Resource) {
+      resource.layers.forEach((layer) => {
+        this.map!.removeLayer(`${resource.id}-${layer.id}`)
+      })
+      this.map!.removeSource(resource.id)
+    },
     loadResources () {
       this.resources.forEach((resource) => {
-        this.map!.addSource(resource.id, {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: resource.features
-          }
-        })
-        resource.layers.forEach((layer) => {
-          this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
-        })
+        this.addResource(resource)
       })
     }
   },
@@ -96,7 +148,24 @@ export default Vue.extend({
       }
     },
     resources: function (newResources: Resource[], oldResources: Resource[]) {
-      console.log(newResources, oldResources)
+      const resourcesToAdd: Resource[] = []
+      const resourcesToUpdate: Resource[] = []
+      const resourcesToRemove: Resource[] = []
+
+      resourcesToAdd.push(...newResources.filter((newResource) => !oldResources.find((oldResource) => oldResource.id === newResource.id)))
+      resourcesToUpdate.push(...newResources.filter((newResource) => oldResources.find((oldResource) => oldResource.id === newResource.id)))
+      resourcesToRemove.push(...oldResources.filter((oldResource) => !newResources.find((newResource) => newResource.id === oldResource.id)))
+
+      resourcesToRemove.forEach((resourceToRemove) => {
+        this.removeResource(resourceToRemove)
+      })
+      resourcesToAdd.forEach((resourceToAdd) => {
+        this.addResource(resourceToAdd)
+      })
+      resourcesToUpdate.forEach((resourceToUpdate) => {
+        const resourceToCompare: Resource = oldResources.find((oldResource) => oldResource.id === resourceToUpdate.id)!
+        this.updateResource(resourceToUpdate, resourceToCompare)
+      })
     }
   }
 })
