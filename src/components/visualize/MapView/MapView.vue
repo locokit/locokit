@@ -6,7 +6,7 @@
 import Vue, { PropType } from 'vue'
 import { AnyLayer, Map, MapboxOptions } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { Feature } from 'geojson';
+import { Feature } from 'geojson'
 
 interface Resource {
   id: string,
@@ -26,8 +26,13 @@ export default Vue.extend({
       default: () => []
     }
   },
+  data () {
+    return {
+      map: null as Map | null
+    }
+  },
   mounted () {
-    const map = new Map({
+    this.map = new Map({
       container: 'map-view',
       style: {
         version: 8,
@@ -53,13 +58,16 @@ export default Vue.extend({
           }
         ]
       },
-      center: [2.6, 46.9],
-      zoom: 0,
       ...this.options
     });
-    map.on('load', () => {
+    this.map.on('load', () => {
+      this.loadResources()
+    })
+  },
+  methods: {
+    loadResources () {
       this.resources.forEach((resource) => {
-        map.addSource(resource.id, {
+        this.map!.addSource(resource.id, {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
@@ -67,10 +75,29 @@ export default Vue.extend({
           }
         })
         resource.layers.forEach((layer) => {
-          map.addLayer({ source: resource.id, ...layer } as AnyLayer)
+          this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
         })
       })
-    })
+    }
+  },
+  watch: {
+    options: function (newOptions: MapboxOptions, oldOptions: MapboxOptions) {
+      if (newOptions.style && JSON.stringify(newOptions.style) !== JSON.stringify(oldOptions.style)) {
+        this.map!.setStyle(newOptions.style)
+        this.loadResources()
+      }
+
+      if (newOptions.center && newOptions.center.toString() !== (oldOptions.center ? oldOptions.center : []).toString()) {
+        this.map!.setCenter(newOptions.center)
+      }
+
+      if (newOptions.zoom && newOptions.zoom !== oldOptions.zoom) {
+        this.map!.setZoom(newOptions.zoom)
+      }
+    },
+    resources: function (newResources: Resource[], oldResources: Resource[]) {
+      console.log(newResources, oldResources)
+    }
   }
 })
 </script>

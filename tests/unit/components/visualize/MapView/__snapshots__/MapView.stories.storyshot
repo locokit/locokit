@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/visualize/MapView with LineString layer 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;
+
+exports[`storyshots components/visualize/MapView with Point and Text layers 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;
+
+exports[`storyshots components/visualize/MapView with Point layer 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;
+
+exports[`storyshots components/visualize/MapView with Polygon layer 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;
+
+exports[`storyshots components/visualize/MapView with custom options 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;
+
+exports[`storyshots components/visualize/MapView with multiple sources and layers 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    id="map-view"
+  />
+</div>
+`;

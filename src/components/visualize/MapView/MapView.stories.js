@@ -1,5 +1,41 @@
 import MapView from './MapView'
 
+const optionsWithoutBackgroundTiles = {
+  style: {
+    version: 8,
+    sources: {},
+    glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+    layers: []
+  }
+}
+
+const optionsWithBackgroundTiles = {
+  style: {
+    version: 8,
+    sources: {
+      'tiles-background': {
+        type: 'raster',
+        tiles: [
+          'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        ],
+        tileSize: 256
+      }
+    },
+    glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+    layers: [
+      {
+        id: 'tiles-background',
+        type: 'raster',
+        source: 'tiles-background',
+        minzoom: 0,
+        maxzoom: 17
+      }
+    ]
+  }
+}
+
 const resourcesExamples = {
   pointAndText: {
     id: 'features-type-point-source-id',
@@ -71,103 +107,125 @@ const resourcesExamples = {
 
 export default {
   title: 'components/visualize/MapView',
-  component: MapView
+  component: MapView,
+  argTypes: {
+    timeoutBeforeScreenshot: {
+      table: {
+        disable: true
+      }
+    }
+  }
 }
 
-export const withPointLayerStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        resources: [
-          {
-            ...resourcesExamples.pointAndText,
-            layers: [resourcesExamples.pointAndText.layers[0]]
-          }
-        ]
-      }
-    }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+export const withPointLayerStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withPointLayerStory.storyName = 'with Point layer'
-
-export const withPointAndTextLayersStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        resources: [
-          resourcesExamples.pointAndText
-        ]
-      }
+withPointLayerStory.args = {
+  timeoutBeforeScreenshot: 500,
+  resources: [
+    {
+      ...resourcesExamples.pointAndText,
+      layers: [resourcesExamples.pointAndText.layers[0]]
     }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+  ]
+}
+withPointLayerStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+}
+
+export const withPointAndTextLayersStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withPointAndTextLayersStory.storyName = 'with Point and Text layers'
+withPointAndTextLayersStory.args = { 
+  timeoutBeforeScreenshot: 500,
+  resources: [
+    resourcesExamples.pointAndText
+  ]
+}
+withPointAndTextLayersStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+}
 
-export const withLineStringLayerStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        resources: [
-          resourcesExamples.lineString
-        ]
-      }
-    }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+export const withLineStringLayerStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withLineStringLayerStory.storyName = 'with LineString layer'
+withLineStringLayerStory.args = { 
+  timeoutBeforeScreenshot: 500,
+  resources: [
+    resourcesExamples.lineString
+  ]
+}
+withLineStringLayerStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+}
 
-export const withPolygonLayerStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        resources: [
-          resourcesExamples.polygon
-        ]
-      }
-    }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+export const withPolygonLayerStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withPolygonLayerStory.storyName = 'with Polygon layer'
+withPolygonLayerStory.args = { 
+  timeoutBeforeScreenshot: 500,
+  resources: [
+    resourcesExamples.polygon
+  ]
+}
+withPolygonLayerStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+}
 
-export const withMultipleSourcesAndLayersStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        resources: Object.values(resourcesExamples)
-      }
-    }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
+withMultipleSourcesAndLayersStory.args = { 
+  timeoutBeforeScreenshot: 500,
+  resources: Object.values(resourcesExamples)
+}
+withMultipleSourcesAndLayersStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)]}, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles)}
+}
 
-export const withCustomOptionsStory = () => ({
-  components: { MapView },
-  data () {
-    return {
-      block: {
-        options: {
-          zoom: 10
-        },
-        resources: []
-      }
-    }
-  },
-  template: '<MapView v-bind="{...block}" />'
-})
+export const withCustomOptionsStory = (args, { argTypes }) => {
+  return {
+    components: { MapView },
+    props: Object.keys(argTypes),
+    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+  }
+}
 
 withCustomOptionsStory.storyName = 'with custom options'
+withCustomOptionsStory.args = { 
+  timeoutBeforeScreenshot: 500,
+  resources: []
+}
+withCustomOptionsStory.argTypes = {
+  options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })]}, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 })}
+}
