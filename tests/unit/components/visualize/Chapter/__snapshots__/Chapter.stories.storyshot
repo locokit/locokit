@@ -6,21 +6,21 @@ exports[`storyshots components/visualize/Chapter chapter create 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1017;"
+    style="z-index: 1018;"
   >
     <div
-      aria-labelledby="pv_id_21_header"
+      aria-labelledby="pv_id_22_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1018;"
+      style="z-index: 1019;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_21_header"
+          id="pv_id_22_header"
         >
           Create a new chapter
         </span>
@@ -128,21 +128,21 @@ exports[`storyshots components/visualize/Chapter chapter edit 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1018;"
+    style="z-index: 1019;"
   >
     <div
-      aria-labelledby="pv_id_22_header"
+      aria-labelledby="pv_id_23_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1019;"
+      style="z-index: 1020;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_22_header"
+          id="pv_id_23_header"
         >
           Edit a chapter
         </span>

@@ -1,6 +1,7 @@
 <template>
   <lck-dialog
     :visible="visible"
+    :submitting="submitting"
     :header="$t('form.delete')"
     @input="$emit('input', value)"
     @close="$emit('close')"
@@ -33,6 +34,10 @@ export default {
     itemCategory: {
       type: String,
       default: ''
+    },
+    submitting: {
+      type: Boolean,
+      default: false
     }
   }
 }
