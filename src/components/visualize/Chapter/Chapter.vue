@@ -5,19 +5,19 @@
     :modal="true"
     :contentStyle="{ 'max-height': '70vh' }"
     :closeOnEscape="true"
-    class="p-fluid"
     @update:visible="$emit('close')"
-    :header="value.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    :header="chapter.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
   >
     <lck-form
-      @submit="$emit('input', currentData)"
+      :submitting="submitting"
+      @submit="$emit('input', chapterCopy)"
       @cancel="$emit('close')"
     >
       <div class="p-field">
         <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
         <p-input-text
           id="chapterTextField"
-          v-model="currentData.text"
+          v-model="chapterCopy.text"
           required
           autofocus
         />
@@ -44,20 +44,24 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    chapter: {
       type: Object,
       default: () => ({})
+    },
+    submitting: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      currentData: {}
+      chapterCopy: {}
     }
   },
   watch: {
-    value: {
-      handler (newValue: {}) {
-        this.currentData = {
+    chapter: {
+      handler (newValue) {
+        this.chapterCopy = {
           ...newValue
         }
       },

@@ -25,7 +25,7 @@
       />
       <lck-chapter-dialog
         :visible="dialogVisibility.chapterEdit"
-        :value="currentChapterToEdit"
+        :chapter="currentChapterToEdit"
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
@@ -68,13 +68,14 @@ export default {
   props: ['workspaceId'],
   data () {
     return {
-      workspaceContent: [],
+      currentChapterToEdit: {},
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
         chapterDelete: false
       },
-      currentChapterToEdit: {}
+      submitting: false,
+      workspaceContent: []
     }
   },
   computed: {
@@ -148,6 +149,7 @@ export default {
     },
     async onChapterEditInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           // On update
           const updatedChapter = await lckServices.chapter.patch(chapter.id, {
@@ -166,11 +168,14 @@ export default {
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onChapterDeleteInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           await lckServices.chapter.remove(chapter.id)
           const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
@@ -178,7 +183,9 @@ export default {
         }
         this.onChapterDeleteReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     displayToastOnError (summary, error) {
@@ -192,9 +199,6 @@ export default {
   },
   async mounted () {
     this.workspaceContent = await retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
-    await this.goToFirstPage()
-  },
-  async updated () {
     await this.goToFirstPage()
   }
 }

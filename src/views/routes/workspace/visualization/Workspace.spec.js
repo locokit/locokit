@@ -283,6 +283,7 @@ describe('Workspace', () => {
         })
       })
     })
+
     describe('Return the right items for a SUPERADMIN user', () => {
       let wrapper
       const currentMockWorkspaceContent = mockDeepCloneObject(mockWorkspaceContent)
@@ -409,37 +410,54 @@ describe('Workspace', () => {
 
   describe('Chapter crud', () => {
     let wrapper
+    let sidebarWrapper
+    const newChapterName = 'newChapterName'
+
     beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
+      sidebarWrapper = wrapper.findComponent(Sidebar)
     })
 
     describe('Add a new chapter', () => {
+      let chapterWrapper
+
+      beforeEach(() => {
+        lckServices.chapter.create.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
+
       it('Display the chapter edit dialog with an empty object when the add-item event is emitted from sidebar', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('add-item')
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
-        expect(chapterWrapper.props('value')).toStrictEqual({})
+        await sidebarWrapper.vm.$emit('add-item')
+        expect(chapterWrapper.props('chapter')).toStrictEqual({})
         expect(chapterWrapper.props('visible')).toBe(true)
       })
 
       it('Create a new chapter if the input event is emitted without an existing chapter', async () => {
-        const newChapterName = 'newChapterName'
         await wrapper.vm.onChapterEditClick()
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input', { text: newChapterName })
+        await chapterWrapper.vm.$emit('input', { text: newChapterName })
+        // Send API request
+        expect(lckServices.chapter.create).toHaveBeenCalledWith({ text: newChapterName, workspace_id: mockWorkspaceContent.id })
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters[2]).toBeDefined()
         expect(wrapper.vm.workspaceContent.chapters[2].text).toBe(newChapterName)
       })
     })
 
     describe('Update a chapter', () => {
+      let chapterWrapper
+
+      beforeEach(() => {
+        lckServices.chapter.patch.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
+
       it('Display the chapter edit dialog with the specified chapter when the edit-item event is emitted from sidebar', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('edit-item', '1')
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
+        await sidebarWrapper.vm.$emit('edit-item', '1')
         expect(chapterWrapper.props('visible')).toBe(true)
-        expect(chapterWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
+        expect(chapterWrapper.props('chapter')).toStrictEqual(mockWorkspaceContent.chapters[0])
       })
 
       it('Hide the chapter edit dialog if it emits the close event', async () => {
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
         // Display the dialog
         await chapterWrapper.setProps({ visible: true })
         // Hide it
@@ -448,30 +466,36 @@ describe('Workspace', () => {
       })
 
       it('Update the chapter if the input event is emitted with an existing chapter', async () => {
-        const newChapterName = 'newChapterName'
         await wrapper.vm.onChapterEditClick('1')
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input', { id: '1', text: newChapterName })
+        await chapterWrapper.vm.$emit('input', { id: '1', text: newChapterName })
+        // Send API request
+        expect(lckServices.chapter.patch).toHaveBeenCalledWith('1', { text: newChapterName })
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1' && c.text === newChapterName)).toBeDefined()
       })
 
       it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
         lckServices.chapter.create.mockImplementationOnce(() => { throw new Error() })
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input')
-        expect(wrapper.vm.$toast.add).toHaveBeenCalledTimes(1)
-        wrapper.vm.$toast.add.mockReset()
+        await chapterWrapper.vm.$emit('input')
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('Delete a chapter', () => {
+      let deleteConfirmationWrapper
+      beforeEach(() => {
+        lckServices.chapter.remove.mockClear()
+        deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
+      })
+
       it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('delete-item', '1')
-        const deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
+        await sidebarWrapper.vm.$emit('delete-item', '1')
         expect(deleteConfirmationWrapper.props('visible')).toBe(true)
         expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
       })
 
       it('Hide the confirmation dialog if the close event is emitted', async () => {
-        const deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
         // Display the dialog
         await deleteConfirmationWrapper.setProps({ visible: true })
         // Hide it
@@ -481,27 +505,30 @@ describe('Workspace', () => {
 
       it('Delete a chapter if the input event is emitted with an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick('1')
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '1' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
+        // Send API request
+        expect(lckServices.chapter.remove).toHaveBeenCalledWith('1')
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeUndefined()
       })
 
       it('Do nothing if the input event is emitted without an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input')
+        await deleteConfirmationWrapper.vm.$emit('input')
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
       it('Do nothing if the input event is emitted with an unknown chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '-1' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
       it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
         lckServices.chapter.remove.mockImplementationOnce(() => { throw new Error() })
-        await wrapper.findComponent(DeleteConfirmationDialog).vm.$emit('input', { id: '1' })
-        expect(wrapper.vm.$toast.add).toHaveBeenCalledTimes(1)
-        wrapper.vm.$toast.add.mockReset()
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
       })
     })
   })
@@ -539,16 +566,15 @@ describe('Workspace', () => {
 
     beforeAll(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
-      wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
-      wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
     })
 
-    afterAll(() => {
-      wrapper.vm.$toast.add.mockReset()
+    beforeEach(() => {
+      wrapper.vm.$toast.add.mockClear()
     })
 
     it('Display a toast with the specified parameters for an error without code', () => {
-      expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(1,
+      wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
+      expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.basic'
@@ -557,7 +583,8 @@ describe('Workspace', () => {
     })
 
     it('Display a toast with the specified parameters for an error with a code', () => {
-      expect(wrapper.vm.$toast.add).toHaveBeenNthCalledWith(2,
+      wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
+      expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.http.404'
