@@ -2,6 +2,7 @@
   <lck-dialog
     :visible="visible"
     :header="$t('form.delete')"
+    :isActionForm="true"
     :submitting="submitting"
     @input="$emit('input', value)"
     @close="$emit('close')"

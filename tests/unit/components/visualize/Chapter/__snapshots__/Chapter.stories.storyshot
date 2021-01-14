@@ -5,15 +5,15 @@ exports[`storyshots components/visualize/Chapter chapter create 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-dialog-mask"
-    style="z-index: 1018;"
+    class="p-dialog-mask p-component-overlay "
+    style="z-index: 1019;"
   >
     <div
       aria-labelledby="pv_id_26_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1019;"
+      style="z-index: 1020;"
     >
       <div
         class="p-dialog-header"
@@ -127,15 +127,15 @@ exports[`storyshots components/visualize/Chapter chapter edit 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-dialog-mask"
-    style="z-index: 1019;"
+    class="p-dialog-mask p-component-overlay "
+    style="z-index: 1020;"
   >
     <div
       aria-labelledby="pv_id_27_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1020;"
+      style="z-index: 1021;"
     >
       <div
         class="p-dialog-header"

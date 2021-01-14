@@ -1,12 +1,8 @@
 <template>
-  <p-dialog
+  <lck-dialog
     :visible="visible"
-    :style="{ width: '600px' }"
-    :modal="true"
-    :contentStyle="{ 'max-height': '70vh' }"
-    :closeOnEscape="true"
-    @update:visible="$emit('close')"
     :header="chapter.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    @close="$emit('close')"
   >
     <lck-form
       :submitting="submitting"
@@ -23,20 +19,20 @@
         />
       </div>
     </lck-form>
-  </p-dialog>
+  </lck-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import LckForm from '@/components/ui/Form/Form.vue'
-import Dialog from 'primevue/dialog'
+import LckDialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 
 export default {
   name: 'ChapterDialog',
   components: {
     'lck-form': LckForm,
-    'p-dialog': Vue.extend(Dialog),
+    'lck-dialog': LckDialog,
     'p-input-text': Vue.extend(InputText)
   },
   props: {
