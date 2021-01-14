@@ -30,7 +30,8 @@
       "loading": "En cours de chargement… veuillez patienter…",
       "placeholder": "Sélectionnez une option",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
-      "detail": "Détail",
+      "detail": "Détail d'une ligne",
+      "addNewRow": "Ajouter une ligne",
       "toolbar": {
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"

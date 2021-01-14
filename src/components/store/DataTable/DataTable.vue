@@ -2,6 +2,7 @@
   <div
     v-if="definition"
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <!--
     :scrollable="true"
@@ -82,25 +83,27 @@
             />
           </template>
         </p-column>
-        <p-column
+        <div
           v-for="column in definition.columns"
           :key="column.id"
-          :field="column.id"
-          :headerStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            overflow: 'hidden',
-            'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
-            'height': '2.5rem'
-          }"
-          :bodyStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            'white-space': 'nowrap',
-            'position': 'relative',
-            'height': '2.5rem'
-          }"
-          :sortable="isSortableColumn(column)"
         >
+          <p-column
+            :field="column.id"
+            :headerStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              overflow: 'hidden',
+              'white-space': 'nowrap',
+              'text-overflow': 'ellipsis',
+              'height': '2.5rem'
+            }"
+            :bodyStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              'white-space': 'nowrap',
+              'position': 'relative',
+              'height': '2.5rem'
+            }"
+            :sortable="isSortableColumn(column)"
+          >
           <template #header>
             <span :data-column-id="column.id">
               {{ column.text }}
@@ -192,7 +195,7 @@
             />
           </template>
         </p-column>
-
+        </div>
         <template #empty>
           {{ $t('components.datatable.noDataToDisplay') }}
         </template>
@@ -246,7 +249,10 @@ import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
@@ -381,7 +387,7 @@ export default {
     },
     tableWidth () {
       if (!this.definition.columns) return '100%'
-      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.style?.width || 150), 0)
       return 'calc(6rem + ' + columnsTotalWidth + 'px)'
     },
     unorderableColumnsNumber () {
@@ -439,7 +445,7 @@ export default {
               return ''
             }
           case COLUMN_TYPE.DATE:
-          // eslint-disable-next-line no-case-declarations
+            // eslint-disable-next-line no-case-declarations
             return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data

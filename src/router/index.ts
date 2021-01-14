@@ -83,6 +83,11 @@ const routes: Array<RouteConfig> = [
     component: Workspace,
     props: true,
     children: [{
+      name: 'PageDetail',
+      path: 'page/:pageId/detail/:pageDetailId',
+      props: true,
+      component: Page
+    }, {
       name: 'Page',
       path: 'page/:pageId',
       props: true,

@@ -5,7 +5,7 @@ html {
   line-height: 1.4rem;
   box-sizing: border-box;
   // word-spacing: 1px;
-  background-color: #f7fafc;
+  background-color: var(--background-color);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -50,11 +50,11 @@ html, body, #app {
 }
 
 .lck-color-content {
-  color: #858096;
+  color: var(--surface-lck-1);
 }
 
 .lck-color-title {
-  color: #858096;
+  color: var(--surface-lck-1);
 }
 
 .lck-color-page-title {

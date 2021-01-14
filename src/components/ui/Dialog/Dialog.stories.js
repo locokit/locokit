@@ -8,12 +8,14 @@ export default {
 export const defaultStory = () => (
   {
     components: { Dialog },
-    template: '<Dialog :visible="true"/>'
+    template: '<Dialog :visible="true" />'
   }
 )
 
 defaultStory.storyName = 'default'
-defaultStory.args = { timeoutBeforeScreenshot: 1000 }
+defaultStory.args = {
+  timeoutBeforeScreenshot: 1000
+}
 
 export const withHeaderAndContent = () => (
   {
@@ -39,3 +41,29 @@ export const withHeaderAndContent = () => (
 
 withHeaderAndContent.storyName = 'with header and content'
 withHeaderAndContent.args = { timeoutBeforeScreenshot: 1000 }
+
+export const withHeaderContentAndActions = () => (
+  {
+    components: { Dialog },
+    data () {
+      return {
+        currentData: {
+          id: 1,
+          text: 'Hello world'
+        }
+      }
+    },
+    template: `
+      <Dialog
+        :visible="true"
+        :isActionForm="true"
+        header="This is the header"
+      >
+        This is the dialog content
+      </Dialog>
+    `
+  }
+)
+
+withHeaderContentAndActions.storyName = 'with header, content and actions'
+withHeaderContentAndActions.args = { timeoutBeforeScreenshot: 1000 }

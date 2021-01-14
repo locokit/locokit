@@ -37,6 +37,8 @@ export default Vue.extend({
 <style lang="scss" scoped>
  .lck-image-mode {
   text-align: center;
+  max-width: 600px;
+  margin: 1rem auto;
 
   & > img {
      max-width: 100%;

@@ -4,6 +4,7 @@
     :header="$t('pages.databaseSchema.createTableModal.createTable')"
     @input="confirmCreateTableModal"
     @close="closeCreateTableModal"
+    :isActionForm="true"
   >
     <div class="p-field p-mt-4">
       <label for="table-name">

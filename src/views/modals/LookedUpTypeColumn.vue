@@ -88,7 +88,7 @@ export default {
       }
     },
     onLocalFieldChange (data: { value: string }) {
-      this.relationTableId = this.localFields?.find(field => field.id === data.value)?.table_id || null
+      this.relationTableId = this.localFields?.find(field => field.id === data.value)?.settings.tableId || null
       this.loadForeignFields()
     }
   },

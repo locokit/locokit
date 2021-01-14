@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h3>{{ $t('components.processPanel.title') }}</h3>
+  <div
+    v-if="processesByRow.length > 0"
+  >
+    <h3 class="lck-block-title">{{ $t('components.processPanel.title') }}</h3>
     <div
-      v-if="processesByRow.length > 0 || !!rowId"
+      v-if="!!rowId"
       class="p-pb-6"
     >
       <p-panel
