@@ -138,6 +138,9 @@ withPointLayerStory.args = {
 withPointLayerStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
+withPointLayerStory.parameters = {
+  storyshots: false
+}
 
 export const withPointAndTextLayersStory = (args, { argTypes }) => {
   return {
@@ -156,6 +159,9 @@ withPointAndTextLayersStory.args = {
 }
 withPointAndTextLayersStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
+}
+withPointAndTextLayersStory.parameters = {
+  storyshots: false
 }
 
 export const withLineStringLayerStory = (args, { argTypes }) => {
@@ -176,6 +182,9 @@ withLineStringLayerStory.args = {
 withLineStringLayerStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
+withLineStringLayerStory.parameters = {
+  storyshots: false
+}
 
 export const withPolygonLayerStory = (args, { argTypes }) => {
   return {
@@ -195,6 +204,9 @@ withPolygonLayerStory.args = {
 withPolygonLayerStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
+withPolygonLayerStory.parameters = {
+  storyshots: false
+}
 
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
   return {
@@ -212,6 +224,9 @@ withMultipleSourcesAndLayersStory.args = {
 withMultipleSourcesAndLayersStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
 }
+withMultipleSourcesAndLayersStory.parameters = {
+  storyshots: false
+}
 
 export const withCustomOptionsStory = (args, { argTypes }) => {
   return {
@@ -228,4 +243,7 @@ withCustomOptionsStory.args = {
 }
 withCustomOptionsStory.argTypes = {
   options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })] }, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }) }
+}
+withCustomOptionsStory.parameters = {
+  storyshots: false
 }
