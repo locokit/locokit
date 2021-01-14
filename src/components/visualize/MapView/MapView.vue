@@ -3,6 +3,7 @@
 </template>
 
 <script lang='ts'>
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Vue, { PropType } from 'vue'
 import { AnyLayer, Map, MapboxOptions } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
