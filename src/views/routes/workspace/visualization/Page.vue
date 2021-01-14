@@ -22,8 +22,8 @@
         </span>
         <h2 class="lck-color-title">{{ container.text }}</h2>
         <span class="p-buttonset">
-          <p-button class="p-button-lg p-button-text" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
-          <p-button class="p-button-lg p-button-text" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
+          <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
+          <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
         </span>
       </div>
       <div class="blocks">
@@ -51,9 +51,9 @@
     <p-button
       v-if="editPage"
       icon="pi pi-plus"
-      class="new-container-button lck-block p-button-outlined"
+      class="new-container-button p-button-outlined"
       iconPos="right"
-      @click="onContainerEditClick"
+      @click="onContainerEditClick({})"
     />
     <update-container-sidebar
       :submitting="submitting"
@@ -339,12 +339,10 @@ export default {
       }
     },
     onContainerDeleteClick (container) {
-      if (container.id) {
-        this.currentContainerToEdit = this.page.containers.find(c => c.id === container.id)
-        this.dialogVisibility.containerDelete = true
-      }
+      this.currentContainerToEdit = this.page.containers.find(c => c.id === container.id)
+      this.dialogVisibility.containerDelete = true
     },
-    async onContainerDeleteInput (container) {
+    async onContainerDeleteInput (container = {}) {
       try {
         this.submitting = true
         if (container.id) {
