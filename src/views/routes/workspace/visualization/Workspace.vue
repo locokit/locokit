@@ -26,6 +26,7 @@
       <lck-chapter-dialog
         :visible="dialogVisibility.chapterEdit"
         :chapter="currentChapterToEdit"
+        :submitting="submitting"
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
@@ -33,6 +34,7 @@
         :visible="dialogVisibility.chapterDelete"
         :value="currentChapterToEdit"
         :itemCategory="$t('pages.workspace.chapter')"
+        :submitting="submitting"
         @close="onChapterDeleteReset"
         @input="onChapterDeleteInput"
       />
