@@ -45,7 +45,8 @@
       />
       <lck-page-dialog
         :visible="dialogVisibility.pageEdit"
-        :value="currentPageToEdit"
+        :page="currentPageToEdit"
+        :submitting="submitting"
         @close="onPageEditReset"
         @input="onPageEditInput"
       />
@@ -53,6 +54,7 @@
         :visible="dialogVisibility.pageDelete"
         :value="currentPageToEdit"
         :itemCategory="$t('pages.workspace.page')"
+        :submitting="submitting"
         @close="onPageDeleteReset"
         @input="onPageDeleteInput"
       />
@@ -161,10 +163,10 @@ export default {
         const targetPageId = !page.id ? chapter.pages[0].id : page.id
         if (this.$route.params.workspaceId !== this.workspaceId || this.$route.params.pageId !== targetPageId) {
           await this.$router.replace({ name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: targetPageId } })
-        } else {
+        } else if (page.id) {
           this.forceUpdateKey = !this.forceUpdateKey
         }
-      } else {
+      } else if (this.$route.params.pageId) {
         await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
       }
     },
@@ -255,6 +257,7 @@ export default {
     },
     async onPageEditInput (page = {}) {
       try {
+        this.submitting = true
         if (page.id) {
           // On update
           const updatedPage = await lckServices.page.patch(page.id, {
@@ -281,10 +284,13 @@ export default {
         this.onPageEditReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onPageDeleteInput (page = {}) {
       try {
+        this.submitting = true
         if (page.id) {
           await lckServices.page.remove(page.id)
           const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
@@ -294,6 +300,8 @@ export default {
         this.onPageDeleteReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onPageReorderClick (chapterId, { moved }) {

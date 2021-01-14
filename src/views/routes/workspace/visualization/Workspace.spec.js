@@ -550,12 +550,14 @@ describe('Workspace', () => {
       it('Do nothing if the input event is emitted without an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input')
+        expect(lckServices.chapter.remove).not.toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
       it('Do nothing if the input event is emitted with an unknown chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
+        expect(lckServices.chapter.remove).toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
       })
 
@@ -580,6 +582,10 @@ describe('Workspace', () => {
     })
 
     describe('Add a new page', () => {
+      beforeEach(() => {
+        lckServices.page.create.mockClear()
+      })
+
       it('Do not display the page edit dialog if the add-subitem event is emitted from sidebar without an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', {})
         expect(pageWrapper.props('visible')).toBe(false)
@@ -587,13 +593,16 @@ describe('Workspace', () => {
 
       it('Display the page edit dialog with an empty object when the add-subitem event is emitted from sidebar with an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1' })
-        expect(pageWrapper.props('value')).toStrictEqual({})
+        expect(pageWrapper.props('page')).toStrictEqual({})
         expect(pageWrapper.props('visible')).toBe(true)
       })
 
       it('Create a new page if the input event is emitted with an existing chapter which already has some pages', async () => {
         await wrapper.vm.onPageEditClick({ item: '1' })
         await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.create).toHaveBeenCalledWith({ text: newPageName, hidden: pageIsHidden, chapter_id: '1' })
+        // Update the component data
         const newPage = wrapper.vm.workspaceContent.chapters[0].pages[2]
         expect(newPage).toBeDefined()
         expect(newPage.text).toBe(newPageName)
@@ -603,6 +612,9 @@ describe('Workspace', () => {
       it('Create a new page if the input event is emitted with an existing chapter which has not got any pages', async () => {
         await wrapper.vm.onPageEditClick({ item: '2' })
         await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.create).toHaveBeenCalledWith({ text: newPageName, hidden: pageIsHidden, chapter_id: '2' })
+        // Update the component data
         const newPage = wrapper.vm.workspaceContent.chapters[1].pages[0]
         expect(newPage).toBeDefined()
         expect(newPage.text).toBe(newPageName)
@@ -611,10 +623,14 @@ describe('Workspace', () => {
     })
 
     describe('Update a page', () => {
+      beforeEach(() => {
+        lckServices.page.patch.mockClear()
+      })
+
       it('Display the page edit dialog when the edit-item event is emitted from sidebar with an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1', subitem: '12' })
         expect(pageWrapper.props('visible')).toBe(true)
-        expect(pageWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
+        expect(pageWrapper.props('page')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
       })
 
       it('Hide the page edit dialog if it emits the close event', async () => {
@@ -628,6 +644,9 @@ describe('Workspace', () => {
       it('Update the page if the input event is emitted with an existing chapter and an existing page', async () => {
         await wrapper.vm.onPageEditClick({ item: '1', subitem: '12' })
         await pageWrapper.vm.$emit('input', { id: '12', text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.patch).toHaveBeenCalledWith('12', { text: newPageName, hidden: pageIsHidden })
+        // Update the component data
         const updatedPage = wrapper.vm.workspaceContent.chapters[0].pages[1]
         expect(updatedPage).toBeDefined()
         expect(updatedPage.text).toBe(newPageName)
@@ -647,6 +666,7 @@ describe('Workspace', () => {
 
       beforeEach(() => {
         deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+        lckServices.page.remove.mockClear()
       })
 
       it('Display the confirmation dialog with the specified page when the delete-subitem event is emitted', async () => {
@@ -666,12 +686,16 @@ describe('Workspace', () => {
       it('Delete a page if the input event is emitted with an existing page and an existing chapter', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
         await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        // Send API request
+        expect(lckServices.page.remove).toHaveBeenCalledWith('12')
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters[0].pages.find(p => p.id === '12')).toBeUndefined()
       })
 
       it('Do nothing if the input event is emitted without an existing page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1' })
         await deleteConfirmationWrapper.vm.$emit('input')
+        expect(lckServices.page.remove).not.toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters[0].pages)
           .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
       })
@@ -679,6 +703,7 @@ describe('Workspace', () => {
       it('Do nothing if the input event is emitted with an unknown page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '-12' })
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-12' })
+        expect(lckServices.page.remove).toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters[0].pages)
           .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
       })
