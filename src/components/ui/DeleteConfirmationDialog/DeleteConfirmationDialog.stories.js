@@ -13,6 +13,14 @@ export const defaultStory = () => ({
 defaultStory.storyName = 'default'
 defaultStory.args = { timeoutBeforeScreenshot: 800 }
 
+export const submittingStory = () => ({
+  components: { DeleteConfirmationDialog },
+  template: '<DeleteConfirmationDialog :submitting="true" :visible="true" :value="{}" />'
+})
+
+submittingStory.storyName = 'on submitting'
+submittingStory.args = { timeoutBeforeScreenshot: 800 }
+
 export const withElementName = () => ({
   components: { DeleteConfirmationDialog },
   data () {

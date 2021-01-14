@@ -12,13 +12,12 @@
     display: block;
     padding: 0.5rem;
     pointer-events: none;
-    pointer-events: none;
 
     &.saving,
     &.saved {
       &:before {
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         left: 0;
         display: flex;
         width: 100%;
@@ -142,6 +141,43 @@
   padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 }
 
+.p-datatable-wrapper {
+  table {
+    position: relative;
+  }
+
+  .p-datatable-thead {
+    th {
+      position: sticky;
+      z-index: 10;
+
+      top: 0;
+
+      &.sticky-column-cells {
+        z-index: 11;
+        left: 0;
+      }
+    }
+  }
+}
+td.sticky-column-cells {
+  background-color: rgba(256, 256, 256, 0.9) !important;
+  button {
+    &:hover {
+     background-color: rgba(33, 150, 243, 0.04);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      border: none;
+      &:hover {
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
+}
+
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-thead > tr > td {
   overflow: hidden;
@@ -153,7 +189,7 @@
   &.p-datatable-striped {
     .p-datatable-tbody > tr:nth-child(1n) {
       color: var(--primary-color-text);
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.8);
     }
 
     &.editable-cell-table {
@@ -166,6 +202,10 @@
       color: var(--primary-color-text);
       background-color: #ededed;
     }
+  }
+
+  .p-datatable-tbody tr {
+    background-color: rgba(255, 255, 255, 0.8);
   }
 
   .p-datatable-tbody > tr > td {

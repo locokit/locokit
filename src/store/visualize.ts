@@ -64,7 +64,7 @@ export async function retrieveViewDefinition (id: number) {
         $eager: 'columns.[column_type]',
         $modifyEager: {
           columns: {
-            visible: true
+            transmitted: true
           }
         }
       }

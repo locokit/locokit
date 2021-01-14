@@ -2,6 +2,7 @@
   <div
     v-if="definition"
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
   >
     <!--
     :scrollable="true"
@@ -82,25 +83,27 @@
             />
           </template>
         </p-column>
-        <p-column
+        <div
           v-for="column in definition.columns"
           :key="column.id"
-          :field="column.id"
-          :headerStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            overflow: 'hidden',
-            'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
-            'height': '2.5rem'
-          }"
-          :bodyStyle="{
-            width: ( ( column.display && column.display.width ) || '150' ) + 'px',
-            'white-space': 'nowrap',
-            'position': 'relative',
-            'height': '2.5rem'
-          }"
-          :sortable="isSortableColumn(column)"
         >
+          <p-column
+            :field="column.id"
+            :headerStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              overflow: 'hidden',
+              'white-space': 'nowrap',
+              'text-overflow': 'ellipsis',
+              'height': '2.5rem'
+            }"
+            :bodyStyle="{
+              width: ( ( column.style && column.style.width ) || '150' ) + 'px',
+              'white-space': 'nowrap',
+              'position': 'relative',
+              'height': '2.5rem'
+            }"
+            :sortable="isSortableColumn(column)"
+          >
           <template #header>
             <span :data-column-id="column.id">
               {{ column.text }}
@@ -119,6 +122,17 @@
               @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
               @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
               class="field-editable"
+            />
+            <lck-multi-autocomplete
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              field="label"
+              :suggestions="autocompleteSuggestions"
+              v-model="multipleAutocompleteInput"
+              @search="onComplete(column, $event)"
+              @item-select="onMultipleAutocompleteEdit(slotProps.data.id, column.id)"
+              @item-unselect="onMultipleAutocompleteEdit(slotProps.data.id, column.id)"
+              class="field-editable"
+              :multiLine="false"
             />
             <p-dropdown
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
@@ -147,7 +161,6 @@
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
-              @date-select="onCalendarEdit(slotProps.data.id, column.id)"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
@@ -182,7 +195,7 @@
             />
           </template>
         </p-column>
-
+        </div>
         <template #empty>
           {{ $t('components.datatable.noDataToDisplay') }}
         </template>
@@ -227,6 +240,7 @@ import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
@@ -235,14 +249,19 @@ import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
+import { zipArrays } from '@/services/lck-utils/arrays'
 
 export default {
   name: 'LckDatatable',
   components: {
     'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
@@ -309,6 +328,7 @@ export default {
   data () {
     return {
       autocompleteInput: null,
+      multipleAutocompleteInput: [],
       currentDateToEdit: null,
       multiSelectValues: [],
       selectedRow: null,
@@ -334,6 +354,7 @@ export default {
         [COLUMN_TYPE.DATE]: 'text',
         [COLUMN_TYPE.TEXT]: 'p-textarea',
         [COLUMN_TYPE.USER]: 'p-tag',
+        [COLUMN_TYPE.MULTI_USER]: 'p-tag',
         [COLUMN_TYPE.GROUP]: 'p-tag',
         [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
         [COLUMN_TYPE.LOOKED_UP_COLUMN]: 'p-tag',
@@ -366,7 +387,7 @@ export default {
     },
     tableWidth () {
       if (!this.definition.columns) return '100%'
-      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.display?.width || 150), 0)
+      const columnsTotalWidth = this.definition.columns.reduce((acc, c) => acc + (c.style?.width || 150), 0)
       return 'calc(6rem + ' + columnsTotalWidth + 'px)'
     },
     unorderableColumnsNumber () {
@@ -413,6 +434,8 @@ export default {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
           case COLUMN_TYPE.FORMULA:
             return data.value
+          case COLUMN_TYPE.MULTI_USER:
+            return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:
             return column.settings.values[data]?.label
           case COLUMN_TYPE.MULTI_SELECT:
@@ -422,7 +445,7 @@ export default {
               return ''
             }
           case COLUMN_TYPE.DATE:
-          // eslint-disable-next-line no-case-declarations
+            // eslint-disable-next-line no-case-declarations
             return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
@@ -503,16 +526,11 @@ export default {
         newValue: event ? event?.value?.value : null
       })
     },
-    async onCalendarEdit (rowId, columnId) {
-      /**
-       * in case of a Date, value is stored in the currentDateToEdit data
-       * we format it in the date representation,
-       * we just want to store the date
-       */
+    async onMultipleAutocompleteEdit (rowId, columnId) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: this.currentDateToEdit ? formatDateISO(this.currentDateToEdit) : null
+        newValue: this.multipleAutocompleteInput.map(item => item.value)
       })
     },
     /**
@@ -543,6 +561,7 @@ export default {
         case COLUMN_TYPE.SINGLE_SELECT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
         case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
           /**
            * For these type of column
@@ -561,16 +580,17 @@ export default {
             event.preventDefault()
             return
           }
-
           /**
            * in case of a Date, value is stored in the currentDateToEdit data
            * we format it in the date representation,
            * we just want to store the date
            */
-          if (this.currentDateToEdit) {
+          if (this.currentDateToEdit instanceof Date) {
             value = formatDateISO(this.currentDateToEdit)
-          } else {
+          } else if (this.currentDateToEdit === '') {
             value = null
+          } else {
+            return
           }
           break
       }
@@ -590,6 +610,9 @@ export default {
         case COLUMN_TYPE.GROUP:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           this.autocompleteInput = data.data[field]?.value || null
+          break
+        case COLUMN_TYPE.MULTI_USER:
+          this.multipleAutocompleteInput = zipArrays(data.data[field]?.reference, data.data[field]?.value, 'value', 'label')
           break
       }
     },
@@ -684,6 +707,7 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
+  max-height: 75vh;
 }
 
 .field-editable {

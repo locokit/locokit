@@ -30,7 +30,8 @@
       />
       <lck-chapter-dialog
         :visible="dialogVisibility.chapterEdit"
-        :value="currentChapterToEdit"
+        :chapter="currentChapterToEdit"
+        :submitting="submitting"
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
@@ -38,6 +39,7 @@
         :visible="dialogVisibility.chapterDelete"
         :value="currentChapterToEdit"
         :itemCategory="$t('pages.workspace.chapter')"
+        :submitting="submitting"
         @close="onChapterDeleteReset"
         @input="onChapterDeleteInput"
       />
@@ -88,7 +90,8 @@ export default {
   props: ['workspaceId'],
   data () {
     return {
-      workspaceContent: [],
+      currentChapterToEdit: {},
+      currentPageToEdit: {},
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
@@ -96,9 +99,9 @@ export default {
         pageEdit: false,
         pageDelete: false
       },
-      currentChapterToEdit: {},
-      currentPageToEdit: {},
-      forceUpdateKey: true
+      forceUpdateKey: true,
+      submitting: false,
+      workspaceContent: []
     }
   },
   computed: {
@@ -185,6 +188,7 @@ export default {
     },
     async onChapterEditInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           // On update
           const updatedChapter = await lckServices.chapter.patch(chapter.id, {
@@ -203,11 +207,14 @@ export default {
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onChapterDeleteInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           await lckServices.chapter.remove(chapter.id)
           const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
@@ -215,7 +222,9 @@ export default {
         }
         this.onChapterDeleteReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     onPageEditClick (data) {

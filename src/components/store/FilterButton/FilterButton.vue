@@ -361,10 +361,12 @@ export default {
     'lck-overlaypanel': Vue.extend(OverlayPanel)
   },
   props: {
-    columns: {
-      type: Array,
+    definition: {
+      type: Object,
       required: false,
-      default: () => ([])
+      default: () => ({
+        columns: []
+      })
     },
     columnsDropdownOptions: {
       type: Object,
@@ -390,8 +392,8 @@ export default {
   },
   computed: {
     columnsDisplayable () {
-      if (this.columns?.length < 1) return []
-      return this.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
+      if (this.definition.columns?.length < 1) return []
+      return this.definition.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(columnTypeId)) {
           acc.push({

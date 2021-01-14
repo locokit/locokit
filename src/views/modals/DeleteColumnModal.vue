@@ -4,6 +4,7 @@
     :header="$t('pages.databaseSchema.deleteColumnModal.deleteColumn')"
     @input="confirmDeleteColumnModal"
     @close="closeDeleteColumnModal"
+    :isActionForm="true"
   >
     <div v-if="columnToHandle">
       {{ $t('pages.databaseSchema.deleteColumnModal.deleteConfirmation', { columnName: columnToHandle.text }) }}

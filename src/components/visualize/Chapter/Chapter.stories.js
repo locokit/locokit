@@ -5,13 +5,13 @@ export default {
   component: Chapter
 }
 
-export const defaultStory = () => ({
+export const chapterCreate = () => ({
   components: { Chapter },
   template: '<Chapter :visible="true" />'
 })
 
-defaultStory.storyName = 'chapter create'
-defaultStory.args = { timeoutBeforeScreenshot: 800 }
+chapterCreate.storyName = 'chapter create'
+chapterCreate.args = { timeoutBeforeScreenshot: 800 }
 
 export const chapterEdit = () => ({
   components: { Chapter },
@@ -23,7 +23,7 @@ export const chapterEdit = () => ({
       }
     }
   },
-  template: '<Chapter :visible="true" :value="chapter" />'
+  template: '<Chapter :visible="true" :chapter="chapter" />'
 })
 
 chapterEdit.storyName = 'chapter edit'

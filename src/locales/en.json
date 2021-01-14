@@ -30,7 +30,8 @@
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
-      "detail": "Detail",
+      "detail": "Detail row",
+      "addNewRow": "Add new row",
       "toolbar": {
         "lists": {
           "label": "no column | {n} column | {n} columns"
@@ -108,6 +109,9 @@
     },
     "inputURL": {
       "openTheLink": "Open the link"
+    },
+    "multiAutocomplete": {
+      "placeholder": "Search"
     },
     "processPanel": {
       "title": "Process",
@@ -228,7 +232,7 @@
       "buttonProcess": "Processes",
       "createChapter": "Create a new chapter",
       "editChapter": "Edit a chapter",
-      "chapter": "chapter",
+      "chapter": "Chapter",
       "chapterName": "Chapter name",
       "editMode": "Edit mode",
       "createElement": "Create a new element",

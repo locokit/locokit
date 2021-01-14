@@ -22,6 +22,9 @@
   --surface-f:#2a323d !important;
   --surface-w:#f8f9fa !important;
 
+  --surface-lck-1:#858096;
+  --surface-lck-2:#fff;
+
   --text-color:rgba(255, 255, 255, 0.87) !important;
   --text-color-secondary:rgba(255, 255, 255, 0.6) !important;
 
@@ -40,5 +43,8 @@
   --header-height: 4rem !important;
   --header-background-color: #fff !important;
   --header-border-bottom-color: #e2e8f0 !important;
+
+  --background-color: #f7fafc;
+  --background-color-light: #fafafa;
 
 }

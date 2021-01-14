@@ -13,7 +13,7 @@
         <lck-filter-button
           v-if="filterAllowed"
           :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
-          :columns="definition && definition.columns"
+          :definition="columnsDisplayed"
           :columnsDropdownOptions="columnsDropdownOptions"
           v-model="currentDatatableFilters"
           @submit="onSubmitFilters"
@@ -41,7 +41,7 @@
 
     <lck-datatable
       v-if="definition"
-      :definition="definition"
+      :definition="columnsDisplayed"
       :content="content"
       :crud-mode="false"
       v-bind="$attrs"
@@ -50,14 +50,15 @@
 
     <lck-dialog
       :visible.sync="displayNewDialog"
-      :header="$t('components.datatable.detail')"
+      :header="$t('components.datatable.addNewRow')"
       :submitting="submitting"
+      :isActionForm="true"
       @close="displayNewDialog = false"
-      @input="$emit('create-row', newRow)"
+      @input="handleSubmitCreateRow"
     >
       <lck-data-detail
         :crudMode="false"
-        :definition="definition"
+        :definition="columnsDisplayed"
         :row="newRow"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         @update-suggestions="$listeners['update-suggestions']"
@@ -85,7 +86,7 @@ export default {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
-    'lck-dialog': Vue.extend(Dialog),
+    'lck-dialog': Dialog,
     'p-button': Vue.extend(Button)
   },
   props: {
@@ -131,10 +132,16 @@ export default {
     }
   },
   computed: {
+    hasColumns () {
+      return this.definition?.columns?.length > 0
+    },
+    columnsDisplayed () {
+      return this.hasColumns ? { columns: this.definition.columns.filter(currentColumn => currentColumn.displayed === true) } : null
+    },
     columnsDropdownOptions () {
       const result = {}
       if (this.hasColumns) {
-        this.definition.columns.forEach(currentColumn => {
+        this.columnsDisplayed.columns.forEach(currentColumn => {
           if (
             currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
             currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
@@ -147,9 +154,6 @@ export default {
         })
       }
       return result
-    },
-    hasColumns () {
-      return this.definition?.columns?.length > 0
     },
     hasDataToDisplay () {
       return this.hasColumns && this.content?.total > 0
@@ -214,6 +218,10 @@ export default {
               })(filter.column.type)
         })
       return formattedFilters
+    },
+    handleSubmitCreateRow () {
+      this.$emit('create-row', this.newRow)
+      this.displayNewDialog = false
     }
   }
 }

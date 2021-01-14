@@ -8,6 +8,7 @@
     "
     @input="$emit('input', currentData)"
     @close="$emit('close')"
+    :isActionForm="true"
   >
     <div class="p-field">
       <label for="viewTextField">

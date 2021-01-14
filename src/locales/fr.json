@@ -30,7 +30,8 @@
       "loading": "En cours de chargement… veuillez patienter…",
       "placeholder": "Sélectionnez une option",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
-      "detail": "Détail",
+      "detail": "Détail d'une ligne",
+      "addNewRow": "Ajouter une ligne",
       "toolbar": {
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"
@@ -110,6 +111,9 @@
     },
     "inputURL": {
       "openTheLink": "Ouvrir le lien"
+    },
+    "multiAutocomplete": {
+      "placeholder": "Rechercher"
     },
     "processPanel": {
       "title": "Processus",
@@ -231,7 +235,7 @@
       "buttonProcess": "Processus",
       "createChapter": "Créer un nouveau chapitre",
       "editChapter": "Modifier un chapitre",
-      "chapter": "chapitre",
+      "chapter": "Chapitre",
       "chapterName": "Nom du chapitre",
       "editMode": "Mode édition",
       "createElement": "Créer un nouvel élément",

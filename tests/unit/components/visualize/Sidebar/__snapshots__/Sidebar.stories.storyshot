@@ -14,9 +14,9 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_25_content"
+          aria-controls="pv_id_28_content"
           class="p-accordion-header-link"
-          id="pv_id_25_header"
+          id="pv_id_28_header"
           role="tab"
           tabindex="0"
         >
@@ -33,9 +33,9 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_25_header"
+        aria-labelledby="pv_id_28_header"
         class="p-toggleable-content"
-        id="pv_id_25_content"
+        id="pv_id_28_content"
         role="region"
         style="display: none;"
       >
@@ -69,9 +69,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_30_content"
+          aria-controls="pv_id_33_content"
           class="p-accordion-header-link"
-          id="pv_id_30_header"
+          id="pv_id_33_header"
           role="tab"
           tabindex="0"
         >
@@ -96,9 +96,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
       </div>
        
       <div
-        aria-labelledby="pv_id_30_header"
+        aria-labelledby="pv_id_33_header"
         class="p-toggleable-content"
-        id="pv_id_30_content"
+        id="pv_id_33_content"
         role="region"
         style="display: none;"
       >
@@ -180,9 +180,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_31_content"
+          aria-controls="pv_id_34_content"
           class="p-accordion-header-link"
-          id="pv_id_31_header"
+          id="pv_id_34_header"
           role="tab"
           tabindex="0"
         >
@@ -207,9 +207,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
       </div>
        
       <div
-        aria-labelledby="pv_id_31_header"
+        aria-labelledby="pv_id_34_header"
         class="p-toggleable-content"
-        id="pv_id_31_content"
+        id="pv_id_34_content"
         role="region"
         style="display: none;"
       >
@@ -304,9 +304,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_32_content"
+          aria-controls="pv_id_35_content"
           class="p-accordion-header-link"
-          id="pv_id_32_header"
+          id="pv_id_35_header"
           role="tab"
           tabindex="0"
         >
@@ -333,9 +333,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
       </div>
        
       <div
-        aria-labelledby="pv_id_32_header"
+        aria-labelledby="pv_id_35_header"
         class="p-toggleable-content"
-        id="pv_id_32_content"
+        id="pv_id_35_content"
         role="region"
         style="display: none;"
       >
@@ -417,9 +417,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_33_content"
+          aria-controls="pv_id_36_content"
           class="p-accordion-header-link"
-          id="pv_id_33_header"
+          id="pv_id_36_header"
           role="tab"
           tabindex="0"
         >
@@ -446,9 +446,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
       </div>
        
       <div
-        aria-labelledby="pv_id_33_header"
+        aria-labelledby="pv_id_36_header"
         class="p-toggleable-content"
-        id="pv_id_33_content"
+        id="pv_id_36_content"
         role="region"
         style="display: none;"
       >
@@ -561,9 +561,9 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_26_content"
+          aria-controls="pv_id_29_content"
           class="p-accordion-header-link"
-          id="pv_id_26_header"
+          id="pv_id_29_header"
           role="tab"
           tabindex="0"
         >
@@ -580,9 +580,9 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_26_header"
+        aria-labelledby="pv_id_29_header"
         class="p-toggleable-content"
-        id="pv_id_26_content"
+        id="pv_id_29_content"
         role="region"
         style="display: none;"
       >
@@ -622,9 +622,9 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_27_content"
+          aria-controls="pv_id_30_content"
           class="p-accordion-header-link"
-          id="pv_id_27_header"
+          id="pv_id_30_header"
           role="tab"
           tabindex="0"
         >
@@ -641,9 +641,9 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
       </div>
        
       <div
-        aria-labelledby="pv_id_27_header"
+        aria-labelledby="pv_id_30_header"
         class="p-toggleable-content"
-        id="pv_id_27_content"
+        id="pv_id_30_content"
         role="region"
         style="display: none;"
       >
@@ -696,9 +696,9 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
         class="p-accordion-header"
       >
         <a
-          aria-controls="pv_id_28_content"
+          aria-controls="pv_id_31_content"
           class="p-accordion-header-link"
-          id="pv_id_28_header"
+          id="pv_id_31_header"
           role="tab"
           tabindex="0"
         >
@@ -715,9 +715,9 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
        
       <div
-        aria-labelledby="pv_id_28_header"
+        aria-labelledby="pv_id_31_header"
         class="p-toggleable-content"
-        id="pv_id_28_content"
+        id="pv_id_31_content"
         role="region"
         style="display: none;"
       >
@@ -757,10 +757,10 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
         class="p-accordion-header p-highlight"
       >
         <a
-          aria-controls="pv_id_29_content"
+          aria-controls="pv_id_32_content"
           aria-expanded="true"
           class="p-accordion-header-link"
-          id="pv_id_29_header"
+          id="pv_id_32_header"
           role="tab"
           tabindex="0"
         >
@@ -777,9 +777,9 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
        
       <div
-        aria-labelledby="pv_id_29_header"
+        aria-labelledby="pv_id_32_header"
         class="p-toggleable-content"
-        id="pv_id_29_content"
+        id="pv_id_32_content"
         role="region"
       >
         <div

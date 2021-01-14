@@ -11,6 +11,8 @@ export function getComponentEditableColumn (columnTypeId: number) {
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       return 'lck-autocomplete'
+    case COLUMN_TYPE.MULTI_USER:
+      return 'lck-multi-autocomplete'
     case COLUMN_TYPE.BOOLEAN:
       return 'p-input-switch'
     case COLUMN_TYPE.NUMBER:
