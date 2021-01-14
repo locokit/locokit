@@ -24,6 +24,16 @@
           @item-select="onAutocompleteEdit(row.id, column.id, $event)"
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
+        <lck-multi-autocomplete
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+          :id="column.id"
+          field="label"
+          :suggestions="autocompleteSuggestions"
+          v-model="multipleAutocompleteInput[column.id]"
+          @search="onComplete(column, $event)"
+          @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
+          @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
+        />
         <p-dropdown
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
           :id="column.id"
@@ -100,12 +110,14 @@ import InputNumber from 'primevue/inputnumber'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
 import { lckHelpers } from '@/services/lck-api'
+import { zipArrays } from '@/services/lck-utils/arrays'
 
 export default {
   name: 'LckDataDetail',
@@ -129,11 +141,13 @@ export default {
   },
   data () {
     return {
-      autocompleteInput: {}
+      autocompleteInput: {},
+      multipleAutocompleteInput: {}
     }
   },
   components: {
     'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
     'lck-input-url': InputURL,
@@ -204,6 +218,9 @@ export default {
     async onAutocompleteEdit (rowId, columnId, event = null) {
       await this.onEdit(rowId, columnId, event ? event.value.value : null)
     },
+    async onMultipleAutocompleteEdit (rowId, columnId) {
+      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map(item => item.value))
+    },
     async onDateEdit (rowId, columnId, value) {
       await this.onEdit(
         rowId,
@@ -229,6 +246,7 @@ export default {
          */
           if (newRef.data) {
             this.autocompleteInput = {}
+            this.multipleAutocompleteInput = {}
             Object.keys(newRef.data).forEach((columnId) => {
               const currentColumnDefinition = this.columnsEnhanced[columnId]
               switch (currentColumnDefinition.column_type_id) {
@@ -236,6 +254,13 @@ export default {
                 case COLUMN_TYPE.GROUP:
                 case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                   this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                  break
+                case COLUMN_TYPE.MULTI_USER:
+                  this.$set(
+                    this.multipleAutocompleteInput,
+                    columnId,
+                    zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
+                  )
                   break
               }
             })

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Paginated } from '@feathersjs/feathers'
-import { LckGroup, LckTableColumn, LckTableRow, LckTableRowData, LckTableRowDataComplex, LckUser } from './definitions'
+import { LckGroup, LckTableColumn, LckTableRow, LckTableRowData, LckTableRowDataComplex, LCKTableRowMultiDataComplex, LckUser } from './definitions'
 import { lckServices } from './services'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -32,6 +32,8 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
       case COLUMN_TYPE.FORMULA:
         return (data as LckTableRowDataComplex).value
+      case COLUMN_TYPE.MULTI_USER:
+        return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
         return column.settings.values[data as string]?.label
       case COLUMN_TYPE.MULTI_SELECT:
@@ -59,7 +61,7 @@ export function getColumnDisplayValue (
  */
 export async function searchItems ({ columnTypeId, tableId, query }: { columnTypeId: number; tableId: string; query: object}) {
   let items = null
-  if (columnTypeId === COLUMN_TYPE.USER) {
+  if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
       query: {
         blocked: false,
