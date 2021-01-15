@@ -57,7 +57,7 @@ exports[`storyshots components/visualize/Page page create 1`] = `
             class="p-field"
           >
             <label
-              for="PageTextField"
+              for="pageTextField"
             >
               Page Name
             </label>
@@ -65,7 +65,7 @@ exports[`storyshots components/visualize/Page page create 1`] = `
             <input
               autofocus="autofocus"
               class="p-inputtext p-component"
-              id="PageTextField"
+              id="pageTextField"
               required="required"
             />
           </div>
@@ -122,18 +122,17 @@ exports[`storyshots components/visualize/Page page create 1`] = `
             </button>
              
             <button
-              class="p-button-text p-button p-component"
-              disabled="disabled"
-              type="button"
+              class="p-button p-component"
+              type="submit"
             >
               <span
-                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+                class="pi pi-save p-button-icon p-button-icon-left"
               />
                
               <span
                 class="p-button-label"
               >
-                Please wait
+                Save
               </span>
                
               <!---->
@@ -208,7 +207,7 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
             class="p-field"
           >
             <label
-              for="PageTextField"
+              for="pageTextField"
             >
               Page Name
             </label>
@@ -216,7 +215,7 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
             <input
               autofocus="autofocus"
               class="p-inputtext p-component p-filled"
-              id="PageTextField"
+              id="pageTextField"
               required="required"
             />
           </div>
@@ -274,18 +273,17 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
             </button>
              
             <button
-              class="p-button-text p-button p-component"
-              disabled="disabled"
-              type="button"
+              class="p-button p-component"
+              type="submit"
             >
               <span
-                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+                class="pi pi-save p-button-icon p-button-icon-left"
               />
                
               <span
                 class="p-button-label"
               >
-                Please wait
+                Save
               </span>
                
               <!---->

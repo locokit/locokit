@@ -158,17 +158,19 @@ export default {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
       }
     },
-    async goToSpecificChapterPage (chapter, page = {}) {
-      if (Array.isArray(chapter.pages) && chapter.pages.length > 0) {
-        const targetPageId = !page.id ? chapter.pages[0].id : page.id
-        if (this.$route.params.workspaceId !== this.workspaceId || this.$route.params.pageId !== targetPageId) {
-          await this.$router.replace({ name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: targetPageId } })
-        } else if (page.id) {
-          this.forceUpdateKey = !this.forceUpdateKey
-        }
-      } else if (this.$route.params.pageId) {
-        await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
-      }
+    async goToSpecificPage (pageId) {
+      await this.$router.replace(
+        { name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: pageId } })
+        .catch(error => {
+          if (error.from.path !== error.to.path) throw error
+          else this.forceUpdateKey = !this.forceUpdateKey
+        })
+    },
+    async goToDefaultRoute () {
+      await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
+        .catch(error => {
+          if (error.from.path !== error.to.path) throw error
+        })
     },
     onChapterEditClick (chapterId) {
       if (chapterId) {
@@ -280,7 +282,7 @@ export default {
             this.$set(this.currentChapterToEdit, 'pages', [this.currentPageToEdit])
           }
         }
-        await this.goToSpecificChapterPage(this.currentChapterToEdit, this.currentPageToEdit)
+        await this.goToSpecificPage(this.currentPageToEdit.id)
         this.onPageEditReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
@@ -295,7 +297,7 @@ export default {
           await lckServices.page.remove(page.id)
           const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
           if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-          await this.goToSpecificChapterPage(this.currentChapterToEdit)
+          if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
         }
         this.onPageDeleteReset()
       } catch (error) {

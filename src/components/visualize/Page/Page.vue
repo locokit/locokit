@@ -10,9 +10,9 @@
       @cancel="$emit('close')"
     >
       <div class="p-field">
-        <label for="PageTextField">{{ $t('pages.workspace.pageName') }}</label>
+        <label for="pageTextField">{{ $t('pages.workspace.pageName') }}</label>
         <p-input-text
-          id="PageTextField"
+          id="pageTextField"
           v-model="pageCopy.text"
           required
           autofocus
@@ -55,7 +55,7 @@ export default {
     },
     submitting: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data () {

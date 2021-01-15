@@ -44,6 +44,14 @@ class MockError extends Error {
   }
 }
 
+class MockRouterError extends Error {
+  constructor (args) {
+    super(args)
+    this.from = { path: 'from' }
+    this.to = { path: 'to' }
+  }
+}
+
 // Mock variables
 const mockWorkspaceContent = {
   id: '0',
@@ -551,14 +559,14 @@ describe('Workspace', () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input')
         expect(lckServices.chapter.remove).not.toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
+        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
       })
 
-      it('Do nothing if the input event is emitted with an unknown chapter', async () => {
+      it('Do not delete a chapter if the input event is emitted with an unknown chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
         expect(lckServices.chapter.remove).toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
+        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
       })
 
       it('Display a toast if an error is occured', async () => {
@@ -620,6 +628,18 @@ describe('Workspace', () => {
         expect(newPage.text).toBe(newPageName)
         expect(newPage.hidden).toBe(pageIsHidden)
       })
+
+      it('Redirect to the new page if the input event is emitted with an existing chapter', async () => {
+        await wrapper.vm.onPageEditClick({ item: '2' })
+        await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: '13'
+          }
+        }).route.path)
+      })
     })
 
     describe('Update a page', () => {
@@ -651,6 +671,18 @@ describe('Workspace', () => {
         expect(updatedPage).toBeDefined()
         expect(updatedPage.text).toBe(newPageName)
         expect(updatedPage.hidden).toBe(pageIsHidden)
+      })
+
+      it('Redirect to the edit page if the input event is emitted with an existing chapter and an existing page', async () => {
+        await wrapper.vm.onPageEditClick({ item: '1', subitem: '12' })
+        await pageWrapper.vm.$emit('input', { id: '12', text: newPageName, hidden: pageIsHidden })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: '12'
+          }
+        }).route.path)
       })
 
       it('Display a toast if an error is occured', async () => {
@@ -692,6 +724,29 @@ describe('Workspace', () => {
         expect(wrapper.vm.workspaceContent.chapters[0].pages.find(p => p.id === '12')).toBeUndefined()
       })
 
+      it('Redirect to a default page if the active page is the deleted page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '11' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '11' })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.VISUALIZATION,
+          params: {
+            worspaceId: mockWorkspaceContent.id
+          }
+        }).route.path)
+      })
+
+      it('Keep on the same page if the active page is not the deleted page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: mockWorkspaceContent.chapters[0].pages[0].id
+          }
+        }).route.path)
+      })
+
       it('Do nothing if the input event is emitted without an existing page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1' })
         await deleteConfirmationWrapper.vm.$emit('input')
@@ -700,7 +755,7 @@ describe('Workspace', () => {
           .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
       })
 
-      it('Do nothing if the input event is emitted with an unknown page', async () => {
+      it('Do not delete a page if the input event is emitted with an unknown page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '-12' })
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-12' })
         expect(lckServices.page.remove).toHaveBeenCalled()
@@ -802,59 +857,89 @@ describe('Workspace', () => {
     })
   })
 
-  describe('goToSpecificChapterPage', () => {
+  describe('goToSpecificPage', () => {
     let wrapper
-    let firstPagePath
-    let secondPagePath
-    let defaultWorkspacePath
     let firstChapter
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
       firstChapter = wrapper.vm.workspaceContent.chapters[0]
-      firstPagePath = wrapper.vm.$router.resolve({
-        name: ROUTES_NAMES.PAGE,
-        params: {
-          worspaceId: mockWorkspaceContent.id,
-          pageId: firstChapter.pages[0].id
-        }
-      }).route.path
-      secondPagePath = wrapper.vm.$router.resolve({
+    })
+
+    it('Redirect to the specific page if it is not the current page ', async () => {
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[1].id)
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
           pageId: firstChapter.pages[1].id
         }
-      }).route.path
-      defaultWorkspacePath = wrapper.vm.$router.resolve({
+      }).route.path)
+    })
+
+    it('Refresh the necessary children components keys if we want to access the current page and keep the same path', async () => {
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[0].id)
+      const originalKey = wrapper.vm.forceUpdateKey
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[0].id)
+      expect(wrapper.vm.forceUpdateKey).toBe(!originalKey)
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: firstChapter.pages[0].id
+        }
+      }).route.path)
+    })
+
+    it('Throw the error if it is not due to a duplicated path', async () => {
+      jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
+      let throwError = false
+      try {
+        await wrapper.vm.goToSpecificPage('0')
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(true)
+    })
+  })
+
+  describe('goToDefaultRoute', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = await shallowMount(Workspace, globalComponentParams)
+    })
+
+    it('Redirect to the default route ', async () => {
+      await wrapper.vm.goToDefaultRoute()
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.VISUALIZATION,
         params: {
           worspaceId: mockWorkspaceContent.id
         }
-      }).route.path
+      }).route.path)
     })
 
-    it('Redirect to the specific page of a specific chapter', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      expect(wrapper.vm.$router.history.current.path).toBe(secondPagePath)
+    it('Do not throw an error if the default route is the current one', async () => {
+      await wrapper.vm.goToDefaultRoute()
+      let throwError = false
+      try {
+        await wrapper.vm.goToDefaultRoute()
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(false)
     })
 
-    it('Redirect to the first page of a specific chapter', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter)
-      expect(wrapper.vm.$router.history.current.path).toBe(firstPagePath)
-    })
-
-    it('Refresh the necessary children components keys if we want to access the current path', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      const originalKey = wrapper.vm.forceUpdateKey
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      expect(wrapper.vm.forceUpdateKey).toBe(!originalKey)
-    })
-
-    it('Redirect to a default page if there is no page in the specified chapter', async () => {
-      await wrapper.setData({ workspaceContent: { chapters: [{ pages: [] }] } })
-      await wrapper.vm.goToSpecificChapterPage(wrapper.vm.workspaceContent.chapters[0])
-      expect(wrapper.vm.$router.history.current.path).toBe(defaultWorkspacePath)
+    it('Throw the error if it is not due to a duplicated path', async () => {
+      jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
+      let throwError = false
+      try {
+        await wrapper.vm.goToDefaultRoute()
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(true)
     })
   })
 
