@@ -1,28 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
+import draggable from 'vuedraggable'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
-import { lckServices, lckHelpers } from '@/services/lck-api'
+import { lckServices } from '@/services/lck-api'
 
 import Page from './Page.vue'
+import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
+
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import Block from '@/components/visualize/Block/Block'
-
-import Button from 'primevue/button'
-
-import {
-  retrievePageWithContainersAndBlocks,
-  retrieveViewDefinition,
-  retrieveViewData
-} from '@/store/visualize'
-import {
-  patchTableData, saveTableData
-} from '@/store/database'
-import draggable from 'vuedraggable'
 
 // Mock external libraries
 
@@ -43,6 +33,11 @@ jest.mock('vuedraggable')
 jest.mock('primevue/button', () => ({
   name: 'p-button',
   render: h => h('p-button')
+}))
+
+jest.mock('primevue/breadcrumb', () => ({
+  name: 'p-breadcrumb',
+  render: h => h('p-breadcrumb')
 }))
 
 // Mock error
@@ -168,6 +163,19 @@ jest.mock('@/router/paths', () => ({
   }
 }))
 
+jest.mock('@/views/routes/workspace/visualization/Workspace.vue', () => ({
+  name: 'Workspace',
+  render: h => h('workspace'),
+  computed: {
+    sidebarItems: () => []
+  }
+}))
+
+jest.mock('@/components/visualize/Block/Block', () => ({
+  name: 'Block',
+  render: h => h('block')
+}))
+
 // Mock routes
 const mockRoutes = [
   {
@@ -204,7 +212,8 @@ describe('Page', () => {
         $toast: {
           add: jest.fn()
         }
-      }
+      },
+      parentComponent: Workspace
     }
   }
 
