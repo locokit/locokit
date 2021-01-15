@@ -21,44 +21,44 @@
       handle=".handle"
       @change="onContainerReorderClick"
     >
-    <div
-      v-for="container in page.containers"
-      :key="container.id"
-      :class="{
-        'editable-container': editPage
-      }"
-    >
-      <div v-if="editPage" class="edit-container-line">
-        <span>
-          <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
-        </span>
-        <h2 class="lck-color-title">{{ container.text }}</h2>
-        <span class="p-buttonset">
-          <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
-          <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
-        </span>
+      <div
+        v-for="container in page.containers"
+        :key="container.id"
+        :class="{
+          'editable-container': editPage
+        }"
+      >
+        <div v-if="editPage" class="edit-container-line">
+          <span>
+            <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
+          </span>
+          <h2 class="lck-color-title">{{ container.text }}</h2>
+          <span class="p-buttonset">
+            <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
+            <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
+          </span>
+        </div>
+        <div class="blocks">
+          <Block
+            v-for="block in container.blocks"
+            :key="block.id"
+            :block="block"
+            :autocompleteSuggestions="autocompleteSuggestions"
+            :exporting="exporting"
+            :cellState="cellState"
+            class="p-mb-4 lck-block"
+            v-on="$listeners"
+            @update-cell="onUpdateCell(block, $event)"
+            @update-content="onUpdateContentBlockTableView(block, $event)"
+            @update-suggestions="onUpdateSuggestions"
+            @sort="onSort(block, $event)"
+            @open-detail="onPageDetail(block, $event)"
+            @create-row="onCreateRow(block, $event)"
+            @export-view="onExportView(block)"
+            @update-filters="onUpdateFilters(block, $event)"
+          />
+        </div>
       </div>
-      <div class="blocks">
-        <Block
-          v-for="block in container.blocks"
-          :key="block.id"
-          :block="block"
-          :autocompleteSuggestions="autocompleteSuggestions"
-          :exporting="exporting"
-          :cellState="cellState"
-          class="p-mb-4 lck-block"
-          v-on="$listeners"
-          @update-cell="onUpdateCell(block, $event)"
-          @update-content="onUpdateContentBlockTableView(block, $event)"
-          @update-suggestions="onUpdateSuggestions"
-          @sort="onSort(block, $event)"
-          @open-detail="onPageDetail(block, $event)"
-          @create-row="onCreateRow(block, $event)"
-          @export-view="onExportView(block)"
-          @update-filters="onUpdateFilters(block, $event)"
-        />
-      </div>
-    </div>
     </draggable>
     <p-button
       v-if="editPage"
@@ -108,16 +108,16 @@ import {
 import {
   patchTableData, saveTableData
 } from '@/store/database'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import { lckHelpers, lckServices } from '@/services/lck-api'
 
 export default {
   name: 'Page',
   components: {
     Block,
-    'p-button': Vue.extend(Button),
     'p-breadcrumb': Vue.extend(Breadcrumb),
+    'p-button': Vue.extend(Button),
     draggable: Vue.extend(draggable),
     'update-container-sidebar': UpdateContainerSidebar,
     'delete-confirmation-dialog': DeleteConfirmationDialog

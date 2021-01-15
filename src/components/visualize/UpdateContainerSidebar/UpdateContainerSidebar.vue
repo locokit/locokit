@@ -60,8 +60,6 @@ import Sidebar from 'primevue/sidebar'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-// import HandleColumnModal from '@/views/modals/HandleColumnModal'
-// import DeleteColumnModal from '@/views/modals/DeleteColumnModal'
 
 export default {
   name: 'UpdateContainerSidebar',
