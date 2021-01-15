@@ -6,21 +6,21 @@ exports[`storyshots components/visualize/Page page create 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1020;"
+    style="z-index: 1021;"
   >
     <div
-      aria-labelledby="pv_id_24_header"
+      aria-labelledby="pv_id_28_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1021;"
+      style="z-index: 1022;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_24_header"
+          id="pv_id_28_header"
         >
           Create a new page
         </span>
@@ -57,7 +57,7 @@ exports[`storyshots components/visualize/Page page create 1`] = `
             class="p-field"
           >
             <label
-              for="PageTextField"
+              for="pageTextField"
             >
               Page Name
             </label>
@@ -65,7 +65,7 @@ exports[`storyshots components/visualize/Page page create 1`] = `
             <input
               autofocus="autofocus"
               class="p-inputtext p-component"
-              id="PageTextField"
+              id="pageTextField"
               required="required"
             />
           </div>
@@ -156,21 +156,21 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1021;"
+    style="z-index: 1022;"
   >
     <div
-      aria-labelledby="pv_id_25_header"
+      aria-labelledby="pv_id_29_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1022;"
+      style="z-index: 1023;"
     >
       <div
         class="p-dialog-header"
       >
         <span
           class="p-dialog-title"
-          id="pv_id_25_header"
+          id="pv_id_29_header"
         >
           Edit a page
         </span>
@@ -207,7 +207,7 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
             class="p-field"
           >
             <label
-              for="PageTextField"
+              for="pageTextField"
             >
               Page Name
             </label>
@@ -215,7 +215,7 @@ exports[`storyshots components/visualize/Page page edit 1`] = `
             <input
               autofocus="autofocus"
               class="p-inputtext p-component p-filled"
-              id="PageTextField"
+              id="pageTextField"
               required="required"
             />
           </div>

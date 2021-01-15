@@ -1,43 +1,38 @@
 <template>
-  <p-dialog
+  <lck-dialog
     :visible="visible"
-    :style="{ width: '600px' }"
-    :modal="true"
-    :contentStyle="{ 'max-height': '70vh' }"
-    :closeOnEscape="true"
-    class="p-fluid"
-    @hide="$emit('close')"
-    @update:visible="$emit('close')"
-    :header="value.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    :header="chapter.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    @close="$emit('close')"
   >
     <lck-form
-      @submit="$emit('input', currentData)"
+      :submitting="submitting"
+      @submit="$emit('input', chapterCopy)"
       @cancel="$emit('close')"
     >
       <div class="p-field">
         <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
         <p-input-text
           id="chapterTextField"
-          v-model="currentData.text"
+          v-model="chapterCopy.text"
           required
           autofocus
         />
       </div>
     </lck-form>
-  </p-dialog>
+  </lck-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import LckForm from '@/components/ui/Form/Form.vue'
-import Dialog from 'primevue/dialog'
+import LckDialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 
 export default {
   name: 'ChapterDialog',
   components: {
     'lck-form': LckForm,
-    'p-dialog': Vue.extend(Dialog),
+    'lck-dialog': LckDialog,
     'p-input-text': Vue.extend(InputText)
   },
   props: {
@@ -45,20 +40,24 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    chapter: {
       type: Object,
       default: () => ({})
+    },
+    submitting: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      currentData: {}
+      chapterCopy: {}
     }
   },
   watch: {
-    value: {
-      handler (newValue: {}) {
-        this.currentData = {
+    chapter: {
+      handler (newValue) {
+        this.chapterCopy = {
           ...newValue
         }
       },

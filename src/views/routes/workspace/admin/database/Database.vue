@@ -67,7 +67,7 @@
 
               <lck-filter-button
                 class="p-ml-2"
-                :columns="displayColumnsView.columns"
+                :definition="displayColumnsView"
                 :columnsDropdownOptions="currentBlockDropdownOptions"
                 v-model="currentDatatableFilters"
                 :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
@@ -131,133 +131,45 @@
           />
         </div>
       </div>
-      <p-dialog
+
+      <lck-dialog
         :visible.sync="displayNewDialog"
-        :style="{width: '600px'}"
         :header="$t('pages.database.addNewRow')"
-        :modal="true"
-        :contentStyle="{ 'max-height': '70vh'}"
-        :closeOnEscape="true"
-        class="p-fluid"
+        @close="displayNewDialog = false"
+        :submitting="submitting"
+        :isActionForm="true"
+        @input="saveRow"
       >
-        <div v-if="block.definition" style="padding-bottom: 10rem">
-          <div
-            class="p-field"
-            v-for="column in editableColumns"
-            :key="column.id"
-          >
-            <label :for="column.id">{{ column.text }}</label>
+        <lck-data-detail
+          :crudMode="crudMode"
+          :definition="block.definition"
+          :row="newRow"
+          :autocompleteSuggestions="autocompleteSuggestions"
+          @update-suggestions="updateLocalAutocompleteSuggestions"
+          @update-row="onUpdateRow"
+        />
+      </lck-dialog>
 
-            <lck-autocomplete
-              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-              :id="column.id"
-              :dropdown="true"
-              :placeholder="$t('components.datatable.placeholder')"
-              field="label"
-              :suggestions="autocompleteSuggestions"
-              @search="updateLocalAutocompleteSuggestions(column, $event)"
-              v-model="autocompleteInput[column.id]"
-              @item-select="newRow.data[column.id] = $event.value.value"
-              @clear="newRow.data[column.id] = null"
-            />
-            <p-dropdown
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
-              :id="column.id"
-              :options="columnsEnhanced[column.id].dropdownOptions"
-              optionLabel="label"
-              optionValue="value"
-              :showClear="true"
-              :placeholder="$t('components.datatable.placeholder')"
-              v-model="newRow.data[column.id]"
-            />
-            <lck-multiselect
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
-              :id="column.id"
-              :options="columnsEnhanced[column.id].dropdownOptions"
-              optionLabel="label"
-              optionValue="value"
-              :placeholder="$t('components.datatable.placeholder')"
-              v-model="newRow.data[column.id]"
-            />
-            <p-calendar
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
-              :id="column.id"
-              :dateFormat="$t('date.dateFormatPrime')"
-              v-model="newRow.data[column.id]"
-              appendTo="body"
-            />
-            <p-input-number
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
-              v-model="newRow.data[column.id]"
-              mode="decimal"
-              :minFractionDigits="2"
-            />
-            <component
-              v-else
-              :is="getComponentEditableColumn(column.column_type_id)"
-              :id="column.id"
-              v-model="newRow.data[column.id]"
-            />
-          </div>
-        </div>
-
-        <template #footer>
-          <p-button
-            :label="$t('form.cancel')"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="displayNewDialog = false"
-          />
-          <p-button
-            disabled
-            v-if="submitting"
-            :label="$t('form.waiting')"
-            icon="pi pi-spin pi-spinner"
-            class="p-button-text"
-          />
-          <p-button
-            v-else
-            :label="$t('form.submit')"
-            icon="pi pi-check"
-            class="p-button-text"
-            @click="saveRow"
-          />
-        </template>
-      </p-dialog>
-
-      <p-dialog
+      <lck-dialog
         :visible.sync="displayRowDialog"
-        :style="{width: '800px'}"
-        :modal="true"
-        :contentStyle="{ 'max-height': '70vh'}"
-        :closeOnEscape="true"
-        class="p-fluid"
+        @close="displayRowDialog = false"
+        :header="row.text"
       >
-        <template #header>
-          <h2>{{ $t('components.datatable.detail') }}</h2>
-        </template>
-
-        <div
-          class="p-fluid"
-        >
-          <div>
-            <lck-data-detail
-              :crudMode="crudMode"
-              :definition="block.definition"
-              :row="row"
-              :autocompleteSuggestions="autocompleteSuggestions"
-              @update-suggestions="updateLocalAutocompleteSuggestions"
-              @update-row="onUpdateCell"
-            />
-            <lck-process-panel
-              :processesByRow="processesByRow"
-              :rowId="row.id"
-              @create-process-run="onTriggerProcess"
-              @toggle-process="onUpdateProcessTrigger"
-            />
-          </div>
-        </div>
-      </p-dialog>
+        <lck-data-detail
+          :crudMode="crudMode"
+          :definition="block.definition"
+          :row="row"
+          :autocompleteSuggestions="autocompleteSuggestions"
+          @update-suggestions="updateLocalAutocompleteSuggestions"
+          @update-row="onUpdateCell"
+        />
+        <lck-process-panel
+          :processesByRow="processesByRow"
+          :rowId="row.id"
+          @create-process-run="onTriggerProcess"
+          @toggle-process="onUpdateProcessTrigger"
+        />
+      </lck-dialog>
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -294,26 +206,16 @@ import { lckHelpers, lckServices } from '@/services/lck-api'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
-import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import Dropdown from 'primevue/dropdown'
-import InputSwitch from 'primevue/inputswitch'
-import InputText from 'primevue/inputtext'
-import InputNumber from 'primevue/inputnumber'
-import Textarea from 'primevue/textarea'
-import Calendar from 'primevue/calendar'
-import Dialog from 'primevue/dialog'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
-import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import Dialog from '@/components/ui/Dialog/Dialog.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -327,27 +229,17 @@ export default {
   name: 'Database',
   components: {
     'lck-datatable': DataTable,
-    'lck-autocomplete': AutoComplete,
     'lck-filter-button': FilterButton,
     'lck-view-button': ViewButton,
     'lck-view-dialog': ViewDialog,
     'lck-view-column-button': ViewColumnButton,
-    'lck-multiselect': MultiSelect,
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
-    'layout-with-toolbar': WithToolbar,
     'lck-process-listing': ProcessListing,
-    'lck-input-url': InputURL,
-    'p-dialog': Vue.extend(Dialog),
+    'lck-dialog': Dialog,
+    'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-input-number': Vue.extend(InputNumber),
-    'p-input-switch': Vue.extend(InputSwitch),
-    'p-input-text': Vue.extend(InputText),
-    'p-textarea': Vue.extend(Textarea),
-    'p-calendar': Vue.extend(Calendar),
-    'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button)
   },
   props: {
@@ -398,6 +290,7 @@ export default {
       currentPageIndex: 0,
       autocompleteSuggestions: null,
       autocompleteInput: {},
+      multipleAutocompleteInput: {},
       crudAutocompleteItems: null,
       /**
        * View part, display the dialog and edit data
@@ -470,6 +363,9 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     searchItems: lckHelpers.searchItems,
+    async onUpdateRow ({ columnId, newValue }) {
+      this.$set(this.newRow.data, columnId, newValue)
+    },
     resetToDefault () {
       this.block = {
         loading: false,
@@ -617,6 +513,7 @@ export default {
         }
       })
       this.autocompleteInput = {}
+      this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
     async onClickExportButton () {
@@ -653,7 +550,7 @@ export default {
             table_column_id: id,
             table_view_id: this.selectedViewId,
             position: value.length + index,
-            visible: true
+            displayed: true
           })
         ))
       }
@@ -733,13 +630,13 @@ export default {
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
-          display: {
-            ...currentColumn.display,
+          style: {
+            ...currentColumn.style,
             width: newWidth
           }
         })
       // replace existing definition with new column
-      currentColumn.display = newColumn.display
+      currentColumn.style = newColumn.style
     },
     async onColumnReorder ({
       fromIndex,
@@ -868,6 +765,9 @@ export default {
           this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
         }
       }
+    },
+    async onMultipleAutocompleteEditNewRow (columnId) {
+      this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
     }
   },
   async mounted () {

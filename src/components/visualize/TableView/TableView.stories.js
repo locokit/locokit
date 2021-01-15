@@ -20,7 +20,7 @@ const definition = {
       column_type_id: COLUMN_TYPE.STRING,
       order: null,
       filter: null,
-      visible: true,
+      displayed: true,
       type: {
         text: 'String',
         id: 3
@@ -52,7 +52,7 @@ const definition = {
       column_type_id: COLUMN_TYPE.SINGLE_SELECT,
       order: null,
       filter: null,
-      visible: true,
+      displayed: true,
       type: {
         text: 'Single select',
         id: 9
@@ -66,7 +66,7 @@ const definition = {
       column_type_id: COLUMN_TYPE.USER,
       order: null,
       filter: null,
-      visible: true,
+      displayed: true,
       type: {
         text: 'User',
         id: 5

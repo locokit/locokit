@@ -4,17 +4,7 @@ exports[`storyshots components/store/ProcessPanel default 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
-    <h3>
-      Process
-    </h3>
-     
-    <div>
-      <p>
-        No data to display
-      </p>
-    </div>
-  </div>
+  <!---->
 </div>
 `;
 
@@ -23,7 +13,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
   style="height: 100%;"
 >
   <div>
-    <h3>
+    <h3
+      class="lck-block-title"
+    >
       Process
     </h3>
      

@@ -125,7 +125,7 @@ import { LckProcess, LckProcessRun, LckTable, LckTableColumn, PROCESS_TRIGGER } 
 import WithToolbar from '@/layouts/WithToolbar.vue'
 import Process from '@/components/store/Process/Process.vue'
 
-export default {
+export default Vue.extend({
   name: 'ProcessListing',
   components: {
     'p-tab-view': Vue.extend(TabView),
@@ -349,7 +349,7 @@ export default {
       this.loadProcesses()
     }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -1,7 +1,19 @@
 <template>
-  <div class="p-mx-2" v-if="page">
+  <div
+    v-if="page"
+    class="p-mx-2"
+  >
     <div class="lck-color-page-title p-my-4">
-      <h1>{{ page && page.text }}</h1>
+      <h1>{{ page.text }}</h1>
+    </div>
+    <div
+      v-if="page.hidden"
+      class="p-mb-4"
+    >
+      <p-breadcrumb
+        :home="{ icon: 'pi pi-home', to: '/' }"
+        :model="breadcrumb"
+        />
     </div>
     <draggable
       :key="page.id"
@@ -77,11 +89,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue from 'vue'
 
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import Button from 'primevue/button'
 import draggable from 'vuedraggable'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import { formatISO, isValid, parseISO } from 'date-fns'
+
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import Breadcrumb from 'primevue/breadcrumb'
+
+import Block from '@/components/visualize/Block/Block'
 
 import {
   retrievePageWithContainersAndBlocks,
@@ -93,22 +110,26 @@ import {
 } from '@/store/database'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import Block from '@/components/visualize/Block/Block'
-import { formatISO } from 'date-fns'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 
 export default {
   name: 'Page',
   components: {
     Block,
     'p-button': Vue.extend(Button),
+    'p-breadcrumb': Vue.extend(Breadcrumb),
+    draggable: Vue.extend(draggable),
     'update-container-sidebar': UpdateContainerSidebar,
-    'delete-confirmation-dialog': DeleteConfirmationDialog,
-    draggable: Vue.extend(draggable)
+    'delete-confirmation-dialog': DeleteConfirmationDialog
   },
   props: {
     pageId: {
       type: [String, Number], // param is string because its form url params
       required: true
+    },
+    pageDetailId: {
+      type: [String, Number], // param is string because its form url params
+      required: false
     },
     editableChapters: {
       type: Object,
@@ -140,18 +161,7 @@ export default {
       }
     }
   },
-  computed: {
-    editPage () {
-      return this.editMode && (this.isAdmin || this.editableChapters[this.page?.chapter_id] === true)
-    }
-  },
   watch: {
-    pageId: {
-      immediate: true,
-      async handler () {
-        this.page = await retrievePageWithContainersAndBlocks(this.pageId)
-      }
-    },
     page (newVal) {
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
@@ -169,6 +179,29 @@ export default {
       })
     }
   },
+  computed: {
+    breadcrumb: function () {
+      const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
+        chapter.subitems.find(page => {
+          if (page.id === this.$route.params.pageId) acc = page
+        })
+        return acc
+      }, {})
+      return [
+        {
+          label: parent.label,
+          to: this.$route.params.pageId
+        },
+        {
+          label: this.page.text,
+          disabled: true
+        }
+      ]
+    },
+    editPage () {
+      return this.editMode && (this.isAdmin || this.editableChapters[this.page?.chapter_id] === true)
+    }
+  },
   methods: {
     searchItems: lckHelpers.searchItems,
     async loadBlockTableViewContentAndDefinition (block) {
@@ -180,11 +213,17 @@ export default {
         itemsPerPage: 20,
         filters: {}
       }
+      if (this.$route.query.rowId) {
+        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+      }
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       await this.loadBlockTableViewContent(block)
     },
     async loadBlockTableViewContent (block) {
       const currentOptions = this.blocksOptions[block.id]
+      if (this.$route.query.rowId) {
+        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+      }
       this.$set(block, 'content', await retrieveViewData(
         block.definition.id,
         currentOptions.page * currentOptions.itemsPerPage,
@@ -203,9 +242,9 @@ export default {
       }
       block.loading = false
     },
-    async onUpdateSuggestions ({ column_type_id, settings }, { query }) {
+    async onUpdateSuggestions ({ column_type_id: columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query
       })
@@ -265,29 +304,30 @@ export default {
       block.loading = false
     },
     async onPageDetail (block, rowId) {
-      await this.$router.push(`${block.settings.pageDetailId}?rowId=${rowId}`)
+      await this.$router.push({ name: 'PageDetail', params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId }, query: { rowId } })
     },
     async onCreateRow (block, newRow) {
-      this.$set(block, 'submitting', true)
-      const dataToSubmit = {
-        data: {
-          ...newRow.data
-        }
+      const data = { ...newRow.data }
+      if (this.$route.query.rowId) {
+        const columnTargetDetail = block.definition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
+        data[columnTargetDetail.id] = this.$route.query.rowId
       }
+      this.$set(block, 'submitting', true)
+
       /**
        * For date columns, we format the date to ISO, date only
        */
       block.definition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          if (newRow.data[c.id] instanceof Date) {
-            dataToSubmit.data[c.id] = formatISO(newRow.data[c.id], { representation: 'date' })
+          if (isValid(parseISO(newRow.data[c.id]))) {
+            data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
           } else {
-            dataToSubmit.data[c.id] = null
+            data[c.id] = null
           }
         })
       await saveTableData({
-        ...dataToSubmit,
+        data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: block.definition.table_id
       })
@@ -390,6 +430,34 @@ export default {
         life: 3000
       })
     }
+  },
+  async mounted () {
+    if (this.$route.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
+    } else {
+      this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+    }
+  },
+  async beforeRouteUpdate (to, from, next) {
+    if (to.params.pageId !== from.params.pageId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      next()
+    }
+    if (to.params.pageDetailId !== from.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      next()
+    }
+  },
+  async beforeRouteLeave (to, from, next) {
+    if (to.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      next()
+    }
+    if (from.params.pageDetailId) {
+      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      next()
+    }
+    next()
   }
 }
 </script>

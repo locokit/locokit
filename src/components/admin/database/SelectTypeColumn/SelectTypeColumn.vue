@@ -88,6 +88,7 @@
       :header="$t('pages.databaseSchema.selectType.deleteValue')"
       @close="handleDeleteColumnModalVisibility(false, null)"
       @input="deleteSelectTypeValue"
+      :isActionForm="true"
     >
       {{
         currentSelectTypeValue

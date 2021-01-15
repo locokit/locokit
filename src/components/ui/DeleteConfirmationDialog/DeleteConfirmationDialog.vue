@@ -3,6 +3,7 @@
     :visible="visible"
     :submitting="submitting"
     :header="$t('form.delete')"
+    :isActionForm="true"
     @input="$emit('input', value)"
     @close="$emit('close')"
   >
@@ -15,7 +16,7 @@
   </lck-dialog>
 </template>
 
-<script lang="ts">
+<script>
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 
 export default {
@@ -24,13 +25,6 @@ export default {
     'lck-dialog': Dialog
   },
   props: {
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    value: {
-      type: Object
-    },
     itemCategory: {
       type: String,
       default: ''
@@ -38,6 +32,13 @@ export default {
     submitting: {
       type: Boolean,
       default: false
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: Object
     }
   }
 }

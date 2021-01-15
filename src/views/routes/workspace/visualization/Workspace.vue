@@ -35,7 +35,8 @@
       />
       <lck-chapter-dialog
         :visible="dialogVisibility.chapterEdit"
-        :value="currentChapterToEdit"
+        :chapter="currentChapterToEdit"
+        :submitting="submitting"
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
@@ -43,12 +44,14 @@
         :visible="dialogVisibility.chapterDelete"
         :value="currentChapterToEdit"
         :itemCategory="$t('pages.workspace.chapter')"
+        :submitting="submitting"
         @close="onChapterDeleteReset"
         @input="onChapterDeleteInput"
       />
       <lck-page-dialog
         :visible="dialogVisibility.pageEdit"
-        :value="currentPageToEdit"
+        :page="currentPageToEdit"
+        :submitting="submitting"
         @close="onPageEditReset"
         @input="onPageEditInput"
       />
@@ -56,6 +59,7 @@
         :visible="dialogVisibility.pageDelete"
         :value="currentPageToEdit"
         :itemCategory="$t('pages.workspace.page')"
+        :submitting="submitting"
         @close="onPageDeleteReset"
         @input="onPageDeleteInput"
       />
@@ -93,7 +97,8 @@ export default {
   props: ['workspaceId'],
   data () {
     return {
-      workspaceContent: [],
+      currentChapterToEdit: {},
+      currentPageToEdit: {},
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
@@ -101,9 +106,9 @@ export default {
         pageEdit: false,
         pageDelete: false
       },
-      currentChapterToEdit: {},
-      currentPageToEdit: {},
-      forceUpdateKey: true
+      forceUpdateKey: true,
+      submitting: false,
+      workspaceContent: []
     }
   },
   computed: {
@@ -158,17 +163,19 @@ export default {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
       }
     },
-    async goToSpecificChapterPage (chapter, page = {}) {
-      if (Array.isArray(chapter.pages) && chapter.pages.length > 0) {
-        const targetPageId = !page.id ? chapter.pages[0].id : page.id
-        if (this.$route.params.workspaceId !== this.workspaceId || this.$route.params.pageId !== targetPageId) {
-          await this.$router.replace({ name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: targetPageId } })
-        } else {
-          this.forceUpdateKey = !this.forceUpdateKey
-        }
-      } else {
-        await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
-      }
+    async goToSpecificPage (pageId) {
+      await this.$router.replace(
+        { name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: pageId } })
+        .catch(error => {
+          if (error.from.path !== error.to.path) throw error
+          else this.forceUpdateKey = !this.forceUpdateKey
+        })
+    },
+    async goToDefaultRoute () {
+      await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
+        .catch(error => {
+          if (error.from.path !== error.to.path) throw error
+        })
     },
     onChapterEditClick (chapterId) {
       if (chapterId) {
@@ -190,6 +197,7 @@ export default {
     },
     async onChapterEditInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           // On update
           const updatedChapter = await lckServices.chapter.patch(chapter.id, {
@@ -208,11 +216,14 @@ export default {
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onChapterDeleteInput (chapter = {}) {
       try {
+        this.submitting = true
         if (chapter.id) {
           await lckServices.chapter.remove(chapter.id)
           const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
@@ -220,7 +231,9 @@ export default {
         }
         this.onChapterDeleteReset()
       } catch (error) {
-        this.displayToastOnError(chapter.text, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     onPageEditClick (data) {
@@ -251,6 +264,7 @@ export default {
     },
     async onPageEditInput (page = {}) {
       try {
+        this.submitting = true
         if (page.id) {
           // On update
           const updatedPage = await lckServices.page.patch(page.id, {
@@ -273,23 +287,28 @@ export default {
             this.$set(this.currentChapterToEdit, 'pages', [this.currentPageToEdit])
           }
         }
-        await this.goToSpecificChapterPage(this.currentChapterToEdit, this.currentPageToEdit)
+        await this.goToSpecificPage(this.currentPageToEdit.id)
         this.onPageEditReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onPageDeleteInput (page = {}) {
       try {
+        this.submitting = true
         if (page.id) {
           await lckServices.page.remove(page.id)
           const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
           if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-          await this.goToSpecificChapterPage(this.currentChapterToEdit)
+          if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
         }
         this.onPageDeleteReset()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+      } finally {
+        this.submitting = false
       }
     },
     async onPageReorderClick (chapterId, { moved }) {

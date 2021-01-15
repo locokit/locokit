@@ -1,23 +1,19 @@
 <template>
-  <p-dialog
+  <lck-dialog
     :visible="visible"
-    :style="{ width: '600px' }"
-    :modal="true"
-    :contentStyle="{ 'max-height': '70vh' }"
-    :closeOnEscape="true"
-    class="p-fluid"
-    @update:visible="$emit('close')"
-    :header="value.id ? $t('pages.workspace.editPage') : $t('pages.workspace.createPage')"
+    :header="page.id ? $t('pages.workspace.editPage') : $t('pages.workspace.createPage')"
+    @close="$emit('close')"
   >
     <lck-form
-      @submit="$emit('input', currentData)"
+      :submitting="submitting"
+      @submit="$emit('input', pageCopy)"
       @cancel="$emit('close')"
     >
       <div class="p-field">
-        <label for="PageTextField">{{ $t('pages.workspace.pageName') }}</label>
+        <label for="pageTextField">{{ $t('pages.workspace.pageName') }}</label>
         <p-input-text
-          id="PageTextField"
-          v-model="currentData.text"
+          id="pageTextField"
+          v-model="pageCopy.text"
           required
           autofocus
         />
@@ -26,17 +22,17 @@
         <label for="PageHiddenField">{{ $t('pages.workspace.pageHidden') }}</label>
         <p-input-switch
           id="PageHiddenField"
-          v-model="currentData.hidden"
+          v-model="pageCopy.hidden"
         />
       </div>
     </lck-form>
-  </p-dialog>
+  </lck-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import LckForm from '@/components/ui/Form/Form.vue'
-import Dialog from 'primevue/dialog'
+import LckDialog from '@/components/ui/Dialog/Dialog.vue'
 import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 
@@ -44,7 +40,7 @@ export default {
   name: 'PageDialog',
   components: {
     'lck-form': LckForm,
-    'p-dialog': Vue.extend(Dialog),
+    'lck-dialog': LckDialog,
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch)
   },
@@ -53,20 +49,24 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
+    page: {
       type: Object,
       default: () => ({})
+    },
+    submitting: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      currentData: {}
+      pageCopy: {}
     }
   },
   watch: {
-    value: {
-      handler (newValue: {}) {
-        this.currentData = {
+    page: {
+      handler (newValue) {
+        this.pageCopy = {
           ...newValue
         }
       },

@@ -6,7 +6,7 @@
 
   &:enabled {
     &:hover {
-      color: #ffffff;
+      color: var(--surface-lck-2);
       background-color: var(--primary-color-darken);
       border-color: var(--primary-color-darken);
     }
@@ -17,7 +17,7 @@
 
     &:enabled {
       &:hover {
-        color: #ffffff;
+        color: var(--surface-lck-2);
         background-color: var(--primary-color);
       }
 

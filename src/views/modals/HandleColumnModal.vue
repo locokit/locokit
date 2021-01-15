@@ -8,6 +8,7 @@
     "
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
+    :isActionForm="true"
   >
     <div class="p-field">
       <label for="column-name">

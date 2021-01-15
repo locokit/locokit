@@ -44,6 +44,14 @@ class MockError extends Error {
   }
 }
 
+class MockRouterError extends Error {
+  constructor (args) {
+    super(args)
+    this.from = { path: 'from' }
+    this.to = { path: 'to' }
+  }
+}
+
 // Mock variables
 const mockWorkspaceContent = {
   id: '0',
@@ -444,37 +452,54 @@ describe('Workspace', () => {
 
   describe('Chapter crud', () => {
     let wrapper
+    let sidebarWrapper
+    const newChapterName = 'newChapterName'
+
     beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
+      sidebarWrapper = wrapper.findComponent(Sidebar)
     })
 
     describe('Add a new chapter', () => {
+      let chapterWrapper
+
+      beforeEach(() => {
+        lckServices.chapter.create.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
+
       it('Display the chapter edit dialog with an empty object when the add-item event is emitted from sidebar', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('add-item')
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
-        expect(chapterWrapper.props('value')).toStrictEqual({})
+        await sidebarWrapper.vm.$emit('add-item')
+        expect(chapterWrapper.props('chapter')).toStrictEqual({})
         expect(chapterWrapper.props('visible')).toBe(true)
       })
 
       it('Create a new chapter if the input event is emitted without an existing chapter', async () => {
-        const newChapterName = 'newChapterName'
         await wrapper.vm.onChapterEditClick()
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input', { text: newChapterName })
+        await chapterWrapper.vm.$emit('input', { text: newChapterName })
+        // Send API request
+        expect(lckServices.chapter.create).toHaveBeenCalledWith({ text: newChapterName, workspace_id: mockWorkspaceContent.id })
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters[2]).toBeDefined()
         expect(wrapper.vm.workspaceContent.chapters[2].text).toBe(newChapterName)
       })
     })
 
     describe('Update a chapter', () => {
+      let chapterWrapper
+
+      beforeEach(() => {
+        lckServices.chapter.patch.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
+
       it('Display the chapter edit dialog with the specified chapter when the edit-item event is emitted from sidebar', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('edit-item', '1')
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
+        await sidebarWrapper.vm.$emit('edit-item', '1')
         expect(chapterWrapper.props('visible')).toBe(true)
-        expect(chapterWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
+        expect(chapterWrapper.props('chapter')).toStrictEqual(mockWorkspaceContent.chapters[0])
       })
 
       it('Hide the chapter edit dialog if it emits the close event', async () => {
-        const chapterWrapper = wrapper.findComponent(ChapterDialog)
         // Display the dialog
         await chapterWrapper.setProps({ visible: true })
         // Hide it
@@ -483,16 +508,18 @@ describe('Workspace', () => {
       })
 
       it('Update the chapter if the input event is emitted with an existing chapter', async () => {
-        const newChapterName = 'newChapterName'
         await wrapper.vm.onChapterEditClick('1')
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input', { id: '1', text: newChapterName })
+        await chapterWrapper.vm.$emit('input', { id: '1', text: newChapterName })
+        // Send API request
+        expect(lckServices.chapter.patch).toHaveBeenCalledWith('1', { text: newChapterName })
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1' && c.text === newChapterName)).toBeDefined()
       })
 
       it('Display a toast if an error is occured', async () => {
         const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
         lckServices.chapter.create.mockImplementationOnce(() => { throw new Error() })
-        await wrapper.findComponent(ChapterDialog).vm.$emit('input')
+        await chapterWrapper.vm.$emit('input')
         expect(spyOnToast).toHaveBeenCalledTimes(1)
       })
     })
@@ -501,11 +528,12 @@ describe('Workspace', () => {
       let deleteConfirmationWrapper
 
       beforeEach(() => {
+        lckServices.chapter.remove.mockClear()
         deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(0)
       })
 
       it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('delete-item', '1')
+        await sidebarWrapper.vm.$emit('delete-item', '1')
         expect(deleteConfirmationWrapper.props('visible')).toBe(true)
         expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
       })
@@ -521,19 +549,24 @@ describe('Workspace', () => {
       it('Delete a chapter if the input event is emitted with an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick('1')
         await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
+        // Send API request
+        expect(lckServices.chapter.remove).toHaveBeenCalledWith('1')
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeUndefined()
       })
 
       it('Do nothing if the input event is emitted without an existing chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input')
-        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
+        expect(lckServices.chapter.remove).not.toHaveBeenCalled()
+        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
       })
 
-      it('Do nothing if the input event is emitted with an unknown chapter', async () => {
+      it('Do not delete a chapter if the input event is emitted with an unknown chapter', async () => {
         await wrapper.vm.onChapterDeleteClick()
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
-        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeDefined()
+        expect(lckServices.chapter.remove).toHaveBeenCalled()
+        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
       })
 
       it('Display a toast if an error is occured', async () => {
@@ -557,6 +590,10 @@ describe('Workspace', () => {
     })
 
     describe('Add a new page', () => {
+      beforeEach(() => {
+        lckServices.page.create.mockClear()
+      })
+
       it('Do not display the page edit dialog if the add-subitem event is emitted from sidebar without an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', {})
         expect(pageWrapper.props('visible')).toBe(false)
@@ -564,13 +601,16 @@ describe('Workspace', () => {
 
       it('Display the page edit dialog with an empty object when the add-subitem event is emitted from sidebar with an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1' })
-        expect(pageWrapper.props('value')).toStrictEqual({})
+        expect(pageWrapper.props('page')).toStrictEqual({})
         expect(pageWrapper.props('visible')).toBe(true)
       })
 
       it('Create a new page if the input event is emitted with an existing chapter which already has some pages', async () => {
         await wrapper.vm.onPageEditClick({ item: '1' })
         await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.create).toHaveBeenCalledWith({ text: newPageName, hidden: pageIsHidden, chapter_id: '1' })
+        // Update the component data
         const newPage = wrapper.vm.workspaceContent.chapters[0].pages[2]
         expect(newPage).toBeDefined()
         expect(newPage.text).toBe(newPageName)
@@ -580,18 +620,37 @@ describe('Workspace', () => {
       it('Create a new page if the input event is emitted with an existing chapter which has not got any pages', async () => {
         await wrapper.vm.onPageEditClick({ item: '2' })
         await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.create).toHaveBeenCalledWith({ text: newPageName, hidden: pageIsHidden, chapter_id: '2' })
+        // Update the component data
         const newPage = wrapper.vm.workspaceContent.chapters[1].pages[0]
         expect(newPage).toBeDefined()
         expect(newPage.text).toBe(newPageName)
         expect(newPage.hidden).toBe(pageIsHidden)
       })
+
+      it('Redirect to the new page if the input event is emitted with an existing chapter', async () => {
+        await wrapper.vm.onPageEditClick({ item: '2' })
+        await pageWrapper.vm.$emit('input', { text: newPageName, hidden: pageIsHidden })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: '13'
+          }
+        }).route.path)
+      })
     })
 
     describe('Update a page', () => {
+      beforeEach(() => {
+        lckServices.page.patch.mockClear()
+      })
+
       it('Display the page edit dialog when the edit-item event is emitted from sidebar with an existing chapter', async () => {
         await wrapper.findComponent(Sidebar).vm.$emit('add-subitem', { item: '1', subitem: '12' })
         expect(pageWrapper.props('visible')).toBe(true)
-        expect(pageWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
+        expect(pageWrapper.props('page')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
       })
 
       it('Hide the page edit dialog if it emits the close event', async () => {
@@ -605,10 +664,25 @@ describe('Workspace', () => {
       it('Update the page if the input event is emitted with an existing chapter and an existing page', async () => {
         await wrapper.vm.onPageEditClick({ item: '1', subitem: '12' })
         await pageWrapper.vm.$emit('input', { id: '12', text: newPageName, hidden: pageIsHidden })
+        // Send API request
+        expect(lckServices.page.patch).toHaveBeenCalledWith('12', { text: newPageName, hidden: pageIsHidden })
+        // Update the component data
         const updatedPage = wrapper.vm.workspaceContent.chapters[0].pages[1]
         expect(updatedPage).toBeDefined()
         expect(updatedPage.text).toBe(newPageName)
         expect(updatedPage.hidden).toBe(pageIsHidden)
+      })
+
+      it('Redirect to the edit page if the input event is emitted with an existing chapter and an existing page', async () => {
+        await wrapper.vm.onPageEditClick({ item: '1', subitem: '12' })
+        await pageWrapper.vm.$emit('input', { id: '12', text: newPageName, hidden: pageIsHidden })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: '12'
+          }
+        }).route.path)
       })
 
       it('Display a toast if an error is occured', async () => {
@@ -624,6 +698,7 @@ describe('Workspace', () => {
 
       beforeEach(() => {
         deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+        lckServices.page.remove.mockClear()
       })
 
       it('Display the confirmation dialog with the specified page when the delete-subitem event is emitted', async () => {
@@ -643,19 +718,47 @@ describe('Workspace', () => {
       it('Delete a page if the input event is emitted with an existing page and an existing chapter', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
         await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        // Send API request
+        expect(lckServices.page.remove).toHaveBeenCalledWith('12')
+        // Update the component data
         expect(wrapper.vm.workspaceContent.chapters[0].pages.find(p => p.id === '12')).toBeUndefined()
+      })
+
+      it('Redirect to a default page if the active page is the deleted page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '11' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '11' })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.VISUALIZATION,
+          params: {
+            worspaceId: mockWorkspaceContent.id
+          }
+        }).route.path)
+      })
+
+      it('Keep on the same page if the active page is not the deleted page', async () => {
+        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
+        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.PAGE,
+          params: {
+            worspaceId: mockWorkspaceContent.id,
+            pageId: mockWorkspaceContent.chapters[0].pages[0].id
+          }
+        }).route.path)
       })
 
       it('Do nothing if the input event is emitted without an existing page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1' })
         await deleteConfirmationWrapper.vm.$emit('input')
+        expect(lckServices.page.remove).not.toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters[0].pages)
           .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
       })
 
-      it('Do nothing if the input event is emitted with an unknown page', async () => {
+      it('Do not delete a page if the input event is emitted with an unknown page', async () => {
         await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '-12' })
         await deleteConfirmationWrapper.vm.$emit('input', { id: '-12' })
+        expect(lckServices.page.remove).toHaveBeenCalled()
         expect(wrapper.vm.workspaceContent.chapters[0].pages)
           .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
       })
@@ -754,59 +857,89 @@ describe('Workspace', () => {
     })
   })
 
-  describe('goToSpecificChapterPage', () => {
+  describe('goToSpecificPage', () => {
     let wrapper
-    let firstPagePath
-    let secondPagePath
-    let defaultWorkspacePath
     let firstChapter
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
       firstChapter = wrapper.vm.workspaceContent.chapters[0]
-      firstPagePath = wrapper.vm.$router.resolve({
-        name: ROUTES_NAMES.PAGE,
-        params: {
-          worspaceId: mockWorkspaceContent.id,
-          pageId: firstChapter.pages[0].id
-        }
-      }).route.path
-      secondPagePath = wrapper.vm.$router.resolve({
+    })
+
+    it('Redirect to the specific page if it is not the current page ', async () => {
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[1].id)
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
           pageId: firstChapter.pages[1].id
         }
-      }).route.path
-      defaultWorkspacePath = wrapper.vm.$router.resolve({
+      }).route.path)
+    })
+
+    it('Refresh the necessary children components keys if we want to access the current page and keep the same path', async () => {
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[0].id)
+      const originalKey = wrapper.vm.forceUpdateKey
+      await wrapper.vm.goToSpecificPage(firstChapter.pages[0].id)
+      expect(wrapper.vm.forceUpdateKey).toBe(!originalKey)
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          worspaceId: mockWorkspaceContent.id,
+          pageId: firstChapter.pages[0].id
+        }
+      }).route.path)
+    })
+
+    it('Throw the error if it is not due to a duplicated path', async () => {
+      jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
+      let throwError = false
+      try {
+        await wrapper.vm.goToSpecificPage('0')
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(true)
+    })
+  })
+
+  describe('goToDefaultRoute', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = await shallowMount(Workspace, globalComponentParams)
+    })
+
+    it('Redirect to the default route ', async () => {
+      await wrapper.vm.goToDefaultRoute()
+      expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.VISUALIZATION,
         params: {
           worspaceId: mockWorkspaceContent.id
         }
-      }).route.path
+      }).route.path)
     })
 
-    it('Redirect to the specific page of a specific chapter', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      expect(wrapper.vm.$router.history.current.path).toBe(secondPagePath)
+    it('Do not throw an error if the default route is the current one', async () => {
+      await wrapper.vm.goToDefaultRoute()
+      let throwError = false
+      try {
+        await wrapper.vm.goToDefaultRoute()
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(false)
     })
 
-    it('Redirect to the first page of a specific chapter', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter)
-      expect(wrapper.vm.$router.history.current.path).toBe(firstPagePath)
-    })
-
-    it('Refresh the necessary children components keys if we want to access the current path', async () => {
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      const originalKey = wrapper.vm.forceUpdateKey
-      await wrapper.vm.goToSpecificChapterPage(firstChapter, firstChapter.pages[1])
-      expect(wrapper.vm.forceUpdateKey).toBe(!originalKey)
-    })
-
-    it('Redirect to a default page if there is no page in the specified chapter', async () => {
-      await wrapper.setData({ workspaceContent: { chapters: [{ pages: [] }] } })
-      await wrapper.vm.goToSpecificChapterPage(wrapper.vm.workspaceContent.chapters[0])
-      expect(wrapper.vm.$router.history.current.path).toBe(defaultWorkspacePath)
+    it('Throw the error if it is not due to a duplicated path', async () => {
+      jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
+      let throwError = false
+      try {
+        await wrapper.vm.goToDefaultRoute()
+      } catch (error) {
+        throwError = true
+      }
+      expect(throwError).toBe(true)
     })
   })
 
@@ -815,16 +948,15 @@ describe('Workspace', () => {
 
     beforeAll(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
-      wrapper.vm.$toast.add.mockReset()
     })
 
-    afterEach(() => {
-      wrapper.vm.$toast.add.mockReset()
+    beforeEach(() => {
+      wrapper.vm.$toast.add.mockClear()
     })
 
     it('Display a toast with the specified parameters for an error without code', () => {
       wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
-      expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
+      expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.basic'
@@ -834,7 +966,7 @@ describe('Workspace', () => {
 
     it('Display a toast with the specified parameters for an error with a code', () => {
       wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
-      expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
+      expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
           detail: 'error.http.404'

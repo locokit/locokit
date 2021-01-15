@@ -49,7 +49,6 @@
         v-model="processCloned.table"
         @item-select="processCloned.table_id = processCloned.table.value"
         @clear="processCloned.table_id = null"
-
       />
     </div>
     <div class="p-field">

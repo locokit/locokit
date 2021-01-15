@@ -24,7 +24,7 @@ export const pageEdit = () => ({
       }
     }
   },
-  template: '<Page :visible="true" :value="page" />'
+  template: '<Page :visible="true" :page="page" />'
 })
 
 pageEdit.storyName = 'page edit'
