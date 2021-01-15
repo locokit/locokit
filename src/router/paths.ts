@@ -43,6 +43,7 @@ export const ROUTES_NAMES = {
   WORKSPACE: 'WorkspaceList',
   VISUALIZATION: 'WorkspaceVisualization',
   PAGE: 'Page',
+  PAGEDETAIL: 'PageDetail',
   DATABASE: 'WorkspaceDatabase',
   DATABASESCHEMA: 'DatabaseSchema',
   PROCESS: 'ProcessListing',
@@ -52,5 +53,10 @@ export const ROUTES_NAMES = {
    */
   ADMIN: 'Administration',
   USERMANAGEMENT: 'UserManagement',
-  GROUPMANAGEMENT: 'GroupManagement'
+  GROUPMANAGEMENT: 'GroupManagement',
+
+  /**
+   * Other paths
+   */
+  404: '404'
 }
