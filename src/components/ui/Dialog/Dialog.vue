@@ -4,7 +4,7 @@
     :style="{width: '600px'}"
     :header="header"
     :modal="true"
-    :contentStyle="{ 'max-height': '70vh'}"
+    :contentStyle="{ ...contentStyle, 'max-height': '70vh'}"
     :closeOnEscape="true"
     class="p-fluid"
     @hide="$emit('close')"
@@ -36,6 +36,9 @@ export default {
     submitting: {
       type: Boolean,
       default: false
+    },
+    contentStyle: {
+      type: Object
     }
   }
 }

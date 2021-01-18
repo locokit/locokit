@@ -120,27 +120,20 @@
       </div>
     </div>
 
-    <p-dialog
+    <lck-dialog
       :visible.sync="openDialog"
-      :style="{width: '450px'}"
-      :contentStyle="{overflow: 'visible'}"
-      :modal="true"
-      class="p-fluid"
+      :header="$t(`pages.userManagement.${editingUser ? 'editUserDetails': 'createUserDetails'}`)"
+      @close="openDialog = false"
+      :submitting="submitting"
+      :isActionForm="true"
+      :contentStyle="{'overflow-y': 'visible'}"
+      @input="saveUser"
     >
-      <template #header v-if="!editingUser">
-        <h3>{{ $t('pages.userManagement.createUserDetails') }}</h3>
-      </template>
-      <template #header v-else>
-        <h3>{{ $t('pages.userManagement.editUserDetails') }}</h3>
-      </template>
-
-      <template v-if="submitted">
-        <p>{{ $t('success.basic') }}</p>
-      </template>
-      <template v-else>
+      <template>
         <div class="p-field">
           <label for="name">{{ $t('pages.userManagement.name') }}</label>
-          <p-input-text id="name"
+          <p-input-text
+            id="name"
             v-model.trim="user.name"
             required="true"
             autofocus
@@ -158,7 +151,8 @@
             :disabled="editingUser"
           />
         </div>
-        <div class="p-field"
+        <div
+          class="p-field"
           v-if="editingUser"
         >
           <label for="isVerified">
@@ -179,81 +173,50 @@
             :options="profiles"
             optionLabel="label"
             optionValue="value"
-            required="true"
             :class="{'p-invalid': submitting && !user.profile}"
             :placeholder="$t('pages.userManagement.selectProfile')"
           >
             <template #option="slotProps">
-              <span>{{slotProps.option.label}}</span>
+              <span>{{ slotProps.option.label }}</span>
             </template>
           </p-dropdown>
         </p>
       </template>
-
-      <template #footer v-if="submitted">
-        <p-button
-          :label="$t('dialog.close')"
-          icon="pi pi-check-circle"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-      </template>
-      <template #footer v-else>
-        <div v-if="hasSubmitError">
-          <p class="p-invalid">{{ $t('error.basic') }}</p>
-        </div>
-        <p-button
-          :label="$t('form.cancel')"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-        <p-button
-          v-if="!submitting || hasSubmitError"
-          :label="$t(`pages.userManagement.buttons.${ editingUser ? 'editUser' : 'newUser'}`)"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="saveUser"
-        />
-        <p-button
-          disabled
-          v-if="submitting && !hasSubmitError"
-          :label="$t('form.submitting')"
-          icon="pi pi-spin pi-spinner"
-          class="p-button-text"
-        />
-      </template>
-    </p-dialog>
+    </lck-dialog>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+
+import { lckClient } from '@/services/lck-api'
+import { USER_PROFILE } from '@locokit/lck-glossary'
+
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import Vue from 'vue'
+import InputSwitch from 'primevue/inputswitch'
+
+import Dialog from '@/components/ui/Dialog/Dialog.vue'
+
 import {
   retrieveUsersData
 } from '@/store/userManagement'
-import { USER_PROFILE } from '@locokit/lck-glossary'
-import { lckClient } from '@/services/lck-api'
-import InputSwitch from 'primevue/inputswitch'
 
 export default {
   name: 'UserManagement',
   components: {
+    'lck-dialog': Dialog,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
-    'p-input-text': Vue.extend(InputText),
-    'p-dialog': Vue.extend(Dialog)
+    'p-input-text': Vue.extend(InputText)
   },
   data: function () {
     return {
