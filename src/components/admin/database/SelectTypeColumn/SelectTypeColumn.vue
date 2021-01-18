@@ -193,6 +193,7 @@ export default {
   height: 200px;
 }
 /deep/ .p-colorpicker-panel {
+  display: block !important;
   position: fixed;
   top: 70px !important;
   left: auto !important;
