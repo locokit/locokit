@@ -10,6 +10,9 @@
     @close="closeHandleColumnModal"
     :isActionForm="true"
   >
+    <div v-if="columnToHandle" class="p-mb-3">
+      UUID : {{ columnToHandle.id }}
+    </div>
     <div class="p-field">
       <label for="column-name">
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
@@ -21,8 +24,12 @@
         autofocus
       />
     </div>
-    <div v-if="columnToHandle" class="p-mb-3">
-      UUID : {{ columnToHandle.id }}
+    <div class="p-d-flex p-ai-center p-field">
+      <label class="p-mr-2">
+        {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
+      </label>
+      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" />
+      <p-input-number class="input-number-reference" v-model="referenceToHandle.position" :showButtons="true" :min="0" :maxFractionDigits="0" :disabled="!referenceToHandle.isActive" />
     </div>
     <div>
       <p-dropdown
@@ -73,6 +80,8 @@ import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.v
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import InputSwitch from 'primevue/inputswitch'
+import InputNumber from 'primevue/inputnumber'
 
 export default {
   name: 'HandleColumnModal',
@@ -82,7 +91,9 @@ export default {
     'lck-relation-between-tables-type-column': Vue.extend(RelationBetweenTablesTypeColumn),
     'lck-looked-up-type-column': Vue.extend(LookedUpTypeColumn),
     'p-input-text': Vue.extend(InputText),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-input-switch': Vue.extend(InputSwitch),
+    'p-input-number': Vue.extend(InputNumber)
   },
   props: {
     visible: {
@@ -100,6 +111,7 @@ export default {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
+      referenceToHandle: { isActive: false, position: null },
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
       settings: {}
@@ -130,6 +142,9 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
+              reference: this.referenceToHandle.isActive,
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              reference_position: this.referenceToHandle.position,
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
@@ -139,6 +154,9 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
+              reference: this.referenceToHandle.isActive,
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              reference_position: this.referenceToHandle.position,
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
@@ -184,6 +202,12 @@ export default {
     columnToHandle: function () {
       if (this.columnToHandle) {
         this.columnNameToHandle = this.columnToHandle.text
+        if (Object.prototype.hasOwnProperty.call(this.columnToHandle, 'reference')) {
+          this.referenceToHandle.isActive = this.columnToHandle.reference
+        }
+        if (Object.prototype.hasOwnProperty.call(this.columnToHandle, 'reference_position')) {
+          this.referenceToHandle.position = this.columnToHandle.reference_position
+        }
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
       }
     }
@@ -195,5 +219,8 @@ export default {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+.input-number-reference {
+  width: 100px;
 }
 </style>
