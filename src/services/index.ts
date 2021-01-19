@@ -9,6 +9,7 @@ import group from './group/group.service'
 import page from './page/page.service'
 import block from './block/block.service'
 import chapter from './chapter/chapter.service'
+import container from './container/container.service'
 import view from './view/view.service'
 import columnrelation from './columnrelation/columnrelation.service'
 import trr from './trr/trr.service'
@@ -42,4 +43,5 @@ export default function (app: Application) {
   app.configure(tableViewHasTableColumn)
   app.configure(process)
   app.configure(processRun)
+  app.configure(container)
 }
