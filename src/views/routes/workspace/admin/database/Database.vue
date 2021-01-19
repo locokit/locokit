@@ -202,6 +202,7 @@ import {
 } from '@/store/process'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
+import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -363,6 +364,7 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    getCurrentFilters,
     searchItems: lckHelpers.searchItems,
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
@@ -413,40 +415,6 @@ export default {
       await this.loadCurrentTableData()
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
-    getCurrentFilters () {
-      const formattedFilters = {}
-      this.currentDatatableFilters
-        .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
-        .forEach((filter, index) => {
-          formattedFilters[
-            // Operator
-            `${filter.operator}[${index}]` +
-            // Field
-            (columnType => {
-              switch (columnType) {
-                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                case COLUMN_TYPE.LOOKED_UP_COLUMN:
-                  return `[data][${filter.column.value}.value]`
-                default:
-                  return `[data][${filter.column.value}]`
-              }
-            })(filter.column.type) +
-            // Action
-            `[${filter.action.value}]`] =
-              (columnType => {
-                switch (columnType) {
-                  case COLUMN_TYPE.DATE:
-                    if (filter.pattern instanceof Date) {
-                      try {
-                        return formatISO(filter.pattern, { representation: 'date' })
-                      } catch (RangeError) {}
-                    }
-                }
-                return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
-              })(filter.column.type)
-        })
-      return formattedFilters
-    },
     async loadCurrentTableData () {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
@@ -455,7 +423,7 @@ export default {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
           sort: this.currentDatatableSort,
-          filters: this.getCurrentFilters()
+          filters: this.getCurrentFilters(this.currentDatatableFilters)
         }
       )
       this.block.loading = false
@@ -522,7 +490,7 @@ export default {
       this.exporting = true
       const data = await lckHelpers.exportTableRowData(
         this.selectedViewId,
-        this.getCurrentFilters()
+        this.getCurrentFilters(this.currentDatatableFilters)
       )
       saveAs(
         new Blob([data]),

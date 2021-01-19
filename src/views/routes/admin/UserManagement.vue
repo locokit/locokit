@@ -10,6 +10,16 @@
       class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
     >
       <p-toolbar class="w-full p-my-4">
+        <template slot="left">
+          <lck-filter-button
+            v-if="usersWithPagination && usersWithPagination.data.length > 0"
+            class="p-ml-2"
+            :definition="FILTER_DEFINITION"
+            v-model="currentDatatableFilters"
+            @submit="onSubmitFilter"
+            @reset="onResetFilter"
+          />
+        </template>
         <template slot="right">
           <p-button :label="$t('pages.userManagement.addNewUser')" icon="pi pi-plus" class="p-mr-2" @click="addUser" />
         </template>
@@ -189,8 +199,9 @@
 <script>
 import Vue from 'vue'
 
-import { lckClient } from '@/services/lck-api'
+import { lckClient, lckServices } from '@/services/lck-api'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -201,15 +212,33 @@ import Button from 'primevue/button'
 import InputSwitch from 'primevue/inputswitch'
 
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
-import {
-  retrieveUsersData
-} from '@/store/userManagement'
-
+const FILTER_DEFINITION = {
+  columns: [
+    {
+      id: 'name',
+      text: 'Nom',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      column_type_id: 2
+    }, {
+      id: 'email',
+      text: 'Email',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      column_type_id: 2
+    }, {
+      id: '1',
+      text: 'isVerified',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      column_type_id: 1
+    }
+  ]
+}
 export default {
   name: 'UserManagement',
   components: {
     'lck-dialog': Dialog,
+    'lck-filter-button': FilterButton,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
@@ -220,32 +249,29 @@ export default {
   },
   data: function () {
     return {
+      FILTER_DEFINITION,
       usersWithPagination: null,
+      currentDatatableFilters: [],
       user: {},
       openDialog: false,
       editingUser: null,
       submitting: false,
-      submitted: false,
-      hasSubmitError: false,
       profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
       currentPage: 0,
       resendVerifySignupUsers: {}
     }
   },
   methods: {
+    getCurrentFilters,
     addUser () {
       this.user = {
         profile: USER_PROFILE.USER
       }
-      this.submitted = false
       this.editingUser = false
       this.openDialog = true
     },
     hideDialog () {
       this.openDialog = false
-      this.submitting = false
-      this.submitted = false
-      this.hasSubmitError = false
     },
     editUser (user) {
       this.user = {
@@ -255,7 +281,6 @@ export default {
         isVerified: user.isVerified,
         email: user.email
       }
-      this.submitted = false
       this.editingUser = true
       this.openDialog = true
     },
@@ -276,32 +301,48 @@ export default {
     },
     async saveUser () {
       this.submitting = true
-      try {
-        if (this.editingUser) {
-          const userId = this.user.id
-          await lckClient.service('user').patch(userId, {
-            name: this.user.name,
-            profile: this.user.profile
-          })
-        } else {
-          await lckClient.service('user').create(this.user)
-        }
-        this.submitted = true
-        this.submitting = false
-        this.retrieveUsersData()
-      } catch (e) {
-        this.hasSubmitError = true
+      if (this.editingUser) {
+        const userId = this.user.id
+        await lckClient.service('user').patch(userId, {
+          name: this.user.name,
+          profile: this.user.profile
+        })
+      } else {
+        await lckClient.service('user').create(this.user)
       }
+      this.submitting = false
+      this.openDialog = false
+      this.retrieveUsersData()
     },
     inactiveUser (user) {
       this.user = { ...user }
       alert(this.user.id)
     },
     async retrieveUsersData () {
-      this.usersWithPagination = await retrieveUsersData(this.currentPage)
+      const ITEMS_PER_PAGE = 20
+
+      try {
+        this.usersWithPagination = await lckServices.user.find({
+          query: {
+            $limit: ITEMS_PER_PAGE,
+            $skip: this.currentPage * ITEMS_PER_PAGE,
+            $sort: { id: 1 },
+            ...this.getCurrentFilters(this.currentDatatableFilters)
+          }
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
     async onPage (event) {
       this.currentPage = event.page
+      this.retrieveUsersData()
+    },
+    onResetFilter () {
+      this.currentDatatableFilters = []
+      this.retrieveUsersData()
+    },
+    onSubmitFilter () {
       this.retrieveUsersData()
     }
   },
