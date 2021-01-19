@@ -12,7 +12,6 @@
       <p-toolbar class="w-full p-my-4">
         <template slot="left">
           <lck-filter-button
-            v-if="usersWithPagination && usersWithPagination.data.length > 0"
             class="p-ml-2"
             :definition="FILTER_DEFINITION"
             v-model="currentDatatableFilters"
@@ -125,7 +124,16 @@
           </template>
         </p-column>
       </p-datatable>
-      <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+      <div
+        v-else-if="usersWithPagination && usersWithPagination.data.length === 0 && currentDatatableFilters.length > 0"
+        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+      >
+        <p>{{ $t('pages.userManagement.noUserFound') }}</p>
+      </div>
+      <div
+        v-else
+        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+      >
         <p>{{ $t('pages.userManagement.noUser') }}</p>
       </div>
     </div>

@@ -319,6 +319,7 @@
     "userManagement": {
       "title": "User Management",
       "noUser": "No user created. Please create one first.",
+      "noUserFound": "No users found",
       "addNewUser": "Add user",
       "id": "id",
       "name": "Name",
