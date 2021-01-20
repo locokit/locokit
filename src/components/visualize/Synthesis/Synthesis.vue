@@ -18,9 +18,18 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'Synthesis',
   props: {
-    title: "",
-    result: "",
-    noResult: ""
+    title: {
+      type: String,
+      default: ''
+    },
+    result: {
+      type: String,
+      default: ''
+    },
+    noResult: {
+      type: String,
+      default: ''
+    }
   }
 })
 </script>

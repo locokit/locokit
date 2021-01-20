@@ -15,24 +15,24 @@ export const withPropsStory = (args, { argTypes }) => {
 
 withPropsStory.storyName = 'with props story'
 withPropsStory.args = {
-  title: "Use of bike",
-  result: "1 CO2 / Week",
-  noResult: "No result"
+  title: 'Use of bike',
+  result: '1 CO2 / Week',
+  noResult: 'No result'
 }
 withPropsStory.argTypes = {
   title: {
     control: {
-      type: "text"
+      type: 'text'
     }
   },
   result: {
     control: {
-      type: "text"
+      type: 'text'
     }
   },
   noResult: {
     control: {
-      type: "text"
+      type: 'text'
     }
   }
 }
