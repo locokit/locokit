@@ -3,75 +3,81 @@
     v-if="page"
     class="p-mx-2"
   >
-    <div class="lck-color-page-title p-my-4">
-      <h1>{{ page.text }}</h1>
-    </div>
-    <div
-      v-if="page.hidden"
-      class="p-mb-4"
-    >
-      <p-breadcrumb
-        :home="{ icon: 'pi pi-home', to: '/' }"
-        :model="breadcrumb"
-        />
-    </div>
-    <draggable
-      :key="page.id"
-      v-model="page.containers"
-      handle=".handle"
-      @change="onContainerReorderClick"
-    >
-      <div
-        v-for="container in page.containers"
-        :key="container.id"
-        :class="{
-          'editable-container': editPage
-        }"
-      >
-        <div v-if="editPage" class="edit-container-line">
-          <span>
-            <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
-          </span>
-          <h2 class="lck-color-title">{{ container.text }}</h2>
-          <span class="p-buttonset">
-            <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
-            <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
-          </span>
-        </div>
-        <div class="blocks">
-          <Block
-            v-for="block in container.blocks"
-            :key="block.id"
-            :block="block"
-            :autocompleteSuggestions="autocompleteSuggestions"
-            :exporting="exporting"
-            :cellState="cellState"
-            class="p-mb-4 lck-block"
-            v-on="$listeners"
-            @update-cell="onUpdateCell(block, $event)"
-            @update-content="onUpdateContentBlockTableView(block, $event)"
-            @update-suggestions="onUpdateSuggestions"
-            @sort="onSort(block, $event)"
-            @open-detail="onPageDetail(block, $event)"
-            @create-row="onCreateRow(block, $event)"
-            @export-view="onExportView(block)"
-            @update-filters="onUpdateFilters(block, $event)"
-          />
-        </div>
+    <div :style="{ marginRight: showUpdateContainerSidebar ? sidebarWidth : 0, transitionDuration: '0.5s' }">
+      <div class="lck-color-page-title p-my-4">
+        <h1>{{ page.text }}</h1>
       </div>
-    </draggable>
-    <p-button
-      v-if="editPage"
-      icon="pi pi-plus"
-      class="new-container-button p-button-outlined"
-      iconPos="right"
-      @click="onContainerEditClick({})"
-    />
+      <div
+        v-if="page.hidden"
+        class="p-mb-4"
+      >
+        <p-breadcrumb
+          :home="{ icon: 'pi pi-home', to: '/' }"
+          :model="breadcrumb"
+          />
+      </div>
+      <draggable
+        :key="page.id"
+        v-model="page.containers"
+        handle=".handle"
+        @change="onContainerReorderClick"
+      >
+        <div
+          v-for="container in page.containers"
+          :key="container.id"
+          :class="{
+            'editable-container': editPage
+          }"
+        >
+          <div v-if="editPage" class="edit-container-line">
+            <span>
+              <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
+            </span>
+            <h2 class="lck-color-title">{{ container.text }}</h2>
+            <span class="p-buttonset">
+              <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
+              <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
+            </span>
+          </div>
+          <div class="blocks">
+            <Block
+              v-for="block in container.blocks"
+              :key="block.id"
+              :block="block"
+              :autocompleteSuggestions="autocompleteSuggestions"
+              :exporting="exporting"
+              :cellState="cellState"
+              class="p-mb-4 lck-block"
+              v-on="$listeners"
+              @update-cell="onUpdateCell(block, $event)"
+              @update-content="onUpdateContentBlockTableView(block, $event)"
+              @update-suggestions="onUpdateSuggestions"
+              @sort="onSort(block, $event)"
+              @open-detail="onPageDetail(block, $event)"
+              @create-row="onCreateRow(block, $event)"
+              @export-view="onExportView(block)"
+              @update-filters="onUpdateFilters(block, $event)"
+            />
+          </div>
+        </div>
+      </draggable>
+      <p-button
+        v-if="editPage"
+        icon="pi pi-plus"
+        class="new-container-button p-button-outlined"
+        iconPos="right"
+        @click="onContainerEditClick({})"
+      />
+    </div>
     <update-container-sidebar
+      :key="pageId"
       :submitting="submitting"
       :showSidebar="showUpdateContainerSidebar"
       :container="currentContainerToEdit"
+      :width="sidebarWidth"
       @update-container="onContainerEditInput"
+      @update-block="onBlockEditInput"
+      @delete-block="onBlockDeleteInput"
       @close="onCloseUpdateContainerSidebar"
     />
     <delete-confirmation-dialog
@@ -158,11 +164,14 @@ export default {
       submitting: false,
       dialogVisibility: {
         containerDelete: false
-      }
+      },
+      sidebarWidth: '40rem'
     }
   },
   watch: {
     page (newVal) {
+      // Hide the updated container sidebar
+      this.onCloseUpdateContainerSidebar()
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
       newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
@@ -350,6 +359,8 @@ export default {
     onContainerEditClick (container) {
       if (container.id) {
         this.currentContainerToEdit = this.page.containers.find(c => c.id === container.id)
+      } else {
+        this.currentContainerToEdit = {}
       }
       this.showUpdateContainerSidebar = true
     },
@@ -422,6 +433,46 @@ export default {
       this.currentContainerToEdit = {}
       this.showUpdateContainerSidebar = false
     },
+    async onBlockEditInput (blockToEdit, { id, ...data }) {
+      try {
+        this.submitting = true
+        if (id) {
+          // On update
+          const updatedBlock = await lckServices.block.patch(id, data)
+          for (const key in updatedBlock) {
+            blockToEdit[key] = updatedBlock[key]
+          }
+        } else {
+          // On create
+          const newBlock = await lckServices.block.create({
+            container_id: this.currentContainerToEdit.id,
+            ...data
+          })
+          this.currentContainerToEdit.blocks.push(newBlock)
+        }
+      } catch (error) {
+        console.log(error)
+        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${this.currentContainerToEdit.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    async onBlockDeleteInput (blockToDelete = {}) {
+      try {
+        this.submitting = true
+        if (blockToDelete.id) {
+          await lckServices.block.remove(blockToDelete.id)
+          const blockToDeleteIndex = this.currentContainerToEdit.blocks.findIndex(block => block.id === blockToDelete.id)
+          if (blockToDeleteIndex >= 0) this.currentContainerToEdit.blocks.splice(blockToDeleteIndex, 1)
+        }
+        // this.onContainerDeleteClose()
+      } catch (error) {
+        console.log(error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToDelete.title}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
     displayToastOnError (summary, error) {
       this.$toast.add({
         severity: 'error',
@@ -468,6 +519,7 @@ export default {
   margin-bottom: 1rem;
   border: 2px solid var(--primary-color);
   background-color: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
 }
 
 .edit-container-line {

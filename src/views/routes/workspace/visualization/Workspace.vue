@@ -99,7 +99,7 @@ export default {
     return {
       currentChapterToEdit: {},
       currentPageToEdit: {},
-      editMode: false,
+      editMode: true,
       dialogVisibility: {
         chapterEdit: false,
         chapterDelete: false,
