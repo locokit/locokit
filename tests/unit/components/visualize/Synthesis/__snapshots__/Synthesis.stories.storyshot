@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/visualize/Synthesis with props story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <h4>
+      Use of bike
+    </h4>
+     
+    <div
+      class="p-grid"
+    >
+      <div
+        class="p-col-12 lck-color-page-title"
+      >
+        <h2>
+          1 CO2 / Week
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+`;
