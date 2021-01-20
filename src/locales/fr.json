@@ -159,6 +159,11 @@
       "headerProperties": "Propriétés",
       "headerRuns": "Exécutions",
       "chooseTableFirst": "Merci de sélectionner une table."
+    },
+    "synthesis": {
+      "title": "Métriques utilisation du vélo",
+      "resultByWeek": "{resultByWeek} CO2 / Semaine",
+      "noResultByWeek": "Aucun résultat"
     }
   },
   "pages": {
