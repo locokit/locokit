@@ -13,7 +13,7 @@
         <template slot="left">
           <lck-filter-button
             class="p-ml-2"
-            :definition="FILTER_DEFINITION"
+            :definition="filterDefinition"
             v-model="currentDatatableFilters"
             @submit="onSubmitFilter"
             @reset="onResetFilter"
@@ -207,8 +207,9 @@
 <script>
 import Vue from 'vue'
 
+import { USER_PROFILE, COLUMN_TYPE } from '@locokit/lck-glossary'
+
 import { lckClient, lckServices } from '@/services/lck-api'
-import { USER_PROFILE } from '@locokit/lck-glossary'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import DataTable from 'primevue/datatable'
@@ -222,26 +223,6 @@ import InputSwitch from 'primevue/inputswitch'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
-const FILTER_DEFINITION = {
-  columns: [
-    {
-      id: 'name',
-      text: 'Nom',
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      column_type_id: 2
-    }, {
-      id: 'email',
-      text: 'Email',
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      column_type_id: 2
-    }, {
-      id: '1',
-      text: 'isVerified',
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      column_type_id: 1
-    }
-  ]
-}
 export default {
   name: 'UserManagement',
   components: {
@@ -257,7 +238,6 @@ export default {
   },
   data: function () {
     return {
-      FILTER_DEFINITION,
       usersWithPagination: null,
       currentDatatableFilters: [],
       user: {},
@@ -267,6 +247,31 @@ export default {
       profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
       currentPage: 0,
       resendVerifySignupUsers: {}
+    }
+  },
+  computed: {
+    filterDefinition () {
+      return {
+        columns: [
+          {
+            id: 'name',
+            // text: '',
+            text: this.$t('pages.userManagement.name'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.STRING
+          }, {
+            id: 'email',
+            text: this.$t('pages.userManagement.email'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.STRING
+          }, {
+            id: 'isVerified',
+            text: this.$t('pages.userManagement.isVerified'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.BOOLEAN
+          }
+        ]
+      }
     }
   },
   methods: {
