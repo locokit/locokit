@@ -11,7 +11,7 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns"
+      v-for="column in definition.columns.filter((column) => column.column_type_id !== columnTypes.LOOKED_UP_COLUMN)"
       :key="column.id"
     >
       <label
@@ -154,6 +154,7 @@ export default {
   },
   data () {
     return {
+      columnTypes: COLUMN_TYPE,
       autocompleteInput: {},
       multipleAutocompleteInput: {}
     }
