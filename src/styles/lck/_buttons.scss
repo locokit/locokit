@@ -45,7 +45,7 @@
       border-color: var(--primary-color);
       
       &:hover {
-        color: #ffffff;
+        color: var(--text-color);
         background-color: var(--primary-color-darken);
         border-color: var(--primary-color-darken);
       }

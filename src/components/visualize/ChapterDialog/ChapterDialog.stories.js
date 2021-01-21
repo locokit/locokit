@@ -1,20 +1,20 @@
-import Chapter from './Chapter'
+import ChapterDialog from './ChapterDialog.vue'
 
 export default {
-  title: 'components/visualize/Chapter',
-  component: Chapter
+  title: 'components/visualize/ChapterDialog',
+  component: ChapterDialog
 }
 
 export const chapterCreate = () => ({
-  components: { Chapter },
-  template: '<Chapter :visible="true" />'
+  components: { ChapterDialog },
+  template: '<ChapterDialog :visible="true" />'
 })
 
 chapterCreate.storyName = 'chapter create'
 chapterCreate.args = { timeoutBeforeScreenshot: 800 }
 
 export const chapterEdit = () => ({
-  components: { Chapter },
+  components: { ChapterDialog },
   data () {
     return {
       chapter: {
@@ -23,7 +23,7 @@ export const chapterEdit = () => ({
       }
     }
   },
-  template: '<Chapter :visible="true" :chapter="chapter" />'
+  template: '<ChapterDialog :visible="true" :chapter="chapter" />'
 })
 
 chapterEdit.storyName = 'chapter edit'
