@@ -11,7 +11,7 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns.filter((column) => column.column_type_id !== columnTypes.LOOKED_UP_COLUMN)"
+      v-for="column in filteredDefinitionColumns"
       :key="column.id"
     >
       <label
@@ -154,7 +154,6 @@ export default {
   },
   data () {
     return {
-      columnTypes: COLUMN_TYPE,
       autocompleteInput: {},
       multipleAutocompleteInput: {}
     }
@@ -176,6 +175,9 @@ export default {
     'p-button': Vue.extend(Button)
   },
   computed: {
+    filteredDefinitionColumns () {
+      return this.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN)
+    },
     currentBlockDropdownOptions () {
       const result = {}
       this.definition.columns.forEach(currentColumn => {
