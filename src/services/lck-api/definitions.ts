@@ -154,6 +154,13 @@ export class LckContainer extends LckBaseModel {
 export class LckBlock extends LckBaseModel {
   text!: string;
 }
+export class LckBlockExtended extends LckBaseModel {
+  container_id!: string;
+  type!: string;
+  title?: string;
+  position?: number;
+  settings?: object;
+}
 
 /**
  * Process section

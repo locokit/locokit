@@ -251,13 +251,23 @@
       "containerName": "Nom du conteneur",
       "noBlock": "Aucun bloc trouvé",
       "block": {
-        "block": "Block",
+        "block": "Bloc",
         "title": "Titre du bloc",
         "type": "Type du bloc",        
         "list": "Liste des blocs",
         "content": "Contenu",
+        "displayMode": "Mode d'affichage",
         "selectType": "Sélectionner un type de bloc",
-        "create": "Créer un nouveau bloc"
+        "create": "Créer un bloc",
+        "edit": "Éditer un bloc",
+        "addMedia": "Ajouter un nouveau média",
+        "removeMedia": "Supprimer le média",
+        "mediaName": "Nom du média",
+        "mediaSrcURL": "URL de la source du média",
+        "mediaType": "Type du média",
+        "addAllowed": "Autoriser l'ajout de données",
+        "exportAllowed": "Autoriser l'exportation des données"
+
       }
     },
     "database": {
@@ -388,10 +398,10 @@
     }
   },
   "media": {
-    "IMAGE": "image",
-    "VIDEO": "vidéo",
-    "GALLERY": "galerie",
-    "CAROUSEL": "carrousel"
+    "IMAGE": "Image",
+    "VIDEO": "Vidéo",
+    "GALLERY": "Galerie",
+    "CAROUSEL": "Carrousel"
   },
   "dialog": {
     "close": "Fermez cette fenêtre"

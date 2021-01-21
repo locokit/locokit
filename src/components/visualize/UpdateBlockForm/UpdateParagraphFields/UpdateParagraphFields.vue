@@ -22,7 +22,7 @@ export default {
   props: {
     blockSettings: {
       type: Object as Vue.PropType<ParagraphSettings>,
-      default: () => ({})
+      required: true
     }
   }
 }

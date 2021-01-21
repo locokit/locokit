@@ -84,8 +84,8 @@
             </template>
         </p-tab-panel>
         <p-tab-panel
-          v-if="blockToEdit"
-          :header="blockToEdit.id ? 'Détails d\'un bloc' : 'Nouveau bloc'"
+          v-if="true"
+          :header="$t(`pages.workspace.block.${blockToEdit.id ? 'edit' : 'create'}`)"
           :active.sync="activePanel[1]"
         >
           <template>
@@ -101,7 +101,7 @@
     <delete-confirmation-dialog
       :submitting="submitting"
       :visible="dialogVisibility.deleteBlock"
-      :itemCategory="$t('pages.workspace.container')"
+      :itemCategory="$t('pages.workspace.block.block')"
       :value="blockToEdit"
       @input="onDeleteBlockInput"
       @close="onDeleteBlockClose"
@@ -109,7 +109,7 @@
   </p-sidebar>
 </template>
 
-<script>
+<script lang="ts">
 
 import Vue from 'vue'
 import Button from 'primevue/button'
@@ -119,6 +119,8 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
+
+import { LckBlockExtended } from '@/services/lck-api/definitions'
 
 import UpdateBlockForm from '@/components/visualize/UpdateBlockForm/UpdateBlockForm.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
@@ -157,7 +159,7 @@ export default {
   data () {
     return {
       containerCopy: {},
-      blockToEdit: null,
+      blockToEdit: new LckBlockExtended() as LckBlockExtended,
       activePanel: [true, false],
       dialogVisibility: {
         deleteBlock: false
@@ -167,7 +169,6 @@ export default {
   watch: {
     container: {
       handler (newValue = {}) {
-        console.log('update container')
         this.containerCopy = { ...newValue }
         this.resetSidebar()
       },
@@ -176,25 +177,24 @@ export default {
   },
   methods: {
     onTabChange () {
-      this.blockToEdit = null
+      this.resetBlockToEdit()
     },
     resetSidebar () {
       this.activePanel = [true, false]
-      this.blockToEdit = null
+      this.resetBlockToEdit()
     },
-    onBlockEditClick (selectedBlock) {
-      console.log(selectedBlock)
+    onBlockEditClick (selectedBlock: LckBlockExtended) {
       this.blockToEdit = selectedBlock
       this.activePanel = [false, true]
     },
-    onBlockEditInput (updatedBlock) {
+    onBlockEditInput (updatedBlock: LckBlockExtended) {
       this.$emit('update-block', this.blockToEdit, updatedBlock)
       if (!this.blockToEdit.id) this.resetSidebar()
     },
     onBlockEditClose () {
       this.resetSidebar()
     },
-    onDeleteBlockClick (selectedBlock) {
+    onDeleteBlockClick (selectedBlock: LckBlockExtended) {
       this.blockToEdit = selectedBlock
       this.dialogVisibility.deleteBlock = true
     },
@@ -204,7 +204,10 @@ export default {
     },
     onDeleteBlockClose () {
       this.dialogVisibility.deleteBlock = false
-      this.blockToEdit = null
+      this.resetBlockToEdit()
+    },
+    resetBlockToEdit () {
+      this.blockToEdit = new LckBlockExtended()
     }
   }
 }

@@ -451,8 +451,7 @@ export default {
           this.currentContainerToEdit.blocks.push(newBlock)
         }
       } catch (error) {
-        console.log(error)
-        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${this.currentContainerToEdit.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToEdit.text}`, error)
       } finally {
         this.submitting = false
       }
@@ -467,7 +466,6 @@ export default {
         }
         // this.onContainerDeleteClose()
       } catch (error) {
-        console.log(error)
         this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToDelete.title}`, error)
       } finally {
         this.submitting = false

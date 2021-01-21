@@ -19,6 +19,7 @@
         v-model="blockCopy.type"
         :options="blockTypes"
         required
+        @input="resetBlockSettings"
       />
     </div>
     <component
@@ -30,10 +31,12 @@
 <script lang="ts">
 
 import Vue from 'vue'
-import { BLOCK_TYPE, Block } from '@locokit/lck-glossary'
+import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import cloneDeep from 'lodash/cloneDeep'
+
+import { LckBlockExtended } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import UpdateParagraphFields from '@/components/visualize/UpdateBlockForm/UpdateParagraphFields/UpdateParagraphFields.vue'
@@ -41,7 +44,7 @@ import UpdateMarkdownFields from '@/components/visualize/UpdateBlockForm/UpdateM
 import UpdateMediaFields from '@/components/visualize/UpdateBlockForm/UpdateMediaFields/UpdateMediaFields.vue'
 
 export default {
-  name: 'PageDialog',
+  name: 'UpdateBlockForm',
   components: {
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown),
@@ -52,8 +55,8 @@ export default {
   },
   props: {
     block: {
-      type: Object as Vue.PropType<Block>,
-      default: () => ({})
+      type: Object as Vue.PropType<LckBlockExtended>,
+      required: true
     },
     submitting: {
       type: Boolean,
@@ -62,7 +65,7 @@ export default {
   },
   data () {
     return {
-      blockCopy: {}
+      blockCopy: {} as LckBlockExtended
     }
   },
   computed: {
@@ -72,13 +75,8 @@ export default {
   },
   watch: {
     block: {
-      handler ({ id, title, type, settings }) {
-        this.blockCopy = {
-          id,
-          title,
-          type,
-          settings: cloneDeep(settings || {})
-        }
+      handler (newValue: LckBlockExtended) {
+        this.blockCopy = cloneDeep(newValue)
       },
       immediate: true
     }
@@ -93,17 +91,21 @@ export default {
         case BLOCK_TYPE.MEDIA:
           return 'update-media-fields'
       }
+    },
+    resetBlockSettings (blockType: string) {
+      let defaultSettings = {}
+      switch (blockType) {
+        case BLOCK_TYPE.MEDIA:
+          defaultSettings = {
+            medias: []
+          }
+          break
+      }
+      this.$set(this.blockCopy, 'settings', defaultSettings)
     }
   }
 }
 </script>
 
-<style scoped>
-.lck-update-block-form {
-  position: relative;
-}
-
-.lck-update-block-form input {
-  display: block;
-}
+<style>
 </style>
