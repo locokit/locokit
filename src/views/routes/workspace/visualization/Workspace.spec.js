@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 import ToggleButton from 'primevue/togglebutton'
 import VueRouter from 'vue-router'
 
@@ -85,12 +85,6 @@ const mockWorkspaceContent = {
     }
   ]
 }
-const mockUserGroups = [
-  { chapter_id: '0', workspace_id: '0', workspace_role: WORKSPACE_ROLE.OWNER },
-  { chapter_id: '1', workspace_id: '0', workspace_role: WORKSPACE_ROLE.ADMIN },
-  { chapter_id: '2', workspace_id: '0', workspace_role: WORKSPACE_ROLE.MEMBER },
-  { chapter_id: '3', workspace_id: '1', workspace_role: WORKSPACE_ROLE.OWNER }
-]
 
 function mockRouterPath (workspaceId, pageId) {
   return `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${pageId}`
@@ -218,7 +212,6 @@ describe('Workspace', () => {
 
       beforeAll(async () => {
         authState.data.user.profile = USER_PROFILE.USER
-        authState.data.user.groups = mockUserGroups
         wrapper = await shallowMount(Workspace, globalComponentParams)
         wrapper.setData({ workspaceContent: currentMockWorkspaceContent })
         wrapper.vm.$route.params.pageId = firstChapter.pages[0].id
@@ -234,11 +227,6 @@ describe('Workspace', () => {
 
       it('The items are passed in Sidebar props', () => {
         expect(wrapper.findComponent(Sidebar).props('items')).toStrictEqual(wrapper.vm.sidebarItems)
-      })
-
-      it('Indicate that the chapters are editable', () => {
-        expect(wrapper.vm.sidebarItems[0].editable).toBe(true)
-        expect(wrapper.vm.sidebarItems[1].editable).toBe(false)
       })
 
       it('Return the right number of items', async () => {
@@ -283,26 +271,6 @@ describe('Workspace', () => {
         })
       })
     })
-
-    describe('Return the right items for a SUPERADMIN user', () => {
-      let wrapper
-      const currentMockWorkspaceContent = mockDeepCloneObject(mockWorkspaceContent)
-
-      beforeAll(async () => {
-        authState.data.user.profile = USER_PROFILE.SUPERADMIN
-        wrapper = await shallowMount(Workspace, globalComponentParams)
-        wrapper.setData({ workspaceContent: currentMockWorkspaceContent })
-      })
-
-      afterAll(() => {
-        authState.data.user.profile = ''
-      })
-
-      it('Indicate that the chapters are editable', () => {
-        expect(wrapper.vm.sidebarItems[0].editable).toBe(true)
-        expect(wrapper.vm.sidebarItems[1].editable).toBe(true)
-      })
-    })
   })
 
   describe('isAdmin', () => {
@@ -326,85 +294,6 @@ describe('Workspace', () => {
       authState.data.user.profile = USER_PROFILE.USER
       const wrapper = await shallowMount(Workspace, globalComponentParams)
       expect(wrapper.vm.isAdmin).toBe(false)
-    })
-
-    it('Pass the isAdmin value as Sidebar prop', async () => {
-      authState.data.user.profile = USER_PROFILE.SUPERADMIN
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.findComponent(Sidebar).props('isAdmin')).toBe(true)
-    })
-  })
-
-  describe('editableChapters', () => {
-    describe('The user profile is specified', () => {
-      let wrapper
-
-      beforeAll(async () => {
-        authState.data.user.groups = mockUserGroups
-        wrapper = await shallowMount(Workspace, globalComponentParams)
-      })
-
-      afterAll(() => {
-        authState.data.user.groups = []
-      })
-
-      it('Return the chapters of the current workspace if the user is OWNER', () => {
-        expect(wrapper.vm.editableChapters['0']).toBe(true)
-      })
-
-      it('Return the chapters of the current workspace if the user is ADMIN', () => {
-        expect(wrapper.vm.editableChapters['1']).toBe(true)
-      })
-
-      it('Does not return the chapters of the current workspace if the user is USER', () => {
-        expect(wrapper.vm.editableChapters['2']).toBeFalsy()
-      })
-
-      it('Does not return the chapters of other workspace', () => {
-        expect(wrapper.vm.editableChapters['3']).toBeFalsy()
-      })
-    })
-
-    it('The user profile is not specified : Return an empty object', async () => {
-      authState.data.user = {}
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.vm.editableChapters).toStrictEqual({})
-      authState.data.user.groups = []
-    })
-  })
-
-  describe('canEditWorkspace', () => {
-    afterAll(() => {
-      authState.data.user.profile = ''
-      authState.data.user.groups = []
-    })
-
-    it('Return true if the user is an ADMIN (profile)', async () => {
-      authState.data.user.profile = USER_PROFILE.ADMIN
-      authState.data.user.groups = []
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.vm.canEditWorkspace).toBe(true)
-    })
-
-    it('Return true if the user is an USER (profile) and can edit some chapters', async () => {
-      authState.data.user.profile = USER_PROFILE.USER
-      authState.data.user.groups = mockUserGroups
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.vm.canEditWorkspace).toBe(true)
-    })
-
-    it('Return true if the user is a SUPERADMIN (profile) and can edit some chapters', async () => {
-      authState.data.user.profile = USER_PROFILE.SUPERADMIN
-      authState.data.user.groups = mockUserGroups
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.vm.canEditWorkspace).toBe(true)
-    })
-
-    it('Return false if the user is an USER (profile) and can not edit some chapters', async () => {
-      authState.data.user.profile = USER_PROFILE.USER
-      authState.data.user.groups = []
-      const wrapper = await shallowMount(Workspace, globalComponentParams)
-      expect(wrapper.vm.canEditWorkspace).toBe(false)
     })
   })
 

@@ -85,7 +85,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="pi pi-pencil action-button"
             />
              
-            <!---->
+            <span
+              class="pi pi-trash action-button"
+            />
           </span>
         </a>
       </div>
@@ -146,7 +148,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="pi pi-pencil action-button"
             />
              
-            <!---->
+            <span
+              class="pi pi-trash action-button"
+            />
           </span>
         </a>
       </div>
@@ -155,145 +159,6 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         aria-labelledby="pv_id_34_header"
         class="p-toggleable-content"
         id="pv_id_34_content"
-        role="region"
-        style="display: none;"
-      >
-        <div
-          class="p-accordion-content"
-        >
-           
-          <a
-            class="mock-link"
-          >
-            
-      Third subitem
-    
-          </a>
-          <a
-            class="mock-link"
-          >
-            
-      Fourth subitem
-    
-          </a>
-        </div>
-      </div>
-    </div>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`storyshots components/visualize/Sidebar with edition and props items as admin 1`] = `
-<div
-  style="height: 100%;"
->
-  <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
-  >
-    <div
-      class="p-accordion-tab"
-    >
-      <div
-        class="p-accordion-header"
-      >
-        <a
-          aria-controls="pv_id_35_content"
-          class="p-accordion-header-link"
-          id="pv_id_35_header"
-          role="tab"
-          tabindex="0"
-        >
-          <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
-          />
-           
-          <!---->
-           
-      First item
-      
-          <span
-            class="action-set"
-          >
-            <span
-              class="pi pi-pencil action-button"
-            />
-             
-            <span
-              class="pi pi-trash action-button"
-            />
-          </span>
-        </a>
-      </div>
-       
-      <div
-        aria-labelledby="pv_id_35_header"
-        class="p-toggleable-content"
-        id="pv_id_35_content"
-        role="region"
-        style="display: none;"
-      >
-        <div
-          class="p-accordion-content"
-        >
-           
-          <a
-            class="mock-link"
-          >
-            
-      First subitem
-    
-          </a>
-          <a
-            class="mock-link"
-          >
-            
-      Second subitem
-    
-          </a>
-        </div>
-      </div>
-    </div>
-    <div
-      class="p-accordion-tab"
-    >
-      <div
-        class="p-accordion-header"
-      >
-        <a
-          aria-controls="pv_id_36_content"
-          class="p-accordion-header-link"
-          id="pv_id_36_header"
-          role="tab"
-          tabindex="0"
-        >
-          <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
-          />
-           
-          <!---->
-           
-      Second item
-      
-          <span
-            class="action-set"
-          >
-            <span
-              class="pi pi-pencil action-button"
-            />
-             
-            <span
-              class="pi pi-trash action-button"
-            />
-          </span>
-        </a>
-      </div>
-       
-      <div
-        aria-labelledby="pv_id_36_header"
-        class="p-toggleable-content"
-        id="pv_id_36_content"
         role="region"
         style="display: none;"
       >

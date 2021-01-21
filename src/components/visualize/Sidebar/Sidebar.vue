@@ -12,12 +12,10 @@
         {{item.label}}
         <span class="action-set" v-if="displayEditActions">
           <span
-            v-if="item.editable"
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
           />
           <span
-            v-if="isAdmin"
             @click.stop="$emit('delete-item', item.id)"
             class="pi pi-trash action-button"
           />
@@ -34,7 +32,7 @@
       </router-link>
     </p-accordion-tab>
     <p-button
-      v-if="displayEditActions && isAdmin"
+      v-if="displayEditActions"
       :label="createItemLabel"
       iconPos="right"
       icon="pi pi-plus"
@@ -63,10 +61,6 @@ export default {
       }
     },
     displayEditActions: {
-      type: Boolean,
-      default: false
-    },
-    isAdmin: {
       type: Boolean,
       default: false
     },

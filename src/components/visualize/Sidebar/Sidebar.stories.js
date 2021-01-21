@@ -12,7 +12,6 @@ export default {
 const items = [{
   id: 1,
   label: 'First item',
-  editable: true,
   subitems: [{
     id: 1,
     label: 'First subitem',
@@ -25,7 +24,6 @@ const items = [{
 }, {
   id: 2,
   label: 'Second item',
-  editable: true,
   subitems: [{
     id: 3,
     label: 'Third subitem',
@@ -107,15 +105,3 @@ export const withEditionAndPropsStory = () => ({
 })
 
 withEditionAndPropsStory.storyName = 'with edition and props items'
-
-export const adminWithEditionAndPropsStory = () => ({
-  components: { Sidebar },
-  data () {
-    return {
-      items
-    }
-  },
-  template: '<Sidebar :items="items" :isAdmin="true" :displayEditActions="true" />'
-})
-
-adminWithEditionAndPropsStory.storyName = 'with edition and props items as admin'

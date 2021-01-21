@@ -4,7 +4,6 @@
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
-        :isAdmin="isAdmin"
         :createItemLabel="$t('pages.workspace.createChapter')"
         @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
@@ -15,7 +14,7 @@
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />
       <p-toggle-button
-        v-if="canEditWorkspace"
+        v-if="isAdmin"
         v-model="editMode"
         :onLabel="$t('pages.workspace.editMode')"
         :offLabel="$t('pages.workspace.editMode')"
@@ -44,9 +43,8 @@
 
 <script>
 import Vue from 'vue'
-import isEmpty from 'lodash.isempty'
 import { authState } from '@/store/auth'
-import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 
@@ -95,7 +93,6 @@ export default {
             id,
             label: text,
             subitems,
-            editable: this.isAdmin || this.editableChapters[id] === true,
             active: subitems.some(({ active }) => active)
           }
         )
@@ -103,22 +100,6 @@ export default {
     },
     isAdmin () {
       return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
-    },
-    editableChapters () {
-      /* eslint-disable @typescript-eslint/camelcase */
-      const editableChapters = {}
-      if (authState.data.user?.groups) {
-        authState.data.user.groups.forEach(({ chapter_id, workspace_role, workspace_id }) => {
-          if (this.workspaceId === workspace_id && [WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
-            editableChapters[chapter_id] = true
-          }
-        })
-      /* eslint-enable @typescript-eslint/camelcase */
-      }
-      return editableChapters
-    },
-    canEditWorkspace () {
-      return this.isAdmin || !isEmpty(this.editableChapters)
     }
   },
   methods: {
