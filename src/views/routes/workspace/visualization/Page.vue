@@ -26,10 +26,10 @@
           v-for="container in page.containers"
           :key="container.id"
           :class="{
-            'editable-container': editPage
+            'editable-container': editMode
           }"
         >
-          <div v-if="editPage" class="edit-container-line">
+          <div v-if="editMode" class="edit-container-line">
             <span>
               <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
             </span>
@@ -62,7 +62,7 @@
         </div>
       </draggable>
       <p-button
-        v-if="editPage"
+        v-if="editMode"
         icon="pi pi-plus"
         class="new-container-button p-button-outlined"
         iconPos="right"
@@ -137,14 +137,6 @@ export default {
       type: [String, Number], // param is string because its form url params
       required: false
     },
-    editableChapters: {
-      type: Object,
-      default: () => ({})
-    },
-    isAdmin: {
-      type: Boolean,
-      default: false
-    },
     editMode: {
       type: Boolean,
       default: false
@@ -206,9 +198,6 @@ export default {
           disabled: true
         }
       ]
-    },
-    editPage () {
-      return this.editMode && (this.isAdmin || this.editableChapters[this.page?.chapter_id] === true)
     }
   },
   methods: {
@@ -356,21 +345,21 @@ export default {
         })
       this.exporting = false
     },
-    onContainerEditClick (container) {
-      if (container.id) {
-        this.currentContainerToEdit = this.page.containers.find(c => c.id === container.id)
+    onContainerEditClick (containerToEdit) {
+      if (containerToEdit.id) {
+        this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToEdit.id)
       } else {
         this.currentContainerToEdit = {}
       }
       this.showUpdateContainerSidebar = true
     },
-    async onContainerEditInput (container) {
+    async onContainerEditInput (containerToEdit) {
       try {
         this.submitting = true
-        if (container.id) {
+        if (containerToEdit.id) {
           // On update
-          const updatedContainer = await lckServices.container.patch(container.id, {
-            text: container.text
+          const updatedContainer = await lckServices.container.patch(containerToEdit.id, {
+            text: containerToEdit.text
           })
           for (const key in updatedContainer) {
             this.currentContainerToEdit[key] = updatedContainer[key]
@@ -378,32 +367,32 @@ export default {
         } else {
           // On create
           this.currentContainerToEdit = await lckServices.container.create({
-            text: container.text,
+            text: containerToEdit.text,
             page_id: this.page.id
           })
           this.page.containers.push(this.currentContainerToEdit)
         }
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${container.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToEdit.text}`, error)
       } finally {
         this.submitting = false
       }
     },
-    onContainerDeleteClick (container) {
-      this.currentContainerToEdit = this.page.containers.find(c => c.id === container.id)
+    onContainerDeleteClick (containerToDelete) {
+      this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToDelete.id)
       this.dialogVisibility.containerDelete = true
     },
-    async onContainerDeleteInput (container = {}) {
+    async onContainerDeleteInput (containerToDelete = {}) {
       try {
         this.submitting = true
-        if (container.id) {
-          await lckServices.container.remove(container.id)
-          const containerIndex = this.page.containers.findIndex(c => c.id === container.id)
+        if (containerToDelete.id) {
+          await lckServices.container.remove(containerToDelete.id)
+          const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
           if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
         }
         this.onContainerDeleteClose()
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${container.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
       } finally {
         this.submitting = false
       }

@@ -8,8 +8,8 @@
     @close="$emit('close')"
   >
     <p>
-      <template v-if="value && (value.text || value.title)">
-        {{ $t('form.specificDeleteConfirmation') }} <em>{{ itemCategory }} {{ value.text || value.title }}</em>.
+      <template v-if="value && value.text">
+        {{ $t('form.specificDeleteConfirmation') }} <strong>{{ itemCategory }} {{ value.text || value.title }}</strong>.
       </template>
       <template v-else>{{$t('form.deleteConfirmation')}}</template>
     </p>

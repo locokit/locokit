@@ -12,12 +12,10 @@
         {{item.label}}
         <span class="action-set" v-if="displayEditActions">
           <span
-            v-if="item.editable"
             @click.stop="$emit('edit-item', item.id)"
             class="pi pi-pencil action-button"
           />
           <span
-            v-if="isAdmin"
             @click.stop="$emit('delete-item', item.id)"
             class="pi pi-trash action-button"
           />
@@ -38,11 +36,11 @@
             v-show="displayEditActions || subitem.hidden !== true"
           >
             <span
-              v-if="displayEditActions && item.editable"
+              v-if="displayEditActions"
               class="pi pi-ellipsis-v handle"
               />
             {{subitem.label}}
-            <span class="action-subset" v-if="displayEditActions && item.editable">
+            <span class="action-subset" v-if="displayEditActions">
               <span
                 @click.stop.prevent="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
                 class="pi pi-pencil action-button"
@@ -55,7 +53,7 @@
           </router-link>
       </draggable>
         <p-button
-          v-if="displayEditActions && item.editable"
+          v-if="displayEditActions"
           :label="createSubItemLabel"
           icon="pi pi-plus"
           iconPos="right"
@@ -64,7 +62,7 @@
       />
     </p-accordion-tab>
     <p-button
-      v-if="displayEditActions && isAdmin"
+      v-if="displayEditActions"
       :label="createItemLabel"
       iconPos="right"
       icon="pi pi-plus"
@@ -94,10 +92,6 @@ export default {
       }
     },
     displayEditActions: {
-      type: Boolean,
-      default: false
-    },
-    isAdmin: {
       type: Boolean,
       default: false
     },
@@ -144,7 +138,7 @@ a:hover,
 }
 
 .action-button:hover {
-  color: white;
+  color: var(--text-color);
   background-color: var(--primary-color-darken);
   transition-duration: 0.5s;
 }
