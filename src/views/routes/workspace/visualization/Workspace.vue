@@ -73,7 +73,7 @@ import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
-import PageDialog from '@/components/visualize/Page/Page'
+import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 export default {

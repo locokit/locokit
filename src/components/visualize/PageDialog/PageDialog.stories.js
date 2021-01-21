@@ -1,20 +1,20 @@
-import Page from './Page'
+import PageDialog from './PageDialog.vue'
 
 export default {
-  title: 'components/visualize/Page',
-  component: Page
+  title: 'components/visualize/PageDialog',
+  component: PageDialog
 }
 
 export const pageCreateStory = () => ({
-  components: { Page },
-  template: '<Page :visible="true" />'
+  components: { PageDialog },
+  template: '<PageDialog :visible="true" />'
 })
 
 pageCreateStory.storyName = 'page create'
 pageCreateStory.args = { timeoutBeforeScreenshot: 800 }
 
 export const pageEdit = () => ({
-  components: { Page },
+  components: { PageDialog },
   data () {
     return {
       page: {
@@ -24,7 +24,7 @@ export const pageEdit = () => ({
       }
     }
   },
-  template: '<Page :visible="true" :page="page" />'
+  template: '<PageDialog :visible="true" :page="page" />'
 })
 
 pageEdit.storyName = 'page edit'

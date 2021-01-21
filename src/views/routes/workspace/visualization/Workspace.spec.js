@@ -13,7 +13,7 @@ import Workspace from './Workspace.vue'
 import Page from '@/views/routes/workspace/visualization/Page'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
-import PageDialog from '@/components/visualize/Page/Page'
+import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
 // Mock glossary
