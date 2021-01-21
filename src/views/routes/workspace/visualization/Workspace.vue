@@ -20,8 +20,6 @@
       <router-view
         :key="forceUpdateKey"
         :editMode="editMode"
-        :isAdmin="isAdmin"
-        :editableChapters="editableChapters"
       />
       <p-toggle-button
         v-if="isAdmin"

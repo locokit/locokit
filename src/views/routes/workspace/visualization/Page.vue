@@ -25,10 +25,10 @@
         v-for="container in page.containers"
         :key="container.id"
         :class="{
-          'editable-container': editPage
+          'editable-container': editMode
         }"
       >
-        <div v-if="editPage" class="edit-container-line">
+        <div v-if="editMode" class="edit-container-line">
           <span>
             <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
           </span>
@@ -61,7 +61,7 @@
       </div>
     </draggable>
     <p-button
-      v-if="editPage"
+      v-if="editMode"
       icon="pi pi-plus"
       class="new-container-button p-button-outlined"
       iconPos="right"
@@ -131,14 +131,6 @@ export default {
       type: [String, Number], // param is string because its form url params
       required: false
     },
-    editableChapters: {
-      type: Object,
-      default: () => ({})
-    },
-    isAdmin: {
-      type: Boolean,
-      default: false
-    },
     editMode: {
       type: Boolean,
       default: false
@@ -197,9 +189,6 @@ export default {
           disabled: true
         }
       ]
-    },
-    editPage () {
-      return this.editMode && (this.isAdmin || this.editableChapters[this.page?.chapter_id] === true)
     }
   },
   methods: {

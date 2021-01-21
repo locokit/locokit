@@ -269,43 +269,13 @@ describe('Page', () => {
     })
   })
 
-  describe('Computed properties', () => {
-    describe('editPage', () => {
-      let wrapper
-
-      beforeEach(async () => {
-        wrapper = await shallowMount(Page, globalComponentParams())
-      })
-
-      it('Returns false if the edit mode is not activated and the user is an admin', async () => {
-        await wrapper.setProps({ editMode: false, isAdmin: true })
-        expect(wrapper.vm.editPage).toBe(false)
-      })
-
-      it('Returns false if the edit mode is not activated and the related chapter is editable', async () => {
-        await wrapper.setProps({ editMode: false, editableChapters: { C1: true } })
-        expect(wrapper.vm.editPage).toBe(false)
-      })
-
-      it('Returns true if the edit mode is activated and the user is an admin', async () => {
-        await wrapper.setProps({ editMode: true, isAdmin: true })
-        expect(wrapper.vm.editPage).toBe(true)
-      })
-
-      it('Returns true if the edit mode is activated and the related chapter is editable', async () => {
-        await wrapper.setProps({ editMode: true, editableChapters: { C1: true } })
-        expect(wrapper.vm.editPage).toBe(true)
-      })
-    })
-  })
-
   describe('Container CRUD', () => {
     describe('Display edit options', () => {
       let wrapper
 
       beforeAll(async () => {
         wrapper = await shallowMount(Page, globalComponentParams())
-        wrapper.setProps({ isAdmin: true, editMode: true })
+        wrapper.setProps({ editMode: true })
       })
 
       it('Display the button to add a container', () => {
@@ -341,7 +311,7 @@ describe('Page', () => {
       const secondDisplayedContainer = mockPages['1'].containers[0]
 
       beforeEach(async () => {
-        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', isAdmin: true, editMode: true } })
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true } })
         containerSidebarWrapper = wrapper.findComponent(UpdateContainerSidebar)
         deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
       })
