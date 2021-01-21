@@ -90,7 +90,9 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="pi pi-pencil action-button"
             />
              
-            <!---->
+            <span
+              class="pi pi-trash action-button"
+            />
           </span>
         </a>
       </div>
@@ -201,6 +203,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="pi pi-pencil action-button"
             />
              
+<<<<<<< HEAD
             <!---->
           </span>
         </a>
@@ -438,6 +441,8 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
               class="pi pi-pencil action-button"
             />
              
+=======
+>>>>>>> 45-crud-visualization-chapter
             <span
               class="pi pi-trash action-button"
             />
@@ -446,9 +451,15 @@ exports[`storyshots components/visualize/Sidebar with edition and props items as
       </div>
        
       <div
+<<<<<<< HEAD
         aria-labelledby="pv_id_38_header"
         class="p-toggleable-content"
         id="pv_id_38_content"
+=======
+        aria-labelledby="pv_id_34_header"
+        class="p-toggleable-content"
+        id="pv_id_34_content"
+>>>>>>> 45-crud-visualization-chapter
         role="region"
         style="display: none;"
       >

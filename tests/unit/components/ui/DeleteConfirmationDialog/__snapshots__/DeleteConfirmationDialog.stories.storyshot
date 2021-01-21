@@ -260,9 +260,9 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`
         <p>
           
       Confirm that you want to delete the following element: 
-          <em>
+          <strong>
              Book name
-          </em>
+          </strong>
           .
     
         </p>
@@ -369,9 +369,9 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name an
         <p>
           
       Confirm that you want to delete the following element: 
-          <em>
+          <strong>
             book Book name
-          </em>
+          </strong>
           .
     
         </p>

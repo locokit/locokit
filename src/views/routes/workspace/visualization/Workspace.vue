@@ -4,7 +4,6 @@
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
-        :isAdmin="isAdmin"
         :createItemLabel="$t('pages.workspace.createChapter')"
         :createSubItemLabel="$t('pages.workspace.createPage')"
         @add-item="onChapterEditClick"
@@ -20,7 +19,7 @@
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view :key="forceUpdateKey" />
       <p-toggle-button
-        v-if="canEditWorkspace"
+        v-if="isAdmin"
         v-model="editMode"
         :onLabel="$t('pages.workspace.editMode')"
         :offLabel="$t('pages.workspace.editMode')"
@@ -63,12 +62,9 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
-
 import Vue from 'vue'
-import isEmpty from 'lodash.isempty'
 import { authState } from '@/store/auth'
-import { USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 
@@ -76,7 +72,7 @@ import { lckServices } from '@/services/lck-api'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
-import ChapterDialog from '@/components/visualize/Chapter/Chapter'
+import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import PageDialog from '@/components/visualize/Page/Page'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
@@ -124,7 +120,6 @@ export default {
             id,
             label: text,
             subitems,
-            editable: this.isAdmin || this.editableChapters[id] === true,
             active: subitems.some(({ active }) => active)
           }
         )
@@ -132,20 +127,6 @@ export default {
     },
     isAdmin () {
       return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
-    },
-    editableChapters () {
-      const editableChapters = {}
-      if (authState.data.user?.groups) {
-        authState.data.user.groups.forEach(({ chapter_id, workspace_role, workspace_id }) => {
-          if (this.workspaceId === workspace_id && [WORKSPACE_ROLE.ADMIN, WORKSPACE_ROLE.OWNER].includes(workspace_role)) {
-            editableChapters[chapter_id] = true
-          }
-        })
-      }
-      return editableChapters
-    },
-    canEditWorkspace () {
-      return this.isAdmin || !isEmpty(this.editableChapters)
     }
   },
   methods: {
@@ -205,7 +186,7 @@ export default {
           // On create
           const newChapter = await lckServices.chapter.create({
             text: chapter.text,
-            workspace_id: this.workspaceId
+            workspace_id: this.workspaceId // eslint-disable-line @typescript-eslint/camelcase
           })
           this.workspaceContent.chapters.push(newChapter)
         }
@@ -274,7 +255,7 @@ export default {
           this.currentPageToEdit = await lckServices.page.create({
             text: page.text,
             hidden: page.hidden,
-            chapter_id: this.currentChapterToEdit.id
+            chapter_id: this.currentChapterToEdit.id // eslint-disable-line @typescript-eslint/camelcase
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
             this.currentChapterToEdit.pages.push(this.currentPageToEdit)
