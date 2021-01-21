@@ -43,8 +43,6 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
-
 import Vue from 'vue'
 import isEmpty from 'lodash.isempty'
 import { authState } from '@/store/auth'
@@ -56,7 +54,7 @@ import { lckServices } from '@/services/lck-api'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
-import ChapterDialog from '@/components/visualize/Chapter/Chapter'
+import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
@@ -107,6 +105,7 @@ export default {
       return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
     },
     editableChapters () {
+      /* eslint-disable @typescript-eslint/camelcase */
       const editableChapters = {}
       if (authState.data.user?.groups) {
         authState.data.user.groups.forEach(({ chapter_id, workspace_role, workspace_id }) => {
@@ -114,6 +113,7 @@ export default {
             editableChapters[chapter_id] = true
           }
         })
+      /* eslint-enable @typescript-eslint/camelcase */
       }
       return editableChapters
     },
@@ -164,7 +164,7 @@ export default {
           // On create
           const newChapter = await lckServices.chapter.create({
             text: chapter.text,
-            workspace_id: this.workspaceId
+            workspace_id: this.workspaceId // eslint-disable-line @typescript-eslint/camelcase
           })
           this.workspaceContent.chapters.push(newChapter)
         }

@@ -11,7 +11,7 @@ import { lckServices } from '@/services/lck-api'
 
 import Workspace from './Workspace.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import ChapterDialog from '@/components/visualize/Chapter/Chapter'
+import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
 // Mock glossary

@@ -108,7 +108,7 @@ a:hover,
 }
 
 .action-button:hover {
-  color: white;
+  color: var(--text-color);
   background-color: var(--primary-color-darken);
   transition-duration: 0.5s;
 }
