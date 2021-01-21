@@ -128,7 +128,7 @@ jest.mock('@/services/lck-api', () => ({
   lckServices: {
     container: {
       patch: jest.fn((id, data) =>
-        ({ ...mockPages['1'].containers.find(c => c.id === id), ...data })),
+        ({ ...mockPages['1'].containers.find(container => container.id === id), ...data })),
       create: jest.fn(data =>
         ({ ...mockPages['1'].containers[0], ...data, id: '22' })),
       remove: jest.fn()
@@ -394,7 +394,11 @@ describe('Page', () => {
           // Send API request
           expect(lckServices.container.patch).toHaveBeenCalledWith(firstDisplayedContainer.id, { text: newContainerName })
           // Update the component data
-          expect(wrapper.vm.page.containers.find(c => c.id === firstDisplayedContainer.id && c.text === newContainerName)).toBeDefined()
+          expect(
+            wrapper.vm.page.containers.find(
+              container => container.id === firstDisplayedContainer.id &&
+              container.text === newContainerName)
+          ).toBeDefined()
         })
 
         it('Display a toast if an error is occured', async () => {
@@ -431,25 +435,33 @@ describe('Page', () => {
           // Send API request
           expect(lckServices.container.remove).toHaveBeenCalledWith(firstDisplayedContainer.id)
           // Update the component data
-          expect(wrapper.vm.page.containers.find(c => c.id === firstDisplayedContainer.id)).toBeUndefined()
+          expect(
+            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
+          ).toBeUndefined()
         })
 
         it('Do nothing if the input event is emitted with an empty container', async () => {
           await wrapper.find('.remove-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', {})
-          expect(wrapper.vm.page.containers.find(c => c.id === firstDisplayedContainer.id)).toBeDefined()
+          expect(
+            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
+          ).toBeDefined()
         })
 
         it('Do nothing if the input event is emitted with an undefined container', async () => {
           await wrapper.find('.remove-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input')
-          expect(wrapper.vm.page.containers.find(c => c.id === firstDisplayedContainer.id)).toBeDefined()
+          expect(
+            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
+          ).toBeDefined()
         })
 
         it('Do nothing if the input event is emitted with an unknown container', async () => {
           await wrapper.find('.remove-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', { ...firstDisplayedContainer, id: '-1' })
-          expect(wrapper.vm.page.containers.find(c => c.id === firstDisplayedContainer.id)).toBeDefined()
+          expect(
+            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
+          ).toBeDefined()
         })
 
         it('Display a toast if an error is occured', async () => {
