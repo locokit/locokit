@@ -83,23 +83,25 @@
         :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
       />
     </div>
-    <lck-dialog
+    <lck-dialog-form
       :visible="showDeleteColumnModal"
       :header="$t('pages.databaseSchema.selectType.deleteValue')"
       @close="handleDeleteColumnModalVisibility(false, null)"
       @input="deleteSelectTypeValue"
-      :isActionForm="true"
     >
       {{
         currentSelectTypeValue
         && $t('pages.databaseSchema.selectType.deleteConfirmation', { label: currentSelectTypeValue.label })
       }}
-    </lck-dialog>
+    </lck-dialog-form>
   </div>
 </template>
+
 <script>
 import Vue from 'vue'
+
 import { v4 as uuidv4 } from 'uuid'
+
 import InputText from 'primevue/inputtext'
 import ColorPicker from 'primevue/colorpicker'
 import InputNumber from 'primevue/inputnumber'
@@ -107,7 +109,8 @@ import Dropdown from 'primevue/dropdown'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'SelectTypeColumn',
@@ -119,7 +122,7 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'lck-dialog': Vue.extend(Dialog)
+    'lck-dialog-form': DialogForm
   },
   props: {
     columnToHandle: {
@@ -185,6 +188,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 /deep/ .p-datatable {
   transform: scale(1);
