@@ -6,6 +6,8 @@ import { block as LckBlock } from './block.model'
 import { Model } from 'objection'
 
 export class container extends BaseModel {
+  position?: number;
+
   static get tableName () {
     return 'container'
   }
@@ -16,7 +18,8 @@ export class container extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
+        text: { type: 'string' },
+        position: { type: ['number', 'null'] }
       }
     }
   }
