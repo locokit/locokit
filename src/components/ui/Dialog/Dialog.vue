@@ -15,28 +15,14 @@
 
     <template
       #footer
-      v-if="isActionForm"
+      v-if="withFooter"
     >
       <slot name='footer'>
         <p-button
-          :label="$t('form.cancel')"
+          :label="$t('dialog.close')"
           icon="pi pi-times"
           class="p-button-text p-button-secondary"
           @click="$emit('close')"
-        />
-        <p-button
-          disabled
-          v-if="submitting"
-          :label="$t('form.waiting')"
-          icon="pi pi-spin pi-spinner"
-          class="p-button-text"
-        />
-        <p-button
-          v-else
-          :label="$t('form.submit')"
-          icon="pi pi-check"
-          class="p-button-primary"
-          @click="$emit('input')"
         />
       </slot>
     </template>
@@ -66,9 +52,9 @@ export default {
       type: Boolean,
       default: false
     },
-    isActionForm: {
+    withFooter: {
       type: Boolean,
-      default: false
+      default: true
     }
   }
 }
