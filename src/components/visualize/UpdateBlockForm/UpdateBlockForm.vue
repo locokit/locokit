@@ -96,7 +96,8 @@ export default {
   },
   props: {
     block: {
-      type: Object as Vue.PropType<LckBlockExtended>
+      type: Object as Vue.PropType<LckBlockExtended>,
+      required: true
     },
     submitting: {
       type: Boolean,
@@ -127,6 +128,7 @@ export default {
     block: {
       handler (newValue: LckBlockExtended) {
         this.blockCopy = cloneDeep(newValue)
+        if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
       },
       immediate: true
     }

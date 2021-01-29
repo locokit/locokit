@@ -50,7 +50,9 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
         class="p-dialog-content"
         style="max-height: 70vh;"
       >
-        <p>
+        <p
+          class="lck-color-content"
+        >
           Confirm that you want to delete the element.
         </p>
       </div>
@@ -153,7 +155,9 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog on submitting 
         class="p-dialog-content"
         style="max-height: 70vh;"
       >
-        <p>
+        <p
+          class="lck-color-content"
+        >
           Confirm that you want to delete the element.
         </p>
       </div>
@@ -257,14 +261,18 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`
         class="p-dialog-content"
         style="max-height: 70vh;"
       >
-        <p>
-          
-      Confirm that you want to delete the following element: 
+        <p
+          class="lck-color-content"
+        >
+          Confirm that you want to delete the following element:
+        </p>
+         
+        <p
+          class="lck-color-content"
+        >
           <strong>
-             Book name
+             / Book name
           </strong>
-          .
-    
         </p>
       </div>
        
@@ -366,14 +374,18 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name an
         class="p-dialog-content"
         style="max-height: 70vh;"
       >
-        <p>
-          
-      Confirm that you want to delete the following element: 
+        <p
+          class="lck-color-content"
+        >
+          Confirm that you want to delete the following element:
+        </p>
+         
+        <p
+          class="lck-color-content"
+        >
           <strong>
-            book Book name
+            book / Book name
           </strong>
-          .
-    
         </p>
       </div>
        

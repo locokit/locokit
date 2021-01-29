@@ -123,5 +123,6 @@ export default Vue.extend({
   border-bottom: 1px solid var(--primary-color);
   pointer-events: none;
   padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 </style>

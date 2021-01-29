@@ -97,7 +97,7 @@ export default {
   },
   watch: {
     tableViewDefinition: {
-      handler ({ text, id }) {
+      handler ({ text, id } = { text: '', id: '' }) {
         this.tableView = {
           value: id,
           text

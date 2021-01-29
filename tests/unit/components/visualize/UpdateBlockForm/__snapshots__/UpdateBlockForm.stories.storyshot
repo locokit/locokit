@@ -1,0 +1,1502 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            DetailView
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div>
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsTableView"
+        >
+          View to display
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_38_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+          dropdown="true"
+          id="blockSettingsTableView"
+          suggestions=""
+          value="[object Object]"
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_38_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="blockSettingsTableView"
+            placeholder="Select an option"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            KanbanView
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            Markdown
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockSettingsContent"
+      >
+        Content
+      </label>
+       
+      <textarea
+        class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
+        id="blockSettingsContent"
+      />
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            Media
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="blockSettings"
+    >
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsDisplayMode"
+        >
+          Display mode
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+          id="blockSettingsDisplayMode"
+          optionkey="value"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext"
+          >
+            
+            Gallery
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div>
+        <div
+          class="mediaConfiguration multiMediaConfiguration"
+        >
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaName0"
+            >
+              Media name
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="blockSettingsMediaName0"
+            />
+          </div>
+           
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaSrcURL0"
+            >
+              Media URL
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="blockSettingsMediaSrcURL0"
+            />
+          </div>
+           
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaName0"
+            >
+              Media type
+            </label>
+             
+            <div
+              class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+              id="blockSettingsMediaName0"
+              optionkey="value"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  aria-haspopup="listbox"
+                  readonly="readonly"
+                  type="text"
+                />
+              </div>
+               
+              <!---->
+               
+              <span
+                class="p-dropdown-label p-inputtext"
+              >
+                
+            Image
+        
+              </span>
+               
+              <!---->
+               
+              <div
+                aria-haspopup="listbox"
+                class="p-dropdown-trigger"
+                role="button"
+              >
+                <span
+                  class="p-dropdown-trigger-icon pi pi-chevron-down"
+                />
+              </div>
+               
+              <!---->
+            </div>
+          </div>
+           
+          <button
+            class="p-button-text p-button-lg deleteMediaButton p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-trash p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+        <div
+          class="mediaConfiguration multiMediaConfiguration"
+        >
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaName1"
+            >
+              Media name
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="blockSettingsMediaName1"
+            />
+          </div>
+           
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaSrcURL1"
+            >
+              Media URL
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="blockSettingsMediaSrcURL1"
+            />
+          </div>
+           
+          <div
+            class="p-field"
+          >
+            <label
+              for="blockSettingsMediaName1"
+            >
+              Media type
+            </label>
+             
+            <div
+              class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+              id="blockSettingsMediaName1"
+              optionkey="value"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  aria-haspopup="listbox"
+                  readonly="readonly"
+                  type="text"
+                />
+              </div>
+               
+              <!---->
+               
+              <span
+                class="p-dropdown-label p-inputtext"
+              >
+                
+            Video
+        
+              </span>
+               
+              <!---->
+               
+              <div
+                aria-haspopup="listbox"
+                class="p-dropdown-trigger"
+                role="button"
+              >
+                <span
+                  class="p-dropdown-trigger-icon pi pi-chevron-down"
+                />
+              </div>
+               
+              <!---->
+            </div>
+          </div>
+           
+          <button
+            class="p-button-text p-button-lg deleteMediaButton p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-trash p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="addMediaDiv"
+        >
+          <button
+            class="p-button-text addMediaButton p-button-lg p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-plus p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+        >
+          
+            p-emptylabel
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            Paragraph
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockSettingsContent"
+      >
+        Content
+      </label>
+       
+      <textarea
+        class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
+        id="blockSettingsContent"
+      />
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            TableView
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div>
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsTableView"
+        >
+          View to display
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_37_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+          dropdown="true"
+          id="blockSettingsTableView"
+          suggestions=""
+          value="[object Object]"
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_37_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="blockSettingsTableView"
+            placeholder="Select an option"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsAddAllowed"
+        >
+          Allow adding data
+        </label>
+         
+        <div
+          class="p-inputswitch p-component"
+          id="blockSettingsAddAllowed"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+           
+          <span
+            class="p-inputswitch-slider"
+          />
+        </div>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsExportAllowed"
+        >
+          Allow exporting data
+        </label>
+         
+        <div
+          class="p-inputswitch p-component p-inputswitch-checked"
+          id="blockSettingsExportAllowed"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-checked="true"
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+           
+          <span
+            class="p-inputswitch-slider"
+          />
+        </div>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsDetailPage"
+        >
+          Detail page
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+          id="blockSettingsDetailPage"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext"
+          >
+            
+            Page 1
+        
+          </span>
+           
+          <i
+            class="p-dropdown-clear-icon pi pi-times"
+          />
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+        required="required"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+        >
+          
+            p-emptylabel
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
