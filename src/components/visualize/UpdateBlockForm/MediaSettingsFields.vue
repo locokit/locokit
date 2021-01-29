@@ -5,31 +5,34 @@
       <p-dropdown
         id="blockSettingsDisplayMode"
         :options="mediaTypes"
-        v-model="blockSettings.displayMode"
+        :value="displayMode"
+        @input="$emit('update:displayMode', $event)"
         optionValue="value"
         optionLabel="label"
         optionKey="value"
       />
     </div>
-    <div v-if="blockSettings.displayMode">
+    <div v-if="displayMode">
       <div
-        v-for="(media, index) in blockSettings.medias"
+        v-for="(media, index) in medias"
         :key="`media-${index}`"
         class="mediaConfiguration"
         :class="{ multiMediaConfiguration: !isBasicMedia }"
       >
         <div class="p-field">
           <label :for="`blockSettingsMediaName${index}`">{{ $t('pages.workspace.block.mediaName') }}</label>
-          <p-inputtext
+          <p-input-text
             :id="`blockSettingsMediaName${index}`"
-            v-model="media.name"
+            :value="media.name"
+            @input="$emit('update-media-name', { media, name: $event })"
           />
         </div>
         <div class="p-field">
           <label :for="`blockSettingsMediaSrcURL${index}`">{{ $t('pages.workspace.block.mediaSrcURL') }}</label>
-          <p-inputtext
+          <p-input-text
             :id="`blockSettingsMediaSrcURL${index}`"
-            v-model="media.srcURL"
+            :value="media.srcURL"
+            @input="$emit('update-media-srcURL', { media, srcURL: $event })"
           />
         </div>
         <div class="p-field">
@@ -37,7 +40,8 @@
           <p-dropdown
             :id="`blockSettingsMediaName${index}`"
             :options="basicMediaTypes"
-            v-model="media.type"
+            :value="media.type"
+            @input="$emit('update-media-type', { media, type: $event })"
             optionValue="value"
             optionLabel="label"
             optionKey="value"
@@ -46,17 +50,17 @@
         <p-button
           icon="pi pi-trash"
           class="p-button-text p-button-lg deleteMediaButton"
-          @click="removeMedia(index)"
+          @click="$emit('delete-media', index)"
         />
       </div>
       <div
-        v-if="!isBasicMedia || blockSettings.medias.length === 0"
+        v-if="!isBasicMedia || medias.length === 0"
         class="addMediaDiv"
         >
         <p-button
           icon="pi pi-plus"
           class="p-button-text addMediaButton p-button-lg"
-          @click="addNewMedia "
+          @click="$emit('add-media')"
         />
       </div>
     </div>
@@ -65,23 +69,30 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { MEDIA_TYPE } from '@locokit/lck-glossary'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { TranslateResult } from 'vue-i18n'
 
 export default {
-  name: 'UpdateMediaFields',
+  name: 'MediaSettingsFields',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
-    'p-inputtext': Vue.extend(InputText),
+    'p-input-text': Vue.extend(InputText),
     'p-button': Vue.extend(Button)
   },
   props: {
-    blockSettings: {
-      type: Object as Vue.PropType<MediaSettings>,
-      required: true
+    displayMode: {
+      type: String as Vue.PropType<MEDIA_TYPE>
+    },
+    medias: {
+      type: Array as Vue.PropType<{
+        name: string;
+        srcURL: string;
+        type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
+      }[]>,
+      default: () => ([])
     }
   },
   computed: {
@@ -100,26 +111,7 @@ export default {
       )
     },
     isBasicMedia (): boolean {
-      return this.basicMediaValues.includes(this.blockSettings.displayMode)
-    }
-  },
-  methods: {
-    addNewMedia () {
-      this.blockSettings.medias.push({
-        name: '',
-        srcURL: '',
-        type: MEDIA_TYPE.IMAGE
-      })
-    },
-    removeMedia (indexMediaToDelete: number) {
-      this.blockSettings.medias.splice(indexMediaToDelete, 1)
-    }
-  },
-  watch: {
-    'blockSettings.displayMode' (newValue) {
-      if (this.basicMediaValues.includes(newValue)) {
-        this.blockSettings.medias.splice(1)
-      }
+      return this.basicMediaValues.includes(this.displayMode)
     }
   }
 }

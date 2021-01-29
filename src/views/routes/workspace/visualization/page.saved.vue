@@ -57,7 +57,7 @@
             :key="container.id"
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
-            handle=".edit-block-line"
+            handle=".edit-block-content"
           >
             <Block
               v-for="block in container.blocks"
@@ -66,8 +66,7 @@
               :autocompleteSuggestions="autocompleteSuggestions"
               :exporting="exporting"
               :cellState="cellState"
-              :editMode="editMode"
-              :class="{ 'p-mb-4': !editMode }"
+              :class="[editMode ? 'editable-block' : 'p-mb-4']"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -79,7 +78,26 @@
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
               @delete-block="onBlockDeleteClick(container, block)"
-            />
+            >
+              <template #edit-content>
+                <div v-if="editMode" :title="$t('pages.workspace.block.drag')" class="edit-block-content">
+                  <span class="p-buttonset">
+                    <p-button
+                      :title="$t('pages.workspace.block.edit')"
+                      class="p-button-lg p-button-text edit-block-button"
+                      icon="pi pi-pencil"
+                      @click="onBlockEditClick(container, block)"
+                    />
+                    <p-button
+                      :title="$t('pages.workspace.block.delete')"
+                      class="p-button-lg p-button-text remove-block-button"
+                      icon="pi pi-trash"
+                      @click="onBlockDeleteClick(container, block)"
+                    />
+                  </span>
+                </div>
+              </template>
+            </Block>
           </draggable>
           <p-button
             v-if="editMode"
@@ -92,7 +110,6 @@
       </draggable>
       <p-button
         v-if="editMode"
-        :title="$t('pages.workspace.createContainer')"
         icon="pi pi-plus"
         class="new-container-button p-button-text"
         iconPos="right"
@@ -247,11 +264,10 @@ export default {
       ]
     },
     chapterRelatedPages: function () {
-      let chapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
-        chapterPages = this.chapters.find(chapter => chapter.id === this.page.chapter_id)?.pages
+        return this.chapters.find(chapter => chapter.id === this.page.chapter_id)?.pages || []
       }
-      return chapterPages
+      return []
     }
   },
   methods: {
@@ -652,16 +668,16 @@ export default {
   margin-bottom: 0.5rem;
   border: 2px solid var(--primary-color);
   overflow: hidden;
+  /* background-color: rgba(230, 230, 230, 0.2); */
 }
 
 .edit-container-line {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .edit-container-line .p-button {
-  color: var(--primary-color-darken);
   height: 100%;
 }
 
@@ -674,21 +690,43 @@ export default {
 }
 
 .editable-block {
+  padding: 0.5rem;
   position: relative;
   min-height: 3rem;
 }
 
+.edit-block-content:hover {
+  background-color: rgba(200, 200, 200, 0.1);
+}
+
+/deep/ .editable-block h3 {
+  margin-top: 0rem;
+}
+
+.edit-block-content {
+  position: absolute;
+  top: 0rem;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: move;
+  z-index: 15;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.edit-block-content .p-buttonset {
+  text-align: right;
+  display: block;
+}
+
 .p-button.new-block-button {
-  color: var(--primary-color);
   width: 100%;
   height: 3rem;
 }
 
 .p-button.new-container-button {
-  color: var(--primary-color-darken);
   height: 3rem;
   width: 100%;
   margin-bottom: 0.5rem;
-  border: 1px solid var(--primary-color) !important;
 }
 </style>

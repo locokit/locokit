@@ -2,28 +2,25 @@
   <div class="p-field">
     <label for="blockSettingsContent">{{ $t('pages.workspace.block.content') }}</label>
     <p-textarea
-      v-model="blockSettings.content"
       id="blockSettingsContent"
+      :value="content"
       :autoResize="true"
+      @input="$emit('update:content', $event)"
     />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { ParagraphSettings } from '@locokit/lck-glossary'
 import Textarea from 'primevue/textarea'
 
 export default {
-  name: 'UpdateParagraphFields',
+  name: 'MarkdownSettingsFields',
   components: {
     'p-textarea': Vue.extend(Textarea)
   },
   props: {
-    blockSettings: {
-      type: Object as Vue.PropType<ParagraphSettings>,
-      required: true
-    }
+    content: String
   }
 }
 </script>

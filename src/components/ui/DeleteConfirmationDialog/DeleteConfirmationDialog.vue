@@ -7,12 +7,13 @@
     @input="$emit('input', value)"
     @close="$emit('close')"
   >
-    <p>
-      <template v-if="value && value.text">
-        {{ $t('form.specificDeleteConfirmation') }} <strong>{{ itemCategory }} {{ value.text || value.title }}</strong>.
+      <template v-if="value && value[fieldToDisplay]">
+        <p class="lck-color-content">{{ $t('form.specificDeleteConfirmation') }}</p>
+        <p class="lck-color-content"><strong>{{ itemCategory}} / {{ value[fieldToDisplay] }}</strong></p>
       </template>
-      <template v-else>{{$t('form.deleteConfirmation')}}</template>
-    </p>
+      <template v-else>
+        <p class="lck-color-content">{{$t('form.deleteConfirmation')}}</p>
+      </template>
   </lck-dialog>
 </template>
 
@@ -39,6 +40,10 @@ export default {
     },
     value: {
       type: Object
+    },
+    fieldToDisplay: {
+      type: String,
+      default: 'text'
     }
   }
 }

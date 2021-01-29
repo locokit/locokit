@@ -1,7 +1,29 @@
 <template>
   <div>
-    <div v-if="block">
-      <h3 v-if="block.title" class="lck-color-title">{{ block.title }}</h3>
+    <div v-if="block" :class="{ 'editable-block': editMode }">
+      <div v-if="editMode" class="edit-block-line">
+        <h3 class="lck-color-title">{{ block.title }}</h3>
+        <span class="p-buttonset">
+          <p-button
+            :title="$t('pages.workspace.block.drag')"
+            class="p-button-lg p-button-text handle-block"
+            icon="pi pi-ellipsis-v"
+          />
+          <p-button
+            :title="$t('pages.workspace.block.edit')"
+            class="p-button-lg p-button-text edit-block-button"
+            icon="pi pi-pencil"
+            @click="$emit('update-block')"
+          />
+          <p-button
+            :title="$t('pages.workspace.block.delete')"
+            class="p-button-lg p-button-text remove-block-button"
+            icon="pi pi-trash"
+            @click="$emit('delete-block')"
+          />
+        </span>
+      </div>
+      <h3 v-else-if="block.title" class="lck-color-title">{{ block.title }}</h3>
       <component
         v-if="isBlockTypeValid"
         :is="block.type"
@@ -27,6 +49,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { BLOCK_TYPE, Block, BlockTableView } from '@locokit/lck-glossary'
+import Button from 'primevue/button'
 
 import TableView from '@/components/visualize/TableView/TableView.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
@@ -38,6 +61,7 @@ import DetailView from '@/components/visualize/DetailView.vue'
 export default Vue.extend({
   name: 'Block',
   components: {
+    'p-button': Vue.extend(Button),
     TableView,
     DetailView,
     Paragraph,
@@ -66,7 +90,38 @@ export default Vue.extend({
   props: {
     block: {
       type: Object as PropType<Block>
+    },
+    editMode: {
+      type: Boolean,
+      default: false
     }
   }
 })
 </script>
+
+<style scoped>
+.edit-block-line {
+  display: flex;
+  pointer-events: all;
+}
+
+.edit-block-line .p-button {
+  height: 100%;
+  color: var(--primary-color);
+}
+
+.edit-block-line .p-buttonset {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.handle-block {
+  cursor: move;
+}
+
+.editable-block {
+  border-bottom: 1px solid var(--primary-color);
+  pointer-events: none;
+  padding-left: 0.5rem;
+}
+</style>

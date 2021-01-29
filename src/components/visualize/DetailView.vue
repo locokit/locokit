@@ -18,7 +18,7 @@ import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-import { retrieveRow, retrieveViewDefinition } from '@/store/visualize'
+import { retrieveRow } from '@/store/visualize'
 import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
 
@@ -33,11 +33,13 @@ export default Vue.extend({
       default: () => (
         {}
       )
+    },
+    definition: {
+      type: Object
     }
   },
   data () {
     return {
-      definition: {},
       autocompleteSuggestions: null,
       row: {},
       rowId: this.$route.query?.rowId
@@ -64,7 +66,6 @@ export default Vue.extend({
     }
   },
   async mounted () {
-    this.definition = await retrieveViewDefinition(this.settings?.id)
     this.row = await retrieveRow(this.rowId)
   }
 })

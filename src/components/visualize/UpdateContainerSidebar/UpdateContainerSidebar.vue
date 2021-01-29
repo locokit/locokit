@@ -9,7 +9,7 @@
   >
     <div class="sidebar-content lck-color-content">
       <p-tab-view @tab-change="onTabChange">
-        <p-tab-panel :header="containerCopy.id ? 'Configuration générale' : 'Nouveau conteneur'" :active.sync="activePanel[0]">
+        <p-tab-panel :header="containerCopy.id ? $t('pages.workspace.containerConfiguration') : $t('pages.workspace.newContainer')" :active.sync="activePanel[0]">
           <template>
             <form class="p-d-flex lck-color-content" @submit.prevent="$emit('update-container', containerCopy)">
               <div class="p-col">
@@ -49,25 +49,22 @@
                 <template #empty>
                   {{ $t('pages.workspace.noBlock') }}
                 </template>
-                <!-- <p-column>
-                  <template #body>
-                    <span class="pi pi-chevron-right"></span>
-                  </template>
-                </p-column> -->
                 <p-column field="title" :header="$t('pages.workspace.block.title')"></p-column>
                 <p-column field="type" :header="$t('pages.workspace.block.type')"></p-column>
-                <p-column>
+                <p-column headerStyle="width: 7em">
                   <template #body="slotProps">
                     <span class="p-buttonset">
                       <p-button
+                        :title="$t('pages.workspace.block.edit')"
                         icon="pi pi-pencil"
                         class="p-button-text p-mr-2 p-ml-auto p-button-lg"
-                        @click="onBlockEditClick(slotProps.data)"
+                        @click="$emit('click-block', slotProps.data)"
                       />
                       <p-button
+                        :title="$t('pages.workspace.block.delete')"
                         icon="pi pi-trash"
                         class="p-button-text p-button-lg"
-                        @click="onDeleteBlockClick(slotProps.data)"
+                        @click="$emit('delete-block', container, slotProps.data)"
                       />
                     </span>
                   </template>
@@ -76,7 +73,7 @@
                   <p-button
                     icon="pi pi-plus"
                     class="p-button-text p-button-lg"
-                    @click="onBlockEditClick({})"
+                    @click="setNewBlock"
                   />
                 </template>
               </p-datatable>
@@ -84,28 +81,23 @@
             </template>
         </p-tab-panel>
         <p-tab-panel
-          v-if="true"
-          :header="$t(`pages.workspace.block.${blockToEdit.id ? 'edit' : 'create'}`)"
+          v-if="containerCopy.id && block.id !== undefined"
+          :header="$t(`pages.workspace.block.${block.id ? 'edit' : 'create'}`)"
           :active.sync="activePanel[1]"
         >
           <template>
             <update-block-form
-              :block="blockToEdit"
+              :block="block"
+              :autocompleteSuggestions="autocompleteSuggestions"
+              :chapterRelatedPages="chapterRelatedPages"
               @input="onBlockEditInput"
-              @close="onBlockEditClose"
+              @close="resetSidebar"
+              @search-table-view="$emit('search-table-view', $event)"
             />
           </template>
         </p-tab-panel>
       </p-tab-view>
     </div>
-    <delete-confirmation-dialog
-      :submitting="submitting"
-      :visible="dialogVisibility.deleteBlock"
-      :itemCategory="$t('pages.workspace.block.block')"
-      :value="blockToEdit"
-      @input="onDeleteBlockInput"
-      @close="onDeleteBlockClose"
-    />
   </p-sidebar>
 </template>
 
@@ -120,10 +112,9 @@ import Column from 'primevue/column'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 
-import { LckBlockExtended } from '@/services/lck-api/definitions'
+import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
 
 import UpdateBlockForm from '@/components/visualize/UpdateBlockForm/UpdateBlockForm.vue'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
 export default {
   name: 'UpdateContainerSidebar',
@@ -135,8 +126,7 @@ export default {
     'p-column': Vue.extend(Column),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'update-block-form': UpdateBlockForm,
-    'delete-confirmation-dialog': DeleteConfirmationDialog
+    'update-block-form': UpdateBlockForm
   },
   props: {
     showSidebar: {
@@ -144,8 +134,12 @@ export default {
       default: false
     },
     container: {
-      type: Object,
-      default: () => ({})
+      type: Object as Vue.PropType<LckContainer>,
+      default: () => new LckContainer()
+    },
+    block: {
+      type: Object as Vue.PropType<LckBlockExtended>,
+      default: () => new LckBlockExtended()
     },
     submitting: {
       type: Boolean,
@@ -154,60 +148,56 @@ export default {
     width: {
       type: String,
       default: '40rem'
+    },
+    autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    } as Vue.PropOptions<{ label: string; value: string }[]>,
+    chapterRelatedPages: {
+      type: Array,
+      default: () => ([])
     }
   },
   data () {
     return {
-      containerCopy: {},
-      blockToEdit: new LckBlockExtended() as LckBlockExtended,
-      activePanel: [true, false],
-      dialogVisibility: {
-        deleteBlock: false
-      }
+      containerCopy: new LckContainer()
+    }
+  },
+  computed: {
+    activePanel () {
+      return this.container.id === undefined || this.block.id === undefined
+        ? [true, false]
+        : [false, true]
     }
   },
   watch: {
     container: {
       handler (newValue = {}) {
         this.containerCopy = { ...newValue }
-        this.resetSidebar()
       },
-      immediate: true
+      immediate: true,
+      deep: true
     }
   },
   methods: {
     onTabChange () {
-      this.resetBlockToEdit()
+      if (this.activePanel[0]) {
+        this.resetBlockToEdit()
+      }
     },
     resetSidebar () {
-      this.activePanel = [true, false]
       this.resetBlockToEdit()
     },
-    onBlockEditClick (selectedBlock: LckBlockExtended) {
-      this.blockToEdit = selectedBlock
-      this.activePanel = [false, true]
-    },
-    onBlockEditInput (updatedBlock: LckBlockExtended) {
-      this.$emit('update-block', this.blockToEdit, updatedBlock)
-      if (!this.blockToEdit.id) this.resetSidebar()
-    },
-    onBlockEditClose () {
-      this.resetSidebar()
-    },
-    onDeleteBlockClick (selectedBlock: LckBlockExtended) {
-      this.blockToEdit = selectedBlock
-      this.dialogVisibility.deleteBlock = true
-    },
-    onDeleteBlockInput () {
-      this.$emit('delete-block', this.blockToEdit)
-      this.onDeleteBlockClose()
-    },
-    onDeleteBlockClose () {
-      this.dialogVisibility.deleteBlock = false
-      this.resetBlockToEdit()
+    onBlockEditInput (event: { updatedBlock: LckBlockExtended; blockRefreshRequired: boolean }) {
+      this.$emit('update-block', event)
     },
     resetBlockToEdit () {
-      this.blockToEdit = new LckBlockExtended()
+      this.$emit('click-block', new LckBlockExtended())
+    },
+    setNewBlock () {
+      const newBlock = new LckBlockExtended()
+      newBlock.id = ''
+      this.$emit('click-block', newBlock)
     }
   }
 }
@@ -218,6 +208,7 @@ export default {
   top: var(--header-height);
   height: calc(100vh - var(--header-height));
   overflow-y: auto;
+  max-width: 100vw;
 }
 
 h3, h4 {
@@ -231,5 +222,9 @@ h3, h4 {
 
 /deep/ .p-datatable .p-datatable-footer {
   text-align: center;
+}
+
+/deep/ .dragBlockColumn i {
+  cursor: move;
 }
 </style>

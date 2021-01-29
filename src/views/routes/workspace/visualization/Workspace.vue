@@ -20,6 +20,7 @@
       <router-view
         :key="forceUpdateKey"
         :editMode="editMode"
+        :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
       />
       <p-toggle-button
         v-if="isAdmin"
@@ -357,6 +358,6 @@ export default {
   position: fixed;
   bottom: 1em;
   right: 1em;
-  z-index: 2;
+  z-index: 15;
 }
 </style>

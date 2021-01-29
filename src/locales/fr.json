@@ -113,7 +113,8 @@
       "openTheLink": "Ouvrir le lien"
     },
     "multiAutocomplete": {
-      "placeholder": "Rechercher"
+      "placeholder": "Rechercher",
+      "error": "La recherche n'a pas aboutie."
     },
     "processPanel": {
       "title": "Processus",
@@ -245,10 +246,14 @@
       "pageName": "Nom de la page",
       "pageHidden": "Cacher la page",
       "pagePosition": "Position de la page",
-      "container": "conteneur",
+      "container": "Conteneur",
       "createContainer": "Créer un nouveau conteneur",
-      "editContainer": "Modifier un conteneur",
+      "editContainer": "Modifier le conteneur",
+      "deleteContainer": "Supprimer le conteneur",
+      "dragContainer": "Déplacer le conteneur",
       "containerName": "Nom du conteneur",
+      "containerConfiguration": "Configuration du conteneur",
+      "newContainer": "Nouveau conteneur",
       "noBlock": "Aucun bloc trouvé",
       "block": {
         "block": "Bloc",
@@ -258,16 +263,19 @@
         "content": "Contenu",
         "displayMode": "Mode d'affichage",
         "selectType": "Sélectionner un type de bloc",
-        "create": "Créer un bloc",
-        "edit": "Éditer un bloc",
+        "create": "Ajouter un bloc",
+        "edit": "Éditer le bloc",
+        "delete": "Supprimer le bloc",
+        "drag": "Déplacer le bloc",
         "addMedia": "Ajouter un nouveau média",
         "removeMedia": "Supprimer le média",
         "mediaName": "Nom du média",
         "mediaSrcURL": "URL de la source du média",
         "mediaType": "Type du média",
         "addAllowed": "Autoriser l'ajout de données",
-        "exportAllowed": "Autoriser l'exportation des données"
-
+        "exportAllowed": "Autoriser l'exportation des données",
+        "tableView": "Vue à afficher",
+        "detailPage": "Page de détails"
       }
     },
     "database": {
