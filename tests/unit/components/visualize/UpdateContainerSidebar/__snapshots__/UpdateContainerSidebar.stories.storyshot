@@ -289,6 +289,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                   >
                     <button
                       class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
                       type="button"
                     >
                       <span
@@ -613,6 +614,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
                   >
                     <button
                       class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
                       type="button"
                     >
                       <span
@@ -833,6 +835,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                   >
                     <button
                       class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
                       type="button"
                     >
                       <span
@@ -1170,6 +1173,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                   >
                     <button
                       class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
                       type="button"
                     >
                       <span
@@ -1375,6 +1379,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
                   >
                     <button
                       class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
                       type="button"
                     >
                       <span

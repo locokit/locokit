@@ -57,7 +57,7 @@
             :key="container.id"
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
-            handle=".edit-block-line"
+            handle=".handle-block"
           >
             <Block
               v-for="block in container.blocks"
@@ -107,11 +107,11 @@
       :block="currentBlockToEdit"
       :width="editableSidebarWidth"
       :autocompleteSuggestions="editableAutocompleteSuggestions"
-      :chapterRelatedPages="chapterRelatedPages"
+      :chapterPages="chapterPages"
       @update-container="onContainerEditInput"
       @click-block="onBlockEditClickFromSidebar"
       @update-block="onBlockEditInput"
-      @delete-block="onBlockDeleteClick"
+      @delete-block="onBlockDeleteClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
     />
@@ -246,12 +246,12 @@ export default {
         }
       ]
     },
-    chapterRelatedPages: function () {
+    chapterPages: function () {
       let chapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
         chapterPages = this.chapters.find(chapter => chapter.id === this.page.chapter_id)?.pages
       }
-      return chapterPages
+      return chapterPages || []
     }
   },
   methods: {
@@ -533,18 +533,19 @@ export default {
       }
     },
     onBlockDeleteClick (containerToEdit, blockToDelete) {
-      if (containerToEdit.id && blockToDelete.id) {
-        this.currentContainerToDelete = containerToEdit
-        this.currentBlockToDelete = blockToDelete
-        this.dialogVisibility.blockDelete = true
-      }
+      this.currentContainerToDelete = containerToEdit
+      this.currentBlockToDelete = blockToDelete
+      this.dialogVisibility.blockDelete = true
+    },
+    onBlockDeleteClickFromSidebar (blockToDelete) {
+      this.onBlockDeleteClick(this.currentContainerToEdit, blockToDelete)
     },
     onBlockDeleteClose () {
       this.currentContainerToDelete = {}
       this.currentBlockToDelete = {}
       this.dialogVisibility.blockDelete = false
     },
-    async onBlockDeleteInput (blockToDelete = {}) {
+    async onBlockDeleteInput (blockToDelete) {
       try {
         this.submitting = true
         if (blockToDelete.id) {
@@ -649,7 +650,7 @@ export default {
 }
 
 .editable-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   border: 2px solid var(--primary-color);
   overflow: hidden;
 }
@@ -661,7 +662,7 @@ export default {
 }
 
 .edit-container-line .p-button {
-  color: var(--primary-color-darken);
+  color: var(--primary-color);
   height: 100%;
 }
 
@@ -679,13 +680,13 @@ export default {
 }
 
 .p-button.new-block-button {
-  color: var(--primary-color);
+  color: var(--primary-color-darken);
   width: 100%;
   height: 3rem;
 }
 
 .p-button.new-container-button {
-  color: var(--primary-color-darken);
+  color: var(--primary-color);
   height: 3rem;
   width: 100%;
   margin-bottom: 0.5rem;

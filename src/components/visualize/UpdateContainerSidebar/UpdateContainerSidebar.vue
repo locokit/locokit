@@ -71,6 +71,7 @@
                 </p-column>
                 <template #footer>
                   <p-button
+                    :title="$t('pages.workspace.block.create')"
                     icon="pi pi-plus"
                     class="p-button-text p-button-lg"
                     @click="setNewBlock"
@@ -89,7 +90,7 @@
             <update-block-form
               :block="block"
               :autocompleteSuggestions="autocompleteSuggestions"
-              :chapterRelatedPages="chapterRelatedPages"
+              :chapterPages="chapterPages"
               @input="onBlockEditInput"
               @close="resetSidebar"
               @search-table-view="$emit('search-table-view', $event)"
@@ -153,7 +154,7 @@ export default {
       type: Array,
       default: () => ([])
     } as Vue.PropOptions<{ label: string; value: string }[]>,
-    chapterRelatedPages: {
+    chapterPages: {
       type: Array,
       default: () => ([])
     }

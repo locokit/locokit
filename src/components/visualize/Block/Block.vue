@@ -105,18 +105,18 @@ export default Vue.extend({
   pointer-events: all;
 }
 
+.handle-block {
+  cursor: move;
+}
+
 .edit-block-line .p-button {
   height: 100%;
-  color: var(--primary-color);
+  color: var(--primary-color-darken);
 }
 
 .edit-block-line .p-buttonset {
   margin-left: auto;
   flex-shrink: 0;
-}
-
-.handle-block {
-  cursor: move;
 }
 
 .editable-block {

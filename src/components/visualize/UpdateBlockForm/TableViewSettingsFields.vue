@@ -32,7 +32,7 @@
       <label for="blockSettingsDetailPage">{{ $t('pages.workspace.block.detailPage') }}</label>
       <p-dropdown
         id="blockSettingsDetailPage"
-        :options="chapterRelatedPages"
+        :options="chapterPages"
         optionLabel="text"
         optionValue="id"
         dataKey="id"
@@ -80,7 +80,7 @@ export default {
     tableViewDefinition: {
       type: Object as Vue.PropType<LckTableView>
     },
-    chapterRelatedPages: {
+    chapterPages: {
       type: Array,
       default: () => ([])
     }

@@ -261,7 +261,7 @@
         "content": "Content",
         "displayMode": "Display mode",
         "selectType": "Select a block type",
-        "create": "Add a block",
+        "create": "Create a new block",
         "edit": "Edit the block",
         "delete": "Delete the block",
         "drag": "Drag the block",

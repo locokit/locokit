@@ -49,7 +49,7 @@
       :id.sync="blockCopy.settings.id"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :tableViewDefinition="blockCopy.definition"
-      :chapterRelatedPages="chapterRelatedPages"
+      :chapterPages="chapterPages"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
@@ -107,7 +107,7 @@ export default {
       type: Array,
       default: () => ([])
     } as Vue.PropOptions<{ label: string; value: string }[]>,
-    chapterRelatedPages: {
+    chapterPages: {
       type: Array,
       default: () => ([])
     }
