@@ -82,7 +82,7 @@
             </template>
         </p-tab-panel>
         <p-tab-panel
-          v-if="containerCopy.id && block.id !== undefined"
+          v-if="activePanel[1]"
           :header="$t(`pages.workspace.block.${block.id ? 'edit' : 'create'}`)"
           :active.sync="activePanel[1]"
         >
@@ -225,7 +225,7 @@ h3, h4 {
   text-align: center;
 }
 
-/deep/ .dragBlockColumn i {
-  cursor: move;
+/deep/ .p-datatable-wrapper .p-datatable-thead th {
+  position: static;
 }
 </style>

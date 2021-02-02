@@ -72,7 +72,7 @@ export default Vue.extend({
   computed: {
     isBlockTypeValid () {
       const values = Object.values(BLOCK_TYPE) as string[]
-      return values.includes(this.block.type)
+      return values.includes(this.block.type) && this.block.type !== BLOCK_TYPE.KANBAN_VIEW
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
@@ -123,6 +123,5 @@ export default Vue.extend({
   border-bottom: 1px solid var(--primary-color);
   pointer-events: none;
   padding-left: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 </style>

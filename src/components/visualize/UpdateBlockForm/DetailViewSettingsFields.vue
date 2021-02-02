@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="p-field">
-      <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
-      <lck-autocomplete
-        id="blockSettingsTableView"
-        field="text"
-        v-model="tableView"
-        :dropdown="true"
-        :suggestions="autocompleteSuggestions"
-        @item-select="onChangeTableView"
-        @search="$emit('search-table-view', $event)"
-      />
-    </div>
+  <div class="p-field">
+    <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+    <lck-autocomplete
+      id="blockSettingsTableView"
+      field="text"
+      v-model="tableView"
+      :dropdown="true"
+      :suggestions="autocompleteSuggestions"
+      @item-select="onChangeTableView"
+      @search="$emit('search-table-view', $event)"
+    />
   </div>
 </template>
 

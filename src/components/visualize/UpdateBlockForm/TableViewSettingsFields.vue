@@ -38,6 +38,7 @@
         dataKey="id"
         :value="pageDetailId"
         :showClear="true"
+        :placeholder="$t('components.datatable.placeholder')"
         @input="onChangeDetailPage"
       />
     </div>

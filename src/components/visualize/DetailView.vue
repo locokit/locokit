@@ -35,7 +35,8 @@ export default Vue.extend({
       )
     },
     definition: {
-      type: Object
+      type: Object,
+      default: () => ({})
     }
   },
   data () {

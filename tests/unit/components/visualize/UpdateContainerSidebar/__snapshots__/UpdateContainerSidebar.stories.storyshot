@@ -355,7 +355,6 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                   <div
                     class="p-dropdown p-component p-inputwrapper"
                     id="blockTypeField"
-                    required="required"
                   >
                     <div
                       class="p-hidden-accessible"
@@ -370,10 +369,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                     <!---->
                      
                     <span
-                      class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+                      class="p-dropdown-label p-inputtext p-placeholder"
                     >
                       
-            p-emptylabel
+            Select an option
         
                     </span>
                      
@@ -901,7 +900,6 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                   <div
                     class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
                     id="blockTypeField"
-                    required="required"
                   >
                     <div
                       class="p-hidden-accessible"
@@ -916,10 +914,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                     <!---->
                      
                     <span
-                      class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+                      class="p-dropdown-label p-inputtext p-placeholder"
                     >
                       
-            p-emptylabel
+            Select an option
         
                     </span>
                      

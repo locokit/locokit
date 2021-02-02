@@ -17,8 +17,8 @@
       <p-dropdown
         id="blockTypeField"
         v-model="blockCopy.type"
-        :options="blockTypes"
-        required
+        :placeholder="$t('components.datatable.placeholder')"
+        :options="blockTypesValues"
         @input="resetBlockSettings"
       />
     </div>
@@ -120,7 +120,7 @@ export default {
     }
   },
   computed: {
-    blockTypes () {
+    blockTypesValues () {
       return Object.values(BLOCK_TYPE)
     }
   },

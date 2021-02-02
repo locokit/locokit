@@ -453,10 +453,10 @@ export default {
           const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
           if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
         }
-        this.onContainerDeleteClose()
         if (containerToDelete.id === this.currentContainerToEdit.id) {
           this.onCloseUpdateContainerSidebar()
         }
+        this.onContainerDeleteClose()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
       } finally {

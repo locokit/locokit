@@ -21,8 +21,7 @@ export default {
   },
   props: {
     content: {
-      type: String,
-      default: ''
+      type: String
     }
   }
 }
