@@ -63,9 +63,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.p-inputswitch {
-  display: block;
-}
-</style>

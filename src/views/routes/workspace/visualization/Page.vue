@@ -86,7 +86,7 @@
             :title="$t('pages.workspace.block.create')"
             icon="pi pi-plus"
             class="new-block-button p-button-text"
-            @click="onBlockEditClick(container, {})"
+            @click="onBlockEditClick(container, { id: '' })"
           />
         </div>
       </draggable>
@@ -95,7 +95,6 @@
         :title="$t('pages.workspace.createContainer')"
         icon="pi pi-plus"
         class="new-container-button p-button-text"
-        iconPos="right"
         @click="onContainerEditClick({})"
       />
     </div>
@@ -494,7 +493,7 @@ export default {
     },
     onBlockEditClick (containerToEdit, blockToEdit) {
       this.currentContainerToEdit = containerToEdit
-      this.currentBlockToEdit = blockToEdit.id ? blockToEdit : { id: '' }
+      this.currentBlockToEdit = blockToEdit
       this.showUpdateContainerSidebar = true
     },
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
@@ -521,7 +520,7 @@ export default {
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
           } else {
-            this.currentContainerToEdit.blocks = [this.currentBlockToEdit]
+            this.$set(this.currentContainerToEdit, 'blocks', [this.currentBlockToEdit])
           }
         }
         // Reload the block definition and content if it is necessary

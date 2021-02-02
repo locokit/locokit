@@ -86,7 +86,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
       </div>
        
       <div
-        class="lck-color-content"
+        class="lck-color-content block-content"
         title="Titre"
         type="Paragraph"
       >
@@ -114,7 +114,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
       </h3>
        
       <div
-        class="lck-markdown"
+        class="lck-markdown block-content"
         title="Futur Markdown"
         type="Markdown"
       >
@@ -144,7 +144,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
       </h3>
        
       <div
-        class="lck-color-content"
+        class="lck-color-content block-content"
         title="Titre"
         type="Paragraph"
       >
@@ -172,6 +172,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       </h3>
        
       <div
+        class="block-content"
         id="1"
         type="TableView"
       >

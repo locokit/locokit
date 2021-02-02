@@ -24,8 +24,11 @@
         </span>
       </div>
       <h3 v-else-if="block.title" class="lck-color-title">{{ block.title }}</h3>
+      <span class="lck-color-content" v-if="isNotYetImplemented">
+        {{ $t('pages.workspace.notYetImplementedBlock', { blockType: block.type }) }}
+      </span>
       <component
-        v-if="isBlockTypeValid"
+        v-else-if="isBlockTypeValid"
         :is="block.type"
         v-on="$listeners"
         v-bind="{
@@ -35,6 +38,7 @@
         :display-detail-button="displayDetailButton"
         :add-allowed="addAllowed"
         :export-allowed="exportAllowed"
+        class="block-content"
       />
       <span class="lck-color-content" v-else-if="block.type">
         {{ $t('pages.workspace.errorTypeBlock', { blockType: block.type }) }}
@@ -72,7 +76,10 @@ export default Vue.extend({
   computed: {
     isBlockTypeValid () {
       const values = Object.values(BLOCK_TYPE) as string[]
-      return values.includes(this.block.type) && this.block.type !== BLOCK_TYPE.KANBAN_VIEW
+      return values.includes(this.block.type)
+    },
+    isNotYetImplemented () {
+      return this.block.type === BLOCK_TYPE.KANBAN_VIEW
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
@@ -102,7 +109,6 @@ export default Vue.extend({
 <style scoped>
 .edit-block-line {
   display: flex;
-  pointer-events: all;
 }
 
 .handle-block {
@@ -120,8 +126,12 @@ export default Vue.extend({
 }
 
 .editable-block {
-  border-bottom: 1px solid var(--primary-color);
-  pointer-events: none;
   padding-left: 0.5rem;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.editable-block .block-content {
+  pointer-events: none;
+  margin-bottom: 0.5rem;
 }
 </style>
