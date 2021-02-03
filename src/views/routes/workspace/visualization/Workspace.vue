@@ -111,7 +111,7 @@ export default {
             id,
             label: text,
             to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
-            hidden: hidden === true,
+            hidden,
             active: id === this.$route.params.pageId
           }
         ))
@@ -238,14 +238,14 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.pageDelete = false
     },
-    async onPageEditInput (page = {}) {
+    async onPageEditInput ({ text, hidden } = {}) {
       try {
         this.submitting = true
-        if (page.id) {
+        if (this.currentPageToEdit.id) {
           // On update
-          const updatedPage = await lckServices.page.patch(page.id, {
-            text: page.text,
-            hidden: page.hidden
+          const updatedPage = await lckServices.page.patch(this.currentPageToEdit.id, {
+            text,
+            hidden
           })
           for (const key in updatedPage) {
             this.currentPageToEdit[key] = updatedPage[key]
@@ -253,8 +253,8 @@ export default {
         } else {
           // On create
           this.currentPageToEdit = await lckServices.page.create({
-            text: page.text,
-            hidden: page.hidden,
+            text,
+            hidden,
             chapter_id: this.currentChapterToEdit.id // eslint-disable-line @typescript-eslint/camelcase
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
@@ -266,7 +266,7 @@ export default {
         await this.goToSpecificPage(this.currentPageToEdit.id)
         this.onPageEditReset()
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.page')} ${this.currentPageToEdit.text}`, error)
       } finally {
         this.submitting = false
       }

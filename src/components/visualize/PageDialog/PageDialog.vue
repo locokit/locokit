@@ -6,14 +6,14 @@
   >
     <lck-form
       :submitting="submitting"
-      @submit="$emit('input', pageCopy)"
+      @submit="$emit('input', { text: pageTextCopy, hidden: pageHiddenCopy })"
       @cancel="$emit('close')"
     >
       <div class="p-field">
         <label for="pageTextField">{{ $t('pages.workspace.pageName') }}</label>
         <p-input-text
           id="pageTextField"
-          v-model="pageCopy.text"
+          v-model="pageTextCopy"
           required
           autofocus
         />
@@ -22,7 +22,7 @@
         <label for="PageHiddenField">{{ $t('pages.workspace.pageHidden') }}</label>
         <p-input-switch
           id="PageHiddenField"
-          v-model="pageCopy.hidden"
+          v-model="pageHiddenCopy"
         />
       </div>
     </lck-form>
@@ -60,15 +60,15 @@ export default {
   },
   data () {
     return {
-      pageCopy: {}
+      pageTextCopy: '',
+      pageHiddenCopy: false
     }
   },
   watch: {
     page: {
-      handler (newValue) {
-        this.pageCopy = {
-          ...newValue
-        }
+      handler ({ text, hidden }) {
+        this.pageTextCopy = text
+        this.pageHiddenCopy = hidden
       },
       immediate: true
     }
