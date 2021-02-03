@@ -106,7 +106,7 @@
       :block="currentBlockToEdit"
       :width="editableSidebarWidth"
       :autocompleteSuggestions="editableAutocompleteSuggestions"
-      :chapterPages="chapterPages"
+      :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
       @click-block="onBlockEditClickFromSidebar"
       @update-block="onBlockEditInput"
@@ -245,12 +245,16 @@ export default {
         }
       ]
     },
-    chapterPages: function () {
-      let chapterPages = []
+    relatedChapterPages: function () {
+      let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
-        chapterPages = this.chapters.find(chapter => chapter.id === this.page.chapter_id)?.pages
+        relatedChapterPages = this.chapters.find(
+          chapter => chapter.id === this.page.chapter_id
+        )?.pages.filter(
+          page => page.id !== this.page.id
+        )
       }
-      return chapterPages || []
+      return relatedChapterPages || []
     }
   },
   methods: {

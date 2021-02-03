@@ -61,7 +61,7 @@ const tableViewDefinition = {
   text: 'My view to display'
 }
 
-const chapterPages = [
+const relatedChapterPages = [
   { id: '1', text: 'Page 1' },
   { id: '2', text: 'Page 2' },
   { id: '3', text: 'Page 3' },
@@ -155,10 +155,10 @@ export const tableViewBlockStory = () => ({
   data () {
     return {
       block: tableViewBlock,
-      chapterPages: chapterPages
+      relatedChapterPages: relatedChapterPages
     }
   },
-  template: '<UpdateBlockForm :block="block" :chapterPages="chapterPages" />'
+  template: '<UpdateBlockForm :block="block" :relatedChapterPages="relatedChapterPages" />'
 })
 
 export const DetailViewBlockStory = () => ({

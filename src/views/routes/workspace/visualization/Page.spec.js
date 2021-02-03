@@ -116,13 +116,23 @@ const mockPages = {
     position: 2,
     hidden: true,
     containers: []
+  },
+  3: {
+    id: '3',
+    text: 'Page 3',
+    createdAt: '2020-11-02T16:11:03.109Z',
+    updatedAt: '2020-11-02T16:11:03.109Z',
+    chapter_id: 'C1',
+    position: 2,
+    hidden: true,
+    containers: []
   }
 }
 
 const mockChapters = [
   {
     id: 'C1',
-    pages: [mockPages['1']]
+    pages: [mockPages['1'], mockPages['3']]
   },
   {
     id: 'C2',
@@ -278,21 +288,21 @@ describe('Page', () => {
     describe('Chapter pages', () => {
       let wrapper
 
-      it('Return the pages of the current chapter', async () => {
+      it('Return the pages of the current chapter, excluding the current one.', async () => {
         wrapper = await shallowMount(Page, globalComponentParams())
-        expect(wrapper.vm.chapterPages.length).toBe(1)
-        expect(wrapper.vm.chapterPages[0].id).toBe(mockPages['1'].id)
+        expect(wrapper.vm.relatedChapterPages.length).toBe(1)
+        expect(wrapper.vm.relatedChapterPages[0].id).toBe(mockPages['3'].id)
       })
 
       it('Return an empty array if the page is unknown', async () => {
         wrapper = await shallowMount(Page, globalComponentParams('-1'))
-        expect(wrapper.vm.chapterPages.length).toBe(0)
+        expect(wrapper.vm.relatedChapterPages.length).toBe(0)
       })
 
       it('Return an empty array if there is not chapters', async () => {
         wrapper = await shallowMount(Page, globalComponentParams())
         await wrapper.setProps({ chapters: null })
-        expect(wrapper.vm.chapterPages.length).toBe(0)
+        expect(wrapper.vm.relatedChapterPages.length).toBe(0)
       })
     })
   })

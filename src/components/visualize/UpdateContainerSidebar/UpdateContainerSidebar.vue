@@ -90,7 +90,7 @@
             <update-block-form
               :block="block"
               :autocompleteSuggestions="autocompleteSuggestions"
-              :chapterPages="chapterPages"
+              :relatedChapterPages="relatedChapterPages"
               @input="onBlockEditInput"
               @close="resetSidebar"
               @search-table-view="$emit('search-table-view', $event)"
@@ -154,7 +154,7 @@ export default {
       type: Array,
       default: () => ([])
     } as Vue.PropOptions<{ label: string; value: string }[]>,
-    chapterPages: {
+    relatedChapterPages: {
       type: Array,
       default: () => ([])
     }
