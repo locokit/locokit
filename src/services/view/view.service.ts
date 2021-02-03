@@ -34,6 +34,7 @@ export default function (app: Application) {
       '$sort',
       '$any',
       '$eager',
+      '$joinRelation',
       '$modifyEager'
     ],
     allowedEager: '[columns.[column_type], rows]',
