@@ -119,7 +119,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
   <div
     class="p-dialog-mask p-component-overlay "
     isactionform="true"
-    style="z-index: 1010;"
+    style="z-index: 1014;"
   >
     <div
       aria-labelledby="pv_id_20_header"
