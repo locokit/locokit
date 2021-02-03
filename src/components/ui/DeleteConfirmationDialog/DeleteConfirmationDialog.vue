@@ -1,8 +1,7 @@
 <template>
-  <lck-dialog
+  <lck-dialog-form
     :visible="visible"
     :header="$t('form.delete')"
-    :isActionForm="true"
     :submitting="submitting"
     @input="$emit('input', value)"
     @close="$emit('close')"
@@ -13,16 +12,16 @@
       </template>
       <template v-else>{{$t('form.deleteConfirmation')}}</template>
     </p>
-  </lck-dialog>
+  </lck-dialog-form>
 </template>
 
 <script>
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'DeleteConfirmationDialog',
   components: {
-    'lck-dialog': Dialog
+    'lck-dialog-form': DialogForm
   },
   props: {
     itemCategory: {

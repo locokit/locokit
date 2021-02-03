@@ -1,10 +1,9 @@
 <template>
-  <lck-dialog
+  <lck-dialog-form
     :visible.sync="visible"
     :header="$t('pages.databaseSchema.createTableModal.createTable')"
     @input="confirmCreateTableModal"
     @close="closeCreateTableModal"
-    :isActionForm="true"
   >
     <div class="p-field p-mt-4">
       <label for="table-name">
@@ -22,18 +21,22 @@
         {{ errorTableNameToCreate }}
       </small>
     </div>
-  </lck-dialog>
+  </lck-dialog-form>
 </template>
+
 <script>
 import Vue from 'vue'
+
 import { lckServices } from '@/services/lck-api'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+
 import InputText from 'primevue/inputtext'
+
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'CreateTableModal',
   components: {
-    'lck-dialog': Vue.extend(Dialog),
+    'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText)
   },
   props: {

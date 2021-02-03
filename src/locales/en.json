@@ -270,6 +270,7 @@
         "createColumn": "Create column",
         "updateColumn": "Update column",
         "columnName": "Column name",
+        "reference": "Reference",
         "columnType": "Column type",
         "selectColumnType": "Select column type",
         "errorNoData": "Please fill in the fields"

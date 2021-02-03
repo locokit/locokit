@@ -1,29 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = `
+exports[`storyshots components/ui/DialogForm default 1`] = `
 <div
   style="height: 100%;"
 >
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1008;"
+      style="z-index: 1015;"
     >
       <div
-        aria-labelledby="pv_id_15_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1009;"
+        style="z-index: 1016;"
+      >
+        <div
+          class="p-dialog-header"
+        >
+          <!---->
+           
+          <div
+            class="p-dialog-header-icons"
+          >
+            <!---->
+             
+            <button
+              aria-label="close"
+              class="p-dialog-header-icon p-dialog-header-close p-link"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="p-dialog-header-close-icon pi pi-times"
+              />
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </div>
+         
+        <div
+          class="p-dialog-content"
+          style="max-height: 70vh;"
+        />
+         
+        <div
+          class="p-dialog-footer"
+        >
+          <button
+            class="p-button-text p-button-secondary p-button p-component"
+            type="button"
+          >
+            <span
+              class="pi pi-times p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Cancel
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <button
+            class="p-button-primary p-button p-component"
+            type="submit"
+          >
+            <span
+              class="pi pi-check p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Submit
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/ui/DialogForm with header and content 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form>
+    <div
+      class="p-dialog-mask p-component-overlay "
+      style="z-index: 1016;"
+    >
+      <div
+        aria-labelledby="pv_id_21_header"
+        aria-modal="true"
+        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+        role="dialog"
+        style="z-index: 1017;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_15_header"
+            id="pv_id_21_header"
           >
-            Delete
+            This is the header
           </span>
            
           <div
@@ -51,9 +146,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
           class="p-dialog-content"
           style="max-height: 70vh;"
         >
-          <p>
-            Confirm that you want to delete the element.
-          </p>
+          <div
+            class="p-field"
+          >
+            <label
+              for="example"
+            >
+               Input Label
+            </label>
+             
+            <input
+              id="example"
+              name="example"
+              type="text"
+            />
+          </div>
         </div>
          
         <div
@@ -105,30 +212,32 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
 </div>
 `;
 
-exports[`storyshots components/visualize/DeleteConfirmationDialog on submitting 1`] = `
+exports[`storyshots components/ui/DialogForm with header, content and actions 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
+  <form
+    isactionform="true"
+  >
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1009;"
+      style="z-index: 1017;"
     >
       <div
-        aria-labelledby="pv_id_16_header"
+        aria-labelledby="pv_id_22_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1010;"
+        style="z-index: 1018;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_16_header"
+            id="pv_id_22_header"
           >
-            Delete
+            This is the header
           </span>
            
           <div
@@ -156,232 +265,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog on submitting 
           class="p-dialog-content"
           style="max-height: 70vh;"
         >
-          <p>
-            Confirm that you want to delete the element.
-          </p>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-text p-button p-component"
-            disabled="disabled"
-            type="button"
-          >
-            <span
-              class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Please wait
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`] = `
-<div
-  style="height: 100%;"
->
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1010;"
-    >
-      <div
-        aria-labelledby="pv_id_17_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1011;"
-      >
-        <div
-          class="p-dialog-header"
-        >
-          <span
-            class="p-dialog-title"
-            id="pv_id_17_header"
-          >
-            Delete
-          </span>
-           
           <div
-            class="p-dialog-header-icons"
+            class="p-field"
           >
-            <!---->
-             
-            <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
-              type="button"
+            <label
+              for="example"
             >
-              <span
-                class="p-dialog-header-close-icon pi pi-times"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
+               Input Label
+            </label>
+             
+            <input
+              id="example"
+              name="example"
+              type="text"
+            />
           </div>
-        </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <p>
-            
-      Confirm that you want to delete the following element: 
-            <strong>
-               Book name
-            </strong>
-            .
-    
-          </p>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`storyshots components/visualize/DeleteConfirmationDialog with a name and a category 1`] = `
-<div
-  style="height: 100%;"
->
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1011;"
-    >
-      <div
-        aria-labelledby="pv_id_18_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1012;"
-      >
-        <div
-          class="p-dialog-header"
-        >
-          <span
-            class="p-dialog-title"
-            id="pv_id_18_header"
-          >
-            Delete
-          </span>
-           
-          <div
-            class="p-dialog-header-icons"
-          >
-            <!---->
-             
-            <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="p-dialog-header-close-icon pi pi-times"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <p>
-            
-      Confirm that you want to delete the following element: 
-            <strong>
-              book Book name
-            </strong>
-            .
-    
-          </p>
         </div>
          
         <div
