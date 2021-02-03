@@ -1,5 +1,5 @@
 <template>
-  <lck-dialog
+  <lck-dialog-form
     :visible.sync="visible"
     :header="
       currentData.id
@@ -8,7 +8,6 @@
     "
     @input="$emit('input', currentData)"
     @close="$emit('close')"
-    :isActionForm="true"
   >
     <div class="p-field">
       <label for="viewTextField">
@@ -29,19 +28,21 @@
         iconPos="right"
       />
     </div>
-  </lck-dialog>
+  </lck-dialog-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+
 import InputText from 'primevue/inputtext'
 import ToggleButton from 'primevue/togglebutton'
+
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'ViewDialog',
   components: {
-    'lck-dialog': Vue.extend(Dialog),
+    'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText),
     'p-toggle-button': Vue.extend(ToggleButton)
   },

@@ -344,7 +344,9 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           </div>
         </div>
          
-        <!---->
+        <form>
+          <!---->
+        </form>
       </div>
     </div>
   </div>

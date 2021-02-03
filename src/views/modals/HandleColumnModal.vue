@@ -1,5 +1,5 @@
 <template>
-  <lck-dialog
+  <lck-dialog-form
     :visible.sync="visible"
     :header="
       columnToHandle
@@ -8,7 +8,6 @@
     "
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
-    :isActionForm="true"
   >
     <div v-if="columnToHandle" class="p-mb-3">
       UUID : {{ columnToHandle.id }}
@@ -67,29 +66,32 @@
         {{ errorHandleColumn }}
       </small>
     </div>
-  </lck-dialog>
+  </lck-dialog-form>
 </template>
 
 <script>
 import Vue from 'vue'
+
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
-import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn'
-import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
+
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import InputSwitch from 'primevue/inputswitch'
 import InputNumber from 'primevue/inputnumber'
 
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
+import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
+
 export default {
   name: 'HandleColumnModal',
   components: {
-    'lck-dialog': Vue.extend(Dialog),
-    'lck-select-type-column': Vue.extend(SelectTypeColumn),
-    'lck-relation-between-tables-type-column': Vue.extend(RelationBetweenTablesTypeColumn),
-    'lck-looked-up-type-column': Vue.extend(LookedUpTypeColumn),
+    'lck-dialog-form': DialogForm,
+    'lck-select-type-column': SelectTypeColumn,
+    'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
+    'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-switch': Vue.extend(InputSwitch),
@@ -214,6 +216,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 /deep/ .p-dialog-content {
   display: flex;

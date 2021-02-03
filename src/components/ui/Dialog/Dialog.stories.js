@@ -20,14 +20,6 @@ defaultStory.args = {
 export const withHeaderAndContent = () => (
   {
     components: { Dialog },
-    data () {
-      return {
-        currentData: {
-          id: 1,
-          text: 'Hello world'
-        }
-      }
-    },
     template: `
       <Dialog
         :visible="true"
@@ -45,14 +37,6 @@ withHeaderAndContent.args = { timeoutBeforeScreenshot: 1000 }
 export const withHeaderContentAndActions = () => (
   {
     components: { Dialog },
-    data () {
-      return {
-        currentData: {
-          id: 1,
-          text: 'Hello world'
-        }
-      }
-    },
     template: `
       <Dialog
         :visible="true"
