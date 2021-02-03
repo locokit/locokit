@@ -229,7 +229,13 @@
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
       "buttonVisualization": "Visualization",
-      "buttonProcess": "Processes"
+      "buttonProcess": "Processes",
+      "createChapter": "Create a new chapter",
+      "editChapter": "Edit a chapter",
+      "chapter": "Chapter",
+      "chapterName": "Chapter name",
+      "editMode": "Edit mode",
+      "createElement": "Create a new element"
     },
     "database": {
       "title": "Database",
@@ -368,6 +374,7 @@
   "error": {
     "basic": "An error has occurred.",
     "http": {
+      "400": "Bad request",
       "401": "Access not granted",
       "403": "Access forbidden",
       "404": "Not found",
@@ -393,7 +400,9 @@
     "isRequired": "This field is required",
     "yes": "Yes",
     "no": "No",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "deleteConfirmation": "Confirm that you want to delete the element.",
+    "specificDeleteConfirmation": "Confirm that you want to delete the following element:"
   },
   "date": {
     "dateFormat": "MM/dd/yyyy",

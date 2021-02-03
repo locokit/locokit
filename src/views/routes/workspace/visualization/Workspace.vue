@@ -1,34 +1,85 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
     <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <lck-sidebar :items="sidebarItems" v-on="$listeners" />
+      <lck-sidebar
+        :items="sidebarItems"
+        :displayEditActions="editMode"
+        :createItemLabel="$t('pages.workspace.createChapter')"
+        @add-item="onChapterEditClick"
+        @edit-item="onChapterEditClick"
+        @delete-item="onChapterDeleteClick"
+        v-on="$listeners"
+      />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
       <router-view />
+      <p-toggle-button
+        v-if="isAdmin"
+        v-model="editMode"
+        :onLabel="$t('pages.workspace.editMode')"
+        :offLabel="$t('pages.workspace.editMode')"
+        onIcon="pi pi-pencil"
+        offIcon="pi pi-pencil"
+        class="p-button-rounded lck-edit-button"
+      />
+      <lck-chapter-dialog
+        :visible="dialogVisibility.chapterEdit"
+        :chapter="currentChapterToEdit"
+        :submitting="submitting"
+        @close="onChapterEditReset"
+        @input="onChapterEditInput"
+      />
+      <lck-confirmation-dialog
+        :visible="dialogVisibility.chapterDelete"
+        :value="currentChapterToEdit"
+        :itemCategory="$t('pages.workspace.chapter')"
+        :submitting="submitting"
+        @close="onChapterDeleteReset"
+        @input="onChapterDeleteInput"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import { authState } from '@/store/auth'
+import { USER_PROFILE } from '@locokit/lck-glossary'
+
+import ToggleButton from 'primevue/togglebutton'
+
+import { lckServices } from '@/services/lck-api'
 import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
+import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
+import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {
   name: 'Workspace',
   components: {
-    'lck-sidebar': Sidebar
+    'lck-sidebar': Sidebar,
+    'lck-chapter-dialog': ChapterDialog,
+    'lck-confirmation-dialog': DeleteConfirmationDialog,
+    'p-toggle-button': Vue.extend(ToggleButton)
   },
   props: ['workspaceId'],
   data () {
     return {
+      currentChapterToEdit: {},
+      editMode: false,
+      dialogVisibility: {
+        chapterEdit: false,
+        chapterDelete: false
+      },
+      submitting: false,
       workspaceContent: []
     }
   },
   computed: {
     sidebarItems () {
       if (!this.workspaceContent?.chapters) return []
-      return this.workspaceContent.chapters.map(({ id, text, pages }) => {
+      return this.workspaceContent.chapters.map(({ id, text, pages = [] }) => {
         const subitems = pages.map(({ text, id }) => (
           {
             id,
@@ -46,6 +97,9 @@ export default {
           }
         )
       })
+    },
+    isAdmin () {
+      return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
     }
   },
   methods: {
@@ -57,13 +111,77 @@ export default {
       ) {
         await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
       }
+    },
+    onChapterEditClick (chapterId) {
+      if (chapterId) {
+        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
+      }
+      this.dialogVisibility.chapterEdit = true
+    },
+    onChapterDeleteClick (chapterId) {
+      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
+      this.dialogVisibility.chapterDelete = true
+    },
+    onChapterEditReset () {
+      this.currentChapterToEdit = {}
+      this.dialogVisibility.chapterEdit = false
+    },
+    onChapterDeleteReset () {
+      this.currentChapterToEdit = {}
+      this.dialogVisibility.chapterDelete = false
+    },
+    async onChapterEditInput (chapterText) {
+      try {
+        this.submitting = true
+        if (this.currentChapterToEdit.id) {
+          // On update
+          const updatedChapter = await lckServices.chapter.patch(this.currentChapterToEdit.id, {
+            text: chapterText
+          })
+          for (const key in updatedChapter) {
+            this.currentChapterToEdit[key] = updatedChapter[key]
+          }
+        } else {
+          // On create
+          const newChapter = await lckServices.chapter.create({
+            text: chapterText,
+            workspace_id: this.workspaceId // eslint-disable-line @typescript-eslint/camelcase
+          })
+          this.workspaceContent.chapters.push(newChapter)
+        }
+        this.onChapterEditReset()
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${this.currentChapterToEdit.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    async onChapterDeleteInput (chapter = {}) {
+      try {
+        this.submitting = true
+        if (chapter.id) {
+          await lckServices.chapter.remove(chapter.id)
+          const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
+          if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
+        }
+        this.onChapterDeleteReset()
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    displayToastOnError (summary, error) {
+      this.$toast.add({
+        severity: 'error',
+        summary,
+        detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+        life: 3000
+      })
     }
   },
   async mounted () {
     this.workspaceContent = await retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
-    await this.goToFirstPage()
-  },
-  async updated () {
     await this.goToFirstPage()
   }
 }
@@ -73,5 +191,15 @@ export default {
 .p-grid .main-container .responsive-table-wrapper {
   background: rgb(237,237,237) !important;
   background: linear-gradient(180deg, rgba(237,237,237,1) 2.5rem, rgba(255,255,255,1) 2.3rem, rgba(255,255,255,1) 100%) !important;
+}
+
+</style>
+
+<style scoped>
+.lck-edit-button {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  z-index: 2;
 }
 </style>

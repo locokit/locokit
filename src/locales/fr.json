@@ -232,7 +232,13 @@
       "buttonDatabase": "Base de données",
       "buttonSchema": "Schéma",
       "buttonVisualization": "Visualisation",
-      "buttonProcess": "Processus"
+      "buttonProcess": "Processus",
+      "createChapter": "Créer un nouveau chapitre",
+      "editChapter": "Modifier un chapitre",
+      "chapter": "Chapitre",
+      "chapterName": "Nom du chapitre",
+      "editMode": "Mode édition",
+      "createElement": "Créer un nouvel élément"
     },
     "database": {
       "title": "Base de données",
@@ -371,6 +377,7 @@
   "error": {
     "basic": "Une erreur est survenue.",
     "http": {
+      "400": "Requête incorrecte",
       "401": "Accès non authentifié",
       "403": "Accès interdit",
       "404": "Non trouvé",
@@ -396,7 +403,9 @@
     "isRequired": "Ce champ est requis",
     "yes": "Oui",
     "no": "Non",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "deleteConfirmation": "Confirmer la suppression.",
+    "specificDeleteConfirmation": "Confirmer la suppression de l'élément suivant :"
   },
   "date": {
     "dateFormat": "dd/MM/yyyy",

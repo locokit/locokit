@@ -1,124 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/ui/DialogForm default 1`] = `
+exports[`storyshots components/visualize/ChapterDialog chapter create 1`] = `
 <div
   style="height: 100%;"
 >
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1015;"
+      style="z-index: 1022;"
     >
       <div
+        aria-labelledby="pv_id_28_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1016;"
-      >
-        <div
-          class="p-dialog-header"
-        >
-          <!---->
-           
-          <div
-            class="p-dialog-header-icons"
-          >
-            <!---->
-             
-            <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="p-dialog-header-close-icon pi pi-times"
-              />
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        />
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`storyshots components/ui/DialogForm with header and content 1`] = `
-<div
-  style="height: 100%;"
->
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1016;"
-    >
-      <div
-        aria-labelledby="pv_id_21_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1017;"
+        style="z-index: 1023;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_21_header"
+            id="pv_id_28_header"
           >
-            This is the header
+            Create a new chapter
           </span>
            
           <div
@@ -150,15 +55,16 @@ exports[`storyshots components/ui/DialogForm with header and content 1`] = `
             class="p-field"
           >
             <label
-              for="example"
+              for="chapterTextField"
             >
-               Input Label
+              Chapter name
             </label>
              
             <input
-              id="example"
-              name="example"
-              type="text"
+              autofocus="autofocus"
+              class="p-inputtext p-component"
+              id="chapterTextField"
+              required="required"
             />
           </div>
         </div>
@@ -212,32 +118,30 @@ exports[`storyshots components/ui/DialogForm with header and content 1`] = `
 </div>
 `;
 
-exports[`storyshots components/ui/DialogForm with header, content and actions 1`] = `
+exports[`storyshots components/visualize/ChapterDialog chapter edit 1`] = `
 <div
   style="height: 100%;"
 >
-  <form
-    isactionform="true"
-  >
+  <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1017;"
+      style="z-index: 1023;"
     >
       <div
-        aria-labelledby="pv_id_22_header"
+        aria-labelledby="pv_id_29_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1018;"
+        style="z-index: 1024;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_22_header"
+            id="pv_id_29_header"
           >
-            This is the header
+            Edit a chapter
           </span>
            
           <div
@@ -269,15 +173,16 @@ exports[`storyshots components/ui/DialogForm with header, content and actions 1`
             class="p-field"
           >
             <label
-              for="example"
+              for="chapterTextField"
             >
-               Input Label
+              Chapter name
             </label>
              
             <input
-              id="example"
-              name="example"
-              type="text"
+              autofocus="autofocus"
+              class="p-inputtext p-component p-filled"
+              id="chapterTextField"
+              required="required"
             />
           </div>
         </div>

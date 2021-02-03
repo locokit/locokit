@@ -6,9 +6,21 @@
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
-      :header="item.label"
       :active="item.active"
     >
+      <template #header>
+        {{item.label}}
+        <span class="action-set" v-if="displayEditActions">
+          <span
+            @click.stop="$emit('edit-item', item.id)"
+            class="pi pi-pencil action-button"
+          />
+          <span
+            @click.stop="$emit('delete-item', item.id)"
+            class="pi pi-trash action-button"
+          />
+        </span>
+      </template>
       <router-link
         v-for="subitem in item.subitems"
         :key="subitem.id"
@@ -19,6 +31,14 @@
         {{subitem.label}}
       </router-link>
     </p-accordion-tab>
+    <p-button
+      v-if="displayEditActions"
+      :label="createItemLabel"
+      iconPos="right"
+      icon="pi pi-plus"
+      class="new-item-button"
+      @click="$emit('add-item')"
+    />
   </p-accordion>
 </template>
 
@@ -26,6 +46,7 @@
 import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
+import Button from 'primevue/button'
 
 export default {
   name: 'Sidebar',
@@ -38,11 +59,20 @@ export default {
           subitems: []
         }]
       }
+    },
+    displayEditActions: {
+      type: Boolean,
+      default: false
+    },
+    createItemLabel: {
+      type: String,
+      default () { return this.$t('pages.workspace.createElement') }
     }
   },
   components: {
     'p-accordion': Vue.extend(Accordion),
-    'p-accordion-tab': Vue.extend(AccordionTab)
+    'p-accordion-tab': Vue.extend(AccordionTab),
+    'p-button': Vue.extend(Button)
   }
 }
 </script>
@@ -65,6 +95,31 @@ a:hover,
   background-color: var(--text-color);
   color: var(--primary-color);
 }
+
+.action-button {
+  padding: 0.5em;
+  margin: -0.5em 0.0em;
+}
+
+.action-button:hover {
+  color: var(--text-color);
+  background-color: var(--primary-color-darken);
+  transition-duration: 0.5s;
+}
+
+.action-set {
+  padding-left: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.new-item-button {
+  width: 100%;
+  text-align: left;
+  padding-left: 0.5rem;
+  line-height: 2rem;
+}
+
 </style>
 
 <style>
