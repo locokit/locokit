@@ -8,7 +8,7 @@
   >
       <template v-if="value && value[fieldToDisplay]">
         <p class="lck-color-content">{{ $t('form.specificDeleteConfirmation') }}</p>
-        <p class="lck-color-content"><strong>{{ itemCategory}} / {{ value[fieldToDisplay] }}</strong></p>
+        <p class="lck-color-content"><strong>{{ itemCategory && `${itemCategory} / ` }}{{ value[fieldToDisplay] }}</strong></p>
       </template>
       <template v-else>
         <p class="lck-color-content">{{$t('form.deleteConfirmation')}}</p>
