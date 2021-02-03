@@ -6,14 +6,14 @@
   >
     <lck-form
       :submitting="submitting"
-      @submit="$emit('input', chapterCopy)"
+      @submit="$emit('input', chapterTextCopy)"
       @cancel="$emit('close')"
     >
       <div class="p-field">
         <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
         <p-input-text
           id="chapterTextField"
-          v-model="chapterCopy.text"
+          v-model="chapterTextCopy"
           required
           autofocus
         />
@@ -51,15 +51,13 @@ export default {
   },
   data () {
     return {
-      chapterCopy: {}
+      chapterTextCopy: ''
     }
   },
   watch: {
     chapter: {
-      handler (newValue) {
-        this.chapterCopy = {
-          ...newValue
-        }
+      handler ({ text }) {
+        this.chapterTextCopy = text
       },
       immediate: true
     }

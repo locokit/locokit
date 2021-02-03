@@ -130,13 +130,13 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterDelete = false
     },
-    async onChapterEditInput (chapter = {}) {
+    async onChapterEditInput (chapterText) {
       try {
         this.submitting = true
-        if (chapter.id) {
+        if (this.currentChapterToEdit.id) {
           // On update
-          const updatedChapter = await lckServices.chapter.patch(chapter.id, {
-            text: chapter.text
+          const updatedChapter = await lckServices.chapter.patch(this.currentChapterToEdit.id, {
+            text: chapterText
           })
           for (const key in updatedChapter) {
             this.currentChapterToEdit[key] = updatedChapter[key]
@@ -144,14 +144,14 @@ export default {
         } else {
           // On create
           const newChapter = await lckServices.chapter.create({
-            text: chapter.text,
+            text: chapterText,
             workspace_id: this.workspaceId // eslint-disable-line @typescript-eslint/camelcase
           })
           this.workspaceContent.chapters.push(newChapter)
         }
         this.onChapterEditReset()
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${this.currentChapterToEdit.text}`, error)
       } finally {
         this.submitting = false
       }

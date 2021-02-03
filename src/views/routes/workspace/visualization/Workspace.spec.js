@@ -323,7 +323,7 @@ describe('Workspace', () => {
 
       it('Create a new chapter if the input event is emitted without an existing chapter', async () => {
         await wrapper.vm.onChapterEditClick()
-        await chapterWrapper.vm.$emit('input', { text: newChapterName })
+        await chapterWrapper.vm.$emit('input', newChapterName)
         // Send API request
         expect(lckServices.chapter.create).toHaveBeenCalledWith({ text: newChapterName, workspace_id: mockWorkspaceContent.id })
         // Update the component data
@@ -356,7 +356,7 @@ describe('Workspace', () => {
 
       it('Update the chapter if the input event is emitted with an existing chapter', async () => {
         await wrapper.vm.onChapterEditClick('1')
-        await chapterWrapper.vm.$emit('input', { id: '1', text: newChapterName })
+        await chapterWrapper.vm.$emit('input', newChapterName)
         // Send API request
         expect(lckServices.chapter.patch).toHaveBeenCalledWith('1', { text: newChapterName })
         // Update the component data
