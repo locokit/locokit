@@ -91,6 +91,7 @@
               :block="block"
               :autocompleteSuggestions="autocompleteSuggestions"
               :relatedChapterPages="relatedChapterPages"
+              :submitting="submitting"
               @input="onBlockEditInput"
               @close="resetSidebar"
               @search-table-view="$emit('search-table-view', $event)"

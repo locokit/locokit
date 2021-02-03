@@ -677,11 +677,6 @@ export default {
   cursor: move;
 }
 
-.editable-block {
-  position: relative;
-  min-height: 3rem;
-}
-
 .p-button.new-block-button {
   color: var(--primary-color-darken);
   width: 100%;
