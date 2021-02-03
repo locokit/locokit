@@ -85,7 +85,7 @@
         </p-column>
         <div
           v-for="column in definition.columns"
-          :key="column.id"
+          :key="`${column.id}-${unorderableColumnsNumber}`"
         >
           <p-column
             :field="column.id"

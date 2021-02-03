@@ -39,7 +39,7 @@
         :value="pageDetailId"
         :showClear="true"
         :placeholder="$t('components.datatable.placeholder')"
-        @input="onChangeDetailPage"
+        @input="$emit('update:pageDetailId', $event)"
       />
     </div>
   </div>
@@ -111,9 +111,6 @@ export default {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
       this.$emit('component-refresh-required', true)
-    },
-    onChangeDetailPage (event: string) {
-      this.$emit('update:pageDetailId', event)
     }
   }
 }

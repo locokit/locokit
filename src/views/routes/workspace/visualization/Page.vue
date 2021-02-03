@@ -530,7 +530,7 @@ export default {
         // Reload the block definition and content if it is necessary
         if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${this.currentBlockToEdit.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${this.currentBlockToEdit.title}`, error)
       } finally {
         this.submitting = false
       }
