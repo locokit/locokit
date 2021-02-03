@@ -48,11 +48,10 @@
       v-on="$listeners"
     />
 
-    <lck-dialog
+    <lck-dialog-form
       :visible.sync="displayNewDialog"
       :header="$t('components.datatable.addNewRow')"
       :submitting="submitting"
-      :isActionForm="true"
       @close="displayNewDialog = false"
       @input="handleSubmitCreateRow"
     >
@@ -64,19 +63,20 @@
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
       />
-    </lck-dialog>
+    </lck-dialog-form>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import Button from 'primevue/button'
 import { formatISO } from 'date-fns'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
@@ -86,7 +86,7 @@ export default {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
-    'lck-dialog': Dialog,
+    'lck-dialog-form': DialogForm,
     'p-button': Vue.extend(Button)
   },
   props: {

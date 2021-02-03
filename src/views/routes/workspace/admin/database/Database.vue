@@ -132,12 +132,11 @@
         </div>
       </div>
 
-      <lck-dialog
+      <lck-dialog-form
         :visible.sync="displayNewDialog"
         :header="$t('pages.database.addNewRow')"
         @close="displayNewDialog = false"
         :submitting="submitting"
-        :isActionForm="true"
         @input="saveRow"
       >
         <lck-data-detail
@@ -148,7 +147,7 @@
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
         />
-      </lck-dialog>
+      </lck-dialog-form>
 
       <lck-dialog
         :visible.sync="displayRowDialog"
@@ -216,6 +215,7 @@ import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -237,6 +237,7 @@ export default {
     'lck-process-panel': ProcessPanel,
     'lck-process-listing': ProcessListing,
     'lck-dialog': Dialog,
+    'lck-dialog-form': DialogForm,
     'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),

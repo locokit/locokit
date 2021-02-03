@@ -118,7 +118,8 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1014;"
+    isactionform="true"
+    style="z-index: 1010;"
   >
     <div
       aria-labelledby="pv_id_20_header"
@@ -167,49 +168,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
       
       </div>
        
-      <div
-        class="p-dialog-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-check p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Submit
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
+      <!---->
     </div>
   </div>
 </div>
