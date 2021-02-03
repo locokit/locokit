@@ -1,38 +1,32 @@
 <template>
-  <lck-dialog
-    :visible="visible"
+  <lck-dialog-form
     :header="chapter.id ? $t('pages.workspace.editChapter') : $t('pages.workspace.createChapter')"
+    :submitting="submitting"
+    :visible="visible"
     @close="$emit('close')"
+    @input="$emit('input', chapterTextCopy)"
   >
-    <lck-form
-      :submitting="submitting"
-      @submit="$emit('input', chapterCopy)"
-      @cancel="$emit('close')"
-    >
-      <div class="p-field">
-        <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
-        <p-input-text
-          id="chapterTextField"
-          v-model="chapterCopy.text"
-          required
-          autofocus
-        />
-      </div>
-    </lck-form>
-  </lck-dialog>
+    <div class="p-field">
+      <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
+      <p-input-text
+        id="chapterTextField"
+        v-model="chapterTextCopy"
+        required
+        autofocus
+      />
+    </div>
+  </lck-dialog-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import LckForm from '@/components/ui/Form/Form.vue'
-import LckDialog from '@/components/ui/Dialog/Dialog.vue'
+import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import InputText from 'primevue/inputtext'
 
 export default {
   name: 'ChapterDialog',
   components: {
-    'lck-form': LckForm,
-    'lck-dialog': LckDialog,
+    'lck-dialog-form': LckDialogForm,
     'p-input-text': Vue.extend(InputText)
   },
   props: {
@@ -51,15 +45,13 @@ export default {
   },
   data () {
     return {
-      chapterCopy: {}
+      chapterTextCopy: ''
     }
   },
   watch: {
     chapter: {
-      handler (newValue) {
-        this.chapterCopy = {
-          ...newValue
-        }
+      handler ({ text }) {
+        this.chapterTextCopy = text
       },
       immediate: true
     }
