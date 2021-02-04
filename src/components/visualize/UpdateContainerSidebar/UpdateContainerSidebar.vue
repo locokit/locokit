@@ -23,7 +23,7 @@
                   required
                 />
               </div>
-              <div class="p-d-flex p-ai-end">
+              <div class="p-d-flex p-ai-end p-ml-1">
                 <p-button
                   disabled
                   v-if="submitting"
@@ -36,7 +36,7 @@
                   type="submit"
                   :label="containerCopy.id ? $t('form.update') : $t('form.save')"
                   icon="pi pi-check"
-                  class="p-button-text"
+                  class="p-button-primary"
                 />
               </div>
             </form>

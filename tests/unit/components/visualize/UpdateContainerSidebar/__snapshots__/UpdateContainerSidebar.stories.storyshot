@@ -73,10 +73,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
-                    class="p-button-text p-button p-component"
+                    class="p-button-primary p-button p-component"
                     type="submit"
                   >
                     <span
@@ -183,10 +183,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
-                    class="p-button-text p-button p-component"
+                    class="p-button-primary p-button p-component"
                     type="submit"
                   >
                     <span
@@ -520,7 +520,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
                     class="p-button-text p-button p-component"
@@ -728,10 +728,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
-                    class="p-button-text p-button p-component"
+                    class="p-button-primary p-button p-component"
                     type="submit"
                   >
                     <span
@@ -1065,10 +1065,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
-                    class="p-button-text p-button p-component"
+                    class="p-button-primary p-button p-component"
                     type="submit"
                   >
                     <span
@@ -1285,10 +1285,10 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
                 </div>
                  
                 <div
-                  class="p-d-flex p-ai-end"
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
                   <button
-                    class="p-button-text p-button p-component"
+                    class="p-button-primary p-button p-component"
                     type="submit"
                   >
                     <span
