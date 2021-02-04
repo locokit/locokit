@@ -99,7 +99,6 @@
       />
     </div>
     <update-container-sidebar
-      :key="page.id"
       :submitting="submitting"
       :showSidebar="showUpdateContainerSidebar"
       :container="currentContainerToEdit"
