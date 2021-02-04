@@ -15,36 +15,83 @@
         :model="breadcrumb"
         />
     </div>
-    <div
-      v-for="container in page.containers"
-      :key="container.id"
+    <draggable
+      :key="page.id"
+      v-model="page.containers"
+      handle=".handle"
+      @change="onContainerReorderClick"
     >
-      <Block
-        v-for="block in container.blocks"
-        :key="block.id"
-        :block="block"
-        :autocompleteSuggestions="autocompleteSuggestions"
-        :exporting="exporting"
-        :cellState="cellState"
-        class="p-mb-4"
-        v-on="$listeners"
-        @update-cell="onUpdateCell(block, $event)"
-        @update-content="onUpdateContentBlockTableView(block, $event)"
-        @update-suggestions="onUpdateSuggestions"
-        @sort="onSort(block, $event)"
-        @open-detail="onPageDetail(block, $event)"
-        @create-row="onCreateRow(block, $event)"
-        @export-view="onExportView(block)"
-        @update-filters="onUpdateFilters(block, $event)"
-      />
-    </div>
+      <div
+        v-for="container in page.containers"
+        :key="container.id"
+        :class="{
+          'editable-container': editMode
+        }"
+      >
+        <div v-if="editMode" class="edit-container-line">
+          <span>
+            <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
+          </span>
+          <h2 class="lck-color-title">{{ container.text }}</h2>
+          <span class="p-buttonset">
+            <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
+            <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
+          </span>
+        </div>
+        <div class="blocks">
+          <Block
+            v-for="block in container.blocks"
+            :key="block.id"
+            :block="block"
+            :autocompleteSuggestions="autocompleteSuggestions"
+            :exporting="exporting"
+            :cellState="cellState"
+            class="p-mb-4 lck-block"
+            v-on="$listeners"
+            @update-cell="onUpdateCell(block, $event)"
+            @update-content="onUpdateContentBlockTableView(block, $event)"
+            @update-suggestions="onUpdateSuggestions"
+            @sort="onSort(block, $event)"
+            @open-detail="onPageDetail(block, $event)"
+            @create-row="onCreateRow(block, $event)"
+            @export-view="onExportView(block)"
+            @update-filters="onUpdateFilters(block, $event)"
+          />
+        </div>
+      </div>
+    </draggable>
+    <p-button
+      v-if="editMode"
+      icon="pi pi-plus"
+      class="new-container-button p-button-outlined"
+      iconPos="right"
+      @click="onContainerEditClick({})"
+    />
+    <update-container-sidebar
+      :submitting="submitting"
+      :showSidebar="showUpdateContainerSidebar"
+      :container="currentContainerToEdit"
+      @update-container="onContainerEditInput"
+      @close="onCloseUpdateContainerSidebar"
+    />
+    <delete-confirmation-dialog
+      :submitting="submitting"
+      :visible="dialogVisibility.containerDelete"
+      :value="currentContainerToEdit"
+      :itemCategory="$t('pages.workspace.container')"
+      @close="onContainerDeleteClose"
+      @input="onContainerDeleteInput"
+    />
   </div>
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/camelcase */
 import Vue from 'vue'
 
 import saveAs from 'file-saver'
+import Button from 'primevue/button'
+import draggable from 'vuedraggable'
 import { formatISO, isValid, parseISO } from 'date-fns'
 
 import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -61,13 +108,19 @@ import {
 import {
   patchTableData, saveTableData
 } from '@/store/database'
-import { lckHelpers } from '@/services/lck-api'
+import { lckHelpers, lckServices } from '@/services/lck-api'
+import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
+import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
 export default {
   name: 'Page',
   components: {
     Block,
-    'p-breadcrumb': Vue.extend(Breadcrumb)
+    'p-breadcrumb': Vue.extend(Breadcrumb),
+    'p-button': Vue.extend(Button),
+    draggable: Vue.extend(draggable),
+    'update-container-sidebar': UpdateContainerSidebar,
+    'delete-confirmation-dialog': DeleteConfirmationDialog
   },
   props: {
     pageId: {
@@ -77,24 +130,34 @@ export default {
     pageDetailId: {
       type: [String, Number], // param is string because its form url params
       required: false
+    },
+    editMode: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      page: null,
+      page: {},
       blocksOptions: {
 
       },
       autocompleteSuggestions: null,
       exporting: false,
-      cellState: {}
+      cellState: {},
+      showUpdateContainerSidebar: false,
+      currentContainerToEdit: {},
+      submitting: false,
+      dialogVisibility: {
+        containerDelete: false
+      }
     }
   },
   watch: {
     page (newVal) {
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      newVal.containers.forEach(container => {
+      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
         container.blocks.sort((a, b) => a.position - b.position)
         container.blocks.forEach(async block => {
           switch (block.type) {
@@ -272,6 +335,89 @@ export default {
           type: 'text/csv;charset=utf-8'
         })
       this.exporting = false
+    },
+    onContainerEditClick (containerToEdit) {
+      if (containerToEdit.id) {
+        this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToEdit.id)
+      }
+      this.showUpdateContainerSidebar = true
+    },
+    async onContainerEditInput (containerToEdit) {
+      try {
+        this.submitting = true
+        if (containerToEdit.id) {
+          // On update
+          const updatedContainer = await lckServices.container.patch(containerToEdit.id, {
+            text: containerToEdit.text
+          })
+          for (const key in updatedContainer) {
+            this.currentContainerToEdit[key] = updatedContainer[key]
+          }
+        } else {
+          // On create
+          this.currentContainerToEdit = await lckServices.container.create({
+            text: containerToEdit.text,
+            page_id: this.page.id
+          })
+          this.page.containers.push(this.currentContainerToEdit)
+        }
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToEdit.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    onContainerDeleteClick (containerToDelete) {
+      this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToDelete.id)
+      this.dialogVisibility.containerDelete = true
+    },
+    async onContainerDeleteInput (containerToDelete = {}) {
+      try {
+        this.submitting = true
+        if (containerToDelete.id) {
+          await lckServices.container.remove(containerToDelete.id)
+          const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
+          if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
+        }
+        this.onContainerDeleteClose()
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    onContainerDeleteClose () {
+      this.currentContainerToEdit = {}
+      this.dialogVisibility.containerDelete = false
+    },
+    async onContainerReorderClick ({ moved }) {
+      if (moved) {
+        const minIndex = Math.min(moved.oldIndex, moved.newIndex)
+        const maxIndex = Math.max(moved.oldIndex, moved.newIndex)
+
+        const updatedContainerPromises = []
+        for (let index = minIndex; index <= maxIndex; index++) {
+          updatedContainerPromises.push(
+            lckServices.container.patch(this.page.containers[index].id, { position: index })
+          )
+        }
+        await Promise.all(updatedContainerPromises)
+          .catch(error => {
+            this.displayToastOnError(`${this.$t('pages.workspace.page')} ${this.page.text}`, error)
+          })
+      }
+    },
+    onCloseUpdateContainerSidebar () {
+      this.currentContainerToEdit = {}
+      this.showUpdateContainerSidebar = false
+    },
+    displayToastOnError (summary, error) {
+      this.$toast.add({
+        severity: 'error',
+        summary,
+        detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+        life: 3000
+      })
     }
   },
   async mounted () {
@@ -304,3 +450,42 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.editable-container {
+  margin-bottom: 1rem;
+  border: 2px solid var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.edit-container-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-container-line .p-button {
+  height: 100%;
+}
+
+.edit-container-line .p-buttonset {
+  flex-shrink: 0;
+}
+
+.edit-container-line .handle {
+  cursor: move;
+}
+
+.editable-container .lck-block {
+  pointer-events: none;
+  border-top: 1px solid var(--primary-color);
+  padding: 0.5rem;
+}
+
+.p-button.new-container-button {
+  width: 100%;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border-width: 2px;
+}
+</style>

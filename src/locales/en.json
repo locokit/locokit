@@ -241,7 +241,15 @@
       "editPage": "Edit a page",
       "pageName": "Page Name",
       "pageHidden": "Hide the page",
-      "pagePosition": "Page position"
+      "pagePosition": "Page position",
+      "container": "container",
+      "createContainer": "Create a new container",
+      "editContainer": "Edit a container",
+      "containerName": "Container name",
+      "blocksList": "List of blocks",
+      "noBlock": "No block found",
+      "blockName": "Block name",
+      "blockType": "Block type"
     },
     "database": {
       "title": "Database",

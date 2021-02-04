@@ -17,7 +17,10 @@
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
-      <router-view :key="forceUpdateKey" />
+      <router-view
+        :key="forceUpdateKey"
+        :editMode="editMode"
+      />
       <p-toggle-button
         v-if="isAdmin"
         v-model="editMode"

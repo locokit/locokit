@@ -244,7 +244,15 @@
       "editPage": "Modifier une page",
       "pageName": "Nom de la page",
       "pageHidden": "Cacher la page",
-      "pagePosition": "Position de la page"
+      "pagePosition": "Position de la page",
+      "container": "conteneur",
+      "createContainer": "Créer un nouveau conteneur",
+      "editContainer": "Modifier un conteneur",
+      "containerName": "Nom du conteneur",
+      "blocksList": "Liste des blocs",
+      "noBlock": "Aucun bloc trouvé",
+      "blockName": "Nom du bloc",
+      "blockType": "Type du bloc"
     },
     "database": {
       "title": "Base de données",

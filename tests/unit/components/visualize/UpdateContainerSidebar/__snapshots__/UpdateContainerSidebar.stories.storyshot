@@ -1,0 +1,589 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when creating a container 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    aria-modal="true"
+    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content"
+      >
+        <h3
+          class="lck-color-title"
+        >
+          
+      Create a new container
+    
+        </h3>
+         
+        <form
+          class="p-d-flex"
+        >
+          <div
+            class="p-col"
+          >
+            <h4
+              class="lck-color-subtitle"
+            >
+              <label
+                for="container-name"
+              >
+                Container name
+              </label>
+            </h4>
+             
+            <input
+              autofocus="autofocus"
+              class="lck-color-content p-inputtext p-component"
+              id="container-name"
+              required="required"
+              type="text"
+            />
+          </div>
+           
+          <div
+            class="p-d-flex p-ai-end"
+          >
+            <button
+              class="p-button-text p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Save
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when submitting an empty container 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    aria-modal="true"
+    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content"
+      >
+        <h3
+          class="lck-color-title"
+        >
+          
+      Edit a container
+    
+        </h3>
+         
+        <form
+          class="p-d-flex"
+        >
+          <div
+            class="p-col"
+          >
+            <h4
+              class="lck-color-subtitle"
+            >
+              <label
+                for="container-name"
+              >
+                Container name
+              </label>
+            </h4>
+             
+            <input
+              autofocus="autofocus"
+              class="lck-color-content p-inputtext p-component p-filled"
+              id="container-name"
+              required="required"
+              type="text"
+            />
+          </div>
+           
+          <div
+            class="p-d-flex p-ai-end"
+          >
+            <button
+              class="p-button-text p-button p-component"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Please wait
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+         
+        <div>
+          <h4
+            class="lck-color-subtitle"
+          >
+            List of blocks
+          </h4>
+           
+          <div
+            class="p-datatable p-component"
+          >
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-datatable-wrapper"
+            >
+              <table
+                role="grid"
+              >
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+                <tbody
+                  class="p-datatable-tbody"
+                >
+                  <tr
+                    class="p-datatable-emptymessage"
+                  >
+                    <td
+                      colspan="0"
+                    >
+                      
+          No block found
+        
+                       
+                      <!---->
+                    </td>
+                  </tr>
+                </tbody>
+                 
+                <!---->
+              </table>
+            </div>
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-column-resizer-helper"
+              style="display: none;"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when updating a not empty container 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    aria-modal="true"
+    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content"
+      >
+        <h3
+          class="lck-color-title"
+        >
+          
+      Edit a container
+    
+        </h3>
+         
+        <form
+          class="p-d-flex"
+        >
+          <div
+            class="p-col"
+          >
+            <h4
+              class="lck-color-subtitle"
+            >
+              <label
+                for="container-name"
+              >
+                Container name
+              </label>
+            </h4>
+             
+            <input
+              autofocus="autofocus"
+              class="lck-color-content p-inputtext p-component p-filled"
+              id="container-name"
+              required="required"
+              type="text"
+            />
+          </div>
+           
+          <div
+            class="p-d-flex p-ai-end"
+          >
+            <button
+              class="p-button-text p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Update
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+         
+        <div>
+          <h4
+            class="lck-color-subtitle"
+          >
+            List of blocks
+          </h4>
+           
+          <div
+            class="p-datatable p-component"
+          >
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-datatable-wrapper"
+            >
+              <table
+                role="grid"
+              >
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+                <tbody
+                  class="p-datatable-tbody"
+                >
+                  <!---->
+                   
+                  <tr
+                    class=""
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                  <!---->
+                   
+                  <tr
+                    class=""
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                </tbody>
+                 
+                <!---->
+              </table>
+            </div>
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-column-resizer-helper"
+              style="display: none;"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when updating an empty container 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    aria-modal="true"
+    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content"
+      >
+        <h3
+          class="lck-color-title"
+        >
+          
+      Edit a container
+    
+        </h3>
+         
+        <form
+          class="p-d-flex"
+        >
+          <div
+            class="p-col"
+          >
+            <h4
+              class="lck-color-subtitle"
+            >
+              <label
+                for="container-name"
+              >
+                Container name
+              </label>
+            </h4>
+             
+            <input
+              autofocus="autofocus"
+              class="lck-color-content p-inputtext p-component p-filled"
+              id="container-name"
+              required="required"
+              type="text"
+            />
+          </div>
+           
+          <div
+            class="p-d-flex p-ai-end"
+          >
+            <button
+              class="p-button-text p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Update
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+         
+        <div>
+          <h4
+            class="lck-color-subtitle"
+          >
+            List of blocks
+          </h4>
+           
+          <div
+            class="p-datatable p-component"
+          >
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-datatable-wrapper"
+            >
+              <table
+                role="grid"
+              >
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+                <tbody
+                  class="p-datatable-tbody"
+                >
+                  <tr
+                    class="p-datatable-emptymessage"
+                  >
+                    <td
+                      colspan="0"
+                    >
+                      
+          No block found
+        
+                       
+                      <!---->
+                    </td>
+                  </tr>
+                </tbody>
+                 
+                <!---->
+              </table>
+            </div>
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-column-resizer-helper"
+              style="display: none;"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
