@@ -113,7 +113,7 @@ export default {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
-      referenceToHandle: { isActive: false, position: null },
+      referenceToHandle: { isActive: false, position: 0 },
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
       settings: {}
@@ -146,7 +146,7 @@ export default {
               text: this.columnNameToHandle,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
-              reference_position: this.referenceToHandle.position,
+              reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
@@ -158,7 +158,7 @@ export default {
               text: this.columnNameToHandle,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
-              reference_position: this.referenceToHandle.position,
+              reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
