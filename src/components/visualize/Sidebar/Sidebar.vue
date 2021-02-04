@@ -21,15 +21,45 @@
           />
         </span>
       </template>
-      <router-link
-        v-for="subitem in item.subitems"
-        :key="subitem.id"
-        :to="subitem.to"
-        :class="{ 'router-link-exact-active': subitem.active }"
-        @click.native="$emit('click-sidebar-item')"
+      <draggable
+        :key="item.id"
+        :value="item.subitems"
+        handle=".handle"
+        @change="$emit('reorder-subitem', item.id, $event)"
       >
-        {{subitem.label}}
-      </router-link>
+          <router-link
+            v-for="subitem in item.subitems"
+            :key="subitem.id"
+            :to="subitem.to"
+            :class="{ 'router-link-exact-active': subitem.active }"
+            @click.native="$emit('click-sidebar-item')"
+            v-show="displayEditActions || subitem.hidden !== true"
+          >
+            <span
+              v-if="displayEditActions"
+              class="pi pi-ellipsis-v handle"
+              />
+            {{subitem.label}}
+            <span class="action-subset" v-if="displayEditActions">
+              <span
+                @click.stop.prevent="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
+                class="pi pi-pencil action-button"
+              />
+              <span
+                @click.stop.prevent="$emit('delete-subitem', { item: item.id, subitem: subitem.id })"
+                class="pi pi-trash action-button"
+              />
+            </span>
+          </router-link>
+      </draggable>
+        <p-button
+          v-if="displayEditActions"
+          :label="createSubItemLabel"
+          icon="pi pi-plus"
+          iconPos="right"
+          class="new-item-button new-subitem-button"
+          @click="$emit('add-subitem', { item: item.id })"
+      />
     </p-accordion-tab>
     <p-button
       v-if="displayEditActions"
@@ -47,6 +77,7 @@ import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Button from 'primevue/button'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Sidebar',
@@ -67,12 +98,17 @@ export default {
     createItemLabel: {
       type: String,
       default () { return this.$t('pages.workspace.createElement') }
+    },
+    createSubItemLabel: {
+      type: String,
+      default () { return this.$t('pages.workspace.createElement') }
     }
   },
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    draggable: Vue.extend(draggable)
   }
 }
 </script>
@@ -113,11 +149,39 @@ a:hover,
   flex-shrink: 0;
 }
 
+.p-accordion-content a {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.p-accordion-content {
+  padding-right: 0.5em;
+}
+
+.action-subset {
+  flex-shrink: 0;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-left: auto;
+  color: var(--primary-color-darken);
+}
+
 .new-item-button {
   width: 100%;
   text-align: left;
   padding-left: 0.5rem;
   line-height: 2rem;
+}
+
+.new-subitem-button {
+  padding-left: 2rem;
+}
+
+.handle {
+  cursor: move;
+  position: absolute;
+  left: 0.5rem;
 }
 
 </style>

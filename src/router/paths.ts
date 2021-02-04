@@ -25,3 +25,38 @@ export const ROUTES_PATH = {
   USERMANAGEMENT: '/usermanagement',
   GROUPMANAGEMENT: '/groupmanagement'
 }
+
+export const ROUTES_NAMES = {
+  HOME: 'Home',
+
+  /**
+   * User paths
+   */
+  LOSTPASSWORD: 'LostPassword',
+  VERIFYSIGNUP: 'VerifySignup',
+  RESETPASSWORD: 'ResetPassword',
+  PROFILE: 'Profile',
+
+  /**
+   * Workspace paths
+   */
+  WORKSPACE: 'WorkspaceList',
+  VISUALIZATION: 'WorkspaceVisualization',
+  PAGE: 'Page',
+  PAGEDETAIL: 'PageDetail',
+  DATABASE: 'WorkspaceDatabase',
+  DATABASESCHEMA: 'DatabaseSchema',
+  PROCESS: 'ProcessListing',
+
+  /**
+   * Admin paths
+   */
+  ADMIN: 'Administration',
+  USERMANAGEMENT: 'UserManagement',
+  GROUPMANAGEMENT: 'GroupManagement',
+
+  /**
+   * Other paths
+   */
+  404: '404'
+}

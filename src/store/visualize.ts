@@ -33,7 +33,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: number
       ...workspace,
       chapters: workspace.chapters?.map(c => ({
         ...c,
-        pages: c.pages?.filter(p => !p.hidden).sort((a, b) => a.position - b.position)
+        pages: c.pages?.sort((a, b) => a.position - b.position)
       }))
     }
   } catch (error) {

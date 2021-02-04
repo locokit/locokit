@@ -238,7 +238,13 @@
       "chapter": "Chapitre",
       "chapterName": "Nom du chapitre",
       "editMode": "Mode édition",
-      "createElement": "Créer un nouvel élément"
+      "createElement": "Créer un nouvel élément",
+      "page": "Page",
+      "createPage": "Créer une nouvelle page",
+      "editPage": "Modifier une page",
+      "pageName": "Nom de la page",
+      "pageHidden": "Cacher la page",
+      "pagePosition": "Position de la page"
     },
     "database": {
       "title": "Base de données",
