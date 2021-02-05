@@ -6,6 +6,7 @@
       ? $t('pages.databaseSchema.handleColumnModal.updateColumn')
       : $t('pages.databaseSchema.handleColumnModal.createColumn')
     "
+    :contentStyle="{'overflow-y': 'visible'}"
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
   >
@@ -218,11 +219,6 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-dialog-content {
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-}
 .input-number-reference {
   width: 100px;
 }

@@ -10,6 +10,15 @@
       class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
     >
       <p-toolbar class="w-full p-my-4">
+        <template slot="left">
+          <lck-filter-button
+            class="p-ml-2"
+            :definition="filterDefinition"
+            v-model="currentDatatableFilters"
+            @submit="onSubmitFilter"
+            @reset="onResetFilter"
+          />
+        </template>
         <template slot="right">
           <p-button :label="$t('pages.userManagement.addNewUser')" icon="pi pi-plus" class="p-mr-2" @click="addUser" />
         </template>
@@ -115,34 +124,35 @@
           </template>
         </p-column>
       </p-datatable>
-      <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+      <div
+        v-else-if="usersWithPagination && usersWithPagination.data.length === 0 && currentDatatableFilters.length > 0"
+        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+      >
+        <p>{{ $t('pages.userManagement.noUserFound') }}</p>
+      </div>
+      <div
+        v-else
+        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+      >
         <p>{{ $t('pages.userManagement.noUser') }}</p>
       </div>
     </div>
 
-    <p-dialog
+    <lck-dialog-form
       :visible.sync="openDialog"
-      :style="{width: '450px'}"
-      :contentStyle="{overflow: 'visible'}"
-      :modal="true"
-      class="p-fluid"
+      :header="$t(`pages.userManagement.${editingUser ? 'editUserDetails': 'createUserDetails'}`)"
+      @close="openDialog = false"
+      :submitting="submitting"
+      :contentStyle="{'overflow-y': 'visible'}"
+      @input="saveUser"
     >
-      <template #header v-if="!editingUser">
-        <h3>{{ $t('pages.userManagement.createUserDetails') }}</h3>
-      </template>
-      <template #header v-else>
-        <h3>{{ $t('pages.userManagement.editUserDetails') }}</h3>
-      </template>
-
-      <template v-if="submitted">
-        <p>{{ $t('success.basic') }}</p>
-      </template>
-      <template v-else>
+      <template>
         <div class="p-field">
           <label for="name">{{ $t('pages.userManagement.name') }}</label>
-          <p-input-text id="name"
+          <p-input-text
+            id="name"
             v-model.trim="user.name"
-            required="true"
+            required
             autofocus
             :class="{'p-invalid': submitting && !user.name}"
           />
@@ -154,11 +164,13 @@
           <p-input-text
             id="email"
             type="email"
+            required
             v-model="user.email"
             :disabled="editingUser"
           />
         </div>
-        <div class="p-field"
+        <div
+          class="p-field"
           v-if="editingUser"
         >
           <label for="isVerified">
@@ -179,110 +191,100 @@
             :options="profiles"
             optionLabel="label"
             optionValue="value"
-            required="true"
             :class="{'p-invalid': submitting && !user.profile}"
             :placeholder="$t('pages.userManagement.selectProfile')"
           >
             <template #option="slotProps">
-              <span>{{slotProps.option.label}}</span>
+              <span>{{ slotProps.option.label }}</span>
             </template>
           </p-dropdown>
         </p>
       </template>
-
-      <template #footer v-if="submitted">
-        <p-button
-          :label="$t('dialog.close')"
-          icon="pi pi-check-circle"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-      </template>
-      <template #footer v-else>
-        <div v-if="hasSubmitError">
-          <p class="p-invalid">{{ $t('error.basic') }}</p>
-        </div>
-        <p-button
-          :label="$t('form.cancel')"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-        <p-button
-          v-if="!submitting || hasSubmitError"
-          :label="$t(`pages.userManagement.buttons.${ editingUser ? 'editUser' : 'newUser'}`)"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="saveUser"
-        />
-        <p-button
-          disabled
-          v-if="submitting && !hasSubmitError"
-          :label="$t('form.submitting')"
-          icon="pi pi-spin pi-spinner"
-          class="p-button-text"
-        />
-      </template>
-    </p-dialog>
+    </lck-dialog-form>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+
+import { USER_PROFILE, COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import { lckClient, lckServices } from '@/services/lck-api'
+import { getCurrentFilters } from '@/services/lck-utils/filter'
+
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Toolbar from 'primevue/toolbar'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import Vue from 'vue'
-import {
-  retrieveUsersData
-} from '@/store/userManagement'
-import { USER_PROFILE } from '@locokit/lck-glossary'
-import { lckClient } from '@/services/lck-api'
 import InputSwitch from 'primevue/inputswitch'
+
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
 export default {
   name: 'UserManagement',
   components: {
+    'lck-dialog-form': DialogForm,
+    'lck-filter-button': FilterButton,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
-    'p-input-text': Vue.extend(InputText),
-    'p-dialog': Vue.extend(Dialog)
+    'p-input-text': Vue.extend(InputText)
   },
   data: function () {
     return {
       usersWithPagination: null,
+      currentDatatableFilters: [],
       user: {},
       openDialog: false,
       editingUser: null,
       submitting: false,
-      submitted: false,
-      hasSubmitError: false,
       profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
       currentPage: 0,
       resendVerifySignupUsers: {}
     }
   },
+  computed: {
+    filterDefinition () {
+      return {
+        columns: [
+          {
+            id: 'name',
+            // text: '',
+            text: this.$t('pages.userManagement.name'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.STRING
+          }, {
+            id: 'email',
+            text: this.$t('pages.userManagement.email'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.STRING
+          }, {
+            id: 'isVerified',
+            text: this.$t('pages.userManagement.isVerified'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.BOOLEAN
+          }
+        ]
+      }
+    }
+  },
   methods: {
+    getCurrentFilters,
     addUser () {
       this.user = {
         profile: USER_PROFILE.USER
       }
-      this.submitted = false
       this.editingUser = false
       this.openDialog = true
     },
     hideDialog () {
       this.openDialog = false
-      this.submitting = false
-      this.submitted = false
-      this.hasSubmitError = false
     },
     editUser (user) {
       this.user = {
@@ -292,7 +294,6 @@ export default {
         isVerified: user.isVerified,
         email: user.email
       }
-      this.submitted = false
       this.editingUser = true
       this.openDialog = true
     },
@@ -313,32 +314,48 @@ export default {
     },
     async saveUser () {
       this.submitting = true
-      try {
-        if (this.editingUser) {
-          const userId = this.user.id
-          await lckClient.service('user').patch(userId, {
-            name: this.user.name,
-            profile: this.user.profile
-          })
-        } else {
-          await lckClient.service('user').create(this.user)
-        }
-        this.submitted = true
-        this.submitting = false
-        this.retrieveUsersData()
-      } catch (e) {
-        this.hasSubmitError = true
+      if (this.editingUser) {
+        const userId = this.user.id
+        await lckClient.service('user').patch(userId, {
+          name: this.user.name,
+          profile: this.user.profile
+        })
+      } else {
+        await lckClient.service('user').create(this.user)
       }
+      this.submitting = false
+      this.openDialog = false
+      this.retrieveUsersData()
     },
     inactiveUser (user) {
       this.user = { ...user }
       alert(this.user.id)
     },
     async retrieveUsersData () {
-      this.usersWithPagination = await retrieveUsersData(this.currentPage)
+      const ITEMS_PER_PAGE = 20
+
+      try {
+        this.usersWithPagination = await lckServices.user.find({
+          query: {
+            $limit: ITEMS_PER_PAGE,
+            $skip: this.currentPage * ITEMS_PER_PAGE,
+            $sort: { id: 1 },
+            ...this.getCurrentFilters(this.currentDatatableFilters)
+          }
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
     async onPage (event) {
       this.currentPage = event.page
+      this.retrieveUsersData()
+    },
+    onResetFilter () {
+      this.currentDatatableFilters = []
+      this.retrieveUsersData()
+    },
+    onSubmitFilter () {
       this.retrieveUsersData()
     }
   },

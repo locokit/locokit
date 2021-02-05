@@ -322,6 +322,7 @@
     "userManagement": {
       "title": "Gestion des utilisateurs",
       "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un.",
+      "noUserFound": "Aucun utilisateur trouvé",
       "addNewUser": "Créer un utilisateur",
       "id": "id",
       "name": "Nom",
