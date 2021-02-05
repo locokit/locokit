@@ -182,7 +182,7 @@
 import Vue from 'vue'
 import saveAs from 'file-saver'
 
-import { formatISO } from 'date-fns'
+import { formatISO, isValid, parseISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -430,25 +430,21 @@ export default {
     },
     async saveRow () {
       this.submitting = true
-      const dataToSubmit = {
-        data: {
-          ...this.newRow.data
-        }
-      }
+      const data = { ...this.newRow.data }
       /**
        * For date columns, we format the date to ISO, date only
        */
       this.block.definition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          if (this.newRow.data[c.id] instanceof Date) {
-            dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          if (isValid(parseISO(this.newRow.data[c.id]))) {
+            data[c.id] = formatISO(new Date(this.newRow.data[c.id]), { representation: 'date' })
           } else {
-            dataToSubmit.data[c.id] = null
+            data[c.id] = null
           }
         })
       await saveTableData({
-        ...dataToSubmit,
+        data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: this.currentTableId
       })
