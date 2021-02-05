@@ -5,9 +5,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1026;"
   >
     <div
       class="p-sidebar-content"
@@ -114,9 +114,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1030;"
   >
     <div
       class="p-sidebar-content"
@@ -452,9 +452,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1028;"
   >
     <div
       class="p-sidebar-content"
@@ -659,9 +659,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1031;"
   >
     <div
       class="p-sidebar-content"
@@ -997,9 +997,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1029;"
   >
     <div
       class="p-sidebar-content"
@@ -1217,9 +1217,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem;"
+    style="width: 40rem; z-index: 1027;"
   >
     <div
       class="p-sidebar-content"
