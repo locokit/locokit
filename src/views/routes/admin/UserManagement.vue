@@ -138,12 +138,11 @@
       </div>
     </div>
 
-    <lck-dialog
+    <lck-dialog-form
       :visible.sync="openDialog"
       :header="$t(`pages.userManagement.${editingUser ? 'editUserDetails': 'createUserDetails'}`)"
       @close="openDialog = false"
       :submitting="submitting"
-      :isActionForm="true"
       :contentStyle="{'overflow-y': 'visible'}"
       @input="saveUser"
     >
@@ -153,7 +152,7 @@
           <p-input-text
             id="name"
             v-model.trim="user.name"
-            required="true"
+            required
             autofocus
             :class="{'p-invalid': submitting && !user.name}"
           />
@@ -165,6 +164,7 @@
           <p-input-text
             id="email"
             type="email"
+            required
             v-model="user.email"
             :disabled="editingUser"
           />
@@ -200,7 +200,7 @@
           </p-dropdown>
         </p>
       </template>
-    </lck-dialog>
+    </lck-dialog-form>
   </div>
 </template>
 
@@ -220,13 +220,13 @@ import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import InputSwitch from 'primevue/inputswitch'
 
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
 export default {
   name: 'UserManagement',
   components: {
-    'lck-dialog': Dialog,
+    'lck-dialog-form': DialogForm,
     'lck-filter-button': FilterButton,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
