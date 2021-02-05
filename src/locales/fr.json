@@ -113,7 +113,8 @@
       "openTheLink": "Ouvrir le lien"
     },
     "multiAutocomplete": {
-      "placeholder": "Rechercher"
+      "placeholder": "Rechercher",
+      "error": "La recherche n'a pas aboutie."
     },
     "processPanel": {
       "title": "Processus",
@@ -228,6 +229,7 @@
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",
       "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
+      "notYetImplementedBlock": "Ce type de block {blockType} n'est pas encore implémenté.",
       "errorUnknownTypeBlock": "Le type de block n'existe pas.",
       "buttonDatabase": "Base de données",
       "buttonSchema": "Schéma",
@@ -245,14 +247,37 @@
       "pageName": "Nom de la page",
       "pageHidden": "Cacher la page",
       "pagePosition": "Position de la page",
-      "container": "conteneur",
+      "container": "Conteneur",
       "createContainer": "Créer un nouveau conteneur",
-      "editContainer": "Modifier un conteneur",
+      "editContainer": "Modifier le conteneur",
+      "deleteContainer": "Supprimer le conteneur",
+      "dragContainer": "Déplacer le conteneur",
       "containerName": "Nom du conteneur",
-      "blocksList": "Liste des blocs",
+      "containerConfiguration": "Configuration du conteneur",
+      "newContainer": "Nouveau conteneur",
       "noBlock": "Aucun bloc trouvé",
-      "blockName": "Nom du bloc",
-      "blockType": "Type du bloc"
+      "block": {
+        "block": "Bloc",
+        "title": "Titre du bloc",
+        "type": "Type du bloc",        
+        "list": "Liste des blocs",
+        "content": "Contenu",
+        "displayMode": "Mode d'affichage",
+        "selectType": "Sélectionner un type de bloc",
+        "create": "Créer un nouveau bloc",
+        "edit": "Modifier le bloc",
+        "delete": "Supprimer le bloc",
+        "drag": "Déplacer le bloc",
+        "addMedia": "Ajouter un nouveau média",
+        "removeMedia": "Supprimer le média",
+        "mediaName": "Nom du média",
+        "mediaSrcURL": "URL de la source du média",
+        "mediaType": "Type du média",
+        "addAllowed": "Autoriser l'ajout de données",
+        "exportAllowed": "Autoriser l'exportation des données",
+        "tableView": "Vue à afficher",
+        "detailPage": "Page de détails"
+      }
     },
     "database": {
       "title": "Base de données",
@@ -382,6 +407,12 @@
         "CRON": "Cron"
       }
     }
+  },
+  "media": {
+    "IMAGE": "Image",
+    "VIDEO": "Vidéo",
+    "GALLERY": "Galerie",
+    "CAROUSEL": "Carrousel"
   },
   "dialog": {
     "close": "Fermez cette fenêtre"

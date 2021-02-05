@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -150,9 +150,23 @@ export class LckPage extends LckBaseModel {
 }
 export class LckContainer extends LckBaseModel {
   text!: string;
+  blocks?: LckBlockExtended[];
 }
 export class LckBlock extends LckBaseModel {
   text!: string;
+}
+export class LckBlockExtended extends LckBaseModel {
+  container_id!: string;
+  type!: string;
+  title?: string;
+  position?: number;
+  settings?: object;
+}
+
+export class MediaConfiguration {
+  name?: string;
+  srcURL?: string;
+  type?: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
 }
 
 /**

@@ -38,10 +38,10 @@ export const withElementNameAndCategory = () => ({
   components: { DeleteConfirmationDialog },
   data () {
     return {
-      book: { text: 'Book name' }
+      book: { title: 'Book name' }
     }
   },
-  template: '<DeleteConfirmationDialog itemCategory="book" :visible="true" :value="book"/>'
+  template: '<DeleteConfirmationDialog itemCategory="book" :visible="true" :value="book" fieldToDisplay="title" />'
 })
 
 withElementNameAndCategory.storyName = 'with a name and a category'

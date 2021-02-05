@@ -3,84 +3,132 @@
     v-if="page"
     class="p-mx-2"
   >
-    <div class="lck-color-page-title p-my-4">
-      <h1>{{ page.text }}</h1>
-    </div>
-    <div
-      v-if="page.hidden"
-      class="p-mb-4"
-    >
-      <p-breadcrumb
-        :home="{ icon: 'pi pi-home', to: '/' }"
-        :model="breadcrumb"
-        />
-    </div>
-    <draggable
-      :key="page.id"
-      v-model="page.containers"
-      handle=".handle"
-      @change="onContainerReorderClick"
-    >
+    <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
+      <div class="lck-color-page-title p-my-4">
+        <h1>{{ page.text }}</h1>
+      </div>
       <div
-        v-for="container in page.containers"
-        :key="container.id"
-        :class="{
-          'editable-container': editMode
-        }"
+        v-if="page.hidden"
+        class="p-mb-4"
       >
-        <div v-if="editMode" class="edit-container-line">
-          <span>
-            <p-button class="p-button-lg p-button-text handle" icon="pi pi-ellipsis-v" />
-          </span>
-          <h2 class="lck-color-title">{{ container.text }}</h2>
-          <span class="p-buttonset">
-            <p-button class="p-button-lg p-button-text edit-button" icon="pi pi-pencil" @click="onContainerEditClick(container)" />
-            <p-button class="p-button-lg p-button-text remove-button" icon="pi pi-trash" @click="onContainerDeleteClick(container)" />
-          </span>
-        </div>
-        <div class="blocks">
-          <Block
-            v-for="block in container.blocks"
-            :key="block.id"
-            :block="block"
-            :autocompleteSuggestions="autocompleteSuggestions"
-            :exporting="exporting"
-            :cellState="cellState"
-            class="p-mb-4 lck-block"
-            v-on="$listeners"
-            @update-cell="onUpdateCell(block, $event)"
-            @update-content="onUpdateContentBlockTableView(block, $event)"
-            @update-suggestions="onUpdateSuggestions"
-            @sort="onSort(block, $event)"
-            @open-detail="onPageDetail(block, $event)"
-            @create-row="onCreateRow(block, $event)"
-            @export-view="onExportView(block)"
-            @update-filters="onUpdateFilters(block, $event)"
+        <p-breadcrumb
+          :home="{ icon: 'pi pi-home', to: '/' }"
+          :model="breadcrumb"
+          />
+      </div>
+      <draggable
+        :key="page.id"
+        v-model="page.containers"
+        handle=".handle"
+        @change="onContainerReorderClick"
+      >
+        <div
+          v-for="container in page.containers"
+          :key="container.id"
+          :class="{
+            'editable-container': editMode
+          }"
+        >
+          <div v-if="editMode" class="edit-container-line">
+            <span>
+              <p-button
+                :title="$t('pages.workspace.dragContainer')"
+                class="p-button-lg p-button-text handle "
+                icon="pi pi-ellipsis-v"
+              />
+            </span>
+            <h2 class="lck-color-title">{{ container.text }}</h2>
+            <span class="p-buttonset">
+              <p-button
+                :title="$t('pages.workspace.editContainer')"
+                class="p-button-lg p-button-text edit-container-button"
+                icon="pi pi-pencil"
+                @click="onContainerEditClick(container)"
+              />
+              <p-button
+                :title="$t('pages.workspace.deleteContainer')"
+                class="p-button-lg p-button-text remove-container-button"
+                icon="pi pi-trash"
+                @click="onContainerDeleteClick(container)"
+              />
+            </span>
+          </div>
+          <draggable
+            :key="container.id"
+            v-model="container.blocks"
+            @change="onBlockReorderClick(container, $event)"
+            handle=".handle-block"
+          >
+            <Block
+              v-for="block in container.blocks"
+              :key="block.id"
+              :block="block"
+              :autocompleteSuggestions="autocompleteSuggestions"
+              :exporting="exporting"
+              :cellState="cellState"
+              :editMode="editMode"
+              :class="{ 'p-mb-4': !editMode }"
+              v-on="$listeners"
+              @update-cell="onUpdateCell(block, $event)"
+              @update-content="onUpdateContentBlockTableView(block, $event)"
+              @update-suggestions="onUpdateSuggestions"
+              @sort="onSort(block, $event)"
+              @open-detail="onPageDetail(block, $event)"
+              @create-row="onCreateRow(block, $event)"
+              @export-view="onExportView(block)"
+              @update-filters="onUpdateFilters(block, $event)"
+              @update-block="onBlockEditClick(container, block)"
+              @delete-block="onBlockDeleteClick(container, block)"
+            />
+          </draggable>
+          <p-button
+            v-if="editMode"
+            :title="$t('pages.workspace.block.create')"
+            icon="pi pi-plus"
+            class="new-block-button p-button-text"
+            @click="onBlockEditClick(container, { id: '' })"
           />
         </div>
-      </div>
-    </draggable>
-    <p-button
-      v-if="editMode"
-      icon="pi pi-plus"
-      class="new-container-button p-button-outlined"
-      iconPos="right"
-      @click="onContainerEditClick({})"
-    />
+      </draggable>
+      <p-button
+        v-if="editMode"
+        :title="$t('pages.workspace.createContainer')"
+        icon="pi pi-plus"
+        class="new-container-button p-button-text"
+        @click="onContainerEditClick({})"
+      />
+    </div>
     <update-container-sidebar
       :submitting="submitting"
       :showSidebar="showUpdateContainerSidebar"
       :container="currentContainerToEdit"
+      :block="currentBlockToEdit"
+      :width="editableSidebarWidth"
+      :autocompleteSuggestions="editableAutocompleteSuggestions"
+      :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
+      @click-block="onBlockEditClickFromSidebar"
+      @update-block="onBlockEditInput"
+      @delete-block="onBlockDeleteClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
+      @search-table-view="onSearchTableView"
     />
     <delete-confirmation-dialog
       :submitting="submitting"
       :visible="dialogVisibility.containerDelete"
-      :value="currentContainerToEdit"
+      :value="currentContainerToDelete"
       :itemCategory="$t('pages.workspace.container')"
       @close="onContainerDeleteClose"
       @input="onContainerDeleteInput"
+    />
+    <delete-confirmation-dialog
+      :submitting="submitting"
+      :visible="dialogVisibility.blockDelete"
+      :itemCategory="$t('pages.workspace.block.block')"
+      fieldToDisplay="title"
+      :value="currentBlockToDelete"
+      @close="onBlockDeleteClose"
+      @input="onBlockDeleteInput"
     />
   </div>
 </template>
@@ -134,6 +182,10 @@ export default {
     editMode: {
       type: Boolean,
       default: false
+    },
+    chapters: {
+      type: Array,
+      default: () => ([])
     }
   },
   data () {
@@ -147,26 +199,28 @@ export default {
       cellState: {},
       showUpdateContainerSidebar: false,
       currentContainerToEdit: {},
+      currentContainerToDelete: {},
+      currentBlockToEdit: {},
+      currentBlockToDelete: {},
       submitting: false,
       dialogVisibility: {
-        containerDelete: false
-      }
+        containerDelete: false,
+        blockDelete: false
+      },
+      editableSidebarWidth: '40rem',
+      editableAutocompleteSuggestions: null
     }
   },
   watch: {
     page (newVal) {
+      // Hide the updated container sidebar
+      this.onCloseUpdateContainerSidebar()
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
       newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
         container.blocks.sort((a, b) => a.position - b.position)
         container.blocks.forEach(async block => {
-          switch (block.type) {
-            case BLOCK_TYPE.TABLE_VIEW:
-              this.$set(block, 'loading', true)
-              await this.loadBlockTableViewContentAndDefinition(block)
-              this.$set(block, 'loading', false)
-              break
-          }
+          await this.loadBlockContentAndDefinition(block)
         })
       })
     }
@@ -189,6 +243,17 @@ export default {
           disabled: true
         }
       ]
+    },
+    relatedChapterPages: function () {
+      let relatedChapterPages = []
+      if (this.page && Array.isArray(this.chapters)) {
+        relatedChapterPages = this.chapters.find(
+          chapter => chapter.id === this.page.chapter_id
+        )?.pages.filter(
+          page => page.id !== this.page.id
+        )
+      }
+      return relatedChapterPages || []
     }
   },
   methods: {
@@ -206,7 +271,7 @@ export default {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
-      await this.loadBlockTableViewContent(block)
+      if (block.definition?.id) await this.loadBlockTableViewContent(block)
     },
     async loadBlockTableViewContent (block) {
       const currentOptions = this.blocksOptions[block.id]
@@ -220,6 +285,18 @@ export default {
         currentOptions.sort,
         currentOptions.filters
       ))
+    },
+    async loadBlockContentAndDefinition (block) {
+      switch (block.type) {
+        case BLOCK_TYPE.TABLE_VIEW:
+          this.$set(block, 'loading', true)
+          await this.loadBlockTableViewContentAndDefinition(block)
+          this.$set(block, 'loading', false)
+          break
+        case BLOCK_TYPE.DETAIL_VIEW:
+          this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+          break
+      }
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
@@ -337,9 +414,8 @@ export default {
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
-      if (containerToEdit.id) {
-        this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToEdit.id)
-      }
+      this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}
+      this.currentBlockToEdit = {}
       this.showUpdateContainerSidebar = true
     },
     async onContainerEditInput (containerToEdit) {
@@ -368,7 +444,7 @@ export default {
       }
     },
     onContainerDeleteClick (containerToDelete) {
-      this.currentContainerToEdit = this.page.containers.find(container => container.id === containerToDelete.id)
+      this.currentContainerToDelete = containerToDelete
       this.dialogVisibility.containerDelete = true
     },
     async onContainerDeleteInput (containerToDelete = {}) {
@@ -379,6 +455,9 @@ export default {
           const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
           if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
         }
+        if (containerToDelete.id === this.currentContainerToEdit.id) {
+          this.onCloseUpdateContainerSidebar()
+        }
         this.onContainerDeleteClose()
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
@@ -387,7 +466,7 @@ export default {
       }
     },
     onContainerDeleteClose () {
-      this.currentContainerToEdit = {}
+      this.currentContainerToDelete = {}
       this.dialogVisibility.containerDelete = false
     },
     async onContainerReorderClick ({ moved }) {
@@ -409,7 +488,122 @@ export default {
     },
     onCloseUpdateContainerSidebar () {
       this.currentContainerToEdit = {}
+      this.currentBlockToEdit = {}
       this.showUpdateContainerSidebar = false
+    },
+    onBlockEditClickFromSidebar (blockToEdit) {
+      this.currentBlockToEdit = blockToEdit
+    },
+    onBlockEditClick (containerToEdit, blockToEdit) {
+      this.currentContainerToEdit = containerToEdit
+      this.currentBlockToEdit = blockToEdit
+      this.showUpdateContainerSidebar = true
+    },
+    async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
+      try {
+        this.submitting = true
+        if (blockToEdit.id) {
+          // On update
+          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
+            title: blockToEdit.title,
+            type: blockToEdit.type,
+            settings: blockToEdit.settings
+          })
+          for (const key in updatedBlock) {
+            this.currentBlockToEdit[key] = updatedBlock[key]
+          }
+        } else {
+          // On create
+          this.currentBlockToEdit = await lckServices.block.create({
+            container_id: this.currentContainerToEdit.id,
+            title: blockToEdit.title,
+            type: blockToEdit.type,
+            settings: blockToEdit.settings
+          })
+          if (Array.isArray(this.currentContainerToEdit.blocks)) {
+            this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
+          } else {
+            this.$set(this.currentContainerToEdit, 'blocks', [this.currentBlockToEdit])
+          }
+        }
+        // Reload the block definition and content if it is necessary
+        if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${this.currentBlockToEdit.title}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    onBlockDeleteClick (containerToEdit, blockToDelete) {
+      this.currentContainerToDelete = containerToEdit
+      this.currentBlockToDelete = blockToDelete
+      this.dialogVisibility.blockDelete = true
+    },
+    onBlockDeleteClickFromSidebar (blockToDelete) {
+      this.onBlockDeleteClick(this.currentContainerToEdit, blockToDelete)
+    },
+    onBlockDeleteClose () {
+      this.currentContainerToDelete = {}
+      this.currentBlockToDelete = {}
+      this.dialogVisibility.blockDelete = false
+    },
+    async onBlockDeleteInput (blockToDelete) {
+      try {
+        this.submitting = true
+        if (blockToDelete.id) {
+          await lckServices.block.remove(blockToDelete.id)
+          const blockToDeleteIndex = this.currentContainerToDelete.blocks.findIndex(block => block.id === blockToDelete.id)
+          if (blockToDeleteIndex >= 0) this.currentContainerToDelete.blocks.splice(blockToDeleteIndex, 1)
+          if (blockToDelete.id === this.currentBlockToEdit.id) {
+            this.currentBlockToEdit = {}
+          }
+          this.onBlockDeleteClose()
+        }
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToDelete.title}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
+    async onBlockReorderClick (container, { moved }) {
+      if (moved) {
+        const minIndex = Math.min(moved.oldIndex, moved.newIndex)
+        const maxIndex = Math.max(moved.oldIndex, moved.newIndex)
+
+        const updatedBlockPromises = []
+        for (let index = minIndex; index <= maxIndex; index++) {
+          updatedBlockPromises.push(
+            lckServices.block.patch(container.blocks[index].id, { position: index })
+          )
+        }
+        await Promise.all(updatedBlockPromises)
+          .catch(error => {
+            this.displayToastOnError(`${this.$t('pages.workspace.container')} ${container.text}`, error)
+          })
+      }
+    },
+    async onSearchTableView ({ query }) {
+      try {
+        const tableViewResult = await lckServices.tableView.find({
+          query: {
+            'table:database.workspace_id': this.workspaceId,
+            $limit: 10,
+            $joinRelation: 'table.[database]',
+            $sort: {
+              createdAt: 1
+            },
+            'table_view.text': {
+              $ilike: `%${query}%`
+            }
+          }
+        })
+        this.editableAutocompleteSuggestions = tableViewResult.data.map(tr => ({
+          text: tr.text,
+          value: tr.id
+        }))
+      } catch (error) {
+        this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
+      }
     },
     displayToastOnError (summary, error) {
       this.$toast.add({
@@ -452,19 +646,25 @@ export default {
 </script>
 
 <style scoped>
+.lck-page-content {
+  min-width: 20rem;
+  transition-duration: 0.3s;
+}
 
 .editable-container {
   margin-bottom: 1rem;
   border: 2px solid var(--primary-color);
-  background-color: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
 }
 
 .edit-container-line {
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid var(--primary-color);
 }
 
 .edit-container-line .p-button {
+  color: var(--primary-color);
   height: 100%;
 }
 
@@ -476,16 +676,17 @@ export default {
   cursor: move;
 }
 
-.editable-container .lck-block {
-  pointer-events: none;
-  border-top: 1px solid var(--primary-color);
-  padding: 0.5rem;
+.p-button.new-block-button {
+  color: var(--primary-color-darken);
+  width: 100%;
+  height: 3rem;
 }
 
 .p-button.new-container-button {
-  width: 100%;
+  color: var(--primary-color);
   height: 3rem;
-  margin-bottom: 1rem;
-  border-width: 2px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--primary-color) !important;
 }
 </style>

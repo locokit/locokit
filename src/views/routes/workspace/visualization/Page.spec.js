@@ -11,6 +11,7 @@ import { lckServices } from '@/services/lck-api'
 import Page from './Page.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
 
+import Block from '@/components/visualize/Block/Block'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
@@ -115,11 +116,70 @@ const mockPages = {
     position: 2,
     hidden: true,
     containers: []
+  },
+  3: {
+    id: '3',
+    text: 'Page 3',
+    createdAt: '2020-11-02T16:11:03.109Z',
+    updatedAt: '2020-11-02T16:11:03.109Z',
+    chapter_id: 'C1',
+    position: 2,
+    hidden: true,
+    containers: []
+  }
+}
+
+const mockChapters = [
+  {
+    id: 'C1',
+    pages: [mockPages['1'], mockPages['3']]
+  },
+  {
+    id: 'C2',
+    pages: [mockPages['2']]
+  }
+]
+
+const mockTableViewDefinition = {
+  id: '123456',
+  text: 'My view to display'
+}
+
+const mockTableViewContent = 'content'
+
+const unknownTypeBlock = {
+  title: 'my unknown block',
+  type: 'UNKNOWN_TYPE_BLOCK'
+}
+const paragraphBlock = {
+  title: 'my paragraph block',
+  type: BLOCK_TYPE.PARAGRAPH,
+  settings: {
+    content: 'The text to display.'
+  }
+}
+const mediaBlock = {
+  title: 'my media block',
+  type: BLOCK_TYPE.MEDIA,
+  settings: {
+    displayMode: 'GALLERY',
+    medias: [
+      {
+        name: 'Image',
+        srcURL: '/img/img1.png',
+        type: 'IMAGE'
+      },
+      {
+        name: 'Video',
+        srcURL: '/videos/video1.avi',
+        type: 'VIDEO'
+      }
+    ]
   }
 }
 
 function mockDeepCloneObject (object) {
-  return JSON.parse(JSON.stringify(object))
+  return object ? JSON.parse(JSON.stringify(object)) : {}
 }
 
 // Mock lck functions
@@ -131,6 +191,13 @@ jest.mock('@/services/lck-api', () => ({
         ({ ...mockPages['1'].containers.find(container => container.id === id), ...data })),
       create: jest.fn(data =>
         ({ ...mockPages['1'].containers[0], ...data, id: '22' })),
+      remove: jest.fn()
+    },
+    block: {
+      patch: jest.fn((id, data) =>
+        ({ ...mockPages['1'].containers[0].blocks.find(block => block.id === id), ...data })),
+      create: jest.fn(data =>
+        ({ ...mockPages['1'].containers[0].blocks[0], ...data, id: '22' })),
       remove: jest.fn()
     }
   },
@@ -146,8 +213,8 @@ jest.mock('@/services/lck-api', () => ({
 
 jest.mock('@/store/visualize', () => ({
   retrievePageWithContainersAndBlocks: jest.fn((pageId) => mockDeepCloneObject(mockPages[pageId])),
-  retrieveViewDefinition: jest.fn(() => ({ id: 'definitionId' })),
-  retrieveViewData: jest.fn(() => ('content'))
+  retrieveViewDefinition: jest.fn(() => mockTableViewDefinition),
+  retrieveViewData: jest.fn(() => mockTableViewContent)
 }))
 
 jest.mock('@/store/database')
@@ -205,7 +272,7 @@ describe('Page', () => {
     return {
       localVue,
       router,
-      propsData: { pageId },
+      propsData: { pageId, chapters: mockChapters },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -216,6 +283,29 @@ describe('Page', () => {
       parentComponent: Workspace
     }
   }
+
+  describe('Computed properties', () => {
+    describe('Chapter pages', () => {
+      let wrapper
+
+      it('Return the pages of the current chapter, excluding the current one.', async () => {
+        wrapper = await shallowMount(Page, globalComponentParams())
+        expect(wrapper.vm.relatedChapterPages.length).toBe(1)
+        expect(wrapper.vm.relatedChapterPages[0].id).toBe(mockPages['3'].id)
+      })
+
+      it('Return an empty array if the page is unknown', async () => {
+        wrapper = await shallowMount(Page, globalComponentParams('-1'))
+        expect(wrapper.vm.relatedChapterPages.length).toBe(0)
+      })
+
+      it('Return an empty array if there is not chapters', async () => {
+        wrapper = await shallowMount(Page, globalComponentParams())
+        await wrapper.setProps({ chapters: null })
+        expect(wrapper.vm.relatedChapterPages.length).toBe(0)
+      })
+    })
+  })
 
   describe('Watchers', () => {
     describe('Load the specified page with containers', () => {
@@ -256,8 +346,8 @@ describe('Page', () => {
         })
         it('Get the right properties for the TableView block', () => {
           expect(wrapper.vm.page.containers[1].blocks[0]).toMatchObject(mockPages['1'].containers[0].blocks[1])
-          expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual({ id: 'definitionId' })
-          expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual('content')
+          expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual(mockTableViewDefinition)
+          expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual(mockTableViewContent)
         })
       })
     })
@@ -293,11 +383,11 @@ describe('Page', () => {
       })
 
       it('Display the edit buttons', () => {
-        expect(wrapper.findAll('.edit-container-line .edit-button').length).toBe(2)
+        expect(wrapper.findAll('.edit-container-line .edit-container-button').length).toBe(2)
       })
 
       it('Display the remove buttons', () => {
-        expect(wrapper.findAll('.edit-container-line .remove-button').length).toBe(2)
+        expect(wrapper.findAll('.edit-container-line .remove-container-button').length).toBe(2)
       })
     })
 
@@ -345,7 +435,7 @@ describe('Page', () => {
         })
 
         it('Display the update container sidebar with the specified container when the edit button is clicked', async () => {
-          await wrapper.find('.edit-button').vm.$emit('click', firstDisplayedContainer)
+          await wrapper.find('.edit-container-button').vm.$emit('click', firstDisplayedContainer)
           expect(containerSidebarWrapper.props('container')).toStrictEqual(firstDisplayedContainer)
           expect(containerSidebarWrapper.props('showSidebar')).toBe(true)
         })
@@ -359,7 +449,7 @@ describe('Page', () => {
         })
 
         it('Update the container if the update-container is emitted with an existing container from the sidebar', async () => {
-          await wrapper.find('.edit-button').vm.$emit('click', firstDisplayedContainer)
+          await wrapper.find('.edit-container-button').vm.$emit('click', firstDisplayedContainer)
           await containerSidebarWrapper.vm.$emit('update-container', { id: firstDisplayedContainer.id, text: newContainerName })
           // Send API request
           expect(lckServices.container.patch).toHaveBeenCalledWith(firstDisplayedContainer.id, { text: newContainerName })
@@ -374,7 +464,7 @@ describe('Page', () => {
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
           lckServices.container.patch.mockImplementationOnce(() => { throw new Error() })
-          await wrapper.find('.edit-button').vm.$emit('click', firstDisplayedContainer)
+          await wrapper.find('.edit-container-button').vm.$emit('click', firstDisplayedContainer)
           await containerSidebarWrapper.vm.$emit('update-container', { id: firstDisplayedContainer.id, text: newContainerName })
           expect(spyOnToast).toHaveBeenCalledTimes(1)
         })
@@ -386,7 +476,7 @@ describe('Page', () => {
         })
 
         it('Display the confirmation dialog with the specified container when the remove button is clicked', async () => {
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           expect(deleteConfirmationWrapper.props('visible')).toBe(true)
           expect(deleteConfirmationWrapper.props('value')).toStrictEqual(firstDisplayedContainer)
         })
@@ -400,7 +490,7 @@ describe('Page', () => {
         })
 
         it('Delete a container if the input event is emitted with an existing container', async () => {
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', firstDisplayedContainer)
           // Send API request
           expect(lckServices.container.remove).toHaveBeenCalledWith(firstDisplayedContainer.id)
@@ -411,7 +501,7 @@ describe('Page', () => {
         })
 
         it('Do nothing if the input event is emitted with an empty container', async () => {
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', {})
           expect(
             wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
@@ -419,7 +509,7 @@ describe('Page', () => {
         })
 
         it('Do nothing if the input event is emitted with an undefined container', async () => {
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input')
           expect(
             wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
@@ -427,7 +517,7 @@ describe('Page', () => {
         })
 
         it('Do nothing if the input event is emitted with an unknown container', async () => {
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', { ...firstDisplayedContainer, id: '-1' })
           expect(
             wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
@@ -437,7 +527,7 @@ describe('Page', () => {
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
           lckServices.container.remove.mockImplementationOnce(() => { throw new Error() })
-          await wrapper.find('.remove-button').vm.$emit('click')
+          await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', { id: firstDisplayedContainer.id })
           expect(spyOnToast).toHaveBeenCalledTimes(1)
         })
@@ -467,6 +557,281 @@ describe('Page', () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
           lckServices.container.patch.mockRejectedValueOnce(new MockError())
           await wrapper.findComponent(draggable).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
+          process.nextTick(() => {
+            expect(spyOnToast).toHaveBeenCalledTimes(1)
+          })
+        })
+      })
+    })
+  })
+
+  describe('Block CRUD', () => {
+    describe('Display edit options', () => {
+      let wrapper
+
+      beforeAll(async () => {
+        wrapper = await shallowMount(Page, globalComponentParams())
+        wrapper.setProps({ editMode: true })
+      })
+
+      it('Display the buttons to add a container', () => {
+        expect(wrapper.findAll('.new-block-button').length).toBe(2)
+      })
+    })
+
+    describe('Events', () => {
+      let wrapper
+      let containerSidebarWrapper
+
+      const firstDisplayedContainer = mockPages['1'].containers[1]
+      const secondDisplayedContainer = mockPages['1'].containers[0]
+      const firstDisplayedBlock = secondDisplayedContainer.blocks[1]
+      const secondDisplayedBlock = secondDisplayedContainer.blocks[0]
+
+      beforeEach(async () => {
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true } })
+        containerSidebarWrapper = wrapper.findComponent(UpdateContainerSidebar)
+        // deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+      })
+
+      describe('Add a new block', () => {
+        beforeEach(() => {
+          lckServices.block.create.mockClear()
+        })
+
+        it('Display the update container sidebar with the related container and an object with an empty id for the block when the new block button is clicked', async () => {
+          await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
+          expect(containerSidebarWrapper.props('container')).toStrictEqual(firstDisplayedContainer)
+          expect(containerSidebarWrapper.props('block')).toStrictEqual({ id: '' })
+          expect(containerSidebarWrapper.props('showSidebar')).toBe(true)
+        })
+
+        it('Display the update container sidebar with the specified container when the click-block event is emitted from the sidebar component with an object with an empty id.', async () => {
+          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
+          await containerSidebarWrapper.vm.$emit('click-block', { id: '' })
+          expect(containerSidebarWrapper.props('showSidebar')).toBe(true)
+        })
+
+        it('Create a new unknown type block if the update-block event is emitted from the update container sidebar with a new block', async () => {
+          await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
+          // Send API request
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...unknownTypeBlock, container_id: firstDisplayedContainer.id })
+          // Update the component data
+          const newBlock = wrapper.vm.page.containers[0].blocks[0]
+          expect(newBlock).toBeDefined()
+          expect(newBlock.title).toBe(unknownTypeBlock.title)
+          expect(newBlock.type).toBe(unknownTypeBlock.type)
+        })
+
+        it('Create a new unknown type block if the update-block event is emitted from the update container sidebar inside a container that has not got any blocks', async () => {
+          wrapper.vm.page.containers[0].blocks = null
+          await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
+          // Send API request
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...unknownTypeBlock, container_id: firstDisplayedContainer.id })
+          // Update the component data
+          const newBlock = wrapper.vm.page.containers[0].blocks[0]
+          expect(newBlock).toBeDefined()
+          expect(newBlock.title).toBe(unknownTypeBlock.title)
+          expect(newBlock.type).toBe(unknownTypeBlock.type)
+        })
+
+        it('Create a new paragraph block if the update-block event is emitted from the update container sidebar with a new block', async () => {
+          await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: paragraphBlock })
+          // Send API request
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...paragraphBlock, container_id: firstDisplayedContainer.id })
+          // Update the component data
+          const newBlock = wrapper.vm.page.containers[0].blocks[0]
+          expect(newBlock).toBeDefined()
+          expect(newBlock.type).toBe(paragraphBlock.type)
+          expect(newBlock.settings).toStrictEqual(paragraphBlock.settings)
+        })
+
+        it('Create a new media block if the update-block event is emitted from the update container sidebar with a new block', async () => {
+          await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: mediaBlock })
+          // Send API request
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...mediaBlock, container_id: firstDisplayedContainer.id })
+          // Update the component data
+          const newBlock = wrapper.vm.page.containers[0].blocks[0]
+          expect(newBlock).toBeDefined()
+          expect(newBlock.title).toBe(mediaBlock.title)
+          expect(newBlock.type).toBe(mediaBlock.type)
+          expect(newBlock.settings).toStrictEqual(mediaBlock.settings)
+        })
+      })
+
+      describe('Update an existing container', () => {
+        const blockToEdit = { id: secondDisplayedBlock.id, title: 'newBlockName', type: 'MARKDOWN', settings: { content: 'My new content' } }
+
+        beforeEach(() => {
+          lckServices.container.patch.mockClear()
+        })
+
+        it('Display the update container sidebar with the specified container and paragraph block when the update block event is emitted from the block component', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
+          expect(containerSidebarWrapper.props('container').id).toBe(secondDisplayedContainer.id)
+          expect(containerSidebarWrapper.props('block')).toStrictEqual(
+            expect.objectContaining({ ...firstDisplayedBlock })
+          )
+        })
+
+        it('Display the update container sidebar with the specified container and paragraph block when the click-block event is emitted from the sidebar component', async () => {
+          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
+          await containerSidebarWrapper.vm.$emit('click-block', firstDisplayedBlock)
+          expect(containerSidebarWrapper.props('container').id).toBe(secondDisplayedContainer.id)
+          expect(containerSidebarWrapper.props('block')).toStrictEqual(
+            expect.objectContaining({ ...firstDisplayedBlock })
+          )
+        })
+
+        it('Display the update container sidebar with the specified container and table view block when the update block event is emitted from the block component', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
+          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinition)
+          expect(containerSidebarWrapper.props('block').content).toStrictEqual(mockTableViewContent)
+        })
+
+        it('Display the update container sidebar with the specified container and detail view block when the update block event is emitted from the block component', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
+          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinition)
+        })
+
+        it('Update the block if the update-block event is emitted with an existing block from the sidebar', async () => {
+          await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit })
+
+          // Send API request
+          expect(lckServices.block.patch).toHaveBeenCalledWith(
+            secondDisplayedBlock.id,
+            {
+              title: blockToEdit.title,
+              type: blockToEdit.type,
+              settings: blockToEdit.settings
+            })
+          // Update the component data
+          expect(wrapper.vm.page.containers[1].blocks[1]).toStrictEqual(
+            expect.objectContaining({ ...blockToEdit })
+          )
+        })
+
+        it('Refresh the block after updating if is necessary', async () => {
+          const spyOnLoadBlockContentAndDefinition = jest.spyOn(wrapper.vm, 'loadBlockContentAndDefinition')
+          await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit, blockRefreshRequired: true })
+          expect(spyOnLoadBlockContentAndDefinition).toHaveBeenCalled()
+        })
+
+        it('Display a toast if an error is occured', async () => {
+          const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+          lckServices.block.patch.mockImplementationOnce(() => { throw new Error() })
+          await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
+          await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit })
+          expect(spyOnToast).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      describe('Delete a container', () => {
+        let deleteBlockWrapper
+
+        beforeEach(async () => {
+          lckServices.block.remove.mockClear()
+          deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+        })
+
+        it('Display the confirmation dialog with the specified block when the delete-block event is emitted from the Block component.', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
+          expect(deleteBlockWrapper.props('visible')).toBe(true)
+          expect(deleteBlockWrapper.props('value')).toStrictEqual(expect.objectContaining({ ...firstDisplayedBlock }))
+        })
+
+        it('Display the confirmation dialog with the specified block when the delete-block event is emitted from the sidebar.', async () => {
+          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
+          await containerSidebarWrapper.vm.$emit('delete-block', firstDisplayedBlock)
+          expect(deleteBlockWrapper.props('visible')).toBe(true)
+          expect(deleteBlockWrapper.props('value')).toStrictEqual(expect.objectContaining({ ...firstDisplayedBlock }))
+        })
+
+        it('Hide the confirmation dialog if the close event is emitted', async () => {
+          // Display the dialog
+          await deleteBlockWrapper.setProps({ visible: true })
+          // Hide it
+          await deleteBlockWrapper.vm.$emit('close')
+          expect(deleteBlockWrapper.props('visible')).toBe(false)
+        })
+
+        it('Delete a block if the input event is emitted with an existing block', async () => {
+          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
+          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
+          // Send API request
+          expect(lckServices.block.remove).toHaveBeenCalledWith(firstDisplayedBlock.id)
+          // // Update the component data
+          expect(
+            wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
+          ).toBeUndefined()
+        })
+
+        it('Delete a block if the input event is emitted with an existing block which is editing', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
+          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
+          // Send API request
+          expect(lckServices.block.remove).toHaveBeenCalledWith(firstDisplayedBlock.id)
+          // Update the component data
+          expect(
+            wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
+          ).toBeUndefined()
+        })
+
+        it('Do nothing if the input event is emitted with an empty block', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
+          await deleteBlockWrapper.vm.$emit('input', {})
+          expect(lckServices.block.remove).not.toHaveBeenCalled()
+          expect(wrapper.vm.page.containers[1].blocks.length).toBe(2)
+        })
+
+        it('Do not update the local data if the input event is emitted with an unknown container', async () => {
+          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
+          await deleteBlockWrapper.vm.$emit('input', { ...firstDisplayedBlock, id: '-1' })
+          expect(lckServices.block.remove).toHaveBeenCalled()
+          expect(wrapper.vm.page.containers[1].blocks.length).toBe(2)
+        })
+
+        it('Display a toast if an error is occured', async () => {
+          const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+          lckServices.block.remove.mockImplementationOnce(() => { throw new Error() })
+          await wrapper.find('.remove-container-button').vm.$emit('click')
+          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
+          expect(spyOnToast).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      describe('Reorder the blocks', () => {
+        beforeEach(() => {
+          lckServices.block.patch.mockClear()
+        })
+        it('Save the new blocks positions if the change event is emitted (oldIndex < newIndex)', async () => {
+          await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
+          expect(lckServices.block.patch).toHaveBeenCalledTimes(2)
+          expect(lckServices.block.patch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
+          expect(lckServices.block.patch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
+        })
+        it('Save the new blocks positions if the change event is emitted (oldIndex > newIndex)', async () => {
+          await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 1, newIndex: 0 } })
+          expect(lckServices.block.patch).toHaveBeenCalledTimes(2)
+          expect(lckServices.block.patch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
+          expect(lckServices.block.patch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
+        })
+        it('Do not save the new blocks positions if the drag over event is not a move event ', async () => {
+          await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { added: { newIndex: 0 } })
+          expect(lckServices.block.patch).toHaveBeenCalledTimes(0)
+        })
+        it('Display a toast if an error is occured', async () => {
+          const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+          lckServices.block.patch.mockRejectedValueOnce(new MockError())
+          await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
           process.nextTick(() => {
             expect(spyOnToast).toHaveBeenCalledTimes(1)
           })

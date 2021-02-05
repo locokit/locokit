@@ -5,9 +5,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
   style="height: 100%;"
 >
   <div
-    aria-modal="true"
-    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
     role="complementary"
+    style="width: 40rem;"
   >
     <div
       class="p-sidebar-content"
@@ -26,67 +26,421 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
       </button>
        
       <div
-        class="sidebar-content"
+        class="sidebar-content lck-color-content"
       >
-        <h3
-          class="lck-color-title"
+        <div
+          class="p-tabview p-component"
         >
-          
-      Create a new container
-    
-        </h3>
-         
-        <form
-          class="p-d-flex"
-        >
-          <div
-            class="p-col"
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
           >
-            <h4
-              class="lck-color-subtitle"
-            >
-              <label
-                for="container-name"
-              >
-                Container name
-              </label>
-            </h4>
              
-            <input
-              autofocus="autofocus"
-              class="lck-color-content p-inputtext p-component"
-              id="container-name"
-              required="required"
-              type="text"
+            <li
+              class="p-tabview-ink-bar"
             />
-          </div>
+          </ul>
            
           <div
-            class="p-d-flex p-ai-end"
+            class="p-tabview-panels"
           >
-            <button
-              class="p-button-text p-button p-component"
-              type="submit"
+            <div
+              class="p-tabview-panel"
+              role="tabpanel"
             >
-              <span
-                class="pi pi-check p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
+              <form
+                class="p-d-flex lck-color-content"
               >
-                Save
-              </span>
+                <div
+                  class="p-col"
+                >
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
+                   
+                  <input
+                    class="p-inputtext p-component"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
+                 
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
+                >
+                  <button
+                    class="p-button-primary p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-check p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Save
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
                
               <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
+            </div>
+             
+            <!---->
           </div>
-        </form>
-         
-        <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when creating a new block 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+    style="width: 40rem;"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content lck-color-content"
+      >
+        <div
+          class="p-tabview p-component"
+        >
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
+          >
+             
+            <li
+              class="p-tabview-ink-bar"
+            />
+          </ul>
+           
+          <div
+            class="p-tabview-panels"
+          >
+            <div
+              class="p-tabview-panel"
+              role="tabpanel"
+              style="display: none;"
+            >
+              <form
+                class="p-d-flex lck-color-content"
+              >
+                <div
+                  class="p-col"
+                >
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
+                   
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
+                 
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
+                >
+                  <button
+                    class="p-button-primary p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-check p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Update
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+               
+              <div
+                class="containerBlocks"
+              >
+                <h4
+                  class="lck-color-content"
+                >
+                  Blocks list
+                </h4>
+                 
+                <div
+                  class="p-datatable p-component"
+                >
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-wrapper"
+                  >
+                    <table
+                      role="grid"
+                    >
+                      <thead
+                        class="p-datatable-thead"
+                      >
+                        <tr />
+                         
+                        <!---->
+                      </thead>
+                       
+                      <tbody
+                        class="p-datatable-tbody"
+                      >
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                      </tbody>
+                       
+                      <!---->
+                    </table>
+                  </div>
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-footer"
+                  >
+                    <button
+                      class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
+                      type="button"
+                    >
+                      <span
+                        class="pi pi-plus p-button-icon"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                         
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                   
+                  <div
+                    class="p-column-resizer-helper"
+                    style="display: none;"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                </div>
+              </div>
+            </div>
+             
+            <div
+              class="p-tabview-panel"
+              role="tabpanel"
+            >
+              <form
+                class="p-fluid lck-update-block-form"
+              >
+                <div
+                  class="p-field"
+                >
+                  <label
+                    for="blockTitleField"
+                  >
+                    Block title
+                  </label>
+                   
+                  <input
+                    class="p-inputtext p-component"
+                    id="blockTitleField"
+                  />
+                </div>
+                 
+                <div
+                  class="p-field"
+                >
+                  <label
+                    for="blockTypeField"
+                  >
+                    Block type
+                  </label>
+                   
+                  <div
+                    class="p-dropdown p-component p-inputwrapper"
+                    id="blockTypeField"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        aria-haspopup="listbox"
+                        readonly="readonly"
+                        type="text"
+                      />
+                    </div>
+                     
+                    <!---->
+                     
+                    <span
+                      class="p-dropdown-label p-inputtext p-placeholder"
+                    >
+                      
+            Select an option
+        
+                    </span>
+                     
+                    <!---->
+                     
+                    <div
+                      aria-haspopup="listbox"
+                      class="p-dropdown-trigger"
+                      role="button"
+                    >
+                      <span
+                        class="p-dropdown-trigger-icon pi pi-chevron-down"
+                      />
+                    </div>
+                     
+                    <!---->
+                  </div>
+                </div>
+                 
+                <!---->
+                 
+                <div
+                  class="lck-form-footer"
+                >
+                  <button
+                    class="p-button-text p-button-secondary p-button p-component"
+                    type="button"
+                  >
+                    <span
+                      class="pi pi-times p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Cancel
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                   
+                  <button
+                    class="p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-save p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Save
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -98,9 +452,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
   style="height: 100%;"
 >
   <div
-    aria-modal="true"
-    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
     role="complementary"
+    style="width: 40rem;"
   >
     <div
       class="p-sidebar-content"
@@ -119,136 +473,517 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
       </button>
        
       <div
-        class="sidebar-content"
+        class="sidebar-content lck-color-content"
       >
-        <h3
-          class="lck-color-title"
+        <div
+          class="p-tabview p-component"
         >
-          
-      Edit a container
-    
-        </h3>
-         
-        <form
-          class="p-d-flex"
-        >
-          <div
-            class="p-col"
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
           >
-            <h4
-              class="lck-color-subtitle"
-            >
-              <label
-                for="container-name"
-              >
-                Container name
-              </label>
-            </h4>
              
-            <input
-              autofocus="autofocus"
-              class="lck-color-content p-inputtext p-component p-filled"
-              id="container-name"
-              required="required"
-              type="text"
+            <li
+              class="p-tabview-ink-bar"
             />
-          </div>
+          </ul>
            
           <div
-            class="p-d-flex p-ai-end"
+            class="p-tabview-panels"
           >
-            <button
-              class="p-button-text p-button p-component"
-              disabled="disabled"
-              type="button"
-            >
-              <span
-                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Please wait
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </form>
-         
-        <div>
-          <h4
-            class="lck-color-subtitle"
-          >
-            List of blocks
-          </h4>
-           
-          <div
-            class="p-datatable p-component"
-          >
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
             <div
-              class="p-datatable-wrapper"
+              class="p-tabview-panel"
+              role="tabpanel"
             >
-              <table
-                role="grid"
+              <form
+                class="p-d-flex lck-color-content"
               >
-                <thead
-                  class="p-datatable-thead"
+                <div
+                  class="p-col"
                 >
-                  <tr />
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
+                   
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
+                 
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
+                >
+                  <button
+                    class="p-button-text p-button p-component"
+                    disabled="disabled"
+                    type="button"
+                  >
+                    <span
+                      class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Please wait
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+               
+              <div
+                class="containerBlocks"
+              >
+                <h4
+                  class="lck-color-content"
+                >
+                  Blocks list
+                </h4>
+                 
+                <div
+                  class="p-datatable p-component"
+                >
                    
                   <!---->
-                </thead>
-                 
-                <tbody
-                  class="p-datatable-tbody"
-                >
-                  <tr
-                    class="p-datatable-emptymessage"
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-wrapper"
                   >
-                    <td
-                      colspan="0"
+                    <table
+                      role="grid"
                     >
-                      
-          No block found
-        
+                      <thead
+                        class="p-datatable-thead"
+                      >
+                        <tr />
+                         
+                        <!---->
+                      </thead>
+                       
+                      <tbody
+                        class="p-datatable-tbody"
+                      >
+                        <tr
+                          class="p-datatable-emptymessage"
+                        >
+                          <td
+                            colspan="0"
+                          >
+                            
+                No block found
+              
+                             
+                            <!---->
+                          </td>
+                        </tr>
+                      </tbody>
                        
                       <!---->
-                    </td>
-                  </tr>
-                </tbody>
-                 
-                <!---->
-              </table>
+                    </table>
+                  </div>
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-footer"
+                  >
+                    <button
+                      class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
+                      type="button"
+                    >
+                      <span
+                        class="pi pi-plus p-button-icon"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                         
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                   
+                  <div
+                    class="p-column-resizer-helper"
+                    style="display: none;"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                </div>
+              </div>
             </div>
              
             <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateContainerSidebar when updating a block 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    role="complementary"
+    style="width: 40rem;"
+  >
+    <div
+      class="p-sidebar-content"
+    >
+      <button
+        aria-label="close"
+        class="p-sidebar-close p-link"
+        type="button"
+      >
+        <span
+          class="p-sidebar-close-icon pi pi-times"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <div
+        class="sidebar-content lck-color-content"
+      >
+        <div
+          class="p-tabview p-component"
+        >
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
+          >
              
-            <!---->
+            <li
+              class="p-tabview-ink-bar"
+            />
+          </ul>
+           
+          <div
+            class="p-tabview-panels"
+          >
+            <div
+              class="p-tabview-panel"
+              role="tabpanel"
+              style="display: none;"
+            >
+              <form
+                class="p-d-flex lck-color-content"
+              >
+                <div
+                  class="p-col"
+                >
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
+                   
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
+                 
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
+                >
+                  <button
+                    class="p-button-primary p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-check p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Update
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+               
+              <div
+                class="containerBlocks"
+              >
+                <h4
+                  class="lck-color-content"
+                >
+                  Blocks list
+                </h4>
+                 
+                <div
+                  class="p-datatable p-component"
+                >
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-wrapper"
+                  >
+                    <table
+                      role="grid"
+                    >
+                      <thead
+                        class="p-datatable-thead"
+                      >
+                        <tr />
+                         
+                        <!---->
+                      </thead>
+                       
+                      <tbody
+                        class="p-datatable-tbody"
+                      >
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                      </tbody>
+                       
+                      <!---->
+                    </table>
+                  </div>
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-footer"
+                  >
+                    <button
+                      class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
+                      type="button"
+                    >
+                      <span
+                        class="pi pi-plus p-button-icon"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                         
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                   
+                  <div
+                    class="p-column-resizer-helper"
+                    style="display: none;"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                </div>
+              </div>
+            </div>
              
             <div
-              class="p-column-resizer-helper"
-              style="display: none;"
-            />
-             
-            <!---->
-             
-            <!---->
+              class="p-tabview-panel"
+              role="tabpanel"
+            >
+              <form
+                class="p-fluid lck-update-block-form"
+              >
+                <div
+                  class="p-field"
+                >
+                  <label
+                    for="blockTitleField"
+                  >
+                    Block title
+                  </label>
+                   
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="blockTitleField"
+                  />
+                </div>
+                 
+                <div
+                  class="p-field"
+                >
+                  <label
+                    for="blockTypeField"
+                  >
+                    Block type
+                  </label>
+                   
+                  <div
+                    class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+                    id="blockTypeField"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        aria-haspopup="listbox"
+                        readonly="readonly"
+                        type="text"
+                      />
+                    </div>
+                     
+                    <!---->
+                     
+                    <span
+                      class="p-dropdown-label p-inputtext p-placeholder"
+                    >
+                      
+            Select an option
+        
+                    </span>
+                     
+                    <!---->
+                     
+                    <div
+                      aria-haspopup="listbox"
+                      class="p-dropdown-trigger"
+                      role="button"
+                    >
+                      <span
+                        class="p-dropdown-trigger-icon pi pi-chevron-down"
+                      />
+                    </div>
+                     
+                    <!---->
+                  </div>
+                </div>
+                 
+                <!---->
+                 
+                <div
+                  class="lck-form-footer"
+                >
+                  <button
+                    class="p-button-text p-button-secondary p-button p-component"
+                    type="button"
+                  >
+                    <span
+                      class="pi pi-times p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Cancel
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                   
+                  <button
+                    class="p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-save p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Save
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -262,9 +997,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
   style="height: 100%;"
 >
   <div
-    aria-modal="true"
-    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
     role="complementary"
+    style="width: 40rem;"
   >
     <div
       class="p-sidebar-content"
@@ -283,138 +1018,190 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
       </button>
        
       <div
-        class="sidebar-content"
+        class="sidebar-content lck-color-content"
       >
-        <h3
-          class="lck-color-title"
+        <div
+          class="p-tabview p-component"
         >
-          
-      Edit a container
-    
-        </h3>
-         
-        <form
-          class="p-d-flex"
-        >
-          <div
-            class="p-col"
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
           >
-            <h4
-              class="lck-color-subtitle"
-            >
-              <label
-                for="container-name"
-              >
-                Container name
-              </label>
-            </h4>
              
-            <input
-              autofocus="autofocus"
-              class="lck-color-content p-inputtext p-component p-filled"
-              id="container-name"
-              required="required"
-              type="text"
+            <li
+              class="p-tabview-ink-bar"
             />
-          </div>
+          </ul>
            
           <div
-            class="p-d-flex p-ai-end"
+            class="p-tabview-panels"
           >
-            <button
-              class="p-button-text p-button p-component"
-              type="submit"
-            >
-              <span
-                class="pi pi-check p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Update
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </form>
-         
-        <div>
-          <h4
-            class="lck-color-subtitle"
-          >
-            List of blocks
-          </h4>
-           
-          <div
-            class="p-datatable p-component"
-          >
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
             <div
-              class="p-datatable-wrapper"
+              class="p-tabview-panel"
+              role="tabpanel"
             >
-              <table
-                role="grid"
+              <form
+                class="p-d-flex lck-color-content"
               >
-                <thead
-                  class="p-datatable-thead"
+                <div
+                  class="p-col"
                 >
-                  <tr />
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
                    
-                  <!---->
-                </thead>
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
                  
-                <tbody
-                  class="p-datatable-tbody"
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
                 >
+                  <button
+                    class="p-button-primary p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-check p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Update
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+               
+              <div
+                class="containerBlocks"
+              >
+                <h4
+                  class="lck-color-content"
+                >
+                  Blocks list
+                </h4>
+                 
+                <div
+                  class="p-datatable p-component"
+                >
+                   
                   <!---->
                    
-                  <tr
-                    class=""
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-wrapper"
+                  >
+                    <table
+                      role="grid"
+                    >
+                      <thead
+                        class="p-datatable-thead"
+                      >
+                        <tr />
+                         
+                        <!---->
+                      </thead>
+                       
+                      <tbody
+                        class="p-datatable-tbody"
+                      >
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                        <!---->
+                         
+                        <tr
+                          class=""
+                        />
+                         
+                        <!---->
+                         
+                        <!---->
+                      </tbody>
+                       
+                      <!---->
+                    </table>
+                  </div>
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-footer"
+                  >
+                    <button
+                      class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
+                      type="button"
+                    >
+                      <span
+                        class="pi pi-plus p-button-icon"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                         
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                   
+                  <div
+                    class="p-column-resizer-helper"
+                    style="display: none;"
                   />
                    
                   <!---->
                    
                   <!---->
-                  <!---->
-                   
-                  <tr
-                    class=""
-                  />
-                   
-                  <!---->
-                   
-                  <!---->
-                </tbody>
-                 
-                <!---->
-              </table>
+                </div>
+              </div>
             </div>
-             
-            <!---->
-             
-            <!---->
-             
-            <div
-              class="p-column-resizer-helper"
-              style="display: none;"
-            />
-             
-            <!---->
              
             <!---->
           </div>
@@ -430,9 +1217,9 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
   style="height: 100%;"
 >
   <div
-    aria-modal="true"
-    class="p-sidebar-lg p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
+    class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active"
     role="complementary"
+    style="width: 40rem;"
   >
     <div
       class="p-sidebar-content"
@@ -451,133 +1238,176 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
       </button>
        
       <div
-        class="sidebar-content"
+        class="sidebar-content lck-color-content"
       >
-        <h3
-          class="lck-color-title"
+        <div
+          class="p-tabview p-component"
         >
-          
-      Edit a container
-    
-        </h3>
-         
-        <form
-          class="p-d-flex"
-        >
-          <div
-            class="p-col"
+          <ul
+            class="p-tabview-nav"
+            role="tablist"
           >
-            <h4
-              class="lck-color-subtitle"
-            >
-              <label
-                for="container-name"
-              >
-                Container name
-              </label>
-            </h4>
              
-            <input
-              autofocus="autofocus"
-              class="lck-color-content p-inputtext p-component p-filled"
-              id="container-name"
-              required="required"
-              type="text"
+            <li
+              class="p-tabview-ink-bar"
             />
-          </div>
+          </ul>
            
           <div
-            class="p-d-flex p-ai-end"
+            class="p-tabview-panels"
           >
-            <button
-              class="p-button-text p-button p-component"
-              type="submit"
-            >
-              <span
-                class="pi pi-check p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Update
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
-          </div>
-        </form>
-         
-        <div>
-          <h4
-            class="lck-color-subtitle"
-          >
-            List of blocks
-          </h4>
-           
-          <div
-            class="p-datatable p-component"
-          >
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
-            <!---->
-             
             <div
-              class="p-datatable-wrapper"
+              class="p-tabview-panel"
+              role="tabpanel"
             >
-              <table
-                role="grid"
+              <form
+                class="p-d-flex lck-color-content"
               >
-                <thead
-                  class="p-datatable-thead"
+                <div
+                  class="p-col"
                 >
-                  <tr />
+                  <h4
+                    class="lck-color-content"
+                  >
+                    <label
+                      for="container-name"
+                    >
+                      Container name
+                    </label>
+                  </h4>
+                   
+                  <input
+                    class="p-inputtext p-component p-filled"
+                    id="container-name"
+                    required="required"
+                    type="text"
+                  />
+                </div>
+                 
+                <div
+                  class="p-d-flex p-ai-end p-ml-1"
+                >
+                  <button
+                    class="p-button-primary p-button p-component"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-check p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Update
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+               
+              <div
+                class="containerBlocks"
+              >
+                <h4
+                  class="lck-color-content"
+                >
+                  Blocks list
+                </h4>
+                 
+                <div
+                  class="p-datatable p-component"
+                >
                    
                   <!---->
-                </thead>
-                 
-                <tbody
-                  class="p-datatable-tbody"
-                >
-                  <tr
-                    class="p-datatable-emptymessage"
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-wrapper"
                   >
-                    <td
-                      colspan="0"
+                    <table
+                      role="grid"
                     >
-                      
-          No block found
-        
+                      <thead
+                        class="p-datatable-thead"
+                      >
+                        <tr />
+                         
+                        <!---->
+                      </thead>
+                       
+                      <tbody
+                        class="p-datatable-tbody"
+                      >
+                        <tr
+                          class="p-datatable-emptymessage"
+                        >
+                          <td
+                            colspan="0"
+                          >
+                            
+                No block found
+              
+                             
+                            <!---->
+                          </td>
+                        </tr>
+                      </tbody>
                        
                       <!---->
-                    </td>
-                  </tr>
-                </tbody>
-                 
-                <!---->
-              </table>
+                    </table>
+                  </div>
+                   
+                  <!---->
+                   
+                  <div
+                    class="p-datatable-footer"
+                  >
+                    <button
+                      class="p-button-text p-button-lg p-button p-component p-button-icon-only"
+                      title="Create a new block"
+                      type="button"
+                    >
+                      <span
+                        class="pi pi-plus p-button-icon"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                         
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                   
+                  <div
+                    class="p-column-resizer-helper"
+                    style="display: none;"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                </div>
+              </div>
             </div>
-             
-            <!---->
-             
-            <!---->
-             
-            <div
-              class="p-column-resizer-helper"
-              style="display: none;"
-            />
-             
-            <!---->
              
             <!---->
           </div>

@@ -194,3 +194,23 @@ export const unknownTypeStory = () => (
 )
 
 unknownTypeStory.storyName = 'unknown type'
+
+export const editStory = () => (
+  {
+    components: { Block },
+    data () {
+      return {
+        block: {
+          type: 'Paragraph',
+          title: 'Titre',
+          settings: {
+            content: 'Je suis un texte.'
+          }
+        }
+      }
+    },
+    template: '<Block :block="block" :editMode="true" />'
+  }
+)
+
+editStory.storyName = 'Edit a block'

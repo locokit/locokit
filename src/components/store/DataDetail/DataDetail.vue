@@ -176,9 +176,11 @@ export default {
   },
   computed: {
     filteredDefinitionColumns () {
+      if (!this.definition.columns) return []
       return this.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN)
     },
     currentBlockDropdownOptions () {
+      if (!this.definition.columns) return {}
       const result = {}
       this.definition.columns.forEach(currentColumn => {
         if (
