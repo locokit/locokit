@@ -106,6 +106,7 @@
             :manualProcesses="manualProcesses"
             :displayDetailButton="true"
             :cellState="cellState"
+            :submitting="submitting"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
@@ -113,6 +114,8 @@
             @sort="onSort"
             @column-resize="onColumnResize"
             @column-reorder="onColumnReorder"
+            @column-edit="onColumnEdit"
+            @table-view-column-edit="onTableViewColumnEdit"
             @row-delete="onRowDelete"
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
@@ -634,6 +637,32 @@ export default {
         }
       }
       this.views = await retrieveTableViews(this.currentTableId)
+    },
+    async onColumnEdit ({ originalColumn = {}, editedColumn = {} }) {
+      this.submitting = true
+      if (originalColumn.id) {
+        // Update column
+        const updatedColumn = await lckServices.tableColumn.patch(originalColumn.id, {
+          ...editedColumn
+        })
+        for (const key in updatedColumn) {
+          originalColumn[key] = updatedColumn[key]
+        }
+      }
+      this.submitting = false
+    },
+    async onTableViewColumnEdit ({ originalColumn = {}, editedColumn = {} }) {
+      this.submitting = true
+      if (originalColumn.id) {
+        // Update table view column
+        const updatedColumn = await lckServices.tableViewColumn.patch(`${this.selectedViewId},${originalColumn.id}`, {
+          ...editedColumn
+        })
+        for (const key in updatedColumn) {
+          originalColumn[key] = updatedColumn[key]
+        }
+      }
+      this.submitting = false
     },
     async onRowDelete (row) {
       await lckServices.tableRow.remove(row.id)

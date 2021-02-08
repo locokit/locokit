@@ -6,7 +6,7 @@
       type="button"
       :label="label"
       class="lck-dropdownbutton-menubutton"
-      :class="buttonClass"
+      :class="[buttonClass, icon ? 'button-with-icon' : '' ]"
       :icon="icon"
       :iconPos="iconPos"
       @click="onDropdownButtonClick"
@@ -18,6 +18,7 @@
       :id="ariaId + '_overlay'"
       class="lck-dropdownbutton-menu"
       ref="menu"
+      :style="`width:${menuWidth}`"
       :model="model"
       :popup="true"
       :autoZIndex="autoZIndex"
@@ -80,6 +81,10 @@ export default {
     appendTo: {
       type: String,
       default: null
+    },
+    menuWidth: {
+      type: String,
+      default: '100%'
     }
   },
   components: {
@@ -88,6 +93,7 @@ export default {
   },
   methods: {
     onDropdownButtonClick () {
+      this.$emit('click')
       this.$refs.menu.toggle({
         currentTarget: this.$el,
         relativeAlign: this.appendTo == null
@@ -114,7 +120,7 @@ export default {
     justify-content: flex-start;
     width: 100%;
 
-    &:not(.p-button-rounded) {
+    &:not(.button-with-icon) {
       padding-right: 2rem;
 
       &:after {

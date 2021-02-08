@@ -48,6 +48,7 @@
       @select-type-values-change="selectTypeValuesChange"
       @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
       :columnToHandle="columnToHandle"
+      class="p-mt-4"
     />
     <lck-relation-between-tables-type-column
       v-if="selectedColumnTypeIdToHandle && isRelationBetweenTablesType"

@@ -7,6 +7,7 @@
 
     <div class="lck-form-footer">
       <p-button
+        v-if="displayCancelButton"
         class="p-button-text p-button-secondary"
         :label="$t('form.cancel')"
         icon="pi pi-times"
@@ -44,6 +45,10 @@ export default {
     submitting: {
       type: Boolean,
       default: false
+    },
+    displayCancelButton: {
+      type: Boolean,
+      default: true
     }
   }
 }

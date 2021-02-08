@@ -51,6 +51,8 @@
         style="width: unset !important;"
 
         @sort="onSort"
+        :sortField.sync="sortField"
+        :sortOrder.sync="sortOrder"
 
         ref="p-datatable"
 
@@ -94,7 +96,8 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem'
+              'height': '2.5rem',
+              paddingRight: isSortableColumn(column) ? 'default' : '0'
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
@@ -105,9 +108,21 @@
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <span :data-column-id="column.id">
-              {{ column.text }}
-            </span>
+            <div class="p-d-inline-flex p-jc-between p-ai-center" style="width: 100%">
+              <span :data-column-id="column.id">
+                {{ column.text }}
+              </span>
+              <lck-dropdown-button
+                v-if="crudMode"
+                buttonClass="p-button-text p-mr-2 edit-column-icon"
+                icon="pi pi-angle-down"
+                appendTo="body"
+                menuWidth="inherit"
+                style="height: 1.5em;"
+                @click="onEditColumnClick(column)"
+                :model="currentColumnToEdit.id === column.id ? editColumnMenuItems : []"
+              />
+            </div>
           </template>
           <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
             <lck-autocomplete
@@ -216,6 +231,19 @@
       :totalRecords="content && content.total"
       v-on="$listeners"
     />
+    <p-sidebar
+      position="right"
+      class="p-sidebar-md edit-column-sidebar"
+      :modal="false"
+      :visible.sync="showEditColumnSidebar"
+    >
+      <lck-column-form
+        :column="currentColumnToEdit"
+        :submitting="submitting"
+        @column-edit="$emit('column-edit', $event)"
+        @table-view-column-edit="$emit('table-view-column-edit', $event)"
+      />
+    </p-sidebar>
   </div>
   <div v-else>
     {{ $t('components.datatable.noDefinitionAvailable') }}
@@ -238,6 +266,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Sidebar from 'primevue/sidebar'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
@@ -245,6 +274,7 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -265,6 +295,7 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
+    'lck-column-form': ColumnForm,
     'lck-input-url': InputURL,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -276,7 +307,8 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-sidebar': Vue.extend(Sidebar)
   },
   props: {
     definition: {
@@ -323,6 +355,10 @@ export default {
           isValid: null
         }
       }
+    },
+    submitting: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -330,8 +366,10 @@ export default {
       autocompleteInput: null,
       multipleAutocompleteInput: [],
       currentDateToEdit: null,
+      currentColumnToEdit: {},
       multiSelectValues: [],
       selectedRow: null,
+      showEditColumnSidebar: false,
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
         icon: 'pi pi-fw pi-search',
@@ -341,7 +379,9 @@ export default {
         icon: 'pi pi-fw pi-times',
         command: () => this.$emit('row-delete', this.selectedRow)
       }
-      ]
+      ],
+      sortField: null,
+      sortOrder: 1
     }
   },
   computed: {
@@ -392,6 +432,47 @@ export default {
     },
     unorderableColumnsNumber () {
       return [this.displayDetailButton].filter(Boolean).length
+    },
+    editColumnMenuItems () {
+      return [
+        {
+          label: this.$t('components.datatable.column.edit'),
+          icon: 'pi pi-pencil',
+          command: () => {
+            this.showEditColumnSidebar = true
+          }
+        },
+        {
+          label: this.currentColumnToEdit.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
+          icon: this.currentColumnToEdit.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
+          command: () => {
+            this.$emit('table-view-column-edit', {
+              originalColumn: this.currentColumnToEdit,
+              editedColumn: { displayed: !this.currentColumnToEdit.displayed }
+            })
+          }
+        },
+        {
+          icon: 'pi pi-sort-amount-up',
+          label: this.$t('components.datatable.column.ascOrder'),
+          visible: this.isSortableColumn(this.currentColumnToEdit),
+          command: () => {
+            this.sortField = this.currentColumnToEdit.id
+            this.sortOrder = 1
+            this.onSort()
+          }
+        },
+        {
+          icon: 'pi pi-sort-amount-down',
+          label: this.$t('components.datatable.column.descOrder'),
+          visible: this.isSortableColumn(this.currentColumnToEdit),
+          command: () => {
+            this.sortField = this.currentColumnToEdit.id
+            this.sortOrder = -1
+            this.onSort()
+          }
+        }
+      ]
     }
   },
   methods: {
@@ -616,14 +697,18 @@ export default {
           break
       }
     },
-    onSort (event) {
+    onSort () {
       this.$emit('sort', {
-        field: event.sortField,
-        order: event.sortOrder
+        field: this.sortField,
+        order: this.sortOrder
       })
     },
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
+    },
+    onEditColumnClick (column) {
+      this.currentColumnToEdit = column
+      this.showEditColumnSidebar = false
     }
   },
   watch: {
@@ -669,6 +754,18 @@ export default {
   z-index: 2;
   width: 320px;
   height: 160px;
+}
+
+.edit-column-sidebar {
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  max-width: 100vw;
+}
+
+/deep/ .p-button.edit-column-icon {
+  color: var(--primary-color-text);
+  background-color: #ededed;
 }
 
 </style>

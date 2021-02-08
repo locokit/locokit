@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="p-d-flex">
-      <div class="p-ai-start p-my-4">
+      <div class="p-ai-start p-mb-4">
         <p-button
           @click="addSelectTypeValue"
           icon="pi pi-plus"
@@ -12,7 +12,7 @@
     </div>
     <p-datatable
       :value="selectTypeValues"
-      :scrollable="true"
+      :scrollable="scrollable"
       scrollHeight="200px"
     >
       <template #empty>
@@ -128,6 +128,10 @@ export default {
     columnToHandle: {
       type: Object,
       required: false
+    },
+    scrollable: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

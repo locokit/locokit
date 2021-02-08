@@ -8,7 +8,7 @@ exports[`storyshots components/ui/DropdownButton default 1`] = `
     class="lck-dropdownbutton"
   >
     <button
-      aria-controls="pv_id_3_overlay"
+      aria-controls="pv_id_38_overlay"
       aria-haspopup="true"
       class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"
@@ -40,7 +40,7 @@ exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] 
     class="lck-dropdownbutton no-decoration-link p-mr-2"
   >
     <button
-      aria-controls="pv_id_5_overlay"
+      aria-controls="pv_id_40_overlay"
       aria-haspopup="true"
       class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"
@@ -72,7 +72,7 @@ exports[`storyshots components/ui/DropdownButton with model 1`] = `
     class="lck-dropdownbutton no-decoration-link p-mr-2"
   >
     <button
-      aria-controls="pv_id_4_overlay"
+      aria-controls="pv_id_39_overlay"
       aria-haspopup="true"
       class="lck-dropdownbutton-menubutton p-button p-component"
       type="button"

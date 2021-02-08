@@ -63,6 +63,7 @@ export class LckTableColumn extends LckBaseModel {
     localField?: string;
     foreignField?: string;
     values?: Record<string, SelectValue>;
+    default?: string;
     width?: number;
     required?: boolean;
   }
