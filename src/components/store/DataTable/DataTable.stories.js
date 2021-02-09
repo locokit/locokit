@@ -271,49 +271,6 @@ export const withExpectedPropsAndCrudMode = () => (
 
 withExpectedPropsAndCrudMode.storyName = 'CRUD mode with expected props'
 
-export const withExpectedPropsAndCrudModeToEditColumn = () => (
-  {
-    components: { 'lck-datatable': DataTable },
-    data () {
-      return {
-        block: tableViewData
-      }
-    },
-    template: '<lck-datatable ref="lck-datatable" :content="block.content" :definition="block.definition" :crud-mode="true" />',
-    async mounted () {
-      const crudElement = this.$refs['lck-datatable'].$el
-      await Vue.nextTick()
-      const editColumnButton = crudElement.querySelector('table > thead > tr > th .edit-column-icon')
-      editColumnButton.click()
-      await Vue.nextTick()
-    }
-  }
-)
-
-withExpectedPropsAndCrudModeToEditColumn.storyName = 'CRUD mode with expected props to edit a column'
-
-export const withExpectedPropsAndCrudModeToEditUnsortableColumn = () => (
-  {
-    components: { 'lck-datatable': DataTable },
-    data () {
-      return {
-        block: tableViewData
-      }
-    },
-    template: '<lck-datatable ref="lck-datatable" :content="block.content" :definition="block.definition" :crud-mode="true" />',
-    async mounted () {
-      const crudElement = this.$refs['lck-datatable'].$el
-      await Vue.nextTick()
-      const editColumnButton = crudElement.querySelectorAll('table > thead > tr > th .edit-column-icon')[1]
-      editColumnButton.click()
-      await Vue.nextTick()
-    }
-  }
-)
-
-withExpectedPropsAndCrudModeToEditUnsortableColumn.storyName = 'CRUD mode with expected props to edit an unsortable column'
-
-
 export const crudModeWithCalendar = () => (
   {
     components: { 'lck-datatable': DataTable },
@@ -443,3 +400,46 @@ export const crudModeSavedError = () => (
 crudModeSavedError.storyName = 'CRUD mode, edition state saved error'
 crudModeSavedError.args = { timeoutBeforeScreenshot: 800 }
 
+export const withExpectedPropsAndCrudModeToEditColumn = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<lck-datatable ref="lck-datatable" :content="block.content" :definition="block.definition" :crud-mode="true" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const editColumnButton = crudElement.querySelector('table > thead > tr > th .edit-column-icon')
+      editColumnButton.click()
+      await Vue.nextTick()
+    }
+  }
+)
+
+withExpectedPropsAndCrudModeToEditColumn.storyName = 'CRUD mode with expected props to edit a column'
+withExpectedPropsAndCrudModeToEditColumn.args = { timeoutBeforeScreenshot: 800 }
+
+export const withExpectedPropsAndCrudModeToEditUnsortableColumn = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData
+      }
+    },
+    template: '<lck-datatable ref="lck-datatable" :content="block.content" :definition="block.definition" :crud-mode="true" />',
+    async mounted () {
+      const crudElement = this.$refs['lck-datatable'].$el
+      await Vue.nextTick()
+      const editColumnButton = crudElement.querySelectorAll('table > thead > tr > th .edit-column-icon')[1]
+      editColumnButton.click()
+      await Vue.nextTick()
+    }
+  }
+)
+
+withExpectedPropsAndCrudModeToEditUnsortableColumn.storyName = 'CRUD mode with expected props to edit an unsortable column'
+withExpectedPropsAndCrudModeToEditUnsortableColumn.args = { timeoutBeforeScreenshot: 800 }
