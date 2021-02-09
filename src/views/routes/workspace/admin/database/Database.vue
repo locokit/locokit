@@ -641,28 +641,50 @@ export default {
     async onColumnEdit ({ originalColumn = {}, editedColumn = {} }) {
       this.submitting = true
       if (originalColumn.id) {
-        // Update column
-        const updatedColumn = await lckServices.tableColumn.patch(originalColumn.id, {
-          ...editedColumn
-        })
-        for (const key in updatedColumn) {
-          originalColumn[key] = updatedColumn[key]
+        try {
+          // Update column
+          const updatedColumn = await lckServices.tableColumn.patch(
+            originalColumn.id,
+            editedColumn
+          )
+          for (const key in updatedColumn) {
+            originalColumn[key] = updatedColumn[key]
+          }
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: originalColumn.text,
+            detail: this.$t('error.http.' + error.code),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
         }
       }
-      this.submitting = false
     },
     async onTableViewColumnEdit ({ originalColumn = {}, editedColumn = {} }) {
       this.submitting = true
       if (originalColumn.id) {
-        // Update table view column
-        const updatedColumn = await lckServices.tableViewColumn.patch(`${this.selectedViewId},${originalColumn.id}`, {
-          ...editedColumn
-        })
-        for (const key in updatedColumn) {
-          originalColumn[key] = updatedColumn[key]
+        try {
+          // Update table view column
+          const updatedColumn = await lckServices.tableViewColumn.patch(
+            `${this.selectedViewId},${originalColumn.id}`,
+            editedColumn
+          )
+          for (const key in updatedColumn) {
+            originalColumn[key] = updatedColumn[key]
+          }
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: originalColumn.text,
+            detail: this.$t('error.http.' + error.code),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
         }
       }
-      this.submitting = false
     },
     async onRowDelete (row) {
       await lckServices.tableRow.remove(row.id)
