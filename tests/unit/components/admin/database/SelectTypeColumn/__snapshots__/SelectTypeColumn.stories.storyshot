@@ -34,7 +34,8 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
     </div>
      
     <div
-      class="p-datatable p-component p-datatable-scrollable"
+      class="p-datatable p-component"
+      style="height: 250px; overflow-y: auto;"
     >
        
       <!---->
@@ -54,89 +55,39 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
       <!---->
        
       <div
-        class="p-datatable-scrollable-wrapper"
+        class="p-datatable-wrapper"
       >
-        <!---->
-         
-        <div
-          class="p-datatable-scrollable-view"
+        <table
+          role="grid"
         >
-          <div
-            class="p-datatable-scrollable-header"
+          <thead
+            class="p-datatable-thead"
           >
-            <div
-              class="p-datatable-scrollable-header-box"
-              style="padding-right: 0px;"
-            >
-              <table
-                class="p-datatable-scrollable-header-table"
-              >
-                <colgroup />
-                 
-                <thead
-                  class="p-datatable-thead"
-                >
-                  <tr />
-                   
-                  <!---->
-                </thead>
-                 
-              </table>
-            </div>
-          </div>
-           
-          <div
-            class="p-datatable-scrollable-body"
-            style="max-height: 200px; overflow-y: scroll;"
-          >
-            <table
-              class="p-datatable-scrollable-body-table"
-            >
-              <colgroup />
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <tr
-                  class="p-datatable-emptymessage"
-                >
-                  <td
-                    colspan="0"
-                  >
-                    
-        No data
-    
-                     
-                    <!---->
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <tr />
              
             <!---->
-             
-            <div
-              class="p-datatable-virtual-scroller"
-            />
-          </div>
+          </thead>
            
-          <div
-            class="p-datatable-scrollable-footer"
+          <tbody
+            class="p-datatable-tbody"
           >
-            <div
-              class="p-datatable-scrollable-footer-box"
-              style="padding-right: 0px;"
+            <tr
+              class="p-datatable-emptymessage"
             >
-              <table
-                class="p-datatable-scrollable-footer-table"
+              <td
+                colspan="0"
               >
-                <colgroup />
+                
+        No data
+    
                  
                 <!---->
-              </table>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+           
+          <!---->
+        </table>
       </div>
        
       <!---->
@@ -245,7 +196,8 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
     </div>
      
     <div
-      class="p-datatable p-component p-datatable-scrollable"
+      class="p-datatable p-component"
+      style="height: 250px; overflow-y: auto;"
     >
        
       <!---->
@@ -265,89 +217,39 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
       <!---->
        
       <div
-        class="p-datatable-scrollable-wrapper"
+        class="p-datatable-wrapper"
       >
-        <!---->
-         
-        <div
-          class="p-datatable-scrollable-view"
+        <table
+          role="grid"
         >
-          <div
-            class="p-datatable-scrollable-header"
+          <thead
+            class="p-datatable-thead"
           >
-            <div
-              class="p-datatable-scrollable-header-box"
-              style="padding-right: 0px;"
-            >
-              <table
-                class="p-datatable-scrollable-header-table"
-              >
-                <colgroup />
-                 
-                <thead
-                  class="p-datatable-thead"
-                >
-                  <tr />
-                   
-                  <!---->
-                </thead>
-                 
-              </table>
-            </div>
-          </div>
-           
-          <div
-            class="p-datatable-scrollable-body"
-            style="max-height: 200px; overflow-y: scroll;"
-          >
-            <table
-              class="p-datatable-scrollable-body-table"
-            >
-              <colgroup />
-               
-              <tbody
-                class="p-datatable-tbody"
-              >
-                <tr
-                  class="p-datatable-emptymessage"
-                >
-                  <td
-                    colspan="0"
-                  >
-                    
-        No data
-    
-                     
-                    <!---->
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <tr />
              
             <!---->
-             
-            <div
-              class="p-datatable-virtual-scroller"
-            />
-          </div>
+          </thead>
            
-          <div
-            class="p-datatable-scrollable-footer"
+          <tbody
+            class="p-datatable-tbody"
           >
-            <div
-              class="p-datatable-scrollable-footer-box"
-              style="padding-right: 0px;"
+            <tr
+              class="p-datatable-emptymessage"
             >
-              <table
-                class="p-datatable-scrollable-footer-table"
+              <td
+                colspan="0"
               >
-                <colgroup />
+                
+        No data
+    
                  
                 <!---->
-              </table>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+           
+          <!---->
+        </table>
       </div>
        
       <!---->

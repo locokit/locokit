@@ -12,8 +12,7 @@
     </div>
     <p-datatable
       :value="selectTypeValues"
-      :scrollable="scrollable"
-      scrollHeight="200px"
+      style="height:250px; overflow-y: auto;"
     >
       <template #empty>
           {{ $t('pages.databaseSchema.selectType.noData') }}
@@ -128,10 +127,6 @@ export default {
     columnToHandle: {
       type: Object,
       required: false
-    },
-    scrollable: {
-      type: Boolean,
-      default: true
     }
   },
   data () {
@@ -196,9 +191,6 @@ export default {
 <style scoped>
 /deep/ .p-datatable {
   transform: scale(1);
-}
-/deep/ .p-datatable-scrollable-body {
-  height: 200px;
 }
 /deep/ .p-colorpicker-panel {
   display: block !important;

@@ -114,7 +114,7 @@
               </span>
               <lck-dropdown-button
                 v-if="crudMode"
-                buttonClass="p-button-text p-mr-2 edit-column-icon"
+                buttonClass="p-mr-2 edit-column-icon"
                 icon="pi pi-angle-down"
                 appendTo="body"
                 menuWidth="inherit"
@@ -760,12 +760,13 @@ export default {
   top: var(--header-height);
   height: calc(100vh - var(--header-height));
   overflow-y: auto;
-  max-width: 100vw;
+  min-width: 350px;
 }
 
 /deep/ .p-button.edit-column-icon {
-  color: var(--primary-color-text);
-  background-color: #ededed;
+  color: inherit !important;
+  background: inherit !important;
+  border: 0;
 }
 
 </style>

@@ -119,7 +119,6 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
      
     <div
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
-      style="min-height: 30rem;"
     >
       <div
         class="responsive-table-wrapper p-fluid d-flex-1"
@@ -273,7 +272,6 @@ exports[`storyshots components/visualize/TableView with definition and content 1
      
     <div
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
-      style="min-height: 30rem;"
     >
       <div
         class="responsive-table-wrapper p-fluid d-flex-1"
@@ -595,7 +593,6 @@ exports[`storyshots components/visualize/TableView with definition and content a
      
     <div
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
-      style="min-height: 30rem;"
     >
       <div
         class="responsive-table-wrapper p-fluid d-flex-1"
@@ -919,7 +916,6 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
      
     <div
       class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
-      style="min-height: 30rem;"
     >
       <div
         class="responsive-table-wrapper p-fluid d-flex-1"

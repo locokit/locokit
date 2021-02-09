@@ -23,7 +23,6 @@
             @select-type-values-change="selectTypeValuesChange"
             @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
             :columnToHandle="columnCopy"
-            :scrollable="false"
           />
         </div>
       </lck-form>
@@ -76,14 +75,9 @@ export default {
     'lck-form': LckForm,
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
-    // 'p-input-number': Vue.extend(InputNumber),
     'p-input-switch': Vue.extend(InputSwitch)
   },
   props: {
-    visible: {
-      type: Boolean,
-      default: false
-    },
     column: {
       type: Object,
       default: () => ({})
@@ -112,7 +106,9 @@ export default {
     column: {
       handler (newColumnValue: LckTableViewColumn) {
         this.columnCopy = cloneDeep(newColumnValue)
-        if (!this.columnCopy.settings) this.columnCopy.settings = {}
+        if (!this.columnCopy.settings) {
+          this.$set(this.columnCopy, 'settings', {})
+        }
       },
       immediate: true,
       deep: true
