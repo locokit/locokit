@@ -32,19 +32,12 @@
             class="lck-process-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1"
             v-for="process in processResult"
             :key="process.id"
-            style="border: 1px solid gray;border-radius: var(--border-radius);cursor: pointer;"
             @click="onClickProcessItem(process)"
           >
             <div
-              class="o-hidden"
-              style="
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                width: 100%;
-                position: relative;
-              "
+              class="o-hidden o-ellipsis"
             >
-              {{ process.text }}
+              <span class="process-text">{{ process.text }}</span>
               <span
                 v-if="process.runs && process.runs.length > 0"
               >
@@ -53,19 +46,11 @@
               <br />
               <span
                 class="p-tag"
-                style="border: 1px solid var(--primary-color); color: var(--primary-color);"
               >
                 {{ $t('pages.process.eventTrigger.' + process.trigger) }}
               </span>
               <div
-                style="
-                  border-radius: 50%;
-                  width: 1rem; height: 1rem;
-                  margin-left: auto;
-                  position: absolute;
-                  top: calc(50% - .5rem);
-                  right: .5rem;
-                "
+                class="status-mark"
                 :style="{
                   'background-color': process.enabled ? 'var(--color-success)': 'transparent',
                   'border': process.enabled ? '' : '1px solid var(--primary-color)'
@@ -388,6 +373,62 @@ export default Vue.extend({
   padding: 0.25rem;
   font-weight: normal;
   margin: 0.25rem;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+  border-color: var(--primary-color-darken);
+  color: var(--primary-color-darken);
+}
+
+.p-button.p-button-info.p-button-text {
+  color: #fff;
+}
+
+.p-button.p-button-info.p-button-text:hover {
+  color: #fff;
+}
+
+.lck-process-item {
+  /*box-shadow: 0 0 15px #ccc;*/
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.lck-process-item .process-text {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.lck-process-item:hover {
+background-color: var(--primary-color-darken);
+}
+
+.o-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  padding: 1rem;
+
+}
+
+.status-mark {
+  border-radius: 50%;
+  width: 1rem; height: 1rem;
+  margin-left: auto;
+  position: absolute;
+  top: calc(50% - .5rem);
+  right: .5rem;
+  border: 2px solid #fff;
+}
+
+.p-tag {
+  border: 1px solid var(--surface-w);
+  color: var(--surface-w);
 }
 
 </style>

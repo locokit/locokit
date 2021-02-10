@@ -1,0 +1,17 @@
+// Input switchs
+
+.p-inputswitch {
+  &.p-inputswitch-checked {
+    .p-inputswitch-slider {
+      background-color: var(--primary-color);
+    }
+
+    &:not(.p-disabled) {
+      &:hover {
+        .p-inputswitch-slider {
+          background-color: var(--primary-color);
+        }
+      }
+    }
+  }
+}
