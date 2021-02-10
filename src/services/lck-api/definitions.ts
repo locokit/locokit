@@ -39,6 +39,10 @@ export interface SelectValue {
   backgroundColor: string;
 }
 
+export interface SelectValueWithId extends SelectValue {
+  id: string;
+}
+
 export class LckTableColumn extends LckBaseModel {
   /**
    * Text / Title of the column

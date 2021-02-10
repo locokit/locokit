@@ -4,10 +4,9 @@
     <div class="column-form-container lck-color-content">
       <h2 class="lck-color-title">{{ $t('components.datatable.column.globalConfiguration') }}</h2>
       <lck-form
+        :displayCancelButton="false"
         :submitting="submitting"
         @submit="submitColumnData"
-        :displayCancelButton="false"
-        class="column-form"
       >
         <div class="p-field">
           <label for="columnTextField">{{ $t('components.datatable.column.title') }}</label>
@@ -20,9 +19,9 @@
         <div class="p-mb-3" v-if="isSelectColumnType">
           <p>{{ $t('components.datatable.column.values') }}</p>
           <lck-select-type-column
+            :columnToHandle="columnCopy"
             @select-type-values-change="selectTypeValuesChange"
             @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
-            :columnToHandle="columnCopy"
           />
         </div>
       </lck-form>
@@ -30,9 +29,9 @@
     <div class="column-form-container lck-color-content">
       <h2 class="lck-color-title">{{ $t('components.datatable.column.visualizationConfiguration') }}</h2>
       <lck-form
+        :displayCancelButton="false"
         :submitting="submitting"
         @submit="submitTableViewColumnData"
-        :displayCancelButton="false"
       >
         <div class="p-field">
           <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
@@ -64,7 +63,8 @@ import InputSwitch from 'primevue/inputswitch'
 
 import {
   LckTableViewColumn,
-  SelectValue
+  SelectValue,
+  SelectValueWithId
 } from '@/services/lck-api/definitions'
 import LckForm from '@/components/ui/Form/Form.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
@@ -115,30 +115,11 @@ export default {
     }
   },
   methods: {
-    selectTypeValuesChange (
-      data: {
-        id: string;
-        label: string;
-        color: string;
-        backgroundColor: string;
-      }[]
-    ) {
+    selectTypeValuesChange (data: SelectValueWithId[]) {
       const selectTypeValues: Record<string, SelectValue> = {}
-      data.forEach(
-        ({
-          id,
-          label,
-          color,
-          backgroundColor
-        }: {
-          id: string;
-          label: string;
-          color: string;
-          backgroundColor: string;
-        }) => {
-          selectTypeValues[id] = { label, color, backgroundColor }
-        }
-      )
+      data.forEach(({ id, label, color, backgroundColor }: SelectValueWithId) => {
+        selectTypeValues[id] = { label, color, backgroundColor }
+      })
       this.columnCopy.settings.values = selectTypeValues
     },
     defaultSelectTypeValueIdChange (defaultValue: string) {
