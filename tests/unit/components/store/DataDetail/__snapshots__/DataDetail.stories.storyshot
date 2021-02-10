@@ -266,9 +266,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             </span>
              
             <!---->
-            <span
-              class="p-ink"
-            />
           </button>
            
           <!---->

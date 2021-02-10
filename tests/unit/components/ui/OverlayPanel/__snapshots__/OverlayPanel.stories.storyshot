@@ -22,9 +22,6 @@ exports[`storyshots components/ui/OverlayPanel default 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -54,9 +51,6 @@ exports[`storyshots components/ui/OverlayPanel overlay opened 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->

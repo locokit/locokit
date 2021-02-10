@@ -38,9 +38,6 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -87,9 +84,6 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->

@@ -6,14 +6,14 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
 >
   <div
     class="p-dialog-mask p-dialog-bottomright"
-    style="z-index: 1014;"
+    style="z-index: 1012;"
   >
     <div
       aria-labelledby="pv_id_21_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1015;"
+      style="z-index: 1013;"
     >
       <div
         class="p-dialog-header"
@@ -38,9 +38,6 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
-            />
-            <span
-              class="p-ink"
             />
           </button>
         </div>
@@ -74,9 +71,6 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           </span>
            
           <!---->
-          <span
-            class="p-ink"
-          />
         </button>
          
         <button
@@ -95,9 +89,6 @@ exports[`storyshots components/ui/PopupReload default 1`] = `
           </span>
            
           <!---->
-          <span
-            class="p-ink"
-          />
         </button>
       </div>
     </div>

@@ -6,13 +6,13 @@ exports[`storyshots components/ui/Dialog default 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1008;"
+    style="z-index: 1007;"
   >
     <div
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1009;"
+      style="z-index: 1008;"
     >
       <div
         class="p-dialog-header"
@@ -32,9 +32,6 @@ exports[`storyshots components/ui/Dialog default 1`] = `
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
-            />
-            <span
-              class="p-ink"
             />
           </button>
         </div>
@@ -57,14 +54,14 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1009;"
+    style="z-index: 1008;"
   >
     <div
       aria-labelledby="pv_id_15_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1010;"
+      style="z-index: 1009;"
     >
       <div
         class="p-dialog-header"
@@ -89,9 +86,6 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
-            />
-            <span
-              class="p-ink"
             />
           </button>
         </div>
@@ -118,14 +112,14 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1010;"
+    style="z-index: 1009;"
   >
     <div
       aria-labelledby="pv_id_16_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1011;"
+      style="z-index: 1010;"
     >
       <div
         class="p-dialog-header"
@@ -150,9 +144,6 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
-            />
-            <span
-              class="p-ink"
             />
           </button>
         </div>
@@ -185,9 +176,6 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
           </span>
            
           <!---->
-          <span
-            class="p-ink"
-          />
         </button>
          
         <button
@@ -205,9 +193,6 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
           </span>
            
           <!---->
-          <span
-            class="p-ink"
-          />
         </button>
       </div>
     </div>

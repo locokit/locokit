@@ -22,9 +22,6 @@ exports[`storyshots components/store/FilterButton default 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -54,9 +51,6 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -86,9 +80,6 @@ exports[`storyshots components/store/FilterButton overlay opened with specified 
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->

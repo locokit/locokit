@@ -13,11 +13,13 @@ exports[`storyshots components/visualize/Synthesis with props story 1`] = `
       class="p-grid"
     >
       <div
-        class="p-col-12 lck-color-page-title"
+        class="p-col-12 lck-synthesis"
       >
-        <h2>
+        <p
+          class="lck-synthesis-result"
+        >
           1 CO2 / Week
-        </h2>
+        </p>
       </div>
     </div>
   </div>

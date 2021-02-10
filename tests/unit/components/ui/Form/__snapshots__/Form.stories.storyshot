@@ -49,9 +49,6 @@ exports[`storyshots components/ui/Form default 1`] = `
         </span>
          
         <!---->
-        <span
-          class="p-ink"
-        />
       </button>
        
       <button
@@ -69,9 +66,6 @@ exports[`storyshots components/ui/Form default 1`] = `
         </span>
          
         <!---->
-        <span
-          class="p-ink"
-        />
       </button>
     </div>
   </form>
@@ -127,9 +121,6 @@ exports[`storyshots components/ui/Form submitting 1`] = `
         </span>
          
         <!---->
-        <span
-          class="p-ink"
-        />
       </button>
        
       <button
@@ -148,9 +139,6 @@ exports[`storyshots components/ui/Form submitting 1`] = `
         </span>
          
         <!---->
-        <span
-          class="p-ink"
-        />
       </button>
     </div>
   </form>

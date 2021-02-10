@@ -63,9 +63,6 @@ exports[`storyshots components/auth/Login Login 1`] = `
         </span>
          
         <!---->
-        <span
-          class="p-ink"
-        />
       </button>
        
       <a

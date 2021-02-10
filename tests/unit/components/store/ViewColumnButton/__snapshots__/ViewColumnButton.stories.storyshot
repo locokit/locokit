@@ -22,9 +22,6 @@ exports[`storyshots components/store/View/ViewColumnButton default 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -55,9 +52,6 @@ exports[`storyshots components/store/View/ViewColumnButton disabled 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->
@@ -87,9 +81,6 @@ exports[`storyshots components/store/View/ViewColumnButton with value and column
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <!---->

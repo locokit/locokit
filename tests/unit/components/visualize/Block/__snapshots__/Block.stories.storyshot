@@ -100,9 +100,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
                 </span>
                  
                 <!---->
-                <span
-                  class="p-ink"
-                />
               </button>
                
               <!---->
@@ -228,9 +225,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
               <span
                 class="p-paginator-icon pi pi-angle-double-left"
               />
-              <span
-                class="p-ink"
-              />
             </button>
             <button
               class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -239,9 +233,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             >
               <span
                 class="p-paginator-icon pi pi-angle-left"
-              />
-              <span
-                class="p-ink"
               />
             </button>
             <span
@@ -252,9 +243,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
                 type="button"
               >
                 1
-                <span
-                  class="p-ink"
-                />
               </button>
             </span>
             <button
@@ -265,9 +253,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
               <span
                 class="p-paginator-icon pi pi-angle-right"
               />
-              <span
-                class="p-ink"
-              />
             </button>
             <button
               class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -276,9 +261,6 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
             >
               <span
                 class="p-paginator-icon pi pi-angle-double-right"
-              />
-              <span
-                class="p-ink"
               />
             </button>
             <span

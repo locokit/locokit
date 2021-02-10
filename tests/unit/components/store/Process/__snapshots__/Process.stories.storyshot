@@ -31,9 +31,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
       </span>
        
       <!---->
-      <span
-        class="p-ink"
-      />
     </button>
      
     <div
@@ -180,9 +177,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
                   </span>
                    
                   <!---->
-                  <span
-                    class="p-ink"
-                  />
                 </button>
                  
                 <!---->
@@ -288,9 +282,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </span>
                  
                 <!---->
-                <span
-                  class="p-ink"
-                />
               </button>
                
               <button
@@ -308,9 +299,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </span>
                  
                 <!---->
-                <span
-                  class="p-ink"
-                />
               </button>
             </div>
           </form>
