@@ -6,14 +6,14 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1003;"
+    style="z-index: 1004;"
   >
     <div
       aria-labelledby="pv_id_11_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1004;"
+      style="z-index: 1005;"
     >
       <div
         class="p-dialog-header"
@@ -38,6 +38,9 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
+            />
+            <span
+              class="p-ink"
             />
           </button>
         </div>
@@ -88,6 +91,9 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
             >
               Unlocked
             </span>
+            <span
+              class="p-ink"
+            />
           </div>
         </div>
       </div>
@@ -110,6 +116,9 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
          
         <button
@@ -127,6 +136,9 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>
@@ -140,14 +152,14 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1004;"
+    style="z-index: 1005;"
   >
     <div
       aria-labelledby="pv_id_12_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1005;"
+      style="z-index: 1006;"
     >
       <div
         class="p-dialog-header"
@@ -172,6 +184,9 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           >
             <span
               class="p-dialog-header-close-icon pi pi-times"
+            />
+            <span
+              class="p-ink"
             />
           </button>
         </div>
@@ -222,6 +237,9 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
             >
               Unlocked
             </span>
+            <span
+              class="p-ink"
+            />
           </div>
         </div>
       </div>
@@ -244,6 +262,9 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
          
         <button
@@ -261,6 +282,9 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>

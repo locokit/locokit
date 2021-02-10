@@ -533,6 +533,9 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   </span>
                    
                   <!---->
+                  <span
+                    class="p-ink"
+                  />
                 </button>
               </div>
             </div>

@@ -126,6 +126,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -134,6 +137,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -144,6 +150,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -154,6 +163,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -162,6 +174,9 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -355,6 +370,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -363,6 +381,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -373,6 +394,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -383,6 +407,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -391,6 +418,9 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -584,6 +614,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -592,6 +625,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -602,6 +638,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -612,6 +651,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -620,6 +662,9 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -813,6 +858,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -821,6 +869,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -831,6 +882,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -841,6 +895,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -849,6 +906,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1042,6 +1102,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -1050,6 +1113,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1060,6 +1126,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -1070,6 +1139,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -1078,6 +1150,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1271,6 +1346,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -1279,6 +1357,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1289,6 +1370,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -1299,6 +1383,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -1307,6 +1394,9 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1579,6 +1669,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -1587,6 +1680,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1597,6 +1693,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -1607,6 +1706,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -1615,6 +1717,9 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1808,6 +1913,9 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -1816,6 +1924,9 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -1826,6 +1937,9 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -1836,6 +1950,9 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -1844,6 +1961,9 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -2029,6 +2149,9 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
         <span
           class="p-paginator-icon pi pi-angle-double-left"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -2037,6 +2160,9 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
       >
         <span
           class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span
@@ -2047,6 +2173,9 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
           type="button"
         >
           1
+          <span
+            class="p-ink"
+          />
         </button>
       </span>
       <button
@@ -2057,6 +2186,9 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
         <span
           class="p-paginator-icon pi pi-angle-right"
         />
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -2065,6 +2197,9 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
       >
         <span
           class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
         />
       </button>
       <span

@@ -17,6 +17,9 @@ exports[`storyshots components/ui/Paginator default 1`] = `
       <span
         class="p-paginator-icon pi pi-angle-double-left"
       />
+      <span
+        class="p-ink"
+      />
     </button>
     <button
       class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -25,6 +28,9 @@ exports[`storyshots components/ui/Paginator default 1`] = `
     >
       <span
         class="p-paginator-icon pi pi-angle-left"
+      />
+      <span
+        class="p-ink"
       />
     </button>
     <span
@@ -35,6 +41,9 @@ exports[`storyshots components/ui/Paginator default 1`] = `
         type="button"
       >
         1
+        <span
+          class="p-ink"
+        />
       </button>
     </span>
     <button
@@ -45,6 +54,9 @@ exports[`storyshots components/ui/Paginator default 1`] = `
       <span
         class="p-paginator-icon pi pi-angle-right"
       />
+      <span
+        class="p-ink"
+      />
     </button>
     <button
       class="p-paginator-last p-paginator-element p-link p-disabled"
@@ -53,6 +65,9 @@ exports[`storyshots components/ui/Paginator default 1`] = `
     >
       <span
         class="p-paginator-icon pi pi-angle-double-right"
+      />
+      <span
+        class="p-ink"
       />
     </button>
     <span
@@ -85,6 +100,9 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
       <span
         class="p-paginator-icon pi pi-angle-double-left"
       />
+      <span
+        class="p-ink"
+      />
     </button>
     <button
       class="p-paginator-prev p-paginator-element p-link p-disabled"
@@ -93,6 +111,9 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
     >
       <span
         class="p-paginator-icon pi pi-angle-left"
+      />
+      <span
+        class="p-ink"
       />
     </button>
     <span
@@ -103,30 +124,45 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
         type="button"
       >
         1
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-page p-paginator-element p-link"
         type="button"
       >
         2
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-page p-paginator-element p-link"
         type="button"
       >
         3
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-page p-paginator-element p-link"
         type="button"
       >
         4
+        <span
+          class="p-ink"
+        />
       </button>
       <button
         class="p-paginator-page p-paginator-element p-link"
         type="button"
       >
         5
+        <span
+          class="p-ink"
+        />
       </button>
     </span>
     <button
@@ -136,6 +172,9 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
       <span
         class="p-paginator-icon pi pi-angle-right"
       />
+      <span
+        class="p-ink"
+      />
     </button>
     <button
       class="p-paginator-last p-paginator-element p-link"
@@ -143,6 +182,9 @@ exports[`storyshots components/ui/Paginator with props 1`] = `
     >
       <span
         class="p-paginator-icon pi pi-angle-double-right"
+      />
+      <span
+        class="p-ink"
       />
     </button>
     <span

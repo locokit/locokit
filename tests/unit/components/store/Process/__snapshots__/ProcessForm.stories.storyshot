@@ -129,6 +129,9 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
          
         <!---->
@@ -234,6 +237,9 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         </span>
          
         <!---->
+        <span
+          class="p-ink"
+        />
       </button>
        
       <button
@@ -251,6 +257,9 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         </span>
          
         <!---->
+        <span
+          class="p-ink"
+        />
       </button>
     </div>
   </form>
@@ -385,6 +394,9 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
          
         <!---->
@@ -490,6 +502,9 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         </span>
          
         <!---->
+        <span
+          class="p-ink"
+        />
       </button>
        
       <button
@@ -508,6 +523,9 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         </span>
          
         <!---->
+        <span
+          class="p-ink"
+        />
       </button>
     </div>
   </form>

@@ -45,6 +45,9 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing default 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>
@@ -142,6 +145,9 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with detail proc
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>
@@ -239,6 +245,9 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with processes t
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>

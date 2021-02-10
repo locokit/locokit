@@ -26,6 +26,9 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>
@@ -232,6 +235,9 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
           </span>
            
           <!---->
+          <span
+            class="p-ink"
+          />
         </button>
       </div>
     </div>

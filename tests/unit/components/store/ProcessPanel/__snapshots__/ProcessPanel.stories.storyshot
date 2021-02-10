@@ -76,6 +76,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 </span>
                  
                 <!---->
+                <span
+                  class="p-ink"
+                />
               </button>
             </div>
           </div>
@@ -92,6 +95,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
             >
               <span
                 class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
               />
             </button>
           </div>
@@ -243,6 +249,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 </span>
                  
                 <!---->
+                <span
+                  class="p-ink"
+                />
               </button>
             </div>
           </div>
@@ -259,6 +268,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
             >
               <span
                 class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
               />
             </button>
           </div>
@@ -353,6 +365,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
             >
               <span
                 class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
               />
             </button>
           </div>

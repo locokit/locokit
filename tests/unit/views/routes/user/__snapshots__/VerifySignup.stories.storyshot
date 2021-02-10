@@ -127,6 +127,9 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
                     </span>
                      
                     <!---->
+                    <span
+                      class="p-ink"
+                    />
                   </button>
                 </div>
               </form>

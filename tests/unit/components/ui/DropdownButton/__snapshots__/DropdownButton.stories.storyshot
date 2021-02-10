@@ -22,6 +22,9 @@ exports[`storyshots components/ui/DropdownButton default 1`] = `
       </span>
        
       <!---->
+      <span
+        class="p-ink"
+      />
     </button>
      
     <!---->
@@ -51,6 +54,9 @@ exports[`storyshots components/ui/DropdownButton dropdown opened with model 1`] 
       </span>
        
       <!---->
+      <span
+        class="p-ink"
+      />
     </button>
      
     <!---->
@@ -80,6 +86,9 @@ exports[`storyshots components/ui/DropdownButton with model 1`] = `
       </span>
        
       <!---->
+      <span
+        class="p-ink"
+      />
     </button>
      
     <!---->
