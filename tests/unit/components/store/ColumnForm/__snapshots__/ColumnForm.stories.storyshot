@@ -21,7 +21,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
       </h2>
        
       <form
-        class="p-fluid column-form"
+        class="p-fluid"
       >
         <div
           class="p-field"
@@ -354,7 +354,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
       </h2>
        
       <form
-        class="p-fluid column-form"
+        class="p-fluid"
       >
         <div
           class="p-field"
@@ -525,7 +525,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
       </h2>
        
       <form
-        class="p-fluid column-form"
+        class="p-fluid"
       >
         <div
           class="p-field"

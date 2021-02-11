@@ -1,0 +1,247 @@
+{
+  "id": "895ec967-fa3b-4710-82e7-b406e62f657d",
+  "text": "Base principale",
+  "createdAt": "2020-11-02T16:11:03.109Z",
+  "updatedAt": "2020-11-02T16:11:03.109Z",
+  "workspace_id": "eaddde8c-1de4-4e5e-960a-3872907475e5",
+  "tables": [
+    {
+      "id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+      "text": "Personne",
+      "createdAt": "2020-11-02T16:11:03.109Z",
+      "updatedAt": "2020-11-02T16:11:03.109Z",
+      "database_id": "895ec967-fa3b-4710-82e7-b406e62f657d",
+      "views": [
+        {
+          "id": "2dd743cf-817c-42ba-879f-715518220673",
+          "text": "Vue - bénéficiaires",
+          "createdAt": "2021-01-29T10:38:30.213Z",
+          "updatedAt": "2021-02-08T10:42:32.622Z",
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "locked": false,
+          "columns": [
+            {
+              "id": "e6c04798-93a8-4b3e-a3bd-42833cf0c3f6",
+              "text": "Prénom",
+              "createdAt": "2020-11-02T16:11:03.109Z",
+              "updatedAt": "2020-11-02T16:11:03.109Z",
+              "settings": null,
+              "position": 1,
+              "reference": true,
+              "reference_position": 0,
+              "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+              "column_type_id": 2,
+              "locked": false,
+              "displayed": false,
+              "filter": null,
+              "transmitted": true,
+              "editable": true,
+              "style": {
+                "width": 128
+              },
+              "default": null
+            },
+            {
+              "id": "e40fd54c-f330-48e3-8f32-6e0a7939b0ed",
+              "text": "E-mail",
+              "createdAt": "2020-11-02T16:11:03.109Z",
+              "updatedAt": "2021-02-09T08:29:25.368Z",
+              "settings": {},
+              "position": 3,
+              "reference": false,
+              "reference_position": null,
+              "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+              "column_type_id": 2,
+              "locked": false,
+              "displayed": true,
+              "filter": null,
+              "transmitted": true,
+              "editable": null,
+              "style": {
+                "width": 352
+              },
+              "default": null
+            },
+            {
+              "id": "a20915a9-0420-4bbe-be12-b73f81829a69",
+              "text": "Nom",
+              "createdAt": "2020-11-02T16:11:03.109Z",
+              "updatedAt": "2020-11-02T16:11:03.109Z",
+              "settings": null,
+              "position": 2,
+              "reference": true,
+              "reference_position": 1,
+              "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+              "column_type_id": 2,
+              "locked": false,
+              "displayed": true,
+              "filter": null,
+              "transmitted": true,
+              "editable": null,
+              "style": {
+                "width": 153
+              },
+              "default": null
+            }
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "id": "e6c04798-93a8-4b3e-a3bd-42833cf0c3f6",
+          "text": "Prénom",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 0,
+          "reference": true,
+          "reference_position": 0,
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "column_type_id": 2,
+          "locked": false
+        },
+        {
+          "id": "a20915a9-0420-4bbe-be12-b73f81829a69",
+          "text": "Nom",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 1,
+          "reference": true,
+          "reference_position": 1,
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "column_type_id": 2,
+          "locked": false
+        },
+        {
+          "id": "e40fd54c-f330-48e3-8f32-6e0a7939b0ed",
+          "text": "E-mail",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2021-02-09T08:29:25.368Z",
+          "settings": {},
+          "position": 2,
+          "reference": false,
+          "reference_position": null,
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "column_type_id": 2,
+          "locked": false
+        },
+        {
+          "id": "9bd06fa9-a221-4c1e-ad86-01687dbd3364",
+          "text": "Tél",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 3,
+          "reference": false,
+          "reference_position": null,
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "column_type_id": 2,
+          "locked": false
+        },
+        {
+          "id": "3d5681a5-9242-40a7-9e4c-21a6cbd5b5f4",
+          "text": "Utilisateur",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 4,
+          "reference": false,
+          "reference_position": null,
+          "table_id": "20ac37ee-f931-4e84-ba35-4b61301a14e0",
+          "column_type_id": 6,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+      "text": "Fournisseur",
+      "createdAt": "2020-11-02T16:11:03.109Z",
+      "updatedAt": "2020-11-02T16:11:03.109Z",
+      "database_id": "895ec967-fa3b-4710-82e7-b406e62f657d",
+      "views": [
+        {
+          "id": "9753bd58-ad09-4ed0-9301-fa9ea66b7d7f",
+          "text": "Ensemble des fournisseurs",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "table_id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+          "locked": false,
+          "columns": [
+            {
+              "id": "da8fdd15-f98e-4853-b685-0847da7450a3",
+              "text": "Utilisateur",
+              "createdAt": "2020-11-02T16:11:03.109Z",
+              "updatedAt": "2020-11-02T16:11:03.109Z",
+              "settings": null,
+              "position": 1,
+              "reference": false,
+              "reference_position": null,
+              "table_id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+              "column_type_id": 6,
+              "locked": false,
+              "displayed": true,
+              "filter": null,
+              "transmitted": true,
+              "editable": true,
+              "style": {
+                "width": 337
+              },
+              "default": null
+            },
+            {
+              "id": "17ab6b13-5412-483e-ac7d-a9add38225f1",
+              "text": "Nom fournisseur",
+              "createdAt": "2020-11-02T16:11:03.109Z",
+              "updatedAt": "2020-11-02T16:11:03.109Z",
+              "settings": null,
+              "position": 0,
+              "reference": true,
+              "reference_position": null,
+              "table_id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+              "column_type_id": 2,
+              "locked": false,
+              "displayed": true,
+              "filter": null,
+              "transmitted": true,
+              "editable": true,
+              "style": {
+                "width": 164
+              },
+              "default": null
+            }
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "id": "17ab6b13-5412-483e-ac7d-a9add38225f1",
+          "text": "Nom fournisseur",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 0,
+          "reference": true,
+          "reference_position": null,
+          "table_id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+          "column_type_id": 2,
+          "locked": false
+        },
+        {
+          "id": "da8fdd15-f98e-4853-b685-0847da7450a3",
+          "text": "Utilisateur",
+          "createdAt": "2020-11-02T16:11:03.109Z",
+          "updatedAt": "2020-11-02T16:11:03.109Z",
+          "settings": null,
+          "position": 2,
+          "reference": false,
+          "reference_position": null,
+          "table_id": "a7a05fec-be28-4876-b158-6b96d10d8e2b",
+          "column_type_id": 6,
+          "locked": false
+        }
+      ]
+    }
+  ]
+}

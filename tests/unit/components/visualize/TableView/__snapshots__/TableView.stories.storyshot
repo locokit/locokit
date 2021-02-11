@@ -207,8 +207,6 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
       </div>
        
       <!---->
-       
-      <!---->
     </div>
      
     <form>
@@ -493,8 +491,6 @@ exports[`storyshots components/visualize/TableView with definition and content 1
           </div>
         </div>
       </div>
-       
-      <!---->
     </div>
      
     <form>
@@ -815,8 +811,6 @@ exports[`storyshots components/visualize/TableView with definition and content a
           </div>
         </div>
       </div>
-       
-      <!---->
     </div>
      
     <form>
@@ -1005,8 +999,6 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
          
         <!---->
       </div>
-       
-      <!---->
        
       <!---->
     </div>
