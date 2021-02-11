@@ -118,9 +118,8 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 menuWidth="inherit"
-                style="height: 1.5em;"
-                @click="onEditColumnClick(column)"
-                :model="currentColumnToEdit.id === column.id ? editColumnMenuItems : []"
+                @click="$emit('column-select', column)"
+                :model="selectedColumn.id === column.id ? editColumnMenuItems : []"
               />
             </div>
           </template>
@@ -231,19 +230,6 @@
       :totalRecords="content && content.total"
       v-on="$listeners"
     />
-    <p-sidebar
-      position="right"
-      class="p-sidebar-md edit-column-sidebar"
-      :modal="false"
-      :visible.sync="showEditColumnSidebar"
-    >
-      <lck-column-form
-        :column="currentColumnToEdit"
-        :submitting="submitting"
-        @column-edit="$emit('column-edit', $event)"
-        @table-view-column-edit="$emit('table-view-column-edit', $event)"
-      />
-    </p-sidebar>
   </div>
   <div v-else>
     {{ $t('components.datatable.noDefinitionAvailable') }}
@@ -266,7 +252,6 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
-import Sidebar from 'primevue/sidebar'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
@@ -274,7 +259,6 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
-import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -295,7 +279,6 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
-    'lck-column-form': ColumnForm,
     'lck-input-url': InputURL,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -307,8 +290,7 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
-    'p-button': Vue.extend(Button),
-    'p-sidebar': Vue.extend(Sidebar)
+    'p-button': Vue.extend(Button)
   },
   props: {
     definition: {
@@ -359,6 +341,10 @@ export default {
     submitting: {
       type: Boolean,
       default: false
+    },
+    selectedColumn: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
@@ -366,7 +352,6 @@ export default {
       autocompleteInput: null,
       multipleAutocompleteInput: [],
       currentDateToEdit: null,
-      currentColumnToEdit: {},
       multiSelectValues: [],
       selectedRow: null,
       showEditColumnSidebar: false,
@@ -439,25 +424,24 @@ export default {
           label: this.$t('components.datatable.column.edit'),
           icon: 'pi pi-pencil',
           command: () => {
-            this.showEditColumnSidebar = true
+            this.$emit('display-column-sidebar')
           }
         },
         {
-          label: this.currentColumnToEdit.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
-          icon: this.currentColumnToEdit.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
+          label: this.selectedColumn.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
+          icon: this.selectedColumn.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
           command: () => {
             this.$emit('table-view-column-edit', {
-              originalColumn: this.currentColumnToEdit,
-              editedColumn: { displayed: !this.currentColumnToEdit.displayed }
+              displayed: !this.selectedColumn.displayed
             })
           }
         },
         {
           icon: 'pi pi-sort-amount-up',
           label: this.$t('components.datatable.column.ascOrder'),
-          visible: this.isSortableColumn(this.currentColumnToEdit),
+          visible: this.isSortableColumn(this.selectedColumn),
           command: () => {
-            this.sortField = this.currentColumnToEdit.id
+            this.sortField = this.selectedColumn.id
             this.sortOrder = 1
             this.onSort()
           }
@@ -465,9 +449,9 @@ export default {
         {
           icon: 'pi pi-sort-amount-down',
           label: this.$t('components.datatable.column.descOrder'),
-          visible: this.isSortableColumn(this.currentColumnToEdit),
+          visible: this.isSortableColumn(this.selectedColumn),
           command: () => {
-            this.sortField = this.currentColumnToEdit.id
+            this.sortField = this.selectedColumn.id
             this.sortOrder = -1
             this.onSort()
           }
@@ -705,10 +689,6 @@ export default {
     },
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
-    },
-    onEditColumnClick (column) {
-      this.currentColumnToEdit = column
-      this.showEditColumnSidebar = false
     }
   },
   watch: {
@@ -756,17 +736,11 @@ export default {
   height: 160px;
 }
 
-.edit-column-sidebar {
-  top: var(--header-height);
-  height: calc(100vh - var(--header-height));
-  overflow-y: auto;
-  min-width: 350px;
-}
-
-/deep/ .p-button.edit-column-icon {
+/deep/ .edit-column-icon {
   color: inherit !important;
   background: inherit !important;
   border: 0;
+  height: 1.5em;
 }
 
 </style>

@@ -133,18 +133,14 @@ export default {
         editedColumn.settings = this.columnCopy.settings
       }
       this.$emit('column-edit', {
-        originalColumn: this.column,
-        editedColumn
+        ...editedColumn
       })
     },
     submitTableViewColumnData () {
       this.$emit('table-view-column-edit', {
-        originalColumn: this.column,
-        editedColumn: {
-          displayed: this.columnCopy.displayed,
-          position: this.columnCopy.position,
-          editable: this.columnCopy.editable
-        }
+        displayed: this.columnCopy.displayed,
+        position: this.columnCopy.position,
+        editable: this.columnCopy.editable
       })
     }
   }
