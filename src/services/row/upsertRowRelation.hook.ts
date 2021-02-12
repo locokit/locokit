@@ -17,7 +17,7 @@ export function upsertRowRelation (): Hook {
           return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
         })
         .map(async currentColumnId => {
-          // check if there is alreay a trr for the current row id + currentColumnId
+          // check if there is already a trr for the current row id + currentColumnId
           const matchingRows = await context.app.services.trr.find({
             query: {
               table_row_to_id: context.result.id,
