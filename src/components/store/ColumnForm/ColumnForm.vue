@@ -132,9 +132,7 @@ export default {
       if (this.isSelectColumnType) {
         editedColumn.settings = this.columnCopy.settings
       }
-      this.$emit('column-edit', {
-        ...editedColumn
-      })
+      this.$emit('column-edit', editedColumn)
     },
     submitTableViewColumnData () {
       this.$emit('table-view-column-edit', {

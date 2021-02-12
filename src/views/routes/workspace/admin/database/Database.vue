@@ -107,7 +107,6 @@
             :manualProcesses="manualProcesses"
             :displayDetailButton="true"
             :cellState="cellState"
-            :submitting="submitting"
             :selectedColumn="currentColumnToEdit"
 
             @update-content="onUpdateContent"

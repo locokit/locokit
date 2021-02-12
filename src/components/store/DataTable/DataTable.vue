@@ -338,10 +338,6 @@ export default {
         }
       }
     },
-    submitting: {
-      type: Boolean,
-      default: false
-    },
     selectedColumn: {
       type: Object,
       default: () => ({})
@@ -354,7 +350,6 @@ export default {
       currentDateToEdit: null,
       multiSelectValues: [],
       selectedRow: null,
-      showEditColumnSidebar: false,
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
         icon: 'pi pi-fw pi-search',
