@@ -139,7 +139,6 @@ export default {
     submitTableViewColumnData () {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
-        position: this.columnCopy.position,
         editable: this.columnCopy.editable
       })
     }

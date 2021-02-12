@@ -678,7 +678,7 @@ export default {
             this.currentColumnToEdit.id,
             editedColumnData
           )
-          // Update local column data
+          // Update the table column
           if (Array.isArray(this.block?.definition?.columns)) {
             const tableColumnData = this.block.definition.columns.find(column => column.id === this.currentColumnToEdit.id)
             for (const key in tableColumnData) {
@@ -686,11 +686,14 @@ export default {
               else tableColumnData[key] = updatedColumn[key]
             }
           }
-          // Update local table view column data
-          for (const key in updatedColumn) {
-            if (this.currentColumnToEdit[key] == null && updatedColumn[key] != null) this.$set(this.currentColumnToEdit, key, updatedColumn[key])
-            else this.currentColumnToEdit[key] = updatedColumn[key]
-          }
+          // Update the column of each table view of the table
+          this.views.forEach(view => {
+            const currentTableViewColumn = view.columns.find(column => column.id === this.currentColumnToEdit.id)
+            for (const key in updatedColumn) {
+              if (currentTableViewColumn[key] == null && updatedColumn[key] != null) this.$set(currentTableViewColumn, key, updatedColumn[key])
+              else currentTableViewColumn[key] = updatedColumn[key]
+            }
+          })
         } catch (error) {
           this.$toast.add({
             severity: 'error',

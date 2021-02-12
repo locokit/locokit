@@ -39,10 +39,10 @@ jest.mock('primevue/button', () => ({
   name: 'p-button',
   render: h => h('p-button')
 }))
-// jest.mock('primevue/sidebar', () => ({
-//   name: 'p-sidebar',
-//   render: h => h('prime-sidebar')
-// }))
+jest.mock('primevue/sidebar', () => ({
+  name: 'p-sidebar',
+  render: h => h('p-sidebar')
+}))
 
 // Mock error
 class MockError extends Error {
@@ -103,7 +103,7 @@ const mockDatabase = {
               createdAt: '2020-11-02T16:11:03.109Z',
               updatedAt: '2021-02-09T08:29:25.368Z',
               settings: {},
-              position: 3,
+              position: 2,
               reference: false,
               reference_position: null,
               table_id: 'T1',
@@ -124,7 +124,7 @@ const mockDatabase = {
               createdAt: '2020-11-02T16:11:03.109Z',
               updatedAt: '2020-11-02T16:11:03.109Z',
               settings: null,
-              position: 2,
+              position: 3,
               reference: true,
               reference_position: 1,
               table_id: 'T1',
@@ -136,6 +136,37 @@ const mockDatabase = {
               editable: null,
               style: {
                 width: 153
+              },
+              default: null
+            }
+          ]
+        },
+        {
+          id: 'V12',
+          text: 'Vue - Prénom',
+          createdAt: '2021-01-29T10:38:30.213Z',
+          updatedAt: '2021-02-08T10:42:32.622Z',
+          table_id: 'T1',
+          locked: false,
+          columns: [
+            {
+              id: 'C11',
+              text: 'Prénom',
+              createdAt: '2020-11-02T16:11:03.109Z',
+              updatedAt: '2020-11-02T16:11:03.109Z',
+              settings: null,
+              position: 1,
+              reference: true,
+              reference_position: 0,
+              table_id: 'T1',
+              column_type_id: 2,
+              locked: false,
+              displayed: false,
+              filter: null,
+              transmitted: true,
+              editable: true,
+              style: {
+                width: 128
               },
               default: null
             }
@@ -305,6 +336,7 @@ const mockDatabase = {
 const mockFirstTable = mockDatabase.tables[0]
 const mockFirstTableView = mockFirstTable.views[0]
 
+// Method to make an object deep copy
 function mockDeepCloneObject (object) {
   return object ? JSON.parse(JSON.stringify(object)) : {}
 }
@@ -420,6 +452,37 @@ jest.mock('@/store/database', () => {
                 editable: null,
                 style: {
                   width: 153
+                },
+                default: null
+              }
+            ]
+          },
+          {
+            id: 'V12',
+            text: 'Vue - Prénom',
+            createdAt: '2021-01-29T10:38:30.213Z',
+            updatedAt: '2021-02-08T10:42:32.622Z',
+            table_id: 'T1',
+            locked: false,
+            columns: [
+              {
+                id: 'C11',
+                text: 'Prénom',
+                createdAt: '2020-11-02T16:11:03.109Z',
+                updatedAt: '2020-11-02T16:11:03.109Z',
+                settings: null,
+                position: 1,
+                reference: true,
+                reference_position: 0,
+                table_id: 'T1',
+                column_type_id: 2,
+                locked: false,
+                displayed: false,
+                filter: null,
+                transmitted: true,
+                editable: true,
+                style: {
+                  width: 128
                 },
                 default: null
               }
@@ -645,18 +708,24 @@ describe('Database', () => {
     })
 
     describe('Column sidebar', () => {
+      let sidebarWrapper
+
+      beforeEach(async () => {
+        sidebarWrapper = wrapper.findComponent({ name: 'p-sidebar' })
+      })
+
       it('Display it from the datatable', async () => {
-        expect(wrapper.find('.edit-column-sidebar').vm.visible).toBe(false)
+        expect(sidebarWrapper.attributes('visible')).toBeFalsy()
         await datatableWrapper.vm.$emit('display-column-sidebar')
-        expect(wrapper.find('.edit-column-sidebar').vm.visible).toBe(true)
+        expect(sidebarWrapper.attributes('visible')).toBeTruthy()
       })
       it('Hide it when selecting a new column', async () => {
         // Display it
         await datatableWrapper.vm.$emit('display-column-sidebar')
-        expect(wrapper.find('.edit-column-sidebar').vm.visible).toBe(true)
+        expect(sidebarWrapper.attributes('visible')).toBeTruthy()
         // Select a column
         await datatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
-        expect(wrapper.find('.edit-column-sidebar').vm.visible).toBe(false)
+        expect(sidebarWrapper.attributes('visible')).toBeFalsy()
       })
     })
 
@@ -679,6 +748,7 @@ describe('Database', () => {
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].text).toBe(updatedColumnData.text)
+        expect(wrapper.vm.views[1].columns[0].text).toBe(updatedColumnData.text)
         expect(wrapper.vm.block.definition.columns[0].text).toBe(updatedColumnData.text)
       })
 
