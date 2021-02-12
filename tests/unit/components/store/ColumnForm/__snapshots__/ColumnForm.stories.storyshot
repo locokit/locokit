@@ -76,8 +76,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </div>
              
             <div
-              class="p-datatable p-component"
-              style="height: 250px; overflow-y: auto;"
+              class="select-type-values-table p-datatable p-component"
             >
                
               <!---->

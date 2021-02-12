@@ -34,8 +34,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
     </div>
      
     <div
-      class="p-datatable p-component"
-      style="height: 250px; overflow-y: auto;"
+      class="select-type-values-table p-datatable p-component"
     >
        
       <!---->
@@ -196,8 +195,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
     </div>
      
     <div
-      class="p-datatable p-component"
-      style="height: 250px; overflow-y: auto;"
+      class="select-type-values-table p-datatable p-component"
     >
        
       <!---->

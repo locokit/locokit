@@ -12,7 +12,7 @@
     </div>
     <p-datatable
       :value="selectTypeValues"
-      style="height:250px; overflow-y: auto;"
+      class="select-type-values-table"
     >
       <template #empty>
           {{ $t('pages.databaseSchema.selectType.noData') }}
@@ -191,6 +191,16 @@ export default {
 <style scoped>
 /deep/ .p-datatable {
   transform: scale(1);
+}
+/deep/ .select-type-values-table tbody {
+  height: 200px;
+  overflow-y: auto;
+  display: block;
+}
+/deep/ .select-type-values-table tr, .select-type-values-table thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 /deep/ .p-colorpicker-panel {
   display: block !important;
