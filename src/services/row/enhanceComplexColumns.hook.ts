@@ -52,12 +52,13 @@ export function enhanceComplexColumns (): Hook {
             case COLUMN_TYPE.MULTI_USER:
               const matchingUsers = await context.app.services.user.find({
                 query: {
-                  id: { $in: reference }
-                }
+                  id: { $in: reference },
+                },
+                paginate: false
               })
               const references: Array<number> = []
               const values: Array<string> = []
-              matchingUsers.data.forEach((user: User) => {
+              matchingUsers?.forEach((user: User) => {
                 references.push(user.id)
                 values.push(user.name)
               })
