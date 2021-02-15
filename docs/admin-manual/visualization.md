@@ -17,3 +17,4 @@ according user permissions, and page organization.
 * Markdown
 * Paragraph
 * TableView
+* Media
