@@ -106,7 +106,7 @@
             :manualProcesses="manualProcesses"
             :displayDetailButton="true"
             :cellState="cellState"
-            :columnsSetPrefix="currentView ? currentView.id : ''"
+            :columnsSetPrefix="currentView && currentView.id"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
