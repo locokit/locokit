@@ -1,5 +1,6 @@
 <template>
   <lck-form
+    @cancel="$emit('cancel')"
     @submit="$emit('input', processCloned)"
     :submitting="submitting"
   >
@@ -12,6 +13,7 @@
         type="text"
         v-model="processCloned.text"
         :placeholder="$t('components.process.form.text.placeholder')"
+        required
       />
     </div>
     <div class="p-field">
@@ -23,6 +25,7 @@
         type="text"
         v-model="processCloned.url"
         :placeholder="$t('components.process.form.url')"
+        required
       />
     </div>
     <div class="p-field">
@@ -49,6 +52,7 @@
         v-model="processCloned.table"
         @item-select="processCloned.table_id = processCloned.table.value"
         @clear="processCloned.table_id = null"
+        required
       />
     </div>
     <div class="p-field">
@@ -63,6 +67,7 @@
         optionValue="value"
         appendTo="body"
         :options="triggerOptions"
+        required
       />
     </div>
     <div

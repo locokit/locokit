@@ -83,6 +83,7 @@
         :suggestionsTable="suggestionsTable"
         :suggestionsColumn="suggestionsColumn"
         @refresh-runs="onRefreshRuns"
+        @cancel="backToProcessList"
       />
     </div>
 
@@ -332,7 +333,6 @@ export default Vue.extend({
 }
 
 /deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav {
-  /* background-color: transparent; */
   overflow: auto;
   border: unset;
   flex-wrap: unset;
