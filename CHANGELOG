@@ -1,5 +1,11 @@
 # CHANGELOG
 
+**v0.1.5**
+
+* add new `GEOMETRY_POINT` `COLUMN_TYPE`
+* add new `GEOMETRY_POLYGON` `COLUMN_TYPE`
+* add new `GEOMETRY_LINESTRING` `COLUMN_TYPE`
+
 **v0.1.4**
 
 * add new `URL` `COLUMN_TYPE`
