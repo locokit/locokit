@@ -4,7 +4,7 @@
   >
     <template #toolbar>
       <span class="p-pl-1">
-        <span class="pi pi-th-large"/>
+        <span class="pi pi-th-large" />
         {{ $t('pages.process.titleButton') }}
       </span>
 
@@ -43,10 +43,7 @@
               </span>
             <div
               class="status-mark"
-              :style="{
-                  'background-color': process.enabled ? 'var(--color-success)': 'transparent',
-                  'border': process.enabled ? '' : '1px solid var(--primary-color)'
-                }"
+              :class="process.enabled ? 'status-mark-enabled' : ''"
             />
           </div>
           <div class="p-ml-auto">
@@ -270,7 +267,7 @@ export default Vue.extend({
       }
       this.currentProcess = process
     },
-    async onSearchTable ({ query }: { query: string}) {
+    async onSearchTable ({ query }: { query: string }) {
       const tableResult = await lckServices.table.find({
         query: {
           'database.workspace_id': this.workspaceId,
@@ -371,7 +368,7 @@ export default Vue.extend({
 }
 
 .p-button.p-button-info.p-button-text {
-  color: #fff;
+  color: var(--primary-color-text);
 }
 
 .p-button.p-button-info.p-button-text:hover {
@@ -379,8 +376,7 @@ export default Vue.extend({
 }
 
 .lck-process-item {
-  /*box-shadow: 0 0 15px #ccc;*/
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   background-color: var(--primary-color);
   color: #fff;
@@ -392,7 +388,7 @@ export default Vue.extend({
 }
 
 .lck-process-item:hover {
-background-color: var(--primary-color-darken);
+  background-color: var(--primary-color-darken);
 }
 
 .o-ellipsis {
@@ -406,12 +402,19 @@ background-color: var(--primary-color-darken);
 
 .status-mark {
   border-radius: 50%;
-  width: 1rem; height: 1rem;
+  width: 1rem;
+  height: 1rem;
   margin-left: auto;
+  background-color: transparent;
   position: absolute;
   top: calc(50% - .5rem);
   right: .5rem;
   border: 2px solid #fff;
+}
+
+.status-mark-enabled {
+  background-color: var(--color-success);
+  border: 1px solid var(--primary-color);
 }
 
 .p-tag {
