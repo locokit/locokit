@@ -97,7 +97,6 @@
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
               'height': '2.5rem',
-              paddingRight: isSortableColumn(column) ? 'default' : '0'
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
@@ -108,13 +107,19 @@
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <div class="p-d-inline-flex p-jc-between p-ai-center" style="width: 100%">
+            <div style="display: inline-block; backgroundColor: inherit;">
               <span :data-column-id="column.id">
                 {{ column.text }}
               </span>
               <lck-dropdown-button
                 v-if="crudMode"
-                buttonClass="p-mr-2 edit-column-icon"
+                buttonClass="edit-column-icon"
+                :style="{
+                  position: 'absolute',
+                  backgroundColor: 'inherit',
+                  paddingRight: '0.5rem',
+                  right: isSortableColumn(column) ? '20px' : '0px'
+                }"
                 icon="pi pi-angle-down"
                 appendTo="body"
                 menuWidth="inherit"
@@ -733,7 +738,7 @@ export default {
 
 /deep/ .edit-column-icon {
   color: inherit !important;
-  background: inherit !important;
+  background: transparent !important;
   border: 0;
   height: 1.5em;
 }
