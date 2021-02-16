@@ -63,38 +63,18 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing default 1`] = `
     >
        
       <div
-        class="p-tabview p-component lck-process-listing-tab p-m-1"
+        class="lck-process-listing p-m-1"
       >
-        <ul
-          class="p-tabview-nav"
-          role="tablist"
+        <p
+          class="p-p-1"
         >
-           
-          <li
-            class="p-tabview-ink-bar"
-          />
-        </ul>
-         
-        <div
-          class="p-tabview-panels"
-        >
-          <div
-            class="p-tabview-panel"
-            role="tabpanel"
-          >
-             
-            <p
-              class="p-p-1"
-            >
-              
-        No process created yet. You can create one by clicking the "Add" button above.
-      
-            </p>
-          </div>
-           
-          <!---->
-        </div>
+          
+      No process created yet. You can create one by clicking the "Add" button above.
+    
+        </p>
       </div>
+       
+      <!---->
     </div>
   </div>
 </div>
@@ -163,38 +143,18 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with detail proc
     >
        
       <div
-        class="p-tabview p-component lck-process-listing-tab p-m-1"
+        class="lck-process-listing p-m-1"
       >
-        <ul
-          class="p-tabview-nav"
-          role="tablist"
+        <p
+          class="p-p-1"
         >
-           
-          <li
-            class="p-tabview-ink-bar"
-          />
-        </ul>
-         
-        <div
-          class="p-tabview-panels"
-        >
-          <div
-            class="p-tabview-panel"
-            role="tabpanel"
-          >
-             
-            <p
-              class="p-p-1"
-            >
-              
-        No process created yet. You can create one by clicking the "Add" button above.
-      
-            </p>
-          </div>
-           
-          <!---->
-        </div>
+          
+      No process created yet. You can create one by clicking the "Add" button above.
+    
+        </p>
       </div>
+       
+      <!---->
     </div>
   </div>
 </div>
@@ -263,38 +223,18 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with processes t
     >
        
       <div
-        class="p-tabview p-component lck-process-listing-tab p-m-1"
+        class="lck-process-listing p-m-1"
       >
-        <ul
-          class="p-tabview-nav"
-          role="tablist"
+        <p
+          class="p-p-1"
         >
-           
-          <li
-            class="p-tabview-ink-bar"
-          />
-        </ul>
-         
-        <div
-          class="p-tabview-panels"
-        >
-          <div
-            class="p-tabview-panel"
-            role="tabpanel"
-          >
-             
-            <p
-              class="p-p-1"
-            >
-              
-        No process created yet. You can create one by clicking the "Add" button above.
-      
-            </p>
-          </div>
-           
-          <!---->
-        </div>
+          
+      No process created yet. You can create one by clicking the "Add" button above.
+    
+        </p>
       </div>
+       
+      <!---->
     </div>
   </div>
 </div>

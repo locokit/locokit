@@ -22,6 +22,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         class="p-inputtext p-component p-filled"
         id="text"
         placeholder="Enter a trigger name"
+        required="required"
         type="text"
       />
     </div>
@@ -41,6 +42,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         class="p-inputtext p-component"
         id="url"
         placeholder="URL"
+        required="required"
         type="text"
       />
     </div>
@@ -96,6 +98,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         dropdown="true"
         id="table"
         placeholder="Choose a table"
+        required="required"
         suggestions=""
         value="[object Object]"
       >
@@ -106,6 +109,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
           class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
           id="table"
           placeholder="Select an option"
+          required="required"
           role="searchbox"
           type="text"
         />
@@ -153,6 +157,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
         dropdown="true"
         id="trigger"
+        required="required"
       >
         <div
           class="p-hidden-accessible"
@@ -288,6 +293,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         class="p-inputtext p-component p-filled"
         id="text"
         placeholder="Enter a trigger name"
+        required="required"
         type="text"
       />
     </div>
@@ -307,6 +313,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         class="p-inputtext p-component"
         id="url"
         placeholder="URL"
+        required="required"
         type="text"
       />
     </div>
@@ -361,6 +368,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         dropdown="true"
         id="table"
         placeholder="Choose a table"
+        required="required"
         suggestions=""
         value="[object Object]"
       >
@@ -371,6 +379,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
           class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
           id="table"
           placeholder="Select an option"
+          required="required"
           role="searchbox"
           type="text"
         />
@@ -418,6 +427,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
         dropdown="true"
         id="trigger"
+        required="required"
       >
         <div
           class="p-hidden-accessible"
