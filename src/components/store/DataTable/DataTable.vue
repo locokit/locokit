@@ -87,7 +87,7 @@
         </p-column>
         <div
           v-for="column in definition.columns"
-          :key="`${column.id}-${unorderableColumnsNumber}`"
+          :key="`${columnsSetPrefix}-${column.id}-${unorderableColumnsNumber}`"
         >
           <p-column
             :field="column.id"
@@ -346,6 +346,10 @@ export default {
     selectedColumn: {
       type: Object,
       default: () => ({})
+    },
+    columnsSetPrefix: {
+      type: String,
+      default: ''
     }
   },
   data () {

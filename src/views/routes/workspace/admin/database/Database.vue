@@ -108,6 +108,7 @@
             :displayDetailButton="true"
             :cellState="cellState"
             :selectedColumn="currentColumnToEdit"
+            :columnsSetPrefix="currentView && currentView.id"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
