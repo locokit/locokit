@@ -57,5 +57,10 @@ module.exports = {
   setupFiles: [
     '<rootDir>/tests/unit/register-context.js',
     '<rootDir>/.storybook/setupGlobalVars.js'
+  ],
+
+  reporters: [
+    'default',
+    'jest-image-snapshot/src/outdated-snapshot-reporter.js'
   ]
 }
