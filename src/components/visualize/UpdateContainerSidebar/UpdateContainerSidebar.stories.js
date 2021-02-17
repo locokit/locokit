@@ -1,5 +1,4 @@
 import UpdateContainerSidebar from './UpdateContainerSidebar.vue'
-import { crudModeWithTextarea } from '@/components/store/DataTable/DataTable.stories';
 
 export default {
   title: 'components/visualize/UpdateContainerSidebar',
