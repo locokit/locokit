@@ -106,6 +106,7 @@
             :manualProcesses="manualProcesses"
             :displayDetailButton="true"
             :cellState="cellState"
+            :columnsSetPrefix="currentView && currentView.id"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
@@ -132,12 +133,11 @@
         </div>
       </div>
 
-      <lck-dialog
+      <lck-dialog-form
         :visible.sync="displayNewDialog"
         :header="$t('pages.database.addNewRow')"
         @close="displayNewDialog = false"
         :submitting="submitting"
-        :isActionForm="true"
         @input="saveRow"
       >
         <lck-data-detail
@@ -148,7 +148,7 @@
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
         />
-      </lck-dialog>
+      </lck-dialog-form>
 
       <lck-dialog
         :visible.sync="displayRowDialog"
@@ -183,7 +183,7 @@
 import Vue from 'vue'
 import saveAs from 'file-saver'
 
-import { formatISO } from 'date-fns'
+import { formatISO, isValid, parseISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -203,6 +203,7 @@ import {
 } from '@/store/process'
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
+import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -216,6 +217,7 @@ import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
 import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButton.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -237,6 +239,7 @@ export default {
     'lck-process-panel': ProcessPanel,
     'lck-process-listing': ProcessListing,
     'lck-dialog': Dialog,
+    'lck-dialog-form': DialogForm,
     'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -362,6 +365,7 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    getCurrentFilters,
     searchItems: lckHelpers.searchItems,
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
@@ -412,40 +416,6 @@ export default {
       await this.loadCurrentTableData()
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
-    getCurrentFilters () {
-      const formattedFilters = {}
-      this.currentDatatableFilters
-        .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
-        .forEach((filter, index) => {
-          formattedFilters[
-            // Operator
-            `${filter.operator}[${index}]` +
-            // Field
-            (columnType => {
-              switch (columnType) {
-                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                case COLUMN_TYPE.LOOKED_UP_COLUMN:
-                  return `[data][${filter.column.value}.value]`
-                default:
-                  return `[data][${filter.column.value}]`
-              }
-            })(filter.column.type) +
-            // Action
-            `[${filter.action.value}]`] =
-              (columnType => {
-                switch (columnType) {
-                  case COLUMN_TYPE.DATE:
-                    if (filter.pattern instanceof Date) {
-                      try {
-                        return formatISO(filter.pattern, { representation: 'date' })
-                      } catch (RangeError) {}
-                    }
-                }
-                return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
-              })(filter.column.type)
-        })
-      return formattedFilters
-    },
     async loadCurrentTableData () {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
@@ -454,32 +424,28 @@ export default {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
           sort: this.currentDatatableSort,
-          filters: this.getCurrentFilters()
+          filters: this.getCurrentFilters(this.currentDatatableFilters)
         }
       )
       this.block.loading = false
     },
     async saveRow () {
       this.submitting = true
-      const dataToSubmit = {
-        data: {
-          ...this.newRow.data
-        }
-      }
+      const data = { ...this.newRow.data }
       /**
        * For date columns, we format the date to ISO, date only
        */
       this.block.definition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          if (this.newRow.data[c.id] instanceof Date) {
-            dataToSubmit.data[c.id] = formatISO(this.newRow.data[c.id], { representation: 'date' })
+          if (isValid(parseISO(this.newRow.data[c.id]))) {
+            data[c.id] = formatISO(new Date(this.newRow.data[c.id]), { representation: 'date' })
           } else {
-            dataToSubmit.data[c.id] = null
+            data[c.id] = null
           }
         })
       await saveTableData({
-        ...dataToSubmit,
+        data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: this.currentTableId
       })
@@ -521,7 +487,7 @@ export default {
       this.exporting = true
       const data = await lckHelpers.exportTableRowData(
         this.selectedViewId,
-        this.getCurrentFilters()
+        this.getCurrentFilters(this.currentDatatableFilters)
       )
       saveAs(
         new Blob([data]),

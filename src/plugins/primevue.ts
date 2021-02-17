@@ -6,7 +6,8 @@ import 'primeicons/primeicons.css' // icons
 import 'primeflex/primeflex.css'
 import '@/styles/override.scss'
 
+import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice' // theme
 
-Vue.prototype.$primevue = { ripple: true }
+Vue.use(PrimeVue, { ripple: true })
 Vue.use(ToastService)

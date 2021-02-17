@@ -111,7 +111,8 @@
       "openTheLink": "Open the link"
     },
     "multiAutocomplete": {
-      "placeholder": "Search"
+      "placeholder": "Search",
+      "error": "The search was unsuccessful."
     },
     "processPanel": {
       "title": "Process",
@@ -230,11 +231,56 @@
       "updated": "Updated:",
       "noChapter": "No chapter to display",
       "errorTypeBlock": "This {blockType} block type does not exist.",
+      "notYetImplementedBlock": "This {blockType} block type is not yet implemented.",
       "errorUnknownTypeBlock": "The block type does not exist.",
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
       "buttonVisualization": "Visualization",
-      "buttonProcess": "Processes"
+      "buttonProcess": "Processes",
+      "createChapter": "Create a new chapter",
+      "editChapter": "Edit a chapter",
+      "chapter": "Chapter",
+      "chapterName": "Chapter name",
+      "editMode": "Edit mode",
+      "createElement": "Create a new element",
+      "page": "Page",
+      "createPage": "Create a new page",
+      "editPage": "Edit a page",
+      "pageName": "Page Name",
+      "pageHidden": "Hide the page",
+      "pagePosition": "Page position",
+      "container": "container",
+      "createContainer": "Create a new container",
+      "editContainer": "Edit the container",
+      "deleteContainer": "Delete the container",
+      "dragContainer": "Drag the container",
+      "containerName": "Container name",
+      "containerConfiguration": "Container configuration",
+      "newContainer": "New container",
+      "blocksList": "List of blocks",
+      "noBlock": "No block found",
+      "block": {
+        "block": "Block",
+        "title": "Block title",
+        "type": "Block type",        
+        "list": "Blocks list",
+        "content": "Content",
+        "displayMode": "Display mode",
+        "selectType": "Select a block type",
+        "create": "Create a new block",
+        "edit": "Edit the block",
+        "delete": "Delete the block",
+        "drag": "Drag the block",
+        "addMedia": "Add a new media",
+        "removeMedia": "Delete the media",
+        "mediaName": "Media name",
+        "mediaSrcURL": "Media URL",
+        "mediaType": "Media type",
+        "addAllowed": "Allow adding data",
+        "exportAllowed": "Allow exporting data",
+        "tableView": "View to display",
+        "detailPage": "Detail page"
+      }
     },
     "database": {
       "title": "Database",
@@ -263,6 +309,7 @@
         "createColumn": "Create column",
         "updateColumn": "Update column",
         "columnName": "Column name",
+        "reference": "Reference",
         "columnType": "Column type",
         "selectColumnType": "Select column type",
         "errorNoData": "Please fill in the fields"
@@ -303,6 +350,7 @@
     "userManagement": {
       "title": "User Management",
       "noUser": "No user created. Please create one first.",
+      "noUserFound": "No users found",
       "addNewUser": "Add user",
       "id": "id",
       "name": "Name",
@@ -363,6 +411,12 @@
       }
     }
   },
+  "media": {
+    "IMAGE": "Image",
+    "VIDEO": "Video",
+    "GALLERY": "Gallery",
+    "CAROUSEL": "Carousel"
+  },
   "dialog": {
     "close": "Close this window"
   },
@@ -372,6 +426,7 @@
   "error": {
     "basic": "An error has occurred.",
     "http": {
+      "400": "Bad request",
       "401": "Access not granted",
       "403": "Access forbidden",
       "404": "Not found",
@@ -397,7 +452,9 @@
     "isRequired": "This field is required",
     "yes": "Yes",
     "no": "No",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "deleteConfirmation": "Confirm that you want to delete the element.",
+    "specificDeleteConfirmation": "Confirm that you want to delete the following element:"
   },
   "date": {
     "dateFormat": "MM/dd/yyyy",

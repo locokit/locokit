@@ -1,10 +1,9 @@
 <template>
-  <lck-dialog
+  <lck-dialog-form
     :visible.sync="visible"
     :header="$t('pages.databaseSchema.deleteColumnModal.deleteColumn')"
     @input="confirmDeleteColumnModal"
     @close="closeDeleteColumnModal"
-    :isActionForm="true"
   >
     <div v-if="columnToHandle">
       {{ $t('pages.databaseSchema.deleteColumnModal.deleteConfirmation', { columnName: columnToHandle.text }) }}
@@ -14,17 +13,18 @@
         {{ errorColumnToDelete }}
       </small>
     </div>
-  </lck-dialog>
+  </lck-dialog-form>
 </template>
+
 <script>
-import Vue from 'vue'
 import { lckServices } from '@/services/lck-api'
-import Dialog from '@/components/ui/Dialog/Dialog.vue'
+
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'DeleteColumnModal',
   components: {
-    'lck-dialog': Vue.extend(Dialog)
+    'lck-dialog-form': DialogForm
   },
   props: {
     visible: {

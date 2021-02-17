@@ -97,6 +97,20 @@ a.no-decoration-link {
   }
 }
 
+.p-inputswitch {
+  &.p-inputswitch-checked {
+    .p-inputswitch-slider {
+      background-color: var(--surface-a);
+    }
+    &:hover {
+      .p-inputswitch-slider {
+        background-color: var(--primary-color-darken) !important;
+        border-color: var(--primary-color-darken);
+      }  
+    }
+  } 
+}
+
 // Tags
 
 .p-tag {

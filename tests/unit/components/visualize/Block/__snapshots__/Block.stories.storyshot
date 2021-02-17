@@ -1,11 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`storyshots components/visualize/Block Edit a block 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <div
+      class="editable-block"
+    >
+      <div
+        class="edit-block-line"
+      >
+        <h3
+          class="lck-color-title"
+        >
+          Titre
+        </h3>
+         
+        <span
+          class="p-buttonset"
+        >
+          <button
+            class="p-button-lg p-button-text handle-block p-button p-component p-button-icon-only"
+            title="Drag the block"
+            type="button"
+          >
+            <span
+              class="pi pi-ellipsis-v p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <button
+            class="p-button-lg p-button-text edit-block-button p-button p-component p-button-icon-only"
+            title="Edit the block"
+            type="button"
+          >
+            <span
+              class="pi pi-pencil p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <button
+            class="p-button-lg p-button-text remove-block-button p-button p-component p-button-icon-only"
+            title="Delete the block"
+            type="button"
+          >
+            <span
+              class="pi pi-trash p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </span>
+      </div>
+       
+      <div
+        class="lck-color-content block-content"
+        title="Titre"
+        type="Paragraph"
+      >
+        
+  Je suis un texte.
+
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`storyshots components/visualize/Block Markdown 1`] = `
 <div
   style="height: 100%;"
 >
   <div>
-    <div>
+    <div
+      class=""
+    >
       <h3
         class="lck-color-title"
       >
@@ -13,7 +114,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
       </h3>
        
       <div
-        class="lck-markdown"
+        class="lck-markdown block-content"
         title="Futur Markdown"
         type="Markdown"
       >
@@ -33,7 +134,9 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
   style="height: 100%;"
 >
   <div>
-    <div>
+    <div
+      class=""
+    >
       <h3
         class="lck-color-title"
       >
@@ -41,7 +144,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
       </h3>
        
       <div
-        class="lck-color-content"
+        class="lck-color-content block-content"
         title="Titre"
         type="Paragraph"
       >
@@ -59,7 +162,9 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
   style="height: 100%;"
 >
   <div>
-    <div>
+    <div
+      class=""
+    >
       <h3
         class="lck-color-title"
       >
@@ -67,6 +172,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       </h3>
        
       <div
+        class="block-content"
         id="1"
         type="TableView"
       >
@@ -344,7 +450,9 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           </div>
         </div>
          
-        <!---->
+        <form>
+          <!---->
+        </form>
       </div>
     </div>
   </div>
@@ -372,7 +480,9 @@ exports[`storyshots components/visualize/Block unknown type 1`] = `
   style="height: 100%;"
 >
   <div>
-    <div>
+    <div
+      class=""
+    >
       <h3
         class="lck-color-title"
       >

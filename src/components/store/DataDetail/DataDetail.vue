@@ -11,7 +11,7 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns"
+      v-for="column in filteredDefinitionColumns"
       :key="column.id"
     >
       <label
@@ -175,7 +175,12 @@ export default {
     'p-button': Vue.extend(Button)
   },
   computed: {
+    filteredDefinitionColumns () {
+      if (!this.definition.columns) return []
+      return this.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN)
+    },
     currentBlockDropdownOptions () {
+      if (!this.definition.columns) return {}
       const result = {}
       this.definition.columns.forEach(currentColumn => {
         if (
