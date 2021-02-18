@@ -46,4 +46,4 @@ export const withSuggestions = () => ({
 })
 
 withSuggestions.storyName = 'with suggestions'
-withSuggestions.args = { timeoutBeforeScreenshot: 1000 }
+withSuggestions.args = { timeoutBeforeScreenshot: 2000 }

@@ -11,7 +11,7 @@ export const chapterCreate = () => ({
 })
 
 chapterCreate.storyName = 'chapter create'
-chapterCreate.args = { timeoutBeforeScreenshot: 800 }
+chapterCreate.args = { timeoutBeforeScreenshot: 2000 }
 
 export const chapterEdit = () => ({
   components: { ChapterDialog },
@@ -27,4 +27,4 @@ export const chapterEdit = () => ({
 })
 
 chapterEdit.storyName = 'chapter edit'
-chapterEdit.args = { timeoutBeforeScreenshot: 800 }
+chapterEdit.args = { timeoutBeforeScreenshot: 2000 }

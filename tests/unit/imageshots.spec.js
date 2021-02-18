@@ -18,6 +18,7 @@ initStoryshots({
   configPath: path.join(__dirname, '../../.storybook'),
   test: imageSnapshot({
     getMatchOptions,
+    updatePassedSnapshot: true,
     async beforeScreenshot (page, { context: { args }, url }) {
       /**
        * if there is a special "property" named timeoutBeforeScreenshot
@@ -28,7 +29,7 @@ initStoryshots({
           console.log('Taking screenshot for url ', url, 'with args ', args)
           page.setViewport({ width: 1024, height: 768 })
           resolve()
-        }, args.timeoutBeforeScreenshot || 0)
+        }, /** args.timeoutBeforeScreenshot || 0 */ 5000)
       })
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'

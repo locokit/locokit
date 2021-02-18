@@ -76,4 +76,4 @@ export const withValueAndColumnsStory = () => (
 )
 
 withValueAndColumnsStory.storyName = 'with value and columns'
-withValueAndColumnsStory.args = { timeoutBeforeScreenshot: 1000 }
+withValueAndColumnsStory.args = { timeoutBeforeScreenshot: 2000 }

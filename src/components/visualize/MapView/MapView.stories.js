@@ -127,7 +127,7 @@ export const withPointLayerStory = (args, { argTypes }) => {
 
 withPointLayerStory.storyName = 'with Point layer'
 withPointLayerStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: [
     {
       ...resourcesExamples.pointAndText,
@@ -152,7 +152,7 @@ export const withPointAndTextLayersStory = (args, { argTypes }) => {
 
 withPointAndTextLayersStory.storyName = 'with Point and Text layers'
 withPointAndTextLayersStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: [
     resourcesExamples.pointAndText
   ]
@@ -174,7 +174,7 @@ export const withLineStringLayerStory = (args, { argTypes }) => {
 
 withLineStringLayerStory.storyName = 'with LineString layer'
 withLineStringLayerStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: [
     resourcesExamples.lineString
   ]
@@ -196,7 +196,7 @@ export const withPolygonLayerStory = (args, { argTypes }) => {
 
 withPolygonLayerStory.storyName = 'with Polygon layer'
 withPolygonLayerStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: [
     resourcesExamples.polygon
   ]
@@ -218,7 +218,7 @@ export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
 
 withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
 withMultipleSourcesAndLayersStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: Object.values(resourcesExamples)
 }
 withMultipleSourcesAndLayersStory.argTypes = {
@@ -238,7 +238,7 @@ export const withCustomOptionsStory = (args, { argTypes }) => {
 
 withCustomOptionsStory.storyName = 'with custom options'
 withCustomOptionsStory.args = {
-  timeoutBeforeScreenshot: 500,
+  timeoutBeforeScreenshot: 2000,
   resources: []
 }
 withCustomOptionsStory.argTypes = {

@@ -13,7 +13,7 @@ export const defaultStory = () => (
 )
 
 defaultStory.storyName = 'default'
-defaultStory.args = { timeoutBeforeScreenshot: 1000 }
+defaultStory.args = { timeoutBeforeScreenshot: 2000 }
 
 export const updateStory = () => (
   {
@@ -36,4 +36,4 @@ export const updateStory = () => (
 )
 
 updateStory.storyName = 'update view'
-updateStory.args = { timeoutBeforeScreenshot: 1000 }
+updateStory.args = { timeoutBeforeScreenshot: 2000 }

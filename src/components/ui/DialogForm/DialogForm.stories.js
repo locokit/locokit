@@ -14,7 +14,7 @@ export const defaultStory = () => (
 
 defaultStory.storyName = 'default'
 defaultStory.args = {
-  timeoutBeforeScreenshot: 1000
+  timeoutBeforeScreenshot: 2000
 }
 
 export const withHeaderAndContent = () => (
@@ -47,7 +47,7 @@ export const withHeaderAndContent = () => (
 )
 
 withHeaderAndContent.storyName = 'with header and content'
-withHeaderAndContent.args = { timeoutBeforeScreenshot: 1000 }
+withHeaderAndContent.args = { timeoutBeforeScreenshot: 2000 }
 
 export const withHeaderContentAndActions = () => (
   {
@@ -80,4 +80,4 @@ export const withHeaderContentAndActions = () => (
 )
 
 withHeaderContentAndActions.storyName = 'with header, content and actions'
-withHeaderContentAndActions.args = { timeoutBeforeScreenshot: 1000 }
+withHeaderContentAndActions.args = { timeoutBeforeScreenshot: 2000 }

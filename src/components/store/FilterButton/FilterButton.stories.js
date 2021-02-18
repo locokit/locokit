@@ -110,7 +110,7 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
 )
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
-selectedColumnAndActionOverlayOpenedStory.args = { timeoutBeforeScreenshot: 1000 }
+selectedColumnAndActionOverlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }
 
 export const overlayOpenedStory = () => (
   {
@@ -127,4 +127,4 @@ export const overlayOpenedStory = () => (
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = { timeoutBeforeScreenshot: 1000 }
+overlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }

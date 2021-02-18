@@ -51,4 +51,4 @@ export const withSuggestionsAndDropdownOpened = () => ({
 })
 
 withSuggestionsAndDropdownOpened.storyName = 'with suggestions and dropdown opened'
-withSuggestionsAndDropdownOpened.args = { timeoutBeforeScreenshot: 1000 }
+withSuggestionsAndDropdownOpened.args = { timeoutBeforeScreenshot: 2000 }

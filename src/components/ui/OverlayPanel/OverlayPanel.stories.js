@@ -33,4 +33,4 @@ export const overlayOpenedStory = () => (
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = { timeoutBeforeScreenshot: 1000 }
+overlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }

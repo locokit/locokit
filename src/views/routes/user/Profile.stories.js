@@ -18,7 +18,7 @@ export const defaultStory = () => ({
 
 defaultStory.storyName = 'default'
 // defaultStory.parameters = { storyshots: { disable: true } }
-defaultStory.args = { timeoutBeforeScreenshot: 1000 }
+defaultStory.args = { timeoutBeforeScreenshot: 2000 }
 
 export const withAuthUser = () => ({
   data () {
@@ -40,7 +40,7 @@ export const withAuthUser = () => ({
 
 withAuthUser.storyName = 'with auth user'
 // withAuthUser.parameters = { storyshots: { disable: true } }
-withAuthUser.args = { timeoutBeforeScreenshot: 1000 }
+withAuthUser.args = { timeoutBeforeScreenshot: 2000 }
 
 export const withAuthUserAndGroup = () => ({
   data () {
@@ -79,4 +79,4 @@ export const withAuthUserAndGroup = () => ({
 
 withAuthUserAndGroup.storyName = 'with auth user and groups'
 // withAuthUserAndGroup.parameters = { storyshots: { disable: true } }
-withAuthUserAndGroup.args = { timeoutBeforeScreenshot: 1000 }
+withAuthUserAndGroup.args = { timeoutBeforeScreenshot: 2000 }
