@@ -22,6 +22,10 @@ body {
   padding: unset !important;
   margin: unset !important;
 }
+* {
+  /* transition-duration: 0ms !important; */
+  transition: all 10ms !important;
+}
 </style>
 <style lang="scss" src="@/styles/main.scss"></style>
 
