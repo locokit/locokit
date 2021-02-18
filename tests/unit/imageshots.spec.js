@@ -32,7 +32,7 @@ initStoryshots({
           console.log(formatISO(Date.now()), 'Taking screenshot for url ', url, 'with args ', args)
           page.setViewport({ width: 1024, height: 768 })
           resolve(page)
-        }, args.timeoutBeforeScreenshot || 100)
+        }, args.timeoutBeforeScreenshot || 1000)
       })
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'
