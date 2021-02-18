@@ -310,7 +310,6 @@ export const crudModeWithTextarea = () => (
       await Vue.nextTick()
       const textareaCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(5)')
       textareaCellFirstRow.click()
-      await Vue.nextTick()
     }
   }
 )
