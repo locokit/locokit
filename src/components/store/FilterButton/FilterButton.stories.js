@@ -87,44 +87,37 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
       return { definitionColumn, columnsDropdownOptions }
     },
     template: '<FilterButton ref="fb" :definition="definitionColumn" :columnsDropdownOptions="columnsDropdownOptions"/>',
-    mounted () {
+    async mounted () {
       // Open the panel
-      this.$refs.fb.$el.querySelector('button').click()
-      setTimeout(async () => {
-        // Add a new filter
-        document.querySelector('.pi.pi-plus-circle').parentElement.click()
-        await Vue.nextTick()
-        // Select a column
-        document.querySelector('#column .p-dropdown-trigger').click()
-        await Vue.nextTick()
-        document.querySelector('#column .p-dropdown-item').click()
-        await Vue.nextTick()
-        // Select an action
-        document.querySelector('#action .p-dropdown-trigger').click()
-        await Vue.nextTick()
-        document.querySelector('#action .p-dropdown-item').click()
-        await Vue.nextTick()
-      }, 500)
+      await this.$refs.fb.$el.querySelector('button').click()
+      // Add a new filter
+      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
+      await this.$refs.fb.$el.querySelector('#column .p-dropdown-trigger').click()
+      await this.$refs.fb.$el.querySelector('#column .p-dropdown-item').click()
+      await this.$refs.fb.$el.querySelector('#action .p-dropdown-trigger').click()
+      await this.$refs.fb.$el.querySelector('#action .p-dropdown-item').click()
     }
   }
 )
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
-selectedColumnAndActionOverlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }
+selectedColumnAndActionOverlayOpenedStory.args = {
+  waitForSelector: '.p-overlaypanel'
+}
 
 export const overlayOpenedStory = () => (
   {
     components: { FilterButton },
     template: '<FilterButton ref="fb" />',
     async mounted () {
-      this.$refs.fb.$el.querySelector('button').click()
-      setTimeout(() => {
-        document.querySelector('.pi.pi-plus-circle').parentElement.click()
-        document.querySelector('.pi.pi-plus-circle').parentElement.click()
-      }, 500)
+      await this.$refs.fb.$el.querySelector('button').click()
+      document.querySelector('.pi.pi-plus-circle').parentElement.click()
+      document.querySelector('.pi.pi-plus-circle').parentElement.click()
     }
   }
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }
+overlayOpenedStory.args = {
+  waitForSelector: '.p-overlaypanel'
+}

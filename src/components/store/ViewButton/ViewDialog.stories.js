@@ -13,7 +13,9 @@ export const defaultStory = () => (
 )
 
 defaultStory.storyName = 'default'
-defaultStory.args = { timeoutBeforeScreenshot: 2000 }
+defaultStory.args = {
+  waitForSelector: '.p-dialog.p-component'
+}
 
 export const updateStory = () => (
   {
@@ -36,4 +38,6 @@ export const updateStory = () => (
 )
 
 updateStory.storyName = 'update view'
-updateStory.args = { timeoutBeforeScreenshot: 2000 }
+updateStory.args = {
+  waitForSelector: '.p-dialog.p-component'
+}

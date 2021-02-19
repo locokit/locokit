@@ -11,7 +11,9 @@ export const chapterCreate = () => ({
 })
 
 chapterCreate.storyName = 'chapter create'
-chapterCreate.args = { timeoutBeforeScreenshot: 2000 }
+chapterCreate.args = {
+  waitForSelector: '.p-dialog.p-component'
+}
 
 export const chapterEdit = () => ({
   components: { ChapterDialog },
@@ -27,4 +29,6 @@ export const chapterEdit = () => ({
 })
 
 chapterEdit.storyName = 'chapter edit'
-chapterEdit.args = { timeoutBeforeScreenshot: 2000 }
+chapterEdit.args = {
+  waitForSelector: '.p-dialog.p-component'
+}

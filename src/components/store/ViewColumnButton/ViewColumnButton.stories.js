@@ -68,12 +68,13 @@ export const withValueAndColumnsStory = () => (
         :columns="columns"
       />
     `,
-    mounted () {
-      this.$refs.vcb.$el.querySelector('button').click()
+    async mounted () {
+      await this.$refs.vcb.$el.querySelector('button').click()
     }
-
   }
 )
 
 withValueAndColumnsStory.storyName = 'with value and columns'
-withValueAndColumnsStory.args = { timeoutBeforeScreenshot: 2000 }
+withValueAndColumnsStory.args = {
+  waitForSelector: '.p-overlaypanel'
+}

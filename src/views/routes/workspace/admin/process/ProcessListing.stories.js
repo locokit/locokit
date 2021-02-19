@@ -91,7 +91,9 @@ export const withDetailProcessDisplayed = () => {
 }
 
 withDetailProcessDisplayed.storyName = 'with detail process displayed'
-withDetailProcessDisplayed.args = { timeoutBeforeScreenshot: 2000 }
+withDetailProcessDisplayed.args = {
+  waitForSelector: '.lck-process-detail'
+}
 withDetailProcessDisplayed.parameters = {
   lckServices: {
     process: {

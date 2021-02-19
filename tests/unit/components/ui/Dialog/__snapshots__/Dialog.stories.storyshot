@@ -6,13 +6,13 @@ exports[`storyshots components/ui/Dialog default 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1012;"
+    style="z-index: 1014;"
   >
     <div
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1013;"
+      style="z-index: 1015;"
     >
       <div
         class="p-dialog-header"
@@ -57,14 +57,14 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
 >
   <div
     class="p-dialog-mask p-component-overlay "
-    style="z-index: 1013;"
+    style="z-index: 1015;"
   >
     <div
       aria-labelledby="pv_id_19_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1014;"
+      style="z-index: 1016;"
     >
       <div
         class="p-dialog-header"
@@ -119,14 +119,14 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
   <div
     class="p-dialog-mask p-component-overlay "
     isactionform="true"
-    style="z-index: 1014;"
+    style="z-index: 1016;"
   >
     <div
       aria-labelledby="pv_id_20_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1015;"
+      style="z-index: 1017;"
     >
       <div
         class="p-dialog-header"

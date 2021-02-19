@@ -33,4 +33,6 @@ export const overlayOpenedStory = () => (
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }
+overlayOpenedStory.args = {
+  waitForSelector: '.p-overlaypanel'
+}

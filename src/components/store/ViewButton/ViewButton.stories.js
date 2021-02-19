@@ -25,7 +25,9 @@ export const overlayOpenedStory = () => (
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = { timeoutBeforeScreenshot: 2000 }
+overlayOpenedStory.args = {
+  waitForSelector: '.p-overlaypanel'
+}
 
 export const overlayOpenedStoryWithViews = () => (
   {
@@ -54,4 +56,6 @@ export const overlayOpenedStoryWithViews = () => (
 )
 
 overlayOpenedStoryWithViews.storyName = 'overlay opened with views'
-overlayOpenedStoryWithViews.args = { timeoutBeforeScreenshot: 2000 }
+overlayOpenedStoryWithViews.args = {
+  waitForSelector: '.p-overlaypanel'
+}
