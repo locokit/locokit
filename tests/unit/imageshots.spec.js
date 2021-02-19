@@ -21,19 +21,21 @@ initStoryshots({
   test: imageSnapshot({
     getMatchOptions,
     updatePassedSnapshot: true,
-    async beforeScreenshot (page, { context: { args }, url }) {
+    beforeScreenshot (page, { context: { args }, url }) {
+      page.setViewport({ width: 1024, height: 768 })
       /**
        * if there is a special "property" named timeoutBeforeScreenshot
        * we wait this time and resolve it
        */
-      console.log(formatISO(Date.now()), 'beforeScreenshot', url)
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log(formatISO(Date.now()), 'Taking screenshot for url ', url, 'with args ', args)
-          page.setViewport({ width: 1024, height: 768 })
-          resolve(page)
-        }, args.timeoutBeforeScreenshot || 1000)
-      })
+      if (args.timeoutBeforeScreenshot) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log(formatISO(Date.now()), 'Taking screenshot for url ', url, 'with args ', args)
+            resolve(page)
+          // }, args.timeoutBeforeScreenshot || 1000)
+          }, 5000)
+        })
+      }
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'
     // storybookUrl: `file:///${path.resolve(__dirname, '../../storybook-static')}`
