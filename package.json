@@ -13,7 +13,7 @@
     "storybook:build": "build-storybook -s ./public",
     "storybook:serve": "start-storybook -p 6006 watch-css -s ./public --no-manager-cache",
     "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
-    "test:unit-stories": "vue-cli-service test:unit --config=jest.stories.config.js"
+    "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^4.5.4",
