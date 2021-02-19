@@ -24,15 +24,21 @@ to the locokit instance.
 Each user have a profile at the instance level,
 giving the user some permissions.
 
-Three profiles are available : **SUPERADMIN**, **ADMIN**, **USER**.
+Four profiles are available :
 
-| Profile        | Permissions                             |
-| -------------- | --------------------------------------- |
-| **USER**       | Can create / manage workspace (it owns) |
-| **ADMIN**      | Can affect users to all groups          |
-| **SUPERADMIN** | Manager of the instance                 |
-|                | create users                            |
-|                | update profiles                         |
+| Profile        | Permissions                                           |
+| -------------- | ----------------------------------------------------- |
+| **USER**       | Can access to its group and all related resources     |
+| **CREATOR**    | Can create / manage workspace (it owns)               |
+| **ADMIN**      | can create users and change profile until ADMIN grade |
+|                | can see all workspaces                                |
+|                | can create groups                                     |
+|                | can affect users to groups                            |
+| **SUPERADMIN** | Manager of the instance (config, theme, ...)          |
+|                | Manage users (creation + remove)                      |
+|                | update profiles                                       |
+
+If a user is deleted, that implies we replace every action of this user by an anonymous user.
 
 A logged user can create workspace and manage them individually.
 
@@ -52,24 +58,12 @@ Three roles exist : **OWNER**, **ADMIN**, **MEMBER**.
 | **ADMIN**  | Can add / remove user, update role               |
 | **OWNER**  | Can delete the group                             |
 
-Each group linked to a workspace will have a role, too.
+Each group is linked to a workspace.
 
-Three roles exist : **OWNER**, **ADMIN**, **MEMBER**. (same role than users)
+A group can be a **manager** of a workspace if the group's property `manager` is `true`.
 
-| Role       | Permissions                                          |
-| ---------- | ---------------------------------------------------- |
-| **MEMBER** | Can access to the workspace and authorized resources |
-| **ADMIN**  | Can add / remove groups to the workspace             |
-| **OWNER**  | Can delete the workspace                             |
-
-A group `MEMBER` can access to the workspace 
-through visualization only, and via only one chapter.
-
-A group `ADMIN` can access to the workspace's databases.
-This group can also alter the database schema,
-but can't manage permissions on the tables / columns.
-
-A group `OWNER` can manage groups having access to this workspace,
-and their roles (`MEMBER`, `ADMIN`, `OWNER`).
-It can also manage permissions of tables / columns / rows,
-per group.
+A group **manager** can manage the workspace
+(in fact, all users that are at least **MEMBER** of this group):
+* can CRUD all workspace's resources (group, database, chapter, table, ...)
+* can manage permissions on workspace's resources
+* delete the workspace
