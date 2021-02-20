@@ -26,12 +26,15 @@
 </template>
 
 <style scoped>
+
 .lck-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+  /*background-color: var(--primary-color);*/
   height: 3rem;
   max-height: 3rem;
 }
+
 .lck-toolbar-content {
   position: relative;
 }

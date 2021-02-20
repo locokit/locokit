@@ -7,6 +7,7 @@
 @import "lck/accordion";
 @import "lck/paginator";
 @import "lck/tabviews";
+@import "lck/forms";
 
 // Typos
 .lck-color-page-title {
@@ -106,9 +107,9 @@ a.no-decoration-link {
       .p-inputswitch-slider {
         background-color: var(--primary-color-darken) !important;
         border-color: var(--primary-color-darken);
-      }  
+      }
     }
-  } 
+  }
 }
 
 // Tags

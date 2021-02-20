@@ -294,7 +294,9 @@ export const crudModeWithCalendar = () => (
 )
 
 crudModeWithCalendar.storyName = 'CRUD mode with calendar opened and month changed'
-crudModeWithCalendar.args = { timeoutBeforeScreenshot: 1500 }
+crudModeWithCalendar.args = {
+  waitForSelector: '.p-datepicker'
+}
 
 export const crudModeWithTextarea = () => (
   {
@@ -310,13 +312,11 @@ export const crudModeWithTextarea = () => (
       await Vue.nextTick()
       const textareaCellFirstRow = crudElement.querySelector('table > tbody > tr > td:nth-child(5)')
       textareaCellFirstRow.click()
-      await Vue.nextTick()
     }
   }
 )
 
 crudModeWithTextarea.storyName = 'CRUD mode with textarea opened'
-crudModeWithTextarea.args = { timeoutBeforeScreenshot: 1500 }
 
 export const crudModeWithSaving = () => (
   {
@@ -344,7 +344,6 @@ export const crudModeWithSaving = () => (
 )
 
 crudModeWithSaving.storyName = 'CRUD mode, edition state saving'
-crudModeWithSaving.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedOk = () => (
   {
@@ -371,7 +370,6 @@ export const crudModeSavedOk = () => (
 )
 
 crudModeSavedOk.storyName = 'CRUD mode, edition state saved ok'
-crudModeSavedOk.args = { timeoutBeforeScreenshot: 800 }
 
 export const crudModeSavedError = () => (
   {
@@ -398,4 +396,3 @@ export const crudModeSavedError = () => (
 )
 
 crudModeSavedError.storyName = 'CRUD mode, edition state saved error'
-crudModeSavedError.args = { timeoutBeforeScreenshot: 800 }

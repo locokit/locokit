@@ -1,3 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
 
+@font-face {
+  font-family: 'Raleway';
+  src: url(../../public/assets/fonts/raleway/Raleway-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url(../../public/assets/fonts/raleway/Raleway-Medium.ttf);
+  font-weight: 500;
+  font-style: 500;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url(../../public/assets/fonts/raleway/Raleway-Light.ttf);
+  font-weight: 300;
+  font-style: 300;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url(../../public/assets/fonts/raleway/Raleway-Bold.ttf);
+  font-weight: 700;
+  font-style: 700;
+}
 $font-stack : 'Raleway', sans-serif;

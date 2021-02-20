@@ -7,14 +7,14 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1008;"
+      style="z-index: 1010;"
     >
       <div
         aria-labelledby="pv_id_15_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1009;"
+        style="z-index: 1011;"
       >
         <div
           class="p-dialog-header"
@@ -114,14 +114,14 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog on submitting 
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1009;"
+      style="z-index: 1011;"
     >
       <div
         aria-labelledby="pv_id_16_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1010;"
+        style="z-index: 1012;"
       >
         <div
           class="p-dialog-header"
@@ -222,14 +222,14 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1010;"
+      style="z-index: 1012;"
     >
       <div
         aria-labelledby="pv_id_17_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1011;"
+        style="z-index: 1013;"
       >
         <div
           class="p-dialog-header"
@@ -337,14 +337,14 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name an
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1011;"
+      style="z-index: 1013;"
     >
       <div
         aria-labelledby="pv_id_18_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1012;"
+        style="z-index: 1014;"
       >
         <div
           class="p-dialog-header"
