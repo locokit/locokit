@@ -26,7 +26,9 @@ export const creatingContainerStory = () => ({
 })
 
 creatingContainerStory.storyName = 'when creating a container'
-creatingContainerStory.args = { timeoutBeforeScreenshot: 2000 }
+creatingContainerStory.args = {
+  waitForSelector: '.p-sidebar'
+}
 
 export const updatingAnEmptyContainerStory = () => ({
   components: { UpdateContainerSidebar },
@@ -39,7 +41,9 @@ export const updatingAnEmptyContainerStory = () => ({
 })
 
 updatingAnEmptyContainerStory.storyName = 'when updating an empty container'
-updatingAnEmptyContainerStory.args = { timeoutBeforeScreenshot: 2000 }
+updatingAnEmptyContainerStory.args = {
+  waitForSelector: '.p-sidebar'
+}
 
 export const submittingAnEmptyContainerStory = () => ({
   components: { UpdateContainerSidebar },
@@ -52,7 +56,9 @@ export const submittingAnEmptyContainerStory = () => ({
 })
 
 submittingAnEmptyContainerStory.storyName = 'when submitting an empty container'
-submittingAnEmptyContainerStory.args = { timeoutBeforeScreenshot: 2000 }
+submittingAnEmptyContainerStory.args = {
+  waitForSelector: '.p-sidebar'
+}
 
 export const updatingNotEmptyContainerStory = () => ({
   components: { UpdateContainerSidebar },
@@ -65,7 +71,9 @@ export const updatingNotEmptyContainerStory = () => ({
 })
 
 updatingNotEmptyContainerStory.storyName = 'when updating a not empty container'
-updatingNotEmptyContainerStory.args = { timeoutBeforeScreenshot: 2000 }
+updatingNotEmptyContainerStory.args = {
+  waitForSelector: '.p-sidebar'
+}
 
 export const creatingBlockStory = () => ({
   components: { UpdateContainerSidebar },
@@ -79,7 +87,9 @@ export const creatingBlockStory = () => ({
 })
 
 creatingBlockStory.storyName = 'when creating a new block'
-creatingBlockStory.args = { timeoutBeforeScreenshot: 2000 }
+creatingBlockStory.args = {
+  waitForSelector: '.p-sidebar'
+}
 
 export const updatingBlockStory = () => ({
   components: { UpdateContainerSidebar },
@@ -93,4 +103,6 @@ export const updatingBlockStory = () => ({
 })
 
 updatingBlockStory.storyName = 'when updating a block'
-updatingBlockStory.args = { timeoutBeforeScreenshot: 2000 }
+updatingBlockStory.args = {
+  waitForSelector: '.p-sidebar'
+}

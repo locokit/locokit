@@ -21,4 +21,4 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
-defaultStory.args = { timeoutBeforeScreenshot: 1500 }
+defaultStory.args = { waitForSelector: '.p-dialog' }

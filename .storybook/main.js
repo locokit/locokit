@@ -2,6 +2,16 @@ const path = require('path')
 
 module.exports = {
   stories: ['../src/**/*.stories.@(js|ts|mdx)'],
+  // stories: [
+  //   '../src/components/store/DataTable/DataTable.stories.@(js|ts|mdx)',
+  //   '../src/components/store/ViewColumnButton/ViewColumnButton.stories.@(js|ts|mdx)',
+  //   '../src/components/ui/AutoComplete/AutoComplete.stories.@(js|ts|mdx)',
+  //   '../src/components/ui/OverlayPanel/OverlayPanel.stories.@(js|ts|mdx)',
+  //   '../src/components/ui/MultiSelect/MultiSelect.stories.@(js|ts|mdx)',
+  //   '../src/components/ui/DropdownButton/DropdownButton.stories.@(js|ts|mdx)',
+  //   '../src/components/ui/OverlayPanel/OverlayPanel.stories.@(js|ts|mdx)',
+  //   '../src/views/routes/workspace/admin/process/ProcessListing.stories.@(js|ts|mdx)',
+  // ],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.

@@ -6,14 +6,14 @@
     "postinstall": "cp -r patch/** node_modules",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "storybook:build": "build-storybook -s ./public",
     "storybook:serve": "start-storybook -p 6006 watch-css -s ./public --no-manager-cache",
     "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
-    "test:unit-stories": "vue-cli-service test:unit --config=jest.stories.config.js"
+    "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^4.5.4",
@@ -46,15 +46,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
-    "@storybook/addon-actions": "^6.1.14",
-    "@storybook/addon-docs": "^6.1.14",
-    "@storybook/addon-essentials": "^6.1.14",
-    "@storybook/addon-links": "^6.1.14",
-    "@storybook/addon-storyshots": "^6.1.14",
-    "@storybook/addon-storyshots-puppeteer": "^6.1.14",
-    "@storybook/addons": "^6.1.14",
-    "@storybook/preset-scss": "^1.0.2",
-    "@storybook/vue": "^6.1.14",
+    "@storybook/addon-actions": "^6.1.18",
+    "@storybook/addon-docs": "^6.1.18",
+    "@storybook/addon-essentials": "^6.1.18",
+    "@storybook/addon-links": "^6.1.18",
+    "@storybook/addon-storyshots": "^6.1.18",
+    "@storybook/addon-storyshots-puppeteer": "^6.1.18",
+    "@storybook/addons": "^6.1.18",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/vue": "^6.1.18",
     "@types/geojson": "^7946.0.7",
     "@types/jest": "^24.0.19",
     "@types/mapbox-gl": "^1.13.0",
@@ -80,9 +80,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
+    "jest-fetch-mock": "^3.0.3",
     "jest-junit": "^12.0.0",
     "jest-vue-preprocessor": "^1.7.1",
-    "puppeteer": "5.2.1",
+    "puppeteer": "7.1.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",
     "storybook-vue-router": "^1.0.7",
@@ -92,6 +93,6 @@
     "vue-template-compiler": "^2.6.11"
   },
   "volta": {
-    "node": "14.13.0"
+    "node": "14.15.0"
   }
 }

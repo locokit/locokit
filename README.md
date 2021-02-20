@@ -61,6 +61,18 @@ npm run lint
 npm run storybook:serve
 ```
 
+Every story in the project is snapshoted + imageshoted.
+
+We use the addon storyshot of storybook, for both snap and images.
+
+Sometimes, an imageshot need to wait for an element, wait for its DOM injection.
+
+Sometimes too, there are animations that slow the process of taking the screenshot.
+
+For every story you write, you can add an arg `waitForSelector` that would be a CSS selector,
+and we use it to tell puppeteer (used under the hood by storyshot for imageshot)
+to wait the DOM element with the CSS selector you define is really in the DOM.
+
 ### Customize configuration
 
 A configuration file is present in `public/assets/js/config.js`.

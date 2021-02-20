@@ -11,6 +11,7 @@
     <p-overlay-panel
       ref="overlayPanel"
       :appendTo="appendTo"
+      :dismissable="true"
     >
       <slot
         name='overlay-content'
@@ -61,6 +62,7 @@ export default {
       this.$refs.overlayPanel.toggle(event)
     },
     onOverlayPanelClick (event) {
+      // event.stopPropagation()
       if (event?.target?.className.indexOf('p-datepicker') > -1) {
         event.stopPropagation()
       }

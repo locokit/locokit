@@ -11,7 +11,9 @@ export const pageCreateStory = () => ({
 })
 
 pageCreateStory.storyName = 'page create'
-pageCreateStory.args = { timeoutBeforeScreenshot: 800 }
+pageCreateStory.args = {
+  waitForSelector: '.p-dialog'
+}
 
 export const pageEdit = () => ({
   components: { PageDialog },
@@ -28,4 +30,6 @@ export const pageEdit = () => ({
 })
 
 pageEdit.storyName = 'page edit'
-pageEdit.args = { timeoutBeforeScreenshot: 800 }
+pageEdit.args = {
+  waitForSelector: '.p-dialog'
+}
