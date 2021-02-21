@@ -45,10 +45,12 @@ export const withSuggestionsAndDropdownOpened = () => ({
       this.suggestions = [...suggestions]
     }
   },
-  mounted () {
-    this.$refs.ac.$el.querySelector('button').click()
+  async mounted () {
+    await this.$refs.ac.$el.querySelector('button').click()
   }
 })
 
 withSuggestionsAndDropdownOpened.storyName = 'with suggestions and dropdown opened'
-withSuggestionsAndDropdownOpened.args = { timeoutBeforeScreenshot: 1000 }
+withSuggestionsAndDropdownOpened.args = {
+  waitForSelector: '.p-autocomplete-panel'
+}

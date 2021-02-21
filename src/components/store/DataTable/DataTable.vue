@@ -123,8 +123,8 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 menuWidth="inherit"
-                @click="$emit('column-select', column)"
-                :model="selectedColumn.id === column.id ? editColumnMenuItems : []"
+                @click="onEditColumnClick(column)"
+                :model="editColumnMenuItems"
               />
             </div>
           </template>
@@ -343,10 +343,6 @@ export default {
         }
       }
     },
-    selectedColumn: {
-      type: Object,
-      default: () => ({})
-    },
     columnsSetPrefix: {
       type: String,
       default: ''
@@ -359,6 +355,7 @@ export default {
       currentDateToEdit: null,
       multiSelectValues: [],
       selectedRow: null,
+      selectedColumn: null,
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
         icon: 'pi pi-fw pi-search',
@@ -423,6 +420,7 @@ export default {
       return [this.displayDetailButton].filter(Boolean).length
     },
     editColumnMenuItems () {
+      if (!this.selectedColumn) return []
       return [
         {
           label: this.$t('components.datatable.column.edit'),
@@ -693,6 +691,10 @@ export default {
     },
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
+    },
+    onEditColumnClick (column) {
+      this.$emit('column-select', column)
+      this.selectedColumn = column
     }
   },
   watch: {

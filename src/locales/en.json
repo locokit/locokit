@@ -171,6 +171,11 @@
       "headerProperties": "Properties",
       "headerRuns": "Runs",
       "chooseTableFirst": "Please choose a table first."
+    },
+    "synthesis": {
+      "title": "Use of bike",
+      "resultByWeek": "{resultByWeek} CO2 / Week",
+      "noResultByWeek": "No result"
     }
   },
   "pages": {

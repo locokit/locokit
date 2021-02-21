@@ -60,9 +60,12 @@ export const dropdownOpenedWithModel = () => ({
       :model="model"
     />
   `,
-  mounted () {
-    this.$refs.db.$el.querySelector('button').click()
+  async mounted () {
+    await this.$refs.db.$el.querySelector('button').click()
   }
 })
 
 dropdownOpenedWithModel.storyName = 'dropdown opened with model'
+dropdownOpenedWithModel.args = {
+  waitForSelector: '.p-menu-overlay'
+}

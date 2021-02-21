@@ -4,7 +4,7 @@
   >
     <template #toolbar>
       <span class="p-pl-1">
-        <span class="pi pi-th-large"/>
+        <span class="pi pi-th-large" />
         {{ $t('pages.process.titleButton') }}
       </span>
 
@@ -18,95 +18,71 @@
       </div>
     </template>
 
-    <p-tab-view class="lck-process-listing-tab p-m-1">
-      <p-tab-panel
-        :active.sync="activePanel[0]"
-      >
-        <template slot="header">
-          <div class="p-text-info">
-            {{ $t('pages.process.allProcessesHeader') }}
-          </div>
-        </template>
-        <template v-if="processResult.length > 0">
+    <div class="lck-process-listing p-m-1" v-show="!displayDetailProcess">
+      <div class="process-listing" v-if="processResult.length > 0">
+        <div
+          class="lck-process-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1"
+          v-for="process in processResult"
+          :key="process.id"
+          @click="onClickProcessItem(process)"
+        >
           <div
-            class="lck-process-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1"
-            v-for="process in processResult"
-            :key="process.id"
-            style="border: 1px solid gray;border-radius: var(--border-radius);cursor: pointer;"
-            @click="onClickProcessItem(process)"
+            class="o-hidden o-ellipsis"
           >
-            <div
-              class="o-hidden"
-              style="
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                width: 100%;
-                position: relative;
-              "
+            <span class="process-text">{{ process.text }}</span>
+            <span
+              v-if="process.runs && process.runs.length > 0"
             >
-              {{ process.text }}
-              <span
-                v-if="process.runs && process.runs.length > 0"
-              >
                 ({{ process.runs.length }})
               </span>
-              <br />
-              <span
-                class="p-tag"
-                style="border: 1px solid var(--primary-color); color: var(--primary-color);"
-              >
+            <br />
+            <span
+              class="p-tag"
+            >
                 {{ $t('pages.process.eventTrigger.' + process.trigger) }}
               </span>
-              <div
-                style="
-                  border-radius: 50%;
-                  width: 1rem; height: 1rem;
-                  margin-left: auto;
-                  position: absolute;
-                  top: calc(50% - .5rem);
-                  right: .5rem;
-                "
-                :style="{
-                  'background-color': process.enabled ? 'var(--color-success)': 'transparent',
-                  'border': process.enabled ? '' : '1px solid var(--primary-color)'
-                }"
-              />
-            </div>
-            <div class="p-ml-auto">
-              <p-button
-                class="p-button-sm p-button-text p-button-rounded p-button-info"
-                icon="pi pi-chevron-right"
-                @click="$emit('update', process)"
-              />
-            </div>
+            <div
+              class="status-mark"
+              :class="process.enabled ? 'status-mark-enabled' : ''"
+            />
           </div>
-        </template>
-        <p v-else class="p-p-1">
-          {{ $t('pages.process.noProcess') }}
-        </p>
-      </p-tab-panel>
-      <p-tab-panel
-        :active.sync="activePanel[1]"
-        v-if="displayDetailProcess"
-      >
-        <template slot="header">
-          <div class="p-text-info">
-            {{ $t('pages.process.oneProcessHeader') }}
+          <div class="p-ml-auto">
+            <p-button
+              class="p-button-sm p-button-text p-button-rounded p-button-info"
+              icon="pi pi-chevron-right"
+              @click="$emit('update', process)"
+            />
           </div>
-        </template>
-        <lck-process
-          :process="currentProcess"
-          @input="onInputProcess"
-          @delete="onDeleteProcess"
-          :submitting="submitting"
-          @search-table="onSearchTable"
-          @search-column="onSearchColumn"
-          :suggestionsTable="suggestionsTable"
-          :suggestionsColumn="suggestionsColumn"
-          @refresh-runs="onRefreshRuns"
+        </div>
+      </div>
+      <p v-else class="p-p-1">
+        {{ $t('pages.process.noProcess') }}
+      </p>
+    </div>
+    <div class="lck-process-detail p-m-2" v-if="displayDetailProcess">
+
+      <p>
+        <p-button
+          :label="$t('pages.process.allProcessesHeader')"
+          icon="pi pi-chevron-left"
+          class="p-button-text p-button-primary"
+          @click="backToProcessList"
         />
-      </p-tab-panel>
-    </p-tab-view>
+      </p>
+
+      <lck-process
+        :process="currentProcess"
+        @input="onInputProcess"
+        @delete="onDeleteProcess"
+        :submitting="submitting"
+        @search-table="onSearchTable"
+        @search-column="onSearchColumn"
+        :suggestionsTable="suggestionsTable"
+        :suggestionsColumn="suggestionsColumn"
+        @refresh-runs="onRefreshRuns"
+        @cancel="backToProcessList"
+      />
+    </div>
 
   </layout-with-toolbar>
 </template>
@@ -116,8 +92,6 @@
 import Vue from 'vue'
 import { Paginated } from '@feathersjs/feathers'
 import Button from 'primevue/button'
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 
 import { lckServices } from '@/services/lck-api'
 import { LckProcess, LckProcessRun, LckTable, LckTableColumn, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
@@ -128,8 +102,6 @@ import Process from '@/components/store/Process/Process.vue'
 export default Vue.extend({
   name: 'ProcessListing',
   components: {
-    'p-tab-view': Vue.extend(TabView),
-    'p-tab-panel': Vue.extend(TabPanel),
     'layout-with-toolbar': WithToolbar,
     'p-button': Vue.extend(Button),
     'lck-process': Process
@@ -151,12 +123,14 @@ export default Vue.extend({
       processResult: [] as LckProcess[],
       displayDetailProcess: false,
       currentProcess: new LckProcess() as LckProcess,
-      activePanel: [true, false],
       suggestionsTable: [] as { text: string; value: string }[],
       suggestionsColumn: [] as { text: string; value: string }[]
     }
   },
   methods: {
+    backToProcessList () {
+      this.displayDetailProcess = false
+    },
     async onInputProcess (data: Partial<LckProcess>) {
       this.submitting = true
       try {
@@ -236,7 +210,6 @@ export default Vue.extend({
     },
     async onDeleteProcess (processId: string) {
       await lckServices.process.remove(processId)
-      this.activePanel = [true, false]
       this.displayDetailProcess = false
       this.processResult = this.processResult.filter(p => p.id !== processId)
     },
@@ -278,13 +251,11 @@ export default Vue.extend({
     },
     onClickCreateProcess () {
       this.displayDetailProcess = true
-      this.activePanel = [false, true]
       this.currentProcess = new LckProcess()
       this.currentProcess.table_id = this.tableId
     },
     async onClickProcessItem (process: LckProcess) {
       this.displayDetailProcess = true
-      this.activePanel = [false, true]
       /**
        * Load the column if the process is with settings
        */
@@ -296,7 +267,7 @@ export default Vue.extend({
       }
       this.currentProcess = process
     },
-    async onSearchTable ({ query }: { query: string}) {
+    async onSearchTable ({ query }: { query: string }) {
       const tableResult = await lckServices.table.find({
         query: {
           'database.workspace_id': this.workspaceId,
@@ -359,7 +330,6 @@ export default Vue.extend({
 }
 
 /deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav {
-  /* background-color: transparent; */
   overflow: auto;
   border: unset;
   flex-wrap: unset;
@@ -388,6 +358,68 @@ export default Vue.extend({
   padding: 0.25rem;
   font-weight: normal;
   margin: 0.25rem;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+  border-color: var(--primary-color-darken);
+  color: var(--primary-color-darken);
+}
+
+.p-button.p-button-info.p-button-text {
+  color: var(--primary-color-text);
+}
+
+.p-button.p-button-info.p-button-text:hover {
+  color: #fff;
+}
+
+.lck-process-item {
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.lck-process-item .process-text {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.lck-process-item:hover {
+  background-color: var(--primary-color-darken);
+}
+
+.o-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  padding: 1rem;
+
+}
+
+.status-mark {
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  background-color: transparent;
+  position: absolute;
+  top: calc(50% - .5rem);
+  right: .5rem;
+  border: 2px solid #fff;
+}
+
+.status-mark-enabled {
+  background-color: var(--color-success);
+  border: 1px solid var(--primary-color);
+}
+
+.p-tag {
+  border: 1px solid var(--surface-w);
+  color: var(--surface-w);
 }
 
 </style>

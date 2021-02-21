@@ -1,4 +1,5 @@
 import LckMultiSelect from './MultiSelect'
+import StoryRouter from 'storybook-vue-router'
 
 export default {
   title: 'components/ui/MultiSelect',
@@ -40,10 +41,13 @@ export const withSuggestions = () => ({
       optionValue="value"
     />
   `,
-  mounted () {
-    this.$refs.ms.$el.click()
+  decorators: [StoryRouter],
+  async mounted () {
+    await this.$refs.ms.$el.click()
   }
 })
 
 withSuggestions.storyName = 'with suggestions'
-withSuggestions.args = { timeoutBeforeScreenshot: 1000 }
+withSuggestions.args = {
+  waitForSelector: '.p-multiselect-panel'
+}

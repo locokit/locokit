@@ -18,6 +18,7 @@
           :process="process"
           :submitting="submitting"
           @input="$emit('input', $event)"
+          @cancel="$emit('cancel')"
           :table-id="tableId"
           :tables="suggestionsTable"
           :columns="suggestionsColumn"

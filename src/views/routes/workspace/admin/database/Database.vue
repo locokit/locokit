@@ -17,10 +17,10 @@
           />
         </p-tab-view>
 
-        <div class="p-d-flex p-as-end">
+        <div class="p-d-flex p-as-start process-toolbar-button">
           <p-button
             :label="$t('pages.process.titleButton')"
-            class="p-button-sm p-button-info p-m-1 p-p-1"
+            class="p-button-sm p-button-primary p-m-1 p-p-1"
             icon="pi pi-th-large"
             :class="{
               'p-button-text': !displayPanel
@@ -107,7 +107,6 @@
             :manualProcesses="manualProcesses"
             :displayDetailButton="true"
             :cellState="cellState"
-            :selectedColumn="currentColumnToEdit"
             :columnsSetPrefix="currentView && currentView.id"
 
             @update-content="onUpdateContent"
@@ -926,6 +925,10 @@ export default {
   background-color: var(--header-background-color);
 }
 
+.lck-database-panel .lck-toolbar {
+  color: red;
+}
+
 .lck-database-panel {
   background-color: white;
   width: 30rem;
@@ -938,4 +941,19 @@ export default {
   overflow-y: auto;
   min-width: 350px;
 }
+/deep/ .lck-database-panel .lck-toolbar {
+  background-color: var(--primary-color) !important;
+  color: #fff;
+}
+/deep/ .lck-database-panel .lck-toolbar .p-button-primary {
+  background-color: rgba(255,255,255,0.8);
+}
+/deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
+  background-color: rgba(255,255,255,0.9);
+}
+
+.process-toolbar-button {
+  margin-top: 0.3rem ;
+}
+
 </style>

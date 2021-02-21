@@ -14,7 +14,8 @@ export const defaultStory = () => (
 
 defaultStory.storyName = 'default'
 defaultStory.args = {
-  timeoutBeforeScreenshot: 1000
+  waitForSelector: '.p-dialog.p-component'
+
 }
 
 export const withHeaderAndContent = () => (
@@ -47,7 +48,9 @@ export const withHeaderAndContent = () => (
 )
 
 withHeaderAndContent.storyName = 'with header and content'
-withHeaderAndContent.args = { timeoutBeforeScreenshot: 1000 }
+withHeaderAndContent.args = {
+  waitForSelector: '.p-dialog.p-component'
+}
 
 export const withHeaderContentAndActions = () => (
   {
@@ -80,4 +83,6 @@ export const withHeaderContentAndActions = () => (
 )
 
 withHeaderContentAndActions.storyName = 'with header, content and actions'
-withHeaderContentAndActions.args = { timeoutBeforeScreenshot: 1000 }
+withHeaderContentAndActions.args = {
+  waitForSelector: '.p-dialog.p-component'
+}
