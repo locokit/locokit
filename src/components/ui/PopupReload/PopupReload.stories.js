@@ -21,4 +21,4 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
-defaultStory.args = { waitForSelector: '.p-dialog', waitForTimeout: 1000 }
+defaultStory.args = { waitForSelector: '.p-dialog' }
