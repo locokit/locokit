@@ -82,9 +82,25 @@ export default Vue.extend({
       const layersToAdd: AnyLayer[] = []
       const layersToUpdate: AnyLayer[] = []
       const layersToRemove: AnyLayer[] = []
-      layersToAdd.push(...resourceToUpdate.layers.filter((resourceToUpdateLayer) => !resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id)))
-      layersToUpdate.push(...resourceToUpdate.layers.filter((resourceToUpdateLayer) => resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id)))
-      layersToRemove.push(...resourceToCompare.layers.filter((resourceToCompareLayer) => !resourceToUpdate.layers.find((resourceToUpdateLayer) => resourceToUpdateLayer.id === resourceToCompareLayer.id)))
+      layersToAdd.push(
+        ...resourceToUpdate.layers.filter(
+          (resourceToUpdateLayer) => !resourceToCompare.layers.find(
+            (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id
+          )
+        )
+      )
+      layersToUpdate.push(...resourceToUpdate.layers.filter(
+        (resourceToUpdateLayer) => resourceToCompare.layers.find(
+          (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id
+        )
+      )
+      )
+      layersToRemove.push(...resourceToCompare.layers.filter(
+        (resourceToCompareLayer) => !resourceToUpdate.layers.find(
+          (resourceToUpdateLayer) => resourceToUpdateLayer.id === resourceToCompareLayer.id
+        )
+      )
+      )
 
       layersToRemove.forEach((layerToRemove) => {
         this.map!.removeLayer(`${resourceToUpdate.id}-${layerToRemove.id}`)
@@ -93,11 +109,21 @@ export default Vue.extend({
         this.map!.addLayer({ source: resourceToUpdate.id, ...layerToAdd, id: `${resourceToUpdate.id}-${layerToAdd.id}` } as AnyLayer)
       })
       layersToUpdate.forEach((layer: any) => {
-        const layerToCompare: AnyLayer = resourceToCompare.layers.find((resourceToCompareLayer) => resourceToCompareLayer.id === layer.id)!
+        const layerToCompare: AnyLayer = resourceToCompare.layers.find(
+          (resourceToCompareLayer) => resourceToCompareLayer.id === layer.id)!
         const paintPropertiesToReset: string[] = []
         const layoutPropertiesToReset: string[] = []
 
-        paintPropertiesToReset.push(...Object.keys((layerToCompare as any).paint ? (layerToCompare as any).paint : []).filter((layerToComparePaintProperty) => !Object.keys(layer.paint ? layer.paint : []).find((layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty)))
+        paintPropertiesToReset.push(
+          ...Object.keys(
+            (layerToCompare as any).paint
+              ? (layerToCompare as any).paint
+              : []
+          ).filter(
+            (layerToComparePaintProperty) => !Object.keys(layer.paint ? layer.paint : []).find(
+              (layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty)
+          )
+        )
         paintPropertiesToReset.forEach((paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layer.id}`, paintPropertyToReset, null))
         if (layer.paint) {
           Object.keys(layer.paint).filter((paintProperty) => (!Object.keys((layerToCompare as any).paint) ? (layerToCompare as any).paint : []) || ((layerToCompare as any).paint && (layerToCompare as any).paint[paintProperty] !== layer.paint[paintProperty])).forEach((paintProperty) => {
