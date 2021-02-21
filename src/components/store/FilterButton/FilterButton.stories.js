@@ -102,8 +102,8 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
 selectedColumnAndActionOverlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel',
-  waitForTimeout: 200
+  waitForSelector: '.p-overlaypanel'
+  // waitForTimeout: 00
 }
 
 export const overlayOpenedStory = () => (
