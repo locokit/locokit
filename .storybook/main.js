@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   stories: ['../src/**/*.stories.@(js|ts|mdx)'],
   // stories: [
-  //   '../src/components/store/DataTable/DataTable.stories.@(js|ts|mdx)',
+    // '../src/components/store/DataTable/DataTable.stories.@(js|ts|mdx)',
   //   '../src/components/store/ViewColumnButton/ViewColumnButton.stories.@(js|ts|mdx)',
     // '../src/components/store/ViewButton/ViewButton.stories.@(js|ts|mdx)',
     // '../src/components/store/FilterButton/FilterButton.stories.@(js|ts|mdx)',

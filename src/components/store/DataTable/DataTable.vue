@@ -51,6 +51,8 @@
         style="width: unset !important;"
 
         @sort="onSort"
+        :sortField.sync="sortField"
+        :sortOrder.sync="sortOrder"
 
         ref="p-datatable"
 
@@ -94,7 +96,7 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem'
+              'height': '2.5rem',
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
@@ -105,9 +107,26 @@
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <span :data-column-id="column.id">
-              {{ column.text }}
-            </span>
+            <div style="display: inline-block; backgroundColor: inherit;">
+              <span :data-column-id="column.id">
+                {{ column.text }}
+              </span>
+              <lck-dropdown-button
+                v-if="crudMode"
+                buttonClass="edit-column-icon"
+                :style="{
+                  position: 'absolute',
+                  backgroundColor: 'inherit',
+                  paddingRight: '0.5rem',
+                  right: isSortableColumn(column) ? '20px' : '0px'
+                }"
+                icon="pi pi-angle-down"
+                appendTo="body"
+                menuWidth="inherit"
+                @click="onEditColumnClick(column)"
+                :model="editColumnMenuItems"
+              />
+            </div>
           </template>
           <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
             <lck-autocomplete
@@ -336,6 +355,7 @@ export default {
       currentDateToEdit: null,
       multiSelectValues: [],
       selectedRow: null,
+      selectedColumn: null,
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
         icon: 'pi pi-fw pi-search',
@@ -345,7 +365,9 @@ export default {
         icon: 'pi pi-fw pi-times',
         command: () => this.$emit('row-delete', this.selectedRow)
       }
-      ]
+      ],
+      sortField: null,
+      sortOrder: 1
     }
   },
   computed: {
@@ -396,6 +418,47 @@ export default {
     },
     unorderableColumnsNumber () {
       return [this.displayDetailButton].filter(Boolean).length
+    },
+    editColumnMenuItems () {
+      if (!this.selectedColumn) return []
+      return [
+        {
+          label: this.$t('components.datatable.column.edit'),
+          icon: 'pi pi-pencil',
+          command: () => {
+            this.$emit('display-column-sidebar')
+          }
+        },
+        {
+          label: this.selectedColumn.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
+          icon: this.selectedColumn.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
+          command: () => {
+            this.$emit('table-view-column-edit', {
+              displayed: !this.selectedColumn.displayed
+            })
+          }
+        },
+        {
+          icon: 'pi pi-sort-amount-up',
+          label: this.$t('components.datatable.column.ascOrder'),
+          visible: this.isSortableColumn(this.selectedColumn),
+          command: () => {
+            this.sortField = this.selectedColumn.id
+            this.sortOrder = 1
+            this.onSort()
+          }
+        },
+        {
+          icon: 'pi pi-sort-amount-down',
+          label: this.$t('components.datatable.column.descOrder'),
+          visible: this.isSortableColumn(this.selectedColumn),
+          command: () => {
+            this.sortField = this.selectedColumn.id
+            this.sortOrder = -1
+            this.onSort()
+          }
+        }
+      ]
     }
   },
   methods: {
@@ -620,14 +683,18 @@ export default {
           break
       }
     },
-    onSort (event) {
+    onSort () {
       this.$emit('sort', {
-        field: event.sortField,
-        order: event.sortOrder
+        field: this.sortField,
+        order: this.sortOrder
       })
     },
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
+    },
+    onEditColumnClick (column) {
+      this.$emit('column-select', column)
+      this.selectedColumn = column
     }
   },
   watch: {
@@ -673,6 +740,13 @@ export default {
   z-index: 2;
   width: 320px;
   height: 160px;
+}
+
+/deep/ .edit-column-icon {
+  color: inherit !important;
+  background: transparent !important;
+  border: 0;
+  height: 1.5em;
 }
 
 </style>

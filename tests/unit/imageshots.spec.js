@@ -9,7 +9,7 @@ const { toMatchImageSnapshot } = require('jest-image-snapshot')
 const getMatchOptions = () => {
   return {
     comparisonMethod: 'ssim',
-    failureThreshold: 0.02,
+    failureThreshold: process.env.CI ? 0.02 : 0.01,
     failureThresholdType: 'percent'
   }
 }
@@ -30,7 +30,7 @@ initStoryshots({
       const imageShotName = './' + url.replace('http://localhost:6006/iframe.html?id=', '')
       console.log(formatISO(Date.now()), 'screenshot for ', imageShotName, args)
       await page.setViewport({ width: 1024, height: 768 })
-      // await page._client.send('Animation.setPlaybackRate', { playbackRate: 100 })
+      // await page._client.send('Animation.setPlaybackRate', { playbackRate: 0 })
       /**
        * if there is a special "property" named waitForSelector
        * we wait for the apparition of this element, we wait a little and continue

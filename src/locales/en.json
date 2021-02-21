@@ -93,6 +93,19 @@
       "contextmenu": {
         "duplicate": "Duplicate",
         "delete": "Remove"
+      },
+      "column": {
+        "edit": "Edit the column",
+        "hide": "Hide the column",
+        "display": "Display the column",
+        "ascOrder": "Ascending order",
+        "descOrder": "Descending order",
+        "globalConfiguration": "Global configuration",
+        "visualizationConfiguration": "Configuration for the visualization part",
+        "title": "Column title",
+        "values": "Column values",
+        "displayed": "Displayed column",
+        "editable": "Editable column"
       }
     },
     "overlayPanel": {

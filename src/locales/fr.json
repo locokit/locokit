@@ -95,6 +95,19 @@
       "contextmenu": {
         "duplicate": "Dupliquer",
         "delete": "Supprimer"
+      },
+      "column": {
+        "edit": "Éditer la colonne",
+        "hide": "Cacher la colonne",
+        "display": "Afficher la colonne",
+        "ascOrder": "Ordre croissant",
+        "descOrder": "Ordre décroissant",
+        "globalConfiguration": "Configuration globale",
+        "visualizationConfiguration": "Configuration pour la partie visualisation",
+        "title": "Titre de la colonne",
+        "values": "Valeurs de la colonne",
+        "displayed": "Colonne affichée",
+        "editable": "Colonne éditable"
       }
     },
     "overlayPanel": {

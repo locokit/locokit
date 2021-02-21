@@ -48,6 +48,7 @@
                 @update="onUpdateView"
                 @delete="onDeleteView"
                 @reorder="onReorderView"
+                @input="resetColumnEdit"
               />
 
               <lck-view-dialog
@@ -114,6 +115,9 @@
             @sort="onSort"
             @column-resize="onColumnResize"
             @column-reorder="onColumnReorder"
+            @column-select="onColumnSelect"
+            @display-column-sidebar="onDisplayColumnSidebar"
+            @table-view-column-edit="onTableViewColumnEdit"
             @row-delete="onRowDelete"
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
@@ -170,6 +174,19 @@
           @toggle-process="onUpdateProcessTrigger"
         />
       </lck-dialog>
+      <p-sidebar
+        position="right"
+        class="p-sidebar-md edit-column-sidebar"
+        :modal="false"
+        :visible.sync="showEditColumnSidebar"
+      >
+        <lck-column-form
+          :column="currentColumnToEdit"
+          :submitting="submitting"
+          @column-edit="onColumnEdit"
+          @table-view-column-edit="onTableViewColumnEdit"
+        />
+      </p-sidebar>
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -208,6 +225,7 @@ import { getCurrentFilters } from '@/services/lck-utils/filter'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
+import Sidebar from 'primevue/sidebar'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
@@ -218,6 +236,7 @@ import ViewColumnButton from '@/components/store/ViewColumnButton/ViewColumnButt
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -240,10 +259,12 @@ export default {
     'lck-process-listing': ProcessListing,
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
+    'lck-column-form': ColumnForm,
     'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-sidebar': Vue.extend(Sidebar)
   },
   props: {
     databaseId: {
@@ -302,7 +323,10 @@ export default {
       viewDialogData: {},
       displayRowDialog: false,
       row: {},
-      displayPanel: false
+      displayPanel: false,
+      // Column part
+      currentColumnToEdit: {},
+      showEditColumnSidebar: false
     }
   },
   computed: {
@@ -393,6 +417,7 @@ export default {
         ...defaultDatatableSort
       }
       this.currentDatatableFilters = []
+      this.resetColumnEdit()
     },
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
@@ -521,9 +546,12 @@ export default {
         ))
       }
       if (columnsIdsToRemove.length > 0) {
-        columnsIdsToRemove.forEach(id => updatePromises.push(
-          lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
-        ))
+        columnsIdsToRemove.forEach(id => {
+          updatePromises.push(
+            lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
+          )
+          if (this.currentColumnToEdit.id === id) this.resetColumnEdit()
+        })
       }
       await Promise.all(updatePromises)
       /**
@@ -555,7 +583,10 @@ export default {
         /**
          * We change the view if the previous one is the one that has been removed
          */
-        if (viewToRemove.id === this.selectedViewId) this.selectedViewId = this.views[0].id
+        if (viewToRemove.id === this.selectedViewId) {
+          this.selectedViewId = this.views[0].id
+          this.resetColumnEdit()
+        }
       } catch (error) {
         this.$toast.add({
           severity: 'error',
@@ -587,6 +618,7 @@ export default {
         })
         this.views = await retrieveTableViews(this.currentTableId)
         this.selectedViewId = newView.id
+        this.resetColumnEdit()
       }
       this.displayViewDialog = false
     },
@@ -635,6 +667,79 @@ export default {
         }
       }
       this.views = await retrieveTableViews(this.currentTableId)
+    },
+    async onColumnEdit (editedColumnData) {
+      this.submitting = true
+      if (this.currentColumnToEdit.id) {
+        try {
+          // API request
+          const updatedColumn = await lckServices.tableColumn.patch(
+            this.currentColumnToEdit.id,
+            editedColumnData
+          )
+          // Update the table column
+          if (Array.isArray(this.block?.definition?.columns)) {
+            const tableColumnData = this.block.definition.columns.find(column => column.id === this.currentColumnToEdit.id)
+            for (const key in tableColumnData) {
+              if (tableColumnData[key] == null && updatedColumn[key] != null) this.$set(tableColumnData, key, updatedColumn[key])
+              else tableColumnData[key] = updatedColumn[key]
+            }
+          }
+          // Update the column of each table view of the table
+          this.views.forEach(view => {
+            const currentTableViewColumn = view.columns.find(column => column.id === this.currentColumnToEdit.id)
+            for (const key in updatedColumn) {
+              if (currentTableViewColumn[key] == null && updatedColumn[key] != null) this.$set(currentTableViewColumn, key, updatedColumn[key])
+              else currentTableViewColumn[key] = updatedColumn[key]
+            }
+          })
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.currentColumnToEdit.text,
+            detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
+        }
+      }
+    },
+    onColumnSelect (selectedColumn) {
+      this.currentColumnToEdit = selectedColumn
+      this.showEditColumnSidebar = false
+    },
+    onDisplayColumnSidebar () {
+      this.showEditColumnSidebar = true
+    },
+    resetColumnEdit () {
+      this.currentColumnToEdit = {}
+      this.showEditColumnSidebar = false
+    },
+    async onTableViewColumnEdit (editedColumn) {
+      this.submitting = true
+      if (this.currentColumnToEdit.id) {
+        try {
+          // Update table view column
+          const updatedColumn = await lckServices.tableViewColumn.patch(
+            `${this.selectedViewId},${this.currentColumnToEdit.id}`,
+            editedColumn
+          )
+          for (const key in updatedColumn) {
+            if (this.currentColumnToEdit[key] == null && updatedColumn[key] != null) this.$set(this.currentColumnToEdit, key, updatedColumn[key])
+            else this.currentColumnToEdit[key] = updatedColumn[key]
+          }
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.currentColumnToEdit.text,
+            detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
+        }
+      }
     },
     async onRowDelete (row) {
       await lckServices.tableRow.remove(row.id)
@@ -830,6 +935,12 @@ export default {
   border-left: 1px solid var(--header-border-bottom-color);
 }
 
+.edit-column-sidebar {
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  min-width: 350px;
+}
 /deep/ .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
