@@ -102,7 +102,8 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
 
 selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
 selectedColumnAndActionOverlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel'
+  waitForSelector: '.p-overlaypanel',
+  waitForTimeout: 200
 }
 
 export const overlayOpenedStory = () => (
@@ -111,13 +112,13 @@ export const overlayOpenedStory = () => (
     template: '<FilterButton ref="fb" />',
     async mounted () {
       await this.$refs.fb.$el.querySelector('button').click()
-      document.querySelector('.pi.pi-plus-circle').parentElement.click()
-      document.querySelector('.pi.pi-plus-circle').parentElement.click()
+      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
+      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
     }
   }
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
 overlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel'
+  waitForSelector: '.p-inputtext:nth-child(2)'
 }

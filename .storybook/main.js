@@ -5,6 +5,8 @@ module.exports = {
   // stories: [
   //   '../src/components/store/DataTable/DataTable.stories.@(js|ts|mdx)',
   //   '../src/components/store/ViewColumnButton/ViewColumnButton.stories.@(js|ts|mdx)',
+    // '../src/components/store/ViewButton/ViewButton.stories.@(js|ts|mdx)',
+    // '../src/components/store/FilterButton/FilterButton.stories.@(js|ts|mdx)',
   //   '../src/components/ui/AutoComplete/AutoComplete.stories.@(js|ts|mdx)',
   //   '../src/components/ui/OverlayPanel/OverlayPanel.stories.@(js|ts|mdx)',
   //   '../src/components/ui/MultiSelect/MultiSelect.stories.@(js|ts|mdx)',
