@@ -1,7 +1,7 @@
 
 import * as authentication from '@feathersjs/authentication'
 import * as commonHooks from 'feathers-hooks-common'
-import filterRowsByTableViewId from '../../hooks/filter-view-rows'
+import filterRowsByTableViewId from './filterRowsByTableViewId.hook'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
