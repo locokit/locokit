@@ -16,8 +16,8 @@ export function completeDefaultValues (): Hook {
             context.data.data[currentColumnDefinition.id] = null
             switch (currentColumnDefinition.column_type_id) {
               case COLUMN_TYPE.SINGLE_SELECT:
-                if ((currentColumnDefinition.settings as any)?.default) {
-                  context.data.data[currentColumnDefinition.id] = (currentColumnDefinition.settings as any).default
+                if (currentColumnDefinition.settings?.default) {
+                  context.data.data[currentColumnDefinition.id] = currentColumnDefinition.settings.default
                 }
                 break
             }
