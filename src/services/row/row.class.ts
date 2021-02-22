@@ -1,5 +1,5 @@
-import { Service, ObjectionServiceOptions } from 'feathers-objection';
-import { Application } from '../../declarations';
+import { Service, ObjectionServiceOptions } from 'feathers-objection'
+import { Application } from '../../declarations'
 // import { Params, NullableId } from '@feathersjs/feathers';
 // import { row } from '../../models/row.model';
 
@@ -8,13 +8,13 @@ interface Options extends ObjectionServiceOptions {
 }
 
 export class Row extends Service {
-  constructor(options: Partial<Options>, app: Application) {
-    const { Model, ...otherOptions } = options;
+  constructor (options: Partial<Options>, app: Application) {
+    const { Model, ...otherOptions } = options
 
     super({
       ...otherOptions,
       model: Model
-    });
+    })
   }
 
   // async patch(id: NullableId, data: Partial<row>, params?: Params) {

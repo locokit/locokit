@@ -23,6 +23,10 @@ import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
+import {
+  selectColumnsOfTableOrTableView,
+  transformGeometryColumnInJSON
+} from './selectColumnsOfTableOrView.hook'
 
 const { authenticate } = authentication.hooks
 
@@ -33,10 +37,12 @@ export default {
       commonHooks.iffElse(
         queryContainsKeys(['table_id', 'table_view_id']),
         [
+          loadColumnsDefinition(),
           commonHooks.disablePagination(),
           filterRowsByTableViewId(),
           commonHooks.discardQuery('table_view_id'),
-          commonHooks.discardQuery('rowId')
+          commonHooks.discardQuery('rowId'),
+          selectColumnsOfTableOrTableView()
         ],
         commonHooks.disallow()
       )
@@ -83,7 +89,9 @@ export default {
     all: [
       // historizeDataEvents()
     ],
-    find: [],
+    find: [
+      transformGeometryColumnInJSON()
+    ],
     get: [],
     create: [
       upsertRowRelation(),
