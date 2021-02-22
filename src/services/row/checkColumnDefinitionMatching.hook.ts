@@ -5,6 +5,7 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import dayjs from 'dayjs'
+import Knex from 'knex'
 
 class CheckError {
   columnName!: string
@@ -315,8 +316,52 @@ export function checkColumnDefinitionMatching (): Hook {
               }
             }
             break
+          case COLUMN_TYPE.GEOMETRY_POINT:
+            /**
+             * Check if it is a GeoJSON
+             */
+            console.log(currentColumnValue)
+            if (
+              !(currentColumnValue instanceof Object) ||
+              currentColumnValue.geometry === undefined ||
+              !(currentColumnValue.geometry instanceof Object)
+            ) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not an object (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              const geojsonStringified = JSON.stringify(currentColumnValue.geometry)
+              try {
+                /**
+                 * Then check in PostGIS if the data is valid
+                 */
+                await (context.app.get('knex') as Knex).raw(`
+                  SELECT ST_IsValid(ST_GeomFromGeoJSON('${geojsonStringified}'::json))
+                `)
+                /**
+                 * If yes, transform it in EWKT before insertion
+                 */
+                const resultDB = await (context.app.get('knex') as Knex<{ ewkt: string }>).raw(`
+                  SELECT ST_AsEWKT(ST_GeomFromGeoJSON('${geojsonStringified}'::json)) ewkt
+                `)
+                context.data.data[columnId] = resultDB.rows[0].ewkt
+              } catch (e) {
+                console.error(e)
+                /**
+                 * If no, return the reason from PostGIS
+                 */
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'This geometry is not valid. (' + e.detail + ')'
+                })
+              }
+            }
+            break
           case COLUMN_TYPE.FILE:
           case COLUMN_TYPE.MULTI_GROUP:
+          case COLUMN_TYPE.GEOMETRY_LINESTRING:
+          case COLUMN_TYPE.GEOMETRY_POLYGON:
           default:
             checkErrors.push({
               columnName: currentColumn.text,
