@@ -24,6 +24,7 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
+    "postinstall": "cp -r patch/** node_modules",
     "pretest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "test": "npm run compile && NODE_ENV=test npm run jest",
     "debug": "DEBUG=* ts-node-dev --no-notify src/",
@@ -59,11 +60,8 @@
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/socketio": "^4.5.4",
     "@feathersjs/transport-commons": "^4.5.3",
-    "@locokit/lck-glossary": "^0.1.4",
     "@sentry/node": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
-    "@types/debug": "^4.1.5",
-    "@types/ejs": "^3.0.5",
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -87,9 +85,12 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@locokit/lck-glossary": "^0.1.5",
     "@types/bcryptjs": "^2.4.2",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.6",
+    "@types/debug": "^4.1.5",
+    "@types/ejs": "^3.0.5",
     "@types/helmet": "0.0.47",
     "@types/jest": "^26.0.3",
     "@types/jsonwebtoken": "^8.5.0",
