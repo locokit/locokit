@@ -14,8 +14,9 @@
         <p-breadcrumb
           :home="{ icon: 'pi pi-home', to: '/' }"
           :model="breadcrumb"
-          />
+        />
       </div>
+
       <draggable
         :key="page.id"
         v-model="page.containers"

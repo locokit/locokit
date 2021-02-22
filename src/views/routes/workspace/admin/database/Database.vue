@@ -146,7 +146,7 @@
       >
         <lck-data-detail
           :crudMode="crudMode"
-          :definition="block.definition"
+          :definition="filteredDefinitionColumns"
           :row="newRow"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
@@ -330,6 +330,10 @@ export default {
     }
   },
   computed: {
+    filteredDefinitionColumns () {
+      if (!this.block.definition.columns) return []
+      return { columns: this.block.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) }
+    },
     currentBlockDropdownOptions () {
       const result = {}
       this.block.definition.columns.forEach(currentColumn => {

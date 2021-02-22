@@ -57,7 +57,7 @@
     >
       <lck-data-detail
         :crudMode="false"
-        :definition="columnsDisplayed"
+        :definition="filteredDefinitionColumns"
         :row="newRow"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         @update-suggestions="$listeners['update-suggestions']"
@@ -137,6 +137,10 @@ export default {
     },
     columnsDisplayed () {
       return this.hasColumns ? { columns: this.definition.columns.filter(currentColumn => currentColumn.displayed === true) } : null
+    },
+    filteredDefinitionColumns () {
+      if (!this.hasColumns) return []
+      return { columns: this.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) }
     },
     columnsDropdownOptions () {
       const result = {}
