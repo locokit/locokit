@@ -36,7 +36,8 @@ export class TableColumn extends BaseModel {
     foreignField?: string,
     values?: Record<string, SelectValue>,
     width?: number,
-    required?: boolean
+    required?: boolean,
+    default?: string
   };
 
   position!: number;

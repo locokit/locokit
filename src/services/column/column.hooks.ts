@@ -1,6 +1,7 @@
 import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+import { createGIX, dropGIX } from './gixGeometryColumn.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 const { authenticate } = authentication.hooks
 
@@ -22,7 +23,7 @@ export default {
       preventChanges(true, 'column_type_id')
     ],
     remove: [
-      disallow('external')
+      // disallow('external')
     ]
   },
 
@@ -31,11 +32,16 @@ export default {
     find: [],
     get: [],
     create: [
+      // iff(isGeometryColumn(), createGIX()),
+      createGIX(),
       upsertColumnRelation()
     ],
     update: [],
     patch: [],
-    remove: []
+    remove: [
+      dropGIX()
+      // iff(isGeometryColumn(), dropGIX()),
+    ]
   },
 
   error: {

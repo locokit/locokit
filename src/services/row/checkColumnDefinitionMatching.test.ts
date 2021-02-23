@@ -6,6 +6,126 @@ import { table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
 
+const geometryPolygon = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [
+          16.6552734375,
+          53.93021986394
+        ],
+        [
+          11.689453125,
+          56.36525013685606
+        ],
+        [
+          2.0654296875,
+          57.20771009775018
+        ],
+        [
+          -6.328125,
+          54.13669645687002
+        ],
+        [
+          -4.7900390625,
+          47.78363463526376
+        ],
+        [
+          0.615234375,
+          45.02695045318546
+        ],
+        [
+          9.5361328125,
+          40.84706035607122
+        ],
+        [
+          24.6533203125,
+          51.09662294502995
+        ],
+        [
+          6.767578125,
+          50.48547354578499
+        ],
+        [
+          16.6552734375,
+          53.93021986394
+        ]
+      ]
+    ]
+  }
+}
+const geometryPoint = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: 'Point',
+    coordinates: [
+      29.003906249999996,
+      54.54657953840501
+    ]
+  }
+}
+
+const geometryLinestring = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: 'LineString',
+    coordinates: [
+      [
+        37.265625,
+        52.5897007687178
+      ],
+      [
+        41.484375,
+        46.89023157359399
+      ],
+      [
+        29.9267578125,
+        41.409775832009565
+      ],
+      [
+        21.4892578125,
+        38.788345355085625
+      ],
+      [
+        18.6767578125,
+        41.80407814427234
+      ],
+      [
+        17.05078125,
+        45.67548217560647
+      ],
+      [
+        16.083984375,
+        50.875311142200765
+      ],
+      [
+        21.3134765625,
+        53.51418452077113
+      ],
+      [
+        28.652343749999996,
+        54.7246201949245
+      ],
+      [
+        31.1572265625,
+        54.87660665410869
+      ],
+      [
+        32.7392578125,
+        54.18815548107151
+      ],
+      [
+        31.201171875,
+        50.708634400828224
+      ]
+    ]
+  }
+}
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: workspace
   let database: database
@@ -28,6 +148,9 @@ describe('checkColumnDefinitionMatching hook', () => {
   let columnTable1MultiGroup: TableColumn
   let columnTable1Text: TableColumn
   let columnTable1URL: TableColumn
+  let columnTable1GeomPoint: TableColumn
+  let columnTable1GeomPolygon: TableColumn
+  let columnTable1GeomLinestring: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2Name: TableColumn
   // let user1: User
@@ -174,6 +297,21 @@ describe('checkColumnDefinitionMatching hook', () => {
     columnTable1URL = await app.service('column').create({
       text: 'URL',
       column_type_id: COLUMN_TYPE.URL,
+      table_id: table1.id
+    })
+    columnTable1GeomPoint = await app.service('column').create({
+      text: 'POINT',
+      column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
+      table_id: table1.id
+    })
+    columnTable1GeomLinestring = await app.service('column').create({
+      text: 'LINESTRING',
+      column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
+      table_id: table1.id
+    })
+    columnTable1GeomPolygon = await app.service('column').create({
+      text: 'POLYGON',
+      column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
       table_id: table1.id
     })
   })
@@ -1012,6 +1150,308 @@ describe('checkColumnDefinitionMatching hook', () => {
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  /**
+   * Geometry columns
+   */
+  it('throw an error if a GEOMETRY_POINT column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPoint.id]: 123
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_POINT column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPoint.id]: {}
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_POINT column receive a geometry that is not a point', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPoint.id]: geometryPolygon
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_POINT column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPoint.id]: null
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a point for a GEOMETRY_POINT column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPoint.id]: geometryPoint
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomPoint.id]).toStrictEqual({
+      type: 'Point',
+      coordinates: [
+        29.00390625,
+        54.546579538
+      ]
+    })
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a GEOMETRY_LINESTRING column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomLinestring.id]: 123
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_LINESTRING column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomLinestring.id]: {}
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_LINESTRING column receive a geometry that is not a linestring', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomLinestring.id]: geometryPolygon
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_LINESTRING column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomLinestring.id]: null
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a linestring for a GEOMETRY_LINESTRING column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomLinestring.id]: geometryLinestring
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomLinestring.id]).toStrictEqual({
+      type: 'LineString',
+      coordinates: [
+        [
+          37.265625,
+          52.589700769
+        ],
+        [
+          41.484375,
+          46.890231574
+        ],
+        [
+          29.926757812,
+          41.409775832
+        ],
+        [
+          21.489257812,
+          38.788345355
+        ],
+        [
+          18.676757812,
+          41.804078144
+        ],
+        [
+          17.05078125,
+          45.675482176
+        ],
+        [
+          16.083984375,
+          50.875311142
+        ],
+        [
+          21.313476562,
+          53.514184521
+        ],
+        [
+          28.65234375,
+          54.724620195
+        ],
+        [
+          31.157226562,
+          54.876606654
+        ],
+        [
+          32.739257812,
+          54.188155481
+        ],
+        [
+          31.201171875,
+          50.708634401
+        ]
+      ]
+    })
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a GEOMETRY_POLYGON column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: 123
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_POLYGON column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: {}
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_POLYGON column receive a geometry that is not a polygon', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: geometryLinestring
+        },
+        table_id: table1.id
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_POLYGON column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: null
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a polygon for a GEOMETRY_POLYGON column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: geometryPolygon
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomPolygon.id]).toStrictEqual({
+      type: 'Polygon',
+      coordinates: [
+        [
+          [
+            16.655273438,
+            53.930219864
+          ],
+          [
+            11.689453125,
+            56.365250137
+          ],
+          [
+            2.065429688,
+            57.207710098
+          ],
+          [
+            -6.328125,
+            54.136696457
+          ],
+          [
+            -4.790039062,
+            47.783634635
+          ],
+          [
+            0.615234375,
+            45.026950453
+          ],
+          [
+            9.536132812,
+            40.847060356
+          ],
+          [
+            24.653320312,
+            51.096622945
+          ],
+          [
+            6.767578125,
+            50.485473546
+          ],
+          [
+            16.655273438,
+            53.930219864
+          ]
+        ]
+      ]
+    })
     await app.service('row').remove(rowTable1.id)
   })
 

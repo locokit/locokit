@@ -54,5 +54,14 @@ export async function seed (knex: Knex): Promise<any> {
   }, {
     id: COLUMN_TYPE.URL,
     text: 'URL'
+  }, {
+    id: COLUMN_TYPE.GEOMETRY_POINT,
+    text: 'GEOMETRY_POINT'
+  }, {
+    id: COLUMN_TYPE.GEOMETRY_POLYGON,
+    text: 'GEOMETRY_POLYGON'
+  }, {
+    id: COLUMN_TYPE.GEOMETRY_LINESTRING,
+    text: 'GEOMETRY_LINESTRING'
   }])
 };

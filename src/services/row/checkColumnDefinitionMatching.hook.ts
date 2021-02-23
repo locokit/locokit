@@ -5,12 +5,31 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import dayjs from 'dayjs'
+import Knex from 'knex'
 
 class CheckError {
   columnName!: string
   columnError!: string
 }
 
+enum GEOMETRY_TYPE {
+  POINT = 'POINT',
+  POLYGON = 'POLYGON',
+  LINESTRING = 'LINESTRING',
+}
+
+function getGeometryType (columnType: COLUMN_TYPE): GEOMETRY_TYPE | null {
+  switch (columnType) {
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      return GEOMETRY_TYPE.LINESTRING
+    case COLUMN_TYPE.GEOMETRY_POINT:
+      return GEOMETRY_TYPE.POINT
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return GEOMETRY_TYPE.POLYGON
+    default:
+      return null
+  }
+}
 /**
  * Check that the value we have for a column
  * match its definition :
@@ -312,6 +331,64 @@ export function checkColumnDefinitionMatching (): Hook {
                     columnError: 'The current value is not an array of existing and distinct user references (received: ' + currentColumnValue + ')'
                   })
                 }
+              }
+            }
+            break
+          case COLUMN_TYPE.GEOMETRY_POINT:
+          case COLUMN_TYPE.GEOMETRY_LINESTRING:
+          case COLUMN_TYPE.GEOMETRY_POLYGON:
+            /**
+             * Check if it is a GeoJSON
+             */
+            if (
+              !(currentColumnValue instanceof Object) ||
+              currentColumnValue.geometry === undefined ||
+              !(currentColumnValue.geometry instanceof Object)
+            ) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: 'The current value is not an object (received: ' + currentColumnValue + ')'
+              })
+            } else {
+              const geojsonStringified = JSON.stringify(currentColumnValue.geometry)
+              try {
+                /**
+                 * Then check in PostGIS if the data is valid
+                 */
+                await (context.app.get('knex') as Knex).raw(`
+                  SELECT ST_IsValid(ST_GeomFromGeoJSON('${geojsonStringified}'::json))
+                `)
+                /**
+                 * Then check if it's the right geometry
+                 */
+                const geometryType = await (context.app.get('knex') as Knex).raw(`
+                  SELECT GeometryType(ST_GeomFromGeoJSON('${geojsonStringified}'::json))
+                `)
+                const geometryTypeReceived = geometryType.rows[0].geometrytype
+                const geometryTypeNeeded = getGeometryType(currentColumn.column_type_id)
+                if (geometryTypeReceived !== geometryTypeNeeded) {
+                  checkErrors.push({
+                    columnName: currentColumn.text,
+                    columnError: `This geometry is not a ${geometryTypeNeeded}. (found ${geometryTypeReceived})`
+                  })
+                } else {
+                  /**
+                   * If yes, transform it in EWKT before insertion
+                   */
+                  const resultDB = await (context.app.get('knex') as Knex<{ ewkt: string }>).raw(`
+                    SELECT ST_AsEWKT(ST_GeomFromGeoJSON('${geojsonStringified}'::json)) ewkt
+                  `)
+                  context.data.data[columnId] = resultDB.rows[0].ewkt
+                }
+              } catch (e) {
+                console.error(e)
+                /**
+                 * If no, return the reason from PostGIS
+                 */
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'This geometry is not valid. (' + e.detail + ')'
+                })
               }
             }
             break

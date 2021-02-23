@@ -1,7 +1,7 @@
 
 import * as authentication from '@feathersjs/authentication'
 import * as commonHooks from 'feathers-hooks-common'
-import filterRowsByTableViewId from '../../hooks/filter-view-rows'
+import filterRowsByTableViewId from './filterRowsByTableViewId.hook'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
@@ -23,6 +23,11 @@ import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
+import {
+  selectColumnsOfTableOrTableView,
+  rebuildDataAndGeom,
+  formatGeomColumnInData
+} from './selectColumnsOfTableOrView.hook'
 
 const { authenticate } = authentication.hooks
 
@@ -33,10 +38,12 @@ export default {
       commonHooks.iffElse(
         queryContainsKeys(['table_id', 'table_view_id']),
         [
+          loadColumnsDefinition(),
           commonHooks.disablePagination(),
           filterRowsByTableViewId(),
           commonHooks.discardQuery('table_view_id'),
-          commonHooks.discardQuery('rowId')
+          commonHooks.discardQuery('rowId'),
+          selectColumnsOfTableOrTableView()
         ],
         commonHooks.disallow()
       )
@@ -83,22 +90,27 @@ export default {
     all: [
       // historizeDataEvents()
     ],
-    find: [],
+    find: [
+      rebuildDataAndGeom()
+    ],
     get: [],
     create: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess
+      triggerProcess,
+      formatGeomColumnInData()
     ],
     update: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess
+      triggerProcess,
+      formatGeomColumnInData()
     ],
     patch: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess
+      triggerProcess,
+      formatGeomColumnInData()
     ],
     remove: [
       triggerProcess

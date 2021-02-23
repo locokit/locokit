@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { TableColumnDTO, LckColumnFilter } from '../models/tableview.model'
+import { TableColumnDTO, LckColumnFilter } from '../../models/tableview.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 /**
@@ -29,7 +29,7 @@ export default function filterRowsByTableViewId (): Hook {
                 currentFilterKeyValue = (
                   (c.filter as LckColumnFilter)[filterKey] as string
                 ).replace('{userId}', context.params.user.id)
-                 .replace('{rowId}', context.params?.query?.rowId)
+                  .replace('{rowId}', context.params?.query?.rowId)
                 if (c.column_type_id === COLUMN_TYPE.SINGLE_SELECT) {
                   filtersToAdd[c.id] = currentFilterKeyValue
                 } else {
@@ -50,13 +50,6 @@ export default function filterRowsByTableViewId (): Hook {
                   filtersToAdd[c.id + '.reference'] = { [filterKey]: currentFilterKeyValue }
                 }
                 break
-            }
-            // console.log(filterKey, typeof currentFilterKeyValue)
-            if (currentFilterKeyValue instanceof Array) {
-              // console.log('array')
-            } else if (currentFilterKeyValue instanceof String) {
-            } else {
-              // console.log('object ?')
             }
           })
         })

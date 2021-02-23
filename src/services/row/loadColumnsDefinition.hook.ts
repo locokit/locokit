@@ -8,6 +8,37 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 export function loadColumnsDefinition () : Hook {
   return async (context: HookContext): Promise<HookContext> => {
     switch (context.method) {
+      case 'find':
+      case 'get':
+        /**
+         * if we are on a table id, we select all columns of the table
+         */
+        let selectedColumns = []
+        if (context.params?.query?.table_id) {
+          const tableColumns = await context.app.services.column.find({
+            query: {
+              table_id: context.params?.query?.table_id
+            },
+            paginate: false
+          })
+          selectedColumns = tableColumns
+        } else if (context.params?.query?.table_view_id) {
+          /**
+           * if we are on a table view id, we select all columns of the table view
+           */
+          const tableView = await context.app.services.view.get(context.params.query.table_view_id, {
+            query: {
+              $eager: '[columns]'
+            },
+            paginate: false
+          })
+          selectedColumns = tableView.columns
+        }
+        context.params._meta = {
+          ...context.params._meta,
+          columns: selectedColumns
+        }
+        break
       case 'create':
       case 'update':
       case 'patch':
@@ -20,11 +51,12 @@ export function loadColumnsDefinition () : Hook {
             : context.params._meta.item.table_id
         )
         const columns = await context.app.services.column.find({
-          query: { table_id, $limit: (table_id ? -1 : 20) }
+          query: { table_id },
+          paginate: false
         })
         context.params._meta = {
           ...context.params._meta,
-          columns: table_id ? columns : columns.data
+          columns
         }
         break
     }

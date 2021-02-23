@@ -19,8 +19,6 @@ export function removeRelatedRows () : Hook {
           }
         })
       }
-    } else {
-      console.log('removeRelatedRows is remove only hook')
     }
     return context
   }
@@ -43,8 +41,6 @@ export function removeRelatedExecutions () : Hook {
           }
         })
       }
-    } else {
-      console.log('removeRelatedRows is remove only hook')
     }
     return context
   }
