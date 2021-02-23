@@ -12,7 +12,16 @@
     "name": "Mathieu DARTIGUES",
     "email": "mathieu@dartic.fr"
   },
-  "contributors": [],
+  "contributors": [{
+    "name": "Aline CHETTA",
+    "email": "chetta.aline@gmail.com"
+  }, {
+    "name": "Julien COUGNAUD",
+    "email": "julien.cougnaud@makina-corpus.com"
+  }, {
+    "name": "Bastien ALVEZ",
+    "email": "bastien.alvez@makina-corpus.com"
+  }],
   "bugs": {},
   "directories": {
     "lib": "src",
