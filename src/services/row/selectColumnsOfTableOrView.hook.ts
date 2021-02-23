@@ -4,9 +4,8 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
 // import { TableColumnDTO, LckColumnFilter } from '../../models/tableview.model'
 // import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { raw, RawBuilder } from 'objection'
+import { raw, ref, ColumnRef } from 'objection'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { TableRow } from '../../models/tablerow.model'
 
 /**
  * Add filters depending on the table view wished
@@ -16,7 +15,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
     /**
      * Only for find / get
      */
-    const $select: (string | RawBuilder)[] = ['text']
+    const $select: (string | ColumnRef)[] = ['text']
     context.params._meta.columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
         case COLUMN_TYPE.GEOMETRY_LINESTRING:
@@ -25,7 +24,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
           $select.push(raw(`ST_AsGeoJSON(ST_GeomFromEWKT(data->>'${c.id}'::text))`).as(c.id))
           break
         default:
-          $select.push(`ref(data:${c.id})`)
+          $select.push(ref(`data:${c.id}`).as(c.id))
       }
     })
     context.params.query = {
@@ -56,12 +55,26 @@ export function transformGeometryColumnInJSON (): Hook {
       }
       return acc
     }, [])
-    context.result.data.forEach((d: Record<string, any>) => {
-      geometryColumnsId.forEach((gid: string) => {
-        if (d[gid]) {
-          d[gid] = JSON.parse(d[gid])
+    context.result.data = context.result.data.map((d: Record<string, any>) => {
+      const newData = {
+        id: d.id,
+        text: d.text,
+        data: {} as Record<string, any>
+      }
+      context.params._meta.columns.forEach((c: TableColumn) => {
+        switch (c.column_type_id) {
+          case COLUMN_TYPE.GEOMETRY_LINESTRING:
+          case COLUMN_TYPE.GEOMETRY_POLYGON:
+          case COLUMN_TYPE.GEOMETRY_POINT:
+            if (d[c.id]) {
+              newData.data[c.id] = JSON.parse(d[c.id])
+            }
+            break
+          default:
+            newData.data[c.id] = d[c.id]
         }
       })
+      return newData
     })
     console.log(geometryColumnsId, context.result)
     return context
