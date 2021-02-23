@@ -6,9 +6,12 @@ import { TableColumn } from '../../models/tablecolumn.model'
 // import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { raw, ref, ColumnRef } from 'objection'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import Knex from 'knex'
+const { getItems, replaceItems } = require('feathers-hooks-common')
 
 /**
- * Add filters depending on the table view wished
+ * Only select columns from table or view,
+ * and add geom function to retrieve geojson instead of ewkt
  */
 export function selectColumnsOfTableOrTableView (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
@@ -36,34 +39,97 @@ export function selectColumnsOfTableOrTableView (): Hook {
 };
 
 /**
- * Add filters depending on the table view wished
+ * Build the data object, and transform geojson in true JSON
  */
-export function formatColumnInData (): Hook {
+export function rebuildDataAndGeom (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    /**
-     * Only for find / get + after hook
-     */
-    context.result.data = context.result.data.map((d: Record<string, any>) => {
-      const newData = {
-        id: d.id,
-        text: d.text,
-        data: {} as Record<string, any>
-      }
-      context.params._meta.columns.forEach((c: TableColumn) => {
-        switch (c.column_type_id) {
-          case COLUMN_TYPE.GEOMETRY_LINESTRING:
-          case COLUMN_TYPE.GEOMETRY_POLYGON:
-          case COLUMN_TYPE.GEOMETRY_POINT:
-            if (d[c.id]) {
-              newData.data[c.id] = JSON.parse(d[c.id])
-            }
-            break
-          default:
-            newData.data[c.id] = d[c.id]
+    if (
+      (context.method === 'find' || context.method === 'get') &&
+      context.type === 'after'
+    ) {
+      /**
+       * Only for find / get + after hook
+       */
+      context.result.data = context.result.data.map((d: Record<string, any>) => {
+        const newData = {
+          id: d.id,
+          text: d.text,
+          data: {} as Record<string, any>
         }
+        context.params._meta.columns.forEach((c: TableColumn) => {
+          switch (c.column_type_id) {
+            case COLUMN_TYPE.GEOMETRY_LINESTRING:
+            case COLUMN_TYPE.GEOMETRY_POLYGON:
+            case COLUMN_TYPE.GEOMETRY_POINT:
+              if (d[c.id]) {
+                newData.data[c.id] = JSON.parse(d[c.id])
+              }
+              break
+            default:
+              newData.data[c.id] = d[c.id]
+          }
+        })
+        return newData
       })
-      return newData
-    })
+    }
+    return context
+  }
+};
+
+/**
+ * Transform geojson column in true JSON
+ */
+export function formatGeomColumnInData (): Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    if (
+      (
+        context.method === 'create' ||
+        context.method === 'patch' ||
+        context.method === 'update'
+      ) &&
+      context.type === 'after'
+    ) {
+      /**
+       * Only for create / patch / update + after hook
+       */
+      const items = getItems(context)
+      if (Array.isArray(items)) {
+        await Promise.all(items.map(async (item) => {
+          return await Promise.all(
+            context.params._meta.columns.map(async (c: TableColumn) => {
+              switch (c.column_type_id) {
+                case COLUMN_TYPE.GEOMETRY_LINESTRING:
+                case COLUMN_TYPE.GEOMETRY_POLYGON:
+                case COLUMN_TYPE.GEOMETRY_POINT:
+                  if (item.data[c.id]) {
+                    const resultDB = await (context.app.get('knex') as Knex<{ ewkt: string }>).raw(`
+                      SELECT ST_AsGeoJSON(ST_GeomFromEWKT('${item.data[c.id]}'::text)) geojson
+                    `)
+                    item.data[c.id] = JSON.parse(resultDB.rows[0].geojson)
+                  }
+                  break
+              }
+            }))
+        }))
+      } else {
+        await Promise.all(
+          context.params._meta.columns.map(async (c: TableColumn) => {
+            switch (c.column_type_id) {
+              case COLUMN_TYPE.GEOMETRY_LINESTRING:
+              case COLUMN_TYPE.GEOMETRY_POLYGON:
+              case COLUMN_TYPE.GEOMETRY_POINT:
+                if (items.data[c.id]) {
+                  const resultDB = await (context.app.get('knex') as Knex<{ ewkt: string }>).raw(`
+                    SELECT ST_AsGeoJSON(ST_GeomFromEWKT('${items.data[c.id]}'::text)) geojson
+                  `)
+                  items.data[c.id] = JSON.parse(resultDB.rows[0].geojson)
+                }
+                break
+            }
+          }))
+      }
+      replaceItems(context, items)
+    }
     return context
   }
 };

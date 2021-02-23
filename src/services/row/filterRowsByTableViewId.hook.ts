@@ -51,13 +51,6 @@ export default function filterRowsByTableViewId (): Hook {
                 }
                 break
             }
-            // console.log(filterKey, typeof currentFilterKeyValue)
-            // if (currentFilterKeyValue instanceof Array) {
-            //   // console.log('array')
-            // } else if (currentFilterKeyValue instanceof String) {
-            // } else {
-            //   // console.log('object ?')
-            // }
           })
         })
       context.params.query = {

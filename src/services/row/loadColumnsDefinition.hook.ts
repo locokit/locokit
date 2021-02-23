@@ -26,13 +26,13 @@ export function loadColumnsDefinition () : Hook {
           /**
            * if we are on a table view id, we select all columns of the table view
            */
-          const tableViewColumns = await context.app.services.column.find({
+          const tableView = await context.app.services.view.get(context.params.query.table_view_id, {
             query: {
-              table_id: context.params?.query?.table_view_id
+              $eager: '[columns]'
             },
             paginate: false
           })
-          selectedColumns = tableViewColumns
+          selectedColumns = tableView.columns
         }
         context.params._meta = {
           ...context.params._meta,
@@ -51,11 +51,12 @@ export function loadColumnsDefinition () : Hook {
             : context.params._meta.item.table_id
         )
         const columns = await context.app.services.column.find({
-          query: { table_id, $limit: (table_id ? -1 : 20) }
+          query: { table_id },
+          paginate: false
         })
         context.params._meta = {
           ...context.params._meta,
-          columns: table_id ? columns : columns.data
+          columns
         }
         break
     }
