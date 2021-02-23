@@ -365,7 +365,6 @@ class Service extends _adapterCommons.AdapterService {
           }
         }
       }
-      console.log(items)
       q.select(...items)
     } // $eager for Objection eager queries
 
