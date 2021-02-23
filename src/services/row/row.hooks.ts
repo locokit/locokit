@@ -25,7 +25,7 @@ import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.h
 import { triggerProcess } from './triggerProcess.hook'
 import {
   selectColumnsOfTableOrTableView,
-  transformGeometryColumnInJSON
+  formatColumnInData
 } from './selectColumnsOfTableOrView.hook'
 
 const { authenticate } = authentication.hooks
@@ -90,7 +90,7 @@ export default {
       // historizeDataEvents()
     ],
     find: [
-      transformGeometryColumnInJSON()
+      formatColumnInData()
     ],
     get: [],
     create: [

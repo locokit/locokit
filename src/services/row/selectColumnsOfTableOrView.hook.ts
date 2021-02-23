@@ -38,23 +38,11 @@ export function selectColumnsOfTableOrTableView (): Hook {
 /**
  * Add filters depending on the table view wished
  */
-export function transformGeometryColumnInJSON (): Hook {
+export function formatColumnInData (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     /**
      * Only for find / get + after hook
      */
-    /**
-     * Sum up geometry columns
-     */
-    const geometryColumnsId = context.params._meta.columns.reduce((acc: string[], c: TableColumn) => {
-      switch (c.column_type_id) {
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-        case COLUMN_TYPE.GEOMETRY_POINT:
-          acc.push(c.id)
-      }
-      return acc
-    }, [])
     context.result.data = context.result.data.map((d: Record<string, any>) => {
       const newData = {
         id: d.id,
@@ -76,7 +64,6 @@ export function transformGeometryColumnInJSON (): Hook {
       })
       return newData
     })
-    console.log(geometryColumnsId, context.result)
     return context
   }
 };
