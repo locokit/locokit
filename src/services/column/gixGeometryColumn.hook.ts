@@ -19,11 +19,13 @@ function isGeometryColumn (columnType: COLUMN_TYPE): boolean {
  */
 export function createGIX (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'create' && isGeometryColumn(context.result.column_type_id)) {
+    if (
+      context.method === 'create' &&
+      isGeometryColumn(context.result.column_type_id)
+    ) {
       /**
        * Check it's a geometry column
        */
-
       const uuidTableShort = context.result.table_id.substr(0, context.result.table_id.indexOf('-'))
       const uuidColumnShort = context.result.id.substr(0, context.result.id.indexOf('-'))
 
@@ -33,8 +35,6 @@ export function createGIX (): Hook {
         USING GIST(ST_GeomFromEWKT(data->>'${context.result.id}'))
         WHERE table_id = '${context.result.table_id}'
       `)
-    } else {
-      console.log('Hook only for after create method.')
     }
     return context
   }
@@ -46,15 +46,16 @@ export function createGIX (): Hook {
  */
 export function dropGIX (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'remove' && isGeometryColumn(context.result.column_type_id)) {
+    if (
+      context.method === 'remove' &&
+      isGeometryColumn(context.result.column_type_id)
+    ) {
       const uuidTableShort = context.result.table_id.substr(0, context.result.table_id.indexOf('-'))
       const uuidColumnShort = context.result.id.substr(0, context.result.id.indexOf('-'))
 
       await (context.app.get('knex') as Knex).raw(`
         DROP INDEX record_table_${uuidTableShort}_field_${uuidColumnShort}
       `)
-    } else {
-      console.log('Hook only for after remove method.')
     }
     return context
   }
