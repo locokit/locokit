@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="page"
-    class="p-mx-2"
+    class="p-mx-2 centered-content"
   >
     <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
       <div class="lck-color-page-title p-my-4">
@@ -61,6 +61,7 @@
             handle=".handle-block"
           >
             <Block
+              class="lck-block"
               v-for="block in container.blocks"
               :key="block.id"
               :block="block"
@@ -689,5 +690,18 @@ export default {
   width: 100%;
   margin-bottom: 0.5rem;
   border: 1px solid var(--primary-color) !important;
+}
+
+.centered-content {
+  border: 1px solid red;
+}
+
+.lck-block {
+  border: 1px solid red;
+}
+
+.centered-content .lck-block {
+  max-width: 800px;
+  margin: 0 auto;
 }
 </style>
