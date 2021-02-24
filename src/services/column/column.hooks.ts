@@ -2,6 +2,8 @@ import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
+import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
+import { updateLookedUpColumnInTableRowData } from './updateLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 const { authenticate } = authentication.hooks
 
@@ -23,6 +25,7 @@ export default {
       preventChanges(true, 'column_type_id')
     ],
     remove: [
+      removeTableColumnRelationTo()
       // disallow('external')
     ]
   },
@@ -34,7 +37,8 @@ export default {
     create: [
       // iff(isGeometryColumn(), createGIX()),
       createGIX(),
-      upsertColumnRelation()
+      upsertColumnRelation(),
+      updateLookedUpColumnInTableRowData()
     ],
     update: [],
     patch: [],
