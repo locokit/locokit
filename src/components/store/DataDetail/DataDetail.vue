@@ -91,11 +91,39 @@
       </div>
 
       <div
-        v-else
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
+        v-else-if="column.column_type_id !== 18"
+        class="p-fluid"
+        style="height: 3.5rem; border: unset; background-color: transparent; padding-left: unset;"
       >
-        {{ getColumnDisplayValue(column, row.data[column.id]) }}
+         {{ getColumnDisplayValue(column, row.data[column.id]) }}
+      </div>
+      <div
+        v-else
+        style="height: 30rem; border: unset; background-color: transparent; padding-left: unset;"
+      >
+        <lck-map
+          :resources="[{
+            id: 'features-type-point-source-id',
+            features: [
+              {
+                type: 'feature',
+                geometry: row.data[column.id]
+              }
+            ],
+            layers: [
+              {
+                id: 'features-type-circle-layer-id',
+                type: 'circle',
+                paint: { 'circle-radius': 12, 'circle-color': '#53ACB4' },
+              }
+            ]
+          }]"
+          :options="{
+            center: row.data[column.id].coordinates,
+            zoom: 9,
+            maxZoom: 16
+          }"
+        />
       </div>
     </div>
   </div>
@@ -123,6 +151,7 @@ import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComple
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import MapView from '@/components/visualize/MapView/MapView.vue'
 
 import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
 import { formatISO } from 'date-fns'
@@ -164,6 +193,7 @@ export default {
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
     'lck-input-url': InputURL,
+    'lck-map': MapView,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),

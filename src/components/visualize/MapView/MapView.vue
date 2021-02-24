@@ -5,7 +5,7 @@
 <script lang='ts'>
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Vue, { PropType } from 'vue'
-import { AnyLayer, Map, MapboxOptions } from 'mapbox-gl'
+import { AnyLayer, Map, MapboxOptions, NavigationControl, ScaleControl } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { Feature } from 'geojson'
 
@@ -32,9 +32,10 @@ export default Vue.extend({
       map: null as Map | null
     }
   },
-  mounted () {
+  mounted: function () {
     this.map = new Map({
       container: 'map-view',
+      customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
       style: {
         version: 8,
         sources: {
@@ -61,6 +62,21 @@ export default Vue.extend({
       },
       ...this.options
     })
+
+    // Add navigation control (zoom + compass)
+    this.map.addControl(new NavigationControl(), 'top-right')
+    // Add scale control
+    this.map.addControl(new ScaleControl(), 'bottom-left')
+
+    // Disable map rotation
+    this.map.dragRotate.disable()
+    this.map.touchZoomRotate.disableRotation()
+
+    // Force resize canvas map to avoid issue with modal initialisation
+    this.onResize()
+
+    window.addEventListener('resize', this.onResize)
+
     this.map.on('load', () => {
       this.loadResources()
     })
@@ -157,6 +173,11 @@ export default Vue.extend({
       this.resources.forEach((resource) => {
         this.addResource(resource)
       })
+    },
+    onResize () {
+      setTimeout(() => {
+        this.map && this.map.resize()
+      }, 300)
     }
   },
   watch: {
@@ -197,9 +218,13 @@ export default Vue.extend({
   }
 })
 </script>
+
 <style scoped>
 #map-view {
   width: 100%;
   height: 100%;
+}
+/deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
+  box-sizing: content-box;
 }
 </style>

@@ -37,9 +37,12 @@ export function getComponentEditableColumn (columnTypeId: number) {
 export function isEditableColumn (crudMode: boolean, column: Column) {
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
+    case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.FORMULA:
       return false
     default:
       return crudMode || column.editable
   }
 }
+
+export default { getComponentEditableColumn, isEditableColumn }
