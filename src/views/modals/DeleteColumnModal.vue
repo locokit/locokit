@@ -50,7 +50,7 @@ export default {
     async confirmDeleteColumnModal () {
       try {
         if (this.columnToHandle) {
-          await lckServices.tableColumn.remove(this.columnToHandle)
+          await lckServices.tableColumn.remove(this.columnToHandle.id)
           this.errorColumnToDelete = null
           this.$emit('close', true)
         }
