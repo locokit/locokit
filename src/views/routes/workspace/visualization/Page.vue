@@ -26,6 +26,7 @@
         <div
           v-for="container in page.containers"
           :key="container.id"
+          class="lck-container"
           :class="{
             'editable-container': editMode
           }"
@@ -69,7 +70,7 @@
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{ 'p-mb-4': !editMode }"
+              :class="{ 'p-mb-4': !editMode, 'map' : block.type === 'MapView' }"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -692,16 +693,31 @@ export default {
   border: 1px solid var(--primary-color) !important;
 }
 
-.centered-content {
-  border: 1px solid red;
-}
+/* Contenu Centré */
 
-.lck-block {
-  border: 1px solid red;
+.centered-content .lck-container {
 }
 
 .centered-content .lck-block {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.lck-block {
+}
+
+/* Contenu Flex (2 colonnes) */
+
+.flex-content .lck-container div {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-content .lck-container .lck-block {
+  width: 50%;
+}
+.flex-content .lck-container .edit-container-line {
+  align-self: flex-start;
+  width: 100%;
 }
 </style>

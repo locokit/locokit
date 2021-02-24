@@ -1,6 +1,5 @@
 <template>
   <div
-    class="lck-markdown"
     v-if="settings && settings.content"
     v-html="markdownToDisplay"
   />

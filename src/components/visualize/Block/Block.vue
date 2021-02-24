@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="getBlockTypeClassname">
     <div v-if="block" :class="{ 'editable-block': editMode }">
       <div v-if="editMode" class="edit-block-line">
         <h3 class="lck-color-title">{{ block.title }}</h3>
@@ -92,6 +92,26 @@ export default Vue.extend({
     exportAllowed () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
       return (this.block as BlockTableView).settings?.exportAllowed
+    },
+    getBlockTypeClassname () {
+      switch (this.block.type) {
+        case BLOCK_TYPE.TABLE_VIEW:
+          return 'lck-table-view'
+        case BLOCK_TYPE.KANBAN_VIEW:
+          return 'lck-kanban-view'
+        case BLOCK_TYPE.DETAIL_VIEW:
+          return 'lck-detail-view'
+        case BLOCK_TYPE.PARAGRAPH:
+          return 'lck-paragraph'
+        case BLOCK_TYPE.MARKDOWN:
+          return 'lck-markdown'
+        case BLOCK_TYPE.MEDIA:
+          return 'lck-media'
+        // case BLOCK_TYPE.MAP_VIEW:
+          // return 'lck-map-view'
+        default:
+          return 'lck-block-default'
+      }
     }
   },
   props: {
