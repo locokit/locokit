@@ -40,8 +40,8 @@ export default function (app: Application): void {
     ],
     Model: createModel(app),
     paginate: app.get('paginate'),
-    allowedEager: '[from, to]'
-
+    allowedEager: '[from, to]',
+    multi: true
   }
 
   // Initialize our service with any options it requires
