@@ -110,4 +110,4 @@ export function fillLookedUpColumnInTableRowData (): Hook {
     }
     return context
   }
-};
+}
