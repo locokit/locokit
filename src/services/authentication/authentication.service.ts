@@ -5,7 +5,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 
 import { Application } from '../../declarations'
 import { Forbidden } from '@feathersjs/errors'
-import { alterItems } from 'feathers-hooks-common'
+import { alterItems, lowerCase } from 'feathers-hooks-common'
 
 declare module '../../declarations' {
   interface ServiceTypes {
@@ -23,6 +23,9 @@ export default function (app: Application) {
 
   const service = app.service('authentication')
   service.hooks({
+    before: {
+      create: [lowerCase('email')]
+    },
     after: {
       create: [
         (context: HookContext) => {
