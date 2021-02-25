@@ -35,7 +35,7 @@
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
     "pretest": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
-    "test": "npm run compile && NODE_ENV=test npm run jest",
+    "test": "npm run compile && NODE_ENV=test npm run jest -- --coverage",
     "debug": "DEBUG=* ts-node-dev --no-notify src/",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
