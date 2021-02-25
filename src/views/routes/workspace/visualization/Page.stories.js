@@ -99,7 +99,7 @@ export const pageWithBlock = () => (
         pageId: 'pa1'
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" />'
+    template: '<Page :chapters="chapters" :pageId="pageId" :editMode=true />'
   }
 )
 pageWithBlock.parameters = {
