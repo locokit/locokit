@@ -54,7 +54,7 @@ export function dropGIX (): Hook {
       const uuidColumnShort = context.result.id.substr(0, context.result.id.indexOf('-'))
 
       await (context.app.get('knex') as Knex).raw(`
-        DROP INDEX record_table_${uuidTableShort}_field_${uuidColumnShort}
+        DROP INDEX IF EXISTS record_table_${uuidTableShort}_field_${uuidColumnShort}
       `)
     }
     return context
