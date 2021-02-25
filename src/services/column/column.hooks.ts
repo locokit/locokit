@@ -3,7 +3,7 @@ import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
-import { updateLookedUpColumnInTableRowData } from './updateLookedUpColumnInTableRowData.hook'
+import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 const { authenticate } = authentication.hooks
 
@@ -38,7 +38,7 @@ export default {
       // iff(isGeometryColumn(), createGIX()),
       createGIX(),
       upsertColumnRelation(),
-      updateLookedUpColumnInTableRowData()
+      fillLookedUpColumnInTableRowData()
     ],
     update: [],
     patch: [],

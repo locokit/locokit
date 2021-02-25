@@ -7,17 +7,26 @@ import { table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
-describe('updateLookedUpColumnInTableRowData hook', () => {
+const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
+const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
+const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
+
+describe('fillLookedUpColumnInTableRowData hook', () => {
   let workspace: workspace
   let database: database
   let table1: table
   let table2: table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
+  let columnTable1MultiUser: TableColumn
+  let columnTable1SingleSelect: TableColumn
+  let columnTable1MultiSelect: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
+  let columnTable2LookedUpColumnTable1MultiUser: TableColumn
   let columnTable2LookedUpColumnTable1Ref: TableColumn
+  let columnTable2LookedUpColumnTable1SingleSelect: TableColumn
   let user1: User
   let user2: User
   let rowTable1: TableRow
@@ -46,6 +55,47 @@ describe('updateLookedUpColumnInTableRowData hook', () => {
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
       table_id: table1.id
+    })
+    columnTable1MultiUser = await app.service('column').create({
+      text: 'Multi User',
+      column_type_id: COLUMN_TYPE.MULTI_USER,
+      table_id: table1.id
+    })
+    columnTable1SingleSelect = await app.service('column').create({
+      text: 'SingleSelect',
+      column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+      table_id: table1.id,
+      settings: {
+        values: {
+          [singleSelectOption1UUID]: {
+            label: 'option 1'
+          },
+          [singleSelectOption2UUID]: {
+            label: 'option 2'
+          },
+          [singleSelectOption3UUID]: {
+            label: 'option 3'
+          }
+        }
+      }
+    })
+    columnTable1MultiSelect = await app.service('column').create({
+      text: 'MultiSelect',
+      column_type_id: COLUMN_TYPE.MULTI_SELECT,
+      table_id: table1.id,
+      settings: {
+        values: {
+          [singleSelectOption1UUID]: {
+            label: 'option 1'
+          },
+          [singleSelectOption2UUID]: {
+            label: 'option 2'
+          },
+          [singleSelectOption3UUID]: {
+            label: 'option 3'
+          }
+        }
+      }
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
@@ -79,7 +129,10 @@ describe('updateLookedUpColumnInTableRowData hook', () => {
       text: 'table 1 ref 1',
       data: {
         [columnTable1Ref.id]: 'ref 1',
-        [columnTable1User.id]: user1.id
+        [columnTable1User.id]: user1.id,
+        [columnTable1MultiUser.id]: [user1.id, user2.id],
+        [columnTable1SingleSelect.id]: singleSelectOption1UUID,
+        [columnTable1MultiSelect.id]: [singleSelectOption1UUID, singleSelectOption3UUID]
       }
     })
     rowTable2 = await service.create({
@@ -87,7 +140,10 @@ describe('updateLookedUpColumnInTableRowData hook', () => {
       text: 'table 1 ref 2',
       data: {
         [columnTable1Ref.id]: 'ref 2',
-        [columnTable1User.id]: user2.id
+        [columnTable1User.id]: user2.id,
+        [columnTable1MultiUser.id]: [user2.id],
+        [columnTable1SingleSelect.id]: singleSelectOption2UUID,
+        [columnTable1MultiSelect.id]: [singleSelectOption3UUID, singleSelectOption2UUID]
       }
     })
     rowTable3 = await service.create({
@@ -140,6 +196,34 @@ describe('updateLookedUpColumnInTableRowData hook', () => {
 
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
   })
+  it('fill all rows with the matching data from the foreign column of the matching rows (multi user)', async () => {
+    columnTable2LookedUpColumnTable1MultiUser = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1MultiUser.id
+      }
+    })
+    const newRowTable3 = await app.service('row').get(rowTable3.id)
+    const newRowTable4 = await app.service('row').get(rowTable4.id)
+    const newRowTable5 = await app.service('row').get(rowTable5.id)
+
+    expect.assertions(3)
+    expect(newRowTable3.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
+      reference: [user1.id, user2.id],
+      value: 'User 1, User 2'
+    })
+    expect(newRowTable4.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
+      reference: [user2.id],
+      value: 'User 2'
+    })
+    expect(newRowTable5.data[columnTable2LookedUpColumnTable1MultiUser.id]).toBe(null)
+
+    await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
+  })
   it('fill all rows with the matching data from the foreign column of the matching rows (string)', async () => {
     columnTable2LookedUpColumnTable1Ref = await app.service('column').create({
       text: 'Ref',
@@ -169,12 +253,41 @@ describe('updateLookedUpColumnInTableRowData hook', () => {
     await app.service('column').remove(columnTable2LookedUpColumnTable1Ref.id)
   })
 
+  it('fill all rows with the matching data from the foreign column of the matching rows (single select)', async () => {
+    columnTable2LookedUpColumnTable1SingleSelect = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1SingleSelect.id
+      }
+    })
+    const newRowTable3 = await app.service('row').get(rowTable3.id)
+    const newRowTable4 = await app.service('row').get(rowTable4.id)
+    const newRowTable5 = await app.service('row').get(rowTable5.id)
+
+    expect.assertions(3)
+    expect(newRowTable3.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toStrictEqual({
+      reference: rowTable1.id,
+      value: 'option 1'
+    })
+    expect(newRowTable4.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toStrictEqual({
+      reference: rowTable2.id,
+      value: 'option 2'
+    })
+    expect(newRowTable5.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toBe(null)
+
+    await app.service('column').remove(columnTable2LookedUpColumnTable1SingleSelect.id)
+  })
+
   afterEach(async () => {
-    await app.service('row').remove(rowTable5.id)
-    await app.service('row').remove(rowTable4.id)
-    await app.service('row').remove(rowTable3.id)
-    await app.service('row').remove(rowTable2.id)
-    await app.service('row').remove(rowTable1.id)
+    // await app.service('row').remove(rowTable5.id)
+    // await app.service('row').remove(rowTable4.id)
+    // await app.service('row').remove(rowTable3.id)
+    // await app.service('row').remove(rowTable2.id)
+    // await app.service('row').remove(rowTable1.id)
   })
 
   afterAll(async () => {

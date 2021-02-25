@@ -46,7 +46,7 @@ test:
     - npm ci
     - cp -r patch/** node_modules/
     - npm run lint
-    - npm test
+    - npm test -- --coverage
   artifacts:
     expire_in: 1 day
     name: 'lck-api-${CI_COMMIT_REF_SLUG}-coverage'

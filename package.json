@@ -40,7 +40,7 @@
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "lint": "eslint ./src",
-    "jest": "NODE_ENV=test jest --forceExit --coverage --runInBand",
+    "jest": "NODE_ENV=test jest --forceExit --runInBand",
     "prejest:watch": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "jest:watch": "NODE_ENV=test jest --watch --runInBand",
     "compile": "shx rm -rf lib/ && tsc",
