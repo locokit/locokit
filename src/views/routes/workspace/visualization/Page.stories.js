@@ -8,92 +8,79 @@ export default {
 
 const chapterInfo = [
   {
-    "id": "ch1",
-    "text": "Fournisseur",
-    "createdAt": "2020-10-14T13:38:58.355Z",
-    "updatedAt": "2020-10-14T13:38:58.355Z",
-    "workspace_id": "ws1",
-    "pages": [
+    id: 'ch1',
+    text: 'Fournisseur',
+    createdAt: '2020-10-14T13:38:58.355Z',
+    updatedAt: '2020-10-14T13:38:58.355Z',
+    workspace_id: 'ws1',
+    pages: [
       {
-        "id": "pa1",
-        "text": "Demandes",
-        "createdAt": "2020-10-14T13:38:58.355Z",
-        "updatedAt": "2020-10-14T13:38:58.355Z",
-        "chapter_id": "ch1",
-        "position": null,
-        "hidden": null
-      },
+        id: 'pa1',
+        text: 'Demandes',
+        createdAt: '2020-10-14T13:38:58.355Z',
+        updatedAt: '2020-10-14T13:38:58.355Z',
+        chapter_id: 'ch1',
+        position: null,
+        hidden: null
+      }
     ]
   }
 ]
 
 const pageInfo = {
-  "id": "pa1",
-  "text": "Nom de la page",
-  "chapter_id": "ch1",
-  "position": 4,
-  "hidden": null,
-  "containers": [
+  id: 'pa1',
+  text: 'Nom de la page',
+  chapter_id: 'ch1',
+  position: 4,
+  hidden: null,
+  containers: [
     {
-      "id": "fa1",
-      "text": "Container Bénéficiaires Assistance page en construction",
-      "settings": null,
-      "page_id": "pa1",
-      "position": null,
-      "blocks": [
+      id: 'fa1',
+      text: 'Container Bénéficiaires Assistance page en construction',
+      settings: null,
+      page_id: 'pa1',
+      position: null,
+      blocks: [
         {
-          "id": "ba1",
-          "title": null,
-          "position": null,
-          "type": "Markdown",
-          "settings": {
-            "content": "Le contenu du markdown"
+          id: 'ba1',
+          title: null,
+          position: null,
+          type: 'Markdown',
+          settings: {
+            content: 'Le contenu du markdown'
           },
-          "container_id": "fa1"
+          container_id: 'fa1'
         }
       ]
     },
     {
-      "id": "cont1",
-      "text": "Container Bénéficiaires",
-      "settings": null,
-      "page_id": "pa1",
-      "position": null,
-      "blocks": [
+      id: 'cont1',
+      text: 'Container Bénéficiaires',
+      settings: null,
+      page_id: 'pa1',
+      position: null,
+      blocks: [
         {
-          "id": "bl1",
-          "title": null,
-          "position": null,
-          "type": "Media",
-          "settings": {
-            "medias": [
+          id: 'bl1',
+          title: null,
+          position: null,
+          type: 'Media',
+          settings: {
+            medias: [
               {
-                "name": "Page en construction",
-                "type": "image",
-                "srcURL": "/img/page-construction-vlogistique.png"
+                name: 'Page en construction',
+                type: 'image',
+                srcURL: '/img/page-construction-vlogistique.png'
               }
             ],
-            "displayMode": "image"
+            displayMode: 'image'
           },
-          "container_id": "cont1"
+          container_id: 'cont1'
         }
       ]
     }
   ]
 }
-
-export const pageWithBlock = () => (
-  {
-    components: { Page },
-    data () {
-      return {
-        chapters: chapterInfo,
-        pageId: 'pa1',
-      }
-    },
-    template: '<Page :chapters="chapters" :pageId="pageId" />'
-  }
-)
 
 export const defaultStory = () => ({
   component: { Page },
@@ -103,3 +90,26 @@ export const defaultStory = () => ({
 defaultStory.storyName = 'default'
 defaultStory.parameters = { storyshots: { disable: true } }
 
+export const pageWithBlock = () => (
+  {
+    components: { Page },
+    data () {
+      return {
+        chapters: chapterInfo,
+        pageId: 'pa1'
+      }
+    },
+    template: '<Page :chapters="chapters" :pageId="pageId" />'
+  }
+)
+pageWithBlock.parameters = {
+  lckServices: {
+    page: {
+      get () {
+        return new Promise(resolve => {
+          resolve(pageInfo)
+        })
+      }
+    }
+  }
+}
