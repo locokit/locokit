@@ -143,9 +143,16 @@ import Vue from 'vue'
 import saveAs from 'file-saver'
 import Button from 'primevue/button'
 import draggable from 'vuedraggable'
-import { formatISO, isValid, parseISO } from 'date-fns'
+import {
+  formatISO,
+  isValid,
+  parseISO
+} from 'date-fns'
 
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import {
+  BLOCK_TYPE,
+  COLUMN_TYPE
+} from '@locokit/lck-glossary'
 
 import Breadcrumb from 'primevue/breadcrumb'
 
@@ -157,9 +164,13 @@ import {
   retrieveViewData
 } from '@/store/visualize'
 import {
-  patchTableData, saveTableData
+  patchTableData,
+  saveTableData
 } from '@/store/database'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import {
+  lckHelpers,
+  lckServices
+} from '@/services/lck-api'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
@@ -194,9 +205,7 @@ export default {
   data () {
     return {
       page: {},
-      blocksOptions: {
-
-      },
+      blocksOptions: {},
       autocompleteSuggestions: null,
       exporting: false,
       cellState: {},
@@ -373,7 +382,11 @@ export default {
       block.loading = false
     },
     async onPageDetail (block, rowId) {
-      await this.$router.push({ name: 'PageDetail', params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId }, query: { rowId } })
+      await this.$router.push({
+        name: 'PageDetail',
+        params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId },
+        query: { rowId }
+      })
     },
     async onCreateRow (block, newRow) {
       const data = { ...newRow.data }
@@ -618,7 +631,7 @@ export default {
     }
   },
   async mounted () {
-    if (this.$route.params.pageDetailId) {
+    if (this.$route?.params?.pageDetailId) {
       this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
     } else {
       this.page = await retrievePageWithContainersAndBlocks(this.pageId)
@@ -649,6 +662,7 @@ export default {
 </script>
 
 <style scoped>
+
 .lck-page-content {
   min-width: 20rem;
   transition-duration: 0.3s;
@@ -693,31 +707,52 @@ export default {
   border: 1px solid var(--primary-color) !important;
 }
 
-/* Contenu Centré */
+/* classic content */
 
-.centered-content .lck-container {
+.lck-layout-classic .lck-container div {
+  display: flex;
+  flex-direction: column;
 }
 
-.centered-content .lck-block {
+/* Contenu Centré */
+
+.lck-layout-centered .lck-container div {
+  display: flex;
+  flex-direction: column;
+}
+
+.lck-layout-centered .lck-block {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.lck-block {
-}
+/* Contenu Flex (2/n colonnes) */
 
-/* Contenu Flex (2 colonnes) */
-
-.flex-content .lck-container div {
+.lck-layout-flex .lck-container div {
   display: flex;
   flex-direction: row;
 }
 
-.flex-content .lck-container .lck-block {
-  width: 50%;
+.lck-layout-flex .lck-container .lck-block {
+
 }
-.flex-content .lck-container .edit-container-line {
+
+.lck-layout-flex .lck-container .edit-container-line {
   align-self: flex-start;
   width: 100%;
 }
+
+/* contenu Full */
+
+.lck-layout-full {
+  width: 100%;
+  height: 100%;
+}
+
+.lck-layout-full .lck-container div {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
 </style>
