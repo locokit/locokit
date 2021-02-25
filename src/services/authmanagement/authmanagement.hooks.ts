@@ -13,6 +13,7 @@ const getPassword = (hook: HookContext) => hook.data.value.password
 export default {
   before: {
     create: [
+      hooks.iff(isAction('resendVerifySignup'), hooks.lowerCase('value.email')),
       hooks.iff(
         isAction(
           'passwordChange',

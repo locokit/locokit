@@ -50,6 +50,17 @@ describe('authentication', () => {
       expect(newUser2).toBeTruthy()
     })
 
+    it('authenticates user and creates accessToken even if email is with uppercase', async () => {
+      const { user: newUser2, accessToken } = await app.service('authentication').create({
+        strategy: 'local',
+        email: 'lOcOkiT@locokit.io',
+        password
+      }, {})
+
+      expect(accessToken).toBeTruthy()
+      expect(newUser2).toBeTruthy()
+    })
+
     afterAll(async () => {
       await app.service('user').remove(user.id)
     })

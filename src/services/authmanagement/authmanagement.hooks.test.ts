@@ -205,6 +205,21 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
     expect(auth.user.verifyToken).not.toBeDefined()
   })
 
+  it('accept the request of action resendVerifySignup even if email is in uppercase', async () => {
+    expect.assertions(3)
+    calls = []
+    await app.service('authManagement').create({
+      action: 'resendVerifySignup',
+      value: {
+        email: 'LOCOKIT-authmngt@locokit.io'
+      }
+    })
+    expect(calls.length).toBe(1)
+    expect(calls[0][0]).toBe('resendVerifySignup')
+    const token = calls[0][1].verifyToken
+    expect(token).toBeDefined()
+  })
+
   afterEach(async () => {
     await app.service('user').remove(user.id)
   })
