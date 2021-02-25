@@ -69,7 +69,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             ('{
               "${context.result.id}": {
                 "reference": "' || cast(foreignTableRow.id as text) || '",
-                "value": "' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || '"
+                "value": ' || to_json(foreignTableRow.data->>'${context.result.settings.foreignField}') || '
               }
             }')::jsonb
             `

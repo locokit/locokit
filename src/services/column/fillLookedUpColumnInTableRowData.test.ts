@@ -128,7 +128,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       table_id: table1.id,
       text: 'table 1 ref 1',
       data: {
-        [columnTable1Ref.id]: 'ref 1',
+        [columnTable1Ref.id]: 'ref 1 with " and others " for injection',
         [columnTable1User.id]: user1.id,
         [columnTable1MultiUser.id]: [user1.id, user2.id],
         [columnTable1SingleSelect.id]: singleSelectOption1UUID,
@@ -242,7 +242,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     expect.assertions(3)
     expect(newRowTable3.data[columnTable2LookedUpColumnTable1Ref.id]).toStrictEqual({
       reference: rowTable1.id,
-      value: 'ref 1'
+      value: 'ref 1 with " and others " for injection'
     })
     expect(newRowTable4.data[columnTable2LookedUpColumnTable1Ref.id]).toStrictEqual({
       reference: rowTable2.id,
@@ -283,11 +283,11 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   })
 
   afterEach(async () => {
-    // await app.service('row').remove(rowTable5.id)
-    // await app.service('row').remove(rowTable4.id)
-    // await app.service('row').remove(rowTable3.id)
-    // await app.service('row').remove(rowTable2.id)
-    // await app.service('row').remove(rowTable1.id)
+    await app.service('row').remove(rowTable5.id)
+    await app.service('row').remove(rowTable4.id)
+    await app.service('row').remove(rowTable3.id)
+    await app.service('row').remove(rowTable2.id)
+    await app.service('row').remove(rowTable1.id)
   })
 
   afterAll(async () => {
