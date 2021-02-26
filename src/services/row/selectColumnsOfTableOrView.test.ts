@@ -128,6 +128,31 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     await app.service('view').remove(tableView.id)
   })
 
+  it('restrict data to the data the view columns even if paginate is disabled', async () => {
+    const tableView = await app.service('view').create({
+      text: 'My view',
+      table_id: table1.id
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: tableView.id,
+      table_column_id: columnTable1Ref.id
+    })
+    const rows = await app.service('row').find({
+      query: {
+        table_view_id: tableView.id,
+        $limit: -1
+      }
+    }) as unknown as TableRow[]
+    expect.assertions(6)
+    expect(rows.length).toBe(1)
+    expect(rows[0].data[columnTable1Ref.id]).toBeDefined()
+    expect(rows[0].data[columnTable1User.id]).toBeUndefined()
+    expect(rows[0].data[columnTable1FirstName.id]).toBeUndefined()
+    expect(rows[0].data[columnTable1LastName.id]).toBeUndefined()
+    expect(rows[0].data[columnTable1Geom.id]).toBeUndefined()
+    await app.service('view').remove(tableView.id)
+  })
+
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
     await app.service('user').remove(user1.id)
