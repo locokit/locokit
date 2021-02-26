@@ -10,8 +10,8 @@ import { workspace } from '../../models/workspace.model'
 describe('upsertRowRelation hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
-  let table2: table
+  let table1: Table
+  let table2: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable2Ref: TableColumn

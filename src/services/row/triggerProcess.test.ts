@@ -13,7 +13,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 describe('\'triggerProcess\' hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
   let tableRow: TableRow
