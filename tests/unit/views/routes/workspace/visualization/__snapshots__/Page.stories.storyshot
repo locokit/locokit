@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-mx-2 lck-layout-centered"
+  >
+    <div
+      class="lck-page-content"
+      style="margin-right: 0px;"
+    >
+      <div
+        class="lck-color-page-title p-my-4"
+      >
+        <h1>
+          
+        </h1>
+      </div>
+       
+      <!---->
+       
+      <div />
+       
+      <!---->
+    </div>
+     
+    <!---->
+     
+    <form>
+      <!---->
+    </form>
+     
+    <form>
+      <!---->
+    </form>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-mx-2 lck-layout-classic"
+  >
+    <div
+      class="lck-page-content"
+      style="margin-right: 0px;"
+    >
+      <div
+        class="lck-color-page-title p-my-4"
+      >
+        <h1>
+          
+        </h1>
+      </div>
+       
+      <!---->
+       
+      <div />
+       
+      <button
+        class="new-container-button p-button-text p-button p-component p-button-icon-only"
+        title="Create a new container"
+        type="button"
+      >
+        <span
+          class="pi pi-plus p-button-icon"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+           
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+     
+    <!---->
+     
+    <form>
+      <!---->
+    </form>
+     
+    <form>
+      <!---->
+    </form>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-mx-2 lck-layout-flex"
+  >
+    <div
+      class="lck-page-content"
+      style="margin-right: 0px;"
+    >
+      <div
+        class="lck-color-page-title p-my-4"
+      >
+        <h1>
+          
+        </h1>
+      </div>
+       
+      <!---->
+       
+      <div />
+       
+      <!---->
+    </div>
+     
+    <!---->
+     
+    <form>
+      <!---->
+    </form>
+     
+    <form>
+      <!---->
+    </form>
+  </div>
+</div>
+`;
