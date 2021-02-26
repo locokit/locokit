@@ -67,15 +67,14 @@ function rebuild (items: TableRow[], columns: TableColumn[]) {
  */
 export function rebuildDataAndGeom (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    console.log(' here ?', context.method, context.type)
     if (
       (context.method === 'find' || context.method === 'get') &&
       context.type === 'after'
     ) {
-      const items = getItems(context)
-      console.log(items, context.params.paginate, context.result)
-
-      if (context.params.paginate) {
+      if (
+        context.params.paginate ||
+        context.params.paginate === undefined
+      ) {
         /**
          * Only for find / get + after hook
          */
@@ -84,7 +83,6 @@ export function rebuildDataAndGeom (): Hook {
         context.result = rebuild(context.result, context.params._meta.columns)
       }
     }
-    console.log('and here ? 2')
 
     return context
   }
