@@ -7,6 +7,7 @@ import { TableColumn } from '../../models/tablecolumn.model'
 import { raw, ref, ColumnRef } from 'objection'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Knex from 'knex'
+import { TableRow } from '../../models/tablerow.model'
 const { getItems, replaceItems } = require('feathers-hooks-common')
 
 /**
@@ -38,40 +39,53 @@ export function selectColumnsOfTableOrTableView (): Hook {
   }
 };
 
+function rebuild (items: TableRow[], columns: TableColumn[]) {
+  return items.map((d: Record<string, any>) => {
+    const newData = {
+      id: d.id,
+      text: d.text,
+      data: {} as Record<string, any>
+    }
+    columns.forEach((c: TableColumn) => {
+      switch (c.column_type_id) {
+        case COLUMN_TYPE.GEOMETRY_LINESTRING:
+        case COLUMN_TYPE.GEOMETRY_POLYGON:
+        case COLUMN_TYPE.GEOMETRY_POINT:
+          if (d[c.id]) {
+            newData.data[c.id] = JSON.parse(d[c.id])
+          }
+          break
+        default:
+          newData.data[c.id] = d[c.id]
+      }
+    })
+    return newData
+  })
+}
 /**
  * Build the data object, and transform geojson in true JSON
  */
 export function rebuildDataAndGeom (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
+    console.log(' here ?', context.method, context.type)
     if (
       (context.method === 'find' || context.method === 'get') &&
       context.type === 'after'
     ) {
-      /**
-       * Only for find / get + after hook
-       */
-      context.result.data = context.result.data.map((d: Record<string, any>) => {
-        const newData = {
-          id: d.id,
-          text: d.text,
-          data: {} as Record<string, any>
-        }
-        context.params._meta.columns.forEach((c: TableColumn) => {
-          switch (c.column_type_id) {
-            case COLUMN_TYPE.GEOMETRY_LINESTRING:
-            case COLUMN_TYPE.GEOMETRY_POLYGON:
-            case COLUMN_TYPE.GEOMETRY_POINT:
-              if (d[c.id]) {
-                newData.data[c.id] = JSON.parse(d[c.id])
-              }
-              break
-            default:
-              newData.data[c.id] = d[c.id]
-          }
-        })
-        return newData
-      })
+      const items = getItems(context)
+      console.log(items, context.params.paginate, context.result)
+
+      if (context.params.paginate) {
+        /**
+         * Only for find / get + after hook
+         */
+        context.result.data = rebuild(context.result.data, context.params._meta.columns)
+      } else {
+        context.result = rebuild(context.result, context.params._meta.columns)
+      }
     }
+    console.log('and here ? 2')
+
     return context
   }
 };
