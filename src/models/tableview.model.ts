@@ -6,7 +6,7 @@ import { Application } from '../declarations'
 import { TableColumn } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
 import { BaseModel } from './base.model'
-import { table } from './table.model'
+import { Table } from './table.model'
 
 export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
 
@@ -71,7 +71,7 @@ export class TableView extends BaseModel {
       },
       table: {
         relation: Model.HasOneRelation,
-        modelClass: table,
+        modelClass: Table,
         join: {
           from: 'table_view.table_id',
           to: 'table.id'

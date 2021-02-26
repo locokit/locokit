@@ -5,6 +5,7 @@ import { createGIX, dropGIX } from './gixGeometryColumn.hook'
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
 import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
+import { setOriginalColumnTypeForLookedUpColumn } from './setOriginalColumnTypeForLookedUpColumn.hook'
 const { authenticate } = authentication.hooks
 
 export default {
@@ -32,8 +33,12 @@ export default {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [
+      setOriginalColumnTypeForLookedUpColumn()
+    ],
+    get: [
+      setOriginalColumnTypeForLookedUpColumn()
+    ],
     create: [
       // iff(isGeometryColumn(), createGIX()),
       createGIX(),

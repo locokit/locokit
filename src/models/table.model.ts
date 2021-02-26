@@ -9,7 +9,7 @@ import { Process } from './process.model'
 import { BaseModel } from './base.model'
 import { database } from './database.model'
 
-export class table extends BaseModel {
+export class Table extends BaseModel {
   columns?: TableColumnDTO[]
 
   static get tableName () {
@@ -81,5 +81,5 @@ export class table extends BaseModel {
 }
 
 export default function (app: Application) {
-  return table
+  return Table
 }

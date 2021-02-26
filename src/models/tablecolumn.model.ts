@@ -4,7 +4,7 @@
 import { Model } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { table as LckTable } from './table.model'
+import { Table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
 
 export interface SelectValue {
@@ -45,6 +45,9 @@ export class TableColumn extends BaseModel {
   table?: LckTable;
   column_type_id!: number;
   column_type?: LckColumnType;
+  originalColumn?: TableColumn;
+  parents?: TableColumn[];
+  children?: TableColumn[];
 
   static get tableName () {
     return 'table_column'
@@ -92,6 +95,32 @@ export class TableColumn extends BaseModel {
         join: {
           from: 'table_column.column_type_id',
           to: 'column_type.id'
+        }
+      },
+      parents: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column.id',
+          through: {
+            // table_column_relation is the join table.
+            from: 'table_column_relation.table_column_to_id',
+            to: 'table_column_relation.table_column_from_id'
+          },
+          to: 'table_column.id'
+        }
+      },
+      children: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column.id',
+          through: {
+            // table_column_relation is the join table.
+            from: 'table_column_relation.table_column_from_id',
+            to: 'table_column_relation.table_column_to_id'
+          },
+          to: 'table_column.id'
         }
       }
     }
