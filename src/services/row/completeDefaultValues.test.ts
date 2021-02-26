@@ -3,7 +3,7 @@ import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 

@@ -2,7 +2,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
 
@@ -14,7 +14,7 @@ describe('\'row\' service', () => {
 
   let workspace: workspace
   let database: database
-  let table: table
+  let table: Table
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })

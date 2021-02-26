@@ -2,7 +2,7 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { table as LckTable } from './table.model'
+import { Table as LckTable } from './table.model'
 import { Model } from 'objection'
 import { workspace } from './workspace.model'
 

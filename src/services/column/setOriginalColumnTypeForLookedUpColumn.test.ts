@@ -236,35 +236,35 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     })
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1User.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.USER)
   })
-  it('set all original column for all table columns when getting a single table with eager columns', async () => {
-    const table = await app.service('table').get(table2.id, {
-      query: {
-        $eager: '[columns]'
-      }
-    }) as Table
+  // it('set all original column for all table columns when getting a single table with eager columns', async () => {
+  //   const table = await app.service('table').get(table2.id, {
+  //     query: {
+  //       $eager: '[columns]'
+  //     }
+  //   }) as Table
 
-    expect.assertions(8)
-    expect(table).toBeDefined()
-    expect(table.columns?.length).toBe(6)
+  //   expect.assertions(8)
+  //   expect(table).toBeDefined()
+  //   expect(table.columns?.length).toBe(6)
 
-    const columnsLkdUpColumn = (table.columns as TableColumn[]).filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
-    expect(columnsLkdUpColumn.length).toBe(4)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1Ref.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.STRING)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1Date.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.DATE)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
-      [singleSelectOption1UUID]: {
-        label: 'option 1'
-      },
-      [singleSelectOption2UUID]: {
-        label: 'option 2'
-      },
-      [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
-    })
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1User.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.USER)
-  })
+  //   const columnsLkdUpColumn = (table.columns as TableColumn[]).filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
+  //   expect(columnsLkdUpColumn.length).toBe(4)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1Ref.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.STRING)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1Date.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.DATE)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
+  //     [singleSelectOption1UUID]: {
+  //       label: 'option 1'
+  //     },
+  //     [singleSelectOption2UUID]: {
+  //       label: 'option 2'
+  //     },
+  //     [singleSelectOption3UUID]: {
+  //       label: 'option 3'
+  //     }
+  //   })
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1User.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.USER)
+  // })
 
   it('set all original column for all table columns even if not paginated', async () => {
     const columns = await app.service('column').find({
@@ -350,33 +350,33 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       }
     })
   })
-  it('set all original column for all table columns when getting a single table with eager columns even through others looked up columns', async () => {
-    const table = await app.service('table').get(table3.id, {
-      query: {
-        $eager: '[columns]'
-      }
-    }) as Table
+  // it('set all original column for all table columns when getting a single table with eager columns even through others looked up columns', async () => {
+  //   const table = await app.service('table').get(table3.id, {
+  //     query: {
+  //       $eager: '[columns]'
+  //     }
+  //   }) as Table
 
-    expect.assertions(6)
-    expect(table).toBeDefined()
-    expect(table.columns?.length).toBe(4)
+  //   expect.assertions(6)
+  //   expect(table).toBeDefined()
+  //   expect(table.columns?.length).toBe(4)
 
-    const columnsLkdUpColumn = (table.columns as TableColumn[]).filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
-    expect(columnsLkdUpColumn.length).toBe(2)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2Date.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.DATE)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
-    expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
-      [singleSelectOption1UUID]: {
-        label: 'option 1'
-      },
-      [singleSelectOption2UUID]: {
-        label: 'option 2'
-      },
-      [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
-    })
-  })
+  //   const columnsLkdUpColumn = (table.columns as TableColumn[]).filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
+  //   expect(columnsLkdUpColumn.length).toBe(2)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2Date.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.DATE)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
+  //   expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
+  //     [singleSelectOption1UUID]: {
+  //       label: 'option 1'
+  //     },
+  //     [singleSelectOption2UUID]: {
+  //       label: 'option 2'
+  //     },
+  //     [singleSelectOption3UUID]: {
+  //       label: 'option 3'
+  //     }
+  //   })
+  // })
 
   it('set all original column for all table columns even if not paginated even through others looked up columns', async () => {
     const columns = await app.service('column').find({

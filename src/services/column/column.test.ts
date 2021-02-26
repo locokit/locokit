@@ -3,7 +3,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { Columnrelation } from '../columnrelation/columnrelation.class'
 
@@ -70,8 +70,8 @@ describe('\'column\' service', () => {
 describe('hooks for column service', () => {
   let workspace: workspace
   let database: database
-  let table1: table
-  let table2: table
+  let table1: Table
+  let table2: Table
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })

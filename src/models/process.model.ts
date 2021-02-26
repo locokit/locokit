@@ -5,7 +5,7 @@ import { Model, JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { ProcessRun } from './process_run.model'
 import { BaseModel } from './base.model'
-import { table } from './table.model'
+import { Table } from './table.model'
 
 export enum ProcessTrigger {
   CREATE_ROW = 'CREATE_ROW', // when a row in inserted
@@ -63,7 +63,7 @@ export class Process extends BaseModel {
       },
       table: {
         relation: Model.HasOneRelation,
-        modelClass: table,
+        modelClass: Table,
         join: {
           from: 'process.table_id',
           to: 'table.id'

@@ -3,14 +3,14 @@ import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
 describe('selectColumnsOfTableOrTableView hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable1FirstName: TableColumn

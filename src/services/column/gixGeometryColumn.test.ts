@@ -2,14 +2,14 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import Knex from 'knex'
 
 describe('geometry columns hooks', () => {
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let columnTable1Point: TableColumn
 
   beforeAll(async () => {

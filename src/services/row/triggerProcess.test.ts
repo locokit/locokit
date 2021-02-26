@@ -3,7 +3,7 @@ import app from '../../app'
 import { database } from '../../models/database.model'
 import { ProcessTrigger } from '../../models/process.model'
 
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
 import { workspace } from '../../models/workspace.model'

@@ -4,7 +4,7 @@ import { database } from '../../models/database.model'
 import { ProcessTrigger } from '../../models/process.model'
 import { ProcessRunStatus } from '../../models/process_run.model'
 
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
 import { workspace } from '../../models/workspace.model'
@@ -28,7 +28,7 @@ describe('\'process_run\' service', () => {
   describe('add some rules', () => {
     let workspace: workspace
     let database: database
-    let table1: table
+    let table1: Table
     let tableColumn: TableColumn
     let tableRow: TableRow
     let user: User

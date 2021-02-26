@@ -4,7 +4,7 @@ import { NotAcceptable } from '@feathersjs/errors'
 
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { TableView } from '../../models/tableview.model'
 import { TableViewColumn } from '../../models/tableviewcolumn.model'
@@ -13,7 +13,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
   const service = app.service('table-view-has-table-column')
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let tableview: TableView
   let columnTable1Boolean: TableColumn
   let columnTable1Number: TableColumn
