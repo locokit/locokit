@@ -25,8 +25,7 @@ import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.h
 import { triggerProcess } from './triggerProcess.hook'
 import {
   selectColumnsOfTableOrTableView,
-  rebuildDataAndGeom,
-  formatGeomColumnInData
+  rebuildData
 } from './selectColumnsOfTableOrView.hook'
 
 const { authenticate } = authentication.hooks
@@ -91,26 +90,24 @@ export default {
       // historizeDataEvents()
     ],
     find: [
-      rebuildDataAndGeom()
+      rebuildData()
     ],
-    get: [],
+    get: [
+    ],
     create: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess,
-      formatGeomColumnInData()
+      triggerProcess
     ],
     update: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess,
-      formatGeomColumnInData()
+      triggerProcess
     ],
     patch: [
       upsertRowRelation(),
       computeLookedUpColumns(),
-      triggerProcess,
-      formatGeomColumnInData()
+      triggerProcess
     ],
     remove: [
       triggerProcess
