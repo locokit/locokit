@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="page"
-    class="p-mx-2 centered-content"
+    class="p-mx-2"
+    :class="setLayoutPage"
   >
     <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
       <div class="lck-color-page-title p-my-4">
@@ -200,6 +201,10 @@ export default {
     chapters: {
       type: Array,
       default: () => ([])
+    },
+    layout: {
+      type: String,
+      default: 'classic'
     }
   },
   data () {
@@ -266,6 +271,18 @@ export default {
         )
       }
       return relatedChapterPages || []
+    },
+    setLayoutPage () {
+      switch (this.layout) {
+        case 'centered':
+          return 'lck-layout-centered'
+        case 'flex':
+          return 'lck-layout-flex'
+        case 'full':
+          return 'lck-layout-full'
+        default :
+          return 'lck-layout-classic'
+      }
     }
   },
   methods: {
@@ -707,6 +724,13 @@ export default {
   border: 1px solid var(--primary-color) !important;
 }
 
+.editable-container {
+}
+
+.lck-container.editable-container .edit-container-line {
+  flex-direction: row;
+}
+
 /* classic content */
 
 .lck-layout-classic .lck-container div {
@@ -716,14 +740,21 @@ export default {
 
 /* Contenu Centré */
 
-.lck-layout-centered .lck-container div {
+.lck-layout-centered .lck-container > div {
   display: flex;
   flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  justify-content: space-between;
 }
 
 .lck-layout-centered .lck-block {
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  flex: 0 1 100%;
+}
+
+.lck-layout-centered .lck-block.lck-media {
+  justify-content: center;
 }
 
 /* Contenu Flex (2/n colonnes) */
@@ -731,10 +762,15 @@ export default {
 .lck-layout-flex .lck-container div {
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 .lck-layout-flex .lck-container .lck-block {
+}
 
+.lck-layout-flex .lck-container .lck-block.lck-media {
+  justify-content: center;
 }
 
 .lck-layout-flex .lck-container .edit-container-line {

@@ -1,5 +1,4 @@
 import Page from './Page'
-import { lckHelpers } from '@/services/lck-api'
 
 export default {
   title: 'views/visualize/Page',
@@ -36,18 +35,62 @@ const pageInfo = {
   containers: [
     {
       id: 'fa1',
-      text: 'Container Bénéficiaires Assistance page en construction',
+      text: 'Container 1',
       settings: null,
       page_id: 'pa1',
       position: null,
       blocks: [
         {
           id: 'ba1',
-          title: null,
           position: null,
           type: 'Markdown',
+          title: 'Markdown block title',
           settings: {
-            content: 'Le contenu du markdown'
+            content: `
+# This is the title
+
+## And the subtitle
+
+This is the content.
+
+We can write in *italic*, **bold**, and ***both***.
+`
+          },
+          container_id: 'fa1'
+        },
+        {
+          id: 'ba2',
+          position: null,
+          type: 'Markdown',
+          title: 'Markdown block title',
+          settings: {
+            content: `
+# This is the title
+
+## And the subtitle
+
+This is the content.
+
+We can write in *italic*, **bold**, and ***both***.
+`
+          },
+          container_id: 'fa1'
+        },
+        {
+          id: 'ba3',
+          position: null,
+          type: 'Markdown',
+          title: 'Markdown block title',
+          settings: {
+            content: `
+# This is the title
+
+## And the subtitle
+
+This is the content.
+
+We can write in *italic*, **bold**, and ***both***.
+`
           },
           container_id: 'fa1'
         }
@@ -55,7 +98,7 @@ const pageInfo = {
     },
     {
       id: 'cont1',
-      text: 'Container Bénéficiaires',
+      text: 'Container 2',
       settings: null,
       page_id: 'pa1',
       position: null,
@@ -76,7 +119,25 @@ const pageInfo = {
             displayMode: 'image'
           },
           container_id: 'cont1'
-        }
+        },
+        {
+          id: 'bl2',
+          position: null,
+          type: 'Markdown',
+          title: 'Markdown block title',
+          settings: {
+            content: `
+# This is the title
+
+## And the subtitle
+
+This is the content.
+
+We can write in *italic*, **bold**, and ***both***.
+`
+          },
+          container_id: 'fa2'
+        },
       ]
     }
   ]
@@ -102,6 +163,7 @@ export const pageWithBlock = () => (
     template: '<Page :chapters="chapters" :pageId="pageId" :editMode=true />'
   }
 )
+
 pageWithBlock.parameters = {
   lckServices: {
     page: {
@@ -113,3 +175,59 @@ pageWithBlock.parameters = {
     }
   }
 }
+pageWithBlock.storyName = 'with some blocks, default layout'
+
+export const pageWithBlockCentered = () => (
+  {
+    components: { Page },
+    data () {
+      return {
+        chapters: chapterInfo,
+        pageId: 'pa1',
+        layout: 'centered'
+      }
+    },
+    template: '<Page :chapters="chapters" :pageId="pageId" :layout="layout"/>'
+  }
+)
+
+pageWithBlockCentered.parameters = {
+  lckServices: {
+    page: {
+      get () {
+        return new Promise(resolve => {
+          resolve(pageInfo)
+        })
+      }
+    }
+  }
+}
+pageWithBlockCentered.storyName = 'with some blocks, centered layout'
+
+export const pageWithBlockFlex = () => (
+  {
+    components: { Page },
+    data () {
+      return {
+        chapters: chapterInfo,
+        pageId: 'pa1',
+        layout: 'flex'
+      }
+    },
+    template: '<Page :chapters="chapters" :pageId="pageId" :layout="layout"/>'
+  }
+)
+
+pageWithBlockFlex.parameters = {
+  lckServices: {
+    page: {
+      get () {
+        return new Promise(resolve => {
+          resolve(pageInfo)
+        })
+      }
+    }
+  }
+}
+
+pageWithBlockFlex.storyName = 'with some blocks, flex layout'
