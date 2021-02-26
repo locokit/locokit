@@ -32,7 +32,6 @@ export function setOriginalColumnTypeForLookedUpColumn (): Hook {
        */
       const items = getItems(context)
       if (Array.isArray(items)) {
-        console.log('here it is an array')
         await Promise.all(
           items.map(async (currentItem: TableColumn) => {
             if (currentItem.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
