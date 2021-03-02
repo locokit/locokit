@@ -687,7 +687,10 @@ export default {
 
 .editable-container {
   margin-bottom: 1rem;
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--surface-lck-2);
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 6px 0px rgba(194,194,194,0.7);
   overflow: hidden;
 }
 
@@ -725,6 +728,14 @@ export default {
 }
 
 .editable-container {
+}
+
+/deep/ .editable-block .block-content {
+  padding: 0.5rem;
+}
+
+/deep/ .edit-block-line .lck-color-title {
+  padding-left: 0.5rem;
 }
 
 .lck-container.editable-container .edit-container-line {
