@@ -154,4 +154,10 @@ export default Vue.extend({
   pointer-events: none;
   margin-bottom: 0.5rem;
 }
+
+.lck-paragraph {
+  margin: 1rem;
+  padding: 1rem;
+}
+
 </style>

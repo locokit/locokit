@@ -48,7 +48,6 @@ export default {
 
 <style lang="scss">
 .lck-markdown {
-  // max-width: 800px;
   margin: 1rem;
   padding: 1rem;
   background-color: var(--background-color-light);
