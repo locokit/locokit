@@ -4,7 +4,7 @@
     :submitting="submitting"
     :visible="visible"
     @close="$emit('close')"
-    @input="$emit('input', { text: pageTextCopy, hidden: pageHiddenCopy })"
+    @input="$emit('input', { text: pageTextCopy, hidden: pageHiddenCopy, layout: selectedLayout })"
   >
     <div class="p-field">
       <label for="pageTextField">{{ $t('pages.workspace.pageName') }}</label>
@@ -15,6 +15,19 @@
         autofocus
       />
     </div>
+    <fieldset class="p-field">
+      <legend>LAYOUT</legend>
+      <div v-for="layoutType in layoutTypes" :key="layoutType.name">
+        <p-radio-button
+          :id="layoutType.name"
+          :name="layoutType.name"
+          :value="layoutType.name"
+          v-model="selectedLayout"
+        />
+        <label :for="layoutType.name">{{ layoutType.label }}</label>
+        <img :src="layoutType.img" alt=""/>
+      </div>
+    </fieldset>
     <div class="p-field">
       <label for="PageHiddenField">{{ $t('pages.workspace.pageHidden') }}</label>
       <p-input-switch
@@ -30,13 +43,22 @@ import Vue from 'vue'
 import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
+import RadioButton from 'primevue/radiobutton'
+
+const layoutTypes = [
+  { name: 'classic', label: 'Mise en page classique', img: 'classic-layout' },
+  { name: 'center', label: 'Mise en page centrée', img: 'centered-layout' },
+  { name: 'flex', label: 'Mise en page flexible', img: 'flex-layout' },
+  { name: 'full', label: 'Mise en page pleine', img: 'full-layout' }
+]
 
 export default {
   name: 'PageDialog',
   components: {
     'lck-dialog-form': LckDialogForm,
     'p-input-text': Vue.extend(InputText),
-    'p-input-switch': Vue.extend(InputSwitch)
+    'p-input-switch': Vue.extend(InputSwitch),
+    'p-radio-button': Vue.extend(RadioButton)
   },
   props: {
     visible: {
@@ -55,14 +77,17 @@ export default {
   data () {
     return {
       pageTextCopy: '',
-      pageHiddenCopy: false
+      pageHiddenCopy: false,
+      layoutTypes,
+      selectedLayout: null
     }
   },
   watch: {
     page: {
-      handler ({ text, hidden }) {
+      handler ({ text, hidden, layout }) {
         this.pageTextCopy = text
         this.pageHiddenCopy = hidden
+        this.selectedLayout = layout
       },
       immediate: true
     }

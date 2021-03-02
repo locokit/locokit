@@ -742,6 +742,10 @@ export default {
   flex-direction: row;
 }
 
+.lck-container.editable-container .edit-container-line .lck-color-title {
+  color: var(--primary-color)
+}
+
 /* classic content */
 
 .lck-layout-classic .lck-container div {
