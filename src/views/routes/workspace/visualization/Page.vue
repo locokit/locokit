@@ -689,7 +689,7 @@ export default {
   border: 2px solid var(--surface-lck-2);
   background-color: #ffffff;
   border-radius: var(--border-radius);
-  box-shadow: 0px 0px 6px 0px rgba(194,194,194,0.7);
+  box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
   overflow: hidden;
 }
 
