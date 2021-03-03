@@ -29,7 +29,7 @@ export class page extends BaseModel {
         updatedAt: { type: ['string', 'null'] },
         chapter_id: { type: ['string', 'null'] },
         hidden: { type: ['boolean', 'null'] },
-        layout: { type: ['enum', 'null']}
+        layout: {'enum': ['classic', 'center', 'flex', 'full' ] }
       }
     }
   }
