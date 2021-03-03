@@ -68,6 +68,159 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
             />
           </div>
            
+          <fieldset
+            class="p-field"
+          >
+            <legend>
+              LAYOUT
+            </legend>
+             
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="classic"
+                    name="classic"
+                    type="radio"
+                    value="classic"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="classic"
+              >
+                Mise en page classique
+              </label>
+               
+              <img
+                alt=""
+                src="classic-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="center"
+                    name="center"
+                    type="radio"
+                    value="center"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="center"
+              >
+                Mise en page centrée
+              </label>
+               
+              <img
+                alt=""
+                src="centered-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="flex"
+                    name="flex"
+                    type="radio"
+                    value="flex"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="flex"
+              >
+                Mise en page flexible
+              </label>
+               
+              <img
+                alt=""
+                src="flex-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="full"
+                    name="full"
+                    type="radio"
+                    value="full"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="full"
+              >
+                Mise en page pleine
+              </label>
+               
+              <img
+                alt=""
+                src="full-layout"
+              />
+            </div>
+          </fieldset>
+           
           <div
             class="p-field"
           >
@@ -213,6 +366,159 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
               required="required"
             />
           </div>
+           
+          <fieldset
+            class="p-field"
+          >
+            <legend>
+              LAYOUT
+            </legend>
+             
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="classic"
+                    name="classic"
+                    type="radio"
+                    value="classic"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="classic"
+              >
+                Mise en page classique
+              </label>
+               
+              <img
+                alt=""
+                src="classic-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="center"
+                    name="center"
+                    type="radio"
+                    value="center"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="center"
+              >
+                Mise en page centrée
+              </label>
+               
+              <img
+                alt=""
+                src="centered-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="flex"
+                    name="flex"
+                    type="radio"
+                    value="flex"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="flex"
+              >
+                Mise en page flexible
+              </label>
+               
+              <img
+                alt=""
+                src="flex-layout"
+              />
+            </div>
+            <div>
+              <div
+                class="p-radiobutton p-component"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    id="full"
+                    name="full"
+                    type="radio"
+                    value="full"
+                  />
+                </div>
+                 
+                <div
+                  class="p-radiobutton-box"
+                  role="radio"
+                >
+                  <div
+                    class="p-radiobutton-icon"
+                  />
+                </div>
+              </div>
+               
+              <label
+                for="full"
+              >
+                Mise en page pleine
+              </label>
+               
+              <img
+                alt=""
+                src="full-layout"
+              />
+            </div>
+          </fieldset>
            
           <div
             class="p-field"

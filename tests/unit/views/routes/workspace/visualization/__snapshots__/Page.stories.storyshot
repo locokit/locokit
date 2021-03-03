@@ -5,7 +5,8 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
   style="height: 100%;"
 >
   <div
-    class="p-mx-2 lck-layout-centered"
+    class="p-mx-2 lck-layout-classic"
+    layout="centered"
   >
     <div
       class="lck-page-content"
@@ -102,7 +103,8 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-mx-2 lck-layout-flex"
+    class="p-mx-2 lck-layout-classic"
+    layout="flex"
   >
     <div
       class="lck-page-content"

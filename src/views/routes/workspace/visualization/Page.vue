@@ -201,10 +201,6 @@ export default {
     chapters: {
       type: Array,
       default: () => ([])
-    },
-    layout: {
-      type: String,
-      default: 'classic'
     }
   },
   data () {
@@ -273,16 +269,19 @@ export default {
       return relatedChapterPages || []
     },
     setLayoutPage () {
-      switch (this.layout) {
-        case 'centered':
-          return 'lck-layout-centered'
-        case 'flex':
-          return 'lck-layout-flex'
-        case 'full':
-          return 'lck-layout-full'
-        default :
-          return 'lck-layout-classic'
+      if (this.page) {
+        switch (this.page.layout) {
+          case 'center':
+            return 'lck-layout-centered'
+          case 'flex':
+            return 'lck-layout-flex'
+          case 'full':
+            return 'lck-layout-full'
+          default :
+            return 'lck-layout-classic'
+        }
       }
+      return ''
     }
   },
   methods: {
@@ -761,6 +760,7 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .lck-layout-centered .lck-block {
