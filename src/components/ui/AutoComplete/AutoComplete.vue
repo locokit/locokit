@@ -3,7 +3,7 @@
 <template>
   <p-autocomplete
     :dropdown="true"
-    :placeholder="$t('components.datatable.placeholder')"
+    :placeholder="$t('components.datatable.autoCompletePlaceholder')"
     :field="field"
     :appendTo="appendTo"
     v-on="$listeners"

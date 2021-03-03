@@ -29,6 +29,7 @@
       "noDataToDisplay": "Aucune donnée à afficher",
       "loading": "En cours de chargement… veuillez patienter…",
       "placeholder": "Sélectionnez une option",
+      "autoCompletePlaceholder": "Commencez la saisie pour afficher une suggestion",
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
@@ -277,7 +278,7 @@
       "block": {
         "block": "Bloc",
         "title": "Titre du bloc",
-        "type": "Type du bloc",        
+        "type": "Type du bloc",
         "list": "Liste des blocs",
         "content": "Contenu",
         "displayMode": "Mode d'affichage",
