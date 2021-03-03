@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Page from './Page'
 
 export default {
@@ -137,7 +138,7 @@ We can write in *italic*, **bold**, and ***both***.
 `
           },
           container_id: 'fa2'
-        },
+        }
       ]
     }
   ]
