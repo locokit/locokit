@@ -41,27 +41,38 @@ export enum WORKSPACE_ROLE {
 
 export enum BLOCK_TYPE {
   TABLE_VIEW = 'TableView',
-  KANBAN_VIEW = 'KanbanView',
   DETAIL_VIEW = 'DetailView',
   PARAGRAPH = 'Paragraph',
   MARKDOWN = 'Markdown',
+  // HEADING = "Heading",
   MEDIA = 'Media',
+  KANBAN_VIEW = 'KanbanView',
+  // GRIDVIEW = "GridView",
+  MAPVIEW = 'MapView',
+  SYNTHESIS = 'Synthesis'
 }
 
 export enum MEDIA_TYPE {
   IMAGE = 'image',
   VIDEO = 'video',
   GALLERY = 'gallery',
-  CAROUSEL = 'carousel',
+  CAROUSEL = 'carousel'
 }
 
 export enum ERROR_CODE {
   VIEW_LOCKED = 'VIEW_LOCKED',
-  VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK',
+  VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK'
 }
+
 export enum ERROR_LABEL {
   VIEW_LOCKED = 'View is locked',
-  VIEW_USED_IN_BLOCK = 'View is used in a Block',
+  VIEW_USED_IN_BLOCK = 'View is used in a Block'
+}
+
+export enum GEOMETRY_TYPE {
+  POINT = 'Point',
+  LINESTRING = 'Linestring',
+  POLYGON = 'Polygon'
 }
 
 export interface TableViewDefinition {
@@ -121,6 +132,15 @@ export interface BlockMedia extends Block {
   settings: MediaSettings;
 }
 
+export interface MapView extends Block {
+  type: BLOCK_TYPE.MAPVIEW;
+  settings: MapViewSettings;
+}
+
+export interface Synthesis extends Block {
+  type: BLOCK_TYPE.SYNTHESIS;
+}
+
 export interface ParagraphSettings {
   content: string;
 }
@@ -157,8 +177,24 @@ export interface KanbanSettings {
 }
 
 export interface TableViewSettings {
-  id: string; // Id of the table_view in database
-  pageDetailId: string; // Id of the page to open for detail purpose
-  addAllowed: boolean; // Allow the user to create a row from this table view
-  exportAllowed: boolean; // Allow the user to export data from this table view
+  id: string;
+  pageDetailId: string;
+  addAllowed: boolean;
+  exportAllowed: boolean;
+}
+
+export interface MapViewSettings {
+  id: string;// Id of the table_view in database
+  sources: {
+    geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
+    field: string; // column / field 's UUID
+    popup: boolean; // do we display a popup
+    popupSettings: { // a popup is like a card
+      title: string; // column / field 's UUID
+      contentFields: {
+        field: string; // column / field's UUID
+        class: string; // css class to apply on this field
+      }[]
+    }
+  }[];
 }
