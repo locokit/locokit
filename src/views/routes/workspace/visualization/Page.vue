@@ -317,6 +317,7 @@ export default {
     async loadBlockContentAndDefinition (block) {
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
+        case 'MapView':
           this.$set(block, 'loading', true)
           await this.loadBlockTableViewContentAndDefinition(block)
           this.$set(block, 'loading', false)

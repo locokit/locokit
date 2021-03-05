@@ -58,6 +58,8 @@ import Button from 'primevue/button'
 import TableView from '@/components/visualize/TableView/TableView.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
+import MapView from '@/components/visualize/MapView/MapView.vue'
+import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
 import Media from '@/components/visualize/Media/Media.vue'
 import Error from '@/components/ui/Error/Error.vue'
 import DetailView from '@/components/visualize/DetailView.vue'
@@ -71,6 +73,8 @@ export default Vue.extend({
     Paragraph,
     Markdown,
     Media,
+    MapView,
+    Synthesis,
     Error
   },
   computed: {
@@ -79,7 +83,7 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return this.block.type === BLOCK_TYPE.KANBAN_VIEW
+      return false
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false

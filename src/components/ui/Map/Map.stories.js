@@ -1,4 +1,4 @@
-import MapView from './MapView'
+import Map from './Map'
 
 const optionsWithoutBackgroundTiles = {
   style: {
@@ -106,8 +106,8 @@ const resourcesExamples = {
 }
 
 export default {
-  title: 'components/visualize/MapView',
-  component: MapView,
+  title: 'components/visualize/Map',
+  component: Map,
   argTypes: {
     timeoutBeforeScreenshot: {
       table: {
@@ -119,9 +119,9 @@ export default {
 
 export const withPointLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -143,9 +143,9 @@ withPointLayerStory.parameters = {
 
 export const withPointAndTextLayersStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -164,9 +164,9 @@ withPointAndTextLayersStory.parameters = {
 
 export const withLineStringLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -185,9 +185,9 @@ withLineStringLayerStory.parameters = {
 
 export const withPolygonLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -206,9 +206,9 @@ withPolygonLayerStory.parameters = {
 
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -225,9 +225,9 @@ withMultipleSourcesAndLayersStory.parameters = {
 
 export const withCustomOptionsStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 

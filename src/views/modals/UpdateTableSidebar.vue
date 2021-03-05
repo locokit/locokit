@@ -106,7 +106,7 @@ export default {
         })
         this.$emit('reload-tables')
       } catch (errorUpdateTable) {
-        console.log(errorUpdateTable.message)
+        console.error(errorUpdateTable.message)
       }
     },
     createColumn () {
