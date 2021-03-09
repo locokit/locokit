@@ -779,6 +779,7 @@ export default {
   flex-direction: row;
   flex-grow: 1;
   flex-basis: 0;
+  flex-wrap: wrap;
 }
 
 .lck-layout-flex .lck-container .lck-block {
