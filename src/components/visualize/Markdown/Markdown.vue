@@ -33,6 +33,16 @@ export default {
 /deep/ table th {
   border: 1px solid #e9ecef;
   padding: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  line-break: loose;
+  text-wrap: balance;
+  min-width: 5rem;
+  vertical-align: top;
 }
 
 /deep/ table th {
@@ -42,6 +52,12 @@ export default {
 /deep/ table {
   margin: auto;
   border-collapse: collapse;
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 </style>
