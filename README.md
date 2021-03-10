@@ -21,6 +21,20 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 7. npm run seed:run
 8. npm run start
 
+## Restore a dump
+
+You can restore any staging / production dump you have access to by putting them
+in the `dumps` folder.
+
+This folder is shared with the postgres dockers. (`lck-api-db` and `lck-api-db-test`)
+
+For restoring a dump :
+
+```sh
+docker exec -it lck-api-db bash
+pg_restore --no-owner --clean -d postgres -U postgres -W /dumps/your_dump # you'll have to enter the password pouicpouic
+```
+
 ## [CHANGELOG](CHANGELOG.md)
 
 ## Scaffolding
