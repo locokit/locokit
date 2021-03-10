@@ -1,0 +1,35 @@
+image: node:14
+
+stages:
+  - quality
+  - build
+  - release
+
+before_script:
+  - node --version
+  - npm --version
+  - npm ci
+
+Lint:
+  tags: [shared-ci-docker]
+  stage: quality
+  script:
+    - npm run lint
+
+Build:
+  tags: [shared-ci-docker]
+  stage: build
+  script:
+    - npm run build
+
+#Publish:
+#  tags: [shared-ci-docker]
+#  stage: release
+#  only: [master, tags]
+#  dependencies:
+#    - Build
+#  when: manual
+#  script:
+#    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">~/.npmrc
+#    - npm ci
+#    - npm run publish
