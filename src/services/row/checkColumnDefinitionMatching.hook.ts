@@ -352,10 +352,9 @@ export function checkColumnDefinitionMatching (): Hook {
                 /**
                  * Then check in PostGIS if the data is valid
                  */
-                const result = await (context.app.get('knex') as Knex).raw(`
+                await (context.app.get('knex') as Knex).raw(`
                   SELECT ST_IsValid(ST_GeomFromEWKT('${ewktSanitized}'))
                 `)
-                console.log(result, result.rows)
                 /**
                  * Then check if it's the right geometry
                  */
