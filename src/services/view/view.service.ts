@@ -37,7 +37,7 @@ export default function (app: Application) {
       '$joinRelation',
       '$modifyEager'
     ],
-    allowedEager: '[columns.[column_type], rows]',
+    allowedEager: '[columns.[column_type, parents.^], rows]',
     paginate: app.get('paginate')
   }
 
