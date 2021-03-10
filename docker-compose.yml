@@ -11,6 +11,8 @@ services:
     # restart: always
     volumes:
       - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-api-db
 
   postgres-test:
     image: postgis/postgis:latest
@@ -21,6 +23,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pouicpouic
     # restart: always
+    volumes:
+      - ./dumps:/dumps
+    container_name: lck-api-db-test
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -32,6 +37,7 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+    container_name: lck-api-mailhog
 
 volumes:
   lck-db-data:
