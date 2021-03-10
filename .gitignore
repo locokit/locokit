@@ -113,3 +113,5 @@ data/
 
 .env
 /seeds/templates
+
+dumps/
