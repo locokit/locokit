@@ -621,8 +621,8 @@ export default {
           const currentMultiSelectElement = this.$refs.multiselect?.[0]?.$el
           const currentMultiSelectPanelElement = document.querySelector('.p-multiselect-panel.p-component')
           if (
-            currentMultiSelectElement.contains(event.originalEvent.target) ||
-            currentMultiSelectPanelElement.contains(event.originalEvent.target)
+            currentMultiSelectElement?.contains(event.originalEvent.target) ||
+            currentMultiSelectPanelElement?.contains(event.originalEvent.target)
           ) event.preventDefault()
           return
         case COLUMN_TYPE.SINGLE_SELECT:
