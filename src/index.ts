@@ -83,7 +83,7 @@ export interface TableViewDefinition {
     position: number;
     editable: boolean;
     text: string;
-    settings: object;
+    settings: Record<string, unknown>;
     table_id: string;
   }[];
 }
@@ -93,7 +93,7 @@ export interface TableViewContent {
     id: string;
     text: string;
     table_id: string;
-    data: object;
+    data: Record<string, unknown>;
   }[];
 }
 
