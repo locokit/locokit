@@ -403,7 +403,7 @@ export default {
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
           currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
+          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
             value: k,
             label: currentColumn.settings.values[k].label
           }))
@@ -621,8 +621,8 @@ export default {
           const currentMultiSelectElement = this.$refs.multiselect?.[0]?.$el
           const currentMultiSelectPanelElement = document.querySelector('.p-multiselect-panel.p-component')
           if (
-            currentMultiSelectElement.contains(event.originalEvent.target) ||
-            currentMultiSelectPanelElement.contains(event.originalEvent.target)
+            currentMultiSelectElement?.contains(event.originalEvent.target) ||
+            currentMultiSelectPanelElement?.contains(event.originalEvent.target)
           ) event.preventDefault()
           return
         case COLUMN_TYPE.SINGLE_SELECT:
