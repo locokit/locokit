@@ -245,7 +245,6 @@ export default {
     async onPageEditInput ({ text, hidden, layout } = {}) {
       try {
         this.submitting = true
-        console.log(layout)
         if (this.currentPageToEdit.id) {
           // On update
           const updatedPage = await lckServices.page.patch(this.currentPageToEdit.id, {
