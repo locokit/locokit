@@ -94,7 +94,7 @@ export default Vue.extend({
       return (this.block as BlockTableView).settings?.exportAllowed
     },
     getBlockTypeClassname () {
-      switch (this.block.type) {
+      switch (this.block?.type) {
         case BLOCK_TYPE.TABLE_VIEW:
           return 'lck-table-view'
         case BLOCK_TYPE.KANBAN_VIEW:
