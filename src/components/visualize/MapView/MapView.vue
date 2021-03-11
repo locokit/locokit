@@ -16,7 +16,8 @@ import Vue, { PropType } from 'vue'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Feature } from 'ol'
 
-import { GEO_STYLE, transformEWKTtoFeature, computeCenterFeatures } from '@/services/lck-utils/map'
+import { computeCenterFeatures, GEO_STYLE, transformEWKTtoFeature } from '@/services/lck-utils/map'
+import { columnAncestor } from '@/services/lck-utils/columns'
 
 import { COLUMN_TYPE, MapViewSettings } from '@locokit/lck-glossary'
 
@@ -49,9 +50,7 @@ export default Vue.extend({
     ): { column_type_id: number; id: string }[] {
       const geoType = [COLUMN_TYPE.GEOMETRY_POINT, COLUMN_TYPE.GEOMETRY_LINESTRING, COLUMN_TYPE.GEOMETRY_POLYGON]
       // eslint-disable-next-line @typescript-eslint/camelcase
-      // const geoColumns = columns.filter(({ column_type_id, originalColumn }) => (geoType.includes(column_type_id) || (column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && geoType.includes(originalColumn.column_type_id))))
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      return columns.filter(({ displayed, column_type_id }) => (geoType.includes(column_type_id) || (column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && displayed)))
+      return columns.filter(column => (geoType.includes(column.column_type_id) || (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && geoType.includes(columnAncestor(column)))))
     },
     createStyleLayers (geoColumns: { column_type_id: number }[]) {
       const geoTypes = new Set()
@@ -61,8 +60,7 @@ export default Vue.extend({
         if (geoColumn.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
           geoTypes.add(geoColumn.column_type_id)
         } else {
-          // geoTypes.add(geoColumn.ancestorOrigins.column_type_id)
-          geoTypes.add(18)
+          geoTypes.add(columnAncestor(geoColumn))
         }
       })
       geoTypes.forEach(geoType => {
@@ -91,7 +89,7 @@ export default Vue.extend({
       rows.forEach(row => {
         geoColumns.forEach(geoColumn => {
           if (geoColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
-            if (row.data[geoColumn.id]?.value) {
+            if (row.data[geoColumn.id] && row.data[geoColumn.id].value) {
               const feature = this.transformEWKTtoFeature(row.data[geoColumn.id].value)
               features.push(feature)
             } else {

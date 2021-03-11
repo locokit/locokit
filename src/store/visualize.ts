@@ -55,13 +55,14 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = false
 }
 
+// Todo: To improve (2 fct) ?
 export async function retrieveViewDefinition (id: number) {
   workspaceState.loading = true
   try {
     const result = await lckServices.tableView.get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
-        $eager: 'columns.[column_type]',
+        $eager: 'columns.[column_type, parents.^]',
         $modifyEager: {
           columns: {
             transmitted: true

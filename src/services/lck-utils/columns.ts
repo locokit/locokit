@@ -3,6 +3,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 interface Column {
   column_type_id: number;
   editable: boolean;
+  parents?: Column[];
 }
 
 export function getComponentEditableColumn (columnTypeId: number) {
@@ -48,4 +49,11 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
   }
 }
 
-export default { getComponentEditableColumn, isEditableColumn }
+export function columnAncestor (column: Column): COLUMN_TYPE {
+  if (column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (column.parents && column.parents.length === 0) || !column.parents) {
+    return column.column_type_id
+  }
+  return columnAncestor(column.parents[0])
+}
+
+export default { getComponentEditableColumn, isEditableColumn, columnAncestor }
