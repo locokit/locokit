@@ -74,6 +74,7 @@ export default Vue.extend({
     Markdown,
     Media,
     MapView,
+    MapDetailView: MapView,
     Synthesis,
     Error
   },

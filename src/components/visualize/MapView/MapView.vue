@@ -23,8 +23,6 @@ import { COLUMN_TYPE, MapViewSettings } from '@locokit/lck-glossary'
 
 import Map from '@/components/ui/Map/Map.vue'
 
-// Todo: Imposible de filtrer sur l'id de la table qui fait référence à la tableview
-
 export default Vue.extend({
   name: 'MapView',
   components: {
@@ -109,20 +107,26 @@ export default Vue.extend({
     }
   },
   computed: {
+    features () {
+      const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
+
+      if (this.settings?.detailMode) {
+        return this.createGeoJsonFeaturesCollection([this.content], geoColumns)
+      }
+      return this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
+    },
     resources () {
       const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
       const layers = this.createStyleLayers(geoColumns)
-      const features = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
+
       return [{
         id: 'features-collection-source-id',
         layers: layers,
-        ...features
+        ...this.features
       }]
     },
     options () {
-      const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
-      const geojson = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
-      const centerFeaturesCollection = this.computeCenterFeatures(geojson)
+      const centerFeaturesCollection = this.computeCenterFeatures(this.features)
 
       return {
         center: centerFeaturesCollection?.geometry?.coordinates,

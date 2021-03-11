@@ -162,7 +162,8 @@ import Block from '@/components/visualize/Block/Block'
 import {
   retrievePageWithContainersAndBlocks,
   retrieveViewDefinition,
-  retrieveViewData
+  retrieveViewData,
+  retrieveRow
 } from '@/store/visualize'
 import {
   patchTableData,
@@ -301,31 +302,66 @@ export default {
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       if (block.definition?.id) await this.loadBlockTableViewContent(block)
     },
-    async loadBlockTableViewContent (block) {
+    async loadBlockTableViewContent (block) { // Rename
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      this.$set(block, 'content', await retrieveViewData(
-        block.definition.id,
-        currentOptions.page * currentOptions.itemsPerPage,
-        currentOptions.itemsPerPage,
-        currentOptions.sort,
-        currentOptions.filters
-      ))
-    },
-    async loadBlockContentAndDefinition (block) {
+      // this.$set(block, 'content', await retrieveViewData(
+      //   block.definition.id,
+      //   currentOptions.page * currentOptions.itemsPerPage,
+      //   currentOptions.itemsPerPage,
+      //   currentOptions.sort,
+      //   currentOptions.filters
+      // ))
+
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-        case 'MapView':
-          this.$set(block, 'loading', true)
-          await this.loadBlockTableViewContentAndDefinition(block)
-          this.$set(block, 'loading', false)
+        case BLOCK_TYPE.MAPVIEW:
+          this.$set(block, 'content', await retrieveViewData(
+            block.definition.id,
+            currentOptions.page * currentOptions.itemsPerPage,
+            currentOptions.itemsPerPage,
+            currentOptions.sort,
+            currentOptions.filters
+          ))
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-          this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+        case BLOCK_TYPE.MAPDETAILVIEW:
+          this.$set(block, 'content', await retrieveRow(this.$route.query.rowId))
           break
       }
+
+      // if (block.settings.isDetail) {
+      //   this.$set(block, 'content', await retrieveRow(
+      //     this.$route.query.rowId
+      //   ))
+      // } else {
+      //   this.$set(block, 'content', await retrieveViewData(
+      //     block.definition.id,
+      //     currentOptions.page * currentOptions.itemsPerPage,
+      //     currentOptions.itemsPerPage,
+      //     currentOptions.sort,
+      //     currentOptions.filters
+      //   ))
+      // }
+    },
+    async loadBlockContentAndDefinition (block) {
+      this.$set(block, 'loading', true)
+      await this.loadBlockTableViewContentAndDefinition(block)
+      this.$set(block, 'loading', false)
+      // switch (block.type) {
+      //   case BLOCK_TYPE.TABLE_VIEW:
+      //   case BLOCK_TYPE.MAPVIEW:
+      //   case BLOCK_TYPE.MAPDETAILVIEW:
+      //     this.$set(block, 'loading', true)
+      //     await this.loadBlockTableViewContentAndDefinition(block)
+      //     this.$set(block, 'loading', false)
+      //     break
+      //   case BLOCK_TYPE.DETAIL_VIEW:
+      //     this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+      //     break
+      // }
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true

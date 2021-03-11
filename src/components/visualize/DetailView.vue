@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="row && row.data"
+    v-if="definition && content"
   >
     <lck-data-detail
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
-      :row="row"
+      :row="content"
       :autocompleteSuggestions="autocompleteSuggestions"
       @update-suggestions="updateLocalAutocompleteSuggestions"
       @update-row="onUpdateCell"
@@ -18,7 +18,6 @@ import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-import { retrieveRow } from '@/store/visualize'
 import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
 
@@ -37,12 +36,15 @@ export default Vue.extend({
     definition: {
       type: Object,
       default: () => ({})
+    },
+    content: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
     return {
       autocompleteSuggestions: null,
-      row: {},
       rowId: this.$route.query?.rowId
     }
   },
@@ -65,9 +67,6 @@ export default Vue.extend({
       }
       await patchTableData(this.rowId, data)
     }
-  },
-  async mounted () {
-    this.row = await retrieveRow(this.rowId)
   }
 })
 </script>
