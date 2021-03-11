@@ -49,6 +49,7 @@ export enum BLOCK_TYPE {
   KANBAN_VIEW = 'KanbanView',
   // GRIDVIEW = "GridView",
   MAPVIEW = 'MapView',
+  MAPDETAILVIEW = 'MapDetailView',
   SYNTHESIS = 'Synthesis'
 }
 
@@ -134,7 +135,12 @@ export interface BlockMedia extends Block {
 
 export interface MapView extends Block {
   type: BLOCK_TYPE.MAPVIEW;
-  settings: MapViewSettings;
+  settings: MapSettings;
+}
+
+export interface MapDetailView extends Block {
+  type: BLOCK_TYPE.MAPDETAILVIEW;
+  settings: MapSettings;
 }
 
 export interface Synthesis extends Block {
@@ -183,8 +189,9 @@ export interface TableViewSettings {
   exportAllowed: boolean;
 }
 
-export interface MapViewSettings {
+export interface MapSettings {
   id: string;// Id of the table_view in database
+  detailMode: boolean // filter data from the current row (detail)
   sources: {
     geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
     field: string; // column / field 's UUID
