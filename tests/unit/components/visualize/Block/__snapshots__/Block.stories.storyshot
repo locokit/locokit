@@ -471,7 +471,17 @@ exports[`storyshots components/visualize/Block default 1`] = `
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="lck-block-default"
+  >
+    <span
+      class="lck-color-content"
+    >
+      
+    The block type does not exist.
+  
+    </span>
+  </div>
 </div>
 `;
 
