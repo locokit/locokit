@@ -403,7 +403,7 @@ export default {
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
           currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
+          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
             value: k,
             label: currentColumn.settings.values[k].label
           }))
