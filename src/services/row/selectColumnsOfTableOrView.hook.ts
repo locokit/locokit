@@ -20,11 +20,6 @@ export function selectColumnsOfTableOrTableView (): Hook {
     const $select: (string | ColumnRef)[] = ['text']
     context.params._meta.columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-        case COLUMN_TYPE.GEOMETRY_POINT:
-          $select.push(raw(`ST_AsGeoJSON(ST_GeomFromEWKT(data->>'${c.id}'::text))`).as(c.id))
-          break
         default:
           $select.push(ref(`data:${c.id}`).as(c.id))
       }
@@ -46,13 +41,6 @@ function rebuild (items: TableRow[], columns: TableColumn[]) {
     }
     columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-        case COLUMN_TYPE.GEOMETRY_POINT:
-          if (d[c.id]) {
-            newData.data[c.id] = JSON.parse(d[c.id])
-          }
-          break
         default:
           newData.data[c.id] = d[c.id]
       }

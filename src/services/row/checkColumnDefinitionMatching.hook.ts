@@ -6,6 +6,7 @@ import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import dayjs from 'dayjs'
 import Knex from 'knex'
+import validator from 'validator'
 
 class CheckError {
   columnName!: string
@@ -338,31 +339,27 @@ export function checkColumnDefinitionMatching (): Hook {
           case COLUMN_TYPE.GEOMETRY_LINESTRING:
           case COLUMN_TYPE.GEOMETRY_POLYGON:
             /**
-             * Check if it is a GeoJSON
+             * Check if it is a string
              */
-            if (
-              !(currentColumnValue instanceof Object) ||
-              currentColumnValue.geometry === undefined ||
-              !(currentColumnValue.geometry instanceof Object)
-            ) {
+            if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not an object (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a string / text (received: ' + currentColumnValue + ')'
               })
             } else {
-              const geojsonStringified = JSON.stringify(currentColumnValue.geometry)
               try {
+                const ewktSanitized = validator.escape(currentColumnValue)
                 /**
                  * Then check in PostGIS if the data is valid
                  */
                 await (context.app.get('knex') as Knex).raw(`
-                  SELECT ST_IsValid(ST_GeomFromGeoJSON('${geojsonStringified}'::json))
+                  SELECT ST_IsValid(ST_GeomFromEWKT('${ewktSanitized}'))
                 `)
                 /**
                  * Then check if it's the right geometry
                  */
                 const geometryType = await (context.app.get('knex') as Knex).raw(`
-                  SELECT GeometryType(ST_GeomFromGeoJSON('${geojsonStringified}'::json))
+                  SELECT GeometryType(ST_GeomFromEWKT('${ewktSanitized}'))
                 `)
                 const geometryTypeReceived = geometryType.rows[0].geometrytype
                 const geometryTypeNeeded = getGeometryType(currentColumn.column_type_id)
@@ -375,10 +372,7 @@ export function checkColumnDefinitionMatching (): Hook {
                   /**
                    * If yes, transform it in EWKT before insertion
                    */
-                  const resultDB = await (context.app.get('knex') as Knex<{ ewkt: string }>).raw(`
-                    SELECT ST_AsEWKT(ST_GeomFromGeoJSON('${geojsonStringified}'::json)) ewkt
-                  `)
-                  context.data.data[columnId] = resultDB.rows[0].ewkt
+                  context.data.data[columnId] = ewktSanitized
                 }
               } catch (e) {
                 console.error(e)
