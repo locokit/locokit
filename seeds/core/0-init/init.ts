@@ -16,7 +16,6 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('table_row').del()
   await knex('table_column_relation').del()
   await knex('table_column').del()
-  await knex('column_type').del()
   await knex('table_relation').del()
   await knex('table').del()
   await knex('database').del()
