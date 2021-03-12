@@ -9,6 +9,7 @@
     "@typescript-eslint"
   ],
   "extends": [
+    "standard",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
@@ -16,7 +17,7 @@
   "rules": {
     "quotes": "off",
     "@typescript-eslint/quotes": ["error", "single"],
-    "comma-dangle": "off",
-    "@typescript-eslint/comma-dangle": ["error"]
+    "comma-dangle": ["error", "always"],
+    "@typescript-eslint/comma-dangle": ["error", "always"]
   }
 }

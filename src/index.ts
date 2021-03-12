@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export enum COLUMN_TYPE {
   BOOLEAN = 1,
   STRING = 2,
@@ -18,25 +19,25 @@ export enum COLUMN_TYPE {
   URL = 17,
   GEOMETRY_POINT = 18,
   GEOMETRY_POLYGON = 19,
-  GEOMETRY_LINESTRING = 20
+  GEOMETRY_LINESTRING = 20,
 }
 
 export enum USER_PROFILE {
   ADMIN = 'ADMIN',
   SUPERADMIN = 'SUPERADMIN',
-  USER = 'USER'
+  USER = 'USER',
 }
 
 export enum GROUP_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER'
+  MEMBER = 'MEMBER',
 }
 
 export enum WORKSPACE_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER'
+  MEMBER = 'MEMBER',
 }
 
 export enum BLOCK_TYPE {
@@ -50,30 +51,30 @@ export enum BLOCK_TYPE {
   // GRIDVIEW = "GridView",
   MAPVIEW = 'MapView',
   MAPDETAILVIEW = 'MapDetailView',
-  SYNTHESIS = 'Synthesis'
+  SYNTHESIS = 'Synthesis',
 }
 
 export enum MEDIA_TYPE {
   IMAGE = 'image',
   VIDEO = 'video',
   GALLERY = 'gallery',
-  CAROUSEL = 'carousel'
+  CAROUSEL = 'carousel',
 }
 
 export enum ERROR_CODE {
   VIEW_LOCKED = 'VIEW_LOCKED',
-  VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK'
+  VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK',
 }
 
 export enum ERROR_LABEL {
   VIEW_LOCKED = 'View is locked',
-  VIEW_USED_IN_BLOCK = 'View is used in a Block'
+  VIEW_USED_IN_BLOCK = 'View is used in a Block',
 }
 
 export enum GEOMETRY_TYPE {
   POINT = 'Point',
   LINESTRING = 'Linestring',
-  POLYGON = 'Polygon'
+  POLYGON = 'Polygon',
 }
 
 export interface TableViewDefinition {
@@ -103,14 +104,29 @@ export interface Block {
   type: BLOCK_TYPE;
 }
 
+export interface ParagraphSettings {
+  content: string;
+}
+
 export interface BlockParagraph extends Block {
   type: BLOCK_TYPE.PARAGRAPH;
   settings: ParagraphSettings;
 }
 
+export interface MarkdownSettings {
+  content: string;
+}
+
 export interface BlockMarkdown extends Block {
   type: BLOCK_TYPE.MARKDOWN;
   settings: MarkdownSettings;
+}
+
+export interface TableViewSettings {
+  id: string;
+  pageDetailId: string;
+  addAllowed: boolean;
+  exportAllowed: boolean;
 }
 
 export interface BlockTableView extends Block {
@@ -121,47 +137,6 @@ export interface BlockTableView extends Block {
 export interface BlockTableViewEnhanced extends BlockTableView {
   definition: TableViewDefinition;
   content: TableViewContent;
-}
-
-export interface BlockKanbanView extends Block {
-  type: BLOCK_TYPE.KANBAN_VIEW;
-  settings: KanbanSettings;
-}
-
-export interface BlockMedia extends Block {
-  type: BLOCK_TYPE.MEDIA;
-  settings: MediaSettings;
-}
-
-export interface MapView extends Block {
-  type: BLOCK_TYPE.MAPVIEW;
-  settings: MapSettings;
-}
-
-export interface MapDetailView extends Block {
-  type: BLOCK_TYPE.MAPDETAILVIEW;
-  settings: MapSettings;
-}
-
-export interface Synthesis extends Block {
-  type: BLOCK_TYPE.SYNTHESIS;
-}
-
-export interface ParagraphSettings {
-  content: string;
-}
-
-export interface MarkdownSettings {
-  content: string;
-}
-
-export interface MediaSettings {
-  displayMode: MEDIA_TYPE;
-  medias: {
-    name: string;
-    srcURL: string;
-    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
-  }[];
 }
 
 export interface KanbanSettings {
@@ -182,11 +157,23 @@ export interface KanbanSettings {
   }[];
 }
 
-export interface TableViewSettings {
-  id: string;
-  pageDetailId: string;
-  addAllowed: boolean;
-  exportAllowed: boolean;
+export interface BlockKanbanView extends Block {
+  type: BLOCK_TYPE.KANBAN_VIEW;
+  settings: KanbanSettings;
+}
+
+export interface MediaSettings {
+  displayMode: MEDIA_TYPE;
+  medias: {
+    name: string;
+    srcURL: string;
+    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
+  }[];
+}
+
+export interface BlockMedia extends Block {
+  type: BLOCK_TYPE.MEDIA;
+  settings: MediaSettings;
 }
 
 export interface MapSettings {
@@ -204,4 +191,17 @@ export interface MapSettings {
       }[]
     }
   }[];
+}
+export interface MapView extends Block {
+  type: BLOCK_TYPE.MAPVIEW;
+  settings: MapSettings;
+}
+
+export interface MapDetailView extends Block {
+  type: BLOCK_TYPE.MAPDETAILVIEW;
+  settings: MapSettings;
+}
+
+export interface Synthesis extends Block {
+  type: BLOCK_TYPE.SYNTHESIS;
 }
