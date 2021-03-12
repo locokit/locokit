@@ -6,11 +6,11 @@ import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 
 export class TableRowRelation extends BaseModel {
-  table_row_from_id!: string;
-  table_row_to_id!: string;
-  table_column_to_id!: string;
+  table_row_from_id!: string
+  table_row_to_id!: string
+  table_column_to_id!: string
 
-  static get idColumn () {
+  static get idColumn (): string[] {
     return ['table_row_to_id', 'table_column_to_id']
   }
 

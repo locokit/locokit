@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model } from 'objection'
+import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 import { Process as ProcessModel } from './process.model'
@@ -14,14 +14,14 @@ export enum ProcessRunStatus {
   RUNNING = 'RUNNING',
 }
 export class ProcessRun extends BaseModel {
-  status?: ProcessRunStatus;
-  duration?: number;
-  log?: string;
-  settings?: object;
-  process_id!: string;
-  process?: ProcessModel;
-  table_row_id?: string;
-  table_row?: TableRow;
+  status?: ProcessRunStatus
+  duration?: number
+  log?: string
+  settings?: object
+  process_id!: string
+  process?: ProcessModel
+  table_row_id?: string
+  table_row?: TableRow
 
   static get tableName (): string {
     return 'process_run'
@@ -47,7 +47,7 @@ export class ProcessRun extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       process: {
         relation: Model.HasOneRelation,

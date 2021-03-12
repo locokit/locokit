@@ -1,59 +1,59 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
 
 export interface SelectValue {
-  label: string;
-  color: string;
-  backgroundColor: string;
+  label: string
+  color: string
+  backgroundColor: string
 }
 
 export class TableColumn extends BaseModel {
-  text!: string;
-  reference!: boolean;
-  reference_position!: number;
-  locked!: boolean;
+  text!: string
+  reference!: boolean
+  reference_position!: number
+  locked!: boolean
   settings!: {
-    formula?: string,
+    formula?: string
     query?: {
-      select: string[],
-      where: Object,
-      sort: { field: string, order: string}[],
-      limit: number,
-      skip: number,
+      select: string[]
+      where: Object
+      sort: Array<{ field: string, order: string}>
+      limit: number
+      skip: number
       aggregate: string // count, avg, sum, min, max, count distinct
-    },
-    table_to_id?: string,
-    column_to_id?: string,
-    column_from_id?: string,
-    tableId?: string,
-    localField?: string,
-    foreignField?: string,
-    values?: Record<string, SelectValue>,
-    width?: number,
-    required?: boolean,
+    }
+    table_to_id?: string
+    column_to_id?: string
+    column_from_id?: string
+    tableId?: string
+    localField?: string
+    foreignField?: string
+    values?: Record<string, SelectValue>
+    width?: number
+    required?: boolean
     default?: string
-  };
+  }
 
-  position!: number;
-  table_id!: string;
-  table?: LckTable;
-  column_type_id!: number;
-  column_type?: LckColumnType;
-  originalColumn?: TableColumn;
-  parents?: TableColumn[];
-  children?: TableColumn[];
+  position!: number
+  table_id!: string
+  table?: LckTable
+  column_type_id!: number
+  column_type?: LckColumnType
+  originalColumn?: TableColumn
+  parents?: TableColumn[]
+  children?: TableColumn[]
 
-  static get tableName () {
+  static get tableName (): string {
     return 'table_column'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -71,7 +71,7 @@ export class TableColumn extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       table: {
         relation: Model.BelongsToOneRelation,
@@ -127,6 +127,6 @@ export class TableColumn extends BaseModel {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof TableColumn {
   return TableColumn
 }

@@ -6,11 +6,11 @@ import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 
 class Usergroup extends BaseModel {
-  uhg_role!:string;
-  user_id!:number;
-  group_id!:string;
+  uhg_role!: string
+  user_id!: number
+  group_id!: string
 
-  static get idColumn () {
+  static get idColumn (): string[] {
     return ['user_id', 'group_id']
   }
 

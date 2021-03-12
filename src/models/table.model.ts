@@ -1,6 +1,6 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, QueryBuilder } from 'objection'
+import { Model, QueryBuilder, RelationMappings, JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { TableRow } from './tablerow.model'
 import { TableView, TableColumnDTO } from './tableview.model'
@@ -12,11 +12,11 @@ import { database } from './database.model'
 export class Table extends BaseModel {
   columns?: TableColumnDTO[]
 
-  static get tableName () {
+  static get tableName (): string {
     return 'table'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -27,7 +27,7 @@ export class Table extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       columns: {
         relation: Model.HasManyRelation,
@@ -41,6 +41,7 @@ export class Table extends BaseModel {
           to: 'table_column.table_id',
         },
         modify (query: QueryBuilder<TableColumn>) {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           query.clear('limit')
         },
       },
@@ -80,6 +81,6 @@ export class Table extends BaseModel {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof Table {
   return Table
 }

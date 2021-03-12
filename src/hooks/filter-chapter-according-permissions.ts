@@ -24,7 +24,7 @@ export default (options = {}): Hook => {
           // if (workspace.role === 'OWNER' && workspace.chapters) {
           //   $in.push(...workspace.chapters.map(c => c.id))
           // } else
-          if (group.chapter_id) {
+          if (group.chapter_id !== undefined && group.chapter_id !== null) {
             $in.push(group.chapter_id)
           }
         });

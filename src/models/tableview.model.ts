@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, QueryBuilder } from 'objection'
+import { Model, QueryBuilder, RelationMappings, JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { TableColumn } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
@@ -16,17 +16,17 @@ export class TableColumnDTO extends TableColumn {
 }
 
 export class TableView extends BaseModel {
-  columns?: TableColumnDTO[];
-  text!: string;
-  locked!: boolean;
-  position?: number;
-  table_id!: string;
+  columns?: TableColumnDTO[]
+  text!: string
+  locked!: boolean
+  position?: number
+  table_id!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'table_view'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -39,7 +39,7 @@ export class TableView extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       columns: {
         relation: Model.ManyToManyRelation,
@@ -56,9 +56,10 @@ export class TableView extends BaseModel {
             extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default'],
           },
           to: 'table_column.id',
-          modify (query: QueryBuilder<TableColumn>) {
-            query.clear('limit')
-          },
+        },
+        modify (query: QueryBuilder<TableColumn>) {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          query.clear('limit')
         },
       },
       rows: {
@@ -81,6 +82,6 @@ export class TableView extends BaseModel {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof TableView {
   return TableView
 }

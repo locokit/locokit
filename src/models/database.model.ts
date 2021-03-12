@@ -3,17 +3,17 @@
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 import { workspace } from './workspace.model'
 
 export class database extends BaseModel {
-  text!: string;
+  text!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'database'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -24,7 +24,7 @@ export class database extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       tables: {
         relation: Model.HasManyRelation,
@@ -50,22 +50,6 @@ export class database extends BaseModel {
   }
 }
 
-export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('database').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('database', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created database table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating database table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating database table', e)); // eslint-disable-line no-console
-
+export default function (app: Application): typeof database {
   return database
 }

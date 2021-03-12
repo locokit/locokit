@@ -6,21 +6,21 @@ import { Application } from '../declarations'
 import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class Group extends BaseModel {
-  workspace?: LckWorkspace;
-  chapter?: LckChapter;
-  chapter_id?: string;
-  workspace_role?: string;
-  name!: string;
-  users?: User[];
+  workspace?: LckWorkspace
+  chapter?: LckChapter
+  chapter_id?: string
+  workspace_role?: string
+  name!: string
+  users?: User[]
 
-  static get tableName () {
+  static get tableName (): string {
     return 'group'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['name'],
@@ -32,7 +32,7 @@ export class Group extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       workspace: {
         relation: Model.HasOneRelation,
@@ -79,6 +79,6 @@ export class Group extends BaseModel {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof Group {
   return Group
 }

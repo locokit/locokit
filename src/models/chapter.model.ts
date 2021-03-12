@@ -4,19 +4,19 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class chapter extends BaseModel {
-  title!: string;
-  position!: number;
-  settings!: object;
-  type!: string;
+  title!: string
+  position!: number
+  settings!: object
+  type!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'chapter'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -29,7 +29,7 @@ export class chapter extends BaseModel {
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       workspace: {
         relation: Model.BelongsToOneRelation,
@@ -55,22 +55,6 @@ export class chapter extends BaseModel {
   }
 }
 
-export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('chapter').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('chapter', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created chapter table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating chapter table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating chapter table', e)); // eslint-disable-line no-console
-
+export default function (app: Application): typeof chapter {
   return chapter
 }

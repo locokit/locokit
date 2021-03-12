@@ -2,15 +2,16 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
+import { JSONSchema } from 'objection'
 
 export class ColumnType extends BaseModel {
-  text!: string;
+  text!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'column_type'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -22,6 +23,6 @@ export class ColumnType extends BaseModel {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof ColumnType {
   return ColumnType
 }
