@@ -91,7 +91,7 @@ export function checkColumnDefinitionMatching (): Hook {
           if (currentColumn.settings?.required) {
             checkErrors.push({
               columnName: currentColumn.text,
-              columnError: 'The current field is required (received: ' + currentColumnValue + ')'
+              columnError: 'The current field is required (received: ' + currentColumnValue + ')',
             })
           }
           /**
@@ -104,7 +104,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'boolean')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a boolean (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a boolean (received: ' + currentColumnValue + ')',
               })
             }
             break
@@ -113,7 +113,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'number')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a number / float (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a number / float (received: ' + currentColumnValue + ')',
               })
             }
             break
@@ -121,7 +121,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value need to be sent as a string (received: ' + currentColumnValue + ')'
+                columnError: 'The current value need to be sent as a string (received: ' + currentColumnValue + ')',
               })
             } else if (!dayjs(currentColumnValue).isValid()) {
               /**
@@ -129,7 +129,7 @@ export function checkColumnDefinitionMatching (): Hook {
                */
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a ISO8601 date (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a ISO8601 date (received: ' + currentColumnValue + ')',
               })
             }
             break
@@ -140,17 +140,17 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')',
               })
             } else {
             /**
              * The single select is one of the settings values ids
              */
               const currentSingleSelectSettingsValues = currentColumn.settings.values as Record<string, SelectValue>
-              if (!Object.keys(currentSingleSelectSettingsValues).includes(currentColumnValue as string)) {
+              if (!Object.keys(currentSingleSelectSettingsValues).includes(currentColumnValue)) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not a string (received: ' + currentColumnValue + ')',
                 })
               }
             }
@@ -162,7 +162,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(currentColumnValue instanceof Array)) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not an array of value (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not an array of value (received: ' + currentColumnValue + ')',
               })
             } else {
               /**
@@ -173,20 +173,20 @@ export function checkColumnDefinitionMatching (): Hook {
               if (!currentSettingsValues) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current multi select column is not well configured. Please add values in the column\'s settings.'
+                  columnError: 'The current multi select column is not well configured. Please add values in the column\'s settings.',
                 })
               } else {
                 currentColumnValue.forEach((multiSelectValue: string | any) => {
                   if (!(typeof multiSelectValue === 'string')) {
                     checkErrors.push({
                       columnName: currentColumn.text,
-                      columnError: 'The current multi select value is not a string (received: ' + multiSelectValue + ')'
+                      columnError: 'The current multi select value is not a string (received: ' + multiSelectValue + ')',
                     })
                   } else {
-                    if (!Object.keys(currentSettingsValues).includes(multiSelectValue as string)) {
+                    if (!Object.keys(currentSettingsValues).includes(multiSelectValue)) {
                       checkErrors.push({
                         columnName: currentColumn.text,
-                        columnError: 'The current value is not a string (received: ' + multiSelectValue + ')'
+                        columnError: 'The current value is not a string (received: ' + multiSelectValue + ')',
                       })
                     }
                   }
@@ -199,7 +199,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a string / text (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a string / text (received: ' + currentColumnValue + ')',
               })
             }
             break
@@ -207,7 +207,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a string reference (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a string reference (received: ' + currentColumnValue + ')',
               })
             } else {
               /**
@@ -219,13 +219,13 @@ export function checkColumnDefinitionMatching (): Hook {
                 if (relatedRow.table_id !== currentColumn.settings.tableId) {
                   checkErrors.push({
                     columnName: currentColumn.text,
-                    columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')'
+                    columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')',
                   })
                 }
               } catch (error) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not a row related to the table referenced in column definition (received: ' + currentColumnValue + ')',
                 })
               }
             }
@@ -234,7 +234,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'number')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a user reference (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a user reference (received: ' + currentColumnValue + ')',
               })
             } else {
               /**
@@ -245,7 +245,7 @@ export function checkColumnDefinitionMatching (): Hook {
               } catch (error) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not an existing user (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not an existing user (received: ' + currentColumnValue + ')',
                 })
               }
             }
@@ -254,7 +254,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a group reference (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a group reference (received: ' + currentColumnValue + ')',
               })
             } else {
               /**
@@ -265,7 +265,7 @@ export function checkColumnDefinitionMatching (): Hook {
               } catch (error) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not an existing group (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not an existing group (received: ' + currentColumnValue + ')',
                 })
               }
             }
@@ -274,14 +274,14 @@ export function checkColumnDefinitionMatching (): Hook {
           case COLUMN_TYPE.FORMULA:
             checkErrors.push({
               columnName: currentColumn.text,
-              columnError: 'This type of column can\'t be set. It\'s automagically computed.'
+              columnError: 'This type of column can\'t be set. It\'s automagically computed.',
             })
             break
           case COLUMN_TYPE.URL:
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not a string (received: ' + currentColumnValue + ')',
               })
             } else {
               try {
@@ -290,7 +290,7 @@ export function checkColumnDefinitionMatching (): Hook {
               } catch (error) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not a valid URL (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not a valid URL (received: ' + currentColumnValue + ')',
                 })
               }
             }
@@ -303,7 +303,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (!(currentColumnValue instanceof Array)) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not an array of values (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not an array of values (received: ' + currentColumnValue + ')',
               })
             } else if (currentColumnValue.length > 0) {
               /**
@@ -313,7 +313,7 @@ export function checkColumnDefinitionMatching (): Hook {
               if (!currentColumnValue.every((userID: number | any) => typeof userID === 'number')) {
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'The current value is not an array of user references (received: ' + currentColumnValue + ')'
+                  columnError: 'The current value is not an array of user references (received: ' + currentColumnValue + ')',
                 })
               } else {
                 /**
@@ -322,13 +322,13 @@ export function checkColumnDefinitionMatching (): Hook {
                 const users = await context.app.service('user').find({
                   query: {
                     id: { $in: currentColumnValue },
-                    $limit: 0
-                  }
+                    $limit: 0,
+                  },
                 })
                 if (currentColumnValue.length !== users.total) {
                   checkErrors.push({
                     columnName: currentColumn.text,
-                    columnError: 'The current value is not an array of existing and distinct user references (received: ' + currentColumnValue + ')'
+                    columnError: 'The current value is not an array of existing and distinct user references (received: ' + currentColumnValue + ')',
                   })
                 }
               }
@@ -347,7 +347,7 @@ export function checkColumnDefinitionMatching (): Hook {
             ) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'The current value is not an object (received: ' + currentColumnValue + ')'
+                columnError: 'The current value is not an object (received: ' + currentColumnValue + ')',
               })
             } else {
               const geojsonStringified = JSON.stringify(currentColumnValue.geometry)
@@ -369,7 +369,7 @@ export function checkColumnDefinitionMatching (): Hook {
                 if (geometryTypeReceived !== geometryTypeNeeded) {
                   checkErrors.push({
                     columnName: currentColumn.text,
-                    columnError: `This geometry is not a ${geometryTypeNeeded}. (found ${geometryTypeReceived})`
+                    columnError: `This geometry is not a ${geometryTypeNeeded}. (found ${geometryTypeReceived})`,
                   })
                 } else {
                   /**
@@ -387,7 +387,7 @@ export function checkColumnDefinitionMatching (): Hook {
                  */
                 checkErrors.push({
                   columnName: currentColumn.text,
-                  columnError: 'This geometry is not valid. (' + e.detail + ')'
+                  columnError: 'This geometry is not valid. (' + e.detail + ')',
                 })
               }
             }
@@ -397,11 +397,11 @@ export function checkColumnDefinitionMatching (): Hook {
           default:
             checkErrors.push({
               columnName: currentColumn.text,
-              columnError: 'We are sorry, this column type is not yet implemented'
+              columnError: 'We are sorry, this column type is not yet implemented',
             })
             break
         }
-      })
+      }),
     )
 
     if (checkErrors.length > 0) {

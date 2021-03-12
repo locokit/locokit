@@ -97,7 +97,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
       columnTable1Geom.id,
     ]
     Object.keys(rows.data[0].data).forEach(key => {
-      expect(targetKeys.indexOf(key) > -1).toBe(true)
+      expect(targetKeys.includes(key)).toBe(true)
     })
     expect(rows.data[0].data[columnTable1Geom.id]).toStrictEqual({
       type: 'Point',

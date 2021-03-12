@@ -9,7 +9,7 @@ import { alterItems, lowerCase } from 'feathers-hooks-common'
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'authentication': AuthenticationService & ServiceAddons<any>;
+    'authentication': AuthenticationService & ServiceAddons<any>
   }
 }
 
@@ -24,7 +24,7 @@ export default function (app: Application) {
   const service = app.service('authentication')
   service.hooks({
     before: {
-      create: [lowerCase('email')]
+      create: [lowerCase('email')],
     },
     after: {
       create: [
@@ -42,9 +42,9 @@ export default function (app: Application) {
           delete rec.user.resetToken
           delete rec.user.resetShortToken
           delete rec.user.resetExpires
-        })
-      ]
-    }
+        }),
+      ],
+    },
   })
   // app.configure(expressOauth());
 }

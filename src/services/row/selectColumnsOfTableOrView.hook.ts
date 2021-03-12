@@ -19,7 +19,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
     /**
      * Only for find / get
      */
-    const $select: (string | ColumnRef)[] = ['text']
+    const $select: Array<string | ColumnRef> = ['text']
     context.params._meta.columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
         case COLUMN_TYPE.GEOMETRY_LINESTRING:
@@ -33,7 +33,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
     })
     context.params.query = {
       ...context.params.query,
-      $select
+      $select,
     }
     return context
   }
@@ -44,7 +44,7 @@ function rebuild (items: TableRow[], columns: TableColumn[]) {
     const newData = {
       id: d.id,
       text: d.text,
-      data: {} as Record<string, any>
+      data: {} as Record<string, any>,
     }
     columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {

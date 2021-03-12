@@ -17,7 +17,7 @@ let passwordValidator: PasswordValidator
  * This hook enforce the password policy.
  * Based on your Feathers configuration, in the authentication
  */
-export function enforcePasswordPolicy (getPassword: (hook: HookContext) => string) : Hook {
+export function enforcePasswordPolicy (getPassword: (hook: HookContext) => string): Hook {
   return async function (hook: HookContext) {
     debug('entering method')
     if (hook.type !== 'before') {

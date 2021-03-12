@@ -8,7 +8,7 @@ import hooks from './page.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'page': Page & ServiceAddons<any>;
+    'page': Page & ServiceAddons<any>
   }
 }
 
@@ -33,10 +33,10 @@ export default function (app: Application) {
       '$and',
       '$sort',
       '$any',
-      '$eager'
+      '$eager',
     ],
     allowedEager: '[containers.[blocks]]',
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

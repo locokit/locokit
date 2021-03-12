@@ -8,7 +8,7 @@ import hooks from './table.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'table': Table & ServiceAddons<any>;
+    'table': Table & ServiceAddons<any>
   }
 }
 
@@ -36,10 +36,10 @@ export default function (app: Application) {
       '$any',
       '$joinRelation',
       '$joinEager',
-      '$modifyEager'
+      '$modifyEager',
     ],
     allowedEager: '[columns.[parents.^], rows, views.[columns.[parents.^]], processes.[runs], database.[workspace]]',
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

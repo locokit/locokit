@@ -10,7 +10,7 @@ import { TableColumn } from '../../models/tablecolumn.model'
  * * aggregate all values of these columns
  * * transmit it in the text property of the row
  */
-export function computeTextProperty () : Hook {
+export function computeTextProperty (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     switch (context.method) {
       case 'create':

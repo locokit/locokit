@@ -14,10 +14,10 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
    * Spawn a new process to run it, in fire&forget mode
    */
   const now = Date.now()
-  axios.post((context.result.process as Process).url as string, {
+  axios.post((context.result.process as Process).url, {
     process_id: context.result.process_id,
     process_run_id: context.data.id,
-    table_row_id: context.data.table_row_id
+    table_row_id: context.data.table_row_id,
   })
     .then((value: AxiosResponse) => {
       const log = `
@@ -45,7 +45,7 @@ ${JSON.stringify(value.data)}
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessRunStatus.SUCCESS,
-        log
+        log,
       })
     })
     .catch((reason: AxiosError) => {
@@ -77,7 +77,7 @@ ${reason.stack}
       context.service.patch(context.result?.id, {
         duration: Date.now() - now,
         status: ProcessRunStatus.ERROR,
-        log
+        log,
       })
     })
   /**

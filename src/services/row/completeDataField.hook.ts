@@ -17,7 +17,7 @@ export function completeDataField (): Hook {
       // enhance the data object
       context.data.data = {
         ...context.params._meta.item.data,
-        ...context.data.data
+        ...context.data.data,
       }
     }
     return context

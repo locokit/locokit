@@ -36,7 +36,7 @@ describe('\'process_run\' service', () => {
     const userPassword = 'pouetPOUET@0'
     let accessToken: string
     let params: Params
-    const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined) : Promise<any> => {
+    const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
       return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
     })
     const originalAxiosPost = axios.post

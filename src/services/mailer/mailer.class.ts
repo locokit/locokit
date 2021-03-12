@@ -16,7 +16,7 @@ export class Mailer {
   async create (data: Partial<SendMailOptions>, params?: Params | undefined): Promise<SentMessageInfo> {
     return await this.transporter.sendMail({
       from: this.defaultFrom,
-      ...data
+      ...data,
     })
   }
 }

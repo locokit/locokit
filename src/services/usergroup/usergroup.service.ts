@@ -8,7 +8,7 @@ import hooks from './usergroup.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'usergroup': Usergroup & ServiceAddons<any>;
+    'usergroup': Usergroup & ServiceAddons<any>
   }
 }
 
@@ -16,7 +16,7 @@ export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     paginate: app.get('paginate'),
-    id: ['user_id', 'group_id']
+    id: ['user_id', 'group_id'],
   }
 
   // Initialize our service with any options it requires

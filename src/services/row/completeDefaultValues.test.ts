@@ -102,7 +102,7 @@ describe('completeDefaultValues hook', () => {
       columnTable1LastName.id,
     ]
     Object.keys(rowTable1.data).forEach(key => {
-      expect(targetKeys.indexOf(key) > -1).toBe(true)
+      expect(targetKeys.includes(key)).toBe(true)
     })
     await app.service('row').remove(rowTable1.id)
   })

@@ -8,9 +8,9 @@ import { HookContext } from '@feathersjs/feathers'
  */
 export const queryContainsKeys = (
   keysToCheck: string[],
-  mode: 'ALL' | 'ANY' = 'ANY'
+  mode: 'ALL' | 'ANY' = 'ANY',
 ) => (
-  context: Partial<HookContext>
+  context: Partial<HookContext>,
 ): boolean => {
   const paramsQueryKeys = Object.keys(context.params?.query || {})
   /**

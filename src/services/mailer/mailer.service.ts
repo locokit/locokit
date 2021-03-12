@@ -7,7 +7,7 @@ import { Mailer } from './mailer.class'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'mailer': Mailer & ServiceAddons<any>;
+    'mailer': Mailer & ServiceAddons<any>
   }
 }
 
@@ -21,8 +21,8 @@ export default function (app: Application): void {
     secure: false,
     auth: {
       user: mailerConfiguration.user,
-      pass: mailerConfiguration.pass
-    }
+      pass: mailerConfiguration.pass,
+    },
   }, app))
 
   // Get our initialized service so that we can register hooks

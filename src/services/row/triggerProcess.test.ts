@@ -17,7 +17,7 @@ describe('\'triggerProcess\' hook', () => {
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
   let tableRow: TableRow
-  const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined) : Promise<any> => {
+  const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
     return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
   })
   const originalAxiosPost = axios.post

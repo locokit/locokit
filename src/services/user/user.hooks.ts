@@ -30,7 +30,7 @@ export default {
        */
       commonHooks.iff(
         commonHooks.isProvider('external') && !isUserProfile(USER_PROFILE.SUPERADMIN),
-        commonHooks.disallow()
+        commonHooks.disallow(),
       ).else(
         /**
          * Generate a password randomly
@@ -40,11 +40,11 @@ export default {
         generatePassword(),
         enforcePasswordPolicy(getPassword),
         hashPassword('password'),
-        feathersAuthenticationManagementHooks.addVerification()
-      )
+        feathersAuthenticationManagementHooks.addVerification(),
+      ),
     ],
     update: [
-      commonHooks.disallow('external')
+      commonHooks.disallow('external'),
     ],
     patch: [
       commonHooks.iff(
@@ -59,18 +59,18 @@ export default {
           'verifyChanges',
           'resetToken',
           'resetShortToken',
-          'resetExpires'
+          'resetExpires',
         ),
-        hashPassword('password')
-      )
+        hashPassword('password'),
+      ),
     ],
-    remove: []
+    remove: [],
   },
   after: {
     all: [
       // Make sure the password field is never sent to the client
       // Always must be the last hook
-      protect('password')
+      protect('password'),
     ],
     find: [],
     get: [],
@@ -83,15 +83,15 @@ export default {
         (context: HookContext) => {
           authManagementSettings(context.app as Application).notifier(
             AuthenticationManagementAction.sendVerifySignup,
-            context.result
+            context.result,
           )
-        }
+        },
       ),
-      feathersAuthenticationManagementHooks.removeVerification()
+      feathersAuthenticationManagementHooks.removeVerification(),
     ],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -101,6 +101,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 }

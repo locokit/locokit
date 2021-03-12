@@ -38,10 +38,10 @@ export default {
            * is the trigger event a MANUAL or CRON one ?
            */
           (context: HookContext) => {
-            return [
+            return ![
               ProcessTrigger.MANUAL,
               ProcessTrigger.CRON,
-            ].indexOf((context.data as ProcessRun).process?.trigger as ProcessTrigger) === -1
+            ].includes((context.data as ProcessRun).process?.trigger as ProcessTrigger)
           },
           disallow(),
         ).else(

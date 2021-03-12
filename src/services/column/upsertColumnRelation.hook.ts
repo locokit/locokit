@@ -11,7 +11,7 @@ export function upsertColumnRelation (): Hook {
       if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
         await context.app.services.columnrelation.create({
           table_column_from_id: context.result.settings.foreignField,
-          table_column_to_id: context.result.id
+          table_column_to_id: context.result.id,
         })
       }
     } else {

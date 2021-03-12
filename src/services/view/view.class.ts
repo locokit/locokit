@@ -6,7 +6,7 @@ import { Application } from '../../declarations'
 import { TableView } from '../../models/tableview.model'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class View extends Service<TableView> {
@@ -15,14 +15,14 @@ export class View extends Service<TableView> {
     const { Model, ...otherOptions } = options
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
     this.app = app
   }
 
   async remove (id: NullableId, params?: Params): Promise<TableView | TableView[] | any> {
     if (id === null) {
-      return Promise.reject(new MethodNotAllowed('Can not remove multiple entries'))
+      return await Promise.reject(new MethodNotAllowed('Can not remove multiple entries'))
     }
     /**
      * Load the current view
@@ -33,7 +33,7 @@ export class View extends Service<TableView> {
        */
     if (currentView.locked) {
       throw new NotAcceptable(ERROR_LABEL.VIEW_LOCKED, {
-        code: ERROR_CODE.VIEW_LOCKED
+        code: ERROR_CODE.VIEW_LOCKED,
       })
     }
     /**
@@ -42,13 +42,13 @@ export class View extends Service<TableView> {
     const blocks = await this.app.services.block._find({
       query: {
         settings: {
-          id
-        }
-      }
+          id,
+        },
+      },
     })
     if (blocks.total > 0) {
       throw new NotAcceptable(ERROR_LABEL.VIEW_USED_IN_BLOCK, {
-        code: ERROR_CODE.VIEW_USED_IN_BLOCK
+        code: ERROR_CODE.VIEW_USED_IN_BLOCK,
       })
     }
     /**
@@ -57,10 +57,10 @@ export class View extends Service<TableView> {
     await this.app.services['table-view-has-table-column']._remove(null, {
       query: {
         table_view_id: id,
-        $noSelect: true
-      }
+        $noSelect: true,
+      },
     })
 
-    return super.remove(id, params)
+    return await super.remove(id, params)
   }
 }

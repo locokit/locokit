@@ -7,7 +7,7 @@ import { User } from '../../models/user.model'
  */
 jest.mock('../../hooks/lck-hooks/passwords/generatePassword.ts')
 
-let calls: [string, any][] = []
+let calls: Array<[string, any]> = []
 function notifierMock (type: string, user: any) {
   calls.push([type, user])
 }
