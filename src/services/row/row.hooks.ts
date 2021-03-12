@@ -18,11 +18,13 @@ import { completeDataField } from './completeDataField.hook'
 import { completeDefaultValues } from './completeDefaultValues.hook'
 import { computeLookedUpColumns } from './computeLookedUpColumns.hook'
 import { computeRowLookedUpColumns } from './computeRowLookedUpColumns.hook'
+import { computeRowFormulaColumns } from './computeRowFormulaColumns.hook'
 import { removeRelatedExecutions, removeRelatedRows } from './removeRelatedRows.hook'
 import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
+import { isValidBulkPatch } from './isValidBulkPatch'
 import {
   selectColumnsOfTableOrTableView,
   rebuildData
@@ -69,14 +71,26 @@ export default {
       computeTextProperty()
     ],
     patch: [
-      getCurrentItem(),
-      loadColumnsDefinition(),
-      memorizeColumnsIds(),
-      checkColumnDefinitionMatching(),
-      commonHooks.iff(isDataSent, enhanceComplexColumns()),
-      completeDataField(),
-      computeRowLookedUpColumns(),
-      computeTextProperty()
+      commonHooks.iffElse(
+        isValidBulkPatch(),
+        // For multiple patch requests with the data:column selector (only tested with the formulas)
+        [
+          loadColumnsDefinition(),
+          memorizeColumnsIds(),
+          checkColumnDefinitionMatching()
+        ],
+        // For single patch requests
+        [
+          getCurrentItem(),
+          loadColumnsDefinition(),
+          memorizeColumnsIds(),
+          checkColumnDefinitionMatching(),
+          commonHooks.iff(isDataSent, enhanceComplexColumns()),
+          completeDataField(),
+          computeRowLookedUpColumns(),
+          computeTextProperty()
+        ]
+      )
     ],
     remove: [
       restrictRemoveIfRelatedRows(),
@@ -96,16 +110,19 @@ export default {
     ],
     create: [
       upsertRowRelation(),
+      computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess
     ],
     update: [
       upsertRowRelation(),
+      computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess
     ],
     patch: [
       upsertRowRelation(),
+      computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess
     ],

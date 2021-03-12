@@ -65,6 +65,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
           case COLUMN_TYPE.STRING:
           case COLUMN_TYPE.TEXT:
           case COLUMN_TYPE.URL:
+          case COLUMN_TYPE.FORMULA:
             newDataForCurrentColumn = `
             ('{
               "${context.result.id}": {

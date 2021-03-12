@@ -17,7 +17,10 @@ export function computeRowLookedUpColumns (): Hook {
     ) return context
     await Promise.all(
       (context.params._meta.columns as TableColumn[])
-        .filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN)
+        .filter(
+          c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN &&
+          context.params._meta.columnsIdsTransmitted.includes(c.settings.localField)
+        )
         .map(async currentColumnDefinition => {
           const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
           const foreignColumnTypeId = foreignColumn.column_type_id
@@ -54,6 +57,7 @@ export function computeRowLookedUpColumns (): Hook {
               }
             }
             context.data.data[currentColumnDefinition.id] = currentColumnData
+            context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
           }
         })
     )

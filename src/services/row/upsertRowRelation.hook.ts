@@ -8,6 +8,9 @@ import { NotAcceptable } from '@feathersjs/errors'
  */
 export function upsertRowRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
+    // Multiple update - TODO
+    if (Array.isArray(context.result)) return context
+    // Single update
     await Promise.all(
       (context.params._meta.columnsIdsTransmitted as string[])
         .filter(currentColumnId => {

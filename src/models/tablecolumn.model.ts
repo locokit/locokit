@@ -20,6 +20,7 @@ export class TableColumn extends BaseModel {
   locked!: boolean;
   settings!: {
     formula?: string,
+    formula_type_id?: number;
     query?: {
       select: string[],
       where: Object,

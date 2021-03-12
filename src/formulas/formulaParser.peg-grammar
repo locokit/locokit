@@ -1,0 +1,153 @@
+{
+  const {
+    formulas = {},
+    columns = [],
+    columnsTypes = {}
+  } = options;
+  function arrayOrItemAreEqual (elt1, elt2) {
+    // Return true if the items are two arrays that have at least one value in common
+    // or if one item is an array that contains the other element which is not an array
+    // or if the two items are not arrays but are equal 
+    if (Array.isArray(elt1)) {
+      return Array.isArray(elt2) ? arrayHaveCommonValue(elt1, elt2) : elt1.includes(elt2)
+    } else {
+      return Array.isArray(elt2) ? elt2.includes(elt1) : elt1 === elt2
+    }
+  }
+  function arrayHaveCommonValue (array1, array2) {
+    // Return true if the two arrays have at least one value in common
+    return array1.some(elt => {
+      return array2.includes(elt);
+    })
+  }
+}
+start
+  = expression
+
+expression = 
+  (decimal / integer / string / column / function / unknown)
+
+function
+  = category:$([A-Z]+)"."name:$([a-zA-Z0-9]+)"("args:arguments?")" {
+
+    if (formulas[category] && formulas[category][name]) {
+
+      // Check type parameters
+      if (Array.isArray(formulas[category][name].params)) {
+
+        let docParamIndex = 0;
+        let realParamIndex = 0;
+
+        // Loop on documentation parameters
+        while (formulas[category][name].params[docParamIndex]) {
+
+          const docParam = formulas[category][name].params[docParamIndex]
+          const realParam = args && args[realParamIndex]?.type
+
+          // The current documentation parameter is required
+          if (docParam.required !== false) {
+            if (!realParam) {
+                error(`an argument is missing (${docParam.name})`)
+            }
+            if (arrayOrItemAreEqual(docParam.type, realParam)) {
+                docParamIndex += 1
+                realParamIndex += 1
+            } else {
+                error(`invalid argument (${docParam.name}).`)
+            }
+          }
+          // The current documentation parameter is not required and not specified
+          else if (!realParam) {
+              break
+          }
+          // The current documentation parameter is specified and multiple but not required
+          else if (docParam.multiple === true) {
+            if (arrayOrItemAreEqual(docParam.type, realParam)) {
+                realParamIndex += 1
+            } else {
+                docParamIndex += 1
+            }
+          }
+          // The current documentation parameter is specified but neither required nor multiple
+          else {
+            if (arrayOrItemAreEqual(docParam.type, realParam)) {
+                docParamIndex += 1
+                realParamIndex += 1
+            } else {
+                error(`invalid argument (${docParam.name}).`)
+            }
+          }
+        }
+
+        // Invalid number of parameters
+        if (args && args.length != realParamIndex) {
+          error(`invalid arguments.`)
+        }
+      }
+
+      // Return the type and the value related to the function
+      if (formulas[category][name].pgsql && formulas[category][name].returnType) {
+        return {
+          value: `(${ Array.isArray(args) ? formulas[category][name].pgsql(...args.map(arg => arg.value)) : formulas[category][name].pgsql()})`,
+          type: formulas[category][name].returnType
+        }
+      } else {
+        error(`the function ${category}.${name} isn't well configured.`)
+      }
+    } else {
+      error(`the function ${category}.${name} doesn't exist.`)
+    }
+  }
+
+// Function arguments
+arguments
+  = _ first:expression rest:(_ ',' _ arg:expression { return arg; } )* _ 
+  {
+    rest.unshift(first);
+    return rest || [];
+  }
+
+// Basic types
+alpha
+  = [a-zA-Z]
+
+digit
+  = [0-9]
+
+alphanum
+  = alpha / digit
+
+// String
+string
+  = currentString:$("'" singleStringChar* "'") { return { type: columnsTypes.STRING, value: currentString } }
+
+singleStringChar
+  = !("'" / "\\") $(.)
+  / "\\\"" { return "\'"; }
+
+// Number
+integer
+  = currentInteger:$("-"? digit+) { return { type: columnsTypes.NUMBER, value: currentInteger } }
+
+decimal
+  = currentDecimal:$("-"? digit+ "." digit+) + { return { type: columnsTypes.FLOAT, value: currentDecimal } }
+
+// Add quotes around the column name
+column
+  = "COLUMN."name:$((alphanum/'-')+) {
+      const currentColumn = columns.find(column => column.id === name)
+      if (!currentColumn) error(`One column is invalid.`)
+      const currentColumnType = currentColumn.column_type_id === columnsTypes.FORMULA ? currentColumn.settings.formula_type_id : currentColumn.column_type_id
+      return { type: currentColumnType, value: `:${name.replace(/-/g,'_')}:` }
+    }
+
+// Whitespace
+_ "optionalWhitespace"
+  = whitespace *
+
+whitespace
+  = [" "\t\n\r]+
+
+// Unknown
+unknown
+  = !('')(.)* { error('A formula can only contains numbers, strings, functions and column names.') }

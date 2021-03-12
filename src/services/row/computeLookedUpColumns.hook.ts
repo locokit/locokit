@@ -2,6 +2,7 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableRowRelation } from '../../models/tablerowrelation.model'
 import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { TableRow } from '../../models/tablerow.model'
 
 /**
  * Hook updating looked up columns linked to the current row
@@ -10,10 +11,15 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
  */
 export function computeLookedUpColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
+    const updatedRows: TableRow[] = Array.isArray(context.result) ? context.result : [context.result]
+
     // first, find rows linked to this current row (trr.table_row_from_id)
     const linkedRows = await context.app.services.trr.find({
       query: {
-        table_row_from_id: context.result.id
+        table_row_from_id: {
+          $in: updatedRows.map(row => row.id)
+        },
+        $eager: 'to'
       },
       paginate: false
     }) as TableRowRelation[]
@@ -29,10 +35,15 @@ export function computeLookedUpColumns (): Hook {
       paginate: false
     }) as TableColumnRelation[]
 
-    // update each linked row, by setting the new value for all columns related to this row
-    await Promise.all(
-      linkedRows.map(async currentRowRelation => {
-        const rowToUpdate = await context.service.get(currentRowRelation.table_row_to_id)
+    // update the rows linked to each updated row
+    const rowPatchPromises: Promise<any>[] = []
+
+    updatedRows.forEach(async row => {
+      const currentLinkedRows = linkedRows.filter(linkedRow => linkedRow.table_row_from_id === row.id)
+
+      // update each linked row, by setting the new value for all columns related to this row
+      currentLinkedRows.map(async currentRowRelation => {
+        const rowToUpdate = currentRowRelation.to || await context.service.get(currentRowRelation.table_row_to_id)
 
         const columnIdsOfRowToUpdate = Object.keys(rowToUpdate.data)
 
@@ -50,23 +61,23 @@ export function computeLookedUpColumns (): Hook {
          * we'll use the currentValue directly, or destructure the currentValue in a { reference, value } object
          */
         columnsToUpdate.forEach(c => {
-          const currentValue = context.result.data[c.table_column_from_id]
+          const currentValue = row.data[c.table_column_from_id]
           switch (c.from?.column_type_id) {
             case COLUMN_TYPE.USER:
               newData[c.table_column_to_id] = {
-                ...currentValue
+                ...currentValue as { reference: string; value: string }
               }
               break
             case COLUMN_TYPE.MULTI_USER:
               newData[c.table_column_to_id] = {
-                reference: currentValue.reference,
-                value: currentValue.value.join(', ')
+                reference: (currentValue as { reference: string; value: string }).reference,
+                value: (currentValue as unknown as { reference: string; value: string[] }).value.join(', ')
               }
               break
             default:
               newData[c.table_column_to_id] = {
-                reference: context.result.id,
-                value: context.result.data[c.table_column_from_id]
+                reference: row.id,
+                value: row.data?.[c.table_column_from_id] as string
               }
           }
         })
@@ -77,14 +88,19 @@ export function computeLookedUpColumns (): Hook {
          * to avoid all hooks that will, for example,
          * forbid the update of LOOKED_UP_COLUMN... (checkColumnDefinitionMatching hook)
          */
-        await context.service._patch(rowToUpdate.id, {
-          data: {
-            ...rowToUpdate.data,
-            ...newData
-          }
-        }, {})
+        rowPatchPromises.push(
+          context.service._patch(rowToUpdate.id, {
+            data: {
+              ...rowToUpdate.data,
+              ...newData
+            }
+          }, {})
+        )
       })
-    )
+    })
+
+    await Promise.all(rowPatchPromises)
+
     return context
   }
 }

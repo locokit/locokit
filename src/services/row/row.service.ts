@@ -40,9 +40,11 @@ export default function (app: Application) {
       '$all',
       '$joinRelation',
       '$joinEager',
+      '$noSelect',
       '$modifyEager'
     ],
     allowedEager: 'table',
+    multi: ['patch'],
     paginate: app.get('paginate')
   }
 

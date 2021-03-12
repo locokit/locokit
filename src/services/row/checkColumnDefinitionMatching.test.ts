@@ -1,3 +1,4 @@
+import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -920,16 +921,61 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
-  it('throw an error if a FORMULA column receive a value', async () => {
+  it('throw an error if a FORMULA column receive a value with an external request', async () => {
     expect.assertions(1)
+
+    // Create a fake user
+    const userEmail = 'hello-check@locokit.io'
+    const userPassword = 'hello-check@locokit.io0'
+
+    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
+    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
+    const user = await app.service('user')._create({
+      name: 'Jack',
+      email: userEmail,
+      isVerified: true,
+      password: passwordHashed
+    }, {})
+
+    // Simulate the authentication
+    const authentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: userEmail,
+      password: userPassword
+    }, {})
+
+    // Simulate an outside call
+    const params = {
+      provider: 'external',
+      user,
+      accessToken: authentication.accessToken,
+      authenticated: true
+    }
     await expect(app.service('row')
       .create({
         data: {
           [columnTable1Formula.id]: 123456
         },
         table_id: table1.id
-      }))
+      }, params))
       .rejects.toThrow(NotAcceptable)
+
+    await app.service('user').remove(user.id)
+  })
+
+  it('accept a value for a FORMULA column type with an internal request', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1Formula.id]: 123456
+        },
+        table_id: table1.id
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1Formula.id]).toBe(123456)
+    await app.service('row').remove(rowTable1.id)
   })
 
   it('accept a null value for a FORMULA column type', async () => {
