@@ -42,7 +42,7 @@ export const notImplementedInFormulaColumnTypes = [
 
 export function getFormattedColumn (column: TableColumn) {
   const columnType = column.column_type_id === COLUMN_TYPE.FORMULA
-    ? column.settings.formula_type_id
+    ? column.settings?.formula_type_id
     : column.column_type_id
 
   switch (columnType) {
