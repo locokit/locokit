@@ -24,14 +24,14 @@ export class TableRowRelation extends BaseModel {
       required: [
         'table_row_from_id',
         'table_row_to_id',
-        'table_column_to_id'
+        'table_column_to_id',
       ],
 
       properties: {
         table_row_from_id: { type: 'string' },
         table_row_to_id: { type: 'string' },
-        table_column_to_id: { type: 'string' }
-      }
+        table_column_to_id: { type: 'string' },
+      },
     }
   }
 

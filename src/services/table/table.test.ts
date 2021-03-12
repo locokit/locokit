@@ -8,15 +8,15 @@ describe('\'table\' service', () => {
 
   it('create a table on the right database', async () => {
     const workspace = await app.services.workspace.create({
-      text: 'myWorkspace'
+      text: 'myWorkspace',
     })
     const db = await app.services.database.create({
       text: 'myDB',
-      workspace_id: workspace.id
+      workspace_id: workspace.id,
     })
     const table = await app.services.table.create({
       text: 'myTable',
-      database_id: db.id
+      database_id: db.id,
     })
     expect(table).toBeTruthy()
     expect(table.id).toBeDefined()
@@ -27,19 +27,19 @@ describe('\'table\' service', () => {
 
   it('throw an error if we create a table with a name already taken, on the same database', async () => {
     const workspace = await app.services.workspace.create({
-      text: 'myWorkspace'
+      text: 'myWorkspace',
     })
     const db = await app.services.database.create({
       text: 'myDB',
-      workspace_id: workspace.id
+      workspace_id: workspace.id,
     })
     const table = await app.services.table.create({
       text: 'myTable',
-      database_id: db.id
+      database_id: db.id,
     })
     await expect(app.services.table.create({
       text: 'myTable',
-      database_id: db.id
+      database_id: db.id,
     })).rejects.toThrow()
     await app.services.table.remove(table.id)
     await app.services.database.remove(db.id)

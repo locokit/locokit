@@ -35,7 +35,7 @@ export class Process extends BaseModel {
     return {
       type: 'object',
       required: [
-        'table_id'
+        'table_id',
       ],
 
       properties: {
@@ -46,8 +46,8 @@ export class Process extends BaseModel {
         url: { type: 'string' },
         trigger: { type: 'string' },
         settings: { type: 'object' },
-        table_id: { type: 'string' }
-      }
+        table_id: { type: 'string' },
+      },
     }
   }
 
@@ -58,17 +58,17 @@ export class Process extends BaseModel {
         modelClass: ProcessRun,
         join: {
           from: 'process.id',
-          to: 'process_run.process_id'
-        }
+          to: 'process_run.process_id',
+        },
       },
       table: {
         relation: Model.HasOneRelation,
         modelClass: Table,
         join: {
           from: 'process.table_id',
-          to: 'table.id'
-        }
-      }
+          to: 'table.id',
+        },
+      },
     }
   }
 

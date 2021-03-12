@@ -25,7 +25,7 @@ describe('\'row\' service', () => {
     const service = app.service('row')
     expect.assertions(1)
     await expect(service.create({
-      text: 'test'
+      text: 'test',
     })).rejects.toThrow()
   })
   it('throw if table_id is present but did not exist', async () => {
@@ -33,7 +33,7 @@ describe('\'row\' service', () => {
     expect.assertions(1)
     await expect(service.create({
       text: 'test',
-      table_id: 'you lose'
+      table_id: 'you lose',
     })).rejects.toThrow()
   })
   it('succeed if table_id + data is present and exist', async () => {
@@ -42,7 +42,7 @@ describe('\'row\' service', () => {
     const row: TableRow = await service.create({
       text: 'test',
       table_id: table.id,
-      data: {}
+      data: {},
     })
     expect(row).toBeTruthy()
   })
@@ -58,7 +58,7 @@ describe('\'row\' service', () => {
     expect.assertions(2)
     const rowTable1: TableRow = await app.service('row').create({
       data: {},
-      table_id: table.id
+      table_id: table.id,
     })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -70,17 +70,17 @@ describe('\'row\' service', () => {
     const tableColumn = await app.service('column').create({
       text: 'myColumn',
       table_id: table.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
     const currentRow: TableRow = await service.create({
       text: 'test',
       data: {
-        [tableColumn.id]: 'myValue'
+        [tableColumn.id]: 'myValue',
       },
-      table_id: table.id
+      table_id: table.id,
     })
     const patchedRow: TableRow = await service.patch(currentRow.id, {
-      text: 'new test'
+      text: 'new test',
     })
     expect(patchedRow.text).toEqual('new test')
     expect(patchedRow.data[tableColumn.id]).toEqual('myValue')

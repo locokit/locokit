@@ -24,8 +24,8 @@ export class chapter extends BaseModel {
       properties: {
         title: { type: 'string' },
         position: { type: 'number' },
-        settings: { type: 'object' }
-      }
+        settings: { type: 'object' },
+      },
     }
   }
 
@@ -40,17 +40,17 @@ export class chapter extends BaseModel {
         modelClass: LckWorkspace,
         join: {
           from: 'chapter.workspaceId',
-          to: 'workspace.id'
-        }
+          to: 'workspace.id',
+        },
       },
       pages: {
         relation: Model.HasManyRelation,
         modelClass: LckPage,
         join: {
           from: 'chapter.id',
-          to: 'page.chapter_id'
-        }
-      }
+          to: 'page.chapter_id',
+        },
+      },
     }
   }
 }

@@ -30,7 +30,7 @@ export class TableViewColumn extends BaseModel {
   static get idColumn (): string[] {
     return [
       'table_view_id',
-      'table_column_id'
+      'table_column_id',
     ]
   }
 
@@ -49,10 +49,10 @@ export class TableViewColumn extends BaseModel {
         filter: { type: ['object', 'null'] },
         style: { type: ['object', 'null'] },
         displayed: { type: ['boolean', 'null'], default: true },
-        transmitted: { type: ['boolean', 'null'],},
+        transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
-        default: { type: ['string', 'null'] }
-      }
+        default: { type: ['string', 'null'] },
+      },
     }
   }
 

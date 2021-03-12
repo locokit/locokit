@@ -29,39 +29,39 @@ describe('computeLookedUpColumns hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1MultiUser = await app.service('column').create({
       text: 'MultiUser',
       column_type_id: COLUMN_TYPE.MULTI_USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
-        tableId: table1.id
-      }
+        tableId: table1.id,
+      },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
       text: 'Ref',
@@ -70,8 +70,8 @@ describe('computeLookedUpColumns hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1User.id
-      }
+        foreignField: columnTable1User.id,
+      },
     })
     columnTable2LookedUpColumnTable1MultiUser = await app.service('column').create({
       text: 'RefMulti',
@@ -80,13 +80,13 @@ describe('computeLookedUpColumns hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1MultiUser.id
-      }
+        foreignField: columnTable1MultiUser.id,
+      },
     })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-lkdpup@locokit.io',
-      password: 'locokit'
+      password: 'locokit',
     })
   })
 
@@ -97,20 +97,20 @@ describe('computeLookedUpColumns hook', () => {
       text: 'table 1 ref',
       data: {
         [columnTable1User.id]: user1.id,
-        [columnTable1MultiUser.id]: [user1.id]
-      }
+        [columnTable1MultiUser.id]: [user1.id],
+      },
     })
     rowTable2 = await service.create({
       table_id: table2.id,
       text: 'table 2 ref',
       data: {
-        [columnTable2RelationBetweenTable1.id]: rowTable1.id
-      }
+        [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+      },
     })
     user2 = await app.service('user').create({
       name: 'User 2',
       email: 'user2@locokit.io',
-      password: 'locokit'
+      password: 'locokit',
     })
   })
 
@@ -134,8 +134,8 @@ describe('computeLookedUpColumns hook', () => {
     const newRowTable1 = await app.service('row').patch(rowTable1.id, {
       data: {
         [columnTable1User.id]: user2.id,
-        [columnTable1MultiUser.id]: [user1.id, user2.id]
-      }
+        [columnTable1MultiUser.id]: [user1.id, user2.id],
+      },
     })
     const newRowTable2 = await app.service('row').get(rowTable2.id)
     const newColumnTable1User = newRowTable1.data[columnTable1User.id] as {reference: string, value: string}

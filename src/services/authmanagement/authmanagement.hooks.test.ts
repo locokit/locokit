@@ -15,20 +15,20 @@ jest.mock('./authmanagement.settings.ts', () => ({
   authManagementSettings () {
     return {
       service: '/user',
-      notifier: notifierMock
+      notifier: notifierMock,
     }
-  }
+  },
 }))
 
 describe('\'authManagement\' hooks for passwordChange action', () => {
   const userInfo = {
     email: 'locokit-authmngt@locokit.io',
-    name: 'Someone !'
+    name: 'Someone !',
   }
   let user: User
   beforeEach(async () => {
     user = await app.service('user').create({
-      ...userInfo
+      ...userInfo,
     })
   })
 
@@ -38,8 +38,8 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
       await app.service('authManagement').create({
         action: 'passwordChange',
         value: {
-          password: 'pouet'
-        }
+          password: 'pouet',
+        },
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
@@ -53,11 +53,11 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
         action: 'passwordChange',
         value: {
           user: {
-            email: 'locokit-authmngt@locokit.io'
+            email: 'locokit-authmngt@locokit.io',
           },
           oldPassword: 'pouetpouet',
-          password: 'pouetP@0'
-        }
+          password: 'pouetP@0',
+        },
       })
     } catch (error) {
       expect(error instanceof BadRequest).toBe(true)
@@ -72,11 +72,11 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
       action: 'passwordChange',
       value: {
         user: {
-          email: 'locokit-authmngt@locokit.io'
+          email: 'locokit-authmngt@locokit.io',
         },
         oldPassword: 'pouetP@0',
-        password: 'pouetP@1'
-      }
+        password: 'pouetP@1',
+      },
     })
 
     expect(resAuthMngmt).toBeDefined()
@@ -88,7 +88,7 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
       await app.service('authentication').create({
         strategy: 'local',
         email: userInfo.email,
-        password: 'pouetP@1'
+        password: 'pouetP@1',
       }, {})
     } catch (error) {
       expect(error instanceof Forbidden).toBe(true)
@@ -104,12 +104,12 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
 describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
   const userInfo = {
     email: 'locokit-authmngt@locokit.io',
-    name: 'Someone !'
+    name: 'Someone !',
   }
   let user: User
   beforeEach(async () => {
     user = await app.service('user').create({
-      ...userInfo
+      ...userInfo,
     })
   })
 
@@ -119,8 +119,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       await app.service('authManagement').create({
         action: 'verifySignupSetPasswordLong',
         value: {
-          password: 'pouet'
-        }
+          password: 'pouet',
+        },
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
@@ -133,8 +133,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       await app.service('authManagement').create({
         action: 'verifySignupSetPasswordShort',
         value: {
-          password: 'pouet'
-        }
+          password: 'pouet',
+        },
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
@@ -147,8 +147,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       await app.service('authManagement').create({
         action: 'resetPwdLong',
         value: {
-          password: 'pouet'
-        }
+          password: 'pouet',
+        },
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
@@ -161,8 +161,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       await app.service('authManagement').create({
         action: 'resetPwdShort',
         value: {
-          password: 'pouet'
-        }
+          password: 'pouet',
+        },
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
@@ -176,8 +176,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
     await app.service('authManagement').create({
       action: 'resendVerifySignup',
       value: {
-        email: 'locokit-authmngt@locokit.io'
-      }
+        email: 'locokit-authmngt@locokit.io',
+      },
     })
     expect(calls.length).toBe(1)
     expect(calls[0][0]).toBe('resendVerifySignup')
@@ -188,15 +188,15 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       action: 'verifySignupSetPasswordLong',
       value: {
         token,
-        password: 'pouetP@1'
-      }
+        password: 'pouetP@1',
+      },
     })
     expect(resAuthMngmt).toBeDefined()
 
     const auth = await app.service('authentication').create({
       strategy: 'local',
       email: userInfo.email,
-      password: 'pouetP@1'
+      password: 'pouetP@1',
     }, {})
     expect(auth).toBeDefined()
     expect(auth.accessToken).toBeDefined()
@@ -211,8 +211,8 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
     await app.service('authManagement').create({
       action: 'resendVerifySignup',
       value: {
-        email: 'LOCOKIT-authmngt@locokit.io'
-      }
+        email: 'LOCOKIT-authmngt@locokit.io',
+      },
     })
     expect(calls.length).toBe(1)
     expect(calls[0][0]).toBe('resendVerifySignup')

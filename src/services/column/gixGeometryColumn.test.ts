@@ -17,7 +17,7 @@ describe('geometry columns hooks', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
   })
 
@@ -25,7 +25,7 @@ describe('geometry columns hooks', () => {
     columnTable1Point = await app.service('column').create({
       text: 'Point',
       column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
-      table_id: table1.id
+      table_id: table1.id,
     })
     const uuidTableShort = table1.id.substr(0, table1.id.indexOf('-'))
     const uuidColumnShort = columnTable1Point.id.substr(0, columnTable1Point.id.indexOf('-'))

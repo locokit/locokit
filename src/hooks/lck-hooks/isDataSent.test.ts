@@ -6,9 +6,9 @@ describe('[hook] isDataSent', () => {
       type: 'before',
       data: {
         data: {
-          something: 'yes'
-        }
-      }
+          something: 'yes',
+        },
+      },
     })
     expect(result).toBe(true)
   })
@@ -16,8 +16,8 @@ describe('[hook] isDataSent', () => {
     const result = isDataSent({
       type: 'before',
       data: {
-        text: 'something'
-      }
+        text: 'something',
+      },
     })
     expect(result).toBe(false)
   })

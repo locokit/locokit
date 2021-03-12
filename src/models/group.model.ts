@@ -27,8 +27,8 @@ export class Group extends BaseModel {
 
       properties: {
         name: { type: 'string' },
-        workspace_role: { type: 'string' }
-      }
+        workspace_role: { type: 'string' },
+      },
     }
   }
 
@@ -43,8 +43,8 @@ export class Group extends BaseModel {
         modelClass: LckWorkspace,
         join: {
           from: 'group.workspace_id',
-          to: 'workspace.id'
-        }
+          to: 'workspace.id',
+        },
       },
       chapter: {
         relation: Model.HasOneRelation,
@@ -55,8 +55,8 @@ export class Group extends BaseModel {
         modelClass: LckChapter,
         join: {
           from: 'group.chapter_id',
-          to: 'chapter.id'
-        }
+          to: 'chapter.id',
+        },
       },
       users: {
         relation: Model.ManyToManyRelation,
@@ -70,11 +70,11 @@ export class Group extends BaseModel {
           through: {
             from: 'user_has_group.group_id',
             to: 'user_has_group.user_id',
-            extra: ['uhg_role']
+            extra: ['uhg_role'],
           },
-          to: 'user.id'
-        }
-      }
+          to: 'user.id',
+        },
+      },
     }
   }
 }

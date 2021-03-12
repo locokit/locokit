@@ -24,43 +24,43 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1FirstName = await app.service('column').create({
       text: 'FirstName',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id,
       reference: true,
-      reference_position: 1
+      reference_position: 1,
     })
     columnTable1LastName = await app.service('column').create({
       text: 'LastName',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id,
       reference: true,
-      reference_position: 2
+      reference_position: 2,
     })
     columnTable1Geom = await app.service('column').create({
       text: 'geom point',
       column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
       table_id: table1.id,
       reference: true,
-      reference_position: 2
+      reference_position: 2,
     })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-table-view@locokit.io',
-      password: 'locokit'
+      password: 'locokit',
     })
     rowTable1 = await app.service('row').create({
       table_id: table1.id,
@@ -77,11 +77,11 @@ describe('selectColumnsOfTableOrTableView hook', () => {
             type: 'Point',
             coordinates: [
               29.003906249999996,
-              54.54657953840501
-            ]
-          }
-        }
-      }
+              54.54657953840501,
+            ],
+          },
+        },
+      },
     })
   })
 
@@ -94,7 +94,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
       columnTable1User.id,
       columnTable1FirstName.id,
       columnTable1LastName.id,
-      columnTable1Geom.id
+      columnTable1Geom.id,
     ]
     Object.keys(rows.data[0].data).forEach(key => {
       expect(targetKeys.indexOf(key) > -1).toBe(true)
@@ -103,19 +103,19 @@ describe('selectColumnsOfTableOrTableView hook', () => {
       type: 'Point',
       coordinates: [
         29.00390625,
-        54.546579538
-      ]
+        54.546579538,
+      ],
     })
   })
 
   it('restrict data to the data the view columns', async () => {
     const tableView = await app.service('view').create({
       text: 'My view',
-      table_id: table1.id
+      table_id: table1.id,
     })
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
-      table_column_id: columnTable1Ref.id
+      table_column_id: columnTable1Ref.id,
     })
     const rows = await app.service('row').find({ query: { table_view_id: tableView.id } })
     expect.assertions(6)
@@ -131,17 +131,17 @@ describe('selectColumnsOfTableOrTableView hook', () => {
   it('restrict data to the data the view columns even if paginate is disabled', async () => {
     const tableView = await app.service('view').create({
       text: 'My view',
-      table_id: table1.id
+      table_id: table1.id,
     })
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
-      table_column_id: columnTable1Ref.id
+      table_column_id: columnTable1Ref.id,
     })
     const rows = await app.service('row').find({
       query: {
         table_view_id: tableView.id,
-        $limit: -1
-      }
+        $limit: -1,
+      },
     }) as unknown as TableRow[]
     expect.assertions(6)
     expect(rows.length).toBe(1)

@@ -9,7 +9,7 @@ describe('\'workspace\' service', () => {
   it('can create a workspace', async () => {
     const service = app.service('workspace')
     const newWorkspace = await service.create({
-      text: 'testWorkspace'
+      text: 'testWorkspace',
     })
     expect(newWorkspace).toBeTruthy()
   })

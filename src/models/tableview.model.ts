@@ -34,8 +34,8 @@ export class TableView extends BaseModel {
       properties: {
         text: { type: 'string' },
         locked: { type: 'boolean' },
-        position: { type: ['number', 'null'] }
-      }
+        position: { type: ['number', 'null'] },
+      },
     }
   }
 
@@ -53,30 +53,30 @@ export class TableView extends BaseModel {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default']
+            extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default'],
           },
           to: 'table_column.id',
           modify (query: QueryBuilder<TableColumn>) {
             query.clear('limit')
-          }
-        }
+          },
+        },
       },
       rows: {
         relation: Model.HasManyRelation,
         modelClass: TableRow,
         join: {
           from: 'table_view.table_id',
-          to: 'table_row.table_id'
-        }
+          to: 'table_row.table_id',
+        },
       },
       table: {
         relation: Model.HasOneRelation,
         modelClass: Table,
         join: {
           from: 'table_view.table_id',
-          to: 'table.id'
-        }
-      }
+          to: 'table.id',
+        },
+      },
     }
   }
 }

@@ -23,14 +23,14 @@ class Usergroup extends BaseModel {
       type: 'object',
       required: [
         'user_id',
-        'group_id'
+        'group_id',
       ],
 
       properties: {
         uhg_role: { type: 'string' },
         user_id: { type: 'number' },
-        group_id: { type: 'string' }
-      }
+        group_id: { type: 'string' },
+      },
     }
   }
 

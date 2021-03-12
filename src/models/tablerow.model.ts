@@ -27,8 +27,8 @@ export class TableRow extends BaseModel {
       properties: {
         text: { type: 'string' },
         data: { type: 'object' },
-        table_id: { type: 'string' }
-      }
+        table_id: { type: 'string' },
+      },
     }
   }
 
@@ -43,9 +43,9 @@ export class TableRow extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'table_row.table_id',
-          to: 'table.id'
-        }
-      }
+          to: 'table.id',
+        },
+      },
     }
   }
 }

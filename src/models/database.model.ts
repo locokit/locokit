@@ -19,8 +19,8 @@ export class database extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
-      }
+        text: { type: 'string' },
+      },
     }
   }
 
@@ -35,17 +35,17 @@ export class database extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'database.id',
-          to: 'table.database_id'
-        }
+          to: 'table.database_id',
+        },
       },
       workspace: {
         relation: Model.HasOneRelation,
         modelClass: workspace,
         join: {
           from: 'database.workspace_id',
-          to: 'workspace.id'
-        }
-      }
+          to: 'workspace.id',
+        },
+      },
     }
   }
 }

@@ -22,7 +22,7 @@ describe('\'column\' service', () => {
     const tableColumn = await service.create({
       text: 'myColumn',
       table_id: table.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
 
     expect(tableColumn).toBeTruthy()
@@ -45,19 +45,19 @@ describe('\'column\' service', () => {
     const column1 = await service.create({
       text: 'myColumn1',
       table_id: table.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
     const column2 = await service.create({
       text: 'myColumn2',
       table_id: table.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
 
     const columns: any = await service.find({
       query: {
         table_id: table.id,
-        $limit: -1
-      }
+        $limit: -1,
+      },
     })
     expect(columns.total).not.toBeDefined()
     expect(columns.limit).not.toBeDefined()
@@ -78,11 +78,11 @@ describe('hooks for column service', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
   })
 
@@ -91,15 +91,15 @@ describe('hooks for column service', () => {
       const columnTable1Ref: TableColumn = await app.service('column').create({
         text: 'column table 1',
         column_type_id: COLUMN_TYPE.STRING,
-        table_id: table1.id
+        table_id: table1.id,
       })
       const columnTable2RelationBetweenTable1: TableColumn = await app.service('column').create({
         text: 'LKDP column table 1',
         column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
         table_id: table2.id,
         settings: {
-          tableId: table1.id
-        }
+          tableId: table1.id,
+        },
       })
       const columnTable2LookedUpColumnTable1User: TableColumn = await app.service('column').create({
         text: 'Ref',
@@ -108,22 +108,22 @@ describe('hooks for column service', () => {
         settings: {
           tableId: table1.id,
           localField: columnTable2RelationBetweenTable1.id,
-          foreignField: columnTable1Ref.id
-        }
+          foreignField: columnTable1Ref.id,
+        },
       })
       const columnrelation = await app.service('columnrelation').find({
         query: {
           table_column_from_id: columnTable1Ref.id,
-          table_column_to_id: columnTable2LookedUpColumnTable1User.id
-        }
+          table_column_to_id: columnTable2LookedUpColumnTable1User.id,
+        },
       }) as Paginated<Columnrelation>
       expect(columnrelation.total).toBe(1)
 
       await app.service('columnrelation')._remove(null, {
         query: {
           table_column_from_id: columnTable1Ref.id,
-          table_column_to_id: columnTable2LookedUpColumnTable1User.id
-        }
+          table_column_to_id: columnTable2LookedUpColumnTable1User.id,
+        },
       })
       await app.service('column')._remove(columnTable2LookedUpColumnTable1User.id, {})
       await app.service('column')._remove(columnTable1Ref.id, {})

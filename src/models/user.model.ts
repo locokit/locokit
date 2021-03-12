@@ -33,7 +33,7 @@ export class User extends Model {
       required: [
         'email',
         'password',
-        'name'
+        'name',
       ],
 
       properties: {
@@ -50,9 +50,9 @@ export class User extends Model {
         verifyChanges: { type: 'object' },
         resetToken: { type: ['string', 'null'] },
         resetShortToken: { type: ['string', 'null'] },
-        resetExpires: { type: 'date' }
+        resetExpires: { type: 'date' },
 
-      }
+      },
     }
   }
 
@@ -70,11 +70,11 @@ export class User extends Model {
           through: {
             from: 'user_has_group.user_id',
             to: 'user_has_group.group_id',
-            extra: ['uhg_role']
+            extra: ['uhg_role'],
           },
-          to: 'user.id'
-        }
-      }
+          to: 'user.id',
+        },
+      },
     }
   }
 

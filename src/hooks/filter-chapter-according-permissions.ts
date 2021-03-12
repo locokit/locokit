@@ -15,9 +15,9 @@ export default (options = {}): Hook => {
           query: {
             $eager: '[users]',
             $joinRelation: 'users',
-            'users.id': context.params.user.id
+            'users.id': context.params.user.id,
           },
-          paginate: false
+          paginate: false,
         })
         const $in: string[] = []
         groupWithWorkspaces.forEach((group: LckGroup) => {
@@ -33,9 +33,9 @@ export default (options = {}): Hook => {
         (context.params.query as Query).$modifyEager = {
           chapters: {
             id: {
-              $in
-            }
-          }
+              $in,
+            },
+          },
         }
         // (context.params.query as Query)['chapters.id'] = { $in }
         // console.log(context.params.query)

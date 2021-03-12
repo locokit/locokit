@@ -25,13 +25,13 @@ export class TableColumnRelation extends BaseModel {
       type: 'object',
       required: [
         'table_column_from_id',
-        'table_column_to_id'
+        'table_column_to_id',
       ],
 
       properties: {
         table_column_from_id: { type: 'string' },
-        table_column_to_id: { type: 'string' }
-      }
+        table_column_to_id: { type: 'string' },
+      },
     }
   }
 
@@ -46,8 +46,8 @@ export class TableColumnRelation extends BaseModel {
         modelClass: TableColumn,
         join: {
           from: 'table_column_relation.table_column_from_id',
-          to: 'table_column.id'
-        }
+          to: 'table_column.id',
+        },
       },
       to: {
         relation: Model.HasOneRelation,
@@ -58,9 +58,9 @@ export class TableColumnRelation extends BaseModel {
         modelClass: TableColumn,
         join: {
           from: 'table_column_relation.table_column_to_id',
-          to: 'table_column.id'
-        }
-      }
+          to: 'table_column.id',
+        },
+      },
     }
   }
 

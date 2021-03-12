@@ -27,8 +27,8 @@ export class page extends BaseModel {
         createdAt: { type: ['string', 'null'] },
         updatedAt: { type: ['string', 'null'] },
         chapter_id: { type: ['string', 'null'] },
-        hidden: { type: ['boolean', 'null'] }
-      }
+        hidden: { type: ['boolean', 'null'] },
+      },
     }
   }
 
@@ -43,9 +43,9 @@ export class page extends BaseModel {
         modelClass: LckContainer,
         join: {
           from: 'page.id',
-          to: 'container.page_id'
-        }
-      }
+          to: 'container.page_id',
+        },
+      },
     }
   }
 }

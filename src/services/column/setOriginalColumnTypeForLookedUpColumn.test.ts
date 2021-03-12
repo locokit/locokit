@@ -36,30 +36,30 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
     table3 = await app.service('table').create({
       text: 'table3',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Date = await app.service('column').create({
       text: 'Date',
       column_type_id: COLUMN_TYPE.DATE,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1SingleSelect = await app.service('column').create({
       text: 'SingleSelect',
@@ -68,29 +68,29 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         values: {
           [singleSelectOption1UUID]: {
-            label: 'option 1'
+            label: 'option 1',
           },
           [singleSelectOption2UUID]: {
-            label: 'option 2'
+            label: 'option 2',
           },
           [singleSelectOption3UUID]: {
-            label: 'option 3'
-          }
-        }
-      }
+            label: 'option 3',
+          },
+        },
+      },
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
       text: 'Table 1',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
-        tableId: table1.id
-      }
+        tableId: table1.id,
+      },
     })
     columnTable2LookedUpColumnTable1Ref = await app.service('column').create({
       text: 'Ref Table 1',
@@ -99,8 +99,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1Ref.id
-      }
+        foreignField: columnTable1Ref.id,
+      },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
       text: 'User Table 1',
@@ -109,8 +109,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1User.id
-      }
+        foreignField: columnTable1User.id,
+      },
     })
     columnTable2LookedUpColumnTable1Date = await app.service('column').create({
       text: 'Date Table 1',
@@ -119,8 +119,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1Date.id
-      }
+        foreignField: columnTable1Date.id,
+      },
     })
     columnTable2LookedUpColumnTable1SingleSelect = await app.service('column').create({
       text: 'Single select Table 1',
@@ -129,21 +129,21 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1SingleSelect.id
-      }
+        foreignField: columnTable1SingleSelect.id,
+      },
     })
     columnTable3Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table3.id
+      table_id: table3.id,
     })
     columnTable3RelationBetweenTable2 = await app.service('column').create({
       text: 'Table 2',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table3.id,
       settings: {
-        tableId: table2.id
-      }
+        tableId: table2.id,
+      },
     })
     columnTable3LookedUpColumnTable2Date = await app.service('column').create({
       text: 'Date Table 2',
@@ -152,8 +152,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table2.id,
         localField: columnTable3RelationBetweenTable2.id,
-        foreignField: columnTable2LookedUpColumnTable1Date.id
-      }
+        foreignField: columnTable2LookedUpColumnTable1Date.id,
+      },
     })
     columnTable3LookedUpColumnTable2SingleSelect = await app.service('column').create({
       text: 'Single select  Table 2',
@@ -162,8 +162,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
       settings: {
         tableId: table2.id,
         localField: columnTable3RelationBetweenTable2.id,
-        foreignField: columnTable2LookedUpColumnTable1SingleSelect.id
-      }
+        foreignField: columnTable2LookedUpColumnTable1SingleSelect.id,
+      },
     })
   })
 
@@ -190,14 +190,14 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(column.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(column.originalColumn.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
   })
   it('set the original column for a looked up column defined on a user', async () => {
@@ -210,8 +210,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
   it('set all original column for all table columns', async () => {
     const columns = await app.service('column').find({
       query: {
-        table_id: table2.id
-      }
+        table_id: table2.id,
+      },
     }) as unknown as Paginated<TableColumn>
 
     expect.assertions(8)
@@ -225,14 +225,14 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1User.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.USER)
   })
@@ -270,8 +270,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     const columns = await app.service('column').find({
       query: {
         table_id: table2.id,
-        $limit: -1
-      }
+        $limit: -1,
+      },
     }) as unknown as TableColumn[]
 
     expect.assertions(8)
@@ -285,14 +285,14 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
     expect(columnsLkdUpColumn.find(c => c.id === columnTable2LookedUpColumnTable1User.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.USER)
   })
@@ -312,22 +312,22 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(column.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(column.originalColumn.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
   })
 
   it('set all original column for all table columns even through others looked up columns', async () => {
     const columns = await app.service('column').find({
       query: {
-        table_id: table3.id
-      }
+        table_id: table3.id,
+      },
     }) as unknown as Paginated<TableColumn>
 
     expect.assertions(6)
@@ -340,14 +340,14 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
   })
   // it('set all original column for all table columns when getting a single table with eager columns even through others looked up columns', async () => {
@@ -382,8 +382,8 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     const columns = await app.service('column').find({
       query: {
         table_id: table3.id,
-        $limit: -1
-      }
+        $limit: -1,
+      },
     }) as unknown as TableColumn[]
 
     expect.assertions(6)
@@ -396,14 +396,14 @@ describe('setOriginalColumnTypeForLookedUpColumn hook', () => {
     expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
     expect(columnsLkdUpColumn.find(c => c.id === columnTable3LookedUpColumnTable2SingleSelect.id)?.originalColumn?.settings.values).toStrictEqual({
       [singleSelectOption1UUID]: {
-        label: 'option 1'
+        label: 'option 1',
       },
       [singleSelectOption2UUID]: {
-        label: 'option 2'
+        label: 'option 2',
       },
       [singleSelectOption3UUID]: {
-        label: 'option 3'
-      }
+        label: 'option 3',
+      },
     })
   })
   afterAll(async () => {

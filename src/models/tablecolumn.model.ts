@@ -66,8 +66,8 @@ export class TableColumn extends BaseModel {
         settings: { type: 'object' },
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },
-        position: { type: 'number' }
-      }
+        position: { type: 'number' },
+      },
     }
   }
 
@@ -82,8 +82,8 @@ export class TableColumn extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'table_column.table_id',
-          to: 'table.id'
-        }
+          to: 'table.id',
+        },
       },
       column_type: {
         relation: Model.BelongsToOneRelation,
@@ -94,8 +94,8 @@ export class TableColumn extends BaseModel {
         modelClass: LckColumnType,
         join: {
           from: 'table_column.column_type_id',
-          to: 'column_type.id'
-        }
+          to: 'column_type.id',
+        },
       },
       parents: {
         relation: Model.ManyToManyRelation,
@@ -105,10 +105,10 @@ export class TableColumn extends BaseModel {
           through: {
             // table_column_relation is the join table.
             from: 'table_column_relation.table_column_to_id',
-            to: 'table_column_relation.table_column_from_id'
+            to: 'table_column_relation.table_column_from_id',
           },
-          to: 'table_column.id'
-        }
+          to: 'table_column.id',
+        },
       },
       children: {
         relation: Model.ManyToManyRelation,
@@ -118,11 +118,11 @@ export class TableColumn extends BaseModel {
           through: {
             // table_column_relation is the join table.
             from: 'table_column_relation.table_column_from_id',
-            to: 'table_column_relation.table_column_to_id'
+            to: 'table_column_relation.table_column_to_id',
           },
-          to: 'table_column.id'
-        }
-      }
+          to: 'table_column.id',
+        },
+      },
     }
   }
 }

@@ -3,7 +3,7 @@ import { queryContainsKeys } from './queryContainsKeys'
 describe('[hook] queryContainsKeys', () => {
   it('return false if no param exist', () => {
     const result = queryContainsKeys(['myKey'])({
-      type: 'before'
+      type: 'before',
     })
     expect(result).toBe(false)
   })
@@ -13,8 +13,8 @@ describe('[hook] queryContainsKeys', () => {
       params: {
         query: {
 
-        }
-      }
+        },
+      },
     })
     expect(result).toBe(false)
   })
@@ -23,9 +23,9 @@ describe('[hook] queryContainsKeys', () => {
       type: 'before',
       params: {
         query: {
-          myKey: 'here'
-        }
-      }
+          myKey: 'here',
+        },
+      },
     })
     expect(result).toBe(true)
   })
@@ -34,9 +34,9 @@ describe('[hook] queryContainsKeys', () => {
       type: 'before',
       params: {
         query: {
-          myKey: null
-        }
-      }
+          myKey: null,
+        },
+      },
     })
     expect(result).toBe(false)
   })
@@ -45,8 +45,8 @@ describe('[hook] queryContainsKeys', () => {
       type: 'before',
       params: {
         query: {
-        }
-      }
+        },
+      },
     })
     expect(result).toBe(false)
   })
@@ -55,9 +55,9 @@ describe('[hook] queryContainsKeys', () => {
       type: 'before',
       params: {
         query: {
-          myKey: '1'
-        }
-      }
+          myKey: '1',
+        },
+      },
     })
     expect(result).toBe(true)
   })
@@ -67,9 +67,9 @@ describe('[hook] queryContainsKeys', () => {
       params: {
         query: {
           myKey: '1',
-          myKey1: '2'
-        }
-      }
+          myKey1: '2',
+        },
+      },
     })
     expect(result).toBe(true)
   })
@@ -78,9 +78,9 @@ describe('[hook] queryContainsKeys', () => {
       type: 'before',
       params: {
         query: {
-          myKey: '1'
-        }
-      }
+          myKey: '1',
+        },
+      },
     })
     expect(result).toBe(false)
   })
@@ -90,9 +90,9 @@ describe('[hook] queryContainsKeys', () => {
       params: {
         query: {
           myKey: '1',
-          myKey1: '2'
-        }
-      }
+          myKey1: '2',
+        },
+      },
     })
     expect(result).toBe(true)
   })

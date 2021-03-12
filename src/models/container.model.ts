@@ -19,8 +19,8 @@ export class container extends BaseModel {
 
       properties: {
         text: { type: 'string' },
-        position: { type: ['number', 'null'] }
-      }
+        position: { type: ['number', 'null'] },
+      },
     }
   }
 
@@ -35,9 +35,9 @@ export class container extends BaseModel {
         modelClass: LckBlock,
         join: {
           from: 'container.id',
-          to: 'block.container_id'
-        }
-      }
+          to: 'block.container_id',
+        },
+      },
     }
   }
 }

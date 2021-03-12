@@ -25,8 +25,8 @@ export class block extends BaseModel {
         container_id: { type: 'string' },
         type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView'] },
         position: { type: ['number', 'null'] },
-        settings: { type: ['object', 'null'] }
-      }
+        settings: { type: ['object', 'null'] },
+      },
     }
   }
 }

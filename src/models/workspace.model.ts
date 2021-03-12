@@ -22,8 +22,8 @@ export class workspace extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
-      }
+        text: { type: 'string' },
+      },
     }
   }
 
@@ -38,8 +38,8 @@ export class workspace extends BaseModel {
         modelClass: LckChapter,
         join: {
           from: 'workspace.id',
-          to: 'chapter.workspace_id'
-        }
+          to: 'chapter.workspace_id',
+        },
       },
       databases: {
         relation: Model.HasManyRelation,
@@ -50,8 +50,8 @@ export class workspace extends BaseModel {
         modelClass: LckDatabase,
         join: {
           from: 'workspace.id',
-          to: 'database.workspace_id'
-        }
+          to: 'database.workspace_id',
+        },
       },
       processes: {
         relation: Model.HasManyRelation,
@@ -62,9 +62,9 @@ export class workspace extends BaseModel {
         modelClass: Process,
         join: {
           from: 'workspace.id',
-          to: 'process.workspace_id'
-        }
-      }
+          to: 'process.workspace_id',
+        },
+      },
     }
   }
 }

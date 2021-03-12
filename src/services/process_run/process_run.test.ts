@@ -50,19 +50,19 @@ describe('\'process_run\' service', () => {
         email: userEmail,
         name: 'Process Exec',
         password: passwordHashed,
-        isVerified: true
+        isVerified: true,
       }, {})
       const auth = await app.service('authentication').create({
         strategy: 'local',
         email: userEmail,
-        password: userPassword
+        password: userPassword,
       }, { })
       accessToken = auth.accessToken
       params = {
         provider: 'external',
         user,
         accessToken,
-        authenticated: true
+        authenticated: true,
       }
     })
     beforeEach(async () => {
@@ -74,19 +74,19 @@ describe('\'process_run\' service', () => {
       database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
       table1 = await app.service('table').create({
         text: 'table1',
-        database_id: database.id
+        database_id: database.id,
       })
       tableColumn = await app.service('column').create({
         text: 'My string column',
         table_id: table1.id,
-        column_type_id: COLUMN_TYPE.STRING
+        column_type_id: COLUMN_TYPE.STRING,
       })
       tableRow = await app.service('row').create({
         text: 'yo',
         table_id: table1.id,
         data: {
-          [tableColumn.id]: 'This is a string'
-        }
+          [tableColumn.id]: 'This is a string',
+        },
       })
       // process = await app.service('process').create({
       //   text: 'My Process',
@@ -102,12 +102,12 @@ describe('\'process_run\' service', () => {
        */
       const processTrigger = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.MANUAL
+        trigger: ProcessTrigger.MANUAL,
       })
 
       const processRun = await app.service('process-run').create({
         process_id: processTrigger.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       /**
        * check the status
@@ -128,24 +128,24 @@ describe('\'process_run\' service', () => {
        */
       const processTriggerCRON = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.CRON
+        trigger: ProcessTrigger.CRON,
       })
 
       const processExecutionCRON = await app.service('process-run').create({
         process_id: processTriggerCRON.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       }, params)
       expect(processExecutionCRON).toBeTruthy()
       expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
 
       const processTriggerMANUAL = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.MANUAL
+        trigger: ProcessTrigger.MANUAL,
       })
 
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       }, params)
       expect(processExecutionMANUAL).toBeTruthy()
       expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.RUNNING)
@@ -168,56 +168,56 @@ describe('\'process_run\' service', () => {
        */
       const processTriggerCRON = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.CRON
+        trigger: ProcessTrigger.CRON,
       })
       const processTriggerMANUAL = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.MANUAL
+        trigger: ProcessTrigger.MANUAL,
       })
       const processTriggerCreateRow = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.CREATE_ROW
+        trigger: ProcessTrigger.CREATE_ROW,
       })
       const processTriggerUpdateRow = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.UPDATE_ROW
+        trigger: ProcessTrigger.UPDATE_ROW,
       })
       const processTriggerUpdateRowData = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.UPDATE_ROW_DATA
+        trigger: ProcessTrigger.UPDATE_ROW_DATA,
       })
 
       const processExecutionCRON = await app.service('process-run').create({
         process_id: processTriggerCRON.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       expect(processExecutionCRON).toBeTruthy()
       expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       expect(processExecutionMANUAL).toBeTruthy()
       expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionCreateRow = await app.service('process-run').create({
         process_id: processTriggerCreateRow.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       expect(processExecutionCreateRow).toBeTruthy()
       expect(processExecutionCreateRow.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionUpdateRow = await app.service('process-run').create({
         process_id: processTriggerUpdateRow.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       expect(processExecutionUpdateRow).toBeTruthy()
       expect(processExecutionUpdateRow.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionUpdateRowData = await app.service('process-run').create({
         process_id: processTriggerUpdateRowData.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       })
       expect(processExecutionUpdateRowData).toBeTruthy()
       expect(processExecutionUpdateRowData.status).toBe(ProcessRunStatus.RUNNING)
@@ -246,28 +246,28 @@ describe('\'process_run\' service', () => {
        */
       const processTriggerCreateRow = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.CREATE_ROW
+        trigger: ProcessTrigger.CREATE_ROW,
       })
       const processTriggerUpdateRow = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.UPDATE_ROW
+        trigger: ProcessTrigger.UPDATE_ROW,
       })
       const processTriggerUpdateRowData = await app.service('process').create({
         table_id: table1.id,
-        trigger: ProcessTrigger.UPDATE_ROW_DATA
+        trigger: ProcessTrigger.UPDATE_ROW_DATA,
       })
 
       await expect(app.service('process-run').create({
         process_id: processTriggerCreateRow.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       }, params)).rejects.toThrow()
       await expect(app.service('process-run').create({
         process_id: processTriggerUpdateRow.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       }, params)).rejects.toThrow()
       await expect(app.service('process-run').create({
         process_id: processTriggerUpdateRowData.id,
-        table_row_id: tableRow.id
+        table_row_id: tableRow.id,
       }, params)).rejects.toThrow()
 
       await wait(1000)

@@ -16,8 +16,8 @@ export class ColumnType extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
-      }
+        text: { type: 'string' },
+      },
     }
   }
 }
