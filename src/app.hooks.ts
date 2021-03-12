@@ -3,12 +3,12 @@
 
 import { HookContext } from '@feathersjs/feathers'
 import { GeneralError } from '@feathersjs/errors'
-import { iff, debug } from 'feathers-hooks-common'
+import { iff /*, debug */ } from 'feathers-hooks-common'
 
 export default {
   before: {
     all: [
-      debug('app debug'),
+      // debug('app debug'),
     ],
     find: [],
     get: [],

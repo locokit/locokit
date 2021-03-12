@@ -26,7 +26,7 @@ import { triggerProcess } from './triggerProcess.hook'
 import {
   selectColumnsOfTableOrTableView,
   rebuildDataAndGeom,
-  formatGeomColumnInData
+  formatGeomColumnInData,
 } from './selectColumnsOfTableOrView.hook'
 
 const { authenticate } = authentication.hooks
@@ -43,21 +43,21 @@ export default {
           filterRowsByTableViewId(),
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
-          selectColumnsOfTableOrTableView()
+          selectColumnsOfTableOrTableView(),
         ],
-        commonHooks.disallow()
-      )
+        commonHooks.disallow(),
+      ),
     ],
     get: [],
     create: [
-      commonHooks.required(...TableRow.jsonSchema.required),
+      commonHooks.required(...TableRow.jsonSchema.required as string[]),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
       checkColumnDefinitionMatching(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
       completeDefaultValues(),
-      computeTextProperty()
+      computeTextProperty(),
     ],
     update: [
       getCurrentItem(),
@@ -67,7 +67,7 @@ export default {
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       computeRowLookedUpColumns(),
       completeDefaultValues(),
-      computeTextProperty()
+      computeTextProperty(),
     ],
     patch: [
       getCurrentItem(),
@@ -77,13 +77,13 @@ export default {
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
       completeDataField(),
       computeRowLookedUpColumns(),
-      computeTextProperty()
+      computeTextProperty(),
     ],
     remove: [
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
-      removeRelatedRows()
-    ]
+      removeRelatedRows(),
+    ],
   },
 
   after: {
@@ -91,30 +91,30 @@ export default {
       // historizeDataEvents()
     ],
     find: [
-      rebuildDataAndGeom()
+      rebuildDataAndGeom(),
     ],
     get: [],
     create: [
       upsertRowRelation(),
       computeLookedUpColumns(),
       triggerProcess,
-      formatGeomColumnInData()
+      formatGeomColumnInData(),
     ],
     update: [
       upsertRowRelation(),
       computeLookedUpColumns(),
       triggerProcess,
-      formatGeomColumnInData()
+      formatGeomColumnInData(),
     ],
     patch: [
       upsertRowRelation(),
       computeLookedUpColumns(),
       triggerProcess,
-      formatGeomColumnInData()
+      formatGeomColumnInData(),
     ],
     remove: [
-      triggerProcess
-    ]
+      triggerProcess,
+    ],
   },
 
   error: {
@@ -124,6 +124,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 }

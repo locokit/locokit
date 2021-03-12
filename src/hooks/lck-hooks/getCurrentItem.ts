@@ -5,7 +5,7 @@ import { Hook, HookContext } from '@feathersjs/feathers'
  * if request is a update / patch one,
  * and store it in context.params._meta.item field
  */
-export function getCurrentItem () : Hook {
+export function getCurrentItem (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     switch (context.method) {
       case 'update':
@@ -14,8 +14,8 @@ export function getCurrentItem () : Hook {
         context.params = {
           ...context.params,
           _meta: {
-            item: await context.service.get(context.id as string)
-          }
+            item: await context.service.get(context.id as string),
+          },
         }
         break
     }
