@@ -70,17 +70,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
         [columnTable1FirstName.id]: 'first name',
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: user1.id,
-        [columnTable1Geom.id]: {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              29.003906249999996,
-              54.54657953840501,
-            ],
-          },
-        },
+        [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
       },
     })
   })
@@ -99,13 +89,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     Object.keys(rows.data[0].data).forEach(key => {
       expect(targetKeys.includes(key)).toBe(true)
     })
-    expect(rows.data[0].data[columnTable1Geom.id]).toStrictEqual({
-      type: 'Point',
-      coordinates: [
-        29.00390625,
-        54.546579538,
-      ],
-    })
+    expect(rows.data[0].data[columnTable1Geom.id]).toStrictEqual('SRID=4326;POINT (29.00390625 54.546579538405)')
   })
 
   it('restrict data to the data the view columns', async () => {

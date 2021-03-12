@@ -11,6 +11,7 @@ export class page extends BaseModel {
   text!: string
   chapter_id!: string
   hidden!: boolean
+  layout!: string
 
   static get tableName (): string {
     return 'page'
@@ -28,6 +29,7 @@ export class page extends BaseModel {
         updatedAt: { type: ['string', 'null'] },
         chapter_id: { type: ['string', 'null'] },
         hidden: { type: ['boolean', 'null'] },
+        layout: { enum: ['classic', 'center', 'flex', 'full'] },
       },
     }
   }

@@ -6,126 +6,131 @@ import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
 
-const geometryPolygon = {
-  type: 'Feature',
-  properties: {},
-  geometry: {
-    type: 'Polygon',
-    coordinates: [
-      [
-        [
-          16.6552734375,
-          53.93021986394,
-        ],
-        [
-          11.689453125,
-          56.36525013685606,
-        ],
-        [
-          2.0654296875,
-          57.20771009775018,
-        ],
-        [
-          -6.328125,
-          54.13669645687002,
-        ],
-        [
-          -4.7900390625,
-          47.78363463526376,
-        ],
-        [
-          0.615234375,
-          45.02695045318546,
-        ],
-        [
-          9.5361328125,
-          40.84706035607122,
-        ],
-        [
-          24.6533203125,
-          51.09662294502995,
-        ],
-        [
-          6.767578125,
-          50.48547354578499,
-        ],
-        [
-          16.6552734375,
-          53.93021986394,
-        ],
-      ],
-    ],
-  },
-}
-const geometryPoint = {
-  type: 'Feature',
-  properties: {},
-  geometry: {
-    type: 'Point',
-    coordinates: [
-      29.003906249999996,
-      54.54657953840501,
-    ],
-  },
-}
+// const geometryPolygon = {
+//   type: 'Feature',
+//   properties: {},
+//   geometry: {
+//     type: 'Polygon',
+//     coordinates: [
+//       [
+//         [
+//           16.6552734375,
+//           53.93021986394
+//         ],
+//         [
+//           11.689453125,
+//           56.36525013685606
+//         ],
+//         [
+//           2.0654296875,
+//           57.20771009775018
+//         ],
+//         [
+//           -6.328125,
+//           54.13669645687002
+//         ],
+//         [
+//           -4.7900390625,
+//           47.78363463526376
+//         ],
+//         [
+//           0.615234375,
+//           45.02695045318546
+//         ],
+//         [
+//           9.5361328125,
+//           40.84706035607122
+//         ],
+//         [
+//           24.6533203125,
+//           51.09662294502995
+//         ],
+//         [
+//           6.767578125,
+//           50.48547354578499
+//         ],
+//         [
+//           16.6552734375,
+//           53.93021986394
+//         ]
+//       ]
+//     ]
+//   }
+// }
+// const geometryPoint = {
+//   type: 'Feature',
+//   properties: {},
+//   geometry: {
+//     type: 'Point',
+//     coordinates: [
+//       29.003906249999996,
+//       54.54657953840501
+//     ]
+//   }
+// }
+// const geometryLinestring = {
+//   type: 'Feature',
+//   properties: {},
+//   geometry: {
+//     type: 'LineString',
+//     coordinates: [
+//       [
+//         37.265625,
+//         52.5897007687178
+//       ],
+//       [
+//         41.484375,
+//         46.89023157359399
+//       ],
+//       [
+//         29.9267578125,
+//         41.409775832009565
+//       ],
+//       [
+//         21.4892578125,
+//         38.788345355085625
+//       ],
+//       [
+//         18.6767578125,
+//         41.80407814427234
+//       ],
+//       [
+//         17.05078125,
+//         45.67548217560647
+//       ],
+//       [
+//         16.083984375,
+//         50.875311142200765
+//       ],
+//       [
+//         21.3134765625,
+//         53.51418452077113
+//       ],
+//       [
+//         28.652343749999996,
+//         54.7246201949245
+//       ],
+//       [
+//         31.1572265625,
+//         54.87660665410869
+//       ],
+//       [
+//         32.7392578125,
+//         54.18815548107151
+//       ],
+//       [
+//         31.201171875,
+//         50.708634400828224
+//       ]
+//     ]
+//   }
+// }
 
-const geometryLinestring = {
-  type: 'Feature',
-  properties: {},
-  geometry: {
-    type: 'LineString',
-    coordinates: [
-      [
-        37.265625,
-        52.5897007687178,
-      ],
-      [
-        41.484375,
-        46.89023157359399,
-      ],
-      [
-        29.9267578125,
-        41.409775832009565,
-      ],
-      [
-        21.4892578125,
-        38.788345355085625,
-      ],
-      [
-        18.6767578125,
-        41.80407814427234,
-      ],
-      [
-        17.05078125,
-        45.67548217560647,
-      ],
-      [
-        16.083984375,
-        50.875311142200765,
-      ],
-      [
-        21.3134765625,
-        53.51418452077113,
-      ],
-      [
-        28.652343749999996,
-        54.7246201949245,
-      ],
-      [
-        31.1572265625,
-        54.87660665410869,
-      ],
-      [
-        32.7392578125,
-        54.18815548107151,
-      ],
-      [
-        31.201171875,
-        50.708634400828224,
-      ],
-    ],
-  },
-}
+const ewktPolygon = 'SRID=4326;POLYGON ((16.6552734375 53.93021986394,11.689453125 56.3652501368561,2.0654296875 57.2077100977502,-6.328125 54.13669645687,-4.7900390625 47.7836346352638,0.615234375 45.0269504531855,9.5361328125 40.8470603560712,24.6533203125 51.0966229450299,6.767578125 50.485473545785,16.6552734375 53.93021986394))'
+const ewktPolygonWithInjection = 'SRID=4326;POLYGON ((16.6552734375 53.93021986394,11.689453125 56.3652501368561,2.0654296875 57.2077100977502,-6.328125 54.13669645687,-4.7900390625 47.7836346352638,0.615234375 45.0269504531855,9.5361328125 40.8470603560712,24.6533203125 51.0966229450299,6.767578125 50.485473545785,16.6552734375 53.93021986394))\')); DROP TABLE table_row; SELECT ((\'1'
+const ewktPoint = 'SRID=4326;POINT (29.00390625 54.546579538405)'
+const ewktLinestring = 'SRID=4326;LINESTRING (37.265625 52.5897007687178,41.484375 46.890231573594,29.9267578125 41.4097758320096,21.4892578125 38.7883453550856,18.6767578125 41.8040781442723,17.05078125 45.6754821756065,16.083984375 50.8753111422008,21.3134765625 53.5141845207711,28.65234375 54.7246201949245,31.1572265625 54.8766066541087,32.7392578125 54.1881554810715,31.201171875 50.7086344008282)'
+
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: workspace
   let database: database
@@ -1185,7 +1190,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: geometryPolygon,
+          [columnTable1GeomPoint.id]: ewktPolygon,
         },
         table_id: table1.id,
       }))
@@ -1211,19 +1216,13 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: geometryPoint,
+          [columnTable1GeomPoint.id]: ewktPoint,
         },
         table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
-    expect(rowTable1.data[columnTable1GeomPoint.id]).toStrictEqual({
-      type: 'Point',
-      coordinates: [
-        29.00390625,
-        54.546579538,
-      ],
-    })
+    expect(rowTable1.data[columnTable1GeomPoint.id]).toBe(ewktPoint)
     await app.service('row').remove(rowTable1.id)
   })
 
@@ -1256,7 +1255,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: geometryPolygon,
+          [columnTable1GeomLinestring.id]: ewktPoint,
         },
         table_id: table1.id,
       }))
@@ -1282,65 +1281,13 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: geometryLinestring,
+          [columnTable1GeomLinestring.id]: ewktLinestring,
         },
         table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
-    expect(rowTable1.data[columnTable1GeomLinestring.id]).toStrictEqual({
-      type: 'LineString',
-      coordinates: [
-        [
-          37.265625,
-          52.589700769,
-        ],
-        [
-          41.484375,
-          46.890231574,
-        ],
-        [
-          29.926757812,
-          41.409775832,
-        ],
-        [
-          21.489257812,
-          38.788345355,
-        ],
-        [
-          18.676757812,
-          41.804078144,
-        ],
-        [
-          17.05078125,
-          45.675482176,
-        ],
-        [
-          16.083984375,
-          50.875311142,
-        ],
-        [
-          21.313476562,
-          53.514184521,
-        ],
-        [
-          28.65234375,
-          54.724620195,
-        ],
-        [
-          31.157226562,
-          54.876606654,
-        ],
-        [
-          32.739257812,
-          54.188155481,
-        ],
-        [
-          31.201171875,
-          50.708634401,
-        ],
-      ],
-    })
+    expect(rowTable1.data[columnTable1GeomLinestring.id]).toBe(ewktLinestring)
     await app.service('row').remove(rowTable1.id)
   })
 
@@ -1373,7 +1320,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: geometryLinestring,
+          [columnTable1GeomPolygon.id]: ewktLinestring,
         },
         table_id: table1.id,
       }))
@@ -1399,60 +1346,26 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: geometryPolygon,
+          [columnTable1GeomPolygon.id]: ewktPolygon,
         },
         table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
-    expect(rowTable1.data[columnTable1GeomPolygon.id]).toStrictEqual({
-      type: 'Polygon',
-      coordinates: [
-        [
-          [
-            16.655273438,
-            53.930219864,
-          ],
-          [
-            11.689453125,
-            56.365250137,
-          ],
-          [
-            2.065429688,
-            57.207710098,
-          ],
-          [
-            -6.328125,
-            54.136696457,
-          ],
-          [
-            -4.790039062,
-            47.783634635,
-          ],
-          [
-            0.615234375,
-            45.026950453,
-          ],
-          [
-            9.536132812,
-            40.847060356,
-          ],
-          [
-            24.653320312,
-            51.096622945,
-          ],
-          [
-            6.767578125,
-            50.485473546,
-          ],
-          [
-            16.655273438,
-            53.930219864,
-          ],
-        ],
-      ],
-    })
+    expect(rowTable1.data[columnTable1GeomPolygon.id]).toBe(ewktPolygon)
     await app.service('row').remove(rowTable1.id)
+  })
+
+  it('sanitize string before using it in database (POLYGON example)', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomPolygon.id]: ewktPolygonWithInjection,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
   })
 
   afterAll(async () => {
