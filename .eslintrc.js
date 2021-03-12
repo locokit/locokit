@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
+    '@typescript-eslint/strict-boolean-expressions': 'off'
   },
   overrides: [
     {
