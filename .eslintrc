@@ -17,7 +17,7 @@
   "rules": {
     "quotes": "off",
     "@typescript-eslint/quotes": ["error", "single"],
-    "comma-dangle": ["error", "always"],
-    "@typescript-eslint/comma-dangle": ["error", "always"]
+    "comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"]
   }
 }
