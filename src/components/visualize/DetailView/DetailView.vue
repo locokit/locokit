@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="definition && content"
+    v-if="definition && content && content.data"
   >
     <lck-data-detail
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
-      :row="content"
+      :row="content.data[0]"
       :autocompleteSuggestions="autocompleteSuggestions"
       @update-suggestions="updateLocalAutocompleteSuggestions"
       @update-row="onUpdateCell"
@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
@@ -44,17 +44,19 @@ export default Vue.extend({
   },
   data () {
     return {
-      autocompleteSuggestions: null,
-      rowId: this.$route.query?.rowId
+      autocompleteSuggestions: null
+    }
+  },
+  computed: {
+    rowId (): string {
+      return this.$route.query?.rowId
     }
   },
   methods: {
     searchItems: lckHelpers.searchItems,
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ column_type_id: columnTypeId, settings }: { column_type_id: number; settings: Record<string, unknown> }, { query }: { query: string }) {
       this.autocompleteSuggestions = await this.searchItems({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        columnTypeId: column_type_id,
+        columnTypeId,
         tableId: settings?.tableId,
         query
       })

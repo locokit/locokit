@@ -16,10 +16,19 @@ import Vue, { PropType } from 'vue'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Feature } from 'ol'
 
-import { computeCenterFeatures, GEO_STYLE, transformEWKTtoFeature } from '@/services/lck-utils/map'
+import {
+  computeCenterFeatures,
+  GEO_STYLE,
+  isGEOColumn,
+  transformEWKTtoFeature
+} from '@/services/lck-utils/map'
 import { columnAncestor } from '@/services/lck-utils/columns'
 
-import { COLUMN_TYPE, MapViewSettings } from '@locokit/lck-glossary'
+import {
+  Column,
+  COLUMN_TYPE,
+  MapSettings
+} from '@locokit/lck-glossary'
 
 import Map from '@/components/ui/Map/Map.vue'
 
@@ -36,7 +45,7 @@ export default Vue.extend({
       type: Object
     },
     settings: {
-      type: Object as PropType<MapViewSettings>,
+      type: Object as PropType<MapSettings>,
       default: () => ({})
     }
   },
@@ -44,15 +53,14 @@ export default Vue.extend({
     transformEWKTtoFeature,
     computeCenterFeatures,
     getOnlyGeoColumn (
-      columns: { column_type_id: number; displayed: boolean }[]
-    ): { column_type_id: number; id: string }[] {
-      const geoType = [COLUMN_TYPE.GEOMETRY_POINT, COLUMN_TYPE.GEOMETRY_LINESTRING, COLUMN_TYPE.GEOMETRY_POLYGON]
+      columns: Column[]
+    ): Column[] {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      return columns.filter(column => (geoType.includes(column.column_type_id) || (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && geoType.includes(columnAncestor(column)))))
+      return columns.filter(column => (isGEOColumn(column.column_type_id) || (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && isGEOColumn(columnAncestor(column)))))
     },
-    createStyleLayers (geoColumns: { column_type_id: number }[]) {
+    createStyleLayers (geoColumns: Column[]) {
       const geoTypes = new Set()
-      const layers: {[key: string]: {}}[] = []
+      const layers: { [key: string]: {} }[] = []
 
       geoColumns.forEach(geoColumn => {
         if (geoColumn.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
@@ -79,8 +87,8 @@ export default Vue.extend({
       return layers
     },
     createGeoJsonFeaturesCollection (
-      rows: { data: {[key: string]: string|{ value: string }|null } }[],
-      geoColumns: { id: string; column_type_id: number }[]
+      rows: { data: { [key: string]: string | { value: string } | null } }[],
+      geoColumns: Column[]
     ) {
       const features: Feature[] = []
 
@@ -107,26 +115,23 @@ export default Vue.extend({
     }
   },
   computed: {
-    features () {
-      const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
-
-      if (this.settings?.detailMode) {
-        return this.createGeoJsonFeaturesCollection([this.content], geoColumns)
-      }
-      return this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
-    },
     resources () {
       const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
+      const features = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
       const layers = this.createStyleLayers(geoColumns)
 
-      return [{
-        id: 'features-collection-source-id',
-        layers: layers,
-        ...this.features
-      }]
+      return [
+        {
+          id: 'features-collection-source-id',
+          layers: layers,
+          ...features
+        }
+      ]
     },
     options () {
-      const centerFeaturesCollection = this.computeCenterFeatures(this.features)
+      const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
+      const features = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
+      const centerFeaturesCollection = this.computeCenterFeatures(features)
 
       return {
         center: centerFeaturesCollection?.geometry?.coordinates,

@@ -127,7 +127,10 @@ import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import {
+  Column,
+  COLUMN_TYPE
+} from '@locokit/lck-glossary'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
@@ -136,10 +139,17 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Map from '@/components/ui/Map/Map.vue'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
 import { lckHelpers } from '@/services/lck-api'
 import { zipArrays } from '@/services/lck-utils/arrays'
-import { GEO_STYLE, transformEWKTtoFeature, computeCenterFeatures } from '@/services/lck-utils/map'
+import {
+  GEO_STYLE,
+  transformEWKTtoFeature,
+  computeCenterFeatures
+} from '@/services/lck-utils/map'
 
 export default {
   name: 'LckDataDetail',
@@ -187,114 +197,7 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button)
   },
-  methods: {
-    getComponentEditableColumn,
-    isEditableColumn,
-    transformEWKTtoFeature,
-    computeCenterFeatures,
-    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    onComplete ({ column_type_id, settings }, { query }) {
-      this.$emit(
-        'update-suggestions', {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          column_type_id,
-          settings
-        }, { query })
-    },
-    async onAutocompleteEdit (rowId, columnId, event = null) {
-      await this.onEdit(rowId, columnId, event ? event.value.value : null)
-    },
-    async onMultipleAutocompleteEdit (rowId, columnId) {
-      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map(item => item.value))
-    },
-    async onDateEdit (rowId, columnId, value) {
-      await this.onEdit(
-        rowId,
-        columnId,
-        value ? formatISO(value, { representation: 'date' }) : null
-      )
-    },
-    async onEdit (rowId, columnId, value) {
-      this.$emit('update-row', {
-        rowId,
-        columnId,
-        newValue: value
-      })
-    },
-    createStyleLayers (geoColumn: { column_type_id: number }) {
-      let geoType: number|null
-      const layers: { id: string; type: string; paint: object }[] = []
-
-      if (geoColumn.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
-        geoType = geoColumn.column_type_id
-      } else {
-        // geoTypes.add(geoColumn.ancestorOrigins.column_type_id)
-        geoType = 18
-      }
-      switch (geoType) {
-        case COLUMN_TYPE.GEOMETRY_POINT:
-          layers.push(GEO_STYLE.Point)
-          break
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-          layers.push(GEO_STYLE.Linestring)
-          break
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-          layers.push(GEO_STYLE.Polygon)
-          break
-        default:
-          console.error('Column type unknown')
-      }
-      return layers
-    },
-    createGeoJsonFeaturesCollection (data, geoColumn) {
-      // This is necessary when column's type is Multi...
-      const features = []
-      const feature = this.transformEWKTtoFeature(data)
-      features.push(feature)
-
-      // Transform OL Feature in Geojson
-      const geojsonFormat = new GeoJSON()
-      return geojsonFormat.writeFeaturesObject(features)
-    },
-    setRessources (column, data) {
-      const layers = this.createStyleLayers(column)
-      const features = this.createGeoJsonFeaturesCollection(data, column)
-      return [{
-        id: `features-collection-source-id-${column.id}`,
-        layers: layers,
-        ...features
-      }]
-    },
-    setOptions (column, data) {
-      const geojson = this.createGeoJsonFeaturesCollection(data, column)
-      const centerFeaturesCollection = this.computeCenterFeatures(geojson)
-
-      return {
-        center: centerFeaturesCollection?.geometry?.coordinates,
-        zoom: 9,
-        maxZoom: 16,
-        minZoom: 1
-      }
-    }
-  },
   computed: {
-    currentBlockDropdownOptions () {
-      if (!this.definition.columns) return {}
-      const result = {}
-      this.definition.columns.forEach(currentColumn => {
-        if (
-          currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
-          currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
-        ) {
-          result[currentColumn.id] = Object.keys(currentColumn.settings?.values || {}).map(k => ({
-            value: k,
-            label: currentColumn.settings.values[k].label
-          }))
-        }
-      })
-      return result
-    },
     editableColumns () {
       if (!this.definition.columns) return []
       return this.definition.columns.filter(column => this.isEditableColumn(this.crudMode, column))
@@ -311,13 +214,100 @@ export default {
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
           currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
+          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
             value: k,
             label: currentColumn.settings.values[k].label
           }))
         }
       })
       return result
+    }
+  },
+  methods: {
+    getComponentEditableColumn,
+    isEditableColumn,
+    transformEWKTtoFeature,
+    computeCenterFeatures,
+    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
+    onComplete (
+      { column_type_id: columnTypeId, settings }: { column_type_id: number; settings: Record<string, unknown> },
+      { query }: { query: string }
+    ) {
+      this.$emit(
+        'update-suggestions', {
+          columnTypeId: columnTypeId,
+          settings
+        }, { query })
+    },
+    async onAutocompleteEdit (rowId: string, columnId: string, event: string | null = null) {
+      await this.onEdit(rowId, columnId, event ? event.value.value : null)
+    },
+    async onMultipleAutocompleteEdit (rowId: string, columnId: string) {
+      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map(item => item.value))
+    },
+    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
+      await this.onEdit(
+        rowId,
+        columnId,
+        value ? formatISO(value, { representation: 'date' }) : null
+      )
+    },
+    async onEdit (rowId: string, columnId: string, value: string | null) {
+      this.$emit('update-row', {
+        rowId,
+        columnId,
+        newValue: value
+      })
+    },
+    createStyleLayers ({ column_type_id: columnTypeId }: { column_type_id: number }) {
+      const layers: { id: string; type: string; paint: object }[] = []
+
+      switch (columnTypeId) {
+        case COLUMN_TYPE.GEOMETRY_POINT:
+          layers.push(GEO_STYLE.Point)
+          break
+        case COLUMN_TYPE.GEOMETRY_LINESTRING:
+          layers.push(GEO_STYLE.Linestring)
+          break
+        case COLUMN_TYPE.GEOMETRY_POLYGON:
+          layers.push(GEO_STYLE.Polygon)
+          break
+        default:
+          console.error('Column type unknown')
+      }
+      return layers
+    },
+    createGeoJsonFeaturesCollection (data: string) {
+      // This is necessary when column's type is Multi...
+      const features = []
+      const feature = this.transformEWKTtoFeature(data)
+      features.push(feature)
+
+      // Transform OL Feature in Geojson
+      const geojsonFormat = new GeoJSON()
+      return geojsonFormat.writeFeaturesObject(features)
+    },
+    setRessources (column: Column, data: string) {
+      const layers = this.createStyleLayers(column)
+      const features = this.createGeoJsonFeaturesCollection(data)
+      return [
+        {
+          id: `features-collection-source-id-${column.id}`,
+          layers: layers,
+          ...features
+        }
+      ]
+    },
+    setOptions (data: string) {
+      const geojson = this.createGeoJsonFeaturesCollection(data)
+      const centerFeaturesCollection = this.computeCenterFeatures(geojson)
+
+      return {
+        center: centerFeaturesCollection?.geometry?.coordinates,
+        zoom: 9,
+        maxZoom: 16,
+        minZoom: 1
+      }
     }
   },
   watch: {

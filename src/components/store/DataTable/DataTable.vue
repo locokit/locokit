@@ -189,6 +189,7 @@
               v-model="slotProps.data.data[column.id]"
               mode="decimal"
               :minFractionDigits="2"
+              class="field-editable"
             />
             <component
               v-else
@@ -243,7 +244,6 @@
 
 <script>
 /* eslint-disable no-case-declarations */
-/* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
@@ -531,14 +531,12 @@ export default {
           return true
       }
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    onShowCalendar ({ column_type_id }, value) {
+    onShowCalendar ({ column_type_id: columnTypeId }, value) {
       /**
        * TODO: the event "show" is trigerred right after a calendar is closed... strange.
        * so, from time to time, the currentDateToEdit is scratched with the previous date edited...
        */
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      switch (column_type_id) {
+      switch (columnTypeId) {
         case COLUMN_TYPE.DATE:
           this.currentDateToEdit = null
           try {
@@ -552,10 +550,10 @@ export default {
           break
       }
     },
-    async onComplete ({ column_type_id, settings }, { query }) {
+    async onComplete ({ column_type_id: columnTypeId, settings }, { query }) {
       this.$emit(
         'update-suggestions',
-        { column_type_id, settings },
+        { columnTypeId, settings },
         { query }
       )
     },

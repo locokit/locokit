@@ -61,8 +61,8 @@ import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 import MapView from '@/components/visualize/MapView/MapView.vue'
 import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
 import Media from '@/components/visualize/Media/Media.vue'
+import DetailView from '@/components/visualize/DetailView/DetailView.vue'
 import Error from '@/components/ui/Error/Error.vue'
-import DetailView from '@/components/visualize/DetailView.vue'
 
 export default Vue.extend({
   name: 'Block',
@@ -84,7 +84,7 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return false
+      return this.block.type === BLOCK_TYPE.KANBAN_VIEW
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false

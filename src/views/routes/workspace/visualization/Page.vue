@@ -307,14 +307,6 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      // this.$set(block, 'content', await retrieveViewData(
-      //   block.definition.id,
-      //   currentOptions.page * currentOptions.itemsPerPage,
-      //   currentOptions.itemsPerPage,
-      //   currentOptions.sort,
-      //   currentOptions.filters
-      // ))
-
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
         case BLOCK_TYPE.MAPVIEW:
@@ -327,41 +319,17 @@ export default {
           ))
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-        case BLOCK_TYPE.MAPDETAILVIEW:
-          this.$set(block, 'content', await retrieveRow(this.$route.query.rowId))
+        case BLOCK_TYPE.MAPDETAILVIEW: {
+          const row = await retrieveRow(this.$route.query.rowId)
+          this.$set(block, 'content', { data: [row] })
           break
+        }
       }
-
-      // if (block.settings.isDetail) {
-      //   this.$set(block, 'content', await retrieveRow(
-      //     this.$route.query.rowId
-      //   ))
-      // } else {
-      //   this.$set(block, 'content', await retrieveViewData(
-      //     block.definition.id,
-      //     currentOptions.page * currentOptions.itemsPerPage,
-      //     currentOptions.itemsPerPage,
-      //     currentOptions.sort,
-      //     currentOptions.filters
-      //   ))
-      // }
     },
     async loadBlockContentAndDefinition (block) {
       this.$set(block, 'loading', true)
       await this.loadBlockTableViewContentAndDefinition(block)
       this.$set(block, 'loading', false)
-      // switch (block.type) {
-      //   case BLOCK_TYPE.TABLE_VIEW:
-      //   case BLOCK_TYPE.MAPVIEW:
-      //   case BLOCK_TYPE.MAPDETAILVIEW:
-      //     this.$set(block, 'loading', true)
-      //     await this.loadBlockTableViewContentAndDefinition(block)
-      //     this.$set(block, 'loading', false)
-      //     break
-      //   case BLOCK_TYPE.DETAIL_VIEW:
-      //     this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
-      //     break
-      // }
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
