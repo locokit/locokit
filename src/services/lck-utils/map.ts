@@ -9,7 +9,7 @@ export const GEO_STYLE = {
     id: 'features-type-circle-layer-id',
     type: 'circle',
     paint: {
-      'circle-radius': 12,
+      'circle-radius': 10,
       'circle-color': '#ea0e0e',
       'circle-stroke-width': 2,
       'circle-stroke-color': '#FFFFFF'

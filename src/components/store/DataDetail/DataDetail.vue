@@ -86,7 +86,7 @@
           class="field-map"
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-map'"
           :resources="setRessources(column, row.data[column.id])"
-          :options="setOptions(column, row.data[column.id])"
+          :options="setOptions(row.data[column.id])"
         />
         <component
           v-else
@@ -112,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import { formatISO } from 'date-fns'
 import GeoJSON from 'ol/format/GeoJSON'
@@ -162,7 +162,7 @@ export default {
       required: false
     },
     definition: {
-      type: Object,
+      type: Object as PropType<() => { columns: Column[] }>,
       required: false,
       default: () => ({ columns: [] })
     },

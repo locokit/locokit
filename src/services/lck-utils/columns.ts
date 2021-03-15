@@ -47,7 +47,7 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
 }
 
 export function columnAncestor (column: Column): COLUMN_TYPE {
-  if (column.column_type_id === COLUMN_TYPE.FORMULA) return column.settings.formula_type_id
+  if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
   if (column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (column.parents && column.parents.length === 0) || !column.parents) {
     return column.column_type_id
   }
