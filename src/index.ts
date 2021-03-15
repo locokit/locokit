@@ -22,6 +22,18 @@ export enum COLUMN_TYPE {
   GEOMETRY_LINESTRING = 20,
 }
 
+export enum COLUMN_GEO_TYPE {
+  POINT = COLUMN_TYPE.GEOMETRY_POINT,
+  LINESTRING = COLUMN_TYPE.GEOMETRY_LINESTRING,
+  POLYGON = COLUMN_TYPE.GEOMETRY_POLYGON,
+}
+
+export enum AGGREGATE_FUNCTION {
+  SUM = 'SUM',
+  AVERAGE = 'AVG',
+  COUNT = 'COUNT',
+}
+
 export enum USER_PROFILE {
   ADMIN = 'ADMIN',
   SUPERADMIN = 'SUPERADMIN',
@@ -178,7 +190,6 @@ export interface BlockMedia extends Block {
 
 export interface MapSettings {
   id: string;// Id of the table_view in database
-  detailMode: boolean // filter data from the current row (detail)
   sources: {
     geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
     field: string; // column / field 's UUID
@@ -192,6 +203,7 @@ export interface MapSettings {
     }
   }[];
 }
+
 export interface MapView extends Block {
   type: BLOCK_TYPE.MAPVIEW;
   settings: MapSettings;
@@ -202,6 +214,15 @@ export interface MapDetailView extends Block {
   settings: MapSettings;
 }
 
+export interface SynthesisSettings {
+  id: string;// Id of the table_view in database.
+  columnId: string; // Id of the column. Select data to display.
+  prefix: string; // Add a prefix.
+  suffix: string; // Add a suffix.
+  aggregate: AGGREGATE_FUNCTION; // Parse data according to a function
+}
+
 export interface Synthesis extends Block {
   type: BLOCK_TYPE.SYNTHESIS;
+  settings: SynthesisSettings;
 }
