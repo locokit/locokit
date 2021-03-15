@@ -11,7 +11,7 @@ describe('authentication', () => {
   describe('local strategy', () => {
     const userInfo = {
       email: 'locokit@locokit.io',
-      name: 'Someone !'
+      name: 'Someone !',
     }
     const password = 'supersecret'
     let user: User
@@ -28,7 +28,7 @@ describe('authentication', () => {
     it('fail on authent if user is not verified', async () => {
       await expect(app.service('authentication').create({
         strategy: 'local',
-        ...userInfo
+        ...userInfo,
       }, {})).rejects.toThrow()
     })
 
@@ -37,13 +37,13 @@ describe('authentication', () => {
       const passwordHashed = await localStrategy.hashPassword('supersecret', {})
       await app.service('user')._patch(user.id, {
         isVerified: true,
-        password: passwordHashed
+        password: passwordHashed,
       }, {})
 
       const { user: newUser2, accessToken } = await app.service('authentication').create({
         strategy: 'local',
         email: userInfo.email,
-        password
+        password,
       }, {})
 
       expect(accessToken).toBeTruthy()
@@ -54,7 +54,7 @@ describe('authentication', () => {
       const { user: newUser2, accessToken } = await app.service('authentication').create({
         strategy: 'local',
         email: 'lOcOkiT@locokit.io',
-        password
+        password,
       }, {})
 
       expect(accessToken).toBeTruthy()

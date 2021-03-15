@@ -8,14 +8,14 @@ import hooks from './block.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'block': Block & ServiceAddons<any>;
+    'block': Block & ServiceAddons<any>
   }
 }
 
 export default function (app: Application) {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

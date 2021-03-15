@@ -9,14 +9,14 @@ export function removeTableColumnRelationTo (): Hook {
     if (context.method === 'remove' && context.type === 'before') {
       const isThereColumnRelation = await context.app.service('columnrelation').find({
         query: {
-          table_column_to_id: context.id
-        }
+          table_column_to_id: context.id,
+        },
       })
       if (isThereColumnRelation.total > 0) {
         await context.app.service('columnrelation').remove(null, {
           query: {
-            table_column_to_id: context.id
-          }
+            table_column_to_id: context.id,
+          },
         })
       }
     }

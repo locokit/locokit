@@ -16,12 +16,12 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
         $in: [
           ProcessTrigger.CREATE_ROW,
           ProcessTrigger.UPDATE_ROW,
-          ProcessTrigger.UPDATE_ROW_DATA
-        ]
+          ProcessTrigger.UPDATE_ROW_DATA,
+        ],
       },
-      enabled: true
+      enabled: true,
     },
-    paginate: false
+    paginate: false,
   })
 
   /**
@@ -52,9 +52,9 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
       needExecution && await context.app.services['process-run'].create({
         text: 'Triggering process ' + Date.now(),
         process_id: currentTrigger.id,
-        table_row_id: context.result.id
+        table_row_id: context.result.id,
       })
-    })
+    }),
   )
 
   return context

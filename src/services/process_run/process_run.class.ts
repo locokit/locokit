@@ -3,7 +3,7 @@ import { Application } from '../../declarations'
 import { ProcessRun as ProcessRunModel } from '../../models/process_run.model'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class ProcessRun extends Service<ProcessRunModel> {
@@ -13,7 +13,7 @@ export class ProcessRun extends Service<ProcessRunModel> {
 
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
   }
 }

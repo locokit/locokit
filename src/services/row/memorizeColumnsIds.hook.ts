@@ -10,7 +10,7 @@ export function memorizeColumnsIds (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     context.params._meta = {
       ...context.params._meta,
-      columnsIdsTransmitted: Object.keys(context.data.data || {})
+      columnsIdsTransmitted: Object.keys(context.data.data || {}),
     }
     return context
   }

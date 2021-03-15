@@ -7,30 +7,30 @@ import { Application } from '../declarations'
 
 export class TableViewColumn extends BaseModel {
   /* reference to the table view id */
-  table_column_id!: string;
+  table_column_id!: string
   /* reference to the table column id */
-  table_view_id!: string;
+  table_view_id!: string
   /* order of the column in the view table */
-  position?: number;
+  position?: number
   /* filter according to Default Query Operators of Feathersjs (e.g `{"$eq": "{userId}"}`) */
-  filter?: object;
+  filter?: object
   /* inject style css rules to the column (e.g `{"width": 583}`) */
-  style?: object;
+  style?: object
   /* whether the column has to be displayed */
-  displayed?: boolean;
+  displayed?: boolean
   /* whether the column is transmitted in the API response. Default value: `true` */
-  transmitted?: boolean;
+  transmitted?: boolean
   /* whether the column is editable. */
-  editable?: boolean;
+  editable?: boolean
   /* value which specify a data/template in order to parameterize a behaviour (e.g `{rowId}`) */
-  default?: string;
+  default?: string
   /* sorts values into a column. (e.g `ASC` or `DESC`) */
-  sort?: string;
+  sort?: string
 
   static get idColumn (): string[] {
     return [
       'table_view_id',
-      'table_column_id'
+      'table_column_id',
     ]
   }
 
@@ -49,10 +49,10 @@ export class TableViewColumn extends BaseModel {
         filter: { type: ['object', 'null'] },
         style: { type: ['object', 'null'] },
         displayed: { type: ['boolean', 'null'], default: true },
-        transmitted: { type: ['boolean', 'null'],},
+        transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
-        default: { type: ['string', 'null'] }
-      }
+        default: { type: ['string', 'null'] },
+      },
     }
   }
 

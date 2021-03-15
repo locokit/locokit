@@ -31,9 +31,9 @@ Sentry.init({
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
-    new Integrations.Express({ app })
+    new Integrations.Express({ app }),
   ],
-  tracesSampleRate: 1.0 // Be sure to lower this in production
+  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0, // Be sure to lower this in production
 })
 
 // Load app configuration
@@ -72,20 +72,20 @@ app.configure(swagger({
       description:
         'This is the swagger for **Low-Code Kit API platform**\n' +
         'Please use this swagger to test your ideas',
-      version: process.env.npm_version || 'unknown'
+      version: process.env.npm_version ?? 'unknown',
     },
     components: {
       securitySchemes: {
         BearerAuth: {
           type: 'http',
           scheme: 'bearer',
-          bearerFormat: 'JWT'
-        }
-      }
+          bearerFormat: 'JWT',
+        },
+      },
     },
     security: [{
-      BearerAuth: []
-    }]
+      BearerAuth: [],
+    }],
   },
   uiIndex: true,
   defaults: {
@@ -95,16 +95,16 @@ app.configure(swagger({
         [`${model}`]: {
           title: `${modelName}`,
           type: 'object',
-          items: { $ref: `#/components/schemas/${model}` }
+          items: { $ref: `#/components/schemas/${model}` },
         },
         [`${model}_list`]: {
           title: `${modelName} list`,
           type: 'array',
-          items: { $ref: `#/components/schemas/${model}_list` }
-        }
+          items: { $ref: `#/components/schemas/${model}_list` },
+        },
       }
-    }
-  }
+    },
+  },
 }))
 
 // Set up our services (see `services/index.js`)

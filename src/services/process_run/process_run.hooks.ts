@@ -13,8 +13,8 @@ const peResolvers = (context: HookContext) => {
     joins: {
       process: () => async (pe: ProcessRun) => {
         pe.process = await context.app.services.process.get(pe.process_id)
-      }
-    }
+      },
+    },
   }
 }
 
@@ -38,26 +38,26 @@ export default {
            * is the trigger event a MANUAL or CRON one ?
            */
           (context: HookContext) => {
-            return [
+            return ![
               ProcessTrigger.MANUAL,
-              ProcessTrigger.CRON
-            ].indexOf((context.data as ProcessRun).process?.trigger as ProcessTrigger) === -1
+              ProcessTrigger.CRON,
+            ].includes((context.data as ProcessRun).process?.trigger as ProcessTrigger)
           },
-          disallow()
+          disallow(),
         ).else(
-          discard('process')
-        )
+          discard('process'),
+        ),
       ).else(
-        discard('process')
-      )
+        discard('process'),
+      ),
     ],
     update: [
-      disallow()
+      disallow(),
     ],
     patch: [
 
     ],
-    remove: []
+    remove: [],
   },
 
   after: {
@@ -66,11 +66,11 @@ export default {
     get: [],
     create: [
       fastJoin(peResolvers, { process: true }),
-      runTheProcess
+      runTheProcess,
     ],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -80,6 +80,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 }

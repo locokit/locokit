@@ -22,7 +22,7 @@ export async function checkIfTableViewIsLocked (context: HookContext): Promise<H
   const currentView: TableView = await context.app.services.view.get(table_view_id)
   if (currentView.locked) {
     throw new NotAcceptable(ERROR_LABEL.VIEW_LOCKED, {
-      code: ERROR_CODE.VIEW_LOCKED
+      code: ERROR_CODE.VIEW_LOCKED,
     })
   }
   return context

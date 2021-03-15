@@ -8,7 +8,7 @@ import hooks from './table_view_has_table_column.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'table-view-has-table-column': TableViewHasTableColumn & ServiceAddons<any>;
+    'table-view-has-table-column': TableViewHasTableColumn & ServiceAddons<any>
   }
 }
 
@@ -33,9 +33,9 @@ export default function (app: Application): void {
       '$and',
       '$sort',
       '$any',
-      '$noSelect'
+      '$noSelect',
     ],
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

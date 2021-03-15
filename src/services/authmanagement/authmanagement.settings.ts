@@ -20,7 +20,7 @@ export enum AuthenticationManagementAction {
    * We use it when a user is created to send him/her the welcome email
    * telling him/her to verify email + set password
    */
-  sendVerifySignup = 'sendVerifySignup'
+  sendVerifySignup = 'sendVerifySignup',
 }
 
 const templateFolder = '/templates/mails'
@@ -31,67 +31,67 @@ export function authManagementSettings (app: Application) {
   }
 
   const actionOptions: Record<AuthenticationManagementAction, {
-    templateFile: string,
-    titleFile: string,
-    verifySignupPath?: string,
-    resetPasswordPath?: string,
+    templateFile: string
+    titleFile: string
+    verifySignupPath?: string
+    resetPasswordPath?: string
   }> = {
     /**
      * Mails including a link (verify or reset)
      */
     [AuthenticationManagementAction.sendResetPwd]: {
       templateFile: path.join(process.cwd(), templateFolder, '/sendResetPwd/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/sendResetPwd/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/sendResetPwd/title.ejs'),
     },
     [AuthenticationManagementAction.sendVerifySignup]: {
       templateFile: path.join(process.cwd(), templateFolder, '/sendVerifySignup/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/sendVerifySignup/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/sendVerifySignup/title.ejs'),
     },
     [AuthenticationManagementAction.resendVerifySignup]: {
       templateFile: path.join(process.cwd(), templateFolder, '/resendVerifySignup/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/resendVerifySignup/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/resendVerifySignup/title.ejs'),
     },
     /**
      * Mails for account information (enabled, password updated, or identity change)
      */
     [AuthenticationManagementAction.verifySignup]: {
       templateFile: path.join(process.cwd(), templateFolder, '/verifySignup/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/verifySignup/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/verifySignup/title.ejs'),
     },
     [AuthenticationManagementAction.verifySignupSetPassword]: {
       templateFile: path.join(process.cwd(), templateFolder, '/verifySignupSetPassword/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/verifySignupSetPassword/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/verifySignupSetPassword/title.ejs'),
     },
     [AuthenticationManagementAction.resetPwd]: {
       templateFile: path.join(process.cwd(), templateFolder, '/passwordChange/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs'),
     },
     [AuthenticationManagementAction.passwordChange]: {
       templateFile: path.join(process.cwd(), templateFolder, '/passwordChange/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs')
+      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs'),
     },
     [AuthenticationManagementAction.identityChange]: {
       templateFile: path.join(process.cwd(), templateFolder, '/identityChange/template.ejs'),
-      titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs')
-    }
+      titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs'),
+    },
   }
 
   return {
     service: '/user',
     async notifier (
       type: AuthenticationManagementAction,
-      user: LckUser
+      user: LckUser,
     ) {
       debug('notifier', type, user)
       const currentActionOption = actionOptions[type]
       const currentTemplateVars: {
-        portalLink: string,
-        user: LckUser,
-        verifySignupLink?: string,
+        portalLink: string
+        user: LckUser
+        verifySignupLink?: string
         resetPasswordLink?: string
       } = {
         portalLink: app.get('publicUrl'),
-        user
+        user,
       }
       switch (type) {
         case AuthenticationManagementAction.resendVerifySignup:
@@ -108,14 +108,14 @@ export function authManagementSettings (app: Application) {
       const emailSubject = await ejs.renderFile(
         currentActionOption.titleFile, {
           user,
-          portalName: app.get('publicPortalName')
+          portalName: app.get('publicPortalName'),
         })
 
       return await app.service('mailer').create({
         to: user.email,
         subject: emailSubject,
-        text: emailText
+        text: emailText,
       })
-    }
+    },
   }
 }

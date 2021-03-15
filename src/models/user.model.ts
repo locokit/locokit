@@ -2,38 +2,38 @@
 // for more of what you can do here.
 import { Application } from '@feathersjs/express'
 import { Group as LckGroup } from './group.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class User extends Model {
-  id!: number;
-  createdAt!: string;
-  updatedAt!: string;
-  email!: string;
-  name!: string;
-  password!: string;
-  profile!: string;
-  blocked!: boolean;
-  isVerified!: boolean;
-  verifyToken?: string;
-  verifyShortToken?: string;
-  verifyExpires?: string;
-  verifyChanges?: Object;
-  resetToken?: string | null;
-  resetShortToken?: string | null;
-  resetExpires?: string;
+  id!: number
+  createdAt!: string
+  updatedAt!: string
+  email!: string
+  name!: string
+  password!: string
+  profile!: string
+  blocked!: boolean
+  isVerified!: boolean
+  verifyToken?: string
+  verifyShortToken?: string
+  verifyExpires?: string
+  verifyChanges?: Object
+  resetToken?: string | null
+  resetShortToken?: string | null
+  resetExpires?: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'user'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       title: 'User',
       type: 'object',
       required: [
         'email',
         'password',
-        'name'
+        'name',
       ],
 
       properties: {
@@ -50,13 +50,13 @@ export class User extends Model {
         verifyChanges: { type: 'object' },
         resetToken: { type: ['string', 'null'] },
         resetShortToken: { type: ['string', 'null'] },
-        resetExpires: { type: 'date' }
+        resetExpires: { type: 'date' },
 
-      }
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       groups: {
         relation: Model.ManyToManyRelation,
@@ -70,15 +70,15 @@ export class User extends Model {
           through: {
             from: 'user_has_group.user_id',
             to: 'user_has_group.group_id',
-            extra: ['uhg_role']
+            extra: ['uhg_role'],
           },
-          to: 'user.id'
-        }
-      }
+          to: 'user.id',
+        },
+      },
     }
   }
 
-  $beforeInsert () {
+  $beforeInsert (): void {
     // eslint-disable-next-line no-multi-assign
     this.createdAt = this.updatedAt = new Date().toISOString()
     if (typeof (this.resetExpires) === 'number') {
@@ -89,7 +89,7 @@ export class User extends Model {
     }
   }
 
-  $beforeUpdate () {
+  $beforeUpdate (): void {
     this.updatedAt = new Date().toISOString()
     if (typeof (this.resetExpires) === 'number') {
       this.resetExpires = new Date(this.resetExpires).toISOString()
@@ -100,6 +100,6 @@ export class User extends Model {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof Model {
   return User
 }

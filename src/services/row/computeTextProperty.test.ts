@@ -3,15 +3,15 @@ import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
 describe('computeTextProperty hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
-  let table2: table
+  let table1: Table
+  let table2: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable2Ref: TableColumn
@@ -27,48 +27,48 @@ describe('computeTextProperty hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1FirstName = await app.service('column').create({
       text: 'FirstName',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id,
       reference: true,
-      reference_position: 1
+      reference_position: 1,
     })
     columnTable1LastName = await app.service('column').create({
       text: 'LastName',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id,
       reference: true,
-      reference_position: 2
+      reference_position: 2,
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
-        tableId: table1.id
-      }
+        tableId: table1.id,
+      },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
       text: 'Ref',
@@ -77,13 +77,13 @@ describe('computeTextProperty hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1User.id
-      }
+        foreignField: columnTable1User.id,
+      },
     })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-text-property@locokit.io',
-      password: 'locokit'
+      password: 'locokit',
     })
   })
 
@@ -93,8 +93,8 @@ describe('computeTextProperty hook', () => {
       table_id: table1.id,
       data: {
         [columnTable1FirstName.id]: 'first name',
-        [columnTable1LastName.id]: 'last name'
-      }
+        [columnTable1LastName.id]: 'last name',
+      },
     })
     expect.assertions(3)
     expect(rowTable1.text).toBe('first name last name')
@@ -109,8 +109,8 @@ describe('computeTextProperty hook', () => {
       text: 'table 1 ref',
       data: {
         [columnTable1FirstName.id]: 'first name',
-        [columnTable1LastName.id]: 'last name'
-      }
+        [columnTable1LastName.id]: 'last name',
+      },
     })
     expect.assertions(3)
     expect(rowTable1.text).toBe('table 1 ref')

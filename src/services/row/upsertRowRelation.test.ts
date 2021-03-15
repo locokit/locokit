@@ -3,15 +3,15 @@ import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
 describe('upsertRowRelation hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
-  let table2: table
+  let table1: Table
+  let table2: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable2Ref: TableColumn
@@ -26,34 +26,34 @@ describe('upsertRowRelation hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
-        tableId: table1.id
-      }
+        tableId: table1.id,
+      },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
       text: 'Ref',
@@ -62,13 +62,13 @@ describe('upsertRowRelation hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
-        foreignField: columnTable1User.id
-      }
+        foreignField: columnTable1User.id,
+      },
     })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-upsert@locokit.io',
-      password: 'locokit'
+      password: 'locokit',
     })
   })
 
@@ -78,15 +78,15 @@ describe('upsertRowRelation hook', () => {
       table_id: table1.id,
       text: 'table 1 ref',
       data: {
-        [columnTable1User.id]: user1.id
-      }
+        [columnTable1User.id]: user1.id,
+      },
     })
     rowTable2 = await service.create({
       table_id: table2.id,
       text: 'table 2 ref',
       data: {
-        [columnTable2RelationBetweenTable1.id]: rowTable1.id
-      }
+        [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+      },
     })
   })
   it('create a relation between 2 rows when columns are related', async () => {
@@ -95,8 +95,8 @@ describe('upsertRowRelation hook', () => {
       query: {
         table_row_from_id: rowTable1.id,
         table_row_to_id: rowTable2.id,
-        table_column_to_id: columnTable2RelationBetweenTable1.id
-      }
+        table_column_to_id: columnTable2RelationBetweenTable1.id,
+      },
     })
     expect(relation.total).toBe(1)
   })

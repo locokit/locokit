@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model } from 'objection'
+import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 import { Process as ProcessModel } from './process.model'
@@ -11,17 +11,17 @@ export enum ProcessRunStatus {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
   WARNING = 'WARNING',
-  RUNNING = 'RUNNING'
+  RUNNING = 'RUNNING',
 }
 export class ProcessRun extends BaseModel {
-  status?: ProcessRunStatus;
-  duration?: number;
-  log?: string;
-  settings?: object;
-  process_id!: string;
-  process?: ProcessModel;
-  table_row_id?: string;
-  table_row?: TableRow;
+  status?: ProcessRunStatus
+  duration?: number
+  log?: string
+  settings?: object
+  process_id!: string
+  process?: ProcessModel
+  table_row_id?: string
+  table_row?: TableRow
 
   static get tableName (): string {
     return 'process_run'
@@ -31,7 +31,7 @@ export class ProcessRun extends BaseModel {
     return {
       type: 'object',
       required: [
-        'process_id'
+        'process_id',
       ],
 
       properties: {
@@ -42,12 +42,12 @@ export class ProcessRun extends BaseModel {
         log: { type: 'string' },
         settings: { type: 'object' },
         process_id: { type: 'string' },
-        table_row_id: { type: 'string' }
-      }
+        table_row_id: { type: 'string' },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       process: {
         relation: Model.HasOneRelation,
@@ -58,8 +58,8 @@ export class ProcessRun extends BaseModel {
         modelClass: ProcessModel,
         join: {
           from: 'process_run.process_id',
-          to: 'process.id'
-        }
+          to: 'process.id',
+        },
       },
       table_row: {
         relation: Model.HasOneRelation,
@@ -70,9 +70,9 @@ export class ProcessRun extends BaseModel {
         modelClass: TableRow,
         join: {
           from: 'process_run.table_row_id',
-          to: 'table_row.id'
-        }
-      }
+          to: 'table_row.id',
+        },
+      },
     }
   }
 

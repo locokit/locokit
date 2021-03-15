@@ -8,7 +8,7 @@ import hooks from './process_run.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'process-run': ProcessRun & ServiceAddons<any>;
+    'process-run': ProcessRun & ServiceAddons<any>
   }
 }
 
@@ -16,7 +16,7 @@ export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     paginate: app.get('paginate'),
-    multi: ['remove']
+    multi: ['remove'],
   }
 
   // Initialize our service with any options it requires

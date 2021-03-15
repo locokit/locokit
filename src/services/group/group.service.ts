@@ -8,7 +8,7 @@ import hooks from './group.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'group': Group & ServiceAddons<any>;
+    'group': Group & ServiceAddons<any>
   }
 }
 
@@ -37,10 +37,10 @@ export default function (app: Application) {
       '$modifyEager',
       '$joinRelation',
       '$joinRelated',
-      '$joinEager'
+      '$joinEager',
     ],
     allowedEager: '[users, workspace.[chapters], chapter]',
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

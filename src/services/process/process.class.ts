@@ -3,7 +3,7 @@ import { Application } from '../../declarations'
 import { Process as ProcessModel } from '../../models/process.model'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class Process extends Service<ProcessModel> {
@@ -13,7 +13,7 @@ export class Process extends Service<ProcessModel> {
 
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
   }
 }

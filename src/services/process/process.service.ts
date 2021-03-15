@@ -8,7 +8,7 @@ import hooks from './process.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'process': Process & ServiceAddons<any>;
+    'process': Process & ServiceAddons<any>
   }
 }
 
@@ -36,10 +36,10 @@ export default function (app: Application): void {
       '$any',
       '$joinRelation',
       '$joinEager',
-      '$modifyEager'
+      '$modifyEager',
     ],
     allowedEager: '[runs, table]',
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

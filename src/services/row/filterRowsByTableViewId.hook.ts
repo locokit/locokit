@@ -14,9 +14,9 @@ export default function filterRowsByTableViewId (): Hook {
       const { table_view_id } = context.params.query
       const tableView = await context.app.services.view.get(table_view_id, {
         query: {
-          $eager: 'columns'
+          $eager: 'columns',
         },
-        paginate: false
+        paginate: false,
       })
       const filtersToAdd: { [key: string]: Object } = {};
       (tableView.columns as TableColumnDTO[])
@@ -58,8 +58,8 @@ export default function filterRowsByTableViewId (): Hook {
         table_id: tableView.table_id,
         data: {
           ...context.params.query.data,
-          ...filtersToAdd
-        }
+          ...filtersToAdd,
+        },
       }
     }
     return context

@@ -1,12 +1,12 @@
 import PasswordValidator from 'password-validator'
 
 export class PasswordValidatorRules {
-  minLength!: number;
-  maxLength!: number;
-  uppercase!: boolean;
-  lowercase!: boolean;
-  digits!: boolean;
-  symbols!: boolean;
+  minLength!: number
+  maxLength!: number
+  uppercase!: boolean
+  lowercase!: boolean
+  digits!: boolean
+  symbols!: boolean
 }
 
 export function createPasswordValidator (rules: PasswordValidatorRules): PasswordValidator {

@@ -2,24 +2,24 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { table as LckTable } from './table.model'
-import { Model } from 'objection'
+import { Table as LckTable } from './table.model'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export interface RowData {
   [key: string]: string | { reference: string, value: string }
 }
 
 export class TableRow extends BaseModel {
-  text!: string;
-  data!: RowData;
+  text!: string
+  data!: RowData
   // eslint-disable-next-line camelcase
-  table_id!: string;
+  table_id!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'table_row'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['table_id'],
@@ -27,12 +27,12 @@ export class TableRow extends BaseModel {
       properties: {
         text: { type: 'string' },
         data: { type: 'object' },
-        table_id: { type: 'string' }
-      }
+        table_id: { type: 'string' },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       table: {
         relation: Model.BelongsToOneRelation,
@@ -43,13 +43,13 @@ export class TableRow extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'table_row.table_id',
-          to: 'table.id'
-        }
-      }
+          to: 'table.id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof TableRow {
   return TableRow
 }

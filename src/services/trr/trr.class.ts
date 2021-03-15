@@ -1,18 +1,18 @@
-import { Service, ObjectionServiceOptions } from 'feathers-objection';
-import { Application } from '../../declarations';
+import { Service, ObjectionServiceOptions } from 'feathers-objection'
+import { Application } from '../../declarations'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class Trr extends Service {
-  //eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(options: Partial<Options>, app: Application) {
-    const { Model, ...otherOptions } = options;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor (options: Partial<Options>, app: Application) {
+    const { Model, ...otherOptions } = options
 
     super({
       ...otherOptions,
-      model: Model
-    });
+      model: Model,
+    })
   }
 }

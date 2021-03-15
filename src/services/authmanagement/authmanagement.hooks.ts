@@ -17,24 +17,24 @@ export default {
       hooks.iff(
         isAction(
           'passwordChange',
-          'identityChange'
+          'identityChange',
         ),
         authenticate('jwt'),
         hooks.iff(
           isAction('passwordChange'),
-          enforcePasswordPolicy(getPassword)
-        )
+          enforcePasswordPolicy(getPassword),
+        ),
       ).else(
         hooks.iff(
           isAction(
             'verifySignupSetPasswordLong',
             'verifySignupSetPasswordShort',
             'resetPwdLong',
-            'resetPwdShort'
+            'resetPwdShort',
           ),
-          enforcePasswordPolicy(getPassword)
-        )
-      )
-    ]
-  }
+          enforcePasswordPolicy(getPassword),
+        ),
+      ),
+    ],
+  },
 }

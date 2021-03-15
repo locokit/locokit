@@ -1,4 +1,4 @@
-import { Hook, HookContext } from "@feathersjs/feathers";
+import { Hook, HookContext } from '@feathersjs/feathers'
 
 /**
  * Historize all events on a row :
@@ -9,25 +9,25 @@ import { Hook, HookContext } from "@feathersjs/feathers";
  */
 export function historizeDataEvents (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    switch(context.method) {
+    switch (context.method) {
       case 'create':
         console.log(
           'event to historize',
           'by', context.params.user,
           'row.create',
           'from:', null,
-          'to', context.result
+          'to', context.result,
         )
-        break;
+        break
       case 'update':
         console.log(
           'event to historize',
           'by', context.params.user,
           'row.update',
           'from:', context.params._meta.row,
-          'to', context.result
+          'to', context.result,
         )
-        break;
+        break
       case 'patch':
         console.log(
           'event to historize',
@@ -36,15 +36,15 @@ export function historizeDataEvents (): Hook {
           'from:',
           context.params._meta.columnsIdsTransmitted.map((columnId: string) => ({
             reference: columnId,
-            value: context.params._meta.row.data[columnId]
+            value: context.params._meta.row.data[columnId],
           })),
           'to:',
           context.params._meta.columnsIdsTransmitted.map((columnId: string) => ({
             reference: columnId,
-            value: context.result.data[columnId]
+            value: context.result.data[columnId],
           })),
         )
-        break;
+        break
       case 'remove':
         console.log(
           'event to historize',
@@ -52,8 +52,8 @@ export function historizeDataEvents (): Hook {
           'row.remove',
           'from:', context.params._meta.row,
         )
-        break;
+        break
     }
-    return context;
-  };
+    return context
+  }
 }

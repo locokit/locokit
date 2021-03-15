@@ -3,7 +3,7 @@ import app from '../../app'
 import { database } from '../../models/database.model'
 import { ProcessTrigger } from '../../models/process.model'
 
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
 import { workspace } from '../../models/workspace.model'
@@ -13,11 +13,11 @@ import axios, { AxiosRequestConfig } from 'axios'
 describe('\'triggerProcess\' hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
   let tableRow: TableRow
-  const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined) : Promise<any> => {
+  const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
     return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
   })
   const originalAxiosPost = axios.post
@@ -33,17 +33,17 @@ describe('\'triggerProcess\' hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     tableColumn = await app.service('column').create({
       text: 'My string column',
       table_id: table1.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
     tableColumn1 = await app.service('column').create({
       text: 'My other column',
       table_id: table1.id,
-      column_type_id: COLUMN_TYPE.STRING
+      column_type_id: COLUMN_TYPE.STRING,
     })
   })
 
@@ -54,18 +54,18 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       data: {
         [tableColumn.id]: 'This is a string',
-        [tableColumn1.id]: 'This is another string'
-      }
+        [tableColumn1.id]: 'This is another string',
+      },
     })
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn.id]: 'yolo'
-      }
+        [tableColumn.id]: 'yolo',
+      },
     })
     await app.service('row').remove(tableRow.id)
 
     const allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
     expect(allExecutions.length).toBe(0)
   })
@@ -76,30 +76,30 @@ describe('\'triggerProcess\' hook', () => {
     const processTriggerManual = await app.service('process').create({
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
-      enabled: true
+      enabled: true,
     })
     const processTriggerCron = await app.service('process').create({
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
-      enabled: true
+      enabled: true,
     })
     tableRow = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
         [tableColumn.id]: 'This is a string',
-        [tableColumn1.id]: 'This is another string'
-      }
+        [tableColumn1.id]: 'This is another string',
+      },
     })
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn.id]: 'yolo'
-      }
+        [tableColumn.id]: 'yolo',
+      },
     })
     await app.service('row').remove(tableRow.id)
 
     const allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
     expect(allExecutions.length).toBe(0)
 
@@ -112,24 +112,24 @@ describe('\'triggerProcess\' hook', () => {
     const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
       trigger: ProcessTrigger.CREATE_ROW,
-      enabled: true
+      enabled: true,
     })
     tableRow = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
         [tableColumn.id]: 'This is a string',
-        [tableColumn1.id]: 'This is another string'
-      }
+        [tableColumn1.id]: 'This is another string',
+      },
     })
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn.id]: 'yolo'
-      }
+        [tableColumn.id]: 'yolo',
+      },
     })
 
     const allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
     expect(allExecutions.length).toBe(1)
     expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
@@ -146,29 +146,29 @@ describe('\'triggerProcess\' hook', () => {
     const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
-      enabled: true
+      enabled: true,
     })
     tableRow = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
         [tableColumn.id]: 'This is a string',
-        [tableColumn1.id]: 'This is another string'
-      }
+        [tableColumn1.id]: 'This is another string',
+      },
     })
     let allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
     expect(allExecutions.length).toBe(0)
 
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn.id]: 'yolo'
-      }
+        [tableColumn.id]: 'yolo',
+      },
     })
 
     allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
 
     expect(allExecutions.length).toBe(1)
@@ -189,19 +189,19 @@ describe('\'triggerProcess\' hook', () => {
       trigger: ProcessTrigger.UPDATE_ROW_DATA,
       enabled: true,
       settings: {
-        column_id: tableColumn1.id
-      }
+        column_id: tableColumn1.id,
+      },
     })
     tableRow = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
         [tableColumn.id]: 'This is a string',
-        [tableColumn1.id]: 'This is another string'
-      }
+        [tableColumn1.id]: 'This is another string',
+      },
     })
     let allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
     expect(allExecutions.length).toBe(0)
 
@@ -211,12 +211,12 @@ describe('\'triggerProcess\' hook', () => {
      */
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn.id]: 'yolo'
-      }
+        [tableColumn.id]: 'yolo',
+      },
     })
 
     allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
 
     expect(allExecutions.length).toBe(0)
@@ -227,12 +227,12 @@ describe('\'triggerProcess\' hook', () => {
      */
     await app.service('row').patch(tableRow.id, {
       data: {
-        [tableColumn1.id]: 'yolo'
-      }
+        [tableColumn1.id]: 'yolo',
+      },
     })
 
     allExecutions = await app.service('process-run').find({
-      paginate: false
+      paginate: false,
     })
 
     expect(allExecutions.length).toBe(1)

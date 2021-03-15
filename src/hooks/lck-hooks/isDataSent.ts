@@ -1,4 +1,4 @@
-import { HookContext } from '@feathersjs/feathers';
+import { HookContext } from '@feathersjs/feathers'
 
 /**
  * Is the context's data containing the field "data" ?

@@ -13,20 +13,20 @@ export function computeLookedUpColumns (): Hook {
     // first, find rows linked to this current row (trr.table_row_from_id)
     const linkedRows = await context.app.services.trr.find({
       query: {
-        table_row_from_id: context.result.id
+        table_row_from_id: context.result.id,
       },
-      paginate: false
+      paginate: false,
     }) as TableRowRelation[]
 
     // find if some of the columns are linked to other via table_column_relation
     const linkedColumns = await context.app.services.columnrelation.find({
       query: {
         table_column_from_id: {
-          $in: context.params._meta.columnsIdsTransmitted
+          $in: context.params._meta.columnsIdsTransmitted,
         },
-        $eager: 'from'
+        $eager: 'from',
       },
-      paginate: false
+      paginate: false,
     }) as TableColumnRelation[]
 
     // update each linked row, by setting the new value for all columns related to this row
@@ -37,12 +37,12 @@ export function computeLookedUpColumns (): Hook {
         const columnIdsOfRowToUpdate = Object.keys(rowToUpdate.data)
 
         const columnsToUpdate = linkedColumns
-          .filter(c => columnIdsOfRowToUpdate.indexOf(c.table_column_to_id) > -1)
+          .filter(c => columnIdsOfRowToUpdate.includes(c.table_column_to_id))
 
         const newData: Record<string, {
-            reference: string,
-            value: string
-          }> = {}
+          reference: string
+          value: string
+        }> = {}
 
         /**
          * For each column to update, we'll update the newData object.
@@ -54,19 +54,19 @@ export function computeLookedUpColumns (): Hook {
           switch (c.from?.column_type_id) {
             case COLUMN_TYPE.USER:
               newData[c.table_column_to_id] = {
-                ...currentValue
+                ...currentValue,
               }
               break
             case COLUMN_TYPE.MULTI_USER:
               newData[c.table_column_to_id] = {
                 reference: currentValue.reference,
-                value: currentValue.value.join(', ')
+                value: currentValue.value.join(', '),
               }
               break
             default:
               newData[c.table_column_to_id] = {
                 reference: context.result.id,
-                value: context.result.data[c.table_column_from_id]
+                value: context.result.data[c.table_column_from_id],
               }
           }
         })
@@ -80,10 +80,10 @@ export function computeLookedUpColumns (): Hook {
         await context.service._patch(rowToUpdate.id, {
           data: {
             ...rowToUpdate.data,
-            ...newData
-          }
+            ...newData,
+          },
         }, {})
-      })
+      }),
     )
     return context
   }

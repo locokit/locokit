@@ -2,10 +2,7 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
-// import { TableColumnDTO, LckColumnFilter } from '../../models/tableview.model'
-// import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { raw, ref, ColumnRef } from 'objection'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { ref, ColumnRef } from 'objection'
 import { TableRow } from '../../models/tablerow.model'
 
 /**
@@ -17,7 +14,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
     /**
      * Only for find / get
      */
-    const $select: (string | ColumnRef)[] = ['text']
+    const $select: Array<string | ColumnRef> = ['text']
     context.params._meta.columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
         default:
@@ -26,7 +23,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
     })
     context.params.query = {
       ...context.params.query,
-      $select
+      $select,
     }
     return context
   }
@@ -37,7 +34,7 @@ function rebuild (items: TableRow[], columns: TableColumn[]) {
     const newData = {
       id: d.id,
       text: d.text,
-      data: {} as Record<string, any>
+      data: {} as Record<string, any>,
     }
     columns.forEach((c: TableColumn) => {
       switch (c.column_type_id) {
@@ -49,7 +46,7 @@ function rebuild (items: TableRow[], columns: TableColumn[]) {
   })
 }
 /**
- * Build the data object, and transform geojson in true JSON
+ * Build the data object
  */
 export function rebuildData (): Hook {
   return async (context: HookContext): Promise<HookContext> => {

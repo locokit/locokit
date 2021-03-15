@@ -2,29 +2,29 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { table as LckTable } from './table.model'
-import { Model } from 'objection'
+import { Table as LckTable } from './table.model'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 import { workspace } from './workspace.model'
 
 export class database extends BaseModel {
-  text!: string;
+  text!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'database'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
 
       properties: {
-        text: { type: 'string' }
-      }
+        text: { type: 'string' },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       tables: {
         relation: Model.HasManyRelation,
@@ -35,37 +35,21 @@ export class database extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'database.id',
-          to: 'table.database_id'
-        }
+          to: 'table.database_id',
+        },
       },
       workspace: {
         relation: Model.HasOneRelation,
         modelClass: workspace,
         join: {
           from: 'database.workspace_id',
-          to: 'workspace.id'
-        }
-      }
+          to: 'workspace.id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
-  // const db: Knex = app.get('knex');
-
-  // db.schema.hasTable('database').then(exists => {
-  //   if (!exists) {
-  //     db.schema.createTable('database', table => {
-  //       table.increments('id');
-  //       table.string('text');
-  //       table.timestamp('createdAt');
-  //       table.timestamp('updatedAt');
-  //     })
-  //       .then(() => console.log('Created database table')) // eslint-disable-line no-console
-  //       .catch(e => console.error('Error creating database table', e)); // eslint-disable-line no-console
-  //   }
-  // })
-  //   .catch(e => console.error('Error creating database table', e)); // eslint-disable-line no-console
-
+export default function (app: Application): typeof database {
   return database
 }

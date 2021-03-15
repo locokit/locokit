@@ -2,7 +2,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
 
@@ -134,8 +134,8 @@ const ewktLinestring = 'SRID=4326;LINESTRING (37.265625 52.5897007687178,41.4843
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: workspace
   let database: database
-  let table1: table
-  let table2: table
+  let table1: Table
+  let table2: Table
   let columnTable1Boolean: TableColumn
   let columnTable1Number: TableColumn
   let columnTable1Date: TableColumn
@@ -169,64 +169,64 @@ describe('checkColumnDefinitionMatching hook', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
     table2 = await app.service('table').create({
       text: 'table2',
-      database_id: database.id
+      database_id: database.id,
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable2Name = await app.service('column').create({
       text: 'Name',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table2.id
+      table_id: table2.id,
     })
     columnTable1Boolean = await app.service('column').create({
       text: 'Boolean',
       column_type_id: COLUMN_TYPE.BOOLEAN,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Number = await app.service('column').create({
       text: 'Number',
       column_type_id: COLUMN_TYPE.NUMBER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Date = await app.service('column').create({
       text: 'Date',
       column_type_id: COLUMN_TYPE.DATE,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1String = await app.service('column').create({
       text: 'String',
       column_type_id: COLUMN_TYPE.STRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Float = await app.service('column').create({
       text: 'Float',
       column_type_id: COLUMN_TYPE.FLOAT,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Group = await app.service('column').create({
       text: 'Group',
       column_type_id: COLUMN_TYPE.GROUP,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1RelationBetweenTables = await app.service('column').create({
       text: 'RelationBetweenTables',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table1.id,
       settings: {
-        tableId: table2.id
-      }
+        tableId: table2.id,
+      },
     })
     columnTable1LookedUpColumn = await app.service('column').create({
       text: 'LookedUpColumn',
@@ -235,8 +235,8 @@ describe('checkColumnDefinitionMatching hook', () => {
       settings: {
         tableId: table1.id,
         localField: columnTable1RelationBetweenTables.id,
-        foreignField: columnTable2Name.id
-      }
+        foreignField: columnTable2Name.id,
+      },
     })
     columnTable1SingleSelect = await app.service('column').create({
       text: 'SingleSelect',
@@ -245,16 +245,16 @@ describe('checkColumnDefinitionMatching hook', () => {
       settings: {
         values: {
           [singleSelectOption1UUID]: {
-            label: 'option 1'
+            label: 'option 1',
           },
           [singleSelectOption2UUID]: {
-            label: 'option 2'
+            label: 'option 2',
           },
           [singleSelectOption3UUID]: {
-            label: 'option 3'
-          }
-        }
-      }
+            label: 'option 3',
+          },
+        },
+      },
     })
     columnTable1MultiSelect = await app.service('column').create({
       text: 'MultiSelect',
@@ -263,61 +263,61 @@ describe('checkColumnDefinitionMatching hook', () => {
       settings: {
         values: {
           [singleSelectOption1UUID]: {
-            label: 'option 1'
+            label: 'option 1',
           },
           [singleSelectOption2UUID]: {
-            label: 'option 2'
+            label: 'option 2',
           },
           [singleSelectOption3UUID]: {
-            label: 'option 3'
-          }
-        }
-      }
+            label: 'option 3',
+          },
+        },
+      },
     })
     columnTable1Formula = await app.service('column').create({
       text: 'Formula',
       column_type_id: COLUMN_TYPE.FORMULA,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1File = await app.service('column').create({
       text: 'File',
       column_type_id: COLUMN_TYPE.FILE,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1MultiUser = await app.service('column').create({
       text: 'MultiUser',
       column_type_id: COLUMN_TYPE.MULTI_USER,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1MultiGroup = await app.service('column').create({
       text: 'MultiGroup',
       column_type_id: COLUMN_TYPE.MULTI_GROUP,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1Text = await app.service('column').create({
       text: 'Text',
       column_type_id: COLUMN_TYPE.TEXT,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1URL = await app.service('column').create({
       text: 'URL',
       column_type_id: COLUMN_TYPE.URL,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1GeomPoint = await app.service('column').create({
       text: 'POINT',
       column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1GeomLinestring = await app.service('column').create({
       text: 'LINESTRING',
       column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
-      table_id: table1.id
+      table_id: table1.id,
     })
     columnTable1GeomPolygon = await app.service('column').create({
       text: 'POLYGON',
       column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
-      table_id: table1.id
+      table_id: table1.id,
     })
   })
 
@@ -326,9 +326,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Boolean.id]: 'you lose'
+          [columnTable1Boolean.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -338,9 +338,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Boolean.id]: null
+          [columnTable1Boolean.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -352,9 +352,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Boolean.id]: true
+          [columnTable1Boolean.id]: true,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -366,9 +366,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Number.id]: 'you lose'
+          [columnTable1Number.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -378,9 +378,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Number.id]: null
+          [columnTable1Number.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -392,9 +392,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Number.id]: 123456
+          [columnTable1Number.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -406,9 +406,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Float.id]: 'you lose'
+          [columnTable1Float.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -418,9 +418,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Float.id]: null
+          [columnTable1Float.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -432,9 +432,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Float.id]: 123.456
+          [columnTable1Float.id]: 123.456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -446,9 +446,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Date.id]: 123456
+          [columnTable1Date.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -458,9 +458,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Date.id]: null
+          [columnTable1Date.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -472,9 +472,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Date.id]: 'you lose...'
+          [columnTable1Date.id]: 'you lose...',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -484,9 +484,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Date.id]: '2020-10-29'
+          [columnTable1Date.id]: '2020-10-29',
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -498,9 +498,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1SingleSelect.id]: 123456
+          [columnTable1SingleSelect.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -510,9 +510,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1SingleSelect.id]: null
+          [columnTable1SingleSelect.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -524,9 +524,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1SingleSelect.id]: 'you lose...'
+          [columnTable1SingleSelect.id]: 'you lose...',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -536,9 +536,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1SingleSelect.id]: singleSelectOption1UUID
+          [columnTable1SingleSelect.id]: singleSelectOption1UUID,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -550,9 +550,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiSelect.id]: 123456
+          [columnTable1MultiSelect.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -562,9 +562,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiSelect.id]: 'you lose'
+          [columnTable1MultiSelect.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -574,9 +574,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiSelect.id]: null
+          [columnTable1MultiSelect.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -588,9 +588,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiSelect.id]: []
+          [columnTable1MultiSelect.id]: [],
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -603,10 +603,10 @@ describe('checkColumnDefinitionMatching hook', () => {
       .create({
         data: {
           [columnTable1MultiSelect.id]: [
-            'you lose...'
-          ]
+            'you lose...',
+          ],
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -618,10 +618,10 @@ describe('checkColumnDefinitionMatching hook', () => {
         data: {
           [columnTable1MultiSelect.id]: [
             singleSelectOption1UUID,
-            'you lose...'
-          ]
+            'you lose...',
+          ],
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -633,10 +633,10 @@ describe('checkColumnDefinitionMatching hook', () => {
         data: {
           [columnTable1MultiSelect.id]: [
             singleSelectOption1UUID,
-            singleSelectOption2UUID
-          ]
+            singleSelectOption2UUID,
+          ],
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -648,9 +648,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1String.id]: 123
+          [columnTable1String.id]: 123,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -660,9 +660,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1String.id]: null
+          [columnTable1String.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -674,9 +674,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1String.id]: 'that works'
+          [columnTable1String.id]: 'that works',
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -688,9 +688,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Text.id]: 123456
+          [columnTable1Text.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -700,9 +700,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Text.id]: null
+          [columnTable1Text.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -714,9 +714,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Text.id]: 'that works'
+          [columnTable1Text.id]: 'that works',
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -728,9 +728,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1RelationBetweenTables.id]: 123456
+          [columnTable1RelationBetweenTables.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -740,9 +740,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1RelationBetweenTables.id]: null
+          [columnTable1RelationBetweenTables.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -754,9 +754,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1RelationBetweenTables.id]: 'you lose'
+          [columnTable1RelationBetweenTables.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -767,16 +767,16 @@ describe('checkColumnDefinitionMatching hook', () => {
       .create({
         data: {
           [columnTable2Name.id]: 'I\'m jack',
-          [columnTable2Ref.id]: 'do not know'
+          [columnTable2Ref.id]: 'do not know',
         },
-        table_id: table2.id
+        table_id: table2.id,
       })
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1RelationBetweenTables.id]: rowTable2.id
+          [columnTable1RelationBetweenTables.id]: rowTable2.id,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -789,9 +789,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1User.id]: 'you lose'
+          [columnTable1User.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -801,9 +801,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1User.id]: null
+          [columnTable1User.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -815,9 +815,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1User.id]: 123456
+          [columnTable1User.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -827,14 +827,14 @@ describe('checkColumnDefinitionMatching hook', () => {
     const user = await app.service('user')
       .create({
         name: 'Jack',
-        email: 'hello-check@locokit.io'
+        email: 'hello-check@locokit.io',
       })
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1User.id]: user.id
+          [columnTable1User.id]: user.id,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -847,9 +847,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Group.id]: 123456
+          [columnTable1Group.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -859,9 +859,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Group.id]: null
+          [columnTable1Group.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -873,9 +873,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Group.id]: 'you lose'
+          [columnTable1Group.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -884,14 +884,14 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect.assertions(2)
     const group = await app.service('group')
       .create({
-        name: 'Jack'
+        name: 'Jack',
       })
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Group.id]: group.id
+          [columnTable1Group.id]: group.id,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -904,9 +904,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1LookedUpColumn.id]: 123456
+          [columnTable1LookedUpColumn.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -916,9 +916,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1LookedUpColumn.id]: null
+          [columnTable1LookedUpColumn.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -930,9 +930,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1Formula.id]: 123456
+          [columnTable1Formula.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -942,9 +942,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Formula.id]: null
+          [columnTable1Formula.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -956,9 +956,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1File.id]: 123456
+          [columnTable1File.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -968,9 +968,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1File.id]: null
+          [columnTable1File.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -982,9 +982,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: 123456
+          [columnTable1MultiUser.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -994,9 +994,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: 'you lose'
+          [columnTable1MultiUser.id]: 'you lose',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1006,9 +1006,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: null
+          [columnTable1MultiUser.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1020,9 +1020,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: []
+          [columnTable1MultiUser.id]: [],
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1034,9 +1034,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: [1, '2', 3]
+          [columnTable1MultiUser.id]: [1, '2', 3],
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1046,9 +1046,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: [-1, -2, -3]
+          [columnTable1MultiUser.id]: [-1, -2, -3],
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1058,20 +1058,20 @@ describe('checkColumnDefinitionMatching hook', () => {
     const user1 = await app.service('user')
       .create({
         name: 'Jack',
-        email: 'hello-check-1@locokit.io'
+        email: 'hello-check-1@locokit.io',
       })
     const user2 = await app.service('user')
       .create({
         name: 'Jack',
-        email: 'hello-check-2@locokit.io'
+        email: 'hello-check-2@locokit.io',
       })
 
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiUser.id]: [user1.id, user2.id]
+          [columnTable1MultiUser.id]: [user1.id, user2.id],
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1085,9 +1085,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiGroup.id]: 123456
+          [columnTable1MultiGroup.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1097,9 +1097,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1MultiGroup.id]: null
+          [columnTable1MultiGroup.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1111,9 +1111,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1URL.id]: 123
+          [columnTable1URL.id]: 123,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1123,9 +1123,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1URL.id]: 'www.makina-corpus.com'
+          [columnTable1URL.id]: 'www.makina-corpus.com',
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1135,9 +1135,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1URL.id]: null
+          [columnTable1URL.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1149,9 +1149,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1URL.id]: 'http://www.makina-corpus.com'
+          [columnTable1URL.id]: 'http://www.makina-corpus.com',
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1166,9 +1166,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: 123
+          [columnTable1GeomPoint.id]: 123,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1178,9 +1178,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: {}
+          [columnTable1GeomPoint.id]: {},
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1190,9 +1190,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: ewktPolygon
+          [columnTable1GeomPoint.id]: ewktPolygon,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1202,9 +1202,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: null
+          [columnTable1GeomPoint.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1216,9 +1216,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPoint.id]: ewktPoint
+          [columnTable1GeomPoint.id]: ewktPoint,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1231,9 +1231,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: 123
+          [columnTable1GeomLinestring.id]: 123,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1243,9 +1243,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: {}
+          [columnTable1GeomLinestring.id]: {},
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1255,9 +1255,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: ewktPoint
+          [columnTable1GeomLinestring.id]: ewktPoint,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1267,9 +1267,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: null
+          [columnTable1GeomLinestring.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1281,9 +1281,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomLinestring.id]: ewktLinestring
+          [columnTable1GeomLinestring.id]: ewktLinestring,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1296,9 +1296,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: 123
+          [columnTable1GeomPolygon.id]: 123,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1308,9 +1308,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: {}
+          [columnTable1GeomPolygon.id]: {},
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1320,9 +1320,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: ewktLinestring
+          [columnTable1GeomPolygon.id]: ewktLinestring,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })
@@ -1332,9 +1332,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: null
+          [columnTable1GeomPolygon.id]: null,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1346,9 +1346,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: ewktPolygon
+          [columnTable1GeomPolygon.id]: ewktPolygon,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
@@ -1361,9 +1361,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1GeomPolygon.id]: ewktPolygonWithInjection
+          [columnTable1GeomPolygon.id]: ewktPolygonWithInjection,
         },
-        table_id: table1.id
+        table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
   })

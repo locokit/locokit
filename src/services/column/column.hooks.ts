@@ -13,39 +13,41 @@ export default {
     find: [
       iff(
         queryContainsKeys(['table_id']),
-        disablePagination()
-      )
+        disablePagination(),
+      ),
     ],
     get: [],
     create: [],
     update: [
-      disallow('external')
+      disallow('external'),
     ],
     patch: [
-      preventChanges(true, 'column_type_id')
+      preventChanges(true, 'column_type_id'),
     ],
     remove: [
-      removeTableColumnRelationTo()
+      removeTableColumnRelationTo(),
       // disallow('external')
-    ]
+    ],
   },
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [
+    ],
+    get: [
+    ],
     create: [
       // iff(isGeometryColumn(), createGIX()),
       createGIX(),
       upsertColumnRelation(),
-      fillLookedUpColumnInTableRowData()
+      fillLookedUpColumnInTableRowData(),
     ],
     update: [],
     patch: [],
     remove: [
-      dropGIX()
+      dropGIX(),
       // iff(isGeometryColumn(), dropGIX()),
-    ]
+    ],
   },
 
   error: {
@@ -55,6 +57,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 }
