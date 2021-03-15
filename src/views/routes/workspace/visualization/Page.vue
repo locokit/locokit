@@ -782,9 +782,6 @@ export default {
   flex-wrap: wrap;
 }
 
-.lck-layout-flex .lck-container .lck-block {
-}
-
 .lck-layout-flex .lck-container .lck-block.lck-media {
   justify-content: center;
 }
@@ -799,6 +796,7 @@ export default {
   }
   .lck-layout-flex .lck-container div {
     flex-direction: column;
+    flex-wrap: unset;
   }
 }
 
