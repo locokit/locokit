@@ -82,12 +82,18 @@
           mode="decimal"
           :minFractionDigits="2"
         />
-        <lck-map
-          class="field-map"
+        <div
           v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-map'"
-          :resources="setRessources(column, row.data[column.id])"
-          :options="setOptions(row.data[column.id])"
-        />
+        >
+          <lck-map
+            v-if="row.data[column.id]"
+            class="field-map"
+            forceResize
+            :resources="setRessources(column, row.data[column.id])"
+            :options="setOptions(row.data[column.id])"
+          />
+          <span v-else>{{ $t('components.mapview.noData') }}</span>
+        </div>
         <component
           v-else
           :is="getComponentEditableColumn(column.column_type_id)"
@@ -99,8 +105,7 @@
 
       <div
         v-else
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
         {{ getColumnDisplayValue(column, row.data[column.id]) }}
       </div>
@@ -112,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
 import { formatISO } from 'date-fns'
 import GeoJSON from 'ol/format/GeoJSON'
@@ -128,7 +133,6 @@ import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
 
 import {
-  Column,
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
 
@@ -150,6 +154,11 @@ import {
   transformEWKTtoFeature,
   computeCenterFeatures
 } from '@/services/lck-utils/map'
+import {
+  LckTableColumn,
+  LckTableRow,
+  LckTableViewColumn
+} from '@/services/lck-api/definitions'
 
 export default {
   name: 'LckDataDetail',
@@ -162,7 +171,7 @@ export default {
       required: false
     },
     definition: {
-      type: Object as PropType<() => { columns: Column[] }>,
+      type: Object as () => { columns: LckTableViewColumn[] },
       required: false,
       default: () => ({ columns: [] })
     },
@@ -176,8 +185,8 @@ export default {
   },
   data () {
     return {
-      autocompleteInput: {},
-      multipleAutocompleteInput: {}
+      autocompleteInput: {} as Record<string, any>,
+      multipleAutocompleteInput: {} as Record<string, any>
     }
   },
   components: {
@@ -198,13 +207,13 @@ export default {
     'p-button': Vue.extend(Button)
   },
   computed: {
-    editableColumns () {
+    editableColumns (): LckTableViewColumn[] {
       if (!this.definition.columns) return []
       return this.definition.columns.filter(column => this.isEditableColumn(this.crudMode, column))
     },
-    columnsEnhanced () {
+    columnsEnhanced (): Record<string, any> {
       if (!this.definition.columns) return {}
-      const result = {}
+      const result: Record<string, any> = {}
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -214,10 +223,13 @@ export default {
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
           currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings.values).map(k => ({
-            value: k,
-            label: currentColumn.settings.values[k].label
-          }))
+          const values = currentColumn?.settings?.values
+          if (values) {
+            result[currentColumn.id].dropdownOptions = Object.keys(values).map(key => ({
+              value: key,
+              label: values[key].label
+            }))
+          }
         }
       })
       return result
@@ -230,7 +242,7 @@ export default {
     computeCenterFeatures,
     getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
     onComplete (
-      { column_type_id: columnTypeId, settings }: { column_type_id: number; settings: Record<string, unknown> },
+      { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }
     ) {
       this.$emit(
@@ -239,11 +251,11 @@ export default {
           settings
         }, { query })
     },
-    async onAutocompleteEdit (rowId: string, columnId: string, event: string | null = null) {
+    async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
       await this.onEdit(rowId, columnId, event ? event.value.value : null)
     },
     async onMultipleAutocompleteEdit (rowId: string, columnId: string) {
-      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map(item => item.value))
+      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map((item: { value: string }) => item.value))
     },
     async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
@@ -280,14 +292,15 @@ export default {
     createGeoJsonFeaturesCollection (data: string) {
       // This is necessary when column's type is Multi...
       const features = []
-      const feature = this.transformEWKTtoFeature(data)
-      features.push(feature)
-
+      if (data) {
+        const feature = this.transformEWKTtoFeature(data)
+        features.push(feature)
+      }
       // Transform OL Feature in Geojson
       const geojsonFormat = new GeoJSON()
       return geojsonFormat.writeFeaturesObject(features)
     },
-    setRessources (column: Column, data: string) {
+    setRessources (column: LckTableColumn, data: string) {
       const layers = this.createStyleLayers(column)
       const features = this.createGeoJsonFeaturesCollection(data)
       return [
@@ -312,7 +325,7 @@ export default {
   },
   watch: {
     row: {
-      handler (newRef, oldRef) {
+      handler (newRef: LckTableRow, oldRef: LckTableRow|undefined) {
         if (newRef !== oldRef) {
           /**
            * we go through every data prop,
@@ -351,7 +364,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-field-editable > #map-container {
+.form-field-editable > div > #map-container {
   height: 30vh;
+}
+
+.non-editable-field {
+  height: 2.5rem;
+  border: unset;
+  background-color: transparent;
+  padding-left: unset;
 }
 </style>

@@ -25,6 +25,10 @@ export default Vue.extend({
     resources: {
       type: Array as PropType<Resource[]>,
       default: () => []
+    },
+    forceResize: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -72,9 +76,8 @@ export default Vue.extend({
     this.map.dragRotate.disable()
     this.map.touchZoomRotate.disableRotation()
 
-    // Todo: Add prop to target only popup
     // Force resize canvas map to avoid issue with modal initialisation
-    this.onResize()
+    this.forceResize && this.onResize()
 
     window.addEventListener('resize', this.onResize)
 

@@ -1,7 +1,10 @@
 import {
-  Column,
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
+import {
+  LckTableColumn,
+  LckTableViewColumn
+} from '@/services/lck-api/definitions'
 
 export function getComponentEditableColumn (columnTypeId: number) {
   switch (columnTypeId) {
@@ -36,7 +39,7 @@ export function getComponentEditableColumn (columnTypeId: number) {
   }
 }
 
-export function isEditableColumn (crudMode: boolean, column: Column) {
+export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn) {
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.FORMULA:
@@ -46,7 +49,7 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
   }
 }
 
-export function columnAncestor (column: Column): COLUMN_TYPE {
+export function columnAncestor (column: LckTableColumn|LckTableViewColumn): COLUMN_TYPE {
   if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
   if (column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (column.parents && column.parents.length === 0) || !column.parents) {
     return column.column_type_id

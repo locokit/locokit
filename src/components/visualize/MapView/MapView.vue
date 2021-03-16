@@ -1,12 +1,14 @@
 <template>
   <div
-    class="lck-mapview-block-content"
     v-if="definition && content && content.data"
+    class="lck-mapview-block-content"
   >
     <lck-map
+      v-if="resources && options"
       :resources="resources"
       :options="options"
     />
+    <span v-else>{{ $t('components.mapview.noData') }}</span>
   </div>
 </template>
 
@@ -23,9 +25,9 @@ import {
   transformEWKTtoFeature
 } from '@/services/lck-utils/map'
 import { columnAncestor } from '@/services/lck-utils/columns'
+import { LckTableViewColumn } from '@/services/lck-api/definitions'
 
 import {
-  Column,
   COLUMN_TYPE,
   MapSettings
 } from '@locokit/lck-glossary'
@@ -53,12 +55,12 @@ export default Vue.extend({
     transformEWKTtoFeature,
     computeCenterFeatures,
     getOnlyGeoColumn (
-      columns: Column[]
-    ): Column[] {
+      columns: LckTableViewColumn[]
+    ): LckTableViewColumn[] {
       // eslint-disable-next-line @typescript-eslint/camelcase
       return columns.filter(column => (isGEOColumn(column.column_type_id) || (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN && isGEOColumn(columnAncestor(column)))))
     },
-    createStyleLayers (geoColumns: Column[]) {
+    createStyleLayers (geoColumns: LckTableViewColumn[]) {
       const geoTypes = new Set()
       const layers: { [key: string]: {} }[] = []
 
@@ -88,22 +90,22 @@ export default Vue.extend({
     },
     createGeoJsonFeaturesCollection (
       rows: { data: { [key: string]: string | { value: string } | null } }[],
-      geoColumns: Column[]
+      geoColumns: LckTableViewColumn[]
     ) {
       const features: Feature[] = []
 
       rows.forEach(row => {
         geoColumns.forEach(geoColumn => {
           if (geoColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
-            if (row.data[geoColumn.id] && row.data[geoColumn.id].value) {
-              const feature = this.transformEWKTtoFeature(row.data[geoColumn.id].value)
+            if (row.data[geoColumn.id]?.value) {
+              const feature = this.transformEWKTtoFeature(row.data[geoColumn.id]?.value)
               features.push(feature)
-            } else {
-              // Case for column_type Point, Linestring, Polygon
-              if (row.data[geoColumn.id]) {
-                const feature = this.transformEWKTtoFeature(row.data[geoColumn.id])
-                features.push(feature)
-              }
+            }
+          } else {
+            // Case for column_type Point, Linestring, Polygon
+            if (row.data[geoColumn.id]) {
+              const feature = this.transformEWKTtoFeature(row.data[geoColumn.id])
+              features.push(feature)
             }
           }
         })
@@ -131,14 +133,16 @@ export default Vue.extend({
     options () {
       const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
       const features = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
-      const centerFeaturesCollection = this.computeCenterFeatures(features)
-
-      return {
-        center: centerFeaturesCollection?.geometry?.coordinates,
-        zoom: 9,
-        maxZoom: 16,
-        minZoom: 1
+      if (features?.features.length > 0) {
+        const centerFeaturesCollection = this.computeCenterFeatures(features)
+        return {
+          center: centerFeaturesCollection?.geometry?.coordinates,
+          zoom: 9,
+          maxZoom: 16,
+          minZoom: 1
+        }
       }
+      return null
     }
   }
 })
