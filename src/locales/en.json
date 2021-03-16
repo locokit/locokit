@@ -29,6 +29,7 @@
       "noDataToDisplay": "No data to display",
       "loading": "Data is loading… please wait…",
       "placeholder": "Select an option",
+      "autoCompletePlaceholder": "Start typing for suggestions",
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "detail": "Detail row",
       "addNewRow": "Add new row",
@@ -275,7 +276,7 @@
       "block": {
         "block": "Block",
         "title": "Block title",
-        "type": "Block type",        
+        "type": "Block type",
         "list": "Blocks list",
         "content": "Content",
         "displayMode": "Display mode",

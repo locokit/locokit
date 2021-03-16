@@ -14,7 +14,7 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
       aria-controls="pv_id_13_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-      placeholder="Select an option"
+      placeholder="Start typing for suggestions"
       role="searchbox"
       type="text"
     />
@@ -63,7 +63,7 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
       aria-controls="pv_id_14_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-      placeholder="Select an option"
+      placeholder="Start typing for suggestions"
       role="searchbox"
       type="text"
     />
