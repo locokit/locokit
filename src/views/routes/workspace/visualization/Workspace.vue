@@ -242,14 +242,15 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.pageDelete = false
     },
-    async onPageEditInput ({ text, hidden } = {}) {
+    async onPageEditInput ({ text, hidden, layout } = {}) {
       try {
         this.submitting = true
         if (this.currentPageToEdit.id) {
           // On update
           const updatedPage = await lckServices.page.patch(this.currentPageToEdit.id, {
             text,
-            hidden
+            hidden,
+            layout
           })
           for (const key in updatedPage) {
             this.currentPageToEdit[key] = updatedPage[key]
@@ -259,7 +260,8 @@ export default {
           this.currentPageToEdit = await lckServices.page.create({
             text,
             hidden,
-            chapter_id: this.currentChapterToEdit.id // eslint-disable-line @typescript-eslint/camelcase
+            chapter_id: this.currentChapterToEdit.id, // eslint-disable-line @typescript-eslint/camelcase
+            layout
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
             this.currentChapterToEdit.pages.push(this.currentPageToEdit)

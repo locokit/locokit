@@ -39,7 +39,7 @@ initStoryshots({
         console.log('waiting for ', args.waitForSelector)
         // await page.$(args.waitForSelector)
         await page.waitForSelector(args.waitForSelector)
-        await page.waitForTimeout(args.waitForTimeout || 500)
+        await page.waitForTimeout(args.waitForTimeout || 1500)
       }
     },
     storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'

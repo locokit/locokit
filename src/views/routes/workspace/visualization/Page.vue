@@ -2,6 +2,7 @@
   <div
     v-if="page"
     class="p-mx-2"
+    :class="setLayoutPage"
   >
     <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
       <div class="lck-color-page-title p-my-4">
@@ -26,6 +27,7 @@
         <div
           v-for="container in page.containers"
           :key="container.id"
+          class="lck-container"
           :class="{
             'editable-container': editMode
           }"
@@ -61,6 +63,7 @@
             handle=".handle-block"
           >
             <Block
+              class="lck-block"
               v-for="block in container.blocks"
               :key="block.id"
               :block="block"
@@ -68,7 +71,7 @@
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{ 'p-mb-4': !editMode }"
+              :class="{ 'p-mb-4': !editMode, 'map' : block.type === 'MapView' }"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -141,9 +144,16 @@ import Vue from 'vue'
 import saveAs from 'file-saver'
 import Button from 'primevue/button'
 import draggable from 'vuedraggable'
-import { formatISO, isValid, parseISO } from 'date-fns'
+import {
+  formatISO,
+  isValid,
+  parseISO
+} from 'date-fns'
 
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import {
+  BLOCK_TYPE,
+  COLUMN_TYPE
+} from '@locokit/lck-glossary'
 
 import Breadcrumb from 'primevue/breadcrumb'
 
@@ -155,9 +165,13 @@ import {
   retrieveViewData
 } from '@/store/visualize'
 import {
-  patchTableData, saveTableData
+  patchTableData,
+  saveTableData
 } from '@/store/database'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import {
+  lckHelpers,
+  lckServices
+} from '@/services/lck-api'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
@@ -192,9 +206,7 @@ export default {
   data () {
     return {
       page: {},
-      blocksOptions: {
-
-      },
+      blocksOptions: {},
       autocompleteSuggestions: null,
       exporting: false,
       cellState: {},
@@ -255,6 +267,21 @@ export default {
         )
       }
       return relatedChapterPages || []
+    },
+    setLayoutPage () {
+      if (this.page) {
+        switch (this.page.layout) {
+          case 'center':
+            return 'lck-layout-centered'
+          case 'flex':
+            return 'lck-layout-flex'
+          case 'full':
+            return 'lck-layout-full'
+          default :
+            return 'lck-layout-classic'
+        }
+      }
+      return ''
     }
   },
   methods: {
@@ -371,7 +398,11 @@ export default {
       block.loading = false
     },
     async onPageDetail (block, rowId) {
-      await this.$router.push({ name: 'PageDetail', params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId }, query: { rowId } })
+      await this.$router.push({
+        name: 'PageDetail',
+        params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId },
+        query: { rowId }
+      })
     },
     async onCreateRow (block, newRow) {
       const data = { ...newRow.data }
@@ -616,7 +647,7 @@ export default {
     }
   },
   async mounted () {
-    if (this.$route.params.pageDetailId) {
+    if (this.$route?.params?.pageDetailId) {
       this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
     } else {
       this.page = await retrievePageWithContainersAndBlocks(this.pageId)
@@ -647,6 +678,7 @@ export default {
 </script>
 
 <style scoped>
+
 .lck-page-content {
   min-width: 20rem;
   transition-duration: 0.3s;
@@ -654,7 +686,10 @@ export default {
 
 .editable-container {
   margin-bottom: 1rem;
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--surface-lck-2);
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
   overflow: hidden;
 }
 
@@ -690,4 +725,85 @@ export default {
   margin-bottom: 0.5rem;
   border: 1px solid var(--primary-color) !important;
 }
+
+.editable-container {
+}
+
+/deep/ .editable-block .block-content {
+  padding: 0.5rem;
+}
+
+/deep/ .edit-block-line .lck-color-title {
+  padding-left: 0.5rem;
+}
+
+.lck-container.editable-container .edit-container-line {
+  flex-direction: row;
+}
+
+.lck-container.editable-container .edit-container-line .lck-color-title {
+  color: var(--primary-color)
+}
+
+/* classic content */
+
+.lck-layout-classic .lck-container div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenu Centré */
+
+.lck-layout-centered .lck-container > div {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  justify-content: space-between;
+  overflow: auto;
+}
+
+.lck-layout-centered .lck-block {
+  display: flex;
+  flex: 0 1 100%;
+}
+
+.lck-layout-centered .lck-block.lck-media {
+  justify-content: center;
+}
+
+/* Contenu Flex (2/n colonnes) */
+
+.lck-layout-flex .lck-container div {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.lck-layout-flex .lck-container .lck-block {
+}
+
+.lck-layout-flex .lck-container .lck-block.lck-media {
+  justify-content: center;
+}
+
+.lck-layout-flex .lck-container .edit-container-line {
+  align-self: flex-start;
+  width: 100%;
+}
+
+/* contenu Full */
+
+.lck-layout-full {
+  width: 100%;
+  height: 100%;
+}
+
+.lck-layout-full .lck-container div {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
 </style>

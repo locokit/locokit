@@ -3,5 +3,5 @@ export { lckServices } from './services'
 export const lckHelpers = {
   exportTableRowData: '123',
   getColumnDisplayValue: '234',
-  searchItems: '456'
+  searchItems: () => '456'
 }

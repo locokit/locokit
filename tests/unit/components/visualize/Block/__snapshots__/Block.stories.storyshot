@@ -4,7 +4,9 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-paragraph"
+  >
     <div
       class="editable-block"
     >
@@ -103,7 +105,9 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-markdown"
+  >
     <div
       class=""
     >
@@ -114,7 +118,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
       </h3>
        
       <div
-        class="lck-markdown block-content"
+        class="block-content"
         title="Futur Markdown"
         type="Markdown"
       >
@@ -133,7 +137,9 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-paragraph"
+  >
     <div
       class=""
     >
@@ -161,7 +167,9 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-table-view"
+  >
     <div
       class=""
     >
@@ -463,7 +471,9 @@ exports[`storyshots components/visualize/Block default 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-block-default"
+  >
     <span
       class="lck-color-content"
     >
@@ -479,7 +489,9 @@ exports[`storyshots components/visualize/Block unknown type 1`] = `
 <div
   style="height: 100%;"
 >
-  <div>
+  <div
+    class="lck-block-default"
+  >
     <div
       class=""
     >
