@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export enum COLUMN_TYPE {
   BOOLEAN = 1,
   STRING = 2,
@@ -18,34 +19,51 @@ export enum COLUMN_TYPE {
   URL = 17,
   GEOMETRY_POINT = 18,
   GEOMETRY_POLYGON = 19,
-  GEOMETRY_LINESTRING = 20
+  GEOMETRY_LINESTRING = 20,
+}
+
+export enum COLUMN_GEO_TYPE {
+  POINT = COLUMN_TYPE.GEOMETRY_POINT,
+  LINESTRING = COLUMN_TYPE.GEOMETRY_LINESTRING,
+  POLYGON = COLUMN_TYPE.GEOMETRY_POLYGON,
+}
+
+export enum AGGREGATE_FUNCTION {
+  SUM = 'SUM',
+  AVERAGE = 'AVG',
+  COUNT = 'COUNT',
 }
 
 export enum USER_PROFILE {
   ADMIN = 'ADMIN',
   SUPERADMIN = 'SUPERADMIN',
-  USER = 'USER'
+  USER = 'USER',
 }
 
 export enum GROUP_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER'
+  MEMBER = 'MEMBER',
 }
 
 export enum WORKSPACE_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER'
+  MEMBER = 'MEMBER',
 }
 
 export enum BLOCK_TYPE {
   TABLE_VIEW = 'TableView',
-  KANBAN_VIEW = 'KanbanView',
   DETAIL_VIEW = 'DetailView',
   PARAGRAPH = 'Paragraph',
   MARKDOWN = 'Markdown',
+  // HEADING = "Heading",
   MEDIA = 'Media',
+  KANBAN_VIEW = 'KanbanView',
+  // GRIDVIEW = "GridView",
+  MAPVIEW = 'MapView',
+  MAPDETAILVIEW = 'MapDetailView',
+  SYNTHESIS = 'Synthesis',
 }
 
 export enum MEDIA_TYPE {
@@ -59,9 +77,16 @@ export enum ERROR_CODE {
   VIEW_LOCKED = 'VIEW_LOCKED',
   VIEW_USED_IN_BLOCK = 'VIEW_USED_IN_BLOCK',
 }
+
 export enum ERROR_LABEL {
   VIEW_LOCKED = 'View is locked',
   VIEW_USED_IN_BLOCK = 'View is used in a Block',
+}
+
+export enum GEOMETRY_TYPE {
+  POINT = 'Point',
+  LINESTRING = 'Linestring',
+  POLYGON = 'Polygon',
 }
 
 export interface TableViewDefinition {
@@ -72,7 +97,7 @@ export interface TableViewDefinition {
     position: number;
     editable: boolean;
     text: string;
-    settings: object;
+    settings: Record<string, unknown>;
     table_id: string;
   }[];
 }
@@ -82,7 +107,7 @@ export interface TableViewContent {
     id: string;
     text: string;
     table_id: string;
-    data: object;
+    data: Record<string, unknown>;
   }[];
 }
 
@@ -91,14 +116,29 @@ export interface Block {
   type: BLOCK_TYPE;
 }
 
+export interface ParagraphSettings {
+  content: string;
+}
+
 export interface BlockParagraph extends Block {
   type: BLOCK_TYPE.PARAGRAPH;
   settings: ParagraphSettings;
 }
 
+export interface MarkdownSettings {
+  content: string;
+}
+
 export interface BlockMarkdown extends Block {
   type: BLOCK_TYPE.MARKDOWN;
   settings: MarkdownSettings;
+}
+
+export interface TableViewSettings {
+  id: string;
+  pageDetailId: string;
+  addAllowed: boolean;
+  exportAllowed: boolean;
 }
 
 export interface BlockTableView extends Block {
@@ -109,33 +149,6 @@ export interface BlockTableView extends Block {
 export interface BlockTableViewEnhanced extends BlockTableView {
   definition: TableViewDefinition;
   content: TableViewContent;
-}
-
-export interface BlockKanbanView extends Block {
-  type: BLOCK_TYPE.KANBAN_VIEW;
-  settings: KanbanSettings;
-}
-
-export interface BlockMedia extends Block {
-  type: BLOCK_TYPE.MEDIA;
-  settings: MediaSettings;
-}
-
-export interface ParagraphSettings {
-  content: string;
-}
-
-export interface MarkdownSettings {
-  content: string;
-}
-
-export interface MediaSettings {
-  displayMode: MEDIA_TYPE;
-  medias: {
-    name: string;
-    srcURL: string;
-    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
-  }[];
 }
 
 export interface KanbanSettings {
@@ -156,9 +169,60 @@ export interface KanbanSettings {
   }[];
 }
 
-export interface TableViewSettings {
-  id: string; // Id of the table_view in database
-  pageDetailId: string; // Id of the page to open for detail purpose
-  addAllowed: boolean; // Allow the user to create a row from this table view
-  exportAllowed: boolean; // Allow the user to export data from this table view
+export interface BlockKanbanView extends Block {
+  type: BLOCK_TYPE.KANBAN_VIEW;
+  settings: KanbanSettings;
+}
+
+export interface MediaSettings {
+  displayMode: MEDIA_TYPE;
+  medias: {
+    name: string;
+    srcURL: string;
+    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
+  }[];
+}
+
+export interface BlockMedia extends Block {
+  type: BLOCK_TYPE.MEDIA;
+  settings: MediaSettings;
+}
+
+export interface MapSettings {
+  id: string;// Id of the table_view in database
+  sources: {
+    geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
+    field: string; // column / field 's UUID
+    popup: boolean; // do we display a popup
+    popupSettings: { // a popup is like a card
+      title: string; // column / field 's UUID
+      contentFields: {
+        field: string; // column / field's UUID
+        class: string; // css class to apply on this field
+      }[]
+    }
+  }[];
+}
+
+export interface MapView extends Block {
+  type: BLOCK_TYPE.MAPVIEW;
+  settings: MapSettings;
+}
+
+export interface MapDetailView extends Block {
+  type: BLOCK_TYPE.MAPDETAILVIEW;
+  settings: MapSettings;
+}
+
+export interface SynthesisSettings {
+  id: string;// Id of the table_view in database.
+  columnId: string; // Id of the column. Select data to display.
+  prefix: string; // Add a prefix.
+  suffix: string; // Add a suffix.
+  aggregate: AGGREGATE_FUNCTION; // Parse data according to a function
+}
+
+export interface Synthesis extends Block {
+  type: BLOCK_TYPE.SYNTHESIS;
+  settings: SynthesisSettings;
 }
