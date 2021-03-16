@@ -114,7 +114,7 @@ We can write in *italic*, **bold**, and ***both***.
               {
                 name: 'Page en construction',
                 type: 'image',
-                srcURL: '/img/page-construction-vlogistique.png'
+                srcURL: './img/page-construction-vlogistique.png'
               }
             ],
             displayMode: 'image'
