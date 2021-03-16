@@ -729,14 +729,14 @@ export default {
       await lckServices.tableRow.remove(row.id)
       this.loadCurrentTableData()
     },
-    async onRowDuplicate ({ data, table_id }) {
+    async onRowDuplicate ({ data }) {
       const duplicatedData = {}
       this.block.definition.columns.forEach(c => {
         if (c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
           duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
         }
       })
-      await lckServices.tableRow.create({ data: duplicatedData, table_id })
+      await lckServices.tableRow.create({ data: duplicatedData, table_id: this.currentTableId })
       this.loadCurrentTableData()
     },
     async onOpenDetail (rowId) {
