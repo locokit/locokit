@@ -20,11 +20,10 @@ export class block extends BaseModel {
     return {
       type: 'object',
       required: ['container_id'],
-
       properties: {
         title: { type: ['string', 'null'] },
         container_id: { type: 'string' },
-        type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView'] },
+        type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'Default'] },
         position: { type: ['number', 'null'] },
         settings: { type: ['object', 'null'] },
       },
