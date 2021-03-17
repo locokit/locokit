@@ -37,7 +37,7 @@ export default {
     all: [authenticate('jwt')],
     find: [
       commonHooks.iffElse(
-        queryContainsKeys(['table_id', 'table_view_id']),
+        queryContainsKeys(['table_id', 'table_view_id', 'id']),
         [
           loadColumnsDefinition(),
           commonHooks.disablePagination(),

@@ -40,8 +40,7 @@ export function selectColumnsOfTableOrTableView (): Hook {
 function rebuild (items: TableRow[], columns: TableColumn[]) {
   return items.map((d: Record<string, any>) => {
     const newData = {
-      id: d.id,
-      text: d.text,
+      ...d,
       data: {} as Record<string, any>
     }
     columns.forEach((c: TableColumn) => {

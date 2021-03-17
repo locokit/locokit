@@ -6,6 +6,7 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export interface SelectValue {
   label: string;
@@ -46,6 +47,9 @@ export class TableColumn extends BaseModel {
   table?: LckTable;
   column_type_id!: number;
   column_type?: LckColumnType;
+
+  parents?: TableColumn[];
+  children?: TableColumn[];
 
   static get tableName () {
     return 'table_column'
@@ -94,8 +98,42 @@ export class TableColumn extends BaseModel {
           from: 'table_column.column_type_id',
           to: 'column_type.id'
         }
+      },
+      parents: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column.id',
+          through: {
+            // table_column_relation is the join table.
+            from: 'table_column_relation.table_column_to_id',
+            to: 'table_column_relation.table_column_from_id'
+          },
+          to: 'table_column.id'
+        }
+      },
+      children: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableColumn,
+        join: {
+          from: 'table_column.id',
+          through: {
+            // table_column_relation is the join table.
+            from: 'table_column_relation.table_column_from_id',
+            to: 'table_column_relation.table_column_to_id'
+          },
+          to: 'table_column.id'
+        }
       }
     }
+  }
+
+  columnAncestor (): COLUMN_TYPE {
+    if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings?.formula_type_id as COLUMN_TYPE
+    if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (this.parents && this.parents.length === 0) || !this.parents) {
+      return this.column_type_id
+    }
+    return this.parents[0].columnAncestor()
   }
 }
 

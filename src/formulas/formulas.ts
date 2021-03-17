@@ -1,5 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { ref } from 'objection'
+import { fn, FunctionBuilder, raw, ref } from 'objection'
 import { TableColumn } from '../models/tablecolumn.model'
 
 interface IFormulaParameter {
@@ -15,6 +15,13 @@ interface IFormula {
   returnType: COLUMN_TYPE | COLUMN_TYPE[];
 }
 
+interface IParsedFormula {
+  type: COLUMN_TYPE;
+  value: string;
+}
+
+export type ColumnsReferences = Record<string, FunctionBuilder>
+
 export const TEXT_TYPES = [
   COLUMN_TYPE.TEXT,
   COLUMN_TYPE.STRING,
@@ -28,6 +35,7 @@ export const TEXT_TYPES = [
   COLUMN_TYPE.MULTI_USER,
   COLUMN_TYPE.LOOKED_UP_COLUMN
 ]
+
 const NUMERIC_TYPES = [COLUMN_TYPE.FLOAT, COLUMN_TYPE.NUMBER]
 
 export const notImplementedInFormulaColumnTypes = [
@@ -61,12 +69,36 @@ export function getFormattedColumn (column: TableColumn) {
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-    case COLUMN_TYPE.LOOKED_UP_COLUMN: // TODO get original type ?
+    case COLUMN_TYPE.LOOKED_UP_COLUMN: // TODO get original type
     case COLUMN_TYPE.MULTI_USER:
       return ref(`data:${column.id}.value`).castText()
     default:
       return ref(`data:${column.id}`).castText()
   }
+}
+
+export function getColumnIdsFromFormula (formula: string): string[] {
+  const regex = /(?<=COLUMN\.)([a-z0-9-]*)/g
+  return formula.match(regex) || []
+}
+
+export function getColumnsReferences (columns: TableColumn[] = []): ColumnsReferences {
+  // Create an object containing the columns references to use placeholders in the sql query
+  const columnsReferences: ColumnsReferences = {}
+  columns.forEach(column => {
+    // Need to replace '-' by '_' because '-' is not a valid char in an alias
+    columnsReferences[column.id.replace(/-/g, '_')] = getFormattedColumn(column)
+  })
+  return columnsReferences
+}
+
+export function getSQLRequestFromFormula (formula: IParsedFormula, columnsReferences: ColumnsReferences): FunctionBuilder {
+  // Only cast the result if the result is a text
+  const castResult = TEXT_TYPES.includes(formula.type) ? '::text' : ''
+  return fn.coalesce(
+    raw(`to_jsonb(${formula.value}${castResult})`, columnsReferences),
+    raw("jsonb 'null'")
+  )
 }
 
 // Formula

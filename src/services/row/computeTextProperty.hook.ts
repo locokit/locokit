@@ -31,6 +31,9 @@ export function computeTextProperty () : Hook {
             case COLUMN_TYPE.LOOKED_UP_COLUMN:
               text = context.data.data?.[columns[0].id]?.value || 'No reference'
               break
+            case COLUMN_TYPE.FORMULA:
+              text = 'No reference'
+              break
             default:
               text = context.data.data?.[columns[0].id]?.toString() || 'No reference'
           }

@@ -15,10 +15,15 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         /**
          * For all rows of the current table, compute this looked up column
          */
-        const foreignColumn: TableColumn = await context.app.services.column.get(context.result.settings.foreignField)
+        const foreignColumn: TableColumn = await context.app.services.column.get(context.result.settings.foreignField, {
+          query: {
+            $eager: 'parents.^'
+          }
+        })
 
         let newDataForCurrentColumn = '{ [context.result.id]: null }'
-        switch (foreignColumn.column_type_id) {
+        const columnTypeId = foreignColumn.columnAncestor()
+        switch (columnTypeId) {
           case COLUMN_TYPE.USER:
             newDataForCurrentColumn = `
             ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb

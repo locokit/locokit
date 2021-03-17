@@ -153,18 +153,18 @@ function peg$parse(input, options) {
       peg$c9 = peg$literalExpectation(")", false),
       peg$c10 = function(category, name, args) {
 
-          if (formulas[category] && formulas[category][name]) {
+          if (functions[category] && functions[category][name]) {
 
             // Check type parameters
-            if (Array.isArray(formulas[category][name].params)) {
+            if (Array.isArray(functions[category][name].params)) {
 
               let docParamIndex = 0;
               let realParamIndex = 0;
 
               // Loop on documentation parameters
-              while (formulas[category][name].params[docParamIndex]) {
+              while (functions[category][name].params[docParamIndex]) {
 
-                const docParam = formulas[category][name].params[docParamIndex]
+                const docParam = functions[category][name].params[docParamIndex]
                 const realParam = args && args[realParamIndex]?.type
 
                 // The current documentation parameter is required
@@ -209,10 +209,10 @@ function peg$parse(input, options) {
             }
 
             // Return the type and the value related to the function
-            if (formulas[category][name].pgsql && formulas[category][name].returnType) {
+            if (functions[category][name].pgsql && functions[category][name].returnType) {
               return {
-                value: `(${ Array.isArray(args) ? formulas[category][name].pgsql(...args.map(arg => arg.value)) : formulas[category][name].pgsql()})`,
-                type: formulas[category][name].returnType
+                value: `(${ Array.isArray(args) ? functions[category][name].pgsql(...args.map(arg => arg.value)) : functions[category][name].pgsql()})`,
+                type: functions[category][name].returnType
               }
             } else {
               error(`the function ${category}.${name} isn't well configured.`)
@@ -1183,7 +1183,7 @@ function peg$parse(input, options) {
 
 
     const {
-      formulas = {},
+      functions = {},
       columns = [],
       columnsTypes = {}
     } = options;

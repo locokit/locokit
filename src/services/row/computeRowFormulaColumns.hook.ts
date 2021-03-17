@@ -3,8 +3,12 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { functions, getFormattedColumn, TEXT_TYPES } from '../../formulas/formulas'
-import { FunctionBuilder, raw, fn } from 'objection'
+import {
+  functions,
+  getColumnsReferences,
+  getSQLRequestFromFormula
+} from '../../formulas/formulas'
+import { FunctionBuilder } from 'objection'
 
 const formulasParser = require('../../formulas/formulaParser.js')
 
@@ -13,57 +17,56 @@ const formulasParser = require('../../formulas/formulaParser.js')
  */
 export function computeRowFormulaColumns () : Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    const updatedFormulaColumns:Record<string, object> = {}
-    const updatedFormulaColumnsKeys: string[] = []
+    // Get the updated columns and the linked ones
+    const updatedColumnsWithChildren = await context.app.services.column.find({
+      query: {
+        id: {
+          $in: context.params._meta.columnsIdsTransmitted
+        },
+        $eager: 'children.^'
+      },
+      paginate: false
+    }) as TableColumn[]
+
+    context.params._meta.updatedColumnsWithChildren = updatedColumnsWithChildren
 
     // Create an object containing the columns references to use placeholders in the sql query
-    const columnsReferences: Record<string, FunctionBuilder> = {};
-    (context.params._meta?.columns as TableColumn[]).forEach(column => {
-      // Need to replace '-' by '_' because '-' is not a valid char in an alias
-      columnsReferences[column.id.replace(/-/g, '_')] = getFormattedColumn(column)
-    });
+    const columnsReferences = getColumnsReferences(context.params._meta?.columns)
 
-    // Loop on the formula table columns
-    (context.params._meta.columns as TableColumn[])
-      .forEach(currentColumnDefinition => {
-        if (currentColumnDefinition.column_type_id === COLUMN_TYPE.FORMULA) {
-          const formula = currentColumnDefinition.settings?.formula
-          if (formula) {
-            // Get the columns ids specified in the formula TODO from column_relation ?
-            const regex = /(?<=COLUMN\.)([a-z0-9-]*)/g
-            const columnsIds: string[] = formula.match(regex) || []
+    const formulaColumnsToUpdateIds: Set<string> = new Set()
+    const formulaColumnsToUpdateData:Record<string, FunctionBuilder> = {}
 
-            // Parse the formula if one updated column is included in it
-            if (context.params._meta?.columnsIdsTransmitted.some((columnId: string) => columnsIds.includes(columnId))) {
-              try {
-                const formulaResult = formulasParser.parse(formula, { functions, columns: context.params._meta.columns, columnsTypes: COLUMN_TYPE })
-                const castResult = TEXT_TYPES.includes(formulaResult.type) ? '::text' : ''
+    updatedColumnsWithChildren.forEach(updatedColumn => {
+      // Get the linked formula columns
+      (updatedColumn.children || []).forEach(childColumn => {
+        if (childColumn.column_type_id === COLUMN_TYPE.FORMULA) {
+          const formula = childColumn.settings?.formula
 
-                updatedFormulaColumns[`data:${currentColumnDefinition.id}`] = fn.coalesce(
-                  raw(`to_jsonb(${formulaResult.value}${castResult})`, columnsReferences),
-                  raw("jsonb 'null'")
-                )
-
-                updatedFormulaColumnsKeys.push(currentColumnDefinition.id)
-              } catch (error) {
-                throw new GeneralError('Invalid formula: ' + error.message, {
-                  code: 'INVALID_FORMULA_SYNTAX'
-                })
-              }
+          // Only parsed the formula if it is not done yet and the formula exists
+          if (formula && !formulaColumnsToUpdateIds.has(childColumn.id)) {
+            try {
+              const formulaResult = formulasParser.parse(formula, { functions, columns: context.params._meta.columns, columnsTypes: COLUMN_TYPE })
+              formulaColumnsToUpdateData[`data:${childColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
+              formulaColumnsToUpdateIds.add(childColumn.id)
+            } catch (error) {
+              throw new GeneralError('Invalid formula: ' + error.message, {
+                code: 'INVALID_FORMULA_SYNTAX'
+              })
             }
           }
         }
       })
+    })
 
-    if (Object.keys(updatedFormulaColumns).length > 0) {
+    if (formulaColumnsToUpdateIds.size > 0) {
       // Add the formula columns keys that will be updated due to the original update (useful for looked_up_columns)
-      context.params._meta.columnsIdsTransmitted.push(...updatedFormulaColumnsKeys)
+      // context.params._meta.columnsIdsTransmitted.push(...formulaColumnsToUpdateIds)
       // Update the row(s)
       try {
         if (Array.isArray(context.result)) {
           // Multiple update
           (context.result as TableRow[]) = await context.service._patch(null,
-            updatedFormulaColumns,
+            formulaColumnsToUpdateData,
             {
               query: {
                 table_id: context.params.query?.table_id
@@ -73,7 +76,7 @@ export function computeRowFormulaColumns () : Hook {
         } else if (context.result.id) {
           // Single update
           (context.result as TableRow) = await context.service._patch(context.result.id,
-            updatedFormulaColumns,
+            formulaColumnsToUpdateData,
             {}
           )
         }

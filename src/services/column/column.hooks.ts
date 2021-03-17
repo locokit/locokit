@@ -47,6 +47,7 @@ export default {
     ],
     update: [],
     patch: [
+      upsertColumnRelation(),
       iff(isFormulaColumn(), updatedRelatedRowsFormula())
     ],
     remove: [

@@ -36,6 +36,7 @@ export default function (app: Application): void {
       '$and',
       '$sort',
       '$eager',
+      '$noSelect',
       '$any'
     ],
     Model: createModel(app),

@@ -1,9 +1,14 @@
 import { NotAcceptable } from '@feathersjs/errors'
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { fn, raw, ReferenceBuilder } from 'objection'
 
-import { functions, getFormattedColumn, notImplementedInFormulaColumnTypes, TEXT_TYPES } from '../../formulas/formulas'
+import {
+  functions,
+  notImplementedInFormulaColumnTypes,
+  getColumnIdsFromFormula,
+  getColumnsReferences,
+  getSQLRequestFromFormula
+} from '../../formulas/formulas'
 import { TableColumn } from '../../models/tablecolumn.model'
 
 const formulasParser = require('../../formulas/formulaParser.js')
@@ -31,8 +36,7 @@ export function checkFormula (): Hook {
 
     if (newFormula) {
       // Get the columns ids specified in the formula
-      const regex = /(?<=COLUMN\.)([a-z0-9-]*)/g
-      const columnsIds: string[] = newFormula.match(regex) || []
+      const columnsIds: string[] = getColumnIdsFromFormula(newFormula)
 
       // Append the current one
       if (context.id) {
@@ -109,20 +113,11 @@ export function updatedRelatedRowsFormula (): Hook {
     // Only update the related rows if the formula has been parsed (and then has been changed)
     if (context.params._meta?.newParsedFormula) {
       // Create an object containing the columns references to use named placeholders in the sql query
-      const columnsReferences: Record<string, ReferenceBuilder> = {};
-      (context.params._meta?.formulaColumns as TableColumn[]).forEach(column => {
-        // Need to replace '-' by '_' because '-' is not a valid char in an placeholder key
-        columnsReferences[column.id.replace(/-/g, '_')] = getFormattedColumn(column)
-      })
-
+      const columnsReferences = getColumnsReferences(context.params._meta.formulaColumns)
+      // Launch request
       try {
-        const castResult = TEXT_TYPES.includes(context.params._meta.newParsedFormula.type) ? '::text' : ''
-
         await context.app.service('row').patch(null, {
-          [`data:${context.result.id}`]: fn.coalesce(
-            raw(`to_jsonb(${context.params._meta.newParsedFormula.value}${castResult})`, columnsReferences),
-            raw("jsonb 'null'")
-          )
+          [`data:${context.result.id}`]: getSQLRequestFromFormula(context.params._meta.newParsedFormula, columnsReferences)
         },
         {
           query: {

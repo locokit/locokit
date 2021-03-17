@@ -43,7 +43,7 @@ export default function (app: Application) {
       '$noSelect',
       '$modifyEager'
     ],
-    allowedEager: 'table',
+    allowedEager: '[table,parents.^,children.^]',
     multi: ['patch'],
     paginate: app.get('paginate')
   }
