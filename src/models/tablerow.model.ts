@@ -45,8 +45,8 @@ export class TableRow extends BaseModel {
         modelClass: LckTable,
         join: {
           from: 'table_row.table_id',
-          to: 'table.id'
-        }
+          to: 'table.id',
+        },
       },
       parents: {
         relation: Model.ManyToManyRelation,
@@ -56,10 +56,10 @@ export class TableRow extends BaseModel {
           through: {
             // table_row_relation is the join table.
             from: 'table_row_relation.table_row_to_id',
-            to: 'table_row_relation.table_row_from_id'
+            to: 'table_row_relation.table_row_from_id',
           },
-          to: 'table_row.id'
-        }
+          to: 'table_row.id',
+        },
       },
       children: {
         relation: Model.ManyToManyRelation,
@@ -69,11 +69,11 @@ export class TableRow extends BaseModel {
           through: {
             // table_row_relation is the join table.
             from: 'table_row_relation.table_row_from_id',
-            to: 'table_row_relation.table_row_to_id'
+            to: 'table_row_relation.table_row_to_id',
           },
-          to: 'table_row.id'
-        }
-      }
+          to: 'table_row.id',
+        },
+      },
     }
   }
 }
