@@ -1,22 +1,23 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { container as LckContainer } from './container.model'
 
 export class page extends BaseModel {
-  id!: string;
-  text!: string;
-  chapter_id!: string;
-  hidden!: boolean;
+  id!: string
+  text!: string
+  chapter_id!: string
+  hidden!: boolean
+  layout!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'page'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -27,12 +28,13 @@ export class page extends BaseModel {
         createdAt: { type: ['string', 'null'] },
         updatedAt: { type: ['string', 'null'] },
         chapter_id: { type: ['string', 'null'] },
-        hidden: { type: ['boolean', 'null'] }
-      }
+        hidden: { type: ['boolean', 'null'] },
+        layout: { enum: ['classic', 'center', 'flex', 'full'] },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       containers: {
         relation: Model.HasManyRelation,
@@ -43,13 +45,13 @@ export class page extends BaseModel {
         modelClass: LckContainer,
         join: {
           from: 'page.id',
-          to: 'container.page_id'
-        }
-      }
+          to: 'container.page_id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof page {
   return page
 }

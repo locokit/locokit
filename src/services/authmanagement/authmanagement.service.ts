@@ -8,7 +8,7 @@ import { authManagementSettings } from './authmanagement.settings'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'authManagement': Service<any> & ServiceAddons<any>;
+    'authManagement': Service<any> & ServiceAddons<any>
   }
 }
 

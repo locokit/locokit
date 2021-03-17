@@ -6,33 +6,33 @@ import { Application } from '../declarations'
 import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class Group extends BaseModel {
-  workspace?: LckWorkspace;
-  chapter?: LckChapter;
-  chapter_id?: string;
-  workspace_role?: string;
-  name!: string;
-  users?: User[];
+  workspace?: LckWorkspace
+  chapter?: LckChapter
+  chapter_id?: string
+  workspace_role?: string
+  name!: string
+  users?: User[]
 
-  static get tableName () {
+  static get tableName (): string {
     return 'group'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['name'],
 
       properties: {
         name: { type: 'string' },
-        workspace_role: { type: 'string' }
-      }
+        workspace_role: { type: 'string' },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       workspace: {
         relation: Model.HasOneRelation,
@@ -43,8 +43,8 @@ export class Group extends BaseModel {
         modelClass: LckWorkspace,
         join: {
           from: 'group.workspace_id',
-          to: 'workspace.id'
-        }
+          to: 'workspace.id',
+        },
       },
       chapter: {
         relation: Model.HasOneRelation,
@@ -55,8 +55,8 @@ export class Group extends BaseModel {
         modelClass: LckChapter,
         join: {
           from: 'group.chapter_id',
-          to: 'chapter.id'
-        }
+          to: 'chapter.id',
+        },
       },
       users: {
         relation: Model.ManyToManyRelation,
@@ -70,15 +70,15 @@ export class Group extends BaseModel {
           through: {
             from: 'user_has_group.group_id',
             to: 'user_has_group.user_id',
-            extra: ['uhg_role']
+            extra: ['uhg_role'],
           },
-          to: 'user.id'
-        }
-      }
+          to: 'user.id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof Group {
   return Group
 }

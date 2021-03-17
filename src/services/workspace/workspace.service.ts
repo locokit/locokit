@@ -8,7 +8,7 @@ import hooks from './workspace.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'workspace': Workspace & ServiceAddons<any>;
+    'workspace': Workspace & ServiceAddons<any>
   }
 }
 
@@ -35,10 +35,10 @@ export default function (app: Application) {
       '$any',
       '$eager',
       '$joinRelation',
-      '$modifyEager'
+      '$modifyEager',
     ],
     allowedEager: '[databases, chapters.[pages.[containers.[blocks]]], processes.[triggers]]',
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

@@ -4,7 +4,7 @@ import { Application } from '../../declarations'
 // import { row } from '../../models/row.model';
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class Row extends Service {
@@ -13,7 +13,7 @@ export class Row extends Service {
 
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
   }
 

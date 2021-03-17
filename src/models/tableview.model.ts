@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { Model, QueryBuilder } from 'objection'
+import { Model, QueryBuilder, RelationMappings, JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { TableColumn } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
 import { BaseModel } from './base.model'
-import { table } from './table.model'
+import { Table } from './table.model'
 
 export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
 
@@ -16,17 +16,17 @@ export class TableColumnDTO extends TableColumn {
 }
 
 export class TableView extends BaseModel {
-  columns?: TableColumnDTO[];
-  text!: string;
-  locked!: boolean;
-  position?: number;
-  table_id!: string;
+  columns?: TableColumnDTO[]
+  text!: string
+  locked!: boolean
+  position?: number
+  table_id!: string
 
-  static get tableName () {
+  static get tableName (): string {
     return 'table_view'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
@@ -34,12 +34,12 @@ export class TableView extends BaseModel {
       properties: {
         text: { type: 'string' },
         locked: { type: 'boolean' },
-        position: { type: ['number', 'null'] }
-      }
+        position: { type: ['number', 'null'] },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       columns: {
         relation: Model.ManyToManyRelation,
@@ -53,34 +53,35 @@ export class TableView extends BaseModel {
           through: {
             from: 'table_view_has_table_column.table_view_id',
             to: 'table_view_has_table_column.table_column_id',
-            extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default']
+            extra: ['displayed', 'filter', 'transmitted', 'position', 'editable', 'style', 'default'],
           },
           to: 'table_column.id',
-          modify (query: QueryBuilder<TableColumn>) {
-            query.clear('limit')
-          }
-        }
+        },
+        modify (query: QueryBuilder<TableColumn>) {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          query.clear('limit')
+        },
       },
       rows: {
         relation: Model.HasManyRelation,
         modelClass: TableRow,
         join: {
           from: 'table_view.table_id',
-          to: 'table_row.table_id'
-        }
+          to: 'table_row.table_id',
+        },
       },
       table: {
         relation: Model.HasOneRelation,
-        modelClass: table,
+        modelClass: Table,
         join: {
           from: 'table_view.table_id',
-          to: 'table.id'
-        }
-      }
+          to: 'table.id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof TableView {
   return TableView
 }

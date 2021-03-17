@@ -3,28 +3,28 @@
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { block as LckBlock } from './block.model'
-import { Model } from 'objection'
+import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class container extends BaseModel {
-  position?: number;
+  position?: number
 
-  static get tableName () {
+  static get tableName (): string {
     return 'container'
   }
 
-  static get jsonSchema () {
+  static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
       required: ['text'],
 
       properties: {
         text: { type: 'string' },
-        position: { type: ['number', 'null'] }
-      }
+        position: { type: ['number', 'null'] },
+      },
     }
   }
 
-  static get relationMappings () {
+  static get relationMappings (): RelationMappings {
     return {
       blocks: {
         relation: Model.HasManyRelation,
@@ -35,13 +35,13 @@ export class container extends BaseModel {
         modelClass: LckBlock,
         join: {
           from: 'container.id',
-          to: 'block.container_id'
-        }
-      }
+          to: 'block.container_id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): typeof container {
   return container
 }

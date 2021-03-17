@@ -10,17 +10,17 @@ export default {
     find: [],
     get: [],
     create: [
-      checkIfTableViewIsLocked
+      checkIfTableViewIsLocked,
     ],
     update: [
-      checkIfTableViewIsLocked
+      checkIfTableViewIsLocked,
     ],
     patch: [
-      checkIfTableViewIsLocked
+      checkIfTableViewIsLocked,
     ],
     remove: [
-      checkIfTableViewIsLocked
-    ]
+      checkIfTableViewIsLocked,
+    ],
   },
 
   after: {
@@ -30,7 +30,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -40,6 +40,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 }

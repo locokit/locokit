@@ -2,14 +2,14 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
-import { table } from '../../models/table.model'
+import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import Knex from 'knex'
 
 describe('geometry columns hooks', () => {
   let workspace: workspace
   let database: database
-  let table1: table
+  let table1: Table
   let columnTable1Point: TableColumn
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe('geometry columns hooks', () => {
     database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
     table1 = await app.service('table').create({
       text: 'table1',
-      database_id: database.id
+      database_id: database.id,
     })
   })
 
@@ -25,7 +25,7 @@ describe('geometry columns hooks', () => {
     columnTable1Point = await app.service('column').create({
       text: 'Point',
       column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
-      table_id: table1.id
+      table_id: table1.id,
     })
     const uuidTableShort = table1.id.substr(0, table1.id.indexOf('-'))
     const uuidColumnShort = columnTable1Point.id.substr(0, columnTable1Point.id.indexOf('-'))

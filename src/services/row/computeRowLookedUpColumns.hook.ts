@@ -29,7 +29,7 @@ export function computeRowLookedUpColumns (): Hook {
             const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
             const currentColumnData: RowData = {
               reference: foreignRowId.reference,
-              value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string }
+              value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
             }
             /**
              * In the case of a foreign column "SINGLE_SELECT", we have to duplicate the SINGLE_SELECT label for display
@@ -59,7 +59,7 @@ export function computeRowLookedUpColumns (): Hook {
             context.data.data[currentColumnDefinition.id] = currentColumnData
             context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
           }
-        })
+        }),
     )
     return context
   }

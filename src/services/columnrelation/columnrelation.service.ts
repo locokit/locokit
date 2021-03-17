@@ -8,7 +8,7 @@ import hooks from './columnrelation.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'columnrelation': Columnrelation & ServiceAddons<any>;
+    'columnrelation': Columnrelation & ServiceAddons<any>
   }
 }
 
@@ -36,13 +36,13 @@ export default function (app: Application): void {
       '$and',
       '$sort',
       '$eager',
+      '$any',
       '$noSelect',
-      '$any'
     ],
     Model: createModel(app),
     paginate: app.get('paginate'),
     allowedEager: '[from, to]',
-    multi: true
+    multi: true,
   }
 
   // Initialize our service with any options it requires

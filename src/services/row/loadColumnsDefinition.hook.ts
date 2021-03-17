@@ -5,7 +5,7 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 /**
  * Load the columns of the row being inserted / updated.
  */
-export function loadColumnsDefinition () : Hook {
+export function loadColumnsDefinition (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     switch (context.method) {
       case 'find':
@@ -17,9 +17,9 @@ export function loadColumnsDefinition () : Hook {
         if (context.params?.query?.table_id) {
           const tableColumns = await context.app.services.column.find({
             query: {
-              table_id: context.params?.query?.table_id
+              table_id: context.params?.query?.table_id,
             },
-            paginate: false
+            paginate: false,
           })
           selectedColumns = tableColumns
         } else if (context.params?.query?.table_view_id) {
@@ -28,15 +28,15 @@ export function loadColumnsDefinition () : Hook {
            */
           const tableView = await context.app.services.view.get(context.params.query.table_view_id, {
             query: {
-              $eager: '[columns]'
+              $eager: '[columns]',
             },
-            paginate: false
+            paginate: false,
           })
           selectedColumns = tableView.columns
         }
         context.params._meta = {
           ...context.params._meta,
-          columns: selectedColumns
+          columns: selectedColumns,
         }
         break
       case 'create':
@@ -52,11 +52,11 @@ export function loadColumnsDefinition () : Hook {
         )
         const columns = await context.app.services.column.find({
           query: { table_id },
-          paginate: false
+          paginate: false,
         })
         context.params._meta = {
           ...context.params._meta,
-          columns
+          columns,
         }
         break
     }

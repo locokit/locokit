@@ -8,7 +8,7 @@ import hooks from './row.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'row': Row & ServiceAddons<any>;
+    'row': Row & ServiceAddons<any>
   }
 }
 
@@ -40,12 +40,12 @@ export default function (app: Application) {
       '$all',
       '$joinRelation',
       '$joinEager',
+      '$modifyEager',
       '$noSelect',
-      '$modifyEager'
     ],
     allowedEager: '[table,parents.^,children.^]',
     multi: ['patch'],
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

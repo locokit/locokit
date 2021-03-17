@@ -24,8 +24,8 @@ export function upsertRowRelation (): Hook {
           const matchingRows = await context.app.services.trr.find({
             query: {
               table_row_to_id: context.result.id,
-              table_column_to_id: currentColumnId
-            }
+              table_column_to_id: currentColumnId,
+            },
           })
           const tableRowFromId = context.result.data[currentColumnId]?.reference
           /**
@@ -37,23 +37,23 @@ export function upsertRowRelation (): Hook {
             await context.app.services.trr.create({
               table_row_to_id: context.result.id,
               table_column_to_id: currentColumnId,
-              table_row_from_id: tableRowFromId
+              table_row_from_id: tableRowFromId,
             })
           } else if (matchingRows.total === 1) {
           // if the from is different, update this line
             if (matchingRows.data[0].table_row_from_id !== tableRowFromId) {
               await context.app.services.trr.patch({
                 table_row_to_id: context.result.id,
-                table_column_to_id: currentColumnId
+                table_column_to_id: currentColumnId,
               }, {
-                table_row_from_id: tableRowFromId
+                table_row_from_id: tableRowFromId,
               })
             }
           // else do nothing
           } else {
             throw new NotAcceptable('Too much matching rows ?')
           }
-        })
+        }),
     )
 
     return context

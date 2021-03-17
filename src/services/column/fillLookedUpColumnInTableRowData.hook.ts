@@ -81,7 +81,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             `
             break
           default:
-            console.log('This column type is not implemented.')
+            console.log('This column type is not implemented. (', foreignColumn.column_type_id, ')')
             return context
         }
 

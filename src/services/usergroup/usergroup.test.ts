@@ -8,12 +8,12 @@ let user: LckUser
 describe('\'usergroup\' service', () => {
   beforeAll(async () => {
     group = await app.service('group').create({
-      name: 'user group test'
+      name: 'user group test',
     })
     user = await app.service('user').create({
       name: 'user group test',
       email: 'hello1@locokit.io',
-      password: 'yo'
+      password: 'yo',
     })
   })
   it('registered the service', () => {
@@ -25,14 +25,14 @@ describe('\'usergroup\' service', () => {
     const service = app.service('usergroup')
     expect.assertions(1)
     await expect(service.create({
-      group_id: group.id
+      group_id: group.id,
     })).rejects.toThrow()
   })
   it('throw if group_id doesn\'t exist', async () => {
     const service = app.service('usergroup')
     expect.assertions(1)
     await expect(service.create({
-      user_id: user.id
+      user_id: user.id,
     })).rejects.toThrow()
   })
   it('throw if group_id doesn\'t exist', async () => {
@@ -40,7 +40,7 @@ describe('\'usergroup\' service', () => {
     expect.assertions(3)
     const uhg = await service.create({
       user_id: user.id,
-      group_id: group.id
+      group_id: group.id,
     })
     expect(uhg.uhg_role).toBe(GROUP_ROLE.MEMBER)
     expect(uhg.user_id).toBe(user.id)

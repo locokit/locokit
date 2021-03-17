@@ -32,13 +32,13 @@ export function enhanceComplexColumns (): Hook {
                 trr: (context.params._meta.trr || []).concat([
                   {
                     columnId: currentColumnId,
-                    rowId: matchingRow.id
-                  }
-                ])
+                    rowId: matchingRow.id,
+                  },
+                ]),
               }
               context.data.data[currentColumnId] = {
                 reference,
-                value
+                value,
               }
               break
             case COLUMN_TYPE.USER:
@@ -46,7 +46,7 @@ export function enhanceComplexColumns (): Hook {
               value = matchingUser.name
               context.data.data[currentColumnId] = {
                 reference,
-                value
+                value,
               }
               break
             case COLUMN_TYPE.MULTI_USER:
@@ -54,17 +54,17 @@ export function enhanceComplexColumns (): Hook {
                 query: {
                   id: { $in: reference },
                 },
-                paginate: false
+                paginate: false,
               })
-              const references: Array<number> = []
-              const values: Array<string> = []
+              const references: number[] = []
+              const values: string[] = []
               matchingUsers?.forEach((user: User) => {
                 references.push(user.id)
                 values.push(user.name)
               })
               context.data.data[currentColumnId] = {
                 reference: references,
-                value: values
+                value: values,
               }
               break
             case COLUMN_TYPE.GROUP:
@@ -72,11 +72,11 @@ export function enhanceComplexColumns (): Hook {
               value = matchingGroup.name
               context.data.data[currentColumnId] = {
                 reference,
-                value
+                value,
               }
               break
           }
-        })
+        }),
     )
     return context
   }

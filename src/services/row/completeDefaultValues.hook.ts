@@ -22,7 +22,7 @@ export function completeDefaultValues (): Hook {
                 break
             }
           }
-        })
+        }),
       )
     }
     return context

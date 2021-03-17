@@ -8,7 +8,7 @@ import hooks from './view.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'view': View & ServiceAddons<any>;
+    'view': View & ServiceAddons<any>
   }
 }
 
@@ -35,10 +35,10 @@ export default function (app: Application) {
       '$any',
       '$eager',
       '$joinRelation',
-      '$modifyEager'
+      '$modifyEager',
     ],
-    allowedEager: '[columns.[column_type], rows]',
-    paginate: app.get('paginate')
+    allowedEager: '[columns.[column_type, parents.^], rows]',
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

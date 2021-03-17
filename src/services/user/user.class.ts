@@ -4,18 +4,18 @@ import { Application } from '../../declarations'
 import { User } from '../../models/user.model'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class UserService extends Service {
-  public docs: ServiceSwaggerOptions;
+  public docs: ServiceSwaggerOptions
 
   constructor (options: Partial<Options>, app: Application) {
     const { Model, ...otherOptions } = options
 
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
 
     this.docs = {
@@ -23,7 +23,7 @@ export class UserService extends Service {
       operations: {
         get: {
           security: [{
-            BearerAuth: []
+            BearerAuth: [],
           }],
           description: 'Retrieves a single resource with the given id from the service.',
           parameters: [{
@@ -31,20 +31,20 @@ export class UserService extends Service {
             in: 'path',
             required: true,
             name: 'id',
-            schema: { type: 'integer' }
+            schema: { type: 'integer' },
           }],
           responses: {
             200: {
               description: 'An user',
               content: {
                 'application/json': {
-                  schema: User.jsonSchema
-                }
-              }
-            }
-          }
-        }
-      }
+                  schema: User.jsonSchema,
+                },
+              },
+            },
+          },
+        },
+      },
     }
   }
 }

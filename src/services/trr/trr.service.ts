@@ -8,7 +8,7 @@ import hooks from './trr.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'trr': Trr & ServiceAddons<any>;
+    'trr': Trr & ServiceAddons<any>
   }
 }
 
@@ -17,6 +17,7 @@ export default function (app: Application): void {
     id: ['table_row_to_id', 'table_column_to_id'],
     Model: createModel(app),
     paginate: app.get('paginate'),
+<<<<<<< HEAD
     whitelist: [
       '$eq',
       '$ne',
@@ -42,6 +43,9 @@ export default function (app: Application): void {
     ],
     allowedEager: '[from, to]',
     multi: ['remove']
+=======
+    multi: ['remove'],
+>>>>>>> master
   }
 
   // Initialize our service with any options it requires

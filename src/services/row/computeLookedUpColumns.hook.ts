@@ -143,11 +143,11 @@ export function computeLookedUpColumns (): Hook {
     const updatedColumnsWithChildren: TableColumn[] = context.params._meta.updatedColumnsWithChildren || await context.app.services.column.find({
       query: {
         id: {
-          $in: context.params._meta.columnsIdsTransmitted
+          $in: context.params._meta.columnsIdsTransmitted,
         },
-        $eager: 'children.^'
+        $eager: 'children.^',
       },
-      paginate: false
+      paginate: false,
     })
 
     // if not, just return the context
