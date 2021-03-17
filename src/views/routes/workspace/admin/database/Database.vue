@@ -121,6 +121,9 @@
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
+
+            @upload-files="onUploadFiles"
+            @remove-files="onRemoveFiles"
           />
         </layout-with-toolbar>
 
@@ -872,6 +875,12 @@ export default {
     },
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
+    },
+    async onUploadFiles (rowId, columnId, fileList) {
+      console.log(rowId, columnId, fileList)
+    },
+    async onRemoveFiles (rowId, columnId, fileList) {
+      console.log(rowId, columnId, fileList)
     }
   },
   async mounted () {

@@ -207,6 +207,11 @@
               :minFractionDigits="2"
               class="field-editable"
             />
+            <lck-input-file
+              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-input-file'"
+              @input="onInputFile(slotProps.data.id, column.id, $event)"
+              class="field-editable"
+            />
             <component
               v-else
               :is="getComponentEditorCellForColumnType(column)"
@@ -291,6 +296,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Badge from '@/components/ui/Badge/Badge'
+import InputFile from '@/components/ui/InputFile/InputFile.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -318,6 +324,7 @@ export default {
     'lck-dropdown-button': LckDropdownButton,
     'lck-input-url': InputURL,
     'lck-badge': Badge,
+    'lck-input-file': InputFile,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -605,6 +612,23 @@ export default {
       })
     },
     /**
+     * Upload one or multiple files to the API
+     */
+    onInputFile (rowId, columnId, fileList = []) {
+      this.$emit('upload-files', {
+        rowId,
+        columnId,
+        fileList
+      })
+    },
+    onRemoveFiles (rowId, columnId, fileList = []) {
+      this.$emit('remove-files', {
+        rowId,
+        columnId,
+        fileList
+      })
+    },
+    /**
      * This method have to be called only for fields that don't trigger an "update-cell" event
      *
      * So, please add your column_type if you already trigger this event in a specific handler
@@ -634,6 +658,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.FILE:
           /**
            * For these type of column
            * the dropdown edit is already here

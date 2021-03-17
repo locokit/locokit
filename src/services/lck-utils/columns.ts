@@ -106,6 +106,8 @@ export function getComponentEditorDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return 'lck-map'
+    case COLUMN_TYPE.FILE:
+      return 'lck-input-file'
     default:
       return null
   }
