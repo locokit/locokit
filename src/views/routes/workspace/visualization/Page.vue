@@ -779,9 +779,7 @@ export default {
   flex-direction: row;
   flex-grow: 1;
   flex-basis: 0;
-}
-
-.lck-layout-flex .lck-container .lck-block {
+  flex-wrap: wrap;
 }
 
 .lck-layout-flex .lck-container .lck-block.lck-media {
@@ -791,6 +789,13 @@ export default {
 .lck-layout-flex .lck-container .edit-container-line {
   align-self: flex-start;
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .lck-layout-flex .lck-container div {
+    flex-direction: column;
+    flex-wrap: unset;
+  }
 }
 
 /* contenu Full */

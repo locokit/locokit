@@ -1,0 +1,117 @@
+
+// helpers mobile
+
+.mobile-show {
+  display: none;
+}
+
+/* Smartphone Portrait and Landscape */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .mobile-show {
+    display: inline;
+  }
+}
+
+.mobile-hide {
+  display: inline;
+}
+
+/* Smartphone Portrait and Landscape */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  main {
+    padding: 0.5rem
+  }
+  .mobile-hide {
+    display: none;
+  }
+  .lck-color-title {
+    text-align: left;
+  }
+  .p-button {
+    .p-button-icon-left {
+      margin-right: 0;
+    }
+
+    .p-button-icon-right {
+      margin-left: 0;
+    }
+
+    .p-button-label {
+      display: none;
+    }
+  }
+  .p-card {
+    margin: 0.5rem;
+    .p-card-body {
+      padding: 0.5rem
+    }
+    .p-card-title {
+      text-align: center;
+    }
+  }
+  .action-button-content {
+    flex-wrap: wrap;
+    align-items: center;
+    flex-basis: 50%;
+    a {
+      text-decoration: none;
+      flex-basis: 48%;
+      text-align: center;
+      align-items: center;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    .p-button {
+      background-color: transparent;
+      border-color: transparent;
+      flex-direction: column;
+      padding: 0.5rem;
+      .p-button-icon {
+        background-color: var(--primary-color) ;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .p-button-label {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1rem;
+        display: flex;
+        color: var(--primary-color);
+      }
+      &:hover {
+        background-color: transparent;
+        border-color: transparent;
+        .p-button-icon {
+          background-color: var(--primary-color-darken) ;
+        }
+      }
+    }
+  }
+  .p-buttonset {
+    button.p-mr-2 {
+      margin-right: 0 !important;
+    }
+  }
+  .lck-database-toolbar {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  .p-paginator-pages {
+    .p-link {
+      display: none;
+      &.p-highlight {
+        display: flex;
+      }
+    }
+  }
+  .p-buttonset {
+    .p-button {
+      margin-right: 0;
+    }
+  }
+}
