@@ -792,8 +792,6 @@ export default {
 }
 
 @media (max-width: 900px) {
-  .lck-container {
-  }
   .lck-layout-flex .lck-container div {
     flex-direction: column;
     flex-wrap: unset;
