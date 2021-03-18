@@ -67,6 +67,7 @@
     "ignore": []
   },
   "types": "lib/",
+  "type": "module",
   "dependencies": {
     "@feathersjs/authentication": "^4.5.3",
     "@feathersjs/authentication-local": "^4.5.4",
@@ -91,6 +92,7 @@
     "feathers-hooks-common": "^5.0.3",
     "feathers-objection": "^5.5.2",
     "feathers-swagger": "^1.2.1",
+    "fs-blob-store": "^6.0.0",
     "helmet": "^3.23.3",
     "knex": "^0.21.5",
     "nodemailer": "^6.4.14",
@@ -99,6 +101,7 @@
     "password-generator": "^2.3.2",
     "password-validator": "^5.1.0",
     "pg": "^8.3.3",
+    "s3-blob-store": "^4.1.1",
     "serve-favicon": "^2.5.0",
     "validator": "^13.5.2",
     "winston": "^3.3.3"

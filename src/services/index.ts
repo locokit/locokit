@@ -21,6 +21,7 @@ import tableViewHasTableColumn from './table_view_has_table_column/table_view_ha
 import process from './process/process.service'
 import processRun from './process_run/process_run.service'
 import attachment from './attachment/attachment.service'
+import upload from './upload/upload.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application): void {
@@ -46,4 +47,5 @@ export default function (app: Application): void {
   app.configure(processRun)
   app.configure(container)
   app.configure(attachment)
+  app.configure(upload)
 }

@@ -5,9 +5,12 @@ import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 
 class Attachment extends BaseModel {
-  path!: string;
-  createdAt!: string;
-  updatedAt!: string;
+  filepath!: string
+  filename!: string
+  createdAt!: string
+  updatedAt!: string
+
+  workspace_id!: string
 
   static get tableName (): string {
     return 'attachment'
@@ -16,20 +19,14 @@ class Attachment extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['path'],
+      required: ['filepath', 'workspace_id'],
 
       properties: {
-        path: { type: 'string' }
-      }
+        filepath: { type: 'string' },
+        filename: { type: 'string' },
+        workspace_id: { type: 'string' },
+      },
     }
-  }
-
-  $beforeInsert (): void {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate (): void {
-    this.updatedAt = new Date().toISOString()
   }
 }
 
