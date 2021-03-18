@@ -377,7 +377,6 @@ export function checkColumnDefinitionMatching (): Hook {
                   context.data.data[columnId] = ewktSanitized
                 }
               } catch (e) {
-                console.error(e)
                 /**
                  * If no, return the reason from PostGIS
                  */
