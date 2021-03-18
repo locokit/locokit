@@ -7,7 +7,7 @@ import { Group as LckGroup } from '../models/group.model'
 export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     if (context.params.query?.$eager?.indexOf('chapters') > -1) {
-      if (context.params.user.profile !== 'SUPERADMIN') {
+      if (context.params.user?.profile !== 'SUPERADMIN') {
         // find groups between user and workspaceId
         // choose the first one
         // find
@@ -15,7 +15,7 @@ export default (options = {}): Hook => {
           query: {
             $eager: '[users]',
             $joinRelation: 'users',
-            'users.id': context.params.user.id,
+            'users.id': context.params.user?.id,
           },
           paginate: false,
         })

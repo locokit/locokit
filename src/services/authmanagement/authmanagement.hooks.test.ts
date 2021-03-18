@@ -43,7 +43,7 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
-      expect((error as NotAcceptable).data.failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
+      expect(((error as NotAcceptable).data as any).failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
     }
   })
   it('throw a BadRequest error when an action passwordChange is created with a password matching default rules but bad oldPassword is sent', async () => {
@@ -124,7 +124,7 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
-      expect((error as NotAcceptable).data.failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
+      expect(((error as NotAcceptable).data as any).failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
     }
   })
   it('throw a NotAcceptable error when an action verifySignupSetPasswordShort is created with a password not matching default rules', async () => {
@@ -138,7 +138,7 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
-      expect((error as NotAcceptable).data.failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
+      expect(((error as NotAcceptable).data as any).failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
     }
   })
   it('throw a NotAcceptable error when an action resetPwdLong is created with a password not matching default rules', async () => {
@@ -152,7 +152,7 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
-      expect((error as NotAcceptable).data.failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
+      expect(((error as NotAcceptable).data as any).failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
     }
   })
   it('throw a NotAcceptable error when an action resetPwdShort is created with a password not matching default rules', async () => {
@@ -166,7 +166,7 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
       })
     } catch (error) {
       expect(error instanceof NotAcceptable).toBe(true)
-      expect((error as NotAcceptable).data.failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
+      expect(((error as NotAcceptable).data as any).failedRules).toStrictEqual(['min', 'uppercase', 'digits', 'symbols'])
     }
   })
 

@@ -28,7 +28,7 @@ export default function filterRowsByTableViewId (): Hook {
               case '$eq':
                 currentFilterKeyValue = (
                   (c.filter as LckColumnFilter)[filterKey] as string
-                ).replace('{userId}', context.params.user.id)
+                ).replace('{userId}', context.params.user?.id)
                   .replace('{rowId}', context.params?.query?.rowId)
                 if (c.column_type_id === COLUMN_TYPE.SINGLE_SELECT) {
                   filtersToAdd[c.id] = currentFilterKeyValue
@@ -42,7 +42,7 @@ export default function filterRowsByTableViewId (): Hook {
                 break
               case '$contains':
                 currentFilterKeyValue = (currentFilterKeyValue as []).map(item => {
-                  return item === '{userId}' ? context.params.user.id : item
+                  return item === '{userId}' ? context.params.user?.id : item
                 })
                 if (c.column_type_id === COLUMN_TYPE.MULTI_SELECT) {
                   filtersToAdd[c.id] = { [filterKey]: currentFilterKeyValue }
