@@ -44,6 +44,8 @@ A logged user can create workspace and manage them individually.
 
 Each workspace's visualization is available through groups of user.
 
+All users are readable by all users.
+
 ## Groups
 
 A group is a user's set, linked to a workspace.
@@ -67,3 +69,5 @@ A group **manager** can manage the workspace
 * can CRUD all workspace's resources (group, database, chapter, table, ...)
 * can manage permissions on workspace's resources (database, table, ...), per group
 * delete the workspace
+
+All groups are readable by all users.
