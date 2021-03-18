@@ -65,5 +65,5 @@ A group can be a **manager** of a workspace if the group's property `manager` is
 A group **manager** can manage the workspace
 (in fact, all users that are at least **MEMBER** of this group):
 * can CRUD all workspace's resources (group, database, chapter, table, ...)
-* can manage permissions on workspace's resources
+* can manage permissions on workspace's resources (database, table, ...), per group
 * delete the workspace

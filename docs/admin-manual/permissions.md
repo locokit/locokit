@@ -7,7 +7,8 @@ Several resources are available :
 
 * storage
   * database
-  * table (and rows / records)
+  * table
+  * table_row = records
   * table_column = fields
   * table_view
 * visualization
@@ -15,26 +16,7 @@ Several resources are available :
   * page
   * container
   * block
-
-## on workspace
-
-Permissions on workspace are managed at the group level.
-
-Each group linked to a workspace have a role,
-like a user for the group.
-
-A group `MEMBER` can access to the workspace 
-through visualization only, and via only one chapter.
-
-A group `ADMIN` can access to the databases
-and schemas of the workspace.
-This group can also alter the database schema,
-but can't manage permissions on the tables / columns.
-
-A group `OWNER` can manage groups having access to this workspace,
-and their roles (`MEMBER`, `ADMIN`, `OWNER`).
-It can also manage permissions of tables / columns / rows,
-per group.
+* process / action
 
 ## on database
 
@@ -43,24 +25,18 @@ Permissions on databases are managed at the group level.
 Each group, if it have access to the database's workspace,
 can have permissions on databases, allowing group's users to .
 
-* create databases for this workspace
-* read a database
-* update a database
-* remove databases owned by the group
+* **c**reate databases for this workspace
+* **r**ead a database
+* **u**pdate a database
+* **d**elete databases owned by the group
 
-
-Only groups that are `OWNER` or `ADMIN` on a workspace
-are granted the permission to create and remove any databases.
+Only groups that are granted `manager` on a workspace
+have the permission to create and remove databases.
 
 The permission of read / update / remove a database is granted
 for each database - group combination.
 
-If a group have the create database permission,
-every database created will be linked to this group 
-with a full permission, ie the `CRUD` permission.
-
 If a group is not linked by a read permission to the database
-(and it's not a `OWNER` or `ADMIN` one),
 it won't be able to access to the database.
 
 ## on table
@@ -70,10 +46,10 @@ Permissions on tables are managed at the group level.
 Each group, if it have access to the table's workspace,
 can have permissions on tables, allowing group's users to :
 
-* create new records / rows for this table
-* read records / rows of this table
-* update records / rows
-* delete records / rows
+* **c**reate new records / rows for this table
+* **r**ead records / rows of this table
+* **u**pdate records / rows
+* **d**elete records / rows
 
 ## on table_column
 
@@ -88,10 +64,11 @@ can have permissions on columns, allowing group's users to :
 For columns, each permission can be enhanced with a filter property.
 This filter property will limit the records available
 for the group.
+
 This filter will have an effect for all records operations (CRUD).
 For example, a group would be able to update a record
 only if :
-* it has the update permission on the table
+* it has the update permission on the table records
 * the record to be updated respect all group's filters defined on the table's columns
 
 ## on table_view
@@ -106,14 +83,14 @@ can have permissions on views, allowing group's users to .
 * update a view
 * remove views
 
-Only groups that are `OWNER` or `ADMIN` on a workspace
-are granted the permission to create and remove views.
+Only groups that are granted `manager` on a workspace
+have the permission to create and remove views.
 
 The permission of read / update a view is granted
 for each view - group combination.
 
 If a group is not linked by a read permission to the view
-(and it's not a `OWNER` or `ADMIN` one),
+(and it's not a `manager` one),
 it won't be able to access to the view.
 
 When removing views, if the last view linked to a group is removed,
