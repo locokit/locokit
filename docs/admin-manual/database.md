@@ -1,6 +1,6 @@
 # Database schema
 
-![](./dbschema_201126.png)
+![](./dbschema_210318.png)
 
 ## Workspace
 
