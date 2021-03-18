@@ -67,7 +67,6 @@
     "ignore": []
   },
   "types": "lib/",
-  "type": "module",
   "dependencies": {
     "@feathersjs/authentication": "^4.5.3",
     "@feathersjs/authentication-local": "^4.5.4",
@@ -80,6 +79,7 @@
     "@feathersjs/transport-commons": "^4.5.3",
     "@sentry/node": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
+    "abstract-blob-store": "^3.3.5",
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
