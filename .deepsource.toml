@@ -1,0 +1,27 @@
+version = 1
+
+test_patterns = [
+    "**/src/*.test.ts",
+    "**/src/**/*.test.ts"
+]
+
+exclude_patterns = [
+    "src/**/*.test.ts",
+    "src/**/*.d.ts"
+]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  environment = [
+    "nodejs",
+    "jest"
+  ]
+  style_guide = "standard"
+  dialect = "typescript"
+
+[[transformers]]
+name = "standardjs"
+enabled = true
