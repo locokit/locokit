@@ -129,7 +129,7 @@ a {
 a:hover,
 .router-link-exact-active {
   background-color: var(--text-color);
-  color: var(--primary-color);
+  color: var(--text-color-active);
 }
 
 .action-button {
@@ -194,7 +194,7 @@ a:hover,
   background: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled):not(.p-highlight):hover .p-accordion-header-link {
-  color: var(--primary-color);
+  color: var(--text-color-active);
   border: unset;
   background-color: var(--text-color);
 }

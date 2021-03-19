@@ -6,7 +6,7 @@
 
   &:enabled {
     &:hover {
-      color: var(--surface-lck-2);
+      color: var(var--);
       background-color: var(--primary-color-darken);
       border-color: var(--primary-color-darken);
     }
@@ -43,7 +43,7 @@
     &.p-highlight {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
-      
+
       &:hover {
         color: var(--text-color);
         background-color: var(--primary-color-darken);

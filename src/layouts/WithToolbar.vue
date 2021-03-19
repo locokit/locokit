@@ -28,9 +28,8 @@
 <style scoped>
 
 .lck-toolbar {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
-  /*background-color: var(--primary-color);*/
+  border-bottom: 1px solid var(--toolbar-border-bottom-color);
+  background-color: var(--toolbar-background-color);
   height: 3rem;
   max-height: 3rem;
 }

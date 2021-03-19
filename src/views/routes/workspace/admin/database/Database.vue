@@ -866,7 +866,6 @@ export default {
 
 /deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.5rem;
-  background-color: var(--text-color);
   border: 1px solid var(--surface-a);
   border-bottom: 0;
   color: var(--surface-a);
@@ -884,7 +883,7 @@ export default {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
-  color: var(--text-color);
+  color: var(--text-color-active);
 }
 
 .lck-database-nav {
@@ -905,12 +904,12 @@ export default {
 }
 
 .lck-database-toolbar {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
+  border-bottom: 1px solid var(--toolbar-border-bottom-color);
+  background-color: var(--toolbar-background-color);
 }
 
 .lck-database-panel .lck-toolbar {
-  color: red;
+  color: var(--primary-color);
 }
 
 .lck-database-panel {
@@ -925,13 +924,16 @@ export default {
   overflow-y: auto;
   min-width: 350px;
 }
+
 /deep/ .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary {
   background-color: rgba(255,255,255,0.8);
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
   background-color: rgba(255,255,255,0.9);
 }

@@ -131,6 +131,7 @@ pre {
 
 /deep/ .lck-process-tab.p-tabview .p-tabview-nav .p-tabview-title{
   line-height: inherit;
+  color: var(--primary-color)
 }
 
 /deep/ .lck-process-tab.p-tabview .p-tabview-panels {

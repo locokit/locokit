@@ -6,3 +6,9 @@
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
 }
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+
+  border-color: var(--primary-color-darken);
+  color: var(--primary-color-darke);
+}

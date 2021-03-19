@@ -19,12 +19,12 @@
 
 .lck-color-title {
   font-weight: 500;
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
 }
 
 .lck-block-title {
   font-weight: 700;
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
   padding: 0.5rem 0;
   &:after {
     content: '';
@@ -41,7 +41,7 @@
 }
 
 .lck-color-content {
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
 }
 
 .lck-color-page-title {
@@ -126,7 +126,7 @@ a.no-decoration-link {
 }
 
 .lck-bg-primary {
-  background-color: var(--primary-color);
+  background-color: var(--sidebar-background-color);
 }
 
 .lck-primary {
