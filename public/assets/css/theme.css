@@ -19,10 +19,10 @@
   --surface-c:rgba(255, 255, 255, 0.04) !important;
   /* Table bottom border color*/
   --surface-d:#3f4b5b !important;
-
+  /* no utilisation yet */
   --surface-e:#2a323d !important;
   --surface-f:#2a323d !important;
-  /* Sidebar background */
+  /* Sidebar right background */
   --surface-w:#f8f9fa !important;
   --surface-lck-1: var(--primary-color);
   /* Couleur du texte sur les boutons, */
