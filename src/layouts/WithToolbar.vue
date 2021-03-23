@@ -32,6 +32,7 @@
   background-color: var(--toolbar-background-color);
   height: 3rem;
   max-height: 3rem;
+  color: var(--primary-color);
 }
 
 .lck-toolbar-content {
