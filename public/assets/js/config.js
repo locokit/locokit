@@ -12,7 +12,7 @@ const LCK_SETTINGS = {
   PAGE_404_BACKGROUND_IMAGE_URL: '/img/page-construction-vlogistique.png',
   LOGO_BG_WHITE_URL: '/img/lowcokit/logo.svg',
   LOGO_BG_PRIMARY_URL: '/img/lowcokit/logo-white.svg',
-  LOGO_MOBILE_URL: '/img/vlo-logo-mobile.png',
+  LOGO_MOBILE_URL: '/img/lowcokit/logo-mobile.svg',
   STORAGE_KEY: 'lck-auth',
   SENTRY_DSN: 'https://b217f3673c9c417c82ada33ccf87a57e@sentry.makina-corpus.net/92'
 }
