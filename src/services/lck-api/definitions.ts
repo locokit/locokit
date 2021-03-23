@@ -21,6 +21,13 @@ export class LckWorkspace extends LckBaseModel {
   databases?: LckDatabase[];
 }
 
+export class LckAttachment extends LckBaseModel {
+
+}
+export class LckUpload extends LckBaseModel {
+
+}
+
 /**
  * Database section
  */

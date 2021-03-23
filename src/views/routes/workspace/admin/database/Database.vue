@@ -876,8 +876,28 @@ export default {
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
     },
-    async onUploadFiles (rowId, columnId, fileList) {
+    async onUploadFiles ({ rowId, columnId, fileList }) {
       console.log(rowId, columnId, fileList)
+      const uploadPromises = []
+      for (let i = 0; i < fileList.length; i++) {
+        uploadPromises.push(new Promise((resolve, reject) => {
+          const file = fileList[i]
+          console.log('uploading current file', i, file)
+          const reader = new FileReader()
+          // encode dataURI
+          reader.readAsDataURL(file)
+
+          // when encoded, upload
+          reader.addEventListener('load', async () => {
+            console.log('encoded file: ', reader.result)
+            lckServices.upload.create({ uri: reader.result }, { query: { workspaceId: this.workspaceId, fileName: file.name } })
+              .then(resolve)
+              .catch(reject)
+          }, false)
+        }))
+      }
+      const newUploadedFiles = await Promise.all(uploadPromises)
+      console.log(newUploadedFiles)
     },
     async onRemoveFiles (rowId, columnId, fileList) {
       console.log(rowId, columnId, fileList)
