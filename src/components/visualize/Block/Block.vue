@@ -129,6 +129,7 @@ export default Vue.extend({
 <style scoped>
 .edit-block-line {
   display: flex;
+  align-items: center;
 }
 
 .handle-block {
