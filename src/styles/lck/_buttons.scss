@@ -45,7 +45,6 @@
       background-color: var(--primary-color);
 
       &:hover {
-        color: var(--text-color);
         border-color: var(--primary-color-darken);
         background-color: var(--primary-color-darken);
       }
@@ -90,10 +89,12 @@
     }
   }
 }
+
 .p-button {
   &.p-button-secondary {
     border-color: var(--secondary-color);
     background-color: var(--secondary-color);
+
     &:enabled {
       &:hover {
         border-color: var(--secondary-color-darken);
