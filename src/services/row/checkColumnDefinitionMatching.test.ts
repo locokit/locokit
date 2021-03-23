@@ -939,14 +939,14 @@ describe('checkColumnDefinitionMatching hook', () => {
       name: 'Jack',
       email: userEmail,
       isVerified: true,
-      password: passwordHashed
+      password: passwordHashed,
     }, {})
 
     // Simulate the authentication
     const authentication = await app.service('authentication').create({
       strategy: 'local',
       email: userEmail,
-      password: userPassword
+      password: userPassword,
     }, {})
 
     // Simulate an outside call
@@ -954,7 +954,7 @@ describe('checkColumnDefinitionMatching hook', () => {
       provider: 'external',
       user,
       accessToken: authentication.accessToken,
-      authenticated: true
+      authenticated: true,
     }
     await expect(app.service('row')
       .create({
@@ -973,9 +973,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Formula.id]: 123456
+          [columnTable1Formula.id]: 123456,
         },
-        table_id: table1.id
+        table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()

@@ -38,7 +38,7 @@ export default function (app: Application): void {
       '$and',
       '$sort',
       '$eager',
-      '$any'
+      '$any',
     ],
     allowedEager: '[from, to]',
     multi: ['remove'],

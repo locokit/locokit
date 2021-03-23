@@ -1,0 +1,188 @@
+{
+  // Input variables
+  const {
+    functions = {},
+    columns = {},
+    columnsTypes = {}
+  } = options;
+  // Useful functions
+  function checkParamsTypes (input, output) {
+    if (Array.isArray(input)) return input.includes(output);
+    else return input === output;
+  }
+}
+start
+  = expression
+
+expression = 
+  (decimal / integer / string / column / function / unknown)
+
+function
+  = category:$([A-Z]+)"."name:$([a-zA-Z0-9]+)"("args:arguments?")" {
+
+    if (functions[category] && functions[category][name]) {
+
+      // Check type parameters
+      if (Array.isArray(functions[category][name].params)) {
+
+        let docParamIndex = 0;
+        let realParamIndex = 0;
+
+        let arrayParamIsCorrectOnce = false;
+
+        // Loop on documentation parameters
+        while (functions[category][name].params[docParamIndex]) {
+
+          const docParam = functions[category][name].params[docParamIndex]
+
+          // Check if the doc parameter is an array (related parameters)
+          if (Array.isArray(docParam) && docParam.length > 0) {
+            let checkFollowingDocParam = false
+            // Check if the related parameters are correct
+            for (let relatedParamIndex = 0; relatedParamIndex < docParam.length; relatedParamIndex++) {
+              const realParam = args && args[realParamIndex + relatedParamIndex]?.type
+              // If the type is incorrect
+              if (!checkParamsTypes(docParam[relatedParamIndex].type, realParam)) {
+                if (!arrayParamIsCorrectOnce) {
+                  // The parameters are required at least once
+                  error('invalid argument')
+                } else {
+                  // maybe it corresponds to the following doc parameter
+                  docParamIndex += 1
+                  checkFollowingDocParam = true
+                  arrayParamIsCorrectOnce = false
+                  break
+                }
+              } else {
+                // Indicate that it is valid once 
+                arrayParamIsCorrectOnce = true
+              }
+            }
+            if (!checkFollowingDocParam) {
+              // If the related parameters are correct, we will check the following real parameters
+              realParamIndex += docParam.length
+            }
+          } else {
+            const realParam = args && args[realParamIndex]?.type;
+
+            // The current documentation parameter is required
+            if (docParam.required !== false) {
+              if (!realParam) {
+                  error(`an argument is missing (${docParam.name})`);
+              }
+              if (checkParamsTypes(docParam.type, realParam)) {
+                  docParamIndex += 1;
+                  realParamIndex += 1;
+              } else {
+                  error(`invalid argument (${docParam.name}) (required not good type).`);
+              }
+            }
+            // The current documentation parameter is not required and not specified
+            else if (!realParam) {
+                break;
+            }
+            // The current documentation parameter is specified and multiple but not required
+            else if (docParam.multiple === true) {
+              if (checkParamsTypes(docParam.type, realParam)) {
+                  realParamIndex += 1;
+              } else {
+                  docParamIndex += 1;
+              }
+            }
+            // The current documentation parameter is specified but neither required nor multiple
+            else {
+              if (checkParamsTypes(docParam.type, realParam)) {
+                  docParamIndex += 1;
+                  realParamIndex += 1;
+              } else {
+                  error(`invalid argument (${docParam.name}) (not required not multiple not good type).`);
+              }
+            }
+          }
+        }
+
+        // Invalid number of parameters
+        if (args && args.length !== realParamIndex) {
+          error(`invalid arguments (nb).`);
+        }
+      }
+
+      // Return the type and the value related to the function
+      if (functions[category][name].pgsql && functions[category][name].returnType) {
+        return {
+          value: `(${ Array.isArray(args) ? functions[category][name].pgsql(...args.map(arg => arg.value)) : functions[category][name].pgsql()})`,
+          type: functions[category][name].returnType,
+        };
+      } else {
+        error(`the function ${category}.${name} isn't well configured.`);
+      }
+    } else {
+      error(`the function ${category}.${name} doesn't exist.`);
+    }
+  }
+
+// Function arguments
+arguments
+  = _ first:expression rest:(_ ',' _ arg:expression { return arg; } )* _ 
+  {
+    rest.unshift(first);
+    return rest || [];
+  }
+
+// Basic types
+alpha
+  = [a-zA-Z]
+
+digit
+  = [0-9]
+
+alphanum
+  = alpha / digit
+
+// String
+string
+  = currentString:$("'" singleStringChar* "'") { return { type: columnsTypes.STRING, value: currentString }; }
+
+singleStringChar
+  = !("'" / "\\") $(.)
+  / "\\\"" { return "\'"; }
+
+// Number
+integer
+  = currentInteger:$("-"? digit+) { return { type: columnsTypes.NUMBER, value: currentInteger }; }
+
+decimal
+  = currentDecimal:$("-"? digit+ "." digit+) + { return { type: columnsTypes.FLOAT, value: currentDecimal }; }
+
+// Format the column to use its id with a placeholder in the SQL query and also return its original type
+column
+  = "COLUMN."name:$((alphanum/'-')+) {
+      const currentColumn = columns[name];
+      if (!currentColumn) error(`One column is invalid.`);
+
+      // Format the column name to be used as SQL placeholder
+      let value = `:${name.replace(/-/g,'_')}:`;
+
+      // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key 
+      if (currentColumn.settings.formula_type_id === columnsTypes.SINGLE_SELECT) {
+        const options = currentColumn.settings.values;
+        const optionsRemapped = Object.keys(options).reduce((acc, currentKeyOption) => {
+          acc[currentKeyOption] = options[currentKeyOption].label;
+          return acc;
+        }, {})
+        const optionsJsonString = JSON.stringify(optionsRemapped);
+        value = `('${optionsJsonString}'::json->>${value})`;
+      }
+      return { type: columns[name].settings.formula_type_id, value };
+    }
+
+// Whitespace
+_ "optionalWhitespace"
+  = whitespace *
+
+whitespace
+  = [" "\t\n\r]+
+
+// Unknown
+unknown
+  = !('')(.)* { error('A formula can only contains numbers, strings, functions and column names.'); }

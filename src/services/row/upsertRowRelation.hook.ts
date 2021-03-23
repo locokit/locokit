@@ -15,7 +15,7 @@ export function upsertRowRelation (): Hook {
       (context.params._meta.columnsIdsTransmitted as string[])
         .filter(currentColumnId => {
         // find the matching column
-          const currentColumnDefinition = (context.params._meta.columns as TableColumn[]).find((c: TableColumn) => c.id === currentColumnId)
+          const currentColumnDefinition = (context.params._meta.columns as TableColumn[] ?? []).find((c: TableColumn) => c.id === currentColumnId)
           // check if it's a RELATION_BETWEEN_TABLE
           return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
         })

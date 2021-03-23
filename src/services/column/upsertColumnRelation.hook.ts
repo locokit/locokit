@@ -23,15 +23,15 @@ export function upsertColumnRelation (): Hook {
       }
     // FORMULA
     } else if (context.result.column_type_id === COLUMN_TYPE.FORMULA) {
-      const columnsIdsUsedInFormula = (context.params._meta?.formulaColumns as TableColumn[] || []).map(column => column.id)
+      const columnsIdsUsedInFormula = Object.keys(context.params._meta?.columnsUsedInFormula || {})
       if (context.method === 'create' && columnsIdsUsedInFormula.length > 0) {
         // On create
         await context.app.service('columnrelation').create(
           columnsIdsUsedInFormula.map(columnIdUsedInFormula => ({
             table_column_from_id: columnIdUsedInFormula,
-            table_column_to_id: context.result.id
+            table_column_to_id: context.result.id,
           })),
-          { query: { $noSelect: true } }
+          { query: { $noSelect: true } },
         )
       } else if (['patch', 'update'].includes(context.method)) {
         // On update
@@ -42,15 +42,15 @@ export function upsertColumnRelation (): Hook {
           // Find existing column relations
           const existingColumnsRelations: TableColumnRelation[] = await context.app.services.columnrelation.find({
             query: {
-              table_column_to_id: context.result.id
+              table_column_to_id: context.result.id,
             },
-            paginate: false
+            paginate: false,
           })
 
           // Check that the previous relations are still used
           existingColumnsRelations.forEach(columnRelation => {
             const indexColumnIdUsedInFormula = columnsIdsUsedInFormula.findIndex(
-              id => id === columnRelation.table_column_from_id
+              id => id === columnRelation.table_column_from_id,
             )
             if (indexColumnIdUsedInFormula > -1) {
               // The column was already used in the formula so we don't want to create a duplicate relation
@@ -65,9 +65,9 @@ export function upsertColumnRelation (): Hook {
             await context.app.service('columnrelation').create(
               columnsIdsUsedInFormula.map(columnIdUsedInFormula => ({
                 table_column_from_id: columnIdUsedInFormula,
-                table_column_to_id: context.result.id
+                table_column_to_id: context.result.id,
               })),
-              { query: { $noSelect: true } }
+              { query: { $noSelect: true } },
             )
           }
           // Delete previous relations that are not used anymore if necessary
@@ -76,11 +76,11 @@ export function upsertColumnRelation (): Hook {
               query: {
                 table_column_to_id: context.result.id,
                 table_column_from_id: {
-                  $in: notUsedColumnsFromId
+                  $in: notUsedColumnsFromId,
                 },
                 $limit: notUsedColumnsFromId.length,
-                $noSelect: true
-              }
+                $noSelect: true,
+              },
             })
           }
         } else {
@@ -88,8 +88,8 @@ export function upsertColumnRelation (): Hook {
           await context.app.service('columnrelation').remove(null, {
             query: {
               table_column_to_id: context.result.id,
-              $noSelect: true
-            }
+              $noSelect: true,
+            },
           })
         }
       }

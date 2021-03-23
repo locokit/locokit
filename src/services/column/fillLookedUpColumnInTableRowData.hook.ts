@@ -22,7 +22,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         })
 
         let newDataForCurrentColumn = '{ [context.result.id]: null }'
-        const columnTypeId = foreignColumn.columnAncestor()
+        const columnTypeId = foreignColumn.originalTypeId()
         switch (columnTypeId) {
           case COLUMN_TYPE.USER:
             newDataForCurrentColumn = `

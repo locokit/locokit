@@ -73,11 +73,9 @@ export default {
     patch: [
       commonHooks.iffElse(
         isValidBulkPatch(),
-        // For multiple patch requests with the data:column selector (only tested with the formulas)
+        // For multiple patch requests with the data:column selector (only works with the formulas)
         [
-          loadColumnsDefinition(),
           memorizeColumnsIds(),
-          checkColumnDefinitionMatching()
         ],
         // For single patch requests
         [
@@ -89,8 +87,8 @@ export default {
           completeDataField(),
           computeRowLookedUpColumns(),
           computeTextProperty(),
-        ]
-      )
+        ],
+      ),
     ],
     remove: [
       restrictRemoveIfRelatedRows(),

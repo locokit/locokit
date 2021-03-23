@@ -72,6 +72,7 @@ export function checkColumnDefinitionMatching (): Hook {
     context.params._meta.columns.forEach((column: TableColumn) => {
       columnsDefinitionByColumnId[column.id] = column
     })
+    context.params._meta.columnsDefinitionByColumnId = columnsDefinitionByColumnId
     // console.log('checkColumnDefinitionMatching hook', context.params._meta?.columnsIdsTransmitted, columnsDefinitionByColumnId)
 
     /**
@@ -276,7 +277,7 @@ export function checkColumnDefinitionMatching (): Hook {
             if (context.params.provider) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: 'This type of column can\'t be set. It\'s automagically computed.'
+                columnError: 'This type of column can\'t be set. It\'s automagically computed.',
               })
             }
             break

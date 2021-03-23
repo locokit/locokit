@@ -2,7 +2,7 @@ import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
-import { checkFormula, isFormulaColumn, updatedRelatedRowsFormula } from './formulaColumn.hook'
+import { parseFormula, isFormulaColumn, updatedRelatedRowsFormula } from './formulaColumn.hook'
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
 import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
@@ -19,13 +19,13 @@ export default {
     ],
     get: [],
     create: [
-      iff(isFormulaColumn(), checkFormula()),
+      iff(isFormulaColumn(), parseFormula()),
     ],
     update: [
       disallow('external'),
     ],
     patch: [
-      iff(isFormulaColumn(), checkFormula()),
+      iff(isFormulaColumn(), parseFormula()),
       preventChanges(false, 'column_type_id'),
     ],
     remove: [
