@@ -41,7 +41,9 @@
   --primary-color-darken: #0B373F !important;
   --primary-color-text:#33384A !important;
 
-  --secondary-color: orange !important;
+  --secondary-color: #664300 !important;
+  --secondary-color-lighten: #8e5d00 !important;
+  --secondary-color-darken: #5b3c00 !important;
 
   --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
 

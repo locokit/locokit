@@ -6,7 +6,6 @@
 
   &:enabled {
     &:hover {
-      color: var(var--);
       border-color: var(--primary-color-darken);
       background-color: var(--primary-color-darken);
     }
@@ -91,3 +90,16 @@
     }
   }
 }
+.p-button {
+  &.p-button-secondary {
+    border-color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    &:enabled {
+      &:hover {
+        border-color: var(--secondary-color-darken);
+        background-color: var(--secondary-color-darken);
+      }
+    }
+  }
+}
+
