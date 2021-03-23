@@ -84,7 +84,8 @@ const LCK_SETTINGS = {
   LOGO_BG_WHITE_URL: '/img/logo-bg-white.png',
   LOGO_BG_PRIMARY_URL: '/img/logo-bg-primary.png',
   STORAGE_KEY: 'lck-auth',
-  SENTRY_DSN: 'https://c66594db39164ca7831994d0ea68d117@o421199.ingest.sentry.io/5340581'
+  SENTRY_DSN: 'https://c66594db39164ca7831994d0ea68d117@o421199.ingest.sentry.io/5340581',
+  SENTRY_ENV: 'local'
 }
 ```
 

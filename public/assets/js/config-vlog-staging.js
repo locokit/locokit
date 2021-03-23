@@ -12,5 +12,6 @@ const LCK_SETTINGS = {
   LOGO_BG_WHITE_URL: '/img/logo-bg-white.png',
   LOGO_BG_PRIMARY_URL: '/img/logo-bg-primary.png',
   STORAGE_KEY: 'lck-auth-vlog-staging',
-  SENTRY_DSN: 'https://b217f3673c9c417c82ada33ccf87a57e@sentry.makina-corpus.net/91'
+  SENTRY_DSN: 'https://e9a9a434e12c472da5f9b13eb14ee18d@sentry.makina-corpus.net/6',
+  SENTRY_ENV: 'local'
 }

@@ -6,6 +6,7 @@ declare const LCK_SETTINGS: {
   LOGO_BG_PRIMARY_URL: string;
   STORAGE_KEY: string;
   SENTRY_DSN: string;
+  SENTRY_ENV: string;
 }
 
 declare const LCK_VERSION: string

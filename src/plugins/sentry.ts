@@ -7,6 +7,8 @@ import { Integrations } from '@sentry/tracing'
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: LCK_SETTINGS.SENTRY_DSN,
+    environment: LCK_SETTINGS.SENTRY_ENV,
+    release: LCK_VERSION,
     integrations: [
       new Integrations.BrowserTracing(),
       new VueIntegration({
