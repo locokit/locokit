@@ -1,5 +1,11 @@
 'use strict'
 
+/*
+* Patch of feathers-objection
+* Add/Improve filtering with operator `in` in JSON sub property
+* Add new method `whereNotNull` to handle not null data
+* */
+
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
