@@ -48,7 +48,7 @@ export default Vue.extend({
             tileSize: 256
           }
         },
-        glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+        glyphs: '/fonts/{fontstack}/{range}.pbf',
         layers: [
           {
             id: 'tiles-background',
