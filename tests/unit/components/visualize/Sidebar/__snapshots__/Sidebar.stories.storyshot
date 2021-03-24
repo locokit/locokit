@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
+    class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
       class="p-accordion-tab"
@@ -60,7 +60,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
+    class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
       class="p-accordion-tab"
@@ -317,7 +317,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
+    class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
       class="p-accordion-tab"
@@ -452,7 +452,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-bg-primary lck-sidebar"
+    class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
       class="p-accordion-tab"
