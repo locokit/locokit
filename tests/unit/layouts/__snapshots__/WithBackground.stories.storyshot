@@ -23,7 +23,7 @@ exports[`storyshots layouts/background default 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/themes/locokit/img/logo-white.svg"
+          src="./themes/locokit/img/logo-white.svg"
         />
       </a>
        
@@ -86,7 +86,7 @@ exports[`storyshots layouts/background with all slots 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/themes/locokit/img/logo-white.svg"
+          src="./themes/locokit/img/logo-white.svg"
         />
       </a>
        
@@ -167,7 +167,7 @@ exports[`storyshots layouts/background with slot title 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/themes/locokit/img/logo-white.svg"
+          src="./themes/locokit/img/logo-white.svg"
         />
       </a>
        
