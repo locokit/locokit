@@ -11,7 +11,7 @@ exports[`storyshots layouts/background default 1`] = `
     p-jc-center
     p-ai-center
   "
-    style="background-image: url(/img/bg-intro.jpg); position: relative;"
+    style="background-image: url(); position: relative;"
   >
     <div
       class="p-col"
@@ -23,7 +23,7 @@ exports[`storyshots layouts/background default 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/img/logo-bg-primary.png"
+          src="/themes/locokit/img/logo-white.svg"
         />
       </a>
        
@@ -74,7 +74,7 @@ exports[`storyshots layouts/background with all slots 1`] = `
     p-jc-center
     p-ai-center
   "
-    style="background-image: url(/img/bg-intro.jpg); position: relative;"
+    style="background-image: url(); position: relative;"
   >
     <div
       class="p-col"
@@ -86,7 +86,7 @@ exports[`storyshots layouts/background with all slots 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/img/logo-bg-primary.png"
+          src="/themes/locokit/img/logo-white.svg"
         />
       </a>
        
@@ -155,7 +155,7 @@ exports[`storyshots layouts/background with slot title 1`] = `
     p-jc-center
     p-ai-center
   "
-    style="background-image: url(/img/bg-intro.jpg); position: relative;"
+    style="background-image: url(); position: relative;"
   >
     <div
       class="p-col"
@@ -167,7 +167,7 @@ exports[`storyshots layouts/background with slot title 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="/img/logo-bg-primary.png"
+          src="/themes/locokit/img/logo-white.svg"
         />
       </a>
        

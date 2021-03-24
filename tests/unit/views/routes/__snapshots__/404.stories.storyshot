@@ -23,7 +23,8 @@ exports[`storyshots views/routes/404 default 1`] = `
      
     <img
       class="p-mt-4"
-      src="/img/page-construction-vlogistique.png"
+      src="/themes/page-img/logokit-grayscale.png"
+      style="max-width: 100%;"
     />
   </div>
 </div>

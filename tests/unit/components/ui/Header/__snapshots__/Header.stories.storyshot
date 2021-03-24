@@ -15,13 +15,13 @@ exports[`storyshots components/ui/Header Header with logo (required) 1`] = `
       <img
         alt="logo"
         class="mobile-hide"
-        src="/img/logo-bg-white.png"
+        src="/themes/locokit/img/logo.svg"
       />
        
       <img
         alt="logo mobile"
         class="mobile-show mobile-logo"
-        src="/img/vlo-logo-mobile.png"
+        src="/themes/locokit/img/logo-mobile.svg"
       />
     </a>
      

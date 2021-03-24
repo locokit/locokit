@@ -3,7 +3,6 @@
 import { shallowMount } from '@vue/test-utils'
 
 import { lckServices } from '@/services/lck-api'
-import Sidebar from 'primevue/sidebar'
 
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'

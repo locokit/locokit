@@ -15,7 +15,7 @@ exports[`storyshots components/visualize/Media with props 1`] = `
       >
         <img
           alt="Image"
-          src="./img/page-construction-vlogistique.png"
+          src="./themes/locokit/img/logokit-grayscale.png"
         />
       </div>
     </div>
