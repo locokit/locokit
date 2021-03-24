@@ -1,7 +1,7 @@
 <template>
   <p-accordion
     :multiple="true"
-    class="lck-bg-primary lck-sidebar"
+    class="lck-bg-sidebar lck-sidebar"
   >
     <p-accordion-tab
       v-for="item in items"

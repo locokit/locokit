@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid h-full" v-if="workspaceContent">
-    <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
+    <div class="sidebar-menu-container lck-bg-sidebar o-auto h-max-full">
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
