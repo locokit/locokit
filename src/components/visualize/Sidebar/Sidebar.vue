@@ -155,6 +155,10 @@ a:hover,
   align-items: center;
 }
 
+.p-accordion-content a:visited {
+  color: ;
+}
+
 .p-accordion-content {
   padding-right: 0.5em;
 }
