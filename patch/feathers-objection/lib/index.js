@@ -23,21 +23,7 @@ var _errorHandler = _interopRequireDefault(require('./error-handler'))
 
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 
-function _extends () {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i]
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(
-          source,
-          key
-        )) { target[key] = source[key] }
-      }
-    }
-    return target
-  }
-  return _extends.apply(this, arguments)
-}
+function _extends () { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key] } } } return target }; return _extends.apply(this, arguments) }
 
 const METHODS = {
   $or: 'orWhere',
@@ -103,8 +89,7 @@ const NUMERIC_COMPARISON_OPERATORS = ['<', '<=', '>', '>=']
 class Service extends _adapterCommons.AdapterService {
   constructor (options) {
     if (!options.model) {
-      throw new _errors.default.GeneralError(
-        'You must provide an Objection Model')
+      throw new _errors.default.GeneralError('You must provide an Objection Model')
     }
 
     const whitelist = Object.values(OPERATORS).concat(options.whitelist || [])
@@ -119,12 +104,10 @@ class Service extends _adapterCommons.AdapterService {
     this.allowedEager = options.allowedEager
     this.eagerOptions = options.eagerOptions
     this.eagerFilters = options.eagerFilters
-    this.allowedInsert = options.allowedInsert && _objection.RelationExpression.create(
-      options.allowedInsert)
+    this.allowedInsert = options.allowedInsert && _objection.RelationExpression.create(options.allowedInsert)
     this.insertGraphOptions = options.insertGraphOptions
     this.createUseUpsertGraph = options.createUseUpsertGraph
-    this.allowedUpsert = options.allowedUpsert && _objection.RelationExpression.create(
-      options.allowedUpsert)
+    this.allowedUpsert = options.allowedUpsert && _objection.RelationExpression.create(options.allowedUpsert)
     this.upsertGraphOptions = options.upsertGraphOptions
     this.schema = options.schema
   }
@@ -136,7 +119,6 @@ class Service extends _adapterCommons.AdapterService {
   getModel (params) {
     return this.options.model
   }
-
   /**
    * Create a new query that re-queries all ids that were originally changed
    * @param id
@@ -168,8 +150,7 @@ class Service extends _adapterCommons.AdapterService {
         } else if (ids[index]) {
           query[idKey] = ids[index]
         } else {
-          throw new _errors.default.BadRequest(
-            'When using composite primary key, id must contain values for all primary keys')
+          throw new _errors.default.BadRequest('When using composite primary key, id must contain values for all primary keys')
         }
       })
     } else {
@@ -180,7 +161,6 @@ class Service extends _adapterCommons.AdapterService {
 
     return query
   }
-
   /**
    * Maps a feathers query to the Objection/Knex schema builder functions.
    * @param query - a query object. i.e. { type: 'fish', age: { $lte: 5 }
@@ -188,6 +168,7 @@ class Service extends _adapterCommons.AdapterService {
    * @param parentKey
    * @param methodKey
    * @param allowRefs
+   * @param hierarchy
    */
   objectify (query, params, parentKey, methodKey, allowRefs, hierarchy = []) {
     // console.log('objectify', query, params, parentKey, methodKey, allowRefs, hierarchy)
@@ -228,14 +209,7 @@ class Service extends _adapterCommons.AdapterService {
 
       if (_utils.default.isPlainObject(value)) {
         hierarchy.push(key)
-        return this.objectify(
-          query,
-          value,
-          key,
-          parentKey,
-          allowRefs,
-          hierarchy
-        )
+        return this.objectify(query, value, key, parentKey, allowRefs, hierarchy)
       }
 
       const column = parentKey && parentKey[0] !== '$' ? parentKey : key
@@ -266,16 +240,13 @@ class Service extends _adapterCommons.AdapterService {
         }
 
         if (key === '$null') {
-          return query[value.toString() === 'true' ? method : 'whereNotNull'](
-            column)
+          return query[value.toString() === 'true' ? method : 'whereNotNull'](column)
         }
 
         return query[method].call(query, column, value) // eslint-disable-line no-useless-call
       }
 
-      const property = this.jsonSchema && (
-        this.jsonSchema.properties[column] || hierarchy.length > 0 && this.jsonSchema.properties[hierarchy[0]] || methodKey && this.jsonSchema.properties[methodKey]
-      )
+      const property = this.jsonSchema && (this.jsonSchema.properties[column] || hierarchy.length > 0 && this.jsonSchema.properties[hierarchy[0]] || methodKey && this.jsonSchema.properties[methodKey])
       let columnType = property && property.type
 
       if (columnType) {
@@ -287,16 +258,10 @@ class Service extends _adapterCommons.AdapterService {
           let refColumn
 
           if (!methodKey && key[0] === '$') {
-            refColumn = (
-              0, _objection.ref
-            )(`${this.Model.tableName}.${column}`)
+            refColumn = (0, _objection.ref)(`${this.Model.tableName}.${column}`)
           } else {
-            const prop = (
-              methodKey ? column : key
-            ).replace(/\(/g, '[').replace(/\)/g, ']')
-            refColumn = (
-              0, _objection.ref
-            )(`${this.Model.tableName}.${methodKey || column}:${prop}`)
+            const prop = (methodKey ? column : key).replace(/\(/g, '[').replace(/\)/g, ']')
+            refColumn = (0, _objection.ref)(`${this.Model.tableName}.${methodKey || column}:${prop}`)
           }
 
           if (operator === '@>') {
@@ -339,17 +304,11 @@ class Service extends _adapterCommons.AdapterService {
         const refMatches = value.match(/^ref\((.+)\)$/)
 
         if (refMatches) {
-          value = (
-            0, _objection.ref
-          )(refMatches[1])
+          value = (0, _objection.ref)(refMatches[1])
         }
       }
 
-      return operator === '=' ? query.where(column, value) : query.where(
-        column,
-        operator,
-        value
-      )
+      return operator === '=' ? query.where(column, value) : query.where(column, operator, value)
     })
   }
 
@@ -404,7 +363,8 @@ class Service extends _adapterCommons.AdapterService {
     const q = this._createQuery(params).skipUndefined()
 
     const eagerOptions = {
-      ...this.eagerOptions, ...params.eagerOptions
+      ...this.eagerOptions,
+      ...params.eagerOptions
     }
 
     if (this.allowedEager) {
@@ -423,9 +383,7 @@ class Service extends _adapterCommons.AdapterService {
           const matches = item.match(/^ref\((.+)\)( as (.+))?$/)
 
           if (matches) {
-            items[key] = (
-              0, _objection.ref
-            )(matches[1]).as(matches[3] || matches[1])
+            items[key] = (0, _objection.ref)(matches[1]).as(matches[3] || matches[1])
           }
         }
       }
@@ -450,10 +408,7 @@ class Service extends _adapterCommons.AdapterService {
     }
 
     if (query && query.$mergeEager) {
-      q[query.$joinEager ? 'withGraphJoined' : 'withGraphFetched'](
-        query.$mergeEager,
-        eagerOptions
-      )
+      q[query.$joinEager ? 'withGraphJoined' : 'withGraphFetched'](query.$mergeEager, eagerOptions)
       delete query.$mergeEager
     }
 
@@ -482,13 +437,7 @@ class Service extends _adapterCommons.AdapterService {
       for (const eagerFilterExpression of Object.keys(query.$modifyEager)) {
         const eagerFilterQuery = query.$modifyEager[eagerFilterExpression]
         q.modifyGraph(eagerFilterExpression, builder => {
-          this.objectify(
-            builder,
-            eagerFilterQuery,
-            null,
-            null,
-            query.$allowRefs
-          )
+          this.objectify(builder, eagerFilterQuery, null, null, query.$allowRefs)
         })
       }
 
@@ -500,16 +449,13 @@ class Service extends _adapterCommons.AdapterService {
     if (filters.$sort) {
       Object.keys(filters.$sort).forEach(item => {
         const matches = item.match(/^ref\((.+)\)$/)
-        const key = matches ? (
-          0, _objection.ref
-        )(matches[1]) : item
+        const key = matches ? (0, _objection.ref)(matches[1]) : item
         q.orderBy(key, filters.$sort[item] === 1 ? 'asc' : 'desc')
       })
     }
 
     return q
   }
-
   /**
    * `find` service function for Objection.
    * @param params
@@ -551,9 +497,7 @@ class Service extends _adapterCommons.AdapterService {
       }
 
       if (count) {
-        const countColumns = groupByColumns || (
-          Array.isArray(this.id) ? this.id.map(idKey => `${this.Model.tableName}.${idKey}`) : [`${this.Model.tableName}.${this.id}`]
-        )
+        const countColumns = groupByColumns || (Array.isArray(this.id) ? this.id.map(idKey => `${this.Model.tableName}.${idKey}`) : [`${this.Model.tableName}.${this.id}`])
 
         const countQuery = this._createQuery(params)
 
@@ -576,10 +520,7 @@ class Service extends _adapterCommons.AdapterService {
         }
 
         this.objectify(countQuery, query, null, null, query.$allowRefs)
-        return countQuery.then(count => count && count.length ? parseInt(
-          count[0].total,
-          10
-        ) : 0).then(executeQuery).catch(_errorHandler.default)
+        return countQuery.then(count => count && count.length ? parseInt(count[0].total, 10) : 0).then(executeQuery).catch(_errorHandler.default)
       }
 
       return executeQuery().catch(_errorHandler.default)
@@ -590,12 +531,7 @@ class Service extends _adapterCommons.AdapterService {
       query,
       paginate
     } = this.filterQuery(params)
-    const result = find(
-      params,
-      Boolean(paginate && paginate.default),
-      filters,
-      query
-    )
+    const result = find(params, Boolean(paginate && paginate.default), filters, query)
 
     if (!paginate || !paginate.default) {
       return result.then(page => page.data || page)
@@ -619,7 +555,6 @@ class Service extends _adapterCommons.AdapterService {
       return data[0]
     })
   }
-
   /**
    * `create` service function for Objection.
    * @param {object} data
@@ -630,14 +565,8 @@ class Service extends _adapterCommons.AdapterService {
     const create = (data, params) => {
       const q = this._createQuery(params)
 
-      const allowedUpsert = this.mergeRelations(
-        this.allowedUpsert,
-        params.mergeAllowUpsert
-      )
-      const allowedInsert = this.mergeRelations(
-        this.allowedInsert,
-        params.mergeAllowInsert
-      )
+      const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
+      const allowedInsert = this.mergeRelations(this.allowedInsert, params.mergeAllowInsert)
 
       if (this.createUseUpsertGraph) {
         if (allowedUpsert) {
@@ -683,7 +612,6 @@ class Service extends _adapterCommons.AdapterService {
 
     return create(data, params)
   }
-
   /**
    * `update` service function for Objection.
    * @param id
@@ -706,16 +634,10 @@ class Service extends _adapterCommons.AdapterService {
         }
       }
 
-      const allowedUpsert = this.mergeRelations(
-        this.allowedUpsert,
-        params.mergeAllowUpsert
-      )
+      const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
 
       if (allowedUpsert) {
-        return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(
-          newObject,
-          this.upsertGraphOptions
-        )
+        return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(newObject, this.upsertGraphOptions)
       } // NOTE (EK): Delete id field so we don't update it
 
       if (Array.isArray(this.id)) {
@@ -726,8 +648,7 @@ class Service extends _adapterCommons.AdapterService {
         delete newObject[this.id]
       }
 
-      return this._createQuery(params).where(this.getIdsQuery(id)).update(
-        newObject).then(() => {
+      return this._createQuery(params).where(this.getIdsQuery(id)).update(newObject).then(() => {
         // NOTE (EK): Restore the id field so we can return it to the client
         if (Array.isArray(this.id)) {
           newObject = _extends({}, newObject, this.getIdsQuery(id))
@@ -739,7 +660,6 @@ class Service extends _adapterCommons.AdapterService {
       })
     }).catch(_errorHandler.default)
   }
-
   /**
    * `patch` service function for Objection.
    * @param id
@@ -752,34 +672,21 @@ class Service extends _adapterCommons.AdapterService {
       filters,
       query
     } = this.filterQuery(params)
-    const allowedUpsert = this.mergeRelations(
-      this.allowedUpsert,
-      params.mergeAllowUpsert
-    )
+    const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
 
     if (allowedUpsert && id !== null) {
       const dataCopy = _extends({}, data, this.getIdsQuery(id, null, false))
 
-      return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(
-        dataCopy,
-        this.upsertGraphOptions
-      )
+      return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(dataCopy, this.upsertGraphOptions)
     }
 
     const dataCopy = _extends({}, data)
 
-    const mapIds = page => Array.isArray(this.id) ? this.id.map(idKey => [
-      ...new Set((
-        page.data || page
-      ).map(current => current[idKey]))
-    ]) : (
-                             page.data || page
-                           ).map(current => current[this.id]) // By default we will just query for the one id. For multi patch
+    const mapIds = page => Array.isArray(this.id) ? this.id.map(idKey => [...new Set((page.data || page).map(current => current[idKey]))]) : (page.data || page).map(current => current[this.id]) // By default we will just query for the one id. For multi patch
     // we create a list of the ids of all items that will be changed
     // to re-query them after the update
 
-    const ids = id === null ? this._find(params).then(mapIds) : Promise.resolve(
-      [id])
+    const ids = id === null ? this._find(params).then(mapIds) : Promise.resolve([id])
 
     if (id !== null) {
       if (Array.isArray(this.id)) {
@@ -809,12 +716,7 @@ class Service extends _adapterCommons.AdapterService {
       } : undefined
 
       const findParams = _extends({}, params, {
-        query: _extends(
-          {},
-          params.query,
-          this.getIdsQuery(id, idList),
-          selectParam
-        )
+        query: _extends({}, params.query, this.getIdsQuery(id, idList), selectParam)
       })
 
       for (const key of Object.keys(dataCopy)) {
@@ -824,8 +726,7 @@ class Service extends _adapterCommons.AdapterService {
       }
 
       return q.patch(dataCopy).then(() => {
-        return params.query && params.query.$noSelect ? {} : this._find(
-          findParams).then(page => {
+        return params.query && params.query.$noSelect ? {} : this._find(findParams).then(page => {
           const items = page.data || page
 
           if (id !== null) {

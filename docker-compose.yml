@@ -27,16 +27,17 @@ services:
       - ./dumps:/dumps
     container_name: lck-api-db-test
 
-#  mailhog:
-#    image: mailhog/mailhog:latest
-#    environment:
-#      MH_STORAGE: maildir
-#      MH_MAILDIR_PATH: /home/mailhog
-#    volumes:
-#      - mailhog:/home/mailhog/
-#    ports:
-#      - 1025:1025
-#      - 8025:8025
+  mailhog:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      - 1025:1025
+      - 8025:8025
+    container_name: lck-api-mailhog
 
 volumes:
   lck-db-data:
