@@ -25,7 +25,7 @@ import {
   transformEWKTtoFeature
 } from '@/services/lck-utils/map'
 import { columnAncestor } from '@/services/lck-utils/columns'
-import { LckTableViewColumn } from '@/services/lck-api/definitions'
+import { LckTableColumn, LckTableRow, LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 import {
   COLUMN_TYPE,
@@ -89,25 +89,27 @@ export default Vue.extend({
       return layers
     },
     createGeoJsonFeaturesCollection (
-      rows: { data: { [key: string]: string | { value: string } | null } }[],
+      rows: LckTableRow[],
       geoColumns: LckTableViewColumn[]
     ) {
       const features: Feature[] = []
 
+      function getEWKTFromGeoColumn (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string {
+        switch (geoColumn.column_type_id) {
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            return (data[geoColumn.id] as { value: string })?.value
+          default:
+            return data[geoColumn.id] as string
+        }
+      }
+
       rows.forEach(row => {
         geoColumns.forEach(geoColumn => {
-          if (geoColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
-            if (row.data[geoColumn.id]?.value) {
-              const feature = this.transformEWKTtoFeature(row.data[geoColumn.id]?.value)
-              features.push(feature)
-            }
-          } else {
-            // Case for column_type Point, Linestring, Polygon
-            if (row.data[geoColumn.id]) {
-              const feature = this.transformEWKTtoFeature(row.data[geoColumn.id])
-              features.push(feature)
-            }
-          }
+          features.push(
+            this.transformEWKTtoFeature(
+              getEWKTFromGeoColumn(geoColumn, row.data)
+            )
+          )
         })
       })
 
