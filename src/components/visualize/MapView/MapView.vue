@@ -4,9 +4,12 @@
     class="lck-mapview-block-content"
   >
     <lck-map
-      v-if="resources && options"
+      v-if="resources"
       :resources="resources"
-      :options="options"
+      :options="{
+        maxZoom: 16,
+        minZoom: 1
+      }"
     />
     <span v-else>{{ $t('components.mapview.noData') }}</span>
   </div>
@@ -19,7 +22,6 @@ import GeoJSON from 'ol/format/GeoJSON'
 import { Feature } from 'ol'
 
 import {
-  computeCenterFeatures,
   GEO_STYLE,
   isGEOColumn,
   transformEWKTtoFeature
@@ -53,7 +55,6 @@ export default Vue.extend({
   },
   methods: {
     transformEWKTtoFeature,
-    computeCenterFeatures,
     getOnlyGeoColumn (
       columns: LckTableViewColumn[]
     ): LckTableViewColumn[] {
@@ -94,7 +95,7 @@ export default Vue.extend({
     ) {
       const features: Feature[] = []
 
-      function getEWKTFromGeoColumn (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string {
+      const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
         switch (geoColumn.column_type_id) {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
             return (data[geoColumn.id] as { value: string })?.value
@@ -105,11 +106,10 @@ export default Vue.extend({
 
       rows.forEach(row => {
         geoColumns.forEach(geoColumn => {
-          features.push(
-            this.transformEWKTtoFeature(
-              getEWKTFromGeoColumn(geoColumn, row.data)
-            )
-          )
+          const data = getEWKTFromGeoColumn(geoColumn, row.data)
+          if (data) {
+            features.push(this.transformEWKTtoFeature(data))
+          }
         })
       })
 
@@ -131,20 +131,6 @@ export default Vue.extend({
           ...features
         }
       ]
-    },
-    options () {
-      const geoColumns = this.getOnlyGeoColumn(this.definition?.columns)
-      const features = this.createGeoJsonFeaturesCollection(this.content?.data, geoColumns)
-      if (features?.features.length > 0) {
-        const centerFeaturesCollection = this.computeCenterFeatures(features)
-        return {
-          center: centerFeaturesCollection?.geometry?.coordinates,
-          zoom: 9,
-          maxZoom: 16,
-          minZoom: 1
-        }
-      }
-      return null
     }
   }
 })
