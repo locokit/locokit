@@ -130,14 +130,16 @@ export async function exportTableRowData (tableViewId: string, filters: object =
     }) as Paginated<LckTableRow>
     allData.push(...data)
   }
-  let exportCSV = result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
+  let exportCSV = '\ufeff' + result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += allData.map(currentRow =>
-    result.columns?.map(currentColumn =>
-      '"' + getColumnDisplayValue(
+    result.columns?.map(currentColumn => {
+      const value = getColumnDisplayValue(
         currentColumn,
         currentRow.data[currentColumn.id]
-      ) + '"'
-    ).join(',')
+      )
+      const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
+      return '"' + sanitizedValue + '"'
+    }).join(',')
   ).join('\n')
   return exportCSV
 }
