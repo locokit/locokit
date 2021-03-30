@@ -42,7 +42,8 @@
     "vue-i18n": "^8.18.2",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^2.24.3",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",

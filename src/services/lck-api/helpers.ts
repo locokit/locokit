@@ -3,6 +3,7 @@ import { Paginated } from '@feathersjs/feathers'
 import { LckGroup, LckTableColumn, LckTableRow, LckTableRowData, LckTableRowDataComplex, LCKTableRowMultiDataComplex, LckUser } from './definitions'
 import { lckServices } from './services'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import XLSX from 'xlsx'
 
 /**
  * Return the display value for a column.
@@ -105,7 +106,7 @@ export async function searchItems ({ columnTypeId, tableId, query }: { columnTyp
   return items
 }
 
-export async function exportTableRowData (tableViewId: string, filters: object = {}) {
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}) {
   const rowsPerRequest = 20
   const result = await lckServices.tableView.get(tableViewId, {
     query: {
@@ -130,6 +131,7 @@ export async function exportTableRowData (tableViewId: string, filters: object =
     }) as Paginated<LckTableRow>
     allData.push(...data)
   }
+
   let exportCSV = '\ufeff' + result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += allData.map(currentRow =>
     result.columns?.map(currentColumn => {
@@ -144,8 +146,47 @@ export async function exportTableRowData (tableViewId: string, filters: object =
   return exportCSV
 }
 
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}) {
+  const rowsPerRequest = 20
+  const result = await lckServices.tableView.get(tableViewId, {
+    query: {
+      $eager: 'columns'
+    }
+  })
+  result.columns = result.columns?.sort((a, b) => a.position - b.position)
+  const query: Record<string, string | number | object> = {
+    table_view_id: tableViewId,
+    $limit: rowsPerRequest,
+    $skip: 0,
+    $sort: {
+      createdAt: 1
+    },
+    ...filters
+  }
+  const { data: allData, total } = await lckServices.tableRow.find({ query }) as Paginated<LckTableRow>
+  for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
+    query.$skip = i
+    const { data } = await lckServices.tableRow.find({
+      query
+    }) as Paginated<LckTableRow>
+    allData.push(...data)
+  }
+
+  const exportXLS = (allData) => {
+    /* make the worksheet */
+    const ws = XLSX.utils.json_to_sheet(allData)
+    /* add to workbook */
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+    /* generate an XLSX file */
+    XLSX.writeFile(wb, 'export.xlsx')
+  }
+  return exportXLS(allData)
+}
+
 export default {
   searchItems,
-  exportTableRowData,
+  exportTableRowDataCSV,
+  exportTableRowDataXLS,
   getColumnDisplayValue
 }

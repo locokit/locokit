@@ -8,7 +8,7 @@
       class="lck-dropdownbutton-menubutton"
       :class="[buttonClass, icon ? 'button-with-icon' : '' ]"
       :icon="icon"
-      :iconPos="iconPos"
+      iconPos="left"
       @click="onDropdownButtonClick"
       :disabled="disabled"
       aria-haspopup="true"
@@ -119,24 +119,21 @@ export default {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    padding-right: 2rem;
 
-    &:not(.button-with-icon) {
-      padding-right: 2rem;
-
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        display: inline-flex;
-        width: 16px;
-        padding: 0 5px;
-        background-image: url("data:image/svg+xml,%3Csvg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-down' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 16px;
-      }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: inline-flex;
+      width: 16px;
+      padding: 0 5px;
+      background-image: url("data:image/svg+xml,%3Csvg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-down' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px;
     }
   }
 }

@@ -28,13 +28,12 @@
           class="p-mr-2"
           @click="onClickAddButton"
         />
-        <p-button
+        <lck-dropdown-button
+          label="Export"
           v-if="exportAllowed"
           :disabled="!hasDataToDisplay"
-          label="Export"
-          class="p-button-secondary"
+          :model="fileExportFormat"
           :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-          @click="$emit('export-view')"
         />
       </div>
     </div>
@@ -74,6 +73,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import Button from 'primevue/button'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
@@ -86,6 +86,7 @@ export default {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
+    'lck-dropdown-button': DropdownButton,
     'lck-dialog-form': DialogForm,
     'p-button': Vue.extend(Button)
   },
@@ -128,7 +129,21 @@ export default {
     return {
       displayNewDialog: false,
       newRow: {},
-      currentDatatableFilters: []
+      currentDatatableFilters: [],
+      fileExportFormat: [
+        {
+          label: 'Export as CSV',
+          command: () => {
+            this.$emit('export-view-csv')
+          }
+        },
+        {
+          label: 'Export as XLS',
+          command: () => {
+            this.$emit('export-view-xls')
+          }
+        }
+      ]
     }
   },
   computed: {
