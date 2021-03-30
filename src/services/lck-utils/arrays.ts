@@ -1,4 +1,4 @@
-export function zipArrays (firstArray: [], secondArray: [], firstKey: string, secondKey: string) {
+export const zipArrays = (firstArray: [], secondArray: [], firstKey: string, secondKey: string) => {
   const zippedArray: object[] = []
   if (Array.isArray(firstArray) && Array.isArray(secondArray)) {
     const maxLength = Math.max(firstArray.length, secondArray.length)
@@ -10,4 +10,17 @@ export function zipArrays (firstArray: [], secondArray: [], firstKey: string, se
     }
   }
   return zippedArray
+}
+
+/**
+ * Get dimension of an array
+ * @param value
+ */
+export const getArrayDepth = (value: any): number => {
+  return Array.isArray(value) ? 1 + Math.max(...value.map(getArrayDepth)) : 0
+}
+
+export default {
+  zipArrays,
+  getArrayDepth
 }

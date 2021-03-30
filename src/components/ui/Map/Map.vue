@@ -8,15 +8,34 @@ import Vue, { PropType } from 'vue'
 
 import mapboxgl, {
   AnyLayer,
+  LngLatBounds,
   Map,
   MapboxOptions,
+  MapLayerMouseEvent,
   NavigationControl,
+  Popup,
   ScaleControl,
-  LngLatBounds,
   LngLatLike
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { LckGeoResource, LckImplementedLayers, LckImplementedLayoutProperty, LckImplementedPaintProperty } from '@/services/lck-utils/map'
+import {
+  LckGeoResource,
+  LckImplementedLayers,
+  LckImplementedLayoutProperty,
+  LckImplementedPaintProperty
+} from '@/services/lck-utils/map'
+
+import { TranslateResult } from 'vue-i18n'
+
+interface PopupContent {
+  class?: string | null;
+  field?: {
+    label?: string | null;
+    value?: string | null;
+    color?: string | null;
+    backgrondColor?: string | null;
+  };
+}
 
 export enum MODE {
   BLOCK = 'Block',
@@ -37,6 +56,10 @@ export default Vue.extend({
     mode: {
       type: String as PropType<MODE>,
       default: MODE.BLOCK
+    },
+    isPopup: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -96,6 +119,9 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.loadResources()
       this.setFitBounds()
+      if (this.mode === MODE.BLOCK && this.isPopup) {
+        this.createPopup()
+      }
     })
   },
   methods: {
@@ -287,6 +313,90 @@ export default Vue.extend({
         padding: 40,
         animate: this.mode === MODE.BLOCK
       })
+    },
+    sendIdToDetail (rowId: string) {
+      this.$emit('open-detail', rowId)
+    },
+    createPopup () {
+      const allResourceId: string[] = this.resources.reduce((acc, resource) => {
+        const ids = resource.layers.map((layer) => (`${resource.id}-${layer.id}`))
+        acc.push(...ids)
+        return acc
+      }, [] as string[])
+
+      allResourceId.forEach(resourceId => {
+        // Add Popup on layer on click
+        this.map!.on(
+          'click',
+          resourceId,
+          (e: MapLayerMouseEvent) => {
+            if (e.features && e.features[0].properties) {
+              const properties = e.features[0].properties
+
+              let html = `<p class="popup-row-title">${properties.title}</p>`
+
+              const line = (content: PopupContent) => `<p class=${content.class}'>${content?.field?.label}: ${content?.field?.value}</p>`
+
+              if (properties.content) {
+                const content = JSON.parse(properties?.content)
+                if (content.length > 0) {
+                  html += `
+                  <div class="popup-row-content">
+                    ${content.reduce((acc: string, content: PopupContent) => acc + line(content), '' as string)}
+                  </div>
+                `
+                }
+              }
+
+              if (properties.rowId) {
+                const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
+
+                html += `
+                <div class="popup-row-footer">
+                  <a id="row-detail-page">${textDetailPage}</a>
+                </div>
+              `
+              }
+
+              const popup = new Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(html)
+                .addTo(this.map!)
+
+              if (properties.rowId) {
+                const element = popup.getElement()
+                const link = element.querySelector('.popup-row-footer #row-detail-page')
+                if (link) {
+                  link.addEventListener('click', () => this.sendIdToDetail(properties.rowId))
+
+                  const { sendIdToDetail } = this
+                  popup.on('close', function () {
+                    link.removeEventListener('click', () => sendIdToDetail)
+                  })
+                }
+              }
+            }
+          }
+        )
+
+        // Change the cursor to a pointer
+        this.map!.on(
+          'mouseenter',
+          resourceId,
+          () => {
+            this.map!.getCanvas().style.cursor = 'pointer'
+          }
+        )
+
+        // Change it back
+        this.map!.on(
+          'mouseleave',
+          resourceId,
+          () => {
+            this.map!.getCanvas().style.cursor = ''
+          }
+        )
+      })
     }
   },
   watch: {
@@ -335,5 +445,31 @@ export default Vue.extend({
 }
 /deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
   box-sizing: content-box;
+}
+
+/* Styles de la modale */
+/deep/ .mapboxgl-popup {
+  min-width: 180px;
+}
+
+/deep/ .mapboxgl-popup-content p {
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+/deep/ .mapboxgl-popup-content p.popup-row-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--primary-color);
+  margin-top: -10px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding: 5px 10px 0 10px;
+}
+
+/deep/ .mapboxgl-popup-close-button {
+  color: var(--primary-color);
 }
 </style>

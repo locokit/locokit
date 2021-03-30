@@ -181,7 +181,10 @@
       "noResultByWeek": "Aucun résultat"
     },
     "mapview": {
-      "noData": "Position inconnue"
+      "noGeoData": "Aucune donnée géométrique n'est disponible.",
+      "textDetailPage": "Voir le détail",
+      "noReference": "Référence inconnue",
+      "noRowData": "Information inconnue"
     }
   },
   "pages": {
