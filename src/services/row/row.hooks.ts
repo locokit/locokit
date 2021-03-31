@@ -24,7 +24,7 @@ import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
-import { isValidBulkPatch } from './isValidBulkPatch'
+import { isBulkPatch, isValidBulkPatch } from './isBulkPatch'
 import {
   selectColumnsOfTableOrTableView,
   rebuildData,
@@ -72,10 +72,17 @@ export default {
     ],
     patch: [
       commonHooks.iffElse(
-        isValidBulkPatch(),
-        // For multiple patch requests with the data:column selector (only works with the formulas)
+        // For multiple patch requests
+        isBulkPatch(),
         [
-          memorizeColumnsIds(),
+          commonHooks.iffElse(
+            // For internal requests with the data:column selector (only works with the formulas)
+            isValidBulkPatch(),
+            [
+              memorizeColumnsIds(),
+            ],
+            commonHooks.disallow(),
+          ),
         ],
         // For single patch requests
         [

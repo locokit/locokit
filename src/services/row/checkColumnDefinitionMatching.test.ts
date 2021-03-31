@@ -279,6 +279,9 @@ describe('checkColumnDefinitionMatching hook', () => {
       text: 'Formula',
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
+      settings: {
+        formula: '"MyFormulaString"',
+      },
     })
     columnTable1File = await app.service('column').create({
       text: 'File',
@@ -968,7 +971,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('user').remove(user.id)
   })
 
-  it('accept a value for a FORMULA column type with an internal request', async () => {
+  it('accept a value for a FORMULA column type with an internal request.', async () => {
     expect.assertions(3)
     const rowTable1 = await app.service('row')
       .create({
@@ -980,6 +983,25 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     expect(rowTable1.data[columnTable1Formula.id]).toBe(123456)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a value for a FORMULA column type with an internal request and the use of the data:columnId operator', async () => {
+    expect.assertions(3)
+    let rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1Formula.id]: 123456,
+        },
+        table_id: table1.id,
+      })
+    rowTable1 = await app.service('row')
+      .patch(rowTable1.id, {
+        [`data:${columnTable1Formula.id}`]: 'newValue',
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1Formula.id]).toBe('newValue')
     await app.service('row').remove(rowTable1.id)
   })
 
@@ -1436,6 +1458,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1URL.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2Name.id)
+    await app.service('column').remove(columnTable1GeomPoint.id)
+    await app.service('column').remove(columnTable1GeomPolygon.id)
+    await app.service('column').remove(columnTable1GeomLinestring.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)

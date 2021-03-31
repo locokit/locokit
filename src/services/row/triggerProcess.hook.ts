@@ -9,6 +9,8 @@ import { TableRow } from '../../models/tablerow.model'
 export async function triggerProcess (context: HookContext): Promise<HookContext> {
   const updatedRows: TableRow[] = Array.isArray(context.result) ? context.result : [context.result]
 
+  if (updatedRows.length === 0) return context
+
   /**
    * Find all triggers on this table that are not MANUAL or CRON events
    */
@@ -27,7 +29,7 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
     paginate: false,
   })
 
-  const processRunCreatePromises: Promise<any>[] = []
+  const processRunCreatePromises: Array<Promise<ProcessTrigger>> = []
 
   /**
    * Filter triggers that are with the "good" events
@@ -60,7 +62,7 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
             text: 'Triggering process ' + Date.now(),
             process_id: currentTrigger.id,
             table_row_id: updatedRow.id,
-          })
+          }),
         )
       })
     }

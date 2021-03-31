@@ -128,6 +128,11 @@ export class TableColumn extends BaseModel {
     }
   }
 
+  /**
+   * Returns the original type id of the column. Note that for a LOOKED_UP_COLUMN, the returned type
+   * is the LOOKED_UP_COLUMN type if the parents are not computed.
+   * @returns The original type id of the column.
+   */
   originalTypeId (): COLUMN_TYPE {
     if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings?.formula_type_id as COLUMN_TYPE
     if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {

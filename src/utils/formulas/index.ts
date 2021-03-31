@@ -1,5 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { fn, FunctionBuilder, raw, ref, ReferenceBuilder } from 'objection'
+import { fn, FunctionBuilder, raw, ref, ReferenceBuilder, UniqueViolationError } from 'objection'
 import { TableColumn } from '../../models/tablecolumn.model'
 
 interface IFormulaBasicParameter {
@@ -20,9 +20,10 @@ interface IFormula {
   // A function that have as input the function parameters as string and which returns the postgresql code to execute as formula.
   pgsql: (...args: string[]) => string
   // A list of the parameters configurations : we can use
-  // either a single parameter (which can be required or not, multiple or not)
-  // either an array of related parameters (the array is required at least once and if one parameter of this array is specified,
-  // then the other ones of this array also must be specified)
+  // either a single parameter which can be required or not, multiple or not (if a parameter is both required and multiple, then it's required once)
+  // either an array of related parameters (the array is required at least once and if one parameter of this
+  // array is specified, then the other ones of this array also must be specified)
+  // NOTE THAT A REQUIRED PARAMETER CAN'T BE PLACED AFTER A FACULTATIVE, MULTIPLE OR RELATED ONES IF THEY HAVE THE SAME TYPE
   params?: Array<IFormulaParameter | IFormulaBasicParameter[]>
   // The return type of the function.
   returnType: COLUMN_TYPE | COLUMN_TYPE[]
@@ -39,7 +40,6 @@ export type ColumnsReferences = Record<string, FunctionBuilder>
 // The list of the columns types that can be used as function text parameters.
 export const TEXT_TYPES = [
   COLUMN_TYPE.GROUP,
-  COLUMN_TYPE.MULTI_USER,
   COLUMN_TYPE.RELATION_BETWEEN_TABLES,
   COLUMN_TYPE.SINGLE_SELECT,
   COLUMN_TYPE.STRING,
@@ -54,18 +54,7 @@ const NUMERIC_TYPES = [
   COLUMN_TYPE.NUMBER,
 ]
 
-// The list of the columns types that can't be used in a formula.
-export const notImplementedInFormulaColumnTypes = [
-  COLUMN_TYPE.FILE,
-  COLUMN_TYPE.FORMULA,
-  COLUMN_TYPE.GEOMETRY_POINT,
-  COLUMN_TYPE.GEOMETRY_POLYGON,
-  COLUMN_TYPE.GEOMETRY_LINESTRING,
-  COLUMN_TYPE.MULTI_GROUP,
-  COLUMN_TYPE.MULTI_SELECT,
-]
-
-// The list of the columns types that can be used in a formula
+// The list of the original columns types that can be used in a formula
 export const implementedInFormulaColumnTypes = [
   ...TEXT_TYPES,
   ...NUMERIC_TYPES,
@@ -78,17 +67,15 @@ export const implementedInFormulaColumnTypes = [
  * @param column The column that we want to use in a SQL query.
  * @returns The SQL reference of the input column with the correct type.
  */
-export function getFormattedColumn (column: TableColumn): ReferenceBuilder {
-  if (!column.settings.formula_type_id) throw Error('The original type of the column is not specified')
+function getFormattedColumn (column: TableColumn): ReferenceBuilder {
   switch (column.column_type_id) {
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
-    case COLUMN_TYPE.MULTI_USER:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
     case COLUMN_TYPE.USER:
-      return castColumnReference(ref(`data:${column.id}.value`), column.settings.formula_type_id)
+      return castColumnReference(ref(`data:${column.id}.value`), column.originalTypeId())
     default:
-      return castColumnReference(ref(`data:${column.id}`), column.settings.formula_type_id)
+      return castColumnReference(ref(`data:${column.id}`), column.originalTypeId())
   }
 }
 
@@ -119,13 +106,13 @@ function castColumnReference (columnReference: ReferenceBuilder, originalColumnT
  * @returns An array containing the list of the columns ids.
  */
 export function getColumnIdsFromFormula (formula: string): string[] {
-  const regex = /(?<=COLUMN\.)([a-z0-9-]*)/g
+  const regex = /(?<=COLUMN\.)([a-z0-9-]+)/g
   return [...new Set(formula.match(regex) ?? [])]
 }
 
 /**
  * Get an object containing the columns references to use placeholders in the sql query (objection.js format).
- * @param columns A list of columns which can be specified in the formula.
+ * @param columns An object containing the columns which can be specified in the formula, with the columns ids as keys.
  * @returns An object containing the columns ids as keys and the corresponding references.
  */
 export function getColumnsReferences (columns: Record<string, TableColumn> = {}): ColumnsReferences {
@@ -144,8 +131,14 @@ export function getColumnsReferences (columns: Record<string, TableColumn> = {})
  * @returns A SQL request (FunctionBuilder format).
  */
 export function getSQLRequestFromFormula (formula: IParsedFormula, columnsReferences: ColumnsReferences): FunctionBuilder {
-  // Only cast the result if it is a text
-  const castResult = TEXT_TYPES.includes(formula.type) ? '::text' : ''
+  let castResult = ''
+  // Cast the result if it is a text
+  if (TEXT_TYPES.includes(formula.type)) {
+    castResult = '::text'
+  } else if (formula.type === COLUMN_TYPE.DATE) {
+    // Cast the result if it is a date
+    castResult = '::date'
+  }
   return fn.coalesce(
     raw(`to_jsonb(${formula.value}${castResult})`, columnsReferences),
     raw("jsonb 'null'"),
@@ -164,10 +157,9 @@ enum FUNCTION_CATEGORY {
 export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   DATE: {
     DATEADD: {
-      pgsql: (date, number, unit) =>
-        `case when ${unit} = ANY('{year,month,week,day,hour,minute,second}')
-          then ${date} + interval '${number} ${unit}'
-        end`,
+      pgsql: (date, number, unit) => {
+        return `case when ${unit} = any('{year,month,week,day,hour,minute,second}') then ${date} + (${number}||${unit})::interval end`
+      },
       params: [
         {
           name: 'startDate',
@@ -175,24 +167,22 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
         },
         {
           name: 'number',
-          type: COLUMN_TYPE.FLOAT,
+          type: NUMERIC_TYPES,
         },
         {
           name: 'unit',
           type: COLUMN_TYPE.STRING,
         },
       ],
-      returnType: COLUMN_TYPE.NUMBER,
+      returnType: COLUMN_TYPE.DATE,
     },
     DATEDIF: {
-      pgsql: (startDate, endDate, unit) =>
-        `case ${unit}
-          when 'year' then date_part('year', age(${endDate}, ${startDate}))
-          when 'month' then date_part('year', age(${endDate}, ${startDate})) * 12 +
-                        date_part('month', age(${endDate}, ${startDate}))
-          when 'day' then ${endDate} - ${startDate}
-        end
-        `,
+      pgsql: (startDate, endDate, unit) => {
+        const yearCase = `date_part('year', age(${endDate}, ${startDate}))`
+        const monthCase = `date_part('year', age(${endDate}, ${startDate})) * 12 + date_part('month', age(${endDate}, ${startDate}))`
+        const dayCase = `date_part('day', ${endDate} - ${startDate})`
+        return `case ${unit} when 'year' then ${yearCase} when 'month' then ${monthCase} when 'day' then ${dayCase} end`
+      },
       params: [
         {
           name: 'startDate',
@@ -219,6 +209,48 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       ],
       returnType: COLUMN_TYPE.NUMBER,
     },
+    EARLIER: {
+      pgsql: (firstDate, secondDate) => `${firstDate} < ${secondDate}`,
+      params: [
+        {
+          name: 'firstDate',
+          type: COLUMN_TYPE.DATE,
+        },
+        {
+          name: 'secondDate',
+          type: COLUMN_TYPE.DATE,
+        },
+      ],
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
+    EQUAL: {
+      pgsql: (firstDate, secondDate) => `${firstDate} = ${secondDate}`,
+      params: [
+        {
+          name: 'firstDate',
+          type: COLUMN_TYPE.DATE,
+        },
+        {
+          name: 'secondDate',
+          type: COLUMN_TYPE.DATE,
+        },
+      ],
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
+    EOMONTH: {
+      pgsql: (date, numMonths) => `date_trunc('month', ${date}) + (${numMonths} + 1 || 'month')::interval - interval '1 day'`,
+      params: [
+        {
+          name: 'date',
+          type: COLUMN_TYPE.DATE,
+        },
+        {
+          name: 'numMonths',
+          type: COLUMN_TYPE.NUMBER,
+        },
+      ],
+      returnType: COLUMN_TYPE.DATE,
+    },
     HOUR: {
       pgsql: (date) => `date_part('hour', ${date})`,
       params: [
@@ -230,42 +262,14 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     LATER: {
-      pgsql: (date1, date2) => `${date1} > ${date2}`,
+      pgsql: (firstDate, secondDate) => `${firstDate} > ${secondDate}`,
       params: [
         {
-          name: 'date1',
+          name: 'firstDate',
           type: COLUMN_TYPE.DATE,
         },
         {
-          name: 'date2',
-          type: COLUMN_TYPE.DATE,
-        },
-      ],
-      returnType: COLUMN_TYPE.BOOLEAN,
-    },
-    EARLIER: {
-      pgsql: (date1, date2) => `${date1} < ${date2}`,
-      params: [
-        {
-          name: 'date1',
-          type: COLUMN_TYPE.DATE,
-        },
-        {
-          name: 'date2',
-          type: COLUMN_TYPE.DATE,
-        },
-      ],
-      returnType: COLUMN_TYPE.BOOLEAN,
-    },
-    EQUAL: {
-      pgsql: (date1, date2) => `${date1} = ${date2}`,
-      params: [
-        {
-          name: 'date1',
-          type: COLUMN_TYPE.DATE,
-        },
-        {
-          name: 'date2',
+          name: 'secondDate',
           type: COLUMN_TYPE.DATE,
         },
       ],
@@ -302,7 +306,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     WEEKDAY: {
-      pgsql: (date) => `date_part('dow', ${date})`,
+      pgsql: (date) => `date_part('isodow', ${date})`,
       params: [
         {
           name: 'date',
@@ -322,7 +326,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     YEAR: {
-      pgsql: (date) => `date_part('year', ${date})`,
+      pgsql: (date) => `date_part('isoyear', ${date})`,
       params: [
         {
           name: 'date',
@@ -334,16 +338,11 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   },
   LOGIC: {
     AND: {
-      pgsql: (...args) => `${args.join(' and ')}`,
+      pgsql: (...conditions) => `${conditions.join(' and ')}`,
       params: [
         {
-          name: 'first condition',
+          name: 'conditions',
           type: COLUMN_TYPE.BOOLEAN,
-        },
-        {
-          name: 'other conditions',
-          type: COLUMN_TYPE.BOOLEAN,
-          required: false,
           multiple: true,
         },
       ],
@@ -354,7 +353,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     IF: {
-      pgsql: (condition, resultIfTrue, resultIfFalse) => `case when ${condition} then ${resultIfTrue} else ${resultIfFalse} end`,
+      pgsql: (condition, resultIfTrue, resultIfFalse) => `case when ${condition} then ${resultIfTrue}::text else ${resultIfFalse}::text end`,
       params: [
         {
           name: 'condition',
@@ -373,13 +372,11 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
     },
     IFS: {
       pgsql: (...args) => {
-        let ifsRequest = 'case'
+        let ifsRequest = 'case '
         for (let index = 0; index < args.length; index += 2) {
-          const condition = args[index]
-          const result = args[index + 1]
-          ifsRequest += ` when ${condition} then ${result}`
+          ifsRequest += `when ${args[index]} then ${args[index + 1]}::text `
         }
-        ifsRequest += ' end'
+        ifsRequest += 'end'
         return ifsRequest
       },
       params: [
@@ -396,19 +393,40 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
+    NOT: {
+      pgsql: (condition) => `not(${condition})`,
+      params: [
+        {
+          name: 'condition',
+          type: COLUMN_TYPE.BOOLEAN,
+        },
+      ],
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
+    OR: {
+      pgsql: (...args) => `${args.join(' or ')}`,
+      params: [
+        {
+          name: 'conditions',
+          type: COLUMN_TYPE.BOOLEAN,
+          multiple: true,
+        },
+      ],
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
     SWITCH: {
       pgsql: (expression, ...args) => {
+        const numArgs = args.length
         // Add expression
         let switchRequest = `case ${expression}`
         // Add the switch cases
-        for (let index = 0; index < args.length; index += 2) {
-          const condition = args[index]
+        for (let index = 0; index < numArgs; index += 2) {
           const result = args[index + 1]
-          if (result) switchRequest += ` when ${condition} then ${result}`
+          if (result) switchRequest += ` when ${args[index]} then ${result}::text`
         }
         // Add the default case if specified
-        if (args.length % 2 === 1) {
-          switchRequest += ` else ${args[args.length - 1]}`
+        if (numArgs % 2 === 1) {
+          switchRequest += ` else ${args[numArgs - 1]}::text`
         }
         switchRequest += ' end'
         return switchRequest
@@ -440,36 +458,10 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: () => 'true',
       returnType: COLUMN_TYPE.BOOLEAN,
     },
-    NOT: {
-      pgsql: (condition) => `not(${condition})`,
-      params: [
-        {
-          name: 'condition',
-          type: COLUMN_TYPE.BOOLEAN,
-        },
-      ],
-      returnType: COLUMN_TYPE.BOOLEAN,
-    },
-    OR: {
-      pgsql: (...args) => `${args.join(' or ')}`,
-      params: [
-        {
-          name: 'first condition',
-          type: COLUMN_TYPE.BOOLEAN,
-        },
-        {
-          name: 'other conditions',
-          type: COLUMN_TYPE.BOOLEAN,
-          required: false,
-          multiple: true,
-        },
-      ],
-      returnType: COLUMN_TYPE.BOOLEAN,
-    },
   },
   NUMERIC: {
     ABS: {
-      pgsql: (n) => `abs(${n})`,
+      pgsql: (number) => `abs(${number})`,
       params: [
         {
           name: 'number',
@@ -479,23 +471,18 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.FLOAT,
     },
     AVERAGE: {
-      pgsql: (...args) => `(${args.join('+')}) / ${args.length.toFixed(1)}`,
+      pgsql: (...numbers) => `(${numbers.join('+')}) / ${numbers.length.toFixed(1)}`,
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     CEILING: {
-      pgsql: (n) => `ceiling(${n})`,
+      pgsql: (number) => `ceiling(${number})`,
       params: [
         {
           name: 'number',
@@ -505,17 +492,11 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     DIVIDE: {
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      pgsql: (firstNumber, ...others) => firstNumber + others.map(nb => `/(case when ${nb} <> 0 then ${nb} end)`),
+      pgsql: (firstNumber, ...others) => firstNumber + others.map(nb => `/(case when ${nb} <> 0 then ${nb} end)`).join(''),
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
@@ -526,31 +507,21 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.FLOAT,
     },
     EQUAL: {
-      pgsql: (n1, n2) => `${n1}=${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}=${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
-    // EXP: {
-    //   pgsql: (n) => `exp(${n})`,
-    //   params: [
-    //     {
-    //       name: 'number',
-    //       type: NUMERIC_TYPES,
-    //     },
-    //   ],
-    //   returnType: COLUMN_TYPE.FLOAT,
-    // },
     FLOOR: {
-      pgsql: (n) => `floor(${n})`,
+      pgsql: number => `floor(${number})`,
       params: [
         {
           name: 'number',
@@ -560,35 +531,35 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     GREATER: {
-      pgsql: (n1, n2) => `${n1}>${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}>${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     GREATEREQ: {
-      pgsql: (n1, n2) => `${n1}>=${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}>=${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     INT: {
-      pgsql: (n) => `round(${n})`,
+      pgsql: number => `round(${number})`,
       params: [
         {
           name: 'number',
@@ -598,35 +569,35 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     LESS: {
-      pgsql: (n1, n2) => `${n1}<${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}<${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     LESSEQ: {
-      pgsql: (n1, n2) => `${n1}<=${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}<=${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     LOG: {
-      pgsql: (n, base) => `case when ${base} > 0 and ${n} > 0 then log(${base},${n}) else null end`,
+      pgsql: (number, base) => `case when ${base} > 0 and ${number} > 0 then log(${base},${number}) else null end`,
       params: [
         {
           name: 'number',
@@ -643,13 +614,8 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => `greatest(${numbers.join(',')})`,
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
@@ -659,27 +625,22 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => `least(${numbers.join(',')})`,
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     MOD: {
-      pgsql: (n, divisor) => `case when ${divisor} <> 0 then mod(${n},${divisor})`,
+      pgsql: (number, divisor) => `case when ${divisor} <> 0 then mod(${number},${divisor}) end`,
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'base',
+          name: 'divisor',
           type: NUMERIC_TYPES,
         },
       ],
@@ -689,52 +650,33 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: () => 'pi()',
       returnType: COLUMN_TYPE.FLOAT,
     },
-    // POWER: {
-    //   pgsql: (n, power) => `power(${n}, ${power})`,
-    //   params: [
-    //     {
-    //       name: 'number',
-    //       type: NUMERIC_TYPES,
-    //     },
-    //     {
-    //       name: 'power',
-    //       type: NUMERIC_TYPES,
-    //     },
-    //   ],
-    //   returnType: COLUMN_TYPE.FLOAT,
-    // },
     PRODUCT: {
-      pgsql: (...args) => args.join('*'),
+      pgsql: (...numbers) => numbers.join('*'),
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     ROUND: {
-      pgsql: (n, digits) => `round(${n},${digits})`,
+      pgsql: (number, numDigits) => `round(${number},${numDigits})`,
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'digits number',
+          name: 'numDigits',
           type: COLUMN_TYPE.NUMBER,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     SIGN: {
-      pgsql: (n) => `sign(${n})`,
+      pgsql: (number) => `sign(${number})`,
       params: [
         {
           name: 'number',
@@ -744,7 +686,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     SQRT: {
-      pgsql: (n) => `case when ${n} > 0 then sqrt(${n}) end`,
+      pgsql: (number) => `case when ${number} >= 0 then sqrt(${number}) end`,
       params: [
         {
           name: 'number',
@@ -754,46 +696,36 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.FLOAT,
     },
     SUBTRACT: {
-      pgsql: (...args) => args.join('-'),
+      pgsql: (...numbers) => numbers.join('-'),
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     SUM: {
-      pgsql: (...args) => args.join('+'),
+      pgsql: (...numbers) => numbers.join('+'),
       params: [
         {
-          name: 'first number',
+          name: 'numbers',
           type: NUMERIC_TYPES,
-        },
-        {
-          name: 'others numbers',
-          type: NUMERIC_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.FLOAT,
     },
     UNEQUAL: {
-      pgsql: (n1, n2) => `${n1}<>${n2}`,
+      pgsql: (firstNumber, secondNumber) => `${firstNumber}<>${secondNumber}`,
       params: [
         {
-          name: 'first number',
+          name: 'firstNumber',
           type: NUMERIC_TYPES,
         },
         {
-          name: 'second number',
+          name: 'secondNumber',
           type: NUMERIC_TYPES,
         },
       ],
@@ -802,88 +734,83 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   },
   TEXT: {
     CONCAT: {
-      pgsql: (...args) => `concat(${args.join(',')})`,
+      pgsql: (...texts) => `concat(${texts.join(',')})`,
       params: [
         {
-          name: 'first string',
+          name: 'texts',
           type: TEXT_TYPES,
-        },
-        {
-          name: 'other strings',
-          type: TEXT_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     EXACT: {
-      pgsql: (str1, str2) => `${str1}=${str2}`,
+      pgsql: (firstText, secondText) => `${firstText}=${secondText}`,
       params: [
         {
-          name: 'first string',
+          name: 'firstText',
           type: TEXT_TYPES,
         },
         {
-          name: 'second string',
+          name: 'secondText',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     FIND: {
-      pgsql: (searchedString, searchAreaString) => `strpos(${searchAreaString},${searchedString})`,
+      pgsql: (findText, withinText) => `strpos(${withinText},${findText})`,
       params: [
         {
-          name: 'searched string',
+          name: 'findText',
           type: TEXT_TYPES,
         },
         {
-          name: 'search area string',
+          name: 'withinText',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.NUMBER,
     },
     LEFT: {
-      pgsql: (str, n) => `left(${str},${n})`,
+      pgsql: (text, numChars) => `left(${text},${numChars})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
         {
-          name: 'count',
+          name: 'numChars',
           type: COLUMN_TYPE.NUMBER,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     LEN: {
-      pgsql: (str) => `length(${str})`,
+      pgsql: (text) => `length(${text})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.NUMBER,
     },
     LOWER: {
-      pgsql: (str) => `lower(${str})`,
+      pgsql: (text) => `lower(${text})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     MID: {
-      pgsql: (str, startPos, count) => `case when ${count} > 0 then substr(${str},${startPos},${count}) end`,
+      pgsql: (text, startPos, numChars) => `case when ${numChars} > 0 then substr(${text},${startPos},${numChars}) end`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
         {
@@ -891,32 +818,18 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
           type: COLUMN_TYPE.NUMBER,
         },
         {
-          name: 'count',
+          name: 'numChars',
           type: COLUMN_TYPE.NUMBER,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
-    // NUMBERVALUE: {
-    //   pgsql: (str, format) => `to_number(${str},${format})`,
-    //   params: [
-    //     {
-    //       name: 'string',
-    //       type: TEXT_TYPES,
-    //     },
-    //     {
-    //       name: 'format',
-    //       type: COLUMN_TYPE.STRING,
-    //     },
-    //   ],
-    //   returnType: COLUMN_TYPE.FLOAT,
-    // },
     REPLACE: {
-      pgsql: (originalString, startPos, count, pattern) =>
-        `case when ${startPos} > 0 then overlay(${originalString} placing ${pattern} from ${startPos} for ${count}) end`,
+      pgsql: (originalText, startPos, numChars, newPattern) =>
+        `case when ${startPos} > 0 then overlay(${originalText} placing ${newPattern} from ${startPos} for ${numChars}) end`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
         {
@@ -924,21 +837,21 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
           type: COLUMN_TYPE.NUMBER,
         },
         {
-          name: 'count',
+          name: 'numChars',
           type: COLUMN_TYPE.NUMBER,
         },
         {
-          name: 'pattern',
+          name: 'newPattern',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     REPT: {
-      pgsql: (str, n) => `repeat(${str},${n})`,
+      pgsql: (text, number) => `repeat(${text},${number})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
         {
@@ -949,86 +862,67 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.TEXT,
     },
     RIGHT: {
-      pgsql: (str, n) => `right(${str},${n})`,
+      pgsql: (text, numChars) => `right(${text},${numChars})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
         {
-          name: 'count',
+          name: 'numChars',
           type: COLUMN_TYPE.NUMBER,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     SUBSTITUTE: {
-      pgsql: (searchedString, originalString, newString) => `replace(${originalString},${searchedString},${newString})`,
+      pgsql: (searchedText, originalText, newPattern) => `replace(${originalText},${searchedText},${newPattern})`,
       params: [
         {
-          name: 'searchedString',
+          name: 'searchedText',
           type: TEXT_TYPES,
         },
         {
-          name: 'originalString',
+          name: 'originalText',
           type: TEXT_TYPES,
         },
         {
-          name: 'newString',
+          name: 'newPattern',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
-    // TEXT: {
-    //   pgsql: (number, format) => `to_char(${number},${format})`,
-    //   params: [
-    //     {
-    //       name: 'number',
-    //       type: NUMERIC_TYPES,
-    //     },
-    //     {
-    //       name: 'string',
-    //       type: COLUMN_TYPE.STRING,
-    //     },
-    //   ],
-    //   returnType: COLUMN_TYPE.STRING,
-    // },
     TEXTJOIN: {
-      pgsql: (separator, ...strings) => `concat_ws(${separator},${strings.join(',')})`,
+      pgsql: (separator, ...texts) => `concat_ws(${separator},${texts.join(',')})`,
       params: [
         {
           name: 'separator',
           type: COLUMN_TYPE.STRING,
         },
         {
-          name: 'first string',
+          name: 'texts',
           type: TEXT_TYPES,
-        },
-        {
-          name: 'other strings',
-          type: TEXT_TYPES,
-          required: false,
           multiple: true,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     TRIM: {
-      pgsql: (str) => `trim(from ${str})`,
+      pgsql: (text) => `trim(from ${text})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
       ],
       returnType: COLUMN_TYPE.TEXT,
     },
     UPPER: {
-      pgsql: (str) => `upper(${str})`,
+      pgsql: (text) => `upper(${text})`,
       params: [
         {
-          name: 'string',
+          name: 'text',
           type: TEXT_TYPES,
         },
       ],

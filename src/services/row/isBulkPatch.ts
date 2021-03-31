@@ -1,7 +1,21 @@
 import { HookContext } from '@feathersjs/feathers'
 
 /**
- * Is the context request a valid bulk patch request ?
+ * Is the request a bulk patch request ?
+ *
+ * @param {HookContext} context
+ * @returns {boolean} true if the context id is specified, else false.
+ */
+export const isBulkPatch = () => (
+  context: HookContext,
+): boolean => {
+  return (
+    context.id === null
+  )
+}
+
+/**
+ * Is the request a valid internal bulk patch request ?
  *
  * @param {HookContext} context
  * @returns {boolean} true if the request can be used to patch multiple rows, else false.

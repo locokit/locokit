@@ -16,7 +16,8 @@ describe('\'triggerProcess\' hook', () => {
   let table1: Table
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
-  let tableRow: TableRow
+  let tableRow1: TableRow
+  let tableRow2: TableRow
   const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
     return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
   })
@@ -49,7 +50,7 @@ describe('\'triggerProcess\' hook', () => {
 
   it('do not trigger if no process trigger are configured', async () => {
     expect.assertions(1)
-    tableRow = await app.service('row').create({
+    tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
@@ -57,12 +58,12 @@ describe('\'triggerProcess\' hook', () => {
         [tableColumn1.id]: 'This is another string',
       },
     })
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn.id]: 'yolo',
       },
     })
-    await app.service('row').remove(tableRow.id)
+    await app.service('row').remove(tableRow1.id)
 
     const allExecutions = await app.service('process-run').find({
       paginate: false,
@@ -83,7 +84,7 @@ describe('\'triggerProcess\' hook', () => {
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
     })
-    tableRow = await app.service('row').create({
+    tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
@@ -91,12 +92,12 @@ describe('\'triggerProcess\' hook', () => {
         [tableColumn1.id]: 'This is another string',
       },
     })
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn.id]: 'yolo',
       },
     })
-    await app.service('row').remove(tableRow.id)
+    await app.service('row').remove(tableRow1.id)
 
     const allExecutions = await app.service('process-run').find({
       paginate: false,
@@ -114,7 +115,7 @@ describe('\'triggerProcess\' hook', () => {
       trigger: ProcessTrigger.CREATE_ROW,
       enabled: true,
     })
-    tableRow = await app.service('row').create({
+    tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
@@ -122,7 +123,7 @@ describe('\'triggerProcess\' hook', () => {
         [tableColumn1.id]: 'This is another string',
       },
     })
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn.id]: 'yolo',
       },
@@ -133,9 +134,9 @@ describe('\'triggerProcess\' hook', () => {
     })
     expect(allExecutions.length).toBe(1)
     expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
-    expect(allExecutions[0].table_row_id).toBe(tableRow.id)
+    expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
 
-    await app.service('row').remove(tableRow.id)
+    await app.service('row').remove(tableRow1.id)
     // await app.service('process-run').remove(allExecutions[0].id)
     await app.service('process').remove(processTriggerCreateRow.id)
   })
@@ -148,7 +149,7 @@ describe('\'triggerProcess\' hook', () => {
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,
     })
-    tableRow = await app.service('row').create({
+    tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
@@ -161,7 +162,7 @@ describe('\'triggerProcess\' hook', () => {
     })
     expect(allExecutions.length).toBe(0)
 
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn.id]: 'yolo',
       },
@@ -174,9 +175,9 @@ describe('\'triggerProcess\' hook', () => {
     expect(allExecutions.length).toBe(1)
 
     expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
-    expect(allExecutions[0].table_row_id).toBe(tableRow.id)
+    expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
 
-    await app.service('row').remove(tableRow.id)
+    await app.service('row').remove(tableRow1.id)
     // await app.service('process-run').remove(allExecutions[0].id)
     await app.service('process').remove(processTriggerCreateRow.id)
   })
@@ -192,7 +193,7 @@ describe('\'triggerProcess\' hook', () => {
         column_id: tableColumn1.id,
       },
     })
-    tableRow = await app.service('row').create({
+    tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
       data: {
@@ -209,7 +210,7 @@ describe('\'triggerProcess\' hook', () => {
      * We patch the tableColumn,
      * the process must not be trigerred
      */
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn.id]: 'yolo',
       },
@@ -225,7 +226,7 @@ describe('\'triggerProcess\' hook', () => {
      * We patch the tableColumn1,
      * the process must be trigerred
      */
-    await app.service('row').patch(tableRow.id, {
+    await app.service('row').patch(tableRow1.id, {
       data: {
         [tableColumn1.id]: 'yolo',
       },
@@ -238,9 +239,75 @@ describe('\'triggerProcess\' hook', () => {
     expect(allExecutions.length).toBe(1)
 
     expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
-    expect(allExecutions[0].table_row_id).toBe(tableRow.id)
+    expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
 
-    await app.service('row').remove(tableRow.id)
+    await app.service('row').remove(tableRow1.id)
+    // await app.service('process-run').remove(allExecutions[0].id)
+    await app.service('process').remove(processTriggerCreateRow.id)
+  })
+
+  it('trigger UPDATE_ROW if process triggers is enabled and well configured - Bulk request', async () => {
+    expect.assertions(6)
+
+    const processTriggerCreateRow = await app.service('process').create({
+      table_id: table1.id,
+      trigger: ProcessTrigger.UPDATE_ROW,
+      enabled: true,
+    })
+    tableRow1 = await app.service('row').create({
+      text: 'yo',
+      table_id: table1.id,
+      data: {
+        [tableColumn.id]: 'This is a string',
+        [tableColumn1.id]: 'This is another string',
+      },
+    })
+    tableRow2 = await app.service('row').create({
+      text: 'yo',
+      table_id: table1.id,
+      data: {
+        [tableColumn.id]: 'This is a string',
+        [tableColumn1.id]: 'This is another string',
+      },
+    })
+    let allExecutions = await app.service('process-run').find({
+      paginate: false,
+    })
+    expect(allExecutions.length).toBe(0)
+
+    await app.service('row').patch(null, {
+      data: {
+        [tableColumn.id]: 'yolo',
+      },
+    },
+    {
+      query: {
+        'table_row.id': {
+          $in: [tableRow1.id, tableRow2.id],
+        },
+        table_id: table1.id,
+      },
+    })
+
+    allExecutions = await app.service('process-run').find({
+      paginate: false,
+    })
+
+    expect(allExecutions.length).toBe(2)
+
+    expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
+    expect(allExecutions[1].process_id).toBe(processTriggerCreateRow.id)
+
+    if (allExecutions[0].table_row_id === tableRow1.id) {
+      expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
+      expect(allExecutions[1].table_row_id).toBe(tableRow2.id)
+    } else {
+      expect(allExecutions[0].table_row_id).toBe(tableRow2.id)
+      expect(allExecutions[1].table_row_id).toBe(tableRow1.id)
+    }
+
+    await app.service('row').remove(tableRow1.id)
+    await app.service('row').remove(tableRow2.id)
     // await app.service('process-run').remove(allExecutions[0].id)
     await app.service('process').remove(processTriggerCreateRow.id)
   })

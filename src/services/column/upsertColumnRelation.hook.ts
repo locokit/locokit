@@ -1,12 +1,12 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { TableColumn } from '../../models/tablecolumn.model'
 import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
 
 /**
  * Hook exclusive to create (LOOKED_UP_COLUMN and FORMULA) and patch / update (FORMULA).
  * Add relations between columns for the LOOKED_UP_COLUMNS (which display the linked columns)
  * and the FORMULAS (which use the linked columns).
+ * Note that the 'parseFormula' hook must be executed before for a FORMULA_COLUMN.
  */
 export function upsertColumnRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
@@ -56,7 +56,7 @@ export function upsertColumnRelation (): Hook {
               // The column was already used in the formula so we don't want to create a duplicate relation
               columnsIdsUsedInFormula.splice(indexColumnIdUsedInFormula, 1)
             } else {
-              // The column is not used anymore in the formula so we will delete them
+              // The column is not used anymore in the formula so we will delete the existing relation
               notUsedColumnsFromId.push(columnRelation.table_column_from_id)
             }
           })

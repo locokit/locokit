@@ -32,56 +32,68 @@ export function computeRowFormulaColumns (): Hook {
 
     context.params._meta.updatedColumnsWithChildren = updatedColumnsWithChildren
 
-    // Create an object containing the columns references to use placeholders in the sql query
-    // const columnsReferences = {}
-
     const formulaColumnsToUpdateIds: Set<string> = new Set()
     const formulaColumnsToUpdateData: Record<string, FunctionBuilder> = {}
     const allUsedColumnsInFormulas: Record<string, TableColumn> = {}
 
-    // Iterate over the updated columns
-    for (const updatedColumn of updatedColumnsWithChildren) {
-      // Iterate over the child columns of the updated one
-      for (const childColumn of (updatedColumn.children ?? [])) {
-        // Check the formula one
-        if (childColumn.column_type_id === COLUMN_TYPE.FORMULA) {
-          const formula = childColumn.settings?.formula
+    let formulaColumnsToUpdate: TableColumn[] = []
 
-          // Only parse the formula if it is not done yet and if the formula exists
-          if (formula && !formulaColumnsToUpdateIds.has(childColumn.id)) {
-            // Get all columns ids used in the formula
-            const usedColumnIds = getColumnIdsFromFormula(formula)
-            // Get all columns used in the formula with their original type if we don't compute it yet
-            for (const usedColumnId of usedColumnIds) {
-              if (!allUsedColumnsInFormulas[usedColumnId]) {
-                let currentUsedColumn: TableColumn = (context.params._meta.columnsDefinitionByColumnId)[usedColumnId]
-                if (currentUsedColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
-                  currentUsedColumn = context.app.service('column').get(childColumn.id, {
-                    query: {
-                      $eager: 'parents.^',
-                    },
-                  })
-                }
-                currentUsedColumn.settings.formula_type_id = currentUsedColumn.originalTypeId()
-                allUsedColumnsInFormulas[usedColumnId] = currentUsedColumn
+    if (context.method === 'create') {
+      // Get all formula columns on create
+      formulaColumnsToUpdate = (context.params._meta.columns as TableColumn[]).filter(column =>
+        column.column_type_id === COLUMN_TYPE.FORMULA &&
+        !context.params._meta.columnsIdsTransmitted.includes(column.id),
+      )
+    } else {
+      // Only get the formula columns which use the updated columns
+      // Iterate over the updated columns
+      for (const updatedColumn of updatedColumnsWithChildren) {
+        // Iterate over the child columns of the updated one
+        for (const childColumn of (updatedColumn.children ?? [])) {
+          if (childColumn.column_type_id === COLUMN_TYPE.FORMULA) {
+            formulaColumnsToUpdate.push(childColumn)
+          }
+        }
+      }
+    }
+
+    for (const formulaColumn of formulaColumnsToUpdate) {
+      const formula = formulaColumn.settings?.formula
+
+      // Only parse the formula if it is not done yet and if the formula exists
+      if (formula && !formulaColumnsToUpdateIds.has(formulaColumn.id)) {
+        // Get all columns ids used in the formula
+        const usedColumnIds = getColumnIdsFromFormula(formula)
+        // Get all columns used in the formula with their original type if we don't compute it yet
+        for (const usedColumnId of usedColumnIds) {
+          if (!allUsedColumnsInFormulas[usedColumnId]) {
+            let currentUsedColumn: TableColumn = (context.params._meta.columnsDefinitionByColumnId)[usedColumnId]
+            if (currentUsedColumn) {
+              if (currentUsedColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+                currentUsedColumn = await context.app.service('column').get(currentUsedColumn.id, {
+                  query: {
+                    $eager: 'parents.^',
+                  },
+                })
               }
-            }
-            try {
-              // Parse the formula
-              const formulaResult = formulasParser.parse(formula, { functions, columns: allUsedColumnsInFormulas, columnsTypes: COLUMN_TYPE })
-              // Get the SQL request that will be use to update the formula
-              formulaColumnsToUpdateData[`data:${childColumn.id}`] = getSQLRequestFromFormula(
-                formulaResult,
-                getColumnsReferences(allUsedColumnsInFormulas),
-              )
-              // Indicate that this formula column will be updated
-              formulaColumnsToUpdateIds.add(childColumn.id)
-            } catch (error) {
-              throw new GeneralError('Invalid formula: ' + (error.message as string), {
-                code: 'INVALID_FORMULA_SYNTAX',
-              })
+              allUsedColumnsInFormulas[usedColumnId] = currentUsedColumn
             }
           }
+        }
+        try {
+          // Parse the formula
+          const formulaResult = formulasParser.parse(formula, { functions, columns: allUsedColumnsInFormulas, columnsTypes: COLUMN_TYPE })
+          // Get the SQL request that will be used to update the formula
+          formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(
+            formulaResult,
+            getColumnsReferences(allUsedColumnsInFormulas),
+          )
+          // Indicate that this formula column will be updated
+          formulaColumnsToUpdateIds.add(formulaColumn.id)
+        } catch (error) {
+          throw new GeneralError('Invalid formula: ' + (error.message as string), {
+            code: 'INVALID_FORMULA_SYNTAX',
+          })
         }
       }
     }
@@ -98,6 +110,11 @@ export function computeRowFormulaColumns (): Hook {
             {
               query: {
                 table_id: context.params.query?.table_id,
+                // Need to specify the table name for the id to make the select query (automatically
+                // executed after the patch request) works (feathers-objection bug ?)
+                'table_row.id': {
+                  $in: context.result.map(row => row.id),
+                },
               },
               paginate: false,
             })
@@ -109,7 +126,9 @@ export function computeRowFormulaColumns (): Hook {
           )
         }
       } catch (err) {
-        console.log(`An error has been encountered when updating the rows containing the updated formula (${err.message as string}).`)
+        if (err.code !== 404) {
+          throw new GeneralError('An error has been encountered when the formulas have been computed')
+        }
       }
     }
     return context

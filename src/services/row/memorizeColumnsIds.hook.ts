@@ -13,7 +13,7 @@ export function memorizeColumnsIds (): Hook {
       // Get columns specified in the data.data object
       columnsIdsTransmitted = Object.keys(context.data.data || {})
     } else {
-    // Get columns specified in the data object with the data prefix (for instance data:columnId)
+      // Get columns specified in the data object with the data prefix (for instance data:columnId)
       for (const currentKey in context.data) {
         const regexResult = currentKey.match(/^data:(.+)$/)
         if (regexResult?.length === 2) {

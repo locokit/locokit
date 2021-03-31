@@ -17,8 +17,8 @@ export function fillLookedUpColumnInTableRowData (): Hook {
          */
         const foreignColumn: TableColumn = await context.app.services.column.get(context.result.settings.foreignField, {
           query: {
-            $eager: 'parents.^'
-          }
+            $eager: 'parents.^',
+          },
         })
 
         let newDataForCurrentColumn = '{ [context.result.id]: null }'

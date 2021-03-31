@@ -19,13 +19,13 @@ function getColumnsToUpdate (
     columnIdOfUpdatedRow: string
     columnIdOfChildRow: string
     columnTypeIdOfUpdatedRow: COLUMN_TYPE
-    relatedFormulaColumns: TableColumn[]
+    relatedFormulaColumnsIds: string[]
   }> {
   const result: Array<{
     columnIdOfUpdatedRow: string
     columnIdOfChildRow: string
     columnTypeIdOfUpdatedRow: COLUMN_TYPE
-    relatedFormulaColumns: TableColumn[]
+    relatedFormulaColumnsIds: string[]
   }> = []
   columns.forEach(currentColumn => {
     if (columnsIdsTransmitted.includes(currentColumn.id) || currentColumn.column_type_id !== COLUMN_TYPE.FORMULA) {
@@ -34,7 +34,11 @@ function getColumnsToUpdate (
           columnIdOfUpdatedRow: originalColumn?.id as string,
           columnIdOfChildRow: currentColumn.id,
           columnTypeIdOfUpdatedRow: originalColumn?.column_type_id as COLUMN_TYPE,
-          relatedFormulaColumns: currentColumn.children?.filter(c => c.column_type_id === COLUMN_TYPE.FORMULA) ?? [],
+          // relatedFormulaColumnsIds: currentColumn.children?.filter(c => c.column_type_id === COLUMN_TYPE.FORMULA).map(c => c.id) ?? [],
+          relatedFormulaColumnsIds: currentColumn.children?.reduce((formulasColumns: string[], childColumn: TableColumn) => {
+            if (childColumn.column_type_id === COLUMN_TYPE.FORMULA) formulasColumns.push(childColumn.id)
+            return formulasColumns
+          }, []) ?? [],
         })
       }
       if ((currentColumn.children ?? []).length > 0) {
@@ -58,22 +62,21 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
   columnsIdsTransmitted: string[],
 ): {
     lookedUpColumnsPatchPromises: Array<Promise<TableRow>>
-    formulasToUpdate: Record<string, { rowIds: Set<string>, columns: TableColumn[] }>
+    formulasToUpdate: Record<string, { rowIds: Set<string>, columnsIds: Set<string> }>
   } {
-  // update each child row, by setting the new value for all columns related to this row
   const lookedUpColumnsPatchPromises: Array<Promise<TableRow>> = []
-  const formulasToUpdate: Record<string, { rowIds: Set<string>, columns: TableColumn[] }> = {}
+  const formulasToUpdate: Record<string, { rowIds: Set<string>, columnsIds: Set<string> }> = {}
 
   currentChildrenRows.forEach(currentChildRow => {
     // find columns to update in the currentChildRow
     const columnsToUpdate = getColumnsToUpdate(linkedColumns, columnsIdsTransmitted, currentChildRow.table_id)
 
-    const rowFormulasToUpdate: TableColumn[] = []
+    const currentFormulasIdsToUpdate: Set<string> = new Set()
 
     const newData: Record<string, {
       reference: string
       value: string
-    } | {}> = {}
+    }> = {}
 
     /**
      * For each column to update, we'll update the newData object.
@@ -82,7 +85,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
      */
     columnsToUpdate.forEach(c => {
       // Save all the formula columns to update for the current row
-      rowFormulasToUpdate.push(...c.relatedFormulaColumns)
+      c.relatedFormulaColumnsIds.forEach(currentFormulasIdsToUpdate.add, currentFormulasIdsToUpdate)
       // Get the original value to update the LOOKED_UP_COLUMN of the current row
       const currentValue = currentRow.data[c.columnIdOfUpdatedRow]
       switch (c.columnTypeIdOfUpdatedRow) {
@@ -93,7 +96,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
           break
         case COLUMN_TYPE.MULTI_USER:
           newData['data:' + c.columnIdOfChildRow] = {
-            reference: (currentValue as { reference: string, value: string }).reference,
+            reference: (currentValue as unknown as { reference: string, value: string[] }).reference,
             value: (currentValue as unknown as { reference: string, value: string[] }).value.join(', '),
           }
           break
@@ -116,10 +119,15 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
     }
 
     // Save all the formula columns to update for the current row
-    if (rowFormulasToUpdate.length > 0) {
-      formulasToUpdate[currentChildRow.table_id] = {
-        rowIds: new Set([currentChildRow.id]),
-        columns: rowFormulasToUpdate,
+    if (currentFormulasIdsToUpdate.size > 0) {
+      if (formulasToUpdate[currentChildRow.table_id]) {
+        formulasToUpdate[currentChildRow.table_id].rowIds.add(currentChildRow.id)
+        mergeSets(formulasToUpdate[currentChildRow.table_id].columnsIds, currentFormulasIdsToUpdate)
+      } else {
+        formulasToUpdate[currentChildRow.table_id] = {
+          rowIds: new Set([currentChildRow.id]),
+          columnsIds: currentFormulasIdsToUpdate,
+        }
       }
     }
     if (currentChildRow.children) {
@@ -133,9 +141,9 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
       lookedUpColumnsPatchPromises.push(...dataToUpdate.lookedUpColumnsPatchPromises)
       for (const tableId in dataToUpdate.formulasToUpdate) {
         const childFormulasToUpdate = dataToUpdate.formulasToUpdate[tableId]
-        if (Object.prototype.hasOwnProperty.call(formulasToUpdate, tableId)) {
+        if (formulasToUpdate[tableId]) {
           mergeSets(formulasToUpdate[tableId].rowIds, childFormulasToUpdate.rowIds)
-          formulasToUpdate[tableId].columns.push(...childFormulasToUpdate.columns)
+          mergeSets(formulasToUpdate[tableId].columnsIds, childFormulasToUpdate.columnsIds)
         } else {
           formulasToUpdate[tableId] = childFormulasToUpdate
         }
@@ -154,8 +162,8 @@ export function computeLookedUpColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     const updatedRows: TableRow[] = Array.isArray(context.result) ? context.result : [context.result]
 
-    // find if some of the columns are linked to other via table_column_relation
-    const updatedColumnsWithChildren: TableColumn[] = context.params._meta.updatedColumnsWithChildren || await context.app.services.column.find({
+    // find if some of the columns are linked to the updated ones via the table_column_relation
+    const updatedColumnsWithChildren: TableColumn[] = context.params._meta.updatedColumnsWithChildren ?? await context.app.services.column.find({
       query: {
         id: {
           $in: context.params._meta.columnsIdsTransmitted,
@@ -165,11 +173,8 @@ export function computeLookedUpColumns (): Hook {
       paginate: false,
     })
 
-    // if not, just return the context
-    if (updatedColumnsWithChildren.length === 0) return context
-
-    // first, find rows linked to this current row (trr.table_row_from_id)
-    const updatedRowsWithChildren = await context.app.services.row.find({
+    // find if some of the rows are linked to the updated ones via the table_row_relation
+    const updatedRowsWithChildren: TableRow[] = await context.app.services.row.find({
       query: {
         id: {
           $in: updatedRows.map(row => row.id),
@@ -177,12 +182,12 @@ export function computeLookedUpColumns (): Hook {
         $eager: '[children.^]',
       },
       paginate: false,
-    }) as TableRow[]
+    })
 
     const allLookedUpColumnsPatchPromises: Array<Promise<TableRow>> = []
-    const allFormulasToUpdate: Record<string, { rowIds: Set<string>, columns: TableColumn[] }> = {}
+    const allFormulasToUpdate: Record<string, { rowIds: Set<string>, columnsIds: Set<string> }> = {}
 
-    // Get LOOKED_UP_COLUMNS and FORMULAS to update linked to each updated row
+    // Get related LOOKED_UP_COLUMNS and FORMULAS columns and rows to update them
     updatedRows.forEach(currentUpdatedRow => {
       const { lookedUpColumnsPatchPromises, formulasToUpdate } = getLookedUpColumnsPatchPromisesAndFormulaToUpdate(
         currentUpdatedRow,
@@ -195,9 +200,9 @@ export function computeLookedUpColumns (): Hook {
       allLookedUpColumnsPatchPromises.push(...lookedUpColumnsPatchPromises)
       // FORMULAS to update
       for (const tableId in formulasToUpdate) {
-        if (Object.prototype.hasOwnProperty.call(allFormulasToUpdate, tableId)) {
+        if (allFormulasToUpdate[tableId]) {
           mergeSets(allFormulasToUpdate[tableId].rowIds, formulasToUpdate[tableId].rowIds)
-          allFormulasToUpdate[tableId].columns.push(...formulasToUpdate[tableId].columns)
+          mergeSets(allFormulasToUpdate[tableId].columnsIds, formulasToUpdate[tableId].columnsIds)
         } else {
           allFormulasToUpdate[tableId] = formulasToUpdate[tableId]
         }
@@ -207,66 +212,67 @@ export function computeLookedUpColumns (): Hook {
     await Promise.all(allLookedUpColumnsPatchPromises)
 
     // Update FORMULAS
-    if (Object.keys(allFormulasToUpdate).length > 0) {
-      const formulaPatchPromises: Array<Promise<any>> = []
-      // Make a patch request for each table to update the formula columns of specific rows
-      for (const tableId in allFormulasToUpdate) {
-        const { rowIds, columns: formulasToUpdate } = allFormulasToUpdate[tableId]
-        if (rowIds.size > 0 && formulasToUpdate.length > 0) {
-          const formulaColumnsToUpdateData: Record<string, FunctionBuilder> = {}
-          // TODO Make multiple requests to avoid to have duplicated parents ?
-          const formulaColumnsWithParents = await context.app.service('column').find({
-            query: {
-              id: {
-                $in: formulasToUpdate.map(column => column.id),
-              },
-              $eager: 'parents.^',
+    const formulaPatchPromises: Array<Promise<any>> = []
+    // Make a patch request for each table to update the formula columns of specific rows
+    for (const tableId in allFormulasToUpdate) {
+      const { rowIds, columnsIds: formulaColumnsIds } = allFormulasToUpdate[tableId]
+      if (rowIds.size > 0 && formulaColumnsIds.size > 0) {
+        const formulaColumnsToUpdateData: Record<string, FunctionBuilder> = {}
+        // Get the formula columns and the columns using in them
+        const formulaColumnsToUpdateWithParents = await context.app.service('column').find({
+          query: {
+            id: {
+              $in: [...formulaColumnsIds],
             },
-            paginate: false,
-          }) as TableColumn[] ?? []
-          const usedColumnsInFormula: Record<string, TableColumn> = formulaColumnsWithParents.reduce((pV: Record<string, TableColumn>, formulaColumn: TableColumn) => {
-            if (Array.isArray(formulaColumn.parents)) {
-              formulaColumn.parents.forEach(parentColumn => {
-                parentColumn.settings.formula_type_id = parentColumn.originalTypeId()
-                pV[parentColumn.id] = parentColumn
+            $eager: 'parents.^',
+          },
+          paginate: false,
+        }) as TableColumn[] ?? []
+        // Get an object containing the used columns
+        const usedColumnsInFormula: Record<string, TableColumn> = formulaColumnsToUpdateWithParents.reduce((usedColumns: Record<string, TableColumn>, formulaColumn: TableColumn) => {
+          if (Array.isArray(formulaColumn.parents)) {
+            formulaColumn.parents.forEach(parentColumn => {
+              usedColumns[parentColumn.id] = parentColumn
+            })
+          }
+          return usedColumns
+        }, {})
+        // Get an object containing the references of each used column with the good cast
+        const columnsReferences = getColumnsReferences(usedColumnsInFormula)
+        formulaColumnsToUpdateWithParents.forEach(formulaColumn => {
+          const formula = formulaColumn.settings?.formula
+          // Only parsed the formula if it exists
+          if (formula) {
+            try {
+              const formulaResult = formulasParser.parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
+              formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
+            } catch (error) {
+              throw new GeneralError('Invalid formula: ' + (error.message as string), {
+                code: 'INVALID_FORMULA_SYNTAX',
               })
             }
-            return pV
-          }, {})
-          const columnsReferences = getColumnsReferences(usedColumnsInFormula)
-          formulasToUpdate.forEach(formulaColumn => {
-            const formula = formulaColumn.settings?.formula
-            // Only parsed the formula if it exists
-            if (formula) {
-              try {
-                const formulaResult = formulasParser.parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
-                formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
-              } catch (error) {
-                throw new GeneralError('Invalid formula: ' + (error.message as string), {
-                  code: 'INVALID_FORMULA_SYNTAX',
-                })
-              }
-            }
-          })
-          formulaPatchPromises.push(
-            context.service.patch(
-              null,
-              formulaColumnsToUpdateData,
-              {
-                query: {
-                  id: {
-                    $in: [...rowIds],
-                  },
-                  table_id: tableId,
+          }
+        })
+        formulaPatchPromises.push(
+          context.service.patch(
+            null,
+            formulaColumnsToUpdateData,
+            {
+              query: {
+                // Need to specify the table name for the id to make the select query (automatically
+                // executed after the patch request) works (feathers-objection bug ?)
+                'table_row.id': {
+                  $in: [...rowIds],
                 },
-                paginate: false,
+                table_id: tableId,
               },
-            ),
-          )
-        }
+              paginate: false,
+            },
+          ),
+        )
       }
-      await Promise.all(formulaPatchPromises)
     }
+    await Promise.all(formulaPatchPromises)
     return context
   }
 }

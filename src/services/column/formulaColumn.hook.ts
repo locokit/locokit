@@ -1,10 +1,10 @@
-import { NotAcceptable } from '@feathersjs/errors'
+import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   functions,
-  notImplementedInFormulaColumnTypes,
+  implementedInFormulaColumnTypes,
   getColumnIdsFromFormula,
   getSQLRequestFromFormula,
   getColumnsReferences,
@@ -16,6 +16,8 @@ const formulasParser = require('../../utils/formulas/formulaParser.js')
 
 /**
  * Is the column a formula column ?
+ * Based on the column_type_id specified in the context data if used in a before hook
+ * or in the context result if used in an after hook.
  *
  * @param {HookContext} context
  * @returns {boolean}
@@ -34,28 +36,37 @@ export function parseFormula (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     // Get the input formula
     const newFormula = context.data.settings?.formula
-
     if (newFormula) {
       // Get the updated column on update
       const updatedColumn = context.id ? await context.service.get(context.id) : new TableColumn()
+
+      const currentTableId = updatedColumn.table_id ?? context.data.table_id
+
+      // The table id (explicit or implicit) is mandatory
+      if (!currentTableId) throw new NotAcceptable('Invalid column: please specify the related table.')
 
       // Get the columns ids specified in the formula
       const columnsIds: string[] = getColumnIdsFromFormula(newFormula)
       let columnsUsedInFormula: TableColumn[] = []
       const columnsUsedInFormulaObject: Record<string, TableColumn> = {}
-
       if (columnsIds.length > 0) {
         // Load the specified columns in the formula which are included in the same table as the created / updated one.
-        columnsUsedInFormula = await context.service.find({
-          query: {
-            id: {
-              $in: columnsIds,
+        try {
+          columnsUsedInFormula = await context.service.find({
+            query: {
+              id: {
+                $in: columnsIds,
+              },
+              table_id: currentTableId,
+              $eager: 'parents.^',
             },
-            table_id: context.data?.table_id || updatedColumn.table_id,
-            $eager: 'parents.^',
-          },
-          paginate: false,
-        })
+            paginate: false,
+          })
+        } catch (error) {
+          throw new NotAcceptable('Invalid formula: please check the columns identifiers.', {
+            code: 'INVALID_FORMULA_COLUMN',
+          })
+        }
 
         // Check that the specified columns exist
         if (columnsUsedInFormula.length !== columnsIds.length) {
@@ -66,9 +77,7 @@ export function parseFormula (): Hook {
 
         // Check that the columns types are valid
         columnsUsedInFormula.forEach(column => {
-          // Set the original column type
-          column.settings.formula_type_id = column.originalTypeId()
-          if (column.id === context.id || notImplementedInFormulaColumnTypes.includes(column.settings.formula_type_id)) {
+          if (column.id === context.id || !implementedInFormulaColumnTypes.includes(column.originalTypeId())) {
             throw new NotAcceptable(`Invalid formula: the following column can't be used in a formula: ${column.text}.`, {
               code: 'INVALID_FORMULA_COLUMN_TYPE',
             })
@@ -95,6 +104,10 @@ export function parseFormula (): Hook {
           })
         }
       }
+    } else if (context.data?.column_type_id === COLUMN_TYPE.FORMULA) {
+      throw new NotAcceptable('Invalid formula: must be defined', {
+        code: 'INVALID_FORMULA',
+      })
     }
     return context
   }
@@ -122,7 +135,9 @@ export function updatedRelatedRowsFormula (): Hook {
           paginate: false,
         })
       } catch (err) {
-        console.log(`An error has been encountered when updating the rows containing the updated formula (${err.message as string}).`)
+        if (err.code !== 404) {
+          throw new GeneralError('An error has been encountered when updating the rows containing the updated formula')
+        }
       }
     }
     return context

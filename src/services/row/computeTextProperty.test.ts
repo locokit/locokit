@@ -12,11 +12,13 @@ describe('computeTextProperty hook', () => {
   let database: database
   let table1: Table
   let table2: Table
+  let table3: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
+  let columnTable3FormulaColumn: TableColumn
   let user1: User
   let rowTable1: TableRow
   let columnTable1FirstName: TableColumn
@@ -31,6 +33,10 @@ describe('computeTextProperty hook', () => {
     })
     table2 = await app.service('table').create({
       text: 'table2',
+      database_id: database.id,
+    })
+    table3 = await app.service('table').create({
+      text: 'table3',
       database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
@@ -80,6 +86,14 @@ describe('computeTextProperty hook', () => {
         foreignField: columnTable1User.id,
       },
     })
+    columnTable3FormulaColumn = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.FORMULA,
+      table_id: table3.id,
+      settings: {
+        formula: '"MyFormulaValue"',
+      },
+    })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-text-property@locokit.io',
@@ -117,6 +131,20 @@ describe('computeTextProperty hook', () => {
     expect(rowTable1.data[columnTable1FirstName.id]).toBe('first name')
     expect(rowTable1.data[columnTable1LastName.id]).toBe('last name')
     await app.service('row').remove(rowTable1.id)
+  })
+  describe('Take the first column if no column is specified as reference', () => {
+    it('If it is a formula column, do not use its value but specify "No reference"', async () => {
+      const rowTable3 = await app.service('row').create({
+        table_id: table3.id,
+        data: {
+          [columnTable3FormulaColumn.id]: '"MyFormulaValue"',
+        },
+      })
+      expect.assertions(2)
+      expect(rowTable3.text).toBe('No reference')
+      expect(rowTable3.data[columnTable3FormulaColumn.id]).toBe('"MyFormulaValue"')
+      await app.service('row').remove(rowTable3.id)
+    })
   })
 
   afterAll(async () => {
