@@ -190,6 +190,7 @@ export interface BlockMedia extends Block {
 
 export interface MapSettings {
   id: string;// Id of the table_view in database
+  pageDetailId: string; // Id of the detail page
   sources: {
     geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
     field: string; // column / field 's UUID
