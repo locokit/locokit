@@ -5,31 +5,33 @@ stages:
   - build
   - release
 
-before_script:
-  - node --version
-  - npm --version
-  - npm ci
 
-Lint:
+lint:
   tags: [shared-ci-docker]
   stage: quality
   script:
+    - npm ci
     - npm run lint
 
-Build:
+build:
   tags: [shared-ci-docker]
   stage: build
   script:
+    - npm ci
     - npm run build
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+    - lib
 
-#Publish:
-#  tags: [shared-ci-docker]
-#  stage: release
-#  only: [master, tags]
-#  dependencies:
-#    - Build
-#  when: manual
-#  script:
-#    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">~/.npmrc
-#    - npm ci
-#    - npm run publish
+publish:
+ tags: [shared-ci-docker]
+ stage: release
+ only: [master, tags]
+ dependencies:
+   - build
+ when: manual
+ script:
+   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">~/.npmrc
+   - npm run publish

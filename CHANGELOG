@@ -1,5 +1,15 @@
 # CHANGELOG
 
+**v0.2.0**
+
+**Quality**
+* add eslint with standard typescript
+
+**Feature**
+* add new `MAPVIEW` Block
+* add new `MAPDETAILVIEW` Block
+* add new `SYNTHESIS` Block
+
 **v0.1.5**
 
 * add new `GEOMETRY_POINT` `COLUMN_TYPE`
