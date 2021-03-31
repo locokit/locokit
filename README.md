@@ -9,10 +9,14 @@ This glossary is published in the
 
 ## How to publish this package
 
-* upgrade the `package.json` version
+* upgrade the `package.json` version (and respect the [semver](https://semver.org/))
 * write the [`CHANGELOG`](./CHANGELOG)
-* `npm run build`
-* `npm run publish`
+* if you're on your own PC
+  * `npm run build`
+  * `npm run publish`
+* otherwise, 
+  * create a new release tag
+  * launch the `publish` job in the CI
 
 ## CHANGELOG
 
