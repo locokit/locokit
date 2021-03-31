@@ -352,8 +352,8 @@ export default Vue.extend({
                 const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
 
                 html += `
-                <div class="popup-row-footer">
-                  <a id="row-detail-page">${textDetailPage}</a>
+                <div class="popup-row-toolbox">
+                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
                 </div>
               `
               }
@@ -365,7 +365,7 @@ export default Vue.extend({
 
               if (properties.rowId) {
                 const element = popup.getElement()
-                const link = element.querySelector('.popup-row-footer #row-detail-page')
+                const link = element.querySelector('.popup-row-toolbox #row-detail-page')
                 if (link) {
                   link.addEventListener('click', () => this.sendIdToDetail(properties.rowId))
 
@@ -452,7 +452,7 @@ export default Vue.extend({
   min-width: 180px;
 }
 
-/deep/ .mapboxgl-popup-content p {
+/deep/ .mapboxgl-popup-content p button{
   font-size: 0.8rem;
   font-weight: 400;
   margin-bottom: 0.2rem;
@@ -467,6 +467,14 @@ export default Vue.extend({
   margin-left: -10px;
   margin-right: -10px;
   padding: 5px 10px 0 10px;
+}
+
+/deep/ .mapboxgl-popup-content .popup-row-toolbox {
+  display: flex;
+}
+
+/deep/ .mapboxgl-popup-content .popup-row-toolbox > button {
+  margin: auto;
 }
 
 /deep/ .mapboxgl-popup-close-button {
