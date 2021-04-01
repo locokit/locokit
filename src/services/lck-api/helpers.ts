@@ -11,6 +11,8 @@ import {
 } from './definitions'
 import { lckServices } from './services'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import saveAs from 'file-saver'
+import XLSX from 'xlsx'
 
 /**
  * Return the display value for a column.
@@ -156,7 +158,11 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
     })
     return formatedData
   })
-  return (exportXLS)
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportXLS)
+  const wb: XLSX.WorkBook = XLSX.utils.book_new()
+  const fileName = 'export' + '.xlsx'
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1')
+  XLSX.writeFile(wb, fileName)
 }
 
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}) {
@@ -197,7 +203,13 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
       return '"' + sanitizedValue + '"'
     }).join(',')
   ).join('\n')
-  return exportCSV
+  saveAs(
+    new Blob([exportCSV]),
+    'export' + '.csv',
+    {
+      type: 'text/csv;charset=utf-8'
+    }
+  )
 }
 
 export default {

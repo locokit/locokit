@@ -90,7 +90,13 @@
                 class="p-button-secondary"
                 :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
                 :disabled="!hasDataToDisplay"
-                @click="onClickExportButton"
+                @click="onClickExportButtonCSV"
+              />
+              <lck-dropdown-button
+                label="Export data"
+                :disabled="!hasDataToDisplay"
+                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+                :model="fileExportFormat"
               />
             </div>
           </template>
@@ -198,7 +204,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
-import saveAs from 'file-saver'
 
 import { formatISO, isValid, parseISO } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -226,6 +231,7 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
@@ -264,7 +270,8 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'p-button': Vue.extend(Button),
-    'p-sidebar': Vue.extend(Sidebar)
+    'p-sidebar': Vue.extend(Sidebar),
+    'lck-dropdown-button': DropdownButton
   },
   props: {
     databaseId: {
@@ -283,6 +290,22 @@ export default {
       databaseState,
       crudMode: true,
       cellState: {},
+      fileExportFormat: [
+        {
+          label: 'as CSV File',
+          icon: 'pi pi-file',
+          command: () => {
+            this.$emit('onClickExportButtonCSV')
+          }
+        },
+        {
+          label: 'as XLS File',
+          icon: 'pi pi-file-excel',
+          command: () => {
+            this.$emit('onClickExportButtonCSV')
+          }
+        }
+      ],
       block: {
         loading: false,
         content: {
@@ -491,19 +514,13 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
-    async onClickExportButton () {
+    async onClickExportButtonCSV () {
       if (!this.selectedViewId) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowDataCSV(
+      await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters)
       )
-      saveAs(
-        new Blob([data]),
-        this.currentView.text + '.csv',
-        {
-          type: 'text/csv;charset=utf-8'
-        })
       this.exporting = false
     },
     /**

@@ -39,7 +39,6 @@
     </div>
 
     <lck-datatable
-      id="tableau"
       v-if="definition"
       :definition="columnsDisplayed"
       :content="content"
