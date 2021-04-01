@@ -8,6 +8,7 @@ import {
   getColumnIdsFromFormula,
   getSQLRequestFromFormula,
   getColumnsReferences,
+  ASSIMILED_TO_STRING_TYPES,
 } from '../../utils/formulas'
 import { TableColumn } from '../../models/tablecolumn.model'
 
@@ -91,7 +92,7 @@ export function parseFormula (): Hook {
         try {
           const newParsedFormula = formulasParser.parse(newFormula, { functions, columns: columnsUsedInFormulaObject, columnsTypes: COLUMN_TYPE })
           // Add the formula type
-          context.data.settings.formula_type_id = newParsedFormula.type
+          context.data.settings.formula_type_id = ASSIMILED_TO_STRING_TYPES.includes(newParsedFormula.type) ? COLUMN_TYPE.STRING : newParsedFormula.type
           // Add additional data in _meta
           context.params._meta = {
             ...context.params._meta,
