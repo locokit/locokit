@@ -56,7 +56,6 @@
     "@storybook/addons": "^6.1.18",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/vue": "^6.1.21",
-    "@types/geojson": "^7946.0.7",
     "@types/jest": "^24.0.19",
     "@types/mapbox-gl": "^1.13.0",
     "@types/marked": "^1.2.0",
