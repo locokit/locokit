@@ -309,7 +309,7 @@ describe('formula utility functions', () => {
       })
       it('Return the specified value for a single select column', async () => {
         await patchTable1Formula(`COLUMN.${columnTable1SingleSelect.id}`)
-        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
+        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
         expect(rowTable1.data[columnTable1Formula.id]).toBe(columnTable1SingleSelect.settings.values?.[rowTable1.data[columnTable1SingleSelect.id] as string].label)
       })
       it('Return the specified value for a string column', async () => {
