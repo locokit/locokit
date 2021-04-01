@@ -142,7 +142,6 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
     }) as Paginated<LckTableRow>
     allData.push(...data)
   }
-  console.log('allDataXLS', allData)
   const exportXLS = allData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
@@ -185,7 +184,7 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
     }) as Paginated<LckTableRow>
     allData.push(...data)
   }
-  console.log(allData)
+
   let exportCSV = '\ufeff' + result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += allData.map(currentRow =>
     result.columns?.map(currentColumn => {
