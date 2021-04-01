@@ -177,6 +177,8 @@
       "title": "Use of bike",
       "resultByWeek": "{resultByWeek} CO2 / Week",
       "noResultByWeek": "No result"
+    },"mapview": {
+      "noData": "Unknown position"
     }
   },
   "pages": {

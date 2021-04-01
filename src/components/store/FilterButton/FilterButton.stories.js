@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import FilterButton from './FilterButton'
 

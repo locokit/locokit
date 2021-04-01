@@ -10,7 +10,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
       style="z-index: 1008;"
     >
       <div
-        aria-labelledby="pv_id_11_header"
+        aria-labelledby="pv_id_10_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
@@ -21,7 +21,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
         >
           <span
             class="p-dialog-title"
-            id="pv_id_11_header"
+            id="pv_id_10_header"
           >
             Create a new view
           </span>
@@ -158,7 +158,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
       style="z-index: 1009;"
     >
       <div
-        aria-labelledby="pv_id_12_header"
+        aria-labelledby="pv_id_11_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
@@ -169,7 +169,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
         >
           <span
             class="p-dialog-title"
-            id="pv_id_12_header"
+            id="pv_id_11_header"
           >
             Edit the view
           </span>

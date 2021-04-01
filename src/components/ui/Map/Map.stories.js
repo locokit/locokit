@@ -1,4 +1,4 @@
-import MapView from './MapView'
+import Map from './Map'
 
 const optionsWithoutBackgroundTiles = {
   style: {
@@ -33,6 +33,19 @@ const optionsWithBackgroundTiles = {
         maxzoom: 17
       }
     ]
+  }
+}
+
+const defaultArgTypes = {
+  options: {
+    control: {
+      type: 'select',
+      options: [
+        JSON.stringify(optionsWithoutBackgroundTiles),
+        JSON.stringify(optionsWithBackgroundTiles)
+      ]
+    },
+    defaultValue: JSON.stringify(optionsWithBackgroundTiles)
   }
 }
 
@@ -106,8 +119,8 @@ const resourcesExamples = {
 }
 
 export default {
-  title: 'components/visualize/MapView',
-  component: MapView,
+  title: 'components/visualize/Map',
+  component: Map,
   argTypes: {
     timeoutBeforeScreenshot: {
       table: {
@@ -119,9 +132,9 @@ export default {
 
 export const withPointLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -134,18 +147,16 @@ withPointLayerStory.args = {
     }
   ]
 }
-withPointLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPointLayerStory.argTypes = defaultArgTypes
 withPointLayerStory.parameters = {
   storyshots: false
 }
 
 export const withPointAndTextLayersStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -155,18 +166,16 @@ withPointAndTextLayersStory.args = {
     resourcesExamples.pointAndText
   ]
 }
-withPointAndTextLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPointAndTextLayersStory.argTypes = defaultArgTypes
 withPointAndTextLayersStory.parameters = {
   storyshots: false
 }
 
 export const withLineStringLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -176,18 +185,16 @@ withLineStringLayerStory.args = {
     resourcesExamples.lineString
   ]
 }
-withLineStringLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withLineStringLayerStory.argTypes = defaultArgTypes
 withLineStringLayerStory.parameters = {
   storyshots: false
 }
 
 export const withPolygonLayerStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -197,18 +204,16 @@ withPolygonLayerStory.args = {
     resourcesExamples.polygon
   ]
 }
-withPolygonLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPolygonLayerStory.argTypes = defaultArgTypes
 withPolygonLayerStory.parameters = {
   storyshots: false
 }
 
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -216,18 +221,16 @@ withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
 withMultipleSourcesAndLayersStory.args = {
   resources: Object.values(resourcesExamples)
 }
-withMultipleSourcesAndLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withMultipleSourcesAndLayersStory.argTypes = defaultArgTypes
 withMultipleSourcesAndLayersStory.parameters = {
   storyshots: false
 }
 
 export const withCustomOptionsStory = (args, { argTypes }) => {
   return {
-    components: { MapView },
+    components: { Map },
     props: Object.keys(argTypes),
-    template: '<MapView :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
   }
 }
 
@@ -236,7 +239,24 @@ withCustomOptionsStory.args = {
   resources: []
 }
 withCustomOptionsStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })] }, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }) }
+  options: {
+    control: {
+      type: 'select',
+      options: [
+        JSON.stringify({
+          ...optionsWithoutBackgroundTiles,
+          center: [2, 46],
+          zoom: 8
+        }),
+        JSON.stringify({
+          ...optionsWithBackgroundTiles,
+          center: [-20, 46],
+          zoom: 8
+        })
+      ]
+    },
+    defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 })
+  }
 }
 withCustomOptionsStory.parameters = {
   storyshots: false

@@ -23,6 +23,7 @@
 
       <div
         v-if="editableColumns.indexOf(column) > -1"
+        class="form-field-editable"
       >
         <lck-autocomplete
           v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
@@ -81,6 +82,21 @@
           mode="decimal"
           :minFractionDigits="2"
         />
+        <div
+          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-map'"
+        >
+          <lck-map
+            v-if="row.data[column.id]"
+            class="field-map"
+            mode="Dialog"
+            :resources="getLckGeoResources(column, row.data[column.id])"
+            :options="{
+              maxZoom: 16,
+              minZoom: 1
+            }"
+          />
+          <span v-else>{{ $t('components.mapview.noData') }}</span>
+        </div>
         <component
           v-else
           :is="getComponentEditableColumn(column.column_type_id)"
@@ -92,8 +108,7 @@
 
       <div
         v-else
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; border: unset; background-color: transparent; padding-left: unset;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
         {{ getColumnDisplayValue(column, row.data[column.id]) }}
       </div>
@@ -104,8 +119,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
+
+import { formatISO } from 'date-fns'
+import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -116,31 +134,49 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import {
+  COLUMN_TYPE
+} from '@locokit/lck-glossary'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import Map from '@/components/ui/Map/Map.vue'
 
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
-import { formatISO } from 'date-fns'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
 import { lckHelpers } from '@/services/lck-api'
 import { zipArrays } from '@/services/lck-utils/arrays'
+import {
+  transformEWKTtoFeature,
+  getStyleLayers
+} from '@/services/lck-utils/map'
+import {
+  LckTableColumn,
+  LckTableRow,
+  LckTableRowDataComplex,
+  LCKTableRowMultiDataComplex,
+  LckTableViewColumn
+} from '@/services/lck-api/definitions'
+import Feature from 'ol/Feature'
 
 export default {
   name: 'LckDataDetail',
   props: {
     autocompleteSuggestions: {
-      type: Array
+      type: Array //  as { label: string; value: number }[]
     },
     row: {
       type: Object,
       required: false
     },
     definition: {
-      type: Object,
+      type: Object as () => { columns: LckTableViewColumn[] },
       required: false,
       default: () => ({ columns: [] })
     },
@@ -154,8 +190,9 @@ export default {
   },
   data () {
     return {
-      autocompleteInput: {},
-      multipleAutocompleteInput: {}
+      autocompleteInput: {} as Record<string, string>,
+      // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
+      multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
     }
   },
   components: {
@@ -164,6 +201,7 @@ export default {
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
     'lck-input-url': InputURL,
+    'lck-map': Map,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -175,29 +213,25 @@ export default {
     'p-button': Vue.extend(Button)
   },
   computed: {
-    currentBlockDropdownOptions () {
-      if (!this.definition.columns) return {}
-      const result = {}
-      this.definition.columns.forEach(currentColumn => {
-        if (
-          currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
-          currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
-        ) {
-          result[currentColumn.id] = Object.keys(currentColumn.settings?.values || {}).map(k => ({
-            value: k,
-            label: currentColumn.settings.values[k].label
-          }))
-        }
-      })
-      return result
-    },
-    editableColumns () {
+    editableColumns (): LckTableViewColumn[] {
       if (!this.definition.columns) return []
-      return this.definition.columns.filter(c => this.isEditableColumn(this.crudMode, c))
+      return this.definition.columns.filter(column => this.isEditableColumn(this.crudMode, column))
     },
-    columnsEnhanced () {
+    columnsEnhanced (): Record<
+        string,
+        {
+          column_type_id: COLUMN_TYPE;
+          dropdownOptions?: {value: string; label: string}[];
+        }
+        > {
       if (!this.definition.columns) return {}
-      const result = {}
+      const result: Record<
+        string,
+        {
+          column_type_id: COLUMN_TYPE;
+          dropdownOptions?: {value: string; label: string}[];
+        }
+      > = {}
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -207,10 +241,13 @@ export default {
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
           currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
-            value: k,
-            label: currentColumn.settings.values[k].label
-          }))
+          const values = currentColumn?.settings?.values
+          if (values) {
+            result[currentColumn.id].dropdownOptions = Object.keys(values).map(key => ({
+              value: key,
+              label: values[key].label
+            }))
+          }
         }
       })
       return result
@@ -219,63 +256,99 @@ export default {
   methods: {
     getComponentEditableColumn,
     isEditableColumn,
+    transformEWKTtoFeature,
     getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    onComplete ({ column_type_id, settings }, { query }) {
+    onComplete (
+      { column_type_id: columnTypeId, settings }: LckTableViewColumn,
+      { query }: { query: string }
+    ) {
       this.$emit(
         'update-suggestions', {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-          column_type_id,
+          columnTypeId: columnTypeId,
           settings
         }, { query })
     },
-    async onAutocompleteEdit (rowId, columnId, event = null) {
+    async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
       await this.onEdit(rowId, columnId, event ? event.value.value : null)
     },
-    async onMultipleAutocompleteEdit (rowId, columnId) {
-      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map(item => item.value))
+    async onMultipleAutocompleteEdit (rowId: string, columnId: string) {
+      await this.onEdit(
+        rowId,
+        columnId,
+        this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
+      )
     },
-    async onDateEdit (rowId, columnId, value) {
+    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
         rowId,
         columnId,
         value ? formatISO(value, { representation: 'date' }) : null
       )
     },
-    async onEdit (rowId, columnId, value) {
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
       this.$emit('update-row', {
         rowId,
         columnId,
         newValue: value
       })
+    },
+    getLckGeoResource (column: LckTableColumn, data: string) {
+      const layers = getStyleLayers([column])
+      function createGeoJsonFeaturesCollection (data: string): GeoJSONFeatureCollection {
+      // This is necessary when column's type is Multi...
+        const features: Feature[] = []
+        if (data) {
+          features.push(transformEWKTtoFeature(data))
+        }
+        // Transform OL Feature in Geojson
+        const geojsonFormat = new GeoJSON()
+        return geojsonFormat.writeFeaturesObject(features)
+      }
+
+      const features = createGeoJsonFeaturesCollection(data)
+      return [
+        {
+          id: `features-collection-source-id-${column.id}`,
+          layers,
+          ...features
+        }
+      ]
     }
   },
   watch: {
     row: {
-      handler (newRef, oldRef) {
+      handler (newRef: LckTableRow, oldRef: LckTableRow|undefined) {
         if (newRef !== oldRef) {
           /**
-         * we go through every data prop,
-         * and init the autocompleteInput if needed
-         */
+           * we go through every data prop,
+           * and init the autocompleteInput if needed
+          */
           if (newRef.data) {
             this.autocompleteInput = {}
             this.multipleAutocompleteInput = {}
             Object.keys(newRef.data).forEach((columnId) => {
-              // Allow to ignore lookup column
+              // Allow to ignore looked up column
               if (this.columnsEnhanced[columnId]) {
                 const currentColumnDefinition = this.columnsEnhanced[columnId]
                 switch (currentColumnDefinition.column_type_id) {
                   case COLUMN_TYPE.USER:
                   case COLUMN_TYPE.GROUP:
                   case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                    this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                    this.$set(
+                      this.autocompleteInput,
+                      columnId,
+                      (newRef.data[columnId] as LckTableRowDataComplex)?.value || null)
                     break
                   case COLUMN_TYPE.MULTI_USER:
                     this.$set(
                       this.multipleAutocompleteInput,
                       columnId,
-                      zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
+                      zipArrays(
+                        (newRef.data[columnId] as LCKTableRowMultiDataComplex)?.reference as [],
+                        (newRef.data[columnId] as LCKTableRowMultiDataComplex)?.value as [],
+                        'value',
+                        'label'
+                      )
                     )
                     break
                 }
@@ -289,3 +362,16 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.form-field-editable > div > #map-container {
+  height: 30vh;
+}
+
+.non-editable-field {
+  height: 2.5rem;
+  border: unset;
+  background-color: transparent;
+  padding-left: unset;
+}
+</style>

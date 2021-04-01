@@ -1,9 +1,10 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-
-interface Column {
-  column_type_id: number;
-  editable: boolean;
-}
+import {
+  COLUMN_TYPE
+} from '@locokit/lck-glossary'
+import {
+  LckTableColumn,
+  LckTableViewColumn
+} from '@/services/lck-api/definitions'
 
 export function getComponentEditableColumn (columnTypeId: number) {
   switch (columnTypeId) {
@@ -29,12 +30,16 @@ export function getComponentEditableColumn (columnTypeId: number) {
       return 'p-textarea'
     case COLUMN_TYPE.URL:
       return 'lck-input-url'
+    case COLUMN_TYPE.GEOMETRY_POINT:
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return 'lck-map'
     default:
       return 'p-input-text'
   }
 }
 
-export function isEditableColumn (crudMode: boolean, column: Column) {
+export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn) {
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.FORMULA:
@@ -43,3 +48,17 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
       return crudMode || column.editable
   }
 }
+
+export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
+  if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
+  if (
+    column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN ||
+    (column.parents && column.parents.length === 0) ||
+    !column.parents
+  ) {
+    return column.column_type_id
+  }
+  return getColumnTypeId(column.parents[0])
+}
+
+export default { getComponentEditableColumn, isEditableColumn, getColumnTypeId }

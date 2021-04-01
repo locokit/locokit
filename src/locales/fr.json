@@ -179,6 +179,9 @@
       "title": "Métriques utilisation du vélo",
       "resultByWeek": "{resultByWeek} CO2 / Semaine",
       "noResultByWeek": "Aucun résultat"
+    },
+    "mapview": {
+      "noData": "Position inconnue"
     }
   },
   "pages": {
