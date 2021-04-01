@@ -243,8 +243,6 @@
 </template>
 
 <script>
-/* eslint-disable no-case-declarations */
-
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
@@ -512,7 +510,6 @@ export default {
               return ''
             }
           case COLUMN_TYPE.DATE:
-            // eslint-disable-next-line no-case-declarations
             return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
