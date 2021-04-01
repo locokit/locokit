@@ -49,12 +49,16 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
   }
 }
 
-export function columnAncestor (column: LckTableColumn|LckTableViewColumn): COLUMN_TYPE {
+export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
   if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
-  if (column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (column.parents && column.parents.length === 0) || !column.parents) {
+  if (
+    column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN ||
+    (column.parents && column.parents.length === 0) ||
+    !column.parents
+  ) {
     return column.column_type_id
   }
-  return columnAncestor(column.parents[0])
+  return getColumnTypeId(column.parents[0])
 }
 
-export default { getComponentEditableColumn, isEditableColumn, columnAncestor }
+export default { getComponentEditableColumn, isEditableColumn, getColumnTypeId }

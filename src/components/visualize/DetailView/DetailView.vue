@@ -20,7 +20,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
 import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
-import { LckTableViewColumn } from '@/services/lck-api/definitions'
+import { LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -45,7 +45,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      autocompleteSuggestions: null as { value: number; label: string }[]|null
+      autocompleteSuggestions: null as { value: number | string; label: string }[]|null
     }
   },
   computed: {
@@ -55,14 +55,14 @@ export default Vue.extend({
   },
   methods: {
     searchItems: lckHelpers.searchItems,
-    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }: LckTableViewColumn, { query }: { query: string }) {
+    async updateLocalAutocompleteSuggestions ({ column_type_id: columnTypeId, settings }: LckTableViewColumn, { query }: { query: {} }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId as string,
         query
       })
     },
-    async onUpdateCell ({ columnId, newValue }) {
+    async onUpdateCell ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData}) {
       const data = {
         data: {
           [columnId]: newValue

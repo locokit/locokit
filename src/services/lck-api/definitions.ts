@@ -51,6 +51,7 @@ export class LckTableColumn extends LckBaseModel {
   table_id!: string;
   column_type_id!: COLUMN_TYPE;
   parents?: LckTableColumn[]|null;
+  children?: LckTableColumn[]|null;
   settings!: {
     formula_type_id?: COLUMN_TYPE;
     query?: {

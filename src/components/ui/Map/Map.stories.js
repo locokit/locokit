@@ -36,6 +36,19 @@ const optionsWithBackgroundTiles = {
   }
 }
 
+const defaultArgTypes = {
+  options: {
+    control: {
+      type: 'select',
+      options: [
+        JSON.stringify(optionsWithoutBackgroundTiles),
+        JSON.stringify(optionsWithBackgroundTiles)
+      ]
+    },
+    defaultValue: JSON.stringify(optionsWithBackgroundTiles)
+  }
+}
+
 const resourcesExamples = {
   pointAndText: {
     id: 'features-type-point-source-id',
@@ -134,9 +147,7 @@ withPointLayerStory.args = {
     }
   ]
 }
-withPointLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPointLayerStory.argTypes = defaultArgTypes
 withPointLayerStory.parameters = {
   storyshots: false
 }
@@ -155,9 +166,7 @@ withPointAndTextLayersStory.args = {
     resourcesExamples.pointAndText
   ]
 }
-withPointAndTextLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPointAndTextLayersStory.argTypes = defaultArgTypes
 withPointAndTextLayersStory.parameters = {
   storyshots: false
 }
@@ -176,9 +185,7 @@ withLineStringLayerStory.args = {
     resourcesExamples.lineString
   ]
 }
-withLineStringLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withLineStringLayerStory.argTypes = defaultArgTypes
 withLineStringLayerStory.parameters = {
   storyshots: false
 }
@@ -197,9 +204,7 @@ withPolygonLayerStory.args = {
     resourcesExamples.polygon
   ]
 }
-withPolygonLayerStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withPolygonLayerStory.argTypes = defaultArgTypes
 withPolygonLayerStory.parameters = {
   storyshots: false
 }
@@ -216,9 +221,7 @@ withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
 withMultipleSourcesAndLayersStory.args = {
   resources: Object.values(resourcesExamples)
 }
-withMultipleSourcesAndLayersStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify(optionsWithoutBackgroundTiles), JSON.stringify(optionsWithBackgroundTiles)] }, defaultValue: JSON.stringify(optionsWithoutBackgroundTiles) }
-}
+withMultipleSourcesAndLayersStory.argTypes = defaultArgTypes
 withMultipleSourcesAndLayersStory.parameters = {
   storyshots: false
 }
@@ -236,7 +239,24 @@ withCustomOptionsStory.args = {
   resources: []
 }
 withCustomOptionsStory.argTypes = {
-  options: { control: { type: 'select', options: [JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }), JSON.stringify({ ...optionsWithBackgroundTiles, center: [-20, 46], zoom: 8 })] }, defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }) }
+  options: {
+    control: {
+      type: 'select',
+      options: [
+        JSON.stringify({
+          ...optionsWithoutBackgroundTiles,
+          center: [2, 46],
+          zoom: 8
+        }),
+        JSON.stringify({
+          ...optionsWithBackgroundTiles,
+          center: [-20, 46],
+          zoom: 8
+        })
+      ]
+    },
+    defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 })
+  }
 }
 withCustomOptionsStory.parameters = {
   storyshots: false

@@ -6,22 +6,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Vue, { PropType } from 'vue'
 
-import {
+import mapboxgl, {
   AnyLayer,
   Map,
   MapboxOptions,
   NavigationControl,
   ScaleControl,
-  LngLatBounds
+  LngLatBounds,
+  LngLatLike
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { Feature } from 'geojson'
-
-interface Resource {
-  id: string;
-  features: Feature[];
-  layers: AnyLayer[];
-}
+import { LckGeoResource, LckImplementedLayers, LckImplementedLayoutProperty, LckImplementedPaintProperty } from '@/services/lck-utils/map'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -36,7 +31,7 @@ export default Vue.extend({
       default: () => ({})
     },
     resources: {
-      type: Array as PropType<Resource[]>,
+      type: Array as PropType<LckGeoResource[]>,
       default: () => []
     },
     mode: {
@@ -49,7 +44,7 @@ export default Vue.extend({
       map: null as Map | null
     }
   },
-  mounted: function () {
+  mounted () {
     this.map = new Map({
       container: 'map-container',
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
@@ -73,10 +68,12 @@ export default Vue.extend({
             type: 'raster',
             source: 'tiles-background',
             minzoom: 0,
-            maxzoom: 17
+            maxzoom: 15
           }
         ]
       },
+      minZoom: 2,
+      maxZoom: 15,
       ...this.options
     })
 
@@ -98,11 +95,11 @@ export default Vue.extend({
 
     this.map.on('load', () => {
       this.loadResources()
-      this.getFitBounds()
+      this.setFitBounds()
     })
   },
   methods: {
-    addResource (resource: Resource) {
+    addResource (resource: LckGeoResource) {
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {
@@ -114,10 +111,10 @@ export default Vue.extend({
         this.map!.addLayer({ source: resource.id, ...layer, id: `${resource.id}-${layer.id}` } as AnyLayer)
       })
     },
-    updateResource (resourceToUpdate: Resource, resourceToCompare: Resource) {
-      const layersToAdd: AnyLayer[] = []
-      const layersToUpdate: AnyLayer[] = []
-      const layersToRemove: AnyLayer[] = []
+    updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
+      const layersToAdd: LckImplementedLayers[] = []
+      const layersToUpdate: LckImplementedLayers[] = []
+      const layersToRemove: LckImplementedLayers[] = []
       layersToAdd.push(
         ...resourceToUpdate.layers.filter(
           (resourceToUpdateLayer) => !resourceToCompare.layers.find(
@@ -138,52 +135,93 @@ export default Vue.extend({
       )
       )
 
-      layersToRemove.forEach((layerToRemove) => {
+      layersToRemove.forEach(layerToRemove => {
         this.map!.removeLayer(`${resourceToUpdate.id}-${layerToRemove.id}`)
       })
-      layersToAdd.forEach((layerToAdd) => {
-        this.map!.addLayer({ source: resourceToUpdate.id, ...layerToAdd, id: `${resourceToUpdate.id}-${layerToAdd.id}` } as AnyLayer)
+      layersToAdd.forEach(layerToAdd => {
+        this.map!.addLayer({
+          source: resourceToUpdate.id,
+          ...layerToAdd,
+          id: `${resourceToUpdate.id}-${layerToAdd.id}`
+        } as AnyLayer)
       })
-      layersToUpdate.forEach((layer: any) => {
-        const layerToCompare: AnyLayer = resourceToCompare.layers.find(
-          (resourceToCompareLayer) => resourceToCompareLayer.id === layer.id)!
+      layersToUpdate.forEach(layerToUpdate => {
+        /**
+         * This code is not understandable.
+         * @bal, you'll have to rewrite it / comment it for better understanding
+         * And add correct TypeScript typings for avoid any regression in the future
+         */
+        const layerToCompare: LckImplementedLayers = resourceToCompare.layers.find(l => l.id === layerToUpdate.id)!
         const paintPropertiesToReset: string[] = []
         const layoutPropertiesToReset: string[] = []
 
         paintPropertiesToReset.push(
           ...Object.keys(
-            (layerToCompare as any).paint
-              ? (layerToCompare as any).paint
-              : []
+            layerToCompare.paint ? layerToCompare.paint : []
           ).filter(
-            (layerToComparePaintProperty) => !Object.keys(layer.paint ? layer.paint : []).find(
+            (layerToComparePaintProperty) => !Object.keys(layerToUpdate.paint ? layerToUpdate.paint : []).find(
               (layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty)
           )
         )
-        paintPropertiesToReset.forEach((paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layer.id}`, paintPropertyToReset, null))
-        if (layer.paint) {
-          Object.keys(layer.paint).filter((paintProperty) => (!Object.keys((layerToCompare as any).paint) ? (layerToCompare as any).paint : []) || ((layerToCompare as any).paint && (layerToCompare as any).paint[paintProperty] !== layer.paint[paintProperty])).forEach((paintProperty) => {
-            this.map!.setPaintProperty(`${resourceToUpdate.id}-${layer.id}`, paintProperty, layer.paint[paintProperty])
-          })
+        paintPropertiesToReset.forEach(
+          (paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, paintPropertyToReset, null)
+        )
+        if (layerToUpdate.paint) {
+          Object.keys(layerToUpdate.paint)
+            .filter(
+              (paintProperty) => (
+                !Object.keys(layerToCompare.paint ? layerToCompare.paint : [])
+              ) || (
+                layerToCompare.paint &&
+                layerToCompare.paint[paintProperty as LckImplementedPaintProperty] !== layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
+              )
+            ).forEach((paintProperty) => {
+              this.map!.setPaintProperty(
+                `${resourceToUpdate.id}-${layerToUpdate.id}`,
+                paintProperty,
+                layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
+              )
+            })
         }
 
-        layoutPropertiesToReset.push(...Object.keys((layerToCompare as any).layout ? (layerToCompare as any).layout : []).filter((layerToCompareLayoutProperty) => !Object.keys(layer.layout ? layer.layout : []).find((layerLayoutProperty) => layerLayoutProperty === layerToCompareLayoutProperty)))
-        layoutPropertiesToReset.forEach((layoutPropertyToReset) => this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layer.id}`, layoutPropertyToReset, null))
-        if (layer.layout) {
-          Object.keys(layer.layout).filter((layoutProperty) => (!Object.keys((layerToCompare as any).layout) ? (layerToCompare as any).layout : []) || ((layerToCompare as any).layout && (layerToCompare as any).layout[layoutProperty] !== layer.layout[layoutProperty])).forEach((layoutProperty) => {
-            this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layer.id}`, layoutProperty, layer.layout[layoutProperty])
+        layoutPropertiesToReset.push(
+          ...Object.keys(
+            layerToCompare.layout ? layerToCompare.layout : []
+          ).filter(
+            (layerToCompareLayoutProperty) =>
+              !Object.keys(layerToUpdate.layout ? layerToUpdate.layout : [])
+                .find((layerLayoutProperty) => layerLayoutProperty === layerToCompareLayoutProperty)
+          )
+        )
+        layoutPropertiesToReset.forEach(
+          (layoutPropertyToReset) => this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, layoutPropertyToReset, null)
+        )
+        if (layerToUpdate.layout) {
+          Object.keys(layerToUpdate.layout).filter(
+            (layoutProperty) => (
+              !Object.keys(layerToCompare.layout ? layerToCompare.layout : [])
+            ) || (
+              (layerToCompare).layout &&
+              layerToCompare.layout[layoutProperty as LckImplementedLayoutProperty] !== layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
+            )
+          ).forEach((layoutProperty) => {
+            this.map!.setLayoutProperty(
+              `${resourceToUpdate.id}-${layerToUpdate.id}`,
+              layoutProperty,
+              layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
+            )
           })
         }
       });
 
-      (this.map!.getSource(resourceToUpdate.id) as any).setData(
+      (this.map!.getSource(resourceToUpdate.id) as mapboxgl.GeoJSONSource).setData(
         {
           type: 'FeatureCollection',
           features: resourceToUpdate.features
         }
       )
     },
-    removeResource (resource: Resource) {
+    removeResource (resource: LckGeoResource) {
       resource.layers.forEach((layer) => {
         this.map!.removeLayer(`${resource.id}-${layer.id}`)
       })
@@ -199,38 +237,60 @@ export default Vue.extend({
         this.map && this.map.resize()
       }, 300)
     },
-    getFitBounds () {
-      const coordinates = []
-      this.resources.forEach(resource => {
+    setFitBounds () {
+      const coordinates: LngLatLike[] = []
+      /**
+       * Collect all coordinates from all features of all resources
+       */
+      this.resources.forEach((resource: LckGeoResource) => {
         resource.features.forEach(feature => {
-          if (feature.type === 'Point') {
-            coordinates.push([feature.geometry.coordinates])
-          } else {
-            coordinates.push(feature.geometry.coordinates)
+          switch (feature.geometry.type) {
+            case 'Point':
+              coordinates.push(feature.geometry.coordinates as [number, number])
+              break
+            case 'LineString':
+              coordinates.push(...feature.geometry.coordinates as [number, number][])
+              break
+            case 'Polygon':
+              console.log(feature.geometry.coordinates)
+              coordinates.push(...feature.geometry.coordinates[0] as [number, number][])
+              break
           }
+          // TODO: @alc, we need to review this code together
+          // if (feature.type === 'Point') {
+          //   coordinates.push([feature.geometry.coordinates])
+          // } else {
+          // }
         })
       })
-      if (coordinates.length > 1) {
-        const bounds = coordinates.reduce((bounds, coordinate) => {
-          return bounds.extend(coordinate)
-        }, new LngLatBounds(coordinates[0], coordinates[1]))
+      /**
+       * If we have no coordinates, we can't fitBounds
+       */
+      if (coordinates.length === 0) return
+      /**
+       * if we only have one coordinates, for a bbox, we need two, minimum
+       * so we add another coordinates, with the first one
+       */
+      if (coordinates.length === 1) coordinates.push(coordinates[0])
 
-        this.map.fitBounds(bounds, {
-          padding: 40,
-          animate: this.mode === MODE.BLOCK
-        })
-      }
-      // Case when we display only one Point
-      if (coordinates.length === 1) {
-        this.map.fitBounds([...coordinates, ...coordinates], {
-          padding: 40,
-          animate: this.mode === MODE.BLOCK
-        })
-      }
+      /**
+       * Now we can compute bounds of all coordinates...
+       */
+      const bounds = coordinates.reduce((bounds, coordinate) => {
+        return bounds.extend(coordinate)
+      }, new LngLatBounds(coordinates[0], coordinates[1]));
+
+      /**
+       * ... and fitBounds the map !
+       */
+      (this.map as Map).fitBounds(bounds, {
+        padding: 40,
+        animate: this.mode === MODE.BLOCK
+      })
     }
   },
   watch: {
-    options: function (newOptions: MapboxOptions, oldOptions: MapboxOptions) {
+    options (newOptions: MapboxOptions, oldOptions: MapboxOptions) {
       if (newOptions.style && JSON.stringify(newOptions.style) !== JSON.stringify(oldOptions.style)) {
         this.map!.setStyle(newOptions.style)
         this.loadResources()
@@ -244,10 +304,10 @@ export default Vue.extend({
         this.map!.setZoom(newOptions.zoom)
       }
     },
-    resources: function (newResources: Resource[], oldResources: Resource[]) {
-      const resourcesToAdd: Resource[] = []
-      const resourcesToUpdate: Resource[] = []
-      const resourcesToRemove: Resource[] = []
+    resources (newResources: LckGeoResource[], oldResources: LckGeoResource[]) {
+      const resourcesToAdd: LckGeoResource[] = []
+      const resourcesToUpdate: LckGeoResource[] = []
+      const resourcesToRemove: LckGeoResource[] = []
 
       resourcesToAdd.push(...newResources.filter((newResource) => !oldResources.find((oldResource) => oldResource.id === newResource.id)))
       resourcesToUpdate.push(...newResources.filter((newResource) => oldResources.find((oldResource) => oldResource.id === newResource.id)))
@@ -260,7 +320,7 @@ export default Vue.extend({
         this.addResource(resourceToAdd)
       })
       resourcesToUpdate.forEach((resourceToUpdate) => {
-        const resourceToCompare: Resource = oldResources.find((oldResource) => oldResource.id === resourceToUpdate.id)!
+        const resourceToCompare: LckGeoResource = oldResources.find((oldResource) => oldResource.id === resourceToUpdate.id)!
         this.updateResource(resourceToUpdate, resourceToCompare)
       })
     }

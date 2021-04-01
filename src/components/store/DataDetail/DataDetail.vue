@@ -89,7 +89,7 @@
             v-if="row.data[column.id]"
             class="field-map"
             mode="Dialog"
-            :resources="setRessources(column, row.data[column.id])"
+            :resources="getLckGeoResources(column, row.data[column.id])"
             :options="{
               maxZoom: 16,
               minZoom: 1
@@ -123,7 +123,7 @@
 import Vue from 'vue'
 
 import { formatISO } from 'date-fns'
-import GeoJSON from 'ol/format/GeoJSON'
+import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -153,20 +153,23 @@ import {
 import { lckHelpers } from '@/services/lck-api'
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
-  GEO_STYLE,
-  transformEWKTtoFeature
+  transformEWKTtoFeature,
+  getStyleLayers
 } from '@/services/lck-utils/map'
 import {
   LckTableColumn,
   LckTableRow,
+  LckTableRowDataComplex,
+  LCKTableRowMultiDataComplex,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
+import Feature from 'ol/Feature'
 
 export default {
   name: 'LckDataDetail',
   props: {
     autocompleteSuggestions: {
-      type: Array as { label: string; value: number }[]
+      type: Array //  as { label: string; value: number }[]
     },
     row: {
       type: Object,
@@ -188,6 +191,7 @@ export default {
   data () {
     return {
       autocompleteInput: {} as Record<string, string>,
+      // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
     }
   },
@@ -213,9 +217,21 @@ export default {
       if (!this.definition.columns) return []
       return this.definition.columns.filter(column => this.isEditableColumn(this.crudMode, column))
     },
-    columnsEnhanced (): Record<string, Record<string, COLUMN_TYPE>> {
+    columnsEnhanced (): Record<
+        string,
+        {
+          column_type_id: COLUMN_TYPE;
+          dropdownOptions?: {value: string; label: string}[];
+        }
+        > {
       if (!this.definition.columns) return {}
-      const result: Record<string, Record<string, COLUMN_TYPE>> = {}
+      const result: Record<
+        string,
+        {
+          column_type_id: COLUMN_TYPE;
+          dropdownOptions?: {value: string; label: string}[];
+        }
+      > = {}
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -256,7 +272,11 @@ export default {
       await this.onEdit(rowId, columnId, event ? event.value.value : null)
     },
     async onMultipleAutocompleteEdit (rowId: string, columnId: string) {
-      await this.onEdit(rowId, columnId, this.multipleAutocompleteInput[columnId].map((item: { value: string }) => item.value))
+      await this.onEdit(
+        rowId,
+        columnId,
+        this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
+      )
     },
     async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
@@ -265,49 +285,31 @@ export default {
         value ? formatISO(value, { representation: 'date' }) : null
       )
     },
-    async onEdit (rowId: string, columnId: string, value: string | null) {
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
       this.$emit('update-row', {
         rowId,
         columnId,
         newValue: value
       })
     },
-    createStyleLayers ({ column_type_id: columnTypeId }: { column_type_id: number }) {
-      const layers: { id: string; type: string; paint: object }[] = []
-
-      switch (columnTypeId) {
-        case COLUMN_TYPE.GEOMETRY_POINT:
-          layers.push(GEO_STYLE.Point)
-          break
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-          layers.push(GEO_STYLE.Linestring)
-          break
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-          layers.push(GEO_STYLE.Polygon)
-          break
-        default:
-          console.error('Column type unknown')
-      }
-      return layers
-    },
-    createGeoJsonFeaturesCollection (data: string) {
+    getLckGeoResource (column: LckTableColumn, data: string) {
+      const layers = getStyleLayers([column])
+      function createGeoJsonFeaturesCollection (data: string): GeoJSONFeatureCollection {
       // This is necessary when column's type is Multi...
-      const features = []
-      if (data) {
-        const feature = this.transformEWKTtoFeature(data)
-        features.push(feature)
+        const features: Feature[] = []
+        if (data) {
+          features.push(transformEWKTtoFeature(data))
+        }
+        // Transform OL Feature in Geojson
+        const geojsonFormat = new GeoJSON()
+        return geojsonFormat.writeFeaturesObject(features)
       }
-      // Transform OL Feature in Geojson
-      const geojsonFormat = new GeoJSON()
-      return geojsonFormat.writeFeaturesObject(features)
-    },
-    setRessources (column: LckTableColumn, data: string) {
-      const layers = this.createStyleLayers(column)
-      const features = this.createGeoJsonFeaturesCollection(data)
+
+      const features = createGeoJsonFeaturesCollection(data)
       return [
         {
           id: `features-collection-source-id-${column.id}`,
-          layers: layers,
+          layers,
           ...features
         }
       ]
@@ -325,20 +327,28 @@ export default {
             this.autocompleteInput = {}
             this.multipleAutocompleteInput = {}
             Object.keys(newRef.data).forEach((columnId) => {
-              // Allow to ignore lookup column
+              // Allow to ignore looked up column
               if (this.columnsEnhanced[columnId]) {
                 const currentColumnDefinition = this.columnsEnhanced[columnId]
                 switch (currentColumnDefinition.column_type_id) {
                   case COLUMN_TYPE.USER:
                   case COLUMN_TYPE.GROUP:
                   case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                    this.$set(this.autocompleteInput, columnId, newRef.data[columnId]?.value || null)
+                    this.$set(
+                      this.autocompleteInput,
+                      columnId,
+                      (newRef.data[columnId] as LckTableRowDataComplex)?.value || null)
                     break
                   case COLUMN_TYPE.MULTI_USER:
                     this.$set(
                       this.multipleAutocompleteInput,
                       columnId,
-                      zipArrays(newRef.data[columnId]?.reference, newRef.data[columnId]?.value, 'value', 'label')
+                      zipArrays(
+                        (newRef.data[columnId] as LCKTableRowMultiDataComplex)?.reference as [],
+                        (newRef.data[columnId] as LCKTableRowMultiDataComplex)?.value as [],
+                        'value',
+                        'label'
+                      )
                     )
                     break
                 }
