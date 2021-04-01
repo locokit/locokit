@@ -5,14 +5,8 @@ import { database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { TableRow } from '../../models/tablerow.model'
-import {
-  getSQLRequestFromFormula,
-} from '../../utils/formulas'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const formulasParser = require('../../utils/formulas/formulaParser.js')
-
-describe('formulaColumn hooks', () => {
+describe('computeRowFormulaColumns hooks', () => {
   let workspace: workspace
   let database: database
   let table1: Table

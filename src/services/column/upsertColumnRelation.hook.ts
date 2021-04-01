@@ -70,7 +70,7 @@ export function upsertColumnRelation (): Hook {
               { query: { $noSelect: true } },
             )
           }
-          // Delete previous relations that are not used anymore if necessary
+          // Delete previous relations that are not used anymore
           if (notUsedColumnsFromId.length > 0) {
             await context.app.service('columnrelation').remove(null, {
               query: {

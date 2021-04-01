@@ -38,13 +38,13 @@ interface IParsedFormula {
 export type ColumnsReferences = Record<string, FunctionBuilder>
 
 // The list of the columns types assimiled to strings to use them in the formulas
-export const ASSIMILED_TO_STRING_TYPES = [
+export const EQUATED_TO_STRING_TYPES = [
   COLUMN_TYPE.SINGLE_SELECT,
 ]
 
 // The list of the columns types that can be used as function text parameters.
 export const TEXT_TYPES = [
-  ...ASSIMILED_TO_STRING_TYPES,
+  ...EQUATED_TO_STRING_TYPES,
   COLUMN_TYPE.GROUP,
   COLUMN_TYPE.RELATION_BETWEEN_TABLES,
   COLUMN_TYPE.STRING,

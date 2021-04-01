@@ -162,15 +162,13 @@ function peg$parse(input, options) {
 
             // Check type parameters
             if (Array.isArray(currentFunction.params)) {
-              // console.log('params:', currentFunction.params)
-              // Store the indexes of the multiple and required parameters and the related paramaters which are valid
+              // Store the indexes of the multiple and required parameters and the related parameters which are valid to know if we have already encountered them once
               const requiredAndMultipleParamsIndexes = new Set();
 
               // Loop on documentation parameters
               while (currentFunction.params[docParamIndex]) {
 
                 const docParam = currentFunction.params[docParamIndex]
-                // console.log('docParam', docParamIndex, docParam)
 
                 // The current doc parameter is an array (related parameters) 
                 if (Array.isArray(docParam) && docParam.length > 0) {
@@ -204,10 +202,10 @@ function peg$parse(input, options) {
                     realParamIndex += docParam.length
                   }
                 } else {
-                  
-                  const realParamType = args && args[realParamIndex]?.type; 
+                  // The current doc parameter is not an array (single parameter)
+                  const realParamType = args && args[realParamIndex]?.type;
+                  // A parameter is required if it's is specified and if it's a multiple one, if we have not already encountered it
                   const paramIsRequired = (docParam.required !== false) && (!requiredAndMultipleParamsIndexes.has(docParamIndex))
-                  // console.log('realParam', args && args[realParamIndex], paramIsRequired)
                   // The current documentation parameter is required
                   if (paramIsRequired !== false) {
                     if (!realParamType) {
@@ -230,7 +228,6 @@ function peg$parse(input, options) {
                   }
                   // The current documentation parameter is specified and multiple but not required
                   else if (docParam.multiple === true) {
-                    // console.log('check multiple param:', checkParamsTypes(docParam.type, realParamType))
                     if (checkParamsTypes(docParam.type, realParamType)) {
                         realParamIndex += 1;
                     } else {
@@ -256,8 +253,6 @@ function peg$parse(input, options) {
               }
             }
             // Invalid number of parameters
-            // console.log('length args:', args && args.length)
-            // console.log('realParamIndex', realParamIndex)
             if (args && args.length !== realParamIndex ) {
               error('invalid arguments.');
             }
