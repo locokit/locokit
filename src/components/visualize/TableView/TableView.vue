@@ -29,7 +29,7 @@
           @click="onClickAddButton"
         />
         <lck-dropdown-button
-          label="Export"
+          label="Export data"
           v-if="exportAllowed"
           :disabled="!hasDataToDisplay"
           :model="fileExportFormat"
@@ -39,6 +39,7 @@
     </div>
 
     <lck-datatable
+      id="tableau"
       v-if="definition"
       :definition="columnsDisplayed"
       :content="content"
@@ -86,9 +87,9 @@ export default {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
-    'lck-dropdown-button': DropdownButton,
     'lck-dialog-form': DialogForm,
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'lck-dropdown-button': DropdownButton
   },
   props: {
     addAllowed: {
@@ -132,13 +133,15 @@ export default {
       currentDatatableFilters: [],
       fileExportFormat: [
         {
-          label: 'Export as CSV',
+          label: 'as CSV File',
+          icon: 'pi pi-file',
           command: () => {
             this.$emit('export-view-csv')
           }
         },
         {
-          label: 'Export as XLS',
+          label: 'as XLS File',
+          icon: 'pi pi-file-excel',
           command: () => {
             this.$emit('export-view-xls')
           }

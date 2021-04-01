@@ -494,7 +494,7 @@ export default {
     async onClickExportButton () {
       if (!this.selectedViewId) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(
+      const data = await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters)
       )

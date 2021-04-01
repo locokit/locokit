@@ -155,6 +155,7 @@ import {
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
 
+import saveAs from 'file-saver'
 import Breadcrumb from 'primevue/breadcrumb'
 
 import Block from '@/components/visualize/Block/Block'
@@ -174,6 +175,7 @@ import {
 } from '@/services/lck-api'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
+import XLSX from 'xlsx'
 
 export default {
   name: 'Page',
@@ -436,13 +438,24 @@ export default {
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      const data = await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      saveAs(
+        new Blob([data]),
+        block.title + '.csv',
+        {
+          type: 'text/csv;charset=utf-8'
+        })
       this.exporting = false
     },
     async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      const data = await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      const ws = XLSX.WorkSheet = XLSX.utils.json_to_sheet(data)
+      const wb = XLSX.WorkBook = XLSX.utils.book_new()
+      const fileName = block.title + '.xlsx'
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1')
+      XLSX.writeFile(wb, fileName)
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
