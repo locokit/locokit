@@ -1,5 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { fn, FunctionBuilder, raw, ref, ReferenceBuilder, UniqueViolationError } from 'objection'
+import { fn, FunctionBuilder, raw, ref, ReferenceBuilder } from 'objection'
 import { TableColumn } from '../../models/tablecolumn.model'
 
 interface IFormulaBasicParameter {
@@ -90,7 +90,7 @@ function castColumnReference (columnReference: ReferenceBuilder, originalColumnT
     case COLUMN_TYPE.BOOLEAN:
       return columnReference.castBool()
     case COLUMN_TYPE.DATE:
-      return columnReference.castTo('date')
+      return columnReference.castTo('timestamp')
     case COLUMN_TYPE.FLOAT:
       return columnReference.castDecimal()
     case COLUMN_TYPE.NUMBER:
@@ -158,7 +158,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   DATE: {
     DATEADD: {
       pgsql: (date, number, unit) => {
-        return `case when ${unit} = any('{year,month,week,day,hour,minute,second}') then ${date} + (${number}||${unit})::interval end`
+        return `case when ${unit} = any('{year,month,week,day,hour,minute,second}') then ${date} + cast((${number}||${unit}) as interval) end`
       },
       params: [
         {
@@ -176,13 +176,18 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       ],
       returnType: COLUMN_TYPE.DATE,
     },
-    DATEDIF: {
-      pgsql: (startDate, endDate, unit) => {
-        const yearCase = `date_part('year', age(${endDate}, ${startDate}))`
-        const monthCase = `date_part('year', age(${endDate}, ${startDate})) * 12 + date_part('month', age(${endDate}, ${startDate}))`
-        const dayCase = `date_part('day', ${endDate} - ${startDate})`
-        return `case ${unit} when 'year' then ${yearCase} when 'month' then ${monthCase} when 'day' then ${dayCase} end`
-      },
+    DAY: {
+      pgsql: (date) => `date_part('day', ${date})`,
+      params: [
+        {
+          name: 'date',
+          type: COLUMN_TYPE.DATE,
+        },
+      ],
+      returnType: COLUMN_TYPE.NUMBER,
+    },
+    DAYS: {
+      pgsql: (startDate, endDate) => `date_part('day', ${endDate} - ${startDate})`,
       params: [
         {
           name: 'startDate',
@@ -190,20 +195,6 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
         },
         {
           name: 'endDate',
-          type: COLUMN_TYPE.DATE,
-        },
-        {
-          name: 'unit',
-          type: COLUMN_TYPE.STRING,
-        },
-      ],
-      returnType: COLUMN_TYPE.NUMBER,
-    },
-    DAY: {
-      pgsql: (date) => `date_part('day', ${date})`,
-      params: [
-        {
-          name: 'date',
           type: COLUMN_TYPE.DATE,
         },
       ],
@@ -238,7 +229,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     EOMONTH: {
-      pgsql: (date, numMonths) => `date_trunc('month', ${date}) + (${numMonths} + 1 || 'month')::interval - interval '1 day'`,
+      pgsql: (date, numMonths) => `date_trunc('month', ${date}) + cast((${numMonths} + 1 || 'month -1 day') as interval)`,
       params: [
         {
           name: 'date',
@@ -295,6 +286,20 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       ],
       returnType: COLUMN_TYPE.NUMBER,
     },
+    MONTHS: {
+      pgsql: (startDate, endDate) => `select date_part('year', diffAge) * 12 + date_part('month', diffAge) from age(${endDate}, ${startDate}) as diffAge`,
+      params: [
+        {
+          name: 'startDate',
+          type: COLUMN_TYPE.DATE,
+        },
+        {
+          name: 'endDate',
+          type: COLUMN_TYPE.DATE,
+        },
+      ],
+      returnType: COLUMN_TYPE.NUMBER,
+    },
     SECOND: {
       pgsql: (date) => `date_part('second', ${date})`,
       params: [
@@ -335,6 +340,20 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       ],
       returnType: COLUMN_TYPE.NUMBER,
     },
+    YEARS: {
+      pgsql: (startDate, endDate) => `date_part('year', age(${endDate}, ${startDate}))`,
+      params: [
+        {
+          name: 'startDate',
+          type: COLUMN_TYPE.DATE,
+        },
+        {
+          name: 'endDate',
+          type: COLUMN_TYPE.DATE,
+        },
+      ],
+      returnType: COLUMN_TYPE.NUMBER,
+    },
   },
   LOGIC: {
     AND: {
@@ -353,7 +372,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.BOOLEAN,
     },
     IF: {
-      pgsql: (condition, resultIfTrue, resultIfFalse) => `case when ${condition} then ${resultIfTrue}::text else ${resultIfFalse}::text end`,
+      pgsql: (condition, resultIfTrue, resultIfFalse) => `case when ${condition} then cast(${resultIfTrue} as text) else cast(${resultIfFalse} as text) end`,
       params: [
         {
           name: 'condition',
@@ -374,7 +393,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...args) => {
         let ifsRequest = 'case '
         for (let index = 0; index < args.length; index += 2) {
-          ifsRequest += `when ${args[index]} then ${args[index + 1]}::text `
+          ifsRequest += `when ${args[index]} then cast(${args[index + 1]} as text) `
         }
         ifsRequest += 'end'
         return ifsRequest
@@ -422,11 +441,11 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
         // Add the switch cases
         for (let index = 0; index < numArgs; index += 2) {
           const result = args[index + 1]
-          if (result) switchRequest += ` when ${args[index]} then ${result}::text`
+          if (result) switchRequest += ` when ${args[index]} then cast(${result} as text)`
         }
         // Add the default case if specified
         if (numArgs % 2 === 1) {
-          switchRequest += ` else ${args[numArgs - 1]}::text`
+          switchRequest += ` else cast(${args[numArgs - 1]} as text)`
         }
         switchRequest += ' end'
         return switchRequest

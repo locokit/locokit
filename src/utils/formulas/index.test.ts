@@ -401,48 +401,6 @@ describe('formula utility functions', () => {
           ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
         })
       })
-      describe('DATEDIF', () => {
-        it('Return the number of years between two dates (startDate < endDate).', async () => {
-          await patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 2, "year"), "year")`)
-          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(2)
-        })
-        it('Return the number of years between two dates (startDate > endDate).', async () => {
-          await patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, -2, "year"), "year")`)
-          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(-2)
-        })
-        it('Return the number of months between two dates.', async () => {
-          await patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 5, "month"), "month")`)
-          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(5)
-        })
-        it('Return the number of days between two dates.', async () => {
-          await patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 2, "day"), "day")`)
-          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(2)
-        })
-        it('Return null if the unit is unknown.', async () => {
-          await patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 2, "day"), "azert")`)
-          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(null)
-        })
-        it('Throw an error if no unit is specified', async () => {
-          await expect(
-            patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id}, COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (unit).')
-        })
-        it('Throw an error if no end date is specified', async () => {
-          await expect(
-            patchTable1Formula(`DATE.DATEDIF(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
-        })
-        it('Throw an error if no start date is specified', async () => {
-          await expect(
-            patchTable1Formula('DATE.DATEDIF()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
-        })
-      })
       describe('DAY', () => {
         it('Return a number corresponding to the day in the month of the date.', async () => {
           await patchTable1Formula(`DATE.DAY(COLUMN.${columnTable1Date.id})`)
@@ -453,6 +411,28 @@ describe('formula utility functions', () => {
           await expect(
             patchTable1Formula('DATE.DAY()'),
           ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+        })
+      })
+      describe('DAYS', () => {
+        it('Return the number of days between two dates.', async () => {
+          await patchTable1Formula(`DATE.DAYS(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 2, "day"))`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(2)
+        })
+        it('Return the number of days between two dates.', async () => {
+          await patchTable1Formula(`DATE.DAYS(COLUMN.${columnTable1Date.id}, COLUMN.${columnTable1Date.id})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(0)
+        })
+        it('Throw an error if no end date is specified', async () => {
+          await expect(
+            patchTable1Formula(`DATE.DAYS(COLUMN.${columnTable1Date.id})`),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+        })
+        it('Throw an error if no start date is specified', async () => {
+          await expect(
+            patchTable1Formula('DATE.DAYS()'),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
         })
       })
       describe('EARLIER', () => {
@@ -594,6 +574,28 @@ describe('formula utility functions', () => {
           ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
         })
       })
+      describe('MONTHS', () => {
+        it('Return the number of months between two dates (from one column and one function).', async () => {
+          await patchTable1Formula(`DATE.MONTHS(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 5, "month"))`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(5)
+        })
+        it('Return the number of months between two dates (from two columns).', async () => {
+          await patchTable1Formula(`DATE.MONTHS(COLUMN.${columnTable1Date.id}, COLUMN.${columnTable1Date.id})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(0)
+        })
+        it('Throw an error if no end date is specified', async () => {
+          await expect(
+            patchTable1Formula(`DATE.MONTHS(COLUMN.${columnTable1Date.id})`),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+        })
+        it('Throw an error if no start date is specified', async () => {
+          await expect(
+            patchTable1Formula('DATE.MONTHS()'),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
+        })
+      })
       describe('SECOND', () => {
         it('Return a number corresponding to the seconds of the date.', async () => {
           await patchTable1Formula(`DATE.SECOND(COLUMN.${columnTable1Date.id})`)
@@ -640,6 +642,28 @@ describe('formula utility functions', () => {
           await expect(
             patchTable1Formula('DATE.YEAR()'),
           ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+        })
+      })
+      describe('YEARS', () => {
+        it('Return the number of years between two dates (from one column and one function).', async () => {
+          await patchTable1Formula(`DATE.YEARS(COLUMN.${columnTable1Date.id}, DATE.DATEADD(COLUMN.${columnTable1Date.id}, 5, "year"))`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(5)
+        })
+        it('Return the number of years between two dates (from two columns).', async () => {
+          await patchTable1Formula(`DATE.YEARS(COLUMN.${columnTable1Date.id}, COLUMN.${columnTable1Date.id})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.NUMBER)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(0)
+        })
+        it('Throw an error if no end date is specified', async () => {
+          await expect(
+            patchTable1Formula(`DATE.YEARS(COLUMN.${columnTable1Date.id})`),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+        })
+        it('Throw an error if no start date is specified', async () => {
+          await expect(
+            patchTable1Formula('DATE.YEARS()'),
+          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
         })
       })
     })
@@ -693,7 +717,7 @@ describe('formula utility functions', () => {
         it('Return the first result (date -> text) if the condition is true.', async () => {
           await patchTable1Formula(`LOGIC.IF(LOGIC.TRUE(), COLUMN.${columnTable1Date.id}, COLUMN.${columnTable1Date.id})`)
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(rowTable1.data[columnTable1Date.id])
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(`${rowTable1.data[columnTable1Date.id] as string} 00:00:00`)
         })
         it('Throw an error if the result to return if the condition is false is not specified', async () => {
           await expect(
