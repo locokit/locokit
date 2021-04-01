@@ -5,7 +5,15 @@
 <script lang='ts'>
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Vue, { PropType } from 'vue'
-import { AnyLayer, Map, MapboxOptions, NavigationControl, ScaleControl } from 'mapbox-gl'
+
+import {
+  AnyLayer,
+  Map,
+  MapboxOptions,
+  NavigationControl,
+  ScaleControl,
+  LngLatBounds
+} from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { Feature } from 'geojson'
 
@@ -13,6 +21,11 @@ interface Resource {
   id: string;
   features: Feature[];
   layers: AnyLayer[];
+}
+
+export enum MODE {
+  BLOCK = 'Block',
+  DIALOG = 'Dialog'
 }
 
 export default Vue.extend({
@@ -26,9 +39,9 @@ export default Vue.extend({
       type: Array as PropType<Resource[]>,
       default: () => []
     },
-    forceResize: {
-      type: Boolean,
-      default: false
+    mode: {
+      type: String as PropType<MODE>,
+      default: MODE.BLOCK
     }
   },
   data () {
@@ -76,13 +89,16 @@ export default Vue.extend({
     this.map.dragRotate.disable()
     this.map.touchZoomRotate.disableRotation()
 
-    // Force resize canvas map to avoid issue with modal initialisation
-    this.forceResize && this.onResize()
+    // Force resize canvas map to avoid issue with dialog initialisation
+    if (this.mode === MODE.DIALOG) {
+      this.onResize()
+    }
 
     window.addEventListener('resize', this.onResize)
 
     this.map.on('load', () => {
       this.loadResources()
+      this.getFitBounds()
     })
   },
   methods: {
@@ -182,6 +198,35 @@ export default Vue.extend({
       setTimeout(() => {
         this.map && this.map.resize()
       }, 300)
+    },
+    getFitBounds () {
+      const coordinates = []
+      this.resources.forEach(resource => {
+        resource.features.forEach(feature => {
+          if (feature.type === 'Point') {
+            coordinates.push([feature.geometry.coordinates])
+          } else {
+            coordinates.push(feature.geometry.coordinates)
+          }
+        })
+      })
+      if (coordinates.length > 1) {
+        const bounds = coordinates.reduce((bounds, coordinate) => {
+          return bounds.extend(coordinate)
+        }, new LngLatBounds(coordinates[0], coordinates[1]))
+
+        this.map.fitBounds(bounds, {
+          padding: 40,
+          animate: this.mode === MODE.BLOCK
+        })
+      }
+      // Case when we display only one Point
+      if (coordinates.length === 1) {
+        this.map.fitBounds([...coordinates, ...coordinates], {
+          padding: 40,
+          animate: this.mode === MODE.BLOCK
+        })
+      }
     }
   },
   watch: {

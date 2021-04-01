@@ -88,9 +88,12 @@
           <lck-map
             v-if="row.data[column.id]"
             class="field-map"
-            forceResize
+            mode="Dialog"
             :resources="setRessources(column, row.data[column.id])"
-            :options="setOptions(row.data[column.id])"
+            :options="{
+              maxZoom: 16,
+              minZoom: 1
+            }"
           />
           <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
@@ -151,8 +154,7 @@ import { lckHelpers } from '@/services/lck-api'
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   GEO_STYLE,
-  transformEWKTtoFeature,
-  computeCenterFeatures
+  transformEWKTtoFeature
 } from '@/services/lck-utils/map'
 import {
   LckTableColumn,
@@ -164,7 +166,7 @@ export default {
   name: 'LckDataDetail',
   props: {
     autocompleteSuggestions: {
-      type: Array
+      type: Array as { label: string; value: number }[]
     },
     row: {
       type: Object,
@@ -185,8 +187,8 @@ export default {
   },
   data () {
     return {
-      autocompleteInput: {} as Record<string, any>,
-      multipleAutocompleteInput: {} as Record<string, any>
+      autocompleteInput: {} as Record<string, string>,
+      multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
     }
   },
   components: {
@@ -211,9 +213,9 @@ export default {
       if (!this.definition.columns) return []
       return this.definition.columns.filter(column => this.isEditableColumn(this.crudMode, column))
     },
-    columnsEnhanced (): Record<string, any> {
+    columnsEnhanced (): Record<string, Record<string, COLUMN_TYPE>> {
       if (!this.definition.columns) return {}
-      const result: Record<string, any> = {}
+      const result: Record<string, Record<string, COLUMN_TYPE>> = {}
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -239,7 +241,6 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     transformEWKTtoFeature,
-    computeCenterFeatures,
     getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
@@ -310,17 +311,6 @@ export default {
           ...features
         }
       ]
-    },
-    setOptions (data: string) {
-      const geojson = this.createGeoJsonFeaturesCollection(data)
-      const centerFeaturesCollection = this.computeCenterFeatures(geojson)
-
-      return {
-        center: centerFeaturesCollection?.geometry?.coordinates,
-        zoom: 9,
-        maxZoom: 16,
-        minZoom: 1
-      }
     }
   },
   watch: {

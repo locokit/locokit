@@ -1,7 +1,4 @@
 import WKT from 'ol/format/WKT'
-import center from '@turf/center'
-import { AllGeoJSON } from '@turf/helpers'
-import { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import { COLUMN_GEO_TYPE } from '@locokit/lck-glossary'
 
 export const GEO_STYLE = {
@@ -27,11 +24,11 @@ export const GEO_STYLE = {
   }
 }
 
-export function isGEOColumn (ColumnTypeId: number) {
+export const isGEOColumn = (ColumnTypeId: number) => {
   return Object.values(COLUMN_GEO_TYPE).includes(ColumnTypeId)
 }
 
-export function transformEWKTtoFeature (ewkt: string) {
+export const transformEWKTtoFeature = (ewkt: string) => {
   // Split EWKT to get reference coordinate system and geometry object
   const formattedData = ewkt.split(';', 2)
   const srid = formattedData[0].substring(5)
@@ -45,8 +42,4 @@ export function transformEWKTtoFeature (ewkt: string) {
   })
 }
 
-export function computeCenterFeatures (geojson: GeoJSONFeatureCollection) {
-  return center(geojson as AllGeoJSON)
-}
-
-export default { GEO_STYLE, isGEOColumn, transformEWKTtoFeature, computeCenterFeatures }
+export default { GEO_STYLE, isGEOColumn, transformEWKTtoFeature }
