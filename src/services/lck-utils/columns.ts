@@ -1,4 +1,5 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { LckTableColumn, LckTableViewColumn } from '../lck-api/definitions'
 
 interface Column {
   column_type_id: number;
@@ -42,4 +43,12 @@ export function isEditableColumn (crudMode: boolean, column: Column) {
     default:
       return crudMode || column.editable
   }
+}
+
+export function columnAncestor (column: LckTableColumn|LckTableViewColumn): COLUMN_TYPE {
+  if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
+  if (column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (column.parents && column.parents.length === 0) || !column.parents) {
+    return column.column_type_id
+  }
+  return columnAncestor(column.parents[0])
 }
