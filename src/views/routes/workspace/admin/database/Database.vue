@@ -198,7 +198,11 @@
 
 import Vue from 'vue'
 
-import { formatISO, isValid, parseISO } from 'date-fns'
+import {
+  formatISO,
+  isValid,
+  parseISO
+} from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -216,8 +220,14 @@ import {
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow
 } from '@/store/process'
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import {
+  getComponentEditableColumn,
+  isEditableColumn
+} from '@/services/lck-utils/columns'
+import {
+  lckHelpers,
+  lckServices
+} from '@/services/lck-api'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
@@ -315,8 +325,7 @@ export default {
       selectedViewId: null,
       displayNewDialog: false,
       newRow: {
-        data: {
-        }
+        data: {}
       },
       manualProcesses: [],
       processesByRow: [],
@@ -408,8 +417,7 @@ export default {
       this.selectedViewId = null
       this.displayNewDialog = false
       this.newRow = {
-        data: {
-        }
+        data: {}
       }
       this.submitting = false
       this.currentDatatableFirst = 0
@@ -509,23 +517,23 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
-    async onClickExportButtonCSV (fileName) {
+    async onClickExportButtonCSV () {
       if (!this.selectedViewId) return
       this.exporting = true
       await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        fileName = this.currentView.text
+        this.fileName = this.currentView.text
       )
       this.exporting = false
     },
-    async onClickExportButtonXLS (fileName) {
+    async onClickExportButtonXLS () {
       if (!this.selectedViewId) return
       this.exporting = true
       await lckHelpers.exportTableRowDataXLS(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        fileName = this.currentView.text
+        this.fileName = this.currentView.text
       )
       this.exporting = false
     },
@@ -948,19 +956,22 @@ export default {
   overflow-y: auto;
   min-width: 350px;
 }
+
 /deep/ .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary {
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .process-toolbar-button {
-  margin-top: 0.3rem ;
+  margin-top: 0.3rem;
 }
 
 </style>
