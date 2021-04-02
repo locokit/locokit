@@ -10,9 +10,7 @@ import {
   getSQLRequestFromFormula,
 } from '../../utils/formulas'
 import { FunctionBuilder } from 'objection'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const formulasParser = require('../../utils/formulas/formulaParser.js')
+import { parse } from '../../utils/formulas/formulaParser'
 
 /**
  * Hook to compute the formulas of the updated row(s) using the columns that have been changed.
@@ -82,7 +80,7 @@ export function computeRowFormulaColumns (): Hook {
         }
         try {
           // Parse the formula
-          const formulaResult = formulasParser.parse(formula, { functions, columns: allUsedColumnsInFormulas, columnsTypes: COLUMN_TYPE })
+          const formulaResult = parse(formula, { functions, columns: allUsedColumnsInFormulas, columnsTypes: COLUMN_TYPE })
           // Get the SQL request that will be used to update the formula
           formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(
             formulaResult,

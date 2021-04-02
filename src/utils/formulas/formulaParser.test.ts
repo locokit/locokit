@@ -4,100 +4,98 @@ import { database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import app from '../../app'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const formulasParser = require('./formulaParser.js')
+import { parse } from './formulaParser'
 
 describe('Formula parser', () => {
   describe('integer values', () => {
     it('positive number', () => {
-      const parsedFormula = formulasParser.parse('10', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('10', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe('10')
       expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
     })
     it('negative number', () => {
-      const parsedFormula = formulasParser.parse('-10', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('-10', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe('-10')
       expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
     })
     it('throw an error if the number has no digit', () => {
       expect(() => {
-        formulasParser.parse('-')
+        parse('-')
       }).toThrow()
     })
   })
   describe('decimal values', () => {
     it('positive number', () => {
-      const parsedFormula = formulasParser.parse('10.0', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('10.0', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe('10.0')
       expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
     })
     it('negative number', () => {
-      const parsedFormula = formulasParser.parse('-10.0', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('-10.0', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe('-10.0')
       expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
     })
     it('throw an error if the decimal part has no digit', () => {
       expect(() => {
-        formulasParser.parse('10.')
+        parse('10.')
       }).toThrow()
     })
   })
   describe('string values', () => {
     it('can contain lowercase letters', () => {
-      const parsedFormula = formulasParser.parse('"abc"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"abc"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'abc'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain uppercase letters', () => {
-      const parsedFormula = formulasParser.parse('"ABC"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"ABC"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'ABC'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain numbers', () => {
-      const parsedFormula = formulasParser.parse('"-10.2"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"-10.2"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'-10.2'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain some special characters', () => {
       const specialChars = '€!#$%&()*{}+,-./:;<=>?@[\\]^_`|~'
-      const parsedFormula = formulasParser.parse(`"${specialChars}"`, { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse(`"${specialChars}"`, { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe(`'${specialChars}'`)
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain whitespace', () => {
-      const parsedFormula = formulasParser.parse('" "', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('" "', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("' '")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\n', () => {
-      const parsedFormula = formulasParser.parse('"\n"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"\n"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'\n'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\t', () => {
-      const parsedFormula = formulasParser.parse('"\t"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"\t"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'\t'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\r', () => {
-      const parsedFormula = formulasParser.parse('"\r"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"\r"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'\r'")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain single quote', () => {
-      const parsedFormula = formulasParser.parse('"\'"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"\'"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("''''")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain a mix of the previous elements', () => {
-      const parsedFormula = formulasParser.parse('"Aa- 1+\n\t\r\'"', { columnsTypes: COLUMN_TYPE })
+      const parsedFormula = parse('"Aa- 1+\n\t\r\'"', { columnsTypes: COLUMN_TYPE })
       expect(parsedFormula.value).toBe("'Aa- 1+\n\t\r'''")
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can not contain a double quote', () => {
       expect(() => {
-        formulasParser.parse('"""')
+        parse('"""')
       }).toThrow()
     })
   })
@@ -163,23 +161,23 @@ describe('Formula parser', () => {
 
     it('throw an error is the specified column is unknown', () => {
       expect(() => {
-        formulasParser.parse('COLUMN.unknown-column', { columnsTypes: COLUMN_TYPE, columns: allColumns })
+        parse('COLUMN.unknown-column', { columnsTypes: COLUMN_TYPE, columns: allColumns })
       }).toThrow('One column is invalid.')
     })
     it('return the correct value and type for a string column', () => {
-      const parsedFormula = formulasParser.parse(`COLUMN.${stringColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.${stringColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(`:${stringColumn.id.replace(/-/g, '_')}:`)
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('return the correct value and type for a single select column', () => {
-      const parsedFormula = formulasParser.parse(`COLUMN.${singleSelectColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.${singleSelectColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(
         `('{"idA":"mylabelA","idB":"mylabelB"}'::json->>:${singleSelectColumn.id.replace(/-/g, '_')}:)`,
       )
       expect(parsedFormula.type).toBe(COLUMN_TYPE.SINGLE_SELECT)
     })
     it('return the correct value and type for a single select column without settings', () => {
-      const parsedFormula = formulasParser.parse(`COLUMN.${singleSelectColumnWithoutSettings.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.${singleSelectColumnWithoutSettings.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(
         `('{}'::json->>:${singleSelectColumnWithoutSettings.id.replace(/-/g, '_')}:)`,
       )
@@ -386,110 +384,110 @@ describe('Formula parser', () => {
     describe('unknown function ', () => {
       it('throw an error if the category is unknown', () => {
         expect(() => {
-          formulasParser.parse('CATEGORY.PI()', { columnsTypes: COLUMN_TYPE, functions })
+          parse('CATEGORY.PI()', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow("the function CATEGORY.PI doesn't exist.")
       })
       it('throw an error if the function is unknown', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.PI2()', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.PI2()', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow("the function NUMERIC.PI2 doesn't exist.")
       })
     })
     describe('not well configured function', () => {
       it('throw an error if the related sql code is not specified', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHOUTSQL()', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHOUTSQL()', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow("the function NUMERIC.FUNCTIONWITHOUTSQL isn't well configured.")
       })
       it('throw an error if the return type is not specified', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHOUTRETURNTYPE()', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHOUTRETURNTYPE()', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow("the function NUMERIC.FUNCTIONWITHOUTRETURNTYPE isn't well configured.")
       })
     })
     describe('correct type and value', () => {
       it('for a function without documentation parameter', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.PI()', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.PI()', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(3.14)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with one required parameter', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.ABS(-10.2)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.ABS(-10.2)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(abs(-10.2))')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with two parameters, one required and one facultative (specified)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.SUM(10.0,0.0)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.SUM(10.0,0.0)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10.0+0.0)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with two parameters, one required and one facultative (not specified)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.SUM(10.0)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.SUM(10.0)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10.0)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with two parameters, one required and one multiple (not required and not specified)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.PRODUCT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.PRODUCT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10.0)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with two parameters, one required and one multiple (specified but not required)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.PRODUCT(10.0,20.0,30.0,40.0)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.PRODUCT(10.0,20.0,30.0,40.0)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10.0*20.0*30.0*40.0)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.FLOAT)
       })
       it('for a function with three parameters, one required, one multiple (specified but not required) and one required', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,30,40,"string")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,30,40,"string")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe("(10|20|30|40|'string')")
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with three parameters, one required, one multiple (not required and not specified) and one required', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHDEFAULT(10,"string")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHDEFAULT(10,"string")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe("(10|'string')")
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with a multiple and required parameter, specified one time', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED(10)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED(10)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with a multiple and required parameter, specified several times', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED(10,10)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED(10,10)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10*10)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with two parameters, one multiple and required parameter and one another required one, with a different type', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMOREDIFF(10,10,"string")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMOREDIFF(10,10,"string")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe("(10*10*'string')")
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with an optional parameter (specified)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHOPT(10)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHOPT(10)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(10)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with an optional parameter (not specified)', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHOPT()', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHOPT()', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(0)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with related parameters that are specified once', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(value)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with related parameters that are specified several times', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(value)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with related parameters that are specified several times', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(value)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with related parameters that are specified one time and others ones different after', () => {
-        const parsedFormula = formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMOREDIFF(10, "string1", 20, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
+        const parsedFormula = parse('NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMOREDIFF(10, "string1", 20, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
         expect(parsedFormula.value).toBe('(value)')
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
@@ -497,62 +495,62 @@ describe('Formula parser', () => {
     describe('throw an error', () => {
       it('if too much parameters are passed', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.ABS(10.0, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.ABS(10.0, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid arguments.')
       })
       it('if too few parameters are passed', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.ABS()', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.ABS()', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('an argument is missing (number).')
       })
       it('if one parameter is pass to a function which has not got any one', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.PI(1)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.PI(1)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid arguments.')
       })
       it('if a required parameter has not the correct type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.ABS("string")', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.ABS("string")', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid argument (number).')
       })
       it('if a multiple parameter has not the correct type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.PRODUCT(10.0,20.0,"string")', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.PRODUCT(10.0,20.0,"string")', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid argument (numbers)')
       })
       it('if a required parameter after a multiple one has not the correct type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,10.0)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,10.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid argument (default)')
       })
       it('if an optional parameter has not the correct type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHOPT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHOPT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid argument (optional)')
       })
       it('if one related parameter is missing', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string2", 20)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string2", 20)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid arguments.')
       })
       it('if one of the first related parameters is incorrect', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid argument (result).')
       })
       it('if one of the related parameters is incorrect whereas the first ones are correct', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string", 20, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string", 20, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('invalid arguments.')
       })
       it('if the related parameters that are specified are followed by a required one that have the same type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMORESIMILAR(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMORESIMILAR(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('an argument is missing (otherArg).')
       })
       it('if a multiple parameter which is specified and followed by a required one that have the same type', () => {
         expect(() => {
-          formulasParser.parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMORESIMILAR(10, 20, 30)', { columnsTypes: COLUMN_TYPE, functions })
+          parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMORESIMILAR(10, 20, 30)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('an argument is missing (otherArg).')
       })
     })
@@ -560,7 +558,7 @@ describe('Formula parser', () => {
   describe('unknown values', () => {
     it('throw an error if the formula contains an unknown value', () => {
       expect(() => {
-        formulasParser.parse('test')
+        parse('test')
       }).toThrow()
     })
   })

@@ -12,8 +12,7 @@ import {
 } from '../../utils/formulas'
 import { TableColumn } from '../../models/tablecolumn.model'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const formulasParser = require('../../utils/formulas/formulaParser.js')
+import { parse } from '../../utils/formulas/formulaParser'
 
 /**
  * Is the column a formula column ?
@@ -90,7 +89,7 @@ export function parseFormula (): Hook {
       // Only parse the formula on creation or if it has been changed
       if (context.method === 'create' || updatedColumn.settings?.formula !== newFormula) {
         try {
-          const newParsedFormula = formulasParser.parse(newFormula, { functions, columns: columnsUsedInFormulaObject, columnsTypes: COLUMN_TYPE })
+          const newParsedFormula = parse(newFormula, { functions, columns: columnsUsedInFormulaObject, columnsTypes: COLUMN_TYPE })
           // Add the formula type
           context.data.settings.formula_type_id = EQUATED_TO_STRING_TYPES.includes(newParsedFormula.type) ? COLUMN_TYPE.STRING : newParsedFormula.type
           // Add additional data in _meta

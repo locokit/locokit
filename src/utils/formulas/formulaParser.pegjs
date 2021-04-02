@@ -4,11 +4,11 @@
     functions = {},
     columns = {},
     columnsTypes = {}
-  } = options;
+  } = options
   // Useful functions
-  function checkParamsTypes (input, output) {
-    if (Array.isArray(input)) return input.includes(output);
-    else return input === output;
+  function checkParamsTypes (input: number | number[], output: number): boolean {
+    if (Array.isArray(input)) return input.includes(output)
+    else return input === output
   }
 }
 start
@@ -19,36 +19,31 @@ expression =
 
 function
   = category:$([A-Z]+)"."name:$([a-zA-Z0-9]+)"("args:arguments")" {
-
-    if (functions[category] && functions[category][name]) {
-
+    if (functions[category]?.[name]) {
       const currentFunction = functions[category][name]
 
-      let docParamIndex = 0;
-      let realParamIndex = 0;
+      let docParamIndex = 0
+      let realParamIndex = 0
 
       // Check type parameters
       if (Array.isArray(currentFunction.params)) {
         // Store the indexes of the multiple and required parameters and the related parameters which are valid to know if we have already encountered them once
-        const requiredAndMultipleParamsIndexes = new Set();
+        const requiredAndMultipleParamsIndexes = new Set()
 
         // Loop on documentation parameters
         while (currentFunction.params[docParamIndex]) {
-
           const docParam = currentFunction.params[docParamIndex]
 
-          // The current doc parameter is an array (related parameters) 
+          // The current doc parameter is an array (related parameters)
           if (Array.isArray(docParam) && docParam.length > 0) {
-
             let checkFollowingDocParam = false
 
             // Check if the related parameters are correct
             for (let relatedParamIndex = 0; relatedParamIndex < docParam.length; relatedParamIndex++) {
-              const realParamType = args && args[realParamIndex + relatedParamIndex]?.type
-              
+              const realParamType = args?.[realParamIndex + relatedParamIndex]?.type
+
               if (!checkParamsTypes(docParam[relatedParamIndex].type, realParamType)) {
                 // The type of one related parameter is incorrect
-
                 if (!requiredAndMultipleParamsIndexes.has(docParamIndex)) {
                   // The parameters are required at least once
                   error(`invalid argument (${docParam[relatedParamIndex].name}).`)
@@ -70,50 +65,48 @@ function
             }
           } else {
             // The current doc parameter is not an array (single parameter)
-            const realParamType = args && args[realParamIndex]?.type;
+            const realParamType = args?.[realParamIndex]?.type
             // A parameter is required if it's is specified and if it's a multiple one, if we have not already encountered it
             const paramIsRequired = (docParam.required !== false) && (!requiredAndMultipleParamsIndexes.has(docParamIndex))
             // The current documentation parameter is required
             if (paramIsRequired !== false) {
               if (!realParamType) {
-                  error(`an argument is missing (${docParam.name}).`);
+                error(`an argument is missing (${docParam.name}).`)
               }
               else if (checkParamsTypes(docParam.type, realParamType)) {
-                realParamIndex += 1;
+                realParamIndex += 1
                 if (docParam.multiple === true) {
                   requiredAndMultipleParamsIndexes.add(docParamIndex)
                 } else {
-                  docParamIndex += 1;
+                  docParamIndex += 1
                 }
               } else {
-                  error(`invalid argument (${docParam.name}).`);
+                error(`invalid argument (${docParam.name}).`)
               }
             }
             // The current parameter is not required and not specified
             else if (!realParamType) {
-                docParamIndex += 1;
+              docParamIndex += 1
             }
             // The current documentation parameter is specified and multiple but not required
             else if (docParam.multiple === true) {
               if (checkParamsTypes(docParam.type, realParamType)) {
-                  realParamIndex += 1;
+                realParamIndex += 1
+              } else if (docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
+                // Last parameter -> incorrect argument
+                error(`invalid argument (${docParam.name}).`)
               } else {
-                  if(docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
-                    // Last parameter -> incorrect argument
-                    error(`invalid argument (${docParam.name}).`);
-                  } else {
-                    // Maybe the following parameter has the good type
-                    docParamIndex += 1;
-                  }
+                // Maybe the following parameter has the good type
+                docParamIndex += 1
               }
             }
             // The current documentation parameter is specified but neither required nor multiple
             else {
               if (checkParamsTypes(docParam.type, realParamType)) {
-                  docParamIndex += 1;
-                  realParamIndex += 1;
+                docParamIndex += 1
+                realParamIndex += 1
               } else {
-                  error(`invalid argument (${docParam.name}).`);
+                error(`invalid argument (${docParam.name}).`)
               }
             }
           }
@@ -121,7 +114,7 @@ function
       }
       // Invalid number of parameters
       if (args && args.length !== realParamIndex ) {
-        error('invalid arguments.');
+        error('invalid arguments.')
       }
 
       // Return the type and the value related to the function
@@ -129,23 +122,23 @@ function
         return {
           value: `(${ Array.isArray(args) ? currentFunction.pgsql(...args.map(arg => arg.value)) : currentFunction.pgsql()})`,
           type: currentFunction.returnType,
-        };
+        }
       } else {
-        error(`the function ${category}.${name} isn't well configured.`);
+        error(`the function ${category}.${name} isn't well configured.`)
       }
     } else {
-      error(`the function ${category}.${name} doesn't exist.`);
+      error(`the function ${category}.${name} doesn't exist.`)
     }
   }
 
 // Function arguments
 arguments
-  = _ first:expression? rest:(_ ',' _ arg:expression { return arg; } )* _ 
+  = _ first:expression? rest:(_ ',' _ arg:expression { return arg } )* _ 
   {
     if (first) {
-      rest.unshift(first);
+      rest.unshift(first)
     }
-    return rest;
+    return rest
   }
 
 // Basic types
@@ -187,7 +180,7 @@ string
     return {
       type: columnsTypes.STRING,
       value: `'${currentString.join('')}'`
-    };
+    }
   }
 
 // Number
@@ -196,7 +189,7 @@ integer
       return {
         type: columnsTypes.NUMBER,
         value: currentInteger,
-      };
+      }
     }
 
 decimal
@@ -204,23 +197,23 @@ decimal
       return {
         type: columnsTypes.FLOAT,
         value: currentDecimal,
-      };
+      }
     }
 
 // Format the column to use its id with a placeholder in the SQL query and also return its original type
 column
   = "COLUMN."name:$((alphanum/'-')+) {
-      const currentColumn = columns[name];
-      if (!currentColumn) error('One column is invalid.');
+      const currentColumn = columns[name]
+      if (!currentColumn) error('One column is invalid.')
 
       // Format the column name to be used as SQL placeholder
-      let value = `:${name.replace(/-/g,'_')}:`;
+      let value = `:${name.replace(/-/g,'_')}:`
 
       // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key 
       if (currentColumn.column_type_id === columnsTypes.SINGLE_SELECT) {
-        const options = currentColumn.settings?.values ?? {};
-        const optionsJsonString = JSON.stringify(options, (key, value) => value.label ?? value);
-        value = `('${optionsJsonString}'::json->>${value})`;
+        const options = currentColumn.settings?.values ?? {}
+        const optionsJsonString = JSON.stringify(options, (key, value) => value.label ?? value)
+        value = `('${optionsJsonString}'::json->>${value})`
       }
-      return { type: currentColumn.originalTypeId(), value };
+      return { type: currentColumn.originalTypeId(), value }
     }

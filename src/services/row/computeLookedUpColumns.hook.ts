@@ -6,9 +6,7 @@ import { FunctionBuilder } from 'objection'
 import { mergeSets } from '../../utils'
 import { functions, getColumnsReferences, getSQLRequestFromFormula } from '../../utils/formulas'
 import { GeneralError } from '@feathersjs/errors'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const formulasParser = require('../../utils/formulas/formulaParser.js')
+import { parse } from '../../utils/formulas/formulaParser'
 
 function getColumnsToUpdate (
   columns: TableColumn[],
@@ -244,7 +242,7 @@ export function computeLookedUpColumns (): Hook {
           // Only parsed the formula if it exists
           if (formula) {
             try {
-              const formulaResult = formulasParser.parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
+              const formulaResult = parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
               formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
             } catch (error) {
               throw new GeneralError('Invalid formula: ' + (error.message as string), {
