@@ -747,16 +747,16 @@ export default {
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
-    async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId,
         tableId: settings?.tableId,
         query
       })
     },
-    async updateCRUDAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId,
         tableId: settings?.tableId,
         query
       })

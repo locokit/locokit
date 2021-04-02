@@ -152,7 +152,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { getComponentEditableColumn, columnAncestor } from '@/services/lck-utils/columns'
+import { getComponentEditableColumn, getColumnTypeId } from '@/services/lck-utils/columns'
 
 // Available operators
 const OPERATORS = [{
@@ -394,7 +394,7 @@ export default {
     columnsDisplayable () {
       if (this.definition.columns?.length < 1) return []
       return this.definition.columns.reduce((acc, column) => {
-        const originalType = columnAncestor(column)
+        const originalType = getColumnTypeId(column)
         console.log(column.text, column.column_type_id, originalType)
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(originalType)) {

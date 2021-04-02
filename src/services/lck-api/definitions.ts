@@ -51,6 +51,7 @@ export class LckTableColumn extends LckBaseModel {
   table_id!: string;
   column_type_id!: COLUMN_TYPE;
   parents?: LckTableColumn[]|null;
+  children?: LckTableColumn[]|null;
   settings!: {
     formula?: string;
     formula_type_id?: COLUMN_TYPE;
@@ -72,7 +73,7 @@ export class LckTableColumn extends LckBaseModel {
     default?: string;
     width?: number;
     required?: boolean;
-  }
+  };
 }
 
 export class LckTableViewColumn extends LckTableColumn {

@@ -62,6 +62,14 @@
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
+    <map-settings-fields
+      v-else-if="[BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockCopy.type)"
+      :id.sync="blockCopy.settings.id"
+      :tableViewDefinition="blockCopy.definition"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
+      @component-refresh-required="onComponentRefreshRequired"
+    />
   </lck-form>
 </template>
 
@@ -81,6 +89,7 @@ import MarkdownSettingsFields from '@/components/visualize/UpdateBlockForm/Markd
 import MediaSettingsFields from '@/components/visualize/UpdateBlockForm/MediaSettingsFields.vue'
 import TableViewSettingsFields from '@/components/visualize/UpdateBlockForm/TableViewSettingsFields.vue'
 import DetailViewSettingsFields from '@/components/visualize/UpdateBlockForm/DetailViewSettingsFields.vue'
+import MapSettingsFields from '@/components/visualize/UpdateBlockForm/MapSettingsFields.vue'
 
 export default {
   name: 'UpdateBlockForm',
@@ -92,7 +101,8 @@ export default {
     'markdown-settings-fields': MarkdownSettingsFields,
     'media-settings-fields': MediaSettingsFields,
     'table-view-settings-fields': TableViewSettingsFields,
-    'detail-view-settings-fields': DetailViewSettingsFields
+    'detail-view-settings-fields': DetailViewSettingsFields,
+    'map-settings-fields': MapSettingsFields
   },
   props: {
     block: {

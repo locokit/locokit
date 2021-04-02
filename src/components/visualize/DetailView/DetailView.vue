@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="row && row.data"
+    v-if="definition && content && content.data && rowId"
   >
     <lck-data-detail
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
-      :row="row"
+      :row="content.data[0]"
       :autocompleteSuggestions="autocompleteSuggestions"
       @update-suggestions="updateLocalAutocompleteSuggestions"
       @update-row="onUpdateCell"
@@ -13,14 +13,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-import { retrieveRow } from '@/store/visualize'
 import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
+import { LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -37,27 +37,32 @@ export default Vue.extend({
     definition: {
       type: Object,
       default: () => ({})
+    },
+    content: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
     return {
-      autocompleteSuggestions: null,
-      row: {},
-      rowId: this.$route.query?.rowId
+      autocompleteSuggestions: null as { value: number | string; label: string }[]|null
+    }
+  },
+  computed: {
+    rowId (): string {
+      return this.$route.query?.rowId as string
     }
   },
   methods: {
     searchItems: lckHelpers.searchItems,
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ column_type_id: columnTypeId, settings }: LckTableViewColumn, { query }: { query: {} }) {
       this.autocompleteSuggestions = await this.searchItems({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        columnTypeId: column_type_id,
-        tableId: settings?.tableId,
+        columnTypeId,
+        tableId: settings?.tableId as string,
         query
       })
     },
-    async onUpdateCell ({ columnId, newValue }) {
+    async onUpdateCell ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData}) {
       const data = {
         data: {
           [columnId]: newValue
@@ -65,9 +70,6 @@ export default Vue.extend({
       }
       await patchTableData(this.rowId, data)
     }
-  },
-  async mounted () {
-    this.row = await retrieveRow(this.rowId)
   }
 })
 </script>
