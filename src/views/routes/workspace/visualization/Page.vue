@@ -433,16 +433,16 @@ export default {
       this.$set(block, 'displayNewDialog', false)
       await this.loadBlockTableViewContent(block)
     },
-    async onExportViewCSV (block, fileName) {
+    async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, fileName = block.title)
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
       this.exporting = false
     },
-    async onExportViewXLS (block, fileName) {
+    async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, fileName = block.title)
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
