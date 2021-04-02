@@ -433,16 +433,16 @@ export default {
       this.$set(block, 'displayNewDialog', false)
       await this.loadBlockTableViewContent(block)
     },
-    async onExportViewCSV (block) {
+    async onExportViewCSV (block, fileName) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, fileName = block.title)
       this.exporting = false
     },
-    async onExportViewXLS (block) {
+    async onExportViewXLS (block, fileName) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters)
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, fileName = block.title)
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
@@ -798,7 +798,7 @@ export default {
   }
 }
 
-/* contenu Full */
+/* Contenu Full */
 
 .lck-layout-full {
   width: 100%;

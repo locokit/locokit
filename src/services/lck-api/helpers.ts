@@ -119,7 +119,7 @@ export async function searchItems ({
   return items
 }
 
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}) {
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName: string) {
   const rowsPerRequest = 20
   const result = await lckServices.tableView.get(tableViewId, {
     query: {
@@ -160,12 +160,12 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
   })
   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportXLS)
   const wb: XLSX.WorkBook = XLSX.utils.book_new()
-  const fileName = 'export' + '.xlsx'
+  const exportName = (fileName === undefined ? 'Export' : fileName) + '.xlsx'
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1')
-  XLSX.writeFile(wb, fileName)
+  XLSX.writeFile(wb, exportName)
 }
 
-export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}) {
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
   const rowsPerRequest = 20
   const result = await lckServices.tableView.get(tableViewId, {
     query: {
@@ -190,7 +190,6 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
     }) as Paginated<LckTableRow>
     allData.push(...data)
   }
-
   let exportCSV = '\ufeff' + result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += allData.map(currentRow =>
     result.columns?.map(currentColumn => {
@@ -205,7 +204,7 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
   ).join('\n')
   saveAs(
     new Blob([exportCSV]),
-    'export' + '.csv',
+    (fileName === undefined ? 'Export' : fileName) + '.csv',
     {
       type: 'text/csv;charset=utf-8'
     }

@@ -85,13 +85,6 @@
                 class="p-mr-2 p-button-text p-button-primary"
                 @click="onClickAddButton"
               />
-              <p-button
-                label="Export"
-                class="p-button-secondary"
-                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-                :disabled="!hasDataToDisplay"
-                @click="onClickExportButtonCSV"
-              />
               <lck-dropdown-button
                 label="Export data"
                 :disabled="!hasDataToDisplay"
@@ -295,14 +288,16 @@ export default {
           label: 'as CSV File',
           icon: 'pi pi-file',
           command: () => {
-            this.$emit('onClickExportButtonCSV')
+            this.onClickExportButtonCSV()
           }
         },
         {
           label: 'as XLS File',
           icon: 'pi pi-file-excel',
           command: () => {
-            this.$emit('onClickExportButtonCSV')
+            this.onClickExportButtonXLS()
+            this.setFileName()
+            alert(this.currentView.text)
           }
         }
       ],
@@ -514,12 +509,23 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
-    async onClickExportButtonCSV () {
+    async onClickExportButtonCSV (fileName) {
       if (!this.selectedViewId) return
       this.exporting = true
       await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
-        this.getCurrentFilters(this.currentDatatableFilters)
+        this.getCurrentFilters(this.currentDatatableFilters),
+        fileName = this.currentView.text
+      )
+      this.exporting = false
+    },
+    async onClickExportButtonXLS (fileName) {
+      if (!this.selectedViewId) return
+      this.exporting = true
+      await lckHelpers.exportTableRowDataXLS(
+        this.selectedViewId,
+        this.getCurrentFilters(this.currentDatatableFilters),
+        fileName = this.currentView.text
       )
       this.exporting = false
     },
