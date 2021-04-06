@@ -12,11 +12,26 @@
         @search="$emit('search-table-view', $event)"
       />
     </div>
+    <div class="p-field">
+      <label for="blockSettingsDetailPage">{{ $t('pages.workspace.block.detailPage') }}</label>
+      <p-dropdown
+        id="blockSettingsDetailPage"
+        :options="relatedChapterPages"
+        optionLabel="text"
+        optionValue="id"
+        dataKey="id"
+        :value="pageDetailId"
+        :showClear="true"
+        :placeholder="$t('components.datatable.placeholder')"
+        @input="$emit('update:pageDetailId', $event)"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import Dropdown from 'primevue/dropdown'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
@@ -25,10 +40,14 @@ import { LckTableView } from '@/services/lck-api/definitions'
 export default Vue.extend({
   name: 'MapSettingsFields',
   components: {
+    'p-dropdown': Vue.extend(Dropdown),
     'lck-autocomplete': AutoComplete
   },
   props: {
     id: {
+      type: String
+    },
+    pageDetailId: {
       type: String
     },
     autocompleteSuggestions: {
@@ -37,6 +56,10 @@ export default Vue.extend({
     },
     tableViewDefinition: {
       type: Object as PropType<LckTableView>
+    },
+    relatedChapterPages: {
+      type: Array,
+      default: () => ([])
     }
   },
   data (): {
