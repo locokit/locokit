@@ -99,7 +99,10 @@
             </label>
             <component
               id="pattern"
-              :is="columnFiltersConfig[filter.column.type].patternComponent || getComponentEditableColumn(filter.column.type)"
+              :is="
+                columnFiltersConfig[filter.column.type].patternComponent ||
+                getComponentEditableColumn(filter.column.type)
+              "
               :options="filter.column.dropdownOptions"
               v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
               v-model="filter.pattern"

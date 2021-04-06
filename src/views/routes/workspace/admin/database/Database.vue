@@ -218,7 +218,7 @@ import {
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow
 } from '@/store/process'
-import { getComponentEditableColumn, isEditableColumn } from '@/services/lck-utils/columns'
+import { isEditableColumn } from '@/services/lck-utils/columns'
 import { lckHelpers, lckServices } from '@/services/lck-api'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
@@ -371,7 +371,6 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
     isEditableColumn,
     getCurrentFilters,
     searchItems: lckHelpers.searchItems,

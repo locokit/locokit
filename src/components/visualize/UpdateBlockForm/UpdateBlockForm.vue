@@ -66,6 +66,8 @@
       v-else-if="[BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
+      :relatedChapterPages="relatedChapterPages"
+      :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
