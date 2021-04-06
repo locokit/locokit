@@ -10,7 +10,7 @@
         maxZoom: 16,
         minZoom: 1
       }"
-      :isPopup="isPopup"
+      :hasPopup="hasPopup"
       v-on="$listeners"
     />
     <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
@@ -62,7 +62,7 @@ export default Vue.extend({
         }
       )
     },
-    isPopup () {
+    hasPopup () {
       return (
         this.settings?.sources?.length > 0 &&
         this.settings?.sources?.some(source => source.popup)

@@ -12,15 +12,6 @@ export const zipArrays = (firstArray: [], secondArray: [], firstKey: string, sec
   return zippedArray
 }
 
-/**
- * Get dimension of an array
- * @param value
- */
-export const getArrayDepth = (value: any): number => {
-  return Array.isArray(value) ? 1 + Math.max(...value.map(getArrayDepth)) : 0
-}
-
 export default {
-  zipArrays,
-  getArrayDepth
+  zipArrays
 }

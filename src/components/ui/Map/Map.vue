@@ -57,7 +57,7 @@ export default Vue.extend({
       type: String as PropType<MODE>,
       default: MODE.BLOCK
     },
-    isPopup: {
+    hasPopup: {
       type: Boolean,
       default: false
     }
@@ -91,12 +91,12 @@ export default Vue.extend({
             type: 'raster',
             source: 'tiles-background',
             minzoom: 0,
-            maxzoom: 15
+            maxzoom: 20
           }
         ]
       },
       minZoom: 2,
-      maxZoom: 15,
+      maxZoom: 14, // I think it's unused by mapbox ?
       ...this.options
     })
 
@@ -119,7 +119,7 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.loadResources()
       this.setFitBounds()
-      if (this.mode === MODE.BLOCK && this.isPopup) {
+      if (this.mode === MODE.BLOCK && this.hasPopup) {
         this.createPopup()
       }
     })
@@ -278,7 +278,6 @@ export default Vue.extend({
               coordinates.push(...feature.geometry.coordinates as [number, number][])
               break
             case 'Polygon':
-              console.log(feature.geometry.coordinates)
               coordinates.push(...feature.geometry.coordinates[0] as [number, number][])
               break
           }
@@ -442,6 +441,7 @@ export default Vue.extend({
 #map-container {
   width: 100%;
   height: 100%;
+  min-height: 300px;
 }
 /deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
   box-sizing: content-box;

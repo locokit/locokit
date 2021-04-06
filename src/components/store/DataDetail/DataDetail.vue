@@ -26,7 +26,7 @@
         class="form-field-editable"
       >
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+          v-if="getComponentEditableColumn(column) === 'lck-autocomplete'"
           :id="column.id"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
@@ -37,7 +37,7 @@
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <lck-multi-autocomplete
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+          v-else-if="getComponentEditableColumn(column) === 'lck-multi-autocomplete'"
           :id="column.id"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -47,7 +47,7 @@
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+          v-else-if="getComponentEditableColumn(column) === 'p-dropdown'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -58,7 +58,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+          v-else-if="getComponentEditableColumn(column) === 'lck-multiselect'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -68,7 +68,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+          v-else-if="getComponentEditableColumn(column) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
@@ -76,18 +76,15 @@
           appendTo="body"
         />
         <p-input-number
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+          v-else-if="getComponentEditableColumn(column) === 'p-input-float'"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
-        <div
-          v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-map'"
-        >
+        <div v-else-if="getComponentEditableColumn(column) === 'lck-map'" >
           <lck-map
             v-if="row.data[column.id]"
-            class="field-map"
             mode="Dialog"
             :resources="getLckGeoResources(column, row.data[column.id])"
             :options="{
@@ -99,7 +96,7 @@
         </div>
         <component
           v-else
-          :is="getComponentEditableColumn(column.column_type_id)"
+          :is="getComponentEditableColumn(column)"
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
@@ -110,7 +107,19 @@
         v-else
         class="p-fluid p-inputtext p-component non-editable-field"
       >
-        {{ getColumnDisplayValue(column, row.data[column.id]) }}
+        <lck-map
+          v-if="getComponentEditableColumn(column) === 'lck-map' && row.data[column.id]"
+          mode="Dialog"
+          :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
+          :options="{
+            maxZoom: 16,
+            minZoom: 1,
+            interactive: false
+          }"
+        />
+        <span v-else>
+          {{ getColumnDisplayValue(column, row.data[column.id]) }}
+        </span>
       </div>
     </div>
   </div>
@@ -147,6 +156,7 @@ import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Map from '@/components/ui/Map/Map.vue'
 
 import {
+  getColumnTypeId,
   getComponentEditableColumn,
   isEditableColumn
 } from '@/services/lck-utils/columns'
@@ -254,7 +264,9 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
+    getComponentEditableColumn (column: LckTableColumn) {
+      return getComponentEditableColumn(getColumnTypeId(column))
+    },
     isEditableColumn,
     transformEWKTtoFeature,
     getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
@@ -292,7 +304,7 @@ export default {
         newValue: value
       })
     },
-    getLckGeoResource (column: LckTableColumn, data: string) {
+    getLckGeoResources (column: LckTableColumn, data: string) {
       const layers = getStyleLayers([column])
       function createGeoJsonFeaturesCollection (data: string): GeoJSONFeatureCollection {
       // This is necessary when column's type is Multi...
@@ -364,12 +376,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-field-editable > div > #map-container {
-  height: 30vh;
-}
 
 .non-editable-field {
-  height: 2.5rem;
   border: unset;
   background-color: transparent;
   padding-left: unset;

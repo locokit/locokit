@@ -129,53 +129,63 @@ export function makeGeoJsonFeaturesCollection (
     geoColumns.forEach(geoColumn => {
       const data = getEWKTFromGeoColumn(geoColumn, row.data)
       if (data) {
-        const data = getEWKTFromGeoColumn(geoColumn, row.data)
-        if (data) {
-          const feature = transformEWKTtoFeature(data)
-          /**
-           * Add page detail information if needed
-           */
-          if (settings.pageDetailId) {
-            feature.setProperties({
-              rowId: row.id,
-              title: row.text || i18nOptions.noReference
-            })
-          }
-          /**
-           * Manage popup information
-           */
-          if (settings?.sources) {
-            settings.sources.forEach(source => {
-              if (source.popup) {
-                feature.setProperties({
-                  title: row.data[source.popupSettings.title]
-                })
-                if (source.popupSettings?.contentFields?.length > 0) {
-                  const allContent = source.popupSettings.contentFields.reduce((acc, content) => {
-                    // Get column's title
-                    const matchingColumnField = definitionColumns.find(({ id }) => id === content.field)
-                    if (matchingColumnField) {
-                      // Get data from row
-                      const data = getDataFromTableViewColumn(
-                        matchingColumnField,
-                        row.data[content.field],
-                        i18nOptions
-                      )
-                      acc.push({ ...content, field: data })
-                    }
-                    return acc
-                  }, [] as { class?: string; field: {label: string; value: string|number; color?: string; backgroundColor?: string } }[])
-
-                  // Set data in Feature properties
-                  feature.setProperties({
-                    content: allContent
-                  })
-                }
-              }
-            })
-          }
-          features.push(feature)
+        const feature = transformEWKTtoFeature(data)
+        /**
+         * Add page detail information if needed
+         */
+        if (settings.pageDetailId) {
+          feature.setProperties({
+            rowId: row.id,
+            title: row.text || i18nOptions.noReference
+          })
         }
+        /**
+         * Manage popup information
+         */
+        if (settings?.sources) {
+          settings.sources.forEach(source => {
+            if (source.popup) {
+              console.log('popup', row.data)
+              feature.setProperties({
+                title: row.data[source.popupSettings.title]
+              })
+              if (source.popupSettings?.contentFields?.length > 0) {
+                const allContent: {
+                  class?: string;
+                  field: {
+                    label: string;
+                    value: string|number;
+                    color?: string;
+                    backgroundColor?: string;
+                  };
+                }[] = []
+                source.popupSettings.contentFields.forEach(contentField => {
+                  // Get column's title
+                  const matchingColumnField = definitionColumns.find(({ id }) => id === contentField.field)
+                  console.log(contentField, matchingColumnField)
+                  if (matchingColumnField) {
+                    // Get data from row
+                    const data = getDataFromTableViewColumn(
+                      matchingColumnField,
+                      row.data[contentField.field],
+                      i18nOptions
+                    )
+                    allContent.push({
+                      ...contentField,
+                      field: data
+                    })
+                  }
+                })
+
+                // Set data in Feature properties
+                feature.setProperties({
+                  content: allContent
+                })
+              }
+            }
+          })
+        }
+        features.push(feature)
       }
     })
   })

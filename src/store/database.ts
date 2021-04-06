@@ -38,7 +38,8 @@ export async function retrieveTableColumns (tableId: string) {
         $limit: -1,
         $sort: {
           position: 1
-        }
+        },
+        $eager: 'parents.^'
       }
     }) as LckTableColumn[]
     return result
