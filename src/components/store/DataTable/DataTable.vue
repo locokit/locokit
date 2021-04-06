@@ -107,8 +107,8 @@
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <div style="display: inline-block; backgroundColor: inherit; width: 100%;">
-              <span :data-column-id="column.id" style="width: 100%; text-overflow:ellipsis;">
+            <div style="display: inline-block; backgroundColor: inherit; width: 100%; text-overflow:ellipsis; overflow: hidden">
+              <span :data-column-id="column.id" style="width: 100%;">
                 {{ column.text }}
               </span>
               <p-button
