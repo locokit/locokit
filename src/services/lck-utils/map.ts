@@ -145,7 +145,6 @@ export function makeGeoJsonFeaturesCollection (
         if (settings?.sources) {
           settings.sources.forEach(source => {
             if (source.popup) {
-              console.log('popup', row.data)
               feature.setProperties({
                 title: row.data[source.popupSettings.title]
               })
@@ -162,7 +161,6 @@ export function makeGeoJsonFeaturesCollection (
                 source.popupSettings.contentFields.forEach(contentField => {
                   // Get column's title
                   const matchingColumnField = definitionColumns.find(({ id }) => id === contentField.field)
-                  console.log(contentField, matchingColumnField)
                   if (matchingColumnField) {
                     // Get data from row
                     const data = getDataFromTableViewColumn(

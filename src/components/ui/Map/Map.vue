@@ -1,5 +1,8 @@
 <template>
-  <div id="map-container"></div>
+  <div
+    :id="id"
+    class="map-container"
+  />
 </template>
 
 <script lang='ts'>
@@ -45,6 +48,10 @@ export enum MODE {
 export default Vue.extend({
   name: 'Map',
   props: {
+    id: {
+      type: String,
+      default: 'map-container'
+    },
     options: {
       type: Object as PropType<MapboxOptions>,
       default: () => ({})
@@ -69,7 +76,7 @@ export default Vue.extend({
   },
   mounted () {
     this.map = new Map({
-      container: 'map-container',
+      container: this.id,
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
       style: {
         version: 8,
@@ -334,14 +341,18 @@ export default Vue.extend({
 
               let html = `<p class="popup-row-title">${properties.title}</p>`
 
-              const line = (content: PopupContent) => `<p class=${content.class}'>${content?.field?.label}: ${content?.field?.value}</p>`
+              const line = (content: PopupContent) => `
+                <p class=${content.class}'>
+                  <b>${content?.field?.label}</b><br/>
+                  ${content?.field?.value}
+                </p>`
 
               if (properties.content) {
                 const content = JSON.parse(properties?.content)
                 if (content.length > 0) {
                   html += `
                   <div class="popup-row-content">
-                    ${content.reduce((acc: string, content: PopupContent) => acc + line(content), '' as string)}
+                    ${content.map((content: PopupContent) => line(content)).join('')}
                   </div>
                 `
                 }
@@ -438,7 +449,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-#map-container {
+.map-container {
   width: 100%;
   height: 100%;
   min-height: 300px;

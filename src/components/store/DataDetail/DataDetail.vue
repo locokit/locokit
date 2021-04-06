@@ -86,11 +86,8 @@
           <lck-map
             v-if="row.data[column.id]"
             mode="Dialog"
+            :id="'map-edit-detail-' + column.id"
             :resources="getLckGeoResources(column, row.data[column.id])"
-            :options="{
-              maxZoom: 16,
-              minZoom: 1
-            }"
           />
           <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
@@ -110,10 +107,9 @@
         <lck-map
           v-if="getComponentEditableColumn(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
+          :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
           :options="{
-            maxZoom: 16,
-            minZoom: 1,
             interactive: false
           }"
         />
