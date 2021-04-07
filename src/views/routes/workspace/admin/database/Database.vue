@@ -65,7 +65,6 @@
                 :disabled="currentView && currentView.locked"
                 @change="onChangeViewColumns"
               />
-
               <lck-filter-button
                 class="p-ml-2"
                 :definition="displayColumnsView"
@@ -85,12 +84,12 @@
                 class="p-mr-2 p-button-text p-button-primary"
                 @click="onClickAddButton"
               />
-              <p-button
-                label="Export"
-                class="p-button-secondary"
-                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+              <lck-dropdown-button
+                :label="$t('components.datatable.toolbar.export.label')"
                 :disabled="!hasDataToDisplay"
-                @click="onClickExportButton"
+                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+                :model="fileExportFormat"
+                buttonClass="p-button-secondary"
               />
             </div>
           </template>
@@ -198,9 +197,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
-import saveAs from 'file-saver'
 
-import { formatISO, isValid, parseISO } from 'date-fns'
+import {
+  formatISO,
+  isValid,
+  parseISO
+} from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -218,14 +220,21 @@ import {
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow
 } from '@/store/process'
-import { isEditableColumn } from '@/services/lck-utils/columns'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import {
+  isEditableColumn
+} from '@/services/lck-utils/columns'
+import {
+  lckHelpers,
+  lckServices
+} from '@/services/lck-api'
+
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
@@ -264,7 +273,8 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'p-button': Vue.extend(Button),
-    'p-sidebar': Vue.extend(Sidebar)
+    'p-sidebar': Vue.extend(Sidebar),
+    'lck-dropdown-button': DropdownButton
   },
   props: {
     databaseId: {
@@ -283,6 +293,22 @@ export default {
       databaseState,
       crudMode: true,
       cellState: {},
+      fileExportFormat: [
+        {
+          label: this.$t('components.datatable.toolbar.export.exportCSV'),
+          icon: 'pi pi-file',
+          command: () => {
+            this.onClickExportButtonCSV()
+          }
+        },
+        {
+          label: this.$t('components.datatable.toolbar.export.exportXLS'),
+          icon: 'pi pi-file-excel',
+          command: () => {
+            this.onClickExportButtonXLS()
+          }
+        }
+      ],
       block: {
         loading: false,
         content: {
@@ -297,8 +323,7 @@ export default {
       selectedViewId: null,
       displayNewDialog: false,
       newRow: {
-        data: {
-        }
+        data: {}
       },
       manualProcesses: [],
       processesByRow: [],
@@ -389,8 +414,7 @@ export default {
       this.selectedViewId = null
       this.displayNewDialog = false
       this.newRow = {
-        data: {
-        }
+        data: {}
       }
       this.submitting = false
       this.currentDatatableFirst = 0
@@ -490,19 +514,24 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
-    async onClickExportButton () {
+    async onClickExportButtonCSV () {
       if (!this.selectedViewId) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(
+      await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
-        this.getCurrentFilters(this.currentDatatableFilters)
+        this.getCurrentFilters(this.currentDatatableFilters),
+        this.fileName = this.currentView.text
       )
-      saveAs(
-        new Blob([data]),
-        this.currentView.text + '.csv',
-        {
-          type: 'text/csv;charset=utf-8'
-        })
+      this.exporting = false
+    },
+    async onClickExportButtonXLS () {
+      if (!this.selectedViewId) return
+      this.exporting = true
+      await lckHelpers.exportTableRowDataXLS(
+        this.selectedViewId,
+        this.getCurrentFilters(this.currentDatatableFilters),
+        this.fileName = this.currentView.text
+      )
       this.exporting = false
     },
     /**
@@ -924,19 +953,22 @@ export default {
   overflow-y: auto;
   min-width: 350px;
 }
+
 /deep/ .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary {
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .process-toolbar-button {
-  margin-top: 0.3rem ;
+  margin-top: 0.3rem;
 }
 
 </style>

@@ -418,7 +418,7 @@ export const withExpectedPropsAndCrudModeToEditColumn = () => (
 
 withExpectedPropsAndCrudModeToEditColumn.storyName = 'CRUD mode with expected props to edit a column'
 withExpectedPropsAndCrudModeToEditColumn.args = {
-  waitForSelector: '.lck-dropdownbutton-menu'
+  waitForSelector: '.p-menu'
 }
 
 export const withExpectedPropsAndCrudModeToEditUnsortableColumn = () => (
@@ -442,5 +442,5 @@ export const withExpectedPropsAndCrudModeToEditUnsortableColumn = () => (
 
 withExpectedPropsAndCrudModeToEditUnsortableColumn.storyName = 'CRUD mode with expected props to edit an unsortable column'
 withExpectedPropsAndCrudModeToEditUnsortableColumn.args = {
-  waitForSelector: '.lck-dropdownbutton-menu'
+  waitForSelector: '.p-menu'
 }

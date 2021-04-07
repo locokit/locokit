@@ -34,6 +34,11 @@
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
       "toolbar": {
+        "export": {
+          "label": "Exporter",
+          "exportXLS" : "en XLS",
+          "exportCSV" : "en CSV"
+        },
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"
         },

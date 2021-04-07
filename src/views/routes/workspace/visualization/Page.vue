@@ -82,7 +82,8 @@
               @sort="onSort(block, $event)"
               @open-detail="onPageDetail(block, $event)"
               @create-row="onCreateRow(block, $event)"
-              @export-view="onExportView(block)"
+              @export-view-csv="onExportViewCSV(block)"
+              @export-view-xls="onExportViewXLS(block)"
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
               @delete-block="onBlockDeleteClick(container, block)"
@@ -144,7 +145,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue from 'vue'
 
-import saveAs from 'file-saver'
 import Button from 'primevue/button'
 import draggable from 'vuedraggable'
 import {
@@ -456,16 +456,16 @@ export default {
       this.$set(block, 'displayNewDialog', false)
       await this.loadBlockTableViewContent(block)
     },
-    async onExportView (block) {
+    async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(block.settings?.id, this.blocksOptions[block.id]?.filters)
-      saveAs(
-        new Blob([data]),
-        block.title + '.csv',
-        {
-          type: 'text/csv;charset=utf-8'
-        })
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      this.exporting = false
+    },
+    async onExportViewXLS (block) {
+      if (!block.settings?.id) return
+      this.exporting = true
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
@@ -821,7 +821,7 @@ export default {
   }
 }
 
-/* contenu Full */
+/* Contenu Full */
 
 .lck-layout-full {
   width: 100%;
