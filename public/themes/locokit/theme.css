@@ -34,6 +34,8 @@
   --text-color:var(--primary-color) !important;
   /* Used */
   --text-color-active: #ddd;
+  /* Paginator/Tab text-color active */
+  --paginator-text-color-active: #fff !important;
   --text-color-secondary: #fff !important;
 
   --primary-color: #005666 !important;

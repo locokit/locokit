@@ -129,7 +129,7 @@ a {
 a:hover,
 .router-link-exact-active {
   background-color: var(--text-color);
-  color: var(--text-color-active);
+  color: var(--text-color-active) !important;
 }
 
 .action-button {
@@ -156,7 +156,7 @@ a:hover,
 }
 
 .p-accordion-content a:visited {
-  color: ;
+  color: var(--text-color);
 }
 
 .p-accordion-content {
