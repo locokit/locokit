@@ -567,25 +567,33 @@ exports[`storyshots components/visualize/TableView with definition and content a
           />
         </button>
          
-        <button
-          class="p-button-secondary p-button p-component"
-          type="button"
+        <div
+          class="lck-dropdownbutton"
         >
-          <span
-            class="pi pi-download p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
+          <button
+            aria-controls="pv_id_7_overlay"
+            aria-haspopup="true"
+            class="lck-dropdownbutton-menubutton p-button p-component button-with-icon"
+            type="button"
           >
-            Export
-          </span>
+            <span
+              class="pi pi-download p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Export as
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
            
           <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
+        </div>
       </div>
     </div>
      
@@ -888,26 +896,34 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
           />
         </button>
          
-        <button
-          class="p-button-secondary p-button p-component"
-          disabled="disabled"
-          type="button"
+        <div
+          class="lck-dropdownbutton"
         >
-          <span
-            class="pi pi-download p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
+          <button
+            aria-controls="pv_id_6_overlay"
+            aria-haspopup="true"
+            class="lck-dropdownbutton-menubutton p-button p-component button-with-icon"
+            disabled="disabled"
+            type="button"
           >
-            Export
-          </span>
+            <span
+              class="pi pi-download p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Export as
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
            
           <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
+        </div>
       </div>
     </div>
      
