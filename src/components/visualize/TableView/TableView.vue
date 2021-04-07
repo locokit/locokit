@@ -130,14 +130,14 @@ export default {
       currentDatatableFilters: [],
       fileExportFormat: [
         {
-          label: 'as CSV File',
+          label: this.$t('components.datatable.toolbar.export.exportCSV'),
           icon: 'pi pi-file',
           command: () => {
             this.$emit('export-view-csv')
           }
         },
         {
-          label: 'as XLS File',
+          label: this.$t('components.datatable.toolbar.export.exportXLS'),
           icon: 'pi pi-file-excel',
           command: () => {
             this.$emit('export-view-xls')
