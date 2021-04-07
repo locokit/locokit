@@ -511,7 +511,6 @@ export default {
             }
           case COLUMN_TYPE.FORMULA:
             if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-              // eslint-disable-next-line no-case-declarations
               return formatDate(data, this.$t('date.dateFormat')) || ''
             } else {
               return data

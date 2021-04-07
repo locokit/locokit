@@ -39,8 +39,7 @@ export default {
       handler (newValue = '') {
         this.formula = newValue
       },
-      immediate: true//,
-      // deep: true
+      immediate: true
     }
   }
 }
