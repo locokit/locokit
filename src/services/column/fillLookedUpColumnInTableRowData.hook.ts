@@ -68,6 +68,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
           case COLUMN_TYPE.STRING:
           case COLUMN_TYPE.TEXT:
           case COLUMN_TYPE.URL:
+          case COLUMN_TYPE.MULTI_SELECT:
             newDataForCurrentColumn = `
             ('{
               "${context.result.id}": {
@@ -109,7 +110,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         await (context.app.get('knex') as Knex).raw(rawRequest)
       }
     } else {
-      console.log('Hook only for create method. For the moment. Need to think about update / patch methods too.')
+      console.log('Hook only for create / patch method.')
     }
     return context
   }
