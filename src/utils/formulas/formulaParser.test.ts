@@ -385,24 +385,24 @@ describe('Formula parser', () => {
       it('throw an error if the category is unknown', () => {
         expect(() => {
           parse('CATEGORY.PI()', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow("the function CATEGORY.PI doesn't exist.")
+        }).toThrow("the 'CATEGORY.PI' function doesn't exist.")
       })
       it('throw an error if the function is unknown', () => {
         expect(() => {
           parse('NUMERIC.PI2()', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow("the function NUMERIC.PI2 doesn't exist.")
+        }).toThrow("the 'NUMERIC.PI2' function doesn't exist.")
       })
     })
     describe('not well configured function', () => {
       it('throw an error if the related sql code is not specified', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHOUTSQL()', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow("the function NUMERIC.FUNCTIONWITHOUTSQL isn't well configured.")
+        }).toThrow("the 'NUMERIC.FUNCTIONWITHOUTSQL' function isn't well configured.")
       })
       it('throw an error if the return type is not specified', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHOUTRETURNTYPE()', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow("the function NUMERIC.FUNCTIONWITHOUTRETURNTYPE isn't well configured.")
+        }).toThrow("the 'NUMERIC.FUNCTIONWITHOUTRETURNTYPE' function isn't well configured.")
       })
     })
     describe('correct type and value', () => {
@@ -496,62 +496,62 @@ describe('Formula parser', () => {
       it('if too much parameters are passed', () => {
         expect(() => {
           parse('NUMERIC.ABS(10.0, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid arguments.')
+        }).toThrow('the arguments of the \'NUMERIC.ABS\' function are invalid.')
       })
       it('if too few parameters are passed', () => {
         expect(() => {
           parse('NUMERIC.ABS()', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('an argument is missing (number).')
+        }).toThrow('the \'number\' argument of the \'NUMERIC.ABS\' function is missing.')
       })
       it('if one parameter is pass to a function which has not got any one', () => {
         expect(() => {
           parse('NUMERIC.PI(1)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid arguments.')
+        }).toThrow('the arguments of the \'NUMERIC.PI\' function are invalid.')
       })
       it('if a required parameter has not the correct type', () => {
         expect(() => {
           parse('NUMERIC.ABS("string")', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid argument (number).')
+        }).toThrow('the \'number\' argument of the \'NUMERIC.ABS\' function is invalid.')
       })
       it('if a multiple parameter has not the correct type', () => {
         expect(() => {
           parse('NUMERIC.PRODUCT(10.0,20.0,"string")', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid argument (numbers)')
+        }).toThrow('the \'numbers\' argument of the \'NUMERIC.PRODUCT\' function is invalid.')
       })
       it('if a required parameter after a multiple one has not the correct type', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,10.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid argument (default)')
+        }).toThrow('the \'default\' argument of the \'NUMERIC.FUNCTIONWITHDEFAULT\' function is invalid.')
       })
       it('if an optional parameter has not the correct type', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHOPT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid argument (optional)')
+        }).toThrow('the \'optional\' argument of the \'NUMERIC.FUNCTIONWITHOPT\' function is invalid.')
       })
       it('if one related parameter is missing', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string2", 20)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid arguments.')
+        }).toThrow('the arguments of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMS\' function are invalid.')
       })
       it('if one of the first related parameters is incorrect', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid argument (result).')
+        }).toThrow('the \'result\' argument of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMS\' function is invalid.')
       })
       it('if one of the related parameters is incorrect whereas the first ones are correct', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string", 20, 20.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('invalid arguments.')
+        }).toThrow('the arguments of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMS\' function are invalid.')
       })
       it('if the related parameters that are specified are followed by a required one that have the same type', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMORESIMILAR(10, "string1", 20, "string2")', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('an argument is missing (otherArg).')
+        }).toThrow('the \'otherArg\' argument of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMSANDMORESIMILAR\' function is missing.')
       })
       it('if a multiple parameter which is specified and followed by a required one that have the same type', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMORESIMILAR(10, 20, 30)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('an argument is missing (otherArg).')
+        }).toThrow('the \'otherArg\' argument of the \'NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMORESIMILAR\' function is missing.')
       })
     })
   })

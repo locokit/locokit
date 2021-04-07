@@ -388,17 +388,17 @@ describe('formula utility functions', () => {
         it('Throw an error if no unit is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.DATEADD(COLUMN.${columnTable1Date.id}, 2)`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (unit).')
+          ).rejects.toThrowError('Invalid formula: the \'unit\' argument of the \'DATE.DATEADD\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.DATEADD(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'DATE.DATEADD\' function is missing.')
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.DATEADD()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
+          ).rejects.toThrowError('Invalid formula: the \'startDate\' argument of the \'DATE.DATEADD\' function is missing.')
         })
       })
       describe('DAY', () => {
@@ -410,7 +410,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.DAY()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.DAY\' function is missing.')
         })
       })
       describe('DAYS', () => {
@@ -427,12 +427,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no end date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.DAYS(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+          ).rejects.toThrowError('Invalid formula: the \'endDate\' argument of the \'DATE.DAYS\' function is missing.')
         })
         it('Throw an error if no start date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.DAYS()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
+          ).rejects.toThrowError('Invalid formula: the \'startDate\' argument of the \'DATE.DAYS\' function is missing.')
         })
       })
       describe('EARLIER', () => {
@@ -454,12 +454,12 @@ describe('formula utility functions', () => {
         it('Throw an error if only one date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.EARLIER(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondDate).')
+          ).rejects.toThrowError('Invalid formula: the \'secondDate\' argument of the \'DATE.EARLIER\' function is missing.')
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.EARLIER()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstDate).')
+          ).rejects.toThrowError('Invalid formula: the \'firstDate\' argument of the \'DATE.EARLIER\' function is missing.')
         })
       })
       describe('EQUAL', () => {
@@ -476,12 +476,12 @@ describe('formula utility functions', () => {
         it('Throw an error if only one date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.EQUAL(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondDate).')
+          ).rejects.toThrowError('Invalid formula: the \'secondDate\' argument of the \'DATE.EQUAL\' function is missing.')
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.EQUAL()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstDate).')
+          ).rejects.toThrowError('Invalid formula: the \'firstDate\' argument of the \'DATE.EQUAL\' function is missing.')
         })
       })
       describe('EOMONTH', () => {
@@ -503,12 +503,12 @@ describe('formula utility functions', () => {
         it('Throw an error if the number of months is not specified', async () => {
           await expect(
             patchTable1Formula(`DATE.EOMONTH(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numMonths).')
+          ).rejects.toThrowError('Invalid formula: the \'numMonths\' argument of the \'DATE.EOMONTH\' function is missing.')
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.EOMONTH()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.EOMONTH\' function is missing.')
         })
       })
       describe('HOUR', () => {
@@ -520,7 +520,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.HOUR()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.HOUR\' function is missing.')
         })
       })
       describe('LATER', () => {
@@ -542,12 +542,12 @@ describe('formula utility functions', () => {
         it('Throw an error if only one date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.LATER(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondDate).')
+          ).rejects.toThrowError('Invalid formula: the \'secondDate\' argument of the \'DATE.LATER\' function is missing.')
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.LATER()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstDate).')
+          ).rejects.toThrowError('Invalid formula: the \'firstDate\' argument of the \'DATE.LATER\' function is missing.')
         })
       })
       describe('MINUTE', () => {
@@ -559,7 +559,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.MINUTE()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.MINUTE\' function is missing.')
         })
       })
       describe('MONTH', () => {
@@ -571,7 +571,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.MONTH()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.MONTH\' function is missing.')
         })
       })
       describe('MONTHS', () => {
@@ -588,12 +588,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no end date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.MONTHS(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+          ).rejects.toThrowError('Invalid formula: the \'endDate\' argument of the \'DATE.MONTHS\' function is missing.')
         })
         it('Throw an error if no start date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.MONTHS()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
+          ).rejects.toThrowError('Invalid formula: the \'startDate\' argument of the \'DATE.MONTHS\' function is missing.')
         })
       })
       describe('SECOND', () => {
@@ -605,7 +605,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.SECOND()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.SECOND\' function is missing.')
         })
       })
       describe('WEEKDAY', () => {
@@ -616,8 +616,8 @@ describe('formula utility functions', () => {
         })
         it('Throw an error if no date is specified', async () => {
           await expect(
-            patchTable1Formula('DATE.DAY()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+            patchTable1Formula('DATE.WEEKDAY()'),
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.WEEKDAY\' function is missing.')
         })
       })
       describe('WEEKNUM', () => {
@@ -629,7 +629,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.WEEKNUM()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.WEEKNUM\' function is missing.')
         })
       })
       describe('YEAR', () => {
@@ -641,7 +641,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.YEAR()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (date).')
+          ).rejects.toThrowError('Invalid formula: the \'date\' argument of the \'DATE.YEAR\' function is missing.')
         })
       })
       describe('YEARS', () => {
@@ -658,12 +658,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no end date is specified', async () => {
           await expect(
             patchTable1Formula(`DATE.YEARS(COLUMN.${columnTable1Date.id})`),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (endDate).')
+          ).rejects.toThrowError('Invalid formula: the \'endDate\' argument of the \'DATE.YEARS\' function is missing.')
         })
         it('Throw an error if no start date is specified', async () => {
           await expect(
             patchTable1Formula('DATE.YEARS()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startDate).')
+          ).rejects.toThrowError('Invalid formula: the \'startDate\' argument of the \'DATE.YEARS\' function is missing.')
         })
       })
     })
@@ -683,7 +683,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no condition is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.AND()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (conditions).')
+          ).rejects.toThrowError('Invalid formula: the \'conditions\' argument of the \'LOGIC.AND\' function is missing.')
         })
       })
       describe('FALSE', () => {
@@ -722,17 +722,17 @@ describe('formula utility functions', () => {
         it('Throw an error if the result to return if the condition is false is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IF(LOGIC.FALSE(), "IS_TRUE")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (resultIfFalse).')
+          ).rejects.toThrowError('Invalid formula: the \'resultIfFalse\' argument of the \'LOGIC.IF\' function is missing.')
         })
         it('Throw an error if the result to return if the condition is true is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IF(LOGIC.FALSE())'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (resultIfTrue).')
+          ).rejects.toThrowError('Invalid formula: the \'resultIfTrue\' argument of the \'LOGIC.IF\' function is missing.')
         })
         it('Throw an error if the the condition is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IF()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (condition).')
+          ).rejects.toThrowError('Invalid formula: the \'condition\' argument of the \'LOGIC.IF\' function is missing.')
         })
       })
       describe('IFS', () => {
@@ -754,17 +754,17 @@ describe('formula utility functions', () => {
         it('Throw an error if the result to return if the first condition is true is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IFS(LOGIC.TRUE())'),
-          ).rejects.toThrowError('Invalid formula: invalid argument (resultIfTrue).')
+          ).rejects.toThrowError('Invalid formula: the \'resultIfTrue\' argument of the \'LOGIC.IFS\' function is invalid.')
         })
         it('Throw an error if the result to return if the second condition is true is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IFS(LOGIC.TRUE(), "FIRST_RESULT", LOGIC.FALSE())'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'LOGIC.IFS\' function are invalid.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.IFS()'),
-          ).rejects.toThrowError('Invalid formula: invalid argument (condition).')
+          ).rejects.toThrowError('Invalid formula: the \'condition\' argument of the \'LOGIC.IFS\' function is invalid.')
         })
       })
       describe('NOT', () => {
@@ -781,7 +781,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no condition is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.NOT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (condition).')
+          ).rejects.toThrowError('Invalid formula: the \'condition\' argument of the \'LOGIC.NOT\' function is missing.')
         })
       })
       describe('OR', () => {
@@ -798,7 +798,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no condition is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.OR()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (conditions).')
+          ).rejects.toThrowError('Invalid formula: the \'conditions\' argument of the \'LOGIC.OR\' function is missing.')
         })
       })
       describe('SWITCH', () => {
@@ -825,17 +825,17 @@ describe('formula utility functions', () => {
         it('Throw an error if the result to return if the first condition is true is not specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.SWITCH("abcdef", "abc")'),
-          ).rejects.toThrowError('Invalid formula: invalid argument (resultIfMatching).')
+          ).rejects.toThrowError('Invalid formula: the \'resultIfMatching\' argument of the \'LOGIC.SWITCH\' function is invalid.')
         })
         it('Throw an error if only the expression is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.SWITCH("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: invalid argument (pattern)')
+          ).rejects.toThrowError('Invalid formula: the \'pattern\' argument of the \'LOGIC.SWITCH\' function is invalid.')
         })
         it('Throw an error if no expression is specified', async () => {
           await expect(
             patchTable1Formula('LOGIC.SWITCH()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (expression).')
+          ).rejects.toThrowError('Invalid formula: the \'expression\' argument of the \'LOGIC.SWITCH\' function is missing.')
         })
       })
       describe('TRUE', () => {
@@ -861,7 +861,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.ABS()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.ABS\' function is missing.')
         })
       })
       describe('AVERAGE', () => {
@@ -893,7 +893,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.AVERAGE()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.AVERAGE\' function is missing.')
         })
       })
       describe('CEILING', () => {
@@ -910,7 +910,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.CEILING()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.CEILING\' function is missing.')
         })
       })
       describe('DIVIDE', () => {
@@ -947,7 +947,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.DIVIDE()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.DIVIDE\' function is missing.')
         })
       })
       describe('E', () => {
@@ -976,17 +976,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.EQUAL(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.EQUAL\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.EQUAL(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.EQUAL\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.EQUAL()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.EQUAL\' function is missing.')
         })
       })
       describe('FLOOR', () => {
@@ -1003,7 +1003,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.FLOOR()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.FLOOR\' function is missing.')
         })
       })
       describe('GREATER', () => {
@@ -1030,17 +1030,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATER(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.GREATER\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATER(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.GREATER\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATER()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.GREATER\' function is missing.')
         })
       })
       describe('GREATEREQ', () => {
@@ -1067,17 +1067,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATEREQ(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.GREATEREQ\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATEREQ(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.GREATEREQ\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.GREATEREQ()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.GREATEREQ\' function is missing.')
         })
       })
       describe('INT', () => {
@@ -1104,7 +1104,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.INT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.INT\' function is missing.')
         })
       })
       describe('LESS', () => {
@@ -1131,17 +1131,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESS(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.LESS\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESS(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.LESS\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESS()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.LESS\' function is missing.')
         })
       })
       describe('LESSEQ', () => {
@@ -1168,17 +1168,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESSEQ(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.LESSEQ\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESSEQ(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.LESSEQ\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LESSEQ()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.LESSEQ\' function is missing.')
         })
       })
       describe('LOG', () => {
@@ -1200,12 +1200,12 @@ describe('formula utility functions', () => {
         it('Throw an error if the base is not specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LOG(5)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (base).')
+          ).rejects.toThrowError('Invalid formula: the \'base\' argument of the \'NUMERIC.LOG\' function is missing.')
         })
         it('Throw an error if the number is not specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.LOG()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.LOG\' function is missing.')
         })
       })
       describe('MAX', () => {
@@ -1232,7 +1232,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.MAX()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.MAX\' function is missing.')
         })
       })
       describe('MIN', () => {
@@ -1259,7 +1259,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.MIN()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.MIN\' function is missing.')
         })
       })
       describe('MOD', () => {
@@ -1286,12 +1286,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no divisor is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.MOD(10)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (divisor).')
+          ).rejects.toThrowError('Invalid formula: the \'divisor\' argument of the \'NUMERIC.MOD\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.MOD()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.MOD\' function is missing.')
         })
       })
       describe('PI', () => {
@@ -1330,7 +1330,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.PRODUCT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.PRODUCT\' function is missing.')
         })
       })
       describe('ROUND', () => {
@@ -1357,12 +1357,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no number of digits is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.ROUND(10.224)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numDigits).')
+          ).rejects.toThrowError('Invalid formula: the \'numDigits\' argument of the \'NUMERIC.ROUND\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.ROUND()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.ROUND\' function is missing.')
         })
       })
       describe('SIGN', () => {
@@ -1384,7 +1384,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.SIGN()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.SIGN\' function is missing.')
         })
       })
       describe('SQRT', () => {
@@ -1406,7 +1406,7 @@ describe('formula utility functions', () => {
         it('Throw an error if the number is not specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.SQRT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'NUMERIC.SQRT\' function is missing.')
         })
       })
       describe('SUBTRACT', () => {
@@ -1438,7 +1438,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.SUBTRACT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.SUBTRACT\' function is missing.')
         })
       })
       describe('SUM', () => {
@@ -1470,7 +1470,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.SUM()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numbers).')
+          ).rejects.toThrowError('Invalid formula: the \'numbers\' argument of the \'NUMERIC.SUM\' function is missing.')
         })
       })
       describe('UNEQUAL', () => {
@@ -1492,17 +1492,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two numbers are specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.UNEQUAL(1, 3, 3)'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'NUMERIC.UNEQUAL\' function are invalid.')
         })
         it('Throw an error if only one number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.UNEQUAL(1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'secondNumber\' argument of the \'NUMERIC.UNEQUAL\' function is missing.')
         })
         it('Throw an error if no number is specified', async () => {
           await expect(
             patchTable1Formula('NUMERIC.UNEQUAL()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstNumber).')
+          ).rejects.toThrowError('Invalid formula: the \'firstNumber\' argument of the \'NUMERIC.UNEQUAL\' function is missing.')
         })
       })
     })
@@ -1521,7 +1521,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.CONCAT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (texts).')
+          ).rejects.toThrowError('Invalid formula: the \'texts\' argument of the \'TEXT.CONCAT\' function is missing.')
         })
       })
       describe('EXACT', () => {
@@ -1538,17 +1538,17 @@ describe('formula utility functions', () => {
         it('Throw an error if more than two strings are specified', async () => {
           await expect(
             patchTable1Formula('TEXT.EXACT("abc", "def", "ghi")'),
-          ).rejects.toThrowError('Invalid formula: invalid arguments.')
+          ).rejects.toThrowError('Invalid formula: the arguments of the \'TEXT.EXACT\' function are invalid.')
         })
         it('Throw an error if only one string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.EXACT("abc")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (secondText).')
+          ).rejects.toThrowError('Invalid formula: the \'secondText\' argument of the \'TEXT.EXACT\' function is missing.')
         })
         it('Throw an error if no string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.EXACT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (firstText).')
+          ).rejects.toThrowError('Invalid formula: the \'firstText\' argument of the \'TEXT.EXACT\' function is missing.')
         })
       })
       describe('FIND', () => {
@@ -1565,12 +1565,12 @@ describe('formula utility functions', () => {
         it('Throw an error if only one string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.FIND("abc")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (withinText).')
+          ).rejects.toThrowError('Invalid formula: the \'withinText\' argument of the \'TEXT.FIND\' function is missing.')
         })
         it('Throw an error if no string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.FIND()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (findText).')
+          ).rejects.toThrowError('Invalid formula: the \'findText\' argument of the \'TEXT.FIND\' function is missing.')
         })
       })
       describe('LEFT', () => {
@@ -1587,12 +1587,12 @@ describe('formula utility functions', () => {
         it('Throw an error if the number of characters to extract is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.LEFT("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numChars).')
+          ).rejects.toThrowError('Invalid formula: the \'numChars\' argument of the \'TEXT.LEFT\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.LEFT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.LEFT\' function is missing.')
         })
       })
       describe('LEN', () => {
@@ -1609,7 +1609,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.LEN()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.LEN\' function is missing.')
         })
       })
       describe('LOWER', () => {
@@ -1621,7 +1621,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.LOWER()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.LOWER\' function is missing.')
         })
       })
       describe('MID', () => {
@@ -1643,17 +1643,17 @@ describe('formula utility functions', () => {
         it('Throw an error if the number of characters to extract is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.MID("abcdef", 1)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numChars).')
+          ).rejects.toThrowError('Invalid formula: the \'numChars\' argument of the \'TEXT.MID\' function is missing.')
         })
         it('Throw an error if the start position is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.MID("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startPos).')
+          ).rejects.toThrowError('Invalid formula: the \'startPos\' argument of the \'TEXT.MID\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.MID()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.MID\' function is missing.')
         })
       })
       describe('REPLACE', () => {
@@ -1680,22 +1680,22 @@ describe('formula utility functions', () => {
         it('Throw an error if the new pattern is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPLACE("abcdef", 2, 10)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (newPattern).')
+          ).rejects.toThrowError('Invalid formula: the \'newPattern\' argument of the \'TEXT.REPLACE\' function is missing.')
         })
         it('Throw an error if the number of chars to replace is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPLACE("abcdef", 2)'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numChars).')
+          ).rejects.toThrowError('Invalid formula: the \'numChars\' argument of the \'TEXT.REPLACE\' function is missing.')
         })
         it('Throw an error if the start position is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPLACE("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (startPos).')
+          ).rejects.toThrowError('Invalid formula: the \'startPos\' argument of the \'TEXT.REPLACE\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPLACE()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.REPLACE\' function is missing.')
         })
       })
       describe('REPT', () => {
@@ -1717,12 +1717,12 @@ describe('formula utility functions', () => {
         it('Throw an error if the number of repetitions is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPT("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (number).')
+          ).rejects.toThrowError('Invalid formula: the \'number\' argument of the \'TEXT.REPT\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.REPT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.REPT\' function is missing.')
         })
       })
       describe('RIGHT', () => {
@@ -1739,12 +1739,12 @@ describe('formula utility functions', () => {
         it('Throw an error if the number of characters to extract is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.RIGHT("abcdef")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (numChars).')
+          ).rejects.toThrowError('Invalid formula: the \'numChars\' argument of the \'TEXT.RIGHT\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.RIGHT()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.RIGHT\' function is missing.')
         })
       })
       describe('SUBSTITUTE', () => {
@@ -1761,17 +1761,17 @@ describe('formula utility functions', () => {
         it('Throw an error if the new pattern is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.SUBSTITUTE("cd", "abcdefcdghi")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (newPattern).')
+          ).rejects.toThrowError('Invalid formula: the \'newPattern\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
         it('Throw an error if the original text is not specified', async () => {
           await expect(
             patchTable1Formula('TEXT.SUBSTITUTE("cd")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (originalText).')
+          ).rejects.toThrowError('Invalid formula: the \'originalText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.SUBSTITUTE()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (searchedText).')
+          ).rejects.toThrowError('Invalid formula: the \'searchedText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
       })
       describe('TEXTJOIN', () => {
@@ -1788,12 +1788,12 @@ describe('formula utility functions', () => {
         it('Throw an error if no string is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.TEXTJOIN("-")'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (texts).')
+          ).rejects.toThrowError('Invalid formula: the \'texts\' argument of the \'TEXT.TEXTJOIN\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.TEXTJOIN()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (separator).')
+          ).rejects.toThrowError('Invalid formula: the \'separator\' argument of the \'TEXT.TEXTJOIN\' function is missing.')
         })
       })
       describe('TRIM', () => {
@@ -1805,7 +1805,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.TRIM()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.TRIM\' function is missing.')
         })
       })
       describe('UPPER', () => {
@@ -1817,7 +1817,7 @@ describe('formula utility functions', () => {
         it('Throw an error if no parameter is specified', async () => {
           await expect(
             patchTable1Formula('TEXT.UPPER()'),
-          ).rejects.toThrowError('Invalid formula: an argument is missing (text).')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.UPPER\' function is missing.')
         })
       })
     })

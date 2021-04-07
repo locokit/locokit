@@ -17,7 +17,7 @@ start
 expression = 
   (decimal / integer / string / column / function)
 
-function
+function "function"
   = category:$([A-Z]+)"."name:$([a-zA-Z0-9]+)"("args:arguments")" {
     if (functions[category]?.[name]) {
       const currentFunction = functions[category][name]
@@ -46,7 +46,7 @@ function
                 // The type of one related parameter is incorrect
                 if (!requiredAndMultipleParamsIndexes.has(docParamIndex)) {
                   // The parameters are required at least once
-                  error(`invalid argument (${docParam[relatedParamIndex].name}).`)
+                  error(`the '${docParam[relatedParamIndex].name}' argument of the '${category}.${name}' function is invalid.`)
                 } else {
                   // Maybe it corresponds to the following doc parameter
                   docParamIndex += 1
@@ -71,7 +71,7 @@ function
             // The current documentation parameter is required
             if (paramIsRequired !== false) {
               if (!realParamType) {
-                error(`an argument is missing (${docParam.name}).`)
+                error(`the '${docParam.name}' argument of the '${category}.${name}' function is missing.`)
               }
               else if (checkParamsTypes(docParam.type, realParamType)) {
                 realParamIndex += 1
@@ -81,7 +81,7 @@ function
                   docParamIndex += 1
                 }
               } else {
-                error(`invalid argument (${docParam.name}).`)
+                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
               }
             }
             // The current parameter is not required and not specified
@@ -94,7 +94,7 @@ function
                 realParamIndex += 1
               } else if (docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
                 // Last parameter -> incorrect argument
-                error(`invalid argument (${docParam.name}).`)
+                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
               } else {
                 // Maybe the following parameter has the good type
                 docParamIndex += 1
@@ -106,7 +106,7 @@ function
                 docParamIndex += 1
                 realParamIndex += 1
               } else {
-                error(`invalid argument (${docParam.name}).`)
+                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
               }
             }
           }
@@ -114,7 +114,7 @@ function
       }
       // Invalid number of parameters
       if (args && args.length !== realParamIndex ) {
-        error('invalid arguments.')
+        error(`the arguments of the '${category}.${name}' function are invalid.`)
       }
 
       // Return the type and the value related to the function
@@ -124,10 +124,10 @@ function
           type: currentFunction.returnType,
         }
       } else {
-        error(`the function ${category}.${name} isn't well configured.`)
+        error(`the '${category}.${name}' function isn't well configured.`)
       }
     } else {
-      error(`the function ${category}.${name} doesn't exist.`)
+      error(`the '${category}.${name}' function doesn't exist.`)
     }
   }
 
@@ -165,7 +165,7 @@ alphanum
 _ "optionalWhitespace"
   = whitespace *
 
-whitespace
+whitespace "whitespace"
   = [ \t\n\r]
 
 // String
@@ -175,7 +175,7 @@ singleStringChar
   / specialChar
   / alphanum
 
-string
+string "string"
   = '"' currentString:(singleStringChar*) '"' {
     return {
       type: columnsTypes.STRING,
@@ -184,7 +184,7 @@ string
   }
 
 // Number
-integer
+integer "integer"
   = currentInteger:$("-"? digit+) {
       return {
         type: columnsTypes.NUMBER,
@@ -192,7 +192,7 @@ integer
       }
     }
 
-decimal
+decimal "decimal"
   = currentDecimal:$("-"? digit+ "." digit+) + {
       return {
         type: columnsTypes.FLOAT,
@@ -201,7 +201,7 @@ decimal
     }
 
 // Format the column to use its id with a placeholder in the SQL query and also return its original type
-column
+column "column"
   = "COLUMN."name:$((alphanum/'-')+) {
       const currentColumn = columns[name]
       if (!currentColumn) error('One column is invalid.')

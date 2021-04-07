@@ -101,6 +101,7 @@ export function parseFormula (): Hook {
         } catch (error) {
           throw new NotAcceptable(`Invalid formula: ${(error.message as string)}`, {
             code: 'INVALID_FORMULA_SYNTAX',
+            location: error.location,
           })
         }
       }

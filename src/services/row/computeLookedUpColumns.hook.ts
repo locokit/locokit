@@ -247,6 +247,7 @@ export function computeLookedUpColumns (): Hook {
             } catch (error) {
               throw new GeneralError('Invalid formula: ' + (error.message as string), {
                 code: 'INVALID_FORMULA_SYNTAX',
+                location: error.location,
               })
             }
           }
