@@ -466,9 +466,6 @@ export default {
     }
   },
   methods: {
-    toggle (event) {
-      this.$refs.menu.toggle(event)
-    },
     getComponentEditableColumn,
     isEditableColumn,
     getDisabledProcessTrigger,
@@ -701,7 +698,6 @@ export default {
     },
     onEditColumnClick (event, column) {
       // this.$emit('column-select', column)
-      console.log(this.$refs, column, 'menu' + column.id, this.$refs['menu' + column.id])
       this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
     }

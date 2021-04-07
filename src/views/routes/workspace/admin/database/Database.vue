@@ -306,8 +306,6 @@ export default {
           icon: 'pi pi-file-excel',
           command: () => {
             this.onClickExportButtonXLS()
-            this.setFileName()
-            alert(this.currentView.text)
           }
         }
       ],
