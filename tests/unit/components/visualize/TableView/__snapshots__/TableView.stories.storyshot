@@ -573,7 +573,7 @@ exports[`storyshots components/visualize/TableView with definition and content a
           <button
             aria-controls="pv_id_7_overlay"
             aria-haspopup="true"
-            class="lck-dropdownbutton-menubutton p-button p-component button-with-icon"
+            class="lck-dropdownbutton-menubutton p-button p-component p-button-secondary button-with-icon"
             type="button"
           >
             <span
@@ -902,7 +902,7 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
           <button
             aria-controls="pv_id_6_overlay"
             aria-haspopup="true"
-            class="lck-dropdownbutton-menubutton p-button p-component button-with-icon"
+            class="lck-dropdownbutton-menubutton p-button p-component p-button-secondary button-with-icon"
             disabled="disabled"
             type="button"
           >
