@@ -10,7 +10,7 @@ const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
 const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
 const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 
-describe('fillLookedUpColumnInTableRowData hook', () => {
+describe('upsertColumnRelation hook', () => {
   let workspace: workspace
   let database: database
   let table1: Table

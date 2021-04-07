@@ -58,6 +58,16 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             }')::jsonb
             `
             break
+          case COLUMN_TYPE.MULTI_SELECT:
+            newDataForCurrentColumn = `
+              ('{
+                "${context.result.id}": {
+                  "reference": "' || cast(foreignTableRow.id as text) || '",
+                  "value": ' || (foreignTableRow.data->'${context.result.settings.foreignField}')::jsonb || '
+                }
+              }')::jsonb
+              `
+            break
           case COLUMN_TYPE.BOOLEAN:
           case COLUMN_TYPE.DATE:
           case COLUMN_TYPE.FLOAT:
@@ -68,7 +78,6 @@ export function fillLookedUpColumnInTableRowData (): Hook {
           case COLUMN_TYPE.STRING:
           case COLUMN_TYPE.TEXT:
           case COLUMN_TYPE.URL:
-          case COLUMN_TYPE.MULTI_SELECT:
             newDataForCurrentColumn = `
             ('{
               "${context.result.id}": {
