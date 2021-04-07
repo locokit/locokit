@@ -142,22 +142,22 @@
 }
 
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th.p-sortable-column {
-  padding: 0.5rem 1.75rem 0.25rem 0.5rem;
   margin-right: 1.75rem;
+  padding: 0.5rem 1.75rem 0.25rem 0.5rem;
 }
 
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container {
-  width: 100%;
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container span.th-text {
-  background-color: inherit;
-  width: calc(100% - 1.75rem);
-  text-overflow: ellipsis;
-  overflow: hidden;
   display: inline-block;
+  overflow: hidden;
+  width: calc(100% - 1rem);
+  text-overflow: ellipsis;
+  background-color: inherit;
 }
 
 .p-datatable-wrapper {
@@ -178,19 +178,22 @@
     }
   }
 }
+
 td.sticky-column-cells {
   background-color: rgba(256, 256, 256, 0.9) !important;
+
   button {
     &:hover {
-     background-color: rgba(33, 150, 243, 0.04);
+      background-color: rgba(33, 150, 243, 0.04);
     }
 
     &:disabled {
       opacity: 0.6;
       border: none;
+
       &:hover {
-        background-color: transparent;
         border: none;
+        background-color: transparent;
       }
     }
   }

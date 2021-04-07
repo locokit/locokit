@@ -117,7 +117,7 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 aria-haspopup="true"
-                style="position: absolute; right: 0"
+                style="position: absolute; right: 0; width: 1rem;"
                 :aria-controls="column.id"
                 @click="onEditColumnClick($event, column)"
               />
