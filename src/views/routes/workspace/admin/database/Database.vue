@@ -65,7 +65,6 @@
                 :disabled="currentView && currentView.locked"
                 @change="onChangeViewColumns"
               />
-
               <lck-filter-button
                 class="p-ml-2"
                 :definition="displayColumnsView"
@@ -86,7 +85,7 @@
                 @click="onClickAddButton"
               />
               <lck-dropdown-button
-                label="Export data"
+                :label="$t('components.datatable.toolbar.export.label')"
                 :disabled="!hasDataToDisplay"
                 :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
                 :model="fileExportFormat"
@@ -295,14 +294,14 @@ export default {
       cellState: {},
       fileExportFormat: [
         {
-          label: 'as CSV File',
+          label: this.$t('components.datatable.toolbar.export.exportCSV'),
           icon: 'pi pi-file',
           command: () => {
             this.onClickExportButtonCSV()
           }
         },
         {
-          label: 'as XLS File',
+          label: this.$t('components.datatable.toolbar.export.exportXLS'),
           icon: 'pi pi-file-excel',
           command: () => {
             this.onClickExportButtonXLS()

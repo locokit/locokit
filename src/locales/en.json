@@ -34,6 +34,11 @@
       "detail": "Detail row",
       "addNewRow": "Add new row",
       "toolbar": {
+        "export": {
+          "label": "Export as",
+          "exportXLS" : "XLS File",
+          "exportCSV" : "CSV File"
+        },
         "lists": {
           "label": "no column | {n} column | {n} columns"
         },
