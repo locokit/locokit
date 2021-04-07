@@ -119,35 +119,37 @@ export async function searchItems ({
   return items
 }
 
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName: string) {
-  const rowsPerRequest = 20
-  const result = await lckServices.tableView.get(tableViewId, {
+async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
+  viewData: LckTableRow[],
+  viewColumns: LckTableColumn[]
+}> {
+  const currentView = await lckServices.tableView.get(tableViewId, {
     query: {
       $eager: 'columns'
     }
   })
-  result.columns = result.columns?.sort((a, b) => a.position - b.position)
+  currentView.columns = currentView.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed)
   const query: Record<string, string | number | object> = {
     table_view_id: tableViewId,
-    $limit: rowsPerRequest,
-    $skip: 0,
+    $limit: -1,
     $sort: {
       createdAt: 1
     },
     ...filters
   }
-  const { data: allData, total } = await lckServices.tableRow.find({ query }) as Paginated<LckTableRow>
-  for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
-    query.$skip = i
-    const { data } = await lckServices.tableRow.find({
-      query
-    }) as Paginated<LckTableRow>
-    allData.push(...data)
+  const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
+  return {
+    viewData,
+    viewColumns: currentView.columns
   }
-  const exportXLS = allData.map((currentRow) => {
+}
+
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName: string) {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+  const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
-    result.columns?.forEach(currentColumn => {
+    viewColumns?.forEach(currentColumn => {
       if (!currentColumn.displayed) return
       const value = getColumnDisplayValue(
         currentColumn,
@@ -166,33 +168,10 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
 }
 
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
-  const rowsPerRequest = 20
-  const result = await lckServices.tableView.get(tableViewId, {
-    query: {
-      $eager: 'columns'
-    }
-  })
-  result.columns = result.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed)
-  const query: Record<string, string | number | object> = {
-    table_view_id: tableViewId,
-    $limit: rowsPerRequest,
-    $skip: 0,
-    $sort: {
-      createdAt: 1
-    },
-    ...filters
-  }
-  const { data: allData, total } = await lckServices.tableRow.find({ query }) as Paginated<LckTableRow>
-  for (let i = rowsPerRequest; i < total; i = i + rowsPerRequest) {
-    query.$skip = i
-    const { data } = await lckServices.tableRow.find({
-      query
-    }) as Paginated<LckTableRow>
-    allData.push(...data)
-  }
-  let exportCSV = '\ufeff' + result.columns?.map(c => '"' + c.text + '"').join(',') + '\n'
-  exportCSV += allData.map(currentRow =>
-    result.columns?.map(currentColumn => {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+  let exportCSV = '\ufeff' + viewColumns?.map(c => '"' + c.text + '"').join(',') + '\n'
+  exportCSV += viewData.map(currentRow =>
+    viewColumns?.map(currentColumn => {
       if (!currentColumn.displayed) return
       const value = getColumnDisplayValue(
         currentColumn,
