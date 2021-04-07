@@ -3,6 +3,7 @@ import { Paginated } from '@feathersjs/feathers'
 import {
   LckGroup,
   LckTableColumn,
+  LckTableViewColumn,
   LckTableRow,
   LckTableRowData,
   LckTableRowDataComplex,
@@ -120,15 +121,15 @@ export async function searchItems ({
 }
 
 async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
-  viewData: LckTableRow[],
-  viewColumns: LckTableColumn[]
+  viewData: LckTableRow[];
+  viewColumns: LckTableViewColumn[];
 }> {
   const currentView = await lckServices.tableView.get(tableViewId, {
     query: {
       $eager: 'columns'
     }
   })
-  currentView.columns = currentView.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed)
+  currentView.columns = currentView.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed) || []
   const query: Record<string, string | number | object> = {
     table_view_id: tableViewId,
     $limit: -1,
@@ -144,13 +145,12 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {})
   }
 }
 
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName: string) {
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export') {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
-    viewColumns?.forEach(currentColumn => {
-      if (!currentColumn.displayed) return
+    viewColumns.forEach(currentColumn => {
       const value = getColumnDisplayValue(
         currentColumn,
         currentRow.data[currentColumn.id]
@@ -162,17 +162,16 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
   })
   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportXLS)
   const wb: XLSX.WorkBook = XLSX.utils.book_new()
-  const exportName = (fileName === undefined ? 'Export' : fileName) + '.xlsx'
+  const exportName = fileName + '.xlsx'
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1')
   XLSX.writeFile(wb, exportName)
 }
 
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
-  let exportCSV = '\ufeff' + viewColumns?.map(c => '"' + c.text + '"').join(',') + '\n'
+  let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
-    viewColumns?.map(currentColumn => {
-      if (!currentColumn.displayed) return
+    viewColumns.map(currentColumn => {
       const value = getColumnDisplayValue(
         currentColumn,
         currentRow.data[currentColumn.id]

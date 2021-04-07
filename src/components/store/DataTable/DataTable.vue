@@ -697,7 +697,7 @@ export default {
       this.$refs.cm.show(event.originalEvent)
     },
     onEditColumnClick (event, column) {
-      // this.$emit('column-select', column)
+      this.$emit('column-select', column)
       this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
     }
