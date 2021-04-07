@@ -29,7 +29,7 @@
           @click="onClickAddButton"
         />
         <lck-dropdown-button
-          :label="$t('components.datatable.toolbar.export')"
+          :label="$t('components.datatable.toolbar.export.label')"
           v-if="exportAllowed"
           :disabled="!hasDataToDisplay"
           :model="fileExportFormat"
