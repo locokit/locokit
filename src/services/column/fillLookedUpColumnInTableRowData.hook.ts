@@ -10,7 +10,10 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
  */
 export function fillLookedUpColumnInTableRowData (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'create' && context.type === 'after') {
+    if (
+      ['create', 'patch'].includes(context.method) &&
+      context.type === 'after'
+    ) {
       if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
         /**
          * For all rows of the current table, compute this looked up column

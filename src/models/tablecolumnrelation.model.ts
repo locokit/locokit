@@ -39,10 +39,6 @@ export class TableColumnRelation extends BaseModel {
     return {
       from: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: TableColumn,
         join: {
           from: 'table_column_relation.table_column_from_id',
@@ -51,10 +47,6 @@ export class TableColumnRelation extends BaseModel {
       },
       to: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: TableColumn,
         join: {
           from: 'table_column_relation.table_column_to_id',
@@ -62,14 +54,6 @@ export class TableColumnRelation extends BaseModel {
         },
       },
     }
-  }
-
-  $beforeInsert (): void {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate (): void {
-    this.updatedAt = new Date().toISOString()
   }
 }
 

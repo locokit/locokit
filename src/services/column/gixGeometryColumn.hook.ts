@@ -30,7 +30,7 @@ export function createGIX (): Hook {
       const uuidColumnShort = context.result.id.substr(0, context.result.id.indexOf('-'))
 
       await (context.app.get('knex') as Knex).raw(`
-        CREATE INDEX record_table_${uuidTableShort}_field_${uuidColumnShort}
+        CREATE INDEX IF NOT EXISTS record_table_${uuidTableShort}_field_${uuidColumnShort}
         ON table_row
         USING GIST(ST_GeomFromEWKT(data->>'${context.result.id}'))
         WHERE table_id = '${context.result.table_id}'
