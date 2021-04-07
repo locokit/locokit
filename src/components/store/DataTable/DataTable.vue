@@ -96,7 +96,7 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem',
+              'height': '2.5rem'
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
@@ -107,8 +107,8 @@
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <div style="display: inline-block; backgroundColor: inherit; width: 100%; text-overflow:ellipsis; overflow: hidden">
-              <span :data-column-id="column.id" style="width: 100%;">
+            <div class="th-container">
+              <span class="th-text" :data-column-id="column.id">
                 {{ column.text }}
               </span>
               <p-button
@@ -117,7 +117,7 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 aria-haspopup="true"
-                style="position: absolute; right: 20px;"
+                style="position: absolute; right: 0"
                 :aria-controls="column.id"
                 @click="onEditColumnClick($event, column)"
               />

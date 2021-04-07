@@ -89,6 +89,7 @@
                 :disabled="!hasDataToDisplay"
                 :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
                 :model="fileExportFormat"
+                buttonClass="p-button-secondary"
               />
             </div>
           </template>
