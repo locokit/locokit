@@ -184,6 +184,12 @@
       "title": "Métriques utilisation du vélo",
       "resultByWeek": "{resultByWeek} CO2 / Semaine",
       "noResultByWeek": "Aucun résultat"
+    },
+    "mapview": {
+      "noGeoData": "Aucune donnée géométrique n'est disponible.",
+      "textDetailPage": "Voir le détail",
+      "noReference": "Référence inconnue",
+      "noRowData": "Information inconnue"
     }
   },
   "pages": {

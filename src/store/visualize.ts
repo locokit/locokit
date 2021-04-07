@@ -61,7 +61,7 @@ export async function retrieveViewDefinition (id: number) {
     const result = await lckServices.tableView.get(id, {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
-        $eager: 'columns.[column_type]',
+        $eager: 'columns.[column_type, parents.^]',
         $modifyEager: {
           columns: {
             transmitted: true

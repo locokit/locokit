@@ -3,7 +3,6 @@
 import { shallowMount } from '@vue/test-utils'
 
 import { lckServices } from '@/services/lck-api'
-import Sidebar from 'primevue/sidebar'
 
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
@@ -22,6 +21,8 @@ jest.mock('@locokit/lck-glossary', () => ({
     TEXT: 16
   }
 }))
+
+jest.mock('../../../../../components/store/DataDetail/DataDetail.vue', () => () => '<div>DataDetail</div>')
 
 jest.mock('date-fns')
 jest.mock('file-saver')

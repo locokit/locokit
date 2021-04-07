@@ -221,13 +221,13 @@ import {
   retrieveProcessesByRow
 } from '@/store/process'
 import {
-  getComponentEditableColumn,
   isEditableColumn
 } from '@/services/lck-utils/columns'
 import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
+
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
@@ -396,7 +396,6 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
     isEditableColumn,
     getCurrentFilters,
     searchItems: lckHelpers.searchItems,
@@ -773,16 +772,16 @@ export default {
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
-    async updateLocalAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId,
         tableId: settings?.tableId,
         query
       })
     },
-    async updateCRUDAutocompleteSuggestions ({ column_type_id, settings }, { query }) {
+    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
-        columnTypeId: column_type_id,
+        columnTypeId,
         tableId: settings?.tableId,
         query
       })

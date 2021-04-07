@@ -110,9 +110,6 @@ export default {
     content: {
       type: Object
     },
-    settings: {
-      type: Object
-    },
     title: {
       type: String,
       default: 'TableView'

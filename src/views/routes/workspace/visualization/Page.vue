@@ -71,7 +71,10 @@
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{ 'p-mb-4': !editMode, 'map' : block.type === 'MapView' }"
+              :class="{
+                'p-mb-4': !editMode,
+                'map' : block.type === 'MapView' // need to be discussed with @alc : is this useful ?
+              }"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -162,7 +165,8 @@ import Block from '@/components/visualize/Block/Block'
 import {
   retrievePageWithContainersAndBlocks,
   retrieveViewDefinition,
-  retrieveViewData
+  retrieveViewData,
+  retrieveRow
 } from '@/store/visualize'
 import {
   patchTableData,
@@ -301,30 +305,49 @@ export default {
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       if (block.definition?.id) await this.loadBlockTableViewContent(block)
     },
-    async loadBlockTableViewContent (block) {
+    async loadBlockTableViewContent (block) { // Rename
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      this.$set(block, 'content', await retrieveViewData(
-        block.definition.id,
-        currentOptions.page * currentOptions.itemsPerPage,
-        currentOptions.itemsPerPage,
-        currentOptions.sort,
-        currentOptions.filters
-      ))
-    },
-    async loadBlockContentAndDefinition (block) {
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-          this.$set(block, 'loading', true)
-          await this.loadBlockTableViewContentAndDefinition(block)
-          this.$set(block, 'loading', false)
+          this.$set(block, 'content', await retrieveViewData(
+            block.definition.id,
+            currentOptions.page * currentOptions.itemsPerPage,
+            currentOptions.itemsPerPage,
+            currentOptions.sort,
+            currentOptions.filters
+          ))
+          break
+        case BLOCK_TYPE.MAPVIEW:
+          /**
+           * For the mapview block, we don't limit the result
+           * I think we can optimize how we manage the data...
+           */
+          this.$set(block, 'content', await retrieveViewData(
+            block.definition.id,
+            currentOptions.page * currentOptions.itemsPerPage,
+            -1,
+            currentOptions.sort,
+            currentOptions.filters
+          ))
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-          this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+          const row = await retrieveRow(this.$route.query.rowId)
+          this.$set(block, 'content', { data: [row] })
           break
+        case BLOCK_TYPE.MAPDETAILVIEW: {
+          const row = await retrieveRow(this.$route.query.rowId)
+          this.$set(block, 'content', [row])
+          break
+        }
       }
+    },
+    async loadBlockContentAndDefinition (block) {
+      this.$set(block, 'loading', true)
+      await this.loadBlockTableViewContentAndDefinition(block)
+      this.$set(block, 'loading', false)
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true

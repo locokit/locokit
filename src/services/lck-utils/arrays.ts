@@ -1,4 +1,4 @@
-export function zipArrays (firstArray: [], secondArray: [], firstKey: string, secondKey: string) {
+export const zipArrays = (firstArray: [], secondArray: [], firstKey: string, secondKey: string) => {
   const zippedArray: object[] = []
   if (Array.isArray(firstArray) && Array.isArray(secondArray)) {
     const maxLength = Math.max(firstArray.length, secondArray.length)
@@ -10,4 +10,8 @@ export function zipArrays (firstArray: [], secondArray: [], firstKey: string, se
     }
   }
   return zippedArray
+}
+
+export default {
+  zipArrays
 }

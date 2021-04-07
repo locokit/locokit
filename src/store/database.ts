@@ -35,13 +35,14 @@ export async function retrieveTableColumns (tableId: string) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
-        $limit: 50,
+        $limit: -1,
         $sort: {
           position: 1
-        }
+        },
+        $eager: 'parents.^'
       }
-    }) as Paginated<LckTableColumn>
-    return result.data
+    }) as LckTableColumn[]
+    return result
   } catch (error) {
     databaseState.error = error
   }
