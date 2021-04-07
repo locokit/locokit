@@ -43,7 +43,11 @@ export default {
       fillLookedUpColumnInTableRowData(),
     ],
     update: [],
-    patch: [],
+    patch: [
+      createGIX(),
+      upsertColumnRelation(),
+      fillLookedUpColumnInTableRowData(),
+    ],
     remove: [
       dropGIX(),
       // iff(isGeometryColumn(), dropGIX()),

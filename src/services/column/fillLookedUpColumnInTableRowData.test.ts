@@ -27,6 +27,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
   let columnTable2LookedUpColumnTable1Ref: TableColumn
   let columnTable2LookedUpColumnTable1SingleSelect: TableColumn
+  let columnTable2LookedUpColumnTable1MultiSelect: TableColumn
   let user1: User
   let user2: User
   let rowTable1: TableRow
@@ -280,6 +281,35 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     expect(newRowTable5.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toBe(null)
 
     await app.service('column').remove(columnTable2LookedUpColumnTable1SingleSelect.id)
+  })
+
+  it('fill all rows with the matching data from the foreign column of the matching rows (multi select)', async () => {
+    columnTable2LookedUpColumnTable1MultiSelect = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1MultiSelect.id,
+      },
+    })
+    const newRowTable3 = await app.service('row').get(rowTable3.id)
+    const newRowTable4 = await app.service('row').get(rowTable4.id)
+    const newRowTable5 = await app.service('row').get(rowTable5.id)
+
+    expect.assertions(3)
+    expect(newRowTable3.data[columnTable2LookedUpColumnTable1MultiSelect.id]).toStrictEqual({
+      reference: rowTable1.id,
+      value: [singleSelectOption1UUID, singleSelectOption3UUID],
+    })
+    expect(newRowTable4.data[columnTable2LookedUpColumnTable1MultiSelect.id]).toStrictEqual({
+      reference: rowTable2.id,
+      value: [singleSelectOption3UUID, singleSelectOption2UUID],
+    })
+    expect(newRowTable5.data[columnTable2LookedUpColumnTable1MultiSelect.id]).toBe(null)
+
+    await app.service('column').remove(columnTable2LookedUpColumnTable1MultiSelect.id)
   })
 
   afterEach(async () => {
