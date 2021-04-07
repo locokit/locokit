@@ -245,10 +245,12 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   })
 
   afterAll(async () => {
-    await app.service('column').remove(columnTable1User.id)
-    await app.service('column').remove(columnTable1Ref.id)
-    await app.service('column').remove(columnTable2Ref.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
+    await app.service('column').remove(columnTable2Ref.id)
+    await app.service('column').remove(columnTable1MultiSelect.id)
+    await app.service('column').remove(columnTable1SingleSelect.id)
+    await app.service('column').remove(columnTable1Ref.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
