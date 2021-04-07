@@ -1,5 +1,8 @@
 <template>
-  <div id="map-container"></div>
+  <div
+    :id="id"
+    class="map-container"
+  />
 </template>
 
 <script lang='ts'>
@@ -8,15 +11,34 @@ import Vue, { PropType } from 'vue'
 
 import mapboxgl, {
   AnyLayer,
+  LngLatBounds,
   Map,
   MapboxOptions,
+  MapLayerMouseEvent,
   NavigationControl,
+  Popup,
   ScaleControl,
-  LngLatBounds,
   LngLatLike
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { LckGeoResource, LckImplementedLayers, LckImplementedLayoutProperty, LckImplementedPaintProperty } from '@/services/lck-utils/map'
+import {
+  LckGeoResource,
+  LckImplementedLayers,
+  LckImplementedLayoutProperty,
+  LckImplementedPaintProperty
+} from '@/services/lck-utils/map'
+
+import { TranslateResult } from 'vue-i18n'
+
+interface PopupContent {
+  class?: string | null;
+  field?: {
+    label?: string | null;
+    value?: string | null;
+    color?: string | null;
+    backgrondColor?: string | null;
+  };
+}
 
 export enum MODE {
   BLOCK = 'Block',
@@ -26,6 +48,10 @@ export enum MODE {
 export default Vue.extend({
   name: 'Map',
   props: {
+    id: {
+      type: String,
+      default: 'map-container'
+    },
     options: {
       type: Object as PropType<MapboxOptions>,
       default: () => ({})
@@ -37,6 +63,10 @@ export default Vue.extend({
     mode: {
       type: String as PropType<MODE>,
       default: MODE.BLOCK
+    },
+    hasPopup: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -46,7 +76,7 @@ export default Vue.extend({
   },
   mounted () {
     this.map = new Map({
-      container: 'map-container',
+      container: this.id,
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
       style: {
         version: 8,
@@ -68,12 +98,12 @@ export default Vue.extend({
             type: 'raster',
             source: 'tiles-background',
             minzoom: 0,
-            maxzoom: 15
+            maxzoom: 20
           }
         ]
       },
       minZoom: 2,
-      maxZoom: 15,
+      maxZoom: 14, // I think it's unused by mapbox ?
       ...this.options
     })
 
@@ -96,6 +126,9 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.loadResources()
       this.setFitBounds()
+      if (this.mode === MODE.BLOCK && this.hasPopup) {
+        this.createPopup()
+      }
     })
   },
   methods: {
@@ -252,7 +285,6 @@ export default Vue.extend({
               coordinates.push(...feature.geometry.coordinates as [number, number][])
               break
             case 'Polygon':
-              console.log(feature.geometry.coordinates)
               coordinates.push(...feature.geometry.coordinates[0] as [number, number][])
               break
           }
@@ -286,6 +318,94 @@ export default Vue.extend({
       (this.map as Map).fitBounds(bounds, {
         padding: 40,
         animate: this.mode === MODE.BLOCK
+      })
+    },
+    sendIdToDetail (rowId: string) {
+      this.$emit('open-detail', rowId)
+    },
+    createPopup () {
+      const allResourceId: string[] = this.resources.reduce((acc, resource) => {
+        const ids = resource.layers.map((layer) => (`${resource.id}-${layer.id}`))
+        acc.push(...ids)
+        return acc
+      }, [] as string[])
+
+      allResourceId.forEach(resourceId => {
+        // Add Popup on layer on click
+        this.map!.on(
+          'click',
+          resourceId,
+          (e: MapLayerMouseEvent) => {
+            if (e.features && e.features[0].properties) {
+              const properties = e.features[0].properties
+
+              let html = `<p class="popup-row-title">${properties.title}</p>`
+
+              const line = (content: PopupContent) => `
+                <p class=${content.class}'>
+                  <b>${content?.field?.label}</b><br/>
+                  ${content?.field?.value}
+                </p>`
+
+              if (properties.content) {
+                const content = JSON.parse(properties?.content)
+                if (content.length > 0) {
+                  html += `
+                  <div class="popup-row-content">
+                    ${content.map((content: PopupContent) => line(content)).join('')}
+                  </div>
+                `
+                }
+              }
+
+              if (properties.rowId) {
+                const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
+
+                html += `
+                <div class="popup-row-toolbox">
+                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                </div>
+              `
+              }
+
+              const popup = new Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(html)
+                .addTo(this.map!)
+
+              if (properties.rowId) {
+                const element = popup.getElement()
+                const link = element.querySelector('.popup-row-toolbox #row-detail-page')
+                if (link) {
+                  link.addEventListener('click', () => this.sendIdToDetail(properties.rowId))
+
+                  const { sendIdToDetail } = this
+                  popup.on('close', function () {
+                    link.removeEventListener('click', () => sendIdToDetail)
+                  })
+                }
+              }
+            }
+          }
+        )
+
+        // Change the cursor to a pointer
+        this.map!.on(
+          'mouseenter',
+          resourceId,
+          () => {
+            this.map!.getCanvas().style.cursor = 'pointer'
+          }
+        )
+
+        // Change it back
+        this.map!.on(
+          'mouseleave',
+          resourceId,
+          () => {
+            this.map!.getCanvas().style.cursor = ''
+          }
+        )
       })
     }
   },
@@ -329,11 +449,46 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-#map-container {
+.map-container {
   width: 100%;
   height: 100%;
+  min-height: 300px;
 }
 /deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
   box-sizing: content-box;
+}
+
+/* Styles de la modale */
+/deep/ .mapboxgl-popup {
+  min-width: 180px;
+}
+
+/deep/ .mapboxgl-popup-content p button{
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+/deep/ .mapboxgl-popup-content p.popup-row-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--primary-color);
+  margin-top: -10px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding: 5px 10px 0 10px;
+}
+
+/deep/ .mapboxgl-popup-content .popup-row-toolbox {
+  display: flex;
+}
+
+/deep/ .mapboxgl-popup-content .popup-row-toolbox > button {
+  margin: auto;
+}
+
+/deep/ .mapboxgl-popup-close-button {
+  color: var(--primary-color);
 }
 </style>

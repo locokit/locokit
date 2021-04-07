@@ -1,10 +1,18 @@
+import { TranslateResult } from 'vue-i18n'
+
 import {
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
+
 import {
   LckTableColumn,
-  LckTableViewColumn
+  LckTableRowData,
+  LckTableRowDataComplex,
+  LCKTableRowMultiDataComplex,
+  LckTableViewColumn,
+  SelectValue
 } from '@/services/lck-api/definitions'
+import { formatDate } from '@/services/lck-utils/date'
 
 export function getComponentEditableColumn (columnTypeId: number) {
   switch (columnTypeId) {
@@ -61,4 +69,55 @@ export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
   return getColumnTypeId(column.parents[0])
 }
 
-export default { getComponentEditableColumn, isEditableColumn, getColumnTypeId }
+export function getDataFromTableViewColumn (
+  column: LckTableViewColumn,
+  data: LckTableRowData,
+  options: {
+    dateFormat: string | TranslateResult;
+    noData: string | TranslateResult;
+  }):
+  { label: string; value: string | number; color?: string; backgroundColor?: string } {
+  switch (column.column_type_id) {
+    case COLUMN_TYPE.USER:
+    case COLUMN_TYPE.GROUP:
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
+    case COLUMN_TYPE.FORMULA:
+      return {
+        label: column.text,
+        value: (data as LckTableRowDataComplex).value || options.noData as string
+      }
+    case COLUMN_TYPE.MULTI_USER:
+      return {
+        label: column.text,
+        value: (data as LCKTableRowMultiDataComplex).value.join(', ') || options.noData as string
+      }
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return {
+        label: column.text,
+        value: (column.settings?.values as Record<string, SelectValue>)[data as string]?.label || options.noData as string,
+        color: (column.settings?.values as Record<string, SelectValue>)[data as string]?.color,
+        backgroundColor: (column.settings?.values as Record<string, SelectValue>)[data as string]?.backgroundColor
+      }
+    case COLUMN_TYPE.MULTI_SELECT:
+      return {
+        label: column.text,
+        value: (data as string[]).length > 0 ? (data as string[]).map(d => (column.settings?.values as Record<string, SelectValue>)[d]?.label).join(', ') : options.noData as string
+      }
+    case COLUMN_TYPE.DATE:
+      // eslint-disable-next-line no-case-declarations
+      return {
+        label: column.text,
+        value: (formatDate(data as string, options.dateFormat) || options.noData) as string
+      }
+    default:
+      return { label: column.text, value: (data || options.noData) as string }
+  }
+}
+
+export default {
+  getComponentEditableColumn,
+  isEditableColumn,
+  getColumnTypeId,
+  getDataFromTableViewColumn
+}
