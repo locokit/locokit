@@ -287,6 +287,55 @@ describe('\'row\' service', () => {
       await service.remove(row2.id)
     })
 
+    it('Type Date Less Than and Rqual', async () => {
+      const tableColumn = await app.service('column').create({
+        text: 'myColumnOfInt',
+        table_id: table.id,
+        column_type_id: COLUMN_TYPE.DATE,
+      })
+      const row1 = await service.create({
+        text: 'Test Row 1',
+        data: {
+          [tableColumn.id]:  '1944-04-21',
+        },
+        table_id: table.id,
+      })
+
+      const row2 = await service.create({
+        text: 'Test Row 2',
+        data: {
+          [tableColumn.id]: '2020-04-21',
+        },
+        table_id: table.id,
+      })
+
+      const row3 = await service.create({
+        text: 'Test Row 3',
+        data: {
+          [tableColumn.id]: '1992-02-17',
+        },
+        table_id: table.id,
+      })
+
+      const rows = await service.find({
+        query: {
+          table_id: table.id,
+          data: {
+            [tableColumn.id]: {
+              $lte: '1992-02-17',
+            },
+          }
+        },
+      })
+      expect(rows.data.length).toEqual(2)
+      expect(rows.data[0].data[tableColumn.id]).toEqual('1944-04-21')
+      expect(rows.data[1].data[tableColumn.id]).toEqual('1992-02-17')
+
+      await service.remove(row1.id)
+      await service.remove(row2.id)
+      await service.remove(row3.id)
+    })
+
     it('Type float More Than and Equal', async () => {
       const tableColumn = await app.service('column').create({
         text: 'myColumnOfInt',

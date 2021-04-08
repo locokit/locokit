@@ -277,7 +277,12 @@ class Service extends _adapterCommons.AdapterService {
           let refColumnParse = 'text'
 
           if(NUMERIC_COMPARISON_OPERATORS.includes(operator)) {
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g
+            if (regex.test(value)) {
+              refColumnParse = 'text'
+            } else {
               refColumnParse = 'decimal'
+            }
           }
 
           if (method) {
