@@ -42,12 +42,13 @@ export function loadColumnsDefinition (): Hook {
       case 'create':
       case 'update':
       case 'patch':
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const table_id = (
           context.method === 'create'
             // when creating a row, table_id is mandatory
             ? context.data.table_id
-            // if updating, we normally have loaded the actual row
-            // with the loadCurrentRow hook
+            // if updating, we normally have loaded the actual row with the loadCurrentRow hook
+            // or specified the table_id in the query if its a multiple update
             : context.params._meta.item.table_id || context.params.query?.table_id
         )
         const columns = await context.app.services.column.find({

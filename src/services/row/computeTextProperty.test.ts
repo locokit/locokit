@@ -136,13 +136,10 @@ describe('computeTextProperty hook', () => {
     it('If it is a formula column, do not use its value but specify "No reference"', async () => {
       const rowTable3 = await app.service('row').create({
         table_id: table3.id,
-        data: {
-          [columnTable3FormulaColumn.id]: '"MyFormulaValue"',
-        },
       })
       expect.assertions(2)
       expect(rowTable3.text).toBe('No reference')
-      expect(rowTable3.data[columnTable3FormulaColumn.id]).toBe('"MyFormulaValue"')
+      expect(rowTable3.data[columnTable3FormulaColumn.id]).toBe('MyFormulaValue')
       await app.service('row').remove(rowTable3.id)
     })
   })

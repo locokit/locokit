@@ -66,7 +66,6 @@ describe('\'column\' service', () => {
         column_type_id: COLUMN_TYPE.FORMULA,
         table_id: table1.id,
         settings: {
-          formula_type_id: COLUMN_TYPE.STRING,
           formula: '""',
         },
       })
@@ -226,6 +225,8 @@ describe('hooks for column service', () => {
 
   describe('upsertColumnRelation', () => {
     it('create a column relation when a lookedup column reference another column', async () => {
+      expect.assertions(1)
+
       const columnTable1Ref: TableColumn = await app.service('column').create({
         text: 'column table 1',
         column_type_id: COLUMN_TYPE.STRING,
@@ -294,6 +295,7 @@ describe('hooks for column service', () => {
 
       describe('On creation', () => {
         it('create one column relation for each referenced column used in a formula column', async () => {
+          expect.assertions(5)
           // Formula column
           const formulaColumn: TableColumn = await app.service('column').create({
             text: 'formula_column',
@@ -309,7 +311,7 @@ describe('hooks for column service', () => {
               table_column_to_id: formulaColumn.id,
             },
           }) as TableColumnRelation[]
-          expect(columnRelations.length === 2)
+          expect(columnRelations.length).toBe(2)
           if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
             expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
             expect(columnRelations[1].table_column_from_id).toBe(stringColumn1.id)
@@ -323,6 +325,7 @@ describe('hooks for column service', () => {
           await app.service('column')._remove(formulaColumn.id, {})
         })
         it('don\'t create column relation if no column is used in a formula column', async () => {
+          expect.assertions(1)
           // Formula column
           const formulaColumn: TableColumn = await app.service('column').create({
             text: 'formula_column',
@@ -338,7 +341,7 @@ describe('hooks for column service', () => {
               table_column_to_id: formulaColumn.id,
             },
           }) as Paginated<TableColumnRelation>
-          expect(columnRelations.total === 0)
+          expect(columnRelations.total).toBe(0)
           // Clean database
           await app.service('column')._remove(formulaColumn.id, {})
         })
@@ -346,6 +349,7 @@ describe('hooks for column service', () => {
       describe('On update', () => {
         describe('If no column is specified in the formula', () => {
           it('If at least one column was used before', async () => {
+            expect.assertions(1)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -367,11 +371,12 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as Paginated<TableColumnRelation>
-            expect(columnRelations.total === 0)
+            expect(columnRelations.total).toBe(0)
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If no column was used before', async () => {
+            expect.assertions(1)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -393,13 +398,14 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as Paginated<TableColumnRelation>
-            expect(columnRelations.total === 0)
+            expect(columnRelations.total).toBe(0)
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
         })
         describe('If at least one column is specified in the formula', () => {
           it('If no column was used before', async () => {
+            expect.assertions(5)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -421,7 +427,7 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
-            expect(columnRelations.length === 2)
+            expect(columnRelations.length).toBe(2)
             expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
             expect(columnRelations[1].table_column_to_id).toBe(formulaColumn.id)
             if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
@@ -435,6 +441,7 @@ describe('hooks for column service', () => {
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If one other column was used before', async () => {
+            expect.assertions(3)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -456,13 +463,14 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
-            expect(columnRelations.length === 1)
+            expect(columnRelations.length).toBe(1)
             expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
             expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If the specified column was already used', async () => {
+            expect.assertions(3)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -484,13 +492,14 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
-            expect(columnRelations.length === 1)
+            expect(columnRelations.length).toBe(1)
             expect(columnRelations[0].table_column_from_id).toBe(stringColumn1.id)
             expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If the specified column was already used and if one other is now used', async () => {
+            expect.assertions(5)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -512,7 +521,7 @@ describe('hooks for column service', () => {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
-            expect(columnRelations.length === 2)
+            expect(columnRelations.length).toBe(2)
             if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
               expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
               expect(columnRelations[1].table_column_from_id).toBe(stringColumn1.id)

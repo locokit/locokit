@@ -83,7 +83,6 @@ describe('computeRowFormulaColumns hooks', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
       settings: {
-        formula_type_id: COLUMN_TYPE.STRING,
         formula: `COLUMN.${table1StringColumn1.id}`,
       },
     })
@@ -93,7 +92,6 @@ describe('computeRowFormulaColumns hooks', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
       settings: {
-        formula_type_id: COLUMN_TYPE.STRING,
         formula: `TEXT.CONCAT(COLUMN.${table1StringColumn1.id},"-",COLUMN.${table1StringColumn2.id})`,
       },
     })
@@ -103,7 +101,6 @@ describe('computeRowFormulaColumns hooks', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
       settings: {
-        formula_type_id: COLUMN_TYPE.STRING,
         formula: '10',
       },
     })
@@ -113,7 +110,6 @@ describe('computeRowFormulaColumns hooks', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
       settings: {
-        formula_type_id: COLUMN_TYPE.STRING,
         formula: `TEXT.CONCAT(COLUMN.${table1StringColumn1.id},"-",COLUMN.${table1LookedUpColumn1.id})`,
       },
     })
@@ -152,6 +148,7 @@ describe('computeRowFormulaColumns hooks', () => {
 
   describe('On creation', () => {
     it('Init the formulas columns', async () => {
+      expect.assertions(4)
       const table1Row1: TableRow = await app.service('row').create({
         data: {
           [table1StringColumn1.id]: 'table1MyFirstRow1',
@@ -190,6 +187,7 @@ describe('computeRowFormulaColumns hooks', () => {
     })
 
     it('Update the formulas columns when two columns change', async () => {
+      expect.assertions(3)
       table1Row1 = await app.service('row').patch(table1Row1.id, {
         data: {
           [table1StringColumn1.id]: 'table1MyFirstUpdatedRow1',
@@ -201,6 +199,7 @@ describe('computeRowFormulaColumns hooks', () => {
       expect(table1Row1.data[table1FormulaColumn4.id]).toBe('table1MyFirstUpdatedRow1-table2MyFirstRow1')
     })
     it('Update the formulas columns when one column change', async () => {
+      expect.assertions(3)
       table1Row1 = await app.service('row').patch(table1Row1.id, {
         data: {
           [table1StringColumn1.id]: 'table1MyFirstUpdatedRow1',
@@ -211,6 +210,7 @@ describe('computeRowFormulaColumns hooks', () => {
       expect(table1Row1.data[table1FormulaColumn4.id]).toBe('table1MyFirstUpdatedRow1-table2MyFirstRow1')
     })
     it('Update the formulas columns when the relation between table column change', async () => {
+      expect.assertions(1)
       table1Row1 = await app.service('row').patch(table1Row1.id, {
         data: {
           [table1RelationBetweenTable1.id]: table2Row2.id,
@@ -219,6 +219,7 @@ describe('computeRowFormulaColumns hooks', () => {
       expect(table1Row1.data[table1FormulaColumn4.id]).toBe('table1MyFirstRow1-table2MySecondRow1')
     })
     it('Update the formulas columns when the looked_up_column value change', async () => {
+      expect.assertions(1)
       table2Row1 = await app.service('row').patch(table2Row1.id, {
         data: {
           [table2StringColumn1.id]: 'table2MyFirstUpdatedRow1',

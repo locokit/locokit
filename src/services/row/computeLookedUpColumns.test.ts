@@ -761,13 +761,14 @@ describe('computeLookedUpColumns hook', () => {
   //     await app.service('column').remove(columnTable1RelationBetweenTable2.id)
   //     await app.service('column').remove(columnTable1LookedUpColumnTable2Ref.id)
   //   })
-  //   // it('throw an error if a loop is encountered', async () => {
-  //   //   rowTable1 = await app.service('row').patch(rowTable1.id, {
-  //   //     data: {
-  //   //       [columnTable1RelationBetweenTable2.id]: row1Table2.id,
-  //   //     },
-  //   //   })
-  //   // })
+  //   it('throw an error if a loop is encountered', async () => {
+  //     expect.assertions(1)
+  //     rowTable1 = await app.service('row').patch(rowTable1.id, {
+  //       data: {
+  //         [columnTable1RelationBetweenTable2.id]: row1Table2.id,
+  //       },
+  //     })
+  //   })
   // })
 
   afterAll(async () => {

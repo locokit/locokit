@@ -30,11 +30,14 @@ export function computeRowFormulaColumns (): Hook {
 
     context.params._meta.updatedColumnsWithChildren = updatedColumnsWithChildren
 
-    const formulaColumnsToUpdateIds: Set<string> = new Set()
-    const formulaColumnsToUpdateData: Record<string, FunctionBuilder> = {}
-    const allUsedColumnsInFormulas: Record<string, TableColumn> = {}
-
+    // The list of the formula columns to update
     let formulaColumnsToUpdate: TableColumn[] = []
+    // The set of the ids of the formula columns to update
+    const formulaColumnsToUpdateIds: Set<string> = new Set()
+    // An object containing for each formula column to update, the related sql request
+    const formulaColumnsToUpdateData: Record<string, FunctionBuilder> = {}
+    // An object containing the columns using in the formulas
+    const allUsedColumnsInFormulas: Record<string, TableColumn> = {}
 
     if (context.method === 'create') {
       // Get all formula columns on create
@@ -97,37 +100,38 @@ export function computeRowFormulaColumns (): Hook {
       }
     }
 
-    if (formulaColumnsToUpdateIds.size > 0) {
-      // Add the formula columns keys that will be updated due to the original update (useful for looked_up_columns)
-      context.params._meta.columnsIdsTransmitted.push(...formulaColumnsToUpdateIds)
-      // Update the row(s)
-      try {
-        if (Array.isArray(context.result)) {
-          // Multiple update
-          (context.result as TableRow[]) = await context.service._patch(null,
-            formulaColumnsToUpdateData,
-            {
-              query: {
-                table_id: context.params.query?.table_id,
-                // Need to specify the table name for the id to make the select query (automatically
-                // executed after the patch request) works (feathers-objection bug ?)
-                'table_row.id': {
-                  $in: context.result.map(row => row.id),
-                },
+    if (formulaColumnsToUpdateIds.size === 0) return context
+
+    // Add the formula columns keys that will be updated due to the original update (useful for looked_up_columns)
+    context.params._meta.columnsIdsTransmitted.push(...formulaColumnsToUpdateIds)
+
+    // Update the row(s)
+    try {
+      if (Array.isArray(context.result)) {
+        // Multiple update
+        (context.result as TableRow[]) = await context.service._patch(null,
+          formulaColumnsToUpdateData,
+          {
+            query: {
+              table_id: context.params.query?.table_id,
+              // Need to specify the table name for the id to make the select query (automatically
+              // executed after the patch request) works
+              'table_row.id': {
+                $in: context.result.map(row => row.id),
               },
-              paginate: false,
-            })
-        } else if (context.result.id) {
-          // Single update
-          (context.result as TableRow) = await context.service._patch(context.result.id,
-            formulaColumnsToUpdateData,
-            {},
-          )
-        }
-      } catch (err) {
-        if (err.code !== 404) {
-          throw new GeneralError('An error has been encountered when the formulas have been computed')
-        }
+            },
+            paginate: false,
+          })
+      } else if (context.result.id) {
+        // Single update
+        (context.result as TableRow) = await context.service._patch(context.result.id,
+          formulaColumnsToUpdateData,
+          {},
+        )
+      }
+    } catch (err) {
+      if (err.code !== 404) {
+        throw new GeneralError('An error has been encountered when the formulas have been computed')
       }
     }
     return context

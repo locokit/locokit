@@ -8,6 +8,16 @@ import { functions, getColumnsReferences, getSQLRequestFromFormula } from '../..
 import { GeneralError } from '@feathersjs/errors'
 import { parse } from '../../utils/formulas/formulaParser'
 
+/**
+ * Find the looked-up columns in one table using the value of updated columns
+ * and the formula columns that reference the found ones.
+ * @param columns The list of the columns with their descendants (i.e. the columns using their value)
+ * @param columnsIdsTransmitted The list of ids of the updated columns
+ * @param tableId The id of the table of the wanted columns
+ * @param originalColumn The updated column on which the wanted columns are based
+ * @returns The list of updated and looked-up columns in one table using the value of the updated columns
+ * and the formula columns that reference the found ones
+ */
 function getColumnsToUpdate (
   columns: TableColumn[],
   columnsIdsTransmitted: string [],
@@ -25,20 +35,23 @@ function getColumnsToUpdate (
     columnTypeIdOfUpdatedRow: COLUMN_TYPE
     relatedFormulaColumnsIds: string[]
   }> = []
+  // Loop over the columns
   columns.forEach(currentColumn => {
+    // Get the columns that reference the current one, except for the formula columns which are not computed yet
     if (columnsIdsTransmitted.includes(currentColumn.id) || currentColumn.column_type_id !== COLUMN_TYPE.FORMULA) {
+      // Get the columns that reference the current one in the specified table
       if (currentColumn.table_id === tableId) {
         result.push({
           columnIdOfUpdatedRow: originalColumn?.id as string,
           columnIdOfChildRow: currentColumn.id,
           columnTypeIdOfUpdatedRow: originalColumn?.column_type_id as COLUMN_TYPE,
-          // relatedFormulaColumnsIds: currentColumn.children?.filter(c => c.column_type_id === COLUMN_TYPE.FORMULA).map(c => c.id) ?? [],
           relatedFormulaColumnsIds: currentColumn.children?.reduce((formulasColumns: string[], childColumn: TableColumn) => {
             if (childColumn.column_type_id === COLUMN_TYPE.FORMULA) formulasColumns.push(childColumn.id)
             return formulasColumns
           }, []) ?? [],
         })
       }
+      // Recursively get linked columns to the children ones
       if ((currentColumn.children ?? []).length > 0) {
         result.push(...getColumnsToUpdate(
           currentColumn.children as TableColumn[],
@@ -52,6 +65,17 @@ function getColumnsToUpdate (
   return result
 }
 
+/**
+ * Get the patch requests to update the linked-up columns that reference the updated columns of the current row,
+ * and the formula columns that reference the same columns.
+ * @param currentRow The row whose the columns were already updated
+ * @param linkedColumns The list of the columns with their descendants (i.e. the columns using their value)
+ * @param currentChildrenRows The list of the rows that reference the current one
+ * @param service The service related to the tableRow model
+ * @param columnsIdsTransmitted The list of ids of the updated columns
+ * @returns an object containing the list of the the patch requests to update the founded linked-up columns,
+ * and an object containing the formula columns and related rows to update, categorised according to the table they belong to.
+ */
 function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
   currentRow: TableRow,
   linkedColumns: TableColumn[],
@@ -128,6 +152,8 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
         }
       }
     }
+
+    // Recursively do the same operations for the children columns
     if (currentChildRow.children) {
       const dataToUpdate = getLookedUpColumnsPatchPromisesAndFormulaToUpdate(
         currentRow,
@@ -185,7 +211,7 @@ export function computeLookedUpColumns (): Hook {
     const allLookedUpColumnsPatchPromises: Array<Promise<TableRow>> = []
     const allFormulasToUpdate: Record<string, { rowIds: Set<string>, columnsIds: Set<string> }> = {}
 
-    // Get related LOOKED_UP_COLUMNS and FORMULAS columns and rows to update them
+    // Get related looked-up and formula columns and related rows to update them
     updatedRows.forEach(currentUpdatedRow => {
       const { lookedUpColumnsPatchPromises, formulasToUpdate } = getLookedUpColumnsPatchPromisesAndFormulaToUpdate(
         currentUpdatedRow,
@@ -194,9 +220,9 @@ export function computeLookedUpColumns (): Hook {
         context.service,
         context.params._meta.columnsIdsTransmitted,
       )
-      // LOOKED_UP_COLUMNS promises
+      // looked-up columns patch request promises
       allLookedUpColumnsPatchPromises.push(...lookedUpColumnsPatchPromises)
-      // FORMULAS to update
+      // formula columns to update with the related rows
       for (const tableId in formulasToUpdate) {
         if (allFormulasToUpdate[tableId]) {
           mergeSets(allFormulasToUpdate[tableId].rowIds, formulasToUpdate[tableId].rowIds)
@@ -206,11 +232,11 @@ export function computeLookedUpColumns (): Hook {
         }
       }
     })
-    // Update LOOKED_UP_COLUMNS
+    // Update looked-up columns
     await Promise.all(allLookedUpColumnsPatchPromises)
 
-    // Update FORMULAS
-    const formulaPatchPromises: Array<Promise<any>> = []
+    // Update formula columns
+    const formulaPatchPromises: Array<Promise<TableRow>> = []
     // Make a patch request for each table to update the formula columns of specific rows
     for (const tableId in allFormulasToUpdate) {
       const { rowIds, columnsIds: formulaColumnsIds } = allFormulasToUpdate[tableId]
@@ -259,7 +285,7 @@ export function computeLookedUpColumns (): Hook {
             {
               query: {
                 // Need to specify the table name for the id to make the select query (automatically
-                // executed after the patch request) works (feathers-objection bug ?)
+                // executed after the patch request) works
                 'table_row.id': {
                   $in: [...rowIds],
                 },
@@ -267,7 +293,7 @@ export function computeLookedUpColumns (): Hook {
               },
               paginate: false,
             },
-          ),
+          ) as unknown as Promise<TableRow>,
         )
       }
     }
