@@ -14,5 +14,6 @@ const LCK_SETTINGS = {
   LOGO_BG_PRIMARY_URL: '/themes/locokit/img/logo-white.svg',
   LOGO_MOBILE_URL: '/themes/locokit/img/logo-mobile.svg',
   STORAGE_KEY: 'lck-auth',
-  SENTRY_DSN: 'https://b217f3673c9c417c82ada33ccf87a57e@sentry.makina-corpus.net/92'
+  SENTRY_DSN: 'https://b217f3673c9c417c82ada33ccf87a57e@sentry.makina-corpus.net/92',
+  SENTRY_ENV: 'local'
 }
