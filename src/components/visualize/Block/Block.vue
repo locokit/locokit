@@ -58,9 +58,11 @@ import Button from 'primevue/button'
 import TableView from '@/components/visualize/TableView/TableView.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
+import MapView from '@/components/visualize/MapView/MapView.vue'
+import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
 import Media from '@/components/visualize/Media/Media.vue'
+import DetailView from '@/components/visualize/DetailView/DetailView.vue'
 import Error from '@/components/ui/Error/Error.vue'
-import DetailView from '@/components/visualize/DetailView.vue'
 
 export default Vue.extend({
   name: 'Block',
@@ -71,6 +73,9 @@ export default Vue.extend({
     Paragraph,
     Markdown,
     Media,
+    MapView,
+    MapDetailView: MapView,
+    Synthesis,
     Error
   },
   computed: {

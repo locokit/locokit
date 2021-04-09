@@ -71,7 +71,10 @@
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{ 'p-mb-4': !editMode, 'map' : block.type === 'MapView' }"
+              :class="{
+                'p-mb-4': !editMode,
+                'map' : block.type === 'MapView' // need to be discussed with @alc : is this useful ?
+              }"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -79,7 +82,8 @@
               @sort="onSort(block, $event)"
               @open-detail="onPageDetail(block, $event)"
               @create-row="onCreateRow(block, $event)"
-              @export-view="onExportView(block)"
+              @export-view-csv="onExportViewCSV(block)"
+              @export-view-xls="onExportViewXLS(block)"
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
               @delete-block="onBlockDeleteClick(container, block)"
@@ -141,7 +145,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue from 'vue'
 
-import saveAs from 'file-saver'
 import Button from 'primevue/button'
 import draggable from 'vuedraggable'
 import {
@@ -162,7 +165,8 @@ import Block from '@/components/visualize/Block/Block'
 import {
   retrievePageWithContainersAndBlocks,
   retrieveViewDefinition,
-  retrieveViewData
+  retrieveViewData,
+  retrieveRow
 } from '@/store/visualize'
 import {
   patchTableData,
@@ -301,30 +305,49 @@ export default {
       this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
       if (block.definition?.id) await this.loadBlockTableViewContent(block)
     },
-    async loadBlockTableViewContent (block) {
+    async loadBlockTableViewContent (block) { // Rename
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      this.$set(block, 'content', await retrieveViewData(
-        block.definition.id,
-        currentOptions.page * currentOptions.itemsPerPage,
-        currentOptions.itemsPerPage,
-        currentOptions.sort,
-        currentOptions.filters
-      ))
-    },
-    async loadBlockContentAndDefinition (block) {
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-          this.$set(block, 'loading', true)
-          await this.loadBlockTableViewContentAndDefinition(block)
-          this.$set(block, 'loading', false)
+          this.$set(block, 'content', await retrieveViewData(
+            block.definition.id,
+            currentOptions.page * currentOptions.itemsPerPage,
+            currentOptions.itemsPerPage,
+            currentOptions.sort,
+            currentOptions.filters
+          ))
+          break
+        case BLOCK_TYPE.MAPVIEW:
+          /**
+           * For the mapview block, we don't limit the result
+           * I think we can optimize how we manage the data...
+           */
+          this.$set(block, 'content', await retrieveViewData(
+            block.definition.id,
+            currentOptions.page * currentOptions.itemsPerPage,
+            -1,
+            currentOptions.sort,
+            currentOptions.filters
+          ))
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-          this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+          const row = await retrieveRow(this.$route.query.rowId)
+          this.$set(block, 'content', { data: [row] })
           break
+        case BLOCK_TYPE.MAPDETAILVIEW: {
+          const row = await retrieveRow(this.$route.query.rowId)
+          this.$set(block, 'content', [row])
+          break
+        }
       }
+    },
+    async loadBlockContentAndDefinition (block) {
+      this.$set(block, 'loading', true)
+      await this.loadBlockTableViewContentAndDefinition(block)
+      this.$set(block, 'loading', false)
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
@@ -433,16 +456,16 @@ export default {
       this.$set(block, 'displayNewDialog', false)
       await this.loadBlockTableViewContent(block)
     },
-    async onExportView (block) {
+    async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(block.settings?.id, this.blocksOptions[block.id]?.filters)
-      saveAs(
-        new Blob([data]),
-        block.title + '.csv',
-        {
-          type: 'text/csv;charset=utf-8'
-        })
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      this.exporting = false
+    },
+    async onExportViewXLS (block) {
+      if (!block.settings?.id) return
+      this.exporting = true
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
       this.exporting = false
     },
     onContainerEditClick (containerToEdit) {
@@ -798,7 +821,7 @@ export default {
   }
 }
 
-/* contenu Full */
+/* Contenu Full */
 
 .lck-layout-full {
   width: 100%;

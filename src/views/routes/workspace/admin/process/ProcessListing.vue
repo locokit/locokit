@@ -217,7 +217,6 @@ export default Vue.extend({
       this.loading = true
       try {
         if (!this.tableId) {
-          // eslint-disable-next-line no-case-declarations
           const processByWorkspace = await lckServices.process.find({
             query: {
               'table:database.workspace_id': this.workspaceId,

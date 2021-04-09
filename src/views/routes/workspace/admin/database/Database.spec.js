@@ -22,6 +22,8 @@ jest.mock('@locokit/lck-glossary', () => ({
   }
 }))
 
+jest.mock('../../../../../components/store/DataDetail/DataDetail.vue', () => () => '<div>DataDetail</div>')
+
 jest.mock('date-fns')
 jest.mock('file-saver')
 

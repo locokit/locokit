@@ -96,35 +96,37 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem',
+              'height': '2.5rem'
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
               'white-space': 'nowrap',
               'position': 'relative',
-              'height': '2.5rem'
+              'height': '2.5rem',
             }"
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <div style="display: inline-block; backgroundColor: inherit;">
-              <span :data-column-id="column.id">
+            <div class="th-container">
+              <span class="th-text" :data-column-id="column.id">
                 {{ column.text }}
               </span>
-              <lck-dropdown-button
+              <p-button
                 v-if="crudMode"
-                buttonClass="edit-column-icon"
-                :style="{
-                  position: 'absolute',
-                  backgroundColor: 'inherit',
-                  paddingRight: '0.5rem',
-                  right: isSortableColumn(column) ? '20px' : '0px'
-                }"
+                class="edit-column-icon p-ml-auto"
                 icon="pi pi-angle-down"
                 appendTo="body"
-                menuWidth="inherit"
-                @click="onEditColumnClick(column)"
+                aria-haspopup="true"
+                style="position: absolute; right: 0; width: 1rem;"
+                :aria-controls="column.id"
+                @click="onEditColumnClick($event, column)"
+              />
+              <p-menu
+                :id="column.id"
+                :ref="'menu' + column.id"
+                :popup="true"
                 :model="editColumnMenuItems"
+                appendTo="body"
               />
             </div>
           </template>
@@ -189,6 +191,7 @@
               v-model="slotProps.data.data[column.id]"
               mode="decimal"
               :minFractionDigits="2"
+              class="field-editable"
             />
             <component
               v-else
@@ -242,9 +245,6 @@
 </template>
 
 <script>
-/* eslint-disable no-case-declarations */
-/* eslint-disable @typescript-eslint/camelcase */
-
 import Vue from 'vue'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
@@ -257,6 +257,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Menu from 'primevue/menu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
@@ -295,7 +296,8 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-menu': Vue.extend(Menu)
   },
   props: {
     definition: {
@@ -512,7 +514,6 @@ export default {
               return ''
             }
           case COLUMN_TYPE.DATE:
-            // eslint-disable-next-line no-case-declarations
             return formatDate(data, this.$t('date.dateFormat')) || ''
           default:
             return data
@@ -531,14 +532,12 @@ export default {
           return true
       }
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    onShowCalendar ({ column_type_id }, value) {
+    onShowCalendar ({ column_type_id: columnTypeId }, value) {
       /**
        * TODO: the event "show" is trigerred right after a calendar is closed... strange.
        * so, from time to time, the currentDateToEdit is scratched with the previous date edited...
        */
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      switch (column_type_id) {
+      switch (columnTypeId) {
         case COLUMN_TYPE.DATE:
           this.currentDateToEdit = null
           try {
@@ -552,10 +551,10 @@ export default {
           break
       }
     },
-    async onComplete ({ column_type_id, settings }, { query }) {
+    async onComplete ({ column_type_id: columnTypeId, settings }, { query }) {
       this.$emit(
         'update-suggestions',
-        { column_type_id, settings },
+        { columnTypeId, settings },
         { query }
       )
     },
@@ -692,8 +691,9 @@ export default {
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
     },
-    onEditColumnClick (column) {
+    onEditColumnClick (event, column) {
       this.$emit('column-select', column)
+      this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
     }
   },
@@ -760,6 +760,10 @@ export default {
   height: 100%;
   width: 100%;
   overflow-x: initial;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th.p-resizable-column {
+  min-width: 100px;
 }
 
 tr.p-datatable-emptymessage {

@@ -117,7 +117,7 @@ export default {
               if (column) {
                 const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
                 if (column.text) {
-                  columns.push(`${column.text + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
+                  columns.push(`${column.text.replaceAll('[', '').replaceAll(']', '') + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
                 }
                 if (hasRelation) {
                   const relationTable = tables.find(table => table.id === column.settings.tableId)

@@ -34,6 +34,11 @@
       "detail": "Detail row",
       "addNewRow": "Add new row",
       "toolbar": {
+        "export": {
+          "label": "Export as",
+          "exportXLS" : "XLS File",
+          "exportCSV" : "CSV File"
+        },
         "lists": {
           "label": "no column | {n} column | {n} columns"
         },
@@ -177,6 +182,12 @@
       "title": "Use of bike",
       "resultByWeek": "{resultByWeek} CO2 / Week",
       "noResultByWeek": "No result"
+    },
+    "mapview": {
+      "noGeoData": "No geometric data available.",
+      "textDetailPage": "Details",
+      "noReference": "Unknown reference",
+      "noRowData": "Data unknown"
     }
   },
   "pages": {

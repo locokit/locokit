@@ -12,6 +12,7 @@ global.LCK_SETTINGS = {
   LOGO_BG_PRIMARY_URL: './themes/locokit/img/logo-white.svg',
   LOGO_MOBILE_URL: './themes/locokit/img/logo-mobile.svg',
   STORAGE_KEY: 'lck-auth-storybook',
-  SENTRY_DSN: null
+  SENTRY_DSN: null,
+  SENTRY_ENV: null
 }
 global.LCK_VERSION = '0.0.4'
