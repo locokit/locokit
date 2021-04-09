@@ -359,7 +359,7 @@ export default {
       }
       block.loading = false
     },
-    async onUpdateSuggestions ({ column_type_id: columnTypeId, settings }, { query }) {
+    async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
