@@ -911,7 +911,7 @@ export default {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
-  color: var(--text-color-active);
+  color: var(--paginator-text-color-active);
 }
 
 .lck-database-nav {
