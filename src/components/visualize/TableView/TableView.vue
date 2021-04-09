@@ -74,8 +74,8 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import Button from 'primevue/button'
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'

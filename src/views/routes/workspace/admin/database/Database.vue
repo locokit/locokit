@@ -234,7 +234,6 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
@@ -246,6 +245,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -266,6 +266,7 @@ export default {
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
     'lck-process-listing': ProcessListing,
+    'lck-dropdown-button': DropdownButton,
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
     'lck-column-form': ColumnForm,
@@ -273,8 +274,7 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'p-button': Vue.extend(Button),
-    'p-sidebar': Vue.extend(Sidebar),
-    'lck-dropdown-button': DropdownButton
+    'p-sidebar': Vue.extend(Sidebar)
   },
   props: {
     databaseId: {

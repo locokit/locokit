@@ -3,5 +3,8 @@ export { lckClient } from './client'
 export { lckServices } from './services'
 
 export const lckHelpers = {
-  exportTableRowDataCSV, exportTableRowDataXLS, getColumnDisplayValue, searchItems
+  exportTableRowDataCSV,
+  exportTableRowDataXLS,
+  getColumnDisplayValue,
+  searchItems
 }
