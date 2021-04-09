@@ -19,19 +19,20 @@
 
 .lck-color-title {
   font-weight: 500;
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
 }
 
 .lck-block-title {
   font-weight: 700;
-  color: var(--surface-lck-1);
   padding: 0.5rem 0;
+  color: var(--primary-color);
+
   &:after {
-    content: '';
+    display: block;
     width: 30px;
     height: 4px;
+    content: '';
     background-color: var(--primary-color);
-    display: block;
   }
 }
 
@@ -41,7 +42,7 @@
 }
 
 .lck-color-content {
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
 }
 
 .lck-color-page-title {
@@ -66,6 +67,24 @@ h4 {
 
 ul, ol, li, p {
   font-size: 1rem;
+}
+
+/* default links */
+
+a:link {
+  color: var(--primary-color);
+}
+
+a:visited {
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--primary-color-darken);
+}
+
+a:active {
+  color: var(--primary-color-darken);
 }
 
 a.no-decoration-link {
@@ -104,10 +123,11 @@ a.no-decoration-link {
     .p-inputswitch-slider {
       background-color: var(--surface-a);
     }
+
     &:hover {
       .p-inputswitch-slider {
-        background-color: var(--primary-color-darken) !important;
         border-color: var(--primary-color-darken);
+        background-color: var(--primary-color-darken) !important;
       }
     }
   }
@@ -123,14 +143,6 @@ a.no-decoration-link {
   .p-datatable-wrapper & {
     font-size: 0.7rem;
   }
-}
-
-.lck-bg-primary {
-  background-color: var(--primary-color);
-}
-
-.lck-primary {
-  color: var(--primary-color);
 }
 
 .p-dropdown,

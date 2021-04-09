@@ -78,7 +78,7 @@ deploy-vlog-staging:
   only:
     - merge_requests
   script:
-    - cp public/assets/js/config-vlog-staging.js dist/assets/js/config.js
+    - cp public/themes/vlogistique/config-vlog-staging.js dist/themes/vlogistique/config.js
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-vlog-staging-${CI_COMMIT_REF_SLUG}

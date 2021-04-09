@@ -146,7 +146,7 @@ export default {
 
 <style scoped>
 ::v-deep .specific-icon.lightning:after {
-  mask: url("/img/lowcokit/ligthning.svg") no-repeat center center;
+  mask: url("/img/locokit/lightning.svg") no-repeat center center;
   mask-size: cover;
 }
 </style>

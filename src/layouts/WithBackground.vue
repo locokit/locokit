@@ -76,11 +76,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+
 .layout-with-background {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   height: 100%;
+  background-color: var(--surface-a);
 }
 .version-block {
   position: absolute;

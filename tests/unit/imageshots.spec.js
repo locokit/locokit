@@ -10,6 +10,7 @@ const getMatchOptions = () => {
   return {
     comparisonMethod: 'ssim',
     failureThreshold: process.env.CI ? 0.02 : 0.01,
+    // failureThreshold: 0.001,
     failureThresholdType: 'percent'
   }
 }

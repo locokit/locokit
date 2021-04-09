@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="<%= BASE_URL %>assets/css/theme.css">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="<%= BASE_URL %>themes/<%= VUE_APP_THEME%>/theme.css">
+    <link rel="icon" href="<%= BASE_URL %>themes/<%= VUE_APP_THEME%>/icons/favicon.ico">
     <title><%= VUE_APP_TITLE %></title>
   </head>
   <body>
@@ -14,7 +14,7 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <script src="<%= BASE_URL %>assets/js/config.js"></script>
+    <script src="<%= BASE_URL %>themes/<%= VUE_APP_THEME%>/config.js"></script>
     <script>
       const LCK_VERSION = '<%= VUE_APP_VERSION %>'
     </script>

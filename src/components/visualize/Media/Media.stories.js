@@ -15,7 +15,7 @@ export const withPropsStory = () => ({
           displayMode: 'image',
           medias: [{
             name: 'Image',
-            srcURL: './img/page-construction-vlogistique.png',
+            srcURL: './themes/locokit/img/logokit-grayscale.png',
             type: 'image'
           }]
         }
