@@ -16,7 +16,8 @@ import { parse } from '../../utils/formulas/formulaParser'
 
 /**
  * Is the column a formula column ?
- * Based on the column_type_id specified in the context data if used in a before hook
+ * Based on the column_type_id specified in the context data if used in a before create hook,
+ * on the item data in a before patch hook
  * or in the context result if used in an after hook.
  *
  * @param {HookContext} context
@@ -25,8 +26,16 @@ import { parse } from '../../utils/formulas/formulaParser'
 export const isFormulaColumn = () => (
   context: Partial<HookContext>,
 ): boolean => {
-  return (context.type === 'before' && context.data?.column_type_id === COLUMN_TYPE.FORMULA) ||
-         (context.type === 'after' && context.result?.column_type_id === COLUMN_TYPE.FORMULA)
+  if (context.type === 'before') {
+    if (context.method === 'create') {
+      return context.data?.column_type_id === COLUMN_TYPE.FORMULA
+    } else if (context.method === 'patch') {
+      return context.params?._meta?.item.column_type_id === COLUMN_TYPE.FORMULA
+    }
+  } else if (context.type === 'after') {
+    return context.result?.column_type_id === COLUMN_TYPE.FORMULA
+  }
+  return false
 }
 
 /**
@@ -39,7 +48,7 @@ export function parseFormula (): Hook {
 
     if (newFormula) {
       // Get the existing column if it is an update
-      const updatedColumn = context.id ? await context.service.get(context.id) : new TableColumn()
+      const updatedColumn = context.id ? context.params?._meta?.item : new TableColumn()
 
       // Only parse the formula on creation or if it has been changed
       if (context.method === 'create' || updatedColumn.settings?.formula !== newFormula) {
@@ -83,6 +92,7 @@ export function parseFormula (): Hook {
           columnsUsedInFormula.forEach(column => {
             if (
               column.id === context.id ||
+              column.column_type_id === COLUMN_TYPE.FORMULA ||
               !implementedInFormulaColumnTypes.includes(column.originalTypeId())
             ) {
               throw new NotAcceptable(`Invalid formula: the following column can't be used in a formula: ${column.text}.`, {

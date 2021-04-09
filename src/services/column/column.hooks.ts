@@ -1,6 +1,7 @@
 import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
 import { parseFormula, isFormulaColumn, updatedRelatedRowsFormula } from './formulaColumn.hook'
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
@@ -25,6 +26,7 @@ export default {
       disallow('external'),
     ],
     patch: [
+      getCurrentItem(),
       iff(isFormulaColumn(), parseFormula()),
       preventChanges(false, 'column_type_id'),
     ],
