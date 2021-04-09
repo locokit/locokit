@@ -143,6 +143,11 @@ a:hover,
   transition-duration: 0.5s;
 }
 
+a:hover .action-button:hover ,
+.router-link-exact-active .action-button:hover {
+  background-color: var(--text-color-active);
+}
+
 .action-set {
   padding-left: 0.5rem;
   margin-left: auto;
@@ -153,6 +158,7 @@ a:hover,
   position: relative;
   display: flex;
   align-items: center;
+  color: var(--text-color);
 }
 
 .p-accordion-content a:visited {
@@ -168,7 +174,6 @@ a:hover,
   padding-left: 0.5em;
   padding-right: 0.5em;
   margin-left: auto;
-  color: var(--primary-color-darken);
 }
 
 .new-item-button {
