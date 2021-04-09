@@ -1,5 +1,11 @@
 'use strict'
 
+/*
+* Patch of feathers-objection
+* Add/Improve filtering with operator `in` in JSON sub property
+* Add new method `whereNotNull` to handle not null data
+* */
+
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
@@ -67,6 +73,8 @@ const OPERATORS_MAP = {
 }
 const DESERIALIZED_ARRAY_OPERATORS = ['between', 'not between', '?|', '?&']
 const NON_COMPARISON_OPERATORS = ['@>', '?', '<@', '?|', '?&']
+const NUMERIC_COMPARISON_OPERATORS = ['<', '<=', '>', '>=']
+
 /**
  * Class representing an feathers adapter for Objection.js ORM.
  * @param {object} options
@@ -160,8 +168,8 @@ class Service extends _adapterCommons.AdapterService {
    * @param parentKey
    * @param methodKey
    * @param allowRefs
+   * @param hierarchy
    */
-
   objectify (query, params, parentKey, methodKey, allowRefs, hierarchy = []) {
     // console.log('objectify', query, params, parentKey, methodKey, allowRefs, hierarchy)
     if (params.$eager) {
@@ -266,11 +274,30 @@ class Service extends _adapterCommons.AdapterService {
             }
           }
 
-          if (method) {
-            return query[method].call(query, NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), value)
+          let refColumnParse = 'text'
+
+          if(NUMERIC_COMPARISON_OPERATORS.includes(operator)) {
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g
+            if (regex.test(value)) {
+              refColumnParse = 'text'
+            } else {
+              refColumnParse = 'decimal'
+            }
           }
 
-          return query.where(NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), operator, value)
+          if (method) {
+            return query[method].call(
+              query,
+              NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse),
+              value
+            )
+          }
+
+          return query.where(
+            NON_COMPARISON_OPERATORS.includes(operator) ? refColumn :refColumn.castTo(refColumnParse),
+            operator,
+            value
+          )
         }
       }
 
@@ -722,6 +749,7 @@ class Service extends _adapterCommons.AdapterService {
       })
     }).catch(_errorHandler.default)
   }
+
   /**
    * `remove` service function for Objection.
    * @param id

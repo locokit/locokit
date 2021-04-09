@@ -10,7 +10,10 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
  */
 export function fillLookedUpColumnInTableRowData (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.method === 'create' && context.type === 'after') {
+    if (
+      ['create', 'patch'].includes(context.method) &&
+      context.type === 'after'
+    ) {
       if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
         /**
          * For all rows of the current table, compute this looked up column
@@ -59,6 +62,16 @@ export function fillLookedUpColumnInTableRowData (): Hook {
               }
             }')::jsonb
             `
+            break
+          case COLUMN_TYPE.MULTI_SELECT:
+            newDataForCurrentColumn = `
+              ('{
+                "${context.result.id}": {
+                  "reference": "' || cast(foreignTableRow.id as text) || '",
+                  "value": ' || (foreignTableRow.data->'${context.result.settings.foreignField}')::jsonb || '
+                }
+              }')::jsonb
+              `
             break
           case COLUMN_TYPE.BOOLEAN:
           case COLUMN_TYPE.DATE:
@@ -112,7 +125,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         await (context.app.get('knex') as Knex).raw(rawRequest)
       }
     } else {
-      console.log('Hook only for create method. For the moment. Need to think about update / patch methods too.')
+      console.log('Hook only for create / patch method.')
     }
     return context
   }

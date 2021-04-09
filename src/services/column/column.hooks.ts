@@ -51,7 +51,9 @@ export default {
     ],
     update: [],
     patch: [
+      createGIX(),
       upsertColumnRelation(),
+      fillLookedUpColumnInTableRowData(),
       iff(isFormulaColumn(), updatedRelatedRowsFormula()),
     ],
     remove: [

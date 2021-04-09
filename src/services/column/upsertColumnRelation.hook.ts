@@ -12,15 +12,30 @@ export function upsertColumnRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     // LOOKED_UP_COLUMN
     if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
-      // On create
-      if (context.method === 'create') {
-        await context.app.services.columnrelation.create({
-          table_column_from_id: context.result.settings.foreignField,
-          table_column_to_id: context.result.id,
-        })
-      } else {
-        console.log('Hook only for create method. For the moment. Need to think about update / patch methods too.')
+      if (!['create', 'patch'].includes(context.method)) {
+        console.log('Hook only for create or patch method.')
+        return context
       }
+
+      /**
+       * remove colummn relation if any exist for the column_to_id
+       */
+      if (context.method === 'patch') {
+        await context.app.services.columnrelation._remove(null, {
+          query: {
+            table_column_to_id: context.result.id,
+          },
+        })
+      }
+
+      /**
+       * create the new column relation
+       */
+      await context.app.services.columnrelation.create({
+        table_column_from_id: context.result.settings.foreignField,
+        table_column_to_id: context.result.id,
+      })
+
     // FORMULA
     } else if (context.result.column_type_id === COLUMN_TYPE.FORMULA) {
       const columnsIdsUsedInFormula = Object.keys(context.params._meta?.columnsUsedInFormula || {})
