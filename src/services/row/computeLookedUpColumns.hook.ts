@@ -9,12 +9,18 @@ import { GeneralError } from '@feathersjs/errors'
 import { parse } from '../../utils/formulas/formulaParser'
 
 /**
- * Find the looked-up columns in one table using the value of updated columns
- * and the formula columns that reference the found ones.
+ * Find the columns to update (only FORMULA and LOOKED_UP_COLUMN)
+ * for a specific table (tableId).
+ *
+ * These columns are necessarily children of the columnsIdsTransmitted ones,
+ * or recursively children of these columnsIdsTransmitted ones (children of children of children ...).
+ *
  * @param columns The list of the columns with their descendants (i.e. the columns using their value)
  * @param columnsIdsTransmitted The list of ids of the updated columns
  * @param tableId The id of the table of the wanted columns
- * @param originalColumn The updated column on which the wanted columns are based
+ * @param originalColumn The updated column on which the wanted columns are based,
+ * useful for recursivity
+ *
  * @returns The list of updated and looked-up columns in one table using the value of the updated columns
  * and the formula columns that reference the found ones
  */
@@ -66,13 +72,16 @@ function getColumnsToUpdate (
 }
 
 /**
- * Get the patch requests to update the linked-up columns that reference the updated columns of the current row,
+ * Get the patch requests to update the looked-up columns
+ * that reference the updated columns of the current row,
  * and the formula columns that reference the same columns.
+ *
  * @param currentRow The row whose the columns were already updated
  * @param linkedColumns The list of the columns with their descendants (i.e. the columns using their value)
  * @param currentChildrenRows The list of the rows that reference the current one
  * @param service The service related to the tableRow model
  * @param columnsIdsTransmitted The list of ids of the updated columns
+ *
  * @returns an object containing the list of the the patch requests to update the founded linked-up columns,
  * and an object containing the formula columns and related rows to update, categorised according to the table they belong to.
  */
@@ -232,7 +241,10 @@ export function computeLookedUpColumns (): Hook {
         }
       }
     })
-    // Update looked-up columns
+    /**
+     * We need to update FIRST looked up columns, before FORMULA ones,
+     * to compute formulas with looked up columns up to date
+     */
     await Promise.all(allLookedUpColumnsPatchPromises)
 
     // Update formula columns
