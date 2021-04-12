@@ -73,7 +73,6 @@
               :editMode="editMode"
               :class="{
                 'p-mb-4': !editMode,
-                'map' : block.type === 'MapView' // need to be discussed with @alc : is this useful ?
               }"
               v-on="$listeners"
               @update-cell="onUpdateCell(block, $event)"

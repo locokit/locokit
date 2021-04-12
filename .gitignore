@@ -2,6 +2,11 @@
 node_modules
 /dist
 
+# Config
+/public/themes/**/config.js
+.env
+
+# Test
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
