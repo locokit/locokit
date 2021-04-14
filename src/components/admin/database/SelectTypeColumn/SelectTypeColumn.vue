@@ -142,8 +142,8 @@ export default {
       this.selectTypeValues.push({
         id: uuidv4(),
         label: '',
-        color: 'ff0000',
-        backgroundColor: 'ff0000',
+        color: '484848',
+        backgroundColor: 'cdcdcd',
         position: 0
       })
     },
