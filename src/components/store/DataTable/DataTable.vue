@@ -205,7 +205,18 @@
           <template
             #body="slotProps"
           >
-            {{ getValue(column, slotProps.data.data[column.id]) }}
+            <span
+              v-if="!isSingleSelect(column)"
+              class="lck-badge"
+              :style="{ color: '#ffffff', backgroundColor: red }"
+            >
+              <span class="lck-badge-content">{{ getValue(column, slotProps.data.data[column.id]) }}</span>
+            </span>
+            <span
+              v-else
+            >
+              {{ getValue(column, slotProps.data.data[column.id]) }}
+            </span>
             <span
               class="cell-state"
               :class="{
@@ -219,7 +230,7 @@
         </p-column>
         </div>
         <template #empty>
-          {{ $t('components.datatable.noDataToDisplay') }}
+          <p align="center">{{ $t('components.datatable.noDataToDisplay') }}</p>
         </template>
       </p-datatable>
 
@@ -407,7 +418,9 @@ export default {
         ) {
           result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
             value: k,
-            label: currentColumn.settings.values[k].label
+            label: currentColumn.settings.values[k].label,
+            color: currentColumn.settings.values[k].color,
+            backgroundColor: currentColumn.settings.values[k].backgroundColor
           }))
         }
       })
@@ -506,7 +519,13 @@ export default {
           case COLUMN_TYPE.MULTI_USER:
             return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:
-            return column.settings.values[data]?.label
+            return {
+              data: [
+                { label: column.settings.values[data]?.label },
+                { color: column.settings.values[data]?.color },
+                { backgroundColor: column.settings.values[data]?.backgroundColor }
+              ]
+            }
           case COLUMN_TYPE.MULTI_SELECT:
             if (data.length > 0) {
               return data.map(d => column.settings.values[d]?.label).join(', ')
@@ -525,6 +544,14 @@ export default {
       }
     },
     isSortableColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.SINGLE_SELECT:
+          return false
+        default:
+          return true
+      }
+    },
+    isSingleSelect (column) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.SINGLE_SELECT:
           return false
@@ -764,6 +791,7 @@ export default {
 
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th.p-resizable-column {
   min-width: 100px;
+  padding-right: 5px;
 }
 
 tr.p-datatable-emptymessage {
@@ -819,4 +847,27 @@ tr.p-datatable-emptymessage {
   z-index: 1;
 }
 
+.lck-badge {
+  /* Default color set */
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  padding: 0 0.5rem;
+  margin-left: 0.5rem;
+  display: inline-flex;
+  font-size: 0.8rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.lck-badge .lck-badge-content {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.lck-badge:first-of-type {
+  margin-left: 0;
+}
 </style>
