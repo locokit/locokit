@@ -1,7 +1,7 @@
 <template>
   <span
     class="lck-badge"
-    :style="{ color: badge.color, backgroundColor: badge.backgroundColor }"
+    :style="{ color: '#' + badge.color, backgroundColor: '#' + badge.backgroundColor }"
   >
     <span class="lck-badge-content">{{ badge.label }}</span>
   </span>
@@ -14,16 +14,9 @@ export default Vue.extend({
   name: 'LckBadge',
   props: {
     badge: {
-      type: Object as { label: string; color?: string; backgroundColor?: string }
+      type: Object as { label: string; color: string; backgroundColor: string }
     }
   }
-  // computed: {
-  //   badge () {
-  //     if (this.badge && !!this.badge.color) {
-  //
-  //     }
-  //   }
-  // }
 })
 
 </script>
@@ -31,9 +24,6 @@ export default Vue.extend({
 <style>
 
 .lck-badge {
-  /* Default color set */
-  background-color: var(--primary-color);
-  color: var(--text-color);
   border-radius: var(--border-radius);
   padding: 0 0.5rem;
   margin-left: 0.5rem;
