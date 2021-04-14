@@ -205,13 +205,10 @@
           <template
             #body="slotProps"
           >
-            <span
+            <lck-badge
               v-if="!isSingleSelect(column)"
-              class="lck-badge"
-              :style="{ color: '#ffffff', backgroundColor: red }"
-            >
-              <span class="lck-badge-content">{{ getValue(column, slotProps.data.data[column.id]) }}</span>
-            </span>
+              :badge="getValue(column, slotProps.data.data[column.id])"
+            />
             <span
               v-else
             >
@@ -276,6 +273,7 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import Badge from '@/components/ui/Badge/Badge'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -297,6 +295,7 @@ export default {
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
     'lck-input-url': InputURL,
+    'lck-badge': Badge,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -520,11 +519,9 @@ export default {
             return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:
             return {
-              data: [
-                { label: column.settings.values[data]?.label },
-                { color: column.settings.values[data]?.color },
-                { backgroundColor: column.settings.values[data]?.backgroundColor }
-              ]
+              label: column.settings.values[data]?.label,
+              color: column.settings.values[data]?.color,
+              backgroundColor: column.settings.values[data]?.backgroundColor
             }
           case COLUMN_TYPE.MULTI_SELECT:
             if (data.length > 0) {
@@ -847,27 +844,4 @@ tr.p-datatable-emptymessage {
   z-index: 1;
 }
 
-.lck-badge {
-  /* Default color set */
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border-radius: var(--border-radius);
-  padding: 0 0.5rem;
-  margin-left: 0.5rem;
-  display: inline-flex;
-  font-size: 0.8rem;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.lck-badge .lck-badge-content {
-  max-width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: inline-block;
-}
-
-.lck-badge:first-of-type {
-  margin-left: 0;
-}
 </style>
