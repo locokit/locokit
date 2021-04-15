@@ -28,10 +28,13 @@
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
-      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" />
+      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" :disabled="isFormulaType" />
       <p-input-number class="input-number-reference" v-model="referenceToHandle.position" :showButtons="true" :min="0" :maxFractionDigits="0" :disabled="!referenceToHandle.isActive" />
     </div>
-    <div>
+    <div class="p-field">
+      <label for="column-name">
+        {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
+      </label>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
         appendTo="body"
@@ -67,6 +70,8 @@
     <lck-formula-type-column
       v-if="selectedColumnTypeIdToHandle && isFormulaType"
       :columnToHandle="columnToHandle"
+      :errorHandleColumn="errorHandleColumn"
+      :tableColumns="tableColumns"
       @formula-change="formulaChange"
     />
 
@@ -83,6 +88,7 @@ import Vue from 'vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
+import { formulaColumnsNamesToIds } from '@/services/lck-utils/formula/'
 
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
@@ -118,6 +124,11 @@ export default {
     columnToHandle: {
       type: Object,
       required: false
+    },
+    tableColumns: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   },
   data () {
@@ -162,8 +173,8 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
-              column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType || this.isFormulaType ? this.settings : {}
+              // column_type_id: this.selectedColumnTypeIdToHandle,
+              settings: this.getSettings()
             })
           } else {
             await lckServices.tableColumn.create({
@@ -175,7 +186,7 @@ export default {
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType || this.isFormulaType ? this.settings : {}
+              settings: this.getSettings()
             })
           }
           this.columnNameToHandle = null
@@ -187,6 +198,15 @@ export default {
       } catch (errorHandleColumn) {
         this.errorHandleColumn = errorHandleColumn
       }
+    },
+    getSettings () {
+      if (this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType) {
+        return this.settings
+      }
+      if (this.isFormulaType) {
+        return this.formulaSettings()
+      }
+      return {}
     },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
@@ -215,6 +235,11 @@ export default {
     },
     formulaChange (data) {
       this.settings.formula = data
+    },
+    formulaSettings () {
+      return {
+        formula: formulaColumnsNamesToIds(this.settings.formula || '', this.tableColumns)
+      }
     }
   },
   watch: {
