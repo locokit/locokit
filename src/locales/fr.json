@@ -349,6 +349,7 @@
         "label": "Label",
         "color": "Couleur",
         "backgroundColor": "Couleur de fond",
+        "selectColor": "Choisir une couleur",
         "position": "Position",
         "defaultValue": "Valeur par défaut",
         "defaultValuePlaceholder": "Choisir une valeur par défaut"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="p-d-flex">
-      <div class="p-ai-start p-mb-4">
+      <div class="p-ai-start p-mb-4 p-ml-auto">
         <p-button
           @click="addSelectTypeValue"
           icon="pi pi-plus"
@@ -19,6 +19,8 @@
       </template>
       <p-column
         field="label"
+        headerClass="p-col-4"
+        bodyClass="p-col-4"
         :header="$t('pages.databaseSchema.selectType.label')"
       >
         <template #body="props">
@@ -27,37 +29,50 @@
       </p-column>
       <p-column
         field="color"
+        headerClass="p-col-4"
+        bodyClass="p-col-4"
         :header="$t('pages.databaseSchema.selectType.color')"
       >
         <template #body="props">
-          <p-color-picker
-            v-model="props.data.color"
-            class="single-select-color"
-            :inline="false"
-          />
-        </template>
-      </p-column>
-      <p-column
-        field="backgroundColor"
-        :header="$t('pages.databaseSchema.selectType.backgroundColor')"
-      >
-        <template #body="props">
-          <p-color-picker
-            v-model="props.data.backgroundColor"
-            class="single-select-background-color"
-            :inline="false"
-          />
+          <p-dropdown
+            :options="colorScheme"
+            dataKey="backgroundColor"
+            placeholder="$t('pages.databaseSchema.selectType.selectColor')"
+            :value="colorScheme.find(color => color.backgroundColor === props.data.backgroundColor)"
+            @change="onColorSelect($event,props.data)"
+          >
+            <template #value="slotProps">
+              <lck-badge
+                v-if="slotProps.value"
+                :label="props.data.label"
+                :backgroundColor="slotProps.value.backgroundColor"
+                :color="slotProps.value.color"
+              />
+            </template>
+            <template #option="slotProps">
+              <lck-badge
+                :label="props.data.label"
+                :backgroundColor="slotProps.option.backgroundColor"
+                :color="slotProps.option.color"
+              />
+            </template>
+          </p-dropdown>
         </template>
       </p-column>
       <p-column
         field="position"
+        headerClass="p-col-2"
+        bodyClass="p-col-2"
         :header="$t('pages.databaseSchema.selectType.position')"
       >
         <template #body="props">
           <p-input-number v-model="props.data.position" :min="0" />
         </template>
       </p-column>
-      <p-column>
+      <p-column
+        headerClass="p-col-1"
+        bodyClass="p-col-1"
+      >
         <template #body="props">
           <p-button
             icon="pi pi-trash"
@@ -102,7 +117,6 @@ import Vue from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
 import InputText from 'primevue/inputtext'
-import ColorPicker from 'primevue/colorpicker'
 import InputNumber from 'primevue/inputnumber'
 import Dropdown from 'primevue/dropdown'
 import DataTable from 'primevue/datatable'
@@ -110,18 +124,19 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import Badge from '@/components/ui/Badge/Badge'
 
 export default {
   name: 'SelectTypeColumn',
   components: {
     'p-input-text': Vue.extend(InputText),
-    'p-color-picker': Vue.extend(ColorPicker),
     'p-input-number': Vue.extend(InputNumber),
     'p-dropdown': Vue.extend(Dropdown),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'lck-dialog-form': DialogForm
+    'lck-dialog-form': DialogForm,
+    'lck-badge': Badge
   },
   props: {
     columnToHandle: {
@@ -134,7 +149,33 @@ export default {
       selectTypeValues: [],
       defaultSelectTypeValueId: null,
       showDeleteColumnModal: false,
-      currentSelectTypeValue: null
+      currentSelectTypeValue: null,
+      colorScheme: [
+        { name: '24', color: '#484848', backgroundColor: '#cdcdcd' },
+        { name: '1', color: '#484848', backgroundColor: '#fffbc2' },
+        { name: '2', color: '#484848', backgroundColor: '#ffedc3' },
+        { name: '3', color: '#484848', backgroundColor: '#ffe1d2' },
+        { name: '4', color: '#484848', backgroundColor: '#ffe4ea' },
+        { name: '5', color: '#484848', backgroundColor: '#ffdeff' },
+        { name: '6', color: '#484848', backgroundColor: '#e1e0ff' },
+        { name: '6', color: '#484848', backgroundColor: '#e3feeb' },
+        { name: '8', color: '#484848', backgroundColor: '#e4f7cf' },
+        { name: '9', color: '#484848', backgroundColor: '#dffbff' },
+        { name: '10', color: '#484848', backgroundColor: '#deedff' },
+        { name: '11', color: '#484848', backgroundColor: '#c3d8fa' },
+        { name: '12', color: '#484848', backgroundColor: '#ededed' },
+        { name: '13', color: '#ffffff', backgroundColor: '#fdda5b' },
+        { name: '14', color: '#ffffff', backgroundColor: '#f0b688' },
+        { name: '15', color: '#ffffff', backgroundColor: '#f87e8e' },
+        { name: '16', color: '#ffffff', backgroundColor: '#e499da' },
+        { name: '17', color: '#ffffff', backgroundColor: '#aa7bea' },
+        { name: '18', color: '#ffffff', backgroundColor: '#afa2f4' },
+        { name: '19', color: '#ffffff', backgroundColor: '#67d187' },
+        { name: '20', color: '#ffffff', backgroundColor: '#bae396' },
+        { name: '21', color: '#ffffff', backgroundColor: '#99daef' },
+        { name: '22', color: '#ffffff', backgroundColor: '#5bd4d5' },
+        { name: '23', color: '#ffffff', backgroundColor: '#55b3fe' }
+      ]
     }
   },
   methods: {
@@ -142,8 +183,8 @@ export default {
       this.selectTypeValues.push({
         id: uuidv4(),
         label: '',
-        color: '484848',
-        backgroundColor: 'cdcdcd',
+        color: this.colorScheme[0].color,
+        backgroundColor: this.colorScheme[0].backgroundColor,
         position: 0
       })
     },
@@ -160,6 +201,10 @@ export default {
       }
       this.selectTypeValues.splice(selectTypeValueIndex, 1)
       this.handleDeleteColumnModalVisibility(false, null)
+    },
+    onColorSelect (event, currentOption) {
+      currentOption.color = event.value.color
+      currentOption.backgroundColor = event.value.backgroundColor
     }
   },
   mounted () {
@@ -192,6 +237,13 @@ export default {
 /deep/ .p-datatable {
   transform: scale(1);
 }
+/deep/ .select-type-values-table {
+  -moz-box-shadow: inset 0 -10px 10px -10px #000000;
+  -webkit-box-shadow: inset 0 -10px 10px -10px #000000;
+  box-shadow: inset 0 -10px 10px -10px #000000;
+  border: 1px solid #ededed;
+  border-bottom: 2px solid #ededed;
+}
 /deep/ .select-type-values-table tbody {
   height: 200px;
   overflow-y: auto;
@@ -201,6 +253,13 @@ export default {
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+/deep/ .select-type-values-table .p-datatable-tbody > tr > td {
+  padding: 0.5rem !important;
+}
+/deep/.select-type-values-table .p-datatable-thead > tr > th {
+  padding: 0.5rem !important;
 }
 /deep/ .p-colorpicker-panel {
   display: block !important;

@@ -1,9 +1,9 @@
 <template>
   <span
     class="lck-badge"
-    :style="{ color: '#' + badge.color, backgroundColor: '#' + badge.backgroundColor }"
+    :style="{ color, backgroundColor }"
   >
-    <span class="lck-badge-content">{{ badge.label }}</span>
+    <span class="lck-badge-content">{{ label }}</span>
   </span>
 </template>
 
@@ -13,9 +13,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'LckBadge',
   props: {
-    badge: {
-      type: Object as { label: string; color: string; backgroundColor: string }
-    }
+    label: String, color: String, backgroundColor: String
   }
 })
 

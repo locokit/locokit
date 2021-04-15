@@ -166,7 +166,15 @@
               :placeholder="$t('components.datatable.placeholder')"
               @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
-            />
+            >
+              <template #option="slotProps">
+                <lck-badge
+                  :label="slotProps.option.label"
+                  :color="slotProps.option.color"
+                  :backgroundColor="slotProps.option.backgroundColor"
+                />
+              </template>
+            </p-dropdown>
             <lck-multiselect
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -207,7 +215,7 @@
           >
             <lck-badge
               v-if="!isSingleSelect(column)"
-              :badge="getValue(column, slotProps.data.data[column.id])"
+              v-bind="getValue(column, slotProps.data.data[column.id])"
             />
             <span
               v-else

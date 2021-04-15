@@ -347,6 +347,7 @@
         "label": "Label",
         "color": "Color",
         "backgroundColor": "Background color",
+        "selectColor": "Select color",
         "position": "Position",
         "defaultValue": "Default value",
         "defaultValuePlaceholder": "Select default value"
