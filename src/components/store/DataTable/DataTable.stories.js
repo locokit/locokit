@@ -58,19 +58,19 @@ const tableViewData = {
         settings: {
           values: {
             1: {
-              color: '#ef1',
-              label: 'En maintenance'
-
+              color: '#fff',
+              label: 'En maintenance',
+              backgroundColor: 'var(--surface-a)'
             },
             2: {
-              color: '#ef1',
-              label: 'En utilisation'
-
+              color: '#fff',
+              label: 'En utilisation',
+              backgroundColor: 'var(--surface-b)'
             },
             3: {
-              color: '#ef1',
-              label: 'Stocké'
-
+              color: '#fff',
+              label: 'Stocké',
+              backgroundColor: 'var(--surface-c)'
             }
           }
         },

@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/Badge Badge With Content 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="margin: 1em;"
+  >
+    <span
+      class="lck-badge"
+      style="color: rgb(255, 255, 255);"
+    >
+      <span
+        class="lck-badge-content"
+      >
+        This is a badge
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/Badge Multiple Badges With Content 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="margin: 1em;"
+  >
+    <div>
+      <span
+        class="lck-badge"
+        style="color: rgb(255, 255, 255);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          This is a badge
+        </span>
+      </span>
+       
+      <span
+        class="lck-badge"
+        style="color: rgb(255, 255, 255);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          This is a badge
+        </span>
+      </span>
+       
+      <span
+        class="lck-badge"
+        style="color: rgb(255, 255, 255);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          This is a badge
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/Badge default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="margin: 1em;"
+  >
+    <span
+      class="lck-badge"
+      style="color: rgb(72, 72, 72);"
+    >
+      <span
+        class="lck-badge-content"
+      >
+        This is a badge
+      </span>
+    </span>
+  </div>
+</div>
+`;

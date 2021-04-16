@@ -29,6 +29,9 @@ export default Vue.extend({
   font-size: 0.8rem;
   min-width: 0;
   max-width: 100%;
+  /* for default purpose */
+  background-color: #ccc;
+  color: #000;
 }
 
 .lck-badge .lck-badge-content {
