@@ -46,6 +46,11 @@ export function parseFormula (): Hook {
     // Get the input formula
     const newFormula = context.data.settings?.formula
 
+    // Prevent the formula column to be used as reference
+    if (context.data.reference) {
+      throw new NotAcceptable('Invalid column: a formula column can not be used as reference.')
+    }
+
     if (newFormula) {
       // Get the existing column if it is an update
       const updatedColumn = context.id ? context.params?._meta?.item : new TableColumn()
@@ -76,30 +81,18 @@ export function parseFormula (): Hook {
               paginate: false,
             })
           } catch (error) {
-            throw new NotAcceptable('Invalid formula: please check the columns identifiers.', {
-              code: 'INVALID_FORMULA_COLUMN',
-            })
+            // The parser will check if the specified columns are valid or not and
+            // will indicate the location of the invalid ones
           }
 
-          // Check that the specified columns exist
-          if (columnsUsedInFormula.length !== columnsIds.length) {
-            throw new NotAcceptable('Invalid formula: please check the columns identifiers.', {
-              code: 'INVALID_FORMULA_COLUMN',
-            })
-          }
-
-          // Check that the columns types are valid
+          // Get the columns that can be used in a formula
           columnsUsedInFormula.forEach(column => {
             if (
-              column.id === context.id ||
-              column.column_type_id === COLUMN_TYPE.FORMULA ||
-              !implementedInFormulaColumnTypes.includes(column.originalTypeId())
+              column.column_type_id !== COLUMN_TYPE.FORMULA &&
+              implementedInFormulaColumnTypes.includes(column.originalTypeId())
             ) {
-              throw new NotAcceptable(`Invalid formula: the following column can't be used in a formula: ${column.text}.`, {
-                code: 'INVALID_FORMULA_COLUMN_TYPE',
-              })
+              columnsUsedInFormulaObject[column.id] = column
             }
-            columnsUsedInFormulaObject[column.id] = column
           })
         }
 

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-case-declarations */
 import { Hook, HookContext } from '@feathersjs/feathers'
+import { TableColumn } from '../../models/tablecolumn.model'
 
 /**
  * Load the columns of the row being inserted / updated.
@@ -64,3 +65,27 @@ export function loadColumnsDefinition (): Hook {
     return context
   }
 };
+
+/**
+ * Load the updated columns of the row(s) being updated.
+ *
+ * @param {HookContext} context
+ * @returns {HookContext} the context with the list of updated columns (context.params._meta.updatedColumnsWithChildren)
+ */
+export function loadUpdatedColumnsWithChildren (): Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    // Check that the updated columns are formula columns
+    const updatedColumnsWithChildren = await context.app.services.column.find({
+      query: {
+        id: {
+          $in: context.params._meta.columnsIdsTransmitted,
+        },
+        table_id: context.params.query?.table_id,
+        $eager: '[children.^]',
+      },
+      paginate: false,
+    }) as TableColumn[]
+    context.params._meta.updatedColumnsWithChildren = updatedColumnsWithChildren
+    return context
+  }
+}

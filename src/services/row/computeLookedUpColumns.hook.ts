@@ -187,15 +187,7 @@ export function computeLookedUpColumns (): Hook {
     const updatedRows: TableRow[] = Array.isArray(context.result) ? context.result : [context.result]
 
     // find if some of the columns are linked to the updated ones via the table_column_relation
-    const updatedColumnsWithChildren: TableColumn[] = context.params._meta.updatedColumnsWithChildren ?? await context.app.services.column.find({
-      query: {
-        id: {
-          $in: context.params._meta.columnsIdsTransmitted,
-        },
-        $eager: 'children.^',
-      },
-      paginate: false,
-    })
+    const updatedColumnsWithChildren: TableColumn[] = context.params._meta.updatedColumnsWithChildren
 
     // find if some of the rows are linked to the updated ones via the table_row_relation
     const updatedRowsWithChildren: TableRow[] = await context.app.services.row.find({

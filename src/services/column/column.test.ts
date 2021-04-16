@@ -302,7 +302,7 @@ describe('hooks for column service', () => {
             column_type_id: COLUMN_TYPE.FORMULA,
             table_id: table1.id,
             settings: {
-              formula: `TEXT.CONCAT(COLUMN.${stringColumn1.id},COLUMN.${stringColumn2.id})`,
+              formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}},COLUMN.{${stringColumn2.id}})`,
             },
           })
           // Get created column relations and delete them
@@ -356,7 +356,7 @@ describe('hooks for column service', () => {
               column_type_id: COLUMN_TYPE.FORMULA,
               table_id: table1.id,
               settings: {
-                formula: `COLUMN.${stringColumn1.id}`,
+                formula: `COLUMN.{${stringColumn1.id}}`,
               },
             })
             await app.service('column').patch(formulaColumn.id, {
@@ -418,7 +418,7 @@ describe('hooks for column service', () => {
             await app.service('column').patch(formulaColumn.id, {
               column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
-                formula: `TEXT.CONCAT(COLUMN.${stringColumn1.id},COLUMN.${stringColumn2.id})`,
+                formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}},COLUMN.{${stringColumn2.id}})`,
               },
             })
             // Get created column relations and delete them
@@ -448,13 +448,13 @@ describe('hooks for column service', () => {
               column_type_id: COLUMN_TYPE.FORMULA,
               table_id: table1.id,
               settings: {
-                formula: `COLUMN.${stringColumn1.id}`,
+                formula: `COLUMN.{${stringColumn1.id}}`,
               },
             })
             await app.service('column').patch(formulaColumn.id, {
               column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
-                formula: `TEXT.CONCAT(COLUMN.${stringColumn2.id})`,
+                formula: `TEXT.CONCAT(COLUMN.{${stringColumn2.id}})`,
               },
             })
             // Get created column relations and delete them
@@ -477,13 +477,13 @@ describe('hooks for column service', () => {
               column_type_id: COLUMN_TYPE.FORMULA,
               table_id: table1.id,
               settings: {
-                formula: `COLUMN.${stringColumn1.id}`,
+                formula: `COLUMN.{${stringColumn1.id}}`,
               },
             })
             await app.service('column').patch(formulaColumn.id, {
               column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
-                formula: `TEXT.CONCAT(COLUMN.${stringColumn1.id})`,
+                formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}})`,
               },
             })
             // Get created column relations and delete them
@@ -506,13 +506,13 @@ describe('hooks for column service', () => {
               column_type_id: COLUMN_TYPE.FORMULA,
               table_id: table1.id,
               settings: {
-                formula: `COLUMN.${stringColumn1.id}`,
+                formula: `COLUMN.{${stringColumn1.id}}`,
               },
             })
             await app.service('column').patch(formulaColumn.id, {
               column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
-                formula: `TEXT.CONCAT(COLUMN.${stringColumn1.id}, COLUMN.${stringColumn2.id})`,
+                formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}}, COLUMN.{${stringColumn2.id}})`,
               },
             })
             // Get created column relations and delete them

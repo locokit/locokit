@@ -16,6 +16,7 @@ describe('\'triggerProcess\' hook', () => {
   let table1: Table
   let tableColumn: TableColumn
   let tableColumn1: TableColumn
+  let tableFormulaColumn: TableColumn
   let tableRow1: TableRow
   let tableRow2: TableRow
   const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
@@ -45,6 +46,14 @@ describe('\'triggerProcess\' hook', () => {
       text: 'My other column',
       table_id: table1.id,
       column_type_id: COLUMN_TYPE.STRING,
+    })
+    tableFormulaColumn = await app.service('column').create({
+      text: 'My Formula column',
+      table_id: table1.id,
+      column_type_id: COLUMN_TYPE.FORMULA,
+      settings: {
+        formula: '10',
+      },
     })
   })
 
@@ -277,7 +286,7 @@ describe('\'triggerProcess\' hook', () => {
 
     await app.service('row').patch(null, {
       data: {
-        [tableColumn.id]: 'yolo',
+        [tableFormulaColumn.id]: 20,
       },
     },
     {
@@ -315,6 +324,7 @@ describe('\'triggerProcess\' hook', () => {
   afterEach(async () => {
     await app.service('column').remove(tableColumn1.id)
     await app.service('column').remove(tableColumn.id)
+    await app.service('column').remove(tableFormulaColumn.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
     await app.service('workspace').remove(workspace.id)

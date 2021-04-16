@@ -177,11 +177,16 @@ function peg$parse(input: string, options?: IParseOptions) {
   const peg$c9 = ")";
   const peg$c10 = peg$literalExpectation(")", false);
   const peg$c11 = function(category: any, name: any, args: any): any {
+      // If there is an error, only underline the prefix : 'CATEGORY.FUNCTION_NAME'
+      const errorPositionLimit = location()
+      errorPositionLimit.end.column = errorPositionLimit.start.column + category.length + 1 + name.length
+
       if (functions[category]?.[name]) {
         const currentFunction = functions[category][name]
 
-        let docParamIndex = 0
-        let realParamIndex = 0
+        let docParamIndex = 0 // Current parameter from the documentation
+        let realParamIndex = 0 // Current parameter contained in the formula
+        let multipleParamIndex = 1 // Index of the multiple parameter to specify a specific parameter in the error messages
 
         // Check type parameters
         if (Array.isArray(currentFunction.params)) {
@@ -194,7 +199,6 @@ function peg$parse(input: string, options?: IParseOptions) {
 
             // The current doc parameter is an array (related parameters)
             if (Array.isArray(docParam) && docParam.length > 0) {
-              let checkFollowingDocParam = false
 
               // Check if the related parameters are correct
               for (let relatedParamIndex = 0; relatedParamIndex < docParam.length; relatedParamIndex++) {
@@ -203,68 +207,80 @@ function peg$parse(input: string, options?: IParseOptions) {
                 if (!checkParamsTypes(docParam[relatedParamIndex].type, realParamType)) {
                   // The type of one related parameter is incorrect
                   if (!requiredAndMultipleParamsIndexes.has(docParamIndex)) {
-                    // The parameters are required at least once
-                    error(`the '${docParam[relatedParamIndex].name}' argument of the '${category}.${name}' function is invalid.`)
+                    // Throw an error if we don't encounter them yet (the related parameters are required at least once)
+                    // or if it is the last parameter
+                    error(`the '${docParam[relatedParamIndex].name}${multipleParamIndex}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
                   } else {
                     // Maybe it corresponds to the following doc parameter
                     docParamIndex += 1
-                    checkFollowingDocParam = true
+                    multipleParamIndex = 1
                     break
                   }
                 } else if (relatedParamIndex === docParam.length - 1) {
-                  // The type of the related parameters are correct at least once
+                  // All the related parameters are correct
                   requiredAndMultipleParamsIndexes.add(docParamIndex)
+                  // Check the following real parameter with the same doc parameter
+                  realParamIndex += docParam.length
+                  multipleParamIndex += 1
                 }
-              }
-              if (!checkFollowingDocParam) {
-                // If the related parameters are correct, we will check the following real parameters
-                // with the same doc parameter
-                realParamIndex += docParam.length
               }
             } else {
               // The current doc parameter is not an array (single parameter)
               const realParamType = args?.[realParamIndex]?.type
               // A parameter is required if it's is specified and if it's a multiple one, if we have not already encountered it
               const paramIsRequired = (docParam.required !== false) && (!requiredAndMultipleParamsIndexes.has(docParamIndex))
-              // The current documentation parameter is required
               if (paramIsRequired !== false) {
+                // The current documentation parameter is required
                 if (!realParamType) {
-                  error(`the '${docParam.name}' argument of the '${category}.${name}' function is missing.`)
-                }
-                else if (checkParamsTypes(docParam.type, realParamType)) {
+                  // The parameter is not specified
+                  error(`the '${docParam.name}${docParam.multiple === true ? multipleParamIndex : ''}' argument of the '${category}.${name}' function is missing.`, errorPositionLimit)
+                } else if (checkParamsTypes(docParam.type, realParamType)) {
+                  // The parameter is specified and correct
                   realParamIndex += 1
                   if (docParam.multiple === true) {
+                    // The parameter is multiple -> check the following real parameter with the same doc parameter
                     requiredAndMultipleParamsIndexes.add(docParamIndex)
+                    multipleParamIndex += 1
                   } else {
+                    // The parameter is not multiple -> check the following real parameter with the following doc parameter
                     docParamIndex += 1
+                    multipleParamIndex = 1
                   }
                 } else {
-                  error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                  // The parameter is specified but incorrect
+                  error(`the '${docParam.name}${docParam.multiple === true ? multipleParamIndex : ''}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
                 }
-              }
-              // The current parameter is not required and not specified
-              else if (!realParamType) {
+              } else if (!realParamType) {
+                // The current parameter is not required and not specified
                 docParamIndex += 1
-              }
-              // The current documentation parameter is specified and multiple but not required
-              else if (docParam.multiple === true) {
+                multipleParamIndex = 1
+              } else if (docParam.multiple === true) {
+                // The current documentation parameter is specified and multiple but not required
                 if (checkParamsTypes(docParam.type, realParamType)) {
+                  // The parameter is correct -> check the following real parameter with the same doc parameter
                   realParamIndex += 1
+                  multipleParamIndex += 1
+                  
+                // } else if (docParamIndex === (currentFunction.params.length - 1)) {
                 } else if (docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
-                  // Last parameter -> incorrect argument
-                  error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                  // The parameter is incorrect and this is the last one -> throw an error
+                  error(`the '${docParam.name}${multipleParamIndex}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
                 } else {
-                  // Maybe the following parameter has the good type
+                  // The parameter is incorrect but this is not the last one -> maybe it corresponds to the following doc parameter
                   docParamIndex += 1
+                  multipleParamIndex = 1
                 }
               }
               // The current documentation parameter is specified but neither required nor multiple
               else {
                 if (checkParamsTypes(docParam.type, realParamType)) {
+                  // The parameter is correct -> check the following real parameter with the following doc parameter
                   docParamIndex += 1
+                  multipleParamIndex = 1
                   realParamIndex += 1
                 } else {
-                  error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                  // The parameter is incorrect -> throw an error
+                  error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
                 }
               }
             }
@@ -272,20 +288,29 @@ function peg$parse(input: string, options?: IParseOptions) {
         }
         // Invalid number of parameters
         if (args && args.length !== realParamIndex ) {
-          error(`the arguments of the '${category}.${name}' function are invalid.`)
+          error(`the arguments of the '${category}.${name}' function are invalid.`, errorPositionLimit)
         }
 
         // Return the type and the value related to the function
         if (currentFunction.pgsql && currentFunction.returnType) {
+          const argValues: string[] = []
+          let stringValues: Record<string, string> = {}
+          if (Array.isArray(args)) {
+            args.forEach(arg => {
+              argValues.push(arg.value)
+              Object.assign(stringValues, arg.stringValues ?? {});
+            })
+          }
           return {
-            value: `(${ Array.isArray(args) ? currentFunction.pgsql(...args.map(arg => arg.value)) : currentFunction.pgsql()})`,
+            value: `(${ currentFunction.pgsql(...argValues)})`,
             type: currentFunction.returnType,
+            stringValues
           }
         } else {
-          error(`the '${category}.${name}' function isn't well configured.`)
+          error(`the '${category}.${name}' function isn't well configured.`, errorPositionLimit)
         }
       } else {
-        error(`the '${category}.${name}' function doesn't exist.`)
+        error(`the '${category}.${name}' function doesn't exist.`, errorPositionLimit)
       }
     };
   const peg$c12 = ",";
@@ -304,24 +329,28 @@ function peg$parse(input: string, options?: IParseOptions) {
   const peg$c20 = /^[ABCDEFGHIJKLMNOPQRSTUVWXYZ\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD0\xD1\xD2\xD3\xD4\xD5\xD6\xD8\xD9\xDA\xDB\xDC\xDD\xDE\u0100\u0102\u0104\u0106\u0108\u010A\u010C\u010E\u0110\u0112\u0114\u0116\u0118\u011A\u011C\u011E\u0120\u0122\u0124\u0126\u0128\u012A\u012C\u012E\u0130\u0132\u0134\u0136\u0139\u013B\u013D\u013F\u0141\u0143\u0145\u0147\u014A\u014C\u014E\u0150\u0152\u0154\u0156\u0158\u015A\u015C\u015E\u0160\u0162\u0164\u0166\u0168\u016A\u016C\u016E\u0170\u0172\u0174\u0176\u0178\u0179\u017B\u017D\u0181\u0182\u0184\u0186\u0187\u0189\u018A\u018B\u018E\u018F\u0190\u0191\u0193\u0194\u0196\u0197\u0198\u019C\u019D\u019F\u01A0\u01A2\u01A4\u01A6\u01A7\u01A9\u01AC\u01AE\u01AF\u01B1\u01B2\u01B3\u01B5\u01B7\u01B8\u01BC\u01C4\u01C7\u01CA\u01CD\u01CF\u01D1\u01D3\u01D5\u01D7\u01D9\u01DB\u01DE\u01E0\u01E2\u01E4\u01E6\u01E8\u01EA\u01EC\u01EE\u01F1\u01F4\u01F6\u01F7\u01F8\u01FA\u01FC\u01FE\u0200\u0202\u0204\u0206\u0208\u020A\u020C\u020E\u0210\u0212\u0214\u0216\u0218\u021A\u021C\u021E\u0220\u0222\u0224\u0226\u0228\u022A\u022C\u022E\u0230\u0232\u023A\u023B\u023D\u023E\u0241\u0243\u0244\u0245\u0246\u0248\u024A\u024C\u024E\u0370\u0372\u0376\u0386\u0388\u0389\u038A\u038C\u038E\u038F\u0391\u0392\u0393\u0394\u0395\u0396\u0397\u0398\u0399\u039A\u039B\u039C\u039D\u039E\u039F\u03A0\u03A1\u03A3\u03A4\u03A5\u03A6\u03A7\u03A8\u03A9\u03AA\u03AB\u03CF\u03D2\u03D3\u03D4\u03D8\u03DA\u03DC\u03DE\u03E0\u03E2\u03E4\u03E6\u03E8\u03EA\u03EC\u03EE\u03F4\u03F7\u03F9\u03FA\u03FD\u03FE\u03FF\u0400\u0401\u0402\u0403\u0404\u0405\u0406\u0407\u0408\u0409\u040A\u040B\u040C\u040D\u040E\u040F\u0410\u0411\u0412\u0413\u0414\u0415\u0416\u0417\u0418\u0419\u041A\u041B\u041C\u041D\u041E\u041F\u0420\u0421\u0422\u0423\u0424\u0425\u0426\u0427\u0428\u0429\u042A\u042B\u042C\u042D\u042E\u042F\u0460\u0462\u0464\u0466\u0468\u046A\u046C\u046E\u0470\u0472\u0474\u0476\u0478\u047A\u047C\u047E\u0480\u048A\u048C\u048E\u0490\u0492\u0494\u0496\u0498\u049A\u049C\u049E\u04A0\u04A2\u04A4\u04A6\u04A8\u04AA\u04AC\u04AE\u04B0\u04B2\u04B4\u04B6\u04B8\u04BA\u04BC\u04BE\u04C0\u04C1\u04C3\u04C5\u04C7\u04C9\u04CB\u04CD\u04D0\u04D2\u04D4\u04D6\u04D8\u04DA\u04DC\u04DE\u04E0\u04E2\u04E4\u04E6\u04E8\u04EA\u04EC\u04EE\u04F0\u04F2\u04F4\u04F6\u04F8\u04FA\u04FC\u04FE\u0500\u0502\u0504\u0506\u0508\u050A\u050C\u050E\u0510\u0512\u0514\u0516\u0518\u051A\u051C\u051E\u0520\u0522\u0531\u0532\u0533\u0534\u0535\u0536\u0537\u0538\u0539\u053A\u053B\u053C\u053D\u053E\u053F\u0540\u0541\u0542\u0543\u0544\u0545\u0546\u0547\u0548\u0549\u054A\u054B\u054C\u054D\u054E\u054F\u0550\u0551\u0552\u0553\u0554\u0555\u0556\u10A0\u10A1\u10A2\u10A3\u10A4\u10A5\u10A6\u10A7\u10A8\u10A9\u10AA\u10AB\u10AC\u10AD\u10AE\u10AF\u10B0\u10B1\u10B2\u10B3\u10B4\u10B5\u10B6\u10B7\u10B8\u10B9\u10BA\u10BB\u10BC\u10BD\u10BE\u10BF\u10C0\u10C1\u10C2\u10C3\u10C4\u10C5\u1E00\u1E02\u1E04\u1E06\u1E08\u1E0A\u1E0C\u1E0E\u1E10\u1E12\u1E14\u1E16\u1E18\u1E1A\u1E1C\u1E1E\u1E20\u1E22\u1E24\u1E26\u1E28\u1E2A\u1E2C\u1E2E\u1E30\u1E32\u1E34\u1E36\u1E38\u1E3A\u1E3C\u1E3E\u1E40\u1E42\u1E44\u1E46\u1E48\u1E4A\u1E4C\u1E4E\u1E50\u1E52\u1E54\u1E56\u1E58\u1E5A\u1E5C\u1E5E\u1E60\u1E62\u1E64\u1E66\u1E68\u1E6A\u1E6C\u1E6E\u1E70\u1E72\u1E74\u1E76\u1E78\u1E7A\u1E7C\u1E7E\u1E80\u1E82\u1E84\u1E86\u1E88\u1E8A\u1E8C\u1E8E\u1E90\u1E92\u1E94\u1E9E\u1EA0\u1EA2\u1EA4\u1EA6\u1EA8\u1EAA\u1EAC\u1EAE\u1EB0\u1EB2\u1EB4\u1EB6\u1EB8\u1EBA\u1EBC\u1EBE\u1EC0\u1EC2\u1EC4\u1EC6\u1EC8\u1ECA\u1ECC\u1ECE\u1ED0\u1ED2\u1ED4\u1ED6\u1ED8\u1EDA\u1EDC\u1EDE\u1EE0\u1EE2\u1EE4\u1EE6\u1EE8\u1EEA\u1EEC\u1EEE\u1EF0\u1EF2\u1EF4\u1EF6\u1EF8\u1EFA\u1EFC\u1EFE\u1F08\u1F09\u1F0A\u1F0B\u1F0C\u1F0D\u1F0E\u1F0F\u1F18\u1F19\u1F1A\u1F1B\u1F1C\u1F1D\u1F28\u1F29\u1F2A\u1F2B\u1F2C\u1F2D\u1F2E\u1F2F\u1F38\u1F39\u1F3A\u1F3B\u1F3C\u1F3D\u1F3E\u1F3F\u1F48\u1F49\u1F4A\u1F4B\u1F4C\u1F4D\u1F59\u1F5B\u1F5D\u1F5F\u1F68\u1F69\u1F6A\u1F6B\u1F6C\u1F6D\u1F6E\u1F6F\u1FB8\u1FB9\u1FBA\u1FBB\u1FC8\u1FC9\u1FCA\u1FCB\u1FD8\u1FD9\u1FDA\u1FDB\u1FE8\u1FE9\u1FEA\u1FEB\u1FEC\u1FF8\u1FF9\u1FFA\u1FFB\u2102\u2107\u210B\u210C\u210D\u2110\u2111\u2112\u2115\u2119\u211A\u211B\u211C\u211D\u2124\u2126\u2128\u212A\u212B\u212C\u212D\u2130\u2131\u2132\u2133\u213E\u213F\u2145\u2183\u2C00\u2C01\u2C02\u2C03\u2C04\u2C05\u2C06\u2C07\u2C08\u2C09\u2C0A\u2C0B\u2C0C\u2C0D\u2C0E\u2C0F\u2C10\u2C11\u2C12\u2C13\u2C14\u2C15\u2C16\u2C17\u2C18\u2C19\u2C1A\u2C1B\u2C1C\u2C1D\u2C1E\u2C1F\u2C20\u2C21\u2C22\u2C23\u2C24\u2C25\u2C26\u2C27\u2C28\u2C29\u2C2A\u2C2B\u2C2C\u2C2D\u2C2E\u2C60\u2C62\u2C63\u2C64\u2C67\u2C69\u2C6B\u2C6D\u2C6E\u2C6F\u2C72\u2C75\u2C80\u2C82\u2C84\u2C86\u2C88\u2C8A\u2C8C\u2C8E\u2C90\u2C92\u2C94\u2C96\u2C98\u2C9A\u2C9C\u2C9E\u2CA0\u2CA2\u2CA4\u2CA6\u2CA8\u2CAA\u2CAC\u2CAE\u2CB0\u2CB2\u2CB4\u2CB6\u2CB8\u2CBA\u2CBC\u2CBE\u2CC0\u2CC2\u2CC4\u2CC6\u2CC8\u2CCA\u2CCC\u2CCE\u2CD0\u2CD2\u2CD4\u2CD6\u2CD8\u2CDA\u2CDC\u2CDE\u2CE0\u2CE2\uA640\uA642\uA644\uA646\uA648\uA64A\uA64C\uA64E\uA650\uA652\uA654\uA656\uA658\uA65A\uA65C\uA65E\uA662\uA664\uA666\uA668\uA66A\uA66C\uA680\uA682\uA684\uA686\uA688\uA68A\uA68C\uA68E\uA690\uA692\uA694\uA696\uA722\uA724\uA726\uA728\uA72A\uA72C\uA72E\uA732\uA734\uA736\uA738\uA73A\uA73C\uA73E\uA740\uA742\uA744\uA746\uA748\uA74A\uA74C\uA74E\uA750\uA752\uA754\uA756\uA758\uA75A\uA75C\uA75E\uA760\uA762\uA764\uA766\uA768\uA76A\uA76C\uA76E\uA779\uA77B\uA77D\uA77E\uA780\uA782\uA784\uA786\uA78B\uFF21\uFF22\uFF23\uFF24\uFF25\uFF26\uFF27\uFF28\uFF29\uFF2A\uFF2B\uFF2C\uFF2D\uFF2E\uFF2F\uFF30\uFF31\uFF32\uFF33\uFF34\uFF35\uFF36\uFF37\uFF38\uFF39\uFF3A]/;
   const peg$c21 = peg$classExpectation(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "\xC0", "\xC1", "\xC2", "\xC3", "\xC4", "\xC5", "\xC6", "\xC7", "\xC8", "\xC9", "\xCA", "\xCB", "\xCC", "\xCD", "\xCE", "\xCF", "\xD0", "\xD1", "\xD2", "\xD3", "\xD4", "\xD5", "\xD6", "\xD8", "\xD9", "\xDA", "\xDB", "\xDC", "\xDD", "\xDE", "\u0100", "\u0102", "\u0104", "\u0106", "\u0108", "\u010A", "\u010C", "\u010E", "\u0110", "\u0112", "\u0114", "\u0116", "\u0118", "\u011A", "\u011C", "\u011E", "\u0120", "\u0122", "\u0124", "\u0126", "\u0128", "\u012A", "\u012C", "\u012E", "\u0130", "\u0132", "\u0134", "\u0136", "\u0139", "\u013B", "\u013D", "\u013F", "\u0141", "\u0143", "\u0145", "\u0147", "\u014A", "\u014C", "\u014E", "\u0150", "\u0152", "\u0154", "\u0156", "\u0158", "\u015A", "\u015C", "\u015E", "\u0160", "\u0162", "\u0164", "\u0166", "\u0168", "\u016A", "\u016C", "\u016E", "\u0170", "\u0172", "\u0174", "\u0176", "\u0178", "\u0179", "\u017B", "\u017D", "\u0181", "\u0182", "\u0184", "\u0186", "\u0187", "\u0189", "\u018A", "\u018B", "\u018E", "\u018F", "\u0190", "\u0191", "\u0193", "\u0194", "\u0196", "\u0197", "\u0198", "\u019C", "\u019D", "\u019F", "\u01A0", "\u01A2", "\u01A4", "\u01A6", "\u01A7", "\u01A9", "\u01AC", "\u01AE", "\u01AF", "\u01B1", "\u01B2", "\u01B3", "\u01B5", "\u01B7", "\u01B8", "\u01BC", "\u01C4", "\u01C7", "\u01CA", "\u01CD", "\u01CF", "\u01D1", "\u01D3", "\u01D5", "\u01D7", "\u01D9", "\u01DB", "\u01DE", "\u01E0", "\u01E2", "\u01E4", "\u01E6", "\u01E8", "\u01EA", "\u01EC", "\u01EE", "\u01F1", "\u01F4", "\u01F6", "\u01F7", "\u01F8", "\u01FA", "\u01FC", "\u01FE", "\u0200", "\u0202", "\u0204", "\u0206", "\u0208", "\u020A", "\u020C", "\u020E", "\u0210", "\u0212", "\u0214", "\u0216", "\u0218", "\u021A", "\u021C", "\u021E", "\u0220", "\u0222", "\u0224", "\u0226", "\u0228", "\u022A", "\u022C", "\u022E", "\u0230", "\u0232", "\u023A", "\u023B", "\u023D", "\u023E", "\u0241", "\u0243", "\u0244", "\u0245", "\u0246", "\u0248", "\u024A", "\u024C", "\u024E", "\u0370", "\u0372", "\u0376", "\u0386", "\u0388", "\u0389", "\u038A", "\u038C", "\u038E", "\u038F", "\u0391", "\u0392", "\u0393", "\u0394", "\u0395", "\u0396", "\u0397", "\u0398", "\u0399", "\u039A", "\u039B", "\u039C", "\u039D", "\u039E", "\u039F", "\u03A0", "\u03A1", "\u03A3", "\u03A4", "\u03A5", "\u03A6", "\u03A7", "\u03A8", "\u03A9", "\u03AA", "\u03AB", "\u03CF", "\u03D2", "\u03D3", "\u03D4", "\u03D8", "\u03DA", "\u03DC", "\u03DE", "\u03E0", "\u03E2", "\u03E4", "\u03E6", "\u03E8", "\u03EA", "\u03EC", "\u03EE", "\u03F4", "\u03F7", "\u03F9", "\u03FA", "\u03FD", "\u03FE", "\u03FF", "\u0400", "\u0401", "\u0402", "\u0403", "\u0404", "\u0405", "\u0406", "\u0407", "\u0408", "\u0409", "\u040A", "\u040B", "\u040C", "\u040D", "\u040E", "\u040F", "\u0410", "\u0411", "\u0412", "\u0413", "\u0414", "\u0415", "\u0416", "\u0417", "\u0418", "\u0419", "\u041A", "\u041B", "\u041C", "\u041D", "\u041E", "\u041F", "\u0420", "\u0421", "\u0422", "\u0423", "\u0424", "\u0425", "\u0426", "\u0427", "\u0428", "\u0429", "\u042A", "\u042B", "\u042C", "\u042D", "\u042E", "\u042F", "\u0460", "\u0462", "\u0464", "\u0466", "\u0468", "\u046A", "\u046C", "\u046E", "\u0470", "\u0472", "\u0474", "\u0476", "\u0478", "\u047A", "\u047C", "\u047E", "\u0480", "\u048A", "\u048C", "\u048E", "\u0490", "\u0492", "\u0494", "\u0496", "\u0498", "\u049A", "\u049C", "\u049E", "\u04A0", "\u04A2", "\u04A4", "\u04A6", "\u04A8", "\u04AA", "\u04AC", "\u04AE", "\u04B0", "\u04B2", "\u04B4", "\u04B6", "\u04B8", "\u04BA", "\u04BC", "\u04BE", "\u04C0", "\u04C1", "\u04C3", "\u04C5", "\u04C7", "\u04C9", "\u04CB", "\u04CD", "\u04D0", "\u04D2", "\u04D4", "\u04D6", "\u04D8", "\u04DA", "\u04DC", "\u04DE", "\u04E0", "\u04E2", "\u04E4", "\u04E6", "\u04E8", "\u04EA", "\u04EC", "\u04EE", "\u04F0", "\u04F2", "\u04F4", "\u04F6", "\u04F8", "\u04FA", "\u04FC", "\u04FE", "\u0500", "\u0502", "\u0504", "\u0506", "\u0508", "\u050A", "\u050C", "\u050E", "\u0510", "\u0512", "\u0514", "\u0516", "\u0518", "\u051A", "\u051C", "\u051E", "\u0520", "\u0522", "\u0531", "\u0532", "\u0533", "\u0534", "\u0535", "\u0536", "\u0537", "\u0538", "\u0539", "\u053A", "\u053B", "\u053C", "\u053D", "\u053E", "\u053F", "\u0540", "\u0541", "\u0542", "\u0543", "\u0544", "\u0545", "\u0546", "\u0547", "\u0548", "\u0549", "\u054A", "\u054B", "\u054C", "\u054D", "\u054E", "\u054F", "\u0550", "\u0551", "\u0552", "\u0553", "\u0554", "\u0555", "\u0556", "\u10A0", "\u10A1", "\u10A2", "\u10A3", "\u10A4", "\u10A5", "\u10A6", "\u10A7", "\u10A8", "\u10A9", "\u10AA", "\u10AB", "\u10AC", "\u10AD", "\u10AE", "\u10AF", "\u10B0", "\u10B1", "\u10B2", "\u10B3", "\u10B4", "\u10B5", "\u10B6", "\u10B7", "\u10B8", "\u10B9", "\u10BA", "\u10BB", "\u10BC", "\u10BD", "\u10BE", "\u10BF", "\u10C0", "\u10C1", "\u10C2", "\u10C3", "\u10C4", "\u10C5", "\u1E00", "\u1E02", "\u1E04", "\u1E06", "\u1E08", "\u1E0A", "\u1E0C", "\u1E0E", "\u1E10", "\u1E12", "\u1E14", "\u1E16", "\u1E18", "\u1E1A", "\u1E1C", "\u1E1E", "\u1E20", "\u1E22", "\u1E24", "\u1E26", "\u1E28", "\u1E2A", "\u1E2C", "\u1E2E", "\u1E30", "\u1E32", "\u1E34", "\u1E36", "\u1E38", "\u1E3A", "\u1E3C", "\u1E3E", "\u1E40", "\u1E42", "\u1E44", "\u1E46", "\u1E48", "\u1E4A", "\u1E4C", "\u1E4E", "\u1E50", "\u1E52", "\u1E54", "\u1E56", "\u1E58", "\u1E5A", "\u1E5C", "\u1E5E", "\u1E60", "\u1E62", "\u1E64", "\u1E66", "\u1E68", "\u1E6A", "\u1E6C", "\u1E6E", "\u1E70", "\u1E72", "\u1E74", "\u1E76", "\u1E78", "\u1E7A", "\u1E7C", "\u1E7E", "\u1E80", "\u1E82", "\u1E84", "\u1E86", "\u1E88", "\u1E8A", "\u1E8C", "\u1E8E", "\u1E90", "\u1E92", "\u1E94", "\u1E9E", "\u1EA0", "\u1EA2", "\u1EA4", "\u1EA6", "\u1EA8", "\u1EAA", "\u1EAC", "\u1EAE", "\u1EB0", "\u1EB2", "\u1EB4", "\u1EB6", "\u1EB8", "\u1EBA", "\u1EBC", "\u1EBE", "\u1EC0", "\u1EC2", "\u1EC4", "\u1EC6", "\u1EC8", "\u1ECA", "\u1ECC", "\u1ECE", "\u1ED0", "\u1ED2", "\u1ED4", "\u1ED6", "\u1ED8", "\u1EDA", "\u1EDC", "\u1EDE", "\u1EE0", "\u1EE2", "\u1EE4", "\u1EE6", "\u1EE8", "\u1EEA", "\u1EEC", "\u1EEE", "\u1EF0", "\u1EF2", "\u1EF4", "\u1EF6", "\u1EF8", "\u1EFA", "\u1EFC", "\u1EFE", "\u1F08", "\u1F09", "\u1F0A", "\u1F0B", "\u1F0C", "\u1F0D", "\u1F0E", "\u1F0F", "\u1F18", "\u1F19", "\u1F1A", "\u1F1B", "\u1F1C", "\u1F1D", "\u1F28", "\u1F29", "\u1F2A", "\u1F2B", "\u1F2C", "\u1F2D", "\u1F2E", "\u1F2F", "\u1F38", "\u1F39", "\u1F3A", "\u1F3B", "\u1F3C", "\u1F3D", "\u1F3E", "\u1F3F", "\u1F48", "\u1F49", "\u1F4A", "\u1F4B", "\u1F4C", "\u1F4D", "\u1F59", "\u1F5B", "\u1F5D", "\u1F5F", "\u1F68", "\u1F69", "\u1F6A", "\u1F6B", "\u1F6C", "\u1F6D", "\u1F6E", "\u1F6F", "\u1FB8", "\u1FB9", "\u1FBA", "\u1FBB", "\u1FC8", "\u1FC9", "\u1FCA", "\u1FCB", "\u1FD8", "\u1FD9", "\u1FDA", "\u1FDB", "\u1FE8", "\u1FE9", "\u1FEA", "\u1FEB", "\u1FEC", "\u1FF8", "\u1FF9", "\u1FFA", "\u1FFB", "\u2102", "\u2107", "\u210B", "\u210C", "\u210D", "\u2110", "\u2111", "\u2112", "\u2115", "\u2119", "\u211A", "\u211B", "\u211C", "\u211D", "\u2124", "\u2126", "\u2128", "\u212A", "\u212B", "\u212C", "\u212D", "\u2130", "\u2131", "\u2132", "\u2133", "\u213E", "\u213F", "\u2145", "\u2183", "\u2C00", "\u2C01", "\u2C02", "\u2C03", "\u2C04", "\u2C05", "\u2C06", "\u2C07", "\u2C08", "\u2C09", "\u2C0A", "\u2C0B", "\u2C0C", "\u2C0D", "\u2C0E", "\u2C0F", "\u2C10", "\u2C11", "\u2C12", "\u2C13", "\u2C14", "\u2C15", "\u2C16", "\u2C17", "\u2C18", "\u2C19", "\u2C1A", "\u2C1B", "\u2C1C", "\u2C1D", "\u2C1E", "\u2C1F", "\u2C20", "\u2C21", "\u2C22", "\u2C23", "\u2C24", "\u2C25", "\u2C26", "\u2C27", "\u2C28", "\u2C29", "\u2C2A", "\u2C2B", "\u2C2C", "\u2C2D", "\u2C2E", "\u2C60", "\u2C62", "\u2C63", "\u2C64", "\u2C67", "\u2C69", "\u2C6B", "\u2C6D", "\u2C6E", "\u2C6F", "\u2C72", "\u2C75", "\u2C80", "\u2C82", "\u2C84", "\u2C86", "\u2C88", "\u2C8A", "\u2C8C", "\u2C8E", "\u2C90", "\u2C92", "\u2C94", "\u2C96", "\u2C98", "\u2C9A", "\u2C9C", "\u2C9E", "\u2CA0", "\u2CA2", "\u2CA4", "\u2CA6", "\u2CA8", "\u2CAA", "\u2CAC", "\u2CAE", "\u2CB0", "\u2CB2", "\u2CB4", "\u2CB6", "\u2CB8", "\u2CBA", "\u2CBC", "\u2CBE", "\u2CC0", "\u2CC2", "\u2CC4", "\u2CC6", "\u2CC8", "\u2CCA", "\u2CCC", "\u2CCE", "\u2CD0", "\u2CD2", "\u2CD4", "\u2CD6", "\u2CD8", "\u2CDA", "\u2CDC", "\u2CDE", "\u2CE0", "\u2CE2", "\uA640", "\uA642", "\uA644", "\uA646", "\uA648", "\uA64A", "\uA64C", "\uA64E", "\uA650", "\uA652", "\uA654", "\uA656", "\uA658", "\uA65A", "\uA65C", "\uA65E", "\uA662", "\uA664", "\uA666", "\uA668", "\uA66A", "\uA66C", "\uA680", "\uA682", "\uA684", "\uA686", "\uA688", "\uA68A", "\uA68C", "\uA68E", "\uA690", "\uA692", "\uA694", "\uA696", "\uA722", "\uA724", "\uA726", "\uA728", "\uA72A", "\uA72C", "\uA72E", "\uA732", "\uA734", "\uA736", "\uA738", "\uA73A", "\uA73C", "\uA73E", "\uA740", "\uA742", "\uA744", "\uA746", "\uA748", "\uA74A", "\uA74C", "\uA74E", "\uA750", "\uA752", "\uA754", "\uA756", "\uA758", "\uA75A", "\uA75C", "\uA75E", "\uA760", "\uA762", "\uA764", "\uA766", "\uA768", "\uA76A", "\uA76C", "\uA76E", "\uA779", "\uA77B", "\uA77D", "\uA77E", "\uA780", "\uA782", "\uA784", "\uA786", "\uA78B", "\uFF21", "\uFF22", "\uFF23", "\uFF24", "\uFF25", "\uFF26", "\uFF27", "\uFF28", "\uFF29", "\uFF2A", "\uFF2B", "\uFF2C", "\uFF2D", "\uFF2E", "\uFF2F", "\uFF30", "\uFF31", "\uFF32", "\uFF33", "\uFF34", "\uFF35", "\uFF36", "\uFF37", "\uFF38", "\uFF39", "\uFF3A"], false, false);
   const peg$c22 = peg$otherExpectation("special character");
-  const peg$c23 = /^[\u20AC!#$%&()*{}+,-.\/:;<=>?@[\\\]\^_`|~]/;
-  const peg$c24 = peg$classExpectation(["\u20AC", "!", "#", "$", "%", "&", "(", ")", "*", "{", "}", "+", [",", "."], "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "|", "~"], false, false);
-  const peg$c25 = "'";
-  const peg$c26 = peg$literalExpectation("'", false);
-  const peg$c27 = function(): any { return "''" };
-  const peg$c28 = /^[0-9]/;
-  const peg$c29 = peg$classExpectation([["0", "9"]], false, false);
-  const peg$c30 = peg$otherExpectation("optionalWhitespace");
-  const peg$c31 = peg$otherExpectation("whitespace");
-  const peg$c32 = /^[ \t\n\r]/;
-  const peg$c33 = peg$classExpectation([" ", "\t", "\n", "\r"], false, false);
-  const peg$c34 = peg$otherExpectation("string");
-  const peg$c35 = "\"";
-  const peg$c36 = peg$literalExpectation("\"", false);
+  const peg$c23 = /^[\u20AC!#$%&()*{}+,-.\/:;<=>?@[\]\^_`'|~]/;
+  const peg$c24 = peg$classExpectation(["\u20AC", "!", "#", "$", "%", "&", "(", ")", "*", "{", "}", "+", [",", "."], "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "^", "_", "`", "'", "|", "~"], false, false);
+  const peg$c25 = /^[0-9]/;
+  const peg$c26 = peg$classExpectation([["0", "9"]], false, false);
+  const peg$c27 = peg$otherExpectation("optionalWhitespace");
+  const peg$c28 = peg$otherExpectation("whitespace");
+  const peg$c29 = /^[ \t\n\r]/;
+  const peg$c30 = peg$classExpectation([" ", "\t", "\n", "\r"], false, false);
+  const peg$c31 = "\\";
+  const peg$c32 = peg$literalExpectation("\\", false);
+  const peg$c33 = function(sequence: any): any { return sequence; };
+  const peg$c34 = "\"";
+  const peg$c35 = peg$literalExpectation("\"", false);
+  const peg$c36 = peg$otherExpectation("string");
   const peg$c37 = function(currentString: any): any {
+      // Format the string to be used as SQL placeholder
+      const currentStringId = `string${currentStringIndex}`
+      currentStringIndex += 1
       return {
         type: columnsTypes.STRING,
-        value: `'${currentString.join('')}'`
+        value: `cast(:${currentStringId} as text)`,
+        stringValues: { [currentStringId]: currentString.join('') }
       }
     };
   const peg$c38 = peg$otherExpectation("integer");
@@ -341,11 +370,18 @@ function peg$parse(input: string, options?: IParseOptions) {
         }
       };
   const peg$c44 = peg$otherExpectation("column");
-  const peg$c45 = "COLUMN.";
-  const peg$c46 = peg$literalExpectation("COLUMN.", false);
-  const peg$c47 = function(name: any): any {
+  const peg$c45 = "COLUMN.{";
+  const peg$c46 = peg$literalExpectation("COLUMN.{", false);
+  const peg$c47 = "}";
+  const peg$c48 = peg$literalExpectation("}", false);
+  const peg$c49 = function(name: any): any {
         const currentColumn = columns[name]
-        if (!currentColumn) error('One column is invalid.')
+        if (!currentColumn) {
+          // Only underline the prefix : 'COLUMN'
+          const errorPositionLimit = location()
+          errorPositionLimit.end.column = errorPositionLimit.start.column + 6
+          error('One column can\'t be used in a formula.', errorPositionLimit)
+        }
 
         // Format the column name to be used as SQL placeholder
         let value = `:${name.replace(/-/g,'_')}:`
@@ -823,26 +859,6 @@ function peg$parse(input: string, options?: IParseOptions) {
     return s0;
   }
 
-  function peg$parsequote(): any {
-    let s0, s1;
-
-    s0 = peg$currPos;
-    if (input.charCodeAt(peg$currPos) === 39) {
-      s1 = peg$c25;
-      peg$currPos++;
-    } else {
-      s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c26); }
-    }
-    if (s1 !== peg$FAILED) {
-      peg$savedPos = s0;
-      s1 = peg$c27();
-    }
-    s0 = s1;
-
-    return s0;
-  }
-
   function peg$parsealpha(): any {
     let s0;
 
@@ -857,12 +873,12 @@ function peg$parse(input: string, options?: IParseOptions) {
   function peg$parsedigit(): any {
     let s0;
 
-    if (peg$c28.test(input.charAt(peg$currPos))) {
+    if (peg$c25.test(input.charAt(peg$currPos))) {
       s0 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s0 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c29); }
+      if (peg$silentFails === 0) { peg$fail(peg$c26); }
     }
 
     return s0;
@@ -892,7 +908,7 @@ function peg$parse(input: string, options?: IParseOptions) {
     peg$silentFails--;
     if (s0 === peg$FAILED) {
       s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c30); }
+      if (peg$silentFails === 0) { peg$fail(peg$c27); }
     }
 
     return s0;
@@ -902,17 +918,17 @@ function peg$parse(input: string, options?: IParseOptions) {
     let s0, s1;
 
     peg$silentFails++;
-    if (peg$c32.test(input.charAt(peg$currPos))) {
+    if (peg$c29.test(input.charAt(peg$currPos))) {
       s0 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s0 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c33); }
+      if (peg$silentFails === 0) { peg$fail(peg$c30); }
     }
     peg$silentFails--;
     if (s0 === peg$FAILED) {
       s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c31); }
+      if (peg$silentFails === 0) { peg$fail(peg$c28); }
     }
 
     return s0;
@@ -921,14 +937,66 @@ function peg$parse(input: string, options?: IParseOptions) {
   function peg$parsesingleStringChar(): any {
     let s0;
 
-    s0 = peg$parsequote();
+    s0 = peg$parsewhitespace();
     if (s0 === peg$FAILED) {
-      s0 = peg$parsewhitespace();
+      s0 = peg$parsespecialChar();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsespecialChar();
-        if (s0 === peg$FAILED) {
-          s0 = peg$parsealphanum();
+        s0 = peg$parsealphanum();
+      }
+    }
+
+    return s0;
+  }
+
+  function peg$parsedoubleStringCharacter(): any {
+    let s0, s1, s2;
+
+    s0 = peg$parsesingleStringChar();
+    if (s0 === peg$FAILED) {
+      s0 = peg$currPos;
+      if (input.charCodeAt(peg$currPos) === 92) {
+        s1 = peg$c31;
+        peg$currPos++;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) { peg$fail(peg$c32); }
+      }
+      if (s1 !== peg$FAILED) {
+        s2 = peg$parseescapeSequence();
+        if (s2 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$c33(s2);
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
         }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    }
+
+    return s0;
+  }
+
+  function peg$parseescapeSequence(): any {
+    let s0;
+
+    if (input.charCodeAt(peg$currPos) === 34) {
+      s0 = peg$c34;
+      peg$currPos++;
+    } else {
+      s0 = peg$FAILED;
+      if (peg$silentFails === 0) { peg$fail(peg$c35); }
+    }
+    if (s0 === peg$FAILED) {
+      if (input.charCodeAt(peg$currPos) === 92) {
+        s0 = peg$c31;
+        peg$currPos++;
+      } else {
+        s0 = peg$FAILED;
+        if (peg$silentFails === 0) { peg$fail(peg$c32); }
       }
     }
 
@@ -941,26 +1009,26 @@ function peg$parse(input: string, options?: IParseOptions) {
     peg$silentFails++;
     s0 = peg$currPos;
     if (input.charCodeAt(peg$currPos) === 34) {
-      s1 = peg$c35;
+      s1 = peg$c34;
       peg$currPos++;
     } else {
       s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c36); }
+      if (peg$silentFails === 0) { peg$fail(peg$c35); }
     }
     if (s1 !== peg$FAILED) {
       s2 = [];
-      s3 = peg$parsesingleStringChar();
+      s3 = peg$parsedoubleStringCharacter();
       while (s3 !== peg$FAILED) {
         s2.push(s3);
-        s3 = peg$parsesingleStringChar();
+        s3 = peg$parsedoubleStringCharacter();
       }
       if (s2 !== peg$FAILED) {
         if (input.charCodeAt(peg$currPos) === 34) {
-          s3 = peg$c35;
+          s3 = peg$c34;
           peg$currPos++;
         } else {
           s3 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c36); }
+          if (peg$silentFails === 0) { peg$fail(peg$c35); }
         }
         if (s3 !== peg$FAILED) {
           peg$savedPos = s0;
@@ -981,7 +1049,7 @@ function peg$parse(input: string, options?: IParseOptions) {
     peg$silentFails--;
     if (s0 === peg$FAILED) {
       s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c34); }
+      if (peg$silentFails === 0) { peg$fail(peg$c36); }
     }
 
     return s0;
@@ -1203,9 +1271,9 @@ function peg$parse(input: string, options?: IParseOptions) {
 
     peg$silentFails++;
     s0 = peg$currPos;
-    if (input.substr(peg$currPos, 7) === peg$c45) {
+    if (input.substr(peg$currPos, 8) === peg$c45) {
       s1 = peg$c45;
-      peg$currPos += 7;
+      peg$currPos += 8;
     } else {
       s1 = peg$FAILED;
       if (peg$silentFails === 0) { peg$fail(peg$c46); }
@@ -1246,9 +1314,21 @@ function peg$parse(input: string, options?: IParseOptions) {
         s2 = s3;
       }
       if (s2 !== peg$FAILED) {
-        peg$savedPos = s0;
-        s1 = peg$c47(s2);
-        s0 = s1;
+        if (input.charCodeAt(peg$currPos) === 125) {
+          s3 = peg$c47;
+          peg$currPos++;
+        } else {
+          s3 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$c48); }
+        }
+        if (s3 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$c49(s2);
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
       } else {
         peg$currPos = s0;
         s0 = peg$FAILED;
@@ -1273,6 +1353,7 @@ function peg$parse(input: string, options?: IParseOptions) {
       columns = {},
       columnsTypes = {}
     } = options
+    let currentStringIndex = 0
     // Useful functions
     function checkParamsTypes (input: number | number[], output: number): boolean {
       if (Array.isArray(input)) return input.includes(output)

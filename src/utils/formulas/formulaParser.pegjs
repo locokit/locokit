@@ -5,6 +5,7 @@
     columns = {},
     columnsTypes = {}
   } = options
+  let currentStringIndex = 0
   // Useful functions
   function checkParamsTypes (input: number | number[], output: number): boolean {
     if (Array.isArray(input)) return input.includes(output)
@@ -19,11 +20,16 @@ expression =
 
 function "function"
   = category:$([A-Z]+)"."name:$([a-zA-Z0-9]+)"("args:arguments")" {
+    // If there is an error, only underline the prefix : 'CATEGORY.FUNCTION_NAME'
+    const errorPositionLimit = location()
+    errorPositionLimit.end.column = errorPositionLimit.start.column + category.length + 1 + name.length
+
     if (functions[category]?.[name]) {
       const currentFunction = functions[category][name]
 
-      let docParamIndex = 0
-      let realParamIndex = 0
+      let docParamIndex = 0 // Current parameter from the documentation
+      let realParamIndex = 0 // Current parameter contained in the formula
+      let multipleParamIndex = 1 // Index of the multiple parameter to specify a specific parameter in the error messages
 
       // Check type parameters
       if (Array.isArray(currentFunction.params)) {
@@ -36,7 +42,6 @@ function "function"
 
           // The current doc parameter is an array (related parameters)
           if (Array.isArray(docParam) && docParam.length > 0) {
-            let checkFollowingDocParam = false
 
             // Check if the related parameters are correct
             for (let relatedParamIndex = 0; relatedParamIndex < docParam.length; relatedParamIndex++) {
@@ -45,68 +50,79 @@ function "function"
               if (!checkParamsTypes(docParam[relatedParamIndex].type, realParamType)) {
                 // The type of one related parameter is incorrect
                 if (!requiredAndMultipleParamsIndexes.has(docParamIndex)) {
-                  // The parameters are required at least once
-                  error(`the '${docParam[relatedParamIndex].name}' argument of the '${category}.${name}' function is invalid.`)
+                  // Throw an error if we don't encounter them yet (the related parameters are required at least once)
+                  error(`the '${docParam[relatedParamIndex].name}${multipleParamIndex}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
                 } else {
                   // Maybe it corresponds to the following doc parameter
                   docParamIndex += 1
-                  checkFollowingDocParam = true
+                  multipleParamIndex = 1
                   break
                 }
               } else if (relatedParamIndex === docParam.length - 1) {
-                // The type of the related parameters are correct at least once
+                // All the related parameters are correct
                 requiredAndMultipleParamsIndexes.add(docParamIndex)
+                // Check the following real parameter with the same doc parameter
+                realParamIndex += docParam.length
+                multipleParamIndex += 1
               }
-            }
-            if (!checkFollowingDocParam) {
-              // If the related parameters are correct, we will check the following real parameters
-              // with the same doc parameter
-              realParamIndex += docParam.length
             }
           } else {
             // The current doc parameter is not an array (single parameter)
             const realParamType = args?.[realParamIndex]?.type
             // A parameter is required if it's is specified and if it's a multiple one, if we have not already encountered it
             const paramIsRequired = (docParam.required !== false) && (!requiredAndMultipleParamsIndexes.has(docParamIndex))
-            // The current documentation parameter is required
             if (paramIsRequired !== false) {
+              // The current documentation parameter is required
               if (!realParamType) {
-                error(`the '${docParam.name}' argument of the '${category}.${name}' function is missing.`)
-              }
-              else if (checkParamsTypes(docParam.type, realParamType)) {
+                // The parameter is not specified
+                error(`the '${docParam.name}${docParam.multiple === true ? multipleParamIndex : ''}' argument of the '${category}.${name}' function is missing.`, errorPositionLimit)
+              } else if (checkParamsTypes(docParam.type, realParamType)) {
+                // The parameter is specified and correct
                 realParamIndex += 1
                 if (docParam.multiple === true) {
+                  // The parameter is multiple -> check the following real parameter with the same doc parameter
                   requiredAndMultipleParamsIndexes.add(docParamIndex)
+                  multipleParamIndex += 1
                 } else {
+                  // The parameter is not multiple -> check the following real parameter with the following doc parameter
                   docParamIndex += 1
+                  multipleParamIndex = 1
                 }
               } else {
-                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                // The parameter is specified but incorrect
+                error(`the '${docParam.name}${docParam.multiple === true ? multipleParamIndex : ''}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
               }
-            }
-            // The current parameter is not required and not specified
-            else if (!realParamType) {
+            } else if (!realParamType) {
+              // The current parameter is not required and not specified
               docParamIndex += 1
-            }
-            // The current documentation parameter is specified and multiple but not required
-            else if (docParam.multiple === true) {
+              multipleParamIndex = 1
+            } else if (docParam.multiple === true) {
+              // The current documentation parameter is specified and multiple but not required
               if (checkParamsTypes(docParam.type, realParamType)) {
+                // The parameter is correct -> check the following real parameter with the same doc parameter
                 realParamIndex += 1
+                multipleParamIndex += 1
+                
+              // } else if (docParamIndex === (currentFunction.params.length - 1)) {
               } else if (docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
-                // Last parameter -> incorrect argument
-                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                // The parameter is incorrect and this is the last one -> throw an error
+                error(`the '${docParam.name}${multipleParamIndex}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
               } else {
-                // Maybe the following parameter has the good type
+                // The parameter is incorrect but this is not the last one -> maybe it corresponds to the following doc parameter
                 docParamIndex += 1
+                multipleParamIndex = 1
               }
             }
             // The current documentation parameter is specified but neither required nor multiple
             else {
               if (checkParamsTypes(docParam.type, realParamType)) {
+                // The parameter is correct -> check the following real parameter with the following doc parameter
                 docParamIndex += 1
+                multipleParamIndex = 1
                 realParamIndex += 1
               } else {
-                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`)
+                // The parameter is incorrect -> throw an error
+                error(`the '${docParam.name}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
               }
             }
           }
@@ -114,20 +130,29 @@ function "function"
       }
       // Invalid number of parameters
       if (args && args.length !== realParamIndex ) {
-        error(`the arguments of the '${category}.${name}' function are invalid.`)
+        error(`the arguments of the '${category}.${name}' function are invalid.`, errorPositionLimit)
       }
 
       // Return the type and the value related to the function
       if (currentFunction.pgsql && currentFunction.returnType) {
+        const argValues: string[] = []
+        let stringValues: Record<string, string> = {}
+        if (Array.isArray(args)) {
+          args.forEach(arg => {
+            argValues.push(arg.value)
+            Object.assign(stringValues, arg.stringValues ?? {});
+          })
+        }
         return {
-          value: `(${ Array.isArray(args) ? currentFunction.pgsql(...args.map(arg => arg.value)) : currentFunction.pgsql()})`,
+          value: `(${ currentFunction.pgsql(...argValues)})`,
           type: currentFunction.returnType,
+          stringValues
         }
       } else {
-        error(`the '${category}.${name}' function isn't well configured.`)
+        error(`the '${category}.${name}' function isn't well configured.`, errorPositionLimit)
       }
     } else {
-      error(`the '${category}.${name}' function doesn't exist.`)
+      error(`the '${category}.${name}' function doesn't exist.`, errorPositionLimit)
     }
   }
 
@@ -148,10 +173,7 @@ lu "letter uppercase" = [\u0041\u0042\u0043\u0044\u0045\u0046\u0047\u0048\u0049\
 
 
 specialChar "special character"
-  = [€!#$%&()*{}+,-./:;<=>?@[\\\]^_`|~]
-
-quote
-	= ("'") { return "''" }
+  = [€!#$%&()*{}+,-./:;<=>?@[\]^_`'|~]
 
 alpha = lu / ll
 
@@ -170,16 +192,27 @@ whitespace "whitespace"
 
 // String
 singleStringChar
-  = quote
-  / whitespace
+  = whitespace
   / specialChar
   / alphanum
 
+doubleStringCharacter
+  = singleStringChar
+  / "\\" sequence:escapeSequence { return sequence; }
+
+escapeSequence
+  = '"'
+  / "\\"
+
 string "string"
-  = '"' currentString:(singleStringChar*) '"' {
+  = '"' currentString:(doubleStringCharacter*) '"' {
+    // Format the string to be used as SQL placeholder
+    const currentStringId = `string${currentStringIndex}`
+    currentStringIndex += 1
     return {
       type: columnsTypes.STRING,
-      value: `'${currentString.join('')}'`
+      value: `cast(:${currentStringId} as text)`,
+      stringValues: { [currentStringId]: currentString.join('') }
     }
   }
 
@@ -202,9 +235,14 @@ decimal "decimal"
 
 // Format the column to use its id with a placeholder in the SQL query and also return its original type
 column "column"
-  = "COLUMN."name:$((alphanum/'-')+) {
+  = "COLUMN.{"name:$((alphanum/'-')+)"}" {
       const currentColumn = columns[name]
-      if (!currentColumn) error('One column is invalid.')
+      if (!currentColumn) {
+        // Only underline the prefix : 'COLUMN'
+        const errorPositionLimit = location()
+        errorPositionLimit.end.column = errorPositionLimit.start.column + 6
+        error('One column can\'t be used in a formula.', errorPositionLimit)
+      }
 
       // Format the column name to be used as SQL placeholder
       let value = `:${name.replace(/-/g,'_')}:`

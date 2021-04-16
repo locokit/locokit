@@ -16,6 +16,7 @@ describe('formulaColumn hooks', () => {
   let stringColumn2: TableColumn
   let formulaColumn1: TableColumn
   let formulaColumn2: TableColumn
+  let singleSelectColumn1: TableColumn
   let row1Table1: TableRow
   let row2Table1: TableRow
 
@@ -43,6 +44,24 @@ describe('formulaColumn hooks', () => {
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table2.id,
     })
+    singleSelectColumn1 = await app.service('column').create({
+      text: 'singleselect_column_1',
+      column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+      table_id: table1.id,
+      settings: {
+        values: {
+          id1: {
+            label: 'option 1',
+          },
+          id2: {
+            label: 'option 2',
+          },
+          id3: {
+            label: 'option 3',
+          },
+        },
+      },
+    })
     formulaColumn1 = await app.service('column').create({
       text: 'formula_column_1',
       column_type_id: COLUMN_TYPE.FORMULA,
@@ -63,12 +82,14 @@ describe('formulaColumn hooks', () => {
     row1Table1 = await app.service('row').create({
       data: {
         [stringColumn1.id]: 'myFirstRow',
+        [singleSelectColumn1.id]: 'id1',
       },
       table_id: table1.id,
     })
     row2Table1 = await app.service('row').create({
       data: {
         [stringColumn1.id]: 'mySecondRow',
+        [singleSelectColumn1.id]: 'id2',
       },
       table_id: table1.id,
     })
@@ -83,6 +104,7 @@ describe('formulaColumn hooks', () => {
     await app.service('column').remove(stringColumn2.id)
     await app.service('column').remove(formulaColumn1.id)
     await app.service('column').remove(formulaColumn2.id)
+    await app.service('column').remove(singleSelectColumn1.id)
     await app.service('row').remove(row1Table1.id)
     await app.service('row').remove(row2Table1.id)
   })
@@ -122,12 +144,22 @@ describe('formulaColumn hooks', () => {
         },
       })).rejects.toThrow(NotAcceptable)
     })
+    it('throw an exception if a formula is used as reference', async () => {
+      expect.assertions(1)
+      await expect(app.service('column').patch(formulaColumn1.id, {
+        column_type_id: COLUMN_TYPE.FORMULA,
+        reference: true,
+        settings: {
+          formula: '"string"',
+        },
+      })).rejects.toThrow(NotAcceptable)
+    })
     it('throw an exception if the formula column is specified in its formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: `COLUMN.${formulaColumn1.id}`,
+          formula: `COLUMN.{${formulaColumn1.id}}`,
         },
       })).rejects.toThrow(NotAcceptable)
     })
@@ -136,7 +168,7 @@ describe('formulaColumn hooks', () => {
       await expect(app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: `COLUMN.${formulaColumn2.id}`,
+          formula: `COLUMN.{${formulaColumn2.id}}`,
         },
       })).rejects.toThrow(NotAcceptable)
     })
@@ -145,7 +177,7 @@ describe('formulaColumn hooks', () => {
       await expect(app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: 'COLUMN.incorrectid',
+          formula: 'COLUMN.{incorrectid}',
         },
       })).rejects.toThrow(NotAcceptable)
     })
@@ -154,7 +186,7 @@ describe('formulaColumn hooks', () => {
       await expect(app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: `COLUMN.${stringColumn2.id}`,
+          formula: `COLUMN.{${stringColumn2.id}}`,
         },
       })).rejects.toThrow(NotAcceptable)
     })
@@ -233,7 +265,7 @@ describe('formulaColumn hooks', () => {
       await app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: `COLUMN.${stringColumn1.id}`,
+          formula: `COLUMN.{${stringColumn1.id}}`,
         },
       })
       const table1Rows = await app.service('row').find({
@@ -246,6 +278,25 @@ describe('formulaColumn hooks', () => {
       expect(table1Rows[0].data[formulaColumn1.id]).toBe('myFirstRow')
       expect(table1Rows[1].data[formulaColumn1.id]).toBe('mySecondRow')
     })
+
+    it('update the rows if the formula, with one specified single select column, has been changed', async () => {
+      expect.assertions(3)
+      await app.service('column').patch(formulaColumn1.id, {
+        column_type_id: COLUMN_TYPE.FORMULA,
+        settings: {
+          formula: `COLUMN.{${singleSelectColumn1.id}}`,
+        },
+      })
+      const table1Rows = await app.service('row').find({
+        query: {
+          table_id: table1.id,
+        },
+        paginate: false,
+      }) as TableRow[]
+      expect(table1Rows.length).toBe(2)
+      expect(table1Rows[0].data[formulaColumn1.id]).toBe('option 1')
+      expect(table1Rows[1].data[formulaColumn1.id]).toBe('option 2')
+    })
   })
 
   describe('On create', () => {
@@ -255,7 +306,7 @@ describe('formulaColumn hooks', () => {
         text: 'formula_column_3',
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
-          formula: `COLUMN.${stringColumn2.id}`,
+          formula: `COLUMN.{${stringColumn2.id}}`,
         },
       })).rejects.toThrow(NotAcceptable)
     })
@@ -266,7 +317,7 @@ describe('formulaColumn hooks', () => {
         column_type_id: COLUMN_TYPE.FORMULA,
         table_id: table1.id,
         settings: {
-          formula: `COLUMN.${stringColumn1.id}`,
+          formula: `COLUMN.{${stringColumn1.id}}`,
         },
       })
       const table1Rows = await app.service('row').find({

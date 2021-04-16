@@ -8,7 +8,7 @@ import { NotAcceptable } from '@feathersjs/errors'
  */
 export function upsertRowRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    // Multiple update - TODO
+    // Multiple update
     if (Array.isArray(context.result)) return context
     // Single update
     await Promise.all(

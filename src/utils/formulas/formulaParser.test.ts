@@ -44,59 +44,80 @@ describe('Formula parser', () => {
   describe('string values', () => {
     it('can contain lowercase letters', () => {
       const parsedFormula = parse('"abc"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'abc'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: 'abc' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain uppercase letters', () => {
       const parsedFormula = parse('"ABC"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'ABC'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: 'ABC' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain numbers', () => {
       const parsedFormula = parse('"-10.2"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'-10.2'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: '-10.2' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain some special characters', () => {
-      const specialChars = '€!#$%&()*{}+,-./:;<=>?@[\\]^_`|~'
+      const specialChars = '€!#$%&()*{}+,-./:;<=>?@[]^_`|~'
       const parsedFormula = parse(`"${specialChars}"`, { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe(`'${specialChars}'`)
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: specialChars })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain whitespace', () => {
       const parsedFormula = parse('" "', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("' '")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: ' ' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\n', () => {
       const parsedFormula = parse('"\n"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'\n'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: '\n' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\t', () => {
       const parsedFormula = parse('"\t"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'\t'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: '\t' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain \\r', () => {
       const parsedFormula = parse('"\r"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'\r'")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: '\r' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain single quote', () => {
       const parsedFormula = parse('"\'"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("''''")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: "'" })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can contain a mix of the previous elements', () => {
       const parsedFormula = parse('"Aa- 1+\n\t\r\'"', { columnsTypes: COLUMN_TYPE })
-      expect(parsedFormula.value).toBe("'Aa- 1+\n\t\r'''")
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: 'Aa- 1+\n\t\r\'' })
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('can not contain a double quote', () => {
       expect(() => {
         parse('"""')
       }).toThrow()
+    })
+    it('can not contain \\', () => {
+      expect(() => {
+        parse('\\')
+      }).toThrow()
+    })
+    it('can contain a double quote if it is escaping', () => {
+      const parsedFormula = parse('"\\""', { columnsTypes: COLUMN_TYPE })
+      expect(parsedFormula.value).toBe('cast(:string0 as text)')
+      expect(parsedFormula.stringValues).toEqual({ string0: '"' })
+      expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
   })
   describe('column values', () => {
@@ -161,23 +182,23 @@ describe('Formula parser', () => {
 
     it('throw an error is the specified column is unknown', () => {
       expect(() => {
-        parse('COLUMN.unknown-column', { columnsTypes: COLUMN_TYPE, columns: allColumns })
-      }).toThrow('One column is invalid.')
+        parse('COLUMN.{unknown-column}', { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      }).toThrow("One column can't be used in a formula.")
     })
     it('return the correct value and type for a string column', () => {
-      const parsedFormula = parse(`COLUMN.${stringColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.{${stringColumn.id}}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(`:${stringColumn.id.replace(/-/g, '_')}:`)
       expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
     })
     it('return the correct value and type for a single select column', () => {
-      const parsedFormula = parse(`COLUMN.${singleSelectColumn.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.{${singleSelectColumn.id}}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(
         `('{"idA":"mylabelA","idB":"mylabelB"}'::json->>:${singleSelectColumn.id.replace(/-/g, '_')}:)`,
       )
       expect(parsedFormula.type).toBe(COLUMN_TYPE.SINGLE_SELECT)
     })
     it('return the correct value and type for a single select column without settings', () => {
-      const parsedFormula = parse(`COLUMN.${singleSelectColumnWithoutSettings.id}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
+      const parsedFormula = parse(`COLUMN.{${singleSelectColumnWithoutSettings.id}}`, { columnsTypes: COLUMN_TYPE, columns: allColumns })
       expect(parsedFormula.value).toBe(
         `('{}'::json->>:${singleSelectColumnWithoutSettings.id.replace(/-/g, '_')}:)`,
       )
@@ -438,12 +459,14 @@ describe('Formula parser', () => {
       })
       it('for a function with three parameters, one required, one multiple (specified but not required) and one required', () => {
         const parsedFormula = parse('NUMERIC.FUNCTIONWITHDEFAULT(10,20,30,40,"string")', { columnsTypes: COLUMN_TYPE, functions })
-        expect(parsedFormula.value).toBe("(10|20|30|40|'string')")
+        expect(parsedFormula.value).toBe('(10|20|30|40|cast(:string0 as text))')
+        expect(parsedFormula.stringValues).toEqual({ string0: 'string' })
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with three parameters, one required, one multiple (not required and not specified) and one required', () => {
         const parsedFormula = parse('NUMERIC.FUNCTIONWITHDEFAULT(10,"string")', { columnsTypes: COLUMN_TYPE, functions })
-        expect(parsedFormula.value).toBe("(10|'string')")
+        expect(parsedFormula.value).toBe('(10|cast(:string0 as text))')
+        expect(parsedFormula.stringValues).toEqual({ string0: 'string' })
         expect(parsedFormula.type).toBe(COLUMN_TYPE.STRING)
       })
       it('for a function with a multiple and required parameter, specified one time', () => {
@@ -458,7 +481,8 @@ describe('Formula parser', () => {
       })
       it('for a function with two parameters, one multiple and required parameter and one another required one, with a different type', () => {
         const parsedFormula = parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIREDANDMOREDIFF(10,10,"string")', { columnsTypes: COLUMN_TYPE, functions })
-        expect(parsedFormula.value).toBe("(10*10*'string')")
+        expect(parsedFormula.value).toBe('(10*10*cast(:string0 as text))')
+        expect(parsedFormula.stringValues).toEqual({ string0: 'string' })
         expect(parsedFormula.type).toBe(COLUMN_TYPE.NUMBER)
       })
       it('for a function with an optional parameter (specified)', () => {
@@ -516,7 +540,7 @@ describe('Formula parser', () => {
       it('if a multiple parameter has not the correct type', () => {
         expect(() => {
           parse('NUMERIC.PRODUCT(10.0,20.0,"string")', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('the \'numbers\' argument of the \'NUMERIC.PRODUCT\' function is invalid.')
+        }).toThrow('the \'numbers2\' argument of the \'NUMERIC.PRODUCT\' function is invalid.')
       })
       it('if a required parameter after a multiple one has not the correct type', () => {
         expect(() => {
@@ -536,7 +560,7 @@ describe('Formula parser', () => {
       it('if one of the first related parameters is incorrect', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, 10.0)', { columnsTypes: COLUMN_TYPE, functions })
-        }).toThrow('the \'result\' argument of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMS\' function is invalid.')
+        }).toThrow('the \'result1\' argument of the \'NUMERIC.FUNCTIONWITHRELATEDPARAMS\' function is invalid.')
       })
       it('if one of the related parameters is incorrect whereas the first ones are correct', () => {
         expect(() => {

@@ -33,6 +33,7 @@ interface IFormula {
 interface IParsedFormula {
   type: COLUMN_TYPE // The estimated return type of the formula.
   value: string // The deduced result from the input formula (sql code as string).
+  stringValues: Record<string, string>, // The strings contained in the formula
 }
 
 export type ColumnsReferences = Record<string, FunctionBuilder>
@@ -111,7 +112,7 @@ function castColumnReference (columnReference: ReferenceBuilder, originalColumnT
  * @returns An array containing the list of the columns ids.
  */
 export function getColumnIdsFromFormula (formula: string): string[] {
-  const regex = /(?<=COLUMN\.)([a-z0-9-]+)/g
+  const regex = /(?<=COLUMN\.{)([a-z0-9-]+)(?=})/g
   return [...new Set(formula.match(regex) ?? [])]
 }
 
@@ -144,6 +145,9 @@ export function getSQLRequestFromFormula (formula: IParsedFormula, columnsRefere
     // Cast the result if it is a date
     castResult = '::date'
   }
+  // Add the string values to the columns references to use placeholders in both cases
+  Object.assign(columnsReferences, formula.stringValues ?? {})
+  // Return the sql request
   return fn.coalesce(
     raw(`to_jsonb(${formula.value}${castResult})`, columnsReferences),
     raw("jsonb 'null'"),
@@ -365,7 +369,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...conditions) => `${conditions.join(' and ')}`,
       params: [
         {
-          name: 'conditions',
+          name: 'condition',
           type: COLUMN_TYPE.BOOLEAN,
           multiple: true,
         },
@@ -431,7 +435,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...args) => `${args.join(' or ')}`,
       params: [
         {
-          name: 'conditions',
+          name: 'condition',
           type: COLUMN_TYPE.BOOLEAN,
           multiple: true,
         },
@@ -498,7 +502,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => `(${numbers.join('+')}) / ${numbers.length.toFixed(1)}`,
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -519,7 +523,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (firstNumber, ...others) => firstNumber + others.map(nb => `/(case when ${nb} <> 0 then ${nb} end)`).join(''),
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -638,7 +642,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => `greatest(${numbers.join(',')})`,
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -649,7 +653,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => `least(${numbers.join(',')})`,
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -678,7 +682,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => numbers.join('*'),
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -723,7 +727,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => numbers.join('-'),
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -734,7 +738,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...numbers) => numbers.join('+'),
       params: [
         {
-          name: 'numbers',
+          name: 'number',
           type: NUMERIC_TYPES,
           multiple: true,
         },
@@ -761,7 +765,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       pgsql: (...texts) => `concat(${texts.join(',')})`,
       params: [
         {
-          name: 'texts',
+          name: 'text',
           type: TEXT_TYPES,
           multiple: true,
         },
@@ -925,7 +929,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
           type: COLUMN_TYPE.STRING,
         },
         {
-          name: 'texts',
+          name: 'text',
           type: TEXT_TYPES,
           multiple: true,
         },

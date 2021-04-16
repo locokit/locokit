@@ -134,7 +134,7 @@ describe('computeLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table2.id,
       settings: {
-        formula: `TEXT.UPPER(COLUMN.${columnTable2LookedUpColumnTable1User.id})`,
+        formula: `TEXT.UPPER(COLUMN.{${columnTable2LookedUpColumnTable1User.id}})`,
       },
     })
     columnTable2FormulaUserString = await app.service('column').create({
@@ -142,7 +142,7 @@ describe('computeLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table2.id,
       settings: {
-        formula: `TEXT.CONCAT(COLUMN.${columnTable2LookedUpColumnTable1User.id},"-",COLUMN.${columnTable2LookedUpColumnTable1Ref.id})`,
+        formula: `TEXT.CONCAT(COLUMN.{${columnTable2LookedUpColumnTable1User.id}},"-",COLUMN.{${columnTable2LookedUpColumnTable1Ref.id}})`,
       },
     })
     // Create table 3 columns
@@ -189,7 +189,7 @@ describe('computeLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table3.id,
       settings: {
-        formula: `TEXT.LOWER(COLUMN.${columnTable3LookedUpColumnTable2User.id})`,
+        formula: `TEXT.LOWER(COLUMN.{${columnTable3LookedUpColumnTable2User.id}})`,
       },
     })
     columnTable3FormulaUserString = await app.service('column').create({
@@ -197,7 +197,7 @@ describe('computeLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table3.id,
       settings: {
-        formula: `TEXT.CONCAT(COLUMN.${columnTable3LookedUpColumnTable2User.id},"-",COLUMN.${columnTable3LookedUpColumnTable2Ref.id})`,
+        formula: `TEXT.CONCAT(COLUMN.{${columnTable3LookedUpColumnTable2User.id}},"-",COLUMN.{${columnTable3LookedUpColumnTable2Ref.id}})`,
       },
     })
     // Create table 4 columns
@@ -252,7 +252,7 @@ describe('computeLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table4.id,
       settings: {
-        formula: `TEXT.CONCAT(COLUMN.${columnTable4LookedUpColumnTable1User.id}, "-", COLUMN.${columnTable4LookedUpColumnTable3User.id})`,
+        formula: `TEXT.CONCAT(COLUMN.{${columnTable4LookedUpColumnTable1User.id}}, "-", COLUMN.{${columnTable4LookedUpColumnTable3User.id}})`,
       },
     })
     // Create user

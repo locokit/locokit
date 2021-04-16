@@ -10,7 +10,7 @@ import { TableRow } from '../../models/tablerow.model'
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { enhanceComplexColumns } from './enhanceComplexColumns.hook'
-import { loadColumnsDefinition } from './loadColumnsDefinition.hook'
+import { loadColumnsDefinition, loadUpdatedColumnsWithChildren } from './loadColumnsDefinition.hook'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import { computeTextProperty } from './computeTextProperty.hook'
 import { memorizeColumnsIds } from './memorizeColumnsIds.hook'
@@ -24,7 +24,7 @@ import { restrictRemoveIfRelatedRows } from './restrictRemoveIfRelatedRows.hook'
 import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
-import { isBulkPatch, isValidBulkPatch } from './isBulkPatch'
+import { isBulkPatch, isValidBulkPatch, onlyUpdateFormulaColumns } from './isBulkPatch'
 import {
   selectColumnsOfTableOrTableView,
   rebuildData,
@@ -72,19 +72,22 @@ export default {
     ],
     patch: [
       commonHooks.iffElse(
-        // For multiple patch requests
         isBulkPatch(),
         [
           commonHooks.iffElse(
-            // For internal requests with the data:column selector (only works with the formulas)
             isValidBulkPatch(),
             [
               memorizeColumnsIds(),
+              loadUpdatedColumnsWithChildren(),
+              commonHooks.iffElse(
+                onlyUpdateFormulaColumns(),
+                [],
+                [commonHooks.disallow()],
+              ),
             ],
             commonHooks.disallow(),
           ),
         ],
-        // For single patch requests
         [
           getCurrentItem(),
           loadColumnsDefinition(),

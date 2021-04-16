@@ -18,7 +18,7 @@ import { parse } from '../../utils/formulas/formulaParser'
 export function computeRowFormulaColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     // Get the updated columns and the linked ones
-    const updatedColumnsWithChildren = await context.app.services.column.find({
+    const updatedColumnsWithChildren = context.params._meta.updatedColumnsWithChildren ?? await context.app.services.column.find({
       query: {
         id: {
           $in: context.params._meta.columnsIdsTransmitted,
