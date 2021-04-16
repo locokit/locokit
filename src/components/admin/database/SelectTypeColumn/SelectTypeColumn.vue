@@ -37,7 +37,7 @@
           <p-dropdown
             :options="colorScheme"
             dataKey="backgroundColor"
-            placeholder="$t('pages.databaseSchema.selectType.selectColor')"
+            :placeholder="$t('pages.databaseSchema.selectType.selectColor')"
             :value="colorScheme.find(color => color.backgroundColor === props.data.backgroundColor)"
             @change="onColorSelect($event,props.data)"
           >
@@ -238,9 +238,7 @@ export default {
   transform: scale(1);
 }
 /deep/ .select-type-values-table {
-  -moz-box-shadow: inset 0 -10px 10px -10px #000000;
-  -webkit-box-shadow: inset 0 -10px 10px -10px #000000;
-  box-shadow: inset 0 -10px 10px -10px #000000;
+
   border: 1px solid #ededed;
   border-bottom: 2px solid #ededed;
 }
