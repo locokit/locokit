@@ -1,15 +1,12 @@
 <template>
   <div class="p-field">
-    <label for="column-formula">{{ $t('components.formulas.formula') }}</label>
+    <label for="editor">{{ $t('components.formulas.formula') }}</label>
     <monaco-editor
       class="editor"
       ref="editor"
-      id="column-formula"
-      :errorHandleColumn="errorHandleColumn"
       :language="language"
       :theme="theme"
       :options="options"
-      :tableColumns="tableColumns"
       :value="formula"
       @change="onChange"
       @editorDidMount="editorDidMount"
@@ -25,7 +22,7 @@ import {
   formulaColumnsIdsToNames,
   functions,
   getDefaultRange,
-  getSuggestions
+  getMonacoSuggestions
 } from '@/services/lck-utils/formula'
 
 export default {
@@ -129,7 +126,7 @@ export default {
         }
       })
 
-      const availableSuggestions = getSuggestions()
+      const availableSuggestions = getMonacoSuggestions()
 
       // Register a completion item provider for the language
       monaco.languages.registerCompletionItemProvider('locokitLanguage', {
@@ -269,7 +266,7 @@ export default {
     errorHandleColumn (newError) {
       const monaco = this.$refs.editor.monaco
       const currentEditorModel = monaco.editor.getModels()?.[0]
-      const { data: { location }, message = '' } = newError
+      const { data: { location } = {}, message = '' } = newError
       if (currentEditorModel && location && message) {
         monaco.editor.setModelMarkers(currentEditorModel, 'locokitLanguage', [
           {
@@ -287,15 +284,19 @@ export default {
   },
   computed: {
     columnSuggestions () {
-      const monaco = this.$refs.editor.monaco
-      const defaultRange = getDefaultRange()
-      return this.tableColumns.map((column) => ({
-        label: `COLUMN.{${column.text}}`,
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: `COLUMN.{${column.text}}`,
-        documentation: `COLUMN.{${column.text}}`,
-        range: defaultRange
-      }))
+      if (this.$refs.editor) {
+        const monaco = this.$refs.editor.monaco
+        const defaultRange = getDefaultRange()
+        return this.tableColumns.map((column) => ({
+          label: `COLUMN.{${column.text}}`,
+          kind: monaco.languages.CompletionItemKind.Variable,
+          insertText: `COLUMN.{${column.text}}`,
+          documentation: `COLUMN.{${column.text}}`,
+          range: defaultRange
+        }))
+      } else {
+        return []
+      }
     }
   }
 }

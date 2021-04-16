@@ -803,15 +803,18 @@ export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTabl
   )
 }
 
-export function getSuggestions (): {
+/**
+ * Returns the suggestions for the monaco editor.
+ * @returns an object containing a list of all the suggestions (functions, categories and the column prefix),
+ * an object containing the functions suggestions for each category and the signature of each function.
+ */
+export function getMonacoSuggestions (): {
   allSuggestions: CompletionItem[];
-  prefixSuggestions: CompletionItem[];
   functionSuggestions: Record<string, CompletionItem[]>;
-  functionSignatures: Record<string, Record<string, string>>;
+  functionSignatures: Record<FUNCTION_CATEGORY, Record<string, string>>;
   } {
   // Initialize the suggestions
   const allSuggestions: CompletionItem[] = []
-  const prefixSuggestions: CompletionItem[] = []
   const functionSuggestions: Record<string, CompletionItem[]> = {}
   // Initialize the signatures
   const functionSignatures: Record<string, Record<string, string>> = {}
@@ -825,103 +828,106 @@ export function getSuggestions (): {
     label: 'COLUMN',
     kind: monaco.languages.CompletionItemKind.Class,
     documentation: i18n.t('components.formulas.column').toString(),
-    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-    insertText: `COLUMN.{\${1:${'columnName'}}}`,
+    insertText: 'COLUMN',
     range: defaultRange
   }
-  prefixSuggestions.push(currentSuggestion)
   allSuggestions.push(currentSuggestion)
 
-  // Loop over the categories
-  for (const category in functions) {
-    // Add a suggestion to type the function prefix (the function category)
+  // Loop over the functions categories
+  for (const categoryName in functions) {
+    // Add a suggestion to type the category
     currentSuggestion = {
-      label: category,
+      label: categoryName,
       kind: monaco.languages.CompletionItemKind.Class,
-      documentation: i18n.t(`components.formulas.categories.${category}`).toString(),
-      insertText: category,
+      documentation: i18n.t(`components.formulas.categories.${categoryName}`).toString(),
+      insertText: categoryName,
       range: defaultRange
     }
-    prefixSuggestions.push(currentSuggestion)
     allSuggestions.push(currentSuggestion)
-    functionSuggestions[category] = []
-    const categoryPrefix = category + '.'
+    functionSuggestions[categoryName] = []
+    const categoryPrefix = categoryName + '.'
 
     // Loop over the functions of each category
-    for (const currentFunctionKey in functions[category as FUNCTION_CATEGORY]) {
-      const currentFunction = functions[category as FUNCTION_CATEGORY][currentFunctionKey]
+    for (const functionName in functions[categoryName as FUNCTION_CATEGORY]) {
+      const currentFunction = functions[categoryName as FUNCTION_CATEGORY][functionName]
       // Text to insert
-      let insertTextFunction = `${categoryPrefix}${currentFunctionKey}(`
+      let insertTextFunction = `${categoryPrefix}${functionName}(`
       // Function documentation
-      let detailDocFunction = insertTextFunction
-      // Loop over the parameters
+      let functionSignature = insertTextFunction
       let indexParam = 1
-      let separator = ''
+      const separator = ', '
       if (Array.isArray(currentFunction.params)) {
+        // Loop over the function parameters
         currentFunction.params.forEach(param => {
-          separator = indexParam === 1 ? '' : ', '
-          // Related parameters
+          // separator = indexParam === 1 ? '' : ', '
+          if (indexParam > 1) {
+            // Add a separator between the parameters
+            functionSignature += separator
+            insertTextFunction += separator
+          }
+
           if (Array.isArray(param)) {
+            // Related parameters (i.e : 'IFS(condition1, result1, [condition2, result2, ...])')
             let separatorRelatedParameters = ''
             let currentRelatedParameters1 = ''
             let currentRelatedParameters2 = ''
             param.forEach((relatedParam, relatedParamIndex) => {
-              insertTextFunction += `${separator}\${${indexParam}:${relatedParam.name}}`
               separatorRelatedParameters = relatedParamIndex === 0 ? '' : ', '
+              insertTextFunction += `${separatorRelatedParameters}\${${indexParam}:${relatedParam.name}1}`
               currentRelatedParameters1 += `${separatorRelatedParameters}${relatedParam.name}1`
               currentRelatedParameters2 += `${separatorRelatedParameters}${relatedParam.name}2`
               indexParam += 1
             })
-            detailDocFunction += `${separator}${currentRelatedParameters1}, [${currentRelatedParameters2}, ...]`
+            functionSignature += `${currentRelatedParameters1}${separator}[${currentRelatedParameters2}, ...]`
           } else {
-            insertTextFunction += `${separator}\${${indexParam}:${param.name}}`
-            detailDocFunction += separator
+            // Single parameter
+            insertTextFunction += `\${${indexParam}:${param.name}${param.multiple ? '1' : ''}}`
             if (param.multiple === true) {
               // Multiple parameter
               if (param.required === false) {
                 // Facultative parameter
-                detailDocFunction += `[${param.name}1, ...]`
+                functionSignature += `[${param.name}1, ...]`
               } else {
                 // Required parameter
-                detailDocFunction += `${param.name}1, [${param.name}2, ...]`
+                functionSignature += `${param.name}1, [${param.name}2, ...]`
               }
             } else if (param.required === false) {
               // Single facultative parameter
-              detailDocFunction += `[${param.name}]`
+              functionSignature += `[${param.name}]`
             } else {
               // Single required parameter
-              detailDocFunction += param.name
+              functionSignature += param.name
             }
             indexParam += 1
           }
         })
       }
       insertTextFunction += ')'
-      detailDocFunction += ')'
+      functionSignature += ')'
 
-      // Save the function signatures
-      if (!functionSignatures[category]) {
-        functionSignatures[category] = {}
+      // Save the function signature
+      if (!functionSignatures[categoryName]) {
+        functionSignatures[categoryName] = {}
       }
-      functionSignatures[category][currentFunctionKey] = detailDocFunction
+      functionSignatures[categoryName][functionName] = functionSignature
 
+      // Save the function suggestion
       currentSuggestion = {
-        label: categoryPrefix + currentFunctionKey,
+        label: categoryPrefix + functionName,
         kind: monaco.languages.CompletionItemKind.Function,
-        documentation: i18n.t(`components.formulas.functions.${category}.${currentFunctionKey}`).toString(),
+        documentation: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString(),
         insertText: insertTextFunction,
         commitCharacters: [','],
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-        detail: detailDocFunction,
+        detail: functionSignature,
         range: defaultRange
       }
-      functionSuggestions[category].push(currentSuggestion)
+      functionSuggestions[categoryName].push(currentSuggestion)
       allSuggestions.push(currentSuggestion)
     }
   }
   return {
     allSuggestions,
-    prefixSuggestions,
     functionSuggestions,
     functionSignatures
   }
