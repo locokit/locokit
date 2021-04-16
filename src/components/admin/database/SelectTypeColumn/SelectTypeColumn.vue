@@ -37,6 +37,7 @@
           <p-dropdown
             :options="colorScheme"
             dataKey="backgroundColor"
+            appendTo="body"
             :placeholder="$t('pages.databaseSchema.selectType.selectColor')"
             :value="colorScheme.find(color => color.backgroundColor === props.data.backgroundColor)"
             @change="onColorSelect($event,props.data)"
