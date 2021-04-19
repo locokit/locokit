@@ -295,7 +295,7 @@ describe('hooks for column service', () => {
 
       describe('On creation', () => {
         it('create one column relation for each referenced column used in a formula column', async () => {
-          expect.assertions(5)
+          expect.assertions(3)
           // Formula column
           const formulaColumn: TableColumn = await app.service('column').create({
             text: 'formula_column',
@@ -305,22 +305,18 @@ describe('hooks for column service', () => {
               formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}},COLUMN.{${stringColumn2.id}})`,
             },
           })
-          // Get created column relations and delete them
+          // Get the created column relations
+          const firstColumnRelation = await app.service('columnrelation').get(`${stringColumn1.id},${formulaColumn.id}`)
+          const secondColumnRelation = await app.service('columnrelation').get(`${stringColumn2.id},${formulaColumn.id}`)
+          expect(firstColumnRelation).toBeDefined()
+          expect(secondColumnRelation).toBeDefined()
+          // Delete the column relations
           const columnRelations = await app.service('columnrelation')._remove(null, {
             query: {
               table_column_to_id: formulaColumn.id,
             },
           }) as TableColumnRelation[]
           expect(columnRelations.length).toBe(2)
-          if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
-            expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
-            expect(columnRelations[1].table_column_from_id).toBe(stringColumn1.id)
-          } else {
-            expect(columnRelations[0].table_column_from_id).toBe(stringColumn1.id)
-            expect(columnRelations[1].table_column_from_id).toBe(stringColumn2.id)
-          }
-          expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
-          expect(columnRelations[1].table_column_to_id).toBe(formulaColumn.id)
           // Clean database
           await app.service('column')._remove(formulaColumn.id, {})
         })
@@ -405,7 +401,7 @@ describe('hooks for column service', () => {
         })
         describe('If at least one column is specified in the formula', () => {
           it('If no column was used before', async () => {
-            expect.assertions(5)
+            expect.assertions(3)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -421,27 +417,23 @@ describe('hooks for column service', () => {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}},COLUMN.{${stringColumn2.id}})`,
               },
             })
-            // Get created column relations and delete them
+            // Get the created column relations
+            const firstColumnRelation = await app.service('columnrelation').get(`${stringColumn1.id},${formulaColumn.id}`)
+            const secondColumnRelation = await app.service('columnrelation').get(`${stringColumn2.id},${formulaColumn.id}`)
+            expect(firstColumnRelation).toBeDefined()
+            expect(secondColumnRelation).toBeDefined()
+            // Delete the column relations
             const columnRelations = await app.service('columnrelation')._remove(null, {
               query: {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
             expect(columnRelations.length).toBe(2)
-            expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
-            expect(columnRelations[1].table_column_to_id).toBe(formulaColumn.id)
-            if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
-              expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
-              expect(columnRelations[1].table_column_from_id).toBe(stringColumn1.id)
-            } else {
-              expect(columnRelations[0].table_column_from_id).toBe(stringColumn1.id)
-              expect(columnRelations[1].table_column_from_id).toBe(stringColumn2.id)
-            }
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If one other column was used before', async () => {
-            expect.assertions(3)
+            expect.assertions(2)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -457,20 +449,22 @@ describe('hooks for column service', () => {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn2.id}})`,
               },
             })
+            const columnRelation = await app.service('columnrelation').get(`${stringColumn2.id},${formulaColumn.id}`)
+
             // Get created column relations and delete them
             const columnRelations = await app.service('columnrelation')._remove(null, {
               query: {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
+            expect(columnRelation).toBeDefined()
             expect(columnRelations.length).toBe(1)
-            expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
-            expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
+
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If the specified column was already used', async () => {
-            expect.assertions(3)
+            expect.assertions(2)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -486,20 +480,21 @@ describe('hooks for column service', () => {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}})`,
               },
             })
+            const columnRelation = await app.service('columnrelation').get(`${stringColumn1.id},${formulaColumn.id}`)
+
             // Get created column relations and delete them
             const columnRelations = await app.service('columnrelation')._remove(null, {
               query: {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
+            expect(columnRelation).toBeDefined()
             expect(columnRelations.length).toBe(1)
-            expect(columnRelations[0].table_column_from_id).toBe(stringColumn1.id)
-            expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })
           it('If the specified column was already used and if one other is now used', async () => {
-            expect.assertions(5)
+            expect.assertions(3)
             // Formula column
             const formulaColumn: TableColumn = await app.service('column').create({
               text: 'formula_column',
@@ -515,22 +510,18 @@ describe('hooks for column service', () => {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}}, COLUMN.{${stringColumn2.id}})`,
               },
             })
-            // Get created column relations and delete them
+            // Get the created column relations
+            const firstColumnRelation = await app.service('columnrelation').get(`${stringColumn1.id},${formulaColumn.id}`)
+            const secondColumnRelation = await app.service('columnrelation').get(`${stringColumn2.id},${formulaColumn.id}`)
+            // Delete the column relations
             const columnRelations = await app.service('columnrelation')._remove(null, {
               query: {
                 table_column_to_id: formulaColumn.id,
               },
             }) as TableColumnRelation[]
             expect(columnRelations.length).toBe(2)
-            if (columnRelations[0].table_column_from_id !== stringColumn1.id) {
-              expect(columnRelations[0].table_column_from_id).toBe(stringColumn2.id)
-              expect(columnRelations[1].table_column_from_id).toBe(stringColumn1.id)
-            } else {
-              expect(columnRelations[0].table_column_from_id).toBe(stringColumn1.id)
-              expect(columnRelations[1].table_column_from_id).toBe(stringColumn2.id)
-            }
-            expect(columnRelations[0].table_column_to_id).toBe(formulaColumn.id)
-            expect(columnRelations[1].table_column_to_id).toBe(formulaColumn.id)
+            expect(firstColumnRelation).toBeDefined()
+            expect(secondColumnRelation).toBeDefined()
             // Clean database
             await app.service('column')._remove(formulaColumn.id, {})
           })

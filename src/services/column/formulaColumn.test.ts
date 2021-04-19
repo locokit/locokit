@@ -242,60 +242,45 @@ describe('formulaColumn hooks', () => {
     })
 
     it('update the rows if the formula, without any specified column, has been changed', async () => {
-      expect.assertions(3)
+      expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '"My new formula"',
         },
       })
-      const table1Rows = await app.service('row').find({
-        query: {
-          table_id: table1.id,
-        },
-        paginate: false,
-      }) as TableRow[]
-      expect(table1Rows.length).toBe(2)
-      expect(table1Rows[0].data[formulaColumn1.id]).toBe('My new formula')
-      expect(table1Rows[1].data[formulaColumn1.id]).toBe('My new formula')
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      row2Table1 = await app.service('row').get(row2Table1.id)
+      expect(row1Table1.data[formulaColumn1.id]).toBe('My new formula')
+      expect(row2Table1.data[formulaColumn1.id]).toBe('My new formula')
     })
 
     it('update the rows if the formula, with one specified column, has been changed', async () => {
-      expect.assertions(3)
+      expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${stringColumn1.id}}`,
         },
       })
-      const table1Rows = await app.service('row').find({
-        query: {
-          table_id: table1.id,
-        },
-        paginate: false,
-      }) as TableRow[]
-      expect(table1Rows.length).toBe(2)
-      expect(table1Rows[0].data[formulaColumn1.id]).toBe('myFirstRow')
-      expect(table1Rows[1].data[formulaColumn1.id]).toBe('mySecondRow')
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      row2Table1 = await app.service('row').get(row2Table1.id)
+      expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstRow')
+      expect(row2Table1.data[formulaColumn1.id]).toBe('mySecondRow')
     })
 
     it('update the rows if the formula, with one specified single select column, has been changed', async () => {
-      expect.assertions(3)
+      expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
         column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${singleSelectColumn1.id}}`,
         },
       })
-      const table1Rows = await app.service('row').find({
-        query: {
-          table_id: table1.id,
-        },
-        paginate: false,
-      }) as TableRow[]
-      expect(table1Rows.length).toBe(2)
-      expect(table1Rows[0].data[formulaColumn1.id]).toBe('option 1')
-      expect(table1Rows[1].data[formulaColumn1.id]).toBe('option 2')
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      row2Table1 = await app.service('row').get(row2Table1.id)
+      expect(row1Table1.data[formulaColumn1.id]).toBe('option 1')
+      expect(row2Table1.data[formulaColumn1.id]).toBe('option 2')
     })
   })
 
@@ -311,7 +296,6 @@ describe('formulaColumn hooks', () => {
       })).rejects.toThrow(NotAcceptable)
     })
     it('update the rows if a new formula column, with one specified column, has been created.', async () => {
-      expect.assertions(3)
       const formulaColumn3 = await app.service('column').create({
         text: 'formula_column_3',
         column_type_id: COLUMN_TYPE.FORMULA,
@@ -320,15 +304,10 @@ describe('formulaColumn hooks', () => {
           formula: `COLUMN.{${stringColumn1.id}}`,
         },
       })
-      const table1Rows = await app.service('row').find({
-        query: {
-          table_id: table1.id,
-        },
-        paginate: false,
-      }) as TableRow[]
-      expect(table1Rows.length).toBe(2)
-      expect(table1Rows[0].data[formulaColumn3.id]).toBe('myFirstRow')
-      expect(table1Rows[1].data[formulaColumn3.id]).toBe('mySecondRow')
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      row2Table1 = await app.service('row').get(row2Table1.id)
+      expect(row1Table1.data[formulaColumn3.id]).toBe('myFirstRow')
+      expect(row2Table1.data[formulaColumn3.id]).toBe('mySecondRow')
       // Clean database
       await app.service('column').remove(formulaColumn3.id)
     })

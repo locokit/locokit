@@ -256,7 +256,7 @@ describe('\'triggerProcess\' hook', () => {
   })
 
   it('trigger UPDATE_ROW if process triggers is enabled and well configured - Bulk request', async () => {
-    expect.assertions(6)
+    expect.assertions(4)
 
     const processTriggerCreateRow = await app.service('process').create({
       table_id: table1.id,
@@ -302,22 +302,25 @@ describe('\'triggerProcess\' hook', () => {
       paginate: false,
     })
 
+    const firstProcessRun = await app.service('process-run').find({
+      query: {
+        process_id: processTriggerCreateRow.id,
+        table_row_id: tableRow1.id,
+      },
+    })
+    const secondProcessRun = await app.service('process-run').find({
+      query: {
+        process_id: processTriggerCreateRow.id,
+        table_row_id: tableRow2.id,
+      },
+    })
+
     expect(allExecutions.length).toBe(2)
-
-    expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
-    expect(allExecutions[1].process_id).toBe(processTriggerCreateRow.id)
-
-    if (allExecutions[0].table_row_id === tableRow1.id) {
-      expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
-      expect(allExecutions[1].table_row_id).toBe(tableRow2.id)
-    } else {
-      expect(allExecutions[0].table_row_id).toBe(tableRow2.id)
-      expect(allExecutions[1].table_row_id).toBe(tableRow1.id)
-    }
+    expect(firstProcessRun.total).toBe(1)
+    expect(secondProcessRun.total).toBe(1)
 
     await app.service('row').remove(tableRow1.id)
     await app.service('row').remove(tableRow2.id)
-    // await app.service('process-run').remove(allExecutions[0].id)
     await app.service('process').remove(processTriggerCreateRow.id)
   })
 
