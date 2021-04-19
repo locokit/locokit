@@ -49,8 +49,7 @@ export function loadColumnsDefinition (): Hook {
             // when creating a row, table_id is mandatory
             ? context.data.table_id
             // if updating, we normally have loaded the actual row with the loadCurrentRow hook
-            // or specified the table_id in the query if its a multiple update
-            : context.params._meta?.item.table_id || context.params.query?.table_id
+            : context.params._meta?.item.table_id
         )
         const columns = await context.app.services.column.find({
           query: { table_id },

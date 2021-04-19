@@ -356,7 +356,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: '20',
               },
@@ -383,7 +382,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: '20',
               },
@@ -412,7 +410,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}},COLUMN.{${stringColumn2.id}})`,
               },
@@ -444,7 +441,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn2.id}})`,
               },
@@ -475,7 +471,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}})`,
               },
@@ -505,7 +500,6 @@ describe('hooks for column service', () => {
               },
             })
             await app.service('column').patch(formulaColumn.id, {
-              column_type_id: COLUMN_TYPE.FORMULA,
               settings: {
                 formula: `TEXT.CONCAT(COLUMN.{${stringColumn1.id}}, COLUMN.{${stringColumn2.id}})`,
               },

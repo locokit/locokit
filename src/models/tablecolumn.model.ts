@@ -134,7 +134,7 @@ export class TableColumn extends BaseModel {
    * @returns The original type id of the column.
    */
   originalTypeId (): COLUMN_TYPE {
-    if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings?.formula_type_id as COLUMN_TYPE
+    if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings.formula_type_id as COLUMN_TYPE
     if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
       return this.column_type_id
     }

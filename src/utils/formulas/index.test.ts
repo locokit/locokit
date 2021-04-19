@@ -253,7 +253,6 @@ describe('formula utility functions', () => {
   describe('Available functions in a formula', () => {
     async function patchTable1Formula (formula: string): Promise<void> {
       columnTable1Formula = await app.service('column').patch(columnTable1Formula.id, {
-        column_type_id: columnTable1Formula.column_type_id,
         table_id: columnTable1Formula.table_id,
         settings: {
           formula,

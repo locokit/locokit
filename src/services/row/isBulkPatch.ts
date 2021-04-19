@@ -1,4 +1,4 @@
-import { Hook, HookContext } from '@feathersjs/feathers'
+import { HookContext } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableColumn } from '../../models/tablecolumn.model'
 
@@ -8,12 +8,8 @@ import { TableColumn } from '../../models/tablecolumn.model'
  * @param {HookContext} context
  * @returns {boolean} true if the context id is specified, else false.
  */
-export const isBulkPatch = () => (
-  context: HookContext,
-): boolean => {
-  return (
-    context.id === null
-  )
+export function isBulkPatch (context: HookContext): boolean {
+  return context.id === null
 }
 
 /**
@@ -22,9 +18,7 @@ export const isBulkPatch = () => (
  * @param {HookContext} context
  * @returns {boolean} true if the request can be used to patch multiple rows, else false.
  */
-export const isValidBulkPatch = () => (
-  context: HookContext,
-): boolean => {
+export function isValidBulkPatch (context: HookContext): boolean {
   return (
     context.id === null && !context.params.provider && context.params.query?.table_id != null
   )
@@ -36,9 +30,7 @@ export const isValidBulkPatch = () => (
  * @param {HookContext} context
  * @returns {boolean} true if the updated columns only are formula columns, else false.
  */
-export const onlyUpdateFormulaColumns = () => (
-  context: HookContext,
-): boolean => {
+export function onlyUpdateFormulaColumns (context: HookContext): boolean {
   if (Array.isArray(context.params._meta.updatedColumnsWithChildren)) {
     return context.params._meta.updatedColumnsWithChildren.findIndex(
       (column: TableColumn) => column.column_type_id !== COLUMN_TYPE.FORMULA) === -1

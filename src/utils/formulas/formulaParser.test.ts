@@ -552,6 +552,11 @@ describe('Formula parser', () => {
           parse('NUMERIC.FUNCTIONWITHOPT(10.0)', { columnsTypes: COLUMN_TYPE, functions })
         }).toThrow('the \'optional\' argument of the \'NUMERIC.FUNCTIONWITHOPT\' function is invalid.')
       })
+      it('if a required and multiple parameter is incorrect', () => {
+        expect(() => {
+          parse('NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED(10, "10")', { columnsTypes: COLUMN_TYPE, functions })
+        }).toThrow('the \'numbers2\' argument of the \'NUMERIC.FUNCTIONWITHMULTIPLEREQUIRED\' function is invalid.')
+      })
       it('if one related parameter is missing', () => {
         expect(() => {
           parse('NUMERIC.FUNCTIONWITHRELATEDPARAMS(10, "string2", 20)', { columnsTypes: COLUMN_TYPE, functions })

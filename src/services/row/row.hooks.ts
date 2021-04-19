@@ -72,15 +72,15 @@ export default {
     ],
     patch: [
       commonHooks.iffElse(
-        isBulkPatch(),
+        isBulkPatch,
         [
           commonHooks.iffElse(
-            isValidBulkPatch(),
+            isValidBulkPatch,
             [
               memorizeColumnsIds(),
               loadUpdatedColumnsWithChildren(),
               commonHooks.iffElse(
-                onlyUpdateFormulaColumns(),
+                onlyUpdateFormulaColumns,
                 [],
                 [commonHooks.disallow()],
               ),

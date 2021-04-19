@@ -17,23 +17,21 @@ import { parse } from '../../utils/formulas/formulaParser'
 /**
  * Is the column a formula column ?
  * Based on the column_type_id specified in the context data if used in a before create hook,
- * on the item data in a before patch hook
+ * on the item data in a before patch hook (the 'getCurrentItem' hook needs to be executed before)
  * or in the context result if used in an after hook.
  *
  * @param {HookContext} context
  * @returns {boolean}
  */
-export const isFormulaColumn = () => (
-  context: Partial<HookContext>,
-): boolean => {
+export function isFormulaColumn (context: HookContext): boolean {
   if (context.type === 'before') {
     if (context.method === 'create') {
-      return context.data?.column_type_id === COLUMN_TYPE.FORMULA
+      return context.data.column_type_id === COLUMN_TYPE.FORMULA
     } else if (context.method === 'patch') {
-      return context.params?._meta?.item.column_type_id === COLUMN_TYPE.FORMULA
+      return context.params._meta?.item.column_type_id === COLUMN_TYPE.FORMULA
     }
   } else if (context.type === 'after') {
-    return context.result?.column_type_id === COLUMN_TYPE.FORMULA
+    return context.result.column_type_id === COLUMN_TYPE.FORMULA
   }
   return false
 }
@@ -53,7 +51,7 @@ export function parseFormula (): Hook {
 
     if (newFormula) {
       // Get the existing column if it is an update
-      const updatedColumn = context.id ? context.params?._meta?.item : new TableColumn()
+      const updatedColumn = context.id ? context.params._meta?.item : new TableColumn()
 
       // Only parse the formula on creation or if it has been changed
       if (context.method === 'create' || updatedColumn.settings?.formula !== newFormula) {
@@ -117,7 +115,7 @@ export function parseFormula (): Hook {
           })
         }
       }
-    } else if (context.data?.column_type_id === COLUMN_TYPE.FORMULA) {
+    } else {
       throw new NotAcceptable('Invalid formula: must be defined', {
         code: 'INVALID_FORMULA',
       })

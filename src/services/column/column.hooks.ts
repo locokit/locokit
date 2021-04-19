@@ -20,15 +20,15 @@ export default {
     ],
     get: [],
     create: [
-      iff(isFormulaColumn(), parseFormula()),
+      iff(isFormulaColumn, parseFormula()),
     ],
     update: [
       disallow('external'),
     ],
     patch: [
+      preventChanges(true, 'column_type_id'),
       getCurrentItem(),
-      iff(isFormulaColumn(), parseFormula()),
-      preventChanges(false, 'column_type_id'),
+      iff(isFormulaColumn, parseFormula()),
     ],
     remove: [
       removeTableColumnRelationTo(),
@@ -47,14 +47,14 @@ export default {
       createGIX(),
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
-      iff(isFormulaColumn(), updatedRelatedRowsFormula()),
+      iff(isFormulaColumn, updatedRelatedRowsFormula()),
     ],
     update: [],
     patch: [
       createGIX(),
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
-      iff(isFormulaColumn(), updatedRelatedRowsFormula()),
+      iff(isFormulaColumn, updatedRelatedRowsFormula()),
     ],
     remove: [
       dropGIX(),

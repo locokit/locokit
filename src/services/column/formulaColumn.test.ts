@@ -113,7 +113,6 @@ describe('formulaColumn hooks', () => {
     afterEach(async () => {
       // Reset the formula
       await app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '""',
         },
@@ -122,14 +121,12 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if no settings are specified', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: null,
       })).rejects.toThrow(NotAcceptable)
     })
     it('throw an exception if the formula is null', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: null,
         },
@@ -138,7 +135,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if the formula is an empty string', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '',
         },
@@ -147,7 +143,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if a formula is used as reference', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         reference: true,
         settings: {
           formula: '"string"',
@@ -157,7 +152,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if the formula column is specified in its formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${formulaColumn1.id}}`,
         },
@@ -166,7 +160,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if an unsupported column is specified in the formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${formulaColumn2.id}}`,
         },
@@ -175,7 +168,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if an unknown column is specified in the formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: 'COLUMN.{incorrectid}',
         },
@@ -184,7 +176,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if a column in another table is specified in the formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${stringColumn2.id}}`,
         },
@@ -193,7 +184,6 @@ describe('formulaColumn hooks', () => {
     it('throw an exception if there is a syntax error in the formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: 'SYNTAX_ERROR',
         },
@@ -204,7 +194,6 @@ describe('formulaColumn hooks', () => {
       expect.assertions(1)
       jest.spyOn(app.service('row'), 'patch').mockRejectedValueOnce(new Error('Can not be computed'))
       await expect(app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '10',
         },
@@ -214,14 +203,12 @@ describe('formulaColumn hooks', () => {
     it('don\'t throw an exception if no row needs to be updated', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn2.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '"test"',
         },
       })).resolves.not.toThrow()
       // Reset the formula
       await app.service('column').patch(formulaColumn2.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '""',
         },
@@ -233,7 +220,6 @@ describe('formulaColumn hooks', () => {
       const spyOnPatchRow = jest.spyOn(app.service('row'), 'patch')
       spyOnPatchRow.mockClear()
       await app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '""',
         },
@@ -244,7 +230,6 @@ describe('formulaColumn hooks', () => {
     it('update the rows if the formula, without any specified column, has been changed', async () => {
       expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: '"My new formula"',
         },
@@ -258,7 +243,6 @@ describe('formulaColumn hooks', () => {
     it('update the rows if the formula, with one specified column, has been changed', async () => {
       expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${stringColumn1.id}}`,
         },
@@ -272,7 +256,6 @@ describe('formulaColumn hooks', () => {
     it('update the rows if the formula, with one specified single select column, has been changed', async () => {
       expect.assertions(2)
       await app.service('column').patch(formulaColumn1.id, {
-        column_type_id: COLUMN_TYPE.FORMULA,
         settings: {
           formula: `COLUMN.{${singleSelectColumn1.id}}`,
         },
