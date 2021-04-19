@@ -70,19 +70,21 @@
           :reorderableColumn="false"
         >
           <template #body="slotProps">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"
-            />
-            <lck-dropdown-button
-              v-if="crudMode"
-              :disabled="manualProcesses.length === 0"
-              buttonClass="p-button-sm p-button-text p-button-rounded"
-              icon="pi specific-icon lightning"
-              appendTo="body"
-              :model="formatManualProcesses(slotProps.data.id)"
-            />
+            <span class="button-group">
+              <p-button
+                class="p-button-sm p-button-text p-button-rounded"
+                icon="pi pi-window-maximize"
+                @click="$emit('open-detail', slotProps.data.id)"
+              />
+              <lck-dropdown-button
+                v-if="crudMode"
+                :disabled="manualProcesses.length === 0"
+                buttonClass="p-button-sm p-button-text p-button-rounded"
+                icon="pi specific-icon lightning"
+                appendTo="body"
+                :model="formatManualProcesses(slotProps.data.id)"
+              />
+            </span>
           </template>
         </p-column>
         <div
@@ -850,6 +852,17 @@ tr.p-datatable-emptymessage {
 .p-datatable .p-datatable-reorder-indicator-up,
 .p-datatable .p-datatable-reorder-indicator-down {
   z-index: 1;
+}
+
+.button-group {
+}
+
+.button-group .lck-dropdownbutton .lck-dropdownbutton-menubutton {
+  padding: 0.4375rem 0.875rem;
+}
+
+.button-group .lck-dropdownbutton .lck-dropdownbutton-menubutton:after {
+  display: none;
 }
 
 </style>
