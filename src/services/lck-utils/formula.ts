@@ -690,7 +690,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
           type: COLUMN_TYPE.NUMBER
         },
         {
-          name: 'newPattern',
+          name: 'newText',
           type: TEXT_TYPES
         }
       ],
@@ -725,15 +725,15 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
     SUBSTITUTE: {
       params: [
         {
-          name: 'searchedText',
-          type: TEXT_TYPES
-        },
-        {
           name: 'originalText',
           type: TEXT_TYPES
         },
         {
-          name: 'newPattern',
+          name: 'searchedText',
+          type: TEXT_TYPES
+        },
+        {
+          name: 'newText',
           type: TEXT_TYPES
         }
       ],
