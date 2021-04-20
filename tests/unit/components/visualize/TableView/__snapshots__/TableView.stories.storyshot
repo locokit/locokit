@@ -176,9 +176,11 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
                   <td
                     colspan="0"
                   >
-                    
-        No data to display
-      
+                    <p
+                      align="center"
+                    >
+                      No data to display
+                    </p>
                      
                     <!---->
                   </td>
@@ -986,9 +988,11 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
                   <td
                     colspan="0"
                   >
-                    
-        No data to display
-      
+                    <p
+                      align="center"
+                    >
+                      No data to display
+                    </p>
                      
                     <!---->
                   </td>

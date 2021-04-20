@@ -9,7 +9,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
       class="p-d-flex"
     >
       <div
-        class="p-ai-start p-mb-4"
+        class="p-ai-start p-mb-4 p-ml-auto"
       >
         <button
           class="p-button-text p-button p-component"
@@ -36,8 +36,6 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
     <div
       class="select-type-values-table p-datatable p-component"
     >
-       
-      <!---->
        
       <!---->
        
@@ -170,7 +168,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
       class="p-d-flex"
     >
       <div
-        class="p-ai-start p-mb-4"
+        class="p-ai-start p-mb-4 p-ml-auto"
       >
         <button
           class="p-button-text p-button p-component"
@@ -197,8 +195,6 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
     <div
       class="select-type-values-table p-datatable p-component"
     >
-       
-      <!---->
        
       <!---->
        
