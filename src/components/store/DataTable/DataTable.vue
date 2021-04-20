@@ -80,7 +80,7 @@
                 v-if="crudMode"
                 :disabled="manualProcesses.length === 0"
                 buttonClass="p-button-sm p-button-text p-button-rounded"
-                icon="pi specific-icon lightning"
+                icon="bi bi-lightning"
                 appendTo="body"
                 :model="formatManualProcesses(slotProps.data.id)"
               />
