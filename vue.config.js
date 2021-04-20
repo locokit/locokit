@@ -1,8 +1,5 @@
 process.env.VUE_APP_VERSION = require('./package.json').version
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
-
 module.exports = {
   publicPath: '',
   pluginOptions: {
@@ -25,15 +22,7 @@ module.exports = {
     }
   },
   configureWebpack: {
-    devtool: 'source-map',
-    plugins: [
-      new MonacoWebpackPlugin({
-        languages: [],
-        features: [],
-        publicPath: '/'
-      })
-    ]
-
+    devtool: 'source-map'
   },
   chainWebpack: config => {
     /**

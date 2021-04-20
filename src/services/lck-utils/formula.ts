@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import * as monaco from 'monaco-editor'
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import i18n from '@/plugins/i18n'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -58,7 +58,7 @@ export const implementedInFormulaColumnTypes = [
 
 // Fonctions
 
-enum FUNCTION_CATEGORY {
+export enum FUNCTION_CATEGORY {
   DATE = 'DATE',
   LOGIC = 'LOGIC',
   NUMERIC = 'NUMERIC',
@@ -873,15 +873,15 @@ export function getMonacoSuggestions (): {
             let currentRelatedParameters2 = ''
             param.forEach((relatedParam, relatedParamIndex) => {
               separatorRelatedParameters = relatedParamIndex === 0 ? '' : ', '
-              insertTextFunction += `${separatorRelatedParameters}\${${indexParam}:${relatedParam.name}1}`
+              insertTextFunction += `${separatorRelatedParameters}\${${indexParam}:${relatedParam.name}}`
               currentRelatedParameters1 += `${separatorRelatedParameters}${relatedParam.name}1`
               currentRelatedParameters2 += `${separatorRelatedParameters}${relatedParam.name}2`
               indexParam += 1
             })
             functionSignature += `${currentRelatedParameters1}${separator}[${currentRelatedParameters2}, ...]`
           } else {
-            // Single parameter
-            insertTextFunction += `\${${indexParam}:${param.name}${param.multiple ? '1' : ''}}`
+            // Basic parameter
+            insertTextFunction += `\${${indexParam}:${param.name}}`
             if (param.multiple === true) {
               // Multiple parameter
               if (param.required === false) {
