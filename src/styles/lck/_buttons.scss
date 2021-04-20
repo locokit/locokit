@@ -1,14 +1,13 @@
 // buttons
 
 .p-button {
-  background-color: var(--surface-a);
   border-color: var(--surface-a);
+  background-color: var(--surface-a);
 
   &:enabled {
     &:hover {
-      color: var(--surface-lck-2);
-      background-color: var(--primary-color-darken);
       border-color: var(--primary-color-darken);
+      background-color: var(--primary-color-darken);
     }
   }
 
@@ -39,15 +38,15 @@
       }
     }
   }
+
   &.p-togglebutton {
     &.p-highlight {
-      background-color: var(--primary-color);
       border-color: var(--primary-color);
-      
+      background-color: var(--primary-color);
+
       &:hover {
-        color: var(--text-color);
-        background-color: var(--primary-color-darken);
         border-color: var(--primary-color-darken);
+        background-color: var(--primary-color-darken);
       }
     }
   }
@@ -70,6 +69,7 @@
     .p-button {
       flex: initial;
       margin-right: 0 !important;
+      background-color: transparent;
 
       &:first-child {
         margin-right: 0;
@@ -77,3 +77,30 @@
     }
   }
 }
+
+.p-buttonset {
+  .p-button {
+    color: var(--primary-color);
+    background-color: transparent;
+
+    &:hover {
+      color: #ffffff;
+      background-color: var(--primary-color-darken);
+    }
+  }
+}
+
+.p-button {
+  &.p-button-secondary {
+    border-color: var(--secondary-color);
+    background-color: var(--secondary-color);
+
+    &:enabled {
+      &:hover {
+        border-color: var(--secondary-color-darken);
+        background-color: var(--secondary-color-darken);
+      }
+    }
+  }
+}
+

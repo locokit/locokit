@@ -1,7 +1,7 @@
 <template>
   <p-accordion
     :multiple="true"
-    class="lck-bg-primary lck-sidebar"
+    class="lck-bg-sidebar lck-sidebar"
   >
     <p-accordion-tab
       v-for="item in items"
@@ -129,7 +129,7 @@ a {
 a:hover,
 .router-link-exact-active {
   background-color: var(--text-color);
-  color: var(--primary-color);
+  color: var(--text-color-active) !important;
 }
 
 .action-button {
@@ -143,6 +143,11 @@ a:hover,
   transition-duration: 0.5s;
 }
 
+a:hover .action-button:hover ,
+.router-link-exact-active .action-button:hover {
+  background-color: var(--text-color-active);
+}
+
 .action-set {
   padding-left: 0.5rem;
   margin-left: auto;
@@ -153,6 +158,11 @@ a:hover,
   position: relative;
   display: flex;
   align-items: center;
+  color: var(--text-color);
+}
+
+.p-accordion-content a:visited {
+  color: var(--text-color);
 }
 
 .p-accordion-content {
@@ -164,7 +174,6 @@ a:hover,
   padding-left: 0.5em;
   padding-right: 0.5em;
   margin-left: auto;
-  color: var(--primary-color-darken);
 }
 
 .new-item-button {
@@ -194,7 +203,7 @@ a:hover,
   background: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled):not(.p-highlight):hover .p-accordion-header-link {
-  color: var(--primary-color);
+  color: var(--text-color-active);
   border: unset;
   background-color: var(--text-color);
 }

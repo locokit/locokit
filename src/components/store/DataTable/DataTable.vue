@@ -96,35 +96,37 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem',
+              'height': '2.5rem'
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
               'white-space': 'nowrap',
               'position': 'relative',
-              'height': '2.5rem'
+              'height': '2.5rem',
             }"
             :sortable="isSortableColumn(column)"
           >
           <template #header>
-            <div style="display: inline-block; backgroundColor: inherit;">
-              <span :data-column-id="column.id">
+            <div class="th-container">
+              <span class="th-text" :data-column-id="column.id">
                 {{ column.text }}
               </span>
-              <lck-dropdown-button
+              <p-button
                 v-if="crudMode"
-                buttonClass="edit-column-icon"
-                :style="{
-                  position: 'absolute',
-                  backgroundColor: 'inherit',
-                  paddingRight: '0.5rem',
-                  right: isSortableColumn(column) ? '20px' : '0px'
-                }"
+                class="edit-column-icon p-ml-auto"
                 icon="pi pi-angle-down"
                 appendTo="body"
-                menuWidth="inherit"
-                @click="onEditColumnClick(column)"
+                aria-haspopup="true"
+                style="position: absolute; right: 0; width: 1rem;"
+                :aria-controls="column.id"
+                @click="onEditColumnClick($event, column)"
+              />
+              <p-menu
+                :id="column.id"
+                :ref="'menu' + column.id"
+                :popup="true"
                 :model="editColumnMenuItems"
+                appendTo="body"
               />
             </div>
           </template>
@@ -164,7 +166,15 @@
               :placeholder="$t('components.datatable.placeholder')"
               @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
-            />
+            >
+              <template #option="slotProps">
+                <lck-badge
+                  :label="slotProps.option.label"
+                  :color="slotProps.option.color"
+                  :backgroundColor="slotProps.option.backgroundColor"
+                />
+              </template>
+            </p-dropdown>
             <lck-multiselect
               v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
@@ -203,7 +213,15 @@
           <template
             #body="slotProps"
           >
-            {{ getValue(column, slotProps.data.data[column.id]) }}
+            <lck-badge
+              v-if="!isSingleSelect(column)"
+              v-bind="getValue(column, slotProps.data.data[column.id])"
+            />
+            <span
+              v-else
+            >
+              {{ getValue(column, slotProps.data.data[column.id]) }}
+            </span>
             <span
               class="cell-state"
               :class="{
@@ -217,7 +235,7 @@
         </p-column>
         </div>
         <template #empty>
-          {{ $t('components.datatable.noDataToDisplay') }}
+          <p align="center">{{ $t('components.datatable.noDataToDisplay') }}</p>
         </template>
       </p-datatable>
 
@@ -255,6 +273,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Menu from 'primevue/menu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
@@ -262,6 +281,7 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import Badge from '@/components/ui/Badge/Badge'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -284,6 +304,7 @@ export default {
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
     'lck-input-url': InputURL,
+    'lck-badge': Badge,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -294,7 +315,8 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-menu': Vue.extend(Menu)
   },
   props: {
     definition: {
@@ -404,7 +426,9 @@ export default {
         ) {
           result[currentColumn.id].dropdownOptions = Object.keys(currentColumn.settings?.values || {}).map(k => ({
             value: k,
-            label: currentColumn.settings.values[k].label
+            label: currentColumn.settings.values[k].label,
+            color: currentColumn.settings.values[k].color,
+            backgroundColor: currentColumn.settings.values[k].backgroundColor
           }))
         }
       })
@@ -502,7 +526,11 @@ export default {
           case COLUMN_TYPE.MULTI_USER:
             return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:
-            return column.settings.values[data]?.label
+            return {
+              label: column.settings.values[data]?.label,
+              color: column.settings.values[data]?.color,
+              backgroundColor: column.settings.values[data]?.backgroundColor
+            }
           case COLUMN_TYPE.MULTI_SELECT:
             if (data.length > 0) {
               return data.map(d => column.settings.values[d]?.label).join(', ')
@@ -527,6 +555,14 @@ export default {
       }
     },
     isSortableColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.SINGLE_SELECT:
+          return false
+        default:
+          return true
+      }
+    },
+    isSingleSelect (column) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.SINGLE_SELECT:
           return false
@@ -693,8 +729,9 @@ export default {
     onRowContextMenu (event) {
       this.$refs.cm.show(event.originalEvent)
     },
-    onEditColumnClick (column) {
+    onEditColumnClick (event, column) {
       this.$emit('column-select', column)
+      this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
     }
   },
@@ -761,6 +798,11 @@ export default {
   height: 100%;
   width: 100%;
   overflow-x: initial;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th.p-resizable-column {
+  min-width: 100px;
+  padding-right: 5px;
 }
 
 tr.p-datatable-emptymessage {

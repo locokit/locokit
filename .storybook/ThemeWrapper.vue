@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style src="../public/assets/css/theme.css"></style>
+<style src="../public/themes/locokit/theme.css"></style>
 
 <style>
 #root,

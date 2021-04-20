@@ -324,7 +324,7 @@ export default Vue.extend({
 
 <style scoped>
 .lck-process-listing {
-  background-color: white;
+    background-color: white;
   height: 100%;
 }
 

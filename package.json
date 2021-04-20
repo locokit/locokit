@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.3.0-alpha.4",
+  "version": "0.3.0-alpha.7",
   "private": true,
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
@@ -13,7 +13,8 @@
     "storybook:build": "build-storybook -s ./public",
     "storybook:serve": "start-storybook -p 6006 watch-css -s ./public --no-manager-cache",
     "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
-    "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js"
+    "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js",
+    "test:update-imageshot": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit -- --u tests/unit/imageshots.spec.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^4.5.4",
@@ -44,7 +45,8 @@
     "vue-i18n": "^8.18.2",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^2.24.3",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",

@@ -65,7 +65,6 @@
                 :disabled="currentView && currentView.locked"
                 @change="onChangeViewColumns"
               />
-
               <lck-filter-button
                 class="p-ml-2"
                 :definition="displayColumnsView"
@@ -85,12 +84,12 @@
                 class="p-mr-2 p-button-text p-button-primary"
                 @click="onClickAddButton"
               />
-              <p-button
-                label="Export"
-                class="p-button-secondary"
-                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+              <lck-dropdown-button
+                :label="$t('components.datatable.toolbar.export.label')"
                 :disabled="!hasDataToDisplay"
-                @click="onClickExportButton"
+                :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+                :model="fileExportFormat"
+                buttonClass="p-button-secondary"
               />
             </div>
           </template>
@@ -198,9 +197,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
-import saveAs from 'file-saver'
 
-import { formatISO, isValid, parseISO } from 'date-fns'
+import {
+  formatISO,
+  isValid,
+  parseISO
+} from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -218,8 +220,14 @@ import {
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow
 } from '@/store/process'
-import { isEditableColumn } from '@/services/lck-utils/columns'
-import { lckHelpers, lckServices } from '@/services/lck-api'
+import {
+  isEditableColumn
+} from '@/services/lck-utils/columns'
+import {
+  lckHelpers,
+  lckServices
+} from '@/services/lck-api'
+
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import TabView from 'primevue/tabview'
@@ -237,6 +245,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 
 import WithToolbar from '@/layouts/WithToolbar'
 
@@ -257,6 +266,7 @@ export default {
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
     'lck-process-listing': ProcessListing,
+    'lck-dropdown-button': DropdownButton,
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
     'lck-column-form': ColumnForm,
@@ -283,6 +293,22 @@ export default {
       databaseState,
       crudMode: true,
       cellState: {},
+      fileExportFormat: [
+        {
+          label: this.$t('components.datatable.toolbar.export.exportCSV'),
+          icon: 'pi pi-file',
+          command: () => {
+            this.onClickExportButtonCSV()
+          }
+        },
+        {
+          label: this.$t('components.datatable.toolbar.export.exportXLS'),
+          icon: 'pi pi-file-excel',
+          command: () => {
+            this.onClickExportButtonXLS()
+          }
+        }
+      ],
       block: {
         loading: false,
         content: {
@@ -297,8 +323,7 @@ export default {
       selectedViewId: null,
       displayNewDialog: false,
       newRow: {
-        data: {
-        }
+        data: {}
       },
       manualProcesses: [],
       processesByRow: [],
@@ -392,8 +417,7 @@ export default {
       this.selectedViewId = null
       this.displayNewDialog = false
       this.newRow = {
-        data: {
-        }
+        data: {}
       }
       this.submitting = false
       this.currentDatatableFirst = 0
@@ -493,19 +517,24 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
-    async onClickExportButton () {
+    async onClickExportButtonCSV () {
       if (!this.selectedViewId) return
       this.exporting = true
-      const data = await lckHelpers.exportTableRowData(
+      await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
-        this.getCurrentFilters(this.currentDatatableFilters)
+        this.getCurrentFilters(this.currentDatatableFilters),
+        this.fileName = this.currentView.text
       )
-      saveAs(
-        new Blob([data]),
-        this.currentView.text + '.csv',
-        {
-          type: 'text/csv;charset=utf-8'
-        })
+      this.exporting = false
+    },
+    async onClickExportButtonXLS () {
+      if (!this.selectedViewId) return
+      this.exporting = true
+      await lckHelpers.exportTableRowDataXLS(
+        this.selectedViewId,
+        this.getCurrentFilters(this.currentDatatableFilters),
+        this.fileName = this.currentView.text
+      )
       this.exporting = false
     },
     /**
@@ -868,7 +897,6 @@ export default {
 
 /deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.5rem;
-  background-color: var(--text-color);
   border: 1px solid var(--surface-a);
   border-bottom: 0;
   color: var(--surface-a);
@@ -886,7 +914,7 @@ export default {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
-  color: var(--text-color);
+  color: var(--paginator-text-color-active);
 }
 
 .lck-database-nav {
@@ -907,12 +935,12 @@ export default {
 }
 
 .lck-database-toolbar {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
+  border-bottom: 1px solid var(--toolbar-border-bottom-color);
+  background-color: var(--toolbar-background-color);
 }
 
 .lck-database-panel .lck-toolbar {
-  color: red;
+  color: var(--primary-color);
 }
 
 .lck-database-panel {
@@ -927,19 +955,22 @@ export default {
   overflow-y: auto;
   min-width: 350px;
 }
+
 /deep/ .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary {
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
+
 /deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .process-toolbar-button {
-  margin-top: 0.3rem ;
+  margin-top: 0.3rem;
 }
 
 </style>

@@ -9,26 +9,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Vue, { PropType } from 'vue'
 
+import { TranslateResult } from 'vue-i18n'
 import mapboxgl, {
   AnyLayer,
-  LngLatBounds,
   Map,
   MapboxOptions,
   MapLayerMouseEvent,
   NavigationControl,
   Popup,
-  ScaleControl,
-  LngLatLike
+  ScaleControl
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
 import {
+  computeBoundingBox,
   LckGeoResource,
   LckImplementedLayers,
   LckImplementedLayoutProperty,
   LckImplementedPaintProperty
 } from '@/services/lck-utils/map'
-
-import { TranslateResult } from 'vue-i18n'
 
 interface PopupContent {
   class?: string | null;
@@ -102,8 +101,8 @@ export default Vue.extend({
           }
         ]
       },
-      minZoom: 2,
-      maxZoom: 14, // I think it's unused by mapbox ?
+      minZoom: 1,
+      maxZoom: 16,
       ...this.options
     })
 
@@ -271,51 +270,8 @@ export default Vue.extend({
       }, 300)
     },
     setFitBounds () {
-      const coordinates: LngLatLike[] = []
-      /**
-       * Collect all coordinates from all features of all resources
-       */
-      this.resources.forEach((resource: LckGeoResource) => {
-        resource.features.forEach(feature => {
-          switch (feature.geometry.type) {
-            case 'Point':
-              coordinates.push(feature.geometry.coordinates as [number, number])
-              break
-            case 'LineString':
-              coordinates.push(...feature.geometry.coordinates as [number, number][])
-              break
-            case 'Polygon':
-              coordinates.push(...feature.geometry.coordinates[0] as [number, number][])
-              break
-          }
-          // TODO: @alc, we need to review this code together
-          // if (feature.type === 'Point') {
-          //   coordinates.push([feature.geometry.coordinates])
-          // } else {
-          // }
-        })
-      })
-      /**
-       * If we have no coordinates, we can't fitBounds
-       */
-      if (coordinates.length === 0) return
-      /**
-       * if we only have one coordinates, for a bbox, we need two, minimum
-       * so we add another coordinates, with the first one
-       */
-      if (coordinates.length === 1) coordinates.push(coordinates[0])
-
-      /**
-       * Now we can compute bounds of all coordinates...
-       */
-      const bounds = coordinates.reduce((bounds, coordinate) => {
-        return bounds.extend(coordinate)
-      }, new LngLatBounds(coordinates[0], coordinates[1]));
-
-      /**
-       * ... and fitBounds the map !
-       */
-      (this.map as Map).fitBounds(bounds, {
+      const bounds = computeBoundingBox(this.resources)
+      this.map!.fitBounds(bounds, {
         padding: 40,
         animate: this.mode === MODE.BLOCK
       })

@@ -1,0 +1,73 @@
+/**
+ * This file is here to allow you overwrite default colors
+ * Please define the colors you want to use inside the app
+ */
+:root {
+
+  --color-warning: rgb(196, 144, 44);
+  --color-warning-light: rgba(196, 144, 44, .8);
+  --color-error:  #f44336;
+  --color-error-light: #f4433699;
+  --color-success: rgb(48, 150, 48);
+  --color-success-light: rgba(48, 150, 48, .8);
+
+  /* Boutons background, active tab-background, default background of the login page */
+  --surface-a:var(--primary-color) !important;
+  /* Buttons:hover border and background-color */
+  --surface-b:var(--primary-color-lighten) !important;
+  /* Popover border, burger-menu button background (responsive). This item use a transparency */
+  --surface-c:rgba(255, 255, 255, 0.04) !important;
+  /* Table bottom border color*/
+  --surface-d:#3f4b5b !important;
+  /* no utilisation yet */
+  --surface-e:#2a323d !important;
+  --surface-f:#2a323d !important;
+  /* Sidebar right background */
+  --surface-w:#f8f9fa !important;
+  --surface-lck-1: var(--primary-color);
+  /* Couleur du texte sur les boutons, */
+  --surface-lck-2: #ffffff;
+
+  /* Sidebar */
+  --sidebar-background-color:#fafafa;
+  /* Sidebar text-color, sidebar active route background, used for paginator */
+  --text-color:var(--primary-color) !important;
+  /* Used */
+  --text-color-active: #fff;
+  /* Paginator/Tab text-color active */
+  --paginator-text-color-active: #fff !important;
+  --text-color-secondary: #fff !important;
+
+  --primary-color: #BEC931 !important;
+  --primary-color-lighten: #D0DD2A !important;
+  --primary-color-darken: #50AF55 !important;
+  --primary-color-text:#1B1237 !important;
+
+  --secondary-color: #F85446 !important;
+  --secondary-color-lighten: #F85446 !important;
+  --secondary-color-darken: #F85446 !important;
+
+  --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+
+  --border-radius: 2px !important;
+  --accordion-header-link-padding: 10rem .5rem !important;
+
+  /* Main Header */
+
+  --header-height: 4rem !important;
+  --header-background-color: #FAF9F9 !important;
+  --header-border-bottom-color: #cccccc !important;
+
+  /* Toolbar over table */
+
+  --toolbar-background-color: #ffffff !important;
+  --toolbar-border-bottom-color: #eeeeee !important;
+
+  /* Background color, main content */
+
+  --background-color: #fafafa;
+
+  /* Use on markdown */
+  --background-color-light: #ffffff;
+
+}

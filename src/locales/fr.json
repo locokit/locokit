@@ -34,6 +34,11 @@
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
       "toolbar": {
+        "export": {
+          "label": "Exporter",
+          "exportXLS" : "en XLS",
+          "exportCSV" : "en CSV"
+        },
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"
         },
@@ -275,7 +280,7 @@
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
     "home": {
-      "title": "Bienvenue sur la plateforme v-logistique",
+      "title": "Bienvenue",
       "subtitle": ""
     },
     "lostpassword": {
@@ -426,6 +431,7 @@
         "label": "Label",
         "color": "Couleur",
         "backgroundColor": "Couleur de fond",
+        "selectColor": "Choisir une couleur",
         "position": "Position",
         "defaultValue": "Valeur par défaut",
         "defaultValuePlaceholder": "Choisir une valeur par défaut"

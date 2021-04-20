@@ -34,6 +34,11 @@
       "detail": "Detail row",
       "addNewRow": "Add new row",
       "toolbar": {
+        "export": {
+          "label": "Export as",
+          "exportXLS" : "XLS File",
+          "exportCSV" : "CSV File"
+        },
         "lists": {
           "label": "no column | {n} column | {n} columns"
         },
@@ -273,7 +278,7 @@
       "link": "Please, please... come back home."
     },
     "home": {
-      "title": "Welcome on v-logistique platform",
+      "title": "Welcome",
       "subtitle": ""
     },
     "lostpassword": {
@@ -424,6 +429,7 @@
         "label": "Label",
         "color": "Color",
         "backgroundColor": "Background color",
+        "selectColor": "Select color",
         "position": "Position",
         "defaultValue": "Default value",
         "defaultValuePlaceholder": "Select default value"

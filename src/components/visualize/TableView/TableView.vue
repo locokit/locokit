@@ -28,13 +28,13 @@
           class="p-mr-2"
           @click="onClickAddButton"
         />
-        <p-button
+        <lck-dropdown-button
+          :label="$t('components.datatable.toolbar.export.label')"
           v-if="exportAllowed"
           :disabled="!hasDataToDisplay"
-          label="Export"
-          class="p-button-secondary"
+          :model="fileExportFormat"
           :icon="exporting ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
-          @click="$emit('export-view')"
+          buttonClass="p-button-secondary"
         />
       </div>
     </div>
@@ -75,6 +75,7 @@ import { getCurrentFilters } from '@/services/lck-utils/filter'
 
 import Button from 'primevue/button'
 
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
@@ -87,7 +88,8 @@ export default {
     'lck-data-detail': DataDetail,
     'lck-filter-button': FilterButton,
     'lck-dialog-form': DialogForm,
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'lck-dropdown-button': DropdownButton
   },
   props: {
     addAllowed: {
@@ -125,7 +127,23 @@ export default {
     return {
       displayNewDialog: false,
       newRow: {},
-      currentDatatableFilters: []
+      currentDatatableFilters: [],
+      fileExportFormat: [
+        {
+          label: this.$t('components.datatable.toolbar.export.exportCSV'),
+          icon: 'pi pi-file',
+          command: () => {
+            this.$emit('export-view-csv')
+          }
+        },
+        {
+          label: this.$t('components.datatable.toolbar.export.exportXLS'),
+          icon: 'pi pi-file-excel',
+          command: () => {
+            this.$emit('export-view-xls')
+          }
+        }
+      ]
     }
   },
   computed: {

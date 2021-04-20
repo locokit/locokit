@@ -4,7 +4,7 @@ const optionsWithoutBackgroundTiles = {
   style: {
     version: 8,
     sources: {},
-    glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+    glyphs: '/fonts/{fontstack}/{range}.pbf',
     layers: []
   }
 }
@@ -23,7 +23,7 @@ const optionsWithBackgroundTiles = {
         tileSize: 256
       }
     },
-    glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+    glyphs: '/fonts/{fontstack}/{range}.pbf',
     layers: [
       {
         id: 'tiles-background',

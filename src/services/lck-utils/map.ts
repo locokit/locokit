@@ -1,11 +1,42 @@
 import WKT from 'ol/format/WKT'
-import { COLUMN_GEO_TYPE, COLUMN_TYPE, MapSettings } from '@locokit/lck-glossary'
-import { CircleLayer, CircleLayout, CirclePaint, FillLayer, FillLayout, FillPaint, LineLayer, LineLayout, LinePaint } from 'mapbox-gl'
-import { LckTableColumn, LckTableRow, LckTableRowData, LckTableViewColumn } from '../lck-api/definitions'
-import { getColumnTypeId, getDataFromTableViewColumn } from './columns'
-import GeoJSON, { GeoJSONFeature, GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
+import GeoJSON, {
+  GeoJSONFeature,
+  GeoJSONFeatureCollection
+} from 'ol/format/GeoJSON'
+import {
+  CircleLayer,
+  CircleLayout,
+  CirclePaint,
+  FillLayer,
+  FillLayout,
+  FillPaint,
+  LineLayer,
+  LineLayout,
+  LinePaint,
+  LngLatBounds,
+  LngLatLike
+} from 'mapbox-gl'
+
 import { TranslateResult } from 'vue-i18n'
+
+import {
+  COLUMN_GEO_TYPE,
+  COLUMN_TYPE,
+  MapSettings
+} from '@locokit/lck-glossary'
+
+import {
+  LckTableColumn,
+  LckTableRow,
+  LckTableRowData,
+  LckTableViewColumn
+} from '@/services/lck-api/definitions'
+import {
+  getColumnTypeId,
+  getDataFromTableViewColumn
+} from '@/services/lck-utils/columns'
+import { getArrayDepth } from '@/services/lck-utils/arrays'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
@@ -99,11 +130,26 @@ export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLay
 }
 
 /**
- * Return only the GEOMETRY columns from a LckTableViewColumn[]
+ * Get Geo colunms
+ *  Two scenario possible:
+ *   - if source exist, only data of (geo)column will be display
+ *   - otherwise all data of geocolumn
+ * @param columns
+ * @param settings
  */
 export function getOnlyGeoColumn (
-  columns: LckTableViewColumn[]
+  columns: LckTableViewColumn[],
+  settings: MapSettings
 ): LckTableViewColumn[] {
+  if (settings.sources) {
+    return settings.sources.reduce((acc, { field }) => {
+      const col = columns.find(column => column.id === field)
+      if (col?.column_type_id && isGEOColumn(getColumnTypeId(col))) {
+        acc.push(col)
+      }
+      return acc
+    }, [] as LckTableViewColumn[])
+  }
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
 
@@ -199,7 +245,7 @@ export function getLckGeoResources (
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
 ): LckGeoResource[] {
-  const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns)
+  const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)
   const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
     data,
     geoColumns,
@@ -215,4 +261,37 @@ export function getLckGeoResources (
     type: features.type,
     features: features.features
   }]
+}
+
+export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {
+  const coordinates: LngLatLike[] = []
+  /**
+   * Collect all coordinates from all features of all resources
+   */
+  resources.forEach((resource: LckGeoResource) => {
+    resource.features.forEach(feature => {
+      if (feature.geometry.type !== 'GeometryCollection') {
+        // Get at least an Array of array hence the 2
+        const featureCoord = feature.geometry.coordinates.flat(getArrayDepth(feature.geometry.coordinates) - 2)
+        if (feature.geometry.type === 'Point') {
+          coordinates.push(featureCoord as [number, number])
+        } else {
+          coordinates.push(...(featureCoord as [number, number][]))
+        }
+      }
+    })
+  })
+
+  /**
+   * if we only have one coordinates, for a bbox, we need two, minimum
+   * so we add another coordinates, with the first one
+   */
+  if (coordinates.length === 1) coordinates.push(coordinates[0])
+
+  /**
+   * Now we can compute bounds of all coordinates...
+   */
+  return coordinates.reduce((bounds, coordinate) => {
+    return bounds.extend(coordinate)
+  }, new LngLatBounds(coordinates[0], coordinates[1]))
 }
