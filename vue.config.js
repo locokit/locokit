@@ -29,7 +29,8 @@ module.exports = {
     plugins: [
       new MonacoWebpackPlugin({
         languages: [],
-        features: []
+        features: [],
+        publicPath: '/'
       })
     ]
 

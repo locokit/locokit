@@ -253,7 +253,7 @@
           "TEXT": {
             "CONCAT": "Retourne la concaténation des textes spécifiés.",
             "EXACT": "Retourne vrai si les deux textes sont égaux, sinon retourne faux.",
-            "FIND": "Retourne la position de la première occurrence du texte recherché dans un autre texte, ou 0 si la chaîne recherchée n'est pas trouvée.",
+            "FIND": "Retourne la position de la première occurrence du texte recherché dans un autre texte, ou 0 si le texte recherché n'est pas trouvée.",
             "LEFT": "Retourne les premiers caractères du texte spécifié.",
             "LEN": "Retourne le nombre de caractères qu'il y a dans le texte.",
             "LOWER": "Retourne le texte spécifié en minuscules.",

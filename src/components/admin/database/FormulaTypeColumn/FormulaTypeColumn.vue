@@ -83,163 +83,162 @@ export default {
       const monaco = this.$refs.editor.monaco
 
       // Register the locokit language if it is not done yet
-      if (monaco.languages.getEncodedLanguageId('locokitLanguage')) return
+      if (!monaco.languages.getEncodedLanguageId('locokitLanguage')) {
+        monaco.languages.register({ id: 'locokitLanguage' })
 
-      monaco.languages.register({ id: 'locokitLanguage' })
+        // Register a tokens provider for the language
+        monaco.languages.setMonarchTokensProvider('locokitLanguage', {
+          operators: [],
+          brackets: [{ open: '(', close: ')', token: 'delimiter.parenthesis' }],
 
-      // Register a tokens provider for the language
-      monaco.languages.setMonarchTokensProvider('locokitLanguage', {
-        operators: [],
-        brackets: [{ open: '(', close: ')', token: 'delimiter.parenthesis' }],
+          tokenizer: {
+            root: [
+              { include: '@whitespace' },
+              { include: '@numbers' },
+              { include: '@categories' },
+              { include: '@columns' },
+              [/"([^"\\]|\\.)*$/, 'string.invalid'],
+              [/"/, 'string', '@doublestring'],
+              [/[()]/, '@brackets']
+            ],
 
-        tokenizer: {
-          root: [
-            { include: '@whitespace' },
-            { include: '@numbers' },
-            { include: '@categories' },
-            { include: '@columns' },
-            [/"([^"\\]|\\.)*$/, 'string.invalid'],
-            [/"/, 'string', '@doublestring'],
-            [/[()]/, '@brackets']
-          ],
+            // whitespace
+            whitespace: [[/\s+/, '']],
 
-          // whitespace
-          whitespace: [[/\s+/, '']],
+            // categories
+            // eslint-disable-next-line no-useless-escape
+            categories: [[new RegExp(`(${Object.keys(functions).join('|')})\.([^\s|(])+`), 'category']],
 
-          // categories
-          // eslint-disable-next-line no-useless-escape
-          categories: [[new RegExp(`(${Object.keys(functions).join('|')})\.([^\s|(])+`), 'category']],
+            // columns
+            columns: [[/COLUMN\.({.+}|[^\s]+)/, 'column']],
 
-          // columns
-          columns: [[/COLUMN\.({.+}|[^\s]+)/, 'column']],
+            // numbers
+            numbers: [[/-?(\d)+(\.\d+)?/, 'number']],
 
-          // numbers
-          numbers: [[/-?(\d)+(\.\d+)?/, 'number']],
-
-          // strings
-          doublestring: [
-            [/[^\\"]+/, 'string'],
-            [/\./, 'string.escape'],
-            [/\\./, 'string.escape.invalid'],
-            [/"/, 'string', '@pop']
-          ]
-        }
-      })
-
-      const availableSuggestions = getMonacoSuggestions()
-
-      // Register a completion item provider for the language
-      monaco.languages.registerCompletionItemProvider('locokitLanguage', {
-        triggerCharacters: ['.'],
-        provideCompletionItems: (model, position, context) => {
-          // Get the current typed word
-          const currentWord = context.triggerCharacter
-            ? model.getWordUntilPosition({
-              lineNumber: position.lineNumber,
-              column: position.column - 1
-            })
-            : model.getWordUntilPosition(position)
-          // Get the right suggestions to return
-          let suggestions = []
-          if (currentWord.word === 'COLUMN') {
-            // The current word is the prefix column so we only suggest the available columns
-            suggestions = this.columnSuggestions
-          } else if (
-            availableSuggestions.functionSuggestions[currentWord.word]
-          ) {
-            // The current word is a category prefix so we suggest the functions associated to this category
-            suggestions = availableSuggestions.functionSuggestions[currentWord.word]
-          } else {
-            // The current word is unknown so we suggest all the items
-            suggestions = availableSuggestions.allSuggestions.concat(this.columnSuggestions)
+            // strings
+            doublestring: [
+              [/[^\\"]+/, 'string'],
+              [/\./, 'string.escape'],
+              [/\\./, 'string.escape.invalid'],
+              [/"/, 'string', '@pop']
+            ]
           }
-          // Need to specify where the completion will be made
-          const range = {
-            startLineNumber: position.lineNumber,
-            endLineNumber: position.lineNumber,
-            startColumn: currentWord.startColumn,
-            endColumn: currentWord.endColumn
-          }
-          suggestions.forEach((suggestion) => {
-            suggestion.range = range
-          })
-          return {
-            suggestions
-          }
-        }
-      })
+        })
 
-      // Register an hover item provider for the language
-      monaco.languages.registerHoverProvider('locokitLanguage', {
-        provideHover: function (model, position) {
-          // Hover on functions names
-          let providerResult = {
-            contents: []
-          }
-          // Get the current formula
-          const currentValue = model.getValue()
+        const availableSuggestions = getMonacoSuggestions()
 
-          // Search the index of the '.' before the hovered word
-          const indexInf = currentValue.lastIndexOf('.', position.column - 1)
-
-          if (indexInf > 0) {
-            // Search the index of the '(' after the hovered word
-            const indexSup = currentValue.indexOf('(', position.column - 1)
-
-            if (indexSup > 0) {
-              // If the hovered word is between '.' and '(', maybe it's a function so we check if it exists
-              const categoryName = model.getWordUntilPosition({
+        // Register a completion item provider for the language
+        monaco.languages.registerCompletionItemProvider('locokitLanguage', {
+          triggerCharacters: ['.'],
+          provideCompletionItems: (model, position, context) => {
+            // Get the current typed word
+            const currentWord = context.triggerCharacter
+              ? model.getWordUntilPosition({
                 lineNumber: position.lineNumber,
-                column: indexInf + 1
-              }).word
-              const functionName = currentValue.slice(indexInf + 1, indexSup)
-              const functionSignature = availableSuggestions.functionSignatures[categoryName]?.[functionName]
+                column: position.column - 1
+              })
+              : model.getWordUntilPosition(position)
+            // Get the right suggestions to return
+            let suggestions = []
+            if (currentWord.word === 'COLUMN') {
+              // The current word is the prefix column so we only suggest the available columns
+              suggestions = this.columnSuggestions
+            } else if (
+              availableSuggestions.functionSuggestions[currentWord.word]
+            ) {
+              // The current word is a category prefix so we suggest the functions associated to this category
+              suggestions = availableSuggestions.functionSuggestions[currentWord.word]
+            } else {
+              // The current word is unknown so we suggest all the items
+              suggestions = availableSuggestions.allSuggestions.concat(this.columnSuggestions)
+            }
+            // Need to specify where the completion will be made
+            const range = {
+              startLineNumber: position.lineNumber,
+              endLineNumber: position.lineNumber,
+              startColumn: currentWord.startColumn,
+              endColumn: currentWord.endColumn
+            }
+            suggestions.forEach((suggestion) => {
+              suggestion.range = range
+            })
+            return {
+              suggestions
+            }
+          }
+        })
 
-              // Return a result if the formula exists
-              if (functionSignature) {
-                providerResult = {
-                  range: new monaco.Range(
-                    position.lineNumber,
-                    indexInf + 2,
-                    position.lineNumber,
-                    indexSup + 1
-                  ),
-                  contents: [
-                    // function signature
-                    { value: functionSignature },
-                    // function documentation
-                    { value: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString() }
-                  ]
+        // Register an hover item provider for the language
+        monaco.languages.registerHoverProvider('locokitLanguage', {
+          provideHover: function (model, position) {
+            // Hover on functions names
+            let providerResult = {
+              contents: []
+            }
+            // Get the current formula
+            const currentValue = model.getValue()
+
+            // Search the index of the '.' before the hovered word
+            const indexInf = currentValue.lastIndexOf('.', position.column - 1)
+
+            if (indexInf > 0) {
+              // Search the index of the '(' after the hovered word
+              const indexSup = currentValue.indexOf('(', position.column - 1)
+
+              if (indexSup > 0) {
+                // If the hovered word is between '.' and '(', maybe it's a function so we check if it exists
+                const categoryName = model.getWordUntilPosition({
+                  lineNumber: position.lineNumber,
+                  column: indexInf + 1
+                }).word
+                const functionName = currentValue.slice(indexInf + 1, indexSup)
+                const functionSignature = availableSuggestions.functionSignatures[categoryName]?.[functionName]
+
+                // Return a result if the formula exists
+                if (functionSignature) {
+                  providerResult = {
+                    range: new monaco.Range(
+                      position.lineNumber,
+                      indexInf + 2,
+                      position.lineNumber,
+                      indexSup + 1
+                    ),
+                    contents: [
+                      // function signature
+                      { value: functionSignature },
+                      // function documentation
+                      { value: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString() }
+                    ]
+                  }
                 }
               }
             }
+            return providerResult
           }
-          return providerResult
-        }
-      })
+        })
 
-      // Define a new theme
-      monaco.editor.defineTheme('locokitTheme', {
-        base: 'vs',
-        inherit: true,
-        rules: [
-          // { token: 'string', foreground: 'B32C12' },
-          { token: 'category', foreground: '005666' },
-          { token: 'column', foreground: '664805' }
-          // { token: 'number', foreground: 'B38112' }
-        ],
-        colors: {}
-      })
+        // Define a new theme
+        monaco.editor.defineTheme('locokitTheme', {
+          base: 'vs',
+          inherit: true,
+          rules: [
+            // { token: 'string', foreground: 'B32C12' },
+            { token: 'category', foreground: '005666' },
+            { token: 'column', foreground: '664805' }
+            // { token: 'number', foreground: 'B38112' }
+          ],
+          colors: {}
+        })
 
-      // Language configuration
-      monaco.languages.setLanguageConfiguration('locokitLanguage', {
-        brackets: [['(', ')']],
-        autoClosingPairs: [
-          { open: '(', close: ')' },
-          { open: '"', close: '"' }
-        ]
-      })
-
+        // Language configuration
+        monaco.languages.setLanguageConfiguration('locokitLanguage', {
+          brackets: [['(', ')']],
+          autoClosingPairs: [
+            { open: '(', close: ')' },
+            { open: '"', close: '"' }
+          ]
+        })
+      }
       // Select the custom language and theme
       this.language = 'locokitLanguage'
       this.theme = 'locokitTheme'
