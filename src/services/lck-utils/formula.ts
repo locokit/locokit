@@ -725,7 +725,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
     SUBSTITUTE: {
       params: [
         {
-          name: 'originalText',
+          name: 'text',
           type: TEXT_TYPES
         },
         {
@@ -917,7 +917,6 @@ export function getMonacoSuggestions (): {
         kind: monaco.languages.CompletionItemKind.Function,
         documentation: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString(),
         insertText: insertTextFunction,
-        commitCharacters: [','],
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: functionSignature,
         range: defaultRange
@@ -932,3 +931,5 @@ export function getMonacoSuggestions (): {
     functionSignatures
   }
 }
+
+export const predefinedMonacoSuggestions = getMonacoSuggestions()
