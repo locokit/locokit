@@ -1944,7 +1944,7 @@ describe('formula utility functions', () => {
           expect.assertions(1)
           await expect(
             patchTable1Formula('TEXT.REPLACE("abcdef", 2, 10)'),
-          ).rejects.toThrowError('Invalid formula: the \'newPattern\' argument of the \'TEXT.REPLACE\' function is missing.')
+          ).rejects.toThrowError('Invalid formula: the \'newText\' argument of the \'TEXT.REPLACE\' function is missing.')
         })
         it('Throw an error if the number of chars to replace is not specified', async () => {
           expect.assertions(1)
@@ -2026,33 +2026,33 @@ describe('formula utility functions', () => {
       describe('SUBSTITUTE', () => {
         it('Return a copy of the original string in which a pattern is replaced by a newer one.', async () => {
           expect.assertions(2)
-          await patchTable1Formula('TEXT.SUBSTITUTE("cd", "abcdefcdghi", "UVW")')
+          await patchTable1Formula('TEXT.SUBSTITUTE("abcdefcdghi", "cd", "UVW")')
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
           expect(rowTable1.data[columnTable1Formula.id]).toBe('abUVWefUVWghi')
         })
         it('Return a copy of the original string in which a pattern is replaced by an empty string.', async () => {
           expect.assertions(2)
-          await patchTable1Formula('TEXT.SUBSTITUTE("cd", "abcdefcdghi", "")')
+          await patchTable1Formula('TEXT.SUBSTITUTE("abcdefcdghi", "cd", "")')
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
           expect(rowTable1.data[columnTable1Formula.id]).toBe('abefghi')
         })
-        it('Throw an error if the new pattern is not specified', async () => {
+        it('Throw an error if the new text is not specified', async () => {
           expect.assertions(1)
           await expect(
-            patchTable1Formula('TEXT.SUBSTITUTE("cd", "abcdefcdghi")'),
-          ).rejects.toThrowError('Invalid formula: the \'newPattern\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
+            patchTable1Formula('TEXT.SUBSTITUTE("abcdefcdghi", "cd")'),
+          ).rejects.toThrowError('Invalid formula: the \'newText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
-        it('Throw an error if the original text is not specified', async () => {
+        it('Throw an error if the searched text is not specified', async () => {
           expect.assertions(1)
           await expect(
-            patchTable1Formula('TEXT.SUBSTITUTE("cd")'),
-          ).rejects.toThrowError('Invalid formula: the \'originalText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
+            patchTable1Formula('TEXT.SUBSTITUTE("abcdefcdghi")'),
+          ).rejects.toThrowError('Invalid formula: the \'searchedText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
         it('Throw an error if no parameter is specified', async () => {
           expect.assertions(1)
           await expect(
             patchTable1Formula('TEXT.SUBSTITUTE()'),
-          ).rejects.toThrowError('Invalid formula: the \'searchedText\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
+          ).rejects.toThrowError('Invalid formula: the \'text\' argument of the \'TEXT.SUBSTITUTE\' function is missing.')
         })
       })
       describe('TEXTJOIN', () => {

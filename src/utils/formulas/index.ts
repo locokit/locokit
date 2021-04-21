@@ -33,7 +33,7 @@ interface IFormula {
 interface IParsedFormula {
   type: COLUMN_TYPE // The estimated return type of the formula.
   value: string // The deduced result from the input formula (sql code as string).
-  stringValues: Record<string, string>, // The strings contained in the formula
+  stringValues: Record<string, string> // The strings contained in the formula
 }
 
 export type ColumnsReferences = Record<string, FunctionBuilder>
@@ -853,8 +853,8 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.TEXT,
     },
     REPLACE: {
-      pgsql: (originalText, startPos, numChars, newPattern) =>
-        `case when ${startPos} > 0 then overlay(${originalText} placing ${newPattern} from ${startPos} for ${numChars}) end`,
+      pgsql: (text, startPos, numChars, newText) =>
+        `case when ${startPos} > 0 then overlay(${text} placing ${newText} from ${startPos} for ${numChars}) end`,
       params: [
         {
           name: 'text',
@@ -869,7 +869,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
           type: COLUMN_TYPE.NUMBER,
         },
         {
-          name: 'newPattern',
+          name: 'newText',
           type: TEXT_TYPES,
         },
       ],
@@ -904,18 +904,18 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.TEXT,
     },
     SUBSTITUTE: {
-      pgsql: (searchedText, originalText, newPattern) => `replace(${originalText},${searchedText},${newPattern})`,
+      pgsql: (text, searchedText, newText) => `replace(${text},${searchedText},${newText})`,
       params: [
+        {
+          name: 'text',
+          type: TEXT_TYPES,
+        },
         {
           name: 'searchedText',
           type: TEXT_TYPES,
         },
         {
-          name: 'originalText',
-          type: TEXT_TYPES,
-        },
-        {
-          name: 'newPattern',
+          name: 'newText',
           type: TEXT_TYPES,
         },
       ],
