@@ -20,7 +20,6 @@ const { authenticate } = authentication.hooks
  * For both, it updates the `id` for feathers-blob service
  */
 async function createWorkspaceStorage (context: HookContext): Promise<HookContext> {
-  console.log('hook createWorkspaceStorage', context.params.query)
   const {
     type: storageType,
     /* s3 parameters */
@@ -54,9 +53,7 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
             ACL: 'public-read',
           }).promise()
         } catch (error) {
-          if (error.statusCode === 409) {
-            console.log('already present')
-          } else throw error
+          if (error.statusCode !== 409) throw error
         }
         context.params.s3 = {
           Bucket: workspaceId,
@@ -109,7 +106,7 @@ async function createThumbnail (context: HookContext): Promise<HookContext> {
    * don't create a thumbnail if it's already one
    * Maybe would need better detection with contentType and size
    */
-  if (context.result.id.indexOf('thumbnail_') > 0) return context
+  if (context.result.id.indexOf('thumbnail_') >= 0) return context
 
   /**
    * Create a thumbnail if it's an image
@@ -173,9 +170,7 @@ export default {
   error: {
     all: [],
     get: [],
-    create: [
-      createThumbnail,
-    ],
+    create: [],
     remove: [],
   },
 }

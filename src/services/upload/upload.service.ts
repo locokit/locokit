@@ -15,7 +15,7 @@ import path from 'path'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'upload': typeof createBlobService & ServiceAddons<any>
+    'upload': createBlobService.Service & ServiceAddons<any>
   }
 }
 
@@ -55,6 +55,6 @@ export default function (app: Application): void {
   }))
 
   // Get our initialized service so that we can register hooks
-  const service: typeof createBlobService & ServiceAddons<any> = app.service('upload')
+  const service: createBlobService.Service & ServiceAddons<any> = app.service('upload')
   service.hooks(hooks)
 }

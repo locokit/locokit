@@ -2,7 +2,7 @@ import { Service, ObjectionServiceOptions } from 'feathers-objection'
 import { Application } from '../../declarations'
 
 interface Options extends ObjectionServiceOptions {
-  Model: any;
+  Model: any
 }
 
 export class Attachment extends Service {
@@ -12,7 +12,7 @@ export class Attachment extends Service {
 
     super({
       ...otherOptions,
-      model: Model
+      model: Model,
     })
   }
 }
