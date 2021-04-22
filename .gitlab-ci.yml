@@ -27,7 +27,7 @@ stages:
     - docker pull $IMAGE_NAME:latest || true
 
 test:
-  image: node:14
+  image: node:14.16
   tags: [shared-ci-docker]
   stage: quality
   variables:
