@@ -3,7 +3,7 @@
 // Mock monaco editor
 // jest.mock('monaco-editor')
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { languages } from 'monaco-editor-core/esm/vs/editor/editor.api'
+import { languages } from 'monaco-editor/esm/vs/editor/editor.api'
 import { LckTableColumn } from '../lck-api/definitions'
 import {
   getDefaultRange,
@@ -15,7 +15,7 @@ import {
 } from './formula'
 
 // Mock the monaco editor api
-jest.mock('monaco-editor-core/esm/vs/editor/editor.api', () => ({
+jest.mock('monaco-editor/esm/vs/editor/editor.api', () => ({
   languages: {
     CompletionItemKind: {
       Class: 15,

@@ -8,11 +8,11 @@
 
 <script lang="ts">
 // Needed monaco features
-import 'monaco-editor-core/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'
-import 'monaco-editor-core/esm/vs/editor/standalone/browser/colorizer'
-import 'monaco-editor-core/esm/vs/editor/contrib/hover/hover.js'
-import 'monaco-editor-core/esm/vs/editor/contrib/suggest/suggestController.js'
-import 'monaco-editor-core/esm/vs/editor/contrib/wordOperations/wordOperations.js'
+import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'
+import 'monaco-editor/esm/vs/editor/standalone/browser/colorizer'
+import 'monaco-editor/esm/vs/editor/contrib/hover/hover.js'
+import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js'
+import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js'
 
 // Monaco core
 import {
@@ -22,7 +22,7 @@ import {
   IDisposable,
   MarkerSeverity,
   Range
-} from 'monaco-editor-core/esm/vs/editor/editor.api.js'
+} from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import { FeathersError } from '@feathersjs/errors'
 import { PropOptions } from 'vue'

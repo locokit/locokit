@@ -27,7 +27,7 @@ module.exports = {
     devtool: 'source-map',
     entry: {
       // Package each language's worker and give these filenames in `getWorkerUrl`
-      'editor.worker': 'monaco-editor-core/esm/vs/editor/editor.worker.js'
+      'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js'
     },
     output: {
       filename: '[name].bundle.js',
