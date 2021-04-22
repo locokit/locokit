@@ -520,7 +520,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       returnType: COLUMN_TYPE.NUMBER,
     },
     DIVIDE: {
-      pgsql: (firstNumber, ...others) => firstNumber + others.map(nb => `/(case when ${nb} <> 0 then ${nb} end)`).join(''),
+      pgsql: (firstNumber, ...others) => `(${firstNumber}+0.0)` + others.map(nb => `/(case when ${nb} <> 0 then ${nb} end)`).join(''),
       params: [
         {
           name: 'number',

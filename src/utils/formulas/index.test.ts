@@ -1040,7 +1040,7 @@ describe('formula utility functions', () => {
           expect.assertions(2)
           await patchTable1Formula('NUMERIC.DIVIDE(10, 2, 2)')
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.FLOAT)
-          expect(rowTable1.data[columnTable1Formula.id]).toBe(2)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe(2.5)
         })
         it('Return the division of several float numbers.', async () => {
           expect.assertions(2)
