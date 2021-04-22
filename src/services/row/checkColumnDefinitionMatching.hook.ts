@@ -410,7 +410,6 @@ export function checkColumnDefinitionMatching (): Hook {
                     $limit: -1,
                   },
                 }) as LckAttachment[]
-                console.log(attachments)
                 if (attachments.length !== currentColumnValue.length) {
                   checkErrors.push({
                     columnName: currentColumn.text,

@@ -87,7 +87,6 @@ describe('\'upload\' service', () => {
        */
       const workspace = await app.service('workspace').create({ text: 'pouet' })
       workspaceId = workspace.id
-      console.log('current workspace id', workspaceId)
 
       app.set('storage', s3Config)
       // configure again the service to take the new config
