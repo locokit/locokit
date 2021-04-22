@@ -78,10 +78,15 @@ deploy-vlog-staging:
   dependencies:
     - build
   stage: deploy
+  variables:
+    VUE_APP_TITLE: 'Plate-forme v-logistique'
+    VUE_APP_THEME: 'vlogistique'
   only:
     - merge_requests
   script:
-    - cp public/themes/vlogistique/config-vlog-staging.js dist/themes/vlogistique/config.js
+    - cp public/config-vlog-staging.js.dist dist/config.js
+    - npm install nunjucks surge
+    - node .gitlab/compileTemplates.js
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-vlog-staging-${CI_COMMIT_REF_SLUG}
