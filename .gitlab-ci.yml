@@ -10,8 +10,10 @@ stages:
   tags: [shared-ci-docker]
   stage: build
   variables:
-    VUE_APP_TITLE: '{{ vue_app_title }}'
-    VUE_APP_THEME: 'vlogistique'
+    VUE_APP_I18N_LOCALE: 'fr'
+    VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
+    VUE_APP_TITLE: '{{ lck_app_title }}'
+    VUE_APP_THEME: '{{ lck_app_theme }}'
   only:
     - tags
     - merge_requests
