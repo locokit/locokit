@@ -7,27 +7,38 @@
 </template>
 
 <script lang="ts">
-
-// // Needed monaco features
-import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'
-import 'monaco-editor/esm/vs/editor/standalone/browser/colorizer'
-import 'monaco-editor/esm/vs/editor/contrib/hover/hover.js'
-import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js'
-import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js'
+// Needed monaco features
+import 'monaco-editor-core/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'
+import 'monaco-editor-core/esm/vs/editor/standalone/browser/colorizer'
+import 'monaco-editor-core/esm/vs/editor/contrib/hover/hover.js'
+import 'monaco-editor-core/esm/vs/editor/contrib/suggest/suggestController.js'
+import 'monaco-editor-core/esm/vs/editor/contrib/wordOperations/wordOperations.js'
 
 // Monaco core
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
+import {
+  languages,
+  editor,
+  Environment,
+  IDisposable,
+  MarkerSeverity,
+  Range
+} from 'monaco-editor-core/esm/vs/editor/editor.api.js'
 
 import { FeathersError } from '@feathersjs/errors'
 import { PropOptions } from 'vue'
-import { functions, getDefaultRange, predefinedMonacoSuggestions, FUNCTION_CATEGORY } from '@/services/lck-utils/formula'
+import {
+  formulaFunctions,
+  getDefaultRange,
+  predefinedMonacoSuggestions,
+  FUNCTION_CATEGORY
+} from '@/services/lck-utils/formula'
 import i18n from '@/plugins/i18n'
 import { LckTableColumn } from '@/services/lck-api/definitions'
 
 declare global {
-    interface Window {
-        MonacoEnvironment: monaco.Environment;
-    }
+  interface Window {
+    MonacoEnvironment: Environment;
+  }
 }
 
 // Configuration of the monaco-editor worker
@@ -38,30 +49,38 @@ self.MonacoEnvironment = {
 }
 
 export default {
-  name: 'Lckeditor',
+  name: 'LckMonacoEditor',
   data () {
     return {
-      editor: {} as monaco.editor.IStandaloneCodeEditor,
-      currentCompletionItemProvider: {} as monaco.IDisposable
+      editor: {} as editor.IStandaloneCodeEditor,
+      currentCompletionItemProvider: {} as IDisposable
     }
   },
   props: {
-    errorHandleColumn: {
-      type: Object,
-      default: () => ({})
+    handledError: {
+      type: Object
     },
     language: {
       type: String,
       default: ''
     },
-    defaultOptions: {
-      type: Object,
-      default: () => ({})
-    } as PropOptions<monaco.editor.IStandaloneEditorConstructionOptions>,
     options: {
       type: Object,
-      default: () => ({})
-    } as PropOptions<monaco.editor.IEditorOptions & monaco.editor.IGlobalEditorOptions>,
+      default: () => ({
+        minimap: { enabled: false },
+        wordWrap: 'on',
+        lineNumbers: 'off',
+        folding: false,
+        lineNumbersMinChars: 0,
+        suggest: {
+          snippetsPreventQuickSuggestions: false
+        },
+        overviewRulerBorder: false,
+        scrollBeyondLastColumn: 0,
+        renderLineHighlight: 'none',
+        lineDecorationsWidth: 0
+      })
+    } as PropOptions<editor.IEditorOptions & editor.IGlobalEditorOptions>,
     tableColumns: {
       type: Array,
       default: () => ([])
@@ -78,12 +97,12 @@ export default {
   beforeMount () {
     const locokitLanguage = 'locokitLanguage'
 
-    if (!monaco.languages.getEncodedLanguageId(locokitLanguage)) {
+    if (!languages.getEncodedLanguageId(locokitLanguage) || locokitLanguage === 'locokitLanguage') {
       // Register the locokit language if it is not done yet
-      monaco.languages.register({ id: locokitLanguage })
+      languages.register({ id: locokitLanguage })
 
       // Register a tokens provider for the language
-      monaco.languages.setMonarchTokensProvider(locokitLanguage, {
+      languages.setMonarchTokensProvider(locokitLanguage, {
         brackets: [{ open: '(', close: ')', token: 'delimiter.parenthesis' }],
 
         tokenizer: {
@@ -118,7 +137,7 @@ export default {
 
           // categories
           // eslint-disable-next-line no-useless-escape
-          categories: [[new RegExp(`(${Object.keys(functions).join('|')})\.([^\s|(])+`), 'category']],
+          categories: [[new RegExp(`(${Object.keys(formulaFunctions).join('|')})\.([^\s|(])+(?=\\()`), 'category']],
 
           // columns
           columns: [[/COLUMN\.({.+}|[^\s]+)/, 'column']],
@@ -129,10 +148,10 @@ export default {
       })
 
       // Register an hover item provider for the language
-      monaco.languages.registerHoverProvider(locokitLanguage, {
+      languages.registerHoverProvider(locokitLanguage, {
         provideHover: function (model, position) {
           // Hover on functions names
-          let providerResult: monaco.languages.Hover = {
+          let providerResult: languages.Hover = {
             contents: []
           }
           // Get the current formula
@@ -153,7 +172,7 @@ export default {
               const functionSignature = predefinedMonacoSuggestions.functionSignatures[categoryName]?.[functionName]
               if (functionSignature) {
                 providerResult = {
-                  range: new monaco.Range(
+                  range: new Range(
                     position.lineNumber,
                     indexInf + 2,
                     position.lineNumber,
@@ -174,7 +193,7 @@ export default {
       })
 
       // Define a new theme
-      monaco.editor.defineTheme('locokitTheme', {
+      editor.defineTheme('locokitTheme', {
         base: 'vs',
         inherit: true,
         rules: [
@@ -182,11 +201,15 @@ export default {
           { token: 'column', foreground: '664805' }
         ],
         colors: {
+          'editorSuggestWidget.background': '#FFFFFF',
+          'editorSuggestWidget.foreground': '#444444',
+          'editorHoverWidget.background': '#FFFFFF',
+          'editorHoverWidget.foreground': '#444444'
         }
       })
 
       // Language configuration
-      monaco.languages.setLanguageConfiguration(locokitLanguage, {
+      languages.setLanguageConfiguration(locokitLanguage, {
         brackets: [['(', ')']],
         autoClosingPairs: [
           { open: '(', close: ')' },
@@ -197,7 +220,7 @@ export default {
 
     // Register a completion item provider for the language
     // Do it each time the component is mounted to update the column suggestions
-    this.currentCompletionItemProvider = monaco.languages.registerCompletionItemProvider(locokitLanguage, {
+    this.currentCompletionItemProvider = languages.registerCompletionItemProvider(locokitLanguage, {
       triggerCharacters: ['.'],
       provideCompletionItems: (model, position, context) => {
         // Get the current typed word
@@ -208,13 +231,13 @@ export default {
           })
           : model.getWordUntilPosition(position)
         // Get the right suggestions to return
-        let suggestions: monaco.languages.CompletionItem[] = []
+        let suggestions: languages.CompletionItem[] = []
         if (currentWord.word === 'COLUMN') {
           // The current word is the prefix column so we only suggest the available columns
           suggestions = this.columnSuggestions
-        } else if (predefinedMonacoSuggestions.functionSuggestions[currentWord.word]) {
+        } else if (predefinedMonacoSuggestions.functionSuggestions[currentWord.word as FUNCTION_CATEGORY]) {
           // The current word is a category prefix so we suggest the functions associated to this category
-          suggestions = predefinedMonacoSuggestions.functionSuggestions[currentWord.word]
+          suggestions = predefinedMonacoSuggestions.functionSuggestions[currentWord.word as FUNCTION_CATEGORY]
         } else {
           // The current word is unknown so we suggest all the items
           suggestions = predefinedMonacoSuggestions.allSuggestions.concat(this.columnSuggestions)
@@ -237,13 +260,13 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      const fullOptions = this.defaultOptions
+      const fullOptions: editor.IStandaloneEditorConstructionOptions = this.options
       fullOptions.language = this.language
       fullOptions.theme = this.theme
       fullOptions.value = this.value
 
       // Create the editor
-      this.editor = monaco.editor.create(
+      this.editor = editor.create(
         this.$refs.monacoEditor as HTMLElement,
         fullOptions
       )
@@ -257,11 +280,12 @@ export default {
           this.$emit('change', newValue)
         }
         // Hide the previous errors
-        if (monaco.editor.getModelMarkers({}).length > 0) {
+        if (editor.getModelMarkers({}).length > 0) {
           const currentEditorModel = this.editor.getModel()
-          if (currentEditorModel) monaco.editor.setModelMarkers(currentEditorModel, this.language, [])
+          if (currentEditorModel) editor.setModelMarkers(currentEditorModel, this.language, [])
         }
       })
+      if (this.handledError) this.handleNewError(this.handledError)
     })
 
     // After mounting
@@ -276,19 +300,39 @@ export default {
     }
   },
   computed: {
-    columnSuggestions (): monaco.languages.CompletionItem[] {
+    columnSuggestions (): languages.CompletionItem[] {
       const defaultRange = getDefaultRange()
       return this.tableColumns.map(column => ({
         label: `COLUMN.{${column.text}}`,
-        kind: monaco.languages.CompletionItemKind.Variable,
+        kind: languages.CompletionItemKind.Variable,
         insertText: `COLUMN.{${column.text}}`,
         range: defaultRange
       }))
     }
   },
+  methods: {
+    handleNewError (newError: FeathersError) {
+      if (this.editor) {
+        const currentEditorModel = this.editor.getModel()
+        const { data: { location }, message = '' } = newError
+        if (currentEditorModel && location && message) {
+          editor.setModelMarkers(currentEditorModel, this.language, [
+            {
+              startLineNumber: location.start.line,
+              startColumn: location.start.column,
+              endLineNumber: location.end.line,
+              endColumn: location.end.column,
+              message: message,
+              severity: MarkerSeverity.Error
+            }
+          ])
+        }
+      }
+    }
+  },
   watch: {
     options: {
-      handler (options: monaco.editor.IEditorOptions & monaco.editor.IGlobalEditorOptions) {
+      handler (options: editor.IEditorOptions & editor.IGlobalEditorOptions) {
         if (this.editor) {
           this.editor.updateOptions(options)
         }
@@ -305,28 +349,17 @@ export default {
     language (newLanguage: string) {
       if (this.editor) {
         const currentEditorModel = this.editor.getModel()
-        if (currentEditorModel) monaco.editor.setModelLanguage(currentEditorModel, newLanguage)
+        if (currentEditorModel) editor.setModelLanguage(currentEditorModel, newLanguage)
       }
     },
     theme (newTheme: string) {
       if (this.editor) {
-        monaco.editor.setTheme(newTheme)
+        editor.setTheme(newTheme)
       }
     },
-    errorHandleColumn (newError: FeathersError) {
-      const currentEditorModel = this.editor.getModel()
-      const { data: { location }, message = '' } = newError
-      if (currentEditorModel && location && message) {
-        monaco.editor.setModelMarkers(currentEditorModel, this.language, [
-          {
-            startLineNumber: location.start.line,
-            startColumn: location.start.column,
-            endLineNumber: location.end.line,
-            endColumn: location.end.column,
-            message: message,
-            severity: monaco.MarkerSeverity.Error
-          }
-        ])
+    handledError: {
+      handler (newError: FeathersError) {
+        this.handleNewError(newError)
       }
     }
   }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import { languages, IRange } from 'monaco-editor-core/esm/vs/editor/editor.api'
 import i18n from '@/plugins/i18n'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -16,24 +16,14 @@ interface IFormulaParameter extends IFormulaBasicParameter {
   multiple?: boolean;
 }
 
-interface IFormula {
+export interface IFormula {
   params?: Array<IFormulaParameter | IFormulaBasicParameter[]>;
   returnType: COLUMN_TYPE | COLUMN_TYPE[];
 }
 
-interface IParsedFormula {
-  type: COLUMN_TYPE;
-  value: string;
-}
-
-// The list of the columns types assimiled to strings to use them in the formulas
-export const EQUATED_TO_STRING_TYPES = [
-  COLUMN_TYPE.SINGLE_SELECT
-]
-
 // The list of the columns types that can be used as function text parameters.
 export const TEXT_TYPES = [
-  ...EQUATED_TO_STRING_TYPES,
+  COLUMN_TYPE.SINGLE_SELECT,
   COLUMN_TYPE.GROUP,
   COLUMN_TYPE.RELATION_BETWEEN_TABLES,
   COLUMN_TYPE.STRING,
@@ -65,7 +55,7 @@ export enum FUNCTION_CATEGORY {
   TEXT = 'TEXT',
 }
 
-export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
+export const formulaFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   DATE: {
     DATEADD: {
       params: [
@@ -774,9 +764,13 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
   }
 }
 
-type CompletionItem = monaco.languages.CompletionItem
+// <-- Common code with API (the end)
 
-export function getDefaultRange (): monaco.IRange {
+/**
+ * Returns a default range for the monaco editor suggestions.
+ * @returns A default range (first line, first column).
+ */
+export function getDefaultRange (): IRange {
   return {
     startLineNumber: 1,
     startColumn: 1,
@@ -785,8 +779,13 @@ export function getDefaultRange (): monaco.IRange {
   }
 }
 
+/**
+ * Returns the formula with the columns ids instead of the columns names
+ * @param formula The input formula containing the column names.
+ * @param tableColumns The list of the table columns that can be used in the formula.
+ * @returns The input formula in which the input columns names are replaced by their ids.
+ */
 export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTableColumn[]) {
-  // Return the formula with the columns ids instead of the columns names
   return formula.replace(
     /(?<=COLUMN\.{)[^}]+(?=})/g,
     columnName => {
@@ -795,8 +794,13 @@ export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTabl
   )
 }
 
+/**
+ * Returns the formula with the columns names instead of the columns ids
+ * @param formula The input formula containing the column ids.
+ * @param tableColumns The list of the table columns that can be used in the formula.
+ * @returns The input formula in which the input columns ids are replaced by their names.
+ */
 export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTableColumn[]) {
-  // Return the formula with the columns names instead of the columns ids
   return formula.replace(
     /(?<=COLUMN\.{)[a-z0-9-]+(?=})/g,
     columnId => (tableColumns.find(column => column.id === columnId))?.text || columnId
@@ -805,28 +809,32 @@ export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTabl
 
 /**
  * Returns the suggestions for the monaco editor.
- * @returns an object containing a list of all the suggestions (functions, categories and the column prefix),
+ * @returns An object containing a list of all the suggestions (functions, categories and the column prefix),
  * an object containing the functions suggestions for each category and the signature of each function.
  */
-export function getMonacoSuggestions (): {
-  allSuggestions: CompletionItem[];
-  functionSuggestions: Record<string, CompletionItem[]>;
+export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula>>): {
+  allSuggestions: languages.CompletionItem[];
+  functionSuggestions: Record<FUNCTION_CATEGORY, languages.CompletionItem[]>;
   functionSignatures: Record<FUNCTION_CATEGORY, Record<string, string>>;
   } {
   // Initialize the suggestions
-  const allSuggestions: CompletionItem[] = []
-  const functionSuggestions: Record<string, CompletionItem[]> = {}
+  const allSuggestions: languages.CompletionItem[] = []
+  const functionSuggestions: Record<FUNCTION_CATEGORY, languages.CompletionItem[]> = {
+    DATE: [],
+    LOGIC: [],
+    NUMERIC: [],
+    TEXT: []
+  }
   // Initialize the signatures
   const functionSignatures: Record<string, Record<string, string>> = {}
 
   // Default range
   const defaultRange = getDefaultRange()
 
-  // PREFIX_SUGGESTIONS
   // Add a suggestion to type the column prefix
-  let currentSuggestion: CompletionItem = {
+  let currentSuggestion: languages.CompletionItem = {
     label: 'COLUMN',
-    kind: monaco.languages.CompletionItemKind.Class,
+    kind: languages.CompletionItemKind.Class,
     documentation: i18n.t('components.formulas.column').toString(),
     insertText: 'COLUMN',
     range: defaultRange
@@ -834,22 +842,21 @@ export function getMonacoSuggestions (): {
   allSuggestions.push(currentSuggestion)
 
   // Loop over the functions categories
-  for (const categoryName in functions) {
-    // Add a suggestion to type the category
+  for (const categoryName in categoriesWithFunctions) {
+    // Add a suggestion to type the function category
     currentSuggestion = {
       label: categoryName,
-      kind: monaco.languages.CompletionItemKind.Class,
+      kind: languages.CompletionItemKind.Class,
       documentation: i18n.t(`components.formulas.categories.${categoryName}`).toString(),
       insertText: categoryName,
       range: defaultRange
     }
     allSuggestions.push(currentSuggestion)
-    functionSuggestions[categoryName] = []
     const categoryPrefix = categoryName + '.'
 
     // Loop over the functions of each category
-    for (const functionName in functions[categoryName as FUNCTION_CATEGORY]) {
-      const currentFunction = functions[categoryName as FUNCTION_CATEGORY][functionName]
+    for (const functionName in categoriesWithFunctions[categoryName as FUNCTION_CATEGORY]) {
+      const currentFunction = categoriesWithFunctions[categoryName as FUNCTION_CATEGORY][functionName]
       // Text to insert
       let insertTextFunction = `${categoryPrefix}${functionName}(`
       // Function documentation
@@ -859,7 +866,6 @@ export function getMonacoSuggestions (): {
       if (Array.isArray(currentFunction.params)) {
         // Loop over the function parameters
         currentFunction.params.forEach(param => {
-          // separator = indexParam === 1 ? '' : ', '
           if (indexParam > 1) {
             // Add a separator between the parameters
             functionSignature += separator
@@ -867,7 +873,7 @@ export function getMonacoSuggestions (): {
           }
 
           if (Array.isArray(param)) {
-            // Related parameters (i.e : 'IFS(condition1, result1, [condition2, result2, ...])')
+            // Related parameters (e.g. 'IFS(condition1, result1, [condition2, result2, ...])')
             let separatorRelatedParameters = ''
             let currentRelatedParameters1 = ''
             let currentRelatedParameters2 = ''
@@ -880,7 +886,7 @@ export function getMonacoSuggestions (): {
             })
             functionSignature += `${currentRelatedParameters1}${separator}[${currentRelatedParameters2}, ...]`
           } else {
-            // Basic parameter
+            // Basic parameter (e.g. ABS(number))
             insertTextFunction += `\${${indexParam}:${param.name}}`
             if (param.multiple === true) {
               // Multiple parameter
@@ -914,14 +920,14 @@ export function getMonacoSuggestions (): {
       // Save the function suggestion
       currentSuggestion = {
         label: categoryPrefix + functionName,
-        kind: monaco.languages.CompletionItemKind.Function,
+        kind: languages.CompletionItemKind.Function,
         documentation: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString(),
         insertText: insertTextFunction,
-        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: functionSignature,
         range: defaultRange
       }
-      functionSuggestions[categoryName].push(currentSuggestion)
+      functionSuggestions[categoryName as FUNCTION_CATEGORY].push(currentSuggestion)
       allSuggestions.push(currentSuggestion)
     }
   }
@@ -932,4 +938,4 @@ export function getMonacoSuggestions (): {
   }
 }
 
-export const predefinedMonacoSuggestions = getMonacoSuggestions()
+export const predefinedMonacoSuggestions = getMonacoSuggestions(formulaFunctions)

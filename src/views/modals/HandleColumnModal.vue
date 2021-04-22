@@ -67,14 +67,20 @@
       :columnToHandle="columnToHandle"
       :tableId="tableId"
     />
-    <lck-formula-type-column
+    <div
+      class="p-field"
       v-if="selectedColumnTypeIdToHandle && isFormulaType"
-      :columnToHandle="columnToHandle"
-      :errorHandleColumn="errorHandleColumn"
-      :tableColumns="tableColumns"
-      @formula-change="formulaChange"
-    />
-
+    >
+      <label>{{ $t('components.formulas.formula') }}</label>
+      <lck-monaco-editor
+        :handledError="errorHandleColumn"
+        language="locokitLanguage"
+        :tableColumns="tableColumns"
+        theme="locokitTheme"
+        :value="settings && settings.formula"
+        @change="formulaChange"
+      />
+    </div>
     <div v-if="errorHandleColumn" class="p-invalid">
       <small id="error-column-to-handle" class="p-invalid">
         {{ errorHandleColumn }}
@@ -88,7 +94,7 @@ import Vue from 'vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
-import { formulaColumnsNamesToIds } from '@/services/lck-utils/formula/'
+import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula/'
 
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
@@ -98,7 +104,7 @@ import InputNumber from 'primevue/inputnumber'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
-import FormulaTypeColumn from '@/components/admin/database/FormulaTypeColumn/FormulaTypeColumn.vue'
+import LckMonacoEditor from '@/components/store/MonacoEditor/MonacoEditor.vue'
 import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
 
 export default {
@@ -106,7 +112,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
-    'lck-formula-type-column': FormulaTypeColumn,
+    'lck-monaco-editor': LckMonacoEditor,
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),
@@ -253,6 +259,10 @@ export default {
           this.referenceToHandle.position = this.columnToHandle.reference_position
         }
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
+        // Set formula column
+        if (this.isFormulaType) {
+          this.settings.formula = formulaColumnsIdsToNames(this.columnToHandle.settings?.formula || '', this.tableColumns)
+        }
       }
       this.errorHandleColumn = null
     }
@@ -263,5 +273,17 @@ export default {
 <style scoped>
 .input-number-reference {
   width: 100px;
+}
+
+/** Need these two rules to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
+/deep/ .monaco-editor .overflow-guard {
+  position: static;
+}
+
+/deep/ .monaco-editor .suggest-details-container {
+  position: absolute !important;
+  left: -1px !important;
+  top: -1px !important;
+  transform: translateX(-100%);
 }
 </style>
