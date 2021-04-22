@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/admin/database/LckMonacoEditor Default 1`] = `
+exports[`storyshots components/store/LckMonacoEditor Default 1`] = `
 <div
   style="height: 100%;"
 >
@@ -10,7 +10,7 @@ exports[`storyshots components/admin/database/LckMonacoEditor Default 1`] = `
 </div>
 `;
 
-exports[`storyshots components/admin/database/LckMonacoEditor With errors 1`] = `
+exports[`storyshots components/store/LckMonacoEditor With errors 1`] = `
 <div
   style="height: 100%;"
 >
@@ -20,7 +20,7 @@ exports[`storyshots components/admin/database/LckMonacoEditor With errors 1`] = 
 </div>
 `;
 
-exports[`storyshots components/admin/database/LckMonacoEditor With lck language and theme 1`] = `
+exports[`storyshots components/store/LckMonacoEditor With lck language and theme 1`] = `
 <div
   style="height: 100%;"
 >

@@ -1,4 +1,4 @@
-const esModules = ['@storybook', 'primevue', 'monaco-editor'].join('|')
+const esModules = ['@storybook', 'primevue', 'monaco-editor-core'].join('|')
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
 

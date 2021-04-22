@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { languages, IRange } from 'monaco-editor/esm/vs/editor/editor.api'
+import { languages, IRange } from 'monaco-editor-core/esm/vs/editor/editor.api'
 import i18n from '@/plugins/i18n'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
