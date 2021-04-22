@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgres:
+  lck-db:
     image: postgis/postgis:latest
     ports:
       - "5432:5432"
@@ -12,9 +12,9 @@ services:
     volumes:
       - lck-db-data:/var/lib/postgresql/data
       - ./dumps:/dumps
-    container_name: lck-api-db
+    container_name: lck-db
 
-  postgres-test:
+  lck-db-test:
     image: postgis/postgis:latest
     ports:
       - "5433:5432"
@@ -25,9 +25,9 @@ services:
     # restart: always
     volumes:
       - ./dumps:/dumps
-    container_name: lck-api-db-test
+    container_name: lck-db-test
 
-  mailhog:
+  lck-mail:
     image: mailhog/mailhog:latest
     environment:
       MH_STORAGE: maildir
@@ -37,8 +37,40 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
-    container_name: lck-api-mailhog
+    container_name: lck-mail
+
+  # LocoKit can handle S3 storage
+  # We take an example with minio
+  # we use also a proxy nginx to wire s3 storage
+  lck-s3:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: notsecret
+    command: server /data
+    volumes:
+      - s3-data:/data
+    container_name: lck-s3
+
+  # LocoKit can be served behind a proxy
+  # Here we use nginx,
+  # it serve backend API, and also storage s3 if needed
+  lck-proxy:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/lck-server.conf:/etc/nginx/conf.d/default.conf
+      # binding for allowing nginx to serve file stored by lck
+      - ./fs-storage:/usr/share/nginx/storage
+    ports:
+      - "8000:80"
+    depends_on:
+      - lck-s3
+    container_name: lck-proxy
 
 volumes:
   lck-db-data:
   mailhog:
+  s3-data:
