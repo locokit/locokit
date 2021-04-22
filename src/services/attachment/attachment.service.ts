@@ -8,14 +8,38 @@ import hooks from './attachment.hooks'
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'attachment': Attachment & ServiceAddons<any>;
+    'attachment': Attachment & ServiceAddons<any>
   }
 }
 
 export default function (app: Application): void {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    whitelist: [
+      '$eq',
+      '$ne',
+      '$gte',
+      '$gt',
+      '$lte',
+      '$lt',
+      '$in',
+      '$nin',
+      '$null',
+      '$notNull',
+      '$like',
+      '$notLike',
+      '$ilike',
+      '$notILike',
+      '$contains',
+      '$containsKey',
+      '$or',
+      '$and',
+      '$sort',
+      '$any',
+      '$all',
+      '$noSelect',
+    ],
+    paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires

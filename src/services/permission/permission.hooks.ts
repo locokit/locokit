@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication'
-import { disablePagination } from 'feathers-hooks-common'
+import { debug, disallow } from 'feathers-hooks-common'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -7,16 +7,25 @@ const { authenticate } = authentication.hooks
 export default {
   before: {
     all: [
+      debug('permission'),
       authenticate('jwt'),
     ],
-    find: [
-      disablePagination(),
+    find: [],
+    get: [
+      disallow(),
     ],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: [],
+    create: [
+      disallow(),
+    ],
+    update: [
+      disallow(),
+    ],
+    patch: [
+      disallow(),
+    ],
+    remove: [
+      disallow(),
+    ],
   },
 
   after: {

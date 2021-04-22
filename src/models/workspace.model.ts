@@ -5,7 +5,9 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { chapter as LckChapter } from './chapter.model'
 import { database as LckDatabase } from './database.model'
+import { LckAttachment } from './attachment.model'
 import { Process } from './process.model'
+import { Group } from './group.model'
 
 export class workspace extends BaseModel {
   text!: string
@@ -29,6 +31,14 @@ export class workspace extends BaseModel {
 
   static get relationMappings (): RelationMappings {
     return {
+      attachments: {
+        relation: Model.HasManyRelation,
+        modelClass: LckAttachment,
+        join: {
+          from: 'workspace.id',
+          to: 'attachment.workspace_id',
+        },
+      },
       chapters: {
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
@@ -63,6 +73,14 @@ export class workspace extends BaseModel {
         join: {
           from: 'workspace.id',
           to: 'process.workspace_id',
+        },
+      },
+      groups: {
+        relation: Model.HasManyRelation,
+        modelClass: Group,
+        join: {
+          from: 'workspace.id',
+          to: 'group.workspace_id',
         },
       },
     }

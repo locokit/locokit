@@ -7,6 +7,7 @@ import { TableRow } from '../../models/tablerow.model'
 import dayjs from 'dayjs'
 import Knex from 'knex'
 import validator from 'validator'
+import { LckAttachment } from '../../models/attachment.model'
 
 class CheckError {
   columnName!: string
@@ -388,6 +389,50 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
           case COLUMN_TYPE.FILE:
+            /**
+             * FILE column is an array of attachments
+             */
+            if (!(currentColumnValue instanceof Array)) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: `The current value is not an array of attachment (received: ${currentColumnValue as string})`,
+              })
+            } else {
+              /**
+               * For files, we need to check every ids really exist in database
+               */
+              try {
+                const attachments = await context.app.service('attachment').find({
+                  query: {
+                    id: {
+                      $in: currentColumnValue,
+                    },
+                    $limit: -1,
+                  },
+                }) as LckAttachment[]
+                console.log(attachments)
+                if (attachments.length !== currentColumnValue.length) {
+                  checkErrors.push({
+                    columnName: currentColumn.text,
+                    columnError: 'Attachments are not all in the database. Please check what you have send.',
+                  })
+                } else {
+                  context.data.data[columnId] = attachments.map(a => ({
+                    filename: a.filename,
+                    filepath: a.filepath,
+                    mime: a.mime,
+                    id: a.id,
+                  }))
+                }
+              } catch (error) {
+                console.error(error)
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'We encounter an error when checking attachments... sorry.',
+                })
+              }
+            }
+            break
           case COLUMN_TYPE.MULTI_GROUP:
           default:
             checkErrors.push({

@@ -52,11 +52,11 @@ app.use(helmet())
 app.use(cors(app.get('cors')))
 app.use(compress())
 app.use(express.json({
-  limit: '50mb'
+  limit: '20mb',
 }))
 app.use(express.urlencoded({
   extended: true,
-  limit: '50mb'
+  limit: '20mb',
 }))
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
@@ -120,7 +120,7 @@ app.configure(services)
 
 // Configure a middleware for 404s and the error handler
 app.use(Sentry.Handlers.errorHandler({
-  shouldHandleError: () => (true)
+  shouldHandleError: () => (true),
 }))
 app.use(express.notFound())
 app.use(express.errorHandler({ logger } as any))

@@ -9,6 +9,8 @@ import hooks from './upload.hooks'
 // Initializes the `user` service on path `/user`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
+import fs from 'fs'
+import path from 'path'
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -33,18 +35,23 @@ export default function (app: Application): void {
           accessKeyId: config.accessKeyId,
           secretAccessKey: config.secretAccessKey,
           s3ForcePathStyle: config.s3ForcePathStyle === '1', // needed with minio
-          signatureVersion: config.signatureVersion
+          signatureVersion: config.signatureVersion,
         }),
         bucket: config.defaultBucket,
       })
       break
     case 'fs':
     default:
-      blobStore = FsBlobStore(config.fsPath || './storage')
+      const fsPath = path.join(config.fsPath || '../fs-storage')
+      if (!fs.existsSync(fsPath)) {
+        fs.mkdirSync(fsPath)
+      }
+      blobStore = FsBlobStore(fsPath)
   }
   // Initialize our service with any options it requires
   app.use('/upload', createBlobService({
     Model: blobStore,
+    returnBuffer: true,
   }))
 
   // Get our initialized service so that we can register hooks

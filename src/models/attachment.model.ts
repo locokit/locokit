@@ -4,9 +4,11 @@ import { JSONSchema } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 
-class Attachment extends BaseModel {
+export class LckAttachment extends BaseModel {
   filepath!: string
   filename!: string
+  mime!: string
+  ext!: string
   createdAt!: string
   updatedAt!: string
 
@@ -24,12 +26,14 @@ class Attachment extends BaseModel {
       properties: {
         filepath: { type: 'string' },
         filename: { type: 'string' },
+        mime: { type: 'string' },
+        ext: { type: 'string' },
         workspace_id: { type: 'string' },
       },
     }
   }
 }
 
-export default function (app: Application): typeof Attachment {
-  return Attachment
+export default function (app: Application): typeof LckAttachment {
+  return LckAttachment
 }
