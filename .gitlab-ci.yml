@@ -52,6 +52,9 @@ test:
     STORAGE_S3_SIGNATURE_VERSION: v4
     STORAGE_S3_DEFAULT_BUCKET: public
 
+    MINIO_ACCESS_KEY: minio
+    MINIO_SECRET_KEY: notsecret
+
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
