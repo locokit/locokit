@@ -22,7 +22,12 @@ export class LckWorkspace extends LckBaseModel {
 }
 
 export class LckAttachment extends LckBaseModel {
+  filepath!: string
+  filename!: string
+  mime!: string
+  ext!: string
 
+  workspace_id!: string
 }
 export class LckUpload extends LckBaseModel {
 

@@ -107,6 +107,7 @@
             :displayDetailButton="true"
             :cellState="cellState"
             :columnsSetPrefix="currentView && currentView.id"
+            :workspaceId="workspaceId"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
@@ -240,6 +241,8 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
+
+import FileType from 'file-type/browser'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
@@ -878,26 +881,63 @@ export default {
     },
     async onUploadFiles ({ rowId, columnId, fileList }) {
       console.log(rowId, columnId, fileList)
-      const uploadPromises = []
-      for (let i = 0; i < fileList.length; i++) {
-        uploadPromises.push(new Promise((resolve, reject) => {
-          const file = fileList[i]
-          console.log('uploading current file', i, file)
-          const reader = new FileReader()
-          // encode dataURI
-          reader.readAsDataURL(file)
-
-          // when encoded, upload
-          reader.addEventListener('load', async () => {
-            console.log('encoded file: ', reader.result)
-            lckServices.upload.create({ uri: reader.result }, { query: { workspaceId: this.workspaceId, fileName: file.name } })
-              .then(resolve)
-              .catch(reject)
-          }, false)
-        }))
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+      this.cellState = {
+        rowId,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
       }
-      const newUploadedFiles = await Promise.all(uploadPromises)
-      console.log(newUploadedFiles)
+
+      try {
+        const uploadPromises = []
+        for (let i = 0; i < fileList.length; i++) {
+          uploadPromises.push(new Promise((resolve, reject) => {
+            const file = fileList[i]
+            console.log('uploading current file', i, file)
+            const reader = new FileReader()
+            // encode dataURI
+            reader.readAsDataURL(file)
+
+            // when encoded, upload
+            reader.addEventListener('load', async () => {
+              /**
+               * Find the mime type of the file to upload
+               */
+              const fileType = await FileType.fromBlob(file)
+              lckServices.upload.create({
+                uri: reader.result,
+                fileName: file.name,
+                ...fileType
+              }, {
+                query: {
+                  workspaceId: this.workspaceId,
+                  fileName: file.name,
+                  ...fileType
+                }
+              })
+                .then(resolve)
+                .catch(reject)
+            }, false)
+          }))
+        }
+        const newUploadedFiles = await Promise.all(uploadPromises)
+        console.log(newUploadedFiles)
+
+        /**
+         * Need to update the data with the new files uploaded + the old files
+         */
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newUploadedFiles.map(u => u.id)
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+      }
+      this.cellState.waiting = false
     },
     async onRemoveFiles (rowId, columnId, fileList) {
       console.log(rowId, columnId, fileList)

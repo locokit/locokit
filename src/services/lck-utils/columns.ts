@@ -62,6 +62,8 @@ export function getComponentDisplayCellForColumnType (columnTypeId: number) {
       return 'lck-badge'
     case COLUMN_TYPE.BOOLEAN:
       return 'p-checkbox'
+    case COLUMN_TYPE.FILE:
+      return 'lck-input-file'
     default:
       return null
   }
@@ -128,6 +130,8 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return 'lck-map'
+    case COLUMN_TYPE.FILE:
+      return 'lck-input-file'
     default:
       return null
   }

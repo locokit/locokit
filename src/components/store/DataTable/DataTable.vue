@@ -234,9 +234,12 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
               v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
             />
-            <span
-              v-else
-            >
+            <lck-cell-file
+              v-else-if="getComponentDisplayCellForColumnType(column.column_type_id) === 'lck-input-file'"
+              :workspaceId="workspaceId"
+              :attachments="slotProps.data.data[column.id]"
+            />
+            <span v-else>
               {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
 
@@ -293,6 +296,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import LckCellFile from '@/components/ui/CellFile/CellFile.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Badge from '@/components/ui/Badge/Badge'
@@ -325,6 +329,7 @@ export default {
     'lck-input-url': InputURL,
     'lck-badge': Badge,
     'lck-input-file': InputFile,
+    'lck-cell-file': LckCellFile,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -386,6 +391,10 @@ export default {
       }
     },
     columnsSetPrefix: {
+      type: String,
+      default: ''
+    },
+    workspaceId: {
       type: String,
       default: ''
     }

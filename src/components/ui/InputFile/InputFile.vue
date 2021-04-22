@@ -9,15 +9,6 @@
 
 <script>
 export default {
-  name: 'LckInputURL'
+  name: 'LckInputFile'
 }
 </script>
-
-<style scoped>
-.input-url-valid {
-  text-decoration: underline;
-}
-.pi-external-link {
-  cursor: pointer;
-}
-</style>

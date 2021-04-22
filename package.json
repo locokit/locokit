@@ -30,6 +30,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "file-saver": "^2.0.2",
+    "file-type": "^16.3.0",
     "lodash.clonedeep": "^4.5.0",
     "mapbox-gl": "^1.13.0",
     "marked": "^1.2.5",
