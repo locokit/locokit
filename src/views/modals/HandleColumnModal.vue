@@ -32,11 +32,12 @@
       <p-input-number class="input-number-reference" v-model="referenceToHandle.position" :showButtons="true" :min="0" :maxFractionDigits="0" :disabled="!referenceToHandle.isActive" />
     </div>
     <div class="p-field">
-      <label for="column-name">
+      <label for="column-type">
         {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
       </label>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
+        id="column-type"
         appendTo="body"
         v-model="selectedColumnTypeIdToHandle"
         :options="columnTypes"
@@ -216,6 +217,8 @@ export default {
     },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
+      // A formula column can't be used as reference
+      if (this.isFormulaType) this.referenceToHandle.isActive = false
     },
     selectTypeValuesChange (data) {
       let settings = {}

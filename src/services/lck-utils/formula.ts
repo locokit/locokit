@@ -826,7 +826,12 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
     TEXT: []
   }
   // Initialize the signatures
-  const functionSignatures: Record<string, Record<string, string>> = {}
+  const functionSignatures: Record<FUNCTION_CATEGORY, Record<string, string>> = {
+    DATE: {},
+    LOGIC: {},
+    NUMERIC: {},
+    TEXT: {}
+  }
 
   // Default range
   const defaultRange = getDefaultRange()
@@ -912,10 +917,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
       functionSignature += ')'
 
       // Save the function signature
-      if (!functionSignatures[categoryName]) {
-        functionSignatures[categoryName] = {}
-      }
-      functionSignatures[categoryName][functionName] = functionSignature
+      functionSignatures[categoryName as FUNCTION_CATEGORY][functionName] = functionSignature
 
       // Save the function suggestion
       currentSuggestion = {
