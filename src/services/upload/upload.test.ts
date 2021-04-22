@@ -1,5 +1,5 @@
 import app from '../../app'
-import { open, rm, mkdir, access, readdir } from 'fs/promises'
+import { open, rmdir, mkdir, access, readdir } from 'fs/promises'
 import path from 'path'
 import AWS from 'aws-sdk'
 import uploadService from './upload.service'
@@ -20,7 +20,7 @@ describe('\'upload\' service', () => {
       workspaceId = workspace.id
 
       // empty the folder of file storage
-      await rm(fsPath, { force: true, recursive: true })
+      await rmdir(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
       const file = await open(path.join(__dirname, '../../../public/logokit-grayscale.png'), 'r')
