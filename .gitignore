@@ -3,7 +3,7 @@ node_modules
 /dist
 
 # Config
-/public/themes/**/config.js
+/public/config.js
 .env
 
 # Test

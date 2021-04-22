@@ -34,9 +34,9 @@ export default {
     return {
       authState,
       // eslint-disable-next-line no-undef
-      backgroundImage: LCK_SETTINGS.HOME_BACKGROUND_IMAGE_URL,
+      backgroundImage: LCK_THEME.HOME_BACKGROUND_IMAGE_URL,
       // eslint-disable-next-line no-undef
-      logoBgPrimaryURL: LCK_SETTINGS.LOGO_BG_PRIMARY_URL,
+      logoBgPrimaryURL: LCK_THEME.LOGO_BG_PRIMARY_URL,
       // eslint-disable-next-line no-undef
       version: LCK_VERSION
     }
