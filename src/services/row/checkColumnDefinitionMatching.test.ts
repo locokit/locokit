@@ -1014,6 +1014,29 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
+  it('throw an error if the attachment array doesnt match all attachments for a FILE column type', async () => {
+    expect.assertions(1)
+    // insert attachment
+    const attachment1 = await app.service('attachment').create({
+      workspace_id: workspace.id,
+      filepath: 'toto1.txt',
+      filename: 'toto1.txt',
+    })
+    const attachment2 = await app.service('attachment').create({
+      workspace_id: workspace.id,
+      filepath: 'toto2.txt',
+      filename: 'toto2.txt',
+    })
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1File.id]: [attachment1.id, attachment2.id, 9656565],
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
   it('throw an error if a MULTI_USER column receive a number value', async () => {
     expect.assertions(1)
     await expect(app.service('row')

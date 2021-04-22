@@ -424,7 +424,6 @@ export function checkColumnDefinitionMatching (): Hook {
                   }))
                 }
               } catch (error) {
-                console.error(error)
                 checkErrors.push({
                   columnName: currentColumn.text,
                   columnError: 'We encounter an error when checking attachments... sorry.',
