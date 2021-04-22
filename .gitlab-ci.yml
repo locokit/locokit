@@ -39,6 +39,9 @@ test:
     LCK_DATABASE_URL_TEST: postgres://postgres:pouicpouic@lck-db:5432/postgres
     OBJECTION_DEBUG: 'false'
     NODE_ENV: test
+    STORAGE_TYPE: fs
+    STORAGE_PUBLIC_PATH: /fs-storage
+    STORAGE_FS_PATH: ../fs-storage
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
