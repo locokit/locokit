@@ -14,8 +14,8 @@ import { User } from '../../models/user.model'
 import { Params } from '@feathersjs/feathers'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-function wait (duration: number) {
-  return new Promise(resolve => {
+async function wait (duration: number): Promise<unknown> {
+  return await new Promise(resolve => {
     setTimeout(resolve, duration)
   })
 }
@@ -36,8 +36,8 @@ describe('\'process_run\' service', () => {
     const userPassword = 'pouetPOUET@0'
     let accessToken: string
     let params: Params
-    const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
-      return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
+    const axiosMockPost = jest.fn(async (url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
+      return await new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
     })
     const originalAxiosPost = axios.post
 

@@ -9,6 +9,7 @@ export class LckAttachment extends BaseModel {
   filename!: string
   mime!: string
   ext!: string
+  size?: number
   createdAt!: string
   updatedAt!: string
 
@@ -28,6 +29,7 @@ export class LckAttachment extends BaseModel {
         filename: { type: 'string' },
         mime: { type: 'string' },
         ext: { type: 'string' },
+        size: { type: 'number' },
         workspace_id: { type: 'string' },
       },
     }

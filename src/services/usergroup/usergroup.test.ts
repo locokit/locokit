@@ -6,6 +6,8 @@ import { User as LckUser } from '../../models/user.model'
 let group: LckGroup
 let user: LckUser
 describe('\'usergroup\' service', () => {
+  const service = app.service('usergroup')
+
   beforeAll(async () => {
     group = await app.service('group').create({
       name: 'user group test',
@@ -17,26 +19,22 @@ describe('\'usergroup\' service', () => {
     })
   })
   it('registered the service', () => {
-    const service = app.service('usergroup')
     expect(service).toBeTruthy()
   })
 
   it('throw if user_id doesn\'t exist', async () => {
-    const service = app.service('usergroup')
     expect.assertions(1)
     await expect(service.create({
       group_id: group.id,
     })).rejects.toThrow()
   })
   it('throw if group_id doesn\'t exist', async () => {
-    const service = app.service('usergroup')
     expect.assertions(1)
     await expect(service.create({
       user_id: user.id,
     })).rejects.toThrow()
   })
   it('throw if group_id doesn\'t exist', async () => {
-    const service = app.service('usergroup')
     expect.assertions(3)
     const uhg = await service.create({
       user_id: user.id,
