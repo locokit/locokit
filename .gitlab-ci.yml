@@ -1,6 +1,7 @@
 image: node:lts
 
 stages:
+  - dependencies
   - storybook
   - lint-tests
   - build
@@ -19,13 +20,26 @@ stages:
     - merge_requests
     - master
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - npm run build
   artifacts:
     expire_in: 3 mos
     name: 'lck-front-${CI_COMMIT_REF_SLUG}'
     paths:
     - dist/
+
+npm:ci:
+  tags: [shared-ci-docker]
+  stage: dependencies
+  only:
+    - merge_requests
+    - master
+  script:
+    - npm ci
+  artifacts:
+    expire_in: 1 week
+    name: 'lck-front-node_modules-${CI_COMMIT_REF_SLUG}'
+    paths:
+      - node_modules
 
 # storybook stage
 storybook:build:
@@ -35,7 +49,6 @@ storybook:build:
     - merge_requests
     - master
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - npm run storybook:build
   artifacts:
     expire_in: 1 week
@@ -52,7 +65,6 @@ quality:
     - merge_requests
     - master
   script:
-    - npm ci
     - npm run lint
     - npm run test:unit -- --coverage --reporters=default
   dependencies:
@@ -85,8 +97,7 @@ deploy-vlog-staging:
     - merge_requests
   script:
     - cp public/config-vlog-staging.js.dist dist/config.js
-    - npm install nunjucks surge
-    - node .gitlab/compileTemplates.js
+    - node scripts/compileTemplates.js
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-vlog-staging-${CI_COMMIT_REF_SLUG}
