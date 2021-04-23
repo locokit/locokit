@@ -4,19 +4,28 @@
     class="p-mx-2"
     :class="setLayoutPage"
   >
-    <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
-      <div class="lck-color-primary p-my-4">
-        <h1>{{ page.text }}</h1>
-      </div>
+    <div
+      class="lck-page-content"
+      :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }"
+    >
       <div
         v-if="page.hidden"
-        class="p-mb-4"
+        class="lck-color-primary p-mb-4"
       >
         <p-breadcrumb
           :home="{ icon: 'pi pi-home', to: '/' }"
           :model="breadcrumb"
         />
       </div>
+
+      <div class="lck-color-page-title p-my-4">
+        <h1>{{ page.text }}</h1>
+      </div>
+
+      <lck-nav-anchor-link
+          v-if="isNavBarAnchorLinkDisplayed"
+          :containers="page.containers"
+      />
 
       <draggable
         :key="page.id"
@@ -58,6 +67,7 @@
           </div>
           <draggable
             :key="container.id"
+            :id="container.id"
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
             handle=".handle-block"
@@ -106,7 +116,7 @@
         @click="onContainerEditClick({})"
       />
     </div>
-    <update-container-sidebar
+    <update-sidebar
       :submitting="submitting"
       :showSidebar="showUpdateContainerSidebar"
       :container="currentContainerToEdit"
@@ -115,9 +125,11 @@
       :autocompleteSuggestions="editableAutocompleteSuggestions"
       :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
-      @click-block="onBlockEditClickFromSidebar"
+      @add-new-block="onBlockEditClickFromSidebar"
+      @edit-block="onBlockEditClickFromSidebar"
+      @reset-current-block="onBlockEditClickFromSidebar"
       @update-block="onBlockEditInput"
-      @delete-block="onBlockDeleteClickFromSidebar"
+      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
     />
@@ -132,9 +144,9 @@
     <delete-confirmation-dialog
       :submitting="submitting"
       :visible="dialogVisibility.blockDelete"
+      :value="currentBlockToDelete"
       :itemCategory="$t('pages.workspace.block.block')"
       fieldToDisplay="title"
-      :value="currentBlockToDelete"
       @close="onBlockDeleteClose"
       @input="onBlockDeleteInput"
     />
@@ -176,18 +188,20 @@ import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 
 import Block from '@/components/visualize/Block/Block'
-import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
+import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
+import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 
 export default {
   name: 'Page',
   components: {
     Block,
+    'update-sidebar': UpdateSidebar,
+    'delete-confirmation-dialog': DeleteConfirmationDialog,
+    'lck-nav-anchor-link': NavAnchorLink,
     'p-breadcrumb': Vue.extend(Breadcrumb),
     'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable),
-    'update-container-sidebar': UpdateContainerSidebar,
-    'delete-confirmation-dialog': DeleteConfirmationDialog
+    draggable: Vue.extend(draggable)
   },
   props: {
     pageId: {
@@ -243,7 +257,7 @@ export default {
     }
   },
   computed: {
-    breadcrumb: function () {
+    breadcrumb () {
       const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
         chapter.subitems.find(page => {
           if (page.id === this.$route.params.pageId) acc = page
@@ -261,7 +275,10 @@ export default {
         }
       ]
     },
-    relatedChapterPages: function () {
+    isNavBarAnchorLinkDisplayed () {
+      return this.editMode || this.page?.containers?.some(({ settings }) => settings?.displayed_in_navbar)
+    },
+    relatedChapterPages () {
       let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
         relatedChapterPages = this.chapters.find(

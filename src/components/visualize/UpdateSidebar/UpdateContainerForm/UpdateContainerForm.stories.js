@@ -1,8 +1,8 @@
-import UpdateContainerSidebar from './UpdateContainerSidebar.vue'
+import UpdateContainerForm from './UpdateContainerForm.vue'
 
 export default {
-  title: 'components/visualize/UpdateContainerSidebar',
-  component: UpdateContainerSidebar
+  title: 'components/visualize/UpdateContainerForm',
+  component: UpdateContainerForm
 }
 
 const emptyContainer = {
@@ -21,8 +21,8 @@ const notEmptyContainer = {
 }
 
 export const creatingContainerStory = () => ({
-  components: { UpdateContainerSidebar },
-  template: '<UpdateContainerSidebar :showSidebar="true" />'
+  components: { UpdateContainerForm },
+  template: '<UpdateContainerForm :showSidebar="true" />'
 })
 
 creatingContainerStory.storyName = 'when creating a container'
@@ -31,13 +31,13 @@ creatingContainerStory.args = {
 }
 
 export const updatingAnEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateContainerForm },
   data () {
     return {
       container: emptyContainer
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" />'
+  template: '<UpdateContainerForm :container="container" :showSidebar="true" />'
 })
 
 updatingAnEmptyContainerStory.storyName = 'when updating an empty container'
@@ -46,13 +46,13 @@ updatingAnEmptyContainerStory.args = {
 }
 
 export const submittingAnEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateContainerForm },
   data () {
     return {
       container: emptyContainer
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :submitting="true" :showSidebar="true" />'
+  template: '<UpdateContainerForm :container="container" :submitting="true" :showSidebar="true" />'
 })
 
 submittingAnEmptyContainerStory.storyName = 'when submitting an empty container'
@@ -61,13 +61,13 @@ submittingAnEmptyContainerStory.args = {
 }
 
 export const updatingNotEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateContainerForm },
   data () {
     return {
       container: notEmptyContainer
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" />'
+  template: '<UpdateContainerForm :container="container" :showSidebar="true" />'
 })
 
 updatingNotEmptyContainerStory.storyName = 'when updating a not empty container'
@@ -76,14 +76,14 @@ updatingNotEmptyContainerStory.args = {
 }
 
 export const creatingBlockStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateContainerForm },
   data () {
     return {
       container: notEmptyContainer,
       block: { id: '' }
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" :block="block" />'
+  template: '<UpdateContainerForm :container="container" :showSidebar="true" :block="block" />'
 })
 
 creatingBlockStory.storyName = 'when creating a new block'
@@ -92,14 +92,14 @@ creatingBlockStory.args = {
 }
 
 export const updatingBlockStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateContainerForm },
   data () {
     return {
       container: notEmptyContainer,
       block: notEmptyContainer.blocks[2]
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" :block="block" />'
+  template: '<UpdateContainerForm :container="container" :showSidebar="true" :block="block" />'
 })
 
 updatingBlockStory.storyName = 'when updating a block'
