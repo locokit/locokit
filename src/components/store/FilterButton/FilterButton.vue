@@ -78,7 +78,7 @@
               :options="filter.column && columnFiltersConfig[filter.column.type].actions || []"
               :disabled="!filter.column"
               optionLabel="label"
-              v-model="filter.action"
+              :value="filter.action"
               :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="actionControlPattern(index, $event)"
             >
@@ -444,8 +444,18 @@ export default {
       this.value[index].action = null
       this.value[index].pattern = null
     },
-    actionControlPattern (index, { value: { predefinedPattern } = {} }) {
-      this.value[index].pattern = predefinedPattern !== undefined ? predefinedPattern : null
+    actionControlPattern (index, { value = {} }) {
+      if (value.predefinedPattern !== undefined) {
+        // Set the pattern if the selected action has a predefined one
+        this.value[index].pattern = value.predefinedPattern
+      } else {
+        if (this.value[index].action?.predefinedPattern) {
+          // Reset the pattern if the previous action had a predefined one
+          this.value[index].pattern = null
+        }
+      }
+      // Set the action
+      this.value[index].action = value
     }
   }
 }
