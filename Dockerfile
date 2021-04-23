@@ -1,5 +1,5 @@
-FROM node:14
-# ENV NODE_ENV=production
+FROM node:fermium-slim
+ENV NODE_ENV=production
 RUN mkdir /code
 WORKDIR /code
 RUN apt-get update
