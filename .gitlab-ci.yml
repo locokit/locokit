@@ -5,26 +5,26 @@ stages:
   - build
   - deploy
 
-.build_template: &build_definition
-  tags: [shared-ci-docker]
-  stage: build
-  variables:
-    VUE_APP_I18N_LOCALE: 'fr'
-    VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
-    VUE_APP_TITLE: '{{ lck_app_title }}'
-    VUE_APP_THEME: '{{ lck_app_theme }}'
-  only:
-    - tags
-    - merge_requests
-    - master
-  script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
-    - npm run build
-  artifacts:
-    expire_in: 3 mos
-    name: 'lck-front-${CI_COMMIT_REF_SLUG}'
-    paths:
-    - dist/
+# .build_template: &build_definition
+#   tags: [shared-ci-docker]
+#   stage: build
+#   variables:
+#     VUE_APP_I18N_LOCALE: 'fr'
+#     VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
+#     VUE_APP_TITLE: '{{ lck_app_title }}'
+#     VUE_APP_THEME: '{{ lck_app_theme }}'
+#   only:
+#     - tags
+#     - merge_requests
+#     - master
+#   script:
+#     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+#     - npm run build
+#   artifacts:
+#     expire_in: 3 mos
+#     name: 'lck-front-${CI_COMMIT_REF_SLUG}'
+#     paths:
+#     - dist/
 
 # lint & test stage
 # quality:
@@ -52,14 +52,14 @@ stages:
 #         - junit.xml
 
 # Build stage
-build:
-  <<: *build_definition
+# build:
+#   <<: *build_definition
 
 # Deploy stage
 deploy-vlog-staging:
   tags: [shared-ci-docker]
-  dependencies:
-    - build
+  # dependencies:
+  #   - build
   stage: deploy
   variables:
     VUE_APP_TITLE: 'Plate-forme v-logistique'
@@ -67,9 +67,10 @@ deploy-vlog-staging:
   only:
     - merge_requests
   script:
+    - mkdir dist
+    - cp public/index.html dist/index-generic.html
     - cp public/config-vlog-staging.js.dist dist/config.js
-    - rm -f package.json package-lock.json
-    - npm install nunjucks surge
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - npm run build:html
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
