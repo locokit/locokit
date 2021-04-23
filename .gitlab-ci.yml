@@ -1,4 +1,4 @@
-image: node:14
+image: node:fermium-slim
 
 stages:
   - quality
@@ -27,7 +27,6 @@ stages:
     - docker pull $IMAGE_NAME:latest || true
 
 test:
-  image: node:14
   tags: [shared-ci-docker]
   stage: quality
   variables:
@@ -56,7 +55,6 @@ test:
       cobertura: coverage/cobertura-coverage.xml
 
 build-lib:
-  image: node:14
   tags: [shared-ci-docker]
   stage: build
   script:
