@@ -97,7 +97,7 @@ export default {
   beforeMount () {
     const locokitLanguage = 'locokitLanguage'
 
-    if (!languages.getEncodedLanguageId(locokitLanguage) || locokitLanguage === 'locokitLanguage') {
+    if (!languages.getEncodedLanguageId(locokitLanguage)) {
       // Register the locokit language if it is not done yet
       languages.register({ id: locokitLanguage })
 
@@ -285,6 +285,8 @@ export default {
           if (currentEditorModel) editor.setModelMarkers(currentEditorModel, this.language, [])
         }
       })
+
+      // Display the errors
       if (this.handledError) this.handleNewError(this.handledError)
     })
 
@@ -357,10 +359,8 @@ export default {
         editor.setTheme(newTheme)
       }
     },
-    handledError: {
-      handler (newError: FeathersError) {
-        this.handleNewError(newError)
-      }
+    handledError (newError: FeathersError) {
+      this.handleNewError(newError)
     }
   }
 }
