@@ -1,9 +1,7 @@
 image: node:lts
 
 stages:
-  - dependencies
-  - storybook
-  - lint-tests
+  - quality-gate
   - build
   - deploy
 
@@ -19,9 +17,8 @@ stages:
     - tags
     - merge_requests
     - master
-  dependencies:
-    - npm:ci
   script:
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - npm run build
   artifacts:
     expire_in: 3 mos
@@ -29,58 +26,27 @@ stages:
     paths:
     - dist/
 
-npm:ci:
+# lint & test stage
+quality:
+  image: buildkite/puppeteer
   tags: [shared-ci-docker]
-  stage: dependencies
+  stage: quality-gate
   only:
     - merge_requests
     - master
   script:
     - npm ci
-  artifacts:
-    expire_in: 1 week
-    name: 'lck-front-node_modules-${CI_COMMIT_REF_SLUG}'
-    paths:
-      - node_modules
-
-# storybook stage
-storybook:build:
-  tags: [shared-ci-docker]
-  stage: storybook
-  only:
-    - merge_requests
-    - master
-  dependencies:
-    - npm:ci
-  script:
-    - npm run storybook:build
-  artifacts:
-    expire_in: 1 week
-    name: 'lck-front-storybook-${CI_COMMIT_REF_SLUG}'
-    paths:
-      - storybook-static
-
-# lint & test stage
-quality:
-  image: buildkite/puppeteer
-  tags: [shared-ci-docker]
-  stage: lint-tests
-  only:
-    - merge_requests
-    - master
-  script:
     - npm run lint
+    - npm run storybook:build
     - npm run test:unit -- --coverage --reporters=default
-  dependencies:
-    - npm:ci
-    - storybook:build
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     expire_in: 1 week
-    name: 'lck-front-snapshots-${CI_COMMIT_REF_SLUG}'
+    name: 'lck-front-quality-${CI_COMMIT_REF_SLUG}'
     when: always
     paths:
-    - tests/unit/__image_snapshots__
+      - tests/unit/__image_snapshots__
+      - storybook-static
     reports:
       junit:
         - junit.xml
@@ -93,7 +59,6 @@ build:
 deploy-vlog-staging:
   tags: [shared-ci-docker]
   dependencies:
-    - npm:ci
     - build
   stage: deploy
   variables:
@@ -103,7 +68,8 @@ deploy-vlog-staging:
     - merge_requests
   script:
     - cp public/config-vlog-staging.js.dist dist/config.js
-    - node scripts/compileTemplates.js
+    - npm install nunjucks surge
+    - node .gitlab/compileTemplates.js
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-vlog-staging-${CI_COMMIT_REF_SLUG}
@@ -113,7 +79,7 @@ deploy-vlog-staging:
 deploy-storybook:
   tags: [shared-ci-docker]
   dependencies:
-    - storybook:build
+    - quality
   stage: deploy
   only:
     - merge_requests
@@ -127,7 +93,7 @@ deploy-storybook:
 deploy-storybook-master:
   tags: [shared-ci-docker]
   dependencies:
-    - storybook:build
+    - quality
   stage: deploy
   only:
     - master
