@@ -289,7 +289,7 @@ export default {
   data () {
     return {
       // eslint-disable-next-line no-undef
-      PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_SETTINGS.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
+      PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       databaseState,
       crudMode: true,
       cellState: {},

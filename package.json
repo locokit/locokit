@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && mv dist/index.html dist/index-generic.html",
     "test:unit": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
@@ -14,7 +14,8 @@
     "storybook:serve": "start-storybook -p 6006 watch-css -s ./public --no-manager-cache",
     "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
     "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js",
-    "test:update-imageshot": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit -- --u tests/unit/imageshots.spec.js"
+    "test:update-imageshot": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit -- --u tests/unit/imageshots.spec.js",
+    "build:html": "node scripts/compileTemplate.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^4.5.4",
@@ -86,6 +87,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jest-junit": "^12.0.0",
     "jest-vue-preprocessor": "^1.7.1",
+    "nunjucks": "^3.2.3",
     "puppeteer": "7.1.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",

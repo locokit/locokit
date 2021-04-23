@@ -3,7 +3,7 @@ node_modules
 /dist
 
 # Config
-/public/themes/**/config.js
+/public/config.js
 .env
 
 # Test
@@ -11,6 +11,7 @@ node_modules
 /tests/e2e/screenshots/
 
 # local env files
+.env
 .env.local
 .env.*.local
 
