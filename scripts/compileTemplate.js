@@ -7,8 +7,8 @@ const envVars = {
   lck_app_title: process.env.VUE_APP_TITLE,
   lck_app_theme: process.env.VUE_APP_THEME
 }
-console.log('Compiling dist/index.html')
-const indexHTML = nunjucks.render('dist/index.html', envVars)
+console.log('Compiling dist/index-generic.html')
+const indexHTML = nunjucks.render('dist/index-generic.html', envVars)
 
 console.log('Writing dist/index.html')
 fs.writeFileSync('dist/index.html', indexHTML)
