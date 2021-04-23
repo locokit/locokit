@@ -68,6 +68,7 @@ deploy-vlog-staging:
     - merge_requests
   script:
     - cp public/config-vlog-staging.js.dist dist/config.js
+    - rm -f package.json package-lock.json
     - npm install nunjucks surge
     - node scripts/compileTemplates.js
     - npx surge dist lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
