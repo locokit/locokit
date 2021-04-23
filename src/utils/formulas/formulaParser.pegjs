@@ -69,7 +69,7 @@ function "function"
           } else {
             // The current doc parameter is not an array (single parameter)
             const realParamType = args?.[realParamIndex]?.type
-            // A parameter is required if it's is specified and if it's a multiple one, if we have not already encountered it
+            // A parameter is required if it's specified and if it's a multiple one, if we have not already encountered it
             const paramIsRequired = (docParam.required !== false) && (!requiredAndMultipleParamsIndexes.has(docParamIndex))
             if (paramIsRequired !== false) {
               // The current documentation parameter is required
@@ -102,8 +102,6 @@ function "function"
                 // The parameter is correct -> check the following real parameter with the same doc parameter
                 realParamIndex += 1
                 multipleParamIndex += 1
-                
-              // } else if (docParamIndex === (currentFunction.params.length - 1)) {
               } else if (docParamIndex === (currentFunction.params.length - 1) && realParamIndex === (args.length - 1)) {
                 // The parameter is incorrect and this is the last one -> throw an error
                 error(`the '${docParam.name}${multipleParamIndex}' argument of the '${category}.${name}' function is invalid.`, errorPositionLimit)
@@ -113,8 +111,8 @@ function "function"
                 multipleParamIndex = 1
               }
             }
-            // The current documentation parameter is specified but neither required nor multiple
             else {
+              // The current documentation parameter is specified but neither required nor multiple
               if (checkParamsTypes(docParam.type, realParamType)) {
                 // The parameter is correct -> check the following real parameter with the following doc parameter
                 docParamIndex += 1
