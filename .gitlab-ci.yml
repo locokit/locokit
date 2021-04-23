@@ -19,6 +19,8 @@ stages:
     - tags
     - merge_requests
     - master
+  dependencies:
+    - npm:ci
   script:
     - npm run build
   artifacts:
@@ -48,6 +50,8 @@ storybook:build:
   only:
     - merge_requests
     - master
+  dependencies:
+    - npm:ci
   script:
     - npm run storybook:build
   artifacts:
@@ -68,6 +72,7 @@ quality:
     - npm run lint
     - npm run test:unit -- --coverage --reporters=default
   dependencies:
+    - npm:ci
     - storybook:build
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
@@ -88,6 +93,7 @@ build:
 deploy-vlog-staging:
   tags: [shared-ci-docker]
   dependencies:
+    - npm:ci
     - build
   stage: deploy
   variables:
