@@ -8,7 +8,7 @@
     >
       <div class="p-field">
         <label for="container-name">
-          {{ $t('pages.workspace.containerName') }}
+          {{ $t('pages.workspace.container.containerName') }}
         </label>
         <p-input-text
           id="container-name"
@@ -30,7 +30,7 @@
         dataKey="id"
       >
         <template #empty>
-          {{ $t('pages.workspace.noBlock') }}
+          {{ $t('pages.workspace.block.noBlock') }}
         </template>
         <p-column
           field="title"
@@ -64,7 +64,7 @@
             :title="$t('pages.workspace.block.create')"
             icon="pi pi-plus"
             class="p-button-text p-button-lg"
-            @click="$emit('add-new-block', { id: '' })"
+            @click="$emit('add-new-block', { id: 'temp' })"
           />
         </template>
       </p-datatable>
@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -86,7 +86,7 @@ import {
 
 import LckForm from '@/components/ui/Form/Form.vue'
 
-export default {
+export default Vue.extend({
   name: 'UpdateContainerForm',
   components: {
     'lck-form': LckForm,
@@ -97,7 +97,7 @@ export default {
   },
   props: {
     container: {
-      type: Object as Vue.PropType<LckContainer>,
+      type: Object as PropType<LckContainer>,
       required: true
     },
     submitting: {
@@ -105,9 +105,9 @@ export default {
       default: false
     },
     autocompleteSuggestions: {
-      type: Array,
+      type: Array as PropType<{ label: string; value: string }[]>,
       default: () => ([])
-    } as Vue.PropOptions<{ label: string; value: string }[]>
+    }
   },
   data () {
     return {
@@ -123,7 +123,7 @@ export default {
       deep: true
     }
   }
-}
+})
 </script>
 
 <style scoped>

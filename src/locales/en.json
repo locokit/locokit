@@ -359,22 +359,26 @@
       "chapterName": "Chapter name",
       "editMode": "Edit mode",
       "createElement": "Create a new element",
-      "page": "Page",
-      "createPage": "Create a new page",
-      "editPage": "Edit a page",
-      "pageName": "Page Name",
-      "pageHidden": "Hide the page",
-      "pagePosition": "Page position",
-      "container": "container",
-      "createContainer": "Create a new container",
-      "editContainer": "Edit the container",
-      "deleteContainer": "Delete the container",
-      "dragContainer": "Drag the container",
-      "containerName": "Container name",
-      "containerConfiguration": "Container configuration",
-      "newContainer": "New container",
-      "blocksList": "List of blocks",
-      "noBlock": "No block found",
+      "page": {
+        "title": "Page",
+        "create": "Create a new page",
+        "edit": "Edit a page",
+        "pageName": "Page Name",
+        "pageHidden": "Hide the page",
+        "layout": "Layout",
+        "pagePosition": "Page position",
+        "pageConfiguration": "Page configuration"
+      },
+      "container": {
+        "title": "container",
+        "createContainer": "Create a new container",
+        "editContainer": "Edit the container",
+        "deleteContainer": "Delete the container",
+        "dragContainer": "Drag the container",
+        "containerName": "Container name",
+        "containerConfiguration": "Container configuration",
+        "noContainer": "No container found"
+      },
       "block": {
         "block": "Block",
         "title": "Block title",
@@ -395,7 +399,8 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
-        "detailPage": "Detail page"
+        "detailPage": "Detail page",
+        "noBlock": "No block found"
       }
     },
     "database": {

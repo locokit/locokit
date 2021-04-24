@@ -1,13 +1,13 @@
 <template>
   <lck-dialog-form
-    :header="page.id ? $t('pages.workspace.editPage') : $t('pages.workspace.createPage')"
+    :header="page.id ? $t('pages.workspace.page.edit') : $t('pages.workspace.page.create')"
     :submitting="submitting"
     :visible="visible"
     @close="$emit('close')"
     @input="$emit('input', { text: pageTextCopy, hidden: pageHiddenCopy, layout: selectedLayout })"
   >
     <div class="p-field">
-      <label for="pageTextField">{{ $t('pages.workspace.pageName') }}</label>
+      <label for="pageTextField">{{ $t('pages.workspace.page.pageName') }}</label>
       <p-input-text
         id="pageTextField"
         v-model="pageTextCopy"
@@ -16,7 +16,7 @@
       />
     </div>
     <fieldset class="p-field">
-      <legend>LAYOUT</legend>
+      <legend>{{ $t('pages.workspace.page.layout') }}</legend>
       <div v-for="layoutType in layoutTypes" :key="layoutType.name">
         <p-radio-button
           :id="layoutType.name"
@@ -29,7 +29,7 @@
       </div>
     </fieldset>
     <div class="p-field">
-      <label for="PageHiddenField">{{ $t('pages.workspace.pageHidden') }}</label>
+      <label for="PageHiddenField">{{ $t('pages.workspace.page.pageHidden') }}</label>
       <p-input-switch
         id="PageHiddenField"
         v-model="pageHiddenCopy"

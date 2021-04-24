@@ -6,7 +6,7 @@
   >
     <div
       class="lck-page-content"
-      :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }"
+      :style="{ marginRight: showUpdateSidebar ? editableSidebarWidth : 0 }"
     >
       <div
         v-if="page.hidden"
@@ -104,7 +104,7 @@
             :title="$t('pages.workspace.block.create')"
             icon="pi pi-plus"
             class="new-block-button p-button-text"
-            @click="onBlockEditClick(container, { id: '' })"
+            @click="onBlockEditClick(container, { id: 'temp' })"
           />
         </div>
       </draggable>
@@ -113,14 +113,15 @@
         :title="$t('pages.workspace.createContainer')"
         icon="pi pi-plus"
         class="new-container-button p-button-text"
-        @click="onContainerEditClick({})"
+        @click="onContainerEditClick({ id: 'temp' })"
       />
     </div>
     <update-sidebar
       :submitting="submitting"
-      :showSidebar="showUpdateContainerSidebar"
+      :showSidebar="showUpdateSidebar"
       :container="currentContainerToEdit"
       :block="currentBlockToEdit"
+      :page="page"
       :width="editableSidebarWidth"
       :autocompleteSuggestions="editableAutocompleteSuggestions"
       :relatedChapterPages="relatedChapterPages"
@@ -128,6 +129,7 @@
       @add-new-block="onBlockEditClickFromSidebar"
       @edit-block="onBlockEditClickFromSidebar"
       @reset-current-block="onBlockEditClickFromSidebar"
+      @reset-current-container="onContainerEditClickFromSidebar"
       @update-block="onBlockEditInput"
       @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
       @close="onCloseUpdateContainerSidebar"
@@ -228,7 +230,7 @@ export default {
       autocompleteSuggestions: null,
       exporting: false,
       cellState: {},
-      showUpdateContainerSidebar: false,
+      showUpdateSidebar: false,
       currentContainerToEdit: {},
       currentContainerToDelete: {},
       currentBlockToEdit: {},
@@ -488,7 +490,7 @@ export default {
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}
       this.currentBlockToEdit = {}
-      this.showUpdateContainerSidebar = true
+      this.showUpdateSidebar = true
     },
     async onContainerEditInput (containerToEdit) {
       try {
@@ -561,15 +563,18 @@ export default {
     onCloseUpdateContainerSidebar () {
       this.currentContainerToEdit = {}
       this.currentBlockToEdit = {}
-      this.showUpdateContainerSidebar = false
+      this.showUpdateSidebar = false
     },
     onBlockEditClickFromSidebar (blockToEdit) {
       this.currentBlockToEdit = blockToEdit
     },
+    onContainerEditClickFromSidebar (blockToEdit) {
+      this.currentContainerToEdit = blockToEdit
+    },
     onBlockEditClick (containerToEdit, blockToEdit) {
       this.currentContainerToEdit = containerToEdit
       this.currentBlockToEdit = blockToEdit
-      this.showUpdateContainerSidebar = true
+      this.showUpdateSidebar = true
     },
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {

@@ -10,8 +10,21 @@
     <div class="sidebar-content lck-color-content">
       <p-tab-view @tab-change="onTabChange">
         <p-tab-panel
-          :header="containerCopy.id ? $t('pages.workspace.containerConfiguration') : $t('pages.workspace.newContainer')"
+          :header="$t('pages.workspace.page.pageConfiguration')"
           :active.sync="activePanel[0]"
+        >
+          <update-page-form
+            :containers="page.containers"
+            :autocompleteSuggestions="autocompleteSuggestions"
+            @close="resetSidebar"
+            v-on="$listeners"
+          />
+        </p-tab-panel>
+        <p-tab-panel
+          v-if="activePanel[1] || activePanel[2]"
+          :header="$t(`pages.workspace.container.${container.createdAt ? 'edit' : 'create'}`)"
+
+          :active.sync="activePanel[1]"
         >
           <update-container-form
             :container="container"
@@ -23,9 +36,9 @@
           />
         </p-tab-panel>
         <p-tab-panel
-          v-if="activePanel[1]"
-          :header="$t(`pages.workspace.block.${block.id ? 'edit' : 'create'}`)"
-          :active.sync="activePanel[1]"
+          v-if="activePanel[2]"
+          :header="$t(`pages.workspace.block.${block.createdAt ? 'edit' : 'create'}`)"
+          :active.sync="activePanel[2]"
         >
           <update-block-form
             :block="block"
@@ -43,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import Sidebar from 'primevue/sidebar'
 import TabView from 'primevue/tabview'
@@ -56,12 +69,14 @@ import {
 
 import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue'
 import UpdateContainerForm from '@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue'
+import UpdatePageForm from '@/components/visualize/UpdateSidebar/UpdatePageForm/UpdatePageForm.vue'
 
 export default {
   name: 'UpdateSidebar',
   components: {
     'update-block-form': UpdateBlockForm,
     'update-container-form': UpdateContainerForm,
+    'update-page-form': UpdatePageForm,
     'p-sidebar': Vue.extend(Sidebar),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel)
@@ -72,12 +87,16 @@ export default {
       default: false
     },
     container: {
-      type: Object as Vue.PropType<LckContainer>,
-      default: () => new LckContainer()
+      type: Object as PropType<LckContainer>,
+      default: () => ({})
     },
     block: {
-      type: Object as Vue.PropType<LckBlockExtended>,
-      default: () => new LckBlockExtended()
+      type: Object as PropType<LckBlockExtended>,
+      default: () => ({})
+    },
+    page: {
+      type: Object,
+      default: () => ({})
     },
     submitting: {
       type: Boolean,
@@ -88,9 +107,9 @@ export default {
       default: '40rem'
     },
     autocompleteSuggestions: {
-      type: Array,
+      type: Array as PropType<{ label: string; value: string }[]>,
       default: () => ([])
-    } as Vue.PropOptions<{ label: string; value: string }[]>,
+    },
     relatedChapterPages: {
       type: Array,
       default: () => ([])
@@ -98,29 +117,27 @@ export default {
   },
   data () {
     return {
-      containerCopy: new LckContainer()
+      containerCopy: {}
     }
   },
   computed: {
-    activePanel () {
-      return this.container.id === undefined || this.block.id === undefined
-        ? [true, false]
-        : [false, true]
-    }
-  },
-  watch: {
-    container: {
-      handler (newValue = {}) {
-        this.containerCopy = { ...newValue }
-      },
-      immediate: true,
-      deep: true
+    activePanel (): boolean[] {
+      if (this.block.id) {
+        return [false, false, true]
+      } else {
+        if (this.container.id) return [false, true, false]
+        return [true, false, false]
+      }
     }
   },
   methods: {
     onTabChange () {
+      if (this.activePanel[1]) {
+        this.$emit('reset-current-block', {})
+      }
       if (this.activePanel[0]) {
-        this.resetSidebar()
+        this.$emit('reset-current-block', {})
+        this.$emit('reset-current-container', {})
       }
     },
     resetSidebar () {
