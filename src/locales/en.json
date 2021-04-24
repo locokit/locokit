@@ -361,29 +361,34 @@
       "createElement": "Create a new element",
       "page": {
         "title": "Page",
+        "name": "Page title",
         "create": "Create a new page",
         "edit": "Edit a page",
         "pageName": "Page Name",
         "pageHidden": "Hide the page",
         "layout": "Layout",
         "pagePosition": "Page position",
-        "pageConfiguration": "Page configuration"
+        "pageConfiguration": "Page configuration",
+        "list": "Containers list",
+        "noContainers": "No container found"
       },
       "container": {
         "title": "container",
+        "name": "Container title",
         "createContainer": "Create a new container",
         "editContainer": "Edit the container",
         "deleteContainer": "Delete the container",
         "dragContainer": "Drag the container",
         "containerName": "Container name",
         "containerConfiguration": "Container configuration",
-        "noContainer": "No container found"
+        "list": "Blocks list",
+        "noBlock": "No block found",
+        "displayedInNavbar": "Navigation enabled"
       },
       "block": {
         "block": "Block",
-        "title": "Block title",
+        "name": "Block title",
         "type": "Block type",
-        "list": "Blocks list",
         "content": "Content",
         "displayMode": "Display mode",
         "selectType": "Select a block type",
@@ -399,8 +404,7 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
-        "detailPage": "Detail page",
-        "noBlock": "No block found"
+        "detailPage": "Detail page"
       }
     },
     "database": {

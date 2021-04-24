@@ -44,7 +44,7 @@
           <div v-if="editMode" class="edit-container-line">
             <span>
               <p-button
-                :title="$t('pages.workspace.dragContainer')"
+                :title="$t('pages.workspace.container.drag')"
                 class="p-button-lg p-button-text handle "
                 icon="pi pi-ellipsis-v"
               />
@@ -52,13 +52,13 @@
             <h2 class="lck-color-title">{{ container.text }}</h2>
             <span class="p-buttonset">
               <p-button
-                :title="$t('pages.workspace.editContainer')"
+                :title="$t('pages.workspace.container.edit')"
                 class="p-button-lg p-button-text edit-container-button"
                 icon="pi pi-pencil"
                 @click="onContainerEditClick(container)"
               />
               <p-button
-                :title="$t('pages.workspace.deleteContainer')"
+                :title="$t('pages.workspace.container.delete')"
                 class="p-button-lg p-button-text remove-container-button"
                 icon="pi pi-trash"
                 @click="onContainerDeleteClick(container)"
@@ -96,7 +96,7 @@
               @export-view-xls="onExportViewXLS(block)"
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
-              @delete-block="onBlockDeleteClick(container, block)"
+              @delete-block="onBlockDeleteClick(block)"
             />
           </draggable>
           <p-button
@@ -110,7 +110,7 @@
       </draggable>
       <p-button
         v-if="editMode"
-        :title="$t('pages.workspace.createContainer')"
+        :title="$t('pages.workspace.container.create')"
         icon="pi pi-plus"
         class="new-container-button p-button-text"
         @click="onContainerEditClick({ id: 'temp' })"
@@ -126,12 +126,18 @@
       :autocompleteSuggestions="editableAutocompleteSuggestions"
       :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
+      @update-block="onBlockEditInput"
+
       @add-new-block="onBlockEditClickFromSidebar"
       @edit-block="onBlockEditClickFromSidebar"
+      @delete-block="onBlockDeleteClick($event)"
+
+      @add-new-container="onContainerEditClickFromSidebar"
+      @edit-container="onContainerEditClickFromSidebar"
+      @delete-container="onContainerDeleteClick($event)"
+
       @reset-current-block="onBlockEditClickFromSidebar"
       @reset-current-container="onContainerEditClickFromSidebar"
-      @update-block="onBlockEditInput"
-      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
     />
@@ -139,7 +145,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.containerDelete"
       :value="currentContainerToDelete"
-      :itemCategory="$t('pages.workspace.container')"
+      :itemCategory="$t('pages.workspace.container.name')"
       @close="onContainerDeleteClose"
       @input="onContainerDeleteInput"
     />
@@ -147,7 +153,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.blockDelete"
       :value="currentBlockToDelete"
-      :itemCategory="$t('pages.workspace.block.block')"
+      :itemCategory="$t('pages.workspace.block.name')"
       fieldToDisplay="title"
       @close="onBlockDeleteClose"
       @input="onBlockDeleteInput"
@@ -611,13 +617,9 @@ export default {
         this.submitting = false
       }
     },
-    onBlockDeleteClick (containerToEdit, blockToDelete) {
-      this.currentContainerToDelete = containerToEdit
+    onBlockDeleteClick (blockToDelete) {
       this.currentBlockToDelete = blockToDelete
       this.dialogVisibility.blockDelete = true
-    },
-    onBlockDeleteClickFromSidebar (blockToDelete) {
-      this.onBlockDeleteClick(this.currentContainerToEdit, blockToDelete)
     },
     onBlockDeleteClose () {
       this.currentContainerToDelete = {}

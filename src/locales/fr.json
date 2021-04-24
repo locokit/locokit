@@ -361,29 +361,34 @@
       "createElement": "Créer un nouvel élément",
       "page": {
         "title": "Page",
+        "name": "Titre de la page",
         "create": "Créer une nouvelle page",
         "edit": "Modifier une page",
         "pageName": "Nom de la page",
         "pageHidden": "Cacher la page",
         "layout": "Disposition",
         "pagePosition": "Position de la page",
-        "pageConfiguration": "Configuration du la page"
+        "pageConfiguration": "Configuration du la page",
+        "list": "Liste des containeurs",
+        "noContainers": "Aucun conteneur trouvé"
       },
       "container": {
         "title": "Conteneur",
+        "name": "Titre du conteneur",
         "create": "Créer un nouveau conteneur",
         "edit": "Modifier le conteneur",
         "delete": "Supprimer le conteneur",
         "drag": "Déplacer le conteneur",
         "containerName": "Nom du conteneur",
         "containerConfiguration": "Configuration du conteneur",
-        "noContainer": "Aucun conteneur trouvé"
+        "list": "Liste des blocs",
+        "noBlocks": "Aucun bloc trouvé",
+        "displayedInNavbar": "Navigation activée"
       },
       "block": {
-        "block": "Bloc",
-        "title": "Titre du bloc",
+        "title": "Bloc",
+        "name": "Titre du bloc",
         "type": "Type du bloc",
-        "list": "Liste des blocs",
         "content": "Contenu",
         "displayMode": "Mode d'affichage",
         "selectType": "Sélectionner un type de bloc",
@@ -399,8 +404,7 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
-        "detailPage": "Page de détails",
-        "noBlock": "Aucun bloc trouvé"
+        "detailPage": "Page de détails"
       }
     },
     "database": {

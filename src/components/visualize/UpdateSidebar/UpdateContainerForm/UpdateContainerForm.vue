@@ -22,19 +22,20 @@
       v-if="containerCopy.id"
       class="container-blocks p-text-bold p-field p-mt-6"
     >
-      <span class="lck-color-content p-mb-2">
-        {{ $t('pages.workspace.block.list') }}
+      <span class="lck-color-content">
+        {{ $t('pages.workspace.container.list') }}
       </span>
       <p-datatable
         :value="containerCopy.blocks"
         dataKey="id"
+        class="p-pt-2"
       >
         <template #empty>
-          {{ $t('pages.workspace.block.noBlock') }}
+          {{ $t('pages.workspace.container.noBlocks') }}
         </template>
         <p-column
           field="title"
-          :header="$t('pages.workspace.block.title')"
+          :header="$t('pages.workspace.block.name')"
         />
         <p-column
           field="type"

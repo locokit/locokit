@@ -6,7 +6,7 @@
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <div class="p-field ">
-      <label for="blockTitleField">{{ $t('pages.workspace.block.title') }}</label>
+      <label for="blockTitleField">{{ $t('pages.workspace.block.name') }}</label>
       <p-input-text
         id="blockTitleField"
         v-model="blockCopy.title"
