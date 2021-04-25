@@ -382,7 +382,7 @@
         "drag": "Drag the container",
         "containerConfiguration": "Container configuration",
         "list": "Blocks list",
-        "noBlock": "No block found",
+        "noBlocks": "No block found",
         "displayedInNavbar": "Navigation enabled",
         "navigationExplain": "Navigation configuration for this container",
         "anchor": {
