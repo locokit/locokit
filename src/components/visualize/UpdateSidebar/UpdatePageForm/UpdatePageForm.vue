@@ -1,8 +1,11 @@
 <template>
     <div
       v-if="containers"
-      class="page-containers lck-color-content p-text-bold p-field"
+      class="page-containers lck-color-content p-text-bold p-field p-d-flex p-flex-column"
     >
+      <span class="field p-mb-2">
+        {{ $t('pages.workspace.page.navigationExplain') }}
+      </span>
       <span class=" p-mb-2">
         {{ $t('pages.workspace.page.list') }}
       </span>

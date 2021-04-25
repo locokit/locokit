@@ -1,15 +1,21 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import VueRouter, {
+  Route,
+  RouteConfig
+} from 'vue-router'
 
 import Home from '@/views/routes/Home.vue'
 import Profile from '@/views/routes/user/Profile.vue'
 
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
-import WorkspaceList from '@/views/routes/workspace/visualization/WorkspaceList.vue'
+import WorkspaceList
+  from '@/views/routes/workspace/visualization/WorkspaceList.vue'
 import Page from '@/views/routes/workspace/visualization/Page.vue'
 import Database from '@/views/routes/workspace/admin/database/Database.vue'
-import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
-import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
+import DatabaseSchema
+  from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
+import ProcessListing
+  from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 import Admin from '@/views/routes/admin/Admin.vue'
 import UserManagement from '@/views/routes/admin/UserManagement.vue'
@@ -153,8 +159,31 @@ const routes: Array<RouteConfig> = [
   }
 ]
 
+// @ts-ignore
+// Issue with compatibility with ts https://github.com/vuejs/vue-router/issues/2252
+const scrollBehavior = (to: Route, from: Route, savedPosition: any) => {
+  // savedPosition is only available for popstate navigations.
+  if (savedPosition) {
+    return savedPosition
+  } else {
+    const position: { selector?: string; offset?: { x: number; y: number } } = {}
+    // scroll to anchor by returning the selector
+    if (to.hash) {
+      position.selector = to.hash
+      // specify offset of the element
+      // position.offset = { y: 100 }
+      return position
+    }
+    // if the returned position is falsy or an empty object,F
+    // will retain current scroll position.
+    return false
+  }
+}
+
 const router = new VueRouter({
-  routes
+  mode: 'history',
+  routes,
+  scrollBehavior
 })
 
 /**

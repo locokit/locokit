@@ -2,13 +2,13 @@
   <div>
     <lck-form
       :submitting="submitting"
-      @submit="$emit('update-container', containerCopy)"
+      @submit="onFormSubmit"
       @cancel="$emit('close')"
       class="lck-color-content p-text-bold"
     >
       <div class="p-field">
         <label for="container-name">
-          {{ $t('pages.workspace.container.containerName') }}
+          {{ $t('pages.workspace.container.name') }}
         </label>
         <p-input-text
           id="container-name"
@@ -17,7 +17,59 @@
           required
         />
       </div>
+      <div class="p-field p-d-flex p-flex-column">
+        <label for="container-displayed_in_navbar">
+          {{ $t('pages.workspace.container.displayedInNavbar') }}
+        </label>
+        <p-switch
+          id="container-displayed_in_navbar"
+          v-model="containerCopy.displayed_in_navbar"
+        />
+      </div>
+      <div v-if="containerCopy.displayed_in_navbar">
+        <span>
+          {{ $t('pages.workspace.container.navigationExplain') }}
+        </span>
+        <div class="p-mt-2 p-ml-2">
+          <div class="p-field">
+            <label for="container-anchor_label">
+              {{ $t('pages.workspace.container.anchor.label') }}
+            </label>
+            <p-input-text
+              id="container-anchor_label"
+              type="text"
+              v-model="containerCopy.anchor_label"
+              required
+            />
+          </div>
+          <div class="p-field">
+            <label for="container-anchor_icon">
+              {{ $t('pages.workspace.container.anchor.icon') }}
+            </label>
+            <p-input-text
+              id="container-anchor_icon"
+              type="text"
+              v-model="containerCopy.anchor_icon"
+            />
+          </div>
+          <div class="p-field">
+            <label for="container-anchor_class">
+              {{ $t('pages.workspace.container.anchor.class') }}
+            </label>
+            <p-dropdown
+              id="container-anchor_class"
+              v-model="containerCopy.anchor_class"
+              optionLabel="label"
+              optionvalue="value"
+              dataKey="value"
+              :options="ANCHOR_CLASSES"
+              required
+            />
+          </div>
+        </div>
+      </div>
     </lck-form>
+
     <div
       v-if="containerCopy.id"
       class="container-blocks p-text-bold p-field p-mt-6"
@@ -80,12 +132,19 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import InputSwitch from 'primevue/inputswitch'
+import Dropdown from 'primevue/dropdown'
 
 import {
   LckContainer
 } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
+
+const ANCHOR_CLASSES = [
+  { label: 'Classique', value: 'classic' },
+  { label: 'Important', value: 'visible' }
+]
 
 export default Vue.extend({
   name: 'UpdateContainerForm',
@@ -94,7 +153,9 @@ export default Vue.extend({
     'p-input-text': Vue.extend(InputText),
     'p-button': Vue.extend(Button),
     'p-datatable': Vue.extend(DataTable),
-    'p-column': Vue.extend(Column)
+    'p-column': Vue.extend(Column),
+    'p-switch': Vue.extend(InputSwitch),
+    'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
     container: {
@@ -112,13 +173,31 @@ export default Vue.extend({
   },
   data () {
     return {
-      containerCopy: new LckContainer()
+      containerCopy: new LckContainer(),
+      ANCHOR_CLASSES
+    }
+  },
+  methods: {
+    onFormSubmit () {
+      if (this.containerCopy.displayed_in_navbar) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        const data = { ...this.containerCopy, anchor_class: this.containerCopy.anchor_class.value }
+        return this.$emit('update-container', data)
+      }
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      return this.$emit('update-container', { id: this.containerCopy.id, text: this.containerCopy.text, displayed_in_navbar: this.containerCopy.displayed_in_navbar })
     }
   },
   watch: {
     container: {
       handler (newValue = {}) {
-        this.containerCopy = { ...newValue }
+        this.containerCopy = {
+          ...newValue,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_label: newValue.anchor_label || newValue.text,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_class: ANCHOR_CLASSES.find(anchorClass => anchorClass.value === newValue.anchor_class)
+        }
       },
       immediate: true,
       deep: true

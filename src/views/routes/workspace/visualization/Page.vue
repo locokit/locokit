@@ -23,8 +23,10 @@
       </div>
 
       <lck-nav-anchor-link
-          v-if="isNavBarAnchorLinkDisplayed"
+          v-if="isNavBarAnchorLinkDisplayed || editMode"
           :containers="page.containers"
+          :editMode="editMode"
+          @edit-nav="onNavAnchorLinkEditClick"
       />
 
       <draggable
@@ -42,15 +44,13 @@
           }"
         >
           <div v-if="editMode" class="edit-container-line">
-            <span>
+            <h2 class="lck-color-title">{{ container.text }}</h2>
+            <span class="p-buttonset">
               <p-button
                 :title="$t('pages.workspace.container.drag')"
                 class="p-button-lg p-button-text handle "
                 icon="pi pi-ellipsis-v"
               />
-            </span>
-            <h2 class="lck-color-title">{{ container.text }}</h2>
-            <span class="p-buttonset">
               <p-button
                 :title="$t('pages.workspace.container.edit')"
                 class="p-button-lg p-button-text edit-container-button"
@@ -284,7 +284,7 @@ export default {
       ]
     },
     isNavBarAnchorLinkDisplayed () {
-      return this.editMode || this.page?.containers?.some(({ settings }) => settings?.displayed_in_navbar)
+      return this.page?.containers?.some(container => container.displayed_in_navbar)
     },
     relatedChapterPages () {
       let relatedChapterPages = []
@@ -498,14 +498,18 @@ export default {
       this.currentBlockToEdit = {}
       this.showUpdateSidebar = true
     },
+    onNavAnchorLinkEditClick () {
+      this.currentContainerToEdit = {}
+      this.currentBlockToEdit = {}
+      this.showUpdateSidebar = true
+    },
     async onContainerEditInput (containerToEdit) {
       try {
         this.submitting = true
         if (containerToEdit.id) {
           // On update
-          const updatedContainer = await lckServices.container.patch(containerToEdit.id, {
-            text: containerToEdit.text
-          })
+          const { id, ...data } = containerToEdit
+          const updatedContainer = await lckServices.container.patch(id, data)
           for (const key in updatedContainer) {
             this.currentContainerToEdit[key] = updatedContainer[key]
           }
@@ -741,6 +745,7 @@ export default {
 }
 
 .edit-container-line {
+  padding-left: 0.5rem;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid var(--primary-color);
@@ -780,7 +785,7 @@ export default {
   padding: 0.5rem;
 }
 
-/deep/ .edit-block-line .lck-color-title {
+/deep/ .edit-block-line {
   padding-left: 0.5rem;
 }
 

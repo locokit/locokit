@@ -370,20 +370,27 @@
         "pagePosition": "Page position",
         "pageConfiguration": "Page configuration",
         "list": "Containers list",
-        "noContainers": "No container found"
+        "noContainers": "No container found",
+        "navigationExplain": "To configure the page navigation, you must edit each desired container."
       },
       "container": {
         "title": "container",
         "name": "Container title",
-        "createContainer": "Create a new container",
-        "editContainer": "Edit the container",
-        "deleteContainer": "Delete the container",
-        "dragContainer": "Drag the container",
-        "containerName": "Container name",
+        "create": "Create a new container",
+        "edit": "Edit the container",
+        "delete": "Delete the container",
+        "drag": "Drag the container",
         "containerConfiguration": "Container configuration",
         "list": "Blocks list",
         "noBlock": "No block found",
-        "displayedInNavbar": "Navigation enabled"
+        "displayedInNavbar": "Navigation enabled",
+        "navigationExplain": "Navigation configuration for this container",
+        "anchor": {
+          "label": "label",
+          "icon": "Icon",
+          "class": "Style",
+          "order": "Order"
+        }
       },
       "block": {
         "block": "Block",

@@ -370,7 +370,8 @@
         "pagePosition": "Position de la page",
         "pageConfiguration": "Configuration du la page",
         "list": "Liste des containeurs",
-        "noContainers": "Aucun conteneur trouvé"
+        "noContainers": "Aucun conteneur trouvé",
+        "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque containeur souhaité."
       },
       "container": {
         "title": "Conteneur",
@@ -379,11 +380,17 @@
         "edit": "Modifier le conteneur",
         "delete": "Supprimer le conteneur",
         "drag": "Déplacer le conteneur",
-        "containerName": "Nom du conteneur",
         "containerConfiguration": "Configuration du conteneur",
         "list": "Liste des blocs",
         "noBlocks": "Aucun bloc trouvé",
-        "displayedInNavbar": "Navigation activée"
+        "displayedInNavbar": "Navigation activée",
+        "navigationExplain": "Configuration de la navigation pour ce conteneur",
+        "anchor": {
+          "label": "Libellé",
+          "icon": "Icône",
+          "class": "Style",
+          "order": "Ordre"
+        }
       },
       "block": {
         "title": "Bloc",
