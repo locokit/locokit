@@ -797,6 +797,11 @@ export default {
   color: var(--primary-color)
 }
 
+/deep/ .p-breadcrumb {
+  background: unset;
+  border: unset;
+  padding-left: 0;
+}
 /* classic content */
 
 .lck-layout-classic .lck-container div {

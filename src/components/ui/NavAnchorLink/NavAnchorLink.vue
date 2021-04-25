@@ -136,12 +136,12 @@ export default Vue.extend({
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 500;
   background-color: var(--text-color);
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
-  border: 2px solid #fafafa;
+  border: 4px solid #fafafa;
   height: 3rem;
 }
 
