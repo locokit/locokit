@@ -40,9 +40,13 @@
         </li>
       </ul>
       <!-- Navbar with Anchor Link -->
-      <ul
+      <draggable
         v-else
         class="page-nav"
+        tag="ul"
+        handle=".handle-nav-anchor-link"
+        :list="containersToDisplayed"
+        @change="$emit('on-drag-anchor', { ...$event, containersToDisplayed })"
       >
         <li
           v-for="container in containersToDisplayed"
@@ -65,8 +69,14 @@
               {{ container.anchor_label }}
             </span>
           </a>
+          <p-button
+            v-show="editMode"
+            :title="$t('pages.workspace.container.drag')"
+            class="p-button-lg p-button-text handle-nav-anchor-link"
+            icon="pi pi-ellipsis-v"
+          />
         </li>
-      </ul>
+      </draggable>
     </div>
     <span>
     <p-button
@@ -82,6 +92,8 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+
+import draggable from 'vuedraggable'
 
 import Button from 'primevue/button'
 
@@ -105,7 +117,8 @@ interface Containers {
 export default Vue.extend({
   name: 'NavAnchorLink',
   components: {
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    draggable: Vue.extend(draggable)
   },
   props: {
     containers: {
@@ -119,9 +132,19 @@ export default Vue.extend({
   data () {
     return {
       anchorContainerActive: this.$route.hash
+      // containersMoved: this.containers
     }
   },
   computed: {
+    // containersToDisplayed: {
+    //   get () {
+    //     // eslint-disable-next-line @typescript-eslint/camelcase
+    //     return this.containersMoved.filter(container => container.displayed_in_navbar).sort((a, b) => a.anchor_order - b.anchor_order)
+    //   },
+    //   set (containersToDisplayed) {
+    //     this.containersMoved = containersToDisplayed
+    //   }
+    // }
     containersToDisplayed () {
       // eslint-disable-next-line @typescript-eslint/camelcase
       return this.containers.filter(container => container.displayed_in_navbar).sort((a, b) => a.anchor_order - b.anchor_order)
