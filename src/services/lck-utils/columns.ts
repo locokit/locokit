@@ -115,9 +115,52 @@ export function getDataFromTableViewColumn (
   }
 }
 
+export function getColumnClass (column: LckTableViewColumn): string {
+  const columnClass = getColumnTypeId(column)
+  switch (columnClass) {
+    case COLUMN_TYPE.BOOLEAN:
+    case COLUMN_TYPE.STRING:
+      return 'bi bi-type'
+    case COLUMN_TYPE.NUMBER:
+    case COLUMN_TYPE.FLOAT:
+      return 'bi bi-number'
+    case COLUMN_TYPE.DATE:
+      return 'bi bi-calendar-date'
+    case COLUMN_TYPE.USER:
+      return 'bi bi-person'
+    case COLUMN_TYPE.GROUP:
+      return 'bi bi-people'
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+      return 'bi bi-link'
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'bi bi-check'
+    case COLUMN_TYPE.MULTI_SELECT:
+      return 'bi bi-check-all'
+    case COLUMN_TYPE.FORMULA:
+      return 'bi-link'
+    case COLUMN_TYPE.FILE:
+      return 'bi-file-earmark'
+    case COLUMN_TYPE.MULTI_USER:
+      return 'bi bi-people'
+    case COLUMN_TYPE.MULTI_GROUP:
+      return 'bi bi-people'
+    case COLUMN_TYPE.TEXT:
+      return 'bi bi-file-earmark'
+    case COLUMN_TYPE.URL:
+      return 'bi bi-link'
+    case COLUMN_TYPE.GEOMETRY_POINT:
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      return 'bi bi-geo'
+    default :
+      return ''
+  }
+}
+
 export default {
   getComponentEditableColumn,
   isEditableColumn,
   getColumnTypeId,
-  getDataFromTableViewColumn
+  getDataFromTableViewColumn,
+  getColumnClass
 }
