@@ -7,6 +7,10 @@ import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class container extends BaseModel {
   position?: number
+  displayed_in_navbar?: boolean
+  anchor_label?: string
+  anchor_icon?: string
+  anchor_class?: string
 
   static get tableName (): string {
     return 'container'
@@ -16,10 +20,13 @@ export class container extends BaseModel {
     return {
       type: 'object',
       required: ['text'],
-
       properties: {
         text: { type: 'string' },
         position: { type: ['number', 'null'] },
+        displayed_in_navbar: { type: 'boolean' },
+        anchor_label: { type: 'string' },
+        anchor_icon: { type: 'string' },
+        anchor_class: { type: 'string' },
       },
     }
   }
