@@ -27,7 +27,6 @@
         :containers="page.containers"
         :editMode="editMode"
         @edit-nav="onNavAnchorLinkEditClick"
-        @on-drag-anchor="onNavAnchorLinkReorderClick"
       />
 
       <draggable
@@ -569,27 +568,6 @@ export default {
           .catch(error => {
             this.displayToastOnError(`${this.$t('pages.workspace.page')} ${this.page.text}`, error)
           })
-      }
-    },
-    async onNavAnchorLinkReorderClick ({ containersToDisplayed, moved }) {
-      if (moved) {
-        const minIndex = Math.min(moved.oldIndex, moved.newIndex)
-        const maxIndex = Math.max(moved.oldIndex, moved.newIndex)
-
-        const updatedContainerPromises = []
-        for (let index = minIndex; index <= maxIndex; index++) {
-          updatedContainerPromises.push(
-            lckServices.container.patch(containersToDisplayed[index].id, { anchor_order: index })
-          )
-        }
-        await Promise.all(updatedContainerPromises).catch(error => {
-          this.displayToastOnError(`${this.$t('pages.workspace.page')} ${this.page.text}`, error)
-        })
-        if (this.$route?.params?.pageDetailId) {
-          this.page = await retrievePageWithContainersAndBlocks(containersToDisplayed[0].page_id)
-        } else {
-          this.page = await retrievePageWithContainersAndBlocks(containersToDisplayed[0].page_id)
-        }
       }
     },
     onCloseUpdateContainerSidebar () {

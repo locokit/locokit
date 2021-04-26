@@ -179,13 +179,23 @@ export default Vue.extend({
   },
   methods: {
     onFormSubmit () {
-      if (this.containerCopy.displayed_in_navbar) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        const data = { ...this.containerCopy, anchor_class: this.containerCopy.anchor_class.value }
+      if (this.containerCopy?.displayed_in_navbar) {
+        const data = {
+          id: this.containerCopy.id,
+          text: this.containerCopy.text,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          displayed_in_navbar: this.containerCopy.displayed_in_navbar,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_label: this.containerCopy.anchor_label,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_icon: this.containerCopy.anchor_icon || '',
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_class: this.containerCopy?.anchor_class.value
+        }
         return this.$emit('update-container', data)
       }
       // eslint-disable-next-line @typescript-eslint/camelcase
-      return this.$emit('update-container', { id: this.containerCopy.id, text: this.containerCopy.text, displayed_in_navbar: this.containerCopy.displayed_in_navbar })
+      return this.$emit('update-container', { id: this.containerCopy.id, text: this.containerCopy.text, displayed_in_navbar: this.containerCopy?.displayed_in_navbar })
     }
   },
   watch: {

@@ -40,13 +40,9 @@
         </li>
       </ul>
       <!-- Navbar with Anchor Link -->
-      <draggable
+      <ul
         v-else
         class="page-nav"
-        tag="ul"
-        handle=".handle-nav-anchor-link"
-        :list="containersToDisplayed"
-        @change="$emit('on-drag-anchor', { ...$event, containersToDisplayed })"
       >
         <li
           v-for="container in containersToDisplayed"
@@ -69,14 +65,8 @@
               {{ container.anchor_label }}
             </span>
           </a>
-          <p-button
-            v-show="editMode"
-            :title="$t('pages.workspace.container.drag')"
-            class="p-button-lg p-button-text handle-nav-anchor-link"
-            icon="pi pi-ellipsis-v"
-          />
         </li>
-      </draggable>
+      </ul>
     </div>
     <span>
     <p-button
@@ -93,11 +83,9 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import draggable from 'vuedraggable'
-
 import Button from 'primevue/button'
 
-export enum ANCHOR_CLASS {
+enum ANCHOR_CLASS {
   VISIBLE = 'visible',
   CLASSIC = 'classic'
 }
@@ -110,15 +98,13 @@ interface Containers {
   anchor_label?: string;
   anchor_icon?: string;
   anchor_class?: ANCHOR_CLASS;
-  anchor_order?: number;
   settings?: {};
 }
 
 export default Vue.extend({
   name: 'NavAnchorLink',
   components: {
-    'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable)
+    'p-button': Vue.extend(Button)
   },
   props: {
     containers: {
@@ -135,9 +121,9 @@ export default Vue.extend({
     }
   },
   computed: {
-    containersToDisplayed () {
+    containersToDisplayed (): Containers[] {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      return this.containers.filter(container => container.displayed_in_navbar).sort((a, b) => a.anchor_order - b.anchor_order)
+      return this.containers.filter(container => container.displayed_in_navbar)
     }
   }
 })
