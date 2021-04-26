@@ -159,8 +159,8 @@ const routes: Array<RouteConfig> = [
   }
 ]
 
-// @ts-ignore
 // Issue with compatibility with ts https://github.com/vuejs/vue-router/issues/2252
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const scrollBehavior = (to: Route, from: Route, savedPosition: any) => {
   // savedPosition is only available for popstate navigations.
   if (savedPosition) {

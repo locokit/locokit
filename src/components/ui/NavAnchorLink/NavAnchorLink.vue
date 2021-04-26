@@ -132,19 +132,9 @@ export default Vue.extend({
   data () {
     return {
       anchorContainerActive: this.$route.hash
-      // containersMoved: this.containers
     }
   },
   computed: {
-    // containersToDisplayed: {
-    //   get () {
-    //     // eslint-disable-next-line @typescript-eslint/camelcase
-    //     return this.containersMoved.filter(container => container.displayed_in_navbar).sort((a, b) => a.anchor_order - b.anchor_order)
-    //   },
-    //   set (containersToDisplayed) {
-    //     this.containersMoved = containersToDisplayed
-    //   }
-    // }
     containersToDisplayed () {
       // eslint-disable-next-line @typescript-eslint/camelcase
       return this.containers.filter(container => container.displayed_in_navbar).sort((a, b) => a.anchor_order - b.anchor_order)
@@ -165,7 +155,7 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   border: 4px solid #fafafa;
-  height: 3rem;
+  height: 4rem;
 }
 
 .internal-nav-content {
@@ -196,11 +186,11 @@ export default Vue.extend({
 }
 
 .page-nav-item > a > .visible {
-  color: var(--color-warning)
+  color: var(--color-warning);
 }
 
 .page-nav-item > a {
-  text-decoration: none
+  text-decoration: none;
 }
 
 .active::after {

@@ -23,11 +23,11 @@
       </div>
 
       <lck-nav-anchor-link
-          v-if="isNavBarAnchorLinkDisplayed || editMode"
-          :containers="page.containers"
-          :editMode="editMode"
-          @edit-nav="onNavAnchorLinkEditClick"
-          @on-drag-anchor="onNavAnchorLinkReorderClick"
+        v-if="isNavBarAnchorLinkDisplayed || editMode"
+        :containers="page.containers"
+        :editMode="editMode"
+        @edit-nav="onNavAnchorLinkEditClick"
+        @on-drag-anchor="onNavAnchorLinkReorderClick"
       />
 
       <draggable
@@ -38,6 +38,7 @@
       >
         <div
           v-for="container in page.containers"
+          :id="container.id"
           :key="container.id"
           class="lck-container"
           :class="{
@@ -68,7 +69,6 @@
           </div>
           <draggable
             :key="container.id"
-            :id="container.id"
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
             handle=".handle-block"
@@ -809,6 +809,10 @@ export default {
 
 /deep/ .edit-block-line {
   padding-left: 0.5rem;
+}
+
+.lck-container:target {
+  scroll-margin-top: 50px;
 }
 
 .lck-container.editable-container .edit-container-line {

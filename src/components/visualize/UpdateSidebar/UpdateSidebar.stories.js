@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import UpdateSidebar from './UpdateSidebar.vue'
 
 export default {
@@ -14,7 +16,7 @@ const emptyPage = {
 const notEmptyPage = {
   ...emptyPage,
   containers: [
-    { id: 'containerID', title: 'my container', displayed_in_navbar: false },
+    { id: 'containerID', title: 'my container', displayed_in_navbar: false }
   ]
 }
 
@@ -119,7 +121,7 @@ export const updatingBlockStory = () => ({
     return {
       container: notEmptyContainer,
       block: notEmptyContainer.blocks[2],
-      page: notEmptyPage,
+      page: notEmptyPage
     }
   },
   template: '<UpdateSidebar :page="page" :container="container" :showSidebar="true" :block="block" />'
