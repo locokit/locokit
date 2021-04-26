@@ -397,7 +397,7 @@ export default {
     columnsDisplayable () {
       if (this.definition.columns?.length < 1) return []
       return this.definition.columns.reduce((acc, column) => {
-        const originalType = getColumnTypeId(column)
+        const originalType = column.column_type_id === COLUMN_TYPE.FORMULA ? getColumnTypeId(column) : column.column_type_id
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(originalType)) {
           acc.push({
