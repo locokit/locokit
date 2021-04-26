@@ -311,13 +311,13 @@ describe('formula utility functions', () => {
       it('Return the specified value for a group column', async () => {
         expect.assertions(2)
         await patchTable1Formula(`COLUMN.{${columnTable1Group.id}}`)
-        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.GROUP)
+        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
         expect(rowTable1.data[columnTable1Formula.id]).toBe((rowTable1.data[columnTable1Group.id] as { value: string, reference: string }).value)
       })
       it('Return the specified value for a relation between table column', async () => {
         expect.assertions(2)
         await patchTable1Formula(`COLUMN.{${columnTable1RelationBetweenTables.id}}`)
-        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.RELATION_BETWEEN_TABLES)
+        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
         expect(rowTable1.data[columnTable1Formula.id]).toBe((rowTable1.data[columnTable1RelationBetweenTables.id] as { value: string, reference: string }).value)
       })
       it('Return the specified value for a single select column', async () => {
@@ -341,13 +341,13 @@ describe('formula utility functions', () => {
       it('Return the specified value for a url column', async () => {
         expect.assertions(2)
         await patchTable1Formula(`COLUMN.{${columnTable1URL.id}}`)
-        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.URL)
+        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
         expect(rowTable1.data[columnTable1Formula.id]).toBe(rowTable1.data[columnTable1URL.id])
       })
       it('Return the specified value for a user column', async () => {
         expect.assertions(2)
         await patchTable1Formula(`COLUMN.{${columnTable1User.id}}`)
-        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.USER)
+        expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
         expect(rowTable1.data[columnTable1Formula.id]).toBe((rowTable1.data[columnTable1User.id] as { value: string, reference: string }).value)
       })
       it('Return the specified value for a looked-up column', async () => {
