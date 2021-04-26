@@ -112,7 +112,6 @@
             <div class="th-container">
               <span class="th-text" :data-column-id="column.id">
                 <i
-                  class="bi"
                   :class="getColumnClass(column)"
                 />
                 {{ column.text }}
@@ -294,7 +293,8 @@ import { parseISO } from 'date-fns'
 
 import {
   getComponentEditableColumn,
-  isEditableColumn
+  isEditableColumn,
+  getColumnClass
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
@@ -471,51 +471,10 @@ export default {
     }
   },
   methods: {
-    getColumnClass (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.BOOLEAN:
-        case COLUMN_TYPE.STRING:
-          return 'bi bi-type'
-        case COLUMN_TYPE.NUMBER:
-        case COLUMN_TYPE.FLOAT:
-          return 'bi bi-number'
-        case COLUMN_TYPE.DATE:
-          return 'bi bi-calendar-date'
-        case COLUMN_TYPE.USER:
-          return 'bi bi-person'
-        case COLUMN_TYPE.GROUP:
-          return 'bi bi-people'
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          return 'bi bi-link'
-        case COLUMN_TYPE.LOOKED_UP_COLUMN:
-          return 'bi bi-link'
-        case COLUMN_TYPE.SINGLE_SELECT:
-          return 'bi bi-check'
-        case COLUMN_TYPE.MULTI_SELECT:
-          return 'bi bi-check-all'
-        case COLUMN_TYPE.FORMULA:
-          return 'bi-link'
-        case COLUMN_TYPE.FILE:
-          return 'bi-file'
-        case COLUMN_TYPE.MULTI_USER:
-          return 'bi bi-file'
-        case COLUMN_TYPE.MULTI_GROUP:
-          return 'bi bi-file'
-        case COLUMN_TYPE.TEXT:
-          return 'bi bi-file'
-        case COLUMN_TYPE.URL:
-          return 'bi bi-link'
-        case COLUMN_TYPE.GEOMETRY_POINT:
-        case COLUMN_TYPE.GEOMETRY_POLYGON:
-        case COLUMN_TYPE.GEOMETRY_LINESTRING:
-          return 'bi bi-link'
-        default :
-          return ''
-      }
-    },
     getComponentEditableColumn,
     isEditableColumn,
     getDisabledProcessTrigger,
+    getColumnClass,
     formatManualProcesses (rowId) {
       if (this.manualProcesses.length > 0) {
         return [
