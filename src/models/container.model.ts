@@ -10,7 +10,7 @@ export class container extends BaseModel {
   displayed_in_navbar?: boolean
   anchor_label?: string
   anchor_icon?: string
-  anchor_class?: string
+  anchor_icon_class?: string
 
   static get tableName (): string {
     return 'container'
@@ -25,8 +25,8 @@ export class container extends BaseModel {
         position: { type: ['number', 'null'] },
         displayed_in_navbar: { type: 'boolean' },
         anchor_label: { type: 'string' },
-        anchor_icon: { type: 'string' },
-        anchor_class: { type: 'string' },
+        anchor_icon: { type: ['string', 'null'] },
+        anchor_icon_class: { type: 'string' },
       },
     }
   }
