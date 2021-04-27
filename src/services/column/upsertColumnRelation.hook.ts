@@ -8,12 +8,12 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 export function upsertColumnRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     if (context.result.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
-      console.log('Hook only for LOOKED UP COLUMNS')
+      // console.log('Hook only for LOOKED UP COLUMNS')
       return context
     }
 
     if (!['create', 'patch'].includes(context.method)) {
-      console.log('Hook only for create or patch method.')
+      // console.log('Hook only for create or patch method.')
       return context
     }
 
