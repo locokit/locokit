@@ -158,6 +158,297 @@ const tableViewData = {
   }
 }
 
+/* eslint-disable @typescript-eslint/camelcase */
+const tableViewDataColumn = {
+  id: 1,
+  title: 'My DataTable\'s block',
+  type: 'TableView',
+  definition: {
+    text: 'Ensemble des vélos',
+    table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+    columns: [
+      {
+        text: 'Boolean',
+        id: 'e065323c-1151-447f-be0f-6d2728117c38',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.BOOLEAN,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'String',
+          id: 3
+        }
+      },
+      {
+        text: 'String',
+        id: 'e065323c-1151-447f-be0f-6d2728117c39',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.STRING,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'String',
+          id: 3
+        }
+      },
+      {
+        text: 'Number',
+        id: 'e065323c-1151-447f-be0f-6d2728117c40',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.NUMBER,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'String',
+          id: 3
+        }
+      },
+      {
+        text: 'Float',
+        id: 'e065323c-1151-447f-be0f-6d2728117c41',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.FLOAT,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'String',
+          id: 3
+        }
+      },
+      {
+        text: 'Date',
+        id: 'b9058b15-44b7-4cd9-a121-a942b69a0434',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.DATE,
+        order: null,
+        filter: null,
+        displayed: true
+      },
+      {
+        text: 'User',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.USER,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'User',
+          id: 5
+        }
+      },
+      {
+        text: 'Group',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.GROUP,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Group',
+          id: 5
+        }
+      },
+      {
+        text: 'Relation between table',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Relation between table',
+          id: 5
+        }
+      },
+      {
+        text: 'Single Select',
+        id: '3a659ea1-446f-4755-8db9-583a204279c42',
+        settings: {
+          values: {
+            1: {
+              color: '#fff',
+              label: 'En maintenance',
+              backgroundColor: 'var(--surface-a)'
+            },
+            2: {
+              color: '#fff',
+              label: 'En utilisation',
+              backgroundColor: 'var(--surface-b)'
+            },
+            3: {
+              color: '#fff',
+              label: 'Stocké',
+              backgroundColor: 'var(--surface-c)'
+            }
+          }
+        },
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Single select',
+          id: 9
+        }
+      },
+      {
+        text: 'Multi Select',
+        id: '3a659ea1-446f-4755-8db9-583a204279c42',
+        settings: {
+          values: {
+            1: {
+              color: '#fff',
+              label: 'En maintenance',
+              backgroundColor: 'var(--surface-a)'
+            },
+            2: {
+              color: '#fff',
+              label: 'En utilisation',
+              backgroundColor: 'var(--surface-b)'
+            },
+            3: {
+              color: '#fff',
+              label: 'Stocké',
+              backgroundColor: 'var(--surface-c)'
+            }
+          }
+        },
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.MULTI_SELECT,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Multi select',
+          id: 9
+        }
+      },
+      {
+        text: 'Formula',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.FORMULA,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Group',
+          id: 5
+        }
+      },
+      {
+        text: 'File',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.FILE,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'File',
+          id: 5
+        }
+      },
+      {
+        text: 'Multi User',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.MULTI_USER,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Multi User',
+          id: 5
+        }
+      },
+      {
+        text: 'Multi Group',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.MULTI_GROUP,
+        order: null,
+        filter: null,
+        displayed: true,
+        type: {
+          text: 'Multi User',
+          id: 5
+        }
+      },
+      {
+        text: 'Textarea',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.TEXT,
+        order: null,
+        filter: null,
+        displayed: true
+      },
+      {
+        text: 'URL',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.URL,
+        order: null,
+        filter: null,
+        displayed: true
+      },
+      {
+        text: 'Geometry point',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
+        order: null,
+        filter: null,
+        displayed: true
+      },
+      {
+        text: 'Geometry polygon',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
+        order: null,
+        filter: null,
+        displayed: true
+      },
+      {
+        text: 'Geometry linestring',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
+        column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
+        order: null,
+        filter: null,
+        displayed: true
+      }
+    ]
+  }
+}
+
 const manualProcesses = [
   {
     id: '17',
@@ -420,6 +711,23 @@ withExpectedPropsAndCrudModeToEditColumn.storyName = 'CRUD mode with expected pr
 withExpectedPropsAndCrudModeToEditColumn.args = {
   waitForSelector: '.p-menu'
 }
+
+export const withAllColumnType = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: {
+          ...tableViewDataColumn,
+          content: {}
+        }
+      }
+    },
+    template: '<lck-datatable :content="block.content" :definition="block.definition" />'
+  }
+)
+
+withAllColumnType.storyName = 'With all column type'
 
 export const withExpectedPropsAndCrudModeToEditUnsortableColumn = () => (
   {
