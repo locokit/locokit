@@ -39,7 +39,7 @@ export default function (app: Application) {
       '$joinRelated',
       '$joinEager',
     ],
-    allowedEager: '[users, workspace.[chapters], chapter]',
+    allowedEager: '[users, usergroups, workspace.[chapters], chapter]',
     paginate: app.get('paginate'),
   }
 

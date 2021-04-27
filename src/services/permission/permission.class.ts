@@ -27,7 +27,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      */
     const workspace = await this.app.services.workspace.get(workspaceId, {
       query: {
-        $eager: '[groups.users]',
+        $eager: '[groups.usergroups]',
       },
     })
     if (!workspace) throw new NotFound('Workspace not found')
@@ -37,8 +37,8 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      */
     let userFound = false
     workspace.groups?.forEach((currentGroup: Group) => {
-      currentGroup.users?.forEach(currentUser => {
-        if (currentUser.id === params?.user.id) userFound = true
+      currentGroup.usergroups?.forEach(currentUsergroup => {
+        if (currentUsergroup.user_id === params?.user.id) userFound = true
       })
     })
     if (!userFound) throw new Forbidden('You don\'t have sufficient right to access this file')
