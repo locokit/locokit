@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-case-declarations */
 import { Hook, HookContext } from '@feathersjs/feathers'
+import { TableColumn } from '../../models/tablecolumn.model'
 
 /**
  * Load the columns of the row being inserted / updated.
@@ -42,13 +43,13 @@ export function loadColumnsDefinition (): Hook {
       case 'create':
       case 'update':
       case 'patch':
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const table_id = (
           context.method === 'create'
             // when creating a row, table_id is mandatory
             ? context.data.table_id
-            // if updating, we normally have loaded the actual row
-            // with the loadCurrentRow hook
-            : context.params._meta.item.table_id
+            // if updating, we normally have loaded the actual row with the loadCurrentRow hook
+            : context.params._meta?.item.table_id
         )
         const columns = await context.app.services.column.find({
           query: { table_id },
@@ -63,3 +64,27 @@ export function loadColumnsDefinition (): Hook {
     return context
   }
 };
+
+/**
+ * Load the updated columns of the row(s) being updated.
+ *
+ * @param {HookContext} context
+ * @returns {HookContext} the context with the list of updated columns (context.params._meta.updatedColumnsWithChildren)
+ */
+export function loadUpdatedColumnsWithChildren (): Hook {
+  return async (context: HookContext): Promise<HookContext> => {
+    // Check that the updated columns are formula columns
+    const updatedColumnsWithChildren = await context.app.services.column.find({
+      query: {
+        id: {
+          $in: context.params._meta.columnsIdsTransmitted,
+        },
+        table_id: context.params.query?.table_id,
+        $eager: '[children.^]',
+      },
+      paginate: false,
+    }) as TableColumn[]
+    context.params._meta.updatedColumnsWithChildren = updatedColumnsWithChildren
+    return context
+  }
+}

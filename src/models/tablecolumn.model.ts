@@ -6,6 +6,7 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export interface SelectValue {
   label: string
@@ -20,6 +21,7 @@ export class TableColumn extends BaseModel {
   locked!: boolean
   settings!: {
     formula?: string
+    formula_type_id?: number
     query?: {
       select: string[]
       where: Object
@@ -124,6 +126,19 @@ export class TableColumn extends BaseModel {
         },
       },
     }
+  }
+
+  /**
+   * Returns the original type id of the column. Note that for a LOOKED_UP_COLUMN, the returned type
+   * is the LOOKED_UP_COLUMN type if the parents are not computed.
+   * @returns The original type id of the column.
+   */
+  originalTypeId (): COLUMN_TYPE {
+    if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings.formula_type_id as COLUMN_TYPE
+    if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
+      return this.column_type_id
+    }
+    return this.parents[0].originalTypeId()
   }
 }
 

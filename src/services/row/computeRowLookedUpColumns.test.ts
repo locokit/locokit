@@ -17,10 +17,13 @@ describe('computeRowLookedUpColumns hook', () => {
   let columnTable1MultiUser: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
+  let columnTable2RelationBetweenTable1Bis: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
+  let columnTable2LookedUpColumnTable1UserBis: TableColumn
   let user1: User
   let rowTable1: TableRow
+  let rowTable1Bis: TableRow
   let rowTable2: TableRow
 
   beforeAll(async () => {
@@ -62,6 +65,14 @@ describe('computeRowLookedUpColumns hook', () => {
         tableId: table1.id,
       },
     })
+    columnTable2RelationBetweenTable1Bis = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+      },
+    })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -82,6 +93,16 @@ describe('computeRowLookedUpColumns hook', () => {
         foreignField: columnTable1MultiUser.id,
       },
     })
+    columnTable2LookedUpColumnTable1UserBis = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1Bis.id,
+        foreignField: columnTable1User.id,
+      },
+    })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-row-lkdpup@locokit.io',
@@ -99,6 +120,14 @@ describe('computeRowLookedUpColumns hook', () => {
         [columnTable1MultiUser.id]: [user1.id],
       },
     })
+    rowTable1Bis = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref bis',
+      data: {
+        [columnTable1User.id]: user1.id,
+        [columnTable1MultiUser.id]: [user1.id],
+      },
+    })
     rowTable2 = await service.create({
       table_id: table2.id,
       text: 'table 2 ref',
@@ -106,13 +135,15 @@ describe('computeRowLookedUpColumns hook', () => {
   })
 
   it('compute the lookedup column of the currentRow', async () => {
-    expect.assertions(7)
+    expect.assertions(8)
+    const spyOnGetForeignColumn = jest.spyOn(app.service('column'), 'get').mockClear()
     expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
     const newRowTable2 = await app.service('row').patch(rowTable2.id, {
       data: {
         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
       },
     })
+    expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(2)
     expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].reference).toBe(rowTable1.id)
     expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].value).toBe('table 1 ref')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].value).toBe('User 1')
@@ -121,9 +152,26 @@ describe('computeRowLookedUpColumns hook', () => {
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].reference).toEqual([user1.id])
   })
 
+  it('do not compute the lookedup columns of the current row which are not related to the updated data', async () => {
+    expect.assertions(6)
+    const spyOnGetForeignColumn = jest.spyOn(app.service('column'), 'get').mockClear()
+    expect(rowTable2.data[columnTable2RelationBetweenTable1Bis.id]).toBeNull()
+    const newRowTable2 = await app.service('row').patch(rowTable2.id, {
+      data: {
+        [columnTable2RelationBetweenTable1Bis.id]: rowTable1.id,
+      },
+    })
+    expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(1)
+    expect(newRowTable2.data[columnTable2RelationBetweenTable1Bis.id].reference).toBe(rowTable1.id)
+    expect(newRowTable2.data[columnTable2RelationBetweenTable1Bis.id].value).toBe('table 1 ref')
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1UserBis.id].value).toBe('User 1')
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1UserBis.id].reference).toBe(user1.id)
+  })
+
   afterEach(async () => {
     await app.service('row').remove(rowTable2.id)
     await app.service('row').remove(rowTable1.id)
+    await app.service('row').remove(rowTable1Bis.id)
   })
 
   afterAll(async () => {
@@ -135,6 +183,8 @@ describe('computeRowLookedUpColumns hook', () => {
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1UserBis.id)
+    await app.service('column').remove(columnTable2RelationBetweenTable1Bis.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)

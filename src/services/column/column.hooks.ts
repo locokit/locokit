@@ -1,7 +1,9 @@
 import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
+import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
+import { parseFormula, isFormulaColumn, updatedRelatedRowsFormula } from './formulaColumn.hook'
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
 import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
@@ -17,12 +19,16 @@ export default {
       ),
     ],
     get: [],
-    create: [],
+    create: [
+      iff(isFormulaColumn, parseFormula()),
+    ],
     update: [
       disallow('external'),
     ],
     patch: [
       preventChanges(true, 'column_type_id'),
+      getCurrentItem(),
+      iff(isFormulaColumn, parseFormula()),
     ],
     remove: [
       removeTableColumnRelationTo(),
@@ -41,12 +47,14 @@ export default {
       createGIX(),
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
+      iff(isFormulaColumn, updatedRelatedRowsFormula()),
     ],
     update: [],
     patch: [
       createGIX(),
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
+      iff(isFormulaColumn, updatedRelatedRowsFormula()),
     ],
     remove: [
       dropGIX(),

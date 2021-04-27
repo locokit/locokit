@@ -1,3 +1,4 @@
+import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -278,6 +279,9 @@ describe('checkColumnDefinitionMatching hook', () => {
       text: 'Formula',
       column_type_id: COLUMN_TYPE.FORMULA,
       table_id: table1.id,
+      settings: {
+        formula: '"MyFormulaString"',
+      },
     })
     columnTable1File = await app.service('column').create({
       text: 'File',
@@ -925,16 +929,80 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
-  it('throw an error if a FORMULA column receive a value', async () => {
+  it('throw an error if a FORMULA column receive a value with an external request', async () => {
     expect.assertions(1)
+
+    // Create a fake user
+    const userEmail = 'hello-check@locokit.io'
+    const userPassword = 'hello-check@locokit.io0'
+
+    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
+    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
+    const user = await app.service('user')._create({
+      name: 'Jack',
+      email: userEmail,
+      isVerified: true,
+      password: passwordHashed,
+    }, {})
+
+    // Simulate the authentication
+    const authentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: userEmail,
+      password: userPassword,
+    }, {})
+
+    // Simulate an outside call
+    const params = {
+      provider: 'external',
+      user,
+      accessToken: authentication.accessToken,
+      authenticated: true,
+    }
     await expect(app.service('row')
       .create({
         data: {
           [columnTable1Formula.id]: 123456,
         },
         table_id: table1.id,
-      }))
+      }, params))
       .rejects.toThrow(NotAcceptable)
+
+    await app.service('user').remove(user.id)
+  })
+
+  it('accept a value for a FORMULA column type with an internal request.', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1Formula.id]: 123456,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1Formula.id]).toBe(123456)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a value for a FORMULA column type with an internal request and the use of the data:columnId operator', async () => {
+    expect.assertions(3)
+    let rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1Formula.id]: 123456,
+        },
+        table_id: table1.id,
+      })
+    rowTable1 = await app.service('row')
+      .patch(rowTable1.id, {
+        [`data:${columnTable1Formula.id}`]: 'newValue',
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1Formula.id]).toBe('newValue')
+    await app.service('row').remove(rowTable1.id)
   })
 
   it('accept a null value for a FORMULA column type', async () => {
@@ -1450,6 +1518,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1URL.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2Name.id)
+    await app.service('column').remove(columnTable1GeomPoint.id)
+    await app.service('column').remove(columnTable1GeomPolygon.id)
+    await app.service('column').remove(columnTable1GeomLinestring.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)

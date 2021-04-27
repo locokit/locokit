@@ -58,7 +58,8 @@
     "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
     "seed:make": "knex seed:make",
-    "seed:run": "knex seed:run"
+    "seed:run": "knex seed:run",
+    "generate:parser": "pegjs --plugin ./node_modules/ts-pegjs -o ./src/utils/formulas/formulaParser.ts  ./src/utils/formulas/formulaParser.pegjs"
   },
   "standard": {
     "env": [
@@ -136,6 +137,7 @@
     "shx": "^0.3.2",
     "ts-jest": "^26.1.1",
     "ts-node-dev": "^1.0.0-pre.49",
+    "ts-pegjs": "^0.3.1",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
   },

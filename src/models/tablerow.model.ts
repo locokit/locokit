@@ -14,6 +14,8 @@ export class TableRow extends BaseModel {
   data!: RowData
   // eslint-disable-next-line camelcase
   table_id!: string
+  parents?: TableRow[]
+  children?: TableRow[]
 
   static get tableName (): string {
     return 'table_row'
@@ -44,6 +46,32 @@ export class TableRow extends BaseModel {
         join: {
           from: 'table_row.table_id',
           to: 'table.id',
+        },
+      },
+      parents: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableRow,
+        join: {
+          from: 'table_row.id',
+          through: {
+            // table_row_relation is the join table.
+            from: 'table_row_relation.table_row_to_id',
+            to: 'table_row_relation.table_row_from_id',
+          },
+          to: 'table_row.id',
+        },
+      },
+      children: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableRow,
+        join: {
+          from: 'table_row.id',
+          through: {
+            // table_row_relation is the join table.
+            from: 'table_row_relation.table_row_from_id',
+            to: 'table_row_relation.table_row_to_id',
+          },
+          to: 'table_row.id',
         },
       },
     }

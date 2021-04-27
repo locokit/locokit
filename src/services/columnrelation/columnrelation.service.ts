@@ -37,6 +37,7 @@ export default function (app: Application): void {
       '$sort',
       '$eager',
       '$any',
+      '$noSelect',
     ],
     Model: createModel(app),
     paginate: app.get('paginate'),
