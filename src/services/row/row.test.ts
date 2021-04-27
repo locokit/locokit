@@ -7,7 +7,6 @@ import { workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
 
 describe('\'row\' service', () => {
-
   const service = app.service('row')
 
   it('registered the service', () => {
@@ -117,9 +116,9 @@ describe('\'row\' service', () => {
           table_id: table.id,
           data: {
             [tableColumn.id]: {
-              $eq: "Hello there!",
+              $eq: 'Hello there!',
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -159,7 +158,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $eq: 17,
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -199,7 +198,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $eq: 17.42,
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -238,7 +237,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $eq: true,
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -257,7 +256,7 @@ describe('\'row\' service', () => {
       const row1 = await service.create({
         text: 'Test Row 1',
         data: {
-          [tableColumn.id]:  '1944-04-21',
+          [tableColumn.id]: '1944-04-21',
         },
         table_id: table.id,
       })
@@ -277,7 +276,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $eq: '1944-04-21',
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -287,7 +286,7 @@ describe('\'row\' service', () => {
       await service.remove(row2.id)
     })
 
-    it('Type Date Less Than and Rqual', async () => {
+    it('Type Date Less Than and Equal', async () => {
       const tableColumn = await app.service('column').create({
         text: 'myColumnOfInt',
         table_id: table.id,
@@ -296,7 +295,7 @@ describe('\'row\' service', () => {
       const row1 = await service.create({
         text: 'Test Row 1',
         data: {
-          [tableColumn.id]:  '1944-04-21',
+          [tableColumn.id]: '1944-04-21',
         },
         table_id: table.id,
       })
@@ -324,12 +323,19 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $lte: '1992-02-17',
             },
-          }
+          },
         },
       })
+      expect.assertions(3)
       expect(rows.data.length).toEqual(2)
-      expect(rows.data[0].data[tableColumn.id]).toEqual('1944-04-21')
-      expect(rows.data[1].data[tableColumn.id]).toEqual('1992-02-17')
+      // we don't sort the result, order of values can change
+      if (rows.data[0].data[tableColumn.id] === '1944-04-21') {
+        expect(rows.data[0].data[tableColumn.id]).toEqual('1944-04-21')
+        expect(rows.data[1].data[tableColumn.id]).toEqual('1992-02-17')
+      } else {
+        expect(rows.data[1].data[tableColumn.id]).toEqual('1944-04-21')
+        expect(rows.data[0].data[tableColumn.id]).toEqual('1992-02-17')
+      }
 
       await service.remove(row1.id)
       await service.remove(row2.id)
@@ -374,7 +380,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $gte: 142.17,
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(1)
@@ -423,7 +429,7 @@ describe('\'row\' service', () => {
             [tableColumn.id]: {
               $lt: 100,
             },
-          }
+          },
         },
       })
       expect(rows.data.length).toEqual(2)
