@@ -25,6 +25,7 @@ export async function seed (knex: Knex): Promise<any> {
   await knex('user_has_group').del()
   await knex('group').del()
   await knex('chapter').del()
+  await knex('attachment').del()
   await knex('workspace').del()
   await knex('user').del()
 };

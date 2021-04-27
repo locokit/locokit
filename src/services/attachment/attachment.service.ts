@@ -1,18 +1,18 @@
-// Initializes the `workspace` service on path `/workspace`
+// Initializes the `attachment` service on path `/attachment`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { Workspace } from './workspace.class'
-import createModel from '../../models/workspace.model'
-import hooks from './workspace.hooks'
+import { Attachment } from './attachment.class'
+import createModel from '../../models/attachment.model'
+import hooks from './attachment.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'workspace': Workspace & ServiceAddons<any>
+    'attachment': Attachment & ServiceAddons<any>
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     whitelist: [
@@ -24,28 +24,29 @@ export default function (app: Application) {
       '$lt',
       '$in',
       '$nin',
+      '$null',
+      '$notNull',
       '$like',
       '$notLike',
       '$ilike',
       '$notILike',
       '$contains',
+      '$containsKey',
       '$or',
       '$and',
       '$sort',
       '$any',
-      '$eager',
-      '$joinRelation',
-      '$modifyEager',
+      '$all',
+      '$noSelect',
     ],
-    allowedEager: '[attachments, databases, chapters.[pages.[containers.[blocks]]], processes.[triggers], groups.[users, usergroups]]',
     paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires
-  app.use('/workspace', new Workspace(options, app))
+  app.use('/attachment', new Attachment(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('workspace')
+  const service = app.service('attachment')
 
   service.hooks(hooks)
 }

@@ -2,13 +2,17 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { BaseModel } from './base.model'
-import { JSONSchema } from 'objection'
+import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
+import { User } from './user.model'
+import { Group } from './group.model'
 
-class Usergroup extends BaseModel {
+export class Usergroup extends BaseModel {
   uhg_role!: string
   user_id!: number
+  user?: User
   group_id!: string
+  group?: Group
 
   static get idColumn (): string[] {
     return ['user_id', 'group_id']
@@ -34,12 +38,25 @@ class Usergroup extends BaseModel {
     }
   }
 
-  $beforeInsert (): void {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate (): void {
-    this.updatedAt = new Date().toISOString()
+  static get relationMappings (): RelationMappings {
+    return {
+      user: {
+        relation: Model.HasOneRelation,
+        modelClass: User,
+        join: {
+          from: 'user_has_group.user_id',
+          to: 'user.id',
+        },
+      },
+      group: {
+        relation: Model.HasOneRelation,
+        modelClass: Group,
+        join: {
+          from: 'user_has_group.group_id',
+          to: 'group.id',
+        },
+      },
+    }
   }
 }
 

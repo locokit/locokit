@@ -13,7 +13,7 @@ export function upsertColumnRelation (): Hook {
     // LOOKED_UP_COLUMN
     if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
       if (!['create', 'patch'].includes(context.method)) {
-        console.log('Hook only for create or patch method.')
+        // console.log('Hook only for create or patch method.')
         return context
       }
 

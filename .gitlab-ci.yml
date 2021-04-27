@@ -1,4 +1,4 @@
-image: node:14
+image: node:fermium-slim
 
 stages:
   - quality
@@ -27,21 +27,39 @@ stages:
     - docker pull $IMAGE_NAME:latest || true
 
 test:
-  image: node:14
   tags: [shared-ci-docker]
   stage: quality
   variables:
     POSTGRES_DB: postgres
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: pouicpouic
+
     LCK_PORT: 3030
     LCK_HOST: localhost
     LCK_DATABASE_URL_TEST: postgres://postgres:pouicpouic@lck-db:5432/postgres
+
     OBJECTION_DEBUG: 'false'
     NODE_ENV: test
+
+    STORAGE_TYPE: fs
+    STORAGE_PUBLIC_PATH: /fs-storage
+    STORAGE_FS_PATH: ../fs-storage
+    STORAGE_S3_URL: http://lck-s3:9000
+    STORAGE_S3_ACCESS_KEY: minio
+    STORAGE_S3_SECRET_KEY: notsecret
+    STORAGE_S3_PATH_STYLE: 1
+    STORAGE_S3_SIGNATURE_VERSION: v4
+    STORAGE_S3_DEFAULT_BUCKET: public
+
+    MINIO_ACCESS_KEY: minio
+    MINIO_SECRET_KEY: notsecret
+
   services:
     - name: postgis/postgis:12-3.0
       alias: lck-db
+    - name: minio/minio:latest
+      alias: lck-s3
+      command: ["server", "/data"]
   script:
     - npm ci
     - cp -r patch/** node_modules/
@@ -56,7 +74,6 @@ test:
       cobertura: coverage/cobertura-coverage.xml
 
 build-lib:
-  image: node:14
   tags: [shared-ci-docker]
   stage: build
   script:
