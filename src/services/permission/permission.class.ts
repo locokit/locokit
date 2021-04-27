@@ -50,6 +50,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
       query: {
         workspace_id: workspaceId,
         filename,
+        $limit: 0,
       },
     })
     if (file.total === 0) throw new NotFound('File not found')
