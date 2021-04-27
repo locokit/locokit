@@ -10,9 +10,20 @@ describe('\'upload\' service', () => {
   })
 
   describe('for file storage', () => {
-    const { fsPath } = app.get('storage')
+    const fsPath = '../fs-storage'
     let workspaceId: string
+    const oldStorageConfig = app.get('storage')
+    const fsConfig = {
+      ...oldStorageConfig,
+      type: 'fs',
+      publicPath: '/fs-storage',
+      fsPath,
+    }
     beforeAll(async () => {
+      app.set('storage', fsConfig)
+      // configure again the service to take the new config
+      app.configure(uploadService)
+
       /**
        * Create a new attachment on a workspace
        */
@@ -62,6 +73,12 @@ describe('\'upload\' service', () => {
       expect(attachments.total).toBe(2)
       expect(attachments.data[0].filename).toBe('logokit-grayscale.png')
       expect(attachments.data[1].filename).toBe('thumbnail_logokit-grayscale.png')
+    })
+
+    afterAll(() => {
+      app.set('storage', oldStorageConfig)
+      // configure again the service to take the new config
+      app.configure(uploadService)
     })
   })
 
