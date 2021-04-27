@@ -145,7 +145,6 @@
 
 <script>
 import Vue from 'vue'
-import i18n from '@/plugins/i18n'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
@@ -344,11 +343,7 @@ const COLUMN_FILTERS_CONFIG = {
       { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY
-    ],
-    patternComponentOptions: {
-      dateFormat: i18n.t('date.dateFormatPrime'),
-      locale: i18n.t('date.localePrime')
-    }
+    ]
   }
 }
 
@@ -397,7 +392,7 @@ export default {
     columnsDisplayable () {
       if (this.definition.columns?.length < 1) return []
       return this.definition.columns.reduce((acc, column) => {
-        const originalType = column.column_type_id === COLUMN_TYPE.FORMULA ? getColumnTypeId(column) : column.column_type_id
+        const originalType = getColumnTypeId(column)
         // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(originalType)) {
           acc.push({
@@ -406,6 +401,13 @@ export default {
             type: column.column_type_id,
             originalType,
             dropdownOptions: this.columnsDropdownOptions[column.id]
+          })
+        } else if (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+          acc.push({
+            value: column.id,
+            label: column.text,
+            type: COLUMN_TYPE.LOOKED_UP_COLUMN,
+            originalType: COLUMN_TYPE.LOOKED_UP_COLUMN
           })
         }
         return acc

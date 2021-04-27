@@ -221,7 +221,8 @@ import {
   retrieveProcessesByRow
 } from '@/store/process'
 import {
-  isEditableColumn
+  isEditableColumn,
+  getOriginalColumn
 } from '@/services/lck-utils/columns'
 import {
   lckHelpers,
@@ -365,13 +366,19 @@ export default {
     currentBlockDropdownOptions () {
       const result = {}
       this.block.definition.columns.forEach(currentColumn => {
+        const originalColumn = getOriginalColumn(currentColumn)
         if (
-          currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
-          currentColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
+          originalColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
+          originalColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT
         ) {
-          result[currentColumn.id] = Object.keys(currentColumn.settings?.values || {}).map(k => ({
-            value: k,
-            label: currentColumn.settings.values[k].label
+          // A looked-up-column of single select contains the label and not the id of the selected item
+          const isLookedUpColumnOfSingleSelect =
+            currentColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN &&
+            originalColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT
+
+          result[currentColumn.id] = Object.keys(originalColumn.settings?.values || {}).map(k => ({
+            value: isLookedUpColumnOfSingleSelect ? originalColumn.settings.values[k].label : k,
+            label: originalColumn.settings.values[k].label
           }))
         }
       })
