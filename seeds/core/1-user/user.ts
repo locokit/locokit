@@ -11,7 +11,8 @@ export async function seed (knex: Knex): Promise<any> {
       name: 'SUPER ADMIN',
       email: 'superadmin@makina-corpus.net',
       password: hashPassword,
-      profile: USER_PROFILE.SUPERADMIN
+      profile: USER_PROFILE.SUPERADMIN,
+      isVerified: true
     }
   ]
   await knex('user').insert(usersToInsert)

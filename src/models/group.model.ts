@@ -7,6 +7,7 @@ import { User } from './user.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
+import { Usergroup } from './usergroup.model'
 
 export class Group extends BaseModel {
   workspace?: LckWorkspace
@@ -15,6 +16,7 @@ export class Group extends BaseModel {
   workspace_role?: string
   name!: string
   users?: User[]
+  usergroups?: Usergroup[]
 
   static get tableName (): string {
     return 'group'
@@ -36,10 +38,6 @@ export class Group extends BaseModel {
     return {
       workspace: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckWorkspace,
         join: {
           from: 'group.workspace_id',
@@ -48,10 +46,6 @@ export class Group extends BaseModel {
       },
       chapter: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckChapter,
         join: {
           from: 'group.chapter_id',
@@ -60,10 +54,6 @@ export class Group extends BaseModel {
       },
       users: {
         relation: Model.ManyToManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: User,
         join: {
           from: 'group.id',
@@ -73,6 +63,14 @@ export class Group extends BaseModel {
             extra: ['uhg_role'],
           },
           to: 'user.id',
+        },
+      },
+      usergroups: {
+        relation: Model.HasManyRelation,
+        modelClass: Usergroup,
+        join: {
+          from: 'group.id',
+          to: 'user_has_group.group_id',
         },
       },
     }

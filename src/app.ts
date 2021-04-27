@@ -51,8 +51,14 @@ app.use(Sentry.Handlers.tracingHandler())
 app.use(helmet())
 app.use(cors(app.get('cors')))
 app.use(compress())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const maxUploadSize = app.get('storage').maxUploadSize || '5mb'
+app.use(express.json({
+  limit: maxUploadSize,
+}))
+app.use(express.urlencoded({
+  extended: true,
+  limit: maxUploadSize,
+}))
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
 app.use('/', express.static(app.get('public')))
@@ -115,7 +121,7 @@ app.configure(services)
 
 // Configure a middleware for 404s and the error handler
 app.use(Sentry.Handlers.errorHandler({
-  shouldHandleError: () => (true)
+  shouldHandleError: () => (true),
 }))
 app.use(express.notFound())
 app.use(express.errorHandler({ logger } as any))

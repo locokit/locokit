@@ -213,10 +213,18 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     const newRowTable5 = await app.service('row').get(rowTable5.id)
 
     expect.assertions(3)
-    expect(newRowTable3.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
-      reference: [user1.id, user2.id],
-      value: 'User 1, User 2',
-    })
+    // order may change
+    if (newRowTable3.data[columnTable2LookedUpColumnTable1MultiUser.id].reference[0] === user1.id) {
+      expect(newRowTable3.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
+        reference: [user1.id, user2.id],
+        value: 'User 1, User 2',
+      })
+    } else {
+      expect(newRowTable3.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
+        reference: [user2.id, user1.id],
+        value: 'User 2, User 1',
+      })
+    }
     expect(newRowTable4.data[columnTable2LookedUpColumnTable1MultiUser.id]).toStrictEqual({
       reference: [user2.id],
       value: 'User 2',
