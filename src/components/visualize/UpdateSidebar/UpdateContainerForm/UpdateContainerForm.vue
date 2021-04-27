@@ -53,18 +53,25 @@
             />
           </div>
           <div class="p-field">
-            <label for="container-anchor_class">
-              {{ $t('pages.workspace.container.anchor.class') }}
+            <label for="container-anchor_icon_class">
+              {{ $t('pages.workspace.container.anchor.class.title') }}
             </label>
             <p-dropdown
-              id="container-anchor_class"
-              v-model="containerCopy.anchor_class"
+              id="container-anchor_icon_class"
+              v-model="containerCopy.anchor_icon_class"
               optionLabel="label"
-              optionvalue="value"
+              optionValue="value"
               dataKey="value"
               :options="ANCHOR_CLASSES"
               required
-            />
+            >
+              <template #value="slotProps">
+                {{ $t(`pages.workspace.container.anchor.class.${slotProps.value}`) }}
+              </template>
+              <template #option="slotProps">
+                {{ $t(`pages.workspace.container.anchor.class.${slotProps.option.value}`) }}
+              </template>
+            </p-dropdown>
           </div>
         </div>
       </div>
@@ -142,8 +149,11 @@ import {
 import LckForm from '@/components/ui/Form/Form.vue'
 
 const ANCHOR_CLASSES = [
-  { label: 'Classique', value: 'classic' },
-  { label: 'Important', value: 'visible' }
+  { label: 'danger', value: 'danger' },
+  { label: 'warning', value: 'warning' },
+  { label: 'success', value: 'success' },
+  { label: 'primary', value: 'primary' },
+  { label: 'secondary', value: 'secondary' }
 ]
 
 export default Vue.extend({
@@ -180,19 +190,7 @@ export default Vue.extend({
   methods: {
     onFormSubmit () {
       if (this.containerCopy?.displayed_in_navbar) {
-        const data = {
-          id: this.containerCopy.id,
-          text: this.containerCopy.text,
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          displayed_in_navbar: this.containerCopy.displayed_in_navbar,
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_label: this.containerCopy.anchor_label,
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_icon: this.containerCopy.anchor_icon || '',
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_class: this.containerCopy?.anchor_class.value
-        }
-        return this.$emit('update-container', data)
+        return this.$emit('update-container', this.containerCopy)
       }
       // eslint-disable-next-line @typescript-eslint/camelcase
       return this.$emit('update-container', { id: this.containerCopy.id, text: this.containerCopy.text, displayed_in_navbar: this.containerCopy?.displayed_in_navbar })
@@ -204,9 +202,7 @@ export default Vue.extend({
         this.containerCopy = {
           ...newValue,
           // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_label: newValue.anchor_label || newValue.text,
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_class: ANCHOR_CLASSES.find(anchorClass => anchorClass.value === newValue.anchor_class)
+          anchor_label: newValue.anchor_label || newValue.text
         }
       },
       immediate: true,

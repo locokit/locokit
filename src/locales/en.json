@@ -388,7 +388,14 @@
         "anchor": {
           "label": "label",
           "icon": "Icon",
-          "class": "Style",
+          "class": {
+            "title": "Style",
+            "danger": "Danger",
+            "warning": "Warning",
+            "success": "Success",
+            "primary": "Primary Color",
+            "secondary": "Secondary Color"
+          },
           "order": "Order"
         }
       },

@@ -179,7 +179,7 @@ export class LckContainer extends LckBaseModel {
   displayed_in_navbar!: boolean;
   anchor_label?: string;
   anchor_icon?: string;
-  anchor_class?: AnchorClass;
+  anchor_icon_class?: AnchorClass;
   blocks?: LckBlockExtended[];
 }
 

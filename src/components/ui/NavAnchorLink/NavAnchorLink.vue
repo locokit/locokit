@@ -59,7 +59,7 @@
             <i
               v-if="container.anchor_icon"
               class="p-mr-1"
-              :class="[container.anchor_icon, container.anchor_class]"
+              :class="[container.anchor_icon, container.anchor_icon_class]"
             />
             <span>
               {{ container.anchor_label }}
@@ -86,8 +86,11 @@ import Vue, { PropType } from 'vue'
 import Button from 'primevue/button'
 
 enum ANCHOR_CLASS {
-  VISIBLE = 'visible',
-  CLASSIC = 'classic'
+  DANGER = 'danger',
+  WARNING = 'warning',
+  SUCCESS = 'success',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary'
 }
 
 interface Containers {
@@ -97,7 +100,7 @@ interface Containers {
   displayed_in_navbar: boolean;
   anchor_label?: string;
   anchor_icon?: string;
-  anchor_class?: ANCHOR_CLASS;
+  anchor_icon_class?: ANCHOR_CLASS;
   settings?: {};
 }
 
@@ -171,8 +174,24 @@ export default Vue.extend({
   height: 100%;
 }
 
-.page-nav-item > a > .visible {
+.page-nav-item > a > .danger {
+  color: var(--color-error);
+}
+
+.page-nav-item > a > .warning {
   color: var(--color-warning);
+}
+
+.page-nav-item > a > .success {
+  color: var(--color-success);
+}
+
+.page-nav-item > a > .primary {
+  color: var(--primary-color);
+}
+
+.page-nav-item > a > .secondary {
+  color: var(--secondary-color);
 }
 
 .page-nav-item > a {
