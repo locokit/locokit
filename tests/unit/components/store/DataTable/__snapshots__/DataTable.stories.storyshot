@@ -2968,3 +2968,151 @@ exports[`storyshots components/store/DataTable No content with the detail button
   </div>
 </div>
 `;
+
+exports[`storyshots components/store/DataTable With all column type 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 2850px);"
+      >
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <p
+                    align="center"
+                  >
+                    No data to display
+                  </p>
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
