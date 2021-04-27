@@ -235,7 +235,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'User',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dab',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.USER,
@@ -249,7 +249,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Group',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dac',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.GROUP,
@@ -263,7 +263,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Relation between table',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dad',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
@@ -277,7 +277,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Single Select',
-        id: '3a659ea1-446f-4755-8db9-583a204279c42',
+        id: '3a659ea1-446f-4755-8db9-583a204279c42a',
         settings: {
           values: {
             1: {
@@ -309,7 +309,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Multi Select',
-        id: '3a659ea1-446f-4755-8db9-583a204279c42',
+        id: '3a659ea1-446f-4755-8db9-583a204279c42b',
         settings: {
           values: {
             1: {
@@ -341,7 +341,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Formula',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dade',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.FORMULA,
@@ -355,7 +355,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'File',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dae',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.FILE,
@@ -369,7 +369,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Multi User',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619daf',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.MULTI_USER,
@@ -383,7 +383,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Multi Group',
-        id: 'bde4bbbd-2584-447f-acff-f434f53619da',
+        id: 'bde4bbbd-2584-447f-acff-f434f53619dag',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.MULTI_GROUP,
@@ -397,7 +397,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Textarea',
-        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee23a',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.TEXT,
@@ -407,7 +407,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'URL',
-        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee22a',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.URL,
@@ -427,7 +427,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Geometry polygon',
-        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21b',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
@@ -437,7 +437,7 @@ const tableViewDataColumn = {
       },
       {
         text: 'Geometry linestring',
-        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
+        id: '413bf240-b8fb-4a5b-87eb-074bef2ee21c',
         settings: null,
         table_id: '163c21e6-5339-4748-903f-8c77e21314cd',
         column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
