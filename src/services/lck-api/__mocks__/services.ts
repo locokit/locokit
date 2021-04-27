@@ -1,4 +1,4 @@
-import { StoryContext, StoryFn } from '@storybook/addons/dist/types'
+import { StoryContext, StoryFn } from '@storybook/addons'
 
 const dataToReturn = {
   limit: 0,
