@@ -840,9 +840,6 @@ tr.p-datatable-emptymessage {
   z-index: 1;
 }
 
-.button-group {
-}
-
 .button-group .lck-dropdownbutton .lck-dropdownbutton-menubutton {
   padding: 0.4375rem 0.875rem;
 }

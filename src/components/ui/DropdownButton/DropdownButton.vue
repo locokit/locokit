@@ -143,10 +143,3 @@ export default {
   max-width: 450px
 }
 </style>
-
-<style scoped>
-::v-deep .specific-icon.lightning:after {
-  mask: url("/img/lightning.svg") no-repeat center center;
-  mask-size: cover;
-}
-</style>
