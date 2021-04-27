@@ -51,12 +51,13 @@ app.use(Sentry.Handlers.tracingHandler())
 app.use(helmet())
 app.use(cors(app.get('cors')))
 app.use(compress())
+const maxUploadSize = app.get('storage').maxUploadSize || '5mb'
 app.use(express.json({
-  limit: '20mb',
+  limit: maxUploadSize,
 }))
 app.use(express.urlencoded({
   extended: true,
-  limit: '20mb',
+  limit: maxUploadSize,
 }))
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder

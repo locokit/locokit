@@ -62,6 +62,7 @@
     "s3ForcePathStyle": "STORAGE_S3_PATH_STYLE",
     "signatureVersion": "STORAGE_S3_SIGNATURE_VERSION",
     "defaultBucket": "STORAGE_S3_DEFAULT_BUCKET",
-    "fsPath": "STORAGE_FS_PATH"
+    "fsPath": "STORAGE_FS_PATH",
+    "maxUploadSize": "STORAGE_MAX_UPLOAD_SIZE"
   }
 }
