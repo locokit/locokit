@@ -13,6 +13,8 @@ export class workspace extends BaseModel {
   text!: string
   chapters?: LckChapter[]
   databases?: LckDatabase[]
+  attachments?: LckAttachment[]
+  groups?: Group[]
 
   static get tableName (): string {
     return 'workspace'
@@ -41,10 +43,6 @@ export class workspace extends BaseModel {
       },
       chapters: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckChapter,
         join: {
           from: 'workspace.id',
@@ -53,10 +51,6 @@ export class workspace extends BaseModel {
       },
       databases: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckDatabase,
         join: {
           from: 'workspace.id',
@@ -65,10 +59,6 @@ export class workspace extends BaseModel {
       },
       processes: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: Process,
         join: {
           from: 'workspace.id',
