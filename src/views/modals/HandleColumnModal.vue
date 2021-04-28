@@ -106,7 +106,7 @@ import InputNumber from 'primevue/inputnumber'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 import LckMonacoEditor from '@/components/store/MonacoEditor/MonacoEditor.vue'
-import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
+import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 
 export default {
   name: 'HandleColumnModal',
