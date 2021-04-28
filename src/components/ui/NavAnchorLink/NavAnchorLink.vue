@@ -120,7 +120,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      anchorContainerActive: this.$route.hash
+      anchorContainerActive: this.$route?.hash
     }
   },
   computed: {
