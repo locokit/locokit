@@ -525,10 +525,8 @@ export default {
             return data.value
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
             const originalColumn = getOriginalColumn(column)
-            if (originalColumn.column_type_id === COLUMN_TYPE.DATE) {
-              return formatDate(data.value, this.$t('date.dateFormat')) || ''
-            } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_SELECT) {
-              return data.value.map(d => originalColumn.settings.values[d]?.label).join(', ')
+            if ([COLUMN_TYPE.DATE, COLUMN_TYPE.MULTI_SELECT].includes(originalColumn.column_type_id)) {
+              return this.getValue(originalColumn, data.value)
             } else {
               return data.value
             }
