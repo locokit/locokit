@@ -105,7 +105,7 @@ export async function retrieveTableViews (tableId: string) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
-        $eager: 'columns.[column_type, parents.^]',
+        $eager: 'columns.[parents.^]',
         $limit: 50
       }
     }) as Paginated<LckTableView>

@@ -138,5 +138,6 @@ export default {
   getComponentEditableColumn,
   isEditableColumn,
   getColumnTypeId,
+  getOriginalColumn,
   getDataFromTableViewColumn
 }
