@@ -119,13 +119,13 @@ export function getColumnClass (column: LckTableViewColumn): string {
   const columnClass = getColumnTypeId(column)
   switch (columnClass) {
     case COLUMN_TYPE.BOOLEAN:
-      return 'bi bi-toggles'
+      return 'bi bi-check-square-fill'
     case COLUMN_TYPE.STRING:
       return 'bi bi-type'
     case COLUMN_TYPE.NUMBER:
-      return 'bi bi-calculator'
+      return 'bi bi-hash'
     case COLUMN_TYPE.FLOAT:
-      return 'bi bi-calculator'
+      return 'bi bi-hash'
     case COLUMN_TYPE.DATE:
       return 'bi bi-calendar-date'
     case COLUMN_TYPE.USER:
@@ -137,9 +137,9 @@ export function getColumnClass (column: LckTableViewColumn): string {
     case COLUMN_TYPE.SINGLE_SELECT:
       return 'bi bi-check'
     case COLUMN_TYPE.MULTI_SELECT:
-      return 'bi bi-check-all'
+      return 'bi bi-list-check'
     case COLUMN_TYPE.FORMULA:
-      return 'bi-link'
+      return 'bi bi-calculator'
     case COLUMN_TYPE.FILE:
       return 'bi-file-earmark'
     case COLUMN_TYPE.MULTI_USER:
@@ -149,7 +149,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
     case COLUMN_TYPE.TEXT:
       return 'bi bi-textarea-t'
     case COLUMN_TYPE.URL:
-      return 'bi bi-link'
+      return 'bi bi-link-45deg'
     case COLUMN_TYPE.GEOMETRY_POINT:
       return 'bi bi-geo'
     case COLUMN_TYPE.GEOMETRY_POLYGON:
