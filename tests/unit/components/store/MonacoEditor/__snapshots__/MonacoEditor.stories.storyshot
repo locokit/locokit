@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/store/LckMonacoEditor Default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="monacoEditor"
+  />
+</div>
+`;
+
+exports[`storyshots components/store/LckMonacoEditor With errors 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="monacoEditor"
+  />
+</div>
+`;
+
+exports[`storyshots components/store/LckMonacoEditor With lck language and theme 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="monacoEditor"
+  />
+</div>
+`;

@@ -75,7 +75,7 @@
             <p-dropdown
               id="action"
               type="text"
-              :options="filter.column && columnFiltersConfig[filter.column.type].actions || []"
+              :options="filter.column && columnFiltersConfig[filter.column.originalType].actions || []"
               :disabled="!filter.column"
               optionLabel="label"
               :value="filter.action"
@@ -100,11 +100,11 @@
             <component
               id="pattern"
               :is="
-                columnFiltersConfig[filter.column.type].patternComponent ||
-                getComponentEditableColumn(filter.column.type)
+                columnFiltersConfig[filter.column.originalType].patternComponent ||
+                getComponentEditableColumn(filter.column.originalType)
               "
               :options="filter.column.dropdownOptions"
-              v-bind="columnFiltersConfig[filter.column.type].patternComponentOptions || {}"
+              v-bind="columnFiltersConfig[filter.column.originalType].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
             />
@@ -155,7 +155,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { getComponentEditableColumn } from '@/services/lck-utils/columns'
+import { getComponentEditableColumn, getColumnTypeId } from '@/services/lck-utils/columns'
 
 // Available operators
 const OPERATORS = [{
@@ -396,14 +396,16 @@ export default {
   computed: {
     columnsDisplayable () {
       if (this.definition.columns?.length < 1) return []
-      return this.definition.columns.reduce((acc, { text, id, column_type_id: columnTypeId }) => {
+      return this.definition.columns.reduce((acc, column) => {
+        const originalType = column.column_type_id === COLUMN_TYPE.FORMULA ? getColumnTypeId(column) : column.column_type_id
         // Todo : In fine this condition will be remove. When all type will be filterable.
-        if (this.supportedTypes.includes(columnTypeId)) {
+        if (this.supportedTypes.includes(originalType)) {
           acc.push({
-            value: id,
-            label: text,
-            type: columnTypeId,
-            dropdownOptions: this.columnsDropdownOptions[id]
+            value: column.id,
+            label: column.text,
+            type: column.column_type_id,
+            originalType,
+            dropdownOptions: this.columnsDropdownOptions[column.id]
           })
         }
         return acc

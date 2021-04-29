@@ -155,7 +155,10 @@ export default {
     },
     filteredDefinitionColumns () {
       if (!this.hasColumns) return []
-      return { columns: this.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) }
+      return {
+        columns: this.definition.columns.filter((column) =>
+          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA)
+      }
     },
     columnsDropdownOptions () {
       const result = {}

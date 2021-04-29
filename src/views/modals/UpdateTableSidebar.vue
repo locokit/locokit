@@ -41,6 +41,7 @@
         :visible="showHandleColumnModal"
         :databaseId="databaseId"
         :tableId="currentTable.id"
+        :tableColumns="currentTable.columns"
         :columnToHandle="columnToHandle"
         @close="onCloseHandleColumnModal"
       />

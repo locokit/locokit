@@ -41,7 +41,6 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.GROUP:
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
-      case COLUMN_TYPE.FORMULA:
         return (data as LckTableRowDataComplex).value
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
