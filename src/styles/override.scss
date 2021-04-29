@@ -9,6 +9,7 @@
 @import "lck/tabviews";
 @import "lck/forms";
 @import "lck/responsive";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 // Typos
 .lck-color-page-title {
@@ -168,10 +169,15 @@ a.no-decoration-link {
   }
 }
 
-
 .p-card,
 .p-inputtext,
 .p-button,
 .p-multiselect {
   border-radius: var(--border-radius);
+}
+
+// adjust bootstrap icons font-size
+
+.p-button.p-button-sm .p-button-icon.bi {
+  font-size: 1.0rem;
 }

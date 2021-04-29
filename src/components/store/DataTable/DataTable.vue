@@ -70,19 +70,21 @@
           :reorderableColumn="false"
         >
           <template #body="slotProps">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded"
-              icon="pi pi-window-maximize"
-              @click="$emit('open-detail', slotProps.data.id)"
-            />
-            <lck-dropdown-button
-              v-if="crudMode"
-              :disabled="manualProcesses.length === 0"
-              buttonClass="p-button-sm p-button-text p-button-rounded"
-              icon="pi specific-icon lightning"
-              appendTo="body"
-              :model="formatManualProcesses(slotProps.data.id)"
-            />
+            <span class="button-group">
+              <p-button
+                class="p-button-sm p-button-text p-button-rounded"
+                icon="pi pi-window-maximize"
+                @click="$emit('open-detail', slotProps.data.id)"
+              />
+              <lck-dropdown-button
+                v-if="crudMode"
+                :disabled="manualProcesses.length === 0"
+                buttonClass="p-button-sm p-button-text p-button-rounded"
+                icon="bi bi-lightning"
+                appendTo="body"
+                :model="formatManualProcesses(slotProps.data.id)"
+              />
+            </span>
           </template>
         </p-column>
         <div
@@ -109,6 +111,10 @@
           <template #header>
             <div class="th-container">
               <span class="th-text" :data-column-id="column.id">
+                <i
+                  style="filter: brightness(2)"
+                  :class="getColumnClass(column)"
+                />
                 {{ column.text }}
               </span>
               <p-button
@@ -289,6 +295,7 @@ import { parseISO } from 'date-fns'
 import {
   getComponentEditableColumn,
   isEditableColumn,
+  getColumnClass,
   getColumnTypeId
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
@@ -371,6 +378,7 @@ export default {
   },
   data () {
     return {
+      COLUMN_TYPE,
       autocompleteInput: null,
       multipleAutocompleteInput: [],
       currentDateToEdit: null,
@@ -392,26 +400,6 @@ export default {
     }
   },
   computed: {
-    columnTypeClass () {
-      return {
-        [COLUMN_TYPE.BOOLEAN]: 'text',
-        [COLUMN_TYPE.STRING]: 'text',
-        [COLUMN_TYPE.NUMBER]: 'text',
-        [COLUMN_TYPE.FLOAT]: 'text',
-        [COLUMN_TYPE.DATE]: 'text',
-        [COLUMN_TYPE.TEXT]: 'p-textarea',
-        [COLUMN_TYPE.USER]: 'p-tag',
-        [COLUMN_TYPE.MULTI_USER]: 'p-tag',
-        [COLUMN_TYPE.GROUP]: 'p-tag',
-        [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: 'p-tag',
-        [COLUMN_TYPE.LOOKED_UP_COLUMN]: 'p-tag',
-        [COLUMN_TYPE.SINGLE_SELECT]: 'p-tag',
-        [COLUMN_TYPE.MULTI_SELECT]: 'p-tag',
-        [COLUMN_TYPE.FORMULA]: 'p-tag',
-        [COLUMN_TYPE.FILE]: 'text',
-        [COLUMN_TYPE.URL]: 'text'
-      }
-    },
     columnsEnhanced () {
       if (!this.definition.columns) return {}
       const result = {}
@@ -488,6 +476,7 @@ export default {
     getComponentEditableColumn,
     isEditableColumn,
     getDisabledProcessTrigger,
+    getColumnClass,
     formatManualProcesses (rowId) {
       if (this.manualProcesses.length > 0) {
         return [
@@ -856,6 +845,14 @@ tr.p-datatable-emptymessage {
 .p-datatable .p-datatable-reorder-indicator-up,
 .p-datatable .p-datatable-reorder-indicator-down {
   z-index: 1;
+}
+
+.button-group .lck-dropdownbutton .lck-dropdownbutton-menubutton {
+  padding: 0.4375rem 0.875rem;
+}
+
+.button-group .lck-dropdownbutton .lck-dropdownbutton-menubutton:after {
+  display: none;
 }
 
 </style>
