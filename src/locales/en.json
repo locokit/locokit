@@ -389,7 +389,7 @@
           "label": "label",
           "icon": "Icon",
           "class": {
-            "title": "Style",
+            "title": "Icon style",
             "danger": "Danger",
             "warning": "Warning",
             "success": "Success",

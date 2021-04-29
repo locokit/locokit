@@ -389,7 +389,7 @@
           "label": "Libellé",
           "icon": "Icône",
           "class": {
-            "title": "Style",
+            "title": "Style de l'icône",
             "danger": "Danger",
             "warning": "Alerte",
             "success": "Succès",
