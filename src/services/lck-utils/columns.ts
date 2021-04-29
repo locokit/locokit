@@ -133,7 +133,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
     case COLUMN_TYPE.GROUP:
       return 'bi bi-people-fill'
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-      return 'bi bi-link-45deg'
+      return 'bi bi-text-indent-left'
     case COLUMN_TYPE.SINGLE_SELECT:
       return 'bi bi-check'
     case COLUMN_TYPE.MULTI_SELECT:
