@@ -82,7 +82,6 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
-    case COLUMN_TYPE.FORMULA:
       return {
         label: column.text,
         value: (data as LckTableRowDataComplex).value || options.noData as string
@@ -103,6 +102,15 @@ export function getDataFromTableViewColumn (
       return {
         label: column.text,
         value: (data as string[]).length > 0 ? (data as string[]).map(d => (column.settings?.values as Record<string, SelectValue>)[d]?.label).join(', ') : options.noData as string
+      }
+    case COLUMN_TYPE.FORMULA:
+      const value = getColumnTypeId(column) === COLUMN_TYPE.DATE
+        ? formatDate(data as string, options.dateFormat)
+        : data
+
+      return {
+        label: column.text,
+        value: (value || options.noData) as string
       }
     case COLUMN_TYPE.DATE:
       // eslint-disable-next-line no-case-declarations

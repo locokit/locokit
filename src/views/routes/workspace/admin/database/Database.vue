@@ -357,7 +357,10 @@ export default {
   computed: {
     filteredDefinitionColumns () {
       if (!this.block.definition.columns) return []
-      return { columns: this.block.definition.columns.filter((column) => column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) }
+      return {
+        columns: this.block.definition.columns.filter((column) =>
+          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA)
+      }
     },
     currentBlockDropdownOptions () {
       const result = {}
@@ -760,7 +763,7 @@ export default {
     async onRowDuplicate ({ data }) {
       const duplicatedData = {}
       this.block.definition.columns.forEach(c => {
-        if (c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN) {
+        if (c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && c.column_type_id !== COLUMN_TYPE.FORMULA) {
           duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
         }
       })

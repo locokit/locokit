@@ -1,7 +1,7 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { formatISO } from 'date-fns'
 
-export function getCurrentFilters (filters: {operator: string; column: {dropdownOptions: string; label: string; type: number; value: string}|null; action: { label: string; value: string}; pattern: string|Date}[]) {
+export function getCurrentFilters (filters: {operator: string; column: {dropdownOptions: string; label: string; type: number; originalType: number; value: string}|null; action: { label: string; value: string}; pattern: string|Date}[]) {
   const formattedFilters: Record<string, string|Date> = {}
   filters
     .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
@@ -31,7 +31,7 @@ export function getCurrentFilters (filters: {operator: string; column: {dropdown
               }
           }
           return ['$ilike', '$notILike'].includes(filter.action.value) ? `%${filter.pattern}%` : filter.pattern
-        })(filter?.column?.type)
+        })(filter?.column?.originalType)
     })
   return formattedFilters
 }

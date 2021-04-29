@@ -28,12 +28,16 @@
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
-      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" />
+      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" :disabled="isFormulaType" />
       <p-input-number class="input-number-reference" v-model="referenceToHandle.position" :showButtons="true" :min="0" :maxFractionDigits="0" :disabled="!referenceToHandle.isActive" />
     </div>
-    <div>
+    <div class="p-field">
+      <label for="column-type">
+        {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
+      </label>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
+        id="column-type"
         appendTo="body"
         v-model="selectedColumnTypeIdToHandle"
         :options="columnTypes"
@@ -41,6 +45,7 @@
         optionValue="id"
         optionLabel="name"
         :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')"
+        :disabled="columnToHandle != null && columnToHandle.id != null"
       />
     </div>
     <lck-select-type-column
@@ -63,6 +68,20 @@
       :columnToHandle="columnToHandle"
       :tableId="tableId"
     />
+    <div
+      class="p-field"
+      v-if="selectedColumnTypeIdToHandle && isFormulaType"
+    >
+      <label>{{ $t('components.formulas.formula') }}</label>
+      <lck-monaco-editor
+        :handledError="errorHandleColumn"
+        language="locokitLanguage"
+        :tableColumns="tableColumns"
+        theme="locokitTheme"
+        :value="settings && settings.formula"
+        @change="formulaChange"
+      />
+    </div>
     <div v-if="errorHandleColumn" class="p-invalid">
       <small id="error-column-to-handle" class="p-invalid">
         {{ errorHandleColumn }}
@@ -76,6 +95,7 @@ import Vue from 'vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
+import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula/'
 
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
@@ -85,13 +105,15 @@ import InputNumber from 'primevue/inputnumber'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
-import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn.vue'
+import LckMonacoEditor from '@/components/store/MonacoEditor/MonacoEditor.vue'
+import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 
 export default {
   name: 'HandleColumnModal',
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
+    'lck-monaco-editor': LckMonacoEditor,
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),
@@ -109,6 +131,11 @@ export default {
     columnToHandle: {
       type: Object,
       required: false
+    },
+    tableColumns: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   },
   data () {
@@ -130,6 +157,9 @@ export default {
     },
     isLookedUpType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN
+    },
+    isFormulaType () {
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA
     }
   },
   methods: {
@@ -151,7 +181,7 @@ export default {
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
+              settings: this.getSettings()
             })
           } else {
             await lckServices.tableColumn.create({
@@ -163,7 +193,7 @@ export default {
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType ? this.settings : {}
+              settings: this.getSettings()
             })
           }
           this.columnNameToHandle = null
@@ -176,8 +206,19 @@ export default {
         this.errorHandleColumn = errorHandleColumn
       }
     },
+    getSettings () {
+      if (this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType) {
+        return this.settings
+      }
+      if (this.isFormulaType) {
+        return this.formulaSettings()
+      }
+      return {}
+    },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
+      // A formula column can't be used as reference
+      if (this.isFormulaType) this.referenceToHandle.isActive = false
     },
     selectTypeValuesChange (data) {
       let settings = {}
@@ -200,6 +241,14 @@ export default {
     },
     foreignFieldIdChange (data) {
       this.settings.foreignField = data
+    },
+    formulaChange (data) {
+      this.settings.formula = data
+    },
+    formulaSettings () {
+      return {
+        formula: formulaColumnsNamesToIds(this.settings.formula || '', this.tableColumns)
+      }
     }
   },
   watch: {
@@ -213,7 +262,12 @@ export default {
           this.referenceToHandle.position = this.columnToHandle.reference_position
         }
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
+        // Set formula column
+        if (this.isFormulaType) {
+          this.settings.formula = formulaColumnsIdsToNames(this.columnToHandle.settings?.formula || '', this.tableColumns)
+        }
       }
+      this.errorHandleColumn = null
     }
   }
 }
@@ -222,5 +276,17 @@ export default {
 <style scoped>
 .input-number-reference {
   width: 100px;
+}
+
+/** Need these two rules to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
+/deep/ .monaco-editor .overflow-guard {
+  position: static;
+}
+
+/deep/ .monaco-editor .suggest-details-container {
+  position: absolute !important;
+  left: -1px !important;
+  top: -1px !important;
+  transform: translateX(-100%);
 }
 </style>

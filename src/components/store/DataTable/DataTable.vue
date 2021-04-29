@@ -295,7 +295,8 @@ import { parseISO } from 'date-fns'
 import {
   getComponentEditableColumn,
   isEditableColumn,
-  getColumnClass
+  getColumnClass,
+  getColumnTypeId
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
@@ -510,7 +511,6 @@ export default {
           case COLUMN_TYPE.GROUP:
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
-          case COLUMN_TYPE.FORMULA:
             return data.value
           case COLUMN_TYPE.MULTI_USER:
             return data.value.join(', ')
@@ -525,6 +525,12 @@ export default {
               return data.map(d => column.settings.values[d]?.label).join(', ')
             } else {
               return ''
+            }
+          case COLUMN_TYPE.FORMULA:
+            if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
+              return formatDate(data, this.$t('date.dateFormat')) || ''
+            } else {
+              return data
             }
           case COLUMN_TYPE.DATE:
             return formatDate(data, this.$t('date.dateFormat')) || ''

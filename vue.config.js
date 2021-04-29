@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path')
 process.env.VUE_APP_VERSION = require('./package.json').version
 
 module.exports = {
@@ -22,7 +24,15 @@ module.exports = {
     }
   },
   configureWebpack: {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    entry: {
+      // Package each language's worker and give these filenames in `getWorkerUrl`
+      'editor.worker': 'monaco-editor-core/esm/vs/editor/editor.worker.js'
+    },
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
   },
   chainWebpack: config => {
     /**
