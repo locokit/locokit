@@ -63,7 +63,7 @@ function getColumnsToUpdate (
           currentColumn.children as TableColumn[],
           columnsIdsTransmitted,
           tableId,
-          originalColumn ?? currentColumn,
+          currentColumn.column_type_id === COLUMN_TYPE.FORMULA || !originalColumn ? currentColumn : originalColumn,
         ))
       }
     }
