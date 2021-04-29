@@ -42,7 +42,8 @@ export function computeTextProperty (): Hook {
           }
         } else {
           columnsUsedForReference.forEach((c: TableColumn, index: number) => {
-            text += (index > 0 ? ' ' : '') + context.data.data[c.id]
+            text += (index > 0 ? ' ' : '')
+            if (context.data.data[c.id]) text += context.data.data[c.id]
           })
         }
         context.data.text = context.data.text || text
