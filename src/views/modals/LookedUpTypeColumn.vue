@@ -81,10 +81,10 @@ export default {
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             table_id: this.relationTableId,
-            $limit: 100
+            $limit: -1
           }
-        }) as Paginated<LckTableColumn>
-        this.foreignFields = foreignFields?.data
+        }) as LckTableColumn[]
+        this.foreignFields = foreignFields
       }
     },
     onLocalFieldChange (data: { value: string }) {
