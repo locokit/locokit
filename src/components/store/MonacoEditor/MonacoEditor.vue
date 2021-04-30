@@ -7,39 +7,32 @@
 </template>
 
 <script lang="ts">
+import { PropOptions } from 'vue'
+
+import { FeathersError } from '@feathersjs/errors'
 // Needed monaco features
 import 'monaco-editor-core/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'
 import 'monaco-editor-core/esm/vs/editor/standalone/browser/colorizer'
 import 'monaco-editor-core/esm/vs/editor/contrib/hover/hover.js'
 import 'monaco-editor-core/esm/vs/editor/contrib/suggest/suggestController.js'
 import 'monaco-editor-core/esm/vs/editor/contrib/wordOperations/wordOperations.js'
-
 // Monaco core
 import {
   languages,
   editor,
-  Environment,
   IDisposable,
   MarkerSeverity,
   Range
 } from 'monaco-editor-core/esm/vs/editor/editor.api.js'
 
-import { FeathersError } from '@feathersjs/errors'
-import { PropOptions } from 'vue'
 import {
   formulaFunctions,
   getDefaultRange,
   predefinedMonacoSuggestions,
-  FUNCTION_CATEGORY
+  FUNCTION_CATEGORY,
+  COLUMN_PREFIX
 } from '@/services/lck-utils/formula'
-import i18n from '@/plugins/i18n'
 import { LckTableColumn } from '@/services/lck-api/definitions'
-
-declare global {
-  interface Window {
-    MonacoEnvironment: Environment;
-  }
-}
 
 // Configuration of the monaco-editor worker
 self.MonacoEnvironment = {
@@ -136,11 +129,10 @@ export default {
           ],
 
           // categories
-          // eslint-disable-next-line no-useless-escape
-          categories: [[new RegExp(`(${Object.keys(formulaFunctions).join('|')})\.([^\s|(])+(?=\\()`), 'category']],
+          categories: [[new RegExp(`(${Object.keys(formulaFunctions).join('|')})\\.[^(]+`), 'category']],
 
           // columns
-          columns: [[/COLUMN\.({.+}|[^\s]+)/, 'column']],
+          columns: [[new RegExp(`${COLUMN_PREFIX}\\.{[^}]+}`), 'column']],
 
           // numbers
           numbers: [[/-?(\d)+(\.\d+)?/, 'number']]
@@ -149,7 +141,7 @@ export default {
 
       // Register an hover item provider for the language
       languages.registerHoverProvider(locokitLanguage, {
-        provideHover: function (model, position) {
+        provideHover: (model, position) => {
           // Hover on functions names
           let providerResult: languages.Hover = {
             contents: []
@@ -182,7 +174,7 @@ export default {
                     // function signature
                     { value: functionSignature },
                     // function documentation
-                    { value: i18n.t(`components.formulas.functions.${categoryName}.${functionName}`).toString() }
+                    { value: this.$t(`components.formulas.functions.${categoryName}.${functionName}`).toString() }
                   ]
                 }
               }
@@ -232,7 +224,7 @@ export default {
           : model.getWordUntilPosition(position)
         // Get the right suggestions to return
         let suggestions: languages.CompletionItem[] = []
-        if (currentWord.word === 'COLUMN') {
+        if (currentWord.word === COLUMN_PREFIX) {
           // The current word is the prefix column so we only suggest the available columns
           suggestions = this.columnSuggestions
         } else if (predefinedMonacoSuggestions.functionSuggestions[currentWord.word as FUNCTION_CATEGORY]) {
@@ -305,9 +297,9 @@ export default {
     columnSuggestions (): languages.CompletionItem[] {
       const defaultRange = getDefaultRange()
       return this.tableColumns.map(column => ({
-        label: `COLUMN.{${column.text}}`,
+        label: `${COLUMN_PREFIX}.{${column.text}}`,
         kind: languages.CompletionItemKind.Variable,
-        insertText: `COLUMN.{${column.text}}`,
+        insertText: `${COLUMN_PREFIX}.{${column.text}}`,
         range: defaultRange
       }))
     }

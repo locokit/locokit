@@ -764,6 +764,8 @@ export const formulaFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula
   }
 }
 
+export const COLUMN_PREFIX = 'COLUMN'
+
 // <-- Common code with API (the end)
 
 /**
@@ -787,7 +789,7 @@ export function getDefaultRange (): IRange {
  */
 export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTableColumn[]) {
   return formula.replace(
-    /(?<=COLUMN\.{)[^}]+(?=})/g,
+    new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[^}]+(?=})`, 'g'),
     columnName => {
       return (tableColumns.find(column => column.text === columnName))?.id || columnName
     }
@@ -802,7 +804,7 @@ export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTabl
  */
 export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTableColumn[]) {
   return formula.replace(
-    /(?<=COLUMN\.{)[a-z0-9-]+(?=})/g,
+    new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[a-z0-9-]+(?=})`, 'g'),
     columnId => (tableColumns.find(column => column.id === columnId))?.text || columnId
   )
 }
@@ -838,16 +840,16 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
 
   // Add a suggestion to type the column prefix
   let currentSuggestion: languages.CompletionItem = {
-    label: 'COLUMN',
+    label: COLUMN_PREFIX,
     kind: languages.CompletionItemKind.Class,
     documentation: i18n.t('components.formulas.column').toString(),
-    insertText: 'COLUMN',
+    insertText: COLUMN_PREFIX,
     range: defaultRange
   }
   allSuggestions.push(currentSuggestion)
 
   // Loop over the functions categories
-  for (const categoryName in categoriesWithFunctions) {
+  for (const [categoryName, categoryFunctions] of Object.entries(categoriesWithFunctions)) {
     // Add a suggestion to type the function category
     currentSuggestion = {
       label: categoryName,
@@ -860,8 +862,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
     const categoryPrefix = categoryName + '.'
 
     // Loop over the functions of each category
-    for (const functionName in categoriesWithFunctions[categoryName as FUNCTION_CATEGORY]) {
-      const currentFunction = categoriesWithFunctions[categoryName as FUNCTION_CATEGORY][functionName]
+    for (const [functionName, currentFunction] of Object.entries(categoryFunctions)) {
       // Text to insert
       let insertTextFunction = `${categoryPrefix}${functionName}(`
       // Function documentation

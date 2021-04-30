@@ -134,10 +134,57 @@ export function getDataFromTableViewColumn (
   }
 }
 
+export function getColumnClass (column: LckTableViewColumn): string {
+  const columnClass = getColumnTypeId(column)
+  switch (columnClass) {
+    case COLUMN_TYPE.BOOLEAN:
+      return 'bi bi-check-square-fill'
+    case COLUMN_TYPE.STRING:
+      return 'bi bi-type'
+    case COLUMN_TYPE.NUMBER:
+      return 'bi bi-hash'
+    case COLUMN_TYPE.FLOAT:
+      return 'bi bi-hash'
+    case COLUMN_TYPE.DATE:
+      return 'bi bi-calendar-date'
+    case COLUMN_TYPE.USER:
+      return 'bi bi-person-fill'
+    case COLUMN_TYPE.GROUP:
+      return 'bi bi-people-fill'
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+      return 'bi bi-text-indent-left'
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'bi bi-check'
+    case COLUMN_TYPE.MULTI_SELECT:
+      return 'bi bi-list-check'
+    case COLUMN_TYPE.FORMULA:
+      return 'bi bi-calculator'
+    case COLUMN_TYPE.FILE:
+      return 'bi-file-earmark'
+    case COLUMN_TYPE.MULTI_USER:
+      return 'bi bi-people-fill'
+    case COLUMN_TYPE.MULTI_GROUP:
+      return 'bi bi-people-fill'
+    case COLUMN_TYPE.TEXT:
+      return 'bi bi-textarea-t'
+    case COLUMN_TYPE.URL:
+      return 'bi bi-link-45deg'
+    case COLUMN_TYPE.GEOMETRY_POINT:
+      return 'bi bi-geo'
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return 'bi bi-bounding-box-circles'
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      return 'bi bi-geo-fill'
+    default :
+      return ''
+  }
+}
+
 export default {
   getComponentEditableColumn,
   isEditableColumn,
   getColumnTypeId,
   getOriginalColumn,
-  getDataFromTableViewColumn
+  getDataFromTableViewColumn,
+  getColumnClass
 }
