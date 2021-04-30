@@ -757,8 +757,17 @@ export default {
       }
     },
     async onRowDelete (row) {
-      await lckServices.tableRow.remove(row.id)
-      this.loadCurrentTableData()
+      try {
+        await lckServices.tableRow.remove(row.id)
+        this.loadCurrentTableData()
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_DELETION'),
+          life: 3000
+        })
+      }
     },
     async onRowDuplicate ({ data }) {
       const duplicatedData = {}

@@ -542,6 +542,7 @@
       "500": "An error occured…"
     },
     "lck": {
+      "ROW_DELETION": "An error occured when deleting the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
     }
