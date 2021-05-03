@@ -15,7 +15,7 @@
           class="page-nav-item anchor-link-container"
         >
           <a>
-            <span>Container 1</span>
+            <span>{{ $t('pages.workspace.container.title') }} 1</span>
           </a>
         </li>
         <li
@@ -23,9 +23,9 @@
         >
           <a>
             <i
-              class="p-mr-1 visible pi pi-exclamation-triangle"
+              class="p-mr-1 visible bi bi-exclamation-triangle warning"
             />
-            <span>Container 2</span>
+            <span>{{ $t('pages.workspace.container.title') }} 2</span>
           </a>
         </li>
         <li
@@ -33,9 +33,9 @@
         >
           <a>
             <i
-              class="p-mr-1 viisble pi pi-info"
+              class="p-mr-1 viisble bi bi-info-circle"
             />
-            <span>Container 3</span>
+            <span>{{ $t('pages.workspace.container.title') }} 3</span>
           </a>
         </li>
       </ul>

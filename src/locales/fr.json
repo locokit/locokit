@@ -369,9 +369,9 @@
         "layout": "Disposition",
         "pagePosition": "Position de la page",
         "pageConfiguration": "Configuration du la page",
-        "list": "Liste des containeurs",
+        "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
-        "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque containeur souhaité."
+        "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
       },
       "container": {
         "title": "Conteneur",
