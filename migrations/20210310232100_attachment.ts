@@ -5,13 +5,13 @@ export async function up (knex: Knex): Promise<void> {
     .createTable('attachment', table => {
       table.increments('id')
       table.string('filepath')
-      table.string('filename')
+      table.string('filename').notNullable()
       table.string('mime')
       table.string('ext')
       table.integer('size')
       table.timestamp('createdAt')
       table.timestamp('updatedAt')
-      table.uuid('workspace_id').unsigned()
+      table.uuid('workspace_id').unsigned().notNullable()
       table.foreign('workspace_id', 'FK_attachment_workspace_id').references('id').inTable('workspace')
     })
     .createTable('row_has_attachment', table => {

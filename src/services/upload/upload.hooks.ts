@@ -6,6 +6,7 @@ import AWS from 'aws-sdk'
 import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
+import { NotAcceptable } from '@feathersjs/errors'
 import * as Sentry from '@sentry/node'
 
 const { authenticate } = authentication.hooks
@@ -88,14 +89,29 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
  * for the workspace id
  */
 async function createAttachment (context: HookContext): Promise<HookContext> {
-  context.result = await context.app.services.attachment.create({
-    workspace_id: context.params.query?.workspaceId as string,
-    mime: context.params.query?.mime as string,
-    ext: context.params.query?.ext as string,
-    filename: context.params.query?.fileName || context.result.id,
-    filepath: context.result.id,
-    size: context.result.size,
-  })
+  // do not create attachment if param noAttachment is set to true
+  // this help us to avoid create an attachment for a thumbnail
+  if (context.params?.query?.noAttachment === true) return context
+  if (context.data.attachment_id) {
+    context.result = await context.app.services.attachment.patch(context.data.attachment_id, {
+      mime: context.params.query?.mime as string,
+      ext: context.params.query?.ext as string,
+      filename: context.params.query?.fileName || context.result.id,
+      filepath: context.result.id,
+      size: context.result.size,
+      thumbnail: context.data.thumbnail,
+    })
+  } else {
+    context.result = await context.app.services.attachment.create({
+      workspace_id: context.params.query?.workspaceId as string,
+      mime: context.params.query?.mime as string,
+      ext: context.params.query?.ext as string,
+      filename: context.params.query?.fileName || context.result.id,
+      filepath: context.result.id,
+      size: context.result.size,
+      thumbnail: context.data.thumbnail,
+    })
+  }
   return context
 }
 
@@ -123,9 +139,11 @@ async function createThumbnail (context: HookContext): Promise<HookContext> {
         query: {
           ...context.params.query,
           fileName: `thumbnail_${context.params.query?.fileName as string}`,
+          noAttachment: true,
         },
         s3: context.params.s3,
       })
+      context.data.thumbnail = true
     } catch (error) {
       Sentry.captureException(error)
     }
@@ -134,6 +152,23 @@ async function createThumbnail (context: HookContext): Promise<HookContext> {
   return context
 }
 
+/**
+ * Forbid the creation of an upload already uploaded
+ */
+async function checkUploadDoesNotAlreadyExist (context: HookContext): Promise<HookContext> {
+  const isFileFound = await context.app.services.attachment.find({
+    query: {
+      workspace_id: context.params.query?.workspaceId as string,
+      filename: context.params.query?.fileName,
+    },
+  })
+  if (isFileFound.total === 1) {
+    if (context.params.query?.forceUpdate === true) {
+      context.data.attachment_id = isFileFound.data[0].id
+    } else {
+      throw new NotAcceptable('File already exist. You can\'t update this file. Please rename your file and retry.')
+    }
+  }
   return context
 }
 
@@ -151,6 +186,10 @@ export default {
     get: [
     ],
     create: [
+      /**
+       * Forbid the creation of an upload already uploaded
+       */
+      checkUploadDoesNotAlreadyExist,
     ],
     remove: [
       /**
