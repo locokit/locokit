@@ -9,12 +9,16 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
  * via a table_column_relation
  */
 export function fillLookedUpColumnInTableRowData (): Hook {
-  return async (context: HookContext): Promise<HookContext> => {
+  return async (context: HookContext<TableColumn>): Promise<HookContext> => {
     if (
       ['create', 'patch'].includes(context.method) &&
       context.type === 'after'
     ) {
-      if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+      if (
+        context.result?.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN &&
+        context.result.settings.foreignField &&
+        context.result.settings.localField
+      ) {
         /**
          * For all rows of the current table, compute this looked up column
          */
@@ -25,8 +29,29 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         })
 
         let newDataForCurrentColumn = '{ [context.result.id]: null }'
-        const columnTypeId = foreignColumn.originalTypeId()
-        switch (columnTypeId) {
+        switch (foreignColumn.column_type_id) {
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            const originalTypeId = foreignColumn.originalTypeId()
+            switch (originalTypeId) {
+              case COLUMN_TYPE.MULTI_USER:
+              case COLUMN_TYPE.USER:
+                // Keep the same reference and the same value that the related looked-up column
+                newDataForCurrentColumn = `
+                ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
+                `
+                break
+              default:
+                // Keep the same value that the related looked-up column but with the new reference
+                newDataForCurrentColumn = `
+                ('{
+                  "${context.result.id}": {
+                    "reference": "' || cast(foreignTableRow.id as text) || '",
+                    "value": ' || (foreignTableRow.data->'${context.result.settings.foreignField}'->'value')::jsonb || '
+                  }
+                }')::jsonb`
+                break
+            }
+            break
           case COLUMN_TYPE.USER:
             newDataForCurrentColumn = `
             ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
@@ -111,8 +136,6 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         LEFT JOIN table_row foreignTableRow on (foreignTableRelation.table_row_from_id = foreignTableRow.id)
         WHERE targetTableRows.table_id = '${context.result.table_id}'
         `
-        // const resultSelect = await (context.app.get('knex') as Knex).raw(selectRequest)
-        // resultSelect.rows.forEach(r => console.log(r))
 
         const rawRequest = `
           WITH computeNewData as (${selectRequest})
