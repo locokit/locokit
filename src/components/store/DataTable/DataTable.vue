@@ -295,8 +295,9 @@ import { parseISO } from 'date-fns'
 import {
   getComponentEditableColumn,
   isEditableColumn,
-  getColumnClass,
-  getColumnTypeId
+  getColumnTypeId,
+  getOriginalColumn,
+  getColumnClass
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDate, formatDateISO } from '@/services/lck-utils/date'
@@ -510,8 +511,14 @@ export default {
           case COLUMN_TYPE.USER:
           case COLUMN_TYPE.GROUP:
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
             return data.value
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            const originalColumn = getOriginalColumn(column)
+            if ([COLUMN_TYPE.DATE, COLUMN_TYPE.MULTI_SELECT].includes(originalColumn.column_type_id)) {
+              return this.getValue(originalColumn, data.value)
+            } else {
+              return data.value
+            }
           case COLUMN_TYPE.MULTI_USER:
             return data.value.join(', ')
           case COLUMN_TYPE.SINGLE_SELECT:

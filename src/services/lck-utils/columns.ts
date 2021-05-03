@@ -69,6 +69,17 @@ export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
   return getColumnTypeId(column.parents[0])
 }
 
+export function getOriginalColumn (column: LckTableColumn): LckTableColumn {
+  if (
+    column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN ||
+    (column.parents && column.parents.length === 0) ||
+    !column.parents
+  ) {
+    return column
+  }
+  return getOriginalColumn(column.parents[0])
+}
+
 export function getDataFromTableViewColumn (
   column: LckTableViewColumn,
   data: LckTableRowData,
@@ -173,6 +184,7 @@ export default {
   getComponentEditableColumn,
   isEditableColumn,
   getColumnTypeId,
+  getOriginalColumn,
   getDataFromTableViewColumn,
   getColumnClass
 }
