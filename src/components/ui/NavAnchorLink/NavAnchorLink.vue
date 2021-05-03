@@ -14,14 +14,14 @@
         <li
           class="page-nav-item anchor-link-container"
         >
-          <a>
+          <a href="#">
             <span>{{ $t('pages.workspace.container.title') }} 1</span>
           </a>
         </li>
         <li
           class="page-nav-item anchor-link-container"
         >
-          <a>
+          <a href="#">
             <i
               class="p-mr-1 visible bi bi-exclamation-triangle warning"
             />
@@ -31,9 +31,9 @@
         <li
           class="page-nav-item anchor-link-container"
         >
-          <a>
+          <a href="#">
             <i
-              class="p-mr-1 viisble bi bi-info-circle"
+              class="p-mr-1 visible bi bi-info-circle primary"
             />
             <span>{{ $t('pages.workspace.container.title') }} 3</span>
           </a>
@@ -68,7 +68,7 @@
         </li>
       </ul>
     </div>
-    <span>
+    <span class="edit-mode-toggle">
     <p-button
       v-if="editMode"
       :title="$t('pages.workspace.container.edit')"
@@ -139,12 +139,12 @@ export default Vue.extend({
   left: 0;
   right: 0;
   z-index: 500;
-  background-color: var(--text-color);
+  background-color: var(--popeyebar-background-color);
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
-  border: 4px solid #fafafa;
-  height: 4rem;
+  border: 1px solid var(--primary-color);
+  height: 3rem;
 }
 
 .internal-nav-content {
@@ -170,27 +170,35 @@ export default Vue.extend({
   flex: 1 1 auto;
   text-align: center;
   border-left: 1px solid var(--primary-color);
-  border-left: 1px solid rgba(0, 122, 217, 0.2);
   height: 100%;
 }
 
-.page-nav-item > a > .danger {
-  color: var(--color-error);
+.anchor-link-container:first-child {
+  border-left: unset;
+}
+.page-nav-item > a > i {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  background-color: var(--popeyebar-icon-background);
+}
+.page-nav-item > a > i.danger {
+color: var(--color-error);
 }
 
-.page-nav-item > a > .warning {
+.page-nav-item > a > i.warning {
   color: var(--color-warning);
 }
 
-.page-nav-item > a > .success {
+.page-nav-item > a > i.success {
   color: var(--color-success);
 }
 
-.page-nav-item > a > .primary {
+.page-nav-item > a > i.primary {
   color: var(--primary-color);
 }
 
-.page-nav-item > a > .secondary {
+.page-nav-item > a > i.secondary {
   color: var(--secondary-color);
 }
 
@@ -208,7 +216,8 @@ export default Vue.extend({
   width: 100%;
 }
 
-.anchor-link-container:first-child {
-  border-left: unset;
+.edit-mode-toggle {
+  position: absolute;
+  right: 0;
 }
 </style>
