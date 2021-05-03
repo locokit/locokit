@@ -72,22 +72,6 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             }')::jsonb
             `
             break
-          case COLUMN_TYPE.SINGLE_SELECT:
-            const options = foreignColumn.settings.values as Record<string, SelectValue>
-            const optionsRemapped = Object.keys(options).reduce((acc: Record<string, string>, currentKeyOption) => {
-              acc[currentKeyOption] = options[currentKeyOption].label
-              return acc
-            }, {})
-            const optionsJsonString = JSON.stringify(optionsRemapped)
-            newDataForCurrentColumn = `
-            ('{
-              "${context.result.id}": {
-                "reference": "' || cast(foreignTableRow.id as text) || '",
-                "value": "' || ('${optionsJsonString}'::jsonb->>(foreignTableRow.data->>'${context.result.settings.foreignField}')) || '"
-              }
-            }')::jsonb
-            `
-            break
           case COLUMN_TYPE.MULTI_SELECT:
             newDataForCurrentColumn = `
               ('{
@@ -108,6 +92,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
           case COLUMN_TYPE.STRING:
           case COLUMN_TYPE.TEXT:
           case COLUMN_TYPE.URL:
+          case COLUMN_TYPE.SINGLE_SELECT:
           case COLUMN_TYPE.FORMULA:
             newDataForCurrentColumn = `
             ('{

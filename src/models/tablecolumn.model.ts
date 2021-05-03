@@ -140,6 +140,18 @@ export class TableColumn extends BaseModel {
     }
     return this.parents[0].originalTypeId()
   }
+
+  /**
+   * Returns the original column of the current one. Note that for a LOOKED_UP_COLUMN, the returned column
+   * is the current one if the parents are not computed.
+   * @returns The original column related to the current one.
+   */
+  getOriginalColumn (): TableColumn {
+    if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
+      return this
+    }
+    return this.parents[0].getOriginalColumn()
+  }
 }
 
 export default function (app: Application): typeof TableColumn {

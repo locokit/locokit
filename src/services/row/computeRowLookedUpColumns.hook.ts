@@ -31,17 +31,6 @@ export function computeRowLookedUpColumns (): Hook {
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
             }
             /**
-             * In the case of a foreign column "SINGLE_SELECT", we have to duplicate the SINGLE_SELECT label for display
-             */
-            if (
-              typeof currentColumnData.value === 'string' &&
-              foreignColumnTypeId === COLUMN_TYPE.SINGLE_SELECT
-            ) {
-              currentColumnData.value = (
-                foreignColumn.settings.values as Record<string, SelectValue>
-              )[currentColumnData.value].label
-            } else
-            /**
              * If the value is an object, we retrieve the sub property of value
              */
             if (typeof currentColumnData.value === 'object') {

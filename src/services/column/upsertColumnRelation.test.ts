@@ -227,11 +227,11 @@ describe('upsertColumnRelation hook', () => {
     expect(currentRowTable5).toBeDefined()
     expect(currentRowTable3.data[columnTable2LookedUpColumnTable1.id]).toMatchObject({
       reference: rowTable1.id,
-      value: 'option 1',
+      value: singleSelectOption1UUID,
     })
     expect(currentRowTable4.data[columnTable2LookedUpColumnTable1.id]).toMatchObject({
       reference: rowTable2.id,
-      value: 'option 2',
+      value: singleSelectOption2UUID,
     })
     expect(currentRowTable5.data[columnTable2LookedUpColumnTable1.id]).toBeNull()
   })

@@ -245,11 +245,12 @@ column "column"
       // Format the column name to be used as SQL placeholder
       let value = `:${name.replace(/-/g,'_')}:`
 
-      // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key 
-      if (currentColumn.column_type_id === columnsTypes.SINGLE_SELECT) {
+      // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key
+      const originalColumn = currentColumn.getOriginalColumn()
+      if (originalColumn.column_type_id === columnsTypes.SINGLE_SELECT) {
         const options = currentColumn.settings?.values ?? {}
         const optionsJsonString = JSON.stringify(options, (key, value) => value.label ?? value)
         value = `('${optionsJsonString}'::json->>${value})`
       }
-      return { type: currentColumn.originalTypeId(), value }
+      return { type: originalColumn.column_type_id, value }
     }
