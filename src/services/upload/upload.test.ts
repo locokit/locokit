@@ -149,7 +149,6 @@ describe('\'upload\' service', () => {
           forceUpdate: true,
         },
       })
-      console.log(attachment)
       expect(attachment).toBeDefined()
       expect(attachment.thumbnail).toBe(true)
       expect(attachment.filename).toBe('logokit-grayscale.png')
