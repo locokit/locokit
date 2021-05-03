@@ -6,24 +6,24 @@
 
   --color-warning: rgb(196, 144, 44);
   --color-warning-light: rgba(196, 144, 44, .8);
-  --color-error:  #f44336;
+  --color-error: #f44336;
   --color-error-light: #f4433699;
   --color-success: rgb(48, 150, 48);
   --color-success-light: rgba(48, 150, 48, .8);
 
   /* Boutons background, active tab-background, default background of the login page */
-  --surface-a:var(--primary-color) !important;
+  --surface-a: var(--primary-color) !important;
   /* Buttons:hover border and background-color */
-  --surface-b:var(--primary-color-lighten) !important;
+  --surface-b: var(--primary-color-lighten) !important;
   /* Popover border, burger-menu button background (responsive). This item use a transparency */
-  --surface-c:rgba(255, 255, 255, 0.04) !important;
+  --surface-c: rgba(255, 255, 255, 0.04) !important;
   /* Table bottom border color*/
-  --surface-d:#3f4b5b !important;
+  --surface-d: #3f4b5b !important;
   /* no utilisation yet */
-  --surface-e:#2a323d !important;
-  --surface-f:#2a323d !important;
+  --surface-e: #2a323d !important;
+  --surface-f: #2a323d !important;
   /* Sidebar right background */
-  --surface-w:#f8f9fa !important;
+  --surface-w: #f8f9fa !important;
   --surface-lck-1: #858096;
   /* Couleur du texte sur les boutons, */
   --surface-lck-2: #ffffff;
@@ -36,7 +36,7 @@
   --text-color-active: var(--primary-color) !important;
 
   /* Internal nav background color */
-  --popeyebar-background-color: rgba(255,255,255, 0.9);
+  --popeyebar-background-color: rgba(255, 255, 255, 0.9);
   /* Internal nav link color */
   --popeyebar-text-color: var(--primary-color);
   /* Internal nav link color active */
@@ -51,13 +51,13 @@
   --primary-color: #53acb4 !important;
   --primary-color-lighten: #bfe4e7 !important;
   --primary-color-darken: #28787f !important;
-  --primary-color-text:#185655 !important;
+  --primary-color-text: #185655 !important;
 
   --secondary-color: #607d8b !important;
   --secondary-color-lighten: #607d8b !important;
   --secondary-color-darken: #607d8b !important;
 
-  --font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
 
   --border-radius: 2px !important;
   --accordion-header-link-padding: 10rem .5rem !important;
