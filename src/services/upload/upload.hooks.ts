@@ -6,6 +6,7 @@ import AWS from 'aws-sdk'
 import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
+import * as Sentry from '@sentry/node'
 
 const { authenticate } = authentication.hooks
 
@@ -112,19 +113,26 @@ async function createThumbnail (context: HookContext): Promise<HookContext> {
    * Create a thumbnail if it's an image
    */
   if (context.result.contentType?.indexOf('image/') === 0) {
-    const thumbnail = sharp(context.result.buffer).rotate().withMetadata().resize({ height: 200 })
-    const buffer = await thumbnail.toBuffer()
-    await context.service.create({
-      buffer,
-      contentType: context.result.contentType,
-    }, {
-      query: {
-        ...context.params.query,
-        fileName: `thumbnail_${context.params.query?.fileName as string}`,
-      },
-      s3: context.params.s3,
-    })
+    try {
+      const thumbnail = sharp(context.result.buffer).rotate().withMetadata().resize({ height: 200 })
+      const buffer = await thumbnail.toBuffer()
+      await context.service.create({
+        buffer,
+        contentType: context.result.contentType,
+      }, {
+        query: {
+          ...context.params.query,
+          fileName: `thumbnail_${context.params.query?.fileName as string}`,
+        },
+        s3: context.params.s3,
+      })
+    } catch (error) {
+      Sentry.captureException(error)
+    }
   }
+
+  return context
+}
 
   return context
 }

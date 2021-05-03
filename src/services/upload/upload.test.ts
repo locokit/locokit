@@ -75,6 +75,28 @@ describe('\'upload\' service', () => {
       expect(attachments.data[1].filename).toBe('thumbnail_logokit-grayscale.png')
     })
 
+    it('doesn\'t crash when the thumbnail can\'t be generated', async () => {
+      // empty the folder of file storage
+      await rmdir(fsPath, { recursive: true })
+      await mkdir(fsPath)
+      // upload a new file
+      const file = await open(path.join(__dirname, '../../../public/index.html'), 'r')
+      const buffer = await file.readFile()
+      await app.service('upload').create({
+        buffer,
+        contentType: 'image/png',
+      }, {
+        query: {
+          workspaceId,
+          fileName: 'logokit-grayscale.png',
+          contentType: 'image/png',
+        },
+      })
+      expect.assertions(2)
+      const files = await readdir(path.join(fsPath, workspaceId))
+      expect(files.length).toBe(1)
+      expect(files[0]).toBe('logokit-grayscale.png')
+    })
     afterAll(() => {
       app.set('storage', oldStorageConfig)
       // configure again the service to take the new config
