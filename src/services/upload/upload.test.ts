@@ -130,7 +130,7 @@ describe('\'upload\' service', () => {
       })).rejects.toThrowError(NotAcceptable)
     })
 
-    it('allows the upload of an already uploaded attachment if forceUpdate is set to true', async () => {
+    it('allows the upload of an already uploaded attachment if forceUpdate is set', async () => {
       // empty the folder of file storage
       await rmdir(fsPath, { recursive: true })
       await mkdir(fsPath)
@@ -146,7 +146,7 @@ describe('\'upload\' service', () => {
           workspaceId,
           fileName: 'logokit-grayscale.png',
           contentType: 'image/png',
-          forceUpdate: true,
+          forceUpdate: 1,
         },
       })
       expect(attachment).toBeDefined()

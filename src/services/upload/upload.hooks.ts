@@ -163,7 +163,7 @@ async function checkUploadDoesNotAlreadyExist (context: HookContext): Promise<Ho
     },
   })
   if (isFileFound.total === 1) {
-    if (context.params.query?.forceUpdate === true) {
+    if (context.params.query?.forceUpdate) {
       context.data.attachment_id = isFileFound.data[0].id
     } else {
       throw new NotAcceptable('File already exist. You can\'t update this file. Please rename your file and retry.')
