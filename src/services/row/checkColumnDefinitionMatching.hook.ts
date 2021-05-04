@@ -430,6 +430,7 @@ export function checkColumnDefinitionMatching (): Hook {
                     filepath: a.filepath,
                     mime: a.mime,
                     id: a.id,
+                    thumbnail: a.thumbnail,
                   }))
                 }
               } catch (error) {
