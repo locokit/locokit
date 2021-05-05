@@ -162,10 +162,12 @@
           :crudMode="crudMode"
           :definition="block.definition"
           :row="row"
+          :cellState="cellState"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
         />
+
         <lck-process-panel
           :processesByRow="processesByRow"
           :rowId="row.id"
@@ -807,13 +809,13 @@ export default {
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
-
       this.cellState = {
         rowId: currentRow.id,
         columnId,
         waiting: true,
         isValid: false // don't know if we have to set to false or null
       }
+
       try {
         const res = await patchTableData(currentRow.id, {
           data: {
