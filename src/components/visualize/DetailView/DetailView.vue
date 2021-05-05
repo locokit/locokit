@@ -6,6 +6,7 @@
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
       :row="content.data[0]"
+      :cellState="cellState"
       :autocompleteSuggestions="autocompleteSuggestions"
       v-on="$listeners"
     />
@@ -43,6 +44,17 @@ export default Vue.extend({
     },
     autocompleteSuggestions: {
       type: null as { value: number | string; label: string }[]|null
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
     }
   },
   computed: {
