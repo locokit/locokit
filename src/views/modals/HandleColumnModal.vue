@@ -105,7 +105,6 @@ import InputNumber from 'primevue/inputnumber'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
-import LckMonacoEditor from '@/components/store/MonacoEditor/MonacoEditor.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 
 export default {
@@ -113,7 +112,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
-    'lck-monaco-editor': LckMonacoEditor,
+    'lck-monaco-editor': () => import('@/components/store/MonacoEditor/MonacoEditor.vue'),
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),

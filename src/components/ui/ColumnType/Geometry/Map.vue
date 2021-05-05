@@ -10,8 +10,9 @@
 import Vue, { PropType } from 'vue'
 
 import { TranslateResult } from 'vue-i18n'
-import mapboxgl, {
+import {
   AnyLayer,
+  GeoJSONSource,
   Map,
   MapboxOptions,
   MapLayerMouseEvent,
@@ -246,7 +247,7 @@ export default Vue.extend({
         }
       });
 
-      (this.map!.getSource(resourceToUpdate.id) as mapboxgl.GeoJSONSource).setData(
+      (this.map!.getSource(resourceToUpdate.id) as GeoJSONSource).setData(
         {
           type: 'FeatureCollection',
           features: resourceToUpdate.features

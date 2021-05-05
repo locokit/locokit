@@ -197,29 +197,9 @@ import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
 
-import Dropdown from 'primevue/dropdown'
-import Toolbar from 'primevue/toolbar'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
-import InputSwitch from 'primevue/inputswitch'
-import Calendar from 'primevue/calendar'
-import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
-import Checkbox from 'primevue/checkbox'
-
 import {
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
-
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
-import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
-import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
-import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
-import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
-import Badge from '@/components/ui/Badge/Badge.vue'
-import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
 import {
   getColumnTypeId,
@@ -233,7 +213,7 @@ import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
   getStyleLayers
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map2'
 import {
   LckAttachment,
   LckTableColumn,
@@ -242,10 +222,51 @@ import {
   LCKTableRowMultiDataComplex,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
+
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
+import Dropdown from 'primevue/dropdown'
+import Toolbar from 'primevue/toolbar'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
+import InputSwitch from 'primevue/inputswitch'
+import Calendar from 'primevue/calendar'
+import Dialog from 'primevue/dialog'
+import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
+import Badge from '@/components/ui/Badge/Badge.vue'
+import FileInput from '@/components/ui/ColumnType/File/Input.vue'
+
+const Map = () => import(/* webpackChunkName: "Lck Map With Mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default {
   name: 'LckDataDetail',
+  components: {
+    'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
+    'lck-filter-button': FilterButton,
+    'lck-multiselect': MultiSelect,
+    'lck-input-url': URLInput,
+    'lck-map': Map,
+    'lck-badge': Badge,
+    'lck-file-input': FileInput,
+    'p-dialog': Vue.extend(Dialog),
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-input-number': Vue.extend(InputNumber),
+    'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
+    'p-input-switch': Vue.extend(InputSwitch),
+    'p-calendar': Vue.extend(Calendar),
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox)
+  },
   props: {
     autocompleteSuggestions: {
       type: Array //  as { label: string; value: number }[]
@@ -292,26 +313,6 @@ export default {
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
     }
-  },
-  components: {
-    'lck-autocomplete': AutoComplete,
-    'lck-multi-autocomplete': MultiAutoComplete,
-    'lck-filter-button': FilterButton,
-    'lck-multiselect': MultiSelect,
-    'lck-url-input': URLInput,
-    'lck-map': Map,
-    'lck-badge': Badge,
-    'lck-file-input': FileInput,
-    'p-dialog': Vue.extend(Dialog),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-input-number': Vue.extend(InputNumber),
-    'p-input-text': Vue.extend(InputText),
-    'p-textarea': Vue.extend(Textarea),
-    'p-input-switch': Vue.extend(InputSwitch),
-    'p-calendar': Vue.extend(Calendar),
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button),
-    'p-checkbox': Vue.extend(Checkbox)
   },
   computed: {
     editableColumns (): LckTableViewColumn[] {
