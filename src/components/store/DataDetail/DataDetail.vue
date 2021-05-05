@@ -272,7 +272,7 @@ export default {
     ) {
       this.$emit(
         'update-suggestions', {
-          columnTypeId: columnTypeId,
+          columnTypeId,
           settings
         }, { query })
     },

@@ -7,8 +7,7 @@
       :definition="definition"
       :row="content.data[0]"
       :autocompleteSuggestions="autocompleteSuggestions"
-      @update-suggestions="updateLocalAutocompleteSuggestions"
-      @update-row="onUpdateCell"
+      v-on="$listeners"
     />
   </div>
 </template>
@@ -18,9 +17,9 @@ import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-import { patchTableData } from '@/store/database'
+// import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
-import { LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
+// import { LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -41,11 +40,9 @@ export default Vue.extend({
     content: {
       type: Object,
       default: () => ({})
-    }
-  },
-  data () {
-    return {
-      autocompleteSuggestions: null as { value: number | string; label: string }[]|null
+    },
+    autocompleteSuggestions: {
+      type: null as { value: number | string; label: string }[]|null
     }
   },
   computed: {
@@ -54,22 +51,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    searchItems: lckHelpers.searchItems,
-    async updateLocalAutocompleteSuggestions ({ column_type_id: columnTypeId, settings }: LckTableViewColumn, { query }: { query: {} }) {
-      this.autocompleteSuggestions = await this.searchItems({
-        columnTypeId,
-        tableId: settings?.tableId as string,
-        query
-      })
-    },
-    async onUpdateCell ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData}) {
-      const data = {
-        data: {
-          [columnId]: newValue
-        }
-      }
-      await patchTableData(this.rowId, data)
-    }
+    searchItems: lckHelpers.searchItems
   }
 })
 </script>

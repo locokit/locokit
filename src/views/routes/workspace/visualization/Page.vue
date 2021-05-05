@@ -75,6 +75,7 @@
                 'p-mb-4': !editMode,
               }"
               v-on="$listeners"
+              @update-row="onUpdateCell(block, $event)"
               @update-cell="onUpdateCell(block, $event)"
               @update-content="onUpdateContentBlockTableView(block, $event)"
               @update-suggestions="onUpdateSuggestions"
@@ -144,7 +145,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue from 'vue'
 
-import Button from 'primevue/button'
 import draggable from 'vuedraggable'
 import {
   formatISO,
@@ -156,10 +156,6 @@ import {
   BLOCK_TYPE,
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
-
-import Breadcrumb from 'primevue/breadcrumb'
-
-import Block from '@/components/visualize/Block/Block'
 
 import {
   retrievePageWithContainersAndBlocks,
@@ -175,6 +171,11 @@ import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
+
+import Breadcrumb from 'primevue/breadcrumb'
+import Button from 'primevue/button'
+
+import Block from '@/components/visualize/Block/Block'
 import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
