@@ -108,12 +108,7 @@
         />
         <span
           class="saving-state"
-          :class="{
-            'saving': (cellState.rowId === row.id && cellState.columnId === column.id && cellState.waiting),
-            'saved': (cellState.rowId === row.id && cellState.columnId === column.id && !cellState.waiting),
-            'valid': (cellState.rowId === row.id && cellState.columnId === column.id && cellState.isValid),
-            'error': (cellState.rowId === row.id && cellState.columnId === column.id && !cellState.isValid)
-          }"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
         />
       </div>
 
@@ -156,6 +151,7 @@ import Vue from 'vue'
 
 import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
+import Feature from 'ol/Feature'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -200,7 +196,7 @@ import {
   LCKTableRowMultiDataComplex,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
-import Feature from 'ol/Feature'
+import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
 export default {
   name: 'LckDataDetail',
@@ -305,6 +301,10 @@ export default {
     }
   },
   methods: {
+    getCellStateNotificationClass,
+    isEditableColumn,
+    transformEWKTtoFeature,
+    getColumnDisplayValue,
     isBooleanColumn (column: LckTableColumn) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.BOOLEAN:
@@ -319,9 +319,6 @@ export default {
     getComponentDisplayDetailForColumnType (column: LckTableColumn) {
       return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
-    isEditableColumn,
-    transformEWKTtoFeature,
-    getColumnDisplayValue,
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }

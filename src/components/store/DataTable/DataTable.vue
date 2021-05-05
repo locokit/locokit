@@ -237,12 +237,7 @@
 
             <span
               class="cell-state"
-              :class="{
-                'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
-                'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
-                'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
-                'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
-              }"
+              :class="getCellStateNotificationClass(slotProps.data.id, column.id, cellState)"
             />
           </template>
         </p-column>
@@ -311,6 +306,7 @@ import {
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDateISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
+import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
 export default {
   name: 'LckDatatable',
@@ -484,16 +480,17 @@ export default {
     }
   },
   methods: {
+    getColumnDisplayValue,
+    getCellStateNotificationClass,
+    isEditableColumn,
+    getDisabledProcessTrigger,
+    getColumnClass,
     getComponentEditorCellForColumnType (column) {
       return getComponentEditorCellForColumnType(getColumnTypeId(column))
     },
     getComponentDisplayCellForColumnType (column) {
       return getComponentDisplayCellForColumnType(getColumnTypeId(column))
     },
-    getColumnDisplayValue,
-    isEditableColumn,
-    getDisabledProcessTrigger,
-    getColumnClass,
     formatManualProcesses (rowId) {
       if (this.manualProcesses.length > 0) {
         return [
