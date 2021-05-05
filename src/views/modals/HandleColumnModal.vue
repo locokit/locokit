@@ -95,7 +95,7 @@ import Vue from 'vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
-import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula/'
+import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula'
 
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
@@ -112,7 +112,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
-    'lck-monaco-editor': () => import('@/components/store/MonacoEditor/MonacoEditor.vue'),
+    'lck-monaco-editor': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),

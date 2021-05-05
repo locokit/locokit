@@ -29,18 +29,6 @@ module.exports = {
       // Package each language's worker and give these filenames in `getWorkerUrl`
       'editor.worker': 'monaco-editor-core/esm/vs/editor/editor.worker.js'
     },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          editor: {
-            // Editor bundle
-            test: /[\\/]node_modules\/(monaco-editor-core\/esm\/vs\/(nls\.js|editor|platform|base|basic-languages|language\/(css|html|json|typescript)\/monaco\.contribution\.js)|style-loader\/lib|css-loader\/lib\/css-base\.js)/,
-            name: 'monaco-editor',
-            chunks: 'async'
-          }
-        }
-      }
-    },
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist')

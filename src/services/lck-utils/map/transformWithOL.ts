@@ -4,18 +4,11 @@ import GeoJSON, {
   GeoJSONFeature,
   GeoJSONFeatureCollection
 } from 'ol/format/GeoJSON'
+
 import {
   CircleLayer,
-  CircleLayout,
-  CirclePaint,
   FillLayer,
-  FillLayout,
-  FillPaint,
-  LineLayer,
-  LineLayout,
-  LinePaint,
-  LngLatBounds,
-  LngLatLike
+  LineLayer
 } from 'mapbox-gl'
 
 import { TranslateResult } from 'vue-i18n'
@@ -36,7 +29,6 @@ import {
   getColumnTypeId,
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
-import { getArrayDepth } from '@/services/lck-utils/arrays'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
@@ -64,18 +56,12 @@ const LCK_GEO_STYLE_POLYGON: FillLayer = {
   }
 }
 
+export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
+
 export const GEO_STYLE = {
   Point: LCK_GEO_STYLE_POINT,
   Linestring: LCK_GEO_STYLE_LINESTRING,
   Polygon: LCK_GEO_STYLE_POLYGON
-}
-
-export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
-
-interface LckPopupI18nOptions {
-  noReference: string | TranslateResult;
-  noData: string | TranslateResult;
-  dateFormat: string | TranslateResult;
 }
 
 export interface LckGeoResource {
@@ -83,13 +69,6 @@ export interface LckGeoResource {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
-}
-
-export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
-export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | LineLayout)
-
-export const isGEOColumn = (columnTypeId: number) => {
-  return Object.values(COLUMN_GEO_TYPE).includes(columnTypeId)
 }
 
 export const transformEWKTtoFeature = (ewkt: string) => {
@@ -106,7 +85,7 @@ export const transformEWKTtoFeature = (ewkt: string) => {
   })
 }
 
-export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
+export const getStyleLayers = (geoColumns: LckTableColumn[]): LckImplementedLayers[] => {
   const geoTypes = new Set()
   const layers: LckImplementedLayers[] = []
 
@@ -123,10 +102,15 @@ export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLay
         layers.push(GEO_STYLE.Polygon)
         break
       default:
+        // eslint-disable no-console
         console.error('Column type unknown')
     }
   })
   return layers
+}
+
+export const isGEOColumn = (columnTypeId: number) => {
+  return Object.values(COLUMN_GEO_TYPE).includes(columnTypeId)
 }
 
 /**
@@ -137,10 +121,10 @@ export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLay
  * @param columns
  * @param settings
  */
-export function getOnlyGeoColumn (
+export const getOnlyGeoColumn = (
   columns: LckTableViewColumn[],
   settings: MapSettings
-): LckTableViewColumn[] {
+): LckTableViewColumn[] => {
   if (settings.sources) {
     return settings.sources.reduce((acc, { field }) => {
       const col = columns.find(column => column.id === field)
@@ -153,13 +137,13 @@ export function getOnlyGeoColumn (
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
 
-export function makeGeoJsonFeaturesCollection (
+export const makeGeoJsonFeaturesCollection = (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
-): GeoJSONFeatureCollection {
+): GeoJSONFeatureCollection => {
   const features: Feature[] = []
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
@@ -239,12 +223,12 @@ export function makeGeoJsonFeaturesCollection (
   return geojsonFormat.writeFeaturesObject(features)
 }
 
-export function getLckGeoResources (
+export const getLckGeoResources = (
   columns: LckTableViewColumn[],
   data: LckTableRow[],
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
-): LckGeoResource[] {
+): LckGeoResource[] => {
   const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)
   const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
     data,
@@ -263,35 +247,8 @@ export function getLckGeoResources (
   }]
 }
 
-export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {
-  const coordinates: LngLatLike[] = []
-  /**
-   * Collect all coordinates from all features of all resources
-   */
-  resources.forEach((resource: LckGeoResource) => {
-    resource.features.forEach(feature => {
-      if (feature.geometry.type !== 'GeometryCollection') {
-        // Get at least an Array of array hence the 2
-        const featureCoord = feature.geometry.coordinates.flat(getArrayDepth(feature.geometry.coordinates) - 2)
-        if (feature.geometry.type === 'Point') {
-          coordinates.push(featureCoord as [number, number])
-        } else {
-          coordinates.push(...(featureCoord as [number, number][]))
-        }
-      }
-    })
-  })
-
-  /**
-   * if we only have one coordinates, for a bbox, we need two, minimum
-   * so we add another coordinates, with the first one
-   */
-  if (coordinates.length === 1) coordinates.push(coordinates[0])
-
-  /**
-   * Now we can compute bounds of all coordinates...
-   */
-  return coordinates.reduce((bounds, coordinate) => {
-    return bounds.extend(coordinate)
-  }, new LngLatBounds(coordinates[0], coordinates[1]))
+interface LckPopupI18nOptions {
+  noReference: string | TranslateResult;
+  noData: string | TranslateResult;
+  dateFormat: string | TranslateResult;
 }

@@ -213,7 +213,7 @@ import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
   getStyleLayers
-} from '@/services/lck-utils/map2'
+} from '@/services/lck-utils/map/transformWithOL'
 import {
   LckAttachment,
   LckTableColumn,
@@ -243,7 +243,7 @@ import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
-const Map = () => import(/* webpackChunkName: "Lck Map With Mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
+const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default {
   name: 'LckDataDetail',

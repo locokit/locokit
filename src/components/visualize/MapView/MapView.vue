@@ -20,13 +20,14 @@ import Vue, { PropType } from 'vue'
 import {
   getLckGeoResources,
   LckGeoResource
-} from '@/services/lck-utils/map2'
+} from '@/services/lck-utils/map/transformWithOL'
 
 import { LckTableRow, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 import { MapSettings } from '@locokit/lck-glossary'
 
-const Map = () => import(/* webpackChunkName: "Lck Map With Mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
+// Dynamic import
+const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default Vue.extend({
   name: 'MapView',

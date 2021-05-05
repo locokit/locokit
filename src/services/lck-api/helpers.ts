@@ -164,7 +164,8 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
     return formatedData
   })
 
-  import('xlsx').then(XLSX => {
+  // Dynamic import
+  import(/* webpackChunkName: "lck-sheetjs-xlsx" */'xlsx').then(XLSX => {
     const utils = XLSX.utils as XLSX$Utils
     const ws: WorkSheet = utils.json_to_sheet(exportXLS)
     const wb: WorkBook = utils.book_new()

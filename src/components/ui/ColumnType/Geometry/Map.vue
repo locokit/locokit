@@ -24,11 +24,14 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import {
   computeBoundingBox,
-  LckGeoResource,
-  LckImplementedLayers,
   LckImplementedLayoutProperty,
   LckImplementedPaintProperty
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map/computeGeo'
+
+import {
+  LckGeoResource,
+  LckImplementedLayers
+} from '@/services/lck-utils/map/transformWithOL'
 
 interface PopupContent {
   class?: string | null;
