@@ -176,8 +176,8 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
-import Map from '@/components/ui/Map/Map.vue'
+import InputURL from '@/components/ui/ColumnType/URL/InputURL.vue'
+import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 
 import {

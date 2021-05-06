@@ -5,7 +5,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 global.LCK_SETTINGS = {
   API_URL: null, // we don't have to fetch API data. By setting to null, we are sure there will be no mistake.
-  STORAGE_KEY: 'lck-auth-storybook',
+  LOCALSTORAGE_KEY: 'lck-auth-storybook',
   SENTRY_DSN: null,
   SENTRY_ENV: null
 }
