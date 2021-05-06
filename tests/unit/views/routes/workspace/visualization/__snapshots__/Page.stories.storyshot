@@ -29,13 +29,9 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
      
     <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
   </div>
 </div>
 `;
@@ -87,13 +83,9 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
      
     <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
   </div>
 </div>
 `;
@@ -127,13 +119,9 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
      
     <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
      
-    <form>
-      <!---->
-    </form>
+    <!---->
   </div>
 </div>
 `;
