@@ -11,7 +11,7 @@ interface CellState {
 export function getCellStateNotificationClass (rowId: string, columnId: string, cellState: CellState) {
   if (cellState.rowId === rowId && cellState.columnId === columnId) {
     let notif = ''
-    if (cellState.waiting) notif = 'saving'
+    if (cellState.waiting) notif = 'saving '
     if (!cellState.waiting) notif = 'saved '
     if (cellState.isValid) notif += 'valid'
     if (!cellState.isValid) notif += 'error'

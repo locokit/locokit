@@ -262,7 +262,7 @@ export const withEditableColumnsAndRowStateSaving = () => (
           rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
           columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
           waiting: true,
-          isValid: true
+          isValid: null
         }
       }
     },
