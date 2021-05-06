@@ -243,9 +243,64 @@ export const withEditableColumnsAndRow = () => (
     <lck-data-detail
       :definition="definition"
       :row="row"
+      :cellState="cellState"
     />
     `
   }
 )
 
 withEditableColumnsAndRow.storyName = 'with editable columns and row'
+
+export const withEditableColumnsAndRowStateOK = () => (
+  {
+    components: { 'lck-data-detail': DataDetail },
+    data () {
+      return {
+        definition: tableViewData.definitionEditable,
+        row: tableViewData.row,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: true
+        }
+      }
+    },
+    template: `
+    <lck-data-detail
+      :definition="definition"
+      :row="row"
+      :cellState="cellState"
+    />
+    `
+  }
+)
+
+withEditableColumnsAndRowStateOK.storyName = 'with edit state ok'
+
+export const withEditableColumnsAndRowStateError = () => (
+  {
+    components: { 'lck-data-detail': DataDetail },
+    data () {
+      return {
+        definition: tableViewData.definitionEditable,
+        row: tableViewData.row,
+        cellState: {
+          rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+          columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
+          waiting: false,
+          isValid: false
+        }
+      }
+    },
+    template: `
+      <lck-data-detail
+        :definition="definition"
+        :row="row"
+        :cellState="cellState"
+      />
+    `
+  }
+)
+
+withEditableColumnsAndRowStateError.storyName = 'with edit state error'

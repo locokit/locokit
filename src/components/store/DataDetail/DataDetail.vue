@@ -455,7 +455,7 @@ export default {
   background-color: transparent;
   padding-left: unset;
 }
-.p-field {
+.form-field-editable {
   position: relative;
   .saving-state {
     position: absolute;
@@ -466,7 +466,8 @@ export default {
     display: block;
     padding: 0.5rem;
     pointer-events: none;
-
+    z-index: 2s
+  ;
     &.saving,
     &.saved {
       &:before {
@@ -492,9 +493,9 @@ export default {
 
         &:after {
           position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 1px;
+          top: 1px;
+          right: 2px;
+          bottom: 2px;
           display: inline-flex;
           float: right;
           width: 16px;
