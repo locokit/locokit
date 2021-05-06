@@ -24,7 +24,7 @@
                 >
                   <p-button
                     :label="$t('pages.workspace.buttonVisualization')"
-                    icon="pi pi-globe"
+                    icon="bi bi-eye"
                   />
                 </router-link>
                 <template v-if="group.workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(group.workspace_role)">
@@ -35,7 +35,7 @@
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonDatabase')"
-                      icon="pi pi-table"
+                      icon="bi bi-server"
                     />
                   </router-link>
                   <lck-dropdown-button
@@ -51,7 +51,7 @@
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonSchema')"
-                      icon="pi pi-sitemap"
+                      icon="bi bi-diagram-3"
                     />
                   </router-link>
                   <lck-dropdown-button
@@ -66,7 +66,7 @@
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonProcess')"
-                      icon="pi pi-th-large"
+                      icon="bi bi-lightning"
                     />
                   </router-link>
                 </template>
