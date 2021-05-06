@@ -17,10 +17,10 @@ export class Permission implements Partial<ServiceMethods<{}>> {
     const storagePublicPath = this.app.get('storage').publicPath
     const receivedPath = params?.headers?.['x-original-uri']
     const filePath = receivedPath.replace(storagePublicPath, '')
-    const re = /\/(.*)\/(.*)/g
+    const re = /\/(.*)\/(thumbnail_)?(.*)/g
     const result = re.exec(filePath)
     if (!result) throw new NotAcceptable('File URL is malformed')
-    const [, workspaceId, filename] = result
+    const [, workspaceId, thumbnail, filename] = result
 
     /**
      * Get workspace with groups + users authorized
@@ -50,11 +50,12 @@ export class Permission implements Partial<ServiceMethods<{}>> {
       query: {
         workspace_id: workspaceId,
         filename,
-        $limit: 0,
       },
     })
     if (file.total === 0) throw new NotFound('File not found')
-
+    if (thumbnail === 'thumbnail_' && file.data[0].thumbnail !== true) {
+      throw new NotAcceptable('You try to access a thumbnail that is not generated.')
+    }
     /**
      * All checks passed ! return true :-)
      */
