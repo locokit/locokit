@@ -26,6 +26,7 @@ export class LckAttachment extends LckBaseModel {
   filename!: string
   mime!: string
   ext!: string
+  thumbnail!: boolean; // has the attachment a thumbnail available
 
   workspace_id!: string
 }

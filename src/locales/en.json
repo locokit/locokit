@@ -129,6 +129,12 @@
     "inputURL": {
       "openTheLink": "Open the link"
     },
+    "inputFile": {
+      "dialogHeader": "Manage attachments",
+      "listing": "Attachments listing",
+      "noattachment": "No attachment for this cell.",
+      "upload": "Upload new attachments"
+    },
     "multiAutocomplete": {
       "placeholder": "Search",
       "error": "The search was unsuccessful."
@@ -269,8 +275,8 @@
             "TRIM": "Returns a copy of the original text without any spaces at the starting and the ending.",
             "UPPER": "Returns an uppercase copy of the text."
           }
-        }
       }
+    }
   },
   "pages": {
     "404": {

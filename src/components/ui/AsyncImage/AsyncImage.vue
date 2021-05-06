@@ -1,13 +1,20 @@
 <template>
-  <p-spinner v-if="loading" />
-  <img v-else-if="link" :src="link" v-bind="$attrs" />
+  <p-spinner v-if="loading" style="width: 1.5rem;" class="async-image" />
+  <img
+    v-else-if="!loading && link"
+    :src="link"
+    :title="title"
+    class="async-image"
+    @click.prevent="$emit('click')"
+  />
+  <span v-else-if="error" class="bi bi-exclamation-circle p-text-error" />
   <span v-else>No image ?</span>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import ProgressSpinner from 'primevue/progressspinner'
-import { lckClient } from '@/services/lck-api'
+import { lckHelpers } from '@/services/lck-api'
 
 export default {
   name: 'LckAsyncImage',
@@ -18,26 +25,28 @@ export default {
     src: {
       type: String,
       required: true
+    },
+    title: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
       loading: false,
-      link: ''
+      link: '',
+      error: false
     }
   },
   methods: {
     async getLink () {
       this.loading = true
-      const jwtToken = await lckClient.authentication.getAccessToken()
-      const headers = new Headers()
-      headers.append('Authorization', 'Bearer ' + jwtToken)
-      // Fetch the image.
-      const response = await fetch(this.src, { headers })
-
-      // Create an object URL from the data.
-      const blob = await response.blob()
-      this.link = URL.createObjectURL(blob)
+      try {
+        const blob = await lckHelpers.getAttachmentBlob(this.src)
+        this.link = URL.createObjectURL(blob)
+      } catch {
+        this.error = true
+      }
       this.loading = false
     }
   },
@@ -51,3 +60,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.async-image {
+  height: 100%;
+  max-height: 100%;
+  margin: unset;
+  padding: unset;
+  display: inline;
+}
+img:hover {
+  cursor: pointer;
+}
+</style>

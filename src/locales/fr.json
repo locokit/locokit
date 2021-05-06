@@ -131,6 +131,12 @@
     "inputURL": {
       "openTheLink": "Ouvrir le lien"
     },
+    "inputFile": {
+      "dialogHeader": "Gestion des pièces jointes",
+      "listing": "Liste des pièces jointes",
+      "noattachment": "Pas de pièce jointe pour cette cellule.",
+      "upload": "Téléverser de nouvelles pièces jointes"
+    },
     "multiAutocomplete": {
       "placeholder": "Rechercher",
       "error": "La recherche n'a pas aboutie."

@@ -14,7 +14,7 @@ lckClient.configure(
   )
 )
 lckClient.configure(auth({
-  storageKey: LCK_SETTINGS.STORAGE_KEY
+  storageKey: LCK_SETTINGS.LOCALSTORAGE_KEY
 }))
 // Connect to the `http://feathers-api.com/messages` service
 // const messages = lckClient.service('messages')

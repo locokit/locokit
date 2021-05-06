@@ -123,8 +123,10 @@
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
 
+            @download-attachment="onDownloadAttachment"
+
             @upload-files="onUploadFiles"
-            @remove-files="onRemoveFiles"
+            @remove-attachment="onRemoveAttachment"
           />
         </layout-with-toolbar>
 
@@ -245,7 +247,7 @@ import Sidebar from 'primevue/sidebar'
 import FileType from 'file-type/browser'
 
 import DataTable from '@/components/store/DataTable/DataTable.vue'
-import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
+import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
@@ -254,11 +256,11 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 
-import WithToolbar from '@/layouts/WithToolbar'
+import WithToolbar from '@/layouts/WithToolbar.vue'
 
-import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing'
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -880,7 +882,6 @@ export default {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
     },
     async onUploadFiles ({ rowId, columnId, fileList }) {
-      console.log(rowId, columnId, fileList)
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
       this.cellState = {
         rowId,
@@ -922,25 +923,62 @@ export default {
           }))
         }
         const newUploadedFiles = await Promise.all(uploadPromises)
-        console.log(newUploadedFiles)
+
+        const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
+        newDataFiles.push(...newUploadedFiles.map(u => u.id))
 
         /**
          * Need to update the data with the new files uploaded + the old files
          */
         const res = await patchTableData(currentRow.id, {
           data: {
-            [columnId]: newUploadedFiles.map(u => u.id)
+            [columnId]: newDataFiles
           }
         })
         this.cellState.isValid = true
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
       }
       this.cellState.waiting = false
     },
-    async onRemoveFiles (rowId, columnId, fileList) {
-      console.log(rowId, columnId, fileList)
+    async onRemoveAttachment ({ rowId, columnId, attachmentId }) {
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+      this.cellState = {
+        rowId,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+
+      try {
+        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newDataFiles
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
+      }
+      this.cellState.waiting = false
+    },
+    async onDownloadAttachment ({ url, filename, mime }) {
+      lckHelpers.downloadAttachment(url, filename, mime)
     }
   },
   async mounted () {

@@ -1,9 +1,20 @@
-import { exportTableRowDataCSV, exportTableRowDataXLS, searchItems } from './helpers'
+import {
+  exportTableRowDataCSV,
+  exportTableRowDataXLS,
+  getColumnDisplayValue,
+  searchItems,
+  getAttachmentBlob,
+  downloadAttachment
+} from './helpers'
+
 export { lckClient } from './client'
 export { lckServices } from './services'
 
 export const lckHelpers = {
   exportTableRowDataCSV,
   exportTableRowDataXLS,
-  searchItems
+  getColumnDisplayValue,
+  searchItems,
+  getAttachmentBlob,
+  downloadAttachment
 }

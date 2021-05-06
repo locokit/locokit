@@ -7,6 +7,7 @@ import {
   LckUser
 } from './definitions'
 import { lckServices } from './services'
+import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import XLSX from 'xlsx'
@@ -141,9 +142,53 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
   )
 }
 
+/**
+ * Get the Blob data of an attachment.
+ * Use a fetch request to inject Authorization header in HTTP Request.
+ * It allows to retrieve protected files.
+ *
+ * @param url URL of the attachment
+ * @returns Blob
+ */
+export async function getAttachmentBlob (url: string) {
+  const jwtToken = await lckClient.authentication.getAccessToken()
+  const headers = new Headers()
+  headers.append('Authorization', 'Bearer ' + jwtToken)
+  // Fetch the image.
+  const response = await fetch(url, { headers })
+
+  // Create an object URL from the data.
+  return await response.blob()
+}
+
+/**
+ * Download an attachment
+ * by retrieving the blob
+ * then saving it to the user file sytem.
+ *
+ * Need to be improved with a signed request
+ * instead of a download by the web browser.
+ *
+ * @param url URL of the attachment
+ * @param filename Filename of the attachment
+ * @param mime Mime Type of the attachment
+ */
+export async function downloadAttachment (url: string, filename: string, mime: string) {
+  const blob = await getAttachmentBlob(url)
+  saveAs(
+    blob,
+    filename,
+    {
+      type: `${mime};`
+    }
+  )
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
-  getColumnDisplayValue
+  getColumnDisplayValue,
+  downloadAttachment,
+  getAttachmentBlob
 }

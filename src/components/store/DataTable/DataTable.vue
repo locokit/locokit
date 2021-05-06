@@ -48,8 +48,6 @@
         @column-reorder="onColumnReorder"
         :minColumnReorderIndex="unorderableColumnsNumber"
 
-        style="width: unset !important;"
-
         @sort="onSort"
         :sortField.sync="sortField"
         :sortOrder.sync="sortOrder"
@@ -98,13 +96,17 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem'
+              'height': '2.5rem',
+              'max-height': '2.5rem',
+              'overflow': 'hidden',
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
               'white-space': 'nowrap',
               'position': 'relative',
               'height': '2.5rem',
+              'max-height': '2.5rem',
+              'overflow': 'hidden',
             }"
             :sortable="isSortableColumn(column)"
           >
@@ -207,11 +209,6 @@
               :minFractionDigits="2"
               class="field-editable"
             />
-            <lck-input-file
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-input-file'"
-              @input="onInputFile(slotProps.data.id, column.id, $event)"
-              class="field-editable"
-            />
             <component
               v-else
               :is="getComponentEditorCellForColumnType(column)"
@@ -235,9 +232,12 @@
               v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
             />
             <lck-cell-file
-              v-else-if="getComponentDisplayCellForColumnType(column.column_type_id) === 'lck-input-file'"
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
               :workspaceId="workspaceId"
               :attachments="slotProps.data.data[column.id]"
+              @download="$emit('download-attachment', $event)"
+              @input="onInputFile(slotProps.data.id, column.id, $event)"
+              @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
             />
             <span v-else>
               {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
@@ -296,11 +296,10 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import LckCellFile from '@/components/ui/CellFile/CellFile.vue'
+import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import InputURL from '@/components/ui/ColumnType/URL/InputURL.vue'
 import Badge from '@/components/ui/Badge/Badge'
-import InputFile from '@/components/ui/InputFile/InputFile.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -328,7 +327,6 @@ export default {
     'lck-dropdown-button': LckDropdownButton,
     'lck-input-url': InputURL,
     'lck-badge': Badge,
-    'lck-input-file': InputFile,
     'lck-cell-file': LckCellFile,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -630,11 +628,11 @@ export default {
         fileList
       })
     },
-    onRemoveFiles (rowId, columnId, fileList = []) {
-      this.$emit('remove-files', {
+    onRemoveAttachment (rowId, columnId, attachmentId) {
+      this.$emit('remove-attachment', {
         rowId,
         columnId,
-        fileList
+        attachmentId
       })
     },
     /**
@@ -861,7 +859,7 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  max-height: 75vh;
+  /* max-height: 75vh; */
 }
 
 .field-editable {
