@@ -11,6 +11,7 @@ export class container extends BaseModel {
   anchor_label?: string
   anchor_icon?: string
   anchor_icon_class?: string
+  display_title?: boolean
 
   static get tableName (): string {
     return 'container'
@@ -27,6 +28,7 @@ export class container extends BaseModel {
         anchor_label: { type: 'string' },
         anchor_icon: { type: ['string', 'null'] },
         anchor_icon_class: { type: 'string' },
+        display_title: { type: 'boolean' },
       },
     }
   }
