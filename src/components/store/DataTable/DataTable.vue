@@ -223,6 +223,13 @@
               v-if="!isSingleSelect(column)"
               v-bind="getValue(column, slotProps.data.data[column.id])"
             />
+
+            <span
+              v-else-if="!isBooleanColumn(column)"
+            >
+              <p-checkbox v-model="slotProps.data.data[column.id]" :binary="true"  />
+            </span>
+
             <span
               v-else
             >
@@ -279,6 +286,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Checkbox from 'primevue/checkbox'
 import Menu from 'primevue/menu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -324,7 +332,8 @@ export default {
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
     'p-button': Vue.extend(Button),
-    'p-menu': Vue.extend(Menu)
+    'p-menu': Vue.extend(Menu),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   props: {
     definition: {
@@ -561,6 +570,14 @@ export default {
     isSingleSelect (column) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.SINGLE_SELECT:
+          return false
+        default:
+          return true
+      }
+    },
+    isBooleanColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.BOOLEAN:
           return false
         default:
           return true

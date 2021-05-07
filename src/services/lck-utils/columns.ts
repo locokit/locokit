@@ -1,8 +1,6 @@
 import { TranslateResult } from 'vue-i18n'
 
-import {
-  COLUMN_TYPE
-} from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   LckTableColumn,
@@ -22,8 +20,6 @@ export function getComponentEditableColumn (columnTypeId: number) {
       return 'lck-autocomplete'
     case COLUMN_TYPE.MULTI_USER:
       return 'lck-multi-autocomplete'
-    case COLUMN_TYPE.BOOLEAN:
-      return 'p-input-switch'
     case COLUMN_TYPE.NUMBER:
       return 'p-input-number'
     case COLUMN_TYPE.FLOAT:
@@ -51,6 +47,7 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.FORMULA:
+    case COLUMN_TYPE.BOOLEAN:
       return false
     default:
       return crudMode || column.editable
