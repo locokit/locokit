@@ -18,6 +18,15 @@
         />
       </div>
       <div class="p-field p-d-flex p-flex-column">
+        <label for="container-display_title">
+          {{ $t('pages.workspace.container.displayTitle') }}
+        </label>
+        <p-switch
+          id="container-display_title"
+          v-model="containerCopy.display_title"
+        />
+      </div>
+      <div class="p-field p-d-flex p-flex-column">
         <label for="container-displayed_in_navbar">
           {{ $t('pages.workspace.container.displayedInNavbar') }}
         </label>
@@ -192,6 +201,7 @@ export default Vue.extend({
       if (this.containerCopy?.displayed_in_navbar) {
         return this.$emit('update-container', this.containerCopy)
       }
+      // Don't send default label for anchor_label if no anchor
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase
       const { anchor_label, ...data } = this.containerCopy
       return this.$emit('update-container', data)

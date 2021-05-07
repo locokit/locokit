@@ -176,6 +176,7 @@ export enum AnchorClass {
 
 export class LckContainer extends LckBaseModel {
   text!: string;
+  display_title!: boolean;
   displayed_in_navbar!: boolean;
   anchor_label?: string;
   anchor_icon?: string;
