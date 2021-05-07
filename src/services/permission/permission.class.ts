@@ -49,7 +49,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
     const file = await this.app.services.attachment.find({
       query: {
         workspace_id: workspaceId,
-        filename,
+        filename: decodeURI(filename),
       },
     })
     if (file.total === 0) throw new NotFound('File not found')

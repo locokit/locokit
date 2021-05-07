@@ -11,6 +11,7 @@ describe('\'permission\' service', () => {
   let accessToken: string
 
   const filename: string = 'myFile.txt'
+  const filenameSpecialCharacters: string = 'myFile is with space and_èç&special chars.txt'
   beforeAll(async () => {
     /**
      * Create a new attachment on a workspace
@@ -40,6 +41,14 @@ describe('\'permission\' service', () => {
       ext: 'txt',
       size: 0,
     })
+    await app.service('attachment').create({
+      workspace_id: workspaceId,
+      filename: filenameSpecialCharacters,
+      filepath: `${workspaceId}/${filenameSpecialCharacters}`,
+      mime: 'text/plain',
+      ext: 'txt',
+      size: 0,
+    })
 
     const auth = await app.service('authentication').create({
       strategy: 'local',
@@ -60,7 +69,7 @@ describe('\'permission\' service', () => {
       .find({
         provider: 'external',
         headers: {
-          'x-original-uri': `/fs-storage/${workspaceId}/${filename}`,
+          'x-original-uri': `/storage/${workspaceId}/${filename}`,
         },
       }))
       .rejects.toThrow(NotAuthenticated)
@@ -71,7 +80,7 @@ describe('\'permission\' service', () => {
       .find({
         provider: 'external',
         headers: {
-          'x-original-uri': `/fs-storage/${workspaceId}/${filename}`,
+          'x-original-uri': `/storage/${workspaceId}/${filename}`,
           Authorization: `Bearer ${accessToken}`,
         },
         authenticated: true,
@@ -105,7 +114,7 @@ describe('\'permission\' service', () => {
       .find({
         provider: 'external',
         headers: {
-          'x-original-uri': `/fs-storage/${workspaceId}/this-file-doesntexist.txt`,
+          'x-original-uri': `/storage/${workspaceId}/this-file-doesntexist.txt`,
           Authorization: `Bearer ${accessToken}`,
         },
         authenticated: true,
@@ -120,7 +129,22 @@ describe('\'permission\' service', () => {
       .find({
         provider: 'external',
         headers: {
-          'x-original-uri': `/fs-storage/${workspaceId}/${filename}`,
+          'x-original-uri': `/storage/${workspaceId}/${filename}`,
+          Authorization: `Bearer ${accessToken}`,
+        },
+        authenticated: true,
+        user: user1,
+        accessToken,
+      })
+    expect(result).toBe(true)
+  })
+  it('let the user pass if he is a member of a workspace group, the file exist and has a filename encoded', async () => {
+    expect.assertions(1)
+    const result = await app.service('permission')
+      .find({
+        provider: 'external',
+        headers: {
+          'x-original-uri': `/storage/${workspaceId}/${encodeURI(filenameSpecialCharacters)}`,
           Authorization: `Bearer ${accessToken}`,
         },
         authenticated: true,
