@@ -377,6 +377,18 @@ describe('checkColumnDefinitionMatching hook', () => {
       .rejects.toThrow(NotAcceptable)
   })
 
+  it('throw an error if a number column receive a float value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1Number.id]: 10.2,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
   it('accept a null value for a number column type', async () => {
     expect.assertions(2)
     const rowTable1 = await app.service('row')
