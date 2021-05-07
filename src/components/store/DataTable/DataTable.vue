@@ -225,7 +225,7 @@
             />
 
             <span
-              v-else-if="!isBooleanColumn(column)"
+              v-else-if="column.column_type_id === COLUMN_TYPE.BOOLEAN"
             >
               <p-checkbox v-model="slotProps.data.data[column.id]" :binary="true"  />
             </span>
@@ -575,14 +575,6 @@ export default {
           return true
       }
     },
-    isBooleanColumn (column) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.BOOLEAN:
-          return false
-        default:
-          return true
-      }
-    },
     onShowCalendar ({ column_type_id: columnTypeId }, value) {
       /**
        * TODO: the event "show" is trigerred right after a calendar is closed... strange.
@@ -770,6 +762,19 @@ export default {
 </script>
 
 <style scoped>
+/deep/ td .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
 
 /deep/ .p-editable-column.p-cell-editing .p-dropdown,
 /deep/ .p-editable-column.p-cell-editing .p-multiselect {
