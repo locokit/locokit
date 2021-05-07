@@ -202,7 +202,9 @@ export default Vue.extend({
         this.containerCopy = {
           ...newValue,
           // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_label: newValue.anchor_label || newValue.text
+          anchor_label: newValue.anchor_label || newValue.text,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          displayed_in_navbar: newValue.displayed_in_navbar || false
         }
       },
       immediate: true,

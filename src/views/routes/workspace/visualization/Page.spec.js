@@ -148,10 +148,12 @@ const mockTableViewDefinition = {
 const mockTableViewContent = 'content'
 
 const unknownTypeBlock = {
+  id: 'temp',
   title: 'my unknown block',
   type: 'UNKNOWN_TYPE_BLOCK'
 }
 const paragraphBlock = {
+  id: 'temp',
   title: 'my paragraph block',
   type: BLOCK_TYPE.PARAGRAPH,
   settings: {
@@ -159,6 +161,7 @@ const paragraphBlock = {
   }
 }
 const mediaBlock = {
+  id: 'temp',
   title: 'my media block',
   type: BLOCK_TYPE.MEDIA,
   settings: {
@@ -419,7 +422,7 @@ describe('Page', () => {
 
         it('Create a new container if the update-container event is emitted from the update container sidebar with a new container', async () => {
           await wrapper.find('.new-container-button').vm.$emit('click')
-          await containerSidebarWrapper.vm.$emit('update-container', { text: newContainerName })
+          await containerSidebarWrapper.vm.$emit('update-container', { id: 'temp', text: newContainerName, page_id: '1' })
           // Send API request
           expect(lckServices.container.create).toHaveBeenCalledWith({ text: newContainerName, page_id: mockPages['1'].id })
           // Update the component data
@@ -616,7 +619,8 @@ describe('Page', () => {
           await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
           // Send API request
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...unknownTypeBlock, container_id: firstDisplayedContainer.id })
+          const { id, ...data } = unknownTypeBlock
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -629,7 +633,8 @@ describe('Page', () => {
           await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
           // Send API request
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...unknownTypeBlock, container_id: firstDisplayedContainer.id })
+          const { id, ...data } = unknownTypeBlock
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -641,7 +646,8 @@ describe('Page', () => {
           await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: paragraphBlock })
           // Send API request
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...paragraphBlock, container_id: firstDisplayedContainer.id })
+          const { id, ...data } = paragraphBlock
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -653,7 +659,8 @@ describe('Page', () => {
           await wrapper.findAll('.new-block-button').at(0).vm.$emit('click')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: mediaBlock })
           // Send API request
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...mediaBlock, container_id: firstDisplayedContainer.id })
+          const { id, ...data } = mediaBlock
+          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()

@@ -506,19 +506,16 @@ export default {
     async onContainerEditInput (containerToEdit) {
       try {
         this.submitting = true
-        if (containerToEdit.id) {
+        const { id, ...data } = containerToEdit
+        if (id !== 'temp') {
           // On update
-          const { id, ...data } = containerToEdit
           const updatedContainer = await lckServices.container.patch(id, data)
           for (const key in updatedContainer) {
             this.currentContainerToEdit[key] = updatedContainer[key]
           }
         } else {
           // On create
-          this.currentContainerToEdit = await lckServices.container.create({
-            text: containerToEdit.text,
-            page_id: this.page.id
-          })
+          this.currentContainerToEdit = await lckServices.container.create(data)
           this.page.containers.push(this.currentContainerToEdit)
         }
       } catch (error) {
@@ -589,12 +586,11 @@ export default {
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {
         this.submitting = true
-        if (blockToEdit.id) {
+        const { id, ...data } = blockToEdit
+        if (id !== 'temp') {
           // On update
-          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings
+          const updatedBlock = await lckServices.block.patch(id, {
+            ...data
           })
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
@@ -602,10 +598,8 @@ export default {
         } else {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
-            container_id: this.currentContainerToEdit.id,
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings
+            ...data,
+            container_id: this.currentContainerToEdit.id
           })
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
@@ -616,7 +610,7 @@ export default {
         // Reload the block definition and content if it is necessary
         if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${this.currentBlockToEdit.title}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${this.currentBlockToEdit.title}`, error)
       } finally {
         this.submitting = false
       }
@@ -643,7 +637,7 @@ export default {
           this.onBlockDeleteClose()
         }
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToDelete.title}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${blockToDelete.title}`, error)
       } finally {
         this.submitting = false
       }
