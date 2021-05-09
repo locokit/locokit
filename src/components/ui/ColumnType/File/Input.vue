@@ -1,24 +1,18 @@
 <template>
-  <lck-dialog-form
-    :visible.sync="visible"
-    :header="$t('components.inputFile.dialogHeader')"
-    @input="onDialogInput"
-    @close="$emit('close')"
-  >
+  <div>
     <div
-      class="p-field p-mt-4"
-      v-if="attachmentToDisplay.length > 0"
-      @contextmenu.stop.prevent
+      class="p-field"
+      v-if="attachmentsToDisplay.length > 0"
     >
-      <label>
-        {{ $t('components.inputFile.listing') }}
+      <label class="lck-color-primary" v-if="displayLabels">
+        {{ $t('components.fileInput.listing') }}
       </label>
       <div class="galeria">
-        <template v-for="attachment in attachmentToDisplay">
+        <template v-for="(attachment, attachmentIndex) in attachmentsToDisplay">
           <div
             :key="attachment.id"
             class="galeria-attachment"
-            :title="attachment.filename"
+            :title="'(' + (attachmentIndex + 1) + '/' + attachmentsToDisplay.length + ') ' + attachment.filename"
             @click.stop="$emit('download', {
               url: attachment.url,
               filename: attachment.filename,
@@ -48,12 +42,12 @@
       </div>
     </div>
     <div v-else>
-      {{ $t('components.inputFile.noattachment') }}
+      {{ $t('components.fileInput.noattachment') }}
     </div>
 
     <div class="p-field p-mt-4">
-      <label>
-        {{ $t('components.inputFile.upload') }}<br/>
+      <label class="lck-color-primary" v-if="displayLabels">
+        {{ $t('components.fileInput.upload') }}<br/>
       </label>
       <input
         type="file"
@@ -62,30 +56,31 @@
         style="display: block"
       />
     </div>
-  </lck-dialog-form>
 
+    <p-button
+      @click="$emit('input', $refs['input-file'].files)"
+      icon="bi bi-cloud-upload"
+      :label="$t('components.fileInput.upload')"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 /* eslint-disable no-undef */
-
-import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
 import Button from 'primevue/button'
 import Vue, { PropType } from 'vue'
+import { attachmentsToDisplay } from './helpers'
 
 export default {
-  name: 'LckInputFile',
+  name: 'LckFileInput',
   components: {
     'lck-async-image': LckAsyncImage,
-    'lck-dialog-form': DialogForm,
     'p-button': Vue.extend(Button)
-
   },
   props: {
-    attachmentToDisplay: {
-      required: true,
+    attachments: {
       type: Array as PropType<LckAttachment[]>,
       default: () => []
     },
@@ -93,9 +88,14 @@ export default {
       type: String,
       default: ''
     },
-    visible: {
+    displayLabels: {
       type: Boolean,
       default: true
+    }
+  },
+  computed: {
+    attachmentsToDisplay () {
+      return attachmentsToDisplay(this.attachments, this.workspaceId)
     }
   },
   methods: {
@@ -120,15 +120,16 @@ export default {
   padding: 0.25rem 0;
 }
 .galeria-attachment {
-  margin-right: 4px;
+  padding-top: 0.25rem;
+  margin-right: 0.5rem;
   height: 100%;
-  min-width: 150px;
+  min-width: 200px;
   position: relative;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid transparent;
+  border: 1px solid rgba(128, 128, 128, 0.30);
   overflow: hidden;
 }
 .galeria-attachment:hover {

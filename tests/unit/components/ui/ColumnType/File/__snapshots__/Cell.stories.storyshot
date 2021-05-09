@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/FileCell All column types with their icons 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    <p>
+      <i
+        class="bi bi-check-square-fill"
+      />
+      
+        Boolean
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-type"
+      />
+      
+        String
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-hash"
+      />
+      
+        Number
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-hash"
+      />
+      
+        Float
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-calendar-date"
+      />
+      
+        Date
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-person-fill"
+      />
+      
+        User
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-people-fill"
+      />
+      
+        Group
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-text-indent-left"
+      />
+      
+        Relation between table
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-check"
+      />
+      
+        Single Select
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-list-check"
+      />
+      
+        Multi Select
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-calculator"
+      />
+      
+        Formula
+      
+    </p>
+    <p>
+      <i
+        class="bi-file-earmark"
+      />
+      
+        File
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-people-fill"
+      />
+      
+        Multi User
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-people-fill"
+      />
+      
+        Multi Group
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-textarea-t"
+      />
+      
+        Textarea
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-link-45deg"
+      />
+      
+        URL
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-geo"
+      />
+      
+        Geometry point
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-bounding-box-circles"
+      />
+      
+        Geometry polygon
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-geo-fill"
+      />
+      
+        Geometry linestring
+      
+    </p>
+  </div>
+</div>
+`;

@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/Media with props 1`] = `
   style="height: 100%;"
 >
   <div
-    class="lck-color-content"
+    class="lck-color-primary"
     title="Title"
     type="Media"
   >

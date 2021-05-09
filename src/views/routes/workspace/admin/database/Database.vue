@@ -153,9 +153,12 @@
           :crudMode="crudMode"
           :definition="filteredDefinitionColumns"
           :row="newRow"
+          :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
+          @download-attachment="onDownloadAttachment"
+          @upload-files="onUploadFiles($event, newRow)"
         />
       </lck-dialog-form>
 
@@ -169,9 +172,12 @@
           :definition="block.definition"
           :row="row"
           :cellState="cellState"
+          :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
+          @download-attachment="onDownloadAttachment"
+          @upload-files="onUploadFiles"
         />
 
         <lck-process-panel
@@ -495,6 +501,15 @@ export default {
           } else {
             data[c.id] = null
           }
+        })
+      /**
+       * For file columns, we keep only the attachments ids
+       */
+      this.block.definition.columns
+        .filter(c => c.column_type_id === COLUMN_TYPE.FILE)
+        .forEach(c => {
+          if (!this.newRow.data[c.id]) return
+          data[c.id] = this.newRow.data[c.id].map(a => a.id)
         })
       await saveTableData({
         data,
@@ -881,8 +896,8 @@ export default {
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
     },
-    async onUploadFiles ({ rowId, columnId, fileList }) {
-      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+    async onUploadFiles ({ rowId, columnId, fileList }, newRow) {
+      const currentRow = newRow || this.block.content.data.find(({ id }) => id === rowId)
       this.cellState = {
         rowId,
         columnId,
@@ -895,7 +910,6 @@ export default {
         for (let i = 0; i < fileList.length; i++) {
           uploadPromises.push(new Promise((resolve, reject) => {
             const file = fileList[i]
-            console.log('uploading current file', i, file)
             const reader = new FileReader()
             // encode dataURI
             reader.readAsDataURL(file)
@@ -924,19 +938,27 @@ export default {
         }
         const newUploadedFiles = await Promise.all(uploadPromises)
 
-        const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
-        newDataFiles.push(...newUploadedFiles.map(u => u.id))
-
         /**
-         * Need to update the data with the new files uploaded + the old files
+         * Here we need to know if we are in a creation or in a row update
          */
-        const res = await patchTableData(currentRow.id, {
-          data: {
-            [columnId]: newDataFiles
-          }
-        })
-        this.cellState.isValid = true
-        currentRow.data = res.data
+        if (newRow) {
+          if (!currentRow.data[columnId]) this.$set(currentRow.data, columnId, [])
+          currentRow.data[columnId].push(...newUploadedFiles)
+        } else {
+          const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
+          newDataFiles.push(...newUploadedFiles.map(u => u.id))
+
+          /**
+           * Need to update the data with the new files uploaded + the old files
+           */
+          const res = await patchTableData(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles
+            }
+          })
+          this.cellState.isValid = true
+          currentRow.data = res.data
+        }
       } catch (error) {
         this.cellState.isValid = false
         this.$toast.add({

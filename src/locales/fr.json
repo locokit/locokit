@@ -128,11 +128,10 @@
     "detailview": {
       "goback": "Retourner aux résultats"
     },
-    "inputURL": {
+    "URLInput": {
       "openTheLink": "Ouvrir le lien"
     },
-    "inputFile": {
-      "dialogHeader": "Gestion des pièces jointes",
+    "fileInput": {
       "listing": "Liste des pièces jointes",
       "noattachment": "Pas de pièce jointe pour cette cellule.",
       "upload": "Téléverser de nouvelles pièces jointes"

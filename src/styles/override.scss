@@ -12,19 +12,12 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 // Typos
-.lck-color-page-title {
-  font-family: $font-stack;
-  font-weight: 700;
-  color: var(--primary-color);
-}
 
 .lck-color-title {
-  font-weight: 500;
   color: var(--primary-color);
 }
 
 .lck-block-title {
-  font-weight: 700;
   padding: 0.5rem 0;
   color: var(--primary-color);
 
@@ -35,19 +28,6 @@
     content: '';
     background-color: var(--primary-color);
   }
-}
-
-.lck-color-subtitle {
-  font-weight: 700;
-  color: var(--primary-color);
-}
-
-.lck-color-content {
-  color: var(--primary-color);
-}
-
-.lck-color-page-title {
-  color: var(--primary-color);
 }
 
 h1 {
@@ -64,6 +44,10 @@ h3 {
 
 h4 {
   font-size: 1.15rem;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
 }
 
 ul, ol, li, p {

@@ -1,11 +1,15 @@
 <template>
-  <div class="LckCellFile" @click.self.stop.prevent="dialogFileVisible = true">
-    <template v-for="attachment in attachmentToDisplay">
+  <div
+    class="LckCellFile"
+    @click.self.stop.prevent="dialogFileVisible = true"
+    @contextmenu.stop.prevent
+  >
+    <template v-for="(attachment, attachmentIndex) in attachmentsToDisplay">
       <lck-async-image
         v-if="attachment.element === 'img'"
         :key="attachment.id"
         class="cell-file"
-        :title="attachment.filename"
+        :title="'(' + (attachmentIndex + 1) + '/' + attachmentsToDisplay.length + ') ' + attachment.filename"
         :src="attachment.thumbnailURL"
         @click="$emit('download', {
           url: attachment.url,
@@ -18,7 +22,7 @@
         :key="attachment.id"
         class="cell-file"
         :class="attachment.class"
-        :title="attachment.filename"
+        :title="'(' + (attachmentIndex + 1) + '/' + attachmentsToDisplay.length + ') ' + attachment.filename"
         @click.stop="$emit('download', {
           url: attachment.url,
           filename: attachment.filename,
@@ -26,10 +30,12 @@
         })"
       />
     </template>
-    <lck-dialog-input-file
-      :attachmentToDisplay="attachmentToDisplay"
+    <lck-cell-file-dialog
+      :attachments="attachments"
+      :workspaceId="workspaceId"
+      :rowTitle="rowTitle"
       :visible="dialogFileVisible"
-      @input="$emit('input', $event); dialogFileVisible = false"
+      @input="$emit('input', $event)"
       @close="dialogFileVisible = false"
       @download="$emit('download', $event)"
       @remove-attachment="$emit('remove-attachment', $event)"
@@ -43,13 +49,14 @@
 import { PropType } from 'vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
-import LckDialogInputFile from '@/components/ui/ColumnType/File/CellInput.vue'
+import LckCellFileDialog from './Dialog.vue'
+import { attachmentsToDisplay } from './helpers'
 
 export default {
-  name: 'LckCellFile',
+  name: 'LckFileCell',
   components: {
-    'lck-async-image': LckAsyncImage,
-    'lck-dialog-input-file': LckDialogInputFile
+    LckAsyncImage,
+    LckCellFileDialog
   },
   props: {
     attachments: {
@@ -59,40 +66,15 @@ export default {
     workspaceId: {
       type: String,
       default: ''
+    },
+    rowTitle: {
+      type: String,
+      default: ''
     }
   },
   computed: {
-    attachmentToDisplay () {
-      return this.attachments?.map(a => {
-        const displayData = {
-          ...a,
-          class: 'bi bi-file-earmark',
-          element: 'span',
-          url: `${LCK_SETTINGS.STORAGE_URL}/${this.workspaceId}/${a.filename}`,
-          thumbnailURL: `${LCK_SETTINGS.STORAGE_URL}/${this.workspaceId}/thumbnail_${a.filename}`
-        }
-        switch (a.mime) {
-          case 'image/png':
-          case 'image/jpeg':
-            if (a.thumbnail) {
-              displayData.element = 'img'
-              displayData.class = ''
-            } else {
-              displayData.class = 'bi bi-file-image'
-            }
-            break
-          case 'application/pdf':
-            displayData.class = 'pi pi-file-pdf'
-            break
-          case 'application/vnd.oasis.opendocument.text':
-            displayData.class = 'bi bi-file-earmark-text'
-            break
-          case 'application/vnd.oasis.opendocument.spreadsheet':
-            displayData.class = 'bi bi-file-earmark-spreadsheet'
-            break
-        }
-        return displayData
-      })
+    attachmentsToDisplay () {
+      return attachmentsToDisplay(this.attachments, this.workspaceId)
     }
   },
   data () {

@@ -235,6 +235,7 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
               :workspaceId="workspaceId"
               :attachments="slotProps.data.data[column.id]"
+              :rowTitle="slotProps.data.text + ', ' + column.text"
               @download="$emit('download-attachment', $event)"
               @input="onInputFile(slotProps.data.id, column.id, $event)"
               @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
@@ -298,7 +299,7 @@ import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
-import InputURL from '@/components/ui/ColumnType/URL/InputURL.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -325,7 +326,7 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
-    'lck-input-url': InputURL,
+    'lck-url-input': URLInput,
     'lck-badge': Badge,
     'lck-cell-file': LckCellFile,
     'p-dropdown': Vue.extend(Dropdown),
@@ -849,7 +850,8 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color-lighten)
+  background-color: var(--primary-color-lighten);
+  color: var(--text-color-secondary);
 }
 
 .p-datatable th:hover .p-sortable-column-icon {

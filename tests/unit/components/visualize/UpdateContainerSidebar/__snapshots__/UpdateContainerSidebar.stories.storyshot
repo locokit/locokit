@@ -26,7 +26,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -49,13 +49,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
               role="tabpanel"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -135,7 +135,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -159,13 +159,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
               style="display: none;"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -211,7 +211,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when creating a 
                 class="containerBlocks"
               >
                 <h4
-                  class="lck-color-content"
+                  class="lck-color-primary"
                 >
                   Blocks list
                 </h4>
@@ -473,7 +473,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -496,13 +496,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
               role="tabpanel"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -549,7 +549,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when submitting 
                 class="containerBlocks"
               >
                 <h4
-                  class="lck-color-content"
+                  class="lck-color-primary"
                 >
                   Blocks list
                 </h4>
@@ -680,7 +680,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -704,13 +704,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
               style="display: none;"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -756,7 +756,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                 class="containerBlocks"
               >
                 <h4
-                  class="lck-color-content"
+                  class="lck-color-primary"
                 >
                   Blocks list
                 </h4>
@@ -1018,7 +1018,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -1041,13 +1041,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
               role="tabpanel"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -1093,7 +1093,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating a 
                 class="containerBlocks"
               >
                 <h4
-                  class="lck-color-content"
+                  class="lck-color-primary"
                 >
                   Blocks list
                 </h4>
@@ -1238,7 +1238,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
       </button>
        
       <div
-        class="sidebar-content lck-color-content"
+        class="sidebar-content lck-color-primary"
       >
         <div
           class="p-tabview p-component"
@@ -1261,13 +1261,13 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
               role="tabpanel"
             >
               <form
-                class="p-d-flex lck-color-content"
+                class="p-d-flex lck-color-primary"
               >
                 <div
                   class="p-col"
                 >
                   <h4
-                    class="lck-color-content"
+                    class="lck-color-primary"
                   >
                     <label
                       for="container-name"
@@ -1313,7 +1313,7 @@ exports[`storyshots components/visualize/UpdateContainerSidebar when updating an
                 class="containerBlocks"
               >
                 <h4
-                  class="lck-color-content"
+                  class="lck-color-primary"
                 >
                   Blocks list
                 </h4>

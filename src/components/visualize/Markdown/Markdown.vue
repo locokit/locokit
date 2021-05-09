@@ -78,7 +78,6 @@ export default {
   }
 
   h2 {
-    font-weight: 700;
     padding: 0.5rem 0;
 
     &:after {

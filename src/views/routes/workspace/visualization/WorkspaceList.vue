@@ -138,3 +138,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/deep/.p-card .p-card-title {
+  font-weight: normal;
+}
+</style>

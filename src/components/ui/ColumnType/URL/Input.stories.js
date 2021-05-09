@@ -1,25 +1,25 @@
-import InputURL from './InputURL'
+import URLInput from './Input'
 
 export default {
-  title: 'components/ui/InputURL',
-  component: InputURL
+  title: 'components/ui/URLInput',
+  component: URLInput
 }
 
 export const defaultStory = () => ({
-  components: { InputURL },
-  template: '<InputURL />'
+  components: { URLInput },
+  template: '<URLInput />'
 })
 defaultStory.storyName = 'default'
 
 export const validURLStory = () => ({
-  components: { InputURL },
+  components: { URLInput },
   data () {
     return {
       value: 'https://www.makina-corpus.com'
     }
   },
   template: `
-    <InputURL
+    <URLInput
       :value="value"
     />
   `
@@ -28,14 +28,14 @@ export const validURLStory = () => ({
 validURLStory.storyName = 'with a valid url'
 
 export const invalidURLStory = () => ({
-  components: { InputURL },
+  components: { URLInput },
   data () {
     return {
       value: 'www.makina-corpus.com'
     }
   },
   template: `
-    <InputURL
+    <URLInput
       :value="value"
     />
   `

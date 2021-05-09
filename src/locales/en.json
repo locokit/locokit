@@ -126,11 +126,10 @@
     "detailview": {
       "goback": "Return to results"
     },
-    "inputURL": {
+    "URLInput": {
       "openTheLink": "Open the link"
     },
-    "inputFile": {
-      "dialogHeader": "Manage attachments",
+    "fileInput": {
       "listing": "Attachments listing",
       "noattachment": "No attachment for this cell.",
       "upload": "Upload new attachments"

@@ -12,7 +12,7 @@ exports[`storyshots components/ui/URLInput default 1`] = `
       class="p-inputtext p-component"
       type="url"
     />
-
+     
     <i
       aria-label="Open the link"
       class="pi pi-external-link"
@@ -35,7 +35,7 @@ exports[`storyshots components/ui/URLInput with a valid url 1`] = `
       class="p-inputtext p-component p-filled"
       type="url"
     />
-
+     
     <i
       aria-label="Open the link"
       class="pi pi-external-link"
@@ -58,7 +58,7 @@ exports[`storyshots components/ui/URLInput with an invalid url 1`] = `
       class="p-inputtext p-component p-filled"
       type="url"
     />
-
+     
     <i
       aria-label="Open the link"
       class="pi pi-external-link"
