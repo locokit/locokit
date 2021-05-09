@@ -12,7 +12,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
     </h1>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"
@@ -227,7 +227,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
     </div>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"
@@ -340,7 +340,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
     </h1>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"
@@ -398,7 +398,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
     </div>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"
@@ -511,7 +511,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
     </h1>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"
@@ -570,7 +570,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
     </div>
      
     <div
-      class="column-form-container lck-color-primary"
+      class="column-form-container lck-color-content"
     >
       <h2
         class="lck-color-title"

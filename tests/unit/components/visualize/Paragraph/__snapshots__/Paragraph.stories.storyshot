@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/Paragraph with props 1`] = `
   style="height: 100%;"
 >
   <div
-    class="lck-color-primary"
+    class="lck-color-content"
     title="Titre"
     type="Paragraph"
   >
