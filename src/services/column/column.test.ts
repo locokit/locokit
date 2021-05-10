@@ -199,8 +199,13 @@ describe('\'column\' service', () => {
     expect(columns.total).not.toBeDefined()
     expect(columns.limit).not.toBeDefined()
     expect(columns.length).toBe(2)
-    expect(columns[0].id).toBe(column1.id)
-    expect(columns[1].id).toBe(column2.id)
+    if (columns[0].id === column1.id) {
+      expect(columns[0].id).toBe(column1.id)
+      expect(columns[1].id).toBe(column2.id)
+    } else {
+      expect(columns[0].id).toBe(column2.id)
+      expect(columns[1].id).toBe(column1.id)
+    }
   })
 })
 
