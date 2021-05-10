@@ -453,7 +453,7 @@ export default {
       this.value[index].pattern = null
     },
     actionControlPattern (index, { value }) {
-      if (value?.predefinedPattern) {
+      if (value?.predefinedPattern !== undefined) {
         // Set the pattern if the selected action has a predefined one
         this.value[index].pattern = value.predefinedPattern
       } else {
