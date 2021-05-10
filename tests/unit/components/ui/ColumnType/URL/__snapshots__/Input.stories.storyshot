@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/ui/URLInput default 1`] = `
+exports[`storyshots components/ui/ColumnType/URL/Input default 1`] = `
 <div
   style="height: 100%;"
 >
@@ -23,7 +23,7 @@ exports[`storyshots components/ui/URLInput default 1`] = `
 </div>
 `;
 
-exports[`storyshots components/ui/URLInput with a valid url 1`] = `
+exports[`storyshots components/ui/ColumnType/URL/Input with a valid url 1`] = `
 <div
   style="height: 100%;"
 >
@@ -46,7 +46,7 @@ exports[`storyshots components/ui/URLInput with a valid url 1`] = `
 </div>
 `;
 
-exports[`storyshots components/ui/URLInput with an invalid url 1`] = `
+exports[`storyshots components/ui/ColumnType/URL/Input with an invalid url 1`] = `
 <div
   style="height: 100%;"
 >

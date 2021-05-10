@@ -119,7 +119,7 @@ const resourcesExamples = {
 }
 
 export default {
-  title: 'components/visualize/Map',
+  title: 'components/ui/ColumnType/Map',
   component: Map,
   argTypes: {
     timeoutBeforeScreenshot: {

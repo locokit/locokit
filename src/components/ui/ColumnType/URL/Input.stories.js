@@ -1,7 +1,7 @@
 import URLInput from './Input'
 
 export default {
-  title: 'components/ui/URLInput',
+  title: 'components/ui/ColumnType/URL/Input',
   component: URLInput
 }
 
