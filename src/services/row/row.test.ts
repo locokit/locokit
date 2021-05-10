@@ -401,7 +401,7 @@ describe('\'row\' service', () => {
       const row1 = await service.create({
         text: 'Test Row 1',
         data: {
-          [tableColumn.id]: 17.42,
+          [tableColumn.id]: 17,
         },
         table_id: table.id,
       })
@@ -409,7 +409,7 @@ describe('\'row\' service', () => {
       const row2 = await service.create({
         text: 'Test Row 2',
         data: {
-          [tableColumn.id]: 42.17,
+          [tableColumn.id]: 42,
         },
         table_id: table.id,
       })
@@ -417,7 +417,7 @@ describe('\'row\' service', () => {
       const row3 = await service.create({
         text: 'Test Row 3',
         data: {
-          [tableColumn.id]: 142.17,
+          [tableColumn.id]: 142,
         },
         table_id: table.id,
       })
@@ -433,8 +433,8 @@ describe('\'row\' service', () => {
         },
       })
       expect(rows.data.length).toEqual(2)
-      expect(rows.data[0].data[tableColumn.id]).not.toEqual(142.17)
-      expect(rows.data[1].data[tableColumn.id]).not.toEqual(142.17)
+      expect(rows.data[0].data[tableColumn.id]).not.toEqual(142)
+      expect(rows.data[1].data[tableColumn.id]).not.toEqual(142)
 
       await service.remove(row1.id)
       await service.remove(row2.id)

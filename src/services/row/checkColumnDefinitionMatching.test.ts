@@ -377,6 +377,18 @@ describe('checkColumnDefinitionMatching hook', () => {
       .rejects.toThrow(NotAcceptable)
   })
 
+  it('throw an error if a number column receive a float value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1Number.id]: 10.2,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
   it('accept a null value for a number column type', async () => {
     expect.assertions(2)
     const rowTable1 = await app.service('row')
@@ -1080,6 +1092,8 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     await app.service('row').remove(rowTable1.id)
+    await app.service('attachment').remove(attachment1.id)
+    await app.service('attachment').remove(attachment2.id)
   })
 
   it('throw an error if the attachment array doesnt match all attachments for a FILE column type', async () => {
@@ -1103,6 +1117,8 @@ describe('checkColumnDefinitionMatching hook', () => {
         table_id: table1.id,
       }))
       .rejects.toThrow(NotAcceptable)
+    await app.service('attachment').remove(attachment1.id)
+    await app.service('attachment').remove(attachment2.id)
   })
 
   it('throw an error if a MULTI_USER column receive a number value', async () => {

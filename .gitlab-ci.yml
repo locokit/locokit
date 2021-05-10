@@ -42,7 +42,7 @@ test:
     NODE_ENV: test
 
     STORAGE_TYPE: fs
-    STORAGE_PUBLIC_PATH: /fs-storage
+    STORAGE_PUBLIC_PATH: /storage
     STORAGE_FS_PATH: ../fs-storage
     STORAGE_S3_URL: http://lck-s3:9000
     STORAGE_S3_ACCESS_KEY: minio

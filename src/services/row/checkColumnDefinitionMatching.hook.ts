@@ -112,11 +112,18 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
           case COLUMN_TYPE.NUMBER:
+            if (!(typeof currentColumnValue === 'number' && Number.isSafeInteger(currentColumnValue))) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: `The current value is not a number (received: ${currentColumnValue as string})`,
+              })
+            }
+            break
           case COLUMN_TYPE.FLOAT:
             if (!(typeof currentColumnValue === 'number')) {
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: `The current value is not a number / float (received: ${currentColumnValue as string})`,
+                columnError: `The current value is not a float (received: ${currentColumnValue as string})`,
               })
             }
             break
@@ -430,6 +437,7 @@ export function checkColumnDefinitionMatching (): Hook {
                     filepath: a.filepath,
                     mime: a.mime,
                     id: a.id,
+                    thumbnail: a.thumbnail,
                   }))
                 }
               } catch (error) {
