@@ -235,7 +235,7 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
               :workspaceId="workspaceId"
               :attachments="slotProps.data.data[column.id]"
-              :rowTitle="slotProps.data.text + ', ' + column.text"
+              :title="slotProps.data.text + ', ' + column.text"
               @download="$emit('download-attachment', $event)"
               @input="onInputFile(slotProps.data.id, column.id, $event)"
               @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"

@@ -33,7 +33,7 @@
     <lck-cell-file-dialog
       :attachments="attachments"
       :workspaceId="workspaceId"
-      :rowTitle="rowTitle"
+      :title="title"
       :visible="dialogFileVisible"
       @input="$emit('input', $event)"
       @close="dialogFileVisible = false"
@@ -67,7 +67,7 @@ export default {
       type: String,
       default: ''
     },
-    rowTitle: {
+    title: {
       type: String,
       default: ''
     }

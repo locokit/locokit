@@ -1,7 +1,7 @@
 <template>
   <lck-dialog
     :visible.sync="visible"
-    :header="rowTitle"
+    :header="title"
     @input="$emit('close')"
     @close="$emit('close')"
   >
@@ -42,7 +42,7 @@ export default {
       type: String,
       default: ''
     },
-    rowTitle: {
+    title: {
       type: String,
       default: ''
     }
