@@ -514,7 +514,11 @@ export default {
             return data.value
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
             const originalColumn = getOriginalColumn(column)
-            if ([COLUMN_TYPE.DATE, COLUMN_TYPE.MULTI_SELECT].includes(originalColumn.column_type_id)) {
+            if ([
+              COLUMN_TYPE.DATE,
+              COLUMN_TYPE.MULTI_SELECT,
+              COLUMN_TYPE.SINGLE_SELECT
+            ].includes(originalColumn.column_type_id)) {
               return this.getValue(originalColumn, data.value)
             } else {
               return data.value
@@ -559,7 +563,8 @@ export default {
       }
     },
     isSingleSelect (column) {
-      switch (column.column_type_id) {
+      const originalColumnTypeId = getColumnTypeId(column)
+      switch (originalColumnTypeId) {
         case COLUMN_TYPE.SINGLE_SELECT:
           return false
         default:

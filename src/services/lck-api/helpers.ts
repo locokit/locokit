@@ -11,6 +11,7 @@ import {
   LckUser
 } from './definitions'
 import { lckServices } from './services'
+import { getOriginalColumn } from '@/services/lck-utils/columns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import XLSX from 'xlsx'
@@ -40,8 +41,18 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.USER:
       case COLUMN_TYPE.GROUP:
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-      case COLUMN_TYPE.LOOKED_UP_COLUMN:
         return (data as LckTableRowDataComplex).value
+      case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        const originalColumn = getOriginalColumn(column)
+        if ([
+          COLUMN_TYPE.DATE,
+          COLUMN_TYPE.MULTI_SELECT,
+          COLUMN_TYPE.SINGLE_SELECT
+        ].includes(originalColumn.column_type_id)) {
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
+        } else {
+          return (data as LckTableRowDataComplex).value
+        }
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
