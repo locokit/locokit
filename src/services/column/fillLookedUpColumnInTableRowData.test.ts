@@ -605,61 +605,6 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   describe('Fill all rows with the matching data from the foreign column of the matching rows (looked up column)', () => {
     beforeEach(async () => {
       const service = app.service('row')
-      row1Table1 = await service.create({
-        table_id: table1.id,
-        text: 'table 1 ref 1',
-        data: {
-          [columnTable1Ref.id]: 'ref 1 with " and others " for injection',
-          [columnTable1User.id]: user1.id,
-          [columnTable1MultiUser.id]: [user1.id, user2.id],
-          [columnTable1SingleSelect.id]: singleSelectOption1UUID,
-          [columnTable1MultiSelect.id]: [singleSelectOption1UUID, singleSelectOption3UUID],
-          [columnTable1Number.id]: 10,
-          [columnTable1Date.id]: '2021-05-30',
-          [columnTable1Float.id]: 10.2,
-          [columnTable1Text.id]: 'text 1',
-          [columnTable1URL.id]: 'https://myurl1.mydomain',
-          [columnTable1Boolean.id]: true,
-        },
-      })
-      row2Table1 = await service.create({
-        table_id: table1.id,
-        text: 'table 1 ref 2',
-        data: {
-          [columnTable1Ref.id]: 'ref 2',
-          [columnTable1User.id]: user2.id,
-          [columnTable1MultiUser.id]: [user2.id],
-          [columnTable1SingleSelect.id]: singleSelectOption2UUID,
-          [columnTable1MultiSelect.id]: [singleSelectOption3UUID, singleSelectOption2UUID],
-          [columnTable1Number.id]: 15,
-          [columnTable1Date.id]: '2021-05-25',
-          [columnTable1Float.id]: 15.2,
-          [columnTable1Text.id]: 'text 2',
-          [columnTable1URL.id]: 'https://myurl2.mydomain',
-          [columnTable1Boolean.id]: true,
-        },
-      })
-      row1Table2 = await service.create({
-        table_id: table2.id,
-        text: 'table 2 ref 1',
-        data: {
-          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
-        },
-      })
-      row2Table2 = await service.create({
-        table_id: table2.id,
-        text: 'table 2 ref 2',
-        data: {
-          [columnTable2RelationBetweenTable1.id]: row2Table1.id,
-        },
-      })
-      row3Table2 = await service.create({
-        table_id: table2.id,
-        text: 'table 2 ref 3',
-        data: {
-          [columnTable2RelationBetweenTable1.id]: null,
-        },
-      })
       row1Table3 = await service.create({
         table_id: table3.id,
         text: 'table 3 ref 1',
@@ -1156,13 +1101,16 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     await app.service('user').remove(user2.id)
     await app.service('user').remove(user1.id)
     await app.service('column').remove(columnTable1User.id)
+    await app.service('column').remove(columnTable1MultiUser.id)
+    await app.service('column').remove(columnTable1SingleSelect.id)
+    await app.service('column').remove(columnTable1MultiSelect.id)
+    await app.service('column').remove(columnTable1Formula.id)
     await app.service('column').remove(columnTable1Number.id)
     await app.service('column').remove(columnTable1Date.id)
     await app.service('column').remove(columnTable1Float.id)
     await app.service('column').remove(columnTable1Text.id)
     await app.service('column').remove(columnTable1URL.id)
     await app.service('column').remove(columnTable1Boolean.id)
-    await app.service('column').remove(columnTable1Formula.id)
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
