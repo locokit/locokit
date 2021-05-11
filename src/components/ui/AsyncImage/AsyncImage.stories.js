@@ -57,3 +57,17 @@ export const errorStory = () => (
 )
 
 errorStory.storyName = 'error'
+
+export const noImage = () => (
+  {
+    components: {
+      LckAsyncImage
+    },
+    template: `
+    <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
+      <lck-async-image />
+    </div>`
+  }
+)
+
+noImage.storyName = 'no image'

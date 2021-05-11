@@ -1,5 +1,9 @@
 {
   "components": {
+    "asyncimage": {
+      "noimage": "Pas d'image à afficher",
+      "error": "Erreur pendant le chargement"
+    },
     "login": {
       "email": "E-mail",
       "password": "Mot de passe",

@@ -1,5 +1,6 @@
 <template>
-  <p-spinner v-if="loading" style="width: 1.5rem;" class="async-image" />
+  <span v-if="!src">{{ $t('components.asyncimage.noimage') }}</span>
+  <p-spinner v-else-if="loading" style="width: 1.5rem;" class="async-image" />
   <img
     v-else-if="!loading && link"
     :src="link"
@@ -7,8 +8,9 @@
     class="async-image"
     @click.prevent="$emit('click')"
   />
-  <span v-else-if="error" class="bi bi-exclamation-circle p-text-error" />
-  <span v-else>No image ?</span>
+  <span v-else-if="error" class="bi bi-exclamation-circle p-text-error">
+    {{ $t('components.asyncimage.error') }}
+  </span>
 </template>
 
 <script lang="ts">
@@ -24,7 +26,7 @@ export default {
   props: {
     src: {
       type: String,
-      required: true
+      required: false
     },
     title: {
       type: String,
@@ -40,6 +42,7 @@ export default {
   },
   methods: {
     async getLink () {
+      if (!this.src) return
       this.loading = true
       try {
         const blob = await lckHelpers.getAttachmentBlob(this.src)

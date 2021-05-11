@@ -1,5 +1,9 @@
 {
   "components": {
+    "asyncimage": {
+      "noimage": "No image to display",
+      "error": "Error during loading"
+    },
     "login": {
       "email": "email",
       "password": "password",
