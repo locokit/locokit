@@ -112,7 +112,7 @@
             <div class="th-container">
               <span class="th-text" :data-column-id="column.id">
                 <i
-                  style="filter: brightness(2)"
+                  style="filter: grayscale(100%) opacity(50%);"
                   :class="getColumnClass(column)"
                 />
                 {{ column.text }}

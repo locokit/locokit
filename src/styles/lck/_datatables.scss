@@ -251,8 +251,7 @@ td.sticky-column-cells {
       z-index: 1;
       right: 5px;
       padding: 0.1rem;
-      color: var(--primary-color-text);
-      background-color: #ededed;
+      color: var(--primary-color-darken);
 
       &.pi::before {
         font-size: 0.8rem !important;
@@ -260,16 +259,18 @@ td.sticky-column-cells {
     }
 
     &.p-highlight {
-      color: var(--primary-color-text);
+      color: var(--primary-color-darken);
 
       .p-sortable-column-icon {
-        color: var(--primary-color-text);
-        background-color: #f8f9fa;
+        color: var(--primary-color-darken);
+        background-color: transparent;
       }
 
       &:hover {
+        color: var(--primary-color-darken);
         .p-sortable-column-icon {
-          background-color: #e9ecef;
+          color: var(--primary-color-darken);
+          background-color: #ebebeb;
         }
       }
     }
