@@ -16,8 +16,7 @@ import {
   LckTableViewColumn,
   LckUser,
   LckWorkspace,
-  LckAttachment,
-  LckUpload
+  LckAttachment
 } from './definitions'
 
 export const lckServices = {
@@ -25,7 +24,7 @@ export const lckServices = {
   /**
    * Storage
    */
-  upload: lckClient.service('upload') as Service<LckUpload>,
+  upload: lckClient.service('upload') as Service<LckAttachment>,
   attachment: lckClient.service('attachment') as Service<LckAttachment>,
   /**
    * Database

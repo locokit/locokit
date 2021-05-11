@@ -31,9 +31,6 @@ export class LckAttachment {
 
   workspace_id!: string
 }
-export class LckUpload extends LckBaseModel {
-
-}
 
 /**
  * Database section
