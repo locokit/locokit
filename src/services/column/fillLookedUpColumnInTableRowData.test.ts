@@ -562,11 +562,11 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toStrictEqual({
       reference: row1Table1.id,
-      value: 'option 1',
+      value: singleSelectOption1UUID,
     })
     expect(newRow2Table2.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toStrictEqual({
       reference: row2Table1.id,
-      value: 'option 2',
+      value: singleSelectOption2UUID,
     })
     expect(newRow3Table2.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toBe(null)
 
@@ -1042,11 +1042,11 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
         reference: row1Table2.id,
-        value: 'option 1',
+        value: singleSelectOption1UUID,
       })
       expect(newRow2Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
         reference: row2Table2.id,
-        value: 'option 2',
+        value: singleSelectOption2UUID,
       })
       expect(newRow3Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toBe(null)
     })

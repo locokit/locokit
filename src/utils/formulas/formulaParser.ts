@@ -383,13 +383,16 @@ function peg$parse(input: string, options?: IParseOptions) {
         // Format the column name to be used as SQL placeholder
         let value = `:${name.replace(/-/g,'_')}:`
 
-        // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key 
-        if (currentColumn.column_type_id === columnsTypes.SINGLE_SELECT) {
-          const options = currentColumn.settings?.values ?? {}
+        const originalTypeId = currentColumn.originalTypeId()
+
+        // For a SINGLE_SELECT column, we want to use the label of the current option instead of its key
+        if (originalTypeId === columnsTypes.SINGLE_SELECT) {
+          const originalColumn = currentColumn.getOriginalColumn()
+          const options = originalColumn.settings?.values ?? {}
           const optionsJsonString = JSON.stringify(options, (key, value) => value.label ?? value)
           value = `('${optionsJsonString}'::json->>${value})`
         }
-        return { type: currentColumn.originalTypeId(), value }
+        return { type: originalTypeId, value }
       };
 
   let peg$currPos = 0;
