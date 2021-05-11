@@ -43,9 +43,6 @@ export const loadingStory = () => (
 )
 
 loadingStory.storyName = 'loading'
-loadingStory.args = {
-  waitForSelector: '.p-progress-spinner'
-}
 
 export const errorStory = () => (
   {
