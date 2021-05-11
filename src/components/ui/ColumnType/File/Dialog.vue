@@ -18,7 +18,7 @@
 <script lang="ts">
 /* eslint-disable no-undef */
 import LckDialog from '@/components/ui/Dialog/Dialog.vue'
-import LckCellFileInput from './Input.vue'
+import LckCellFileInput from '@/components/ui/ColumnType/File/Input.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
 import { PropType } from 'vue'
 
