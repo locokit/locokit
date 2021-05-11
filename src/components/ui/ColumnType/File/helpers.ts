@@ -1,6 +1,6 @@
 import { LckAttachment } from '@/services/lck-api/definitions'
 
-export function attachmentsToDisplay (attachments: LckAttachment[], workspaceId: string) {
+export function getAttachmentsToDisplay (attachments: LckAttachment[], workspaceId: string) {
   if (!attachments || attachments.length === 0) return []
   return attachments?.map(a => {
     const displayData = {

@@ -50,7 +50,7 @@ import { PropType } from 'vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
 import LckCellFileDialog from '@/components/ui/ColumnType/File/Dialog.vue'
-import { attachmentsToDisplay } from './helpers'
+import { getAttachmentsToDisplay } from './helpers'
 
 export default {
   name: 'LckFileCell',
@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     attachmentsToDisplay () {
-      return attachmentsToDisplay(this.attachments, this.workspaceId)
+      return getAttachmentsToDisplay(this.attachments, this.workspaceId)
     }
   },
   data () {

@@ -71,7 +71,7 @@ import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
 import Button from 'primevue/button'
 import Vue, { PropType } from 'vue'
-import { attachmentsToDisplay } from './helpers'
+import { getAttachmentsToDisplay } from './helpers'
 
 export default {
   name: 'LckFileInput',
@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     attachmentsToDisplay () {
-      return attachmentsToDisplay(this.attachments, this.workspaceId)
+      return getAttachmentsToDisplay(this.attachments, this.workspaceId)
     }
   },
   methods: {
