@@ -138,18 +138,18 @@
           </template>
           <template #editor="slotProps" v-if="getComponentEditorCellForColumnType(column) && isEditableColumn(crudMode, column)">
             <lck-autocomplete
-                v-if="getComponentEditorCellForColumnType(column) === 'lck-autocomplete'"
-                :dropdown="true"
-                :placeholder="$t('components.datatable.placeholder')"
-                field="label"
-                appendTo="body"
-                v-model="autocompleteInput"
-                :suggestions="autocompleteSuggestions"
-                @search="onComplete(column, $event)"
-                @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
-                @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
-                class="field-editable"
-              />
+              v-if="getComponentEditorCellForColumnType(column) === 'lck-autocomplete'"
+              :dropdown="true"
+              :placeholder="$t('components.datatable.placeholder')"
+              field="label"
+              appendTo="body"
+              v-model="autocompleteInput"
+              :suggestions="autocompleteSuggestions"
+              @search="onComplete(column, $event)"
+              @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
+              @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
+              class="field-editable"
+            />
             <lck-multi-autocomplete
               v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multi-autocomplete'"
               field="label"
