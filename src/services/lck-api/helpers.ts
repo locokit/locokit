@@ -2,66 +2,15 @@
 import { Paginated } from '@feathersjs/feathers'
 import {
   LckGroup,
-  LckTableColumn,
   LckTableViewColumn,
   LckTableRow,
-  LckTableRowData,
-  LckTableRowDataComplex,
-  LCKTableRowMultiDataComplex,
   LckUser
 } from './definitions'
 import { lckServices } from './services'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import XLSX from 'xlsx'
-
-/**
- * Return the display value for a column.
- * By taking the backend data column value,
- * retrieve the good part of the data to be displayed.
- *
- * @param column
- * The column definition
- *
- * @param data
- * The data to be analyzed
- */
-export function getColumnDisplayValue (
-  column: LckTableColumn,
-  data: LckTableRowData = ''
-): string | undefined {
-  if (
-    data === '' ||
-    data === undefined ||
-    data === null
-  ) return ''
-  try {
-    switch (column.column_type_id) {
-      case COLUMN_TYPE.USER:
-      case COLUMN_TYPE.GROUP:
-      case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-      case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        return (data as LckTableRowDataComplex).value
-      case COLUMN_TYPE.MULTI_USER:
-        return (data as LCKTableRowMultiDataComplex).value.join(', ')
-      case COLUMN_TYPE.SINGLE_SELECT:
-        return column.settings.values?.[data as string]?.label
-      case COLUMN_TYPE.MULTI_SELECT:
-        if ((data as string[]).length > 0) {
-          return (data as string[]).map(d => column.settings.values?.[d]?.label).join(', ')
-        } else {
-          return ''
-        }
-      case COLUMN_TYPE.DATE:
-      default:
-        return data as string
-    }
-  } catch (error) {
-    // eslint-disable no-console
-    console.error('Field with bad format', data, error)
-    return ''
-  }
-}
+import { getColumnDisplayValue } from '../lck-utils/columns'
 
 /**
  * Contact the API for searching items.
@@ -154,8 +103,12 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
         currentColumn,
         currentRow.data[currentColumn.id]
       )
-      const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
-      formatedData[currentColumn.text] = sanitizedValue
+      let sanitizedValue = value
+      if (typeof value === 'string') sanitizedValue = value.replaceAll('\n', ' ')
+      if ((value as { label: string | undefined; color: string | undefined; backgroundColor: string | undefined }).label) {
+        sanitizedValue = (value as { label: string | undefined; color: string | undefined; backgroundColor: string | undefined }).label
+      }
+      formatedData[currentColumn.text] = sanitizedValue as string
     })
     return formatedData
   })

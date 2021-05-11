@@ -26,7 +26,7 @@
         class="form-field-editable"
       >
         <lck-autocomplete
-          v-if="getComponentEditorForColumnType(column) === 'lck-autocomplete'"
+          v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
           :id="column.id"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
@@ -37,7 +37,7 @@
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <lck-multi-autocomplete
-          v-else-if="getComponentEditorForColumnType(column) === 'lck-multi-autocomplete'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multi-autocomplete'"
           :id="column.id"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -47,7 +47,7 @@
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown
-          v-else-if="getComponentEditorForColumnType(column) === 'p-dropdown'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-dropdown'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -58,7 +58,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
-          v-else-if="getComponentEditorForColumnType(column) === 'lck-multiselect'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -68,7 +68,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
-          v-else-if="getComponentEditorForColumnType(column) === 'p-calendar'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
@@ -76,14 +76,14 @@
           appendTo="body"
         />
         <p-input-number
-          v-else-if="getComponentEditorForColumnType(column) === 'p-input-float'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-input-float'"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
 
-        <div v-else-if="getComponentEditorForColumnType(column) === 'lck-map'" >
+        <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
           <lck-map
             v-if="row.data[column.id]"
             mode="Dialog"
@@ -92,19 +92,19 @@
           />
           <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
+        <p-checkbox
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+          v-model="row.data[column.id]"
+          :id="column.id"
+          :binary="true"
+          @input="onEdit(row.id, column.id, row.data[column.id])"
+        />
         <component
           v-else
-          :is="getComponentEditorForColumnType(column)"
+          :is="getComponentEditorDetailForColumnType(column)"
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
-        />
-      </div>
-
-      <div v-else-if="column.column_type_id === COLUMN_TYPE.BOOLEAN">
-        <p-checkbox
-          v-model="row.data[column.id]"
-          :binary="true"
         />
       </div>
 
@@ -113,7 +113,7 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <lck-map
-          v-if="getComponentEditorForColumnType(column) === 'lck-map' && row.data[column.id]"
+          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
@@ -121,6 +121,16 @@
             interactive: false
           }"
         />
+        <p-checkbox
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
+          :value="row.data[column.id]"
+          :disabled="true"
+        />
+        <lck-badge
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
+          v-bind="getColumnDisplayValue(column, row.data[column.id])"
+        />
+
         <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
@@ -159,13 +169,16 @@ import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Map from '@/components/ui/Map/Map.vue'
+import Badge from '@/components/ui/Badge/Badge.vue'
 
 import {
   getColumnTypeId,
-  getComponentEditorForColumnType,
-  isEditableColumn
+  getComponentEditorDetailForColumnType,
+  getComponentDisplayDetailForColumnType,
+  isEditableColumn,
+  getColumnDisplayValue
 } from '@/services/lck-utils/columns'
-import { lckHelpers } from '@/services/lck-api'
+
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
@@ -218,6 +231,7 @@ export default {
     'lck-multiselect': MultiSelect,
     'lck-input-url': InputURL,
     'lck-map': Map,
+    'lck-badge': Badge,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -271,7 +285,7 @@ export default {
     }
   },
   methods: {
-    isBooleanColumn (column) {
+    isBooleanColumn (column: LckTableColumn) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.BOOLEAN:
           return true
@@ -279,12 +293,15 @@ export default {
           return false
       }
     },
-    getComponentEditorForColumnType (column: LckTableColumn) {
-      return getComponentEditorForColumnType(getColumnTypeId(column))
+    getComponentEditorDetailForColumnType (column: LckTableColumn) {
+      return getComponentEditorDetailForColumnType(getColumnTypeId(column))
+    },
+    getComponentDisplayDetailForColumnType (column: LckTableColumn) {
+      return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
     isEditableColumn,
     transformEWKTtoFeature,
-    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
+    getColumnDisplayValue,
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }

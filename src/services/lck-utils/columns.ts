@@ -1,4 +1,5 @@
 import { TranslateResult } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -12,8 +13,16 @@ import {
 } from '@/services/lck-api/definitions'
 import { formatDate } from '@/services/lck-utils/date'
 
-/* This function return editor component of column type */
-export function getComponentEditorForColumnType (columnTypeId: number) {
+/**
+ * DataTable cells display & editor components
+ */
+
+/**
+ * This function return editor component of column type, for DataTable cell use
+ * @param columnTypeId ColumnType id
+ * @returns component's name
+ */
+export function getComponentEditorCellForColumnType (columnTypeId: number) {
   switch (columnTypeId) {
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
@@ -37,10 +46,86 @@ export function getComponentEditorForColumnType (columnTypeId: number) {
       return 'p-textarea'
     case COLUMN_TYPE.URL:
       return 'lck-input-url'
-      /* case COLUMN_TYPE.GEOMETRY_POINT:
+    default:
+      return null
+  }
+}
+
+/**
+ * This function return display component of column type, for DataTable cell use
+ * @param columnTypeId ColumnType id
+ * @returns component's name
+ */
+export function getComponentDisplayCellForColumnType (columnTypeId: number) {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'lck-badge'
+    case COLUMN_TYPE.BOOLEAN:
+      return 'p-checkbox'
+    default:
+      return null
+  }
+}
+
+/**
+ * DataDetail display & editor components
+ */
+
+/**
+ * This function return editor component of column type, for DataDetail use
+ * @param columnTypeId ColumnType id
+ * @returns component's name
+ */
+export function getComponentEditorDetailForColumnType (columnTypeId: number) {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.USER:
+    case COLUMN_TYPE.GROUP:
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+      return 'lck-autocomplete'
+    case COLUMN_TYPE.MULTI_USER:
+      return 'lck-multi-autocomplete'
+    case COLUMN_TYPE.NUMBER:
+      return 'p-input-number'
+    case COLUMN_TYPE.FLOAT:
+      return 'p-input-float' // not a real component
+    case COLUMN_TYPE.MULTI_SELECT:
+      return 'lck-multiselect'
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'p-dropdown'
+    case COLUMN_TYPE.DATE:
+      return 'p-calendar'
+    case COLUMN_TYPE.STRING:
+      return 'p-input-text'
+    case COLUMN_TYPE.TEXT:
+      return 'p-textarea'
+    case COLUMN_TYPE.URL:
+      return 'lck-input-url'
+    case COLUMN_TYPE.BOOLEAN:
+      return 'p-checkbox'
+    case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
-      return 'lck-map' */
+      return 'lck-map'
+    default:
+      return null
+  }
+}
+
+/**
+ * This function return display component of column type, for DataDetail use
+ * @param columnTypeId ColumnType id
+ * @returns component's name
+ */
+export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'lck-badge'
+    case COLUMN_TYPE.BOOLEAN:
+      return 'p-checkbox'
+    case COLUMN_TYPE.GEOMETRY_POINT:
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return 'lck-map'
     default:
       return null
   }
@@ -56,21 +141,6 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
       return false
     default:
       return crudMode || column.editable
-  }
-}
-
-export function getComponentDisplayForColumnType (columnTypeId: number) {
-  switch (columnTypeId) {
-    case COLUMN_TYPE.SINGLE_SELECT:
-      return 'lck-badge'
-    case COLUMN_TYPE.BOOLEAN:
-      return 'p-checkbox'
-    case COLUMN_TYPE.GEOMETRY_POINT:
-    case COLUMN_TYPE.GEOMETRY_LINESTRING:
-    case COLUMN_TYPE.GEOMETRY_POLYGON:
-      return 'lck-map'
-    default:
-      return null
   }
 }
 
@@ -197,12 +267,86 @@ export function getColumnClass (column: LckTableViewColumn): string {
   }
 }
 
+/**
+ * Return the display value for a column.
+ * By taking the backend data column value,
+ * retrieve the good part of the data to be displayed.
+ *
+ * @param column
+ * The column definition
+ *
+ * @param data
+ * The data to be analyzed
+ */
+export function getColumnDisplayValue (
+  column: LckTableColumn,
+  data: LckTableRowData = ''
+): string | undefined | { label: string | undefined; color: string | undefined; backgroundColor: string | undefined } {
+  if (
+    data === '' ||
+    data === undefined ||
+    data === null
+  ) return ''
+  try {
+    switch (column.column_type_id) {
+      case COLUMN_TYPE.USER:
+      case COLUMN_TYPE.GROUP:
+      case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        return (data as LckTableRowDataComplex).value
+      case COLUMN_TYPE.LOOKED_UP_COLUMN:
+        const originalColumn = getOriginalColumn(column)
+        if ([
+          COLUMN_TYPE.DATE,
+          // COLUMN_TYPE.SINGLE_SELECT, need to be enabled with #306
+          COLUMN_TYPE.MULTI_SELECT
+        ].includes(originalColumn.column_type_id)) {
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
+        } else {
+          return (data as LckTableRowDataComplex).value
+        }
+      case COLUMN_TYPE.MULTI_USER:
+        return (data as LCKTableRowMultiDataComplex).value.join(', ')
+      case COLUMN_TYPE.SINGLE_SELECT:
+        const currentValue = column.settings.values?.[data as string]
+        return {
+          label: currentValue?.label,
+          color: currentValue?.color,
+          backgroundColor: currentValue?.backgroundColor
+        }
+      case COLUMN_TYPE.MULTI_SELECT:
+        if ((data as string[]).length > 0) {
+          return (data as string[]).map(d => column.settings.values?.[d]?.label).join(', ')
+        } else {
+          return ''
+        }
+
+      case COLUMN_TYPE.FORMULA:
+        if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
+          return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+        } else {
+          return data as string
+        }
+      case COLUMN_TYPE.DATE:
+        return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+      default:
+        return data as string
+    }
+  } catch (error) {
+    // eslint-disable no-console
+    console.error('Field with bad format', data, error)
+    return ''
+  }
+}
+
 export default {
-  getComponentEditorForColumnType,
+  getComponentDisplayCellForColumnType,
+  getComponentEditorCellForColumnType,
+  getComponentDisplayDetailForColumnType,
+  getComponentEditorDetailForColumnType,
   isEditableColumn,
-  getComponentDisplayForColumnType,
   getColumnTypeId,
   getOriginalColumn,
   getDataFromTableViewColumn,
-  getColumnClass
+  getColumnClass,
+  getColumnDisplayValue
 }
