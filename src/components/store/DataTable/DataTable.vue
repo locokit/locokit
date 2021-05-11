@@ -136,22 +136,22 @@
               />
             </div>
           </template>
-          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
+          <template #editor="slotProps" v-if="getComponentEditorForColumnType(column.column_type_id) && isEditableColumn(crudMode, column)">
             <lck-autocomplete
-              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
-              :dropdown="true"
-              :placeholder="$t('components.datatable.placeholder')"
-              field="label"
-              appendTo="body"
-              v-model="autocompleteInput"
-              :suggestions="autocompleteSuggestions"
-              @search="onComplete(column, $event)"
-              @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
-              @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
-              class="field-editable"
-            />
+                v-if="getComponentEditorForColumnType(column.column_type_id) === 'lck-autocomplete'"
+                :dropdown="true"
+                :placeholder="$t('components.datatable.placeholder')"
+                field="label"
+                appendTo="body"
+                v-model="autocompleteInput"
+                :suggestions="autocompleteSuggestions"
+                @search="onComplete(column, $event)"
+                @item-select="onAutocompleteEdit(slotProps.data.id, column.id, $event)"
+                @clear="onAutocompleteEdit(slotProps.data.id, column.id, null)"
+                class="field-editable"
+              />
             <lck-multi-autocomplete
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              v-else-if="getComponentEditorForColumnType(column.column_type_id) === 'lck-multi-autocomplete'"
               field="label"
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput"
@@ -162,7 +162,7 @@
               :multiLine="false"
             />
             <p-dropdown
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+              v-else-if="getComponentEditorForColumnType(column.column_type_id) === 'p-dropdown'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -182,7 +182,7 @@
               </template>
             </p-dropdown>
             <lck-multiselect
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              v-else-if="getComponentEditorForColumnType(column.column_type_id) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -193,7 +193,7 @@
               class="field-editable"
             />
             <p-calendar
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+              v-else-if="getComponentEditorForColumnType(column.column_type_id) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
               :dateFormat="$t('date.dateFormatPrime')"
@@ -201,7 +201,7 @@
               class="field-editable"
             />
             <p-input-number
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+              v-else-if="getComponentEditorForColumnType(column.column_type_id) === 'p-input-float'"
               v-model="slotProps.data.data[column.id]"
               mode="decimal"
               :minFractionDigits="2"
@@ -209,32 +209,31 @@
             />
             <component
               v-else
-              :is="getComponentEditableColumn(column.column_type_id)"
+              :is="getComponentEditorForColumnType(column.column_type_id)"
               v-model="slotProps.data.data[column.id]"
               appendTo="body"
               class="field-editable"
             />
           </template>
-
           <template
             #body="slotProps"
           >
+            <p-checkbox
+              v-if="getComponentDisplayForColumnType(column.column_type_id) === 'p-checkbox'"
+              v-model="slotProps.data.data[column.id]"
+              :binary="true"
+              :disabled="!isEditableColumn(crudMode, column)"
+            />
             <lck-badge
-              v-if="!isSingleSelect(column)"
+              v-else-if="getComponentDisplayForColumnType(column.column_type_id) === 'lck-badge'"
               v-bind="getValue(column, slotProps.data.data[column.id])"
             />
-
-            <span
-              v-else-if="column.column_type_id === COLUMN_TYPE.BOOLEAN"
-            >
-              <p-checkbox v-model="slotProps.data.data[column.id]" :binary="true"  />
-            </span>
-
             <span
               v-else
             >
               {{ getValue(column, slotProps.data.data[column.id]) }}
             </span>
+
             <span
               class="cell-state"
               :class="{
@@ -301,8 +300,9 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
 import {
-  getComponentEditableColumn,
+  getComponentEditorForColumnType,
   isEditableColumn,
+  getComponentDisplayForColumnType,
   getColumnTypeId,
   getOriginalColumn,
   getColumnClass
@@ -483,7 +483,8 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
+    getComponentDisplayForColumnType,
+    getComponentEditorForColumnType,
     isEditableColumn,
     getDisabledProcessTrigger,
     getColumnClass,

@@ -26,7 +26,7 @@
         class="form-field-editable"
       >
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column) === 'lck-autocomplete'"
+          v-if="getComponentEditorForColumnType(column) === 'lck-autocomplete'"
           :id="column.id"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
@@ -37,7 +37,7 @@
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <lck-multi-autocomplete
-          v-else-if="getComponentEditableColumn(column) === 'lck-multi-autocomplete'"
+          v-else-if="getComponentEditorForColumnType(column) === 'lck-multi-autocomplete'"
           :id="column.id"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -47,7 +47,7 @@
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown
-          v-else-if="getComponentEditableColumn(column) === 'p-dropdown'"
+          v-else-if="getComponentEditorForColumnType(column) === 'p-dropdown'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -58,7 +58,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
-          v-else-if="getComponentEditableColumn(column) === 'lck-multiselect'"
+          v-else-if="getComponentEditorForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -68,7 +68,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
-          v-else-if="getComponentEditableColumn(column) === 'p-calendar'"
+          v-else-if="getComponentEditorForColumnType(column) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
@@ -76,13 +76,14 @@
           appendTo="body"
         />
         <p-input-number
-          v-else-if="getComponentEditableColumn(column) === 'p-input-float'"
+          v-else-if="getComponentEditorForColumnType(column) === 'p-input-float'"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
-        <div v-else-if="getComponentEditableColumn(column) === 'lck-map'" >
+
+        <div v-else-if="getComponentEditorForColumnType(column) === 'lck-map'" >
           <lck-map
             v-if="row.data[column.id]"
             mode="Dialog"
@@ -93,10 +94,17 @@
         </div>
         <component
           v-else
-          :is="getComponentEditableColumn(column)"
+          :is="getComponentEditorForColumnType(column)"
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
+        />
+      </div>
+
+      <div v-else-if="column.column_type_id === COLUMN_TYPE.BOOLEAN">
+        <p-checkbox
+          v-model="row.data[column.id]"
+          :binary="true"
         />
       </div>
 
@@ -105,7 +113,7 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <lck-map
-          v-if="getComponentEditableColumn(column) === 'lck-map' && row.data[column.id]"
+          v-if="getComponentEditorForColumnType(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
@@ -139,6 +147,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
 
 import {
   COLUMN_TYPE
@@ -153,7 +162,7 @@ import Map from '@/components/ui/Map/Map.vue'
 
 import {
   getColumnTypeId,
-  getComponentEditableColumn,
+  getComponentEditorForColumnType,
   isEditableColumn
 } from '@/services/lck-utils/columns'
 import { lckHelpers } from '@/services/lck-api'
@@ -196,6 +205,7 @@ export default {
   },
   data () {
     return {
+      COLUMN_TYPE,
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
@@ -216,7 +226,8 @@ export default {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   computed: {
     editableColumns (): LckTableViewColumn[] {
@@ -260,8 +271,16 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn (column: LckTableColumn) {
-      return getComponentEditableColumn(getColumnTypeId(column))
+    isBooleanColumn (column) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.BOOLEAN:
+          return true
+        default:
+          return false
+      }
+    },
+    getComponentEditorForColumnType (column: LckTableColumn) {
+      return getComponentEditorForColumnType(getColumnTypeId(column))
     },
     isEditableColumn,
     transformEWKTtoFeature,
@@ -371,7 +390,21 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+/deep/ .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
 
 .non-editable-field {
   border: unset;

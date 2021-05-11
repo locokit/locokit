@@ -12,7 +12,8 @@ import {
 } from '@/services/lck-api/definitions'
 import { formatDate } from '@/services/lck-utils/date'
 
-export function getComponentEditableColumn (columnTypeId: number) {
+/* This function return editor component of column type */
+export function getComponentEditorForColumnType (columnTypeId: number) {
   switch (columnTypeId) {
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
@@ -30,16 +31,18 @@ export function getComponentEditableColumn (columnTypeId: number) {
       return 'p-dropdown'
     case COLUMN_TYPE.DATE:
       return 'p-calendar'
+    case COLUMN_TYPE.STRING:
+      return 'p-input-text'
     case COLUMN_TYPE.TEXT:
       return 'p-textarea'
     case COLUMN_TYPE.URL:
       return 'lck-input-url'
-    case COLUMN_TYPE.GEOMETRY_POINT:
+      /* case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
-      return 'lck-map'
+      return 'lck-map' */
     default:
-      return 'p-input-text'
+      return null
   }
 }
 
@@ -47,10 +50,27 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.FORMULA:
-    case COLUMN_TYPE.BOOLEAN:
+    case COLUMN_TYPE.GEOMETRY_POINT:
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
       return false
     default:
       return crudMode || column.editable
+  }
+}
+
+export function getComponentDisplayForColumnType (columnTypeId: number) {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return 'lck-badge'
+    case COLUMN_TYPE.BOOLEAN:
+      return 'p-checkbox'
+    case COLUMN_TYPE.GEOMETRY_POINT:
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return 'lck-map'
+    default:
+      return null
   }
 }
 
@@ -178,8 +198,9 @@ export function getColumnClass (column: LckTableViewColumn): string {
 }
 
 export default {
-  getComponentEditableColumn,
+  getComponentEditorForColumnType,
   isEditableColumn,
+  getComponentDisplayForColumnType,
   getColumnTypeId,
   getOriginalColumn,
   getDataFromTableViewColumn,
