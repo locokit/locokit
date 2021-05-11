@@ -350,8 +350,7 @@ export default {
       this.$emit('update-row', {
         rowId,
         columnId,
-        newValue: value,
-        waiting: true
+        newValue: value
       })
     },
     getLckGeoResources (column: LckTableColumn, data: string) {
@@ -466,8 +465,6 @@ export default {
     display: block;
     padding: 0.5rem;
     pointer-events: none;
-    z-index: 2s
-  ;
     &.saving,
     &.saved {
       &:before {
