@@ -861,7 +861,7 @@ tr.p-datatable-emptymessage {
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  /* max-height: 75vh; */
+  max-height: 75vh;
 }
 
 .field-editable {
