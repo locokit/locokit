@@ -1,7 +1,6 @@
 import {
   exportTableRowDataCSV,
   exportTableRowDataXLS,
-  getColumnDisplayValue,
   searchItems,
   getAttachmentBlob,
   downloadAttachment
@@ -13,7 +12,6 @@ export { lckServices } from './services'
 export const lckHelpers = {
   exportTableRowDataCSV,
   exportTableRowDataXLS,
-  getColumnDisplayValue,
   searchItems,
   getAttachmentBlob,
   downloadAttachment
