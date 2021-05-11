@@ -98,3 +98,17 @@ exports[`storyshots components/ui/AsyncImage loading 1`] = `
   </div>
 </div>
 `;
+
+exports[`storyshots components/ui/AsyncImage no image 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center;"
+  >
+    <span>
+      No image to display
+    </span>
+  </div>
+</div>
+`;

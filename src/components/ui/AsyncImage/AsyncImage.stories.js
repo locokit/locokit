@@ -26,6 +26,9 @@ export const defaultStory = () => (
 )
 
 defaultStory.storyName = 'default'
+defaultStory.args = {
+  waitForSelector: 'img'
+}
 
 export const loadingStory = () => (
   {

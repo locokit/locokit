@@ -143,3 +143,58 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments 1`] = `
   </div>
 </div>
 `;
+
+exports[`storyshots components/ui/ColumnType/File/Cell with attachments and overflow 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 100px; height: 2rem; border: 1px solid gray;"
+  >
+    <div
+      class="LckCellFile"
+    >
+      <div
+        aria-busy="true"
+        class="p-progress-spinner async-image cell-file"
+        role="alert"
+        style="width: 1.5rem;"
+      >
+        <svg
+          class="p-progress-spinner-svg"
+          style="animation-duration: 2s;"
+          viewBox="25 25 50 50"
+        >
+          <circle
+            class="p-progress-spinner-circle"
+            cx="50"
+            cy="50"
+            fill="none"
+            r="20"
+            stroke-width="2"
+            strokeMiterlimit="10"
+          />
+        </svg>
+      </div>
+      <span
+        class="cell-file bi bi-file-image"
+        title="(2/5) ./themes/locokit/img/logo-white.svg"
+      />
+      <span
+        class="cell-file pi pi-file-pdf"
+        title="(3/5) document.pdf"
+      />
+      <span
+        class="cell-file bi bi-file-earmark-text"
+        title="(4/5) testing-file.txt"
+      />
+      <span
+        class="cell-file bi bi-file-earmark-spreadsheet"
+        title="(5/5) testing-file.ods"
+      />
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
