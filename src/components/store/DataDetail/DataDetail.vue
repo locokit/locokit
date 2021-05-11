@@ -305,14 +305,6 @@ export default {
     isEditableColumn,
     transformEWKTtoFeature,
     getColumnDisplayValue,
-    isBooleanColumn (column: LckTableColumn) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.BOOLEAN:
-          return true
-        default:
-          return false
-      }
-    },
     getComponentEditorDetailForColumnType (column: LckTableColumn) {
       return getComponentEditorDetailForColumnType(getColumnTypeId(column))
     },
