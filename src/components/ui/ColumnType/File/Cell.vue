@@ -97,6 +97,9 @@ export default {
 .LckCellFile {
   height: 100%;
   max-height: 100%;
+  max-width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
   display: flex;
   align-items: center;
 }

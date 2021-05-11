@@ -106,7 +106,6 @@
               'position': 'relative',
               'height': '2.5rem',
               'max-height': '2.5rem',
-              'overflow': 'hidden',
             }"
             :sortable="isSortableColumn(column)"
           >

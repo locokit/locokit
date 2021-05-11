@@ -106,6 +106,29 @@ export const withAttachments = () => (
 
 withAttachments.storyName = 'with attachments'
 
+export const withAttachmentsAndOverflow = () => (
+  {
+    components: { FileCell },
+    data () {
+      return {
+        attachments
+      }
+    },
+    template: `
+      <div style="width: 100px; height: 2rem; border: 1px solid gray;">
+        <file-cell
+          ref="fileCell"
+          title="this is the dialog title"
+          :attachments="attachments"
+          workspaceId="themes/locokit/img"
+        />
+      </div>
+    `
+  }
+)
+
+withAttachmentsAndOverflow.storyName = 'with attachments and overflow'
+
 export const withAttachmentsAfterClickOnIt = () => (
   {
     components: { FileCell },
