@@ -49,7 +49,7 @@
 import { PropType } from 'vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
-import LckCellFileDialog from './Dialog.vue'
+import LckCellFileDialog from '@/components/ui/ColumnType/File/Dialog.vue'
 import { attachmentsToDisplay } from './helpers'
 
 export default {
