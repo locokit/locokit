@@ -727,8 +727,10 @@ export default {
 </script>
 
 <style scoped>
+
 /deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
   border: 2px solid #fff;
+  background-color: #fff;
 }
 /deep/ td .p-checkbox {
   display: flex;
