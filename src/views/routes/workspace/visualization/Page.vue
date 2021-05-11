@@ -5,7 +5,7 @@
     :class="setLayoutPage"
   >
     <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
-      <div class="lck-color-page-title p-my-4">
+      <div class="lck-color-primary p-my-4">
         <h1>{{ page.text }}</h1>
       </div>
       <div

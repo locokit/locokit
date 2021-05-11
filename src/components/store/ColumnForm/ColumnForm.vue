@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="lck-color-page-title">{{ $t('components.datatable.column.edit') }}</h1>
+    <h1 class="lck-color-primary">{{ $t('components.datatable.column.edit') }}</h1>
     <div class="column-form-container lck-color-content">
       <h2 class="lck-color-title">{{ $t('components.datatable.column.globalConfiguration') }}</h2>
       <lck-form

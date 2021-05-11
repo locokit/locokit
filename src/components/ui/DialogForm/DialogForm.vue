@@ -1,6 +1,7 @@
 <template>
   <form
     @submit.prevent="$emit('input')"
+    v-if="visible"
   >
     <p-dialog
       :visible="visible"

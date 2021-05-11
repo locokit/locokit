@@ -107,6 +107,7 @@
             :displayDetailButton="true"
             :cellState="cellState"
             :columnsSetPrefix="currentView && currentView.id"
+            :workspaceId="workspaceId"
 
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
@@ -121,6 +122,11 @@
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
+
+            @download-attachment="onDownloadAttachment"
+
+            @upload-files="onUploadFiles"
+            @remove-attachment="onRemoveAttachment"
           />
         </layout-with-toolbar>
 
@@ -147,9 +153,12 @@
           :crudMode="crudMode"
           :definition="filteredDefinitionColumns"
           :row="newRow"
+          :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
+          @download-attachment="onDownloadAttachment"
+          @upload-files="onUploadFiles($event, newRow)"
         />
       </lck-dialog-form>
 
@@ -163,9 +172,12 @@
           :definition="block.definition"
           :row="row"
           :cellState="cellState"
+          :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
+          @download-attachment="onDownloadAttachment"
+          @upload-files="onUploadFiles"
         />
 
         <lck-process-panel
@@ -238,8 +250,10 @@ import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 
+import FileType from 'file-type/browser'
+
 import DataTable from '@/components/store/DataTable/DataTable.vue'
-import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel'
+import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import ViewButton from '@/components/store/ViewButton/ViewButton.vue'
 import ViewDialog from '@/components/store/ViewButton/ViewDialog.vue'
@@ -248,11 +262,11 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 
-import WithToolbar from '@/layouts/WithToolbar'
+import WithToolbar from '@/layouts/WithToolbar.vue'
 
-import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing'
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -487,6 +501,15 @@ export default {
           } else {
             data[c.id] = null
           }
+        })
+      /**
+       * For file columns, we keep only the attachments ids
+       */
+      this.block.definition.columns
+        .filter(c => c.column_type_id === COLUMN_TYPE.FILE)
+        .forEach(c => {
+          if (!this.newRow.data[c.id]) return
+          data[c.id] = this.newRow.data[c.id].map(a => a.id)
         })
       await saveTableData({
         data,
@@ -872,6 +895,112 @@ export default {
     },
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
+    },
+    async onUploadFiles ({ rowId, columnId, fileList }, newRow) {
+      const currentRow = newRow || this.block.content.data.find(({ id }) => id === rowId)
+      this.cellState = {
+        rowId,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+
+      try {
+        const uploadPromises = []
+        for (let i = 0; i < fileList.length; i++) {
+          uploadPromises.push(new Promise((resolve, reject) => {
+            const file = fileList[i]
+            const reader = new FileReader()
+            // encode dataURI
+            reader.readAsDataURL(file)
+
+            // when encoded, upload
+            reader.addEventListener('load', async () => {
+              /**
+               * Find the mime type of the file to upload
+               */
+              const fileType = await FileType.fromBlob(file)
+              lckServices.upload.create({
+                uri: reader.result,
+                fileName: file.name,
+                ...fileType
+              }, {
+                query: {
+                  workspaceId: this.workspaceId,
+                  fileName: file.name,
+                  ...fileType
+                }
+              })
+                .then(resolve)
+                .catch(reject)
+            }, false)
+          }))
+        }
+        const newUploadedFiles = await Promise.all(uploadPromises)
+
+        /**
+         * Here we need to know if we are in a creation or in a row update
+         */
+        if (newRow) {
+          if (!currentRow.data[columnId]) this.$set(currentRow.data, columnId, [])
+          currentRow.data[columnId].push(...newUploadedFiles)
+        } else {
+          const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
+          newDataFiles.push(...newUploadedFiles.map(u => u.id))
+
+          /**
+           * Need to update the data with the new files uploaded + the old files
+           */
+          const res = await patchTableData(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles
+            }
+          })
+          this.cellState.isValid = true
+          currentRow.data = res.data
+        }
+      } catch (error) {
+        this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
+      }
+      this.cellState.waiting = false
+    },
+    async onRemoveAttachment ({ rowId, columnId, attachmentId }) {
+      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+      this.cellState = {
+        rowId,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+
+      try {
+        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newDataFiles
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
+      }
+      this.cellState.waiting = false
+    },
+    async onDownloadAttachment ({ url, filename, mime }) {
+      lckHelpers.downloadAttachment(url, filename, mime)
     }
   },
   async mounted () {

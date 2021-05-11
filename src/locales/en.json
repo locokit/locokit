@@ -1,5 +1,9 @@
 {
   "components": {
+    "asyncimage": {
+      "noimage": "No image to display",
+      "error": "Error during loading"
+    },
     "login": {
       "email": "email",
       "password": "password",
@@ -126,8 +130,13 @@
     "detailview": {
       "goback": "Return to results"
     },
-    "inputURL": {
+    "URLInput": {
       "openTheLink": "Open the link"
+    },
+    "fileInput": {
+      "listing": "Attachments listing",
+      "noattachment": "No attachment for this cell.",
+      "upload": "Upload new attachments"
     },
     "multiAutocomplete": {
       "placeholder": "Search",
@@ -269,8 +278,8 @@
             "TRIM": "Returns a copy of the original text without any spaces at the starting and the ending.",
             "UPPER": "Returns an uppercase copy of the text."
           }
-        }
       }
+    }
   },
   "pages": {
     "404": {

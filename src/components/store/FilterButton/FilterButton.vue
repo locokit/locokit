@@ -486,7 +486,6 @@ label,
 label {
   display: block;
   font-size: 0.8rem;
-  font-weight: 600;
 }
 
 .input,

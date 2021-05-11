@@ -1,5 +1,9 @@
 {
   "components": {
+    "asyncimage": {
+      "noimage": "Pas d'image à afficher",
+      "error": "Erreur pendant le chargement"
+    },
     "login": {
       "email": "E-mail",
       "password": "Mot de passe",
@@ -128,8 +132,13 @@
     "detailview": {
       "goback": "Retourner aux résultats"
     },
-    "inputURL": {
+    "URLInput": {
       "openTheLink": "Ouvrir le lien"
+    },
+    "fileInput": {
+      "listing": "Liste des pièces jointes",
+      "noattachment": "Pas de pièce jointe pour cette cellule.",
+      "upload": "Téléverser de nouvelles pièces jointes"
     },
     "multiAutocomplete": {
       "placeholder": "Rechercher",

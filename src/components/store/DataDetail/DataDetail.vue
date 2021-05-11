@@ -15,7 +15,7 @@
       :key="column.id"
     >
       <label
-        class="lck-color-subtitle"
+        class="lck-color-primary"
         :for="column.id"
       >
         {{ column.text }}
@@ -137,6 +137,19 @@
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
           v-bind="getColumnDisplayValue(column, row.data[column.id])"
         />
+        <lck-file-input
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-file-input'"
+          :attachments="row.data[column.id]"
+          :workspaceId="workspaceId"
+          :displayLabels="false"
+          @input="$emit('upload-files', {
+            rowId: row.id,
+            columnId: column.id,
+            fileList: $event
+          })"
+          @download="$emit('download-attachment', $event)"
+          @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+        />
 
         <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
@@ -176,9 +189,10 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
-import Map from '@/components/ui/Map/Map.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
+import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
+import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
 import {
   getColumnTypeId,
@@ -194,6 +208,7 @@ import {
   getStyleLayers
 } from '@/services/lck-utils/map'
 import {
+  LckAttachment,
   LckTableColumn,
   LckTableRow,
   LckTableRowDataComplex,
@@ -234,7 +249,15 @@ export default {
           isValid: null
         }
       }
+    },
+    /**
+     * We need the workspace id for displaying images from attachments
+     */
+    workspaceId: {
+      type: String,
+      required: true
     }
+
   },
   data () {
     return {
@@ -249,9 +272,10 @@ export default {
     'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
-    'lck-input-url': InputURL,
+    'lck-url-input': URLInput,
     'lck-map': Map,
     'lck-badge': Badge,
+    'lck-file-input': FileInput,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -347,6 +371,18 @@ export default {
         rowId,
         columnId,
         newValue: value
+      })
+    },
+    /**
+     * Remove an attachment for the column's attachments
+     */
+    async onRemoveAttachment (rowId: string, columnId: string, attachmentId: number) {
+      this.$emit('update-row', {
+        rowId,
+        columnId,
+        newValue: this.row.data[columnId]
+          .filter((a: LckAttachment) => a.id !== attachmentId)
+          .map((a: LckAttachment) => a.id)
       })
     },
     getLckGeoResources (column: LckTableColumn, data: string) {

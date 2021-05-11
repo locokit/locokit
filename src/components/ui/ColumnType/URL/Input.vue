@@ -9,13 +9,13 @@
       :appendTo="appendTo"
       :value="value"
       type="url"
-      ref="inputURL"
+      ref="URLInput"
     />
     <i
       v-show="validURL"
       class="pi pi-external-link"
-      :title="$t('components.inputURL.openTheLink')"
-      :aria-label="$t('components.inputURL.openTheLink')"
+      :title="$t('components.URLInput.openTheLink')"
+      :aria-label="$t('components.URLInput.openTheLink')"
       @click="openLink"
     />
   </span>
@@ -26,7 +26,7 @@ import Vue from 'vue'
 import InputText from 'primevue/inputtext'
 
 export default {
-  name: 'LckInputURL',
+  name: 'LckURLInput',
   components: {
     'p-input-text': Vue.extend(InputText)
   },
@@ -56,7 +56,7 @@ export default {
       } catch (error) {}
     },
     urlValidity () {
-      return this.value && this.$refs?.inputURL?.$el.validity.valid
+      return this.value && this.$refs?.URLInput?.$el.validity.valid
     }
   },
   watch: {

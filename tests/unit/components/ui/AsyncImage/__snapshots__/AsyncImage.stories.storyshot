@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/AsyncImage default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center;"
+  >
+    <div
+      aria-busy="true"
+      class="p-progress-spinner async-image"
+      role="alert"
+      style="width: 1.5rem;"
+    >
+      <svg
+        class="p-progress-spinner-svg"
+        style="animation-duration: 2s;"
+        viewBox="25 25 50 50"
+      >
+        <circle
+          class="p-progress-spinner-circle"
+          cx="50"
+          cy="50"
+          fill="none"
+          r="20"
+          stroke-width="2"
+          strokeMiterlimit="10"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/AsyncImage error 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center;"
+  >
+    <div
+      aria-busy="true"
+      class="p-progress-spinner async-image"
+      role="alert"
+      style="width: 1.5rem;"
+    >
+      <svg
+        class="p-progress-spinner-svg"
+        style="animation-duration: 2s;"
+        viewBox="25 25 50 50"
+      >
+        <circle
+          class="p-progress-spinner-circle"
+          cx="50"
+          cy="50"
+          fill="none"
+          r="20"
+          stroke-width="2"
+          strokeMiterlimit="10"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/AsyncImage loading 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center;"
+  >
+    <div
+      aria-busy="true"
+      class="p-progress-spinner async-image"
+      role="alert"
+      style="width: 1.5rem;"
+    >
+      <svg
+        class="p-progress-spinner-svg"
+        style="animation-duration: 2s;"
+        viewBox="25 25 50 50"
+      >
+        <circle
+          class="p-progress-spinner-circle"
+          cx="50"
+          cy="50"
+          fill="none"
+          r="20"
+          stroke-width="2"
+          strokeMiterlimit="10"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/AsyncImage no image 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center;"
+  >
+    <span>
+      No image to display
+    </span>
+  </div>
+</div>
+`;

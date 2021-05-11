@@ -48,8 +48,6 @@
         @column-reorder="onColumnReorder"
         :minColumnReorderIndex="unorderableColumnsNumber"
 
-        style="width: unset !important;"
-
         @sort="onSort"
         :sortField.sync="sortField"
         :sortOrder.sync="sortOrder"
@@ -98,13 +96,16 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem'
+              'height': '2.5rem',
+              'max-height': '2.5rem',
+              'overflow': 'hidden',
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
               'white-space': 'nowrap',
               'position': 'relative',
               'height': '2.5rem',
+              'max-height': '2.5rem',
             }"
             :sortable="isSortableColumn(column)"
           >
@@ -229,9 +230,16 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
               v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
             />
-            <span
-              v-else
-            >
+            <lck-cell-file
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
+              :workspaceId="workspaceId"
+              :attachments="slotProps.data.data[column.id]"
+              :title="slotProps.data.text + ', ' + column.text"
+              @download="$emit('download-attachment', $event)"
+              @input="onInputFile(slotProps.data.id, column.id, $event)"
+              @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
+            />
+            <span v-else>
               {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
 
@@ -288,8 +296,9 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -316,8 +325,9 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
-    'lck-input-url': InputURL,
+    'lck-url-input': URLInput,
     'lck-badge': Badge,
+    'lck-cell-file': LckCellFile,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -379,6 +389,10 @@ export default {
       }
     },
     columnsSetPrefix: {
+      type: String,
+      default: ''
+    },
+    workspaceId: {
       type: String,
       default: ''
     }
@@ -605,6 +619,23 @@ export default {
       })
     },
     /**
+     * Upload one or multiple files to the API
+     */
+    onInputFile (rowId, columnId, fileList = []) {
+      this.$emit('upload-files', {
+        rowId,
+        columnId,
+        fileList
+      })
+    },
+    onRemoveAttachment (rowId, columnId, attachmentId) {
+      this.$emit('remove-attachment', {
+        rowId,
+        columnId,
+        attachmentId
+      })
+    },
+    /**
      * This method have to be called only for fields that don't trigger an "update-cell" event
      *
      * So, please add your column_type if you already trigger this event in a specific handler
@@ -634,6 +665,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.FILE:
           /**
            * For these type of column
            * the dropdown edit is already here
@@ -817,7 +849,8 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color-lighten)
+  background-color: var(--primary-color-lighten);
+  color: var(--text-color-secondary);
 }
 
 .p-datatable th:hover .p-sortable-column-icon {

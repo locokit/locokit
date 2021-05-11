@@ -7,21 +7,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1012;"
+      style="z-index: 1014;"
     >
       <div
-        aria-labelledby="pv_id_14_header"
+        aria-labelledby="pv_id_16_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1013;"
+        style="z-index: 1015;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_14_header"
+            id="pv_id_16_header"
           >
             Delete
           </span>
@@ -114,21 +114,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog on submitting 
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1013;"
+      style="z-index: 1015;"
     >
       <div
-        aria-labelledby="pv_id_15_header"
+        aria-labelledby="pv_id_17_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1014;"
+        style="z-index: 1016;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_15_header"
+            id="pv_id_17_header"
           >
             Delete
           </span>
@@ -222,21 +222,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1014;"
+      style="z-index: 1016;"
     >
       <div
-        aria-labelledby="pv_id_16_header"
+        aria-labelledby="pv_id_18_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1015;"
+        style="z-index: 1017;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_16_header"
+            id="pv_id_18_header"
           >
             Delete
           </span>
@@ -337,21 +337,21 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name an
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1015;"
+      style="z-index: 1017;"
     >
       <div
-        aria-labelledby="pv_id_17_header"
+        aria-labelledby="pv_id_19_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1016;"
+        style="z-index: 1018;"
       >
         <div
           class="p-dialog-header"
         >
           <span
             class="p-dialog-title"
-            id="pv_id_17_header"
+            id="pv_id_19_header"
           >
             Delete
           </span>

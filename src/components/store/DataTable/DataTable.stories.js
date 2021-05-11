@@ -114,6 +114,15 @@ const tableViewData = {
         order: null,
         filter: null,
         displayed: true
+      }, {
+        text: 'Files',
+        id: '2b2a976d-565a-4b22-911a-b18146b33b3d',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+        column_type_id: COLUMN_TYPE.FILE,
+        order: null,
+        filter: null,
+        displayed: true
       }
     ]
   },

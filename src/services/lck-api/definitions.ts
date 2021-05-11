@@ -21,6 +21,17 @@ export class LckWorkspace extends LckBaseModel {
   databases?: LckDatabase[];
 }
 
+export class LckAttachment {
+  id!: number
+  filepath!: string
+  filename!: string
+  mime!: string
+  ext!: string
+  thumbnail!: boolean; // has the attachment a thumbnail available
+
+  workspace_id!: string
+}
+
 /**
  * Database section
  */

@@ -26,7 +26,7 @@ import { LckTableRow, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 import { MapSettings } from '@locokit/lck-glossary'
 
-import Map from '@/components/ui/Map/Map.vue'
+import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
 
 export default Vue.extend({
   name: 'MapView',
