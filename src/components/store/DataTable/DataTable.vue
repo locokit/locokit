@@ -112,7 +112,7 @@
             <div class="th-container">
               <span class="th-text" :data-column-id="column.id">
                 <i
-                  style="filter: brightness(2)"
+                  style="filter: grayscale(100%) opacity(50%);"
                   :class="getColumnClass(column)"
                 />
                 {{ column.text }}
@@ -136,9 +136,9 @@
               />
             </div>
           </template>
-          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
+          <template #editor="slotProps" v-if="getComponentEditorCellForColumnType(column) && isEditableColumn(crudMode, column)">
             <lck-autocomplete
-              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+              v-if="getComponentEditorCellForColumnType(column) === 'lck-autocomplete'"
               :dropdown="true"
               :placeholder="$t('components.datatable.placeholder')"
               field="label"
@@ -151,7 +151,7 @@
               class="field-editable"
             />
             <lck-multi-autocomplete
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multi-autocomplete'"
               field="label"
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput"
@@ -162,7 +162,7 @@
               :multiLine="false"
             />
             <p-dropdown
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-dropdown'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -182,7 +182,7 @@
               </template>
             </p-dropdown>
             <lck-multiselect
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -193,7 +193,7 @@
               class="field-editable"
             />
             <p-calendar
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
               :dateFormat="$t('date.dateFormatPrime')"
@@ -201,7 +201,7 @@
               class="field-editable"
             />
             <p-input-number
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-input-float'"
               v-model="slotProps.data.data[column.id]"
               mode="decimal"
               :minFractionDigits="2"
@@ -209,25 +209,32 @@
             />
             <component
               v-else
-              :is="getComponentEditableColumn(column.column_type_id)"
+              :is="getComponentEditorCellForColumnType(column)"
               v-model="slotProps.data.data[column.id]"
               appendTo="body"
               class="field-editable"
             />
           </template>
-
           <template
             #body="slotProps"
           >
+            <p-checkbox
+              v-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
+              v-model="slotProps.data.data[column.id]"
+              :binary="true"
+              :disabled="!isEditableColumn(crudMode, column)"
+              @input="onCheckboxEdit(slotProps.data.id, column.id, $event)"
+            />
             <lck-badge
-              v-if="!isSingleSelect(column)"
-              v-bind="getValue(column, slotProps.data.data[column.id])"
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
+              v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
             />
             <span
               v-else
             >
-              {{ getValue(column, slotProps.data.data[column.id]) }}
+              {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
+
             <span
               class="cell-state"
               :class="{
@@ -279,6 +286,7 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Checkbox from 'primevue/checkbox'
 import Menu from 'primevue/menu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -293,14 +301,15 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
 import {
-  getComponentEditableColumn,
+  getComponentDisplayCellForColumnType,
+  getComponentEditorCellForColumnType,
   isEditableColumn,
   getColumnTypeId,
-  getOriginalColumn,
+  getColumnDisplayValue,
   getColumnClass
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
-import { formatDate, formatDateISO } from '@/services/lck-utils/date'
+import { formatDateISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
 
 export default {
@@ -324,7 +333,8 @@ export default {
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
     'p-button': Vue.extend(Button),
-    'p-menu': Vue.extend(Menu)
+    'p-menu': Vue.extend(Menu),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   props: {
     definition: {
@@ -474,7 +484,13 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
+    getComponentEditorCellForColumnType (column) {
+      return getComponentEditorCellForColumnType(getColumnTypeId(column))
+    },
+    getComponentDisplayCellForColumnType (column) {
+      return getComponentDisplayCellForColumnType(getColumnTypeId(column))
+    },
+    getColumnDisplayValue,
     isEditableColumn,
     getDisabledProcessTrigger,
     getColumnClass,
@@ -499,55 +515,6 @@ export default {
             })
           }
         ]
-      }
-    },
-    getValue (column, data = '') {
-      if (
-        data === '' ||
-        data === null
-      ) return ''
-      try {
-        switch (column.column_type_id) {
-          case COLUMN_TYPE.USER:
-          case COLUMN_TYPE.GROUP:
-          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            return data.value
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
-            const originalColumn = getOriginalColumn(column)
-            if ([COLUMN_TYPE.DATE, COLUMN_TYPE.MULTI_SELECT].includes(originalColumn.column_type_id)) {
-              return this.getValue(originalColumn, data.value)
-            } else {
-              return data.value
-            }
-          case COLUMN_TYPE.MULTI_USER:
-            return data.value.join(', ')
-          case COLUMN_TYPE.SINGLE_SELECT:
-            return {
-              label: column.settings.values[data]?.label,
-              color: column.settings.values[data]?.color,
-              backgroundColor: column.settings.values[data]?.backgroundColor
-            }
-          case COLUMN_TYPE.MULTI_SELECT:
-            if (data.length > 0) {
-              return data.map(d => column.settings.values[d]?.label).join(', ')
-            } else {
-              return ''
-            }
-          case COLUMN_TYPE.FORMULA:
-            if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-              return formatDate(data, this.$t('date.dateFormat')) || ''
-            } else {
-              return data
-            }
-          case COLUMN_TYPE.DATE:
-            return formatDate(data, this.$t('date.dateFormat')) || ''
-          default:
-            return data
-        }
-      } catch (error) {
-        // eslint-disable no-console
-        console.error('Field with bad format', data, error)
-        return ''
       }
     },
     isSortableColumn (column) {
@@ -605,32 +572,39 @@ export default {
         toIndex: event.dropIndex - this.unorderableColumnsNumber
       })
     },
-    async onDropdownEdit (rowId, columnId, event) {
+    onDropdownEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event.value
       })
     },
-    async onMultiSelectEdit (rowId, columnId, event) {
+    onMultiSelectEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event.value // .map(v => v.value)
       })
     },
-    async onAutocompleteEdit (rowId, columnId, event = null) {
+    onAutocompleteEdit (rowId, columnId, event = null) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event ? event?.value?.value : null
       })
     },
-    async onMultipleAutocompleteEdit (rowId, columnId) {
+    onMultipleAutocompleteEdit (rowId, columnId) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: this.multipleAutocompleteInput.map(item => item.value)
+      })
+    },
+    onCheckboxEdit (rowId, columnId, newValue) {
+      this.$emit('update-cell', {
+        rowId,
+        columnId,
+        newValue
       })
     },
     /**
@@ -753,6 +727,38 @@ export default {
 </script>
 
 <style scoped>
+
+/deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
+  border: 2px solid #fff;
+  background-color: #fff;
+}
+/deep/ td .p-checkbox {
+  display: flex;
+  margin: 0 auto;
+}
+
+/deep/ td .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
+}
 
 /deep/ .p-editable-column.p-cell-editing .p-dropdown,
 /deep/ .p-editable-column.p-cell-editing .p-multiselect {

@@ -26,7 +26,7 @@
         class="form-field-editable"
       >
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column) === 'lck-autocomplete'"
+          v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
           :id="column.id"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
@@ -37,7 +37,7 @@
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <lck-multi-autocomplete
-          v-else-if="getComponentEditableColumn(column) === 'lck-multi-autocomplete'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multi-autocomplete'"
           :id="column.id"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -47,7 +47,7 @@
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown
-          v-else-if="getComponentEditableColumn(column) === 'p-dropdown'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-dropdown'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -58,7 +58,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
-          v-else-if="getComponentEditableColumn(column) === 'lck-multiselect'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -68,7 +68,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
-          v-else-if="getComponentEditableColumn(column) === 'p-calendar'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
@@ -76,13 +76,14 @@
           appendTo="body"
         />
         <p-input-number
-          v-else-if="getComponentEditableColumn(column) === 'p-input-float'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-input-float'"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
-        <div v-else-if="getComponentEditableColumn(column) === 'lck-map'" >
+
+        <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
           <lck-map
             v-if="row.data[column.id]"
             mode="Dialog"
@@ -91,9 +92,16 @@
           />
           <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
+        <p-checkbox
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+          v-model="row.data[column.id]"
+          :id="column.id"
+          :binary="true"
+          @input="onEdit(row.id, column.id, row.data[column.id])"
+        />
         <component
           v-else
-          :is="getComponentEditableColumn(column)"
+          :is="getComponentEditorDetailForColumnType(column)"
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
@@ -105,7 +113,7 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <lck-map
-          v-if="getComponentEditableColumn(column) === 'lck-map' && row.data[column.id]"
+          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
@@ -113,6 +121,16 @@
             interactive: false
           }"
         />
+        <p-checkbox
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
+          :value="row.data[column.id]"
+          :disabled="true"
+        />
+        <lck-badge
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
+          v-bind="getColumnDisplayValue(column, row.data[column.id])"
+        />
+
         <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
@@ -139,6 +157,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
 
 import {
   COLUMN_TYPE
@@ -150,13 +169,16 @@ import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import InputURL from '@/components/ui/InputURL/InputURL.vue'
 import Map from '@/components/ui/Map/Map.vue'
+import Badge from '@/components/ui/Badge/Badge.vue'
 
 import {
   getColumnTypeId,
-  getComponentEditableColumn,
-  isEditableColumn
+  getComponentEditorDetailForColumnType,
+  getComponentDisplayDetailForColumnType,
+  isEditableColumn,
+  getColumnDisplayValue
 } from '@/services/lck-utils/columns'
-import { lckHelpers } from '@/services/lck-api'
+
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
@@ -196,6 +218,7 @@ export default {
   },
   data () {
     return {
+      COLUMN_TYPE,
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
@@ -208,6 +231,7 @@ export default {
     'lck-multiselect': MultiSelect,
     'lck-input-url': InputURL,
     'lck-map': Map,
+    'lck-badge': Badge,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -216,7 +240,8 @@ export default {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   computed: {
     editableColumns (): LckTableViewColumn[] {
@@ -260,12 +285,23 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn (column: LckTableColumn) {
-      return getComponentEditableColumn(getColumnTypeId(column))
+    isBooleanColumn (column: LckTableColumn) {
+      switch (column.column_type_id) {
+        case COLUMN_TYPE.BOOLEAN:
+          return true
+        default:
+          return false
+      }
+    },
+    getComponentEditorDetailForColumnType (column: LckTableColumn) {
+      return getComponentEditorDetailForColumnType(getColumnTypeId(column))
+    },
+    getComponentDisplayDetailForColumnType (column: LckTableColumn) {
+      return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
     isEditableColumn,
     transformEWKTtoFeature,
-    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
+    getColumnDisplayValue,
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }
@@ -371,7 +407,30 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+/deep/ .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
+
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
+}
 
 .non-editable-field {
   border: unset;
