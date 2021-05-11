@@ -45,7 +45,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable no-undef */
 import { PropType } from 'vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
