@@ -6,6 +6,7 @@
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
       :row="content.data[0]"
+      :cellState="cellState"
       :autocompleteSuggestions="autocompleteSuggestions"
       v-on="$listeners"
     />
@@ -17,9 +18,7 @@ import Vue from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-// import { patchTableData } from '@/store/database'
 import { lckHelpers } from '@/services/lck-api'
-// import { LckTableRowData, LckTableViewColumn } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -43,6 +42,17 @@ export default Vue.extend({
     },
     autocompleteSuggestions: {
       type: null as { value: number | string; label: string }[]|null
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
     }
   },
   computed: {

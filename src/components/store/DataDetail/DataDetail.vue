@@ -105,7 +105,14 @@
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
+          :rows="7"
         />
+
+        <span
+          class="cell-state"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+        />
+
       </div>
 
       <div
@@ -134,6 +141,7 @@
         <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
+
       </div>
     </div>
   </div>
@@ -147,6 +155,7 @@ import Vue from 'vue'
 
 import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
+import Feature from 'ol/Feature'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -191,7 +200,7 @@ import {
   LCKTableRowMultiDataComplex,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
-import Feature from 'ol/Feature'
+import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
 export default {
   name: 'LckDataDetail',
@@ -214,6 +223,17 @@ export default {
     },
     title: {
       type: String
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
     }
   },
   data () {
@@ -285,23 +305,16 @@ export default {
     }
   },
   methods: {
-    isBooleanColumn (column: LckTableColumn) {
-      switch (column.column_type_id) {
-        case COLUMN_TYPE.BOOLEAN:
-          return true
-        default:
-          return false
-      }
-    },
+    getCellStateNotificationClass,
+    isEditableColumn,
+    transformEWKTtoFeature,
+    getColumnDisplayValue,
     getComponentEditorDetailForColumnType (column: LckTableColumn) {
       return getComponentEditorDetailForColumnType(getColumnTypeId(column))
     },
     getComponentDisplayDetailForColumnType (column: LckTableColumn) {
       return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
-    isEditableColumn,
-    transformEWKTtoFeature,
-    getColumnDisplayValue,
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }
@@ -436,5 +449,8 @@ export default {
   border: unset;
   background-color: transparent;
   padding-left: unset;
+}
+.form-field-editable {
+  position: relative;
 }
 </style>
