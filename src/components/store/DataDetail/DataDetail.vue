@@ -423,6 +423,15 @@ export default {
   font-weight: bold;
 }
 
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
+}
+
 .non-editable-field {
   border: unset;
   background-color: transparent;

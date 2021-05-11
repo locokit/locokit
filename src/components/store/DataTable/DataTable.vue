@@ -727,6 +727,14 @@ export default {
 </script>
 
 <style scoped>
+/deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
+  border: 2px solid #fff;
+}
+/deep/ td .p-checkbox {
+  display: flex;
+  margin: 0 auto;
+}
+
 /deep/ td .p-checkbox .p-checkbox-box {
   border-color: var(--primary-color-lighten);
 }
@@ -739,6 +747,15 @@ export default {
 /deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
   font-weight: bold;
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
 }
 
 /deep/ .p-editable-column.p-cell-editing .p-dropdown,
