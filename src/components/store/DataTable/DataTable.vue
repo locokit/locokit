@@ -208,6 +208,12 @@
               :minFractionDigits="2"
               class="field-editable"
             />
+            <p-checkbox
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
+              v-model="slotProps.data.data[column.id]"
+              :binary="true"
+              @input="onCheckboxEdit(slotProps.data.id, column.id, $event)"
+            />
             <component
               v-else
               :is="getComponentEditorCellForColumnType(column)"
@@ -221,10 +227,9 @@
           >
             <p-checkbox
               v-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
-              v-model="slotProps.data.data[column.id]"
+              :modelValue="slotProps.data.data[column.id]"
               :binary="true"
-              :disabled="!isEditableColumn(crudMode, column)"
-              @input="onCheckboxEdit(slotProps.data.id, column.id, $event)"
+              :disabled="true"
             />
             <lck-badge
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
@@ -787,6 +792,11 @@ export default {
 
 /deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
   color: var(--primary-color-lighten) !important;
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  border-color: var(--primary-color) !important;
 }
 
 /deep/ .p-editable-column.p-cell-editing .p-dropdown,
