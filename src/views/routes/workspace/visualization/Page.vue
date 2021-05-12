@@ -18,7 +18,7 @@
         />
       </div>
 
-      <div class="lck-color-page-title p-my-4">
+      <div class="lck-color-primary p-my-4">
         <h1>{{ page.text }}</h1>
       </div>
 
@@ -96,7 +96,7 @@
               @export-view-xls="onExportViewXLS(block)"
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
-              @delete-block="onBlockDeleteClick(block)"
+              @delete-block="onBlockDeleteClick(container, block)"
             />
           </draggable>
           <p-button
@@ -130,7 +130,7 @@
 
       @add-new-block="onBlockEditClickFromSidebar"
       @edit-block="onBlockEditClickFromSidebar"
-      @delete-block="onBlockDeleteClick($event)"
+      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
 
       @add-new-container="onContainerEditClickFromSidebar"
       @edit-container="onContainerEditClickFromSidebar"
@@ -515,7 +515,7 @@ export default {
           }
         } else {
           // On create
-          this.currentContainerToEdit = await lckServices.container.create(data)
+          this.currentContainerToEdit = await lckServices.container.create({ ...data, page_id: this.page.id })
           this.page.containers.push(this.currentContainerToEdit)
         }
       } catch (error) {
@@ -528,20 +528,20 @@ export default {
       this.currentContainerToDelete = containerToDelete
       this.dialogVisibility.containerDelete = true
     },
-    async onContainerDeleteInput (containerToDelete = {}) {
+    async onContainerDeleteInput (containerToDelete) {
       try {
         this.submitting = true
-        if (containerToDelete.id) {
+        if (containerToDelete?.id) {
           await lckServices.container.remove(containerToDelete.id)
           const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
           if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
         }
-        if (containerToDelete.id === this.currentContainerToEdit.id) {
+        if (containerToDelete?.id === this.currentContainerToEdit.id) {
           this.onCloseUpdateContainerSidebar()
         }
         this.onContainerDeleteClose()
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.container.title')} ${containerToDelete.text}`, error)
       } finally {
         this.submitting = false
       }
@@ -615,7 +615,8 @@ export default {
         this.submitting = false
       }
     },
-    onBlockDeleteClick (blockToDelete) {
+    onBlockDeleteClick (containerToEdit, blockToDelete) {
+      this.currentContainerToDelete = containerToEdit
       this.currentBlockToDelete = blockToDelete
       this.dialogVisibility.blockDelete = true
     },

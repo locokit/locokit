@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-unused-vars */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { BLOCK_TYPE } from '@locokit/lck-glossary'

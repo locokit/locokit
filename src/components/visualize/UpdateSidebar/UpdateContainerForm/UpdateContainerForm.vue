@@ -192,8 +192,9 @@ export default Vue.extend({
       if (this.containerCopy?.displayed_in_navbar) {
         return this.$emit('update-container', this.containerCopy)
       }
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      return this.$emit('update-container', { id: this.containerCopy.id, text: this.containerCopy.text, displayed_in_navbar: this.containerCopy?.displayed_in_navbar })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase
+      const { anchor_label, ...data } = this.containerCopy
+      return this.$emit('update-container', data)
     }
   },
   watch: {
@@ -204,7 +205,9 @@ export default Vue.extend({
           // eslint-disable-next-line @typescript-eslint/camelcase
           anchor_label: newValue.anchor_label || newValue.text,
           // eslint-disable-next-line @typescript-eslint/camelcase
-          displayed_in_navbar: newValue.displayed_in_navbar || false
+          displayed_in_navbar: newValue.displayed_in_navbar || false,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          anchor_icon_class: newValue.anchor_icon_class || 'primary'
         }
       },
       immediate: true,

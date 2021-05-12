@@ -115,11 +115,6 @@ export default {
       default: () => ([])
     }
   },
-  data () {
-    return {
-      containerCopy: {}
-    }
-  },
   computed: {
     activePanel (): boolean[] {
       if (this.block.id) {

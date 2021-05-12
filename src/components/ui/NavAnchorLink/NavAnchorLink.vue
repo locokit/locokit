@@ -177,7 +177,6 @@ export default Vue.extend({
   border-left: unset;
 }
 .page-nav-item > a > i {
-  padding: 0.2rem 0.4rem;
   border-radius: 4px;
   margin-right: 0.5rem;
   background-color: var(--popeyebar-icon-background);
