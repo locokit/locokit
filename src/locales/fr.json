@@ -376,6 +376,7 @@
       "container": {
         "title": "Conteneur",
         "name": "Titre du conteneur",
+        "displayTitle": "Afficher le titre",
         "create": "Créer un nouveau conteneur",
         "edit": "Modifier le conteneur",
         "delete": "Supprimer le conteneur",

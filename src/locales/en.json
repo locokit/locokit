@@ -376,6 +376,7 @@
       "container": {
         "title": "container",
         "name": "Container title",
+        "displayTitle": "Display title",
         "create": "Create a new container",
         "edit": "Edit the container",
         "delete": "Delete the container",
