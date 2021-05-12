@@ -212,7 +212,6 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
               v-model="slotProps.data.data[column.id]"
               :binary="true"
-              :disabled="!isEditableColumn(crudMode, column)"
               @input="onCheckboxEdit(slotProps.data.id, column.id, $event)"
             />
             <component
