@@ -187,6 +187,36 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-display_title"
+                    >
+                      
+        Display title
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -858,6 +888,36 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-display_title"
+                    >
+                      
+        Display title
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -1225,6 +1285,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                       required="required"
                       type="text"
                     />
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="container-display_title"
+                    >
+                      
+        Display title
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
                   </div>
                    
                   <div
@@ -1733,6 +1823,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-display_title"
+                    >
+                      
+        Display title
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -2112,6 +2232,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
                       required="required"
                       type="text"
                     />
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="container-display_title"
+                    >
+                      
+        Display title
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
                   </div>
                    
                   <div
