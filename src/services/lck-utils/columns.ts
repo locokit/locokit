@@ -46,6 +46,8 @@ export function getComponentEditorCellForColumnType (columnTypeId: number) {
       return 'p-textarea'
     case COLUMN_TYPE.URL:
       return 'lck-input-url'
+    case COLUMN_TYPE.BOOLEAN:
+      return 'p-checkbox'
     default:
       return null
   }
