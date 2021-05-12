@@ -3,10 +3,10 @@
     :submitting="submitting"
     @submit="onFormSubmit"
     @cancel="$emit('close')"
-    class="lck-update-block-form"
+    class="lck-update-block-form lck-color-content p-text-bold"
   >
-    <div class="p-field">
-      <label for="blockTitleField">{{ $t('pages.workspace.block.title') }}</label>
+    <div class="p-field ">
+      <label for="blockTitleField">{{ $t('pages.workspace.block.name') }}</label>
       <p-input-text
         id="blockTitleField"
         v-model="blockCopy.title"
@@ -22,6 +22,7 @@
         @input="resetBlockSettings"
       />
     </div>
+
     <!-- Custom settings -->
     <paragraph-settings-fields
       v-if="blockCopy.type === BLOCK_TYPE.PARAGRAPH"
@@ -76,35 +77,37 @@
 </template>
 
 <script lang="ts">
-
 import Vue from 'vue'
+
+import cloneDeep from 'lodash/cloneDeep'
+
 import { BLOCK_TYPE, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
-import cloneDeep from 'lodash/cloneDeep'
 
 import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
-import ParagraphSettingsFields from '@/components/visualize/UpdateBlockForm/ParagraphSettingsFields.vue'
-import MarkdownSettingsFields from '@/components/visualize/UpdateBlockForm/MarkdownSettingsFields.vue'
-import MediaSettingsFields from '@/components/visualize/UpdateBlockForm/MediaSettingsFields.vue'
-import TableViewSettingsFields from '@/components/visualize/UpdateBlockForm/TableViewSettingsFields.vue'
-import DetailViewSettingsFields from '@/components/visualize/UpdateBlockForm/DetailViewSettingsFields.vue'
-import MapSettingsFields from '@/components/visualize/UpdateBlockForm/MapSettingsFields.vue'
+import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
+import MarkdownSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MarkdownSettingsFields.vue'
+import MediaSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MediaSettingsFields.vue'
+import TableViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableViewSettingsFields.vue'
+import DetailViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DetailViewSettingsFields.vue'
+import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
 
 export default {
   name: 'UpdateBlockForm',
   components: {
-    'p-input-text': Vue.extend(InputText),
-    'p-dropdown': Vue.extend(Dropdown),
     'lck-form': LckForm,
     'paragraph-settings-fields': ParagraphSettingsFields,
     'markdown-settings-fields': MarkdownSettingsFields,
     'media-settings-fields': MediaSettingsFields,
     'table-view-settings-fields': TableViewSettingsFields,
     'detail-view-settings-fields': DetailViewSettingsFields,
-    'map-settings-fields': MapSettingsFields
+    'map-settings-fields': MapSettingsFields,
+    'p-input-text': Vue.extend(InputText),
+    'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
     block: {

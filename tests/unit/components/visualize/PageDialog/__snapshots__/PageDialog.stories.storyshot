@@ -72,7 +72,7 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
             class="p-field"
           >
             <legend>
-              LAYOUT
+              Layout
             </legend>
              
             <div>
@@ -371,7 +371,7 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
             class="p-field"
           >
             <legend>
-              LAYOUT
+              Layout
             </legend>
              
             <div>

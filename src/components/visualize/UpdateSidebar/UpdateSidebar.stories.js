@@ -1,8 +1,23 @@
-import UpdateContainerSidebar from './UpdateContainerSidebar.vue'
+/* eslint-disable @typescript-eslint/camelcase */
+
+import UpdateSidebar from './UpdateSidebar.vue'
 
 export default {
-  title: 'components/visualize/UpdateContainerSidebar',
-  component: UpdateContainerSidebar
+  title: 'components/visualize/UpdateSidebar',
+  component: UpdateSidebar
+}
+
+const emptyPage = {
+  id: 'pageID',
+  text: 'my page',
+  containers: []
+}
+
+const notEmptyPage = {
+  ...emptyPage,
+  containers: [
+    { id: 'containerID', title: 'my container', displayed_in_navbar: false }
+  ]
 }
 
 const emptyContainer = {
@@ -21,23 +36,29 @@ const notEmptyContainer = {
 }
 
 export const creatingContainerStory = () => ({
-  components: { UpdateContainerSidebar },
-  template: '<UpdateContainerSidebar :showSidebar="true" />'
+  components: { UpdateSidebar },
+  data () {
+    return {
+      page: emptyPage
+    }
+  },
+  template: '<UpdateSidebar :page="page" :showSidebar="true" />'
 })
 
-creatingContainerStory.storyName = 'when creating a container'
+creatingContainerStory.storyName = 'when display page'
 creatingContainerStory.args = {
   waitForSelector: '.p-sidebar'
 }
 
 export const updatingAnEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateSidebar },
   data () {
     return {
-      container: emptyContainer
+      container: emptyContainer,
+      page: notEmptyPage
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" />'
+  template: '<UpdateSidebar :page="page" :container="container" :showSidebar="true" />'
 })
 
 updatingAnEmptyContainerStory.storyName = 'when updating an empty container'
@@ -46,13 +67,14 @@ updatingAnEmptyContainerStory.args = {
 }
 
 export const submittingAnEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateSidebar },
   data () {
     return {
-      container: emptyContainer
+      container: emptyContainer,
+      page: notEmptyPage
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :submitting="true" :showSidebar="true" />'
+  template: '<UpdateSidebar :page="page"  :container="container" :submitting="true" :showSidebar="true" />'
 })
 
 submittingAnEmptyContainerStory.storyName = 'when submitting an empty container'
@@ -61,13 +83,14 @@ submittingAnEmptyContainerStory.args = {
 }
 
 export const updatingNotEmptyContainerStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateSidebar },
   data () {
     return {
-      container: notEmptyContainer
+      container: notEmptyContainer,
+      page: notEmptyPage
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" />'
+  template: '<UpdateSidebar :page="page" :container="container" :showSidebar="true" />'
 })
 
 updatingNotEmptyContainerStory.storyName = 'when updating a not empty container'
@@ -76,14 +99,15 @@ updatingNotEmptyContainerStory.args = {
 }
 
 export const creatingBlockStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateSidebar },
   data () {
     return {
       container: notEmptyContainer,
-      block: { id: '' }
+      page: notEmptyPage,
+      block: { id: 'temp' }
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" :block="block" />'
+  template: '<UpdateSidebar :page="page" :container="container" :showSidebar="true" :block="block" />'
 })
 
 creatingBlockStory.storyName = 'when creating a new block'
@@ -92,14 +116,15 @@ creatingBlockStory.args = {
 }
 
 export const updatingBlockStory = () => ({
-  components: { UpdateContainerSidebar },
+  components: { UpdateSidebar },
   data () {
     return {
       container: notEmptyContainer,
-      block: notEmptyContainer.blocks[2]
+      block: notEmptyContainer.blocks[2],
+      page: notEmptyPage
     }
   },
-  template: '<UpdateContainerSidebar :container="container" :showSidebar="true" :block="block" />'
+  template: '<UpdateSidebar :page="page" :container="container" :showSidebar="true" :block="block" />'
 })
 
 updatingBlockStory.storyName = 'when updating a block'

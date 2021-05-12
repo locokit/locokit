@@ -161,9 +161,4 @@ export default Vue.extend({
   margin-bottom: 0.5rem;
 }
 
-.lck-paragraph {
-  margin: 1rem;
-  padding: 1rem;
-}
-
 </style>

@@ -12,6 +12,8 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
       class="lck-page-content"
       style="margin-right: 0px;"
     >
+      <!---->
+       
       <div
         class="lck-color-primary p-my-4"
       >
@@ -47,6 +49,8 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
       class="lck-page-content"
       style="margin-right: 0px;"
     >
+      <!---->
+       
       <div
         class="lck-color-primary p-my-4"
       >
@@ -102,6 +106,8 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
       class="lck-page-content"
       style="margin-right: 0px;"
     >
+      <!---->
+       
       <div
         class="lck-color-primary p-my-4"
       >
