@@ -27,7 +27,7 @@ const templateFolder = '/templates/mails'
 
 export function authManagementSettings (app: Application) {
   function getLink (type: string, hash: string) {
-    return app.get('publicUrl') + '/#/' + type + '?token=' + hash
+    return app.get('publicUrl') + '/' + type + '?token=' + hash
   }
 
   const actionOptions: Record<AuthenticationManagementAction, {
