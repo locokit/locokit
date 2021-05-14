@@ -74,17 +74,19 @@
             handle=".handle-block"
           >
             <Block
-              class="lck-block"
               v-for="block in container.blocks"
               :key="block.id"
+              class="lck-block"
+              :class="{
+                'p-mb-4': !editMode,
+              }"
               :block="block"
+              :workspaceId="workspaceId"
               :autocompleteSuggestions="autocompleteSuggestions"
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{
-                'p-mb-4': !editMode,
-              }"
+
               v-on="$listeners"
               @update-row="onUpdateCell(block, $event)"
               @update-cell="onUpdateCell(block, $event)"
@@ -228,6 +230,10 @@ export default {
     chapters: {
       type: Array,
       default: () => ([])
+    },
+    workspaceId: {
+      type: String,
+      required: true
     }
   },
   data () {
