@@ -2,9 +2,11 @@
 import { Paginated } from '@feathersjs/feathers'
 import {
   LckGroup,
-  LckTableViewColumn,
   LckTableRow,
-  LckUser
+  LckTableRowData,
+  LckTableViewColumn,
+  LckUser,
+  SelectValue
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -17,7 +19,9 @@ import { getColumnDisplayValue } from '../lck-utils/columns'
  * Contact the API for searching items.
  * Useful for autocomplete fields.
  *
- * @param param0
+ * @param columnTypeId
+ * @param tableId
+ * @param query
  */
 export async function searchItems ({
   columnTypeId,
@@ -69,6 +73,13 @@ export async function searchItems ({
   return items
 }
 
+/**
+ * Get the columns and rows from the current TableView
+ *
+ * @param tableViewId
+ * @param filters
+ * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
+ */
 async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
@@ -94,21 +105,52 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {})
   }
 }
 
+/**
+ * Get value for data export
+ *
+ * @param currentColumn
+ * @param currentRowValue
+ * @returns string|undefined
+ */
+function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
+  switch (currentColumn.column_type_id) {
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return (getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      ) as SelectValue)?.label
+    case COLUMN_TYPE.FILE:
+      const values = getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      )
+      if (Array.isArray(values) && values.length > 0) {
+        return values.map(x => x.filename).join(', ')
+      }
+      return ''
+    default:
+      return getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      ) as string|undefined
+  }
+}
+
+/**
+ * Export data in xls
+ *
+ * @param tableViewId
+ * @param filters
+ * @param fileName
+ */
 export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export') {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
     viewColumns.forEach(currentColumn => {
-      const value = getColumnDisplayValue(
-        currentColumn,
-        currentRow.data[currentColumn.id]
-      )
-      let sanitizedValue = value
-      if (typeof value === 'string') sanitizedValue = value.replaceAll('\n', ' ')
-      if ((value as { label: string | undefined; color: string | undefined; backgroundColor: string | undefined }).label) {
-        sanitizedValue = (value as { label: string | undefined; color: string | undefined; backgroundColor: string | undefined }).label
-      }
+      const value = getValueExport(currentColumn, currentRow.data[currentColumn.id])
+      const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
       formatedData[currentColumn.text] = sanitizedValue as string
     })
     return formatedData
@@ -120,15 +162,19 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
   XLSX.writeFile(wb, exportName)
 }
 
+/**
+ * Export data in csv
+ *
+ * @param tableViewId
+ * @param filters
+ * @param fileName
+ */
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
     viewColumns.map(currentColumn => {
-      const value = getColumnDisplayValue(
-        currentColumn,
-        currentRow.data[currentColumn.id]
-      )
+      const value = getValueExport(currentColumn, currentRow.data[currentColumn.id])
       const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
       return '"' + sanitizedValue + '"'
     }).join(',')

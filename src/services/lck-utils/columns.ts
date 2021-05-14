@@ -290,7 +290,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
 export function getColumnDisplayValue (
   column: LckTableColumn,
   data: LckTableRowData = ''
-): string | undefined | { label: string | undefined; color: string | undefined; backgroundColor: string | undefined } {
+): string | undefined | SelectValue {
   if (
     data === '' ||
     data === undefined ||
@@ -316,7 +316,7 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
-        const currentValue = column.settings.values?.[data as string]
+        const currentValue = (column.settings.values?.[data as string]) as SelectValue
         return {
           label: currentValue?.label,
           color: currentValue?.color,
