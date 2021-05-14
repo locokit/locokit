@@ -8,6 +8,7 @@
       :row="content.data[0]"
       :cellState="cellState"
       :autocompleteSuggestions="autocompleteSuggestions"
+      :workspaceId="workspaceId"
       v-on="$listeners"
     />
   </div>
@@ -53,6 +54,10 @@ export default Vue.extend({
           isValid: null
         }
       }
+    },
+    workspaceId: {
+      type: String,
+      required: true
     }
   },
   computed: {
