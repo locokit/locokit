@@ -84,13 +84,25 @@ export default Vue.extend({
   height: 100%;
   background-color: var(--surface-a);
 }
+
 .version-block {
   position: absolute;
   right: 0;
   bottom: 0;
   color: var(--surface-d);
 }
+
 /deep/ .p-card .p-card-title {
   text-align: center;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media only screen and (max-device-width: 480px) {
+  img {
+    max-width: 90%;
+  }
 }
 </style>
