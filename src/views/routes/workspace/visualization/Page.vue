@@ -4,19 +4,30 @@
     class="p-mx-2"
     :class="setLayoutPage"
   >
-    <div class="lck-page-content" :style="{ marginRight: showUpdateContainerSidebar ? editableSidebarWidth : 0 }">
-      <div class="lck-color-page-title p-my-4">
-        <h1>{{ page.text }}</h1>
-      </div>
+    <div
+      class="lck-page-content"
+      :style="{ marginRight: showUpdateSidebar ? editableSidebarWidth : 0 }"
+    >
       <div
         v-if="page.hidden"
-        class="p-mb-4"
+        class="lck-color-primary p-mb-4"
       >
         <p-breadcrumb
           :home="{ icon: 'pi pi-home', to: '/' }"
           :model="breadcrumb"
         />
       </div>
+
+      <div class="lck-color-primary p-my-4">
+        <h1>{{ page.text }}</h1>
+      </div>
+
+      <lck-nav-anchor-link
+        v-if="isNavBarAnchorLinkDisplayed || editMode"
+        :containers="page.containers"
+        :editMode="editMode"
+        @edit-nav="onNavAnchorLinkEditClick"
+      />
 
       <draggable
         :key="page.id"
@@ -26,30 +37,30 @@
       >
         <div
           v-for="container in page.containers"
+          :id="container.id"
           :key="container.id"
           class="lck-container"
           :class="{
             'editable-container': editMode
           }"
         >
+          <h2 v-if="container.display_title && !editMode" class="lck-color-title">{{ container.text }}</h2>
           <div v-if="editMode" class="edit-container-line">
-            <span>
-              <p-button
-                :title="$t('pages.workspace.dragContainer')"
-                class="p-button-lg p-button-text handle "
-                icon="pi pi-ellipsis-v"
-              />
-            </span>
             <h2 class="lck-color-title">{{ container.text }}</h2>
             <span class="p-buttonset">
               <p-button
-                :title="$t('pages.workspace.editContainer')"
+                :title="$t('pages.workspace.container.drag')"
+                class="p-button-lg p-button-text handle "
+                icon="pi pi-ellipsis-v"
+              />
+              <p-button
+                :title="$t('pages.workspace.container.edit')"
                 class="p-button-lg p-button-text edit-container-button"
                 icon="pi pi-pencil"
                 @click="onContainerEditClick(container)"
               />
               <p-button
-                :title="$t('pages.workspace.deleteContainer')"
+                :title="$t('pages.workspace.container.delete')"
                 class="p-button-lg p-button-text remove-container-button"
                 icon="pi pi-trash"
                 @click="onContainerDeleteClick(container)"
@@ -63,17 +74,19 @@
             handle=".handle-block"
           >
             <Block
-              class="lck-block"
               v-for="block in container.blocks"
               :key="block.id"
+              class="lck-block"
+              :class="{
+                'p-mb-4': !editMode,
+              }"
               :block="block"
+              :workspaceId="workspaceId"
               :autocompleteSuggestions="autocompleteSuggestions"
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-              :class="{
-                'p-mb-4': !editMode,
-              }"
+
               v-on="$listeners"
               @update-row="onUpdateCell(block, $event)"
               @update-cell="onUpdateCell(block, $event)"
@@ -94,30 +107,40 @@
             :title="$t('pages.workspace.block.create')"
             icon="pi pi-plus"
             class="new-block-button p-button-text"
-            @click="onBlockEditClick(container, { id: '' })"
+            @click="onBlockEditClick(container, { id: 'temp' })"
           />
         </div>
       </draggable>
       <p-button
         v-if="editMode"
-        :title="$t('pages.workspace.createContainer')"
+        :title="$t('pages.workspace.container.create')"
         icon="pi pi-plus"
         class="new-container-button p-button-text"
-        @click="onContainerEditClick({})"
+        @click="onContainerEditClick({ id: 'temp' })"
       />
     </div>
-    <update-container-sidebar
+    <update-sidebar
       :submitting="submitting"
-      :showSidebar="showUpdateContainerSidebar"
+      :showSidebar="showUpdateSidebar"
       :container="currentContainerToEdit"
       :block="currentBlockToEdit"
+      :page="page"
       :width="editableSidebarWidth"
       :autocompleteSuggestions="editableAutocompleteSuggestions"
       :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
-      @click-block="onBlockEditClickFromSidebar"
       @update-block="onBlockEditInput"
-      @delete-block="onBlockDeleteClickFromSidebar"
+
+      @add-new-block="onBlockEditClickFromSidebar"
+      @edit-block="onBlockEditClickFromSidebar"
+      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
+
+      @add-new-container="onContainerEditClickFromSidebar"
+      @edit-container="onContainerEditClickFromSidebar"
+      @delete-container="onContainerDeleteClick($event)"
+
+      @reset-current-block="onBlockEditClickFromSidebar"
+      @reset-current-container="onContainerEditClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
     />
@@ -125,16 +148,16 @@
       :submitting="submitting"
       :visible="dialogVisibility.containerDelete"
       :value="currentContainerToDelete"
-      :itemCategory="$t('pages.workspace.container')"
+      :itemCategory="$t('pages.workspace.container.name')"
       @close="onContainerDeleteClose"
       @input="onContainerDeleteInput"
     />
     <delete-confirmation-dialog
       :submitting="submitting"
       :visible="dialogVisibility.blockDelete"
-      :itemCategory="$t('pages.workspace.block.block')"
-      fieldToDisplay="title"
       :value="currentBlockToDelete"
+      :itemCategory="$t('pages.workspace.block.name')"
+      fieldToDisplay="title"
       @close="onBlockDeleteClose"
       @input="onBlockDeleteInput"
     />
@@ -176,18 +199,20 @@ import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 
 import Block from '@/components/visualize/Block/Block'
-import UpdateContainerSidebar from '@/components/visualize/UpdateContainerSidebar/UpdateContainerSidebar.vue'
+import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
+import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 
 export default {
   name: 'Page',
   components: {
     Block,
+    'update-sidebar': UpdateSidebar,
+    'delete-confirmation-dialog': DeleteConfirmationDialog,
+    'lck-nav-anchor-link': NavAnchorLink,
     'p-breadcrumb': Vue.extend(Breadcrumb),
     'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable),
-    'update-container-sidebar': UpdateContainerSidebar,
-    'delete-confirmation-dialog': DeleteConfirmationDialog
+    draggable: Vue.extend(draggable)
   },
   props: {
     pageId: {
@@ -205,6 +230,10 @@ export default {
     chapters: {
       type: Array,
       default: () => ([])
+    },
+    workspaceId: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -214,7 +243,7 @@ export default {
       autocompleteSuggestions: null,
       exporting: false,
       cellState: {},
-      showUpdateContainerSidebar: false,
+      showUpdateSidebar: false,
       currentContainerToEdit: {},
       currentContainerToDelete: {},
       currentBlockToEdit: {},
@@ -243,7 +272,7 @@ export default {
     }
   },
   computed: {
-    breadcrumb: function () {
+    breadcrumb () {
       const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
         chapter.subitems.find(page => {
           if (page.id === this.$route.params.pageId) acc = page
@@ -261,7 +290,10 @@ export default {
         }
       ]
     },
-    relatedChapterPages: function () {
+    isNavBarAnchorLinkDisplayed () {
+      return this.page?.containers?.some(container => container.displayed_in_navbar)
+    },
+    relatedChapterPages () {
       let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
         relatedChapterPages = this.chapters.find(
@@ -471,25 +503,26 @@ export default {
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}
       this.currentBlockToEdit = {}
-      this.showUpdateContainerSidebar = true
+      this.showUpdateSidebar = true
+    },
+    onNavAnchorLinkEditClick () {
+      this.currentContainerToEdit = {}
+      this.currentBlockToEdit = {}
+      this.showUpdateSidebar = true
     },
     async onContainerEditInput (containerToEdit) {
       try {
         this.submitting = true
-        if (containerToEdit.id) {
+        const { id, ...data } = containerToEdit
+        if (id !== 'temp') {
           // On update
-          const updatedContainer = await lckServices.container.patch(containerToEdit.id, {
-            text: containerToEdit.text
-          })
+          const updatedContainer = await lckServices.container.patch(id, data)
           for (const key in updatedContainer) {
             this.currentContainerToEdit[key] = updatedContainer[key]
           }
         } else {
           // On create
-          this.currentContainerToEdit = await lckServices.container.create({
-            text: containerToEdit.text,
-            page_id: this.page.id
-          })
+          this.currentContainerToEdit = await lckServices.container.create({ ...data, page_id: this.page.id })
           this.page.containers.push(this.currentContainerToEdit)
         }
       } catch (error) {
@@ -502,20 +535,20 @@ export default {
       this.currentContainerToDelete = containerToDelete
       this.dialogVisibility.containerDelete = true
     },
-    async onContainerDeleteInput (containerToDelete = {}) {
+    async onContainerDeleteInput (containerToDelete) {
       try {
         this.submitting = true
-        if (containerToDelete.id) {
+        if (containerToDelete?.id) {
           await lckServices.container.remove(containerToDelete.id)
           const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
           if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
         }
-        if (containerToDelete.id === this.currentContainerToEdit.id) {
+        if (containerToDelete?.id === this.currentContainerToEdit.id) {
           this.onCloseUpdateContainerSidebar()
         }
         this.onContainerDeleteClose()
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.container')} ${containerToDelete.text}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.container.title')} ${containerToDelete.text}`, error)
       } finally {
         this.submitting = false
       }
@@ -544,25 +577,27 @@ export default {
     onCloseUpdateContainerSidebar () {
       this.currentContainerToEdit = {}
       this.currentBlockToEdit = {}
-      this.showUpdateContainerSidebar = false
+      this.showUpdateSidebar = false
     },
     onBlockEditClickFromSidebar (blockToEdit) {
       this.currentBlockToEdit = blockToEdit
     },
+    onContainerEditClickFromSidebar (blockToEdit) {
+      this.currentContainerToEdit = blockToEdit
+    },
     onBlockEditClick (containerToEdit, blockToEdit) {
       this.currentContainerToEdit = containerToEdit
       this.currentBlockToEdit = blockToEdit
-      this.showUpdateContainerSidebar = true
+      this.showUpdateSidebar = true
     },
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {
         this.submitting = true
-        if (blockToEdit.id) {
+        const { id, ...data } = blockToEdit
+        if (id !== 'temp') {
           // On update
-          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings
+          const updatedBlock = await lckServices.block.patch(id, {
+            ...data
           })
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
@@ -570,10 +605,8 @@ export default {
         } else {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
-            container_id: this.currentContainerToEdit.id,
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings
+            ...data,
+            container_id: this.currentContainerToEdit.id
           })
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
@@ -584,7 +617,7 @@ export default {
         // Reload the block definition and content if it is necessary
         if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${this.currentBlockToEdit.title}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${this.currentBlockToEdit.title}`, error)
       } finally {
         this.submitting = false
       }
@@ -593,9 +626,6 @@ export default {
       this.currentContainerToDelete = containerToEdit
       this.currentBlockToDelete = blockToDelete
       this.dialogVisibility.blockDelete = true
-    },
-    onBlockDeleteClickFromSidebar (blockToDelete) {
-      this.onBlockDeleteClick(this.currentContainerToEdit, blockToDelete)
     },
     onBlockDeleteClose () {
       this.currentContainerToDelete = {}
@@ -615,7 +645,7 @@ export default {
           this.onBlockDeleteClose()
         }
       } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.block')} ${blockToDelete.title}`, error)
+        this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${blockToDelete.title}`, error)
       } finally {
         this.submitting = false
       }
@@ -717,6 +747,7 @@ export default {
 }
 
 .edit-container-line {
+  padding-left: 0.5rem;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid var(--primary-color);
@@ -756,8 +787,12 @@ export default {
   padding: 0.5rem;
 }
 
-/deep/ .edit-block-line .lck-color-title {
+/deep/ .edit-block-line {
   padding-left: 0.5rem;
+}
+
+.lck-container:target {
+  scroll-margin-top: 50px;
 }
 
 .lck-container.editable-container .edit-container-line {
@@ -768,6 +803,11 @@ export default {
   color: var(--primary-color)
 }
 
+/deep/ .p-breadcrumb {
+  background: unset;
+  border: unset;
+  padding-left: 0;
+}
 /* classic content */
 
 .lck-layout-classic .lck-container div {

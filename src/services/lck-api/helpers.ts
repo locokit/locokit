@@ -2,83 +2,26 @@
 import { Paginated } from '@feathersjs/feathers'
 import {
   LckGroup,
-  LckTableColumn,
-  LckTableViewColumn,
   LckTableRow,
   LckTableRowData,
-  LckTableRowDataComplex,
-  LCKTableRowMultiDataComplex,
-  LckUser
+  LckTableViewColumn,
+  LckUser,
+  SelectValue
 } from './definitions'
 import { lckServices } from './services'
-import { getOriginalColumn } from '@/services/lck-utils/columns'
+import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import XLSX from 'xlsx'
-
-/**
- * Return the display value for a column.
- * By taking the backend data column value,
- * retrieve the good part of the data to be displayed.
- *
- * @param column
- * The column definition
- *
- * @param data
- * The data to be analyzed
- */
-export function getColumnDisplayValue (
-  column: LckTableColumn,
-  data: LckTableRowData = ''
-): string | undefined {
-  if (
-    data === '' ||
-    data === undefined ||
-    data === null
-  ) return ''
-  try {
-    switch (column.column_type_id) {
-      case COLUMN_TYPE.USER:
-      case COLUMN_TYPE.GROUP:
-      case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        return (data as LckTableRowDataComplex).value
-      case COLUMN_TYPE.LOOKED_UP_COLUMN:
-        const originalColumn = getOriginalColumn(column)
-        if ([
-          COLUMN_TYPE.DATE,
-          COLUMN_TYPE.MULTI_SELECT,
-          COLUMN_TYPE.SINGLE_SELECT
-        ].includes(originalColumn.column_type_id)) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
-        } else {
-          return (data as LckTableRowDataComplex).value
-        }
-      case COLUMN_TYPE.MULTI_USER:
-        return (data as LCKTableRowMultiDataComplex).value.join(', ')
-      case COLUMN_TYPE.SINGLE_SELECT:
-        return column.settings.values?.[data as string]?.label
-      case COLUMN_TYPE.MULTI_SELECT:
-        if ((data as string[]).length > 0) {
-          return (data as string[]).map(d => column.settings.values?.[d]?.label).join(', ')
-        } else {
-          return ''
-        }
-      case COLUMN_TYPE.DATE:
-      default:
-        return data as string
-    }
-  } catch (error) {
-    // eslint-disable no-console
-    console.error('Field with bad format', data, error)
-    return ''
-  }
-}
+import { getColumnDisplayValue } from '../lck-utils/columns'
 
 /**
  * Contact the API for searching items.
  * Useful for autocomplete fields.
  *
- * @param param0
+ * @param columnTypeId
+ * @param tableId
+ * @param query
  */
 export async function searchItems ({
   columnTypeId,
@@ -130,6 +73,13 @@ export async function searchItems ({
   return items
 }
 
+/**
+ * Get the columns and rows from the current TableView
+ *
+ * @param tableViewId
+ * @param filters
+ * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
+ */
 async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
@@ -155,18 +105,53 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {})
   }
 }
 
+/**
+ * Get value for data export
+ *
+ * @param currentColumn
+ * @param currentRowValue
+ * @returns string|undefined
+ */
+function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
+  switch (currentColumn.column_type_id) {
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return (getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      ) as SelectValue)?.label
+    case COLUMN_TYPE.FILE:
+      const values = getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      )
+      if (Array.isArray(values) && values.length > 0) {
+        return values.map(x => x.filename).join(', ')
+      }
+      return ''
+    default:
+      return getColumnDisplayValue(
+        currentColumn,
+        currentRowValue
+      ) as string|undefined
+  }
+}
+
+/**
+ * Export data in xls
+ *
+ * @param tableViewId
+ * @param filters
+ * @param fileName
+ */
 export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export') {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
     viewColumns.forEach(currentColumn => {
-      const value = getColumnDisplayValue(
-        currentColumn,
-        currentRow.data[currentColumn.id]
-      )
+      const value = getValueExport(currentColumn, currentRow.data[currentColumn.id])
       const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
-      formatedData[currentColumn.text] = sanitizedValue
+      formatedData[currentColumn.text] = sanitizedValue as string
     })
     return formatedData
   })
@@ -177,15 +162,19 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
   XLSX.writeFile(wb, exportName)
 }
 
+/**
+ * Export data in csv
+ *
+ * @param tableViewId
+ * @param filters
+ * @param fileName
+ */
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
     viewColumns.map(currentColumn => {
-      const value = getColumnDisplayValue(
-        currentColumn,
-        currentRow.data[currentColumn.id]
-      )
+      const value = getValueExport(currentColumn, currentRow.data[currentColumn.id])
       const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
       return '"' + sanitizedValue + '"'
     }).join(',')
@@ -199,9 +188,53 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
   )
 }
 
+/**
+ * Get the Blob data of an attachment.
+ * Use a fetch request to inject Authorization header in HTTP Request.
+ * It allows to retrieve protected files.
+ *
+ * @param url URL of the attachment
+ * @returns Blob
+ */
+export async function getAttachmentBlob (url: string) {
+  const jwtToken = await lckClient.authentication.getAccessToken()
+  const headers = new Headers()
+  headers.append('Authorization', 'Bearer ' + jwtToken)
+  // Fetch the image.
+  const response = await fetch(url, { headers })
+
+  // Create an object URL from the data.
+  return await response.blob()
+}
+
+/**
+ * Download an attachment
+ * by retrieving the blob
+ * then saving it to the user file sytem.
+ *
+ * Need to be improved with a signed request
+ * instead of a download by the web browser.
+ *
+ * @param url URL of the attachment
+ * @param filename Filename of the attachment
+ * @param mime Mime Type of the attachment
+ */
+export async function downloadAttachment (url: string, filename: string, mime: string) {
+  const blob = await getAttachmentBlob(url)
+  saveAs(
+    blob,
+    filename,
+    {
+      type: `${mime};`
+    }
+  )
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
-  getColumnDisplayValue
+  getColumnDisplayValue,
+  downloadAttachment,
+  getAttachmentBlob
 }

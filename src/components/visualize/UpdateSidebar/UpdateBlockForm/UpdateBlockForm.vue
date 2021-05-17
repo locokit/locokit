@@ -1,0 +1,198 @@
+<template>
+  <lck-form
+    :submitting="submitting"
+    @submit="onFormSubmit"
+    @cancel="$emit('close')"
+    class="lck-update-block-form lck-color-content p-text-bold"
+  >
+    <div class="p-field ">
+      <label for="blockTitleField">{{ $t('pages.workspace.block.name') }}</label>
+      <p-input-text
+        id="blockTitleField"
+        v-model="blockCopy.title"
+      />
+    </div>
+    <div class="p-field">
+      <label for="blockTypeField">{{ $t('pages.workspace.block.type') }}</label>
+      <p-dropdown
+        id="blockTypeField"
+        v-model="blockCopy.type"
+        :placeholder="$t('components.datatable.placeholder')"
+        :options="blockTypesValues"
+        @input="resetBlockSettings"
+      />
+    </div>
+
+    <!-- Custom settings -->
+    <paragraph-settings-fields
+      v-if="blockCopy.type === BLOCK_TYPE.PARAGRAPH"
+      :content.sync="blockCopy.settings.content"
+    />
+    <markdown-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWN"
+      :content.sync="blockCopy.settings.content"
+    />
+    <media-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.MEDIA"
+      :displayMode.sync="blockCopy.settings.displayMode"
+      :medias="blockCopy.settings.medias"
+      @update:displayMode="onUpdateMediaDisplayMode"
+      @update-media-name="onUpdateMediaName"
+      @update-media-srcURL="onUpdateMediaSrcURL"
+      @update-media-type="onUpdateMediaType"
+      @add-media="onAddMedia"
+      @delete-media="onDeleteMedia"
+    />
+    <table-view-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.TABLE_VIEW"
+      :addAllowed.sync="blockCopy.settings.addAllowed"
+      :exportAllowed.sync="blockCopy.settings.exportAllowed"
+      :id.sync="blockCopy.settings.id"
+      :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :tableViewDefinition="blockCopy.definition"
+      :relatedChapterPages="relatedChapterPages"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
+      @component-refresh-required="onComponentRefreshRequired"
+    />
+    <detail-view-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.DETAIL_VIEW"
+      :id.sync="blockCopy.settings.id"
+      :tableViewDefinition="blockCopy.definition"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
+      @component-refresh-required="onComponentRefreshRequired"
+    />
+    <map-settings-fields
+      v-else-if="[BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockCopy.type)"
+      :id.sync="blockCopy.settings.id"
+      :tableViewDefinition="blockCopy.definition"
+      :relatedChapterPages="relatedChapterPages"
+      :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
+      @component-refresh-required="onComponentRefreshRequired"
+    />
+  </lck-form>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+import cloneDeep from 'lodash/cloneDeep'
+
+import { BLOCK_TYPE, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+
+import InputText from 'primevue/inputtext'
+import Dropdown from 'primevue/dropdown'
+
+import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
+
+import LckForm from '@/components/ui/Form/Form.vue'
+import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
+import MarkdownSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MarkdownSettingsFields.vue'
+import MediaSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MediaSettingsFields.vue'
+import TableViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableViewSettingsFields.vue'
+import DetailViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DetailViewSettingsFields.vue'
+import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
+
+export default {
+  name: 'UpdateBlockForm',
+  components: {
+    'lck-form': LckForm,
+    'paragraph-settings-fields': ParagraphSettingsFields,
+    'markdown-settings-fields': MarkdownSettingsFields,
+    'media-settings-fields': MediaSettingsFields,
+    'table-view-settings-fields': TableViewSettingsFields,
+    'detail-view-settings-fields': DetailViewSettingsFields,
+    'map-settings-fields': MapSettingsFields,
+    'p-input-text': Vue.extend(InputText),
+    'p-dropdown': Vue.extend(Dropdown)
+  },
+  props: {
+    block: {
+      type: Object as Vue.PropType<LckBlockExtended>,
+      required: true
+    },
+    submitting: {
+      type: Boolean,
+      default: false
+    },
+    autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    } as Vue.PropOptions<{ label: string; value: string }[]>,
+    relatedChapterPages: {
+      type: Array,
+      default: () => ([])
+    }
+  },
+  data () {
+    return {
+      blockCopy: new LckBlockExtended(),
+      BLOCK_TYPE: BLOCK_TYPE,
+      blockRefreshRequired: false
+    }
+  },
+  computed: {
+    blockTypesValues () {
+      return Object.values(BLOCK_TYPE)
+    }
+  },
+  watch: {
+    block: {
+      handler (newValue: LckBlockExtended) {
+        this.blockCopy = cloneDeep(newValue)
+        if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    resetBlockSettings (blockType: string) {
+      const defaultSettings = {}
+      switch (blockType) {
+        case BLOCK_TYPE.MEDIA:
+          (defaultSettings as MediaSettings).medias = []
+          break
+      }
+      this.$set(this.blockCopy, 'settings', defaultSettings)
+    },
+    onFormSubmit () {
+      this.$emit('input', {
+        blockToEdit: this.blockCopy,
+        blockRefreshRequired: this.blockRefreshRequired
+      })
+      this.blockRefreshRequired = false
+    },
+    onComponentRefreshRequired (refreshRequired: boolean) {
+      this.blockRefreshRequired = refreshRequired
+    },
+    // Manage the media block
+    onUpdateMediaName ({ media, name }: { media: MediaConfiguration; name: string }) {
+      media.name = name
+    },
+    onUpdateMediaSrcURL ({ media, srcURL }: { media: MediaConfiguration; srcURL: string }) {
+      media.srcURL = srcURL
+    },
+    onUpdateMediaType ({ media, type }: { media: MediaConfiguration; type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO }) {
+      media.type = type
+    },
+    onAddMedia () {
+      (this.blockCopy.settings as MediaSettings).medias.push({
+        name: '',
+        srcURL: '',
+        type: MEDIA_TYPE.IMAGE
+      })
+    },
+    onUpdateMediaDisplayMode (displayMode: MEDIA_TYPE) {
+      if (displayMode === MEDIA_TYPE.IMAGE || displayMode === MEDIA_TYPE.VIDEO) {
+        (this.blockCopy.settings as MediaSettings).medias.splice(1)
+      }
+    },
+    onDeleteMedia (index: number) {
+      (this.blockCopy.settings as MediaSettings).medias.splice(index, 1)
+    }
+  }
+}
+</script>

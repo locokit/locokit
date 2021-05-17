@@ -15,7 +15,7 @@
       :key="column.id"
     >
       <label
-        class="lck-color-subtitle"
+        class="lck-color-primary"
         :for="column.id"
       >
         {{ column.text }}
@@ -26,7 +26,7 @@
         class="form-field-editable"
       >
         <lck-autocomplete
-          v-if="getComponentEditableColumn(column) === 'lck-autocomplete'"
+          v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
           :id="column.id"
           :placeholder="$t('components.datatable.placeholder')"
           field="label"
@@ -37,7 +37,7 @@
           @clear="onAutocompleteEdit(row.id, column.id, null)"
         />
         <lck-multi-autocomplete
-          v-else-if="getComponentEditableColumn(column) === 'lck-multi-autocomplete'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multi-autocomplete'"
           :id="column.id"
           field="label"
           :suggestions="autocompleteSuggestions"
@@ -47,7 +47,7 @@
           @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
         />
         <p-dropdown
-          v-else-if="getComponentEditableColumn(column) === 'p-dropdown'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-dropdown'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -58,7 +58,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <lck-multiselect
-          v-else-if="getComponentEditableColumn(column) === 'lck-multiselect'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
           :options="columnsEnhanced[column.id].dropdownOptions"
           optionLabel="label"
@@ -68,7 +68,7 @@
           @input="onEdit(row.id, column.id, $event)"
         />
         <p-calendar
-          v-else-if="getComponentEditableColumn(column) === 'p-calendar'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
           :id="column.id"
           :dateFormat="$t('date.dateFormatPrime')"
           v-model="row.data[column.id]"
@@ -76,13 +76,14 @@
           appendTo="body"
         />
         <p-input-number
-          v-else-if="getComponentEditableColumn(column) === 'p-input-float'"
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-input-float'"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           mode="decimal"
           :minFractionDigits="2"
         />
-        <div v-else-if="getComponentEditableColumn(column) === 'lck-map'" >
+
+        <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
           <lck-map
             v-if="row.data[column.id]"
             mode="Dialog"
@@ -91,13 +92,27 @@
           />
           <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
+        <p-checkbox
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+          v-model="row.data[column.id]"
+          :id="column.id"
+          :binary="true"
+          @input="onEdit(row.id, column.id, row.data[column.id])"
+        />
         <component
           v-else
-          :is="getComponentEditableColumn(column)"
+          :is="getComponentEditorDetailForColumnType(column)"
           :id="column.id"
           v-model="row.data[column.id]"
           @blur="onEdit(row.id, column.id, row.data[column.id])"
+          :rows="7"
         />
+
+        <span
+          class="cell-state"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+        />
+
       </div>
 
       <div
@@ -105,7 +120,7 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <lck-map
-          v-if="getComponentEditableColumn(column) === 'lck-map' && row.data[column.id]"
+          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
@@ -113,9 +128,33 @@
             interactive: false
           }"
         />
+        <p-checkbox
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
+          :value="row.data[column.id]"
+          :disabled="true"
+        />
+        <lck-badge
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
+          v-bind="getColumnDisplayValue(column, row.data[column.id])"
+        />
+        <lck-file-input
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-file-input'"
+          :attachments="row.data[column.id]"
+          :workspaceId="workspaceId"
+          :displayLabels="false"
+          @input="$emit('upload-files', {
+            rowId: row.id,
+            columnId: column.id,
+            fileList: $event
+          })"
+          @download="$emit('download-attachment', $event)"
+          @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+        />
+
         <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
+
       </div>
     </div>
   </div>
@@ -129,6 +168,7 @@ import Vue from 'vue'
 
 import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
+import Feature from 'ol/Feature'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -139,6 +179,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
 
 import {
   COLUMN_TYPE
@@ -148,28 +189,33 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
-import Map from '@/components/ui/Map/Map.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
+import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
+import Badge from '@/components/ui/Badge/Badge.vue'
+import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
 import {
   getColumnTypeId,
-  getComponentEditableColumn,
-  isEditableColumn
+  getComponentEditorDetailForColumnType,
+  getComponentDisplayDetailForColumnType,
+  isEditableColumn,
+  getColumnDisplayValue
 } from '@/services/lck-utils/columns'
-import { lckHelpers } from '@/services/lck-api'
+
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
   getStyleLayers
 } from '@/services/lck-utils/map'
 import {
+  LckAttachment,
   LckTableColumn,
   LckTableRow,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
-import Feature from 'ol/Feature'
+import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
 export default {
   name: 'LckDataDetail',
@@ -192,10 +238,29 @@ export default {
     },
     title: {
       type: String
+    },
+    cellState: {
+      type: Object,
+      default: function () {
+        return {
+          rowId: null,
+          columnId: null,
+          waiting: false,
+          isValid: null
+        }
+      }
+    },
+    /**
+     * We need the workspace id for displaying images from attachments
+     */
+    workspaceId: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
+      COLUMN_TYPE,
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
@@ -206,8 +271,10 @@ export default {
     'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
-    'lck-input-url': InputURL,
+    'lck-url-input': URLInput,
     'lck-map': Map,
+    'lck-badge': Badge,
+    'lck-file-input': FileInput,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
@@ -216,7 +283,8 @@ export default {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   computed: {
     editableColumns (): LckTableViewColumn[] {
@@ -260,12 +328,16 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn (column: LckTableColumn) {
-      return getComponentEditableColumn(getColumnTypeId(column))
-    },
+    getCellStateNotificationClass,
     isEditableColumn,
     transformEWKTtoFeature,
-    getColumnDisplayValue: lckHelpers.getColumnDisplayValue,
+    getColumnDisplayValue,
+    getComponentEditorDetailForColumnType (column: LckTableColumn) {
+      return getComponentEditorDetailForColumnType(getColumnTypeId(column))
+    },
+    getComponentDisplayDetailForColumnType (column: LckTableColumn) {
+      return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
+    },
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
       { query }: { query: string }
@@ -298,6 +370,18 @@ export default {
         rowId,
         columnId,
         newValue: value
+      })
+    },
+    /**
+     * Remove an attachment for the column's attachments
+     */
+    async onRemoveAttachment (rowId: string, columnId: string, attachmentId: number) {
+      this.$emit('update-row', {
+        rowId,
+        columnId,
+        newValue: this.row.data[columnId]
+          .filter((a: LckAttachment) => a.id !== attachmentId)
+          .map((a: LckAttachment) => a.id)
       })
     },
     getLckGeoResources (column: LckTableColumn, data: string) {
@@ -371,11 +455,37 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+/deep/ .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
+
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
+}
 
 .non-editable-field {
   border: unset;
   background-color: transparent;
   padding-left: unset;
+}
+.form-field-editable {
+  position: relative;
 }
 </style>

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import { addDecorator, addParameters } from '@storybook/vue';
 
+require('isomorphic-fetch');
+
 import ThemeWrapper from './ThemeWrapper.vue'
 import i18n from '../src/plugins/i18n'
 import '../src/plugins/primevue'

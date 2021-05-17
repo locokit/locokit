@@ -2,7 +2,7 @@
   <div
     class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
   >
-    <div class="lck-color-page-title p-my-4">
+    <div class="lck-color-primary p-my-4">
       <h1>{{ $t('pages.account.title') }}</h1>
     </div>
     <section class="p-mb-4">

@@ -35,6 +35,7 @@
           ...$attrs,
           ...block
         }"
+        :workspaceId="workspaceId"
         :display-detail-button="displayDetailButton"
         :add-allowed="addAllowed"
         :export-allowed="exportAllowed"
@@ -126,6 +127,10 @@ export default Vue.extend({
     editMode: {
       type: Boolean,
       default: false
+    },
+    workspaceId: {
+      type: String,
+      required: true
     }
   }
 })
@@ -159,11 +164,6 @@ export default Vue.extend({
 .editable-block .block-content {
   pointer-events: none;
   margin-bottom: 0.5rem;
-}
-
-.lck-paragraph {
-  margin: 1rem;
-  padding: 1rem;
 }
 
 </style>

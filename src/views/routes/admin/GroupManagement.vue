@@ -2,7 +2,7 @@
   <div
     class="p-mx-auto p-px-2"
   >
-    <div class="lck-color-page-title p-my-4">
+    <div class="lck-color-primary p-my-4">
       <h1>{{ $t('pages.groupManagement.title') }}</h1>
     </div>
 

@@ -19,11 +19,38 @@ module.exports = {
     // You can change the configuration based on that.
     // 'PRODUCTION' is used when building the static version of storybook.
     // Make whatever fine-grained changes you need
+
+    /**
+     * first remove the png rule
+     */
+    config.module.rules = config.module.rules.map(rule => {
+      if (rule.test.toString().includes('png')) {
+        const test = rule.test.toString().replace('png|', '').replace(/\//g, '')
+        return { ...rule, test: new RegExp(test) }
+      } else {
+        return rule
+      }
+    })
+
     config.module.rules.push({
       test: /\.scss$/,
       use: ['style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
+
+    /**
+     * load png files directly for AsyncImage story
+     */
+    config.module.rules.push({
+      test: /\.(png)(\?.*)?$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 100000,
+        },
+      }],
+    });
+
 
     config.resolve.alias = {
       'vue$': 'vue/dist/vue.esm.js',

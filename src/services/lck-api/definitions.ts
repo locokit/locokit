@@ -21,6 +21,17 @@ export class LckWorkspace extends LckBaseModel {
   databases?: LckDatabase[];
 }
 
+export class LckAttachment {
+  id!: number
+  filepath!: string
+  filename!: string
+  mime!: string
+  ext!: string
+  thumbnail!: boolean; // has the attachment a thumbnail available
+
+  workspace_id!: string
+}
+
 /**
  * Database section
  */
@@ -151,18 +162,32 @@ export class LckChapter extends LckBaseModel {
   text!: string;
   pages?: LckPage[];
 }
+
 export class LckPage extends LckBaseModel {
   text!: string;
   hidden?: boolean;
   position!: number;
 }
+
+export enum AnchorClass {
+  VISIBLE = 'visible',
+  CLASSIC = 'classic'
+}
+
 export class LckContainer extends LckBaseModel {
   text!: string;
+  display_title!: boolean;
+  displayed_in_navbar!: boolean;
+  anchor_label?: string;
+  anchor_icon?: string;
+  anchor_icon_class?: AnchorClass;
   blocks?: LckBlockExtended[];
 }
+
 export class LckBlock extends LckBaseModel {
   text!: string;
 }
+
 export class LckBlockExtended extends LckBaseModel {
   container_id!: string;
   type!: string;

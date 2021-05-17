@@ -5,7 +5,7 @@
         :items="sidebarItems"
         :displayEditActions="editMode"
         :createItemLabel="$t('pages.workspace.createChapter')"
-        :createSubItemLabel="$t('pages.workspace.createPage')"
+        :createSubItemLabel="$t('pages.workspace.page.create')"
         @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
         @delete-item="onChapterDeleteClick"
@@ -56,7 +56,7 @@
       <lck-confirmation-dialog
         :visible="dialogVisibility.pageDelete"
         :value="currentPageToEdit"
-        :itemCategory="$t('pages.workspace.page')"
+        :itemCategory="$t('pages.workspace.page.name')"
         :submitting="submitting"
         @close="onPageDeleteReset"
         @input="onPageDeleteInput"

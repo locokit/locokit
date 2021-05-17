@@ -48,8 +48,6 @@
         @column-reorder="onColumnReorder"
         :minColumnReorderIndex="unorderableColumnsNumber"
 
-        style="width: unset !important;"
-
         @sort="onSort"
         :sortField.sync="sortField"
         :sortOrder.sync="sortOrder"
@@ -98,13 +96,16 @@
               overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
-              'height': '2.5rem'
+              'height': '2.5rem',
+              'max-height': '2.5rem',
+              'overflow': 'hidden',
             }"
             :bodyStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
               'white-space': 'nowrap',
               'position': 'relative',
               'height': '2.5rem',
+              'max-height': '2.5rem',
             }"
             :sortable="isSortableColumn(column)"
           >
@@ -112,7 +113,7 @@
             <div class="th-container">
               <span class="th-text" :data-column-id="column.id">
                 <i
-                  style="filter: brightness(2)"
+                  style="filter: grayscale(100%) opacity(50%);"
                   :class="getColumnClass(column)"
                 />
                 {{ column.text }}
@@ -136,9 +137,9 @@
               />
             </div>
           </template>
-          <template #editor="slotProps" v-if="isEditableColumn(crudMode, column)">
+          <template #editor="slotProps" v-if="getComponentEditorCellForColumnType(column) && isEditableColumn(crudMode, column)">
             <lck-autocomplete
-              v-if="getComponentEditableColumn(column.column_type_id) === 'lck-autocomplete'"
+              v-if="getComponentEditorCellForColumnType(column) === 'lck-autocomplete'"
               :dropdown="true"
               :placeholder="$t('components.datatable.placeholder')"
               field="label"
@@ -151,7 +152,7 @@
               class="field-editable"
             />
             <lck-multi-autocomplete
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multi-autocomplete'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multi-autocomplete'"
               field="label"
               :suggestions="autocompleteSuggestions"
               v-model="multipleAutocompleteInput"
@@ -162,7 +163,7 @@
               :multiLine="false"
             />
             <p-dropdown
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-dropdown'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-dropdown'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -182,7 +183,7 @@
               </template>
             </p-dropdown>
             <lck-multiselect
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'lck-multiselect'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multiselect'"
               :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
               optionLabel="label"
               optionValue="value"
@@ -193,7 +194,7 @@
               class="field-editable"
             />
             <p-calendar
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-calendar'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar'"
               v-model="currentDateToEdit"
               @show="onShowCalendar(column, slotProps.data.data[column.id])"
               :dateFormat="$t('date.dateFormatPrime')"
@@ -201,41 +202,55 @@
               class="field-editable"
             />
             <p-input-number
-              v-else-if="getComponentEditableColumn(column.column_type_id) === 'p-input-float'"
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-input-float'"
               v-model="slotProps.data.data[column.id]"
               mode="decimal"
               :minFractionDigits="2"
               class="field-editable"
             />
+            <p-checkbox
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
+              v-model="slotProps.data.data[column.id]"
+              :binary="true"
+              @input="onCheckboxEdit(slotProps.data.id, column.id, $event)"
+            />
             <component
               v-else
-              :is="getComponentEditableColumn(column.column_type_id)"
+              :is="getComponentEditorCellForColumnType(column)"
               v-model="slotProps.data.data[column.id]"
               appendTo="body"
               class="field-editable"
             />
           </template>
-
           <template
             #body="slotProps"
           >
-            <lck-badge
-              v-if="!isSingleSelect(column)"
-              v-bind="getValue(column, slotProps.data.data[column.id])"
+            <p-checkbox
+              v-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
+              :modelValue="slotProps.data.data[column.id]"
+              :binary="true"
+              :disabled="true"
             />
-            <span
-              v-else
-            >
-              {{ getValue(column, slotProps.data.data[column.id]) }}
+            <lck-badge
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
+              v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
+            />
+            <lck-cell-file
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
+              :workspaceId="workspaceId"
+              :attachments="slotProps.data.data[column.id]"
+              :title="slotProps.data.text + ', ' + column.text"
+              @download="$emit('download-attachment', $event)"
+              @input="onInputFile(slotProps.data.id, column.id, $event)"
+              @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
+            />
+            <span v-else>
+              {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
+
             <span
               class="cell-state"
-              :class="{
-                'saving': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.waiting),
-                'saved': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.waiting),
-                'valid': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && cellState.isValid),
-                'error': (cellState.rowId === slotProps.data.id && cellState.columnId === column.id && !cellState.isValid)
-              }"
+              :class="getCellStateNotificationClass(slotProps.data.id, column.id, cellState)"
             />
           </template>
         </p-column>
@@ -279,29 +294,33 @@ import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import ContextMenu from 'primevue/contextmenu'
 import SplitButton from 'primevue/splitbutton'
+import Checkbox from 'primevue/checkbox'
 import Menu from 'primevue/menu'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
-import InputURL from '@/components/ui/InputURL/InputURL.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 
 import {
-  getComponentEditableColumn,
+  getComponentDisplayCellForColumnType,
+  getComponentEditorCellForColumnType,
   isEditableColumn,
   getColumnTypeId,
-  getOriginalColumn,
+  getColumnDisplayValue,
   getColumnClass
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
-import { formatDate, formatDateISO } from '@/services/lck-utils/date'
+import { formatDateISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
+import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
 export default {
   name: 'LckDatatable',
@@ -311,8 +330,9 @@ export default {
     'lck-paginator': Paginator,
     'lck-multiselect': MultiSelect,
     'lck-dropdown-button': LckDropdownButton,
-    'lck-input-url': InputURL,
+    'lck-url-input': URLInput,
     'lck-badge': Badge,
+    'lck-cell-file': LckCellFile,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -324,7 +344,8 @@ export default {
     'p-column': Vue.extend(Column),
     'p-context-menu': Vue.extend(ContextMenu),
     'p-button': Vue.extend(Button),
-    'p-menu': Vue.extend(Menu)
+    'p-menu': Vue.extend(Menu),
+    'p-checkbox': Vue.extend(Checkbox)
   },
   props: {
     definition: {
@@ -373,6 +394,10 @@ export default {
       }
     },
     columnsSetPrefix: {
+      type: String,
+      default: ''
+    },
+    workspaceId: {
       type: String,
       default: ''
     }
@@ -474,10 +499,17 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
+    getColumnDisplayValue,
+    getCellStateNotificationClass,
     isEditableColumn,
     getDisabledProcessTrigger,
     getColumnClass,
+    getComponentEditorCellForColumnType (column) {
+      return getComponentEditorCellForColumnType(getColumnTypeId(column))
+    },
+    getComponentDisplayCellForColumnType (column) {
+      return getComponentDisplayCellForColumnType(getColumnTypeId(column))
+    },
     formatManualProcesses (rowId) {
       if (this.manualProcesses.length > 0) {
         return [
@@ -499,59 +531,6 @@ export default {
             })
           }
         ]
-      }
-    },
-    getValue (column, data = '') {
-      if (
-        data === '' ||
-        data === null
-      ) return ''
-      try {
-        switch (column.column_type_id) {
-          case COLUMN_TYPE.USER:
-          case COLUMN_TYPE.GROUP:
-          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            return data.value
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
-            const originalColumn = getOriginalColumn(column)
-            if ([
-              COLUMN_TYPE.DATE,
-              COLUMN_TYPE.MULTI_SELECT,
-              COLUMN_TYPE.SINGLE_SELECT
-            ].includes(originalColumn.column_type_id)) {
-              return this.getValue(originalColumn, data.value)
-            } else {
-              return data.value
-            }
-          case COLUMN_TYPE.MULTI_USER:
-            return data.value.join(', ')
-          case COLUMN_TYPE.SINGLE_SELECT:
-            return {
-              label: column.settings.values[data]?.label,
-              color: column.settings.values[data]?.color,
-              backgroundColor: column.settings.values[data]?.backgroundColor
-            }
-          case COLUMN_TYPE.MULTI_SELECT:
-            if (data.length > 0) {
-              return data.map(d => column.settings.values[d]?.label).join(', ')
-            } else {
-              return ''
-            }
-          case COLUMN_TYPE.FORMULA:
-            if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-              return formatDate(data, this.$t('date.dateFormat')) || ''
-            } else {
-              return data
-            }
-          case COLUMN_TYPE.DATE:
-            return formatDate(data, this.$t('date.dateFormat')) || ''
-          default:
-            return data
-        }
-      } catch (error) {
-        // eslint-disable no-console
-        console.error('Field with bad format', data, error)
-        return ''
       }
     },
     isSortableColumn (column) {
@@ -610,32 +589,56 @@ export default {
         toIndex: event.dropIndex - this.unorderableColumnsNumber
       })
     },
-    async onDropdownEdit (rowId, columnId, event) {
+    onDropdownEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event.value
       })
     },
-    async onMultiSelectEdit (rowId, columnId, event) {
+    onMultiSelectEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event.value // .map(v => v.value)
       })
     },
-    async onAutocompleteEdit (rowId, columnId, event = null) {
+    onAutocompleteEdit (rowId, columnId, event = null) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: event ? event?.value?.value : null
       })
     },
-    async onMultipleAutocompleteEdit (rowId, columnId) {
+    onMultipleAutocompleteEdit (rowId, columnId) {
       this.$emit('update-cell', {
         rowId,
         columnId,
         newValue: this.multipleAutocompleteInput.map(item => item.value)
+      })
+    },
+    onCheckboxEdit (rowId, columnId, newValue) {
+      this.$emit('update-cell', {
+        rowId,
+        columnId,
+        newValue
+      })
+    },
+    /**
+     * Upload one or multiple files to the API
+     */
+    onInputFile (rowId, columnId, fileList = []) {
+      this.$emit('upload-files', {
+        rowId,
+        columnId,
+        fileList
+      })
+    },
+    onRemoveAttachment (rowId, columnId, attachmentId) {
+      this.$emit('remove-attachment', {
+        rowId,
+        columnId,
+        attachmentId
       })
     },
     /**
@@ -668,6 +671,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.FILE:
           /**
            * For these type of column
            * the dropdown edit is already here
@@ -759,6 +763,43 @@ export default {
 
 <style scoped>
 
+/deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
+  border: 2px solid #fff;
+  background-color: #fff;
+}
+/deep/ td .p-checkbox {
+  display: flex;
+  margin: 0 auto;
+}
+
+/deep/ td .p-checkbox .p-checkbox-box {
+  border-color: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color-lighten);
+  background: var(--primary-color-lighten);
+}
+
+/deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--primary-color-darken) !important;
+  font-weight: bold;
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color-darken);
+  background: var(--primary-color-darken);
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+  color: var(--primary-color-lighten) !important;
+}
+
+/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  border-color: var(--primary-color) !important;
+}
+
 /deep/ .p-editable-column.p-cell-editing .p-dropdown,
 /deep/ .p-editable-column.p-cell-editing .p-multiselect {
   border: 1px solid var(--primary-color);
@@ -819,7 +860,8 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color-lighten)
+  background-color: var(--primary-color-lighten);
+  color: var(--text-color-secondary);
 }
 
 .p-datatable th:hover .p-sortable-column-icon {

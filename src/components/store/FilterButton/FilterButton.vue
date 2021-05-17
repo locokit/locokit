@@ -99,15 +99,26 @@
             </label>
             <component
               id="pattern"
+              v-if="
+                columnFiltersConfig[filter.column.originalType].patternComponent ||
+                getComponentEditorCellForColumnType(filter.column.originalType)
+              "
               :is="
                 columnFiltersConfig[filter.column.originalType].patternComponent ||
-                getComponentEditableColumn(filter.column.originalType)
+                getComponentEditorCellForColumnType(filter.column.originalType)
               "
               :options="filter.column.dropdownOptions"
               v-bind="columnFiltersConfig[filter.column.originalType].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
             />
+            <p-input-text
+              id="pattern"
+              v-else
+              v-model="filter.pattern"
+              style="width: 100%"
+            />
+
           </div>
         </div>
       </div>
@@ -155,7 +166,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { getComponentEditableColumn, getColumnTypeId } from '@/services/lck-utils/columns'
+import { getComponentEditorCellForColumnType, getColumnTypeId } from '@/services/lck-utils/columns'
 
 // Available operators
 const OPERATORS = [{
@@ -242,7 +253,7 @@ const ACTIONS = {
 
 // Filterable types
 // Each one must have an "actions" array.
-// A "patternComponent" attribute (string) can be added to replace the default pattern component (coming from "getComponentEditableColumn")
+// A "patternComponent" attribute (string) can be added to replace the default pattern component (coming from "getComponentEditorCellForColumnType")
 // A "patternComponentOptions" attribute (object) can be added to customize the pattern component
 const COLUMN_FILTERS_CONFIG = {
   [COLUMN_TYPE.BOOLEAN]: {
@@ -422,7 +433,7 @@ export default {
     }
   },
   methods: {
-    getComponentEditableColumn,
+    getComponentEditorCellForColumnType,
     removeFilter (filterToRemove) {
       this.$emit('input', this.value.filter(f => (f !== filterToRemove)))
     },
@@ -479,7 +490,6 @@ label,
 label {
   display: block;
   font-size: 0.8rem;
-  font-weight: 600;
 }
 
 .input,
