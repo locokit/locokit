@@ -5,8 +5,9 @@ import {
   LckTableRow,
   LckTableRowData,
   LckTableViewColumn,
+  SelectValue,
   LckUser,
-  SelectValue
+  LckAttachment
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -14,6 +15,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import saveAs from 'file-saver'
 import XLSX from 'xlsx'
 import { getColumnDisplayValue } from '../lck-utils/columns'
+import FileType from 'file-type/browser'
 
 /**
  * Contact the API for searching items.
@@ -230,11 +232,49 @@ export async function downloadAttachment (url: string, filename: string, mime: s
   )
 }
 
+/**
+ * Upload several files and returns all attachment ids
+ */
+export async function uploadMultipleFiles (fileList: FileList, workspaceId: string) {
+  const uploadPromises: Promise<LckAttachment>[] = []
+  for (let i = 0; i < fileList.length; i++) {
+    uploadPromises.push(new Promise((resolve, reject) => {
+      const file = fileList[i]
+      const reader = new FileReader()
+      // encode dataURI
+      reader.readAsDataURL(file)
+
+      // when encoded, upload
+      reader.addEventListener('load', async () => {
+        /**
+               * Find the mime type of the file to upload
+               */
+        const fileType = await FileType.fromBlob(file)
+        lckServices.upload.create({
+          uri: reader.result as string,
+          fileName: file.name,
+          ...fileType
+        }, {
+          query: {
+            workspaceId,
+            fileName: file.name,
+            ...fileType
+          }
+        })
+          .then(resolve)
+          .catch(reject)
+      }, false)
+    }))
+  }
+  return await Promise.all(uploadPromises)
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
   getColumnDisplayValue,
   downloadAttachment,
-  getAttachmentBlob
+  getAttachmentBlob,
+  uploadMultipleFiles
 }

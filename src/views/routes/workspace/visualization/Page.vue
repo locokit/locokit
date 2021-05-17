@@ -86,7 +86,6 @@
               :exporting="exporting"
               :cellState="cellState"
               :editMode="editMode"
-
               v-on="$listeners"
               @update-row="onUpdateCell(block, $event)"
               @update-cell="onUpdateCell(block, $event)"
@@ -100,6 +99,10 @@
               @update-filters="onUpdateFilters(block, $event)"
               @update-block="onBlockEditClick(container, block)"
               @delete-block="onBlockDeleteClick(container, block)"
+
+              @download-attachment="onDownloadAttachment"
+              @upload-files="onUploadFiles(block, $event)"
+              @remove-attachment="onRemoveAttachment(block, $event)"
             />
           </draggable>
           <p-button
@@ -499,6 +502,103 @@ export default {
       this.exporting = true
       await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
       this.exporting = false
+    },
+    async onUploadFiles ({
+      id: blockId
+    }, {
+      rowId,
+      columnId,
+      fileList
+    }, newRow) {
+      let currentBlock = null
+      this.page.containers.forEach(container => {
+        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+        blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
+      })
+      const currentRow = newRow || currentBlock.content.data.find(d => d.id === rowId)
+      this.cellState = {
+        rowId: currentRow.id,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+
+      try {
+        const newUploadedFiles = await lckHelpers.uploadMultipleFiles(fileList, this.workspaceId)
+        /**
+         * Here we need to know if we are in a creation or in a row update
+         */
+        if (newRow) {
+          if (!currentRow.data[columnId]) this.$set(currentRow.data, columnId, [])
+          currentRow.data[columnId].push(...newUploadedFiles)
+        } else {
+          const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
+          newDataFiles.push(...newUploadedFiles.map(u => u.id))
+
+          /**
+           * Need to update the data with the new files uploaded + the old files
+           */
+          const res = await patchTableData(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles
+            }
+          })
+          this.cellState.isValid = true
+          currentRow.data = res.data
+        }
+      } catch (error) {
+        this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
+      }
+      this.cellState.waiting = false
+    },
+    async onRemoveAttachment ({
+      id: blockId
+    }, {
+      rowId,
+      columnId,
+      attachmentId
+    }) {
+      let currentBlock = null
+      this.page.containers.forEach(container => {
+        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+        blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
+      })
+      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
+      this.cellState = {
+        rowId: currentRow.id,
+        columnId,
+        waiting: true,
+        isValid: false // don't know if we have to set to false or null
+      }
+
+      try {
+        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+        const res = await patchTableData(currentRow.id, {
+          data: {
+            [columnId]: newDataFiles
+          }
+        })
+        this.cellState.isValid = true
+        currentRow.data = res.data
+      } catch (error) {
+        this.cellState.isValid = false
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: error.message,
+          life: 3000
+        })
+      }
+      this.cellState.waiting = false
+    },
+    async onDownloadAttachment ({ url, filename, mime }) {
+      lckHelpers.downloadAttachment(url, filename, mime)
     },
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}

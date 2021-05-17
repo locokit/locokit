@@ -133,7 +133,7 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return 'lck-map'
     case COLUMN_TYPE.FILE:
-      return 'lck-input-file'
+      return 'lck-file-input'
     default:
       return null
   }

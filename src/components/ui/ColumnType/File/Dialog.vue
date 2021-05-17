@@ -8,6 +8,7 @@
     <lck-cell-file-input
       :attachments="attachments"
       :workspaceId="workspaceId"
+      :disabled="disabled"
       @input="$emit('input', $event)"
       @download="$emit('download', $event)"
       @remove-attachment="$emit('remove-attachment', $event)"
@@ -43,6 +44,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   }
 }
