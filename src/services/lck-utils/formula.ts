@@ -772,7 +772,7 @@ export const COLUMN_PREFIX = 'COLUMN'
  * Returns a default range for the monaco editor suggestions.
  * @returns A default range (first line, first column).
  */
-export const getDefaultRange = (): IRange => {
+export function getDefaultRange (): IRange {
   return {
     startLineNumber: 1,
     startColumn: 1,
@@ -787,7 +787,7 @@ export const getDefaultRange = (): IRange => {
  * @param tableColumns The list of the table columns that can be used in the formula.
  * @returns The input formula in which the input columns names are replaced by their ids.
  */
-export const formulaColumnsNamesToIds = (formula: string, tableColumns: LckTableColumn[]) => {
+export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTableColumn[]) {
   return formula.replace(
     new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[^}]+(?=})`, 'g'),
     columnName => {
@@ -802,7 +802,7 @@ export const formulaColumnsNamesToIds = (formula: string, tableColumns: LckTable
  * @param tableColumns The list of the table columns that can be used in the formula.
  * @returns The input formula in which the input columns ids are replaced by their names.
  */
-export const formulaColumnsIdsToNames = (formula: string, tableColumns: LckTableColumn[]) => {
+export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTableColumn[]) {
   return formula.replace(
     new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[a-z0-9-]+(?=})`, 'g'),
     columnId => (tableColumns.find(column => column.id === columnId))?.text || columnId
@@ -814,11 +814,11 @@ export const formulaColumnsIdsToNames = (formula: string, tableColumns: LckTable
  * @returns An object containing a list of all the suggestions (functions, categories and the column prefix),
  * an object containing the functions suggestions for each category and the signature of each function.
  */
-export const getMonacoSuggestions = (categoriesWithFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula>>): {
+export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula>>): {
   allSuggestions: languages.CompletionItem[];
   functionSuggestions: Record<FUNCTION_CATEGORY, languages.CompletionItem[]>;
   functionSignatures: Record<FUNCTION_CATEGORY, Record<string, string>>;
-  } => {
+  } {
   // Initialize the suggestions
   const allSuggestions: languages.CompletionItem[] = []
   const functionSuggestions: Record<FUNCTION_CATEGORY, languages.CompletionItem[]> = {

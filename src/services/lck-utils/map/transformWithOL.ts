@@ -71,6 +71,14 @@ export interface LckGeoResource {
   layers: LckImplementedLayers[];
 }
 
+/**
+ * Convert spatial geometry EWKT
+ * Transform EWKT into OL Feature
+ *
+ * @param ewkt
+ *
+ * @return {Feature<Geometry>}
+ */
 export const transformEWKTtoFeature = (ewkt: string) => {
   // Split EWKT to get reference coordinate system and geometry object
   const formattedData = ewkt.split(';', 2)
@@ -85,7 +93,14 @@ export const transformEWKTtoFeature = (ewkt: string) => {
   })
 }
 
-export const getStyleLayers = (geoColumns: LckTableColumn[]): LckImplementedLayers[] => {
+/**
+ * Add style for a specific spatial geometry present in layer
+ *
+ * @param geoColumns
+ *
+ * @return {LckImplementedLayers[]}
+ */
+export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
   const geoTypes = new Set()
   const layers: LckImplementedLayers[] = []
 
@@ -120,11 +135,13 @@ export const isGEOColumn = (columnTypeId: number) => {
  *   - otherwise all data of geocolumn
  * @param columns
  * @param settings
+ *
+ * @return {LckTableViewColumn[]}
  */
-export const getOnlyGeoColumn = (
+export function getOnlyGeoColumn (
   columns: LckTableViewColumn[],
   settings: MapSettings
-): LckTableViewColumn[] => {
+): LckTableViewColumn[] {
   if (settings.sources) {
     return settings.sources.reduce((acc, { field }) => {
       const col = columns.find(column => column.id === field)
@@ -137,13 +154,25 @@ export const getOnlyGeoColumn = (
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
 
-export const makeGeoJsonFeaturesCollection = (
+/**
+ * Create a geojson for mapbox
+ * According to the config, it allows popup's display with wanted data
+ *
+ * @param rows
+ * @param geoColumns
+ * @param definitionColumns
+ * @param settings
+ * @param i18nOptions
+ *
+ * @return {GeoJSONFeatureCollection}
+ */
+export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
-): GeoJSONFeatureCollection => {
+): GeoJSONFeatureCollection {
   const features: Feature[] = []
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
@@ -183,7 +212,7 @@ export const makeGeoJsonFeaturesCollection = (
                   class?: string;
                   field: {
                     label: string;
-                    value: string|number;
+                    value: string | number;
                     color?: string;
                     backgroundColor?: string;
                   };
@@ -223,12 +252,22 @@ export const makeGeoJsonFeaturesCollection = (
   return geojsonFormat.writeFeaturesObject(features)
 }
 
-export const getLckGeoResources = (
+/**
+ * Set style on features
+ *
+ * @param columns
+ * @param data
+ * @param settings
+ * @param i18nOptions
+ *
+ * @return {{features: Array<Feature<Geometry, GeoJsonProperties>>, layers: LckImplementedLayers[], id: string, type: "FeatureCollection"}[]}
+ */
+export function getLckGeoResources (
   columns: LckTableViewColumn[],
   data: LckTableRow[],
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
-): LckGeoResource[] => {
+): LckGeoResource[] {
   const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)
   const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
     data,

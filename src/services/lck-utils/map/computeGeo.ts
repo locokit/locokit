@@ -15,7 +15,12 @@ import { LckGeoResource } from '@/services/lck-utils/map/transformWithOL'
 export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
 export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | LineLayout)
 
-export const computeBoundingBox = (resources: LckGeoResource[]): LngLatBounds => {
+/**
+ * Compute a bounding box
+ * @param resources
+ * @return {mapboxgl.LngLatBounds}
+ */
+export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {
   const coordinates: LngLatLike[] = []
   /**
    * Collect all coordinates from all features of all resources
