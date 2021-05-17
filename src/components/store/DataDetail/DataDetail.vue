@@ -130,7 +130,8 @@
         />
         <p-checkbox
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
-          :value="row.data[column.id]"
+          :modelValue="getColumnDisplayValue(column, row.data[column.id])"
+          :binary="true"
           :disabled="true"
         />
         <lck-badge

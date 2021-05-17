@@ -227,7 +227,7 @@
           >
             <p-checkbox
               v-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
-              :modelValue="slotProps.data.data[column.id]"
+              :modelValue="getColumnDisplayValue(column, slotProps.data.data[column.id])"
               :binary="true"
               :disabled="true"
             />
