@@ -1116,15 +1116,14 @@ export default {
   background-color: rgba(255, 255, 255, 0.9);
 }
 .process-toolbar-button {
-     margin-top: 0.3rem;
+  margin-top: 0.3rem;
 }
 
 @media only screen and (max-device-width: 480px) {
-
   /deep/ .p-button .p-button-icon-left {
     margin-right: 0;
   }
-  /deep/.p-button .p-button-icon-right {
+  /deep/ .p-button .p-button-icon-right {
     margin-left: 0;
   }
   /deep/ .p-button .p-button-label {
