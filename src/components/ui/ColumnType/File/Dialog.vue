@@ -29,7 +29,6 @@ export default {
   },
   props: {
     attachments: {
-      required: true,
       type: Array as PropType<LckAttachment[]>,
       default: () => []
     },

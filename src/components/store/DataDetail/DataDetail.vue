@@ -99,6 +99,20 @@
           :binary="true"
           @input="onEdit(row.id, column.id, row.data[column.id])"
         />
+        <lck-file-input
+          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
+          :attachments="row.data[column.id]"
+          :workspaceId="workspaceId"
+          :displayLabels="false"
+          @input="$emit('upload-files', {
+            rowId: row.id,
+            columnId: column.id,
+            fileList: $event
+          })"
+          @download="$emit('download-attachment', $event)"
+          @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+        />
+
         <component
           v-else
           :is="getComponentEditorDetailForColumnType(column)"
@@ -107,7 +121,6 @@
           @blur="onEdit(row.id, column.id, row.data[column.id])"
           :rows="7"
         />
-
         <span
           class="cell-state"
           :class="getCellStateNotificationClass(row.id, column.id, cellState)"
@@ -142,13 +155,8 @@
           :attachments="row.data[column.id]"
           :workspaceId="workspaceId"
           :displayLabels="false"
-          @input="$emit('upload-files', {
-            rowId: row.id,
-            columnId: column.id,
-            fileList: $event
-          })"
+          :disabled="true"
           @download="$emit('download-attachment', $event)"
-          @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
         />
 
         <span v-else>
