@@ -45,6 +45,7 @@ export class LckTable extends LckBaseModel {
 }
 
 export interface SelectValue {
+  value: string;
   label: string;
   color: string;
   backgroundColor: string;
