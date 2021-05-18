@@ -4,63 +4,60 @@
     class-button="p-button-outlined p-button-secondary"
     :label="label"
   >
-    <template #overlay-content="slotProps">
-      <draggable
-        class="view-group"
-        tag="div"
+    <template #overlay-content="overlaySlotProps">
+      <p-datatable
+        :autoLayout="true"
+        class="p-datatable-sm p-mb-2"
+        dataKey="id"
+        selectionMode="single"
         :value="views"
-        v-bind="dragOptions"
-        @start="drag = true"
-        @end="drag = false"
-        @input="$emit('reorder', $event)"
-        handle=".handle"
+        @row-reorder="$emit('reorder', $event)"
+        @row-select="$emit('input', $event.data.id)"
       >
-        <transition-group
-          type="transition"
-          :name="!drag ? 'flip-list' : null"
-        >
-          <div
-            class="view-group-item p-d-flex p-jc-between p-ai-center"
-            v-for="element in views"
-            :key="element.id"
-          >
-            <span class="p-d-flex p-ai-baseline">
-              <p-button
-                class="p-button-sm p-button-text p-button-secondary handle"
-                icon="pi pi-ellipsis-v"
-              />
-              <span
-                :class="{
-                  'p-text-bold': element.id === value
-                }"
-                @click="$emit('input', element.id)"
-              >
-                <span v-if="element.locked">
-                  <i class="pi pi-lock" />
-                </span>
-                {{ element.text }}
+        <template #empty>
+          {{ $t("components.datatable.toolbar.views.zeroView") }}
+        </template>
+        <p-column
+          bodyClass="handle"
+          :rowReorder="true"
+          rowReorderIcon="pi pi-ellipsis-v"
+        />
+        <p-column>
+          <template #body="slotProps">
+            <span
+              :class="{
+                'p-text-bold': slotProps.data.id === value,
+              }"
+            >
+              <span v-if="slotProps.data.locked">
+                <i class="pi pi-lock" />
               </span>
+              {{ slotProps.data.text }}
             </span>
-            <span class="p-ml-4" >
+          </template>
+        </p-column>
+        <p-column :bodyStyle="{ width: '3em' }">
+          <template #body="slotProps">
+            <span class="p-buttonset">
               <p-button
                 class="p-button-sm p-button-text p-button-rounded p-button-info"
                 icon="pi pi-pencil"
-                @click="emitEvent('update', slotProps.toggleOverlayPanel, element)"
+                @click="emitEvent('update', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
               />
               <p-button
-                v-if="!element.locked"
+                v-if="!slotProps.data.locked"
                 class="p-button-sm p-button-text p-button-rounded p-button-danger"
                 icon="pi pi-trash"
-                @click="emitEvent('delete', slotProps.toggleOverlayPanel, element)"
+                @click="emitEvent('delete', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
               />
             </span>
-          </div>
-        </transition-group>
-      </draggable>
+          </template>
+        </p-column>
+      </p-datatable>
       <p-button
         :label="$t('components.datatable.toolbar.views.createLabel')"
         icon="pi pi-plus-circle"
-        @click="emitEvent('create', slotProps.toggleOverlayPanel)"
+        @click="emitEvent('create', overlaySlotProps.toggleOverlayPanel)"
       />
     </template>
   </lck-overlaypanel>
@@ -69,15 +66,17 @@
 <script>
 import Vue from 'vue'
 import Button from 'primevue/button'
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
-import draggable from 'vuedraggable'
 
 export default {
   name: 'LckViewButton',
   components: {
     'p-button': Vue.extend(Button),
-    'lck-overlaypanel': Vue.extend(OverlayPanel),
-    draggable: Vue.extend(draggable)
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
+    'lck-overlaypanel': Vue.extend(OverlayPanel)
   },
   props: {
     views: {
@@ -99,19 +98,12 @@ export default {
     label () {
       if (this.views.length === 0) return this.$t('components.datatable.toolbar.views.noview')
       return this.views.find(v => v.id === this.value)?.text
-    },
-    dragOptions () {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost'
-      }
     }
   },
   methods: {
     emitEvent (eventName, toggleOverlayPanel, data) {
-      toggleOverlayPanel()
+      console.log(eventName, toggleOverlayPanel, data)
+      // toggleOverlayPanel()
       this.$emit(eventName, data)
     }
   }
@@ -119,29 +111,18 @@ export default {
 </script>
 
 <style scoped>
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-.view-group {
-  margin-bottom: 1rem;
-}
-.view-group-item {
-  cursor: pointer;
-  padding: 0.25rem 0;
-}
-.handle.p-button.p-button-icon-only.p-button-sm {
+/deep/ .handle i {
   cursor: move;
 }
-.handle.p-button.p-button-icon-only.p-button-sm,
+/deep/ .handle,
 .p-button.p-button-icon-only.p-button-sm {
   width: 1.5rem;
   padding: 0.5rem;
+}
+/deep/ .p-datatable-wrapper .p-datatable-thead > tr > th {
+  background-color: transparent;
+}
+/deep/ .p-datatable-wrapper * {
+  transition: transform 0.5s;
 }
 </style>

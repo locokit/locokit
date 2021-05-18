@@ -54,7 +54,8 @@
           "viewTextLabel": "Name",
           "viewLockedLabel": "Locked",
           "viewLockedLabelOff": "Unlocked",
-          "viewLockedLabelOn": "Locked"
+          "viewLockedLabelOn": "Locked",
+          "zeroView": "Aucune vue"
         },
         "filters": {
           "label": "no filter | {n} filter | {n} filters",

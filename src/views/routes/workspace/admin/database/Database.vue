@@ -643,7 +643,8 @@ export default {
         })
       }
     },
-    async onReorderView (views) {
+    async onReorderView ({ value: views }) {
+      this.views = views
       await Promise.all(
         views.map((v, index) => lckServices.tableView.patch(v.id, {
           position: index

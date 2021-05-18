@@ -106,7 +106,10 @@ export async function retrieveTableViews (tableId: string) {
       query: {
         table_id: tableId,
         $eager: 'columns.[parents.^]',
-        $limit: 50
+        $limit: 50,
+        $sort: {
+          position: 1
+        }
       }
     }) as Paginated<LckTableView>
     return result.data.map(view => ({
