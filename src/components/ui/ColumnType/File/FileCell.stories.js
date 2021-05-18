@@ -65,6 +65,9 @@ export const afterClickOnItDisabled = () => (
 )
 
 afterClickOnItDisabled.storyName = 'after click (disabled)'
+afterClickOnIt.args = {
+  waitForSelector: '.p-dialog'
+}
 
 const attachments = [{
   id: 4,
