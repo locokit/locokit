@@ -30,8 +30,7 @@
 .lck-toolbar {
   border-bottom: 1px solid var(--toolbar-border-bottom-color);
   background-color: var(--toolbar-background-color);
-  height: 3rem;
-  max-height: 3rem;
+  min-height: 3rem;
   color: var(--primary-color);
 }
 

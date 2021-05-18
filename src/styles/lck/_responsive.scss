@@ -21,7 +21,7 @@
 
 @media only screen and (max-device-width: 480px) {
   main {
-    padding: 0.5rem
+    padding: 0;
   }
   .mobile-hide {
     display: none;
@@ -29,19 +29,7 @@
   .lck-color-title {
     text-align: left;
   }
-  .p-button {
-    .p-button-icon-left {
-      margin-right: 0;
-    }
 
-    .p-button-icon-right {
-      margin-left: 0;
-    }
-
-    .p-button-label {
-      display: none;
-    }
-  }
   .p-card {
     margin: 0.5rem;
     .p-card-body {
@@ -57,7 +45,7 @@
     flex-basis: 50%;
     a {
       text-decoration: none;
-      flex-basis: 48%;
+      flex-basis: 47%;
       text-align: center;
       align-items: center;
       &:hover {
@@ -87,7 +75,7 @@
         background-color: transparent;
         border-color: transparent;
         .p-button-icon {
-          background-color: var(--primary-color-darken) ;
+          background-color: var(--primary-color-darken);
         }
       }
     }
