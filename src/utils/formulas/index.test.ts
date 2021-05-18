@@ -1746,6 +1746,24 @@ describe('formula utility functions', () => {
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
           expect(rowTable1.data[columnTable1Formula.id]).toBe('abcdef')
         })
+        it('Return the concatenation of a string with a number', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.CONCAT("abc", COLUMN.{${columnTable1Number.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abc10')
+        })
+        it('Return the concatenation of a string with a date', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.CONCAT("abc", COLUMN.{${columnTable1Date.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abc2021-01-15 00:00:00')
+        })
+        it('Return the concatenation of a string with a boolean', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.CONCAT("abc", COLUMN.{${columnTable1Boolean.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abct')
+        })
         it('Return the string if only one is specified', async () => {
           expect.assertions(2)
           await patchTable1Formula('TEXT.CONCAT("abc")')
@@ -2061,6 +2079,24 @@ describe('formula utility functions', () => {
           await patchTable1Formula('TEXT.TEXTJOIN("-", "abc", "def")')
           expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
           expect(rowTable1.data[columnTable1Formula.id]).toBe('abc-def')
+        })
+        it('Return the concatenation of a string with a number', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.TEXTJOIN("-", "abc", COLUMN.{${columnTable1Number.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abc-10')
+        })
+        it('Return the concatenation of a string with a date', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.TEXTJOIN("-", "abc", COLUMN.{${columnTable1Date.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abc-2021-01-15 00:00:00')
+        })
+        it('Return the concatenation of a string with a boolean', async () => {
+          expect.assertions(2)
+          await patchTable1Formula(`TEXT.TEXTJOIN("-", "abc", COLUMN.{${columnTable1Boolean.id}})`)
+          expect(columnTable1Formula.settings.formula_type_id).toBe(COLUMN_TYPE.TEXT)
+          expect(rowTable1.data[columnTable1Formula.id]).toBe('abc-t')
         })
         it('Return the string if only one is specified', async () => {
           expect.assertions(2)

@@ -766,7 +766,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES,
+          type: implementedInFormulaColumnTypes,
           multiple: true,
         },
       ],
@@ -930,7 +930,7 @@ export const functions: Record<FUNCTION_CATEGORY, Record<string, IFormula>> = {
         },
         {
           name: 'text',
-          type: TEXT_TYPES,
+          type: implementedInFormulaColumnTypes,
           multiple: true,
         },
       ],
