@@ -38,15 +38,10 @@ export enum USER_PROFILE {
   ADMIN = 'ADMIN',
   SUPERADMIN = 'SUPERADMIN',
   USER = 'USER',
+  CREATOR = 'CREATOR',
 }
 
 export enum GROUP_ROLE {
-  OWNER = 'OWNER',
-  ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER',
-}
-
-export enum WORKSPACE_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
   MEMBER = 'MEMBER',
