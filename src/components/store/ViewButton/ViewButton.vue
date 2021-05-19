@@ -36,7 +36,7 @@
             </span>
           </template>
         </p-column>
-        <p-column :bodyStyle="{ width: '3em' }">
+        <p-column bodyClass="fit">
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
@@ -56,6 +56,7 @@
       </p-datatable>
       <p-button
         :label="$t('components.datatable.toolbar.views.createLabel')"
+        class="create-view-button"
         icon="pi pi-plus-circle"
         @click="emitEvent('create', overlaySlotProps.toggleOverlayPanel)"
       />
@@ -102,8 +103,7 @@ export default {
   },
   methods: {
     emitEvent (eventName, toggleOverlayPanel, data) {
-      console.log(eventName, toggleOverlayPanel, data)
-      // toggleOverlayPanel()
+      toggleOverlayPanel()
       this.$emit(eventName, data)
     }
   }
@@ -122,7 +122,11 @@ export default {
 /deep/ .p-datatable-wrapper .p-datatable-thead > tr > th {
   background-color: transparent;
 }
-/deep/ .p-datatable-wrapper * {
-  transition: transform 0.5s;
+/deep/ .p-datatable-wrapper .p-datatable-tbody > tr > td.fit {
+  width: 1%;
+  text-align: right;
+}
+.create-view-button {
+  width: 100%;
 }
 </style>
