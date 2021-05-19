@@ -306,10 +306,12 @@ export function getColumnDisplayValue (
         const originalColumn = getOriginalColumn(column)
         if ([
           COLUMN_TYPE.DATE,
-          // COLUMN_TYPE.SINGLE_SELECT, need to be enabled with #306
+          COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT
         ].includes(originalColumn.column_type_id)) {
           return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
+        } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex))
         } else {
           return (data as LckTableRowDataComplex).value
         }

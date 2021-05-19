@@ -331,3 +331,524 @@ export const withEditableColumnsAndRowStateError = () => (
 )
 
 withEditableColumnsAndRowStateError.storyName = 'with edit state error'
+
+const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
+const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
+const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
+
+/* eslint-disable @typescript-eslint/camelcase */
+const definitionWithLookedUpColumns = {
+  text: 'Test des lookup-columns',
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  columns: [
+    {
+      text: 'Looked_up boolean',
+      id: 'e065323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd065323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Boolean',
+          id: 'd065323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.BOOLEAN,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up string',
+      id: 'e165323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd165323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'String',
+          id: 'd165323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.STRING,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up number',
+      id: 'e265323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd265323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Number',
+          id: 'd265323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.NUMBER,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up float',
+      id: 'e365323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd365323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Float',
+          id: 'd365323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.FLOAT,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up date',
+      id: 'e465323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd465323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Date',
+          id: 'd465323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.DATE,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up user',
+      id: 'e565323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd565323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'User',
+          id: 'd565323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.USER,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up group',
+      id: 'e665323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd665323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Group',
+          id: 'd665323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.GROUP,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up relation between tables',
+      id: 'e765323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd765323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Relation between tables',
+          id: 'd765323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up single select',
+      id: 'e865323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd865323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Single select',
+          id: 'd865323c-1151-447f-be0f-6d2728117b31',
+          settings: {
+            values: {
+              [singleSelectOption1UUID]: {
+                label: 'Option 1',
+                color: '#ffffff',
+                backgroundColor: '#007734'
+              },
+              [singleSelectOption2UUID]: {
+                label: 'Option 2',
+                color: '#ffffff',
+                backgroundColor: '#883477'
+              },
+              [singleSelectOption3UUID]: {
+                label: 'Option 3',
+                color: '#ffffff',
+                backgroundColor: '#003477'
+              }
+            }
+          },
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up multi select',
+      id: 'e965323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd965323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Multi select',
+          id: 'd965323c-1151-447f-be0f-6d2728117b31',
+          settings: {
+            values: {
+              [singleSelectOption1UUID]: {
+                label: 'Option 1'
+              },
+              [singleSelectOption2UUID]: {
+                label: 'Option 2'
+              },
+              [singleSelectOption3UUID]: {
+                label: 'Option 3'
+              }
+            }
+          },
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.MULTI_SELECT,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up formula',
+      id: 'e105323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd105323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Formula',
+          id: 'd105323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.FORMULA,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up file',
+      id: 'e115323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd115323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'File',
+          id: 'd115323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.FORMULA,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up multi user',
+      id: 'e125323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd125323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Multi user',
+          id: 'd125323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.MULTI_USER,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up text',
+      id: 'e135323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd135323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'Text',
+          id: 'd135323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.TEXT,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    },
+    {
+      text: 'Looked_up url',
+      id: 'e145323c-1151-447f-be0f-6d2728117b38',
+      settings: {
+        localField: 'a065323c-1151-447f-be0f-6d2728117b30',
+        foreignField: 'd145323c-1151-447f-be0f-6d2728117b31'
+      },
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      order: null,
+      filter: null,
+      displayed: true,
+      parents: [
+        {
+          text: 'URL',
+          id: 'd145323c-1151-447f-be0f-6d2728117b31',
+          settings: null,
+          table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
+          column_type_id: COLUMN_TYPE.URL,
+          order: null,
+          filter: null,
+          displayed: true,
+          parents: []
+        }
+      ]
+    }
+  ]
+}
+
+const rowLookedUpColumn = {
+  text: 'Vélo n° 42',
+  data: {
+    'e065323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: true
+    },
+    'e165323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'My first string'
+    },
+    'e265323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 10
+    },
+    'e365323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 10.5
+    },
+    'e465323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: '2021-01-15'
+    },
+    'e565323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'u015323c-1151-447f-be0f-6d2728117b38',
+      value: 'User 1'
+    },
+    'e665323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'g015323c-1151-447f-be0f-6d2728117b38',
+      value: 'Group 1'
+    },
+    'e765323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'RBT 1'
+    },
+    'e865323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: singleSelectOption1UUID
+    },
+    'e965323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: [singleSelectOption1UUID, singleSelectOption2UUID]
+    },
+    'e105323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'My formula'
+    },
+    'e115323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'File'
+    },
+    'e125323c-1151-447f-be0f-6d2728117b38': {
+      reference: ['u015323c-1151-447f-be0f-6d2728117b38', 'u115323c-1151-447f-be0f-6d2728117b38'],
+      value: ['User 1', 'User 2']
+    },
+    'e135323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'My text to display...'
+    },
+    'e145323c-1151-447f-be0f-6d2728117b38': {
+      reference: 'a015323c-1151-447f-be0f-6d2728117b38',
+      value: 'http://myurl.com'
+    }
+  },
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+}
+
+export const withLookedUpColumns = () => (
+  {
+    components: { 'lck-data-detail': DataDetail },
+    data () {
+      return {
+        definition: definitionWithLookedUpColumns,
+        row: rowLookedUpColumn
+      }
+    },
+    template: `
+    <lck-data-detail
+      :definition="definition"
+      :row="row"
+      workspaceId="wsed19db-588d-4ca1-8ab3-c8b17d60db2d"
+    />
+    `
+  }
+)
+
+withLookedUpColumns.storyName = 'with looked up columns'

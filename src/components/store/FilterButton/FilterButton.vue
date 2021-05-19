@@ -156,6 +156,7 @@
 
 <script>
 import Vue from 'vue'
+import i18n from '@/plugins/i18n'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
@@ -358,7 +359,10 @@ const COLUMN_FILTERS_CONFIG = {
       { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY
-    ]
+    ],
+    patternComponentOptions: {
+      dateFormat: i18n.t('date.dateFormatPrime')
+    }
   }
 }
 
@@ -464,7 +468,7 @@ export default {
       this.value[index].pattern = null
     },
     actionControlPattern (index, { value }) {
-      if (value?.predefinedPattern) {
+      if (value?.predefinedPattern !== undefined) {
         // Set the pattern if the selected action has a predefined one
         this.value[index].pattern = value.predefinedPattern
       } else {

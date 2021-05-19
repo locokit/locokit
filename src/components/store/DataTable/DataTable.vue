@@ -227,7 +227,7 @@
           >
             <p-checkbox
               v-if="getComponentDisplayCellForColumnType(column) === 'p-checkbox'"
-              :modelValue="slotProps.data.data[column.id]"
+              :modelValue="getColumnDisplayValue(column, slotProps.data.data[column.id])"
               :binary="true"
               :disabled="true"
             />
@@ -542,7 +542,8 @@ export default {
       }
     },
     isSingleSelect (column) {
-      switch (column.column_type_id) {
+      const originalColumnTypeId = getColumnTypeId(column)
+      switch (originalColumnTypeId) {
         case COLUMN_TYPE.SINGLE_SELECT:
           return false
         default:
