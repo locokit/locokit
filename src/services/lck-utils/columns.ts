@@ -320,6 +320,7 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.SINGLE_SELECT:
         const currentValue = (column.settings.values?.[data as string]) as SelectValue
         return {
+          value: currentValue?.value,
           label: currentValue?.label,
           color: currentValue?.color,
           backgroundColor: currentValue?.backgroundColor

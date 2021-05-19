@@ -57,6 +57,17 @@
           v-model="row.data[column.id]"
           @input="onEdit(row.id, column.id, $event)"
         >
+        <template #value="slotProps">
+          <lck-badge
+            v-if="getSelectedValueDetails(column.id, slotProps.value)"
+            :label="getSelectedValueDetails(column.id, slotProps.value).label"
+            :color="getSelectedValueDetails(column.id, slotProps.value).color"
+            :backgroundColor="getSelectedValueDetails(column.id, slotProps.value).backgroundColor"
+          />
+          <span v-else>
+            {{ slotProps.placeholder }}
+          </span>
+        </template>
         <template #option="slotProps">
           <lck-badge
             :label="slotProps.option.label"
@@ -415,6 +426,9 @@ export default {
           ...features
         }
       ]
+    },
+    getSelectedValueDetails (columnId: string, value: string) {
+      return this.columnsEnhanced[columnId].dropdownOptions.find(element => element.value === value)
     }
   },
   watch: {
