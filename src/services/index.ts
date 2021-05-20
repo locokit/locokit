@@ -24,32 +24,35 @@ import attachment from './attachment/attachment.service'
 import upload from './upload/upload.service'
 import permission from './permission/permission.service'
 import action from './action/action.service'
+import acl from './acl/acl.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application): void {
   app.configure(authentication)
+  app.configure(authmanagement)
   app.configure(user)
-  app.configure(row)
-  app.configure(column)
+  app.configure(group)
+  app.configure(usergroup)
+  app.configure(acl)
+  app.configure(permission)
   app.configure(workspace)
   app.configure(database)
   app.configure(table)
-  app.configure(group)
-  app.configure(page)
-  app.configure(block)
-  app.configure(chapter)
-  app.configure(view)
+  app.configure(column)
   app.configure(columnrelation)
+  app.configure(row)
   app.configure(trr)
-  app.configure(usergroup)
-  app.configure(mailer)
-  app.configure(authmanagement)
+  app.configure(view)
   app.configure(tableViewHasTableColumn)
-  app.configure(process)
-  app.configure(processRun)
-  app.configure(container)
   app.configure(attachment)
   app.configure(upload)
   app.configure(permission)
   app.configure(action)
+  app.configure(chapter)
+  app.configure(page)
+  app.configure(container)
+  app.configure(block)
+  app.configure(mailer)
+  app.configure(process)
+  app.configure(processRun)
 }

@@ -16,7 +16,7 @@ const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
   return context.params.user?.profile === profile
 }
 
-const getPassword = (hook: HookContext) => hook.data.password
+const getPassword = (hook: HookContext): string => hook.data.password
 
 export default {
   before: {
@@ -81,6 +81,7 @@ export default {
       commonHooks.iff(
         process.env.NODE_ENV !== 'test',
         (context: HookContext) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           authManagementSettings(context.app as Application).notifier(
             AuthenticationManagementAction.sendVerifySignup,
             context.result,

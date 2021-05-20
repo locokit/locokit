@@ -38,7 +38,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
     let userFound = false
     workspace.groups?.forEach((currentGroup: Group) => {
       currentGroup.usergroups?.forEach(currentUsergroup => {
-        if (currentUsergroup.user_id === params?.user.id) userFound = true
+        if (currentUsergroup.user_id === params?.user?.id) userFound = true
       })
     })
     if (!userFound) throw new Forbidden('You don\'t have sufficient right to access this file')

@@ -4,6 +4,7 @@ import { Application } from '@feathersjs/express'
 import { Group as LckGroup } from './group.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
+export type UserProfile = 'USER' | 'ADMIN' | 'SUPERADMIN' | 'CREATOR'
 export class User extends Model {
   id!: number
   createdAt!: string
@@ -11,7 +12,7 @@ export class User extends Model {
   email!: string
   name!: string
   password!: string
-  profile!: string
+  profile!: UserProfile
   blocked!: boolean
   isVerified!: boolean
   verifyToken?: string
@@ -38,19 +39,51 @@ export class User extends Model {
 
       properties: {
 
-        email: { type: ['string', 'null'] },
+        email: { type: ['string'] },
         password: { type: 'string' },
         name: { type: 'string' },
-        profile: { type: 'string' },
-        blocked: { type: 'boolean' },
-        isVerified: { type: 'boolean' },
-        verifyToken: { type: ['string', 'null'] },
-        verifyShortToken: { type: ['string', 'null'] },
-        verifyExpires: { type: 'date' },
-        verifyChanges: { type: 'object' },
-        resetToken: { type: ['string', 'null'] },
-        resetShortToken: { type: ['string', 'null'] },
-        resetExpires: { type: 'date' },
+        profile: {
+          type: 'string',
+          enum: [
+            'USER',
+            'CREATOR',
+            'ADMIN',
+            'SUPERADMIN',
+          ],
+          description: `
+| Profile        | Permissions                                           |
+| -------------- | ----------------------------------------------------- |
+| \`USER\`       | can access to its group and all related resources     |
+| \`CREATOR\`    | can create / manage workspace (it owns)               |
+| \`ADMIN\`      | can create users and change profile until ADMIN grade |
+|                | can see all workspaces                                |
+|                | can create groups                                     |
+|                | can affect users to groups                            |
+| \`SUPERADMIN\` | manager the instance (config, theme, ...)             |
+|                | update users' profile                                 |
+`,
+        },
+        blocked: {
+          type: 'boolean',
+        },
+        isVerified: {
+          type: 'boolean',
+        },
+        // verifyToken: { type: ['string', 'null'] },
+        // verifyShortToken: { type: ['string', 'null'] },
+        // verifyExpires: { type: 'string', format: 'date-time' },
+        // verifyChanges: { type: 'object' },
+        // resetToken: { type: ['string', 'null'] },
+        // resetShortToken: { type: ['string', 'null'] },
+        // resetExpires: { type: 'string', format: 'date-time' },
+
+        groups: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/group',
+          },
+          description: "User's groups. Set if the `$eagerRelation=groups` is set.",
+        },
 
       },
     }

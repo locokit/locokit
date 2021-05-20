@@ -4,7 +4,7 @@ import { Process } from '../../models/process.model'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ProcessRunStatus } from '../../models/process_run.model'
 
-const logSuccess = (context: HookContext, value: AxiosResponse) => (
+const logSuccess = (context: HookContext, value: AxiosResponse): string => (
 `
 Log for the run ${context.result.id}
 
@@ -20,36 +20,36 @@ Status: ${value.status} ${value.statusText}
 
 Log (eventually):
 
-${value.data && value.data.log}
+  ${value.data && value.data.log}
 
 HTTP Response:
 
 ${JSON.stringify(value.data)}
 `)
 
-const logError = (context: HookContext, reason: AxiosError) => (
+const logError = (context: HookContext, reason: AxiosError): string => (
 `
 An error occured during the run ${context.result.id}
 
-Process n° : ${context.result.process_id}
+  Process n° : ${context.result.process_id}
 
-Row n° : ${context.data.table_row_id}
+  Row n° : ${context.data.table_row_id}
 
-Begin : ${context.result.createdAt}
+  Begin : ${context.result.createdAt}
 
-End : ${new Date().toISOString()}
+  End : ${new Date().toISOString()}
 
-Status : ${reason.response?.status} ${reason.response?.statusText}
+  Status : ${reason.response?.status} ${reason.response?.statusText}
 
-Axios error ? : ${reason.isAxiosError}
+  Axios error ? : ${reason.isAxiosError}
 
-Message : ${reason.message}
+  Message : ${reason.message}
 
-Response :
+  Response :
 
-${JSON.stringify(reason.response?.data)}
+  ${JSON.stringify(reason.response?.data)}
 
-Stack :
+  Stack :
 
 ${reason.stack}
 `)
