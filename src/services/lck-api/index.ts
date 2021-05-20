@@ -3,7 +3,8 @@ import {
   exportTableRowDataXLS,
   searchItems,
   getAttachmentBlob,
-  downloadAttachment
+  downloadAttachment,
+  uploadMultipleFiles
 } from './helpers'
 
 export { lckClient } from './client'
@@ -14,5 +15,6 @@ export const lckHelpers = {
   exportTableRowDataXLS,
   searchItems,
   getAttachmentBlob,
-  downloadAttachment
+  downloadAttachment,
+  uploadMultipleFiles
 }

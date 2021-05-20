@@ -43,6 +43,7 @@
       v-if="definition"
       :definition="columnsDisplayed"
       :content="content"
+      :workspaceId="workspaceId"
       :crud-mode="false"
       v-bind="$attrs"
       v-on="$listeners"
@@ -60,6 +61,7 @@
         :definition="filteredDefinitionColumns"
         :row="newRow"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
+        :workspaceId="workspaceId"
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
       />
@@ -124,6 +126,10 @@ export default {
     exporting: {
       type: Boolean,
       default: false
+    },
+    workspaceId: {
+      type: String,
+      required: true
     }
   },
   data () {

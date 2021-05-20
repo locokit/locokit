@@ -240,6 +240,7 @@
               :workspaceId="workspaceId"
               :attachments="slotProps.data.data[column.id]"
               :title="slotProps.data.text + ', ' + column.text"
+              :disabled="!isEditableColumn(crudMode, column)"
               @download="$emit('download-attachment', $event)"
               @input="onInputFile(slotProps.data.id, column.id, $event)"
               @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"

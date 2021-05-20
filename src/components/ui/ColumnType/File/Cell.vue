@@ -35,6 +35,7 @@
       :workspaceId="workspaceId"
       :title="title"
       :visible="dialogFileVisible"
+      :disabled="disabled"
       @input="$emit('input', $event)"
       @close="dialogFileVisible = false"
       @download="$emit('download', $event)"
@@ -69,6 +70,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

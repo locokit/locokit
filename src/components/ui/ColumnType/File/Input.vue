@@ -32,6 +32,7 @@
               style="margin: auto; font-size: 5rem;"
             />
             <p-button
+              v-if="!disabled"
               @click.stop.prevent="$emit('remove-attachment', attachment.id)"
               icon="bi bi-trash"
               class="p-button-danger bottom-right"
@@ -45,7 +46,7 @@
       {{ $t('components.fileInput.noattachment') }}
     </div>
 
-    <div class="p-field p-mt-4">
+    <div class="p-field p-mt-4" v-if="!disabled">
       <label class="lck-color-primary" v-if="displayLabels">
         {{ $t('components.fileInput.upload') }}<br/>
       </label>
@@ -58,6 +59,7 @@
     </div>
 
     <p-button
+      v-if="!disabled"
       @click="$emit('input', $refs['input-file'].files)"
       icon="bi bi-cloud-upload"
       :label="$t('components.fileInput.upload')"
@@ -90,6 +92,10 @@ export default {
     displayLabels: {
       type: Boolean,
       default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

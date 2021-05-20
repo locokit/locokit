@@ -46,6 +46,29 @@ afterClickOnIt.args = {
   waitForSelector: '.p-dialog'
 }
 
+export const afterClickOnItDisabled = () => (
+  {
+    components: { FileCell },
+    template: `
+      <div style="width: 200px; height: 2rem; border: 1px solid gray;">
+        <file-cell
+          ref="fileCell"
+          title="this is the dialog title"
+          :disabled="true"
+        />
+      </div>
+    `,
+    async mounted () {
+      await this.$refs.fileCell.$el.click()
+    }
+  }
+)
+
+afterClickOnItDisabled.storyName = 'after click (disabled)'
+afterClickOnItDisabled.args = {
+  waitForSelector: '.p-dialog'
+}
+
 const attachments = [{
   id: 4,
   filepath: '',
@@ -154,5 +177,34 @@ export const withAttachmentsAfterClickOnIt = () => (
 
 withAttachmentsAfterClickOnIt.storyName = 'after click with attachments'
 withAttachmentsAfterClickOnIt.args = {
+  waitForSelector: '.p-dialog'
+}
+
+export const withAttachmentsAfterClickOnItDisabled = () => (
+  {
+    components: { FileCell },
+    data () {
+      return {
+        attachments
+      }
+    },
+    template: `
+      <div style="width: 200px; height: 2rem; border: 1px solid gray;">
+        <file-cell
+          ref="fileCell"
+          title="this is the dialog title"
+          :attachments="attachments"
+          :disabled="true"
+        />
+      </div>
+    `,
+    async mounted () {
+      await this.$refs.fileCell.$el.click()
+    }
+  }
+)
+
+withAttachmentsAfterClickOnItDisabled.storyName = 'after click with attachments (disabled)'
+withAttachmentsAfterClickOnItDisabled.args = {
   waitForSelector: '.p-dialog'
 }

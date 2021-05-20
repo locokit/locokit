@@ -5,10 +5,10 @@
     <lck-data-detail
       class="detail-view centered-content-view box-with-shadow"
       :definition="definition"
+      :workspaceId="workspaceId"
       :row="content.data[0]"
       :cellState="cellState"
       :autocompleteSuggestions="autocompleteSuggestions"
-      :workspaceId="workspaceId"
       v-on="$listeners"
     />
   </div>
@@ -55,6 +55,9 @@ export default Vue.extend({
         }
       }
     },
+    /**
+     * We need the workspace id for displaying images from attachments
+     */
     workspaceId: {
       type: String,
       required: true

@@ -79,6 +79,19 @@ export default Vue.extend({
     Synthesis,
     Error
   },
+  props: {
+    block: {
+      type: Object as PropType<Block>
+    },
+    editMode: {
+      type: Boolean,
+      default: false
+    },
+    workspaceId: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     isBlockTypeValid () {
       const values = Object.values(BLOCK_TYPE) as string[]
@@ -118,19 +131,6 @@ export default Vue.extend({
         default:
           return 'lck-block-default'
       }
-    }
-  },
-  props: {
-    block: {
-      type: Object as PropType<Block>
-    },
-    editMode: {
-      type: Boolean,
-      default: false
-    },
-    workspaceId: {
-      type: String,
-      required: true
     }
   }
 })

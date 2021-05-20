@@ -250,8 +250,6 @@ import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 
-import FileType from 'file-type/browser'
-
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ProcessPanel from '@/components/store/ProcessPanel/ProcessPanel.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
@@ -901,38 +899,7 @@ export default {
       }
 
       try {
-        const uploadPromises = []
-        for (let i = 0; i < fileList.length; i++) {
-          uploadPromises.push(new Promise((resolve, reject) => {
-            const file = fileList[i]
-            const reader = new FileReader()
-            // encode dataURI
-            reader.readAsDataURL(file)
-
-            // when encoded, upload
-            reader.addEventListener('load', async () => {
-              /**
-               * Find the mime type of the file to upload
-               */
-              const fileType = await FileType.fromBlob(file)
-              lckServices.upload.create({
-                uri: reader.result,
-                fileName: file.name,
-                ...fileType
-              }, {
-                query: {
-                  workspaceId: this.workspaceId,
-                  fileName: file.name,
-                  ...fileType
-                }
-              })
-                .then(resolve)
-                .catch(reject)
-            }, false)
-          }))
-        }
-        const newUploadedFiles = await Promise.all(uploadPromises)
-
+        const newUploadedFiles = await lckHelpers.uploadMultipleFiles(fileList, this.workspaceId)
         /**
          * Here we need to know if we are in a creation or in a row update
          */

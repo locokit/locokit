@@ -1,4 +1,5 @@
-import { Service } from '@feathersjs/feathers'
+import { Params, Service } from '@feathersjs/feathers'
+import { FileExtension, MimeType } from 'file-type/browser'
 import { lckClient } from './client'
 import {
   LckBlock,
@@ -19,12 +20,21 @@ import {
   LckAttachment
 } from './definitions'
 
+interface ServiceUpload {
+  create (data: Partial<{
+    uri: string;
+    fileName: string;
+    ext: FileExtension;
+    mime: MimeType;
+  }>, params?: Params): Promise<LckAttachment>;
+}
+
 export const lckServices = {
   workspace: lckClient.service('workspace') as Service<LckWorkspace>,
   /**
    * Storage
    */
-  upload: lckClient.service('upload') as Service<LckAttachment>,
+  upload: lckClient.service('upload') as ServiceUpload,
   attachment: lckClient.service('attachment') as Service<LckAttachment>,
   /**
    * Database

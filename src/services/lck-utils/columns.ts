@@ -133,7 +133,7 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return 'lck-map'
     case COLUMN_TYPE.FILE:
-      return 'lck-input-file'
+      return 'lck-file-input'
     default:
       return null
   }
@@ -146,7 +146,6 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
     case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
-    case COLUMN_TYPE.FILE: // this is a hack to display a modal for FILE
       return false
     default:
       return crudMode || column.editable
