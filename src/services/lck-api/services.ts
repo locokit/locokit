@@ -22,10 +22,10 @@ import {
 
 interface ServiceUpload {
   create (data: Partial<{
-    uri?: string;
-    fileName?: string;
-    ext?: FileExtension;
-    mime?: MimeType;
+    uri: string;
+    fileName: string;
+    ext: FileExtension;
+    mime: MimeType;
   }>, params?: Params): Promise<LckAttachment>;
 }
 

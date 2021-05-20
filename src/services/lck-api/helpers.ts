@@ -247,8 +247,8 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
       // when encoded, upload
       reader.addEventListener('load', async () => {
         /**
-               * Find the mime type of the file to upload
-               */
+         * Find the mime type of the file to upload
+         */
         const fileType = await FileType.fromBlob(file)
         lckServices.upload.create({
           uri: reader.result as string,
