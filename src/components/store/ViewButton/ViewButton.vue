@@ -15,7 +15,7 @@
         @row-select="$emit('input', $event.data.id)"
       >
         <template #empty>
-          {{ $t("components.datatable.toolbar.views.zeroView") }}
+          {{ $t("components.datatable.toolbar.views.noview") }}
         </template>
         <p-column
           bodyClass="handle"
@@ -77,7 +77,7 @@ export default {
     'p-button': Vue.extend(Button),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'lck-overlaypanel': Vue.extend(OverlayPanel)
+    'lck-overlaypanel': OverlayPanel
   },
   props: {
     views: {

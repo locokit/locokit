@@ -54,8 +54,7 @@
           "viewTextLabel": "Nom",
           "viewLockedLabel": "Verrouillée",
           "viewLockedLabelOff": "Déverrouillée",
-          "viewLockedLabelOn": "Verrouillée",
-          "zeroView": "Aucune vue"
+          "viewLockedLabelOn": "Verrouillée"
         },
         "filters": {
           "label": "aucun filtre | {n} filtre | {n} filtres",
