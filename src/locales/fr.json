@@ -368,7 +368,7 @@
         "pageHidden": "Cacher la page",
         "layout": "Disposition",
         "pagePosition": "Position de la page",
-        "pageConfiguration": "Configuration du la page",
+        "pageConfiguration": "Configuration de la page",
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
         "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
@@ -419,6 +419,23 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
+        "labelButton": "Libellé du bouton",
+        "classButton": {
+          "title": "Style du bouton",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
+        "icon": "Icône du bouton",
+        "action": {
+          "title": "Action du bouton",
+          "page_detail_to": "Aller sur une page",
+          "process_trigger": "Déclenche une action/processus"
+        },
+        "processTriggerId": "Nom de l'action/processus",
+        "pageDetailId": "Nom de la page cachée",
         "detailPage": "Page de détails"
       }
     },

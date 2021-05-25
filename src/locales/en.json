@@ -419,6 +419,23 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
+        "labelButton": "Button label",
+        "classButton": {
+          "title": "Button style",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
+        "icon": "Button Icon",
+        "action": {
+          "title": "Button action",
+          "page_detail_to": "Go to page",
+          "process_trigger": "Trigger an action/process"
+        },
+        "processTriggerId": "Action/Process name",
+        "pageDetailId": "Hidden Page name",
         "detailPage": "Detail page"
       }
     },
