@@ -701,8 +701,11 @@ export default {
         const { id, ...data } = blockToEdit
         if (id !== 'temp') {
           // On update
+          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, {
-            ...data
+            title: data.title,
+            type: data.type,
+            settings: data.settings
           })
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
