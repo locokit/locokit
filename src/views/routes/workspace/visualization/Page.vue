@@ -815,11 +815,11 @@ export default {
         }
       })
     },
-    async onTriggerProcess ({ processTriggerId }) {
+    async onTriggerProcess ({ processId }) {
       if (this.$route.query.rowId) {
         const res = await createProcessRun({
           table_row_id: this.$route.query.rowId,
-          process_id: processTriggerId,
+          process_id: processId,
           waitForOutput: true
         })
         if (res && res.code) {
@@ -840,7 +840,7 @@ export default {
           const { process: useless, ...rest } = res
 
           // Add execution when event is triggered in actionButton to check if the trigger must be disabled
-          const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processTriggerId)
+          const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processId)
           if (indexManualProcess >= 0) {
             this.manualProcesses[indexManualProcess].runs = [rest, ...this.manualProcesses[indexManualProcess].runs]
           }

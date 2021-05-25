@@ -69,11 +69,11 @@
       </p-dropdown>
     </div>
     <div class="p-field" v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER">
-      <label for="processTriggerId">{{ $t('pages.workspace.block.processTriggerId') }}</label>
+      <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
       <p-input-text
-        id="processTriggerId"
-        :value="processTriggerId"
-        @input="$emit('update:processTriggerId', $event)"
+        id="processId"
+        :value="processId"
+        @input="$emit('update:processId', $event)"
         required
       />
     </div>
@@ -155,7 +155,7 @@ export default {
     action: {
       type: String
     },
-    processTriggerId: {
+    processId: {
       type: String
     },
     pageDetailId: {

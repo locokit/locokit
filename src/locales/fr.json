@@ -434,7 +434,7 @@
           "page_detail_to": "Aller sur une page",
           "process_trigger": "Déclenche une action/processus"
         },
-        "processTriggerId": "Nom de l'action/processus",
+        "processId": "Nom de l'action/processus",
         "pageDetailId": "Nom de la page cachée",
         "options": {
           "displayFieldID": "Afficher le bouton selon ce champ",

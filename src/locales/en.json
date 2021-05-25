@@ -434,7 +434,7 @@
           "page_detail_to": "Go to page",
           "process_trigger": "Trigger an action/process"
         },
-        "processTriggerId": "Action/Process name",
+        "processId": "Action/Process name",
         "pageDetailId": "Hidden Page name",
         "options": {
           "displayFieldID": "Display the button according to this field",

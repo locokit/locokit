@@ -80,7 +80,7 @@
       :classButton.sync="blockCopy.settings.classButton"
       :icon.sync="blockCopy.settings.icon"
       :action.sync="blockCopy.settings.action"
-      :processTriggerId.sync="blockCopy.settings.processTriggerId"
+      :processId.sync="blockCopy.settings.processId"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :options.sync="blockCopy.settings.options"
     />
