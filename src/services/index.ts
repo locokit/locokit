@@ -24,7 +24,7 @@ import attachment from './attachment/attachment.service'
 import upload from './upload/upload.service'
 import permission from './permission/permission.service'
 import action from './action/action.service'
-import acl from './acl/acl.service'
+import aclset from './aclset/aclset.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application): void {
@@ -33,7 +33,7 @@ export default function (app: Application): void {
   app.configure(user)
   app.configure(group)
   app.configure(usergroup)
-  app.configure(acl)
+  app.configure(aclset)
   app.configure(permission)
   app.configure(workspace)
   app.configure(database)

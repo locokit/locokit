@@ -1,11 +1,10 @@
-import { HookContext, ServiceAddons } from '@feathersjs/feathers'
+import { ServiceAddons } from '@feathersjs/feathers'
 import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 // import { expressOauth } from '@feathersjs/authentication-oauth';
+import hooks from './authentication.hooks'
 
 import { Application } from '../../declarations'
-import { Forbidden } from '@feathersjs/errors'
-import { alterItems, lowerCase } from 'feathers-hooks-common'
 import { ServiceSwaggerOptions } from 'feathers-swagger/types'
 
 declare module '../../declarations' {
@@ -55,29 +54,6 @@ export default function (app: Application): void {
   app.use('/authentication', authentication)
 
   const service = app.service('authentication')
-  service.hooks({
-    before: {
-      create: [lowerCase('email')],
-    },
-    after: {
-      create: [
-        (context: HookContext) => {
-          if (!context.result.user.isVerified) {
-            throw new Forbidden('User email is not verified. You can\'t login.')
-          }
-          return context
-        },
-        alterItems(rec => {
-          delete rec.user.verifyToken
-          delete rec.user.verifyShortToken
-          delete rec.user.verifyExpires
-          delete rec.user.verifyChanges
-          delete rec.user.resetToken
-          delete rec.user.resetShortToken
-          delete rec.user.resetExpires
-        }),
-      ],
-    },
-  })
+  service.hooks(hooks)
   // app.configure(expressOauth());
 }

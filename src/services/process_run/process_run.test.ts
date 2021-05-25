@@ -1,8 +1,8 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { database } from '../../models/database.model'
-import { ProcessTrigger } from '../../models/process.model'
-import { ProcessRunStatus } from '../../models/process_run.model'
+import { Process, ProcessTrigger } from '../../models/process.model'
+import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 
 import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -103,12 +103,12 @@ describe('\'process_run\' service', () => {
       const processTrigger = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
-      })
+      }) as Process
 
       const processRun = await app.service('process-run').create({
         process_id: processTrigger.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       /**
        * check the status
        */
@@ -129,24 +129,24 @@ describe('\'process_run\' service', () => {
       const processTriggerCRON = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.CRON,
-      })
+      }) as Process
 
       const processExecutionCRON = await app.service('process-run').create({
         process_id: processTriggerCRON.id,
         table_row_id: tableRow.id,
-      }, params)
+      }, params) as ProcessRun
       expect(processExecutionCRON).toBeTruthy()
       expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
 
       const processTriggerMANUAL = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
-      })
+      }) as Process
 
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
         table_row_id: tableRow.id,
-      }, params)
+      }, params) as ProcessRun
       expect(processExecutionMANUAL).toBeTruthy()
       expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.RUNNING)
 
@@ -169,56 +169,56 @@ describe('\'process_run\' service', () => {
       const processTriggerCRON = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.CRON,
-      })
+      }) as Process
       const processTriggerMANUAL = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
-      })
+      }) as Process
       const processTriggerCreateRow = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.CREATE_ROW,
-      })
+      }) as Process
       const processTriggerUpdateRow = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW,
-      })
+      }) as Process
       const processTriggerUpdateRowData = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW_DATA,
-      })
+      }) as Process
 
       const processExecutionCRON = await app.service('process-run').create({
         process_id: processTriggerCRON.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       expect(processExecutionCRON).toBeTruthy()
       expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       expect(processExecutionMANUAL).toBeTruthy()
       expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionCreateRow = await app.service('process-run').create({
         process_id: processTriggerCreateRow.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       expect(processExecutionCreateRow).toBeTruthy()
       expect(processExecutionCreateRow.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionUpdateRow = await app.service('process-run').create({
         process_id: processTriggerUpdateRow.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       expect(processExecutionUpdateRow).toBeTruthy()
       expect(processExecutionUpdateRow.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionUpdateRowData = await app.service('process-run').create({
         process_id: processTriggerUpdateRowData.id,
         table_row_id: tableRow.id,
-      })
+      }) as ProcessRun
       expect(processExecutionUpdateRowData).toBeTruthy()
       expect(processExecutionUpdateRowData.status).toBe(ProcessRunStatus.RUNNING)
 
@@ -247,15 +247,15 @@ describe('\'process_run\' service', () => {
       const processTriggerCreateRow = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.CREATE_ROW,
-      })
+      }) as Process
       const processTriggerUpdateRow = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW,
-      })
+      }) as Process
       const processTriggerUpdateRowData = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW_DATA,
-      })
+      }) as Process
 
       await expect(app.service('process-run').create({
         process_id: processTriggerCreateRow.id,

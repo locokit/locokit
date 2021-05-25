@@ -93,6 +93,7 @@
     "ejs": "^3.1.6",
     "feathers-authentication-management": "^3.1.0",
     "feathers-blob": "^2.5.0",
+    "feathers-casl": "^0.5.0",
     "feathers-hooks-common": "^5.0.6",
     "feathers-objection": "^5.5.2",
     "feathers-swagger": "^1.2.1",

@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import path from 'path'
 import favicon from 'serve-favicon'
 import compress from 'compression'
@@ -9,6 +10,7 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 // import socketio from '@feathersjs/socketio'
 import swagger from 'feathers-swagger'
+import casl from 'feathers-casl'
 
 import { Application } from './declarations'
 import logger from './logger'
@@ -19,7 +21,10 @@ import objection from './objection'
 // Don't remove this comment. It's needed to format import lines nicely.
 import * as Sentry from '@sentry/node'
 import { Integrations } from '@sentry/tracing'
-require('dotenv').config()
+/**
+ * read .env file
+ */
+dotenv.config()
 
 const app: Application = express(feathers())
 
@@ -46,9 +51,18 @@ app.use(Sentry.Handlers.requestHandler())
 app.use(Sentry.Handlers.tracingHandler())
 
 // the rest of your app
+app.configure(casl())
 
 // Enable security, CORS, compression, favicon and body parsing
-app.use(helmet())
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      'script-src': ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', "'unsafe-eval'"],
+      'worker-src': ['blob:'], // needed by redoc swagger
+    },
+  },
+}))
 app.use(cors(app.get('cors')))
 app.use(compress())
 const maxUploadSize = app.get('storage').maxUploadSize || '5mb'
@@ -101,7 +115,8 @@ Here are some links :
 * [FeathersJS's documentation](https://docs.feathersjs.com/)
 * [Objection.js](https://vincit.github.io/objection.js/)
 * [feathers-objection](https://github.com/feathersjs-ecosystem/feathers-objection/), wrapper between objection and FeathersJS
-
+  * see [query operators](https://github.com/feathersjs-ecosystem/feathers-objection/#default-query-operators)
+  to understand how you could filter data
 
 # Authentication
 
@@ -133,7 +148,7 @@ You'll be able to make your request, according your permissions / ACLs.
       }, {
         name: 'Access Control List',
         tags: [
-          'acl',
+          'aclset',
         ],
       }, {
         name: 'Data',

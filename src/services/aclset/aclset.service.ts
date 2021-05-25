@@ -1,14 +1,14 @@
-// Initializes the `row` service on path `/row`
+// Initializes the `acl` service on path `/acl`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { Row } from './row.class'
-import createModel from '../../models/tablerow.model'
-import hooks from './row.hooks'
+import { Acl } from './aclset.class'
+import createModel from '../../models/aclset.model'
+import hooks from './aclset.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'row': Row & ServiceAddons<any>
+    'aclset': Acl & ServiceAddons<any>
   }
 }
 
@@ -24,35 +24,28 @@ export default function (app: Application): void {
       '$lt',
       '$in',
       '$nin',
-      '$null',
-      '$notNull',
       '$like',
       '$notLike',
       '$ilike',
       '$notILike',
       '$contains',
-      '$containsKey',
       '$or',
       '$and',
       '$sort',
-      '$eager',
       '$any',
-      '$all',
+      '$eager',
       '$joinRelation',
-      '$joinEager',
       '$modifyEager',
-      '$noSelect',
     ],
-    allowedEager: '[table,parents.^,children.^]',
-    multi: ['patch'],
+    allowedEager: '[groups.[users], groupsacl.[users]]',
     paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires
-  app.use('/row', new Row(options, app))
+  app.use('/aclset', new Acl(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('row')
+  const service = app.service('aclset')
 
   service.hooks(hooks)
 }

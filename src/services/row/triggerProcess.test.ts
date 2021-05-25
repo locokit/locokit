@@ -1,7 +1,7 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { database } from '../../models/database.model'
-import { ProcessTrigger } from '../../models/process.model'
+import { Process, ProcessTrigger } from '../../models/process.model'
 
 import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -9,6 +9,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { workspace } from '../../models/workspace.model'
 
 import axios, { AxiosRequestConfig } from 'axios'
+import { ProcessRun } from '../../models/process_run.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('\'triggerProcess\' hook', () => {
   let workspace: workspace
@@ -76,7 +78,7 @@ describe('\'triggerProcess\' hook', () => {
 
     const allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
   })
 
@@ -87,12 +89,12 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
-    })
+    }) as Process
     const processTriggerCron = await app.service('process').create({
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
-    })
+    }) as Process
     tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
@@ -110,7 +112,7 @@ describe('\'triggerProcess\' hook', () => {
 
     const allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
 
     await app.service('process').remove(processTriggerCron.id)
@@ -123,7 +125,7 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       trigger: ProcessTrigger.CREATE_ROW,
       enabled: true,
-    })
+    }) as Process
     tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
@@ -140,7 +142,7 @@ describe('\'triggerProcess\' hook', () => {
 
     const allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(1)
     expect(allExecutions[0].process_id).toBe(processTriggerCreateRow.id)
     expect(allExecutions[0].table_row_id).toBe(tableRow1.id)
@@ -157,7 +159,7 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,
-    })
+    }) as Process
     tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
@@ -168,7 +170,7 @@ describe('\'triggerProcess\' hook', () => {
     })
     let allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
 
     await app.service('row').patch(tableRow1.id, {
@@ -179,7 +181,7 @@ describe('\'triggerProcess\' hook', () => {
 
     allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
 
     expect(allExecutions.length).toBe(1)
 
@@ -201,7 +203,7 @@ describe('\'triggerProcess\' hook', () => {
       settings: {
         column_id: tableColumn1.id,
       },
-    })
+    }) as Process
     tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
@@ -212,7 +214,7 @@ describe('\'triggerProcess\' hook', () => {
     })
     let allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
 
     /**
@@ -227,7 +229,7 @@ describe('\'triggerProcess\' hook', () => {
 
     allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
 
     expect(allExecutions.length).toBe(0)
 
@@ -243,7 +245,7 @@ describe('\'triggerProcess\' hook', () => {
 
     allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
 
     expect(allExecutions.length).toBe(1)
 
@@ -262,7 +264,7 @@ describe('\'triggerProcess\' hook', () => {
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,
-    })
+    }) as Process
     tableRow1 = await app.service('row').create({
       text: 'yo',
       table_id: table1.id,
@@ -281,7 +283,7 @@ describe('\'triggerProcess\' hook', () => {
     })
     let allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
 
     await app.service('row').patch(null, {
@@ -300,20 +302,20 @@ describe('\'triggerProcess\' hook', () => {
 
     allExecutions = await app.service('process-run').find({
       paginate: false,
-    })
+    }) as ProcessRun[]
 
     const firstProcessRun = await app.service('process-run').find({
       query: {
         process_id: processTriggerCreateRow.id,
         table_row_id: tableRow1.id,
       },
-    })
+    }) as Paginated<ProcessRun>
     const secondProcessRun = await app.service('process-run').find({
       query: {
         process_id: processTriggerCreateRow.id,
         table_row_id: tableRow2.id,
       },
-    })
+    }) as Paginated<ProcessRun>
 
     expect(allExecutions.length).toBe(2)
     expect(firstProcessRun.total).toBe(1)

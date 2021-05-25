@@ -1,15 +1,37 @@
 import * as authentication from '@feathersjs/authentication'
-import filterChapterAccordingPermissions from '../../hooks/filter-chapter-according-permissions'
+import { authorize } from 'feathers-casl/dist/hooks'
+import { defineAbilities } from '../../abilities/workspace.abilities'
+import filterChapterAccordingPermissions from './filterChapter.hook'
+import { iff, isProvider } from 'feathers-hooks-common'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
 
 export default {
   before: {
-    all: [authenticate('jwt')],
-    find: [],
-    get: [filterChapterAccordingPermissions()],
-    create: [],
+    all: [
+      authenticate('jwt'),
+      iff(
+        isProvider('external'),
+        defineAbilities,
+      )
+    ],
+    find: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
+    get: [
+      filterChapterAccordingPermissions(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
+    create: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
     update: [],
     patch: [],
     remove: [],

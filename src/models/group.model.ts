@@ -4,19 +4,24 @@
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { User } from './user.model'
-import { workspace as LckWorkspace } from './workspace.model'
-import { chapter as LckChapter } from './chapter.model'
+// import { workspace as LckWorkspace } from './workspace.model'
+// import { chapter as LckChapter } from './chapter.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 import { Usergroup } from './usergroup.model'
+import { LckAclSet } from './aclset.model'
 
 export class Group extends BaseModel {
-  workspace?: LckWorkspace
-  chapter?: LckChapter
-  chapter_id?: string
-  workspace_role?: string
+  // workspace?: LckWorkspace
+  // chapter?: LckChapter
+  // chapter_id?: string
+  // workspace_role?: string
   name!: string
   users?: User[]
   usergroups?: Usergroup[]
+  aclset_id!: string
+  aclset?: LckAclSet
+
+  static modelName: 'group'
 
   static get tableName (): string {
     return 'group'
@@ -25,33 +30,50 @@ export class Group extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['name'],
+      required: [
+        'name',
+      ],
 
       properties: {
         name: { type: 'string' },
         workspace_role: { type: 'string' },
+        aclset_id: { type: 'string' },
+        // users: {
+        //   type: 'array',
+        //   items: {
+        //     $ref: '#/components/schemas/user',
+        //   },
+        //   description: 'Available if `$eager=users` is set',
+        // },
+        // aclset: {
+        //   type: 'object',
+        //   items: {
+        //     $ref: '#/components/schemas/aclset',
+        //   },
+        //   description: 'Available if `$eager=aclset` is set',
+        // },
       },
     }
   }
 
   static get relationMappings (): RelationMappings {
     return {
-      workspace: {
-        relation: Model.HasOneRelation,
-        modelClass: LckWorkspace,
-        join: {
-          from: 'group.workspace_id',
-          to: 'workspace.id',
-        },
-      },
-      chapter: {
-        relation: Model.HasOneRelation,
-        modelClass: LckChapter,
-        join: {
-          from: 'group.chapter_id',
-          to: 'chapter.id',
-        },
-      },
+      // workspace: {
+      //   relation: Model.HasOneRelation,
+      //   modelClass: LckWorkspace,
+      //   join: {
+      //     from: 'group.workspace_id',
+      //     to: 'workspace.id',
+      //   },
+      // },
+      // chapter: {
+      //   relation: Model.HasOneRelation,
+      //   modelClass: LckChapter,
+      //   join: {
+      //     from: 'group.chapter_id',
+      //     to: 'chapter.id',
+      //   },
+      // },
       users: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
@@ -71,6 +93,14 @@ export class Group extends BaseModel {
         join: {
           from: 'group.id',
           to: 'user_has_group.group_id',
+        },
+      },
+      aclset: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: LckAclSet,
+        join: {
+          from: 'group.aclset_id',
+          to: 'acl_set.id',
         },
       },
     }

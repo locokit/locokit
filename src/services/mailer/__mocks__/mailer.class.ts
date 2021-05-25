@@ -13,10 +13,10 @@ export class Mailer {
     this.app = app
   }
 
-  create (data: Partial<SendMailOptions>, params?: Params | undefined): Promise<SentMessageInfo> {
-    return new Promise((resolve, reject) => {
-      console.log(`[MAIL] A new mail need to be sent to ${data.to} from ${data.from || this.app.get('mail')}`)
-      resolve()
+  async create (data: Partial<SendMailOptions>, params?: Params | undefined): Promise<SentMessageInfo> {
+    return await new Promise((resolve, reject) => {
+      console.log(`[MAIL] A new mail need to be sent to ${data.to as string} from ${data.from as string || this.app.get('mail') as string}`)
+      resolve('ok')
     })
   }
 }

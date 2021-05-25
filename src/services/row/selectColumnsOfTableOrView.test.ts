@@ -6,6 +6,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
+import { TableView } from '../../models/tableview.model'
 
 describe('selectColumnsOfTableOrTableView hook', () => {
   let workspace: workspace
@@ -76,7 +78,8 @@ describe('selectColumnsOfTableOrTableView hook', () => {
   })
 
   it('restrict data to the data the table contains', async () => {
-    const rows = await app.service('row').find({ query: { table_id: table1.id } })
+    const rows = await app.service('row').find({ query: { table_id: table1.id } }) as Paginated<TableRow>
+
     expect.assertions(7)
     expect(rows.total).toBe(1)
     const targetKeys = [
@@ -96,12 +99,12 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     const tableView = await app.service('view').create({
       text: 'My view',
       table_id: table1.id,
-    })
+    }) as TableView
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
       table_column_id: columnTable1Ref.id,
     })
-    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } })
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } })  as Paginated<TableRow>
     expect.assertions(6)
     expect(rows.total).toBe(1)
     expect(rows.data[0].data[columnTable1Ref.id]).toBeDefined()
@@ -116,7 +119,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     const tableView = await app.service('view').create({
       text: 'My view',
       table_id: table1.id,
-    })
+    }) as TableView
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
       table_column_id: columnTable1Ref.id,

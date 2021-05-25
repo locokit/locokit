@@ -8,8 +8,9 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
-import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Group } from '../../models/group.model'
+import { LckAclSet } from '../../models/aclset.model'
 
 describe('formula utility functions', () => {
   let workspace: workspace
@@ -32,6 +33,7 @@ describe('formula utility functions', () => {
   let columnTable2String: TableColumn
   let user1: User
   let user2: User
+  let aclset: LckAclSet
   let group: Group
   let rowTable1: TableRow
   let rowTable2: TableRow
@@ -148,18 +150,22 @@ describe('formula utility functions', () => {
     // Create user
     user1 = await app.service('user').create({
       name: 'User 1',
-      email: 'user1@locokit.io',
+      email: 'user1-formulas@locokit.io',
       password: 'locokit',
     })
     user2 = await app.service('user').create({
       name: 'User 2',
-      email: 'user2@locokit.io',
+      email: 'user2-formulas@locokit.io',
       password: 'locokit',
+    })
+    // Create ACL
+    aclset = await app.services.aclset.create({
+      workspace_id: workspace.id,
+      label: '[formulas] Acl for workspace ' + workspace.id,
     })
     // Create group
     group = await app.service('group').create({
-      workspace: workspace.id,
-      workspace_role: GROUP_ROLE.MEMBER,
+      aclset_id: aclset.id,
       name: 'Locokit group',
       users: [user1, user2],
     })

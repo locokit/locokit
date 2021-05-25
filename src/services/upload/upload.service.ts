@@ -50,18 +50,18 @@ export default function (app: Application): void {
   app.use('/upload', createBlobService({
     Model: blobStore,
     returnBuffer: true,
-    docs: {
-      description: 'A service to send and receive users',
-      definition: {
-        type: 'object',
-        properties: {
-          uri: { type: 'string' },
-          buffer: { type: 'Buffer' },
-          contentType: { type: 'string' },
-        },
-      },
-      securities: ['all'],
-    },
+    // docs: {
+    //   description: 'A service to send and receive users',
+    //   definition: {
+    //     type: 'object',
+    //     properties: {
+    //       uri: { type: 'string' },
+    //       buffer: { type: 'Buffer' },
+    //       contentType: { type: 'string' },
+    //     },
+    //   },
+    //   securities: ['all'],
+    // },
   }))
 
   // Get our initialized service so that we can register hooks

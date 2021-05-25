@@ -4,6 +4,8 @@ import path from 'path'
 import AWS from 'aws-sdk'
 import uploadService from './upload.service'
 import { NotAcceptable } from '@feathersjs/errors'
+import { Paginated } from '@feathersjs/feathers'
+import { LckAttachment } from '../../models/attachment.model'
 
 describe('\'upload\' service', () => {
   it('registered the service', () => {
@@ -71,7 +73,7 @@ describe('\'upload\' service', () => {
         query: {
           workspace_id: workspaceId,
         },
-      })
+      }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
       expect(attachments.data[0].filename).toBe('logokit-grayscale.png')
       expect(attachments.data[0].thumbnail).toBe(true)
@@ -104,7 +106,7 @@ describe('\'upload\' service', () => {
           workspace_id: workspaceId,
           filepath: workspaceId + '/logokit-grayscale1.png',
         },
-      })
+      }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
       expect(attachments.data[0].filename).toBe('logokit-grayscale1.png')
       expect(attachments.data[0].thumbnail).toBe(false)
@@ -226,7 +228,7 @@ describe('\'upload\' service', () => {
             filename: 1, // we sort by filename to guarantee assertions order
           },
         },
-      })
+      }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
       expect(attachments.data[0].filename).toBe('logokit-grayscale.png')
       expect(attachments.data[0].thumbnail).toBe(true)

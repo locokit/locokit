@@ -74,7 +74,7 @@ describe('enhanceComplexColumns hook', () => {
     })
     user1 = await app.service('user').create({
       name: 'User 1',
-      email: 'user1@locokit.io',
+      email: 'user1-enhancecomplexcolumns@locokit.io',
       password: 'locokit',
     })
   })

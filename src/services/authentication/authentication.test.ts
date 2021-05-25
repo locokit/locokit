@@ -62,7 +62,7 @@ describe('authentication', () => {
     })
 
     afterAll(async () => {
-      await app.service('user').remove(user.id)
+      await app.services.user.remove(user.id)
     })
   })
 })

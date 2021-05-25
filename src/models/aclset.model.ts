@@ -7,8 +7,8 @@ import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
 import { Group } from './group.model'
 
-export class LckAcl extends BaseModel {
-  name!: string
+export class LckAclSet extends BaseModel {
+  label!: string
   workspace_id!: string
   workspace?: LckWorkspace
   chapter_id?: string
@@ -22,14 +22,14 @@ export class LckAcl extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['name', 'workspace_id'],
+      required: ['label', 'workspace_id'],
 
       properties: {
         id: {
           type: 'string',
           format: 'uuid',
         },
-        name: { type: 'string' },
+        label: { type: 'string' },
         workspace_id: {
           type: 'string',
           format: 'uuid',
@@ -69,10 +69,24 @@ export class LckAcl extends BaseModel {
           to: 'group.aclset_id',
         },
       },
+      /**
+       * This relation is used only for CASL abilities.
+       * This could avoid conflicts with end users
+       * joining with ORM-wrapper feathers-objection
+       * and $joinRelation
+       */
+      groupsacl: {
+        relation: Model.HasManyRelation,
+        modelClass: Group,
+        join: {
+          from: 'acl_set.id',
+          to: 'group.aclset_id',
+        },
+      },
     }
   }
 }
 
-export default function (app: Application): typeof LckAcl {
-  return LckAcl
+export default function (app: Application): typeof LckAclSet {
+  return LckAclSet
 }

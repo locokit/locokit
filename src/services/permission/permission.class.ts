@@ -1,6 +1,7 @@
 import { Forbidden, NotAcceptable, NotFound } from '@feathersjs/errors'
-import { Params, ServiceMethods } from '@feathersjs/feathers'
+import { Paginated, Params, ServiceMethods } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
+import { LckAttachment } from '../../models/attachment.model'
 import { Group } from '../../models/group.model'
 
 export class Permission implements Partial<ServiceMethods<{}>> {
@@ -27,7 +28,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      */
     const workspace = await this.app.services.workspace.get(workspaceId, {
       query: {
-        $eager: '[groups.usergroups]',
+        $eager: '[aclsets.[groups.usergroups]]',
       },
     })
     if (!workspace) throw new NotFound('Workspace not found')
@@ -36,11 +37,11 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      * Check if the current user is a member of at least a group
      */
     let userFound = false
-    workspace.groups?.forEach((currentGroup: Group) => {
+    workspace.aclsets.forEach(aclset => aclset.groups?.forEach((currentGroup: Group) => {
       currentGroup.usergroups?.forEach(currentUsergroup => {
         if (currentUsergroup.user_id === params?.user?.id) userFound = true
       })
-    })
+    }))
     if (!userFound) throw new Forbidden('You don\'t have sufficient right to access this file')
 
     /**
@@ -51,9 +52,9 @@ export class Permission implements Partial<ServiceMethods<{}>> {
         workspace_id: workspaceId,
         filename: decodeURI(filename),
       },
-    })
+    }) as Paginated<LckAttachment>
     if (file.total === 0) throw new NotFound('File not found')
-    if (thumbnail === 'thumbnail_' && file.data[0].thumbnail !== true) {
+    if (thumbnail === 'thumbnail_' && !file.data[0].thumbnail) {
       throw new NotAcceptable('You try to access a thumbnail that is not generated.')
     }
     /**

@@ -29,6 +29,7 @@ import {
   selectColumnsOfTableOrTableView,
   rebuildData,
 } from './selectColumnsOfTableOrView.hook'
+import { defineAbilities } from '../../abilities/record.abilities'
 
 const { authenticate } = authentication.hooks
 
@@ -45,13 +46,16 @@ export default {
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
           selectColumnsOfTableOrTableView(),
+          defineAbilities,
         ],
         commonHooks.disallow(),
       ),
     ],
-    get: [],
+    get: [
+      defineAbilities,
+    ],
     create: [
-      commonHooks.required(...TableRow.jsonSchema.required as string[]),
+      commonHooks.required(...TableRow.jsonSchema.required),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
       checkColumnDefinitionMatching(),
@@ -59,6 +63,7 @@ export default {
       computeRowLookedUpColumns(),
       completeDefaultValues(),
       computeTextProperty(),
+      defineAbilities,
     ],
     update: [
       getCurrentItem(),
@@ -69,6 +74,7 @@ export default {
       computeRowLookedUpColumns(),
       completeDefaultValues(),
       computeTextProperty(),
+      defineAbilities,
     ],
     patch: [
       commonHooks.iffElse(
@@ -99,11 +105,13 @@ export default {
           computeTextProperty(),
         ],
       ),
+      defineAbilities,
     ],
     remove: [
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
       removeRelatedRows(),
+      defineAbilities,
     ],
   },
 

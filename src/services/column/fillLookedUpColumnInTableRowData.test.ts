@@ -188,7 +188,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   })
 
   beforeEach(async () => {
-    const service = app.service('row')
+    const service = app.services.row
     row1Table1 = await service.create({
       table_id: table1.id,
       text: 'table 1 ref 1',
@@ -257,9 +257,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1User.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1User.id]).toStrictEqual({
@@ -286,9 +286,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1MultiUser.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     // order may change
@@ -323,9 +323,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Ref.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id]).toStrictEqual({
@@ -352,9 +352,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Number.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -381,9 +381,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Date.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -410,9 +410,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Float.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -439,9 +439,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Text.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -468,9 +468,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1URL.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -497,9 +497,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Formula.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -526,9 +526,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1Boolean.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1.id]).toStrictEqual({
@@ -555,9 +555,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1SingleSelect.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1SingleSelect.id]).toStrictEqual({
@@ -584,9 +584,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         foreignField: columnTable1MultiSelect.id,
       },
     })
-    const newRow1Table2 = await app.service('row').get(row1Table2.id)
-    const newRow2Table2 = await app.service('row').get(row2Table2.id)
-    const newRow3Table2 = await app.service('row').get(row3Table2.id)
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
 
     expect.assertions(3)
     expect(newRow1Table2.data[columnTable2LookedUpColumnTable1MultiSelect.id]).toStrictEqual({
@@ -604,7 +604,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   describe('Fill all rows with the matching data from the foreign column of the matching rows (looked up column)', () => {
     beforeEach(async () => {
-      const service = app.service('row')
+      const service = app.services.row
       row1Table3 = await service.create({
         table_id: table3.id,
         text: 'table 3 ref 1',
@@ -629,9 +629,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     })
 
     afterEach(async () => {
-      await app.service('row').remove(row3Table3.id)
-      await app.service('row').remove(row2Table3.id)
-      await app.service('row').remove(row1Table3.id)
+      await app.services.row.remove(row3Table3.id)
+      await app.services.row.remove(row2Table3.id)
+      await app.services.row.remove(row1Table3.id)
       await app.service('column').remove(columnTable3LookedUpColumnTable2LookUpColumn.id)
       await app.service('column').remove(columnTable2LookedUpColumnTable1.id)
     })
@@ -657,9 +657,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -694,9 +694,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -731,9 +731,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -768,9 +768,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -805,9 +805,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -842,9 +842,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -879,9 +879,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -916,9 +916,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -953,9 +953,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       // order may change
@@ -998,9 +998,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -1035,9 +1035,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -1072,9 +1072,9 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
           foreignField: columnTable2LookedUpColumnTable1.id,
         },
       })
-      const newRow1Table3 = await app.service('row').get(row1Table3.id)
-      const newRow2Table3 = await app.service('row').get(row2Table3.id)
-      const newRow3Table3 = await app.service('row').get(row3Table3.id)
+      const newRow1Table3 = await app.services.row.get(row1Table3.id)
+      const newRow2Table3 = await app.services.row.get(row2Table3.id)
+      const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
       expect.assertions(3)
       expect(newRow1Table3.data[columnTable3LookedUpColumnTable2LookUpColumn.id]).toStrictEqual({
@@ -1090,35 +1090,35 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   })
 
   afterEach(async () => {
-    await app.service('row').remove(row3Table2.id)
-    await app.service('row').remove(row2Table2.id)
-    await app.service('row').remove(row1Table2.id)
-    await app.service('row').remove(row2Table1.id)
-    await app.service('row').remove(row1Table1.id)
+    await app.services.row.remove(row3Table2.id)
+    await app.services.row.remove(row2Table2.id)
+    await app.services.row.remove(row1Table2.id)
+    await app.services.row.remove(row2Table1.id)
+    await app.services.row.remove(row1Table1.id)
   })
 
   afterAll(async () => {
-    await app.service('user').remove(user2.id)
-    await app.service('user').remove(user1.id)
-    await app.service('column').remove(columnTable1User.id)
-    await app.service('column').remove(columnTable1MultiUser.id)
-    await app.service('column').remove(columnTable1SingleSelect.id)
-    await app.service('column').remove(columnTable1MultiSelect.id)
-    await app.service('column').remove(columnTable1Formula.id)
-    await app.service('column').remove(columnTable1Number.id)
-    await app.service('column').remove(columnTable1Date.id)
-    await app.service('column').remove(columnTable1Float.id)
-    await app.service('column').remove(columnTable1Text.id)
-    await app.service('column').remove(columnTable1URL.id)
-    await app.service('column').remove(columnTable1Boolean.id)
-    await app.service('column').remove(columnTable1Ref.id)
-    await app.service('column').remove(columnTable2Ref.id)
-    await app.service('column').remove(columnTable2RelationBetweenTable1.id)
-    await app.service('column').remove(columnTable3RelationBetweenTable2.id)
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    await app.service('table').remove(table3.id)
-    await app.service('database').remove(database.id)
-    await app.service('workspace').remove(workspace.id)
+    await app.services.user.remove(user2.id)
+    await app.services.user.remove(user1.id)
+    await app.services.column.remove(columnTable1User.id)
+    await app.services.column.remove(columnTable1MultiUser.id)
+    await app.services.column.remove(columnTable1SingleSelect.id)
+    await app.services.column.remove(columnTable1MultiSelect.id)
+    await app.services.column.remove(columnTable1Formula.id)
+    await app.services.column.remove(columnTable1Number.id)
+    await app.services.column.remove(columnTable1Date.id)
+    await app.services.column.remove(columnTable1Float.id)
+    await app.services.column.remove(columnTable1Text.id)
+    await app.services.column.remove(columnTable1URL.id)
+    await app.services.column.remove(columnTable1Boolean.id)
+    await app.services.column.remove(columnTable1Ref.id)
+    await app.services.column.remove(columnTable2Ref.id)
+    await app.services.column.remove(columnTable2RelationBetweenTable1.id)
+    await app.services.column.remove(columnTable3RelationBetweenTable2.id)
+    await app.services.table.remove(table1.id)
+    await app.services.table.remove(table2.id)
+    await app.services.table.remove(table3.id)
+    await app.services.database.remove(database.id)
+    await app.services.workspace.remove(workspace.id)
   })
 })

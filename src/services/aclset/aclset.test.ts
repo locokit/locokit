@@ -1,8 +1,8 @@
 import app from '../../app'
 
-describe('\'acl\' service', () => {
+describe('\'aclset\' service', () => {
   it('registered the service', () => {
-    const service = app.service('acl')
+    const service = app.service('aclset')
     expect(service).toBeTruthy()
   })
 })

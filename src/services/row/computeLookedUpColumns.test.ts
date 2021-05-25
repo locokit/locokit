@@ -541,7 +541,7 @@ describe('computeLookedUpColumns hook', () => {
       })
       user2 = await app.service('user').create({
         name: 'User 2',
-        email: 'user2@locokit.io',
+        email: 'user2-lkdupcolumn@locokit.io',
         password: 'locokit',
       })
       // Update the original table

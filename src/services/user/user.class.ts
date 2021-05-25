@@ -22,6 +22,10 @@ export class UserService extends Service {
       description: 'A service to send and receive users',
       definition: User.jsonSchema,
       securities: ['all'],
+      definitions: User.jsonSchema.definitions,
+      refs: {
+        createRequest: 'userRequest',
+      },
     }
   }
 }

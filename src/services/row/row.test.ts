@@ -5,6 +5,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
+import { Row } from './row.class'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('\'row\' service', () => {
   const service = app.service('row')
@@ -120,7 +122,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual('Hello there!')
 
@@ -160,7 +162,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(17)
 
@@ -200,7 +202,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(17.42)
 
@@ -239,7 +241,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(true)
 
@@ -278,7 +280,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual('1944-04-21')
 
@@ -325,7 +327,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect.assertions(3)
       expect(rows.data.length).toEqual(2)
       // we don't sort the result, order of values can change
@@ -382,7 +384,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(142.17)
 
@@ -431,7 +433,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(2)
       expect(rows.data[0].data[tableColumn.id]).not.toEqual(142)
       expect(rows.data[1].data[tableColumn.id]).not.toEqual(142)

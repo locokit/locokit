@@ -18,8 +18,12 @@ describe('\'permission\' service', () => {
      */
     const workspace = await app.service('workspace').create({ text: 'pouet' })
     workspaceId = workspace.id
-    group = await app.service('group').create({
+    const aclset = await app.services.aclset.create({
+      label: '[permission] Acl set for workspace ' + workspaceId,
       workspace_id: workspaceId,
+    })
+    group = await app.service('group').create({
+      aclset_id: aclset.id,
       name: 'pouet group',
     })
     const userEmail = 'user1-permission@locokit.io'

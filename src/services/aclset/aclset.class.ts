@@ -1,7 +1,7 @@
 import { Service, ObjectionServiceOptions } from 'feathers-objection'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { Application } from '../../declarations'
-import { LckAcl } from '../../models/acl.model'
+import { LckAclSet } from '../../models/aclset.model'
 
 interface Options extends ObjectionServiceOptions {
   Model: any
@@ -26,7 +26,7 @@ for a workspace and optionnaly a chapter.
 
 Each group will have access to a workspace thanks to an ACL set.
 `,
-      definition: LckAcl.jsonSchema,
+      definition: LckAclSet.jsonSchema,
     }
   }
 }

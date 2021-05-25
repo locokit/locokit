@@ -26,8 +26,8 @@ export enum AuthenticationManagementAction {
 const templateFolder = '/templates/mails'
 
 export function authManagementSettings (app: Application) {
-  function getLink (type: string, hash: string) {
-    return app.get('publicUrl') + '/' + type + '?token=' + hash
+  function getLink (type: string, hash: string): string {
+    return app.get('publicUrl') as string + '/' + type + '?token=' + hash
   }
 
   const actionOptions: Record<AuthenticationManagementAction, {
@@ -96,10 +96,10 @@ export function authManagementSettings (app: Application) {
       switch (type) {
         case AuthenticationManagementAction.resendVerifySignup:
         case AuthenticationManagementAction.sendVerifySignup:
-          currentTemplateVars.verifySignupLink = getLink('verify-signup', user.verifyToken as string)
+          currentTemplateVars.verifySignupLink = getLink('verify-signup', user.verifyToken)
           break
         case AuthenticationManagementAction.sendResetPwd:
-          currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken as string)
+          currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken)
           break
       }
 

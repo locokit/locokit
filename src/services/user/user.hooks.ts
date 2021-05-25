@@ -4,7 +4,7 @@ import { authManagementSettings, AuthenticationManagementAction } from '../authm
 import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import commonHooks from 'feathers-hooks-common'
+import commonHooks, { lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
@@ -24,6 +24,7 @@ export default {
     find: [],
     get: [],
     create: [
+      lowerCase('email'),
       /**
        * We disable the creation of user for users not SUPERADMIN
        * or for manipulating this service from the code (provider !== external)

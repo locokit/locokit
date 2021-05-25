@@ -38,7 +38,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     tableview = await app.service('view').create({
       table_id: table1.id,
       text: 'My view',
-    })
+    }) as TableView
   })
 
   it(' creation of tvhtc if view is not locked', async () => {

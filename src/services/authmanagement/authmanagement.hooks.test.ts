@@ -27,7 +27,7 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
   }
   let user: User
   beforeEach(async () => {
-    user = await app.service('user').create({
+    user = await app.services.user.create({
       ...userInfo,
     })
   })
@@ -97,7 +97,7 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
   })
 
   afterEach(async () => {
-    await app.service('user').remove(user.id)
+    await app.services.user.remove(user.id)
   })
 })
 
@@ -108,7 +108,7 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
   }
   let user: User
   beforeEach(async () => {
-    user = await app.service('user').create({
+    user = await app.services.user.create({
       ...userInfo,
     })
   })
@@ -221,6 +221,6 @@ describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
   })
 
   afterEach(async () => {
-    await app.service('user').remove(user.id)
+    await app.services.user.remove(user.id)
   })
 })

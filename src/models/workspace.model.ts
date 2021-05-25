@@ -7,14 +7,16 @@ import { chapter as LckChapter } from './chapter.model'
 import { database as LckDatabase } from './database.model'
 import { LckAttachment } from './attachment.model'
 import { Process } from './process.model'
-import { Group } from './group.model'
+import { LckAclSet } from './aclset.model'
 
 export class workspace extends BaseModel {
   text!: string
   chapters?: LckChapter[]
   databases?: LckDatabase[]
   attachments?: LckAttachment[]
-  groups?: Group[]
+  aclsets?: LckAclSet[]
+
+  static readonly modelName = 'workspace'
 
   static get tableName (): string {
     return 'workspace'
@@ -65,12 +67,12 @@ export class workspace extends BaseModel {
           to: 'process.workspace_id',
         },
       },
-      groups: {
+      aclsets: {
         relation: Model.HasManyRelation,
-        modelClass: Group,
+        modelClass: LckAclSet,
         join: {
           from: 'workspace.id',
-          to: 'group.workspace_id',
+          to: 'acl_set.workspace_id',
         },
       },
     }

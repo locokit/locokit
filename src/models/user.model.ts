@@ -23,6 +23,8 @@ export class User extends Model {
   resetShortToken?: string | null
   resetExpires?: string
 
+  static modelName: 'user'
+
   static get tableName (): string {
     return 'user'
   }
@@ -36,6 +38,17 @@ export class User extends Model {
         'password',
         'name',
       ],
+
+      definitions: {
+        userRequest: {
+          type: 'object',
+          required: ['email', 'name'],
+          properties: {
+            email: { type: ['string'] },
+            name: { type: ['string'] },
+          },
+        },
+      },
 
       properties: {
 
@@ -76,15 +89,14 @@ export class User extends Model {
         // resetToken: { type: ['string', 'null'] },
         // resetShortToken: { type: ['string', 'null'] },
         // resetExpires: { type: 'string', format: 'date-time' },
-
-        groups: {
-          type: 'array',
-          items: {
-            $ref: '#/components/schemas/group',
-          },
-          description: "User's groups. Set if the `$eagerRelation=groups` is set.",
-        },
-
+        // groups: {
+        //   type: 'array',
+        //   readOnly: true,
+        //   items: {
+        //     $ref: '#/components/schemas/group',
+        //   },
+        //   description: "User's groups. Set if the `$eager=groups` is set.",
+        // },
       },
     }
   }
@@ -92,6 +104,29 @@ export class User extends Model {
   static get relationMappings (): RelationMappings {
     return {
       groups: {
+        relation: Model.ManyToManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one. We use a model
+        // subclass constructor `Animal` here.
+        modelClass: LckGroup,
+        join: {
+          from: 'group.id',
+          through: {
+            from: 'user_has_group.user_id',
+            to: 'user_has_group.group_id',
+            extra: ['uhg_role'],
+          },
+          to: 'user.id',
+        },
+      },
+      /**
+       * This relation is used only for CASL abilities.
+       * This could avoid conflicts with end users
+       * joining with ORM-wrapper feathers-objection
+       * and $joinRelation
+       */
+      groupsacl: {
         relation: Model.ManyToManyRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
