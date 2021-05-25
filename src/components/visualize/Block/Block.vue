@@ -63,6 +63,7 @@ import MapView from '@/components/visualize/MapView/MapView.vue'
 import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
 import Media from '@/components/visualize/Media/Media.vue'
 import DetailView from '@/components/visualize/DetailView/DetailView.vue'
+import ActionButton from '@/components/visualize/ActionButton/ActionButton.vue'
 import Error from '@/components/ui/Error/Error.vue'
 
 export default Vue.extend({
@@ -77,6 +78,7 @@ export default Vue.extend({
     MapView,
     MapDetailView: MapView,
     Synthesis,
+    ActionButton,
     Error
   },
   props: {
