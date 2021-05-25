@@ -56,7 +56,26 @@
           :placeholder="$t('components.datatable.placeholder')"
           v-model="row.data[column.id]"
           @input="onEdit(row.id, column.id, $event)"
-        />
+        >
+          <template #value="slotProps">
+            <lck-badge
+              v-if="getSelectedValueDetails(column.id, slotProps.value)"
+              :label="getSelectedValueDetails(column.id, slotProps.value).label"
+              :color="getSelectedValueDetails(column.id, slotProps.value).color"
+              :backgroundColor="getSelectedValueDetails(column.id, slotProps.value).backgroundColor"
+            />
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <lck-badge
+              :label="slotProps.option.label"
+              :color="slotProps.option.color"
+              :backgroundColor="slotProps.option.backgroundColor"
+            />
+          </template>
+        </p-dropdown>
         <lck-multiselect
           v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
@@ -125,7 +144,6 @@
           class="cell-state"
           :class="getCellStateNotificationClass(row.id, column.id, cellState)"
         />
-
       </div>
 
       <div
@@ -304,7 +322,7 @@ export default {
         string,
         {
           column_type_id: COLUMN_TYPE;
-          dropdownOptions?: {value: string; label: string}[];
+          dropdownOptions?: SelectValue[];
         }
         > {
       if (!this.definition.columns) return {}
@@ -312,7 +330,7 @@ export default {
         string,
         {
           column_type_id: COLUMN_TYPE;
-          dropdownOptions?: {value: string; label: string}[];
+          dropdownOptions?: {value: string; label: string; color: string ; backgroundColor: string}[];
         }
       > = {}
       this.definition.columns.forEach(currentColumn => {
@@ -328,7 +346,9 @@ export default {
           if (values) {
             result[currentColumn.id].dropdownOptions = Object.keys(values).map(key => ({
               value: key,
-              label: values[key].label
+              label: values[key].label,
+              color: values[key].color,
+              backgroundColor: values[key].backgroundColor
             }))
           }
         }
@@ -414,6 +434,9 @@ export default {
           ...features
         }
       ]
+    },
+    getSelectedValueDetails (columnId: string, value: string) {
+      return this.columnsEnhanced[columnId].dropdownOptions.find(element => element.value === value)
     }
   },
   watch: {
