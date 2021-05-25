@@ -86,11 +86,27 @@
        required
      />
    </div>
+   <div class="p-field">
+     <label for="displayFieldID">{{ $t('pages.workspace.block.options.displayFieldID') }}</label>
+     <p-input-text
+       id="displayFieldID"
+       :value="optionsCopy.displayFieldID"
+       @input="setOptions('displayFieldID', $event)"
+     />
+   </div>
+   <div class="p-field">
+     <label for="displayFieldValue">{{ $t('pages.workspace.block.options.displayFieldValue') }}</label>
+     <p-input-text
+       id="displayFieldValue"
+       :value="optionsCopy.displayFieldValue"
+       @input="setOptions('displayFieldValue', $event)"
+     />
+   </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import {
   ACTION_BUTTON_TYPE
@@ -99,8 +115,13 @@ import {
 import InputText from 'primevue/inputtext'
 
 import Dropdown from 'primevue/dropdown'
+import { LckBlockExtended } from '@/services/lck-api/definitions'
 
 // import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+type Options = {
+  displayFieldID: string|null;
+  displayFieldValue: boolean|null;
+}
 
 const NAMED_CLASSES = [
   { label: 'danger', value: 'danger' },
@@ -141,17 +162,28 @@ export default {
       type: String
     },
     options: {
-      type: {
-        displayFieldUUID: String,
-        displayFieldValue: Boolean
-      }
+      type: Object as PropType<Options>
     }
   },
   data () {
     return {
       NAMED_CLASSES,
       ACTIONS_TYPE,
-      ACTION_BUTTON_TYPE
+      ACTION_BUTTON_TYPE,
+      optionsCopy: { displayFieldID: null, displayFieldValue: null }
+    }
+  },
+  methods: {
+    setOptions (field, event) {
+      this.$emit('update:options', { ...this.optionsCopy, [field]: event })
+    }
+  },
+  watch: {
+    options: {
+      handler (newValue: Options|undefined) {
+        if (newValue) this.optionsCopy = newValue
+      },
+      immediate: true
     }
   }
 }

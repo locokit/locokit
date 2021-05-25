@@ -436,6 +436,10 @@
         },
         "processTriggerId": "Action/Process name",
         "pageDetailId": "Hidden Page name",
+        "options": {
+          "displayFieldID": "Display the button according to this field",
+          "displayFieldValue": "Display the button if the value is equivalent to"
+        },
         "detailPage": "Detail page"
       }
     },

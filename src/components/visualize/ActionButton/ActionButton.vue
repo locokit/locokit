@@ -36,7 +36,7 @@ export default Vue.extend({
   },
   computed: {
     isHidden () {
-      if (this.settings.options && this.settings.options.displayFieldUUID && !!this.settings.options.displayFieldValue && this.content[this.settings.options.displayFieldUUID] !== this.settings.options.displayFieldValue) return true
+      if (this.settings.options && this.settings.options.displayFieldID && !!this.settings.options.displayFieldValue && this.content[this.settings.options.displayFieldID] !== this.settings.options.displayFieldValue) return true
       return false
     }
   },

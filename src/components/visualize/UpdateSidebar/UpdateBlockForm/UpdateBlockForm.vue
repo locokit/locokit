@@ -82,6 +82,7 @@
       :action.sync="blockCopy.settings.action"
       :processTriggerId.sync="blockCopy.settings.processTriggerId"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :options.sync="blockCopy.settings.options"
     />
   </lck-form>
 </template>
