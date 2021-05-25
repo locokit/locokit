@@ -7,6 +7,7 @@ import { TableColumn } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
 import { BaseModel } from './base.model'
 import { Table } from './table.model'
+import { TableAction } from './tableaction.model'
 
 export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
 
@@ -76,6 +77,22 @@ export class TableView extends BaseModel {
         join: {
           from: 'table_view.table_id',
           to: 'table.id',
+        },
+      },
+      actions:  {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableAction,
+        join: {
+          from: 'table_view.id',
+          through: {
+            from: 'table_view_has_table_action.table_view_id',
+            to: 'table_view_has_table_action.table_action_id',
+          },
+          to: 'table_action.id',
+        },
+        modify (query: QueryBuilder<TableColumn>) {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          query.clear('limit')
         },
       },
     }

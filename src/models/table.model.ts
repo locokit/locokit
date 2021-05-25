@@ -8,6 +8,7 @@ import { TableColumn } from './tablecolumn.model'
 import { Process } from './process.model'
 import { BaseModel } from './base.model'
 import { database } from './database.model'
+import { TableAction } from './tableaction.model'
 
 export class Table extends BaseModel {
   columns?: TableColumnDTO[]

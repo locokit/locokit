@@ -1,18 +1,18 @@
-// Initializes the `view` service on path `/view`
+// Initializes the `attachment` service on path `/attachment`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { View } from './view.class'
-import createModel from '../../models/tableview.model'
-import hooks from './view.hooks'
+import { Action } from './action.class'
+import createModel from '../../models/tableaction.model'
+import hooks from './action.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'view': View & ServiceAddons<any>
+    'action': Action & ServiceAddons<any>
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     whitelist: [
@@ -24,28 +24,29 @@ export default function (app: Application) {
       '$lt',
       '$in',
       '$nin',
+      '$null',
+      '$notNull',
       '$like',
       '$notLike',
       '$ilike',
       '$notILike',
       '$contains',
+      '$containsKey',
       '$or',
       '$and',
       '$sort',
       '$any',
-      '$eager',
-      '$joinRelation',
-      '$modifyEager',
+      '$all',
+      '$noSelect',
     ],
-    allowedEager: '[columns.[column_type, parents.^], rows, actions]',
     paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires
-  app.use('/view', new View(options, app))
+  app.use('/action', new Action(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('view')
+  const service = app.service('action')
 
   service.hooks(hooks)
 }
