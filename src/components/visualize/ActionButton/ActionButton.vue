@@ -1,12 +1,15 @@
 <template>
-  <p-button
-    class="p-button-sm action-button"
-    v-if="settings && !isHidden"
-    :label="settings.label"
-    :class="settings.classButton"
-    :icon="settings.icon"
-    @click="onClick(settings)"
-  />
+  <div>
+    <p-button
+      class="p-button-sm action-button"
+      v-if="settings && !isHidden"
+      :label="settings.label"
+      :class="settings.classButton"
+      :icon="settings.icon"
+      @click="onClick(settings)"
+    />
+    <span v-else><i class="action-condition-checked bi bi-check"/></span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -82,5 +85,9 @@ export default Vue.extend({
   &:hover {
     background-color: var(--color-success);
   }
+}
+
+.action-condition-checked {
+  color: var(--color-success);
 }
 </style>

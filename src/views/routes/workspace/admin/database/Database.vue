@@ -275,6 +275,7 @@ import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 import WithToolbar from '@/layouts/WithToolbar.vue'
 
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -915,13 +916,14 @@ export default {
     async onTriggerProcess ({ rowId, processId, name }) {
       const res = await createProcessRun({
         table_row_id: rowId,
-        process_id: processId
+        process_id: processId,
+        waitForOutput: true
       })
-      if (res && res.error) {
+      if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
         this.$toast.add({
           severity: 'error',
-          summary: name,
-          detail: this.$t('error.http.' + res.code),
+          summary: name || this.$t('components.processPanel.failedNewRun'),
+          detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
           life: 3000
         })
       } else {
