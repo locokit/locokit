@@ -64,26 +64,28 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
    * Spawn a new process to run it, in fire&forget mode
    */
   const now = Date.now()
+  console.log('qqqfqcqcqcqcqcqc', context.params.waitForOutput)
   if (context.params.waitForOutput) {
-    axios.post((context.result.process as Process).url, {
-      process_id: context.result.process_id,
-      process_run_id: context.data.id,
-      table_row_id: context.data.table_row_id,
-    })
-      .then(async (value: AxiosResponse) => {
-        await context.service.patch(context.result?.id, {
-          duration: Date.now() - now,
-          status: ProcessRunStatus.SUCCESS,
-          log: logSuccess(context, value),
-        })
+    try {
+      const processResult = await axios.post((context.result.process as Process).url, {
+        process_id: context.result.process_id,
+        process_run_id: context.data.id,
+        table_row_id: context.data.table_row_id,
       })
-      .catch(async (reason: AxiosError) => {
-        await context.service.patch(context.result?.id, {
-          duration: Date.now() - now,
-          status: ProcessRunStatus.ERROR,
-          log: logError(context, reason),
-        })
+
+      context.result = await context.service.patch(context.result?.id, {
+        duration: Date.now() - now,
+        status: ProcessRunStatus.SUCCESS,
+        log: logSuccess(context, processResult),
       })
+      // @ts-ignore
+    } catch (reason: AxiosError) {
+      context.result = await context.service.patch(context.result?.id, {
+        duration: Date.now() - now,
+        status: ProcessRunStatus.ERROR,
+        log: logError(context, reason),
+      })
+    }
     /**
      * Return the context, maybe by updating the status of run to 'RUNNING'
      */

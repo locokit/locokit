@@ -50,6 +50,13 @@ export default {
       ).else(
         discard('process'),
       ),
+      (context: HookContext) => {
+        context.params = {
+          ...context.params,
+          waitForOutput: context.data.waitForOutput,
+        }
+      },
+      discard('waitForOutput'),
     ],
     update: [
       disallow(),
