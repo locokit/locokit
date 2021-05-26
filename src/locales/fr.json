@@ -438,7 +438,7 @@
         "pageDetailId": "Nom de la page cachée",
         "options": {
           "displayFieldID": "Afficher le bouton selon ce champ",
-          "displayFieldValue": "Afficher le bouton si la valeur équivaut à"
+          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
         },
         "detailPage": "Page de détails"
       }
