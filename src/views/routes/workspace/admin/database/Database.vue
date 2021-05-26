@@ -96,6 +96,7 @@
 
           <lck-datatable
             v-if="block.definition"
+            :actions="avalaibleActions"
             :definition="displayColumnsView"
             :content="block.content"
             :loading="block.loading"
@@ -370,6 +371,13 @@ export default {
     }
   },
   computed: {
+    avalaibleActions () {
+      if (this.views && this.selectedViewId) {
+        const view = this.views.find(({ id }) => this.selectedViewId === id)
+        return view.actions
+      }
+      return []
+    },
     filteredDefinitionColumns () {
       if (!this.block.definition.columns) return []
       return {

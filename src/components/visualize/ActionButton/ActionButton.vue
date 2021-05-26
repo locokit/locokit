@@ -27,7 +27,7 @@ export default Vue.extend({
   },
   props: {
     content: {
-      type: Array as PropType<LckTableRow[]>
+      type: Object as PropType<LckTableRow>
     },
     settings: {
       type: Object as PropType<ActionButtonSettings>,
@@ -36,7 +36,7 @@ export default Vue.extend({
   },
   computed: {
     isHidden () {
-      if (this.settings.options && this.settings.options.displayFieldID && !!this.settings.options.displayFieldConditionQuery && this.content[this.settings.options.displayFieldID] !== this.settings.options.displayFieldConditionQuery) return true
+      if (this.settings.options && this.settings.options.displayFieldId && !!this.settings.options.displayFieldConditionQuery && this.content[this.settings.options.displayFieldId] !== this.settings.options.displayFieldConditionQuery) return true
       return false
     }
   },

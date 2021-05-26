@@ -85,6 +85,32 @@
             </span>
           </template>
         </p-column>
+        <p-column
+          v-if="actions.length === 1"
+          headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+          headerClass="sticky-column-cells"
+          columnKey="action-column"
+          :reorderableColumn="false"
+        >
+          <template #header>
+            <span class="th-text">
+              <i
+                style="filter: grayscale(100%) opacity(50%);"
+                class="bi bi-lightning"
+              />
+                Action
+            </span>
+          </template>
+          <template #body="slotProps">
+            <lck-cell-action
+              class="p-button-sm p-button-text p-button-rounded"
+              :action="actions[0]"
+              :content="slotProps.data"
+              v-on="$listeners"
+            />
+          </template>
+        </p-column>
         <div
           v-for="column in definition.columns"
           :key="`${columnsSetPrefix}-${column.id}-${unorderableColumnsNumber}`"
@@ -284,6 +310,7 @@
 
 <script>
 import Vue from 'vue'
+
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
@@ -303,6 +330,7 @@ import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComple
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
+import LckCellAction from '@/components/ui/ColumnType/Action/ActionCell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
@@ -334,6 +362,7 @@ export default {
     'lck-url-input': URLInput,
     'lck-badge': Badge,
     'lck-cell-file': LckCellFile,
+    'lck-cell-action': LckCellAction,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -349,6 +378,9 @@ export default {
     'p-checkbox': Vue.extend(Checkbox)
   },
   props: {
+    actions: {
+      type: Array
+    },
     definition: {
       type: Object
     },

@@ -807,19 +807,31 @@ export default {
         life: 3000
       })
     },
-    goToPageDetail ({ pageDetailId }) {
-      this.$router.push({
-        ...this.$route,
-        params: {
-          ...this.$route.params,
-          pageDetailId
-        }
-      })
+    goToPageDetail ({ pageDetailId, rowId = null }) {
+      if (this.$route.name === ROUTES_NAMES.PAGEDETAIL) {
+        this.$router.push({
+          ...this.$route,
+          params: {
+            ...this.$route.params,
+            pageDetailId
+          }
+        })
+      } else {
+        this.$router.push({
+          name: ROUTES_NAMES.PAGEDETAIL,
+          params: {
+            pageId: this.$route.params.pageId,
+            pageDetailId
+          },
+          query: { rowId }
+        })
+      }
     },
-    async onTriggerProcess ({ processId }) {
-      if (this.$route.query.rowId) {
+    async onTriggerProcess ({ processId, rowId = null }) {
+      const tableRowId = rowId || this.$route.query.rowId
+      if (tableRowId) {
         const res = await createProcessRun({
-          table_row_id: this.$route.query.rowId,
+          table_row_id: tableRowId,
           process_id: processId,
           waitForOutput: true
         })

@@ -87,11 +87,11 @@
      />
    </div>
    <div class="p-field">
-     <label for="displayFieldID">{{ $t('pages.workspace.block.options.displayFieldID') }}</label>
+     <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
      <p-input-text
-       id="displayFieldID"
-       :value="optionsCopy.displayFieldID"
-       @input="setOptions('displayFieldID', $event)"
+       id="displayFieldId"
+       :value="optionsCopy.displayFieldId"
+       @input="setOptions('displayFieldId', $event)"
      />
    </div>
    <div class="p-field">
@@ -119,7 +119,7 @@ import { LckBlockExtended } from '@/services/lck-api/definitions'
 
 // import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 type Options = {
-  displayFieldID: string|null;
+  displayFieldId: string|null;
   displayFieldConditionQuery: boolean|null;
 }
 
@@ -170,7 +170,7 @@ export default {
       NAMED_CLASSES,
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
-      optionsCopy: { displayFieldID: null, displayFieldConditionQuery: null }
+      optionsCopy: { displayFieldId: null, displayFieldConditionQuery: null }
     }
   },
   methods: {
