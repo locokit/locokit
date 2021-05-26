@@ -210,6 +210,7 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 import { createProcessRun } from '@/store/process'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Page',
@@ -822,17 +823,17 @@ export default {
           process_id: processId,
           waitForOutput: true
         })
-        if (res && res.code) {
+        if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
           this.$toast.add({
             severity: 'error',
-            summary: name,
-            detail: this.$t('error.http.' + res.code),
+            summary: this.$t('components.processPanel.failedNewRun'),
+            detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
             life: 3000
           })
         } else {
           this.$toast.add({
             severity: 'success',
-            summary: name,
+            summary: this.$t('components.processPanel.successNewRun'),
             detail: this.$t('components.processPanel.successNewRun'),
             life: 3000
           })

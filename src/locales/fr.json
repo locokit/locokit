@@ -155,7 +155,8 @@
       "when": "Executé le",
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
-      "successNewRun": "Le processus a éte exécuté correctement."
+      "successNewRun": "Le processus a éte exécuté correctement.",
+      "failedNewRun": "Le processus a échoué."
     },
     "process": {
       "form": {
