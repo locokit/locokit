@@ -104,6 +104,10 @@
         "duplicate": "Duplicate",
         "delete": "Remove"
       },
+      "actionColumn": {
+        "title": "Action",
+        "edit": "Edit the action"
+      },
       "column": {
         "edit": "Edit the column",
         "hide": "Hide the column",
@@ -438,7 +442,7 @@
         "processId": "Action/Process name",
         "pageDetailId": "Hidden Page name",
         "options": {
-          "displayFieldID": "Display the button according to this field",
+          "displayFieldId": "Display the button according to this field",
           "displayFieldConditionQuery": "Display the button if the value is equivalent to"
         },
         "detailPage": "Detail page"

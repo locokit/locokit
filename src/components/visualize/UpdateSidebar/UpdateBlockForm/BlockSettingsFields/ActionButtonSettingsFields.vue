@@ -115,9 +115,8 @@ import {
 import InputText from 'primevue/inputtext'
 
 import Dropdown from 'primevue/dropdown'
-import { LckBlockExtended } from '@/services/lck-api/definitions'
-
 // import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+
 type Options = {
   displayFieldId: string|null;
   displayFieldConditionQuery: boolean|null;

@@ -117,6 +117,7 @@
             @column-resize="onColumnResize"
             @column-reorder="onColumnReorder"
             @column-select="onColumnSelect"
+            @action-column-select="onActionColumnSelect"
             @display-column-sidebar="onDisplayColumnSidebar"
             @table-view-column-edit="onTableViewColumnEdit"
             @row-delete="onRowDelete"
@@ -195,10 +196,17 @@
         :visible.sync="showEditColumnSidebar"
       >
         <lck-column-form
+          v-if="currentColumnToEdit"
           :column="currentColumnToEdit"
           :submitting="submitting"
           @column-edit="onColumnEdit"
           @table-view-column-edit="onTableViewColumnEdit"
+        />
+        <lck-action-column-form
+          v-else-if="currentActionColumnToEdit"
+          :action="currentActionColumnToEdit"
+          :submitting="submitting"
+          @action-column-edit="onActionColumnEdit"
         />
       </p-sidebar>
     </div>
@@ -261,6 +269,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import ActionColumnForm from '@/components/store/ActionColumnForm/ActionColumnForm.vue'
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 
 import WithToolbar from '@/layouts/WithToolbar.vue'
@@ -286,6 +295,7 @@ export default {
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
     'lck-column-form': ColumnForm,
+    'lck-action-column-form': ActionColumnForm,
     'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -366,7 +376,8 @@ export default {
       row: {},
       displayPanel: false,
       // Column part
-      currentColumnToEdit: {},
+      currentColumnToEdit: null,
+      currentActionColumnToEdit: null,
       showEditColumnSidebar: false
     }
   },
@@ -754,15 +765,55 @@ export default {
         }
       }
     },
+    async onActionColumnEdit (dataForm) {
+      this.submitting = true
+      if (this.currentActionColumnToEdit.id) {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { id, createdAt, updatedAt, ...data } = dataForm
+          const updatedActionColumn = await lckServices.tableAction.patch(
+            id,
+            data
+          )
+          // Update the column of each table view of the table
+          console.log(this.views)
+
+          this.views.forEach(view => {
+            const currentTableViewAction = view.actions.find(action => action.id === id)
+            if (currentTableViewAction) {
+              for (const key in updatedActionColumn) {
+                if (currentTableViewAction[key] == null && updatedActionColumn[key] != null) this.$set(currentTableViewAction, key, updatedActionColumn[key])
+                else currentTableViewAction[key] = updatedActionColumn[key]
+              }
+            }
+          })
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.currentActionColumnToEdit.label,
+            detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
+        }
+      }
+    },
     onColumnSelect (selectedColumn) {
       this.currentColumnToEdit = selectedColumn
+      this.currentAction = null
+      this.showEditColumnSidebar = false
+    },
+    onActionColumnSelect (action) {
+      this.currentActionColumnToEdit = action
+      this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
     onDisplayColumnSidebar () {
       this.showEditColumnSidebar = true
     },
     resetColumnEdit () {
-      this.currentColumnToEdit = {}
+      this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
     async onTableViewColumnEdit (editedColumn) {

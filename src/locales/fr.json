@@ -104,6 +104,10 @@
         "duplicate": "Dupliquer",
         "delete": "Supprimer"
       },
+      "actionColumn": {
+        "title": "Action",
+        "edit": "Éditer l'action"
+      },
       "column": {
         "edit": "Éditer la colonne",
         "hide": "Cacher la colonne",
@@ -438,7 +442,7 @@
         "processId": "Nom de l'action/processus",
         "pageDetailId": "Nom de la page cachée",
         "options": {
-          "displayFieldID": "Afficher le bouton selon ce champ",
+          "displayFieldId": "Afficher le bouton selon ce champ",
           "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
         },
         "detailPage": "Page de détails"

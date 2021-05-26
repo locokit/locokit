@@ -1,6 +1,6 @@
 <template>
   <p-button
-    class="p-button-sm p-button-text action-button"
+    class="p-button-sm action-button"
     v-if="settings && !isHidden"
     :label="settings.label"
     :class="settings.classButton"
@@ -55,20 +55,32 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .action-button.primary {
-  color: var(--primary-color) ;
+  background-color: var(--primary-color);
 }
 .action-button.secondary {
-  color: var(--secondary-color) ;
+  background-color: var(--secondary-color);
+  &:hover {
+    background-color: var(--secondary-color-lighten);
+  }
 }
 .action-button.danger {
-  color: var(--color-error) ;
+  background-color: var(--color-error);
+  &:hover {
+    background-color: var(--color-error);
+  }
 }
 .action-button.warning {
-  color: var(--color-warning) ;
+  background-color: var(--color-warning);
+  &:hover {
+    background-color: var(--color-warning);
+  }
 }
-.action-button.sucsess {
-  color: var(--color-success) ;
+.action-button.success {
+  background-color: var(--color-success);
+  &:hover {
+    background-color: var(--color-success);
+  }
 }
 </style>

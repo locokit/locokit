@@ -87,24 +87,50 @@
         </p-column>
         <p-column
           v-if="actions.length === 1"
-          headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+          headerStyle="width: 8rem; padding: 0 0.1rem; margin: unset;"
+          bodyStyle="width: 8rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
           headerClass="sticky-column-cells"
           columnKey="action-column"
           :reorderableColumn="false"
         >
           <template #header>
-            <span class="th-text">
-              <i
-                style="filter: grayscale(100%) opacity(50%);"
-                class="bi bi-lightning"
+            <div class="th-container">
+              <span class="th-text">
+                <i
+                  style="filter: grayscale(100%) opacity(50%);"
+                  class="bi bi-lightning"
+                />
+                  {{ $t('components.datatable.actionColumn.title')}}
+              </span>
+              <p-button
+                v-if="crudMode"
+                class="edit-column-icon p-ml-auto"
+                icon="pi pi-angle-down"
+                appendTo="body"
+                aria-haspopup="true"
+                style="position: absolute; right: 0; width: 1rem;"
+                aria-controls="overlay_action_column"
+                @click="onEditActionColumnClick($event, actions[0])"
               />
-                Action
-            </span>
+              <p-menu
+                id="overlay_action_column"
+                ref="menuAction"
+                :popup="true"
+                :model="[{
+                  label: $t('components.datatable.actionColumn.edit'),
+                  icon: 'pi pi-pencil',
+                  command: () => {
+                    $emit('display-column-sidebar')
+                  }
+                }]"
+                appendTo="body"
+              />
+            </div>
           </template>
           <template #body="slotProps">
             <lck-cell-action
-              class="p-button-sm p-button-text p-button-rounded"
+              class="lck-cell-action"
+              :title="actions[0].label"
               :action="actions[0]"
               :content="slotProps.data"
               v-on="$listeners"
@@ -119,7 +145,6 @@
             :field="column.id"
             :headerStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
-              overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
               'height': '2.5rem',
@@ -771,6 +796,10 @@ export default {
       this.$emit('column-select', column)
       this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
+    },
+    onEditActionColumnClick (event, action) {
+      this.$refs.menuAction.toggle(event)
+      this.$emit('action-column-select', action)
     }
   },
   watch: {
@@ -942,4 +971,14 @@ tr.p-datatable-emptymessage {
   display: none;
 }
 
+.lck-cell-action {
+  padding: 0.2rem;
+}
+
+.lck-cell-action > .action-button > .p-button-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-height: 2.5rem;
+}
 </style>
