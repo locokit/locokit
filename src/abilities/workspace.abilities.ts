@@ -88,8 +88,7 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
 }
 
 /**
- * Define abilities for entities, high level one.
- * For more grained, we need to go deeper in each service
+ * Define abilities for workspaces
  *
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>

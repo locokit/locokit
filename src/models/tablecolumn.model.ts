@@ -52,6 +52,8 @@ export class TableColumn extends BaseModel {
   parents?: TableColumn[]
   children?: TableColumn[]
 
+  static modelName = 'column'
+
   static get tableName (): string {
     return 'table_column'
   }

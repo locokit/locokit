@@ -9,6 +9,9 @@ import { workspace } from './workspace.model'
 export class database extends BaseModel {
   text!: string
   documentation?: string
+  workspace_id!: string
+  workspace?: workspace
+  tables?: LckTable[]
 
   static get tableName (): string {
     return 'database'
@@ -21,6 +24,7 @@ export class database extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        workspace_id: { type: 'string', format: 'uuid' },
       },
     }
   }
