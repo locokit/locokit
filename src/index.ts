@@ -28,6 +28,19 @@ export enum COLUMN_GEO_TYPE {
   POLYGON = COLUMN_TYPE.GEOMETRY_POLYGON,
 }
 
+export enum ACTION_BUTTON_TYPE {
+  PAGE_DETAIL_TO = 'page_detail_to',
+  PROCESS_TRIGGER = 'process_trigger',
+}
+
+export enum BUTTON_CLASS {
+  DANGER = 'danger',
+  WARNING = 'warning',
+  SUCCESS = 'success',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+}
+
 export enum AGGREGATE_FUNCTION {
   SUM = 'SUM',
   AVERAGE = 'AVG',
@@ -59,6 +72,7 @@ export enum BLOCK_TYPE {
   MAPVIEW = 'MapView',
   MAPDETAILVIEW = 'MapDetailView',
   SYNTHESIS = 'Synthesis',
+  ACTIONBUTTON = 'ActionButton',
 }
 
 export enum MEDIA_TYPE {
@@ -221,4 +235,23 @@ export interface SynthesisSettings {
 export interface Synthesis extends Block {
   type: BLOCK_TYPE.SYNTHESIS;
   settings: SynthesisSettings;
+}
+
+export interface ActionButtonSettings {
+  label: string; // Title of the button
+  classButton: BUTTON_CLASS; // Class applied to the button,
+  icon: string; // Class icon injected in the button, at the beginning, like NavBar,
+  action: ACTION_BUTTON_TYPE; // type
+  processId: string; // uuid trigger
+  pageDetailId: string; // uuid pageDetail
+  pageQueryFieldId: string; // uuid rowId from reference relation_between_table
+  options: {
+    displayFieldId: string; // "uuid-of-the-field-used-for-display-purpose",
+    displayFieldValue: boolean; // true // for the first iteration, we only use BOOLEAN fields
+  }
+}
+
+export interface ActionButton extends Block {
+  type: BLOCK_TYPE.ACTIONBUTTON;
+  settings: ActionButtonSettings;
 }
