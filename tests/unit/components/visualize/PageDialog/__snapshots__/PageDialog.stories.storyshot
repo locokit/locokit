@@ -7,14 +7,14 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1031;"
+      style="z-index: 1028;"
     >
       <div
         aria-labelledby="pv_id_33_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1032;"
+        style="z-index: 1029;"
       >
         <div
           class="p-dialog-header"
@@ -306,14 +306,14 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1032;"
+      style="z-index: 1029;"
     >
       <div
         aria-labelledby="pv_id_34_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1033;"
+        style="z-index: 1030;"
       >
         <div
           class="p-dialog-header"

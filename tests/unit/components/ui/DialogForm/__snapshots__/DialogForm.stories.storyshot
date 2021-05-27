@@ -7,13 +7,13 @@ exports[`storyshots components/ui/DialogForm default 1`] = `
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1023;"
+      style="z-index: 1020;"
     >
       <div
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1024;"
+        style="z-index: 1021;"
       >
         <div
           class="p-dialog-header"
@@ -102,14 +102,14 @@ exports[`storyshots components/ui/DialogForm with header and content 1`] = `
   <form>
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1024;"
+      style="z-index: 1021;"
     >
       <div
         aria-labelledby="pv_id_24_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1025;"
+        style="z-index: 1022;"
       >
         <div
           class="p-dialog-header"
@@ -221,14 +221,14 @@ exports[`storyshots components/ui/DialogForm with header, content and actions 1`
   >
     <div
       class="p-dialog-mask p-component-overlay "
-      style="z-index: 1025;"
+      style="z-index: 1022;"
     >
       <div
         aria-labelledby="pv_id_25_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
-        style="z-index: 1026;"
+        style="z-index: 1023;"
       >
         <div
           class="p-dialog-header"
