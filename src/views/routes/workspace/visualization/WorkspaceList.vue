@@ -13,25 +13,25 @@
       >
         <p-card class="p-mb-4 p-col">
           <template slot="title">
-            {{ group.workspace.text }}
+            {{ group.aclset.workspace.text }}
           </template>
           <template slot="content">
             <div>
               <div class="action-button-content p-d-flex">
                 <router-link
                   class="no-decoration-link p-mr-2"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
                 >
                   <p-button
                     :label="$t('pages.workspace.buttonVisualization')"
                     icon="bi bi-eye"
                   />
                 </router-link>
-                <template v-if="group.workspace.databases.length > 0 && [WORKSPACE_ROLE.OWNER, WORKSPACE_ROLE.ADMIN].includes(group.workspace_role)">
+                <template v-if="group.aclset.workspace.databases.length > 0 && group.aclset.manager">
                   <router-link
-                    v-if="group.workspace.databases.length === 1"
+                    v-if="group.aclset.workspace.databases.length === 1"
                     class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.DATABASE}/${group.workspace.databases[0].id}`"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonDatabase')"
@@ -42,12 +42,12 @@
                     v-else
                     class="no-decoration-link p-mr-2"
                     :label="$t('pages.workspace.buttonDatabase')"
-                    :model="transformDatabases(group.workspace.id, group.workspace.databases)"
+                    :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases)"
                   />
                   <router-link
-                    v-if="group.workspace.databases.length === 1"
+                    v-if="group.aclset.workspace.databases.length === 1"
                     class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.DATABASE}/${group.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonSchema')"
@@ -58,11 +58,11 @@
                     v-else
                     class="no-decoration-link p-mr-2"
                     :label="$t('pages.workspace.buttonSchema')"
-                    :model="transformDatabases(group.workspace.id, group.workspace.databases, true)"
+                    :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases, true)"
                   />
                   <router-link
                     class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.workspace.id}${ROUTES_PATH.PROCESS}`"
+                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.PROCESS}`"
                   >
                     <p-button
                       :label="$t('pages.workspace.buttonProcess')"
@@ -76,6 +76,11 @@
         </p-card>
       </div>
     </div>
+
+    <button v-if="$can('create', 'workspace')">
+      Create a new workspace
+    </button>
+
   </div>
 </template>
 
@@ -129,8 +134,7 @@ export default {
     if (to.name !== 'WorkspaceList') next()
     const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      !userWorkspacesAvailable.some(({ workspace_role }) => workspace_role !== WORKSPACE_ROLE.MEMBER) && userWorkspacesAvailable.length === 1
+      !userWorkspacesAvailable.some(({ aclset }) => aclset.manager) && userWorkspacesAvailable.length === 1
     ) {
       // only one workspace, user is not a SUPERADMIN
       // we redirect user on the visualization route

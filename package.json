@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.3.5-demo",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
@@ -18,6 +18,8 @@
     "build:html": "node scripts/compileTemplate.js"
   },
   "dependencies": {
+    "@casl/ability": "^4.1.6",
+    "@casl/vue": "^1.2.2",
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",
