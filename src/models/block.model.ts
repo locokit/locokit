@@ -23,7 +23,7 @@ export class block extends BaseModel {
       properties: {
         title: { type: ['string', 'null'] },
         container_id: { type: 'string' },
-        type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'Default'] },
+        type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'ActionButton', 'Default'] },
         position: { type: ['number', 'null'] },
         settings: { type: ['object', 'null'] },
       },
