@@ -68,7 +68,10 @@
         </template>
       </p-dropdown>
     </div>
-    <div class="p-field" v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER">
+    <div
+      class="p-field"
+      v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
+    >
       <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
       <p-input-text
         id="processId"
@@ -76,15 +79,26 @@
         @input="$emit('update:processId', $event)"
         required
       />
-    </div>
-   <div class="p-field" v-else>
-     <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
-     <p-input-text
-       id="pageDetailId"
-       :value="pageDetailId"
-       @input="$emit('update:pageDetailId', $event)"
-       required
-     />
+   </div>
+   <div v-else>
+     <div class="p-field">
+       <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+       <p-input-text
+           id="pageDetailId"
+           :value="pageDetailId"
+           @input="$emit('update:pageDetailId', $event)"
+           required
+       />
+     </div>
+     <div class="p-field">
+       <label for="pageQueryFieldId">{{ $t('pages.workspace.block.pageQueryFieldId') }}</label>
+       <p-input-text
+           id="pageQueryFieldId"
+           :value="pageQueryFieldId"
+           @input="$emit('update:pageQueryFieldId', $event)"
+       />
+       <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.helpPageQueryFieldId') }}</small>
+     </div>
    </div>
    <div class="p-field">
      <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
@@ -149,6 +163,9 @@ export default {
       type: String
     },
     pageDetailId: {
+      type: String
+    },
+    pageQueryFieldId: {
       type: String
     },
     options: {

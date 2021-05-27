@@ -82,6 +82,7 @@
       :action.sync="blockCopy.settings.action"
       :processId.sync="blockCopy.settings.processId"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
       :options.sync="blockCopy.settings.options"
     />
   </lck-form>

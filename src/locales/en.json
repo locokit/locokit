@@ -441,6 +441,8 @@
         },
         "processId": "Action/Process name",
         "pageDetailId": "Hidden Page name",
+        "pageQueryFieldId": "Column name related to page",
+        "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
         "options": {
           "displayFieldId": "Display the button according to this field",
           "displayFieldConditionQuery": "Display the button if the value is equivalent to"

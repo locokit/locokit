@@ -807,25 +807,18 @@ export default {
         life: 3000
       })
     },
-    goToPageDetail ({ pageDetailId, rowId = null }) {
-      if (this.$route.name === ROUTES_NAMES.PAGEDETAIL) {
-        this.$router.push({
-          ...this.$route,
-          params: {
-            ...this.$route.params,
-            pageDetailId
-          }
-        })
-      } else {
-        this.$router.push({
-          name: ROUTES_NAMES.PAGEDETAIL,
-          params: {
-            pageId: this.$route.params.pageId,
-            pageDetailId
-          },
-          query: { rowId }
-        })
-      }
+    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowId = null }) {
+      const queryRowId = pageQueryFieldId || rowId
+      console.log(this.$route.params.pageId, pageDetailId, queryRowId)
+
+      this.$router.push({
+        name: ROUTES_NAMES.PAGEDETAIL,
+        params: {
+          ...this.$route.params,
+          pageDetailId
+        },
+        query: { rowId: queryRowId || this.$route.query.rowId }
+      })
     },
     async onTriggerProcess ({ processId, rowId = null }) {
       const tableRowId = rowId || this.$route.query.rowId

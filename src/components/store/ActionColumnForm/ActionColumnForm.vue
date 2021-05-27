@@ -82,16 +82,23 @@
             required
           />
         </div>
-        <div
-          class="p-field"
-          v-else
-        >
-          <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
-          <p-input-text
-            id="pageDetailId"
-            v-model="actionCopy.pageDetailId"
-            required
-          />
+        <div v-else>
+          <div class="p-field">
+            <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+            <p-input-text
+              id="pageDetailId"
+              v-model="actionCopy.pageDetailId"
+              required
+            />
+          </div>
+          <div class="p-field">
+            <label for="pageQueryFieldId">{{ $t('pages.workspace.block.pageQueryFieldId') }}</label>
+            <p-input-text
+              id="pageQueryFieldId"
+              v-model="actionCopy.pageQueryFieldId"
+            />
+            <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.helpPageQueryFieldId') }}</small>
+          </div>
         </div>
         <div class="p-field">
           <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
@@ -101,9 +108,9 @@
           />
         </div>
         <div class="p-field">
-          <label for="displayFieldConditionQuery">{{
-              $t('pages.workspace.block.options.displayFieldConditionQuery')
-            }}</label>
+          <label for="displayFieldConditionQuery">
+            {{ $t('pages.workspace.block.options.displayFieldConditionQuery') }}
+          </label>
           <p-input-text
             id="displayFieldConditionQuery"
             v-model="actionCopy.displayFieldConditionQuery"

@@ -441,6 +441,8 @@
         },
         "processId": "Nom de l'action/processus",
         "pageDetailId": "Nom de la page cachée",
+        "pageQueryFieldId": "Nom de la colonne lié à la page",
+        "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
         "options": {
           "displayFieldId": "Afficher le bouton selon ce champ",
           "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"

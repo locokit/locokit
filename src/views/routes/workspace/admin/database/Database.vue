@@ -124,6 +124,7 @@
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
+            @go-to-page-detail="goToPageDetail"
 
             @download-attachment="onDownloadAttachment"
 
@@ -276,6 +277,7 @@ import WithToolbar from '@/layouts/WithToolbar.vue'
 
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
+import { ROUTES_NAMES } from '@/router/paths'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -947,6 +949,17 @@ export default {
           this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
         }
       }
+    },
+    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowId = null }) {
+      console.log(this.$route.params.pageId, pageDetailId, rowId)
+      const queryRowId = pageQueryFieldId || rowId
+      this.$router.push({
+        name: ROUTES_NAMES.PAGEDETAIL,
+        params: {
+          pageId: pageDetailId
+        },
+        query: { rowId: queryRowId || this.$route.query.rowId }
+      })
     },
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)

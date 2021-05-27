@@ -47,7 +47,10 @@ export default Vue.extend({
     onClick (settings: ActionButtonSettings) {
       switch (settings.action) {
         case ACTION_BUTTON_TYPE.PAGE_DETAIL_TO:
-          this.$emit('go-to-page-detail', { pageDetailId: settings.pageDetailId })
+          this.$emit('go-to-page-detail', {
+            pageDetailId: settings.pageDetailId,
+            pageQueryFieldId: settings.pageQueryFieldId
+          })
           break
         case ACTION_BUTTON_TYPE.PROCESS_TRIGGER:
           this.$emit('create-process-run', { processId: settings.processId })
