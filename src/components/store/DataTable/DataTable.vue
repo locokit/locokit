@@ -87,46 +87,19 @@
         </p-column>
         <p-column
           v-if="actions.length === 1"
-          headerStyle="width: 8rem; padding: 0 0.1rem; margin: unset;"
           bodyStyle="width: 8rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+          :headerStyle="{
+            width: '8rem',
+            'white-space': 'nowrap',
+            'text-overflow': 'ellipsis',
+            'height': '2.5rem',
+            'max-height': '2.5rem',
+            'overflow': 'hidden',
+          }"
           headerClass="sticky-column-cells"
           columnKey="action-column"
           :reorderableColumn="false"
         >
-          <template #header>
-            <div class="th-container">
-              <span class="th-text">
-                <i
-                  style="filter: grayscale(100%) opacity(50%);"
-                  class="bi bi-lightning"
-                />
-                  {{ $t('components.datatable.actionColumn.title')}}
-              </span>
-              <p-button
-                v-if="crudMode"
-                class="edit-column-icon p-ml-auto"
-                icon="pi pi-angle-down"
-                appendTo="body"
-                aria-haspopup="true"
-                style="position: absolute; right: 0; width: 1rem;"
-                aria-controls="overlay_action_column"
-                @click="onEditActionColumnClick($event, actions[0])"
-              />
-              <p-menu
-                id="overlay_action_column"
-                ref="menuAction"
-                :popup="true"
-                :model="[{
-                  label: $t('components.datatable.actionColumn.edit'),
-                  icon: 'pi pi-pencil',
-                  command: () => {
-                    $emit('display-column-sidebar')
-                  }
-                }]"
-                appendTo="body"
-              />
-            </div>
-          </template>
           <template #body="slotProps">
             <lck-cell-action
               class="lck-cell-action"
@@ -176,9 +149,6 @@
                 appendTo="body"
                 aria-haspopup="true"
                 style="position: absolute; width: 1rem;"
-                :style="{
-                  right: isSortableColumn(column) ? '1.5rem' : '0' // if column is sortable, a sort icon take place on the right
-                }"
                 :aria-controls="column.id"
                 @click="onEditColumnClick($event, column)"
               />
@@ -898,6 +868,20 @@ export default {
 </style>
 
 <style>
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container span.th-text {
+  display: inline-block;
+  overflow: hidden;
+  width: calc(100% - 1rem);
+  text-overflow: ellipsis;
+  background-color: inherit;
+}
 
 .p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
   display: flex;
