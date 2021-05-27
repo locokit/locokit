@@ -1,15 +1,14 @@
 <template>
-  <div>
-    <p-button
-      class="p-button-sm action-button"
-      v-if="settings && !isHidden"
-      :label="settings.label"
-      :class="settings.classButton"
-      :icon="settings.icon"
-      @click="onClick(settings)"
-    />
-    <span v-else><i class="action-condition-checked bi bi-check"/></span>
-  </div>
+  <p-button
+    class="p-button-sm action-button"
+    v-if="settings && !isHidden"
+    :label="settings.label"
+    :class="settings.classButton"
+    :icon="loading ? 'pi pi-spin pi-spinner' : settings.icon"
+    :disabled="loading"
+    @click="onClick(settings)"
+  />
+  <span v-else><i class="action-condition-checked bi bi-check"/></span>
 </template>
 
 <script lang="ts">
@@ -35,12 +34,18 @@ export default Vue.extend({
     settings: {
       type: Object as PropType<ActionButtonSettings>,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     isHidden () {
-      if (this.settings.options && this.settings.options.displayFieldId && !!this.settings.options.displayFieldConditionQuery && this.content[this.settings.options.displayFieldId] !== this.settings.options.displayFieldConditionQuery) return true
-      return false
+      return (
+        this.settings.options?.displayFieldId &&
+        this.content?.data?.[this.settings.options.displayFieldId] !== this.settings.options.displayFieldConditionQuery
+      )
     }
   },
   methods: {
@@ -60,6 +65,12 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style>
+.lck-action-button {
+  text-align: center;
+}
+</style>
 
 <style lang="scss" scoped>
 .action-button.primary {

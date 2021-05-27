@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <lck-action-button
-      :settings="settings"
-      :content="content"
-      @go-to-page-detail="$emit('go-to-page-detail', {...$event, rowId: content.id })"
-      @create-process-run="$emit('create-process-run', {...$event, rowId: content.id })"
-    />
-  </div>
+  <lck-action-button
+    :settings="settings"
+    :content="content"
+    @go-to-page-detail="$emit('go-to-page-detail', {...$event, rowData: content })"
+    @create-process-run="$emit('create-process-run', {...$event, rowData: content })"
+  />
 </template>
 
 <script>
@@ -35,7 +33,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style scoped>
-
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div :class="getBlockTypeClassname">
-    <div v-if="block" :class="{ 'editable-block': editMode }">
+    <div v-if="block" :class="{ 'editable-block': editMode }" style="width: 100%;">
       <div v-if="editMode" class="edit-block-line">
         <h3 class="lck-color-title">{{ block.title }}</h3>
         <span class="p-buttonset">
@@ -128,6 +128,8 @@ export default Vue.extend({
           return 'lck-markdown'
         case BLOCK_TYPE.MEDIA:
           return 'lck-media'
+        case BLOCK_TYPE.ACTIONBUTTON:
+          return 'lck-action-button'
         // case BLOCK_TYPE.MAP_VIEW:
           // return 'lck-map-view'
         default:

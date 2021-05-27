@@ -105,7 +105,7 @@
               @remove-attachment="onRemoveAttachment(block, $event)"
 
               @go-to-page-detail="goToPageDetail"
-              @create-process-run="onTriggerProcess"
+              @create-process-run="onTriggerProcess(block, $event)"
             />
           </draggable>
           <p-button
@@ -807,8 +807,8 @@ export default {
         life: 3000
       })
     },
-    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowId = null }) {
-      const queryRowId = pageQueryFieldId || rowId
+    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowData = null }) {
+      const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
       console.log(this.$route.params.pageId, pageDetailId, queryRowId)
 
       this.$router.push({
@@ -820,14 +820,17 @@ export default {
         query: { rowId: queryRowId || this.$route.query.rowId }
       })
     },
-    async onTriggerProcess ({ processId, rowId = null }) {
+    async onTriggerProcess (block, { processId, rowId = null }) {
       const tableRowId = rowId || this.$route.query.rowId
+      console.log('here', block, tableRowId)
       if (tableRowId) {
+        this.$set(block, 'loading', true)
         const res = await createProcessRun({
           table_row_id: tableRowId,
           process_id: processId,
           waitForOutput: true
         })
+        this.$set(block, 'loading', false)
         if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
           this.$toast.add({
             severity: 'error',
