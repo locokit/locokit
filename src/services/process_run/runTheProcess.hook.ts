@@ -70,6 +70,7 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
         process_id: context.result.process_id,
         process_run_id: context.data.id,
         table_row_id: context.data.table_row_id,
+        user_id: context.params?.user?.id,
       })
 
       context.result = await context.service.patch(context.result?.id, {
@@ -77,7 +78,7 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
         status: ProcessRunStatus.SUCCESS,
         log: logSuccess(context, processResult),
       })
-      // @ts-ignore
+      // @ts-expect-error
     } catch (reason: AxiosError) {
       context.result = await context.service.patch(context.result?.id, {
         duration: Date.now() - now,
@@ -94,6 +95,7 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
     process_id: context.result.process_id,
     process_run_id: context.data.id,
     table_row_id: context.data.table_row_id,
+    user_id: context.params?.user?.id,
   })
     .then((value: AxiosResponse) => {
       context.service.patch(context.result?.id, {
