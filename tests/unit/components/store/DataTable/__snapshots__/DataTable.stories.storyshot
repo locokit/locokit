@@ -4,7 +4,248 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -12,7 +253,248 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -20,7 +502,248 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -28,7 +751,248 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -36,7 +1000,248 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -44,7 +1249,248 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -52,7 +1498,248 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -60,7 +1747,248 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -68,7 +1996,88 @@ exports[`storyshots components/store/DataTable Empty definition and content prop
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: 100%;"
+      >
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <p
+                    align="center"
+                  >
+                    No data to display
+                  </p>
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -76,7 +2085,240 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -84,7 +2326,248 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable is-reorderable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+                tabindex="0"
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          style="position: absolute; display: none;"
+        />
+         
+        <span
+          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          style="position: absolute; display: none;"
+        />
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -92,7 +2575,240 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -100,7 +2816,267 @@ exports[`storyshots components/store/DataTable Looked Up Columns With Expected P
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 1500px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+              <!---->
+               
+              <tr
+                class=""
+              />
+               
+              <!---->
+               
+              <!---->
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="p-paginator p-component"
+      limit="10"
+    >
+      <!---->
+       
+      <button
+        class="p-paginator-first p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-prev p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-left"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-pages"
+      >
+        <button
+          class="p-paginator-page p-paginator-element p-link p-highlight"
+          type="button"
+        >
+          1
+          <span
+            class="p-ink"
+          />
+        </button>
+      </span>
+      <button
+        class="p-paginator-next p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <button
+        class="p-paginator-last p-paginator-element p-link p-disabled"
+        disabled="disabled"
+        type="button"
+      >
+        <span
+          class="p-paginator-icon pi pi-angle-double-right"
+        />
+        <span
+          class="p-ink"
+        />
+      </button>
+      <span
+        class="p-paginator-current"
+      >
+        Showing 1 to 2 of 2 entries
+      </span>
+       
+      <div
+        class="p-paginator-right-content"
+      >
+        <div
+          class="paginator-nav"
+        >
+          <p
+            class="label"
+          >
+            
+        Jump to page
+      
+          </p>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper"
+            dropdown="true"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            1
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -108,7 +3084,110 @@ exports[`storyshots components/store/DataTable No content 1`] = `
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <p
+                    align="center"
+                  >
+                    No data to display
+                  </p>
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -116,6 +3195,109 @@ exports[`storyshots components/store/DataTable No content with the detail button
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div
+    class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
+    style="min-height: 30rem;"
+  >
+    <div
+      class="responsive-table-wrapper p-fluid d-flex-1"
+    >
+      <div
+        cellstate="[object Object]"
+        class="
+        p-datatable-sm
+        p-datatable-gridlines
+        p-d-flex
+        p-flex-column
+        justify-between
+       p-datatable p-component p-datatable-resizable"
+        style="width: calc(6rem + 900px);"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+        <div>
+          <!---->
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-datatable-wrapper"
+        >
+          <table
+            role="grid"
+          >
+            <thead
+              class="p-datatable-thead"
+            >
+              <tr />
+               
+              <!---->
+            </thead>
+             
+            <tbody
+              class="p-datatable-tbody"
+            >
+              <tr
+                class="p-datatable-emptymessage"
+              >
+                <td
+                  colspan="0"
+                >
+                  <p
+                    align="center"
+                  >
+                    No data to display
+                  </p>
+                   
+                  <!---->
+                </td>
+              </tr>
+            </tbody>
+             
+            <!---->
+          </table>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="p-column-resizer-helper"
+          style="display: none;"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
 </div>
 `;
