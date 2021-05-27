@@ -175,7 +175,10 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 aria-haspopup="true"
-                style="position: absolute; right: 0; width: 1rem;"
+                style="position: absolute; width: 1rem;"
+                :style="{
+                  right: isSortableColumn(column) ? '1.5rem' : '0' // if column is sortable, a sort icon take place on the right
+                }"
                 :aria-controls="column.id"
                 @click="onEditColumnClick($event, column)"
               />
@@ -404,7 +407,8 @@ export default {
   },
   props: {
     actions: {
-      type: Array
+      type: Array,
+      default: () => ([])
     },
     definition: {
       type: Object
