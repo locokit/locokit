@@ -112,28 +112,19 @@ import {
   ACTION_BUTTON_TYPE
 } from '@locokit/lck-glossary'
 
+import {
+  ACTIONS_TYPE,
+  NAMED_CLASSES
+} from '@/services/lck-utils/prime'
+
 import InputText from 'primevue/inputtext'
 
 import Dropdown from 'primevue/dropdown'
-// import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 type Options = {
   displayFieldId: string|null;
   displayFieldConditionQuery: boolean|null;
 }
-
-const NAMED_CLASSES = [
-  { label: 'danger', value: 'danger' },
-  { label: 'warning', value: 'warning' },
-  { label: 'success', value: 'success' },
-  { label: 'primary', value: 'primary' },
-  { label: 'secondary', value: 'secondary' }
-]
-
-const ACTIONS_TYPE = [
-  { label: 'page_detail_to', value: 'page_detail_to' },
-  { label: 'process_trigger', value: 'process_trigger' }
-]
 
 export default {
   name: 'ActionButtonSettingsFields',

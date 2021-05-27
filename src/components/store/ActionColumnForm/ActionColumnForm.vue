@@ -119,23 +119,15 @@ import Vue from 'vue'
 
 import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary'
 
+import {
+  ACTIONS_TYPE,
+  NAMED_CLASSES
+} from '@/services/lck-utils/prime'
+
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
 import LckForm from '@/components/ui/Form/Form.vue'
-
-const NAMED_CLASSES = [
-  { label: 'danger', value: 'danger' },
-  { label: 'warning', value: 'warning' },
-  { label: 'success', value: 'success' },
-  { label: 'primary', value: 'primary' },
-  { label: 'secondary', value: 'secondary' }
-]
-
-const ACTIONS_TYPE = [
-  { label: 'page_detail_to', value: 'page_detail_to' },
-  { label: 'process_trigger', value: 'process_trigger' }
-]
 
 export default {
   name: 'ActionColumnForm',
@@ -179,13 +171,4 @@ export default {
 </script>
 
 <style scoped>
-.p-inputswitch {
-  display: block;
-}
-
-.column-form-container {
-  box-shadow: 1px 1px 5px 1px rgb(230, 230, 230);
-  padding: 0.5rem 1rem;
-  margin: 1rem 0;
-}
 </style>
