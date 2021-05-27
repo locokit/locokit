@@ -16,12 +16,13 @@ export class TableAction extends BaseModel {
   class_button!: string
   icon?: string|null
   action!: string
-  page_detail_id?: string
-  display_field_id?: string
+  page_detail_id?: string|null
+  page_query_field_id?: string|null
+  display_field_id?: string|null
   display_field_condition_query?: object|null
 
   table_id!: string
-  process_id?: string
+  process_id?: string|null
 
   static get tableName (): string {
     return 'table_action'
@@ -37,10 +38,11 @@ export class TableAction extends BaseModel {
         icon: { type: ['string', 'null'] },
         action: { type: 'string' },
         page_detail_id: { type: ['string', 'null'] },
+        page_query_field_id: { type: ['string', 'null'] },
         display_field_id: { type: ['string', 'null'] },
         display_field_condition_query: { type: ['object', 'null'] },
         table_row_id: { type: 'string' },
-        process_id: { type: 'string' },
+        process_id: { type: ['object', 'null'] },
       },
     }
   }

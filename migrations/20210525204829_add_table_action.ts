@@ -11,6 +11,7 @@ export async function up (knex: Knex): Promise<void> {
       table.string('icon')
       table.enum('action', ['page_detail_to', 'process_trigger']).notNullable().defaultTo('page_detail_to')
       table.uuid('page_detail_id')
+      table.uuid('page_query_field_id')
       table.uuid('display_field_id')
       table.jsonb('display_field_condition_query')
       table.timestamp('created_at')
