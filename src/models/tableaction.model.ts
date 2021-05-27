@@ -2,14 +2,15 @@
 // for more of what you can do here.
 import {
   JSONSchema,
-  snakeCaseMappers
+  snakeCaseMappers,
 } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 
 export class TableAction extends BaseModel {
-  static get columnNameMappers() {
-    return snakeCaseMappers();
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  static get columnNameMappers () {
+    return snakeCaseMappers()
   }
 
   label!: string

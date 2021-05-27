@@ -79,7 +79,7 @@ export class TableView extends BaseModel {
           to: 'table.id',
         },
       },
-      actions:  {
+      actions: {
         relation: Model.ManyToManyRelation,
         modelClass: TableAction,
         join: {
