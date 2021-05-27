@@ -271,11 +271,11 @@ describe('Page', () => {
   const router = new VueRouter({ routes: mockRoutes })
 
   // Default workspace component configuration
-  function globalComponentParams (pageId = '1') {
+  function globalComponentParams (pageId = '1', workspaceId = '17') {
     return {
       localVue,
       router,
-      propsData: { pageId, chapters: mockChapters },
+      propsData: { workspaceId, pageId, chapters: mockChapters },
       mocks: {
         t: key => key,
         $t: key => key,

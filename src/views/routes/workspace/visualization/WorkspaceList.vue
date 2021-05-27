@@ -83,12 +83,17 @@
 import Vue from 'vue'
 import { authState } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
-import { WORKSPACE_ROLE } from '@locokit/lck-glossary'
 
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+
+const WORKSPACE_ROLE = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+}
 
 export default {
   name: 'WorkspaceList',
