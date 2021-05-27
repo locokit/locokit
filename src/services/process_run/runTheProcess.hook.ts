@@ -64,7 +64,6 @@ export async function runTheProcess (context: HookContext): Promise<HookContext>
    * Spawn a new process to run it, in fire&forget mode
    */
   const now = Date.now()
-  console.log('qqqfqcqcqcqcqcqc', context.params.waitForOutput)
   if (context.params.waitForOutput) {
     try {
       const processResult = await axios.post((context.result.process as Process).url, {

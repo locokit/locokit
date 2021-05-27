@@ -280,6 +280,51 @@ describe('\'process_run\' service', () => {
       await app.service('process').remove(processTriggerUpdateRowData.id)
     })
 
+    it('wait the end of the process if waitForOutput is sent', async () => {
+      expect.assertions(4)
+      /**
+       * create an execution
+       */
+      const processTriggerCRON = await app.service('process').create({
+        table_id: table1.id,
+        trigger: ProcessTrigger.CRON,
+      })
+
+      // we use waitForOutput, but it is to simulate how the front would call us
+      // @ts-expect-error
+      const processExecutionCRON = await app.service('process-run').create({
+        process_id: processTriggerCRON.id,
+        table_row_id: tableRow.id,
+        waitForOutput: true,
+      }, params)
+      expect(processExecutionCRON).toBeTruthy()
+      expect(processExecutionCRON.status).toBe(ProcessRunStatus.SUCCESS)
+
+      const processTriggerMANUAL = await app.service('process').create({
+        table_id: table1.id,
+        trigger: ProcessTrigger.MANUAL,
+      })
+
+      // @ts-expect-error
+      const processExecutionMANUAL = await app.service('process-run').create({
+        process_id: processTriggerMANUAL.id,
+        table_row_id: tableRow.id,
+        waitForOutput: true,
+      }, params)
+      expect(processExecutionMANUAL).toBeTruthy()
+      expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.SUCCESS)
+
+      await wait(1000)
+
+      /**
+       * check the status
+       */
+      await app.service('process-run').remove(processExecutionMANUAL.id)
+      await app.service('process-run').remove(processExecutionCRON.id)
+      await app.service('process').remove(processTriggerMANUAL.id)
+      await app.service('process').remove(processTriggerCRON.id)
+    })
+
     afterEach(async () => {
       await app.service('row').remove(tableRow.id)
       await app.service('column').remove(tableColumn.id)
