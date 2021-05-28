@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.3.4",
+  "version": "0.3.5-demo",
   "private": true,
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
