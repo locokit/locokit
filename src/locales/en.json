@@ -419,7 +419,8 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
-        "detailPage": "Detail page"
+        "detailPage": "Detail page",
+        "addGeoDataSrc": "Add a new geographic data source"
       }
     },
     "database": {

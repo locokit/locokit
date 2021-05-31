@@ -21,15 +21,18 @@ import {
 import { TranslateResult } from 'vue-i18n'
 
 import {
+  BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
-  MapSettings
+  MapSettings,
+  MapSourceSettings
 } from '@locokit/lck-glossary'
 
 import {
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
+  LckTableView,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
 import {
@@ -83,6 +86,8 @@ export interface LckGeoResource {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
+  displayPopup: boolean;
+  pageDetailId?: string;
 }
 
 export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
@@ -90,6 +95,10 @@ export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | Li
 
 export const isGEOColumn = (columnTypeId: number) => {
   return Object.values(COLUMN_GEO_TYPE).includes(columnTypeId)
+}
+
+export const isGeoBlock = (blockType: BLOCK_TYPE) => {
+  return [BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockType)
 }
 
 export const transformEWKTtoFeature = (ewkt: string) => {
@@ -130,25 +139,20 @@ export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLay
 }
 
 /**
- * Get Geo colunms
- *  Two scenario possible:
- *   - if source exist, only data of (geo)column will be display
- *   - otherwise all data of geocolumn
+ * Get geo columns
+ *  Two possible scenarios:
+ *   - if the source field is a valid geo column, only data of this column will be display
+ *   - otherwise all data of geo columns
  * @param columns
- * @param settings
+ * @param sourceSettings
  */
 export function getOnlyGeoColumn (
   columns: LckTableViewColumn[],
-  settings: MapSettings
+  sourceSettings: MapSourceSettings
 ): LckTableViewColumn[] {
-  if (settings.sources) {
-    return settings.sources.reduce((acc, { field }) => {
-      const col = columns.find(column => column.id === field)
-      if (col?.column_type_id && isGEOColumn(getColumnTypeId(col))) {
-        acc.push(col)
-      }
-      return acc
-    }, [] as LckTableViewColumn[])
+  if (sourceSettings.field) {
+    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(column.column_type_id))
+    if (sourceGeoColumn) return [sourceGeoColumn]
   }
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
@@ -157,7 +161,7 @@ export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
-  settings: MapSettings,
+  sources: MapSourceSettings[],
   i18nOptions: LckPopupI18nOptions
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
@@ -176,21 +180,21 @@ export function makeGeoJsonFeaturesCollection (
       const data = getEWKTFromGeoColumn(geoColumn, row.data)
       if (data) {
         const feature = transformEWKTtoFeature(data)
-        /**
-         * Add page detail information if needed
-         */
-        if (settings.pageDetailId) {
-          feature.setProperties({
-            rowId: row.id,
-            title: row.text || i18nOptions.noReference
-          })
-        }
-        /**
-         * Manage popup information
-         */
-        if (settings?.sources) {
-          settings.sources.forEach(source => {
-            if (source.popup) {
+        if (Array.isArray(sources)) {
+          sources.forEach(source => {
+            /**
+             * Add page detail information if needed
+             */
+            if (source.pageDetailId) {
+              feature.setProperties({
+                rowId: row.id,
+                title: row.text || i18nOptions.noReference
+              })
+            }
+            /**
+             * Manage popup information
+             */
+            if (source.popup && source.popupSettings) {
               feature.setProperties({
                 title: row.data[source.popupSettings.title]
               })
@@ -240,27 +244,40 @@ export function makeGeoJsonFeaturesCollection (
 }
 
 export function getLckGeoResources (
-  columns: LckTableViewColumn[],
-  data: LckTableRow[],
+  tableViews: Record<string, LckTableView>,
+  data: Record<string, LckTableRow[]>,
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
 ): LckGeoResource[] {
-  const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)
-  const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
-    data,
-    geoColumns,
-    columns,
-    settings,
-    i18nOptions
-  )
-  const layers: LckImplementedLayers[] = getStyleLayers(geoColumns)
+  const lckGeoResources: LckGeoResource[] = []
+  settings.sources.forEach((source, index) => {
+    const columns = tableViews[source.id]?.columns || []
+    // Get the specified column of the source and check that it is a geographic one
+    const geoColumn = getOnlyGeoColumn(columns, source)
 
-  return [{
-    id: 'features-collection-source',
-    layers,
-    type: features.type,
-    features: features.features
-  }]
+    if (geoColumn.length > 0) {
+      const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
+        data[source.id],
+        geoColumn,
+        columns,
+        [source],
+        i18nOptions
+      )
+      const layers: LckImplementedLayers[] = getStyleLayers(geoColumn)
+
+      const displayPopup = !!(source.pageDetailId || source.popup)
+
+      lckGeoResources.push({
+        id: `features-collection-source-${index}`,
+        layers,
+        type: features.type,
+        features: features.features,
+        displayPopup,
+        pageDetailId: source.pageDetailId
+      })
+    }
+  })
+  return lckGeoResources
 }
 
 export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {

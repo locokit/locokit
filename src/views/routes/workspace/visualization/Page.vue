@@ -151,7 +151,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.containerDelete"
       :value="currentContainerToDelete"
-      :itemCategory="$t('pages.workspace.container.name')"
+      :itemCategory="$t('pages.workspace.container.title')"
       @close="onContainerDeleteClose"
       @input="onContainerDeleteInput"
     />
@@ -159,7 +159,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.blockDelete"
       :value="currentBlockToDelete"
-      :itemCategory="$t('pages.workspace.block.name')"
+      :itemCategory="$t('pages.workspace.block.title')"
       fieldToDisplay="title"
       @close="onBlockDeleteClose"
       @input="onBlockDeleteInput"
@@ -197,7 +197,9 @@ import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
-
+import {
+  isGeoBlock
+} from '@/services/lck-utils/map'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 
@@ -337,8 +339,20 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
-      if (block.definition?.id) await this.loadBlockTableViewContent(block)
+      if (isGeoBlock(block.type)) {
+        // For a geo column, we get the definition of all specified views
+        const definitions = await retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
+        const definitionsObject = definitions.reduce(
+          (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
+          , {}
+        )
+        this.$set(block, 'definition', definitionsObject)
+        if (block.definition !== {}) await this.loadBlockTableViewContent(block)
+      } else {
+        const definition = await retrieveViewDefinition([block.settings?.id])
+        this.$set(block, 'definition', definition[0])
+        if (block.definition?.id) await this.loadBlockTableViewContent(block)
+      }
     },
     async loadBlockTableViewContent (block) { // Rename
       const currentOptions = this.blocksOptions[block.id]
@@ -359,22 +373,36 @@ export default {
           /**
            * For the mapview block, we don't limit the result
            * I think we can optimize how we manage the data...
+           * Moreover, for now, we don't have filters so we can consider that
+           * the content is the same for each table view.
            */
-          this.$set(block, 'content', await retrieveViewData(
-            block.definition.id,
-            currentOptions.page * currentOptions.itemsPerPage,
-            -1,
-            currentOptions.sort,
-            currentOptions.filters
+          const viewsIds = Object.keys(block.definition)
+          const contentByView = await Promise.all(viewsIds.map(async id =>
+            await retrieveViewData(
+              id,
+              currentOptions.page * currentOptions.itemsPerPage,
+              -1,
+              currentOptions.sort,
+              currentOptions.filters
+            )
           ))
+          // The result in an object whose the keys are the views ids and the values are the corresponding rows
+          const contentByViewObject = viewsIds.reduce(
+            (allContents, definitionId, index) => Object.assign(allContents, { [definitionId]: contentByView[index] })
+            , {}
+          )
+          this.$set(block, 'content', contentByViewObject)
           break
         case BLOCK_TYPE.DETAIL_VIEW:
           const row = await retrieveRow(this.$route.query.rowId)
           this.$set(block, 'content', { data: [row] })
           break
         case BLOCK_TYPE.MAPDETAILVIEW: {
+          const definitionId = Object.keys(block.definition)[0]
           const row = await retrieveRow(this.$route.query.rowId)
-          this.$set(block, 'content', [row])
+          if (definitionId) {
+            this.$set(block, 'content', { [definitionId]: [row] })
+          }
           break
         }
       }
@@ -455,10 +483,10 @@ export default {
       }
       block.loading = false
     },
-    async onPageDetail (block, rowId) {
+    async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
         name: 'PageDetail',
-        params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId },
+        params: { pageId: this.$route.params.pageId, pageDetailId: pageDetailId || block.settings.pageDetailId },
         query: { rowId }
       })
     },
@@ -693,29 +721,38 @@ export default {
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {
         this.submitting = true
-        const { id, ...data } = blockToEdit
-        if (id !== 'temp') {
+        if (blockToEdit.id !== 'temp') {
           // On update
-          const updatedBlock = await lckServices.block.patch(id, {
-            ...data
+          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
+            title: blockToEdit.title,
+            type: blockToEdit.type,
+            settings: blockToEdit.settings,
+            position: blockToEdit.position
           })
+          // Reload the block definition and content if it is necessary
+          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
+          // Update the existing block with its new properties
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
           }
         } else {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
-            ...data,
+            title: blockToEdit.title,
+            type: blockToEdit.type,
+            settings: blockToEdit.settings,
+            position: blockToEdit.position,
             container_id: this.currentContainerToEdit.id
           })
+          // Load the block definition and content if it is necessary
+          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
+          // Add the block to the related container
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
           } else {
             this.$set(this.currentContainerToEdit, 'blocks', [this.currentBlockToEdit])
           }
         }
-        // Reload the block definition and content if it is necessary
-        if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${this.currentBlockToEdit.title}`, error)
       } finally {
@@ -878,9 +915,6 @@ export default {
   width: 100%;
   margin-bottom: 0.5rem;
   border: 1px solid var(--primary-color) !important;
-}
-
-.editable-container {
 }
 
 /deep/ .editable-block .block-content {

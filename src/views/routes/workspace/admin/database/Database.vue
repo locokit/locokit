@@ -805,7 +805,7 @@ export default {
       await lckServices.tableRow.create({ data: duplicatedData, table_id: this.currentTableId })
       this.loadCurrentTableData()
     },
-    async onOpenDetail (rowId) {
+    async onOpenDetail ({ rowId }) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)

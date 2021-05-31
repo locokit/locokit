@@ -419,7 +419,8 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
-        "detailPage": "Page de détails"
+        "detailPage": "Page de détails",
+        "addGeoDataSrc": "Ajouter une nouvelle source de données géographiques"
       }
     },
     "database": {

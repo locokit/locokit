@@ -90,6 +90,24 @@ const detailViewBlock = {
   definition: tableViewDefinition
 }
 
+const mapBlock = {
+  id: '1',
+  title: 'my map block',
+  type: BLOCK_TYPE.MAPVIEW,
+  settings: {
+    sources: [
+      {
+        id: '123456',
+        pageDetailId: '1'
+      },
+      {
+        id: ''
+      }
+    ]
+  },
+  definition: { [tableViewDefinition.id]: tableViewDefinition }
+}
+
 export const newBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
@@ -169,4 +187,15 @@ export const DetailViewBlockStory = () => ({
     }
   },
   template: '<UpdateBlockForm :block="block" />'
+})
+
+export const mapBlockStory = () => ({
+  components: { UpdateBlockForm },
+  data () {
+    return {
+      block: mapBlock,
+      relatedChapterPages: relatedChapterPages
+    }
+  },
+  template: '<UpdateBlockForm :block="block" :relatedChapterPages="relatedChapterPages" />'
 })

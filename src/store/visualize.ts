@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
 import { LckTableView } from '@/services/lck-api/definitions'
+import { Paginated } from '@feathersjs/feathers'
 import { BaseState } from './state'
 
 class Workspace {
@@ -55,10 +56,10 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
   workspaceState.loading = false
 }
 
-export async function retrieveViewDefinition (id: number) {
+export async function retrieveViewDefinition (ids: number[], skip = 0) {
   workspaceState.loading = true
   try {
-    const result = await lckServices.tableView.get(id, {
+    const result = await lckServices.tableView.find({
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         $eager: 'columns.[column_type, parents.^]',
@@ -66,11 +67,28 @@ export async function retrieveViewDefinition (id: number) {
           columns: {
             transmitted: true
           }
-        }
+        },
+        id: {
+          $in: ids
+        },
+        $skip: skip,
+        $limit: 10
       }
-    }) as LckTableView
-    result.columns = result.columns?.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
-    return result
+    }) as Paginated<LckTableView>
+
+    // Reorder the columns of each view
+    result.data.forEach(tableView => {
+      tableView.columns = tableView.columns?.sort(
+        (a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1)
+      )
+    })
+    // Get the next views if there are ones
+    if (result.limit + skip < result.total) {
+      retrieveViewDefinition(ids, skip + result.limit).then(followingViews => {
+        return result.data.concat(followingViews || [])
+      })
+    }
+    return result.data
   } catch (error) {
     workspaceState.error = error
   }

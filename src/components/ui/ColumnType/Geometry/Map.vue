@@ -1,8 +1,8 @@
 <template>
-  <div
-    :id="id"
-    class="map-container"
-  />
+    <div
+      :id="id"
+      class="map-container"
+    />
 </template>
 
 <script lang='ts'>
@@ -271,22 +271,28 @@ export default Vue.extend({
     },
     setFitBounds () {
       const bounds = computeBoundingBox(this.resources)
-      this.map!.fitBounds(bounds, {
-        padding: 40,
-        animate: this.mode === MODE.BLOCK
-      })
+      if (!bounds.isEmpty()) {
+        this.map!.fitBounds(bounds, {
+          padding: 40,
+          animate: this.mode === MODE.BLOCK
+        })
+      }
     },
-    sendIdToDetail (rowId: string) {
-      this.$emit('open-detail', rowId)
+    sendIdToDetail (rowId: string, pageDetailId?: string) {
+      this.$emit('open-detail', { rowId, pageDetailId })
     },
     createPopup () {
-      const allResourceId: string[] = this.resources.reduce((acc, resource) => {
-        const ids = resource.layers.map((layer) => (`${resource.id}-${layer.id}`))
-        acc.push(...ids)
+      const resourcesWithPopUp: { resourceId: string; pageDetailId?: string }[] = this.resources.reduce((acc, resource) => {
+        if (resource.displayPopup) {
+          const resourceIds = resource.layers.map(layer => `${resource.id}-${layer.id}`)
+          resourceIds.forEach(resourceId => {
+            acc.push({ resourceId, pageDetailId: resource.pageDetailId })
+          })
+        }
         return acc
-      }, [] as string[])
+      }, [] as { resourceId: string; pageDetailId?: string }[])
 
-      allResourceId.forEach(resourceId => {
+      resourcesWithPopUp.forEach(({ resourceId, pageDetailId }) => {
         // Add Popup on layer on click
         this.map!.on(
           'click',
@@ -333,8 +339,7 @@ export default Vue.extend({
                 const element = popup.getElement()
                 const link = element.querySelector('.popup-row-toolbox #row-detail-page')
                 if (link) {
-                  link.addEventListener('click', () => this.sendIdToDetail(properties.rowId))
-
+                  link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
                   const { sendIdToDetail } = this
                   popup.on('close', function () {
                     link.removeEventListener('click', () => sendIdToDetail)

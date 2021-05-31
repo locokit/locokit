@@ -216,7 +216,7 @@ jest.mock('@/services/lck-api', () => ({
 
 jest.mock('@/store/visualize', () => ({
   retrievePageWithContainersAndBlocks: jest.fn((pageId) => mockDeepCloneObject(mockPages[pageId])),
-  retrieveViewDefinition: jest.fn(() => mockTableViewDefinition),
+  retrieveViewDefinition: jest.fn(() => [mockTableViewDefinition]),
   retrieveViewData: jest.fn(() => mockTableViewContent)
 }))
 

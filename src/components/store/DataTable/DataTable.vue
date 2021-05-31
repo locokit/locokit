@@ -72,7 +72,7 @@
               <p-button
                 class="p-button-sm p-button-text p-button-rounded"
                 icon="pi pi-window-maximize"
-                @click="$emit('open-detail', slotProps.data.id)"
+                @click="$emit('open-detail', { rowId: slotProps.data.id })"
               />
               <lck-dropdown-button
                 v-if="crudMode"

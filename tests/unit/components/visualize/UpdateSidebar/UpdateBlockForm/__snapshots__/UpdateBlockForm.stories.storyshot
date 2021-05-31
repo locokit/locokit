@@ -295,6 +295,410 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
 </div>
 `;
 
+exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form lck-color-content p-text-bold"
+  >
+    <div
+      class="p-field "
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            MapView
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div>
+      <div
+        class="source-configuration"
+      >
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsMap"
+          >
+            View to display
+          </label>
+           
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_44_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+            dropdown="true"
+            id="blockSettingsMap-0"
+            suggestions=""
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_44_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="blockSettingsMap-0"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsDetailPage"
+          >
+            Detail page
+          </label>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="blockSettingsDetailPage-0"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            Page 1
+        
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
+            />
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <button
+          class="p-button-text p-button-lg delete-source-button p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-trash p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+      <div
+        class="source-configuration"
+      >
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsMap"
+          >
+            View to display
+          </label>
+           
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_45_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+            dropdown="true"
+            id="blockSettingsMap-1"
+            suggestions=""
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_45_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="blockSettingsMap-1"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsDetailPage"
+          >
+            Detail page
+          </label>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+            id="blockSettingsDetailPage-1"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext p-placeholder"
+            >
+              
+            Select an option
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <button
+          class="p-button-text p-button-lg delete-source-button p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-trash p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+       
+      <div
+        class="add-source-div"
+      >
+        <button
+          class="p-button-text p-button-lg add-source-button p-button p-component p-button-icon-only"
+          title="Add a new geographic data source"
+          type="button"
+        >
+          <span
+            class="pi pi-plus p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`] = `
 <div
   style="height: 100%;"
