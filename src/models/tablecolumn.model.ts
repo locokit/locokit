@@ -19,6 +19,7 @@ export class TableColumn extends BaseModel {
   reference!: boolean
   reference_position!: number
   locked!: boolean
+  documentation?: string
   settings!: {
     formula?: string
     formula_type_id?: number

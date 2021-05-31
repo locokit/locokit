@@ -11,6 +11,7 @@ import { database } from './database.model'
 
 export class Table extends BaseModel {
   columns?: TableColumnDTO[]
+  documentation?: string
 
   static get tableName (): string {
     return 'table'
