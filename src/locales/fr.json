@@ -449,6 +449,7 @@
         "createColumn": "Créer une colonne",
         "updateColumn": "Modifier une colonne",
         "columnName": "Nom de la colonne",
+        "columnDoc": "Documentation",
         "reference": "Référence",
         "columnType": "Type de colonne",
         "selectColumnType": "Sélectionner un type de colonne",
