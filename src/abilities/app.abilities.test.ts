@@ -4,13 +4,13 @@ import { User } from '../models/user.model'
 import { defineAbilityFor } from './app.abilities'
 
 describe('App abilities', () => {
-  let user
+  let user: Partial<User>
   let ability: Ability
 
   describe('when user is a SUPERADMIN', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.SUPERADMIN } as User
-      ability = defineAbilityFor(user)
+      user = { profile: USER_PROFILE.SUPERADMIN }
+      ability = defineAbilityFor(user as User)
     })
 
     it('can do anything', () => {
@@ -22,8 +22,8 @@ describe('App abilities', () => {
 
   describe('when user is a ADMIN', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.ADMIN } as User
-      ability = defineAbilityFor(user)
+      user = { profile: USER_PROFILE.ADMIN }
+      ability = defineAbilityFor(user as User)
     })
 
     it('cannot manage all', () => {
@@ -38,8 +38,8 @@ describe('App abilities', () => {
   })
   describe('when user is a CREATOR', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.CREATOR } as User
-      ability = defineAbilityFor(user)
+      user = { profile: USER_PROFILE.CREATOR }
+      ability = defineAbilityFor(user as User)
     })
 
     it('can not manage all', () => {
@@ -54,8 +54,8 @@ describe('App abilities', () => {
   })
   describe('when user is a simple USER', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.USER } as User
-      ability = defineAbilityFor(user)
+      user = { profile: USER_PROFILE.USER }
+      ability = defineAbilityFor(user as User)
     })
 
     it('can not manage all', () => {

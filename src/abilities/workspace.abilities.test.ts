@@ -96,8 +96,8 @@ describe('Workspace abilities', () => {
 
   describe('when user is a SUPERADMIN', () => {
     beforeEach(async () => {
-      user = { profile: USER_PROFILE.SUPERADMIN } as User
-      ability = await defineAbilityFor(user, app.services)
+      user = { profile: USER_PROFILE.SUPERADMIN }
+      ability = await defineAbilityFor(user as User, app.services)
     })
 
     it('can manage all workspaces', () => {
@@ -110,8 +110,8 @@ describe('Workspace abilities', () => {
 
   describe('when user is an ADMIN', () => {
     beforeEach(async () => {
-      user = { profile: USER_PROFILE.ADMIN } as User
-      ability = await defineAbilityFor(user, app.services)
+      user = { profile: USER_PROFILE.ADMIN }
+      ability = await defineAbilityFor(user as User, app.services)
     })
 
     it('can manage all workspaces - but not all resources', () => {

@@ -6,7 +6,6 @@ import { AppAbility, resolveAction } from './definitions'
 import { HookContext } from '@feathersjs/feathers'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
-import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { Usergroup } from '../models/usergroup.model'
 
@@ -19,7 +18,7 @@ import { Usergroup } from '../models/usergroup.model'
  */
 export async function defineAbilityFor (user: User, services: ServiceTypes): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
-  const { can, cannot, rules } = new AbilityBuilder(AppAbility)
+  const { can, rules } = new AbilityBuilder(AppAbility)
 
   /**
    * User is anonymous, no permission granted
@@ -40,7 +39,7 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       // find all workspaces where user is linked to the workspace through aclset > group
       const usergroupsDefault = await services.usergroup.find({
         query: {
-          user_id: user.id
+          user_id: user.id,
         },
         paginate: false,
       }) as Usergroup[]
@@ -53,8 +52,8 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         id: {
           $in: usergroupsDefault
             .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
-            .map(ug => ug.group_id)
-        }
+            .map(ug => ug.group_id),
+        },
       })
   }
 
