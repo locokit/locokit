@@ -112,7 +112,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
-    'lck-monaco-editor': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
+    'lck-monaco-editor': () => import(/* webpackChunkName: "lck-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),
