@@ -22,6 +22,7 @@ describe('\'table\' service', () => {
     expect(table.id).toBeDefined()
     await app.services.table.remove(table.id)
     await app.services.database.remove(db.id)
+    await app.services.workspace.remove(workspace.aclsets[0].id)
     await app.services.workspace.remove(workspace.id)
   })
 
@@ -43,6 +44,7 @@ describe('\'table\' service', () => {
     })).rejects.toThrow()
     await app.services.table.remove(table.id)
     await app.services.database.remove(db.id)
+    await app.services.workspace.remove(workspace.aclsets[0].id)
     await app.services.workspace.remove(workspace.id)
   })
 })

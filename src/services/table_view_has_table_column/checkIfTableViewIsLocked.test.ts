@@ -188,6 +188,7 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     await app.service('view').remove(tableview.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
+    await app.service('workspace').remove(workspace.aclsets?.[0].id)
     await app.service('workspace').remove(workspace.id)
   })
 })
