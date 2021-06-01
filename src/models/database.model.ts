@@ -8,6 +8,7 @@ import { workspace } from './workspace.model'
 
 export class database extends BaseModel {
   text!: string
+  documentation?: string
 
   static get tableName (): string {
     return 'database'
