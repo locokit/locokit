@@ -1,6 +1,6 @@
 declare module 'feathers-authentication-management' {
 
-  export = authenticationLocalManagement
+  import { HookContext } from '@feathersjs/feathers'
   function authenticationLocalManagement (options1?: {}, docs?: {}): () => void
   namespace authenticationLocalManagement {
     export { hooks }
@@ -10,8 +10,9 @@ declare module 'feathers-authentication-management' {
     export { isVerified }
     export { removeVerification }
   }
-  function addVerification (path?: string): (hook: any) => Promise<any>
-  function isVerified (): (hook: any) => void
-  function removeVerification (ifReturnTokens?: boolean): (hook: any) => void
+  function addVerification (path?: string): (hook: HookContext) => Promise<HookContext>
+  function isVerified (): (hook: HookContext) => void
+  function removeVerification (ifReturnTokens?: boolean): (hook: HookContext) => void
 
+  export = authenticationLocalManagement
 }

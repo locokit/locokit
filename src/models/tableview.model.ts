@@ -19,6 +19,7 @@ export class TableColumnDTO extends TableColumn {
 export class TableView extends BaseModel {
   columns?: TableColumnDTO[]
   text!: string
+  documentation?: string
   locked!: boolean
   position?: number
   table_id!: string
@@ -34,6 +35,7 @@ export class TableView extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        documentation: { type: 'string' },
         locked: { type: 'boolean' },
         position: { type: ['number', 'null'] },
       },

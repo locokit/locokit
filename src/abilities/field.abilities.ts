@@ -47,8 +47,8 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       }) as LckAclSet[]
 
       const tableIdsCREATOR = aclsetsCREATOR.map(aclset => {
-        return aclset.workspace.databases.map(db => {
-          return db.tables.map(t => t.id)
+        return aclset.workspace?.databases?.map(db => {
+          return db.tables?.map(t => t.id)
         })
       }).flat(2)
       console.log(tableIdsCREATOR)
@@ -80,8 +80,8 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         paginate: false,
       }) as LckAclSet[]
       const tableIdsUSER = aclsetsUSER.map(aclset => {
-        return aclset.workspace.databases.map(db => {
-          return db.tables.map(t => t.id)
+        return aclset.workspace?.databases?.map(db => {
+          return db.tables?.map(t => t.id)
         })
       }).flat(2)
       can('read', 'column', {

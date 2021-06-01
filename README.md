@@ -21,6 +21,14 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 7. npm run seed:run
 8. npm run start
 
+The default user created is `superadmin@makina-corpus.net` with password `locokit`.
+
+## Swagger
+
+A swagger is available on http://localhost:3030/swagger/ once the project has started.
+
+This is made with [Redoc UI](https://redocly.github.io/redoc/).
+
 ## Restore a dump
 
 You can restore any staging / production dump you have access to by putting them

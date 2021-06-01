@@ -1,6 +1,7 @@
 import { Forbidden, NotAcceptable, NotFound } from '@feathersjs/errors'
 import { Paginated, Params, ServiceMethods } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
+import { LckAclSet } from '../../models/aclset.model'
 import { LckAttachment } from '../../models/attachment.model'
 import { Group } from '../../models/group.model'
 
@@ -37,7 +38,7 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      * Check if the current user is a member of at least a group
      */
     let userFound = false
-    workspace.aclsets.forEach(aclset => aclset.groups?.forEach((currentGroup: Group) => {
+    workspace.aclsets.forEach((aclset: LckAclSet) => aclset.groups?.forEach((currentGroup: Group) => {
       currentGroup.usergroups?.forEach(currentUsergroup => {
         if (currentUsergroup.user_id === params?.user?.id) userFound = true
       })

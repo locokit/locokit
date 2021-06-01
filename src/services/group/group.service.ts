@@ -39,7 +39,7 @@ export default function (app: Application): void {
       '$joinRelated',
       '$joinEager',
     ],
-    allowedEager: '[users, usergroups, aclset.[workspace.[chapters], chapter]]',
+    allowedEager: '[users, usergroups, aclset.[workspace.[chapters, databases], chapter]]',
     allowedInsert: 'users',
     insertGraphOptions: {
       relate: true,

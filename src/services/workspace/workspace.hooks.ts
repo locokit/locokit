@@ -3,6 +3,7 @@ import { authorize } from 'feathers-casl/dist/hooks'
 import { defineAbilities } from '../../abilities/workspace.abilities'
 import filterChapterAccordingPermissions from './filterChapter.hook'
 import { iff, isProvider } from 'feathers-hooks-common'
+import { addWorkspaceDependencies } from './addWorkspaceDependencies.hook'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -41,7 +42,9 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      addWorkspaceDependencies
+    ],
     update: [],
     patch: [],
     remove: [],

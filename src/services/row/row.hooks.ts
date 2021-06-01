@@ -55,7 +55,7 @@ export default {
       defineAbilities,
     ],
     create: [
-      commonHooks.required(...TableRow.jsonSchema.required),
+      commonHooks.required(...TableRow.jsonSchema.required as string []),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
       checkColumnDefinitionMatching(),

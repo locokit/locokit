@@ -288,29 +288,29 @@ describe('\'process_run\' service', () => {
       const processTriggerCRON = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.CRON,
-      })
+      }) as Process
 
       // we use waitForOutput, but it is to simulate how the front would call us
-      // @ts-expect-error
       const processExecutionCRON = await app.service('process-run').create({
         process_id: processTriggerCRON.id,
         table_row_id: tableRow.id,
+        // @ts-expect-error
         waitForOutput: true,
-      }, params)
+      }, params) as ProcessRun
       expect(processExecutionCRON).toBeTruthy()
       expect(processExecutionCRON.status).toBe(ProcessRunStatus.SUCCESS)
 
       const processTriggerMANUAL = await app.service('process').create({
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
-      })
+      }) as Process
 
-      // @ts-expect-error
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
         table_row_id: tableRow.id,
+        // @ts-expect-error
         waitForOutput: true,
-      }, params)
+      }, params) as ProcessRun
       expect(processExecutionMANUAL).toBeTruthy()
       expect(processExecutionMANUAL.status).toBe(ProcessRunStatus.SUCCESS)
 

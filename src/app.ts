@@ -197,6 +197,22 @@ You'll be able to make your request, according your permissions / ACLs.
   // uiIndex: true,
   defaults: {
     schemasGenerator (service, model, modelName) {
+      const modelsToIgnore = ['upload']
+      if (modelsToIgnore.indexOf(modelName) >= 0) return {
+        [model]: {
+          type: 'object',
+          properties: {
+            uri: { type: 'string' },
+            buffer: { type: 'Buffer' },
+            contentType: { type: 'string' },
+          },
+        },
+        [`${model}_list`]: {
+          title: `${modelName} list`,
+          type: 'array',
+          items: { $ref: `#/components/schemas/${model}` },
+        },
+      }
       return {
         [model]: service?.docs?.definition || service?.jsonSchema,
         [`${model}_list`]: {

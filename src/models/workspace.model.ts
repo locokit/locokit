@@ -11,6 +11,7 @@ import { LckAclSet } from './aclset.model'
 
 export class workspace extends BaseModel {
   text!: string
+  documentation?: string
   chapters?: LckChapter[]
   databases?: LckDatabase[]
   attachments?: LckAttachment[]
@@ -29,6 +30,7 @@ export class workspace extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        documentation: { type: 'string' },
       },
     }
   }

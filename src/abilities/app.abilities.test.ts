@@ -1,5 +1,6 @@
 import { Ability } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { User } from '../models/user.model'
 import { defineAbilityFor } from './app.abilities'
 
 describe('App abilities', () => {
@@ -8,7 +9,7 @@ describe('App abilities', () => {
 
   describe('when user is a SUPERADMIN', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.SUPERADMIN }
+      user = { profile: USER_PROFILE.SUPERADMIN } as User
       ability = defineAbilityFor(user)
     })
 
@@ -21,7 +22,7 @@ describe('App abilities', () => {
 
   describe('when user is a ADMIN', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.ADMIN }
+      user = { profile: USER_PROFILE.ADMIN } as User
       ability = defineAbilityFor(user)
     })
 
@@ -37,7 +38,7 @@ describe('App abilities', () => {
   })
   describe('when user is a CREATOR', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.CREATOR }
+      user = { profile: USER_PROFILE.CREATOR } as User
       ability = defineAbilityFor(user)
     })
 
@@ -53,7 +54,7 @@ describe('App abilities', () => {
   })
   describe('when user is a simple USER', () => {
     beforeEach(() => {
-      user = { profile: USER_PROFILE.USER }
+      user = { profile: USER_PROFILE.USER } as User
       ability = defineAbilityFor(user)
     })
 

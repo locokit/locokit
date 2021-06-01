@@ -1,29 +1,46 @@
 import * as authentication from '@feathersjs/authentication'
 import { HookContext } from '@feathersjs/feathers'
+import { authorize } from 'feathers-casl/dist/hooks'
 import { disablePagination, getItems, replaceItems } from 'feathers-hooks-common'
+import { defineAbilitiesIffHook } from '../../abilities/group.abiliites'
 import { User } from '../../models/user.model'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
 
-function removePropertyForUser (user: User): void {
-  delete user.password
-  delete user.verifyChanges
-  delete user.verifyExpires
-  delete user.verifyShortToken
-  delete user.verifyToken
-  delete user.resetExpires
-  delete user.resetShortToken
-  delete user.resetToken
+function removePropertyForUser (user: User): Partial<User> {
+  const userPatched: Partial<User> = {
+    ...user
+  }
+  delete userPatched.password
+  delete userPatched.verifyChanges
+  delete userPatched.verifyExpires
+  delete userPatched.verifyShortToken
+  delete userPatched.verifyToken
+  delete userPatched.resetExpires
+  delete userPatched.resetShortToken
+  delete userPatched.resetToken
+  return userPatched
 }
 
 export default {
   before: {
-    all: [authenticate('jwt')],
+    all: [
+      authenticate('jwt'),
+
+      defineAbilitiesIffHook()
+    ],
     find: [
       disablePagination(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
-    get: [],
+    get: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
     create: [],
     update: [],
     patch: [],
@@ -37,12 +54,12 @@ export default {
         if (Array.isArray(items)) {
           items.forEach(item => {
             if (item.users) {
-              item.users.forEach(removePropertyForUser)
+              item.users = item.users.map(removePropertyForUser)
             }
           })
         } else {
           if (items.users) {
-            items.users.forEach(removePropertyForUser)
+            items.users = items.users.map(removePropertyForUser)
           }
         }
         replaceItems(context, items)

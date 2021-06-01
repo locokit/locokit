@@ -14,6 +14,7 @@ export class LckAclSet extends BaseModel {
   chapter_id?: string
   chapter?: LckChapter
   manager!: boolean
+  groups?: Group[]
 
   static get tableName (): string {
     return 'acl_set'

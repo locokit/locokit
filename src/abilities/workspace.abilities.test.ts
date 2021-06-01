@@ -96,7 +96,7 @@ describe('Workspace abilities', () => {
 
   describe('when user is a SUPERADMIN', () => {
     beforeEach(async () => {
-      user = { profile: USER_PROFILE.SUPERADMIN }
+      user = { profile: USER_PROFILE.SUPERADMIN } as User
       ability = await defineAbilityFor(user, app.services)
     })
 
@@ -110,7 +110,7 @@ describe('Workspace abilities', () => {
 
   describe('when user is an ADMIN', () => {
     beforeEach(async () => {
-      user = { profile: USER_PROFILE.ADMIN }
+      user = { profile: USER_PROFILE.ADMIN } as User
       ability = await defineAbilityFor(user, app.services)
     })
 

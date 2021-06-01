@@ -96,10 +96,10 @@ export function authManagementSettings (app: Application) {
       switch (type) {
         case AuthenticationManagementAction.resendVerifySignup:
         case AuthenticationManagementAction.sendVerifySignup:
-          currentTemplateVars.verifySignupLink = getLink('verify-signup', user.verifyToken)
+          currentTemplateVars.verifySignupLink = getLink('verify-signup', user.verifyToken as string)
           break
         case AuthenticationManagementAction.sendResetPwd:
-          currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken)
+          currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken as string)
           break
       }
 
