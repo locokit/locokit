@@ -8,7 +8,7 @@ import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 // import { User } from '../../models/user.model'
 
 import { AppAbility, resolveAction } from './definitions'
-import { HookContext } from '@feathersjs/feathers'
+import { HookContext, Query } from '@feathersjs/feathers'
 import { NotAcceptable } from '@feathersjs/errors'
 import { LckAclSet } from '../models/aclset.model'
 
@@ -56,7 +56,8 @@ export async function defineAbilities (context: HookContext): Promise<HookContex
        * We have a filter, like a table_id, table_view_id or id
        * (if not, we need to throw an error)
        */
-      const { table_id, table_view_id, id } = context.params?.query
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      const { table_id, table_view_id, id } = context.params?.query as Query
       if (!table_id && !table_view_id && !id) {
         throw new NotAcceptable('Missing filter table_id | table_view_id | id.', {
           code: 'RECORDS_NOT_FILTERABLE',

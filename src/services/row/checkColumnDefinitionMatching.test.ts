@@ -1540,6 +1540,8 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 })

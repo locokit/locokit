@@ -4,11 +4,10 @@ import app from '../../app'
 import { workspace } from '../../models/workspace.model'
 
 describe('addWorkspaceDependencies hook', () => {
-
   it('configure the workspace with a db, aclset, without default group and a user if internal call (and so no user is authenticated)', async () => {
     expect.assertions(5)
     const workspaceCreated = await app.service('workspace').create({
-      text: 'New workspace !'
+      text: 'New workspace !',
     })
     expect(workspaceCreated).toBeDefined()
     expect(workspaceCreated.databases).toBeDefined()
@@ -18,11 +17,11 @@ describe('addWorkspaceDependencies hook', () => {
 
     await app.service('database').remove(workspaceCreated.databases[0].id)
     await app.service('aclset').remove(workspaceCreated.aclsets[0].id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspaceCreated.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspaceCreated.id)
   })
   it('configure the workspace with a db, aclset, default group and a user owner of the group', async () => {
-
-
     // Create a fake user
     const userEmail = 'add-wd-dependencies@locokit.io'
     const userPassword = 'add-wd-dependencies@locokit.io0'
@@ -53,7 +52,7 @@ describe('addWorkspaceDependencies hook', () => {
     }
     expect.assertions(11)
     const workspaceCreated = await app.service('workspace').create({
-      text: 'New workspace !'
+      text: 'New workspace !',
     }, params)
     expect(workspaceCreated).toBeDefined()
     expect(workspaceCreated.databases).toBeDefined()
@@ -65,8 +64,8 @@ describe('addWorkspaceDependencies hook', () => {
 
     const groupCreated = await app.service('group').get(workspaceCreated.aclsets[0].groups[0].id, {
       query: {
-        $eager: 'users'
-      }
+        $eager: 'users',
+      },
     })
     expect(groupCreated).toBeDefined()
     expect(groupCreated.users).toBeDefined()
@@ -77,8 +76,9 @@ describe('addWorkspaceDependencies hook', () => {
     await app.service('usergroup').remove(`${user.id},${workspaceCreated.aclsets[0].groups[0].id}`)
     await app.service('group').remove(workspaceCreated.aclsets[0].groups[0].id)
     await app.service('aclset').remove(workspaceCreated.aclsets[0].id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspaceCreated.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspaceCreated.id)
     await app.service('user').remove(user.id)
   })
-
 })

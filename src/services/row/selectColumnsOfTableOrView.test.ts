@@ -104,7 +104,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
       table_view_id: tableView.id,
       table_column_id: columnTable1Ref.id,
     })
-    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } })  as Paginated<TableRow>
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } }) as Paginated<TableRow>
     expect.assertions(6)
     expect(rows.total).toBe(1)
     expect(rows.data[0].data[columnTable1Ref.id]).toBeDefined()
@@ -147,6 +147,8 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 })

@@ -21,8 +21,8 @@ describe('\'triggerProcess\' hook', () => {
   let tableFormulaColumn: TableColumn
   let tableRow1: TableRow
   let tableRow2: TableRow
-  const axiosMockPost = jest.fn((url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
-    return new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
+  const axiosMockPost = jest.fn(async (url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<any> => {
+    return await new Promise(resolve => resolve({ data: { log: 'this is the log' } }))
   })
   const originalAxiosPost = axios.post
 
@@ -332,6 +332,8 @@ describe('\'triggerProcess\' hook', () => {
     await app.service('column').remove(tableFormulaColumn.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 
