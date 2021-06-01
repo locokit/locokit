@@ -101,3 +101,9 @@ header {
   height: 4rem;
 }
 </style>
+
+<style>
+.p-card .p-card-title {
+  font-weight: normal;
+}
+</style>

@@ -9,33 +9,40 @@
   >
     <div v-if="currentTableToUpdate">
       <h2 class="lck-color-page-title">{{ $t('pages.databaseSchema.updateTableSidebar.updateTable') }}</h2>
-      <div class="p-d-flex">
-        <div>
-            <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
-            <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
+          <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
         </div>
-        <div class="p-d-flex p-ai-end">
-          <p-button @click="updateTableName" :label="$t('pages.databaseSchema.updateTableSidebar.updateColumn')" icon="pi pi-check" class="p-button-text" />
+        <div class="p-field">
+          <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableDoc') }}</label>
+          <p-textarea id="table-name" type="text" v-model="currentTableToUpdate.documentation" />
         </div>
+        <p-button
+          @click="updateTableName"
+          :label="$t('pages.databaseSchema.updateTableSidebar.updateColumn')"
+          icon="pi pi-check"
+        />
       </div>
+
       <div class="p-d-flex p-my-4">
         <div class="p-ai-start">
           <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')" icon="pi pi-plus" class="p-button-text" />
         </div>
       </div>
       <p-datatable :value="currentTableToUpdate.columns">
-          <p-column field="text" :header="$t('pages.databaseSchema.updateTableSidebar.columnName')"></p-column>
-          <p-column :header="$t('pages.databaseSchema.updateTableSidebar.columnType')">
-            <template #body="props">
-              {{ getColumnType(props.data.column_type_id) }}
-            </template>
-          </p-column>
-          <p-column>
-            <template #body="props">
-                <p-button icon="pi pi-pencil" class="p-button-rounded lck-color-content p-column-button-color p-mr-2" @click="updateColumn(props.data)" />
-                <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="deleteColumn(props.data)" />
-            </template>
-          </p-column>
+        <p-column field="text" :header="$t('pages.databaseSchema.updateTableSidebar.columnName')"></p-column>
+        <p-column :header="$t('pages.databaseSchema.updateTableSidebar.columnType')">
+          <template #body="props">
+            {{ getColumnType(props.data.column_type_id) }}
+          </template>
+        </p-column>
+        <p-column>
+          <template #body="props">
+            <p-button icon="pi pi-pencil" class="p-button-rounded lck-color-content p-column-button-color p-mr-2" @click="updateColumn(props.data)" />
+            <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="deleteColumn(props.data)" />
+          </template>
+        </p-column>
       </p-datatable>
       <handle-column-modal
         :visible="showHandleColumnModal"
@@ -61,6 +68,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
@@ -72,6 +80,7 @@ export default {
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
     'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
@@ -103,7 +112,8 @@ export default {
     async updateTableName () {
       try {
         await lckServices.table.patch(this.currentTable.id, {
-          text: this.currentTableToUpdate.text
+          text: this.currentTableToUpdate.text,
+          documentation: this.currentTableToUpdate.documentation
         })
         this.$emit('reload-tables')
       } catch (errorUpdateTable) {

@@ -6,80 +6,107 @@
       {{ $t('pages.workspace.title') }}
     </header>
 
-    <div v-if="authState && authState.data && authState.data.user && authState.data.user.groups">
-      <div
-        v-for="group in authState.data.user.groups"
-        :key="group.id"
-      >
-        <p-card class="p-mb-4 p-col">
-          <template slot="title">
-            {{ group.aclset.workspace.text }}
+    <p-card
+      class="p-mb-4 p-col"
+      v-for="group in groups"
+      :key="group.id"
+    >
+      <template slot="title">
+        {{ group.aclset.workspace.text }}
+      </template>
+      <template slot="content">
+        <p>
+          Group: {{ group.name }}
+        </p>
+        <p>
+          {{ group.aclset.workspace.documentation }}
+        </p>
+        <div class="action-button-content p-d-flex">
+          <router-link
+            class="no-decoration-link p-mr-2"
+            :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+          >
+            <p-button
+              :label="$t('pages.workspace.buttonVisualization')"
+              icon="bi bi-eye"
+            />
+          </router-link>
+          <template v-if="group.aclset.workspace.databases.length > 0 && group.aclset.manager">
+            <router-link
+              v-if="group.aclset.workspace.databases.length === 1"
+              class="no-decoration-link p-mr-2"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
+            >
+              <p-button
+                :label="$t('pages.workspace.buttonDatabase')"
+                icon="bi bi-server"
+              />
+            </router-link>
+            <lck-dropdown-button
+              v-else
+              class="no-decoration-link p-mr-2"
+              :label="$t('pages.workspace.buttonDatabase')"
+              :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases)"
+            />
+            <router-link
+              v-if="group.aclset.workspace.databases.length === 1"
+              class="no-decoration-link p-mr-2"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+            >
+              <p-button
+                :label="$t('pages.workspace.buttonSchema')"
+                icon="bi bi-diagram-3"
+              />
+            </router-link>
+            <lck-dropdown-button
+              v-else
+              class="no-decoration-link p-mr-2"
+              :label="$t('pages.workspace.buttonSchema')"
+              :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases, true)"
+            />
+            <router-link
+              class="no-decoration-link p-mr-2"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.PROCESS}`"
+            >
+              <p-button
+                :label="$t('pages.workspace.buttonProcess')"
+                icon="bi bi-lightning"
+              />
+            </router-link>
           </template>
-          <template slot="content">
-            <div>
-              <div class="action-button-content p-d-flex">
-                <router-link
-                  class="no-decoration-link p-mr-2"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
-                >
-                  <p-button
-                    :label="$t('pages.workspace.buttonVisualization')"
-                    icon="bi bi-eye"
-                  />
-                </router-link>
-                <template v-if="group.aclset.workspace.databases.length > 0 && group.aclset.manager">
-                  <router-link
-                    v-if="group.aclset.workspace.databases.length === 1"
-                    class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
-                  >
-                    <p-button
-                      :label="$t('pages.workspace.buttonDatabase')"
-                      icon="bi bi-server"
-                    />
-                  </router-link>
-                  <lck-dropdown-button
-                    v-else
-                    class="no-decoration-link p-mr-2"
-                    :label="$t('pages.workspace.buttonDatabase')"
-                    :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases)"
-                  />
-                  <router-link
-                    v-if="group.aclset.workspace.databases.length === 1"
-                    class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
-                  >
-                    <p-button
-                      :label="$t('pages.workspace.buttonSchema')"
-                      icon="bi bi-diagram-3"
-                    />
-                  </router-link>
-                  <lck-dropdown-button
-                    v-else
-                    class="no-decoration-link p-mr-2"
-                    :label="$t('pages.workspace.buttonSchema')"
-                    :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases, true)"
-                  />
-                  <router-link
-                    class="no-decoration-link p-mr-2"
-                    :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.PROCESS}`"
-                  >
-                    <p-button
-                      :label="$t('pages.workspace.buttonProcess')"
-                      icon="bi bi-lightning"
-                    />
-                  </router-link>
-                </template>
-              </div>
-            </div>
-          </template>
-        </p-card>
-      </div>
-    </div>
+        </div>
+      </template>
+    </p-card>
 
-    <button v-if="$can('create', 'workspace')">
-      Create a new workspace
-    </button>
+    <header class="p-my-4 lck-color-title">
+      {{ $t('pages.workspace.form.create') }}
+    </header>
+    <p-card
+      class="p-mb-4 p-col p-fluid"
+      v-if="$can('create', 'workspace')"
+    >
+      <template slot="title">
+        <p-input-text
+          :placeholder="$t('pages.workspace.form.textPlaceholder')"
+          v-model="newWorkspace.text"
+        />
+      </template>
+      <template slot="content">
+        <label>{{ $t('pages.workspace.form.docLabel') }}</label>
+        <p-textarea
+          :placeholder="$t('pages.workspace.form.docPlaceholder')"
+          class="p-mb-2"
+          :autoResize="true"
+          v-model="newWorkspace.documentation"
+        />
+        <br/>
+        <p-button
+          icon="pi pi-plus-circle"
+          :label="$t('pages.workspace.form.create')"
+          @click="createWorkspace"
+        />
+      </template>
+    </p-card>
 
   </div>
 </template>
@@ -91,8 +118,11 @@ import { ROUTES_PATH } from '@/router/paths'
 
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
 
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import { lckServices } from '@/services/lck-api'
 
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
@@ -102,17 +132,25 @@ const WORKSPACE_ROLE = {
 
 export default {
   name: 'WorkspaceList',
-  data () {
-    return {
-      ROUTES_PATH,
-      authState,
-      WORKSPACE_ROLE
-    }
-  },
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
+    'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'lck-dropdown-button': Vue.extend(DropdownButton)
+  },
+  data () {
+    return {
+      loading: false,
+      ROUTES_PATH,
+      authState,
+      WORKSPACE_ROLE,
+      newWorkspace: {
+        text: '',
+        documentation: ''
+      },
+      groups: []
+    }
   },
   methods: {
     transformDatabases (workspaceId, databases, schema = false) {
@@ -123,7 +161,45 @@ export default {
           to: schema ? `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}${ROUTES_PATH.DATABASESCHEMA}` : `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}`
         }
       ))
+    },
+    async createWorkspace () {
+      try {
+        const newWorkspace = await lckServices.workspace.create(this.newWorkspace)
+        console.log(newWorkspace)
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('pages.workspace.form.createdSummary'),
+          detail: this.$t('pages.workspace.form.createdDetail'),
+          life: 3000
+        })
+        this.newWorkspace = {
+          text: '',
+          documentation: ''
+        }
+        this.fetchUserGroups()
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: this.$t('error.lck.' + error.data.code),
+          life: 3000
+        })
+      }
+    },
+    async fetchUserGroups () {
+      this.loading = true
+      this.groups = await lckServices.group.find({
+        query: {
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          $eager: '[aclset.[workspace.[databases]]]',
+          $limit: -1
+        }
+      })
+      this.loading = false
     }
+  },
+  mounted () {
+    this.fetchUserGroups()
   },
   /**
    * This hook is executed each time the WorkspaceList is matched by the vue-router
@@ -134,9 +210,10 @@ export default {
     if (to.name !== 'WorkspaceList') next()
     const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
-      !userWorkspacesAvailable.some(({ aclset }) => aclset.manager) && userWorkspacesAvailable.length === 1
+      !userWorkspacesAvailable.some(({ aclset }) => aclset.manager) &&
+      userWorkspacesAvailable.length === 1
     ) {
-      // only one workspace, user is not a SUPERADMIN
+      // only one workspace, user is not a member of a group-aclset manager
       // we redirect user on the visualization route
       next({
         path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].workspace_id}${ROUTES_PATH.VISUALIZATION}`
@@ -147,9 +224,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-/deep/.p-card .p-card-title {
-  font-weight: normal;
-}
-</style>
