@@ -90,16 +90,42 @@
           bodyStyle="width: 8rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
           :headerStyle="{
             width: '8rem',
-            'white-space': 'nowrap',
-            'text-overflow': 'ellipsis',
-            'height': '2.5rem',
-            'max-height': '2.5rem',
-            'overflow': 'hidden',
+            padding: '0 0.1rem',
+            margin: 'unset',
           }"
           headerClass="sticky-column-cells"
           columnKey="action-column"
           :reorderableColumn="false"
         >
+          <template #header>
+            <div class="th-container">
+              <span class="th-text"/>
+              <p-button
+                v-if="crudMode"
+                class="edit-column-icon p-ml-auto"
+                icon="pi pi-angle-down"
+                appendTo="body"
+                aria-haspopup="true"
+                style="position: absolute; right: 0; width: 1rem;"
+                aria-controls="overlay_action_column"
+                @click="onEditActionColumnClick($event, actions[0])"
+              />
+              <p-menu
+                id="overlay_action_column"
+                ref="menuAction"
+                :popup="true"
+                :model="[{
+                  label: $t('components.datatable.actionColumn.edit'),
+                  icon: 'pi pi-pencil',
+                  command: () => {
+                    $emit('display-column-sidebar')
+                  }
+                }]"
+                appendTo="body"
+              />
+            </div>
+          </template>
+
           <template #body="slotProps">
             <lck-cell-action
               class="lck-cell-action"
