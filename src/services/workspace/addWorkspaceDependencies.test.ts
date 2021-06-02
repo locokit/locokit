@@ -56,25 +56,25 @@ describe('addWorkspaceDependencies hook', () => {
     }, params)
     expect(workspaceCreated).toBeDefined()
     expect(workspaceCreated.databases).toBeDefined()
-    expect(workspaceCreated.databases.length).toBe(1)
+    expect(workspaceCreated.databases?.length).toBe(1)
     expect(workspaceCreated.aclsets).toBeDefined()
-    expect(workspaceCreated.aclsets.length).toBe(1)
-    expect(workspaceCreated.aclsets[0].groups).toBeDefined()
-    expect(workspaceCreated.aclsets[0].groups.length).toBe(1)
+    expect(workspaceCreated.aclsets?.length).toBe(1)
+    expect(workspaceCreated.aclsets?.[0]?.groups).toBeDefined()
+    expect(workspaceCreated.aclsets?.[0]?.groups?.length).toBe(1)
 
-    const groupCreated: Group = await app.service('group').get(workspaceCreated.aclsets[0].groups[0].id, {
+    const groupCreated: Group = await app.service('group').get(workspaceCreated.aclsets?.[0]?.groups?.[0]?.id as string, {
       query: {
         $eager: 'users',
       },
     })
     expect(groupCreated).toBeDefined()
     expect(groupCreated.users).toBeDefined()
-    expect(groupCreated.users.length).toBe(1)
-    expect((groupCreated.users[0] as unknown as {uhg_role: string}).uhg_role).toBe(GROUP_ROLE.OWNER)
+    expect(groupCreated.users?.length).toBe(1)
+    expect((groupCreated.users?.[0] as unknown as {uhg_role: string}).uhg_role).toBe(GROUP_ROLE.OWNER)
 
-    await app.service('database').remove(workspaceCreated.databases[0].id)
-    await app.service('usergroup').remove(`${user.id},${workspaceCreated.aclsets[0].groups[0].id}`)
-    await app.service('group').remove(workspaceCreated.aclsets[0].groups[0].id)
+    await app.service('database').remove(workspaceCreated.databases?.[0]?.id as string)
+    await app.service('usergroup').remove(`${user.id},${workspaceCreated.aclsets?.[0]?.groups?.[0].id}`)
+    await app.service('group').remove(workspaceCreated.aclsets?.[0]?.groups?.[0].id as string)
     await app.service('aclset').remove(workspaceCreated.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspaceCreated.id)
     await app.service('user').remove(user.id)

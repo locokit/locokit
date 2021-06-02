@@ -5,8 +5,6 @@ import filterRowsByTableViewId from './filterRowsByTableViewId.hook'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
-import { TableRow } from '../../models/tablerow.model'
-
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { enhanceComplexColumns } from './enhanceComplexColumns.hook'
@@ -29,7 +27,6 @@ import {
   selectColumnsOfTableOrTableView,
   rebuildData,
 } from './selectColumnsOfTableOrView.hook'
-import { HookContext } from '@feathersjs/feathers'
 
 const { authenticate } = authentication.hooks
 

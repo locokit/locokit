@@ -6,6 +6,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
 
 const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
 const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
