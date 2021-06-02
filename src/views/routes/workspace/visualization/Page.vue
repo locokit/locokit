@@ -104,7 +104,7 @@
               @upload-files="onUploadFiles(block, $event)"
               @remove-attachment="onRemoveAttachment(block, $event)"
 
-              @go-to-page-detail="goToPageDetail"
+              @go-to-page-detail="goToPage"
               @create-process-run="onTriggerProcess(block, $event)"
             />
           </draggable>
@@ -807,7 +807,7 @@ export default {
         life: 3000
       })
     },
-    goToPageDetail ({ pageRedirectId, pageQueryFieldId, rowData = null }) {
+    goToPage ({ pageRedirectId, pageQueryFieldId, rowData = null }) {
       const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
 
       this.$router.push({
@@ -832,7 +832,7 @@ export default {
 
         if (typePageTo && pageRedirectId) {
           if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
-            this.goToPageDetail({ pageRedirectId, pageQueryFieldId, rowData })
+            this.goToPage({ pageRedirectId, pageQueryFieldId, rowData })
           } else {
             await this.$router.push({
               name: ROUTES_NAMES.PAGE,

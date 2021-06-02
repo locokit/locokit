@@ -124,7 +124,7 @@
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
-            @go-to-page-detail="goToPageDetail"
+            @go-to-page-detail="goToPage"
 
             @download-attachment="onDownloadAttachment"
 
@@ -950,15 +950,12 @@ export default {
         }
       }
     },
-    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowId = null }) {
-      console.log(this.$route.params.pageId, pageDetailId, rowId)
-      const queryRowId = pageQueryFieldId || rowId
-      this.$router.push({
-        name: ROUTES_NAMES.PAGEDETAIL,
-        params: {
-          pageId: pageDetailId
-        },
-        query: { rowId: queryRowId || this.$route.query.rowId }
+    async goToPage () {
+      this.$toast.add({
+        severity: 'info',
+        summary: this.$t('components.datatable.notifAction.summary'),
+        detail: this.$t('components.datatable.notifAction.detail'),
+        life: 5000
       })
     },
     async onMultipleAutocompleteEditNewRow (columnId) {

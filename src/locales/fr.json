@@ -37,6 +37,10 @@
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
+      "notifAction": {
+        "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
+        "summary": "Impossible d'effectuer cette action"
+      },
       "toolbar": {
         "export": {
           "label": "Exporter",

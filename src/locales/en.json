@@ -37,6 +37,10 @@
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "detail": "Detail row",
       "addNewRow": "Add new row",
+      "notifAction": {
+        "detail": "This redirection type action can only be done from visualisation.",
+        "summary": "Unable to perform this action"
+      },
       "toolbar": {
         "export": {
           "label": "Export as",
