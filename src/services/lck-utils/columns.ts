@@ -143,9 +143,6 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
   switch (column.column_type_id) {
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.FORMULA:
-    case COLUMN_TYPE.GEOMETRY_POINT:
-    case COLUMN_TYPE.GEOMETRY_LINESTRING:
-    case COLUMN_TYPE.GEOMETRY_POLYGON:
       return false
     default:
       return crudMode || column.editable

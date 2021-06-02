@@ -20,6 +20,9 @@ import mapboxgl, {
   ScaleControl
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import MapboxDraw, { MapboxDrawControls } from '@mapbox/mapbox-gl-draw'
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import GeometryType from 'ol/geom/GeometryType'
 
 import {
   computeBoundingBox,
@@ -70,7 +73,9 @@ export default Vue.extend({
   },
   data () {
     return {
-      map: null as Map | null
+      map: null as Map | null,
+      mapDraw: null as MapboxDraw | null,
+      mapDrawControls: {} as MapboxDraw.MapboxDrawControls
     }
   },
   mounted () {
@@ -93,7 +98,7 @@ export default Vue.extend({
         glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
         layers: [
           {
-            id: 'tiles-background',
+            id: 'tiles-background-layer',
             type: 'raster',
             source: 'tiles-background',
             minzoom: 0,
@@ -110,6 +115,8 @@ export default Vue.extend({
     this.map.addControl(new NavigationControl(), 'top-right')
     // Add scale control
     this.map.addControl(new ScaleControl(), 'bottom-left')
+    // Add draw control
+    this.initDrawControls(this.resources)
 
     // Disable map rotation
     this.map.dragRotate.disable()
@@ -125,19 +132,61 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.loadResources()
       this.setFitBounds()
-      if (this.mode === MODE.BLOCK && this.hasPopup) {
-        this.createPopup()
-      }
+      this.makeFeatureInteractive()
+
+      // Add the specific events to allow to edit the features
+      this.map!.on('draw.create', this.updateFeatures)
+      this.map!.on('draw.update', this.updateFeatures)
+      this.map!.on('draw.delete', this.deleteFeatures)
     })
   },
   methods: {
+    updateFeatures (event: MapboxDraw.DrawCreateEvent | MapboxDraw.DrawUpdateEvent) {
+      this.$emit('update-feature', event.features)
+    },
+    deleteFeatures (event: MapboxDraw.DrawDeleteEvent) {
+      this.$emit('remove-feature', event.features)
+    },
+    initDrawControls (resources: LckGeoResource[]) {
+      let newMapDrawControls: MapboxDrawControls = {}
+      // We just allow to have one editable resource by map
+      for (const resource of resources) {
+        if (resource.editableGeometryTypes.size > 0) {
+          newMapDrawControls = {
+            point: resource.editableGeometryTypes.has(GeometryType.POINT),
+            line_string: resource.editableGeometryTypes.has(GeometryType.LINE_STRING), // eslint-disable-line @typescript-eslint/camelcase
+            polygon: resource.editableGeometryTypes.has(GeometryType.POLYGON),
+            trash: true
+          }
+          break
+        }
+      }
+
+      let control: keyof MapboxDrawControls
+      for (control in newMapDrawControls) {
+        // Reset the draw control if it is already defined and different from the previous one
+        if (newMapDrawControls[control] !== this.mapDrawControls[control]) {
+          if (this.mapDraw) {
+            this.map!.removeControl(this.mapDraw)
+          }
+          // Define the new draw control and add it to the map
+          this.mapDraw = new MapboxDraw({
+            displayControlsDefault: false,
+            controls: this.mapDrawControls
+          })
+          this.map!.addControl(this.mapDraw)
+          break
+        }
+      }
+    },
     addResource (resource: LckGeoResource) {
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
           features: resource.features
-        }
+        },
+        promoteId: 'id'
       })
       resource.layers.forEach((layer) => {
         this.map!.addLayer({ source: resource.id, ...layer, id: `${resource.id}-${layer.id}` } as AnyLayer)
@@ -281,92 +330,90 @@ export default Vue.extend({
     sendIdToDetail (rowId: string, pageDetailId?: string) {
       this.$emit('open-detail', { rowId, pageDetailId })
     },
-    createPopup () {
-      const resourcesWithPopUp: { resourceId: string; pageDetailId?: string }[] = this.resources.reduce((acc, resource) => {
-        if (resource.displayPopup) {
-          const resourceIds = resource.layers.map(layer => `${resource.id}-${layer.id}`)
-          resourceIds.forEach(resourceId => {
-            acc.push({ resourceId, pageDetailId: resource.pageDetailId })
+    makeFeatureInteractive () {
+      this.resources.forEach(resource => {
+        const hasPopUp = this.mode === MODE.BLOCK && this.hasPopup && resource.displayPopup
+        const hasEditableFeatures = resource.editableGeometryTypes.size > 0
+        if (hasPopUp || hasEditableFeatures) {
+          resource.layers.forEach(layer => {
+            const currentLayerId = `${resource.id}-${layer.id}`
+            if (hasEditableFeatures) {
+              // Add the clicked feature to the MapboxDraw source
+              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
+                if (e.features && e.features[0]) {
+                  const currentFeature = e.features[0]
+                  if (currentFeature.properties && this.mapDraw!.get(currentFeature.properties.id as string) === undefined) {
+                    this.mapDraw!.add(currentFeature)
+                  }
+                }
+              })
+            }
+            if (hasPopUp) {
+            // Add Popup on layer on click
+              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
+                if (e.features && e.features[0].properties) {
+                  const properties = e.features[0].properties
+
+                  let html = `<p class="popup-row-title">${properties.title}</p>`
+
+                  const line = (content: PopupContent) => `
+                    <p class=${content.class}'>
+                      <b>${content?.field?.label}</b><br/>
+                      ${content?.field?.value}
+                    </p>`
+
+                  if (properties.content) {
+                    const content = JSON.parse(properties?.content)
+                    if (content.length > 0) {
+                      html += `
+                      <div class="popup-row-content">
+                        ${content.map((content: PopupContent) => line(content)).join('')}
+                      </div>
+                    `
+                    }
+                  }
+
+                  if (properties.rowId) {
+                    const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
+
+                    html += `
+                    <div class="popup-row-toolbox">
+                      <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                    </div>
+                  `
+                  }
+
+                  const popup = new Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML(html)
+                    .addTo(this.map!)
+
+                  if (properties.rowId) {
+                    const element = popup.getElement()
+                    const link = element.querySelector('.popup-row-toolbox #row-detail-page')
+                    if (link) {
+                      link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, resource.pageDetailId))
+                      const { sendIdToDetail } = this
+                      popup.on('close', function () {
+                        link.removeEventListener('click', () => sendIdToDetail)
+                      })
+                    }
+                  }
+                }
+              })
+
+              // Change the cursor to a pointer
+              this.map!.on('mouseenter', currentLayerId, () => {
+                  this.map!.getCanvas().style.cursor = 'pointer'
+              })
+
+              // Change it back
+              this.map!.on('mouseleave', currentLayerId, () => {
+                  this.map!.getCanvas().style.cursor = ''
+              })
+            }
           })
         }
-        return acc
-      }, [] as { resourceId: string; pageDetailId?: string }[])
-
-      resourcesWithPopUp.forEach(({ resourceId, pageDetailId }) => {
-        // Add Popup on layer on click
-        this.map!.on(
-          'click',
-          resourceId,
-          (e: MapLayerMouseEvent) => {
-            if (e.features && e.features[0].properties) {
-              const properties = e.features[0].properties
-
-              let html = `<p class="popup-row-title">${properties.title}</p>`
-
-              const line = (content: PopupContent) => `
-                <p class=${content.class}'>
-                  <b>${content?.field?.label}</b><br/>
-                  ${content?.field?.value}
-                </p>`
-
-              if (properties.content) {
-                const content = JSON.parse(properties?.content)
-                if (content.length > 0) {
-                  html += `
-                  <div class="popup-row-content">
-                    ${content.map((content: PopupContent) => line(content)).join('')}
-                  </div>
-                `
-                }
-              }
-
-              if (properties.rowId) {
-                const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
-
-                html += `
-                <div class="popup-row-toolbox">
-                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
-                </div>
-              `
-              }
-
-              const popup = new Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(html)
-                .addTo(this.map!)
-
-              if (properties.rowId) {
-                const element = popup.getElement()
-                const link = element.querySelector('.popup-row-toolbox #row-detail-page')
-                if (link) {
-                  link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
-                  const { sendIdToDetail } = this
-                  popup.on('close', function () {
-                    link.removeEventListener('click', () => sendIdToDetail)
-                  })
-                }
-              }
-            }
-          }
-        )
-
-        // Change the cursor to a pointer
-        this.map!.on(
-          'mouseenter',
-          resourceId,
-          () => {
-            this.map!.getCanvas().style.cursor = 'pointer'
-          }
-        )
-
-        // Change it back
-        this.map!.on(
-          'mouseleave',
-          resourceId,
-          () => {
-            this.map!.getCanvas().style.cursor = ''
-          }
-        )
       })
     }
   },
@@ -404,6 +451,8 @@ export default Vue.extend({
         const resourceToCompare: LckGeoResource = oldResources.find((oldResource) => oldResource.id === resourceToUpdate.id)!
         this.updateResource(resourceToUpdate, resourceToCompare)
       })
+      // Reinitialize the draw controls depending of the new resources
+      this.initDrawControls(newResources)
     }
   }
 })

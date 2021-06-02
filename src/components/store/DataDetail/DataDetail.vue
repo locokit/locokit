@@ -82,15 +82,14 @@
           mode="decimal"
           :minFractionDigits="2"
         />
-
         <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
           <lck-map
-            v-if="row.data[column.id]"
             mode="Dialog"
             :id="'map-edit-detail-' + column.id"
+            @update-feature="onGeoDataEdit(row.id, column.id, $event)"
+            @remove-feature="onEdit(row.id, column.id, null)"
             :resources="getLckGeoResources(column, row.data[column.id])"
           />
-          <span v-else>{{ $t('components.mapview.noData') }}</span>
         </div>
         <p-checkbox
           v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
@@ -178,6 +177,7 @@ import Vue from 'vue'
 import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
+import { Feature as GeoJSONFeature } from 'geojson'
 
 import Dropdown from 'primevue/dropdown'
 import Toolbar from 'primevue/toolbar'
@@ -214,7 +214,10 @@ import {
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
-  getStyleLayers
+  getStyleLayers,
+  LckGeoResource,
+  geometryTypeFromColumnType,
+  transformFeatureToWKT
 } from '@/services/lck-utils/map'
 import {
   LckAttachment,
@@ -225,6 +228,7 @@ import {
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
+import GeometryType from 'ol/geom/GeometryType'
 
 export default {
   name: 'LckDataDetail',
@@ -374,6 +378,13 @@ export default {
         value ? formatISO(value, { representation: 'date' }) : null
       )
     },
+    async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
+      this.onEdit(
+        rowId,
+        columnId,
+        transformFeatureToWKT(features[0])
+      )
+    },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
       this.$emit('update-row', {
         rowId,
@@ -393,13 +404,19 @@ export default {
           .map((a: LckAttachment) => a.id)
       })
     },
-    getLckGeoResources (column: LckTableColumn, data: string) {
+    getLckGeoResources (column: LckTableViewColumn, data: string): LckGeoResource[] {
       const layers = getStyleLayers([column])
-      function createGeoJsonFeaturesCollection (data: string): GeoJSONFeatureCollection {
-      // This is necessary when column's type is Multi...
+      const createGeoJsonFeaturesCollection = (data: string): GeoJSONFeatureCollection => {
+        // This is necessary when column's type is Multi...
         const features: Feature[] = []
         if (data) {
-          features.push(transformEWKTtoFeature(data))
+          const currentFeature = transformEWKTtoFeature(data)
+          currentFeature.setProperties({
+            columnId: column.id,
+            rowId: this.row.id,
+            id: `${this.row.id}-${column.id}`
+          })
+          features.push(currentFeature)
         }
         // Transform OL Feature in Geojson
         const geojsonFormat = new GeoJSON()
@@ -407,11 +424,21 @@ export default {
       }
 
       const features = createGeoJsonFeaturesCollection(data)
+
+      const editableGeometryTypes: Set<GeometryType> = new Set()
+      // Only display edit options if the column is editable
+      if (this.editableColumns.includes(column)) {
+        const geometryType = geometryTypeFromColumnType(column.column_type_id)
+        if (geometryType) editableGeometryTypes.add(geometryType)
+      }
+
       return [
         {
           id: `features-collection-source-id-${column.id}`,
           layers,
-          ...features
+          ...features,
+          editableGeometryTypes,
+          displayPopup: false
         }
       ]
     }

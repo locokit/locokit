@@ -40,6 +40,7 @@ import {
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
 import { getArrayDepth } from '@/services/lck-utils/arrays'
+import GeometryType from 'ol/geom/GeometryType'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
@@ -88,6 +89,7 @@ export interface LckGeoResource {
   layers: LckImplementedLayers[];
   displayPopup: boolean;
   pageDetailId?: string;
+  editableGeometryTypes: Set<GeometryType>;
 }
 
 export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
@@ -99,6 +101,17 @@ export const isGEOColumn = (columnTypeId: number) => {
 
 export const isGeoBlock = (blockType: BLOCK_TYPE) => {
   return [BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockType)
+}
+
+export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.GEOMETRY_POINT:
+      return GeometryType.POINT
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      return GeometryType.LINE_STRING
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return GeometryType.POLYGON
+  }
 }
 
 export const transformEWKTtoFeature = (ewkt: string) => {
@@ -113,6 +126,24 @@ export const transformEWKTtoFeature = (ewkt: string) => {
     dataProjection: `EPSG:${srid}`,
     featureProjection: 'EPSG:4326'
   })
+}
+
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature) => {
+  // Transform geoJSON to OL Feature
+  const geoJSONformat = new GeoJSON()
+  const feature = geoJSONformat.readFeature(geoJSONFeature)
+
+  const featureGeometry = feature.getGeometry()
+
+  // Transform OL Feature to WKT
+  if (featureGeometry) {
+    const wktFormat = new WKT()
+    return `SRID=4326;${wktFormat.writeGeometry(featureGeometry, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: 'EPSG:4326'
+    })}`
+  }
+  return null
 }
 
 export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
@@ -163,7 +194,7 @@ export function makeGeoJsonFeaturesCollection (
   definitionColumns: LckTableViewColumn[],
   sources: MapSourceSettings[],
   i18nOptions: LckPopupI18nOptions
-): GeoJSONFeatureCollection {
+): { features: GeoJSONFeatureCollection; editableGeometryTypes: Set<GeometryType> } {
   const features: Feature[] = []
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
@@ -174,6 +205,8 @@ export function makeGeoJsonFeaturesCollection (
         return data[geoColumn.id] as string
     }
   }
+
+  const editableGeometryTypes: Set<GeometryType> = new Set()
 
   rows.forEach(row => {
     geoColumns.forEach(geoColumn => {
@@ -231,6 +264,18 @@ export function makeGeoJsonFeaturesCollection (
                 })
               }
             }
+            /**
+             * Indicate that this geometry type is editable
+             */
+            if (source.editable) {
+              const featureGeoType = feature.getGeometry()?.getType()
+              if (featureGeoType) editableGeometryTypes.add(featureGeoType)
+              feature.setProperties({
+                id: `${row.id}-${geoColumn.id}`,
+                columnId: geoColumn.id,
+                rowId: row.id
+              })
+            }
           })
         }
         features.push(feature)
@@ -240,7 +285,11 @@ export function makeGeoJsonFeaturesCollection (
 
   // Transform OL Feature in Geojson
   const geojsonFormat = new GeoJSON()
-  return geojsonFormat.writeFeaturesObject(features)
+  const geoJSONFeatures = geojsonFormat.writeFeaturesObject(features)
+  return {
+    features: geoJSONFeatures,
+    editableGeometryTypes
+  }
 }
 
 export function getLckGeoResources (
@@ -256,7 +305,7 @@ export function getLckGeoResources (
     const geoColumn = getOnlyGeoColumn(columns, source)
 
     if (geoColumn.length > 0) {
-      const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
+      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
         data[source.id],
         geoColumn,
         columns,
@@ -273,7 +322,8 @@ export function getLckGeoResources (
         type: features.type,
         features: features.features,
         displayPopup,
-        pageDetailId: source.pageDetailId
+        pageDetailId: source.pageDetailId,
+        editableGeometryTypes
       })
     }
   })
