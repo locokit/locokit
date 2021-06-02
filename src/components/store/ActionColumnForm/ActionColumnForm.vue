@@ -72,8 +72,8 @@
           </p-dropdown>
         </div>
         <div
-          class="p-field"
-          v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
+          class="p-field action-trigger"
+          v-if="actionCopy.action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
         >
           <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
           <p-input-text
@@ -81,13 +81,39 @@
             v-model="actionCopy.processId"
             required
           />
+          <span>{{ $t('pages.workspace.block.typePageTo') }}</span>
+          <div>
+            <div class="p-field-radiobutton">
+              <p-radio-button
+                :id="ROUTES_NAMES.PAGE"
+                :name="ROUTES_NAMES.PAGE"
+                :value="ROUTES_NAMES.PAGE"
+                v-model="actionCopy.typePageTo"
+              />
+              <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.page')  }}</label>
+            </div>
+            <div class="p-field-radiobutton">
+              <p-radio-button
+                :id="ROUTES_NAMES.PAGEDETAIL"
+                :name="ROUTES_NAMES.PAGEDETAIL"
+                :value="ROUTES_NAMES.PAGEDETAIL"
+                v-model="actionCopy.typePageTo"
+              />
+              <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
+            </div>
+          </div>
+          <label for="pageRedirectId">{{ $t('pages.workspace.block.pageId') }}</label>
+          <p-input-text
+            id="pageRedirectId"
+            v-model="actionCopy.pageRedirectId"
+          />
         </div>
         <div v-else>
           <div class="p-field">
-            <label for="pageRedirectId">{{ $t('pages.workspace.block.pageRedirectId') }}</label>
+            <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
             <p-input-text
-              id="pageRedirectId"
-              v-model="actionCopy.pageRedirectId"
+              id="pageDetailId"
+              v-model="actionCopy.pageDetailId"
               required
             />
           </div>
@@ -130,9 +156,11 @@ import {
   ACTIONS_TYPE,
   NAMED_CLASSES
 } from '@/services/lck-utils/prime'
+import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import RadioButton from 'primevue/radiobutton'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 
@@ -141,6 +169,7 @@ export default {
   components: {
     'lck-form': LckForm,
     'p-input-text': Vue.extend(InputText),
+    'p-radio-button': Vue.extend(RadioButton),
     'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
@@ -155,6 +184,7 @@ export default {
   },
   data () {
     return {
+      ROUTES_NAMES,
       NAMED_CLASSES,
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
@@ -177,5 +207,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.action-trigger {
+  > div {
+    display: flex;
+    flex-direction: row;
+    > div {
+      padding-right: 1rem;
+    }
+  }
+  > span {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
 </style>

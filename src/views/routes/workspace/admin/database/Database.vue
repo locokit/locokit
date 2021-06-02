@@ -254,6 +254,7 @@ import {
 } from '@/services/lck-api'
 
 import { getCurrentFilters } from '@/services/lck-utils/filter'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -276,8 +277,6 @@ import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 import WithToolbar from '@/layouts/WithToolbar.vue'
 
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
-import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
-import { ROUTES_NAMES } from '@/router/paths'
 
 const defaultDatatableSort = {
   createdAt: 1
@@ -773,14 +772,12 @@ export default {
       if (this.currentActionColumnToEdit.id) {
         try {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { id, createdAt, updatedAt, ...data } = dataForm
+          const { id, createdAt, updatedAt, type_page_to, ...data } = dataForm
           const updatedActionColumn = await lckServices.tableAction.patch(
             id,
             data
           )
           // Update the column of each table view of the table
-          console.log(this.views)
-
           this.views.forEach(view => {
             const currentTableViewAction = view.actions.find(action => action.id === id)
             if (currentTableViewAction) {

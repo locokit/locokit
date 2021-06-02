@@ -102,21 +102,20 @@
           <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
         </div>
       </div>
-      <label for="pageRedirectIdProcess">{{ $t('pages.workspace.block.pageId') }}</label>
+      <label for="pageRedirectId">{{ $t('pages.workspace.block.pageId') }}</label>
       <p-input-text
-        id="pageRedirectIdProcess"
+        id="pageRedirectId"
         :value="pageRedirectId"
         @input="$emit('update:pageRedirectId', $event)"
-        required
       />
     </div>
    <div v-else>
      <div class="p-field">
-       <label for="pageRedirectIdTo">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+       <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
        <p-input-text
-         id="pageRedirectIdTo"
-         :value="pageRedirectId"
-         @input="$emit('update:pageRedirectId', $event)"
+         id="pageDetailId"
+         :value="pageDetailId"
+         @input="$emit('update:pageDetailId', $event)"
          required
        />
      </div>
@@ -134,16 +133,16 @@
      <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
      <p-input-text
        id="displayFieldId"
-       :value="optionsCopy.displayFieldId"
-       @input="setOptions('displayFieldId', $event)"
+       :value="displayFieldId"
+       @input="$emit('update:displayFieldId', $event)"
      />
    </div>
    <div class="p-field">
      <label for="displayFieldConditionQuery">{{ $t('pages.workspace.block.options.displayFieldConditionQuery') }}</label>
      <p-input-text
        id="displayFieldConditionQuery"
-       :value="optionsCopy.displayFieldConditionQuery"
-       @input="setOptions('displayFieldConditionQuery', $event)"
+       :value="displayFieldConditionQuery"
+       @input="$emit('update:displayFieldConditionQuery', $event)"
      />
    </div>
   </div>
@@ -201,7 +200,16 @@ export default {
     pageRedirectId: {
       type: String
     },
+    pageDetailId: {
+      type: String
+    },
     pageQueryFieldId: {
+      type: String
+    },
+    displayFieldId: {
+      type: String
+    },
+    displayFieldConditionQuery: {
       type: String
     },
     options: {
@@ -213,31 +221,13 @@ export default {
       ROUTES_NAMES,
       NAMED_CLASSES,
       ACTIONS_TYPE,
-      ACTION_BUTTON_TYPE,
-      optionsCopy: { displayFieldId: null, displayFieldConditionQuery: null }
-    }
-  },
-  methods: {
-    setOptions (field, event) {
-      this.$emit('update:options', { ...this.optionsCopy, [field]: event })
-    }
-  },
-  watch: {
-    options: {
-      handler (newValue: Options|undefined) {
-        if (newValue) this.optionsCopy = newValue
-      },
-      immediate: true
+      ACTION_BUTTON_TYPE
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.p-field textarea {
-  resize: vertical;
-}
-
 .action-trigger {
   > div {
     display: flex;

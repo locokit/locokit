@@ -82,9 +82,11 @@
       :action.sync="blockCopy.settings.action"
       :processId.sync="blockCopy.settings.processId"
       :typePageTo.sync="blockCopy.settings.typePageTo "
+      :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :pageRedirectId.sync="blockCopy.settings.pageRedirectId"
       :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
-      :options.sync="blockCopy.settings.options"
+      :displayFieldId.sync="blockCopy.settings.displayFieldId"
+      :displayFieldConditionQuery.sync="blockCopy.settings.displayFieldConditionQuery"
     />
   </lck-form>
 </template>
