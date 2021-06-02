@@ -58,7 +58,12 @@ export default Vue.extend({
           })
           break
         case ACTION_BUTTON_TYPE.PROCESS_TRIGGER:
-          this.$emit('create-process-run', { processId: settings.processId })
+          this.$emit('create-process-run', {
+            processId: settings.processId,
+            typePageTo: settings.typePageTo,
+            pageDetailId: settings.pageDetailId,
+            pageQueryFieldId: settings.pageQueryFieldId
+          })
           break
       }
     }

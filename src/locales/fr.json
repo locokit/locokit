@@ -441,6 +441,10 @@
         },
         "processId": "Nom de l'action/processus",
         "pageDetailId": "Nom de la page cachée",
+        "typePageTo": "Redirection vers une page",
+        "pageId": "Nom de la page",
+        "page": "Page accessible",
+        "pageDetail": "Page cachée",
         "pageQueryFieldId": "Nom de la colonne lié à la page",
         "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
         "options": {

@@ -809,7 +809,6 @@ export default {
     },
     goToPageDetail ({ pageDetailId, pageQueryFieldId, rowData = null }) {
       const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
-      console.log(this.$route.params.pageId, pageDetailId, queryRowId)
 
       this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
@@ -820,9 +819,8 @@ export default {
         query: { rowId: queryRowId || this.$route.query.rowId }
       })
     },
-    async onTriggerProcess (block, { processId, rowId = null }) {
-      const tableRowId = rowId || this.$route.query.rowId
-      console.log('here', block, tableRowId)
+    async onTriggerProcess (block, { processId, typePageTo, pageDetailId, pageQueryFieldId, rowData = null }) {
+      const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
         this.$set(block, 'loading', true)
         const res = await createProcessRun({
@@ -831,6 +829,21 @@ export default {
           waitForOutput: true
         })
         this.$set(block, 'loading', false)
+
+        if (typePageTo && pageDetailId) {
+          if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
+            this.goToPageDetail({ pageDetailId, pageQueryFieldId, rowData })
+          } else {
+            await this.$router.push({
+              name: ROUTES_NAMES.PAGE,
+              params: {
+                ...this.$route.params,
+                pageDetailId
+              }
+            })
+          }
+        }
+
         if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
           this.$toast.add({
             severity: 'error',

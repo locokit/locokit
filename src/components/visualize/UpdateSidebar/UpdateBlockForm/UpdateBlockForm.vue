@@ -81,6 +81,7 @@
       :icon.sync="blockCopy.settings.icon"
       :action.sync="blockCopy.settings.action"
       :processId.sync="blockCopy.settings.processId"
+      :typePageTo.sync="blockCopy.settings.typePageTo "
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
       :options.sync="blockCopy.settings.options"

@@ -69,7 +69,7 @@
       </p-dropdown>
     </div>
     <div
-      class="p-field"
+      class="p-field action-trigger"
       v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
     >
       <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
@@ -79,12 +79,42 @@
         @input="$emit('update:processId', $event)"
         required
       />
-   </div>
+      <span>{{ $t('pages.workspace.block.typePageTo') }}</span>
+      <div>
+        <div class="p-field-radiobutton">
+          <p-radio-button
+            :id="ROUTES_NAMES.PAGE"
+            :name="ROUTES_NAMES.PAGE"
+            :value="ROUTES_NAMES.PAGE"
+            :modelValue="typePageTo"
+            @input="$emit('update:typePageTo', $event)"
+          />
+          <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.page')  }}</label>
+        </div>
+        <div class="p-field-radiobutton">
+          <p-radio-button
+            :id="ROUTES_NAMES.PAGEDETAIL"
+            :name="ROUTES_NAMES.PAGEDETAIL"
+            :value="ROUTES_NAMES.PAGEDETAIL"
+            :modelValue="typePageTo"
+            @input="$emit('update:typePageTo', $event)"
+          />
+          <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
+        </div>
+      </div>
+      <label for="pageDetailIdProcess">{{ $t('pages.workspace.block.pageId') }}</label>
+      <p-input-text
+        id="pageDetailIdProcess"
+        :value="pageDetailId"
+        @input="$emit('update:pageDetailId', $event)"
+        required
+      />
+    </div>
    <div v-else>
      <div class="p-field">
-       <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+       <label for="pageDetailIdTo">{{ $t('pages.workspace.block.pageDetailId') }}</label>
        <p-input-text
-           id="pageDetailId"
+           id="pageDetailIdTo"
            :value="pageDetailId"
            @input="$emit('update:pageDetailId', $event)"
            required
@@ -130,8 +160,10 @@ import {
   ACTIONS_TYPE,
   NAMED_CLASSES
 } from '@/services/lck-utils/prime'
+import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
+import RadioButton from 'primevue/radiobutton'
 
 import Dropdown from 'primevue/dropdown'
 
@@ -144,6 +176,7 @@ export default {
   name: 'ActionButtonSettingsFields',
   components: {
     'p-input-text': Vue.extend(InputText),
+    'p-radio-button': Vue.extend(RadioButton),
     'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
@@ -162,6 +195,9 @@ export default {
     processId: {
       type: String
     },
+    typePageTo: {
+      type: String
+    },
     pageDetailId: {
       type: String
     },
@@ -174,6 +210,7 @@ export default {
   },
   data () {
     return {
+      ROUTES_NAMES,
       NAMED_CLASSES,
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
@@ -196,8 +233,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .p-field textarea {
   resize: vertical;
+}
+
+.action-trigger {
+  > div {
+    display: flex;
+    flex-direction: row;
+    > div {
+      padding-right: 1rem;
+    }
+  }
+  > span {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
 }
 </style>

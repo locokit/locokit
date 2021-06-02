@@ -441,6 +441,10 @@
         },
         "processId": "Action/Process name",
         "pageDetailId": "Hidden Page name",
+        "typePageTo": "Redirection to page",
+        "pageId": "Page name",
+        "page": "Visible paage",
+        "pageDetail": "Hidden page",
         "pageQueryFieldId": "Column name related to page",
         "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
         "options": {
