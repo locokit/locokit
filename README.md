@@ -9,11 +9,43 @@ The frontend for the Low-Code Kit platform.
 ## Project setup
 ```
 npm install
-cp -r patch/** node_modules
 ```
 
-The last line is here to fix temporary some dependencies,
+A postinstall copy some patches directly in the `node_modules` directory,
 waiting for our PR to be merged.
+
+You need to write a `public/config.js` and a `.env` file too.
+
+**`public/config.js`**
+
+This file contains a `LCK_SETTINGS` variable
+allowing the app to know some settings like the API URL, the localStorage key, ...
+
+This file is used at runtime, so you could customise it
+when you deploy the app.
+
+You have an example in the `public/config.js.dist` ready to be used
+with the `lck-api` project.
+Copy paste this file in a new `public/config.js` and it should do the trick.
+
+**`.env`**
+
+Same for this file, you'll find an example at the root in `.env.dist` file.
+
+This file contains more global variables used at compilation time.
+
+As you can't change these vars after compilation time,
+we have made a special `index.html` file to be generic when the build is done.
+You'll find after build in the `dist/index-generic.html` file.
+This file contains the `.env` variables in an template-handlebar syntax.
+
+This allows you to compile only the html file if you need
+to customize these vars before deploy.
+We've made a node script for that, in `scripts/compileTemplate.js`
+that you can trigger with `npm run build:html`.
+If you use it in a CI environment,
+you could give to your CI some env vars that will be injected in your html file.
+
 
 ### Compiles and hot-reloads for development
 ```
@@ -25,12 +57,21 @@ npm run serve
 npm run build
 ```
 
+You'll get an `index-generic.html` file in the `dist` folder.
+You can use the `npm run build:html` if you want to customize the title or other vars.
+
 ### Run your unit tests
 
 * only stories of the storybook
 
 ```
 npm run test:unit-stories
+```
+
+* run stories and update imageshots
+
+```
+npm run test:update-imageshot
 ```
 
 * except stories
@@ -43,11 +84,6 @@ npm run test:unit-src
 
 ```
 npm run test:unit
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
 ```
 
 ### Lints and fixes files
@@ -73,9 +109,12 @@ For every story you write, you can add an arg `waitForSelector` that would be a 
 and we use it to tell puppeteer (used under the hood by storyshot for imageshot)
 to wait the DOM element with the CSS selector you define is really in the DOM.
 
+We encounter lots of issues on Mac OS, so if you use this OS,
+don't worry if your CI is broken. Ask a developer with a Linux OS to update your shots.
+
 ### Customize configuration
 
-A configuration file is present in `public/assets/js/config.js`.
+A configuration file is present in `public/config.js`.
 
 ```js
 const LCK_SETTINGS = {

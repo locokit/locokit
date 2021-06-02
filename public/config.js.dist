@@ -8,5 +8,5 @@ const LCK_SETTINGS = {
   LOCALSTORAGE_KEY: 'lck-auth-local',
   SENTRY_DSN: '',
   SENTRY_ENV: 'local',
-  STORAGE_PATH: '/storage',
+  STORAGE_PATH: 'http://localhost:8000/storage',
 }
