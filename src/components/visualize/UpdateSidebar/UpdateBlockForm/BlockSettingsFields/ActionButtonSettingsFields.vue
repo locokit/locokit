@@ -102,30 +102,30 @@
           <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
         </div>
       </div>
-      <label for="pageDetailIdProcess">{{ $t('pages.workspace.block.pageId') }}</label>
+      <label for="pageRedirectIdProcess">{{ $t('pages.workspace.block.pageId') }}</label>
       <p-input-text
-        id="pageDetailIdProcess"
-        :value="pageDetailId"
-        @input="$emit('update:pageDetailId', $event)"
+        id="pageRedirectIdProcess"
+        :value="pageRedirectId"
+        @input="$emit('update:pageRedirectId', $event)"
         required
       />
     </div>
    <div v-else>
      <div class="p-field">
-       <label for="pageDetailIdTo">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+       <label for="pageRedirectIdTo">{{ $t('pages.workspace.block.pageDetailId') }}</label>
        <p-input-text
-           id="pageDetailIdTo"
-           :value="pageDetailId"
-           @input="$emit('update:pageDetailId', $event)"
-           required
+         id="pageRedirectIdTo"
+         :value="pageRedirectId"
+         @input="$emit('update:pageRedirectId', $event)"
+         required
        />
      </div>
      <div class="p-field">
        <label for="pageQueryFieldId">{{ $t('pages.workspace.block.pageQueryFieldId') }}</label>
        <p-input-text
-           id="pageQueryFieldId"
-           :value="pageQueryFieldId"
-           @input="$emit('update:pageQueryFieldId', $event)"
+         id="pageQueryFieldId"
+         :value="pageQueryFieldId"
+         @input="$emit('update:pageQueryFieldId', $event)"
        />
        <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.helpPageQueryFieldId') }}</small>
      </div>
@@ -198,7 +198,7 @@ export default {
     typePageTo: {
       type: String
     },
-    pageDetailId: {
+    pageRedirectId: {
       type: String
     },
     pageQueryFieldId: {

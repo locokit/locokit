@@ -807,19 +807,19 @@ export default {
         life: 3000
       })
     },
-    goToPageDetail ({ pageDetailId, pageQueryFieldId, rowData = null }) {
+    goToPageDetail ({ pageRedirectId, pageQueryFieldId, rowData = null }) {
       const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
 
       this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
         params: {
           ...this.$route.params,
-          pageDetailId
+          pageDetailId: pageRedirectId
         },
         query: { rowId: queryRowId || this.$route.query.rowId }
       })
     },
-    async onTriggerProcess (block, { processId, typePageTo, pageDetailId, pageQueryFieldId, rowData = null }) {
+    async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
       const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
         this.$set(block, 'loading', true)
@@ -830,15 +830,15 @@ export default {
         })
         this.$set(block, 'loading', false)
 
-        if (typePageTo && pageDetailId) {
+        if (typePageTo && pageRedirectId) {
           if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
-            this.goToPageDetail({ pageDetailId, pageQueryFieldId, rowData })
+            this.goToPageDetail({ pageRedirectId, pageQueryFieldId, rowData })
           } else {
             await this.$router.push({
               name: ROUTES_NAMES.PAGE,
               params: {
                 ...this.$route.params,
-                pageDetailId
+                pageId: pageRedirectId
               }
             })
           }

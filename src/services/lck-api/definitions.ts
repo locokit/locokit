@@ -144,7 +144,7 @@ export class LckTableAction extends LckBaseModel {
   class_button!: string
   icon?: string|null
   action!: string
-  page_detail_id?: string
+  page_redirect_id?: string
   display_field_id?: string
   display_field_condition_query?: object|null
   /**

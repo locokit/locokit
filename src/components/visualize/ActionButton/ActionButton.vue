@@ -53,7 +53,7 @@ export default Vue.extend({
       switch (settings.action) {
         case ACTION_BUTTON_TYPE.PAGE_DETAIL_TO:
           this.$emit('go-to-page-detail', {
-            pageDetailId: settings.pageDetailId,
+            pageRedirectId: settings.pageRedirectId,
             pageQueryFieldId: settings.pageQueryFieldId
           })
           break
@@ -61,7 +61,7 @@ export default Vue.extend({
           this.$emit('create-process-run', {
             processId: settings.processId,
             typePageTo: settings.typePageTo,
-            pageDetailId: settings.pageDetailId,
+            pageRedirectId: settings.pageRedirectId,
             pageQueryFieldId: settings.pageQueryFieldId
           })
           break

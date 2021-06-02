@@ -84,10 +84,10 @@
         </div>
         <div v-else>
           <div class="p-field">
-            <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+            <label for="pageRedirectId">{{ $t('pages.workspace.block.pageRedirectId') }}</label>
             <p-input-text
-              id="pageDetailId"
-              v-model="actionCopy.pageDetailId"
+              id="pageRedirectId"
+              v-model="actionCopy.pageRedirectId"
               required
             />
           </div>
