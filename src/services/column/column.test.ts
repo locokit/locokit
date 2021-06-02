@@ -18,7 +18,13 @@ describe('\'column\' service', () => {
     expect.assertions(1)
     const service = app.service('column')
     const workspace = await app.service('workspace').create({ text: 'pouet' })
-    const database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    const database = workspaceDatabases.data[0]
     const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const tableColumn = await service.create({
       text: 'myColumn',
@@ -45,7 +51,13 @@ describe('\'column\' service', () => {
     beforeAll(async () => {
       // Create workspace and database
       workspace = await app.service('workspace').create({ text: 'workspace1' })
-      database = await app.service('database').create({ text: 'database1', workspace_id: workspace.id })
+      const workspaceDatabases = await app.service('database').find({
+        query: {
+          workspace_id: workspace.id,
+          $limit: 1,
+        },
+      }) as Paginated<database>
+      database = workspaceDatabases.data[0]
       // Create tables
       table1 = await app.service('table').create({
         text: 'table1',
@@ -179,7 +191,13 @@ describe('\'column\' service', () => {
     expect.assertions(5)
     const service = app.service('column')
     const workspace = await app.service('workspace').create({ text: 'pouet' })
-    const database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    const database = workspaceDatabases.data[0]
     const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const column1 = await service.create({
       text: 'myColumn1',
@@ -219,7 +237,13 @@ describe('hooks for column service', () => {
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,

@@ -6,6 +6,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('computeLookedUpColumns hook', () => {
   let workspace: workspace
@@ -53,7 +54,13 @@ describe('computeLookedUpColumns hook', () => {
     // Create workspace
     workspace = await app.service('workspace').create({ text: 'pouet' })
     // Create database
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
       text: 'table1',
@@ -565,7 +572,7 @@ describe('computeLookedUpColumns hook', () => {
 
     it('in the original table', async () => {
       expect.assertions(6)
-
+      console.log(rowTable1, newRowTable1)
       const newColumnTable1Ref = newRowTable1.data[columnTable1Ref.id] as string
       const newColumnTable1User = newRowTable1.data[columnTable1User.id] as { reference: string, value: string }
       const newColumnTable1MultiUser = newRowTable1.data[columnTable1MultiUser.id] as { reference: string, value: string }
@@ -590,6 +597,7 @@ describe('computeLookedUpColumns hook', () => {
 
       it('of the looked-up columns', async () => {
         expect.assertions(16)
+        console.log(row1Table2, newRow1Table2)
 
         // Table 2 - row 1
         const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }

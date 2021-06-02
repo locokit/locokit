@@ -1,11 +1,14 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
+import { Paginated } from '@feathersjs/feathers'
+import { User } from '../../models/user.model'
+import { Group } from '../../models/group.model'
 
 // const geometryPolygon = {
 //   type: 'Feature',
@@ -167,7 +170,13 @@ describe('checkColumnDefinitionMatching hook', () => {
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    const database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,
@@ -950,7 +959,7 @@ describe('checkColumnDefinitionMatching hook', () => {
 
     const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-    const user = await app.service('user')._create({
+    const user: User = await app.service('user')._create({
       name: 'Jack',
       email: userEmail,
       isVerified: true,
@@ -971,15 +980,32 @@ describe('checkColumnDefinitionMatching hook', () => {
       accessToken: authentication.accessToken,
       authenticated: true,
     }
+    const currentWorkspace = await app.service('workspace').get(workspace.id, {
+      query: {
+        $eager: 'aclsets',
+      },
+    }) as workspace
+    const group: Group = await app.service('group').create({
+      name: 'Group manager',
+      aclset_id: currentWorkspace.aclsets?.[0].id,
+      users: [{
+        ...user,
+        uhg_role: GROUP_ROLE.OWNER,
+      }],
+    })
+    console.log(group)
     await expect(app.service('row')
       .create({
         data: {
           [columnTable1Formula.id]: 123456,
         },
         table_id: table1.id,
+        $lckGroupId: group.id,
       }, params))
       .rejects.toThrow(NotAcceptable)
 
+    await app.service('usergroup').remove(`${user.id},${group.id}`)
+    await app.service('group').remove(group.id)
     await app.service('user').remove(user.id)
   })
 

@@ -106,10 +106,10 @@ and what could be missing.
 # What's under the hood ?
 
 The LocoKit API use [FeathersJS](feathersjs.com/) as a node framework,
-and [Objection.js](https://vincit.github.io/objection.js/) as the database ORM.
+[Objection.js](https://vincit.github.io/objection.js/) as the database ORM
+and [CASL](https://casl.js.org) as the ACL security layer.
 
-This could be nice to read a little how FeathersJS work,
-and objection too.
+This could be nice to read a little how FeathersJS works, CASL and objection too.
 
 Here are some links :
 * [FeathersJS's documentation](https://docs.feathersjs.com/)
@@ -117,6 +117,8 @@ Here are some links :
 * [feathers-objection](https://github.com/feathersjs-ecosystem/feathers-objection/), wrapper between objection and FeathersJS
   * see [query operators](https://github.com/feathersjs-ecosystem/feathers-objection/#default-query-operators)
   to understand how you could filter data
+* [CASL](https://casl.js.org)
+* [feathers-casl](https://feathers-casl.netlify.app/), wrapper between CASL and FeathersJS
 
 # Authentication
 
@@ -198,20 +200,22 @@ You'll be able to make your request, according your permissions / ACLs.
   defaults: {
     schemasGenerator (service, model, modelName) {
       const modelsToIgnore = ['upload']
-      if (modelsToIgnore.indexOf(modelName) >= 0) return {
-        [model]: {
-          type: 'object',
-          properties: {
-            uri: { type: 'string' },
-            buffer: { type: 'Buffer' },
-            contentType: { type: 'string' },
+      if (modelsToIgnore.includes(modelName)) {
+        return {
+          [model]: {
+            type: 'object',
+            properties: {
+              uri: { type: 'string' },
+              buffer: { type: 'Buffer' },
+              contentType: { type: 'string' },
+            },
           },
-        },
-        [`${model}_list`]: {
-          title: `${modelName} list`,
-          type: 'array',
-          items: { $ref: `#/components/schemas/${model}` },
-        },
+          [`${model}_list`]: {
+            title: `${modelName} list`,
+            type: 'array',
+            items: { $ref: `#/components/schemas/${model}` },
+          },
+        }
       }
       return {
         [model]: service?.docs?.definition || service?.jsonSchema,

@@ -1,5 +1,5 @@
-import { HookContext } from "@feathersjs/feathers";
-import { GROUP_ROLE } from "@locokit/lck-glossary";
+import { HookContext } from '@feathersjs/feathers'
+import { GROUP_ROLE } from '@locokit/lck-glossary'
 
 /**
  * Config a workspace just created
@@ -16,7 +16,7 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
   /**
    * First check we are on a workspace after hook
    */
-   if (context.method !== 'create' || context.type !== 'after') return context
+  if (context.method !== 'create' || context.type !== 'after') return context
 
   /**
    * Create a new Database
@@ -24,8 +24,8 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
   context.result.databases = [
     await context.app.service('database').create({
       text: 'Default database',
-      workspace_id: context.result.id
-    })
+      workspace_id: context.result.id,
+    }),
   ]
   /**
    * Create a new manager aclset
@@ -33,7 +33,7 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
   const aclset = await context.app.service('aclset').create({
     label: 'ACL manager',
     manager: true,
-    workspace_id: context.result.id
+    workspace_id: context.result.id,
   })
   /**
    * Create a new group linked to the previous aclset
@@ -45,15 +45,15 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
       aclset_id: aclset.id,
       users: [{
         ...context.params.user,
-        uhg_role: GROUP_ROLE.OWNER
-      }]
+        uhg_role: GROUP_ROLE.OWNER,
+      }],
     })
     context.result.aclsets = [{
       ...aclset,
-      groups: [ group ]
+      groups: [group],
     }]
   } else {
-    context.result.aclsets = [ aclset ]
+    context.result.aclsets = [aclset]
   }
   return context
 }

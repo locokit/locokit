@@ -5,6 +5,7 @@ import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import app from '../../app'
 import { parse } from './formulaParser'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('Formula parser', () => {
   describe('integer values', () => {
@@ -132,7 +133,13 @@ describe('Formula parser', () => {
     beforeAll(async () => {
       // Create workspace and database
       workspace = await app.service('workspace').create({ text: 'workspace1' })
-      database = await app.service('database').create({ text: 'database1', workspace_id: workspace.id })
+      const workspaceDatabases = await app.service('database').find({
+        query: {
+          workspace_id: workspace.id,
+          $limit: 1,
+        },
+      }) as Paginated<database>
+      database = workspaceDatabases.data[0]
       // Create tables
       table = await app.service('table').create({
         text: 'table',

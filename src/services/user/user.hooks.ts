@@ -1,7 +1,7 @@
 import * as feathersAuthentication from '@feathersjs/authentication'
 import * as local from '@feathersjs/authentication-local'
 import { authManagementSettings, AuthenticationManagementAction } from '../authmanagement/authmanagement.settings'
-import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
+import * as feathersAuthenticationManagement from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import commonHooks, { lowerCase } from 'feathers-hooks-common'
@@ -41,7 +41,7 @@ export default {
         generatePassword(),
         enforcePasswordPolicy(getPassword),
         hashPassword('password'),
-        feathersAuthenticationManagementHooks.addVerification(),
+        feathersAuthenticationManagement.hooks.addVerification(),
       ),
     ],
     update: [
@@ -89,7 +89,7 @@ export default {
           )
         },
       ),
-      feathersAuthenticationManagementHooks.removeVerification(),
+      feathersAuthenticationManagement.hooks.removeVerification(),
     ],
     update: [],
     patch: [],

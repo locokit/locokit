@@ -6,6 +6,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('computeRowLookedUpColumns hook', () => {
   let workspace: workspace
@@ -28,7 +29,13 @@ describe('computeRowLookedUpColumns hook', () => {
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,
@@ -188,8 +195,8 @@ describe('computeRowLookedUpColumns hook', () => {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-      await app.service('workspace').remove(workspace.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
+    await app.service('workspace').remove(workspace.id)
   })
 })

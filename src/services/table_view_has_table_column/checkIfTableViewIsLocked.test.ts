@@ -8,6 +8,7 @@ import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { TableView } from '../../models/tableview.model'
 import { TableViewColumn } from '../../models/tableviewcolumn.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('\'checkIfTableViewIsLocked\' hook', () => {
   const service = app.service('table-view-has-table-column')
@@ -20,7 +21,13 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
 
   beforeEach(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,

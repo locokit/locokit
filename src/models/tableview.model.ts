@@ -23,6 +23,7 @@ export class TableView extends BaseModel {
   locked!: boolean
   position?: number
   table_id!: string
+  table?: Table
 
   static get tableName (): string {
     return 'table_view'

@@ -23,6 +23,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/no-unnecessary-type-assertion': 'off',
     'no-case-declarations': 'off'
   },
   overrides: [

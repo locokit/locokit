@@ -1,6 +1,8 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib'
 import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
+import { Group } from '../../models/group.model'
+import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 
 describe('addWorkspaceDependencies hook', () => {
@@ -16,8 +18,6 @@ describe('addWorkspaceDependencies hook', () => {
     expect(workspaceCreated.aclsets.length).toBe(1)
 
     await app.service('database').remove(workspaceCreated.databases[0].id)
-    await app.service('aclset').remove(workspaceCreated.aclsets[0].id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     await app.service('aclset').remove(workspaceCreated.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspaceCreated.id)
   })
@@ -28,7 +28,7 @@ describe('addWorkspaceDependencies hook', () => {
 
     const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-    const user = await app.service('user')._create({
+    const user: User = await app.service('user')._create({
       name: 'Jack',
       email: userEmail,
       isVerified: true,
@@ -51,7 +51,7 @@ describe('addWorkspaceDependencies hook', () => {
       authenticated: true,
     }
     expect.assertions(11)
-    const workspaceCreated = await app.service('workspace').create({
+    const workspaceCreated: workspace = await app.service('workspace').create({
       text: 'New workspace !',
     }, params)
     expect(workspaceCreated).toBeDefined()
@@ -62,7 +62,7 @@ describe('addWorkspaceDependencies hook', () => {
     expect(workspaceCreated.aclsets[0].groups).toBeDefined()
     expect(workspaceCreated.aclsets[0].groups.length).toBe(1)
 
-    const groupCreated = await app.service('group').get(workspaceCreated.aclsets[0].groups[0].id, {
+    const groupCreated: Group = await app.service('group').get(workspaceCreated.aclsets[0].groups[0].id, {
       query: {
         $eager: 'users',
       },
@@ -70,13 +70,11 @@ describe('addWorkspaceDependencies hook', () => {
     expect(groupCreated).toBeDefined()
     expect(groupCreated.users).toBeDefined()
     expect(groupCreated.users.length).toBe(1)
-    expect(groupCreated.users[0].uhg_role).toBe(GROUP_ROLE.OWNER)
+    expect((groupCreated.users[0] as unknown as {uhg_role: string}).uhg_role).toBe(GROUP_ROLE.OWNER)
 
     await app.service('database').remove(workspaceCreated.databases[0].id)
     await app.service('usergroup').remove(`${user.id},${workspaceCreated.aclsets[0].groups[0].id}`)
     await app.service('group').remove(workspaceCreated.aclsets[0].groups[0].id)
-    await app.service('aclset').remove(workspaceCreated.aclsets[0].id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     await app.service('aclset').remove(workspaceCreated.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspaceCreated.id)
     await app.service('user').remove(user.id)

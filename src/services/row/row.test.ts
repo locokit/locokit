@@ -5,7 +5,6 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
-import { Row } from './row.class'
 import { Paginated } from '@feathersjs/feathers'
 
 describe('\'row\' service', () => {
@@ -20,7 +19,13 @@ describe('\'row\' service', () => {
   let table: Table
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table = await app.service('table').create({ text: 'pouet', database_id: database.id })
   })
 

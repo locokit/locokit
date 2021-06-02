@@ -11,6 +11,7 @@ import { workspace } from '../../models/workspace.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Group } from '../../models/group.model'
 import { LckAclSet } from '../../models/aclset.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('formula utility functions', () => {
   let workspace: workspace
@@ -42,7 +43,13 @@ describe('formula utility functions', () => {
     // Create workspace
     workspace = await app.service('workspace').create({ text: 'pouet' })
     // Create database
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
       text: 'table1',

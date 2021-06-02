@@ -1,7 +1,7 @@
 {
   "name": "lck-api",
   "description": "Low-Code Kit (locokit) API",
-  "version": "0.4.0",
+  "version": "0.4.0-alpha.0",
   "homepage": "",
   "private": true,
   "main": "lib/index.js",
@@ -48,7 +48,7 @@
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "lint": "eslint ./src/**/*.ts",
-    "jest": "NODE_ENV=test jest --forceExit --runInBand",
+    "jest": "NODE_ENV=test npm run seed:run && NODE_ENV=test jest --forceExit --runInBand",
     "prejest:watch": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "jest:watch": "NODE_ENV=test jest --watch --runInBand",
     "compile": "shx rm -rf lib/ && tsc --strict",

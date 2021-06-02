@@ -2,7 +2,7 @@ import * as authentication from '@feathersjs/authentication'
 import { HookContext } from '@feathersjs/feathers'
 import { authorize } from 'feathers-casl/dist/hooks'
 import { disablePagination, getItems, replaceItems } from 'feathers-hooks-common'
-import { defineAbilitiesIffHook } from '../../abilities/group.abiliites'
+import { defineAbilitiesIffHook } from '../../abilities/group.abilities'
 import { User } from '../../models/user.model'
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -10,7 +10,7 @@ const { authenticate } = authentication.hooks
 
 function removePropertyForUser (user: User): Partial<User> {
   const userPatched: Partial<User> = {
-    ...user
+    ...user,
   }
   delete userPatched.password
   delete userPatched.verifyChanges
@@ -28,7 +28,7 @@ export default {
     all: [
       authenticate('jwt'),
 
-      defineAbilitiesIffHook()
+      defineAbilitiesIffHook(),
     ],
     find: [
       disablePagination(),
