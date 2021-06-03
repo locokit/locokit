@@ -244,11 +244,10 @@ export interface ActionButtonSettings {
   action: ACTION_BUTTON_TYPE; // type
   processId: string; // uuid trigger
   pageDetailId: string; // uuid pageDetail
-  pageQueryFieldId: string; // uuid rowId from reference relation_between_table
-  options: {
-    displayFieldId: string; // "uuid-of-the-field-used-for-display-purpose",
-    displayFieldValue: boolean; // true // for the first iteration, we only use BOOLEAN fields
-  }
+  pageRedirectId: string; // uuid page detail
+  pageQueryFieldId: string; // uuid from a relation_between_table column, allows to get data form another table
+  displayFieldId: string; // "uuid-of-the-field-used-for-display-purpose",
+  displayFieldValue: boolean; // true // for the first iteration, we only use BOOLEAN fields
 }
 
 export interface ActionButton extends Block {
