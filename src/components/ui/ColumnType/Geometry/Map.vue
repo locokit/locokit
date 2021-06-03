@@ -115,8 +115,6 @@ export default Vue.extend({
     this.map.addControl(new NavigationControl(), 'top-right')
     // Add scale control
     this.map.addControl(new ScaleControl(), 'bottom-left')
-    // Add draw control
-    this.initDrawControls(this.resources)
 
     // Disable map rotation
     this.map.dragRotate.disable()
@@ -134,38 +132,55 @@ export default Vue.extend({
       this.setFitBounds()
       this.makeFeatureInteractive()
 
+      // Add draw control
+      this.initDrawControls(this.resources)
       // Add the specific events to allow to edit the features
-      this.map!.on('draw.create', this.updateFeatures)
-      this.map!.on('draw.update', this.updateFeatures)
+      this.map!.on('draw.create', this.createFeatures)
       this.map!.on('draw.delete', this.deleteFeatures)
+      this.map!.on('draw.update', this.updateFeaturesOnMove)
+      this.map!.on('draw.modechange', this.onChangeMode)
     })
   },
   methods: {
-    updateFeatures (event: MapboxDraw.DrawCreateEvent | MapboxDraw.DrawUpdateEvent) {
+    onChangeMode (event: MapboxDraw.DrawModeChageEvent) {
+      if (event.mode === 'simple_select') {
+        this.$emit('update-feature', this.mapDraw!.getAll().features)
+      }
+    },
+    createFeatures (event: MapboxDraw.DrawCreateEvent) {
       this.$emit('update-feature', event.features)
+    },
+    updateFeaturesOnMove (event: MapboxDraw.DrawUpdateEvent) {
+      if (event.action === 'move' && this.mapDraw?.getMode() === 'simple_select') {
+        this.$emit('update-feature', event.features)
+      }
     },
     deleteFeatures (event: MapboxDraw.DrawDeleteEvent) {
       this.$emit('remove-feature', event.features)
     },
     initDrawControls (resources: LckGeoResource[]) {
-      let newMapDrawControls: MapboxDrawControls = {}
       // We just allow to have one editable resource by map
-      for (const resource of resources) {
-        if (resource.editableGeometryTypes.size > 0) {
-          newMapDrawControls = {
-            point: resource.editableGeometryTypes.has(GeometryType.POINT),
-            line_string: resource.editableGeometryTypes.has(GeometryType.LINE_STRING), // eslint-disable-line @typescript-eslint/camelcase
-            polygon: resource.editableGeometryTypes.has(GeometryType.POLYGON),
-            trash: true
-          }
-          break
-        }
+      const editableResource = resources.find(resource => resource.editableGeometryTypes.size === 1)
+
+      if (!editableResource) return
+
+      const newMapDrawControls: MapboxDrawControls = {
+        point: editableResource.editableGeometryTypes.has(GeometryType.POINT),
+        line_string: editableResource.editableGeometryTypes.has(GeometryType.LINE_STRING), // eslint-disable-line @typescript-eslint/camelcase
+        polygon: editableResource.editableGeometryTypes.has(GeometryType.POLYGON),
+        trash: true
+      }
+
+      // Reset the draw data
+      if (this.mapDraw) {
+        this.mapDraw!.deleteAll()
       }
 
       let control: keyof MapboxDrawControls
       for (control in newMapDrawControls) {
         // Reset the draw control if it is already defined and different from the previous one
         if (newMapDrawControls[control] !== this.mapDrawControls[control]) {
+          this.mapDrawControls = newMapDrawControls
           if (this.mapDraw) {
             this.map!.removeControl(this.mapDraw)
           }
@@ -333,17 +348,17 @@ export default Vue.extend({
     makeFeatureInteractive () {
       this.resources.forEach(resource => {
         const hasPopUp = this.mode === MODE.BLOCK && this.hasPopup && resource.displayPopup
-        const hasEditableFeatures = resource.editableGeometryTypes.size > 0
+        const hasEditableFeatures = resource.editableGeometryTypes.size === 1
         if (hasPopUp || hasEditableFeatures) {
           resource.layers.forEach(layer => {
             const currentLayerId = `${resource.id}-${layer.id}`
             if (hasEditableFeatures) {
               // Add the clicked feature to the MapboxDraw source
-              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
+              this.map!.on('mousedown', currentLayerId, (e: MapLayerMouseEvent) => {
                 if (e.features && e.features[0]) {
                   const currentFeature = e.features[0]
-                  if (currentFeature.properties && this.mapDraw!.get(currentFeature.properties.id as string) === undefined) {
-                    this.mapDraw!.add(currentFeature)
+                  if (currentFeature.id && this.mapDraw && this.mapDraw.get(currentFeature.id as string) === undefined) {
+                    this.mapDraw.add(currentFeature)
                   }
                 }
               })
