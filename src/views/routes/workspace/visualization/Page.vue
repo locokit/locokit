@@ -193,13 +193,15 @@ import {
 
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
+import {
+  createProcessRun
+} from '@/services/lck-helpers/process'
 
 import Block from '@/components/visualize/Block/Block'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 import { ROUTES_NAMES } from '@/router/paths'
-import { createProcessRun } from '@/store/process'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 export default {
