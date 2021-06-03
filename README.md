@@ -5,16 +5,18 @@
 
 The frontend for the Low-Code Kit platform.
 
-
 ## Project setup
-```
-npm install
+
+### Dependencies installation
+
+```sh
+npm ci
 ```
 
 A postinstall copy some patches directly in the `node_modules` directory,
 waiting for our PR to be merged.
 
-You need to write a `public/config.js` and a `.env` file too.
+### Configuration
 
 **`public/config.js`**
 
@@ -46,14 +48,15 @@ that you can trigger with `npm run build:html`.
 If you use it in a CI environment,
 you could give to your CI some env vars that will be injected in your html file.
 
-
 ### Compiles and hot-reloads for development
-```
+
+```sh
 npm run serve
 ```
 
 ### Compiles and minifies for production
-```
+
+```sh
 npm run build
 ```
 
@@ -64,36 +67,37 @@ You can use the `npm run build:html` if you want to customize the title or other
 
 * only stories of the storybook
 
-```
+```sh
 npm run test:unit-stories
 ```
 
 * run stories and update imageshots
 
-```
+```sh
 npm run test:update-imageshot
 ```
 
 * except stories
 
-```
+```sh
 npm run test:unit-src
 ```
 
 * all unit tests
 
-```
+```sh
 npm run test:unit
 ```
 
 ### Lints and fixes files
-```
+
+```sh
 npm run lint
 ```
 
 ### Storybook
 
-```
+```sh
 npm run storybook:serve
 ```
 
