@@ -15,7 +15,8 @@ import {
   SelectValue,
   LckUser,
   LckAttachment,
-  LckTableView
+  LckTableView,
+  LckWorkspace
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -284,11 +285,14 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
 export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   const group: LckGroup = await lckServices.group.get(groupId, {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    query: { $eager: '[aclset.[workspace.[chapters.[pages]]]]' }
+    query: { $eager: 'aclset' }
+  })
+  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+    query: { $eager: '[chapters.[pages]]' }
   })
   return {
-    ...group?.aclset?.workspace,
-    chapters: group?.aclset?.workspace?.chapters?.map(c => ({
+    ...workspace,
+    chapters: workspace?.chapters?.map(c => ({
       ...c,
       pages: c.pages?.sort((a, b) => a.position - b.position)
     }))

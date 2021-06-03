@@ -216,7 +216,7 @@ export default {
       // we redirect user on the visualization route
       authState.data.currentGroupId = userWorkspacesAvailable[0].id
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].workspace_id}${ROUTES_PATH.VISUALIZATION}`
+        path: `${ROUTES_PATH.WORKSPACE}/${authState.data.currentGroupId}${ROUTES_PATH.VISUALIZATION}`
       })
     } else {
       next()
