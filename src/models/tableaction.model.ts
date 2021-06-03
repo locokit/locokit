@@ -18,6 +18,7 @@ export class TableAction extends BaseModel {
   icon?: string|null
   action!: string
   page_detail_id?: string|null
+  page_redirect_id?: string|null
   page_query_field_id?: string|null
   display_field_id?: string|null
   display_field_condition_query?: object|null
@@ -39,6 +40,7 @@ export class TableAction extends BaseModel {
         icon: { type: ['string', 'null'] },
         action: { type: 'string' },
         page_detail_id: { type: ['string', 'null'] },
+        page_redirect_id: { type: ['string', 'null'] },
         page_query_field_id: { type: ['string', 'null'] },
         display_field_id: { type: ['string', 'null'] },
         display_field_condition_query: { type: ['object', 'null'] },
