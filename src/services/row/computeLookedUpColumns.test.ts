@@ -572,7 +572,6 @@ describe('computeLookedUpColumns hook', () => {
 
     it('in the original table', async () => {
       expect.assertions(6)
-      console.log(rowTable1, newRowTable1)
       const newColumnTable1Ref = newRowTable1.data[columnTable1Ref.id] as string
       const newColumnTable1User = newRowTable1.data[columnTable1User.id] as { reference: string, value: string }
       const newColumnTable1MultiUser = newRowTable1.data[columnTable1MultiUser.id] as { reference: string, value: string }
@@ -597,7 +596,6 @@ describe('computeLookedUpColumns hook', () => {
 
       it('of the looked-up columns', async () => {
         expect.assertions(16)
-        console.log(row1Table2, newRow1Table2)
 
         // Table 2 - row 1
         const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }

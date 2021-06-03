@@ -124,7 +124,6 @@ describe('completeDefaultValues hook', () => {
       },
     })
     expect.assertions(1)
-    console.log(rowTable1.data)
     expect(rowTable1.data[columnTable1Boolean.id]).toBe(false)
     await app.service('row').remove(rowTable1.id)
   })

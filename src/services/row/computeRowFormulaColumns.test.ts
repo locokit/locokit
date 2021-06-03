@@ -301,7 +301,6 @@ describe('computeRowFormulaColumns hooks', () => {
           [table2StringColumn1.id]: 'table2MyFirstUpdatedRow1',
         },
       }, {})
-      console.log(table2Row1)
       table3Row1 = await app.service('row').get(table3Row1.id)
       expect(table3Row1.data[table3FormulaColumn1.id]).toBe('TABLE2MYFIRSTUPDATEDROW1')
     })

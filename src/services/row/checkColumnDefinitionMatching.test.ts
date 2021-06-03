@@ -993,7 +993,6 @@ describe('checkColumnDefinitionMatching hook', () => {
         uhg_role: GROUP_ROLE.OWNER,
       }],
     })
-    console.log(group)
     await expect(app.service('row')
       .create({
         data: {
