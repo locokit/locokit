@@ -284,7 +284,12 @@ export class LckUser {
 export class LckGroup extends LckBaseModel {
   name!: string
   users?: LckUser[]
-  usergroups?: Usergroup[]
+  usergroups?: {
+    user_id: string;
+    group_id: string;
+    uhg_role: GROUP_ROLE;
+  }[]
+
   aclset_id!: string
   aclset?: LckAclSet
 }
