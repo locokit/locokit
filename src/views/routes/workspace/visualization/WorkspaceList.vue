@@ -24,7 +24,7 @@
         <div class="action-button-content p-d-flex">
           <router-link
             class="no-decoration-link p-mr-2"
-            :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.VISUALIZATION}`"
+            :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.VISUALIZATION}`"
           >
             <p-button
               :label="$t('pages.workspace.buttonVisualization')"
@@ -35,7 +35,7 @@
             <router-link
               v-if="group.aclset.workspace.databases.length === 1"
               class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
             >
               <p-button
                 :label="$t('pages.workspace.buttonDatabase')"
@@ -46,12 +46,12 @@
               v-else
               class="no-decoration-link p-mr-2"
               :label="$t('pages.workspace.buttonDatabase')"
-              :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases)"
+              :model="transformDatabases(group.id, group.aclset.workspace.databases)"
             />
             <router-link
               v-if="group.aclset.workspace.databases.length === 1"
               class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
             >
               <p-button
                 :label="$t('pages.workspace.buttonSchema')"
@@ -62,11 +62,11 @@
               v-else
               class="no-decoration-link p-mr-2"
               :label="$t('pages.workspace.buttonSchema')"
-              :model="transformDatabases(group.aclset.workspace.id, group.aclset.workspace.databases, true)"
+              :model="transformDatabases(group.id, group.aclset.workspace.databases, true)"
             />
             <router-link
               class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}${ROUTES_PATH.PROCESS}`"
+              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.PROCESS}`"
             >
               <p-button
                 :label="$t('pages.workspace.buttonProcess')"
@@ -153,19 +153,16 @@ export default {
     }
   },
   methods: {
-    transformDatabases (workspaceId, databases, schema = false) {
-      return databases.map(({ text, id }) => (
-        {
-          id,
-          label: text,
-          to: schema ? `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}${ROUTES_PATH.DATABASESCHEMA}` : `${ROUTES_PATH.WORKSPACE}/${workspaceId}${ROUTES_PATH.DATABASE}/${id}`
-        }
-      ))
+    transformDatabases (groupId, databases, schema = false) {
+      return databases.map(({ text, id }) => ({
+        id,
+        label: text,
+        to: `${ROUTES_PATH.WORKSPACE}/${groupId}${ROUTES_PATH.DATABASE}/${id}${schema ? ROUTES_PATH.DATABASESCHEMA : ''}`
+      }))
     },
     async createWorkspace () {
       try {
-        const newWorkspace = await lckServices.workspace.create(this.newWorkspace)
-        console.log(newWorkspace)
+        await lckServices.workspace.create(this.newWorkspace)
         this.$toast.add({
           severity: 'success',
           summary: this.$t('pages.workspace.form.createdSummary'),
@@ -192,6 +189,8 @@ export default {
         query: {
           // eslint-disable-next-line @typescript-eslint/camelcase
           $eager: '[aclset.[workspace.[databases]]]',
+          $joinRelation: 'users',
+          'users.id': authState.data.user.id,
           $limit: -1
         }
       })
@@ -215,6 +214,7 @@ export default {
     ) {
       // only one workspace, user is not a member of a group-aclset manager
       // we redirect user on the visualization route
+      authState.data.currentGroupId = userWorkspacesAvailable[0].id
       next({
         path: `${ROUTES_PATH.WORKSPACE}/${userWorkspacesAvailable[0].workspace_id}${ROUTES_PATH.VISUALIZATION}`
       })

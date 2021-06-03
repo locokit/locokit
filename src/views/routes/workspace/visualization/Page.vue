@@ -187,16 +187,6 @@ import {
 } from '@locokit/lck-glossary'
 
 import {
-  retrievePageWithContainersAndBlocks,
-  retrieveViewDefinition,
-  retrieveViewData,
-  retrieveRow
-} from '@/store/visualize'
-import {
-  patchTableData,
-  saveTableData
-} from '@/store/database'
-import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
@@ -241,6 +231,10 @@ export default {
       default: () => ([])
     },
     workspaceId: {
+      type: String,
+      required: true
+    },
+    groupId: {
       type: String,
       required: true
     }
@@ -343,7 +337,7 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      this.$set(block, 'definition', await retrieveViewDefinition(block.settings?.id))
+      this.$set(block, 'definition', await lckHelpers.retrieveViewDefinition(block.settings?.id))
       if (block.definition?.id) await this.loadBlockTableViewContent(block)
     },
     async loadBlockTableViewContent (block) { // Rename
@@ -353,8 +347,9 @@ export default {
       }
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-          this.$set(block, 'content', await retrieveViewData(
+          this.$set(block, 'content', await lckHelpers.retrieveViewData(
             block.definition.id,
+            this.groupId,
             currentOptions.page * currentOptions.itemsPerPage,
             currentOptions.itemsPerPage,
             currentOptions.sort,
@@ -366,8 +361,9 @@ export default {
            * For the mapview block, we don't limit the result
            * I think we can optimize how we manage the data...
            */
-          this.$set(block, 'content', await retrieveViewData(
+          this.$set(block, 'content', await lckHelpers.retrieveViewData(
             block.definition.id,
+            this.groupId,
             currentOptions.page * currentOptions.itemsPerPage,
             -1,
             currentOptions.sort,
@@ -375,11 +371,23 @@ export default {
           ))
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-          const row = await retrieveRow(this.$route.query.rowId)
+          let row
+          if (this.$route.query.rowId) {
+            row = await lckServices.tableRow.get(this.$route.query.rowId)
+          } else {
+            const rows = await lckServices.tableRow.find({
+              query: {
+                table_view_id: block.definition.id,
+                $lckGroupId: this.groupId,
+                $limit: 1
+              }
+            })
+            row = rows.data[0]
+          }
           this.$set(block, 'content', { data: [row] })
           break
         case BLOCK_TYPE.MAPDETAILVIEW: {
-          const row = await retrieveRow(this.$route.query.rowId)
+          const row = await lckServices.tableRow.get(this.$route.query.rowId)
           this.$set(block, 'content', [row])
           break
         }
@@ -427,7 +435,7 @@ export default {
         isValid: false // don't know if we have to set to false or null
       }
       try {
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newValue
           }
@@ -488,7 +496,7 @@ export default {
             data[c.id] = null
           }
         })
-      await saveTableData({
+      await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: block.definition.table_id
@@ -544,7 +552,7 @@ export default {
           /**
            * Need to update the data with the new files uploaded + the old files
            */
-          const res = await patchTableData(currentRow.id, {
+          const res = await lckServices.tableRow.patch(currentRow.id, {
             data: {
               [columnId]: newDataFiles
             }
@@ -585,7 +593,7 @@ export default {
 
       try {
         const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newDataFiles
           }
@@ -872,28 +880,28 @@ export default {
   },
   async mounted () {
     if (this.$route?.params?.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
     } else {
-      this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.pageId)
     }
   },
   async beforeRouteUpdate (to, from, next) {
     if (to.params.pageId !== from.params.pageId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
     if (to.params.pageDetailId !== from.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
   },
   async beforeRouteLeave (to, from, next) {
     if (to.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
     if (from.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
     next()
@@ -949,9 +957,6 @@ export default {
   width: 100%;
   margin-bottom: 0.5rem;
   border: 1px solid var(--primary-color) !important;
-}
-
-.editable-container {
 }
 
 ::v-deep .editable-block .block-content {

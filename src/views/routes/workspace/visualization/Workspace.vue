@@ -21,6 +21,7 @@
         :key="forceUpdateKey"
         :editMode="editMode"
         :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
+        :workspaceId="workspaceId"
       />
       <p-toggle-button
         v-if="isAdmin"
@@ -72,8 +73,7 @@ import { USER_PROFILE } from '@locokit/lck-glossary'
 
 import ToggleButton from 'primevue/togglebutton'
 
-import { lckServices } from '@/services/lck-api'
-import { retrieveWorkspaceWithChaptersAndPages } from '@/store/visualize'
+import { lckHelpers, lckServices } from '@/services/lck-api'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
@@ -89,7 +89,12 @@ export default {
     'lck-confirmation-dialog': DeleteConfirmationDialog,
     'p-toggle-button': Vue.extend(ToggleButton)
   },
-  props: ['workspaceId'],
+  props: {
+    groupId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       currentChapterToEdit: {},
@@ -103,7 +108,7 @@ export default {
       },
       forceUpdateKey: true,
       submitting: false,
-      workspaceContent: []
+      workspaceContent: null
     }
   },
   computed: {
@@ -114,7 +119,7 @@ export default {
           {
             id,
             label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.$route.params.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
             hidden,
             active: id === this.$route.params.pageId
           }
@@ -131,6 +136,10 @@ export default {
     },
     isAdmin () {
       return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
+    },
+    workspaceId () {
+      if (!this.workspaceContent) return null
+      return this.workspaceContent.id
     }
   },
   methods: {
@@ -140,22 +149,28 @@ export default {
         this.workspaceContent.chapters.length > 0 &&
         this.workspaceContent.chapters[0].pages.length > 0
       ) {
-        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
+        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
       }
     },
     async goToSpecificPage (pageId) {
-      await this.$router.replace(
-        { name: ROUTES_NAMES.PAGE, params: { workspaceId: this.workspaceId, pageId: pageId } })
-        .catch(error => {
-          if (error.from.path !== error.to.path) throw error
-          else this.forceUpdateKey = !this.forceUpdateKey
-        })
+      await this.$router.replace({
+        name: ROUTES_NAMES.PAGE,
+        params: {
+          groupId: this.groupId,
+          pageId
+        }
+      }).catch(error => {
+        if (error.from.path !== error.to.path) throw error
+        else this.forceUpdateKey = !this.forceUpdateKey
+      })
     },
     async goToDefaultRoute () {
-      await this.$router.replace({ name: ROUTES_NAMES.VISUALIZATION, params: { workspaceId: this.workspaceId } })
-        .catch(error => {
-          if (error.from.path !== error.to.path) throw error
-        })
+      await this.$router.replace({
+        name: ROUTES_NAMES.VISUALIZATION,
+        params: { groupId: this.groupId }
+      }).catch(error => {
+        if (error.from.path !== error.to.path) throw error
+      })
     },
     onChapterEditClick (chapterId) {
       if (chapterId) {
@@ -341,7 +356,8 @@ export default {
     }
   },
   async mounted () {
-    this.workspaceContent = await retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
+    this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.groupId)
+    console.log(this.workspaceContent)
     await this.goToFirstPage()
   }
 }

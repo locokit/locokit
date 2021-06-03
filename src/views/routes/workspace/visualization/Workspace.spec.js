@@ -118,11 +118,10 @@ jest.mock('@/services/lck-api', () => ({
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id: '13' })),
       remove: jest.fn()
     }
+  },
+  lckHelpers: {
+    retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent)
   }
-}))
-
-jest.mock('@/store/visualize', () => ({
-  retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent)
 }))
 
 jest.mock('@/store/auth', () => ({
@@ -181,7 +180,7 @@ describe('Workspace', () => {
   const globalComponentParams = {
     localVue,
     router,
-    propsData: { workspaceId: '0' },
+    propsData: { groupId: '0' },
     mocks: {
       t: key => key,
       $t: key => key,

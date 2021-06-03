@@ -25,5 +25,14 @@ export const lckHelpers = {
 
     // Create an object URL from the data.
     return await response.blob()
-  }
+  },
+  exportTableRowDataXLS: jest.fn(),
+  exportTableRowDataCSV: jest.fn(),
+  downloadAttachment: jest.fn(),
+  uploadMultipleFiles: jest.fn(),
+  retrieveWorkspaceWithChaptersAndPages: jest.fn(),
+  retrieveTableViewData: jest.fn(),
+  retrieveViewData: jest.fn(),
+  retrieveViewDefinition: jest.fn(),
+  retrievePageWithContainersAndBlocks: jest.fn()
 }

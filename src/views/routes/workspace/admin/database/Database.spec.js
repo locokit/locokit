@@ -357,7 +357,11 @@ jest.mock('@/services/lck-api', () => ({
       patch: jest.fn((id, data) =>
         (mockDeepCloneObject({ ...mockFirstTable.columns.find(column => column.id === id), ...data })))
     },
-    tableRow: {}
+    tableRow: {
+      create: jest.fn(({ data, table_id }) => ({
+        id: 'TABLE_ROW_ID', ...data, table_id
+      }))
+    }
   },
   lckHelpers: {
     searchItems: jest.fn(() => ([
@@ -369,7 +373,7 @@ jest.mock('@/services/lck-api', () => ({
   }
 }))
 
-jest.mock('@/store/database', () => {
+jest.mock('@/services/lck-helpers/database', () => {
   // TODO : find a way to use the mockDatabase variable defined above instead of creating a newer variable
   const mockDatabaseCopy = {
     id: 'D1',
@@ -650,19 +654,13 @@ jest.mock('@/store/database', () => {
     ]
   }
   return ({
-    databaseState: { data: mockDatabaseCopy },
-    patchTableData: () => ({}),
-    retrieveDatabaseTableAndViewsDefinitions: () => ({}),
+    retrieveDatabaseTableAndViewsDefinitions: () => (mockDatabaseCopy),
     retrieveTableColumns: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).columns)),
     retrieveTableRowsWithSkipAndLimit: jest.fn(() => ({})),
-    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views)),
-    saveTableData: jest.fn(({ data, table_id }) => ({
-      id: 'TABLE_ROW_ID', ...data, table_id
-    }))
+    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views))
   })
 })
 
-jest.mock('@/store/process')
 /*
   createProcessRun,
   patchProcess,

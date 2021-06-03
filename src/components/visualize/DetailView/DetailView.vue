@@ -1,25 +1,20 @@
 <template>
-  <div
+  <lck-data-detail
     v-if="definition && content && content.data && rowId"
-  >
-    <lck-data-detail
-      class="detail-view centered-content-view box-with-shadow"
-      :definition="definition"
-      :workspaceId="workspaceId"
-      :row="content.data[0]"
-      :cellState="cellState"
-      :autocompleteSuggestions="autocompleteSuggestions"
-      v-on="$listeners"
-    />
-  </div>
+    class="detail-view centered-content-view box-with-shadow"
+    :definition="definition"
+    :row="content.data[0]"
+    v-on="$listeners"
+    v-bind="$attrs"
+  />
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 
-import { lckHelpers } from '@/services/lck-api'
+import { LckTableRow } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
   name: 'DetailView',
@@ -38,38 +33,15 @@ export default Vue.extend({
       default: () => ({})
     },
     content: {
-      type: Object,
-      default: () => ({})
-    },
-    autocompleteSuggestions: {
-      type: null as { value: number | string; label: string }[]|null
-    },
-    cellState: {
-      type: Object,
-      default: function () {
-        return {
-          rowId: null,
-          columnId: null,
-          waiting: false,
-          isValid: null
-        }
-      }
-    },
-    /**
-     * We need the workspace id for displaying images from attachments
-     */
-    workspaceId: {
-      type: String,
-      required: true
+      type: Object as PropType<{ data: LckTableRow[] }>,
+      default: () => ({ data: [] })
     }
   },
   computed: {
     rowId (): string {
-      return this.$route.query?.rowId as string
+      // return this.$route.query?.rowId as string
+      return this.content?.data?.[0]?.id
     }
-  },
-  methods: {
-    searchItems: lckHelpers.searchItems
   }
 })
 </script>

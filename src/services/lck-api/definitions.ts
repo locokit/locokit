@@ -1,4 +1,4 @@
-import { COLUMN_TYPE, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, GROUP_ROLE, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -282,10 +282,27 @@ export class LckUser {
 }
 
 export class LckGroup extends LckBaseModel {
-  workspace?: LckWorkspace;
-  chapter?: LckChapter;
-  chapter_id?: string;
-  workspace_role?: string;
-  name!: string;
-  users?: LckUser[];
+  name!: string
+  users?: LckUser[]
+  usergroups?: Usergroup[]
+  aclset_id!: string
+  aclset?: LckAclSet
+}
+
+export class LckUserGroup extends LckBaseModel {
+  uhg_role!: GROUP_ROLE
+  user_id!: number
+  user?: LckUser
+  group_id!: string
+  group?: LckGroup
+}
+
+export class LckAclSet extends LckBaseModel {
+  label!: string
+  workspace_id!: string
+  workspace?: LckWorkspace
+  chapter_id?: string
+  chapter?: LckChapter
+  manager!: boolean
+  groups?: LckGroup[]
 }

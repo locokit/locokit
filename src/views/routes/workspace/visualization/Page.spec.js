@@ -210,17 +210,14 @@ jest.mock('@/services/lck-api', () => ({
       { label: 'B', value: 2 },
       { label: 'C', value: 3 }
     ])),
-    exportTableRowData: jest.fn(() => 'CSV_EXPORT')
+    exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
+    retrievePageWithContainersAndBlocks: jest.fn((pageId) => mockDeepCloneObject(mockPages[pageId])),
+    retrieveViewDefinition: jest.fn(() => mockTableViewDefinition),
+    retrieveViewData: jest.fn(() => mockTableViewContent)
   }
 }))
 
-jest.mock('@/store/visualize', () => ({
-  retrievePageWithContainersAndBlocks: jest.fn((pageId) => mockDeepCloneObject(mockPages[pageId])),
-  retrieveViewDefinition: jest.fn(() => mockTableViewDefinition),
-  retrieveViewData: jest.fn(() => mockTableViewContent)
-}))
-
-jest.mock('@/store/database')
+jest.mock('@/services/lck-helpers/database')
 
 jest.mock('@/router/paths', () => ({
   ROUTES_PATH: {

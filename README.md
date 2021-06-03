@@ -120,9 +120,9 @@ A configuration file is present in `public/config.js`.
 const LCK_SETTINGS = {
   API_URL: 'http://localhost:3030',
   LOCALSTORAGE_KEY: 'lck-auth',
-  SENTRY_DSN: 'https://c66594db39164ca7831994d0ea68d117@o421199.ingest.sentry.io/5340581',
+  SENTRY_DSN: '', // here you can set your SENTRY_DSN, please check sentry documentation
   SENTRY_ENV: 'local',
-  STORAGE_PATH: '/storage'
+  STORAGE_PATH: 'http://localhost:8000/storage'
 }
 ```
 

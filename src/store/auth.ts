@@ -38,6 +38,7 @@ class User {
 class AuthData {
   isAuthenticated = false
   user: User | null = null
+  currentGroupId: string | null = null
 }
 
 export class AuthDTO {
@@ -52,22 +53,17 @@ export const authState: AuthState = {
   error: null,
   data: {
     isAuthenticated: false,
-    user: null
+    user: null,
+    currentGroupId: null
   }
 }
 
 export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
-  authState.loading = true
-  try {
-    authState.data.user = await lckClient.service('user').get(id, {
-      query: {
-        $eager: 'groups.[aclset.[workspace.[databases]]]'
-      }
-    })
-  } catch (error) {
-    authState.error = error
-  }
-  authState.loading = false
+  authState.data.user = await lckClient.service('user').get(id, {
+    query: {
+      $eager: 'groups.[aclset.[workspace.[databases]]]'
+    }
+  })
 }
 
 export async function reAuthenticate () {
@@ -105,7 +101,8 @@ export async function authenticate (data: AuthDTO) {
 export function logout () {
   authState.data = {
     isAuthenticated: false,
-    user: null
+    user: null,
+    currentGroupId: null
   }
   lckAbilities.update([])
   return lckClient.logout()
