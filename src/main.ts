@@ -20,6 +20,9 @@ async function boot () {
     i18n,
     render: h => h(App)
   }).$mount('#app')
+
+  // Create pageEventHub to allow to send events between blocks
+  window.pageEventHub = new Vue()
 }
 
 boot()

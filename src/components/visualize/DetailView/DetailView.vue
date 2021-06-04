@@ -15,34 +15,37 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { PropType } from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
+import CommunicatingBlockMixin, { GenericSettings } from '@/components/visualize/Block/CommunicatingBlockMixin'
 
 import { lckHelpers } from '@/services/lck-api'
+import { LckTableRowData } from '@/services/lck-api/definitions'
+import { TableViewContent, TableViewDefinition } from '@locokit/lck-glossary'
 
-export default Vue.extend({
+export default CommunicatingBlockMixin.extend({
   name: 'DetailView',
   components: {
     'lck-data-detail': DataDetail
   },
   props: {
     settings: {
-      type: Object,
-      default: () => (
-        {}
-      )
+      type: Object as PropType<GenericSettings>,
+      default: () => ({ catchEvents: [] })
     },
     definition: {
-      type: Object,
+      type: Object as PropType<TableViewDefinition>,
       default: () => ({})
     },
     content: {
-      type: Object,
-      default: () => ({})
+      type: Object as PropType<TableViewContent>,
+      default: () => ({
+        data: []
+      })
     },
     autocompleteSuggestions: {
-      type: null as { value: number | string; label: string }[]|null
+      type: Object as PropType<{ value: number | string; label: string }[]|null>
     },
     cellState: {
       type: Object,
@@ -69,7 +72,16 @@ export default Vue.extend({
     }
   },
   methods: {
-    searchItems: lckHelpers.searchItems
+    searchItems: lckHelpers.searchItems,
+    onColumnSelect (columnId: string, eventData: LckTableRowData) {
+      if (this.content.data?.[0]) {
+        this.$emit('update-cell', {
+          rowId: this.content.data[0].id,
+          columnId,
+          newValue: eventData
+        })
+      }
+    }
   }
 })
 </script>

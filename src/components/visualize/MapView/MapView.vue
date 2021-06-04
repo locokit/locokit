@@ -8,6 +8,7 @@
       :id="`block-map-view-${uuidv4()}`"
       :resources="resources"
       :hasPopup="hasPopup"
+      @select-feature="onSelectFeature"
       v-on="$listeners"
     />
     <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
@@ -29,6 +30,7 @@ import { LckTableRow, LckTableView } from '@/services/lck-api/definitions'
 import { MapSettings } from '@locokit/lck-glossary'
 
 import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 export default Vue.extend({
   name: 'MapView',
@@ -66,7 +68,20 @@ export default Vue.extend({
     }
   },
   methods: {
-    uuidv4
+    uuidv4,
+    onSelectFeature (selectedFeature: GeoJSONFeature, resourceId: string) {
+      const currentResource = this.resources.find(resource => resource.id === resourceId)
+      if (currentResource?.triggerEvents) {
+        currentResource.triggerEvents.forEach(triggerEvent => {
+          if (triggerEvent.trigger === 'click') {
+            window.pageEventHub.$emit(
+              `${triggerEvent.emittedEvent.type}:${triggerEvent.emittedEvent.columnId}`,
+              selectedFeature.properties?.rowId
+            )
+          }
+        })
+      }
+    }
   }
 })
 </script>

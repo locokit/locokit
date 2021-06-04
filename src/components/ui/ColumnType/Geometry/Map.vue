@@ -29,18 +29,9 @@ import {
   LckGeoResource,
   LckImplementedLayers,
   LckImplementedLayoutProperty,
-  LckImplementedPaintProperty
+  LckImplementedPaintProperty,
+  PopupContent
 } from '@/services/lck-utils/map'
-
-interface PopupContent {
-  class?: string | null;
-  field?: {
-    label?: string | null;
-    value?: string | null;
-    color?: string | null;
-    backgrondColor?: string | null;
-  };
-}
 
 export enum MODE {
   BLOCK = 'Block',
@@ -75,7 +66,8 @@ export default Vue.extend({
     return {
       map: null as Map | null,
       mapDraw: null as MapboxDraw | null,
-      mapDrawControls: {} as MapboxDraw.MapboxDrawControls
+      mapDrawControls: {} as MapboxDraw.MapboxDrawControls,
+      selectedFigureBySource: {} as Record<string, string | number>
     }
   },
   mounted () {
@@ -145,19 +137,19 @@ export default Vue.extend({
     onChangeMode (event: MapboxDraw.DrawModeChageEvent) {
       if (event.mode === 'simple_select') {
         const allFeatures = this.mapDraw!.getAll().features
-        if (allFeatures.length > 0) this.$emit('update-feature', allFeatures)
+        if (allFeatures.length > 0) this.$emit('update-features', allFeatures)
       }
     },
     createFeatures (event: MapboxDraw.DrawCreateEvent) {
-      this.$emit('update-feature', event.features)
+      this.$emit('update-features', event.features)
     },
     updateFeaturesOnMove (event: MapboxDraw.DrawUpdateEvent) {
       if (event.action === 'move' && this.mapDraw?.getMode() === 'simple_select') {
-        this.$emit('update-feature', event.features)
+        this.$emit('update-features', event.features)
       }
     },
     deleteFeatures (event: MapboxDraw.DrawDeleteEvent) {
-      this.$emit('remove-feature', event.features)
+      this.$emit('remove-features', event.features)
     },
     initDrawControls (resources: LckGeoResource[]) {
       // We just allow to have one editable resource by map
@@ -350,9 +342,43 @@ export default Vue.extend({
       this.resources.forEach(resource => {
         const hasPopUp = this.mode === MODE.BLOCK && this.hasPopup && resource.displayPopup
         const hasEditableFeatures = resource.editableGeometryTypes.size === 1
-        if (hasPopUp || hasEditableFeatures) {
+        if (hasPopUp || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             const currentLayerId = `${resource.id}-${layer.id}`
+
+            // Change the cursor to a pointer
+            this.map!.on('mouseenter', currentLayerId, () => {
+                this.map!.getCanvas().style.cursor = 'pointer'
+            })
+
+            // Change it back
+            this.map!.on('mouseleave', currentLayerId, () => {
+                this.map!.getCanvas().style.cursor = ''
+            })
+
+            if (resource.selectable) {
+              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
+                const selectedFeature = e.features?.[0]
+                if (selectedFeature?.id && selectedFeature.id !== this.selectedFigureBySource[resource.id]) {
+                  // Unselect the previous selected feature
+                  if (this.selectedFigureBySource[resource.id]) {
+                    this.map!.removeFeatureState({
+                      source: resource.id,
+                      id: this.selectedFigureBySource[resource.id]
+                    })
+                  }
+                  // Save the selected feature and customize it
+                  this.selectedFigureBySource[resource.id] = selectedFeature.id
+                  this.map!.setFeatureState({
+                    source: resource.id,
+                    id: selectedFeature.id
+                  }, {
+                    selectable: true
+                  })
+                  this.$emit('select-feature', selectedFeature, resource.id)
+                }
+              })
+            }
             if (hasEditableFeatures) {
               // Add the clicked feature to the MapboxDraw source
               this.map!.on('mousedown', currentLayerId, (e: MapLayerMouseEvent) => {
@@ -389,7 +415,7 @@ export default Vue.extend({
                     }
                   }
 
-                  if (properties.rowId) {
+                  if (properties.rowId && resource.pageDetailId) {
                     const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
 
                     html += `
@@ -404,7 +430,7 @@ export default Vue.extend({
                     .setHTML(html)
                     .addTo(this.map!)
 
-                  if (properties.rowId) {
+                  if (properties.rowId && resource.pageDetailId) {
                     const element = popup.getElement()
                     const link = element.querySelector('.popup-row-toolbox #row-detail-page')
                     if (link) {
@@ -416,16 +442,6 @@ export default Vue.extend({
                     }
                   }
                 }
-              })
-
-              // Change the cursor to a pointer
-              this.map!.on('mouseenter', currentLayerId, () => {
-                  this.map!.getCanvas().style.cursor = 'pointer'
-              })
-
-              // Change it back
-              this.map!.on('mouseleave', currentLayerId, () => {
-                  this.map!.getCanvas().style.cursor = ''
               })
             }
           })

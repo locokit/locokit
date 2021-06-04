@@ -8,6 +8,7 @@ import {
   CircleLayer,
   CircleLayout,
   CirclePaint,
+  Expression,
   FillLayer,
   FillLayout,
   FillPaint,
@@ -21,6 +22,7 @@ import {
 import { TranslateResult } from 'vue-i18n'
 
 import {
+  BlockTriggerEvent,
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
@@ -42,12 +44,19 @@ import {
 import { getArrayDepth } from '@/services/lck-utils/arrays'
 import GeometryType from 'ol/geom/GeometryType'
 
+const lckGeoColor: Expression = [
+  'case',
+  ['boolean', ['feature-state', 'selectable'], false],
+  '#ab0a0a',
+  '#ea0e0e'
+]
+
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
   type: 'circle',
   paint: {
     'circle-radius': 10,
-    'circle-color': '#ea0e0e',
+    'circle-color': lckGeoColor,
     'circle-stroke-width': 2,
     'circle-stroke-color': '#FFFFFF'
   }
@@ -57,14 +66,15 @@ const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   type: 'line',
   paint: {
     'line-width': 15,
-    'line-color': '#ea0e0e'
+    'line-color': lckGeoColor
   }
 }
 const LCK_GEO_STYLE_POLYGON: FillLayer = {
   id: 'layer-type-fill',
   type: 'fill',
   paint: {
-    'fill-color': '#ea0e0e'
+    'fill-color': lckGeoColor,
+    'fill-outline-color': 'rgba(0,0,0,0)'
   }
 }
 
@@ -90,6 +100,18 @@ export interface LckGeoResource {
   displayPopup: boolean;
   pageDetailId?: string;
   editableGeometryTypes: Set<GeometryType>;
+  selectable: boolean;
+  triggerEvents: BlockTriggerEvent<'click'>[];
+}
+
+export interface PopupContent {
+  class?: string | null;
+  field: {
+    label: string | null;
+    value: string | number | null;
+    color?: string | null;
+    backgroundColor?: string | null;
+  };
 }
 
 export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
@@ -215,32 +237,24 @@ export function makeGeoJsonFeaturesCollection (
         const feature = transformEWKTtoFeature(data)
         if (Array.isArray(sources)) {
           sources.forEach(source => {
+            const featureProperties: Record<string, LckTableRowData | PopupContent[] > = {
+              id: `${row.id}:${geoColumn.id}`,
+              columnId: geoColumn.id,
+              rowId: row.id
+            }
             /**
              * Add page detail information if needed
              */
             if (source.pageDetailId) {
-              feature.setProperties({
-                rowId: row.id,
-                title: row.text || i18nOptions.noReference
-              })
+              featureProperties.title = row.text || i18nOptions.noReference.toString()
             }
             /**
              * Manage popup information
              */
             if (source.popup && source.popupSettings) {
-              feature.setProperties({
-                title: row.data[source.popupSettings.title]
-              })
+              featureProperties.title = row.data[source.popupSettings.title]
               if (source.popupSettings?.contentFields?.length > 0) {
-                const allContent: {
-                  class?: string;
-                  field: {
-                    label: string;
-                    value: string|number;
-                    color?: string;
-                    backgroundColor?: string;
-                  };
-                }[] = []
+                const allContent: PopupContent[] = []
                 source.popupSettings.contentFields.forEach(contentField => {
                   // Get column's title
                   const matchingColumnField = definitionColumns.find(({ id }) => id === contentField.field)
@@ -259,9 +273,7 @@ export function makeGeoJsonFeaturesCollection (
                 })
 
                 // Set data in Feature properties
-                feature.setProperties({
-                  content: allContent
-                })
+                featureProperties.content = allContent
               }
             }
             /**
@@ -270,12 +282,9 @@ export function makeGeoJsonFeaturesCollection (
             if (source.editable) {
               const featureGeoType = feature.getGeometry()?.getType()
               if (featureGeoType) editableGeometryTypes.add(featureGeoType)
-              feature.setProperties({
-                id: `${row.id}-${geoColumn.id}`,
-                columnId: geoColumn.id,
-                rowId: row.id
-              })
             }
+
+            feature.setProperties(featureProperties)
           })
         }
         features.push(feature)
@@ -323,7 +332,9 @@ export function getLckGeoResources (
         features: features.features,
         displayPopup,
         pageDetailId: source.pageDetailId,
-        editableGeometryTypes
+        editableGeometryTypes,
+        selectable: !!(source.selectable || source.triggerEvents.some(event => event.trigger === 'click')),
+        triggerEvents: source.triggerEvents || []
       })
     }
   })

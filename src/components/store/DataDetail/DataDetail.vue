@@ -86,8 +86,8 @@
           <lck-map
             mode="Dialog"
             :id="'map-edit-detail-' + column.id"
-            @update-feature="onGeoDataEdit(row.id, column.id, $event)"
-            @remove-feature="onEdit(row.id, column.id, null)"
+            @update-features="onGeoDataEdit(row.id, column.id, $event)"
+            @remove-features="onEdit(row.id, column.id, null)"
             :resources="getLckGeoResources(column, row.data[column.id])"
           />
         </div>
