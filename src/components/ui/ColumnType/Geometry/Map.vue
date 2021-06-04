@@ -144,7 +144,8 @@ export default Vue.extend({
   methods: {
     onChangeMode (event: MapboxDraw.DrawModeChageEvent) {
       if (event.mode === 'simple_select') {
-        this.$emit('update-feature', this.mapDraw!.getAll().features)
+        const allFeatures = this.mapDraw!.getAll().features
+        if (allFeatures.length > 0) this.$emit('update-feature', allFeatures)
       }
     },
     createFeatures (event: MapboxDraw.DrawCreateEvent) {
