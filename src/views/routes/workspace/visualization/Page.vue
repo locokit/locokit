@@ -440,7 +440,8 @@ export default {
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newValue
-          }
+          },
+          $lckGroupId: this.groupId
         })
         this.cellState.isValid = true
         currentRow.data = res.data
