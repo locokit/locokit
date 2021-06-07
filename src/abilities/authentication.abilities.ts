@@ -1,4 +1,3 @@
-/* eslint-disable no-duplicate-case */
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
@@ -31,16 +30,18 @@ export async function defineAbilities (context: HookContext): Promise<HookContex
       break
     case USER_PROFILE.CREATOR:
       can('create', 'workspace')
+      can('read', 'workspace')
+      can('manage', 'user', { id: user.id })
       break
     /**
      * User connected can
      * * find their groups
      * * find workspace of their groups
      */
-    case USER_PROFILE.CREATOR:
     case USER_PROFILE.USER:
       can('read', 'workspace')
       can('manage', 'user', { id: user.id })
+      break
   }
 
   const ability = makeAbilityFromRules(rules, { resolveAction })
