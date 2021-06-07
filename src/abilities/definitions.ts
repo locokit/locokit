@@ -10,8 +10,10 @@ import { database } from '../models/database.model'
 import { Group } from '../models/group.model'
 import { User } from '../models/user.model'
 import { page } from '../models/page.model'
+import { Table } from '../models/table.model'
 import { TableColumn } from '../models/tablecolumn.model'
 import { TableRow } from '../models/tablerow.model'
+import { TableView } from '../models/tableview.model'
 import { ProcessRun } from '../models/process_run.model'
 import { Process } from '../models/process.model'
 import { TableColumnRelation } from '../models/tablecolumnrelation.model'
@@ -33,11 +35,13 @@ export type Subjects = InferSubjects<
    typeof Group |
    typeof User |
    typeof page |
-   typeof TableRow |
    typeof ProcessRun |
    typeof Process |
+   typeof Table |
    typeof TableColumn |
+   typeof TableRow |
    typeof TableColumnRelation |
+   typeof TableView |
 'all', true>
 
 export type AppAbility = Ability<[Actions, Subjects]>
