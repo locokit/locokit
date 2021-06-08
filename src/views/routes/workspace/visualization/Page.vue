@@ -907,7 +907,7 @@ export default {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
-    if (from.params.pageDetailId) {
+    if (from.params.pageDetailId && to.params.pageId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
