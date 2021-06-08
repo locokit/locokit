@@ -460,7 +460,8 @@ export default {
           layers,
           ...features,
           editableGeometryTypes,
-          displayPopup: false
+          displayPopup: false,
+          selectable: false
         }
       ]
     },
