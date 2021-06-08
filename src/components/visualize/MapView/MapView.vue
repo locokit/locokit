@@ -18,19 +18,20 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 import { v4 as uuidv4 } from 'uuid'
 
 import {
   getLckGeoResources,
   LckGeoResource
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map/transformWithOL'
 
 import { LckTableRow, LckTableView } from '@/services/lck-api/definitions'
 
 import { MapSettings } from '@locokit/lck-glossary'
 
-import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
-import { GeoJSONFeature } from 'ol/format/GeoJSON'
+// Dynamic import
+const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default Vue.extend({
   name: 'MapView',

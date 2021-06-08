@@ -199,7 +199,7 @@ import {
 } from '@/services/lck-api'
 import {
   isGeoBlock
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map/transformWithOL'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 

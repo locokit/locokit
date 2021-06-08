@@ -450,6 +450,7 @@
         "createColumn": "Create column",
         "updateColumn": "Update column",
         "columnName": "Column name",
+        "columnDoc": "Documentation",
         "reference": "Reference",
         "columnType": "Column type",
         "selectColumnType": "Select column type",

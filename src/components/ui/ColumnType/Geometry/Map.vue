@@ -10,8 +10,9 @@
 import Vue, { PropType } from 'vue'
 
 import { TranslateResult } from 'vue-i18n'
-import mapboxgl, {
+import {
   AnyLayer,
+  GeoJSONSource,
   Map,
   MapboxOptions,
   MapLayerMouseEvent,
@@ -26,12 +27,15 @@ import GeometryType from 'ol/geom/GeometryType'
 
 import {
   computeBoundingBox,
+  LckImplementedLayoutProperty,
+  LckImplementedPaintProperty
+} from '@/services/lck-utils/map/computeGeo'
+
+import {
   LckGeoResource,
   LckImplementedLayers,
-  LckImplementedLayoutProperty,
-  LckImplementedPaintProperty,
   PopupContent
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map/transformWithOL'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -303,7 +307,7 @@ export default Vue.extend({
         }
       });
 
-      (this.map!.getSource(resourceToUpdate.id) as mapboxgl.GeoJSONSource).setData(
+      (this.map!.getSource(resourceToUpdate.id) as GeoJSONSource).setData(
         {
           type: 'FeatureCollection',
           features: resourceToUpdate.features

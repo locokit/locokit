@@ -24,6 +24,16 @@
         autofocus
       />
     </div>
+    <div class="p-field">
+      <label for="column-doc">
+        {{ $t('pages.databaseSchema.handleColumnModal.columnDoc') }}
+      </label>
+      <p-textarea
+        v-model="columnDocumentation"
+        id="column-doc"
+        :autoResize="true"
+      />
+    </div>
     <div class="p-d-flex p-ai-center p-field">
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
@@ -95,17 +105,17 @@ import Vue from 'vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { lckServices } from '@/services/lck-api'
-import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula/'
+import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula'
 
 import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import InputSwitch from 'primevue/inputswitch'
 import InputNumber from 'primevue/inputnumber'
+import Textarea from 'primevue/textarea'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
-import LckMonacoEditor from '@/components/store/MonacoEditor/MonacoEditor.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 
 export default {
@@ -113,10 +123,11 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
-    'lck-monaco-editor': LckMonacoEditor,
+    'lck-monaco-editor': () => import(/* webpackChunkName: "lck-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
     'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-input-number': Vue.extend(InputNumber)
@@ -142,6 +153,7 @@ export default {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
+      columnDocumentation: null,
       referenceToHandle: { isActive: false, position: 0 },
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
@@ -176,6 +188,7 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
+              documentation: this.columnDocumentation,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
@@ -188,6 +201,7 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
               text: this.columnNameToHandle,
+              documentation: this.columnDocumentation,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
@@ -197,6 +211,7 @@ export default {
             })
           }
           this.columnNameToHandle = null
+          this.columnDocumentation = null
           this.selectedColumnTypeIdToHandle = null
           this.$emit('close', true)
         } else {
@@ -255,6 +270,7 @@ export default {
     columnToHandle: function () {
       if (this.columnToHandle) {
         this.columnNameToHandle = this.columnToHandle.text
+        this.columnDocumentation = this.columnToHandle.documentation
         if (Object.prototype.hasOwnProperty.call(this.columnToHandle, 'reference')) {
           this.referenceToHandle.isActive = this.columnToHandle.reference
         }

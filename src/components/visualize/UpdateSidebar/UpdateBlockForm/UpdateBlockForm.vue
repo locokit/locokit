@@ -81,15 +81,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-
 import cloneDeep from 'lodash/cloneDeep'
 
 import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
-
-import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
