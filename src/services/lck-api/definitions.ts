@@ -123,6 +123,10 @@ export class LckTableViewColumn extends LckTableColumn {
    * Sort of value
    */
   sort!: SORT_COLUMN;
+  /**
+   * Is value required
+   */
+  required!: boolean;
 }
 
 export enum SORT_COLUMN {

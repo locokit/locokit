@@ -14,142 +14,166 @@
       v-for="column in definition.columns"
       :key="column.id"
     >
-      <label
-        class="lck-color-primary"
-        :for="column.id"
-      >
-        {{ column.text }}
-      </label>
+      <div v-if="editableColumns.indexOf(column) > -1">
+        <div class="p-d-flex">
+          <label
+            class="lck-color-primary"
+            :for="column.id"
+          >
+            {{ column.text }}
+          </label>
+          <span
+            v-if="column.required"
+            class="column-required"
+          >
+            *
+          </span>
+        </div>
 
-      <div
-        v-if="editableColumns.indexOf(column) > -1"
-        class="form-field-editable"
-      >
-        <lck-autocomplete
-          v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
-          :id="column.id"
-          :placeholder="$t('components.datatable.placeholder')"
-          field="label"
-          :suggestions="autocompleteSuggestions"
-          @search="onComplete(column, $event)"
-          v-model="autocompleteInput[column.id]"
-          @item-select="onAutocompleteEdit(row.id, column.id, $event)"
-          @clear="onAutocompleteEdit(row.id, column.id, null)"
-        />
-        <lck-multi-autocomplete
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multi-autocomplete'"
-          :id="column.id"
-          field="label"
-          :suggestions="autocompleteSuggestions"
-          v-model="multipleAutocompleteInput[column.id]"
-          @search="onComplete(column, $event)"
-          @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
-          @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
-        />
-        <p-dropdown
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-dropdown'"
-          :id="column.id"
-          :options="columnsEnhanced[column.id].dropdownOptions"
-          optionLabel="label"
-          optionValue="value"
-          :showClear="true"
-          :placeholder="$t('components.datatable.placeholder')"
-          v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
+        <div
+          class="form-field-editable"
         >
-          <template #value="slotProps">
-            <lck-badge
-              v-if="getSelectedValueDetails(column.id, slotProps.value)"
-              :label="getSelectedValueDetails(column.id, slotProps.value).label"
-              :color="getSelectedValueDetails(column.id, slotProps.value).color"
-              :backgroundColor="getSelectedValueDetails(column.id, slotProps.value).backgroundColor"
-            />
-            <span v-else>
+          <lck-autocomplete
+            v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
+            :id="column.id"
+            :placeholder="$t('components.datatable.placeholder')"
+            field="label"
+            :suggestions="autocompleteSuggestions"
+            @search="onComplete(column, $event)"
+            v-model="autocompleteInput[column.id]"
+            @item-select="onAutocompleteEdit(row.id, column.id, $event)"
+            @clear="onAutocompleteEdit(row.id, column.id, null)"
+          />
+          <lck-multi-autocomplete
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multi-autocomplete'"
+            :id="column.id"
+            field="label"
+            :suggestions="autocompleteSuggestions"
+            v-model="multipleAutocompleteInput[column.id]"
+            @search="onComplete(column, $event)"
+            @item-select="onMultipleAutocompleteEdit(row.id, column.id)"
+            @item-unselect="onMultipleAutocompleteEdit(row.id, column.id)"
+          />
+          <p-dropdown
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-dropdown'"
+            :id="column.id"
+            :options="columnsEnhanced[column.id].dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            :showClear="true"
+            :placeholder="$t('components.datatable.placeholder')"
+            v-model="row.data[column.id]"
+            @input="onEdit(row.id, column.id, $event)"
+          >
+            <template #value="slotProps">
+              <lck-badge
+                v-if="getSelectedValueDetails(column.id, slotProps.value)"
+                :label="getSelectedValueDetails(column.id, slotProps.value).label"
+                :color="getSelectedValueDetails(column.id, slotProps.value).color"
+                :backgroundColor="getSelectedValueDetails(column.id, slotProps.value).backgroundColor"
+              />
+              <span v-else>
               {{ slotProps.placeholder }}
             </span>
-          </template>
-          <template #option="slotProps">
-            <lck-badge
-              :label="slotProps.option.label"
-              :color="slotProps.option.color"
-              :backgroundColor="slotProps.option.backgroundColor"
-            />
-          </template>
-        </p-dropdown>
-        <lck-multiselect
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
-          :id="column.id"
-          :options="columnsEnhanced[column.id].dropdownOptions"
-          optionLabel="label"
-          optionValue="value"
-          :placeholder="$t('components.datatable.placeholder')"
-          v-model="row.data[column.id]"
-          @input="onEdit(row.id, column.id, $event)"
-        />
-        <p-calendar
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
-          :id="column.id"
-          :dateFormat="$t('date.dateFormatPrime')"
-          v-model="row.data[column.id]"
-          @input="onDateEdit(row.id, column.id, $event)"
-          appendTo="body"
-        />
-        <p-input-number
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-input-float'"
-          v-model="row.data[column.id]"
-          @blur="onEdit(row.id, column.id, row.data[column.id])"
-          mode="decimal"
-          :minFractionDigits="2"
-        />
-
-        <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
-          <lck-map
-            v-if="row.data[column.id]"
-            mode="Dialog"
-            :id="'map-edit-detail-' + column.id"
-            :resources="getLckGeoResources(column, row.data[column.id])"
+            </template>
+            <template #option="slotProps">
+              <lck-badge
+                :label="slotProps.option.label"
+                :color="slotProps.option.color"
+                :backgroundColor="slotProps.option.backgroundColor"
+              />
+            </template>
+          </p-dropdown>
+          <lck-multiselect
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
+            :id="column.id"
+            :options="columnsEnhanced[column.id].dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            :placeholder="$t('components.datatable.placeholder')"
+            v-model="row.data[column.id]"
+            @input="onEdit(row.id, column.id, $event)"
           />
-          <span v-else>{{ $t('components.mapview.noData') }}</span>
-        </div>
-        <p-checkbox
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
-          v-model="row.data[column.id]"
-          :id="column.id"
-          :binary="true"
-          @input="onEdit(row.id, column.id, row.data[column.id])"
-        />
-        <lck-file-input
-          v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
-          :attachments="row.data[column.id]"
-          :workspaceId="workspaceId"
-          :displayLabels="false"
-          @input="$emit('upload-files', {
+          <p-calendar
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
+            :id="column.id"
+            :dateFormat="$t('date.dateFormatPrime')"
+            v-model="row.data[column.id]"
+            @input="onDateEdit(row.id, column.id, $event)"
+            appendTo="body"
+          />
+          <p-input-number
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-input-float'"
+            v-model="row.data[column.id]"
+            @blur="onEdit(row.id, column.id, row.data[column.id])"
+            mode="decimal"
+            :minFractionDigits="2"
+          />
+
+          <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
+            <lck-map
+              v-if="row.data[column.id]"
+              mode="Dialog"
+              :id="'map-edit-detail-' + column.id"
+              :resources="getLckGeoResources(column, row.data[column.id])"
+            />
+            <span v-else>{{ $t('components.mapview.noData') }}</span>
+          </div>
+          <p-checkbox
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+            v-model="row.data[column.id]"
+            :id="column.id"
+            :binary="true"
+            @input="onEdit(row.id, column.id, row.data[column.id])"
+          />
+          <lck-file-input
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
+            :attachments="row.data[column.id]"
+            :workspaceId="workspaceId"
+            :displayLabels="false"
+            @input="$emit('upload-files', {
             rowId: row.id,
             columnId: column.id,
             fileList: $event
           })"
-          @download="$emit('download-attachment', $event)"
-          @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
-        />
+            @download="$emit('download-attachment', $event)"
+            @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+          />
 
-        <component
-          v-else
-          :is="getComponentEditorDetailForColumnType(column)"
-          :id="column.id"
-          v-model="row.data[column.id]"
-          @blur="onEdit(row.id, column.id, row.data[column.id])"
-          :rows="7"
-        />
-        <span
-          class="cell-state"
-          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-        />
+          <component
+            v-else
+            :is="getComponentEditorDetailForColumnType(column)"
+            :id="column.id"
+            v-model="row.data[column.id]"
+            @blur="onEdit(row.id, column.id, row.data[column.id])"
+            :rows="7"
+          />
+          <span
+            class="cell-state"
+            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+          />
+        </div>
       </div>
 
       <div
-        v-else
+        v-else-if="crudMode"
         class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div class="p-d-flex">
+          <label
+            class="lck-color-primary"
+            :for="column.id"
+          >
+            {{ column.text }}
+          </label>
+          <span
+            v-if="column.required"
+            class="column-required"
+          >
+            *
+          </span>
+        </div>
+
         <lck-map
           v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]"
           mode="Dialog"
@@ -520,5 +544,10 @@ export default {
 }
 .form-field-editable {
   position: relative;
+}
+
+.column-required {
+  font-size: 1.6rem;
+  color: var(--color-error);
 }
 </style>
