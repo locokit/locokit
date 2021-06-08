@@ -7,6 +7,7 @@ import { lckServices } from '@/services/lck-api'
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import Vue from 'vue'
 
 // Mock external libraries
 
@@ -668,11 +669,17 @@ jest.mock('@/services/lck-helpers/database', () => {
   retrieveProcessesByRow
 */
 
-jest.mock('@/services/lck-utils/columns')
+jest.mock('@/services/lck-helpers/process', () => ({
+  retrieveManualProcessWithRuns: jest.fn(() => ([]))
+}))
+
 /*
 getComponentEditableColumn
 isEditableColumn
 */
+jest.mock('@/services/lck-utils/columns', () => ({
+  isEditableColumn: jest.fn(() => false)
+}))
 
 jest.mock('@/services/lck-utils/filter', () => ({
   getCurrentFilters: () => ({})
@@ -682,9 +689,9 @@ jest.mock('@/services/lck-utils/filter', () => ({
 
 describe('Database', () => {
   // Default database component configuration
-  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1') {
+  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1', groupId = 'G1') {
     return {
-      propsData: { databaseId, workspaceId },
+      propsData: { databaseId, workspaceId, groupId },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -702,6 +709,7 @@ describe('Database', () => {
 
     beforeEach(async () => {
       wrapper = await shallowMount(Database, globalComponentParams())
+      await Vue.nextTick()
       datatableWrapper = wrapper.findComponent(DataTable)
     })
 
