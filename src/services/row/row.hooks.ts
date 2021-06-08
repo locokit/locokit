@@ -64,6 +64,7 @@ export default {
         }, // records are available only through a group
         commonHooks.disallow(),
       ),
+      commonHooks.discardQuery('$lckGroupId'), // remove the $lckGroupId (used to compute abilities)
     ],
     create: [
       commonHooks.iff(
