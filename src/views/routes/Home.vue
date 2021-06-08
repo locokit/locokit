@@ -46,9 +46,11 @@ export default {
       await authenticate(data)
 
       if (authState.data.isAuthenticated) {
-        // Do not remove the await to prevent Error: Redirected from X to Y via a navigation guard.
-        // It's necessary to reach the path before switching to another path.
-        await this.$router.push(ROUTES_PATH.WORKSPACE)
+        // We catch the error of Vue router redirect (double redirect)
+        // cf: https://stackoverflow.com/a/65326844
+        this.$router.push(ROUTES_PATH.WORKSPACE).catch((error: Error) => {
+          console.info(error.message)
+        })
       }
     }
   }
