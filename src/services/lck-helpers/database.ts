@@ -4,6 +4,7 @@ import { LckTableColumn, LckTableView } from '@/services/lck-api/definitions'
 import { Paginated } from '@feathersjs/feathers'
 
 export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
+  console.log('we are here')
   const result = await lckServices.database.get(databaseId, {
     query: {
       $eager: '[tables.[columns,views.[columns]]]'

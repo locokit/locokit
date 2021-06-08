@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import ProgressSpinner from 'primevue/progressspinner'
-import { lckHelpers } from '@/services/lck-api'
+import { getAttachmentBlob } from '@/services/lck-api/helpers'
 
 export default {
   name: 'LckAsyncImage',
@@ -45,7 +45,7 @@ export default {
       if (!this.src) return
       this.loading = true
       try {
-        const blob = await lckHelpers.getAttachmentBlob(this.src)
+        const blob = await getAttachmentBlob(this.src)
         this.link = URL.createObjectURL(blob)
       } catch {
         this.error = true

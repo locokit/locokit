@@ -78,7 +78,10 @@
       </template>
     </p-card>
 
-    <header class="p-my-4 lck-color-title">
+    <header
+      class="p-my-4 lck-color-title"
+      v-if="$can('create', 'workspace')"
+    >
       {{ $t('pages.workspace.form.create') }}
     </header>
     <p-card

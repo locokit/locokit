@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "USER" 1`] = `
+<div class="generic-view-container p-mx-auto" groupid="0">
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.title
+  </header>
+  <!---->
+  <!---->
+</div>
+`;
+
+exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "ADMIN" 1`] = `
+<div class="generic-view-container p-mx-auto" groupid="0">
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.title
+  </header>
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.form.create
+  </header>
+  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+</div>
+`;
+
+exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "CREATOR" 1`] = `
+<div class="generic-view-container p-mx-auto" groupid="0">
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.title
+  </header>
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.form.create
+  </header>
+  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+</div>
+`;
+
+exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "SUPERADMIN" 1`] = `
+<div class="generic-view-container p-mx-auto" groupid="0">
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.title
+  </header>
+  <header class="p-my-4 lck-color-title">
+    pages.workspace.form.create
+  </header>
+  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+</div>
+`;
