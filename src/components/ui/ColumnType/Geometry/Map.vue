@@ -338,111 +338,127 @@ export default Vue.extend({
     sendIdToDetail (rowId: string, pageDetailId?: string) {
       this.$emit('open-detail', { rowId, pageDetailId })
     },
+    changeCursorOnLayerHover (layerId: string) {
+      // Change the cursor to a pointer
+      this.map!.on('mouseenter', layerId, () => {
+          this.map!.getCanvas().style.cursor = 'pointer'
+      })
+      // Change it back
+      this.map!.on('mouseleave', layerId, () => {
+          this.map!.getCanvas().style.cursor = ''
+      })
+    },
+    onSelectFeature (resourceId: string, resourceIndex: number, layerId: string) {
+      this.map!.on('click', layerId, (e: MapLayerMouseEvent) => {
+        const selectedFeature = e.features?.[0]
+        if (selectedFeature?.id && selectedFeature.id !== this.selectedFigureBySource[resourceId]) {
+          // Unselect the previous selected feature
+          if (this.selectedFigureBySource[resourceId]) {
+            this.map!.setFeatureState({
+              source: resourceId,
+              id: this.selectedFigureBySource[resourceId]
+            }, {
+              selectable: false
+            })
+          }
+          // Save the selected feature and customize it
+          this.selectedFigureBySource[resourceId] = selectedFeature.id
+          this.map!.setFeatureState({
+            source: resourceId,
+            id: selectedFeature.id
+          }, {
+            selectable: true
+          })
+          this.$emit('select-feature', selectedFeature, resourceIndex)
+        }
+      })
+    },
+    setFeatureEditableOnMouseDown (layerId: string) {
+      // Add the clicked feature to the MapboxDraw source
+      this.map!.on('mousedown', layerId, (e: MapLayerMouseEvent) => {
+        if (e.features && e.features[0]) {
+          const currentFeature = e.features[0]
+          if (currentFeature.id && this.mapDraw && this.mapDraw.get(currentFeature.id as string) === undefined) {
+            this.mapDraw.add(currentFeature)
+          }
+        }
+      })
+    },
+    addPopupOnClick (layerId: string, pageDetailId?: string) {
+      // Add Popup on layer on click
+      this.map!.on('click', layerId, (e: MapLayerMouseEvent) => {
+        if (e.features && e.features[0].properties) {
+          const properties = e.features[0].properties
+
+          let html = `<p class="popup-row-title">${properties.title}</p>`
+
+          const line = (content: PopupContent) => `
+            <p class=${content.class}'>
+              <b>${content?.field?.label}</b><br/>
+              ${content?.field?.value}
+            </p>`
+
+          if (properties.content) {
+            const content = JSON.parse(properties?.content)
+            if (content.length > 0) {
+              html += `
+              <div class="popup-row-content">
+                ${content.map((content: PopupContent) => line(content)).join('')}
+              </div>
+            `
+            }
+          }
+
+          if (properties.rowId && pageDetailId) {
+            const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
+
+            html += `
+            <div class="popup-row-toolbox">
+              <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+            </div>
+          `
+          }
+
+          const popup = new Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(html)
+            .addTo(this.map!)
+
+          if (properties.rowId && pageDetailId) {
+            const element = popup.getElement()
+            const link = element.querySelector('.popup-row-toolbox #row-detail-page')
+            if (link) {
+              link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
+              const { sendIdToDetail } = this
+              popup.on('close', function () {
+                link.removeEventListener('click', () => sendIdToDetail)
+              })
+            }
+          }
+        }
+      })
+    },
     makeFeatureInteractive () {
-      this.resources.forEach(resource => {
-        const hasPopUp = this.mode === MODE.BLOCK && this.hasPopup && resource.displayPopup
+      const mapHasPopUp = this.mode === MODE.BLOCK && this.hasPopup
+      this.resources.forEach((resource, index) => {
+        const hasPopUp = mapHasPopUp && resource.displayPopup
         const hasEditableFeatures = resource.editableGeometryTypes.size === 1
         if (hasPopUp || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             const currentLayerId = `${resource.id}-${layer.id}`
-
-            // Change the cursor to a pointer
-            this.map!.on('mouseenter', currentLayerId, () => {
-                this.map!.getCanvas().style.cursor = 'pointer'
-            })
-
-            // Change it back
-            this.map!.on('mouseleave', currentLayerId, () => {
-                this.map!.getCanvas().style.cursor = ''
-            })
-
             if (resource.selectable) {
-              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
-                const selectedFeature = e.features?.[0]
-                if (selectedFeature?.id && selectedFeature.id !== this.selectedFigureBySource[resource.id]) {
-                  // Unselect the previous selected feature
-                  if (this.selectedFigureBySource[resource.id]) {
-                    this.map!.removeFeatureState({
-                      source: resource.id,
-                      id: this.selectedFigureBySource[resource.id]
-                    })
-                  }
-                  // Save the selected feature and customize it
-                  this.selectedFigureBySource[resource.id] = selectedFeature.id
-                  this.map!.setFeatureState({
-                    source: resource.id,
-                    id: selectedFeature.id
-                  }, {
-                    selectable: true
-                  })
-                  this.$emit('select-feature', selectedFeature, resource.id)
-                }
-              })
+              // Make the current feature selectable
+              this.changeCursorOnLayerHover(currentLayerId)
+              this.onSelectFeature(resource.id, index, currentLayerId)
             }
             if (hasEditableFeatures) {
-              // Add the clicked feature to the MapboxDraw source
-              this.map!.on('mousedown', currentLayerId, (e: MapLayerMouseEvent) => {
-                if (e.features && e.features[0]) {
-                  const currentFeature = e.features[0]
-                  if (currentFeature.id && this.mapDraw && this.mapDraw.get(currentFeature.id as string) === undefined) {
-                    this.mapDraw.add(currentFeature)
-                  }
-                }
-              })
+              // Make the current feature editable
+              this.setFeatureEditableOnMouseDown(currentLayerId)
             }
             if (hasPopUp) {
-            // Add Popup on layer on click
-              this.map!.on('click', currentLayerId, (e: MapLayerMouseEvent) => {
-                if (e.features && e.features[0].properties) {
-                  const properties = e.features[0].properties
-
-                  let html = `<p class="popup-row-title">${properties.title}</p>`
-
-                  const line = (content: PopupContent) => `
-                    <p class=${content.class}'>
-                      <b>${content?.field?.label}</b><br/>
-                      ${content?.field?.value}
-                    </p>`
-
-                  if (properties.content) {
-                    const content = JSON.parse(properties?.content)
-                    if (content.length > 0) {
-                      html += `
-                      <div class="popup-row-content">
-                        ${content.map((content: PopupContent) => line(content)).join('')}
-                      </div>
-                    `
-                    }
-                  }
-
-                  if (properties.rowId && resource.pageDetailId) {
-                    const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
-
-                    html += `
-                    <div class="popup-row-toolbox">
-                      <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
-                    </div>
-                  `
-                  }
-
-                  const popup = new Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(html)
-                    .addTo(this.map!)
-
-                  if (properties.rowId && resource.pageDetailId) {
-                    const element = popup.getElement()
-                    const link = element.querySelector('.popup-row-toolbox #row-detail-page')
-                    if (link) {
-                      link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, resource.pageDetailId))
-                      const { sendIdToDetail } = this
-                      popup.on('close', function () {
-                        link.removeEventListener('click', () => sendIdToDetail)
-                      })
-                    }
-                  }
-                }
-              })
+              // Display a pop up on click on the current feature
+              this.changeCursorOnLayerHover(currentLayerId)
+              this.addPopupOnClick(currentLayerId, resource.pageDetailId)
             }
           })
         }

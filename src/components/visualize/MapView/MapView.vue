@@ -46,6 +46,9 @@ export default Vue.extend({
     },
     settings: {
       type: Object as PropType<MapSettings>
+    },
+    id: {
+      type: String
     }
   },
   computed: {
@@ -69,17 +72,12 @@ export default Vue.extend({
   },
   methods: {
     uuidv4,
-    onSelectFeature (selectedFeature: GeoJSONFeature, resourceId: string) {
-      const currentResource = this.resources.find(resource => resource.id === resourceId)
-      if (currentResource?.triggerEvents) {
-        currentResource.triggerEvents.forEach(triggerEvent => {
-          if (triggerEvent.trigger === 'click') {
-            window.pageEventHub.$emit(
-              `${triggerEvent.emittedEvent.type}:${triggerEvent.emittedEvent.columnId}`,
-              selectedFeature.properties?.rowId
-            )
-          }
-        })
+    onSelectFeature (selectedFeature: GeoJSONFeature, resourceIndex: number) {
+      if (this.resources[resourceIndex].triggerEvents.has('click')) {
+        window.eventHub.$emit(
+          `${this.id}:click`,
+          selectedFeature.properties?.rowId
+        )
       }
     }
   }

@@ -22,12 +22,12 @@ import {
 import { TranslateResult } from 'vue-i18n'
 
 import {
-  BlockTriggerEvent,
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
   MapSettings,
-  MapSourceSettings
+  MapSourceSettings,
+  MapSourceTriggerEvent
 } from '@locokit/lck-glossary'
 
 import {
@@ -47,8 +47,10 @@ import GeometryType from 'ol/geom/GeometryType'
 const lckGeoColor: Expression = [
   'case',
   ['boolean', ['feature-state', 'selectable'], false],
-  '#ab0a0a',
-  '#ea0e0e'
+  // Default feature color
+  'rgb(234,14,14)',
+  // Feature color on selection
+  'rgba(234,14,14,0.6)'
 ]
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
@@ -101,7 +103,7 @@ export interface LckGeoResource {
   pageDetailId?: string;
   editableGeometryTypes: Set<GeometryType>;
   selectable: boolean;
-  triggerEvents: BlockTriggerEvent<'click'>[];
+  triggerEvents: Set<MapSourceTriggerEvent>;
 }
 
 export interface PopupContent {
@@ -324,6 +326,7 @@ export function getLckGeoResources (
       const layers: LckImplementedLayers[] = getStyleLayers(geoColumn)
 
       const displayPopup = !!(source.pageDetailId || source.popup)
+      const triggerEvents = new Set(source.triggerEvents || []) as Set<MapSourceTriggerEvent>
 
       lckGeoResources.push({
         id: `features-collection-source-${index}`,
@@ -333,8 +336,8 @@ export function getLckGeoResources (
         displayPopup,
         pageDetailId: source.pageDetailId,
         editableGeometryTypes,
-        selectable: !!(source.selectable || source.triggerEvents.some(event => event.trigger === 'click')),
-        triggerEvents: source.triggerEvents || []
+        selectable: !!(source.selectable || triggerEvents.has('click')),
+        triggerEvents
       })
     }
   })

@@ -18,21 +18,21 @@
 import { PropType } from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
-import CommunicatingBlockMixin, { GenericSettings } from '@/components/visualize/Block/CommunicatingBlockMixin'
+import CommunicatingBlock from '@/components/visualize/Block/CommunicatingBlock'
 
 import { lckHelpers } from '@/services/lck-api'
 import { LckTableRowData } from '@/services/lck-api/definitions'
-import { TableViewContent, TableViewDefinition } from '@locokit/lck-glossary'
+import { TableViewContent, TableViewDefinition, BlockDefaultSettings } from '@locokit/lck-glossary'
 
-export default CommunicatingBlockMixin.extend({
+export default CommunicatingBlock.extend({
   name: 'DetailView',
   components: {
     'lck-data-detail': DataDetail
   },
   props: {
     settings: {
-      type: Object as PropType<GenericSettings>,
-      default: () => ({ catchEvents: [] })
+      type: Object as PropType<BlockDefaultSettings>,
+      default: () => ({ caughtEvents: [] })
     },
     definition: {
       type: Object as PropType<TableViewDefinition>,
