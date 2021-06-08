@@ -16,6 +16,8 @@ import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vu
 import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
+import Vue from 'vue'
+
 // Mock glossary
 jest.mock('@locokit/lck-glossary', () => ({
   USER_PROFILE: {
@@ -193,12 +195,14 @@ describe('Workspace', () => {
   describe('Edit button', () => {
     it('Hide it by default', async () => {
       const wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
     })
 
     it('Hide it if the user can not edit the workspace', async () => {
       authState.data.user.profile = USER_PROFILE.USER
       const wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
       authState.data.user.profile = ''
     })
@@ -206,6 +210,7 @@ describe('Workspace', () => {
     it('Display it if the user can edit the workspace', async () => {
       authState.data.user.profile = USER_PROFILE.SUPERADMIN
       const wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       expect(wrapper.findComponent(ToggleButton).exists()).toBe(true)
       authState.data.user.profile = ''
     })
@@ -213,6 +218,7 @@ describe('Workspace', () => {
     it('Update the edit mode when the user clicks on it', async () => {
       authState.data.user.profile = USER_PROFILE.SUPERADMIN
       const wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       expect(wrapper.vm.editMode).toBe(false)
       wrapper.findComponent(ToggleButton).vm.$emit('input', true)
       expect(wrapper.vm.editMode).toBe(true)
@@ -222,6 +228,7 @@ describe('Workspace', () => {
     it('The edit mode is passed in Sidebar props', async () => {
       authState.data.user.profile = USER_PROFILE.SUPERADMIN
       const wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(false)
       await wrapper.setData({ editMode: true })
       expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(true)
@@ -347,6 +354,7 @@ describe('Workspace', () => {
 
     beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       sidebarWrapper = wrapper.findComponent(Sidebar)
     })
 
@@ -476,6 +484,7 @@ describe('Workspace', () => {
 
     beforeEach(async () => {
       wrapper = await shallowMount(Workspace, globalComponentParams)
+      await Vue.nextTick()
       pageWrapper = wrapper.findComponent(PageDialog)
     })
 

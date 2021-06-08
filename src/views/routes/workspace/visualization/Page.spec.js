@@ -268,11 +268,11 @@ describe('Page', () => {
   const router = new VueRouter({ routes: mockRoutes })
 
   // Default workspace component configuration
-  function globalComponentParams (pageId = '1', workspaceId = '17') {
+  function globalComponentParams (pageId = '1', workspaceId = '17', groupId = 'this-is-a-group') {
     return {
       localVue,
       router,
-      propsData: { workspaceId, pageId, chapters: mockChapters },
+      propsData: { workspaceId, pageId, chapters: mockChapters, groupId },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -401,7 +401,7 @@ describe('Page', () => {
       const secondDisplayedContainer = mockPages['1'].containers[0]
 
       beforeEach(async () => {
-        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true } })
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
         deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
       })
@@ -589,7 +589,7 @@ describe('Page', () => {
       const secondDisplayedBlock = secondDisplayedContainer.blocks[0]
 
       beforeEach(async () => {
-        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true } })
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
         // deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
       })
