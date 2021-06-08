@@ -705,7 +705,6 @@ describe('Database', () => {
     beforeEach(async () => {
       wrapper = await shallowMount(Database, globalComponentParams())
       datatableWrapper = wrapper.findComponent(DataTable)
-      columnFormWrapper = wrapper.findComponent(ColumnForm)
     })
 
     describe('Column sidebar', () => {
@@ -741,6 +740,7 @@ describe('Database', () => {
         // Select a column
         await datatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
         await columnFormWrapper.vm.$emit('column-edit', updatedColumnData)
         // Send api request
         expect(lckServices.tableColumn.patch).toHaveBeenCalledWith(
@@ -753,11 +753,10 @@ describe('Database', () => {
         expect(wrapper.vm.block.definition.columns[0].text).toBe(updatedColumnData.text)
       })
 
-      it('Don\'t update the data if no column is selected', async () => {
+      it('Don\'t create a form if no column is selected', async () => {
         // Edit the column
-        await columnFormWrapper.vm.$emit('column-edit', updatedColumnData)
-        // Don't send an api request
-        expect(lckServices.tableColumn.patch).not.toHaveBeenCalled()
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
+        expect(columnFormWrapper).not.toBe(undefined)
       })
 
       it('Display a toast if an error is occured', async () => {
@@ -766,6 +765,7 @@ describe('Database', () => {
         // Select a column
         await datatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
         await columnFormWrapper.vm.$emit('column-edit', updatedColumnData)
         expect(spyOnToast).toHaveBeenCalledTimes(1)
         expect(spyOnToast).toHaveBeenCalledWith(
@@ -782,6 +782,7 @@ describe('Database', () => {
         // Select a column
         await datatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
         await columnFormWrapper.vm.$emit('column-edit', updatedColumnData)
         expect(spyOnToast).toHaveBeenCalledTimes(1)
         expect(spyOnToast).toHaveBeenCalledWith(
@@ -804,6 +805,7 @@ describe('Database', () => {
         // Select a column
         await datatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
         await columnFormWrapper.vm.$emit('table-view-column-edit', updatedTableColumnData)
         // Send api request
         expect(lckServices.tableViewColumn.patch).toHaveBeenCalledWith(
@@ -830,9 +832,8 @@ describe('Database', () => {
 
       it('Don\'t update the data if no column is selected', async () => {
         // Edit the column
-        await columnFormWrapper.vm.$emit('table-view-column-edit', updatedTableColumnData)
-        // Don't send an api request
-        expect(lckServices.tableViewColumn.patch).not.toHaveBeenCalled()
+        columnFormWrapper = wrapper.findComponent(ColumnForm)
+        expect(columnFormWrapper).not.toBe(undefined)
       })
 
       it('Display a toast with a generic message if an unknown error is occured', async () => {

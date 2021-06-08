@@ -150,7 +150,7 @@ export default {
   max-width: 100vw;
 }
 
-/deep/ .p-tabview > .p-tabview-nav > li.p-highlight > .p-tabview-nav-link {
+::v-deep .p-tabview > .p-tabview-nav > li.p-highlight > .p-tabview-nav-link {
   color: var(--primary-color);
   border-color: var(--primary-color);
 }

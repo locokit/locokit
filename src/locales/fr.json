@@ -37,6 +37,10 @@
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
+      "notifAction": {
+        "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
+        "summary": "Impossible d'effectuer cette action"
+      },
       "toolbar": {
         "export": {
           "label": "Exporter",
@@ -104,6 +108,10 @@
         "duplicate": "Dupliquer",
         "delete": "Supprimer"
       },
+      "actionColumn": {
+        "title": "Action",
+        "edit": "Éditer l'action"
+      },
       "column": {
         "edit": "Éditer la colonne",
         "hide": "Cacher la colonne",
@@ -155,7 +163,8 @@
       "when": "Executé le",
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
-      "successNewRun": "Le processus a éte exécuté correctement."
+      "successNewRun": "Le processus a éte exécuté correctement.",
+      "failedNewRun": "Le processus a échoué."
     },
     "process": {
       "form": {
@@ -368,7 +377,7 @@
         "pageHidden": "Cacher la page",
         "layout": "Disposition",
         "pagePosition": "Position de la page",
-        "pageConfiguration": "Configuration du la page",
+        "pageConfiguration": "Configuration de la page",
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
         "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
@@ -419,6 +428,33 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
+        "labelButton": "Libellé du bouton",
+        "classButton": {
+          "title": "Style du bouton",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
+        "icon": "Icône du bouton",
+        "action": {
+          "title": "Action du bouton",
+          "page_detail_to": "Aller sur une page",
+          "process_trigger": "Déclenche une action/processus"
+        },
+        "processId": "Nom de l'action/processus",
+        "pageDetailId": "Nom de la page cachée",
+        "typePageTo": "Redirection vers une page",
+        "pageId": "Nom de la page",
+        "page": "Page accessible",
+        "pageDetail": "Page cachée",
+        "pageQueryFieldId": "Nom de la colonne lié à la page",
+        "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
+        "options": {
+          "displayFieldId": "Afficher le bouton selon ce champ",
+          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
+        },
         "detailPage": "Page de détails"
       }
     },

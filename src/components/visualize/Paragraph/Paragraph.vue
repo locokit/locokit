@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="lck-color-content"
-    v-if="settings && settings.content"
-  >
+  <div class="lck-paragraph" v-if="settings && settings.content" >
     {{settings.content}}
   </div>
 </template>
@@ -21,3 +18,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.lck-paragraph {
+  margin: 0.25rem;
+}
+</style>

@@ -1,10 +1,15 @@
 import { lckClient } from '@/services/lck-api'
 import {
   USER_PROFILE,
-  GROUP_ROLE,
-  WORKSPACE_ROLE
+  GROUP_ROLE
 } from '@locokit/lck-glossary'
 import { BaseState } from './state'
+
+enum WORKSPACE_ROLE {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER'
+}
 
 class Workspace {
   id!: string;

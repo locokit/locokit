@@ -1,6 +1,6 @@
 {
   "name": "lck-front",
-  "version": "0.3.4",
+  "version": "0.3.5-demo",
   "private": true,
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
@@ -21,7 +21,7 @@
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",
-    "@locokit/lck-glossary": "^0.2.1",
+    "@locokit/lck-glossary": "^0.2.4",
     "@sentry/browser": "^5.26.0",
     "@sentry/integrations": "^5.26.0",
     "@sentry/tracing": "^5.26.0",

@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import { GROUP_ROLE, USER_PROFILE, WORKSPACE_ROLE } from '@locokit/lck-glossary'
+import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
 import Profile from './Profile'
 
@@ -57,7 +57,7 @@ export const withAuthUserAndGroup = () => ({
         id: 'group-id',
         name: 'An amazing group',
         // eslint-disable-next-line @typescript-eslint/camelcase
-        workspace_role: WORKSPACE_ROLE.OWNER,
+        workspace_role: 'OWNER',
         // eslint-disable-next-line @typescript-eslint/camelcase
         uhg_role: GROUP_ROLE.ADMIN,
         // eslint-disable-next-line @typescript-eslint/camelcase

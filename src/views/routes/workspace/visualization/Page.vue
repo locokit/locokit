@@ -103,6 +103,9 @@
               @download-attachment="onDownloadAttachment"
               @upload-files="onUploadFiles(block, $event)"
               @remove-attachment="onRemoveAttachment(block, $event)"
+
+              @go-to-page-detail="goToPage"
+              @create-process-run="onTriggerProcess(block, $event)"
             />
           </draggable>
           <p-button
@@ -205,6 +208,9 @@ import Block from '@/components/visualize/Block/Block'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
+import { ROUTES_NAMES } from '@/router/paths'
+import { createProcessRun } from '@/store/process'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Page',
@@ -457,7 +463,7 @@ export default {
     },
     async onPageDetail (block, rowId) {
       await this.$router.push({
-        name: 'PageDetail',
+        name: ROUTES_NAMES.PAGEDETAIL,
         params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId },
         query: { rowId }
       })
@@ -696,8 +702,11 @@ export default {
         const { id, ...data } = blockToEdit
         if (id !== 'temp') {
           // On update
+          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, {
-            ...data
+            title: data.title,
+            type: data.type,
+            settings: data.settings
           })
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
@@ -797,6 +806,68 @@ export default {
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         life: 3000
       })
+    },
+    goToPage ({ pageRedirectId, pageQueryFieldId, rowData = null }) {
+      const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
+
+      this.$router.push({
+        name: ROUTES_NAMES.PAGEDETAIL,
+        params: {
+          ...this.$route.params,
+          pageDetailId: pageRedirectId
+        },
+        query: { rowId: queryRowId || this.$route.query.rowId }
+      })
+    },
+    async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
+      const tableRowId = rowData?.id || this.$route.query.rowId
+      if (tableRowId) {
+        this.$set(block, 'loading', true)
+        const res = await createProcessRun({
+          table_row_id: tableRowId,
+          process_id: processId,
+          waitForOutput: true
+        })
+        this.$set(block, 'loading', false)
+
+        if (typePageTo && pageRedirectId) {
+          if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
+            this.goToPage({ pageRedirectId, pageQueryFieldId, rowData })
+          } else {
+            await this.$router.push({
+              name: ROUTES_NAMES.PAGE,
+              params: {
+                ...this.$route.params,
+                pageId: pageRedirectId
+              }
+            })
+          }
+        }
+
+        if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('components.processPanel.failedNewRun'),
+            detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } else {
+          this.$toast.add({
+            severity: 'success',
+            summary: this.$t('components.processPanel.successNewRun'),
+            detail: this.$t('components.processPanel.successNewRun'),
+            life: 3000
+          })
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { process: useless, ...rest } = res
+
+          // Add execution when event is triggered in actionButton to check if the trigger must be disabled
+          const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processId)
+          if (indexManualProcess >= 0) {
+            this.manualProcesses[indexManualProcess].runs = [rest, ...this.manualProcesses[indexManualProcess].runs]
+          }
+        }
+      }
     }
   },
   async mounted () {
@@ -883,11 +954,11 @@ export default {
 .editable-container {
 }
 
-/deep/ .editable-block .block-content {
+::v-deep .editable-block .block-content {
   padding: 0.5rem;
 }
 
-/deep/ .edit-block-line {
+::v-deep .edit-block-line {
   padding-left: 0.5rem;
 }
 
@@ -903,7 +974,7 @@ export default {
   color: var(--primary-color)
 }
 
-/deep/ .p-breadcrumb {
+::v-deep .p-breadcrumb {
   background: unset;
   border: unset;
   padding-left: 0;

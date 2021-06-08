@@ -139,6 +139,21 @@ export class LckTableView extends LckBaseModel {
   columns?: LckTableViewColumn[]
 }
 
+export class LckTableAction extends LckBaseModel {
+  label!: string
+  class_button!: string
+  icon?: string|null
+  action!: string
+  page_redirect_id?: string
+  display_field_id?: string
+  display_field_condition_query?: object|null
+  /**
+   * Reference to the LckTable
+   */
+  table_id!: string
+  process_id?: string
+}
+
 export class LckTableRowDataComplex {
   reference!: string;
   value!: string;

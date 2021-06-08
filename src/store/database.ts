@@ -105,7 +105,7 @@ export async function retrieveTableViews (tableId: string) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       query: {
         table_id: tableId,
-        $eager: 'columns.[parents.^]',
+        $eager: '[columns.[parents.^], actions]',
         $limit: 50,
         $sort: {
           position: 1
