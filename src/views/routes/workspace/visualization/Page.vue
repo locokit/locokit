@@ -375,7 +375,11 @@ export default {
         case BLOCK_TYPE.DETAIL_VIEW:
           let row
           if (this.$route.query.rowId) {
-            row = await lckServices.tableRow.get(this.$route.query.rowId)
+            row = await lckServices.tableRow.get(this.$route.query.rowId, {
+              query: {
+                $lckGroupId: this.groupId
+              }
+            })
           } else {
             const rows = await lckServices.tableRow.find({
               query: {
