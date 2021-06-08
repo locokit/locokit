@@ -26,6 +26,8 @@ export class TableViewColumn extends BaseModel {
   default?: string
   /* sorts values into a column. (e.g `ASC` or `DESC`) */
   sort?: string
+  /* value is required for this column. */
+  required?: boolean
 
   static get idColumn (): string[] {
     return [
@@ -52,6 +54,7 @@ export class TableViewColumn extends BaseModel {
         transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
         default: { type: ['string', 'null'] },
+        required: { type: 'boolean', default: false },
       },
     }
   }

@@ -12,6 +12,7 @@ export interface SelectValue {
   label: string
   color: string
   backgroundColor: string
+  position: number
 }
 
 export class TableColumn extends BaseModel {
