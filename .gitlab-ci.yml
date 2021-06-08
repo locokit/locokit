@@ -8,6 +8,10 @@ stages:
 .build_template: &build_definition
   tags: [shared-ci-docker]
   stage: build
+  only:
+    - merge_requests
+    - master
+    - tags
   variables:
     VUE_APP_I18N_LOCALE: 'fr'
     VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
