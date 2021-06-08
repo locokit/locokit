@@ -357,7 +357,6 @@ export default {
   },
   async mounted () {
     this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.groupId)
-    console.log(this.workspaceContent)
     await this.goToFirstPage()
   }
 }

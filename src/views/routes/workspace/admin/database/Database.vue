@@ -315,7 +315,9 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
-      database: null,
+      database: {
+        tables: []
+      },
       crudMode: true,
       cellState: {},
       fileExportFormat: [
@@ -1039,7 +1041,6 @@ export default {
   },
   async mounted () {
     this.database = await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
-    console.log(this.database)
 
     // load the first table
     if (this.database.tables.length > 0) {
