@@ -4,18 +4,12 @@ import GeoJSON, {
   GeoJSONFeature,
   GeoJSONFeatureCollection
 } from 'ol/format/GeoJSON'
+import GeometryType from 'ol/geom/GeometryType'
+
 import {
   CircleLayer,
-  CircleLayout,
-  CirclePaint,
   FillLayer,
-  FillLayout,
-  FillPaint,
-  LineLayer,
-  LineLayout,
-  LinePaint,
-  LngLatBounds,
-  LngLatLike
+  LineLayer
 } from 'mapbox-gl'
 
 import { TranslateResult } from 'vue-i18n'
@@ -39,8 +33,6 @@ import {
   getColumnTypeId,
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
-import { getArrayDepth } from '@/services/lck-utils/arrays'
-import GeometryType from 'ol/geom/GeometryType'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
@@ -68,18 +60,12 @@ const LCK_GEO_STYLE_POLYGON: FillLayer = {
   }
 }
 
+export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
+
 export const GEO_STYLE = {
   Point: LCK_GEO_STYLE_POINT,
   Linestring: LCK_GEO_STYLE_LINESTRING,
   Polygon: LCK_GEO_STYLE_POLYGON
-}
-
-export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
-
-interface LckPopupI18nOptions {
-  noReference: string | TranslateResult;
-  noData: string | TranslateResult;
-  dateFormat: string | TranslateResult;
 }
 
 export interface LckGeoResource {
@@ -92,8 +78,83 @@ export interface LckGeoResource {
   editableGeometryTypes: Set<GeometryType>;
 }
 
-export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
-export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | LineLayout)
+/**
+ * Convert spatial geometry EWKT
+ * Transform EWKT into OL Feature
+ *
+ * @param ewkt
+ *
+ * @return {Feature<Geometry>}
+ */
+export const transformEWKTtoFeature = (ewkt: string) => {
+  // Split EWKT to get reference coordinate system and geometry object
+  const formattedData = ewkt.split(';', 2)
+  const srid = formattedData[0].substring(5)
+  const wkt = formattedData[1]
+
+  // Transform WKT in OL Feature
+  const format = new WKT()
+  return format.readFeature(wkt, {
+    dataProjection: `EPSG:${srid}`,
+    featureProjection: 'EPSG:4326'
+  })
+}
+
+/**
+ * Convert a Geojson OL feature into ewkt
+ *
+ * @param geoJSONFeature feature
+ *
+ * @return {string | null}
+ */
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature) => {
+  // Transform geoJSON to OL Feature
+  const geoJSONformat = new GeoJSON()
+  const feature = geoJSONformat.readFeature(geoJSONFeature)
+
+  const featureGeometry = feature.getGeometry()
+
+  // Transform OL Feature to WKT
+  if (featureGeometry) {
+    const wktFormat = new WKT()
+    return `SRID=4326;${wktFormat.writeGeometry(featureGeometry, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: 'EPSG:4326'
+    })}`
+  }
+  return null
+}
+
+/**
+ * Add style for a specific spatial geometry present in layer
+ *
+ * @param geoColumns
+ *
+ * @return {LckImplementedLayers[]}
+ */
+export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
+  const geoTypes = new Set()
+  const layers: LckImplementedLayers[] = []
+
+  geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
+  geoTypes.forEach(geoType => {
+    switch (geoType) {
+      case COLUMN_TYPE.GEOMETRY_POINT:
+        layers.push(GEO_STYLE.Point)
+        break
+      case COLUMN_TYPE.GEOMETRY_LINESTRING:
+        layers.push(GEO_STYLE.Linestring)
+        break
+      case COLUMN_TYPE.GEOMETRY_POLYGON:
+        layers.push(GEO_STYLE.Polygon)
+        break
+      default:
+        // eslint-disable no-console
+        console.error('Column type unknown')
+    }
+  })
+  return layers
+}
 
 export const isGEOColumn = (columnTypeId: number) => {
   return Object.values(COLUMN_GEO_TYPE).includes(columnTypeId)
@@ -114,61 +175,6 @@ export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
   }
 }
 
-export const transformEWKTtoFeature = (ewkt: string) => {
-  // Split EWKT to get reference coordinate system and geometry object
-  const formattedData = ewkt.split(';', 2)
-  const srid = formattedData[0].substring(5)
-  const wkt = formattedData[1]
-
-  // Transform WKT in OL Feature
-  const format = new WKT()
-  return format.readFeature(wkt, {
-    dataProjection: `EPSG:${srid}`,
-    featureProjection: 'EPSG:4326'
-  })
-}
-
-export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature) => {
-  // Transform geoJSON to OL Feature
-  const geoJSONformat = new GeoJSON()
-  const feature = geoJSONformat.readFeature(geoJSONFeature)
-
-  const featureGeometry = feature.getGeometry()
-
-  // Transform OL Feature to WKT
-  if (featureGeometry) {
-    const wktFormat = new WKT()
-    return `SRID=4326;${wktFormat.writeGeometry(featureGeometry, {
-      dataProjection: 'EPSG:4326',
-      featureProjection: 'EPSG:4326'
-    })}`
-  }
-  return null
-}
-
-export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
-  const geoTypes = new Set()
-  const layers: LckImplementedLayers[] = []
-
-  geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
-  geoTypes.forEach(geoType => {
-    switch (geoType) {
-      case COLUMN_TYPE.GEOMETRY_POINT:
-        layers.push(GEO_STYLE.Point)
-        break
-      case COLUMN_TYPE.GEOMETRY_LINESTRING:
-        layers.push(GEO_STYLE.Linestring)
-        break
-      case COLUMN_TYPE.GEOMETRY_POLYGON:
-        layers.push(GEO_STYLE.Polygon)
-        break
-      default:
-        console.error('Column type unknown')
-    }
-  })
-  return layers
-}
-
 /**
  * Get geo columns
  *  Two possible scenarios:
@@ -176,6 +182,8 @@ export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLay
  *   - otherwise all data of geo columns
  * @param columns
  * @param sourceSettings
+ *
+ * @return {LckTableViewColumn[]}
  */
 export function getOnlyGeoColumn (
   columns: LckTableViewColumn[],
@@ -188,6 +196,18 @@ export function getOnlyGeoColumn (
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
 
+/**
+ * Create a geojson for mapbox
+ * According to the config, it allows popup's display with wanted data
+ *
+ * @param rows
+ * @param geoColumns
+ * @param definitionColumns
+ * @param settings
+ * @param i18nOptions
+ *
+ * @return {GeoJSONFeatureCollection}
+ */
 export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
@@ -236,7 +256,7 @@ export function makeGeoJsonFeaturesCollection (
                   class?: string;
                   field: {
                     label: string;
-                    value: string|number;
+                    value: string | number;
                     color?: string;
                     backgroundColor?: string;
                   };
@@ -292,6 +312,16 @@ export function makeGeoJsonFeaturesCollection (
   }
 }
 
+/**
+ * Set style on features
+ *
+ * @param columns
+ * @param data
+ * @param settings
+ * @param i18nOptions
+ *
+ * @return {{features: Array<Feature<Geometry, GeoJsonProperties>>, layers: LckImplementedLayers[], id: string, type: "FeatureCollection"}[]}
+ */
 export function getLckGeoResources (
   tableViews: Record<string, LckTableView>,
   data: Record<string, LckTableRow[]>,
@@ -330,35 +360,8 @@ export function getLckGeoResources (
   return lckGeoResources
 }
 
-export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {
-  const coordinates: LngLatLike[] = []
-  /**
-   * Collect all coordinates from all features of all resources
-   */
-  resources.forEach((resource: LckGeoResource) => {
-    resource.features.forEach(feature => {
-      if (feature.geometry.type !== 'GeometryCollection') {
-        // Get at least an Array of array hence the 2
-        const featureCoord = feature.geometry.coordinates.flat(getArrayDepth(feature.geometry.coordinates) - 2)
-        if (feature.geometry.type === 'Point') {
-          coordinates.push(featureCoord as [number, number])
-        } else {
-          coordinates.push(...(featureCoord as [number, number][]))
-        }
-      }
-    })
-  })
-
-  /**
-   * if we only have one coordinates, for a bbox, we need two, minimum
-   * so we add another coordinates, with the first one
-   */
-  if (coordinates.length === 1) coordinates.push(coordinates[0])
-
-  /**
-   * Now we can compute bounds of all coordinates...
-   */
-  return coordinates.reduce((bounds, coordinate) => {
-    return bounds.extend(coordinate)
-  }, new LngLatBounds(coordinates[0], coordinates[1]))
+interface LckPopupI18nOptions {
+  noReference: string | TranslateResult;
+  noData: string | TranslateResult;
+  dateFormat: string | TranslateResult;
 }

@@ -57,7 +57,7 @@
 <script lang='ts'>
 import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from 'lodash/cloneDeep'
 import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 

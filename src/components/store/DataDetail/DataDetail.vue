@@ -56,7 +56,26 @@
           :placeholder="$t('components.datatable.placeholder')"
           v-model="row.data[column.id]"
           @input="onEdit(row.id, column.id, $event)"
-        />
+        >
+          <template #value="slotProps">
+            <lck-badge
+              v-if="getSelectedValueDetails(column.id, slotProps.value)"
+              :label="getSelectedValueDetails(column.id, slotProps.value).label"
+              :color="getSelectedValueDetails(column.id, slotProps.value).color"
+              :backgroundColor="getSelectedValueDetails(column.id, slotProps.value).backgroundColor"
+            />
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <lck-badge
+              :label="slotProps.option.label"
+              :color="slotProps.option.color"
+              :backgroundColor="slotProps.option.backgroundColor"
+            />
+          </template>
+        </p-dropdown>
         <lck-multiselect
           v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-multiselect'"
           :id="column.id"
@@ -124,7 +143,6 @@
           class="cell-state"
           :class="getCellStateNotificationClass(row.id, column.id, cellState)"
         />
-
       </div>
 
       <div
@@ -177,31 +195,12 @@ import Vue from 'vue'
 import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
+import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
-
-import Dropdown from 'primevue/dropdown'
-import Toolbar from 'primevue/toolbar'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
-import InputSwitch from 'primevue/inputswitch'
-import Calendar from 'primevue/calendar'
-import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
-import Checkbox from 'primevue/checkbox'
 
 import {
   COLUMN_TYPE
 } from '@locokit/lck-glossary'
-
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
-import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
-import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
-import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
-import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
-import Badge from '@/components/ui/Badge/Badge.vue'
-import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
 import {
   getColumnTypeId,
@@ -218,20 +217,61 @@ import {
   LckGeoResource,
   geometryTypeFromColumnType,
   transformFeatureToWKT
-} from '@/services/lck-utils/map'
+} from '@/services/lck-utils/map/transformWithOL'
 import {
   LckAttachment,
   LckTableColumn,
   LckTableRow,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
-  LckTableViewColumn
+  LckTableViewColumn,
+  SelectValue
 } from '@/services/lck-api/definitions'
+
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
-import GeometryType from 'ol/geom/GeometryType'
+import Dropdown from 'primevue/dropdown'
+import Toolbar from 'primevue/toolbar'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
+import InputSwitch from 'primevue/inputswitch'
+import Calendar from 'primevue/calendar'
+import Dialog from 'primevue/dialog'
+import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComplete.vue'
+import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
+import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
+import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
+import Badge from '@/components/ui/Badge/Badge.vue'
+import FileInput from '@/components/ui/ColumnType/File/Input.vue'
+
+const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default {
   name: 'LckDataDetail',
+  components: {
+    'lck-autocomplete': AutoComplete,
+    'lck-multi-autocomplete': MultiAutoComplete,
+    'lck-filter-button': FilterButton,
+    'lck-multiselect': MultiSelect,
+    'lck-input-url': URLInput,
+    'lck-map': Map,
+    'lck-badge': Badge,
+    'lck-file-input': FileInput,
+    'p-dialog': Vue.extend(Dialog),
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-input-number': Vue.extend(InputNumber),
+    'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
+    'p-input-switch': Vue.extend(InputSwitch),
+    'p-calendar': Vue.extend(Calendar),
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox)
+  },
   props: {
     autocompleteSuggestions: {
       type: Array //  as { label: string; value: number }[]
@@ -279,26 +319,6 @@ export default {
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
     }
   },
-  components: {
-    'lck-autocomplete': AutoComplete,
-    'lck-multi-autocomplete': MultiAutoComplete,
-    'lck-filter-button': FilterButton,
-    'lck-multiselect': MultiSelect,
-    'lck-url-input': URLInput,
-    'lck-map': Map,
-    'lck-badge': Badge,
-    'lck-file-input': FileInput,
-    'p-dialog': Vue.extend(Dialog),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-input-number': Vue.extend(InputNumber),
-    'p-input-text': Vue.extend(InputText),
-    'p-textarea': Vue.extend(Textarea),
-    'p-input-switch': Vue.extend(InputSwitch),
-    'p-calendar': Vue.extend(Calendar),
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button),
-    'p-checkbox': Vue.extend(Checkbox)
-  },
   computed: {
     editableColumns (): LckTableViewColumn[] {
       if (!this.definition.columns) return []
@@ -308,7 +328,7 @@ export default {
         string,
         {
           column_type_id: COLUMN_TYPE;
-          dropdownOptions?: {value: string; label: string}[];
+          dropdownOptions?: SelectValue[];
         }
         > {
       if (!this.definition.columns) return {}
@@ -316,7 +336,7 @@ export default {
         string,
         {
           column_type_id: COLUMN_TYPE;
-          dropdownOptions?: {value: string; label: string}[];
+          dropdownOptions?: {value: string; label: string; color: string ; backgroundColor: string}[];
         }
       > = {}
       this.definition.columns.forEach(currentColumn => {
@@ -332,7 +352,9 @@ export default {
           if (values) {
             result[currentColumn.id].dropdownOptions = Object.keys(values).map(key => ({
               value: key,
-              label: values[key].label
+              label: values[key].label,
+              color: values[key].color,
+              backgroundColor: values[key].backgroundColor
             }))
           }
         }
@@ -441,6 +463,10 @@ export default {
           displayPopup: false
         }
       ]
+    },
+    getSelectedValueDetails (columnId: string, value: string) {
+      const dropdownOptions = this.columnsEnhanced[columnId].dropdownOptions
+      if (dropdownOptions) return dropdownOptions.find(element => element.value === value)
     }
   },
   watch: {

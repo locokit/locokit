@@ -63,7 +63,7 @@ import Sidebar from 'primevue/sidebar'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import HandleColumnModal from '@/views/modals/HandleColumnModal'
+
 import DeleteColumnModal from '@/views/modals/DeleteColumnModal'
 
 export default {
@@ -74,8 +74,8 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'handle-column-modal': Vue.extend(HandleColumnModal),
-    'delete-column-modal': Vue.extend(DeleteColumnModal)
+    'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
+    'delete-column-modal': DeleteColumnModal
   },
   props: {
     databaseId: String,

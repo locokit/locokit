@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Paginated } from '@feathersjs/feathers'
+import saveAs from 'file-saver'
+import {
+  WorkBook,
+  WorkSheet,
+  XLSX$Utils
+} from 'xlsx'
+
 import {
   LckGroup,
   LckTableRow,
@@ -12,8 +19,7 @@ import {
 import { lckServices } from './services'
 import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import saveAs from 'file-saver'
-import XLSX from 'xlsx'
+
 import { getColumnDisplayValue } from '../lck-utils/columns'
 import FileType from 'file-type/browser'
 
@@ -157,11 +163,16 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
     })
     return formatedData
   })
-  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportXLS)
-  const wb: XLSX.WorkBook = XLSX.utils.book_new()
-  const exportName = fileName + '.xlsx'
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1')
-  XLSX.writeFile(wb, exportName)
+
+  // Dynamic import
+  import(/* webpackChunkName: "lck-sheetjs-xlsx" */'xlsx').then(XLSX => {
+    const utils = XLSX.utils as XLSX$Utils
+    const ws: WorkSheet = utils.json_to_sheet(exportXLS)
+    const wb: WorkBook = utils.book_new()
+    const exportName = fileName + '.xlsx'
+    utils.book_append_sheet(wb, ws, 'Sheet 1')
+    XLSX.writeFile(wb, exportName)
+  })
 }
 
 /**
