@@ -1,7 +1,7 @@
 <template>
   <div class="p-d-flex p-flex-column d-flex-1 o-auto">
     <div
-      v-if="database.tables.length > 0"
+      v-if="database && database.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
       <div class="p-d-flex p-jc-between o-auto lck-database-nav">

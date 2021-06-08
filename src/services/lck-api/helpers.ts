@@ -306,7 +306,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
   })
 }
 
-export async function retrieveViewDefinition (id: number) {
+export async function retrieveViewDefinition (id: number, groupId: string) {
   const result = await lckServices.tableView.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
@@ -315,7 +315,8 @@ export async function retrieveViewDefinition (id: number) {
         columns: {
           transmitted: true
         }
-      }
+      },
+      $lckGroupId: groupId
     }
   }) as LckTableView
   result.columns = result.columns?.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
