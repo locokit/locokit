@@ -264,6 +264,51 @@ describe('completeDefaultValues hook', () => {
     await app.service('row').remove(row1Table1.id)
     await app.service('row').remove(row2Table1.id)
   })
+  it('throw an error if a relation between table if injected on a table_view with a {group} filter and no records are found', async () => {
+    const view: TableView = await app.service('view').create({
+      text: 'View 1',
+      table_id: table2.id,
+    }) as TableView
+    const row1Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 1',
+      data: {
+        [columnTable1Ref.id]: 'ref1',
+      },
+    })
+    const row2Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 2',
+      data: {
+        [columnTable1Ref.id]: 'ref2',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2Ref.id,
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2RelationBetweenTable1.id,
+      default: {
+        [columnTable1Ref.id]: '{groupId}',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2LookedUpColumnTable1User.id,
+    })
+    expect.assertions(1)
+    await expect(app.service('row').create({
+      table_view_id: view.id,
+      text: 'table 1 ref',
+      data: {},
+    })).rejects.toThrow(NotAcceptable)
+
+    await app.service('view').remove(view.id)
+    await app.service('row').remove(row1Table1.id)
+    await app.service('row').remove(row2Table1.id)
+  })
 
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
