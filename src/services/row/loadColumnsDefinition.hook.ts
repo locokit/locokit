@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-case-declarations */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
 
@@ -8,58 +10,60 @@ import { TableColumn } from '../../models/tablecolumn.model'
  */
 export function loadColumnsDefinition (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
+    let selectedColumns = []
+    let tableId = null
+    let tableViewId = null
+    // do we have a table_id or a table_view_id
+
     switch (context.method) {
       case 'find':
       case 'get':
         /**
          * if we are on a table id, we select all columns of the table
          */
-        let selectedColumns = []
-        if (context.params?.query?.table_id) {
-          const tableColumns = await context.app.services.column.find({
-            query: {
-              table_id: context.params?.query?.table_id,
-            },
-            paginate: false,
-          })
-          selectedColumns = tableColumns
-        } else if (context.params?.query?.table_view_id) {
-          /**
-           * if we are on a table view id, we select all columns of the table view
-           */
-          const tableView = await context.app.services.view.get(context.params.query.table_view_id, {
-            query: {
-              $eager: '[columns]',
-            },
-            paginate: false,
-          })
-          selectedColumns = tableView.columns
-        }
-        context.params._meta = {
-          ...context.params._meta,
-          columns: selectedColumns,
-        }
+        tableId = context.params?.query?.table_id
+        tableViewId = context.params?.query?.table_view_id
         break
       case 'create':
       case 'update':
       case 'patch':
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        const table_id = (
+        tableId = (
           context.method === 'create'
             // when creating a row, table_id is mandatory
             ? context.data.table_id
             // if updating, we normally have loaded the actual row with the loadCurrentRow hook
             : context.params._meta?.item.table_id
         )
-        const columns = await context.app.services.column.find({
-          query: { table_id },
-          paginate: false,
-        })
-        context.params._meta = {
-          ...context.params._meta,
-          columns,
-        }
+        tableViewId = (
+          context.method === 'create'
+            // when creating a row, table_id is mandatory
+            ? context.data.table_view_id
+            // if updating, we normally have loaded the actual row with the loadCurrentRow hook
+            : context.params._meta?.item.table_view_id
+        )
         break
+    }
+
+    if (tableId) {
+      selectedColumns = await context.app.services.column.find({
+        query: {
+          table_id: tableId,
+        },
+        paginate: false,
+      })
+    } else if (tableViewId) {
+      const tableView = await context.app.services.view.get(tableViewId, {
+        query: {
+          $eager: '[columns]',
+        },
+        paginate: false,
+      })
+      selectedColumns = tableView.columns
+    }
+    context.params._meta = {
+      ...context.params._meta,
+      columns: selectedColumns,
     }
     return context
   }
