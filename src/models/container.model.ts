@@ -12,6 +12,7 @@ export class container extends BaseModel {
   anchor_icon?: string
   anchor_icon_class?: string
   display_title?: boolean
+  elevation?: boolean
 
   static get tableName (): string {
     return 'container'
@@ -29,6 +30,7 @@ export class container extends BaseModel {
         anchor_icon: { type: ['string', 'null'] },
         anchor_icon_class: { type: 'string' },
         display_title: { type: 'boolean' },
+        elevation: { type: 'boolean' },
       },
     }
   }
@@ -37,10 +39,6 @@ export class container extends BaseModel {
     return {
       blocks: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckBlock,
         join: {
           from: 'container.id',
