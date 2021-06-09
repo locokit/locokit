@@ -53,7 +53,7 @@ export class TableViewColumn extends BaseModel {
         displayed: { type: ['boolean', 'null'], default: true },
         transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
-        default: { type: ['string', 'null'] },
+        default: { type: ['object', 'null'] },
         required: { type: 'boolean', default: false },
       },
     }

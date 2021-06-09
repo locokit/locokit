@@ -15,8 +15,6 @@ export function computeRowLookedUpColumns (): Hook {
       context.method === 'patch' &&
       !context.data.data
     ) return context
-    console.log(context.params._meta.columnsIdsTransmitted)
-    console.log((context.params._meta.columns as TableColumn[]).filter(c => c.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN))
     await Promise.all(
       (context.params._meta.columns as TableColumn[])
         .filter(
@@ -24,7 +22,6 @@ export function computeRowLookedUpColumns (): Hook {
           context.params._meta.columnsIdsTransmitted.includes(c.settings.localField),
         )
         .map(async currentColumnDefinition => {
-          console.log(currentColumnDefinition)
           const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
           const foreignColumnTypeId = foreignColumn.column_type_id
           const foreignRowId: { reference: string, value: string } = context.data.data?.[currentColumnDefinition.settings.localField as string]
