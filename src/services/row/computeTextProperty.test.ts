@@ -203,7 +203,7 @@ describe('computeTextProperty hook', () => {
     const columnTable2RBT = await app.service('column').create({
       text: 'RBT',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-      table_id: table1.id,
+      table_id: table2.id,
       reference: true,
       reference_position: 2,
       settings: {
@@ -213,7 +213,7 @@ describe('computeTextProperty hook', () => {
     const columnTable2LUC = await app.service('column').create({
       text: 'RBT',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
-      table_id: table1.id,
+      table_id: table2.id,
       reference: true,
       reference_position: 2,
       settings: {
@@ -237,7 +237,7 @@ describe('computeTextProperty hook', () => {
       },
     })
     // Tests
-    expect.assertions(2)
+    expect.assertions(3)
     expect(rowTable2.text).toBe('hello world first name last name first name')
     expect(rowTable2.data[columnTable2RBT.id].value).toBe('first name last name')
     expect(rowTable2.data[columnTable2LUC.id].value).toBe('first name')
@@ -247,7 +247,7 @@ describe('computeTextProperty hook', () => {
     await app.service('column').remove(columnTable2LUC.id)
     await app.service('column').remove(columnTable2RBT.id)
     await app.service('column').remove(columnTable2Ref.id)
-    await app.service('column').remove(table2.id)
+    await app.service('table').remove(table2.id)
   })
 
   afterAll(async () => {
