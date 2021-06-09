@@ -32,7 +32,7 @@ export default function filterRowsByTableViewId (): Hook {
                 ).replace('{userId}', context.params.user?.id)
                   .replace('{rowId}', context.params?.query?.rowId)
 
-                if ((currentFilterKeyValue as string).includes('{groupId}') && !context.data?.$lckGroupId) {
+                if ((currentFilterKeyValue as string).includes('{groupId}') && !context.params?.query?.$lckGroupId) {
                   throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
                 }
                 currentFilterKeyValue = (currentFilterKeyValue as string).replace('{groupId}', context.params?.query?.$lckGroupId)
