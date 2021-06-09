@@ -1,7 +1,5 @@
 import AWS from 'aws-sdk'
-// @ts-expect-error
 import S3BlobStore from 's3-blob-store'
-// @ts-expect-error
 import FsBlobStore from 'fs-blob-store'
 import createBlobService from 'feathers-blob'
 import hooks from './upload.hooks'
@@ -52,6 +50,18 @@ export default function (app: Application): void {
   app.use('/upload', createBlobService({
     Model: blobStore,
     returnBuffer: true,
+    // docs: {
+    //   description: 'A service to send and receive users',
+    //   definition: {
+    //     type: 'object',
+    //     properties: {
+    //       uri: { type: 'string' },
+    //       buffer: { type: 'Buffer' },
+    //       contentType: { type: 'string' },
+    //     },
+    //   },
+    //   securities: ['all'],
+    // },
   }))
 
   // Get our initialized service so that we can register hooks

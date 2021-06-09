@@ -23,11 +23,11 @@ export const queryContainsKeys = (
   let result = (mode === 'ALL')
   keysToCheck.forEach(key => {
     const isIncluded = paramsQueryKeys.includes(key)
-    const isNotNull = context.params?.query?.[key] !== null
+    const isDefined = (context.params?.query?.[key] !== null && context.params?.query?.[key] !== undefined)
     if (mode === 'ALL') {
-      result = result && (isIncluded && isNotNull)
+      result = result && (isIncluded && isDefined)
     } else if (mode === 'ANY') {
-      result = result || (isIncluded && isNotNull)
+      result = result || (isIncluded && isDefined)
     }
   })
   return result

@@ -5,6 +5,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('\'row\' service', () => {
   const service = app.service('row')
@@ -18,7 +19,13 @@ describe('\'row\' service', () => {
   let table: Table
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table = await app.service('table').create({ text: 'pouet', database_id: database.id })
   })
 
@@ -120,7 +127,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual('Hello there!')
 
@@ -160,7 +167,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(17)
 
@@ -200,7 +207,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(17.42)
 
@@ -239,7 +246,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(true)
 
@@ -278,7 +285,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual('1944-04-21')
 
@@ -325,7 +332,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect.assertions(3)
       expect(rows.data.length).toEqual(2)
       // we don't sort the result, order of values can change
@@ -382,7 +389,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(1)
       expect(rows.data[0].data[tableColumn.id]).toEqual(142.17)
 
@@ -431,7 +438,7 @@ describe('\'row\' service', () => {
             },
           },
         },
-      })
+      }) as Paginated<TableRow>
       expect(rows.data.length).toEqual(2)
       expect(rows.data[0].data[tableColumn.id]).not.toEqual(142)
       expect(rows.data[1].data[tableColumn.id]).not.toEqual(142)
@@ -445,6 +452,8 @@ describe('\'row\' service', () => {
   afterAll(async () => {
     await app.service('table').remove(table.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 })

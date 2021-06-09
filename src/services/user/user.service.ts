@@ -12,7 +12,7 @@ declare module '../../declarations' {
   }
 }
 
-export default function (app: Application) {
+export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     whitelist: [
@@ -37,7 +37,7 @@ export default function (app: Application) {
       '$joinRelation',
       '$modifyEager',
     ],
-    allowedEager: '[groups.[workspace.[databases]]]',
+    allowedEager: '[groups.[aclset.[workspace.[databases]]], groupsacl]',
     paginate: app.get('paginate'),
   }
 

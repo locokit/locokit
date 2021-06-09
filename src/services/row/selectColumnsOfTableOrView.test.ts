@@ -6,6 +6,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
+import { TableView } from '../../models/tableview.model'
 
 describe('selectColumnsOfTableOrTableView hook', () => {
   let workspace: workspace
@@ -21,7 +23,13 @@ describe('selectColumnsOfTableOrTableView hook', () => {
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,
@@ -76,7 +84,8 @@ describe('selectColumnsOfTableOrTableView hook', () => {
   })
 
   it('restrict data to the data the table contains', async () => {
-    const rows = await app.service('row').find({ query: { table_id: table1.id } })
+    const rows = await app.service('row').find({ query: { table_id: table1.id } }) as Paginated<TableRow>
+
     expect.assertions(7)
     expect(rows.total).toBe(1)
     const targetKeys = [
@@ -96,12 +105,12 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     const tableView = await app.service('view').create({
       text: 'My view',
       table_id: table1.id,
-    })
+    }) as TableView
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
       table_column_id: columnTable1Ref.id,
     })
-    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } })
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } }) as Paginated<TableRow>
     expect.assertions(6)
     expect(rows.total).toBe(1)
     expect(rows.data[0].data[columnTable1Ref.id]).toBeDefined()
@@ -116,7 +125,7 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     const tableView = await app.service('view').create({
       text: 'My view',
       table_id: table1.id,
-    })
+    }) as TableView
     await app.service('table-view-has-table-column').create({
       table_view_id: tableView.id,
       table_column_id: columnTable1Ref.id,
@@ -144,6 +153,8 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 })

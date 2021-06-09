@@ -26,8 +26,8 @@ export enum AuthenticationManagementAction {
 const templateFolder = '/templates/mails'
 
 export function authManagementSettings (app: Application) {
-  function getLink (type: string, hash: string) {
-    return app.get('publicUrl') + '/' + type + '?token=' + hash
+  function getLink (type: string, hash: string): string {
+    return app.get('publicUrl') as string + '/' + type + '?token=' + hash
   }
 
   const actionOptions: Record<AuthenticationManagementAction, {

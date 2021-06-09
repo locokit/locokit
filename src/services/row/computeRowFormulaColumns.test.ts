@@ -5,6 +5,7 @@ import { database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { TableRow } from '../../models/tablerow.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('computeRowFormulaColumns hooks', () => {
   let workspace: workspace
@@ -39,7 +40,13 @@ describe('computeRowFormulaColumns hooks', () => {
     // Create workspace
     workspace = await app.service('workspace').create({ text: 'workspace1' })
     // Create database
-    database = await app.service('database').create({ text: 'database1', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
       text: 'table1',
@@ -165,6 +172,7 @@ describe('computeRowFormulaColumns hooks', () => {
     await app.service('table').remove(table2.id)
     await app.service('table').remove(table3.id)
     await app.service('database').remove(database.id)
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
     await app.service('column').remove(table1StringColumn1.id)
     await app.service('column').remove(table1BooleanColumn1.id)

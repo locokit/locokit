@@ -1,10 +1,10 @@
 import * as feathersAuthentication from '@feathersjs/authentication'
 import * as local from '@feathersjs/authentication-local'
 import { authManagementSettings, AuthenticationManagementAction } from '../authmanagement/authmanagement.settings'
-import { hooks as feathersAuthenticationManagementHooks } from 'feathers-authentication-management'
+import * as feathersAuthenticationManagement from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import commonHooks from 'feathers-hooks-common'
+import commonHooks, { lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
@@ -16,7 +16,7 @@ const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
   return context.params.user?.profile === profile
 }
 
-const getPassword = (hook: HookContext) => hook.data.password
+const getPassword = (hook: HookContext): string => hook.data.password
 
 export default {
   before: {
@@ -24,6 +24,7 @@ export default {
     find: [],
     get: [],
     create: [
+      lowerCase('email'),
       /**
        * We disable the creation of user for users not SUPERADMIN
        * or for manipulating this service from the code (provider !== external)
@@ -40,7 +41,7 @@ export default {
         generatePassword(),
         enforcePasswordPolicy(getPassword),
         hashPassword('password'),
-        feathersAuthenticationManagementHooks.addVerification(),
+        feathersAuthenticationManagement.hooks.addVerification(),
       ),
     ],
     update: [
@@ -81,13 +82,14 @@ export default {
       commonHooks.iff(
         process.env.NODE_ENV !== 'test',
         (context: HookContext) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           authManagementSettings(context.app as Application).notifier(
             AuthenticationManagementAction.sendVerifySignup,
             context.result,
           )
         },
       ),
-      feathersAuthenticationManagementHooks.removeVerification(),
+      feathersAuthenticationManagement.hooks.removeVerification(),
     ],
     update: [],
     patch: [],

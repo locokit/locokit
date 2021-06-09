@@ -6,6 +6,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('computeLookedUpColumns hook', () => {
   let workspace: workspace
@@ -53,7 +54,13 @@ describe('computeLookedUpColumns hook', () => {
     // Create workspace
     workspace = await app.service('workspace').create({ text: 'pouet' })
     // Create database
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
       text: 'table1',
@@ -541,7 +548,7 @@ describe('computeLookedUpColumns hook', () => {
       })
       user2 = await app.service('user').create({
         name: 'User 2',
-        email: 'user2@locokit.io',
+        email: 'user2-lkdupcolumn@locokit.io',
         password: 'locokit',
       })
       // Update the original table
@@ -565,7 +572,6 @@ describe('computeLookedUpColumns hook', () => {
 
     it('in the original table', async () => {
       expect.assertions(6)
-
       const newColumnTable1Ref = newRowTable1.data[columnTable1Ref.id] as string
       const newColumnTable1User = newRowTable1.data[columnTable1User.id] as { reference: string, value: string }
       const newColumnTable1MultiUser = newRowTable1.data[columnTable1MultiUser.id] as { reference: string, value: string }
@@ -839,6 +845,8 @@ describe('computeLookedUpColumns hook', () => {
     await app.service('table').remove(table3.id)
     await app.service('table').remove(table4.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
 })

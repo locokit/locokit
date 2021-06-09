@@ -13,7 +13,36 @@ declare module '../../declarations' {
 }
 
 export default function (app: Application): void {
-  app.configure(authManagement(authManagementSettings(app)))
+  app.configure(authManagement(authManagementSettings(app), {
+    tag: 'authManagement',
+    description: `
+This service allow users to sign up, renew their lost password, ...
+Please check [the feathers auth management doc°](https://github.com/feathersjs-ecosystem/feathers-authentication-management/blob/master/docs.md#using-feathers-method-calls).
+`,
+    definition: {
+      title: 'AuthManagement',
+      type: 'object',
+      required: [
+        'action',
+      ],
+
+      properties: {
+        action: {
+          type: 'string',
+          description: 'The action the user want to do (see https://github.com/feathersjs-ecosystem/feathers-authentication-management/blob/master/docs.md#using-feathers-method-calls)',
+          enum: [
+            'resendVerifySignup',
+            'passwordChange',
+            'identityChange',
+            'verifySignupSetPasswordLong',
+            'verifySignupSetPasswordShort',
+            'resetPwdLong',
+            'resetPwdShort',
+          ],
+        },
+      },
+    },
+  }))
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('authManagement')

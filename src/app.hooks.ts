@@ -6,7 +6,6 @@ import { GeneralError } from '@feathersjs/errors'
 
 import { iff /*, debug */ } from 'feathers-hooks-common'
 
-
 export default {
   before: {
     all: [

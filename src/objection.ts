@@ -1,13 +1,16 @@
 import { Application } from './declarations'
-const { Model } = require('objection')
+import { Model } from 'objection'
 
-export default function (app: Application) {
+// process.env.OBJECTION_DEBUG = 'true'
+
+export default function (app: Application): void {
   const { client, connection } = app.get('postgres')
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const knex = require('knex')({
     client,
     connection,
     useNullAsDefault: false,
-    debug: process.env.OBJECTION_DEBUG === 'true' || false
+    debug: process.env.OBJECTION_DEBUG === 'true' || false,
   })
 
   Model.knex(knex)

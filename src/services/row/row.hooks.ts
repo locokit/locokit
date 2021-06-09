@@ -5,8 +5,6 @@ import filterRowsByTableViewId from './filterRowsByTableViewId.hook'
 import { isDataSent } from '../../hooks/lck-hooks/isDataSent'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 
-import { TableRow } from '../../models/tablerow.model'
-
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { enhanceComplexColumns } from './enhanceComplexColumns.hook'
@@ -29,13 +27,22 @@ import {
   selectColumnsOfTableOrTableView,
   rebuildData,
 } from './selectColumnsOfTableOrView.hook'
+import { HookContext } from '@feathersjs/feathers'
 
 const { authenticate } = authentication.hooks
 
 export default {
   before: {
-    all: [authenticate('jwt')],
+    all: [
+      authenticate('jwt'),
+    ],
     find: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) && !queryContainsKeys(['$lckGroupId'])(context)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
       commonHooks.iffElse(
         queryContainsKeys(['table_id', 'table_view_id', 'id']),
         [
@@ -45,13 +52,29 @@ export default {
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
           selectColumnsOfTableOrTableView(),
+          commonHooks.discardQuery('$lckGroupId'),
         ],
         commonHooks.disallow(),
       ),
     ],
-    get: [],
+    get: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) && !queryContainsKeys(['$lckGroupId'])(context)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
+      commonHooks.discardQuery('$lckGroupId'), // remove the $lckGroupId (used to compute abilities)
+    ],
     create: [
-      commonHooks.required(...TableRow.jsonSchema.required as string[]),
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) &&
+          !(context.data.$lckGroupId !== null && context.data.$lckGroupId !== undefined)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
+      // commonHooks.required(...TableRow.jsonSchema.required as string[]),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
       checkColumnDefinitionMatching(),
@@ -61,6 +84,13 @@ export default {
       computeTextProperty(),
     ],
     update: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) &&
+          !(context.data.$lckGroupId !== null && context.data.$lckGroupId !== undefined)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
       getCurrentItem(),
       loadColumnsDefinition(),
       memorizeColumnsIds(),
@@ -71,6 +101,13 @@ export default {
       computeTextProperty(),
     ],
     patch: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) &&
+          !(context.data.$lckGroupId !== null && context.data.$lckGroupId !== undefined)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
       commonHooks.iffElse(
         isBulkPatch,
         [
@@ -101,6 +138,13 @@ export default {
       ),
     ],
     remove: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return commonHooks.isProvider('external')(context) &&
+          !(context.data.$lckGroupId !== null && context.data.$lckGroupId !== undefined)
+        }, // records are available only through a group
+        commonHooks.disallow(),
+      ),
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
       removeRelatedRows(),

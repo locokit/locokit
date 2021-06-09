@@ -1,3 +1,4 @@
+import { NotAuthenticated } from '@feathersjs/errors'
 import app from '../../app'
 
 describe('\'user\' service', () => {
@@ -6,6 +7,17 @@ describe('\'user\' service', () => {
     expect(service).toBeTruthy()
   })
   it('forbid access to users if not authenticated', async () => {
-    await app.service('user').find()
+    expect.assertions(1)
+    await expect(app.service('user').find({
+      provider: 'external',
+    })).rejects.toThrowError(NotAuthenticated)
+  })
+  it('lower case email when creating a new user', async () => {
+    expect.assertions(1)
+    const user = await app.service('user').create({
+      email: 'TEST-azaPOI@lOcoKiT.IO',
+      name: 'testing lower case',
+    })
+    expect(user.email).toBe('test-azapoi@locokit.io')
   })
 })

@@ -13,4 +13,12 @@ describe('\'workspace\' service', () => {
     })
     expect(newWorkspace).toBeTruthy()
   })
+
+  // it('return workspace on which user have access', async () => {
+  //   expect.assertions(2)
+  // })
+
+  // it('return all workspaces if user is SUPERADMIN', async () => {
+  //   expect.assertions(1)
+  // })
 })

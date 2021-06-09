@@ -8,8 +8,10 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
-import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Group } from '../../models/group.model'
+import { LckAclSet } from '../../models/aclset.model'
+import { Paginated } from '@feathersjs/feathers'
 
 describe('formula utility functions', () => {
   let workspace: workspace
@@ -32,6 +34,7 @@ describe('formula utility functions', () => {
   let columnTable2String: TableColumn
   let user1: User
   let user2: User
+  let aclset: LckAclSet
   let group: Group
   let rowTable1: TableRow
   let rowTable2: TableRow
@@ -40,7 +43,13 @@ describe('formula utility functions', () => {
     // Create workspace
     workspace = await app.service('workspace').create({ text: 'pouet' })
     // Create database
-    database = await app.service('database').create({ text: 'pouet', workspace_id: workspace.id })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
       text: 'table1',
@@ -148,18 +157,22 @@ describe('formula utility functions', () => {
     // Create user
     user1 = await app.service('user').create({
       name: 'User 1',
-      email: 'user1@locokit.io',
+      email: 'user1-formulas@locokit.io',
       password: 'locokit',
     })
     user2 = await app.service('user').create({
       name: 'User 2',
-      email: 'user2@locokit.io',
+      email: 'user2-formulas@locokit.io',
       password: 'locokit',
+    })
+    // Create ACL
+    aclset = await app.services.aclset.create({
+      workspace_id: workspace.id,
+      label: '[formulas] Acl for workspace ' + workspace.id,
     })
     // Create group
     group = await app.service('group').create({
-      workspace: workspace.id,
-      workspace_role: GROUP_ROLE.MEMBER,
+      aclset_id: aclset.id,
       name: 'Locokit group',
       users: [user1, user2],
     })
@@ -213,6 +226,8 @@ describe('formula utility functions', () => {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
   })
   describe('getColumnIdsFromFormula, return a list of columns ids specified in a formula', () => {

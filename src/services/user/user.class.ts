@@ -20,30 +20,11 @@ export class UserService extends Service {
 
     this.docs = {
       description: 'A service to send and receive users',
-      operations: {
-        get: {
-          security: [{
-            BearerAuth: [],
-          }],
-          description: 'Retrieves a single resource with the given id from the service.',
-          parameters: [{
-            description: 'User id',
-            in: 'path',
-            required: true,
-            name: 'id',
-            schema: { type: 'integer' },
-          }],
-          responses: {
-            200: {
-              description: 'An user',
-              content: {
-                'application/json': {
-                  schema: User.jsonSchema,
-                },
-              },
-            },
-          },
-        },
+      definition: User.jsonSchema,
+      securities: ['all'],
+      definitions: User.jsonSchema.definitions,
+      refs: {
+        createRequest: 'userRequest',
       },
     }
   }

@@ -1,4 +1,6 @@
+import { Paginated } from '@feathersjs/feathers'
 import app from '../../app'
+import { database } from '../../models/database.model'
 
 describe('\'table\' service', () => {
   it('registered the service', () => {
@@ -10,10 +12,13 @@ describe('\'table\' service', () => {
     const workspace = await app.services.workspace.create({
       text: 'myWorkspace',
     })
-    const db = await app.services.database.create({
-      text: 'myDB',
-      workspace_id: workspace.id,
-    })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    const db = workspaceDatabases.data[0]
     const table = await app.services.table.create({
       text: 'myTable',
       database_id: db.id,
@@ -22,6 +27,7 @@ describe('\'table\' service', () => {
     expect(table.id).toBeDefined()
     await app.services.table.remove(table.id)
     await app.services.database.remove(db.id)
+    await app.services.aclset.remove(workspace.aclsets[0].id)
     await app.services.workspace.remove(workspace.id)
   })
 
@@ -29,10 +35,13 @@ describe('\'table\' service', () => {
     const workspace = await app.services.workspace.create({
       text: 'myWorkspace',
     })
-    const db = await app.services.database.create({
-      text: 'myDB',
-      workspace_id: workspace.id,
-    })
+    const workspaceDatabases = await app.service('database').find({
+      query: {
+        workspace_id: workspace.id,
+        $limit: 1,
+      },
+    }) as Paginated<database>
+    const db = workspaceDatabases.data[0]
     const table = await app.services.table.create({
       text: 'myTable',
       database_id: db.id,
@@ -43,6 +52,7 @@ describe('\'table\' service', () => {
     })).rejects.toThrow()
     await app.services.table.remove(table.id)
     await app.services.database.remove(db.id)
+    await app.services.aclset.remove(workspace.aclsets[0].id)
     await app.services.workspace.remove(workspace.id)
   })
 })

@@ -9,6 +9,9 @@ import { workspace } from './workspace.model'
 export class database extends BaseModel {
   text!: string
   documentation?: string
+  workspace_id!: string
+  workspace?: workspace
+  tables?: LckTable[]
 
   static get tableName (): string {
     return 'database'
@@ -21,6 +24,7 @@ export class database extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        workspace_id: { type: 'string', format: 'uuid' },
       },
     }
   }
@@ -29,10 +33,6 @@ export class database extends BaseModel {
     return {
       tables: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
           from: 'database.id',

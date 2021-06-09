@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LocoKit API Swagger</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+        font-weight: 400;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <redoc></redoc>
+    <div id="redoc-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
+    <script>
+      const url = new URL(window.location)
+      /**
+       * We build swaggerUrl by replacing the endpath swagger* with swagger.json,
+       * because we know that the jsonPath for swagger is in this place
+       */
+      const swaggerUrl = url.origin + url.pathname.replace(/swagger.*$/, 'swagger.json')
+      Redoc.init(swaggerUrl, {
+        theme: {
+          typography: {
+            fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'"
+          }
+        }
+      // })
+      }, document.getElementById('redoc-container'))
+    </script>
+  </body>
+</html>
