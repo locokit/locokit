@@ -41,6 +41,7 @@
 
     <lck-datatable
       v-if="definition"
+      :displayCheckIcon="true"
       :actions="definition.actions"
       :definition="columnsDisplayed"
       :content="content"

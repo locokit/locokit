@@ -479,6 +479,7 @@ export default {
           this.page.containers.forEach(container => {
             if (container.blocks && container.blocks.length > 0) {
               container.blocks.forEach(block => {
+                // Each block DetailView and ActionButton received a content ({ data: LckTableRow[] })
                 if (block.settings.id && Object.keys(this.sources).includes(block.settings.id)) blocksWithSameTableView.push(block)
               })
             }
