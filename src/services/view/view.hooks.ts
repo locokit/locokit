@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication'
+import * as commonHooks from 'feathers-hooks-common';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -6,7 +7,7 @@ const { authenticate } = authentication.hooks
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [],
+    find: [commonHooks.discardQuery('$lckGroupId')],
     get: [],
     create: [],
     update: [],
