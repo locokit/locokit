@@ -188,6 +188,68 @@ describe('computeTextProperty hook', () => {
     })
   })
 
+  it('Use the value of a relation between table if in the references', async () => {
+    const table2 = await app.service('table').create({
+      text: 'table2',
+      database_id: database.id,
+    })
+    const columnTable2Ref = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table2.id,
+      reference: true,
+      reference_position: 1,
+    })
+    const columnTable2RBT = await app.service('column').create({
+      text: 'RBT',
+      column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 2,
+      settings: {
+        tableId: table1.id,
+      },
+    })
+    const columnTable2LUC = await app.service('column').create({
+      text: 'RBT',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 2,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RBT.id,
+        foreignField: columnTable1FirstName.id,
+      },
+    })
+    const rowTable1 = await app.service('row').create({
+      table_id: table1.id,
+      data: {
+        [columnTable1FirstName.id]: 'first name',
+        [columnTable1LastName.id]: 'last name',
+      },
+    })
+    const rowTable2 = await app.service('row').create({
+      table_id: table2.id,
+      data: {
+        [columnTable2Ref.id]: 'hello world',
+        [columnTable2RBT.id]: rowTable1.id,
+      },
+    })
+    // Tests
+    expect.assertions(2)
+    expect(rowTable2.text).toBe('hello world first name last name first name')
+    expect(rowTable2.data[columnTable2RBT.id].value).toBe('first name last name')
+    expect(rowTable2.data[columnTable2LUC.id].value).toBe('first name')
+    // Clean database
+    await app.service('row').remove(rowTable2.id)
+    await app.service('row').remove(rowTable1.id)
+    await app.service('column').remove(columnTable2LUC.id)
+    await app.service('column').remove(columnTable2RBT.id)
+    await app.service('column').remove(columnTable2Ref.id)
+    await app.service('column').remove(table2.id)
+  })
+
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
     await app.service('user').remove(user1.id)
