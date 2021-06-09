@@ -51,7 +51,6 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
           return db.tables?.map(t => t.id)
         })
       }).flat(2)
-      console.log(tableIdsCREATOR)
       can('manage', 'column', {
         table_id: {
           $in: tableIdsCREATOR,

@@ -11,10 +11,6 @@ import { Usergroup } from './usergroup.model'
 import { LckAclSet } from './aclset.model'
 
 export class Group extends BaseModel {
-  // workspace?: LckWorkspace
-  // chapter?: LckChapter
-  // chapter_id?: string
-  // workspace_role?: string
   name!: string
   users?: User[]
   usergroups?: Usergroup[]
@@ -38,42 +34,12 @@ export class Group extends BaseModel {
         name: { type: 'string' },
         workspace_role: { type: 'string' },
         aclset_id: { type: 'string' },
-        // users: {
-        //   type: 'array',
-        //   items: {
-        //     $ref: '#/components/schemas/user',
-        //   },
-        //   description: 'Available if `$eager=users` is set',
-        // },
-        // aclset: {
-        //   type: 'object',
-        //   items: {
-        //     $ref: '#/components/schemas/aclset',
-        //   },
-        //   description: 'Available if `$eager=aclset` is set',
-        // },
       },
     }
   }
 
   static get relationMappings (): RelationMappings {
     return {
-      // workspace: {
-      //   relation: Model.HasOneRelation,
-      //   modelClass: LckWorkspace,
-      //   join: {
-      //     from: 'group.workspace_id',
-      //     to: 'workspace.id',
-      //   },
-      // },
-      // chapter: {
-      //   relation: Model.HasOneRelation,
-      //   modelClass: LckChapter,
-      //   join: {
-      //     from: 'group.chapter_id',
-      //     to: 'chapter.id',
-      //   },
-      // },
       users: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
