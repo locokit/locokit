@@ -130,6 +130,18 @@
      </div>
    </div>
    <div class="p-field">
+     <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+     <lck-autocomplete
+       id="blockSettingsTableView"
+       field="text"
+       v-model="tableView"
+       :dropdown="true"
+       :suggestions="autocompleteSuggestions"
+       @item-select="onChangeTableView"
+       @search="$emit('search-table-view', $event)"
+     />
+   </div>
+   <div class="p-field">
      <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
      <p-input-text
        id="displayFieldId"
@@ -159,11 +171,12 @@ import {
   ACTIONS_TYPE,
   NAMED_CLASSES
 } from '@/services/lck-utils/prime'
+import { LckTableView } from '@/services/lck-api/definitions'
 import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
 import RadioButton from 'primevue/radiobutton'
-
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Dropdown from 'primevue/dropdown'
 
 type Options = {
@@ -174,6 +187,7 @@ type Options = {
 export default {
   name: 'ActionButtonSettingsFields',
   components: {
+    'lck-autocomplete': AutoComplete,
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
     'p-dropdown': Vue.extend(Dropdown)
@@ -214,14 +228,39 @@ export default {
     },
     options: {
       type: Object as PropType<Options>
-    }
+    },
+    tableViewDefinition: {
+      type: Object as Vue.PropType<LckTableView>
+    },
+    autocompleteSuggestions: {
+      type: Array,
+      default: () => ([])
+    } as Vue.PropOptions<{ label: string; value: string }[]>
   },
   data () {
     return {
       ROUTES_NAMES,
       NAMED_CLASSES,
       ACTIONS_TYPE,
-      ACTION_BUTTON_TYPE
+      ACTION_BUTTON_TYPE,
+      tableView: { text: '', value: '' }
+    }
+  },
+  methods: {
+    onChangeTableView () {
+      this.$emit('update:id', this.tableView.value)
+      this.$emit('component-refresh-required', true)
+    }
+  },
+  watch: {
+    tableViewDefinition: {
+      handler ({ text, id } = { text: '', id: '' }) {
+        this.tableView = {
+          value: id,
+          text
+        }
+      },
+      immediate: true
     }
   }
 }

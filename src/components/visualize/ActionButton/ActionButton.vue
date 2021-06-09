@@ -48,7 +48,7 @@ export default Vue.extend({
     isHidden () {
       return (
         this.settings?.displayFieldId &&
-        !!this.row?.data[this.settings.displayFieldId] !== this.settings.displayFieldConditionQuery
+        !!this.row?.data[this.settings.displayFieldId] !== !!this.settings.displayFieldConditionQuery
       )
     },
     row () {
