@@ -3,6 +3,7 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { LckColumnFilter, TableColumnDTO } from '../../models/tableview.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { NotAcceptable } from '@feathersjs/errors'
 
 /**
  * Add filters depending on the table view wished
@@ -30,11 +31,20 @@ export default function filterRowsByTableViewId (): Hook {
                   (c.filter as LckColumnFilter)[filterKey] as string
                 ).replace('{userId}', context.params.user?.id)
                   .replace('{rowId}', context.params?.query?.rowId)
-                  .replace('{groupId}', context.params?.query?.$lckGroupId)
-                if (c.column_type_id === COLUMN_TYPE.SINGLE_SELECT) {
-                  filtersToAdd[c.id] = currentFilterKeyValue
-                } else {
-                  filtersToAdd[c.id + '.reference'] = currentFilterKeyValue
+
+                if ((currentFilterKeyValue as string).includes('{groupId}') && !context.data?.$lckGroupId) {
+                  throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
+                }
+                currentFilterKeyValue = (currentFilterKeyValue as string).replace('{groupId}', context.params?.query?.$lckGroupId)
+                switch (c.column_type_id) {
+                  case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                  case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                    filtersToAdd[c.id + '.reference'] = currentFilterKeyValue
+                    break
+                  case COLUMN_TYPE.SINGLE_SELECT:
+                  default:
+                    filtersToAdd[c.id] = currentFilterKeyValue
+                    break
                 }
                 break
               case '$in':
@@ -47,6 +57,9 @@ export default function filterRowsByTableViewId (): Hook {
                     case '{userId}':
                       return context.params.user?.id
                     case '{groupId}':
+                      if (!context.params?.query?.$lckGroupId) {
+                        throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
+                      }
                       return context.params?.query?.$lckGroupId
                     default:
                       return item
@@ -69,6 +82,7 @@ export default function filterRowsByTableViewId (): Hook {
           ...filtersToAdd,
         },
       }
+      console.log(context.params.query)
     }
     return context
   }
