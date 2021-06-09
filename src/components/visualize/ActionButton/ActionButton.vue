@@ -1,7 +1,7 @@
 <template>
   <p-button
     class="p-button-sm action-button"
-    v-if="settings && !isHidden"
+    v-if="settings && row && !isHidden"
     :label="settings.label"
     :class="settings.classButton"
     :icon="loading ? 'pi pi-spin pi-spinner' : settings.icon"
@@ -48,7 +48,7 @@ export default Vue.extend({
     isHidden () {
       return (
         this.settings?.displayFieldId &&
-        !!this.row?.data[this.settings.displayFieldId] !== !!this.settings.displayFieldConditionQuery
+        this.row?.data[this.settings.displayFieldId] !== (this.settings.displayFieldConditionQuery === 'true')
       )
     },
     row () {
