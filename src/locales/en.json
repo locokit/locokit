@@ -580,7 +580,8 @@
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",
           "editUserInGroup": "Edit {userName} user in {groupName} group",
-          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
+          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group.",
+          "workspace": "Workspace"
         }
       }
     },

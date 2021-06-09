@@ -580,7 +580,8 @@
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
           "editUserInGroup": "Modifier l'utilisateur {userName} du groupe {groupName}",
-          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}."
+          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}.",
+          "workspace": "Espace de travail"
         }
       }
     },

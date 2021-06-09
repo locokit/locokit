@@ -16,7 +16,7 @@
           <h2>{{ group.name }}</h2>
           <span class="p-pl-1">
             (
-              Espace de travail <strong>{{ group.aclset.workspace.text }}</strong>,
+              {{ $t('pages.groupManagement.text.workspace') }}<strong>{{ group.aclset.workspace.text }}</strong>,
               <span v-if="group.aclset.chapter">
                 chapitre <strong>{{ group.aclset.chapter.text }}</strong>
               </span>
