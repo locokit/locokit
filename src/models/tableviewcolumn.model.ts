@@ -23,7 +23,7 @@ export class TableViewColumn extends BaseModel {
   /* whether the column is editable. */
   editable?: boolean
   /* value which specify a data/template in order to parameterize a behaviour (e.g `{rowId}`) */
-  default?: string
+  default?: Record<string, any>
   /* sorts values into a column. (e.g `ASC` or `DESC`) */
   sort?: string
   /* value is required for this column. */
@@ -53,7 +53,7 @@ export class TableViewColumn extends BaseModel {
         displayed: { type: ['boolean', 'null'], default: true },
         transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
-        default: { type: ['string', 'null'] },
+        default: { type: ['object', 'null'] },
         required: { type: 'boolean', default: false },
       },
     }

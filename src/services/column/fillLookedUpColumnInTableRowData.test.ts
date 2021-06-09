@@ -7,6 +7,8 @@ import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { LckAclSet } from '../../models/aclset.model'
+import { Group } from '../../models/group.model'
 
 const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
 const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
@@ -14,6 +16,7 @@ const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 
 describe('fillLookedUpColumnInTableRowData hook', () => {
   let workspace: workspace
+  let acl: LckAclSet
   let database: database
   let table1: Table
   let table2: Table
@@ -27,12 +30,14 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   let columnTable1Formula: TableColumn
   let columnTable1Boolean: TableColumn
   let columnTable1User: TableColumn
+  let columnTable1Group: TableColumn
   let columnTable1MultiUser: TableColumn
   let columnTable1SingleSelect: TableColumn
   let columnTable1MultiSelect: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
+  let columnTable2LookedUpColumnTable1Group: TableColumn
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
   let columnTable2LookedUpColumnTable1Ref: TableColumn
   let columnTable2LookedUpColumnTable1SingleSelect: TableColumn
@@ -42,6 +47,8 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   let columnTable3LookedUpColumnTable2LookUpColumn: TableColumn
   let user1: User
   let user2: User
+  let group1: Group
+  let group2: Group
   let row1Table1: TableRow
   let row2Table1: TableRow
   let row1Table2: TableRow
@@ -59,6 +66,10 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         $limit: 1,
       },
     }) as Paginated<database>
+    acl = await app.service('aclset').create({
+      workspace_id: workspace.id,
+      label: 'ACL Workspace pouet',
+    })
     const database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
@@ -118,6 +129,11 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     columnTable1User = await app.service('column').create({
       text: 'User',
       column_type_id: COLUMN_TYPE.USER,
+      table_id: table1.id,
+    })
+    columnTable1Group = await app.service('column').create({
+      text: 'User',
+      column_type_id: COLUMN_TYPE.GROUP,
       table_id: table1.id,
     })
     columnTable1MultiUser = await app.service('column').create({
@@ -192,6 +208,14 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       email: 'user1-updt-lkdp-column2@locokit.io',
       password: 'locokit',
     })
+    group1 = await app.service('group').create({
+      name: 'Group 1',
+      aclset_id: acl.id,
+    })
+    group2 = await app.service('group').create({
+      name: 'Group 2',
+      aclset_id: acl.id,
+    })
   })
 
   beforeEach(async () => {
@@ -211,6 +235,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         [columnTable1Text.id]: 'text 1',
         [columnTable1URL.id]: 'https://myurl1.mydomain',
         [columnTable1Boolean.id]: true,
+        [columnTable1Group.id]: group1.id,
       },
     })
     row2Table1 = await service.create({
@@ -228,6 +253,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         [columnTable1Text.id]: 'text 2',
         [columnTable1URL.id]: 'https://myurl2.mydomain',
         [columnTable1Boolean.id]: true,
+        [columnTable1Group.id]: group2.id,
       },
     })
     row1Table2 = await service.create({
@@ -280,6 +306,35 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     expect(newRow3Table2.data[columnTable2LookedUpColumnTable1User.id]).toBe(null)
 
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
+  })
+
+  it('fill all rows with the matching data from the foreign column of the matching rows (group)', async () => {
+    columnTable2LookedUpColumnTable1Group = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1Group.id,
+      },
+    })
+    const newRow1Table2 = await app.services.row.get(row1Table2.id)
+    const newRow2Table2 = await app.services.row.get(row2Table2.id)
+    const newRow3Table2 = await app.services.row.get(row3Table2.id)
+
+    expect.assertions(3)
+    expect(newRow1Table2.data[columnTable2LookedUpColumnTable1Group.id]).toStrictEqual({
+      reference: group1.id,
+      value: 'Group 1',
+    })
+    expect(newRow2Table2.data[columnTable2LookedUpColumnTable1Group.id]).toStrictEqual({
+      reference: group2.id,
+      value: 'Group 2',
+    })
+    expect(newRow3Table2.data[columnTable2LookedUpColumnTable1Group.id]).toBe(null)
+
+    await app.service('column').remove(columnTable2LookedUpColumnTable1Group.id)
   })
 
   it('fill all rows with the matching data from the foreign column of the matching rows (multi user)', async () => {
@@ -1105,6 +1160,8 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   })
 
   afterAll(async () => {
+    await app.services.group.remove(group2.id)
+    await app.services.group.remove(group1.id)
     await app.services.user.remove(user2.id)
     await app.services.user.remove(user1.id)
     await app.services.column.remove(columnTable1User.id)
@@ -1126,6 +1183,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     await app.services.table.remove(table2.id)
     await app.services.table.remove(table3.id)
     await app.services.database.remove(database.id)
+    await app.services.aclset.remove(acl.id)
     await app.services.workspace.remove(workspace.id)
   })
 })

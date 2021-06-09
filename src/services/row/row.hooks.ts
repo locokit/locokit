@@ -79,9 +79,11 @@ export default {
       memorizeColumnsIds(),
       checkColumnDefinitionMatching(),
       commonHooks.iff(isDataSent, enhanceComplexColumns()),
-      computeRowLookedUpColumns(),
       completeDefaultValues(),
+      computeRowLookedUpColumns(),
       computeTextProperty(),
+      commonHooks.discard('table_view_id'),
+      commonHooks.discard('$lckGroupId'),
     ],
     update: [
       commonHooks.iff(
@@ -99,6 +101,8 @@ export default {
       computeRowLookedUpColumns(),
       completeDefaultValues(),
       computeTextProperty(),
+      commonHooks.discard('table_view_id'),
+      commonHooks.discard('$lckGroupId'),
     ],
     patch: [
       commonHooks.iff(
@@ -134,6 +138,8 @@ export default {
           completeDataField(),
           computeRowLookedUpColumns(),
           computeTextProperty(),
+          commonHooks.discard('table_view_id'),
+          commonHooks.discard('$lckGroupId'),
         ],
       ),
     ],

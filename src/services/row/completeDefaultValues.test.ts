@@ -6,6 +6,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { TableView } from '../../models/tableview.model'
+import { NotAcceptable } from '@feathersjs/errors'
 
 describe('completeDefaultValues hook', () => {
   let workspace: workspace
@@ -21,6 +23,7 @@ describe('completeDefaultValues hook', () => {
   let rowTable1: TableRow
   let columnTable1FirstName: TableColumn
   let columnTable1LastName: TableColumn
+  let columnTable1Type: TableColumn
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -39,6 +42,7 @@ describe('completeDefaultValues hook', () => {
       text: 'table2',
       database_id: database.id,
     })
+
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
@@ -67,6 +71,22 @@ describe('completeDefaultValues hook', () => {
       table_id: table1.id,
       reference: true,
       reference_position: 2,
+    })
+    columnTable1Type = await app.service('column').create({
+      text: 'Type',
+      column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+      table_id: table1.id,
+      settings: {
+        values: {
+          '25a3a052-df34-4ef7-b802-772c68be38cd': {
+            label: 'Type 1',
+          },
+          '9f294876-24bb-4081-8a59-d52d2c7e9d92': {
+            label: 'Type 2',
+          },
+        },
+        default: '9f294876-24bb-4081-8a59-d52d2c7e9d92',
+      },
     })
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
@@ -100,13 +120,14 @@ describe('completeDefaultValues hook', () => {
       text: 'table 1 ref',
       data: {},
     })
-    expect.assertions(5)
+    expect.assertions(6)
     const targetKeys = [
       columnTable1Ref.id,
       columnTable1User.id,
       columnTable1Boolean.id,
       columnTable1FirstName.id,
       columnTable1LastName.id,
+      columnTable1Type.id,
     ]
     Object.keys(rowTable1.data).forEach(key => {
       expect(targetKeys.includes(key)).toBe(true)
@@ -128,8 +149,125 @@ describe('completeDefaultValues hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
+  it('set a single select default value', async () => {
+    const service = app.service('row')
+    const rowTable1 = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref',
+      data: {},
+    })
+    expect.assertions(1)
+    expect(rowTable1.data[columnTable1Type.id]).toBe('9f294876-24bb-4081-8a59-d52d2c7e9d92')
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('set a relation between table if injected on a table_view', async () => {
+    const view: TableView = await app.service('view').create({
+      text: 'View 1',
+      table_id: table2.id,
+    }) as TableView
+    const row1Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 1',
+      data: {
+        [columnTable1Ref.id]: 'ref1',
+      },
+    })
+    const row2Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 2',
+      data: {
+        [columnTable1Ref.id]: 'ref2',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2Ref.id,
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2RelationBetweenTable1.id,
+      default: {
+        [columnTable1Ref.id]: 'ref1',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2LookedUpColumnTable1User.id,
+    })
+    const rowTable2 = await app.service('row').create({
+      table_view_id: view.id,
+      text: 'table 1 ref',
+      data: {},
+    })
+    expect.assertions(6)
+    const targetKeys = [
+      columnTable2Ref.id,
+      columnTable2RelationBetweenTable1.id,
+      columnTable2LookedUpColumnTable1User.id,
+    ]
+    Object.keys(rowTable2.data).forEach(key => {
+      expect(targetKeys.includes(key)).toBe(true)
+    })
+
+    expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeDefined()
+    expect(rowTable2.data[columnTable2RelationBetweenTable1.id].reference).toBe(row1Table1.id)
+    expect(rowTable2.data[columnTable2RelationBetweenTable1.id].value).toBe(row1Table1.text)
+
+    await app.service('view').remove(view.id)
+    await app.service('row').remove(rowTable2.id)
+    await app.service('row').remove(row1Table1.id)
+    await app.service('row').remove(row2Table1.id)
+  })
+  it('throw an error if a relation between table if injected on a table_view and no records are found', async () => {
+    const view: TableView = await app.service('view').create({
+      text: 'View 1',
+      table_id: table2.id,
+    }) as TableView
+    const row1Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 1',
+      data: {
+        [columnTable1Ref.id]: 'ref1',
+      },
+    })
+    const row2Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'table 1 ref 2',
+      data: {
+        [columnTable1Ref.id]: 'ref2',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2Ref.id,
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2RelationBetweenTable1.id,
+      default: {
+        [columnTable1Ref.id]: 'ref3',
+      },
+    })
+    await app.service('table-view-has-table-column').create({
+      table_view_id: view.id,
+      table_column_id: columnTable2LookedUpColumnTable1User.id,
+    })
+    expect.assertions(1)
+    await expect(app.service('row').create({
+      table_view_id: view.id,
+      text: 'table 1 ref',
+      data: {},
+    })).rejects.toThrow(NotAcceptable)
+
+    await app.service('view').remove(view.id)
+    await app.service('row').remove(row1Table1.id)
+    await app.service('row').remove(row2Table1.id)
+  })
+
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
+    await app.service('column').remove(columnTable1Type.id)
     await app.service('column').remove(columnTable1Boolean.id)
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1Ref.id)

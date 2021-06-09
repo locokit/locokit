@@ -43,7 +43,16 @@ export function computeTextProperty (): Hook {
         } else {
           columnsUsedForReference.forEach((c: TableColumn, index: number) => {
             text += (index > 0 ? ' ' : '')
-            if (context.data.data[c.id]) text += context.data.data[c.id]
+            if (context.data.data[c.id]) {
+              switch (c.column_type_id) {
+                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                  text += (context.data.data[c.id]?.value || '') as string
+                  break
+                default:
+                  text += (context.data.data[c.id]?.toString() || '') as string
+              }
+            }
           })
         }
         context.data.text = context.data.text || text
