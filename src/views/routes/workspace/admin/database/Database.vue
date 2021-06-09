@@ -879,14 +879,16 @@ export default {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
