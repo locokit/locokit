@@ -11,6 +11,7 @@ export class block extends BaseModel {
   type!: string
   position?: number
   settings?: object
+  elevation?: boolean
 
   static get tableName (): string {
     return 'block'
@@ -26,6 +27,7 @@ export class block extends BaseModel {
         type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'ActionButton', 'Default'] },
         position: { type: ['number', 'null'] },
         settings: { type: ['object', 'null'] },
+        elevation: { type: 'boolean' },
       },
     }
   }
