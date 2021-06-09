@@ -32,9 +32,13 @@ export function completeDefaultValues (): Hook {
                 if (currentColumnDefinition.default) {
                   const dataQuery: Record<string, any> = {}
                   Object.keys(currentColumnDefinition.default).forEach(key => {
-                    const filterValue = ((currentColumnDefinition.default as Record<string, any>)[key] as string)
+                    let filterValue = ((currentColumnDefinition.default as Record<string, any>)[key] as string)
                       .replace('{userId}', context.params.user?.id)
-                      .replace('{groupId}', context.data.$lckGroupId)
+
+                    if (filterValue.includes('{groupId}') && !context.data.$lckGroupId) {
+                      throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
+                    }
+                    filterValue = filterValue.replace('{groupId}', context.data.$lckGroupId)
                     dataQuery[key] = filterValue
                   })
                   const referencedRow = await context.app.service('row').find({
