@@ -36,6 +36,7 @@ export function loadColumnsDefinition (): Hook {
             : context.params._meta?.item.table_id
         )
         tableViewId = (
+          // TODO: need to think about update / patch methdods
           context.method === 'create'
             // when creating a row, table_id is mandatory
             ? context.data.table_view_id
@@ -59,6 +60,8 @@ export function loadColumnsDefinition (): Hook {
         },
         paginate: false,
       })
+      // TODO: need to think about update / patch methdods
+      if (context.method === 'create') { context.data.table_id = tableView.table_id }
       selectedColumns = tableView.columns
     }
     context.params._meta = {

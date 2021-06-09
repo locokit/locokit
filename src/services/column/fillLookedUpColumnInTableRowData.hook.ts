@@ -35,6 +35,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             switch (originalTypeId) {
               case COLUMN_TYPE.MULTI_USER:
               case COLUMN_TYPE.USER:
+              case COLUMN_TYPE.GROUP:
                 // Keep the same reference and the same value that the related looked-up column
                 newDataForCurrentColumn = `
                 ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
@@ -53,6 +54,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             }
             break
           case COLUMN_TYPE.USER:
+          case COLUMN_TYPE.GROUP:
             newDataForCurrentColumn = `
             ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
             `
