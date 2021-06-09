@@ -283,7 +283,6 @@ export const mockDatabase = {
 }
 
 export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
-  console.log('we are here')
   return mockDatabase
 }
 
