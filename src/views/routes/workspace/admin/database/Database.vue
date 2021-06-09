@@ -573,7 +573,8 @@ export default {
       await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },
@@ -583,7 +584,8 @@ export default {
       await lckHelpers.exportTableRowDataXLS(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },

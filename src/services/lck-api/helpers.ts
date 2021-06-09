@@ -32,12 +32,14 @@ import FileType from 'file-type/browser'
  * @param columnTypeId
  * @param tableId
  * @param query
+ * @param groupId
  */
 export async function searchItems ({
   columnTypeId,
   tableId,
-  query
-}: { columnTypeId: number; tableId: string; query: object }) {
+  query,
+  groupId
+}: { columnTypeId: number; tableId: string; query: object; groupId: string }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
@@ -45,7 +47,8 @@ export async function searchItems ({
         blocked: false,
         name: {
           $ilike: `%${query}%`
-        }
+        },
+        $lckGroupId: groupId
       }
     }) as Paginated<LckUser>
     items = result.data.map(d => ({
@@ -57,7 +60,8 @@ export async function searchItems ({
       query: {
         name: {
           $ilike: `%${query}%`
-        }
+        },
+        $lckGroupId: groupId
       }
     }) as Paginated<LckGroup>
     items = result.data.map(d => ({
@@ -72,7 +76,8 @@ export async function searchItems ({
         table_id: tableId,
         text: {
           $ilike: `%${query}%`
-        }
+        },
+        $lckGroupId: groupId
       }
     }) as Paginated<LckTableRow>
     items = result.data.map(d => ({
@@ -88,9 +93,10 @@ export async function searchItems ({
  *
  * @param tableViewId
  * @param filters
+ * @param groupId
  * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
  */
-async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
+async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
 }> {
@@ -106,9 +112,11 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {})
     $sort: {
       createdAt: 1
     },
+    $lckGroupId: groupId,
     ...filters
   }
   const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
+
   return {
     viewData,
     viewColumns: currentView.columns
@@ -152,9 +160,10 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
  * @param tableViewId
  * @param filters
  * @param fileName
+ * @param groupId
  */
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export') {
-  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
@@ -183,9 +192,10 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
  * @param tableViewId
  * @param filters
  * @param fileName
+ * @param groupId
  */
-export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
-  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
     viewColumns.map(currentColumn => {
