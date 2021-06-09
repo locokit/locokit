@@ -1,13 +1,12 @@
 {
   "name": "lck-front",
-  "version": "0.3.5-demo",
+  "version": "0.4.0-alpha.0",
   "private": true,
   "scripts": {
     "postinstall": "cp -r patch/** node_modules",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && mv dist/index.html dist/index-generic.html",
     "test:unit": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "storybook:build": "build-storybook -s ./public",
@@ -18,6 +17,8 @@
     "build:html": "node scripts/compileTemplate.js"
   },
   "dependencies": {
+    "@casl/ability": "^4.1.6",
+    "@casl/vue": "^1.2.2",
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",

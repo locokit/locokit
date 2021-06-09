@@ -56,16 +56,17 @@ export const withAuthUserAndGroup = () => ({
       groups: [{
         id: 'group-id',
         name: 'An amazing group',
+        aclset: {
+          manager: true,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          workspace_id: 'workspace-id',
+          workspace: {
+            id: 'uuid-v4',
+            text: 'An amazing workspace'
+          }
+        },
         // eslint-disable-next-line @typescript-eslint/camelcase
-        workspace_role: 'OWNER',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        uhg_role: GROUP_ROLE.ADMIN,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        workspace_id: 'workspace-id',
-        workspace: {
-          id: 'uuid-v4',
-          text: 'An amazing workspace'
-        }
+        uhg_role: GROUP_ROLE.ADMIN
       }]
     }
     await Vue.nextTick()

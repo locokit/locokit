@@ -8,15 +8,15 @@ stages:
 .build_template: &build_definition
   tags: [shared-ci-docker]
   stage: build
+  only:
+    - merge_requests
+    - master
+    - tags
   variables:
     VUE_APP_I18N_LOCALE: 'fr'
     VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
     VUE_APP_TITLE: '{{ lck_app_title }}'
     VUE_APP_THEME: '{{ lck_app_theme }}'
-  only:
-    - tags
-    - merge_requests
-    - master
   script:
     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - npm run build

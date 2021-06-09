@@ -1,3 +1,4 @@
+import lckAbilities from '@/services/lck-abilities'
 import { lckClient } from '@/services/lck-api'
 import {
   USER_PROFILE,
@@ -37,6 +38,7 @@ class User {
 class AuthData {
   isAuthenticated = false
   user: User | null = null
+  currentGroupId: string | null = null
 }
 
 export class AuthDTO {
@@ -51,28 +53,24 @@ export const authState: AuthState = {
   error: null,
   data: {
     isAuthenticated: false,
-    user: null
+    user: null,
+    currentGroupId: null
   }
 }
 
 export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
-  authState.loading = true
-  try {
-    authState.data.user = await lckClient.service('user').get(id, {
-      query: {
-        $eager: 'groups.[workspace.[databases]]'
-      }
-    })
-  } catch (error) {
-    authState.error = error
-  }
-  authState.loading = false
+  authState.data.user = await lckClient.service('user').get(id, {
+    query: {
+      $eager: 'groups.[aclset.[workspace.[databases]]]'
+    }
+  })
 }
 
 export async function reAuthenticate () {
   authState.loading = true
   try {
     const result = await lckClient.reAuthenticate()
+    lckAbilities.update(result.user.rules)
     authState.data.isAuthenticated = true
     await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {
@@ -90,6 +88,7 @@ export async function authenticate (data: AuthDTO) {
       email: data.email,
       password: data.password
     })
+    lckAbilities.update(result.user.rules)
     authState.data.isAuthenticated = true
     await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {
@@ -102,7 +101,9 @@ export async function authenticate (data: AuthDTO) {
 export function logout () {
   authState.data = {
     isAuthenticated: false,
-    user: null
+    user: null,
+    currentGroupId: null
   }
+  lckAbilities.update([])
   return lckClient.logout()
 }

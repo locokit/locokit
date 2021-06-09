@@ -351,6 +351,15 @@
       }
     },
     "workspace": {
+      "form": {
+        "create": "Create a new workspace",
+        "createdSummary": "Your workspace have been created !",
+        "createdDetail": "Your workspace have been created, you can configure it now.",
+        "textPlaceholder": "Workspace's name",
+        "textLabel": "Name",
+        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
+        "docLabel": "Documentation"
+      },
       "title": "Workspaces",
       "created": "Created:",
       "updated": "Updated:",
@@ -475,6 +484,7 @@
       "updateTableSidebar": {
         "updateTable": "Update table",
         "tableName": "Table name",
+        "tableDoc": "Table documentation",
         "columnName": "Column name",
         "columnType": "Column type",
         "createColumn": "Create column",
@@ -570,7 +580,8 @@
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",
           "editUserInGroup": "Edit {userName} user in {groupName} group",
-          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
+          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group.",
+          "workspace": "Workspace"
         }
       }
     },

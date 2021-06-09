@@ -56,6 +56,7 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@/services/lck-api/definitions': path.resolve(__dirname, "../src/services/lck-api/definitions"),
       '@/services/lck-api': path.resolve(__dirname, "../src/services/lck-api/__mocks__"),
+      '@/services/lck-helpers': path.resolve(__dirname, "../src/services/lck-helpers/__mocks__"),
       '@': path.resolve(__dirname, "../src/")
     }
     // Return the altered config

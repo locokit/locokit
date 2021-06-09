@@ -37,19 +37,20 @@
           slot="content"
           v-if="authState.data.user && authState.data.user.groups"
         >
-          <div v-for="group in authState.data.user.groups" :key="group.id">
-            <h4 class="group-title">{{ group.name }}</h4>
-            <div class="lck-ul-content">
-              <span class="p-badge">{{ $t('pages.account.view.workspaces') }}</span>&nbsp;
+          <p-card v-for="group in authState.data.user.groups" :key="group.id">
+            <template slot="title">
+              {{ group.name }} ({{ group.uhg_role }})
+            </template>
+            <template slot="content">
               <router-link
                 class="no-decoration-link"
-                :to="'/workspace/' + group.workspace.id"
+                :to="'/workspace/' + group.aclset.workspace.id"
               >
-                {{ group.workspace.text }}
+                {{ group.aclset.workspace.text }}
               </router-link>
-              ({{ group.workspace_role }})
-            </div>
-          </div>
+              <span v-if="group.aclset.manager">(manager)</span>
+            </template>
+          </p-card>
         </template>
         <template
           slot="content"
@@ -295,26 +296,4 @@ export default {
   font-size: 1.5rem !important;
 }
 
-.lck-ul-content span.p-badge {
-  background-color: var(--primary-color) !important;
-  border-radius: var(--border-radius);
-  padding: 0.1rem 0.5rem;
-  position: relative;
-  overflow: visible;
-  margin-right: 1rem;
-  line-height: 1.5rem;
-
-  &:after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 0.75rem solid transparent;
-    border-bottom: 0.75rem solid transparent;
-    border-left: 0.7rem solid var(--primary-color);
-    position: absolute;
-    right: -0.6rem;
-    top: 0;
-    border-radius: var(--border-radius);
-  }
-}
 </style>

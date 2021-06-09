@@ -7,6 +7,9 @@ import { lckServices } from '@/services/lck-api'
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import Vue from 'vue'
+
+import { mockDatabase } from '@/services/lck-helpers/__mocks__/database'
 
 // Mock external libraries
 
@@ -54,285 +57,6 @@ class MockError extends Error {
 }
 
 // Mock variables
-/* eslint-disable @typescript-eslint/camelcase */
-const mockDatabase = {
-  id: 'D1',
-  text: 'Base principale',
-  createdAt: '2020-11-02T16:11:03.109Z',
-  updatedAt: '2020-11-02T16:11:03.109Z',
-  workspace_id: 'W1',
-  tables: [
-    {
-      id: 'T1',
-      text: 'Personne',
-      createdAt: '2020-11-02T16:11:03.109Z',
-      updatedAt: '2020-11-02T16:11:03.109Z',
-      database_id: 'D1',
-      views: [
-        {
-          id: 'V11',
-          text: 'Vue - bénéficiaires',
-          createdAt: '2021-01-29T10:38:30.213Z',
-          updatedAt: '2021-02-08T10:42:32.622Z',
-          table_id: 'T1',
-          locked: false,
-          columns: [
-            {
-              id: 'C11',
-              text: 'Prénom',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2020-11-02T16:11:03.109Z',
-              settings: null,
-              position: 1,
-              reference: true,
-              reference_position: 0,
-              table_id: 'T1',
-              column_type_id: 2,
-              locked: false,
-              displayed: false,
-              filter: null,
-              transmitted: true,
-              editable: true,
-              style: {
-                width: 128
-              },
-              default: null
-            },
-            {
-              id: 'C13',
-              text: 'E-mail',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2021-02-09T08:29:25.368Z',
-              settings: {},
-              position: 2,
-              reference: false,
-              reference_position: null,
-              table_id: 'T1',
-              column_type_id: 2,
-              locked: false,
-              displayed: true,
-              filter: null,
-              transmitted: true,
-              editable: null,
-              style: {
-                width: 352
-              },
-              default: null
-            },
-            {
-              id: 'C12',
-              text: 'Nom',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2020-11-02T16:11:03.109Z',
-              settings: null,
-              position: 3,
-              reference: true,
-              reference_position: 1,
-              table_id: 'T1',
-              column_type_id: 2,
-              locked: false,
-              displayed: true,
-              filter: null,
-              transmitted: true,
-              editable: null,
-              style: {
-                width: 153
-              },
-              default: null
-            }
-          ]
-        },
-        {
-          id: 'V12',
-          text: 'Vue - Prénom',
-          createdAt: '2021-01-29T10:38:30.213Z',
-          updatedAt: '2021-02-08T10:42:32.622Z',
-          table_id: 'T1',
-          locked: false,
-          columns: [
-            {
-              id: 'C11',
-              text: 'Prénom',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2020-11-02T16:11:03.109Z',
-              settings: null,
-              position: 1,
-              reference: true,
-              reference_position: 0,
-              table_id: 'T1',
-              column_type_id: 2,
-              locked: false,
-              displayed: false,
-              filter: null,
-              transmitted: true,
-              editable: true,
-              style: {
-                width: 128
-              },
-              default: null
-            }
-          ]
-        }
-      ],
-      columns: [
-        {
-          id: 'C11',
-          text: 'Prénom',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 0,
-          reference: true,
-          reference_position: 0,
-          table_id: 'T1',
-          column_type_id: 2,
-          locked: false
-        },
-        {
-          id: 'C12',
-          text: 'Nom',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 1,
-          reference: true,
-          reference_position: 1,
-          table_id: 'T1',
-          column_type_id: 2,
-          locked: false
-        },
-        {
-          id: 'C13',
-          text: 'E-mail',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2021-02-09T08:29:25.368Z',
-          settings: {},
-          position: 2,
-          reference: false,
-          reference_position: null,
-          table_id: 'T1',
-          column_type_id: 2,
-          locked: false
-        },
-        {
-          id: 'C14',
-          text: 'Tél',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 3,
-          reference: false,
-          reference_position: null,
-          table_id: 'T1',
-          column_type_id: 2,
-          locked: false
-        },
-        {
-          id: 'C15',
-          text: 'Utilisateur',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 4,
-          reference: false,
-          reference_position: null,
-          table_id: 'T1',
-          column_type_id: 6,
-          locked: false
-        }
-      ]
-    },
-    {
-      id: 'T2',
-      text: 'Fournisseur',
-      createdAt: '2020-11-02T16:11:03.109Z',
-      updatedAt: '2020-11-02T16:11:03.109Z',
-      database_id: 'D1',
-      views: [
-        {
-          id: 'V11',
-          text: 'Ensemble des fournisseurs',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          table_id: 'T2',
-          locked: false,
-          columns: [
-            {
-              id: 'C21',
-              text: 'Utilisateur',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2020-11-02T16:11:03.109Z',
-              settings: null,
-              position: 1,
-              reference: false,
-              reference_position: null,
-              table_id: 'T2',
-              column_type_id: 6,
-              locked: false,
-              displayed: true,
-              filter: null,
-              transmitted: true,
-              editable: true,
-              style: {
-                width: 337
-              },
-              default: null
-            },
-            {
-              id: 'C22',
-              text: 'Nom fournisseur',
-              createdAt: '2020-11-02T16:11:03.109Z',
-              updatedAt: '2020-11-02T16:11:03.109Z',
-              settings: null,
-              position: 0,
-              reference: true,
-              reference_position: null,
-              table_id: 'T2',
-              column_type_id: 2,
-              locked: false,
-              displayed: true,
-              filter: null,
-              transmitted: true,
-              editable: true,
-              style: {
-                width: 164
-              },
-              default: null
-            }
-          ]
-        }
-      ],
-      columns: [
-        {
-          id: 'C21',
-          text: 'Nom fournisseur',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 0,
-          reference: true,
-          reference_position: null,
-          table_id: 'T2',
-          column_type_id: 2,
-          locked: false
-        },
-        {
-          id: 'C22',
-          text: 'Utilisateur',
-          createdAt: '2020-11-02T16:11:03.109Z',
-          updatedAt: '2020-11-02T16:11:03.109Z',
-          settings: null,
-          position: 2,
-          reference: false,
-          reference_position: null,
-          table_id: 'T2',
-          column_type_id: 6,
-          locked: false
-        }
-      ]
-    }
-  ]
-}
 // Shortcuts
 const mockFirstTable = mockDatabase.tables[0]
 const mockFirstTableView = mockFirstTable.views[0]
@@ -357,7 +81,11 @@ jest.mock('@/services/lck-api', () => ({
       patch: jest.fn((id, data) =>
         (mockDeepCloneObject({ ...mockFirstTable.columns.find(column => column.id === id), ...data })))
     },
-    tableRow: {}
+    tableRow: {
+      create: jest.fn(({ data, table_id }) => ({
+        id: 'TABLE_ROW_ID', ...data, table_id
+      }))
+    }
   },
   lckHelpers: {
     searchItems: jest.fn(() => ([
@@ -369,7 +97,7 @@ jest.mock('@/services/lck-api', () => ({
   }
 }))
 
-jest.mock('@/store/database', () => {
+jest.mock('@/services/lck-helpers/database', () => {
   // TODO : find a way to use the mockDatabase variable defined above instead of creating a newer variable
   const mockDatabaseCopy = {
     id: 'D1',
@@ -650,19 +378,13 @@ jest.mock('@/store/database', () => {
     ]
   }
   return ({
-    databaseState: { data: mockDatabaseCopy },
-    patchTableData: () => ({}),
-    retrieveDatabaseTableAndViewsDefinitions: () => ({}),
+    retrieveDatabaseTableAndViewsDefinitions: () => (mockDatabaseCopy),
     retrieveTableColumns: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).columns)),
     retrieveTableRowsWithSkipAndLimit: jest.fn(() => ({})),
-    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views)),
-    saveTableData: jest.fn(({ data, table_id }) => ({
-      id: 'TABLE_ROW_ID', ...data, table_id
-    }))
+    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views))
   })
 })
 
-jest.mock('@/store/process')
 /*
   createProcessRun,
   patchProcess,
@@ -670,11 +392,17 @@ jest.mock('@/store/process')
   retrieveProcessesByRow
 */
 
-jest.mock('@/services/lck-utils/columns')
+jest.mock('@/services/lck-helpers/process', () => ({
+  retrieveManualProcessWithRuns: jest.fn(() => ([]))
+}))
+
 /*
 getComponentEditableColumn
 isEditableColumn
 */
+jest.mock('@/services/lck-utils/columns', () => ({
+  isEditableColumn: jest.fn(() => false)
+}))
 
 jest.mock('@/services/lck-utils/filter', () => ({
   getCurrentFilters: () => ({})
@@ -684,9 +412,9 @@ jest.mock('@/services/lck-utils/filter', () => ({
 
 describe('Database', () => {
   // Default database component configuration
-  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1') {
+  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1', groupId = 'G1') {
     return {
-      propsData: { databaseId, workspaceId },
+      propsData: { databaseId, workspaceId, groupId },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -704,6 +432,7 @@ describe('Database', () => {
 
     beforeEach(async () => {
       wrapper = await shallowMount(Database, globalComponentParams())
+      await Vue.nextTick()
       datatableWrapper = wrapper.findComponent(DataTable)
     })
 

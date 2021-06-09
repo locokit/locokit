@@ -351,6 +351,15 @@
       }
     },
     "workspace": {
+      "form": {
+        "create": "Créer un nouvel espace de travail",
+        "createdSummary": "Votre espace de travail a été créé !",
+        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer.",
+        "textPlaceholder": "Nom de l'espace de travail",
+        "textLabel": "Nom",
+        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
+        "docLabel": "Documentation"
+      },
       "title": "Espaces de travail",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
@@ -475,6 +484,7 @@
       "updateTableSidebar": {
         "updateTable": "Modifier une table",
         "tableName": "Nom de la table",
+        "tableDoc": "Documentation de la table",
         "columnName": "Nom de la colonne",
         "columnType": "Type de colonne",
         "createColumn": "Créer une colonne",
@@ -570,7 +580,8 @@
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
           "editUserInGroup": "Modifier l'utilisateur {userName} du groupe {groupName}",
-          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}."
+          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}.",
+          "workspace": "Espace de travail"
         }
       }
     },

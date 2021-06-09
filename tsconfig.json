@@ -19,6 +19,10 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      // other mappings
+      "@casl/vue/patch": [
+        "src/types/shims-casl.d.ts"
       ]
     },
     "lib": [
