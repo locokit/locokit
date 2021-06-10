@@ -318,30 +318,30 @@ export default {
       this.$set(block, 'loading', true)
 
       // Default options for Table
-      if (![BLOCK_TYPE.MARKDOWN, BLOCK_TYPE.PARAGRAPH, BLOCK_TYPE.ACTIONBUTTON].includes(block.type)) {
-        this.blocksOptions[block.id] = {
-          sort: {
-            createdAt: 1
-          },
-          page: 0,
-          itemsPerPage: 20,
-          filters: {}
-        }
+      this.blocksOptions[block.id] = {
+        sort: {
+          createdAt: 1
+        },
+        page: 0,
+        itemsPerPage: 20,
+        filters: {}
       }
-      if (this.blocksOptions[block.id] && this.$route.query.rowId) {
+      if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
       if (block.settings?.id) {
         if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
-          let def
+          /**
+           * If the source isn't already present,
+           * we load the definition
+           */
           if (!this.sources[block.settings.id]) {
-            def = await lckHelpers.retrieveViewDefinition(block.settings.id)
-            this.sources[block.settings.id] = { definition: null, content: null }
-            this.sources[block.settings.id].definition = block.definition
-          } else {
-            def = this.sources[block.settings.id].definition
+            this.sources[block.settings.id] = {
+              definition: await lckHelpers.retrieveViewDefinition(block.settings.id),
+              content: null
+            }
           }
-          this.$set(block, 'definition', def)
+          this.$set(block, 'definition', this.sources[block.settings.id].definition)
         } else {
           this.$set(block, 'definition', await lckHelpers.retrieveViewDefinition(block.settings.id))
         }
@@ -391,10 +391,13 @@ export default {
                 }
               })
             } else {
-              const rows = await lckHelpers.retrieveViewData(
-                block.definition.id,
-                this.groupId
-              )
+              const rows = await lckServices.tableRow.find({
+                query: {
+                  table_view_id: block.definition.id,
+                  $lckGroupId: this.groupId,
+                  $limit: 1
+                }
+              })
               row = rows.data[0]
             }
             if (this.sources[block.settings.id]) this.sources[block.settings.id].content = { data: [row] }
@@ -844,8 +847,7 @@ export default {
             },
             'table_view.text': {
               $ilike: `%${query}%`
-            },
-            $lckGroupId: this.groupId
+            }
           }
         })
         this.editableAutocompleteSuggestions = tableViewResult.data.map(tr => ({
