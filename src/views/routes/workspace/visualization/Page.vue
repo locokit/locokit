@@ -777,7 +777,7 @@ export default {
           const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
             title: blockToEdit.title,
             type: blockToEdit.type,
-            settings: blockToEdit.settings,
+            settings: blockToEdit.settings
           })
           // Reload the block definition and content if it is necessary
           if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)

@@ -4,6 +4,11 @@ export const setsAreEqual = (set1: Set<unknown>, set2: Set<unknown>) => {
   return true
 }
 
+export const mergeSets = (setToAdd: Set<unknown>, destinationSet: Set<unknown>): Set<unknown> => {
+  setToAdd.forEach(destinationSet.add, destinationSet)
+  return destinationSet
+}
+
 export default {
   setsAreEqual
 }
