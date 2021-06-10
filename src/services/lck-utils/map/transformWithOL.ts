@@ -39,7 +39,7 @@ const lckGeoColor: Expression = [
   'case',
   ['boolean', ['feature-state', 'selectable'], false],
   // Default feature color
-  'rgb(234,14,14)',
+  'rgb(158,25,25)',
   // Feature color on selection
   'rgba(234,14,14,0.6)'
 ]
@@ -272,7 +272,7 @@ export function makeGeoJsonFeaturesCollection (
              * Manage popup information
              */
             if (source.popup && source.popupSettings) {
-              featureProperties.title = row.data[source.popupSettings.title]
+              featureProperties.title = row.data[source.popupSettings.title] || source.popupSettings.title || ''
               if (source.popupSettings?.contentFields?.length > 0) {
                 const allContent: PopupContent[] = []
                 source.popupSettings.contentFields.forEach(contentField => {

@@ -109,17 +109,15 @@
             mode="decimal"
             :minFractionDigits="2"
           />
-
-          <div v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'" >
-            <lck-map
-              mode="Dialog"
-              :id="'map-edit-detail-' + column.id"
-              @update-features="onGeoDataEdit(row.id, column.id, $event)"
-              @remove-features="onEdit(row.id, column.id, null)"
-              :singleEditMode="true"
-              :resources="getLckGeoResources(column, row.data[column.id])"
-            />
-          </div>
+          <lck-map
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'"
+            :id="'map-edit-detail-' + column.id"
+            mode="Dialog"
+            :resources="getLckGeoResources(column, row.data[column.id])"
+            :singleEditMode="true"
+            @remove-features="onEdit(row.id, column.id, null)"
+            @update-features="onGeoDataEdit(row.id, column.id, $event)"
+          />
           <p-checkbox
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             v-model="row.data[column.id]"

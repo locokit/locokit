@@ -445,54 +445,61 @@ export default Vue.extend({
     addPopupOnClick (layerId: string, pageDetailId?: string) {
       // Add Popup on layer on click
       const wrapperFunction = (e: MapLayerMouseEvent) => {
-        if (e.features && e.features[0].properties) {
-          const properties = e.features[0].properties
+        if (e.features?.length) {
+          let html = ''
+          e.features.forEach(currentFeature => {
+            if (currentFeature && currentFeature.properties) {
+              const properties = currentFeature.properties
 
-          let html = `<p class="popup-row-title">${properties.title}</p>`
+              html += `<p class="popup-row-title">${properties.title}</p>`
 
-          const line = (content: PopupContent) => `
-            <p class=${content.class}'>
-              <b>${content?.field?.label}</b><br/>
-              ${content?.field?.value}
-            </p>`
+              const line = (content: PopupContent) => `
+                <p class=${content.class}>
+                  <span class="popup-field-label">${content?.field?.label}</span><br/>
+                  ${content?.field?.value}
+                </p>`
 
-          if (properties.content) {
-            const content = JSON.parse(properties?.content)
-            if (content.length > 0) {
-              html += `
-              <div class="popup-row-content">
-                ${content.map((content: PopupContent) => line(content)).join('')}
-              </div>
-            `
+              if (properties.content) {
+                const content = JSON.parse(properties?.content)
+                if (content.length > 0) {
+                  html += `
+                  <div class="popup-row-content">
+                    ${content.map((content: PopupContent) => line(content)).join('')}
+                  </div>
+                `
+                }
+              }
+
+              if (properties.rowId && pageDetailId) {
+                const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
+
+                html += `
+                <div class="popup-row-toolbox">
+                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                </div>
+              `
+              }
             }
-          }
+            const popup = new Popup()
+              .setLngLat(e.lngLat)
+              .setHTML(html)
+              .addTo(this.map!)
 
-          if (properties.rowId && pageDetailId) {
-            const textDetailPage: TranslateResult = this.$t('components.mapview.textDetailPage')
-
-            html += `
-            <div class="popup-row-toolbox">
-              <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
-            </div>
-          `
-          }
-
-          const popup = new Popup()
-            .setLngLat(e.lngLat)
-            .setHTML(html)
-            .addTo(this.map!)
-
-          if (properties.rowId && pageDetailId) {
             const element = popup.getElement()
-            const link = element.querySelector('.popup-row-toolbox #row-detail-page')
-            if (link) {
-              link.addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
-              const { sendIdToDetail } = this
-              popup.on('close', function () {
-                link.removeEventListener('click', () => sendIdToDetail)
-              })
-            }
-          }
+            const links = element.querySelectorAll('.popup-row-toolbox #row-detail-page');
+
+            (e.features || []).forEach(({ properties }, index) => {
+              if (properties?.rowId && pageDetailId) {
+                if (links[index]) {
+                  links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
+                  const { sendIdToDetail } = this
+                  popup.on('close', function () {
+                    links[index].removeEventListener('click', () => sendIdToDetail)
+                  })
+                }
+              }
+            })
+          })
         }
       }
       this.map!.on('click', layerId, wrapperFunction)
@@ -506,18 +513,20 @@ export default Vue.extend({
         if (hasPopUp || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             const currentLayerId = `${resource.id}-${layer.id}`
-            if (resource.selectable) {
-              // Make the current feature selectable
-              this.changeCursorOnLayerHover(currentLayerId)
-              this.selectFeatureOnClick(resource.id, index, currentLayerId)
-            }
             if (hasEditableFeatures) {
+              // Make the current feature editable
               this.setFeatureEditableOnMouseDown(currentLayerId)
-            }
-            if (hasPopUp) {
-              // Display a pop up on click on the current feature
+            } else {
+              // Change cursor
               this.changeCursorOnLayerHover(currentLayerId)
-              this.addPopupOnClick(currentLayerId, resource.pageDetailId)
+              if (resource.selectable) {
+                // Make the current feature selectable
+                this.selectFeatureOnClick(resource.id, index, currentLayerId)
+              }
+              if (hasPopUp) {
+                // Display a pop up on click on the current feature
+                this.addPopupOnClick(currentLayerId, resource.pageDetailId)
+              }
             }
           })
         }
