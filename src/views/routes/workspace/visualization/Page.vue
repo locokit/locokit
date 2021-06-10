@@ -335,34 +335,36 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      if (block.settings?.id) {
+      if (isGeoBlock(block.type)) {
+        // For a geo column, we get the definition of all specified views
+        const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
+        console.log(definitions)
+        const definitionsObject = definitions.reduce(
+          (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
+          , {}
+        )
+        this.$set(block, 'definition', definitionsObject)
+        console.log(block.definition)
+        if (block.definition !== {}) await this.loadBlockContent(block)
+      } else if (block.settings?.id) {
         if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
           /**
            * If the source isn't already present,
            * we load the definition
            */
           if (!this.sources[block.settings.id]) {
+            const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
             this.sources[block.settings.id] = {
-              definition: await lckHelpers.retrieveViewDefinition([block.settings.id])[0],
+              definition: definition[0],
               content: null
             }
           }
           this.$set(block, 'definition', this.sources[block.settings.id].definition)
-          if (block.definition?.id) await this.loadBlockContent(block)
-        } else if (isGeoBlock(block.type)) {
-          // For a geo column, we get the definition of all specified views
-          const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
-          const definitionsObject = definitions.reduce(
-            (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
-            , {}
-          )
-          this.$set(block, 'definition', definitionsObject)
-          if (block.definition !== {}) await this.loadBlockContent(block)
         } else {
           const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
           this.$set(block, 'definition', definition[0])
-          if (block.definition?.id) await this.loadBlockContent(block)
         }
+        if (block.definition?.id) await this.loadBlockContent(block)
       }
       this.$set(block, 'loading', false)
     },
