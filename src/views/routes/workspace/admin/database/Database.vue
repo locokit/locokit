@@ -1,7 +1,7 @@
 <template>
   <div class="p-d-flex p-flex-column d-flex-1 o-auto">
     <div
-      v-if="database.tables.length > 0"
+      v-if="database && database.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
       <div class="p-d-flex p-jc-between o-auto lck-database-nav">
@@ -156,6 +156,7 @@
           :crudMode="crudMode"
           :definition="filteredDefinitionColumns"
           :row="newRow"
+          mode="creation"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
@@ -573,7 +574,8 @@ export default {
       await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },
@@ -583,7 +585,8 @@ export default {
       await lckHelpers.exportTableRowDataXLS(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },
@@ -877,14 +880,16 @@ export default {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {

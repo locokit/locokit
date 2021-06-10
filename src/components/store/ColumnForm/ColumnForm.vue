@@ -49,6 +49,14 @@
             required
           />
         </div>
+        <div class="p-field p-mb-2">
+          <label for="columnRequiredField">{{ $t('components.datatable.column.required') }}</label>
+          <p-input-switch
+            id="columnRequiredField"
+            v-model="columnCopy.required"
+            required
+          />
+        </div>
       </lck-form>
     </div>
   </div>
@@ -137,7 +145,8 @@ export default {
     submitTableViewColumnData () {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
-        editable: this.columnCopy.editable
+        editable: this.columnCopy.editable,
+        required: this.columnCopy.required
       })
     }
   }

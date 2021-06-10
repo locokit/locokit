@@ -1,14 +1,14 @@
 <template>
   <p-button
     class="p-button-sm action-button"
-    v-if="settings && !isHidden"
+    v-if="settings && row && !isHidden"
     :label="settings.label"
     :class="settings.classButton"
     :icon="loading ? 'pi pi-spin pi-spinner' : settings.icon"
     :disabled="loading"
     @click="onClick(settings)"
   />
-  <span v-else><i class="action-condition-checked bi bi-check"/></span>
+  <span v-else-if="displayCheckIcon"><i class="action-condition-checked bi bi-check"/></span>
 </template>
 
 <script lang="ts">
@@ -28,8 +28,12 @@ export default Vue.extend({
     'p-button': Vue.extend(Button)
   },
   props: {
+    displayCheckIcon: {
+      type: Boolean,
+      default: false
+    },
     content: {
-      type: Object as PropType<LckTableRow>
+      type: Object as PropType<{ data: LckTableRow[] | LckTableRow }>
     },
     settings: {
       type: Object as PropType<ActionButtonSettings>,
@@ -43,9 +47,17 @@ export default Vue.extend({
   computed: {
     isHidden () {
       return (
-        this.settings.options?.displayFieldId &&
-        this.content?.data?.[this.settings.options.displayFieldId] !== this.settings.options.displayFieldConditionQuery
+        this.settings?.displayFieldId &&
+        this.row?.data[this.settings.displayFieldId] !== (this.settings.displayFieldConditionQuery === 'true')
       )
+    },
+    row () {
+      if (this.content && Array.isArray(this.content.data)) {
+        // Case for ActionButton block
+        return this.content.data[0]
+      }
+      // Case for ActionButton in DataTable
+      return this.content
     }
   },
   methods: {

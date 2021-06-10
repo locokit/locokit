@@ -250,6 +250,7 @@ export default {
   data () {
     return {
       page: {},
+      sources: {},
       blocksOptions: {},
       autocompleteSuggestions: null,
       exporting: false,
@@ -266,20 +267,6 @@ export default {
       },
       editableSidebarWidth: '40rem',
       editableAutocompleteSuggestions: null
-    }
-  },
-  watch: {
-    page (newVal) {
-      // Hide the updated container sidebar
-      this.onCloseUpdateContainerSidebar()
-      // retrieve for each blocks the definition / data of the block
-      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
-        container.blocks.sort((a, b) => a.position - b.position)
-        container.blocks.forEach(async block => {
-          await this.loadBlockContentAndDefinition(block)
-        })
-      })
     }
   },
   computed: {
@@ -333,7 +320,10 @@ export default {
   },
   methods: {
     searchItems: lckHelpers.searchItems,
-    async loadBlockTableViewContentAndDefinition (block) {
+    async loadBlockContentAndDefinition (block) {
+      this.$set(block, 'loading', true)
+
+      // Default options for Table
       this.blocksOptions[block.id] = {
         sort: {
           createdAt: 1
@@ -345,22 +335,38 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      if (isGeoBlock(block.type)) {
-        // For a geo column, we get the definition of all specified views
-        const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
-        const definitionsObject = definitions.reduce(
-          (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
-          , {}
-        )
-        this.$set(block, 'definition', definitionsObject)
-        if (block.definition !== {}) await this.loadBlockTableViewContent(block)
-      } else {
-        const definition = await lckHelpers.retrieveViewDefinition([block.settings?.id])
-        this.$set(block, 'definition', definition[0])
-        if (block.definition?.id) await this.loadBlockTableViewContent(block)
+      if (block.settings?.id) {
+        if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
+          /**
+           * If the source isn't already present,
+           * we load the definition
+           */
+          if (!this.sources[block.settings.id]) {
+            this.sources[block.settings.id] = {
+              definition: await lckHelpers.retrieveViewDefinition([block.settings.id])[0],
+              content: null
+            }
+          }
+          this.$set(block, 'definition', this.sources[block.settings.id].definition)
+          if (block.definition?.id) await this.loadBlockContent(block)
+        } else if (isGeoBlock(block.type)) {
+          // For a geo column, we get the definition of all specified views
+          const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
+          const definitionsObject = definitions.reduce(
+            (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
+            , {}
+          )
+          this.$set(block, 'definition', definitionsObject)
+          if (block.definition !== {}) await this.loadBlockContent(block)
+        } else {
+          const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
+          this.$set(block, 'definition', definition[0])
+          if (block.definition?.id) await this.loadBlockContent(block)
+        }
       }
+      this.$set(block, 'loading', false)
     },
-    async loadBlockTableViewContent (block) { // Rename
+    async loadBlockContent (block) {
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
@@ -403,22 +409,29 @@ export default {
           break
         case BLOCK_TYPE.DETAIL_VIEW:
           let row
-          if (this.$route.query.rowId) {
-            row = await lckServices.tableRow.get(this.$route.query.rowId, {
-              query: {
-                $lckGroupId: this.groupId
-              }
-            })
+          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
+            if (this.$route.query.rowId) {
+              row = await lckServices.tableRow.get(this.$route.query.rowId, {
+                query: {
+                  $lckGroupId: this.groupId
+                }
+              })
+            } else {
+              const rows = await lckServices.tableRow.find({
+                query: {
+                  table_view_id: block.definition.id,
+                  $lckGroupId: this.groupId,
+                  $limit: 1
+                }
+              })
+              row = rows.data[0]
+            }
+            if (this.sources[block.settings.id]) this.sources[block.settings.id].content = { data: [row] }
           } else {
-            const rows = await lckServices.tableRow.find({
-              query: {
-                table_view_id: block.definition.id,
-                $lckGroupId: this.groupId,
-                $limit: 1
-              }
-            })
-            row = rows.data[0]
+            row = this.sources[block.settings.id].content.data[0]
           }
+
+          // Update content according to sources or table_view
           this.$set(block, 'content', { data: [row] })
           break
         case BLOCK_TYPE.MAPDETAILVIEW: {
@@ -429,19 +442,28 @@ export default {
           }
           break
         }
+        case BLOCK_TYPE.ACTIONBUTTON: {
+          let row
+          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
+            const rows = await lckHelpers.retrieveViewData(
+              block.definition.id,
+              this.groupId
+            )
+            row = rows.data[0]
+          } else {
+            row = this.sources[block.settings.id].content.data[0]
+          }
+          this.$set(block, 'content', { data: [row] })
+          break
+        }
       }
-    },
-    async loadBlockContentAndDefinition (block) {
-      this.$set(block, 'loading', true)
-      await this.loadBlockTableViewContentAndDefinition(block)
-      this.$set(block, 'loading', false)
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
           this.blocksOptions[block.id].page = pageIndexToGo
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
@@ -450,7 +472,8 @@ export default {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async onUpdateCell ({
@@ -483,6 +506,24 @@ export default {
           },
           $lckGroupId: this.groupId
         })
+
+        // Update content for shared TableView
+        if (currentBlock.settings.id && this.sources[currentBlock.settings.id]) {
+          // Update source with new value
+          this.sources[currentBlock.settings.id].content.data[0][columnId] = newValue
+          // Find all block who shared the same table_view
+          const blocksWithSameTableView = []
+          this.page.containers.forEach(container => {
+            if (container.blocks && container.blocks.length > 0) {
+              container.blocks.forEach(block => {
+                // Each block DetailView and ActionButton received a content ({ data: LckTableRow[] })
+                if (block.settings.id && Object.keys(this.sources).includes(block.settings.id)) blocksWithSameTableView.push(block)
+              })
+            }
+          })
+          // Update blocks content
+          blocksWithSameTableView.forEach(block => this.$set(block, 'content', { data: [this.sources[currentBlock.settings.id].content.data[0]] }))
+        }
         this.cellState.isValid = true
         currentRow.data = res.data
       } catch (error) {
@@ -497,7 +538,7 @@ export default {
           this.blocksOptions[block.id].sort = {}
           // find the matching column_type_id to adapt
           this.blocksOptions[block.id].sort[`ref(data:${field})`] = order
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
@@ -507,7 +548,7 @@ export default {
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
           this.blocksOptions[block.id].filters = filters
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
@@ -546,18 +587,18 @@ export default {
       })
       this.$set(block, 'submitting', false)
       this.$set(block, 'displayNewDialog', false)
-      await this.loadBlockTableViewContent(block)
+      await this.loadBlockContent(block)
     },
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
       this.exporting = false
     },
     async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
       this.exporting = false
     },
     async onUploadFiles ({
@@ -970,11 +1011,27 @@ export default {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
-    if (from.params.pageDetailId) {
+    if (from.params.pageDetailId && to.params.pageId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
     next()
+  },
+  watch: {
+    page (newVal) {
+      // Hide the updated container sidebar
+      this.onCloseUpdateContainerSidebar()
+      // retrieve for each blocks the definition / data of the block
+      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
+      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
+        container.blocks.sort((a, b) => a.position - b.position)
+        container.blocks.forEach(async block => {
+          // Reset sources at each pages change
+          this.sources = {}
+          await this.loadBlockContentAndDefinition(block)
+        })
+      })
+    }
   }
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
   <lck-action-button
-    :settings="settings"
+    :displayCheckIcon="displayCheckIcon"
+    :settings="action"
     :content="content"
     @go-to-page-detail="$emit('go-to-page-detail', {...$event, rowData: content })"
     @create-process-run="$emit('create-process-run', {...$event, rowData: content })"
@@ -18,17 +19,15 @@ export default Vue.extend({
     'lck-action-button': ActionButton
   },
   props: {
+    displayCheckIcon: {
+      type: Boolean,
+      default: false
+    },
     action: {
       type: Object
     },
     content: {
       type: Object
-    }
-  },
-  computed: {
-    settings () {
-      const { displayFieldConditionQuery, displayFieldId, ...data } = this.action
-      return { ...data, options: { displayFieldConditionQuery, displayFieldId } }
     }
   }
 })
