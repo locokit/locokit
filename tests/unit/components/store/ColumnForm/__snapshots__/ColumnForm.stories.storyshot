@@ -298,6 +298,35 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         </div>
          
         <div
+          class="p-field p-mb-2"
+        >
+          <label
+            for="columnRequiredField"
+          >
+            Required column
+          </label>
+           
+          <div
+            class="p-inputswitch p-component"
+            id="columnRequiredField"
+            required="required"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
+          </div>
+        </div>
+         
+        <div
           class="lck-form-footer"
         >
           <!---->
@@ -451,6 +480,35 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
           <div
             class="p-inputswitch p-component"
             id="columnEditableField"
+            required="required"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
+          </div>
+        </div>
+         
+        <div
+          class="p-field p-mb-2"
+        >
+          <label
+            for="columnRequiredField"
+          >
+            Required column
+          </label>
+           
+          <div
+            class="p-inputswitch p-component"
+            id="columnRequiredField"
             required="required"
           >
             <div
@@ -623,6 +681,35 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           <div
             class="p-inputswitch p-component"
             id="columnEditableField"
+            required="required"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
+          </div>
+        </div>
+         
+        <div
+          class="p-field p-mb-2"
+        >
+          <label
+            for="columnRequiredField"
+          >
+            Required column
+          </label>
+           
+          <div
+            class="p-inputswitch p-component"
+            id="columnRequiredField"
             required="required"
           >
             <div

@@ -85,6 +85,9 @@
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :pageRedirectId.sync="blockCopy.settings.pageRedirectId"
       :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
+      :tableViewDefinition="blockCopy.definition"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
       :displayFieldConditionQuery.sync="blockCopy.settings.displayFieldConditionQuery"
     />

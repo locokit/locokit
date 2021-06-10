@@ -129,7 +129,7 @@
           <template #body="slotProps">
             <lck-cell-action
               class="lck-cell-action"
-              :title="actions[0].label"
+              :displayCheckIcon="displayCheckIcon"
               :action="actions[0]"
               :content="slotProps.data"
               v-on="$listeners"
@@ -429,6 +429,10 @@ export default {
       default: 20
     },
     crudMode: {
+      type: Boolean,
+      default: false
+    },
+    displayCheckIcon: {
       type: Boolean,
       default: false
     },

@@ -41,6 +41,7 @@
 
     <lck-datatable
       v-if="definition"
+      :displayCheckIcon="true"
       :actions="definition.actions"
       :definition="columnsDisplayed"
       :content="content"
@@ -61,6 +62,7 @@
         :crudMode="false"
         :definition="filteredDefinitionColumns"
         :row="newRow"
+        mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         :workspaceId="workspaceId"
         @update-suggestions="$listeners['update-suggestions']"
