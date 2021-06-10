@@ -103,6 +103,10 @@
               @download-attachment="onDownloadAttachment"
               @upload-files="onUploadFiles(block, $event)"
               @remove-attachment="onRemoveAttachment(block, $event)"
+
+              @update-features="onGeoDataEdit(block, $event)"
+              @remove-features="onGeoDataRemove(block, $event)"
+
             />
           </draggable>
           <p-button
@@ -207,6 +211,7 @@ import Block from '@/components/visualize/Block/Block'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
+import { transformFeatureToWKT } from '@/services/lck-utils/map/transformWithOLwithselectable'
 
 export default {
   name: 'Page',
@@ -434,14 +439,18 @@ export default {
     }, {
       rowId,
       columnId,
-      newValue
+      newValue,
+      tableViewId = ''
     }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
+      const currentRow = isGeoBlock(currentBlock.type)
+        ? currentBlock.content[tableViewId].find(d => d.id === rowId)
+        : currentBlock.content.data.find(d => d.id === rowId)
+
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -627,6 +636,28 @@ export default {
     },
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
+    },
+    async onGeoDataEdit (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: transformFeatureToWKT(features[0]),
+          tableViewId: sourceId
+        })
+      }
+    },
+    async onGeoDataRemove (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: null,
+          tableViewId: sourceId
+        })
+      }
     },
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}

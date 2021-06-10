@@ -58,7 +58,7 @@ const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   id: 'layer-type-line',
   type: 'line',
   paint: {
-    'line-width': 15,
+    'line-width': 10,
     'line-color': lckGeoColor
   }
 }
@@ -302,6 +302,7 @@ export function makeGeoJsonFeaturesCollection (
             if (source.editable) {
               const featureGeoType = feature.getGeometry()?.getType()
               if (featureGeoType) editableGeometryTypes.add(featureGeoType)
+              featureProperties.sourceId = source.id
             }
 
             feature.setProperties(featureProperties)

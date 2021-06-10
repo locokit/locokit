@@ -105,8 +105,9 @@
           <lck-map
             mode="Dialog"
             :id="'map-edit-detail-' + column.id"
-            @update-feature="onGeoDataEdit(row.id, column.id, $event)"
-            @remove-feature="onEdit(row.id, column.id, null)"
+            @update-features="onGeoDataEdit(row.id, column.id, $event)"
+            @remove-features="onEdit(row.id, column.id, null)"
+            :singleEditMode="true"
             :resources="getLckGeoResources(column, row.data[column.id])"
           />
         </div>
@@ -401,7 +402,7 @@ export default {
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
-      this.onEdit(
+      await this.onEdit(
         rowId,
         columnId,
         transformFeatureToWKT(features[0])
@@ -466,8 +467,7 @@ export default {
       ]
     },
     getSelectedValueDetails (columnId: string, value: string) {
-      const dropdownOptions = this.columnsEnhanced[columnId].dropdownOptions
-      if (dropdownOptions) return dropdownOptions.find(element => element.value === value)
+      return (this.columnsEnhanced[columnId].dropdownOptions || []).find(element => element.value === value)
     }
   },
   watch: {
