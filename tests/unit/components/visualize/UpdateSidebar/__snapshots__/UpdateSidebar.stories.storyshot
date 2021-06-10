@@ -538,53 +538,6 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                   </div>
                 </div>
                  
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="blockSettingsTableView"
-                  >
-                    View to display
-                  </label>
-                   
-                  <lck-autocomplete
-                    dropdown="true"
-                    field="text"
-                    id="blockSettingsTableView"
-                    suggestions=""
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="displayFieldId"
-                  >
-                    Display the button according to this field
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component"
-                    id="displayFieldId"
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="displayFieldConditionQuery"
-                  >
-                    Display the button if the value is equivalent to
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component"
-                    id="displayFieldConditionQuery"
-                  />
-                </div>
-                 
                 <!---->
                  
                 <div
@@ -1777,53 +1730,6 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                       class="p-inputswitch-slider"
                     />
                   </div>
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="blockSettingsTableView"
-                  >
-                    View to display
-                  </label>
-                   
-                  <lck-autocomplete
-                    dropdown="true"
-                    field="text"
-                    id="blockSettingsTableView"
-                    suggestions=""
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="displayFieldId"
-                  >
-                    Display the button according to this field
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component"
-                    id="displayFieldId"
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="displayFieldConditionQuery"
-                  >
-                    Display the button if the value is equivalent to
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component"
-                    id="displayFieldConditionQuery"
-                  />
                 </div>
                  
                 <!---->
