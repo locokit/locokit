@@ -1,3 +1,4 @@
+import { Params } from '@feathersjs/feathers'
 import { StoryContext, StoryFn } from '@storybook/addons'
 
 const dataToReturn = {
@@ -13,7 +14,7 @@ function defaultServiceFunction () {
 
 const feathersService = {
   find: defaultServiceFunction,
-  get: defaultServiceFunction,
+  get: (id: string, params: Params) => ({ id, params }),
   put: defaultServiceFunction,
   patch: defaultServiceFunction,
   remove: defaultServiceFunction
@@ -34,7 +35,7 @@ export const lckServices = {
    * Visualization
    */
   visuChapter: feathersService,
-  visuPage: feathersService,
+  page: feathersService,
   visuContainer: feathersService,
   visuBlock: feathersService,
   /**
@@ -50,7 +51,7 @@ export const lckServices = {
 }
 
 type lckServicesName = 'database' | 'table' | 'tableColumn' | 'tableView' | 'tableRow' | 'tableViewColumn'
-  | 'visuChapter' | 'visuPage' | 'visuContainer' | 'visuBlock'
+  | 'visuChapter' | 'page' | 'visuContainer' | 'visuBlock'
   | 'process' | 'processRun'
   | 'user' | 'group'
 

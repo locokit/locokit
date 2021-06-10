@@ -158,10 +158,12 @@ export const pageWithBlock = () => (
     data () {
       return {
         chapters: chapterInfo,
+        workspaceId: 'uuid-workspace',
+        groupId: 'uuid-group',
         pageId: 'pa1'
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :editMode=true />'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true />'
   }
 )
 
@@ -184,11 +186,13 @@ export const pageWithBlockCentered = () => (
     data () {
       return {
         chapters: chapterInfo,
+        workspaceId: 'uuid-workspace',
+        groupId: 'uuid-group',
         pageId: 'pa1',
         layout: 'centered'
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :layout="layout"/>'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>'
   }
 )
 
@@ -211,11 +215,13 @@ export const pageWithBlockFlex = () => (
     data () {
       return {
         chapters: chapterInfo,
+        workspaceId: 'uuid-workspace',
+        groupId: 'uuid-group',
         pageId: 'pa1',
         layout: 'flex'
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :layout="layout"/>'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>'
   }
 )
 

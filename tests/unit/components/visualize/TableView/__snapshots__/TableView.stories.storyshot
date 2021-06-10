@@ -135,6 +135,8 @@ exports[`storyshots components/visualize/TableView with definition 1`] = `
         >
           <!---->
            
+          <!---->
+           
           <div>
             <!---->
           </div>
@@ -285,6 +287,8 @@ exports[`storyshots components/visualize/TableView with definition and content 1
        p-datatable p-component p-datatable-resizable"
           style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
            
           <div>
@@ -613,6 +617,8 @@ exports[`storyshots components/visualize/TableView with definition and content a
         >
           <!---->
            
+          <!---->
+           
           <div>
             <!---->
           </div>
@@ -939,6 +945,8 @@ exports[`storyshots components/visualize/TableView with definition and toolbar b
        p-datatable p-component p-datatable-resizable"
           style="width: calc(6rem + 450px);"
         >
+          <!---->
+           
           <!---->
            
           <div>

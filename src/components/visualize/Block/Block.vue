@@ -1,6 +1,6 @@
 <template>
   <div :class="getBlockTypeClassname">
-    <div v-if="block" :class="{ 'editable-block': editMode }">
+    <div v-if="block" :class="{ 'editable-block': editMode }" style="width: 100%;">
       <div v-if="editMode" class="edit-block-line">
         <h3 class="lck-color-title">{{ block.title }}</h3>
         <span class="p-buttonset">
@@ -63,6 +63,7 @@ import MapView from '@/components/visualize/MapView/MapView.vue'
 import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
 import Media from '@/components/visualize/Media/Media.vue'
 import DetailView from '@/components/visualize/DetailView/DetailView.vue'
+import ActionButton from '@/components/visualize/ActionButton/ActionButton.vue'
 import Error from '@/components/ui/Error/Error.vue'
 
 export default Vue.extend({
@@ -77,6 +78,7 @@ export default Vue.extend({
     MapView,
     MapDetailView: MapView,
     Synthesis,
+    ActionButton,
     Error
   },
   props: {
@@ -126,6 +128,8 @@ export default Vue.extend({
           return 'lck-markdown'
         case BLOCK_TYPE.MEDIA:
           return 'lck-media'
+        case BLOCK_TYPE.ACTIONBUTTON:
+          return 'lck-action-button'
         // case BLOCK_TYPE.MAP_VIEW:
           // return 'lck-map-view'
         default:

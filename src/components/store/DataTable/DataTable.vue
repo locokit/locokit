@@ -85,6 +85,57 @@
             </span>
           </template>
         </p-column>
+        <p-column
+          v-if="actions.length === 1"
+          bodyStyle="width: 8rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+          :headerStyle="{
+            width: '8rem',
+            padding: '0 0.1rem',
+            margin: 'unset',
+          }"
+          headerClass="sticky-column-cells"
+          columnKey="action-column"
+          :reorderableColumn="false"
+        >
+          <template #header>
+            <div class="th-container">
+              <span class="th-text"/>
+              <p-button
+                v-if="crudMode"
+                class="edit-column-icon p-ml-auto"
+                icon="pi pi-angle-down"
+                appendTo="body"
+                aria-haspopup="true"
+                style="position: absolute; right: 0; width: 1rem;"
+                aria-controls="overlay_action_column"
+                @click="onEditActionColumnClick($event, actions[0])"
+              />
+              <p-menu
+                id="overlay_action_column"
+                ref="menuAction"
+                :popup="true"
+                :model="[{
+                  label: $t('components.datatable.actionColumn.edit'),
+                  icon: 'pi pi-pencil',
+                  command: () => {
+                    $emit('display-column-sidebar')
+                  }
+                }]"
+                appendTo="body"
+              />
+            </div>
+          </template>
+
+          <template #body="slotProps">
+            <lck-cell-action
+              class="lck-cell-action"
+              :title="actions[0].label"
+              :action="actions[0]"
+              :content="slotProps.data"
+              v-on="$listeners"
+            />
+          </template>
+        </p-column>
         <div
           v-for="column in definition.columns"
           :key="`${columnsSetPrefix}-${column.id}-${unorderableColumnsNumber}`"
@@ -93,7 +144,6 @@
             :field="column.id"
             :headerStyle="{
               width: ( ( column.style && column.style.width ) || '150' ) + 'px',
-              overflow: 'hidden',
               'white-space': 'nowrap',
               'text-overflow': 'ellipsis',
               'height': '2.5rem',
@@ -124,7 +174,7 @@
                 icon="pi pi-angle-down"
                 appendTo="body"
                 aria-haspopup="true"
-                style="position: absolute; right: 0; width: 1rem;"
+                style="position: absolute; width: 1rem;"
                 :aria-controls="column.id"
                 @click="onEditColumnClick($event, column)"
               />
@@ -284,6 +334,7 @@
 
 <script>
 import Vue from 'vue'
+
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
@@ -303,6 +354,7 @@ import MultiAutoComplete from '@/components/ui/MultiAutoComplete/MultiAutoComple
 import Paginator from '@/components/ui/Paginator/Paginator.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import LckCellFile from '@/components/ui/ColumnType/File/Cell.vue'
+import LckCellAction from '@/components/ui/ColumnType/Action/ActionCell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
@@ -334,6 +386,7 @@ export default {
     'lck-url-input': URLInput,
     'lck-badge': Badge,
     'lck-cell-file': LckCellFile,
+    'lck-cell-action': LckCellAction,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -349,6 +402,10 @@ export default {
     'p-checkbox': Vue.extend(Checkbox)
   },
   props: {
+    actions: {
+      type: Array,
+      default: () => ([])
+    },
     definition: {
       type: Object
     },
@@ -739,6 +796,10 @@ export default {
       this.$emit('column-select', column)
       this.$refs['menu' + column.id][0].toggle(event)
       this.selectedColumn = column
+    },
+    onEditActionColumnClick (event, action) {
+      this.$refs.menuAction.toggle(event)
+      this.$emit('action-column-select', action)
     }
   },
   watch: {
@@ -834,6 +895,20 @@ export default {
 
 <style>
 
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container span.th-text {
+  display: inline-block;
+  overflow: hidden;
+  width: calc(100% - 1rem);
+  text-overflow: ellipsis;
+  background-color: inherit;
+}
+
 .p-datatable.p-datatable-sm.p-datatable-resizable > .p-datatable-wrapper {
   display: flex;
   flex-direction: column;
@@ -910,4 +985,14 @@ tr.p-datatable-emptymessage {
   display: none;
 }
 
+.lck-cell-action {
+  padding: 0.2rem;
+}
+
+.lck-cell-action > .action-button > .p-button-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-height: 2.5rem;
+}
 </style>

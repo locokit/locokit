@@ -24,6 +24,8 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -269,6 +271,8 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -518,6 +522,8 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -763,6 +769,8 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -1012,6 +1020,8 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -1257,6 +1267,8 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -1506,6 +1518,8 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -1751,6 +1765,8 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -2089,6 +2105,8 @@ exports[`storyshots components/store/DataTable Expected props 1`] = `
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -2326,6 +2344,8 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
        p-datatable p-component p-datatable-resizable is-reorderable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -2575,6 +2595,8 @@ exports[`storyshots components/store/DataTable Expected props with the detail bu
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -2812,6 +2834,8 @@ exports[`storyshots components/store/DataTable Looked Up Columns With Expected P
        p-datatable p-component p-datatable-resizable"
         style="width: calc(6rem + 1500px);"
       >
+        <!---->
+         
         <!---->
          
         <div>
@@ -3080,6 +3104,8 @@ exports[`storyshots components/store/DataTable No content 1`] = `
       >
         <!---->
          
+        <!---->
+         
         <div>
           <!---->
         </div>
@@ -3187,6 +3213,8 @@ exports[`storyshots components/store/DataTable No content with the detail button
        p-datatable p-component p-datatable-resizable"
         style="width: calc(6rem + 900px);"
       >
+        <!---->
+         
         <!---->
          
         <div>

@@ -81,10 +81,10 @@ const routes: Array<RouteConfig> = [
       needAuthentication: true
     }
   }, {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
-    redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION
+    path: ROUTES_PATH.WORKSPACE + '/:groupId',
+    redirect: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION
   }, {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION,
     name: 'WorkspaceVisualization',
     component: Workspace,
     props: true,
@@ -104,7 +104,7 @@ const routes: Array<RouteConfig> = [
       hasBurgerMenu: true
     }
   }, {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId',
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId',
     name: 'WorkspaceDatabase',
     component: Database,
     props: true,
@@ -112,7 +112,7 @@ const routes: Array<RouteConfig> = [
       needAuthentication: true
     }
   }, {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
     name: 'DatabaseSchema',
     component: DatabaseSchema,
     props: true,
@@ -120,7 +120,7 @@ const routes: Array<RouteConfig> = [
       needAuthentication: true
     }
   }, {
-    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.PROCESS,
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.PROCESS,
     name: 'ProcessListing',
     component: ProcessListing,
     props: true,

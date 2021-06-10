@@ -16,6 +16,16 @@
         v-model="tableNameToCreate" autofocus
       />
     </div>
+    <div class="p-field p-mt-4">
+      <label for="table-documentation">
+        {{ $t('pages.databaseSchema.createTableModal.documentation') }}
+      </label>
+      <p-input-text
+        id="table-documentation"
+        type="text"
+        v-model="tableDocumentation"
+      />
+    </div>
     <div v-if="errorTableNameToCreate" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">
         {{ errorTableNameToCreate }}
@@ -49,12 +59,14 @@ export default {
   data () {
     return {
       tableNameToCreate: null,
+      tableDocumentation: null,
       errorTableNameToCreate: null
     }
   },
   methods: {
     closeCreateTableModal () {
       this.tableNameToCreate = null
+      this.tableDocumentation = null
       this.$emit('close', false)
     },
     async confirmCreateTableModal () {
@@ -62,10 +74,12 @@ export default {
         const createTableResponse = await lckServices.table.create({
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
-          text: this.tableNameToCreate
+          text: this.tableNameToCreate,
+          documentation: this.tableDocumentation
         })
         if (createTableResponse) {
           this.tableNameToCreate = null
+          this.tableDocumentation = null
           this.errorTableNameToCreate = false
           this.$emit('close', true)
         }

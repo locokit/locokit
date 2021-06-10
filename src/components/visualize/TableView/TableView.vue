@@ -41,6 +41,7 @@
 
     <lck-datatable
       v-if="definition"
+      :actions="definition.actions"
       :definition="columnsDisplayed"
       :content="content"
       :workspaceId="workspaceId"

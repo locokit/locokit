@@ -37,6 +37,10 @@
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "detail": "Detail row",
       "addNewRow": "Add new row",
+      "notifAction": {
+        "detail": "This redirection type action can only be done from visualisation.",
+        "summary": "Unable to perform this action"
+      },
       "toolbar": {
         "export": {
           "label": "Export as",
@@ -104,6 +108,10 @@
         "duplicate": "Duplicate",
         "delete": "Remove"
       },
+      "actionColumn": {
+        "title": "Action",
+        "edit": "Edit the action"
+      },
       "column": {
         "edit": "Edit the column",
         "hide": "Hide the column",
@@ -155,7 +163,8 @@
       "when": "When",
       "noLog": "No additional information",
       "noDataToDisplay": "No data to display",
-      "successNewRun": "Process has run correctly."
+      "successNewRun": "Process has run correctly.",
+      "failedNewRun": "Process has failed."
     },
     "process": {
       "form": {
@@ -342,6 +351,15 @@
       }
     },
     "workspace": {
+      "form": {
+        "create": "Create a new workspace",
+        "createdSummary": "Your workspace have been created !",
+        "createdDetail": "Your workspace have been created, you can configure it now.",
+        "textPlaceholder": "Workspace's name",
+        "textLabel": "Name",
+        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
+        "docLabel": "Documentation"
+      },
       "title": "Workspaces",
       "created": "Created:",
       "updated": "Updated:",
@@ -419,6 +437,33 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
+        "labelButton": "Button label",
+        "classButton": {
+          "title": "Button style",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
+        "icon": "Button Icon",
+        "action": {
+          "title": "Button action",
+          "page_detail_to": "Go to page",
+          "process_trigger": "Trigger an action/process"
+        },
+        "processId": "Action/Process name",
+        "pageDetailId": "Hidden Page name",
+        "typePageTo": "Redirection to page",
+        "pageId": "Page name",
+        "page": "Visible paage",
+        "pageDetail": "Hidden page",
+        "pageQueryFieldId": "Column name related to page",
+        "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
+        "options": {
+          "displayFieldId": "Display the button according to this field",
+          "displayFieldConditionQuery": "Display the button if the value is equivalent to"
+        },
         "detailPage": "Detail page",
         "addGeoDataSrc": "Add a new geographic data source"
       }
@@ -440,6 +485,7 @@
       "updateTableSidebar": {
         "updateTable": "Update table",
         "tableName": "Table name",
+        "tableDoc": "Table documentation",
         "columnName": "Column name",
         "columnType": "Column type",
         "createColumn": "Create column",
@@ -535,7 +581,8 @@
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",
           "editUserInGroup": "Edit {userName} user in {groupName} group",
-          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group."
+          "confirmationDeleteUser": "Please confirm the deletion of the {userName} user in this {groupName} group.",
+          "workspace": "Workspace"
         }
       }
     },

@@ -71,7 +71,7 @@
               optionLabel="label"
               optionValue="value"
               dataKey="value"
-              :options="ANCHOR_CLASSES"
+              :options="NAMED_CLASSES"
               required
             >
               <template #value="slotProps">
@@ -144,6 +144,8 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
+import { NAMED_CLASSES } from '@/services/lck-utils/prime'
+
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
@@ -156,14 +158,6 @@ import {
 } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
-
-const ANCHOR_CLASSES = [
-  { label: 'danger', value: 'danger' },
-  { label: 'warning', value: 'warning' },
-  { label: 'success', value: 'success' },
-  { label: 'primary', value: 'primary' },
-  { label: 'secondary', value: 'secondary' }
-]
 
 export default Vue.extend({
   name: 'UpdateContainerForm',
@@ -193,7 +187,7 @@ export default Vue.extend({
   data () {
     return {
       containerCopy: new LckContainer(),
-      ANCHOR_CLASSES
+      NAMED_CLASSES
     }
   },
   methods: {

@@ -14,7 +14,9 @@ import {
   LckTableViewColumn,
   SelectValue,
   LckUser,
-  LckAttachment
+  LckAttachment,
+  LckTableView,
+  LckWorkspace
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -280,6 +282,69 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
   return await Promise.all(uploadPromises)
 }
 
+export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
+  const group: LckGroup = await lckServices.group.get(groupId, {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: { $eager: 'aclset' }
+  })
+  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+    query: { $eager: '[chapters.[pages]]' }
+  })
+  return {
+    ...workspace,
+    chapters: workspace?.chapters?.map(c => ({
+      ...c,
+      pages: c.pages?.sort((a, b) => a.position - b.position)
+    }))
+  }
+}
+
+export async function retrievePageWithContainersAndBlocks (id: string) {
+  return await lckServices.page.get(id, {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: { $eager: 'containers.[blocks]' }
+  })
+}
+
+export async function retrieveViewDefinition (id: number) {
+  const result = await lckServices.tableView.get(id, {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: {
+      $eager: '[columns.[column_type, parents.^], actions]',
+      $modifyEager: {
+        columns: {
+          transmitted: true
+        }
+      }
+    }
+  }) as LckTableView
+  result.columns = result.columns?.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
+  return result
+}
+
+export async function retrieveViewData (
+  table_view_id: string,
+  group_id: string,
+  skip = 0,
+  limit = 20,
+  sort = {
+    createdAt: 1
+  },
+  filters = {}
+) {
+  return await lckServices.tableRow.find({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: {
+      table_view_id,
+      $lckGroupId: group_id,
+      $limit: limit,
+      $skip: skip,
+      $sort: sort,
+      ...filters
+    }
+  })
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
@@ -287,5 +352,10 @@ export default {
   getColumnDisplayValue,
   downloadAttachment,
   getAttachmentBlob,
-  uploadMultipleFiles
+  uploadMultipleFiles,
+  retrieveWorkspaceWithChaptersAndPages,
+  retrieveTableViewData,
+  retrieveViewData,
+  retrieveViewDefinition,
+  retrievePageWithContainersAndBlocks
 }
