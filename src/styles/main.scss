@@ -82,6 +82,11 @@ html, body, #app {
   color: var(--primary-color);
 }
 
+.lck-elevation {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-color-light);
+}
+
 /**
  * Colors
  */

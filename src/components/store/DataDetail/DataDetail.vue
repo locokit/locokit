@@ -11,11 +11,20 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns"
+      v-for="column in definition.columns.filter(c => c.displayed)"
       :key="column.id"
     >
-      <div v-if="editableColumns.indexOf(column) > -1">
+      <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
         <div class="p-d-flex">
+          <p-checkbox
+            style="margin: 0 0.5rem 0.5rem 0"
+            v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+            v-model="row.data[column.id]"
+            :id="column.id"
+            :binary="true"
+            @input="onEdit(row.id, column.id, row.data[column.id])"
+          />
+
           <label
             class="lck-color-primary"
             :for="column.id"
@@ -119,13 +128,6 @@
             />
             <span v-else>{{ $t('components.mapview.noData') }}</span>
           </div>
-          <p-checkbox
-            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
-            v-model="row.data[column.id]"
-            :id="column.id"
-            :binary="true"
-            @input="onEdit(row.id, column.id, row.data[column.id])"
-          />
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
             :attachments="row.data[column.id]"
@@ -141,18 +143,18 @@
           />
 
           <component
-            v-else
+            v-else-if="getComponentEditorDetailForColumnType(column) !== 'p-checkbox'"
             :is="getComponentEditorDetailForColumnType(column)"
             :id="column.id"
             v-model="row.data[column.id]"
             @blur="onEdit(row.id, column.id, row.data[column.id])"
             :rows="7"
           />
-          <span
-            class="cell-state"
-            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-          />
         </div>
+        <span
+          class="cell-state"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+        />
       </div>
 
       <div
@@ -160,6 +162,13 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <div class="p-d-flex">
+          <p-checkbox
+            style="margin: 0 0.5rem 0.5rem 0"
+            v-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
+            :modelValue="getColumnDisplayValue(column, row.data[column.id])"
+            :binary="true"
+            :disabled="true"
+          />
           <label
             class="lck-color-primary"
             :for="column.id"
@@ -183,12 +192,6 @@
             interactive: false
           }"
         />
-        <p-checkbox
-          v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
-          :modelValue="getColumnDisplayValue(column, row.data[column.id])"
-          :binary="true"
-          :disabled="true"
-        />
         <lck-badge
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
           v-bind="getColumnDisplayValue(column, row.data[column.id])"
@@ -202,7 +205,7 @@
           @download="$emit('download-attachment', $event)"
         />
 
-        <span v-else>
+        <span v-else-if="!getComponentDisplayDetailForColumnType(column) === 'p-checkbox'">
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
 
@@ -244,7 +247,8 @@ import {
   LckTableRow,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
-  LckTableViewColumn
+  LckTableViewColumn,
+  SelectValue
 } from '@/services/lck-api/definitions'
 
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
@@ -469,7 +473,7 @@ export default {
       ]
     },
     getSelectedValueDetails (columnId: string, value: string) {
-      return this.columnsEnhanced[columnId].dropdownOptions.find(element => element.value === value)
+      return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
     }
   },
   watch: {

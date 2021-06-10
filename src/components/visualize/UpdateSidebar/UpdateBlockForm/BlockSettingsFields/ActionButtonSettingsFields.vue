@@ -130,6 +130,7 @@
      </div>
    </div>
    <div class="p-field">
+     Disabled
      <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
      <lck-autocomplete
        id="blockSettingsTableView"
@@ -142,6 +143,7 @@
      />
    </div>
    <div class="p-field">
+     Disabled
      <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
      <p-input-text
        id="displayFieldId"
@@ -150,6 +152,7 @@
      />
    </div>
    <div class="p-field">
+     Disabled
      <label for="displayFieldConditionQuery">{{ $t('pages.workspace.block.options.displayFieldConditionQuery') }}</label>
      <p-input-text
        id="displayFieldConditionQuery"

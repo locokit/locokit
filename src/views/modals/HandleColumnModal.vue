@@ -172,6 +172,9 @@ export default {
     },
     isFormulaType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA
+    },
+    isBooleanType () {
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.BOOLEAN
     }
   },
   methods: {

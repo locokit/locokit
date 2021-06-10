@@ -41,7 +41,8 @@
           :key="container.id"
           class="lck-container"
           :class="{
-            'editable-container': editMode
+            'editable-container': editMode,
+            'lck-elevation': container.elevation
           }"
         >
           <h2 v-if="container.display_title && !editMode" class="lck-color-title">{{ container.text }}</h2>
@@ -329,6 +330,9 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
+      /**
+       * block.settings.id is a reference to a table_view
+       */
       if (block.settings?.id) {
         if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
           /**
@@ -523,7 +527,10 @@ export default {
     async onPageDetail (block, rowId) {
       await this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
-        params: { pageId: this.$route.params.pageId, pageDetailId: block.settings.pageDetailId },
+        params: {
+          pageId: this.$route.params.pageId,
+          pageDetailId: block.settings.pageDetailId
+        },
         query: { rowId }
       })
     },
@@ -550,7 +557,9 @@ export default {
       await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
-        table_id: block.definition.table_id
+        table_view_id: block.definition.id,
+        // table_id: block.definition.table_id,
+        $lckGroupId: this.groupId
       })
       this.$set(block, 'submitting', false)
       this.$set(block, 'displayNewDialog', false)
@@ -764,6 +773,7 @@ export default {
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, {
             title: data.title,
+            elevation: data.elevation,
             type: data.type,
             settings: data.settings
           })
@@ -866,19 +876,22 @@ export default {
         life: 3000
       })
     },
-    goToPage ({ pageRedirectId, pageQueryFieldId, rowData = null }) {
+    goToPage ({ pageDetailId, pageQueryFieldId, rowData = null }) {
       const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
 
       this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
         params: {
           ...this.$route.params,
-          pageDetailId: pageRedirectId
+          pageDetailId
         },
-        query: { rowId: queryRowId || this.$route.query.rowId }
+        query: {
+          rowId: queryRowId || this.$route.query.rowId
+        }
       })
     },
     async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
+      console.log('onTriggerProcess', block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData })
       const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
         this.$set(block, 'loading', true)
@@ -888,20 +901,6 @@ export default {
           waitForOutput: true
         })
         this.$set(block, 'loading', false)
-
-        if (typePageTo && pageRedirectId) {
-          if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
-            this.goToPage({ pageRedirectId, pageQueryFieldId, rowData })
-          } else {
-            await this.$router.push({
-              name: ROUTES_NAMES.PAGE,
-              params: {
-                ...this.$route.params,
-                pageId: pageRedirectId
-              }
-            })
-          }
-        }
 
         if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
           this.$toast.add({
@@ -917,13 +916,22 @@ export default {
             detail: this.$t('components.processPanel.successNewRun'),
             life: 3000
           })
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { process: useless, ...rest } = res
 
-          // Add execution when event is triggered in actionButton to check if the trigger must be disabled
-          const indexManualProcess = this.manualProcesses.findIndex(process => process.id === processId)
-          if (indexManualProcess >= 0) {
-            this.manualProcesses[indexManualProcess].runs = [rest, ...this.manualProcesses[indexManualProcess].runs]
+          /**
+           * Redirect the user when process succeed
+           */
+          if (typePageTo && pageRedirectId) {
+            if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
+              this.goToPage({ pageRedirectId, pageQueryFieldId, rowData })
+            } else {
+              await this.$router.push({
+                name: ROUTES_NAMES.PAGE,
+                params: {
+                  ...this.$route.params,
+                  pageId: pageRedirectId
+                }
+              })
+            }
           }
         }
       }
@@ -1034,6 +1042,10 @@ export default {
   padding-left: 0.5rem;
 }
 
+.lck-container {
+  border-radius: var(--border-radius);
+}
+
 .lck-container:target {
   scroll-margin-top: 50px;
 }
@@ -1053,20 +1065,21 @@ export default {
 }
 /* classic content */
 
-.lck-layout-classic .lck-container div {
+.lck-layout-classic .lck-container {
   display: flex;
   flex-direction: column;
 }
 
 /* Contenu Centré */
 
-.lck-layout-centered .lck-container > div {
+.lck-layout-centered .lck-container {
   display: flex;
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
   overflow: auto;
+  padding: 1rem;
 }
 
 .lck-layout-centered .lck-block {

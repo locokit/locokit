@@ -27,6 +27,15 @@
         />
       </div>
       <div class="p-field p-d-flex p-flex-column">
+        <label for="container-elevation">
+          {{ $t('pages.workspace.container.elevation') }}
+        </label>
+        <p-switch
+          id="container-elevation"
+          v-model="containerCopy.elevation"
+        />
+      </div>
+      <div class="p-field p-d-flex p-flex-column">
         <label for="container-displayed_in_navbar">
           {{ $t('pages.workspace.container.displayedInNavbar') }}
         </label>
