@@ -62,6 +62,7 @@
         :crudMode="false"
         :definition="filteredDefinitionColumns"
         :row="newRow"
+        mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         :workspaceId="workspaceId"
         @update-suggestions="$listeners['update-suggestions']"

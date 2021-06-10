@@ -156,7 +156,7 @@
       </div>
 
       <div
-        v-else-if="crudMode"
+        v-else-if="mode !== 'creation'"
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <div class="p-d-flex">
@@ -328,6 +328,14 @@ export default {
     workspaceId: {
       type: String,
       required: true
+    },
+    /**
+     * DataDetail mode : creation, read
+     */
+    mode: {
+      type: String,
+      required: false,
+      default: 'read'
     }
   },
   data () {

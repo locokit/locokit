@@ -156,6 +156,7 @@
           :crudMode="crudMode"
           :definition="filteredDefinitionColumns"
           :row="newRow"
+          mode="creation"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
