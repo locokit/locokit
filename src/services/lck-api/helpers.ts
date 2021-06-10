@@ -47,8 +47,7 @@ export async function searchItems ({
         blocked: false,
         name: {
           $ilike: `%${query}%`
-        },
-        $lckGroupId: groupId
+        }
       }
     }) as Paginated<LckUser>
     items = result.data.map(d => ({
@@ -60,8 +59,7 @@ export async function searchItems ({
       query: {
         name: {
           $ilike: `%${query}%`
-        },
-        $lckGroupId: groupId
+        }
       }
     }) as Paginated<LckGroup>
     items = result.data.map(d => ({
@@ -316,7 +314,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
   })
 }
 
-export async function retrieveViewDefinition (id: number, groupId: string) {
+export async function retrieveViewDefinition (id: number) {
   const result = await lckServices.tableView.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
@@ -325,8 +323,7 @@ export async function retrieveViewDefinition (id: number, groupId: string) {
         columns: {
           transmitted: true
         }
-      },
-      $lckGroupId: groupId
+      }
     }
   }) as LckTableView
   result.columns = result.columns?.sort((a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1))
