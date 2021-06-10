@@ -27,18 +27,22 @@ export default function filterRowsByTableViewId (): Hook {
             let currentFilterKeyValue = (c.filter as LckColumnFilter)[filterKey]
             switch (filterKey) {
               case '$eq':
-                currentFilterKeyValue = (
-                  (c.filter as LckColumnFilter)[filterKey] as string
-                ).replace('{userId}', context.params.user?.id)
-                  .replace('{rowId}', context.params?.query?.rowId)
-
-                if ((currentFilterKeyValue as string).includes('{groupId}') && !context.params?.query?.$lckGroupId) {
-                  throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
+                if (typeof (c.filter as LckColumnFilter)[filterKey] === 'string') {
+                  currentFilterKeyValue = (
+                    (c.filter as LckColumnFilter)[filterKey] as string
+                  ).replace('{userId}', context.params.user?.id)
+                    .replace('{rowId}', context.params?.query?.rowId)
+                  if ((currentFilterKeyValue as string).includes('{groupId}') && !context.params?.query?.$lckGroupId) {
+                    throw new NotAcceptable('$lckGroupId needed for this request. Please provide it.')
+                  }
+                  currentFilterKeyValue = (currentFilterKeyValue as string).replace('{groupId}', context.params?.query?.$lckGroupId)
                 }
-                currentFilterKeyValue = (currentFilterKeyValue as string).replace('{groupId}', context.params?.query?.$lckGroupId)
+
                 switch (c.column_type_id) {
                   case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                   case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                  case COLUMN_TYPE.GROUP:
+                  case COLUMN_TYPE.USER:
                     filtersToAdd[c.id + '.reference'] = currentFilterKeyValue
                     break
                   case COLUMN_TYPE.SINGLE_SELECT:

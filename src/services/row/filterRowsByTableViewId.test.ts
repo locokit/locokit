@@ -102,7 +102,7 @@ describe('filterRowsByTableViewId hook', () => {
         [columnTable1Ref.id]: 'lucky table 3',
         [columnTable1FirstName.id]: 'first name',
         [columnTable1LastName.id]: 'last name',
-        [columnTable1User.id]: user1.id,
+        [columnTable1User.id]: null,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
       },
     })
@@ -124,6 +124,24 @@ describe('filterRowsByTableViewId hook', () => {
     expect.assertions(2)
     expect(rows.total).toBe(1)
     expect(rows.data[0].id).toBe(rowTable3.id)
+    await app.service('view').remove(tableView.id)
+  })
+
+  it('restrict view rows to the filter $eq for a user column', async () => {
+    const tableView = await app.service('view').create({
+      text: 'My view',
+      table_id: table1.id,
+    }) as TableView
+    await app.service('table-view-has-table-column').create({
+      table_view_id: tableView.id,
+      table_column_id: columnTable1User.id,
+      filter: {
+        $eq: user1.id,
+      },
+    })
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } }) as Paginated<TableRow>
+    expect.assertions(1)
+    expect(rows.total).toBe(2)
     await app.service('view').remove(tableView.id)
   })
 
