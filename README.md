@@ -3,7 +3,6 @@
 [![pipeline status](https://gitlab.makina-corpus.net/lck/lck-api/badges/master/pipeline.svg)](https://gitlab.makina-corpus.net/lck/lck-api/-/commits/master)
 [![coverage report](https://gitlab.makina-corpus.net/lck/lck-api/badges/master/coverage.svg)](https://gitlab.makina-corpus.net/lck/lck-api/-/commits/master)
 
-
 The backend platform for the Low-Code Kit platform.
 
 ## About
@@ -12,14 +11,23 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 ## Getting Started
 
-1. npm ci / install
-2. cp -r patch/** node_modules
-3. Get docker and docker-compose
-4. docker-compose up
-5. write a `.env` file with vars as in `.env.example`
-6. npm run migrate:latest
-7. npm run seed:run
-8. npm run start
+Initialize node modules:
+
+```sh
+npm ci # install deps
+```
+
+From here you need docker and docker-compose in recent version.
+
+Copy a `.env` from  `.env.example` and customize it.
+
+```sh
+docker-compose up
+
+npm run migrate:latest
+npm run seed:run
+npm run start
+```
 
 The default user created is `superadmin@makina-corpus.net` with password `locokit`.
 
@@ -60,7 +68,6 @@ $ feathers help                           # Show all commands
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
 
 ## Contribute
 
