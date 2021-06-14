@@ -23,6 +23,16 @@
       />
     </div>
 
+    <div class="p-field p-d-flex p-flex-column">
+      <label for="blockElevation">
+        {{ $t('pages.workspace.block.elevation') }}
+      </label>
+      <p-switch
+        id="blockElevation"
+        v-model="blockCopy.elevation"
+      />
+    </div>
+
     <!-- Custom settings -->
     <paragraph-settings-fields
       v-if="blockCopy.type === BLOCK_TYPE.PARAGRAPH"
@@ -102,6 +112,7 @@ import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definit
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import InputSwitch from 'primevue/inputswitch'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
@@ -124,6 +135,7 @@ export default {
     'map-settings-fields': MapSettingsFields,
     'action-button-settings-fields': ActionButtonSettingsFields,
     'p-input-text': Vue.extend(InputText),
+    'p-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown)
   },
   props: {

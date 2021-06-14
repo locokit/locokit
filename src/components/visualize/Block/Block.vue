@@ -115,26 +115,35 @@ export default Vue.extend({
       return (this.block as BlockTableView).settings?.exportAllowed
     },
     getBlockTypeClassname () {
+      let className = (this.block?.elevation as boolean) ? 'lck-elevation ' : ''
       switch (this.block?.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-          return 'lck-table-view'
+          className += 'lck-table-view'
+          break
         case BLOCK_TYPE.KANBAN_VIEW:
-          return 'lck-kanban-view'
+          className += 'lck-kanban-view'
+          break
         case BLOCK_TYPE.DETAIL_VIEW:
-          return 'lck-detail-view'
+          className += 'lck-detail-view'
+          break
         case BLOCK_TYPE.PARAGRAPH:
-          return 'lck-paragraph'
+          className += 'lck-paragraph'
+          break
         case BLOCK_TYPE.MARKDOWN:
-          return 'lck-markdown'
+          className += 'lck-markdown'
+          break
         case BLOCK_TYPE.MEDIA:
-          return 'lck-media'
+          className += 'lck-media'
+          break
         case BLOCK_TYPE.ACTIONBUTTON:
-          return 'lck-action-button'
+          className += 'lck-action-button'
+          break
         // case BLOCK_TYPE.MAP_VIEW:
-          // return 'lck-map-view'
+          // className += 'lck-map-view'
         default:
-          return 'lck-block-default'
+          className += 'lck-block-default'
       }
+      return className
     }
   }
 })

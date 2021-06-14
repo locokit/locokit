@@ -72,6 +72,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
     </div>
      
     <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
       class="p-field"
     >
       <label
@@ -246,6 +276,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -363,6 +423,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -496,6 +586,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -904,6 +1024,36 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -1021,6 +1171,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -1154,6 +1334,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -1439,6 +1649,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      

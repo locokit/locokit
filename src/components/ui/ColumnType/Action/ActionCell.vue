@@ -3,8 +3,7 @@
     :displayCheckIcon="displayCheckIcon"
     :settings="action"
     :content="content"
-    @go-to-page-detail="$emit('go-to-page-detail', {...$event, rowData: content })"
-    @create-process-run="$emit('create-process-run', {...$event, rowData: content })"
+    v-on="$listeners"
   />
 </template>
 

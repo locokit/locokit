@@ -217,6 +217,36 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-elevation"
+                    >
+                      
+        Elevation
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-elevation"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -475,6 +505,36 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     </div>
                      
                     <!---->
+                  </div>
+                </div>
+                 
+                <div
+                  class="p-field p-d-flex p-flex-column"
+                >
+                  <label
+                    for="blockElevation"
+                  >
+                    
+      Elevation
+    
+                  </label>
+                   
+                  <div
+                    class="p-inputswitch p-component"
+                    id="blockElevation"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        role="switch"
+                        type="checkbox"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-inputswitch-slider"
+                    />
                   </div>
                 </div>
                  
@@ -918,6 +978,36 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-elevation"
+                    >
+                      
+        Elevation
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-elevation"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -1321,6 +1411,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     class="p-field p-d-flex p-flex-column"
                   >
                     <label
+                      for="container-elevation"
+                    >
+                      
+        Elevation
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-elevation"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
                       for="container-displayed_in_navbar"
                     >
                       
@@ -1582,6 +1702,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                   </div>
                 </div>
                  
+                <div
+                  class="p-field p-d-flex p-flex-column"
+                >
+                  <label
+                    for="blockElevation"
+                  >
+                    
+      Elevation
+    
+                  </label>
+                   
+                  <div
+                    class="p-inputswitch p-component"
+                    id="blockElevation"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        role="switch"
+                        type="checkbox"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-inputswitch-slider"
+                    />
+                  </div>
+                </div>
+                 
                 <!---->
                  
                 <div
@@ -1833,6 +1983,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
                     <div
                       class="p-inputswitch p-component"
                       id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="container-elevation"
+                    >
+                      
+        Elevation
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-elevation"
                     >
                       <div
                         class="p-hidden-accessible"
@@ -2248,6 +2428,36 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
                     <div
                       class="p-inputswitch p-component"
                       id="container-display_title"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
+                      />
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="container-elevation"
+                    >
+                      
+        Elevation
+      
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="container-elevation"
                     >
                       <div
                         class="p-hidden-accessible"
