@@ -1,6 +1,5 @@
 {
   "swagger": {
-    "docsPath": "/swagger",
-    "docsJsonPath": "/api/swagger.json"
+    "urlLogo": "/api/logokit-grayscale.png"
   }
 }

@@ -10,7 +10,8 @@
   },
   "swagger": {
     "docsPath": "/swagger",
-    "docsJsonPath": "/swagger.json"
+    "docsJsonPath": "/swagger.json",
+    "urlLogo": "/logokit-grayscale.png"
   },
   "authentication": {
     "entity": "user",

@@ -133,7 +133,7 @@ You'll be able to make your request, according your permissions / ACLs.
 `,
       version: process.env.npm_version || 'local version',
       'x-logo': {
-        url: '/logokit-grayscale.png',
+        url: app.get('swagger').urlLogo,
       },
       host: app.get('publicUrl'),
     },
