@@ -85,8 +85,8 @@ app.configure(objection)
 
 app.configure(swagger({
   openApiVersion: 3,
-  docsPath: process.env.NODE_ENV === 'production' ? `${app.get('publicUrl') as string}/swagger` : '/swagger',
-  docsJsonPath: process.env.NODE_ENV === 'production' ? `${app.get('publicUrl') as string}/swagger.json` : '/swagger.json',
+  docsPath: '/swagger',
+  docsJsonPath: '/swagger.json',
   specs: {
     info: {
       title: 'LoCoKit API platform',
@@ -133,7 +133,7 @@ You'll be able to make your request, according your permissions / ACLs.
 `,
       version: process.env.npm_version || 'local version',
       'x-logo': {
-        url: process.env.NODE_ENV === 'production' ? `${app.get('publicUrl') as string}/logokit-grayscale.png` : '/logokit-grayscale.png',
+        url: '/logokit-grayscale.png',
       },
       host: app.get('publicUrl'),
     },
