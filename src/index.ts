@@ -61,18 +61,19 @@ export enum GROUP_ROLE {
 }
 
 export enum BLOCK_TYPE {
-  TABLE_VIEW = 'TableView',
-  DETAIL_VIEW = 'DetailView',
+  TABLESET = 'TableSet',
+  DATARECORD = 'DataRecord',
   PARAGRAPH = 'Paragraph',
   MARKDOWN = 'Markdown',
-  // HEADING = "Heading",
   MEDIA = 'Media',
-  KANBAN_VIEW = 'KanbanView',
-  // GRIDVIEW = "GridView",
-  MAPVIEW = 'MapView',
-  MAPDETAILVIEW = 'MapDetailView',
-  SYNTHESIS = 'Synthesis',
+  KANBANSET = 'KanbanSet',
+  HIGHLIGHTFIELD = 'HighlightField',
+  MAPSET = 'MapSet',
+  MAPFIELD = 'MapField',
+  CARDSET = 'CardSet',
   ACTIONBUTTON = 'ActionButton',
+  MARKDOWNFIELD = 'MarkdownField',
+  FORMRECORD = 'FormRecord',
 }
 
 export enum MEDIA_TYPE {
@@ -98,28 +99,6 @@ export enum GEOMETRY_TYPE {
   POLYGON = 'Polygon',
 }
 
-export interface TableViewDefinition {
-  id: string;
-  columns: {
-    id: string;
-    column_type_id: COLUMN_TYPE;
-    position: number;
-    editable: boolean;
-    text: string;
-    settings: Record<string, unknown>;
-    table_id: string;
-  }[];
-}
-
-export interface TableViewContent {
-  data: {
-    id: string;
-    text: string;
-    table_id: string;
-    data: Record<string, unknown>;
-  }[];
-}
-
 export interface Block {
   id: string;
   type: BLOCK_TYPE;
@@ -143,52 +122,47 @@ export interface BlockMarkdown extends Block {
   settings: MarkdownSettings;
 }
 
-export interface TableViewSettings {
-  id: string;
-  pageDetailId: string;
-  addAllowed: boolean;
-  exportAllowed: boolean;
+export interface TableSetSettings {
+  id: string; // uuid of table_view
+  pageDetailId: string; // uuid of page, allow to redirect to a detail page (display only a record)
+  addAllowed: boolean; // option to allow creation of record
+  exportAllowed: boolean; // option to allow data export
 }
 
-export interface BlockTableView extends Block {
-  type: BLOCK_TYPE.TABLE_VIEW;
-  settings: TableViewSettings;
+export interface BlockTableSet extends Block {
+  type: BLOCK_TYPE.TABLESET;
+  settings: TableSetSettings;
 }
 
-export interface BlockTableViewEnhanced extends BlockTableView {
-  definition: TableViewDefinition;
-  content: TableViewContent;
+export interface DataRecordSettings {
+  id: string; // uuid of table_view
 }
 
-export interface KanbanSettings {
-  /**
-   * Id of the table_view in database
-   */
-  id: string;
-  /**
-   * View's column id on which the kanban's columns is displayed
-   */
-  columnId: string;
-  /**
-   * View's column values to use for creating kanban's columns
-   */
-  columnValues: {
-    valueId: string;
-    position: number;
+export interface BlockDataRecord extends Block {
+  type: BLOCK_TYPE.DATARECORD;
+  settings: TableSetSettings;
+}
+
+export interface KanbanSetSettings {
+  id: string; // uuid of table_view
+  columnId: string; // uuid table_column
+  columnValues: { // View's column values to use for creating kanban's columns
+    valueId: string; // uuid
+    position: number; // column position
   }[];
 }
 
-export interface BlockKanbanView extends Block {
-  type: BLOCK_TYPE.KANBAN_VIEW;
-  settings: KanbanSettings;
+export interface BlockKanbanSet extends Block {
+  type: BLOCK_TYPE.KANBANSET;
+  settings: KanbanSetSettings;
 }
 
 export interface MediaSettings {
-  displayMode: MEDIA_TYPE;
+  displayMode: MEDIA_TYPE; // display mode
   medias: {
-    name: string;
-    srcURL: string;
-    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
+    name: string; // image or video name
+    srcURL: string; // image or video public url
+    type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO; // media type
   }[];
 }
 
@@ -197,11 +171,11 @@ export interface BlockMedia extends Block {
   settings: MediaSettings;
 }
 
-export interface MapSettings {
-  id: string;// Id of the table_view in database
-  pageDetailId: string; // Id of the detail page
+export interface MapSetSettings {
+  id: string;// uuid of the table_view
+  pageDetailId: string; // uuid of page, allow to redirect to a detail page (display only a record)
   sources: {
-    geometry: GEOMETRY_TYPE; // POINT, LINESTRING, POLYGON
+    geometry: GEOMETRY_TYPE; // geometry type
     field: string; // column / field 's UUID
     popup: boolean; // do we display a popup
     popupSettings: { // a popup is like a card
@@ -214,34 +188,35 @@ export interface MapSettings {
   }[];
 }
 
-export interface MapView extends Block {
-  type: BLOCK_TYPE.MAPVIEW;
-  settings: MapSettings;
+export interface BlockMapSet extends Block {
+  type: BLOCK_TYPE.MAPSET;
+  settings: MapSetSettings;
 }
 
-export interface MapDetailView extends Block {
-  type: BLOCK_TYPE.MAPDETAILVIEW;
-  settings: MapSettings;
+export interface BlockMapField extends Block {
+  type: BLOCK_TYPE.MAPFIELD;
+  settings: MapSetSettings;
 }
 
-export interface SynthesisSettings {
-  id: string;// Id of the table_view in database.
-  columnId: string; // Id of the column. Select data to display.
+export interface HighlightFieldSettings {
+  id: string;// uuid of the table_view
+  columnId: string; // uuid of the column. Select data to display.
   prefix: string; // Add a prefix.
   suffix: string; // Add a suffix.
   aggregate: AGGREGATE_FUNCTION; // Parse data according to a function
 }
 
-export interface Synthesis extends Block {
-  type: BLOCK_TYPE.SYNTHESIS;
-  settings: SynthesisSettings;
+export interface BlockHighlightField extends Block {
+  type: BLOCK_TYPE.HIGHLIGHTFIELD;
+  settings: HighlightFieldSettings;
 }
 
 export interface ActionButtonSettings {
+  id: string; // uuid of table_view
   label: string; // Title of the button
   classButton: BUTTON_CLASS; // Class applied to the button,
   icon: string; // Class icon injected in the button, at the beginning, like NavBar,
-  action: ACTION_BUTTON_TYPE; // type
+  action: ACTION_BUTTON_TYPE; // action's type
   processId: string; // uuid trigger
   pageDetailId: string; // uuid pageDetail
   pageRedirectId: string; // uuid page detail
@@ -250,7 +225,38 @@ export interface ActionButtonSettings {
   displayFieldValue: boolean; // true // for the first iteration, we only use BOOLEAN fields
 }
 
-export interface ActionButton extends Block {
+export interface BlockActionButton extends Block {
   type: BLOCK_TYPE.ACTIONBUTTON;
   settings: ActionButtonSettings;
+}
+
+export interface CardSetSettings extends Block {
+  id: string; // uuid of table_view
+  displayField: {
+    fieldId: string; // uuid table_column
+  }[] // To limit at 3 front side
+}
+
+export interface BlockCardSet extends Block {
+  type: BLOCK_TYPE.CARDSET;
+  settings: CardSetSettings;
+}
+
+export interface MarkdownFieldSettings extends Block {
+  id: string; // uuid of table_view
+  displayFieldId: string; // uuid table_column
+}
+
+export interface BlockMarkdownField extends Block {
+  type: BLOCK_TYPE.MARKDOWNFIELD;
+  settings: MarkdownFieldSettings;
+}
+
+export interface FormRecordSettings extends Block {
+  id: string; // uuid of table_view
+}
+
+export interface BlockFormRecord extends Block {
+  type: BLOCK_TYPE.FORMRECORD;
+  settings: FormRecordSettings;
 }
