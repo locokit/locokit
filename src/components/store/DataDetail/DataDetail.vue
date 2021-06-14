@@ -11,13 +11,12 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns.filter(c => c.displayed)"
+      v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
       :key="column.id"
     >
       <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
         <div class="p-d-flex">
           <p-checkbox
-            style="margin: 0 0.5rem 0.5rem 0"
             v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             v-model="row.data[column.id]"
             :id="column.id"
@@ -163,7 +162,6 @@
       >
         <div class="p-d-flex">
           <p-checkbox
-            style="margin: 0 0.5rem 0.5rem 0"
             v-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
             :modelValue="getColumnDisplayValue(column, row.data[column.id])"
             :binary="true"
@@ -525,27 +523,30 @@ export default {
 </script>
 
 <style scoped>
+::v-deep .p-checkbox {
+  margin: 0 0.5rem 0.5rem 0;
+}
 
-/deep/ .p-checkbox .p-checkbox-box {
+::v-deep .p-checkbox .p-checkbox-box {
   border-color: var(--primary-color-lighten);
 }
 
-/deep/ .p-checkbox .p-checkbox-box.p-highlight {
+::v-deep .p-checkbox .p-checkbox-box.p-highlight {
   border-color: var(--primary-color-lighten);
   background: var(--primary-color-lighten);
 }
 
-/deep/ .p-checkbox .p-checkbox-box .p-checkbox-icon {
+::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
   font-weight: bold;
 }
 
-/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
   border-color: var(--primary-color-darken);
   background: var(--primary-color-darken);
 }
 
-/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
   color: var(--primary-color-lighten) !important;
 }
 
@@ -562,4 +563,5 @@ export default {
   font-size: 1.6rem;
   color: var(--color-error);
 }
+
 </style>
