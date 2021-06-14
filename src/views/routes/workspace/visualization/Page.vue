@@ -891,7 +891,6 @@ export default {
       })
     },
     async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
-      console.log('onTriggerProcess', block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData })
       const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
         this.$set(block, 'loading', true)
