@@ -9,6 +9,7 @@ RUN apt-get autoclean
 RUN apt install nano
 COPY package*.json /code/
 COPY src /code/src/
+COPY public /code/public/
 COPY templates /code/templates/
 COPY lib /code/lib/
 COPY config /code/config/

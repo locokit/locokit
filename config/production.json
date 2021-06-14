@@ -1,1 +1,6 @@
-{}
+{
+  "swagger": {
+    "docsPath": "/swagger",
+    "docsJsonPath": "/api/swagger.json"
+  }
+}
