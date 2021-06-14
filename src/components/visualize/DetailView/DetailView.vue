@@ -6,7 +6,7 @@
     :row="content.data[0]"
     v-on="$listeners"
     v-bind="$attrs"
-    :title="null"
+    :title="content.data[0].text"
   />
 </template>
 
