@@ -85,8 +85,8 @@ app.configure(objection)
 
 app.configure(swagger({
   openApiVersion: 3,
-  docsPath: app.get('public').swagger.docsPath,
-  docsJsonPath: app.get('public').swagger.docsJsonPath,
+  docsPath: app.get('swagger').docsPath,
+  docsJsonPath: app.get('swagger').docsJsonPath,
   specs: {
     info: {
       title: 'LoCoKit API platform',
