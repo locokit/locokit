@@ -140,7 +140,7 @@ export interface DataRecordSettings {
 
 export interface BlockDataRecord extends Block {
   type: BLOCK_TYPE.DATARECORD;
-  settings: TableSetSettings;
+  settings: DataRecordSettings;
 }
 
 export interface KanbanSetSettings {
