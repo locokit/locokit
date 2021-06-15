@@ -111,7 +111,7 @@ export interface Block {
   elevation: boolean;
   conditionalDisplayTableViewId: string;
   conditionalDisplayFieldId: string;
-  conditionalDisplayFieldValue: string;
+  conditionalDisplayFieldValue: boolean;
 }
 
 export interface ParagraphSettings {
