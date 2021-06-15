@@ -33,12 +33,18 @@ export enum ACTION_BUTTON_TYPE {
   PROCESS_TRIGGER = 'process_trigger',
 }
 
-export enum BUTTON_CLASS {
+export enum COLOR_CLASS {
   DANGER = 'danger',
   WARNING = 'warning',
   SUCCESS = 'success',
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
+}
+export enum TEXT_ALIGN_CLASS {
+  LEFT = 'left',
+  RIGHT = 'right',
+  CENTER = 'center',
+  JUSTIFY = 'justify',
 }
 
 export enum AGGREGATE_FUNCTION {
@@ -115,6 +121,8 @@ export interface BlockParagraph extends Block {
 
 export interface MarkdownSettings {
   content: string;
+  textColor: COLOR_CLASS;
+  textAlign: TEXT_ALIGN_CLASS;
 }
 
 export interface BlockMarkdown extends Block {
@@ -214,7 +222,7 @@ export interface BlockHighlightField extends Block {
 export interface ActionButtonSettings {
   id: string; // uuid of table_view
   label: string; // Title of the button
-  classButton: BUTTON_CLASS; // Class applied to the button,
+  classButton: COLOR_CLASS; // Class applied to the button,
   icon: string; // Class icon injected in the button, at the beginning, like NavBar,
   action: ACTION_BUTTON_TYPE; // action's type
   processId: string; // uuid trigger
