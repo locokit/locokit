@@ -12,6 +12,9 @@ export class block extends BaseModel {
   position?: number
   settings?: object
   elevation?: boolean
+  conditionalDisplayTableViewId?: string
+  conditionalDisplayFieldId?: string
+  conditionalDisplayFieldValue?: boolean
 
   static get tableName (): string {
     return 'block'
@@ -23,11 +26,25 @@ export class block extends BaseModel {
       required: ['container_id'],
       properties: {
         title: { type: ['string', 'null'] },
-        container_id: { type: 'string' },
+        container_id: {
+          type: 'string',
+          format: 'uuid',
+        },
         type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'ActionButton', 'Default'] },
         position: { type: ['number', 'null'] },
         settings: { type: ['object', 'null'] },
         elevation: { type: 'boolean' },
+        conditionalDisplayTableViewId: {
+          type: 'string',
+          format: 'uuid',
+        },
+        conditionalDisplayFieldId: {
+          type: 'string',
+          format: 'uuid',
+        },
+        conditionalDisplayFieldValue: {
+          type: 'boolean',
+        },
       },
     }
   }
