@@ -9,6 +9,8 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid('conditional_display_table_column_id')
       table.foreign('conditional_display_table_column_id', 'FK_block_conditional_display_table_column_id').references('id').inTable('table_column')
       table.boolean('conditional_display_field_value').defaultTo(false)
+      table.renameColumn('createdAt', 'created_at')
+      table.renameColumn('updatedAt', 'updated_at')
     })
 }
 
@@ -21,7 +23,8 @@ export async function down(knex: Knex): Promise<void> {
       table.dropForeign(['conditional_display_table_column_id'], 'FK_block_conditional_display_table_column_id')
       table.dropColumn('conditional_display_table_column_id')
       table.dropColumn('conditional_display_field_value')
+      table.renameColumn('created_at', 'createdAt')
+      table.renameColumn('updated_at', 'updatedAt')
     })
 
 }
-
