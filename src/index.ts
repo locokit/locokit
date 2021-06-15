@@ -108,6 +108,10 @@ export enum GEOMETRY_TYPE {
 export interface Block {
   id: string;
   type: BLOCK_TYPE;
+  elevation: boolean;
+  conditionalDisplayTableViewId: string;
+  conditionalDisplayFieldId: string;
+  conditionalDisplayFieldValue: string;
 }
 
 export interface ParagraphSettings {
