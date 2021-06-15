@@ -230,7 +230,7 @@ export interface BlockActionButton extends Block {
   settings: ActionButtonSettings;
 }
 
-export interface CardSetSettings extends Block {
+export interface CardSetSettings {
   id: string; // uuid of table_view
   displayField: {
     fieldId: string; // uuid table_column
@@ -242,9 +242,11 @@ export interface BlockCardSet extends Block {
   settings: CardSetSettings;
 }
 
-export interface MarkdownFieldSettings extends Block {
+export interface MarkdownFieldSettings {
   id: string; // uuid of table_view
   displayFieldId: string; // uuid table_column
+  color: COLOR_CLASS;
+  textAlign: TEXT_ALIGN_CLASS;
 }
 
 export interface BlockMarkdownField extends Block {
@@ -252,7 +254,7 @@ export interface BlockMarkdownField extends Block {
   settings: MarkdownFieldSettings;
 }
 
-export interface FormRecordSettings extends Block {
+export interface FormRecordSettings {
   id: string; // uuid of table_view
 }
 
