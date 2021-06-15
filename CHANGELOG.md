@@ -1,5 +1,26 @@
 # CHANGELOG
 
+**v0.2.5**
+
+**Breaking Changes:**
+* rename block:
+  - TableView -> TableSet
+  - DetailView -> DataRecord
+  - KanbanView -> KanbanSet
+  - MapView -> MapSet
+  - Synthesis -> HighlightField
+  - MapDetailView -> MapField
+* remove Heading, GridView
+
+**Feature**
+* add new block: FormRecord, MarkdownField, CardSet
+* fix prop id in ActionButton
+* improve Block with display conditional and elevation prop
+* add textColor and textAlign settings in MarkdownSettings
+
+**Quality**
+* improve documentation
+
 **v0.2.4**
 
 **Quality**
