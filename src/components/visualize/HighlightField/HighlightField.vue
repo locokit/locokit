@@ -16,7 +16,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'Synthesis',
+  name: 'HighlightField',
   props: {
     title: {
       type: String,

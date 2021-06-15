@@ -44,7 +44,7 @@ const mediaBlock = {
 const kanbanBlock = {
   id: '1',
   title: 'my kanban block',
-  type: BLOCK_TYPE.KANBAN_VIEW,
+  type: BLOCK_TYPE.KANBANSET,
   settings: {}
 }
 const markdownBlock = {
@@ -71,7 +71,7 @@ const relatedChapterPages = [
 const tableViewBlock = {
   id: '1',
   title: 'my table view block',
-  type: BLOCK_TYPE.TABLE_VIEW,
+  type: BLOCK_TYPE.TABLESET,
   settings: {
     id: '123456',
     exportAllowed: true,
@@ -83,7 +83,7 @@ const tableViewBlock = {
 const detailViewBlock = {
   id: '1',
   title: 'my detail view block',
-  type: BLOCK_TYPE.DETAIL_VIEW,
+  type: BLOCK_TYPE.DATARECORD,
   settings: {
     content: 'The text to display.'
   },

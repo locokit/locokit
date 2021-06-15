@@ -20,7 +20,7 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 jest.mock('@locokit/lck-glossary', () => ({
   BLOCK_TYPE: {
     PARAGRAPH: 'Paragraph',
-    TABLE_VIEW: 'TableView'
+    TABLESET: 'TableSet'
   },
   COLUMN_TYPE: {
   }
@@ -89,7 +89,7 @@ const mockPages = {
               id: 'ref_view'
             },
             title: 'My paragraph block',
-            type: BLOCK_TYPE.TABLE_VIEW,
+            type: BLOCK_TYPE.TABLESET,
             position: 1,
             container_id: '11'
           }

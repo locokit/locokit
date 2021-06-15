@@ -54,7 +54,7 @@
       @delete-media="onDeleteMedia"
     />
     <table-view-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.TABLE_VIEW"
+      v-else-if="blockCopy.type === BLOCK_TYPE.TABLESET"
       :addAllowed.sync="blockCopy.settings.addAllowed"
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
@@ -66,7 +66,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <detail-view-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.DETAIL_VIEW"
+      v-else-if="blockCopy.type === BLOCK_TYPE.DATARECORD"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -74,7 +74,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <map-settings-fields
-      v-else-if="[BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockCopy.type)"
+      v-else-if="[BLOCK_TYPE.MAPSET, BLOCK_TYPE.MAPFIELD].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :relatedChapterPages="relatedChapterPages"
@@ -158,8 +158,8 @@ export default {
   },
   data () {
     return {
+      BLOCK_TYPE,
       blockCopy: new LckBlockExtended(),
-      BLOCK_TYPE: BLOCK_TYPE,
       blockRefreshRequired: false
     }
   },
