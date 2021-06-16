@@ -183,31 +183,35 @@ export interface BlockMedia extends Block {
   settings: MediaSettings;
 }
 
-export interface MapSetSettings {
-  id: string;// uuid of the table_view
+export interface MapSourceSettings {
+  id: string; // uuid of the table_view
   pageDetailId: string; // uuid of page, allow to redirect to a detail page (display only a record)
-  sources: {
-    geometry: GEOMETRY_TYPE; // geometry type
-    field: string; // column / field 's UUID
-    popup: boolean; // do we display a popup
-    popupSettings: { // a popup is like a card
-      title: string; // column / field 's UUID
-      contentFields: {
-        field: string; // column / field's UUID
-        class: string; // css class to apply on this field
-      }[]
-    }
-  }[];
+  geometry: GEOMETRY_TYPE; // geometry type
+  field: string; // column / field 's UUID
+  popup: boolean; // do we display a popup
+  popupSettings: { // a popup is like a card
+    title: string; // column / field 's UUID
+    contentFields: {
+      field: string; // column / field's UUID
+      class: string; // css class to apply on this field
+    }[]
+  }
+  editable: boolean; // can we edit the data from the map
+  selectable: boolean; // can we select a feature
+}
+
+export interface MapSettings {
+  sources: MapSourceSettings[];
 }
 
 export interface BlockMapSet extends Block {
   type: BLOCK_TYPE.MAPSET;
-  settings: MapSetSettings;
+  settings: MapSettings;
 }
 
 export interface BlockMapField extends Block {
   type: BLOCK_TYPE.MAPFIELD;
-  settings: MapSetSettings;
+  settings: MapSettings;
 }
 
 export interface HighlightFieldSettings {
