@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BLOCK_TYPE, COLUMN_TYPE, MapSourceSettings } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE, GEOMETRY_TYPE, MapSourceSettings } from '@locokit/lck-glossary'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
 
@@ -138,6 +138,20 @@ const i18nOptions: LckPopupI18nOptions = {
   noReference: 'No reference'
 }
 
+const defaultMapSourceSettings: MapSourceSettings = {
+  id: '',
+  editable: false,
+  selectable: false,
+  field: '',
+  geometry: GEOMETRY_TYPE.POINT,
+  pageDetailId: '',
+  popup: false,
+  popupSettings: {
+    contentFields: [],
+    title: ''
+  }
+}
+
 describe('Transformations with OpenLayers', () => {
   describe('transformFeatureToWKT', () => {
     it('returns the eWKT value related to a single GeoJSON feature', () => {
@@ -220,21 +234,24 @@ describe('Transformations with OpenLayers', () => {
 
   describe('getOnlyGeoColumn', () => {
     it('Returns all the geographic columns of the table view if no column id is specified in the map source settings', () => {
-      const mapSourceSettings: MapSourceSettings = {
+      const mapSourceSettings = {
+        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
       const geoColumns = getOnlyGeoColumn(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn, geoPolygonColumn])
     })
     it('Returns an empty array if no column id is specified in the map source settings and there is no geographic column', () => {
-      const mapSourceSettings: MapSourceSettings = {
+      const mapSourceSettings = {
+        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
       const geoColumns = getOnlyGeoColumn([stringColumn], mapSourceSettings)
       expect(geoColumns).toEqual([])
     })
     it('Returns an array containing one geographic column if a column id is specified in the map source settings', () => {
-      const mapSourceSettings: MapSourceSettings = {
+      const mapSourceSettings = {
+        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b40'
       }
@@ -242,7 +259,8 @@ describe('Transformations with OpenLayers', () => {
       expect(geoColumns).toEqual([geoPointColumn])
     })
     it('Returns an empty array if the specified column id does not exist in the table view', () => {
-      const mapSourceSettings: MapSourceSettings = {
+      const mapSourceSettings = {
+        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b00'
       }
@@ -250,7 +268,8 @@ describe('Transformations with OpenLayers', () => {
       expect(geoColumns).toEqual([])
     })
     it('Returns an empty array if the specified column id is not a geographic column', () => {
-      const mapSourceSettings: MapSourceSettings = {
+      const mapSourceSettings = {
+        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b38'
       }
@@ -259,7 +278,8 @@ describe('Transformations with OpenLayers', () => {
     })
   })
   describe('makeGeoJsonFeaturesCollection', () => {
-    const mapSourceSettings: MapSourceSettings = {
+    const mapSourceSettings = {
+      ...defaultMapSourceSettings,
       id: '263c21e6-5339-4748-903f-8c77e21314cf'
     }
     it('Returns an empty features array and an empty editable geometry types set if there is no row', () => {
@@ -377,6 +397,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           pageDetailId
         }],
@@ -394,6 +415,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -412,6 +434,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -430,6 +453,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -461,6 +485,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -484,6 +509,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumns,
         [{
+          ...defaultMapSourceSettings,
           id: geoTableView.id,
           editable: true
         }],
@@ -538,6 +564,7 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: [] },
           {
             sources: [{
+              ...defaultMapSourceSettings,
               id: 'invalid-tableview-id'
             }]
           },
@@ -551,6 +578,7 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: rows },
         {
           sources: [{
+            ...defaultMapSourceSettings,
             id: geoTableView.id
           }]
         },
@@ -561,11 +589,17 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].type).toBe('FeatureCollection')
       expect(resources[0].features).toHaveLength(4)
       expect(resources[0].displayPopup).toBe(false)
-      expect(resources[0].pageDetailId).toBeUndefined()
+      expect(resources[0].pageDetailId).toBeFalsy()
       expect(resources[0].editableGeometryTypes.size).toBe(0)
       expect(resources[0].selectable).toBe(false)
-      expect(resources[0].layers).toContain(GEO_STYLE.Point)
-      expect(resources[0].layers).toContain(GEO_STYLE.Polygon)
+      expect(resources[0].layers).toContainEqual({
+        ...GEO_STYLE.Point,
+        id: `features-collection-source-0-${GEO_STYLE.Point.id}`
+      })
+      expect(resources[0].layers).toContainEqual({
+        ...GEO_STYLE.Polygon,
+        id: `features-collection-source-0-${GEO_STYLE.Polygon.id}`
+      })
     })
     it('Returns that the resource is selectable if it is specified in the map settings', () => {
       const resources = getLckGeoResources(
@@ -573,6 +607,7 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
+            ...defaultMapSourceSettings,
             id: geoTableView.id,
             selectable: true
           }]
@@ -588,6 +623,7 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
+            ...defaultMapSourceSettings,
             id: geoTableView.id,
             pageDetailId
           }]
@@ -603,6 +639,7 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
+            ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true
           }]

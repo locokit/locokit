@@ -34,7 +34,6 @@ import {
   getColumnTypeId,
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
-import cloneDeep from 'lodash.clonedeep'
 
 const lckGeoColor: Expression = [
   'case',
