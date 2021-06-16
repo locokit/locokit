@@ -30,6 +30,8 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -42,11 +44,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        Trek
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -58,6 +56,8 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
@@ -91,6 +91,8 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -103,11 +105,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        AMSTERDAMAIR
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -119,6 +117,8 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
@@ -131,11 +131,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        10/30/2020
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -147,6 +143,8 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
@@ -159,13 +157,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        Welcome at home, 
-this is a multi line text
-and it works
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -177,6 +169,8 @@ and it works
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b39"
@@ -208,10 +202,14 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -232,20 +230,24 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
-           
-          <span
-            class="cell-state saved error"
-          />
         </div>
+         
+        <span
+          class="cell-state saved error"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
@@ -308,20 +310,24 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </div>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -382,20 +388,24 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
@@ -425,20 +435,24 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
@@ -459,20 +473,24 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b39"
@@ -492,11 +510,11 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             class="map-container"
             id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
   </div>
@@ -515,10 +533,14 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -539,20 +561,24 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
-           
-          <span
-            class="cell-state saved valid"
-          />
         </div>
+         
+        <span
+          class="cell-state saved valid"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
@@ -615,20 +641,24 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </div>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -689,20 +719,24 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
@@ -732,20 +766,24 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
@@ -766,20 +804,24 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b39"
@@ -799,11 +841,11 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
             class="map-container"
             id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
   </div>
@@ -822,10 +864,14 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -846,20 +892,24 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
-           
-          <span
-            class="cell-state saving error"
-          />
         </div>
+         
+        <span
+          class="cell-state saving error"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
@@ -922,20 +972,24 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </div>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -996,20 +1050,24 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
@@ -1039,20 +1097,24 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
@@ -1073,20 +1135,24 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b39"
@@ -1106,11 +1172,11 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
             class="map-container"
             id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
   </div>
@@ -1129,10 +1195,14 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -1153,20 +1223,24 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
@@ -1229,20 +1303,24 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </div>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -1303,20 +1381,24 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
@@ -1346,20 +1428,24 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </span>
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
@@ -1380,20 +1466,24 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
     <div
       class="p-field"
     >
-      <div>
+      <div
+        style="position: relative;"
+      >
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b39"
@@ -1413,11 +1503,11 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             class="map-container"
             id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
-           
-          <span
-            class="cell-state"
-          />
         </div>
+         
+        <span
+          class="cell-state"
+        />
       </div>
     </div>
   </div>
@@ -1442,6 +1532,30 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <div
+            class="p-checkbox p-component p-checkbox-checked p-checkbox-disabled"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                disabled="disabled"
+                type="checkbox"
+                value=""
+              />
+            </div>
+             
+            <div
+              aria-checked="true"
+              class="p-checkbox-box p-highlight p-disabled"
+              role="checkbox"
+            >
+              <span
+                class="p-checkbox-icon pi pi-check"
+              />
+            </div>
+          </div>
+           
           <label
             class="lck-color-primary"
             for="e065323c-1151-447f-be0f-6d2728117b38"
@@ -1454,29 +1568,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <div
-          class="p-checkbox p-component p-checkbox-checked p-checkbox-disabled"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              disabled="disabled"
-              type="checkbox"
-              value=""
-            />
-          </div>
-           
-          <div
-            aria-checked="true"
-            class="p-checkbox-box p-highlight p-disabled"
-            role="checkbox"
-          >
-            <span
-              class="p-checkbox-icon pi pi-check"
-            />
-          </div>
-        </div>
+        <!---->
       </div>
     </div>
     <div
@@ -1488,6 +1580,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e165323c-1151-447f-be0f-6d2728117b38"
@@ -1500,11 +1594,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        My first string
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1516,6 +1606,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e265323c-1151-447f-be0f-6d2728117b38"
@@ -1528,11 +1620,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        10
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1544,6 +1632,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e365323c-1151-447f-be0f-6d2728117b38"
@@ -1556,11 +1646,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        10.5
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1572,6 +1658,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e465323c-1151-447f-be0f-6d2728117b38"
@@ -1584,11 +1672,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        01/15/2021
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1600,6 +1684,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e565323c-1151-447f-be0f-6d2728117b38"
@@ -1612,11 +1698,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        User 1
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1628,6 +1710,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e665323c-1151-447f-be0f-6d2728117b38"
@@ -1640,11 +1724,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        Group 1
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1656,6 +1736,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e765323c-1151-447f-be0f-6d2728117b38"
@@ -1668,11 +1750,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        RBT 1
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1684,6 +1762,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e865323c-1151-447f-be0f-6d2728117b38"
@@ -1717,6 +1797,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e965323c-1151-447f-be0f-6d2728117b38"
@@ -1729,11 +1811,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        Option 1, Option 2
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1745,6 +1823,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e105323c-1151-447f-be0f-6d2728117b38"
@@ -1757,11 +1837,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        My formula
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1773,6 +1849,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e115323c-1151-447f-be0f-6d2728117b38"
@@ -1785,11 +1863,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        File
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1801,6 +1875,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e125323c-1151-447f-be0f-6d2728117b38"
@@ -1813,11 +1889,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        User 1, User 2
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1829,6 +1901,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e135323c-1151-447f-be0f-6d2728117b38"
@@ -1841,11 +1915,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        My text to display...
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div
@@ -1857,6 +1927,8 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
         <div
           class="p-d-flex"
         >
+          <!---->
+           
           <label
             class="lck-color-primary"
             for="e145323c-1151-447f-be0f-6d2728117b38"
@@ -1869,11 +1941,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        http://myurl.com
-      
-        </span>
+        <!---->
       </div>
     </div>
   </div>

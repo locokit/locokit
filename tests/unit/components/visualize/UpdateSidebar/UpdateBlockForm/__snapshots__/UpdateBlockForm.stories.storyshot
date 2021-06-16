@@ -426,6 +426,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="source-configuration"
