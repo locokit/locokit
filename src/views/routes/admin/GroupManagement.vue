@@ -15,7 +15,12 @@
         <template slot="left">
           <h2>{{ group.name }}</h2>
           <span class="p-pl-1">
-            (Espace de travail <strong>{{ group.workspace.text }}</strong>, chapitre  <strong>{{ group.chapter.text }}</strong>)
+            (
+              {{ $t('pages.groupManagement.text.workspace') }}<strong>{{ group.aclset.workspace.text }}</strong>,
+              <span v-if="group.aclset.chapter">
+                chapitre <strong>{{ group.aclset.chapter.text }}</strong>
+              </span>
+            )
           </span>
         </template>
 
@@ -320,12 +325,12 @@ export default {
       await this.loadCurrentGroupsWithUser()
     },
     async loadCurrentGroupsWithUser () {
-      const groups = await lckClient.service('group').find({
+      this.groups = await lckClient.service('group').find({
         query: {
-          $eager: '[users,workspace,chapter]'
+          $eager: '[users,aclset.[workspace, chapter]]',
+          $limit: -1
         }
       })
-      this.groups = groups.data
     },
     async updateUserSuggestions ({ query }) {
       const usersMatched = await lckClient.service('user').find({

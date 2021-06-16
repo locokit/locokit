@@ -1,7 +1,7 @@
 <template>
   <div class="p-d-flex p-flex-column d-flex-1 o-auto">
     <div
-      v-if="databaseState.data.tables.length > 0"
+      v-if="database && database.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
       <div class="p-d-flex p-jc-between o-auto lck-database-nav">
@@ -10,7 +10,7 @@
           @tab-change="handleTabChange"
         >
           <p-tab-panel
-            v-for="table in databaseState.data.tables"
+            v-for="table in database.tables"
             :key="table.id"
             :data-table-id="table.id"
             :header="table.text"
@@ -96,6 +96,7 @@
 
           <lck-datatable
             v-if="block.definition"
+            :actions="avalaibleActions"
             :definition="displayColumnsView"
             :content="block.content"
             :loading="block.loading"
@@ -116,12 +117,14 @@
             @column-resize="onColumnResize"
             @column-reorder="onColumnReorder"
             @column-select="onColumnSelect"
+            @action-column-select="onActionColumnSelect"
             @display-column-sidebar="onDisplayColumnSidebar"
             @table-view-column-edit="onTableViewColumnEdit"
             @row-delete="onRowDelete"
             @row-duplicate="onRowDuplicate"
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
+            @go-to-page-detail="goToPage"
 
             @download-attachment="onDownloadAttachment"
 
@@ -153,6 +156,7 @@
           :crudMode="crudMode"
           :definition="filteredDefinitionColumns"
           :row="newRow"
+          mode="creation"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
           @update-suggestions="updateLocalAutocompleteSuggestions"
@@ -194,10 +198,17 @@
         :visible.sync="showEditColumnSidebar"
       >
         <lck-column-form
+          v-if="currentColumnToEdit"
           :column="currentColumnToEdit"
           :submitting="submitting"
           @column-edit="onColumnEdit"
           @table-view-column-edit="onTableViewColumnEdit"
+        />
+        <lck-action-column-form
+          v-else-if="currentActionColumnToEdit"
+          :action="currentActionColumnToEdit"
+          :submitting="submitting"
+          @action-column-edit="onActionColumnEdit"
         />
       </p-sidebar>
     </div>
@@ -220,20 +231,17 @@ import {
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
-  databaseState,
-  patchTableData,
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
   retrieveTableRowsWithSkipAndLimit,
-  retrieveTableViews,
-  saveTableData
-} from '@/store/database'
+  retrieveTableViews
+} from '@/services/lck-helpers/database'
 import {
   createProcessRun,
   patchProcess,
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow
-} from '@/store/process'
+} from '@/services/lck-helpers/process'
 import {
   isEditableColumn,
   getOriginalColumn
@@ -244,6 +252,7 @@ import {
 } from '@/services/lck-api'
 
 import { getCurrentFilters } from '@/services/lck-utils/filter'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -260,6 +269,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import Dialog from '@/components/ui/Dialog/Dialog.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+import ActionColumnForm from '@/components/store/ActionColumnForm/ActionColumnForm.vue'
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 
 import WithToolbar from '@/layouts/WithToolbar.vue'
@@ -285,6 +295,7 @@ export default {
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
     'lck-column-form': ColumnForm,
+    'lck-action-column-form': ActionColumnForm,
     'layout-with-toolbar': WithToolbar,
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -296,7 +307,7 @@ export default {
       type: String,
       required: true
     },
-    workspaceId: {
+    groupId: {
       type: String,
       required: true
     }
@@ -305,7 +316,9 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
-      databaseState,
+      database: {
+        tables: []
+      },
       crudMode: true,
       cellState: {},
       fileExportFormat: [
@@ -365,11 +378,19 @@ export default {
       row: {},
       displayPanel: false,
       // Column part
-      currentColumnToEdit: {},
+      currentColumnToEdit: null,
+      currentActionColumnToEdit: null,
       showEditColumnSidebar: false
     }
   },
   computed: {
+    avalaibleActions () {
+      if (this.views && this.selectedViewId) {
+        const view = this.views.find(({ id }) => this.selectedViewId === id)
+        return view.actions
+      }
+      return []
+    },
     filteredDefinitionColumns () {
       if (!this.block.definition.columns) return []
       return {
@@ -412,6 +433,10 @@ export default {
     },
     hasDataToDisplay () {
       return this.displayColumnsView.columns.length > 0 && this.block?.content?.total > 0
+    },
+    workspaceId () {
+      if (!this.database) return null
+      return this.database.workspace_id
     }
   },
   methods: {
@@ -471,6 +496,7 @@ export default {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
+        this.groupId,
         {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
@@ -504,7 +530,7 @@ export default {
           if (!this.newRow.data[c.id]) return
           data[c.id] = this.newRow.data[c.id].map(a => a.id)
         })
-      await saveTableData({
+      await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: this.currentTableId
@@ -548,7 +574,8 @@ export default {
       await lckHelpers.exportTableRowDataCSV(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },
@@ -558,7 +585,8 @@ export default {
       await lckHelpers.exportTableRowDataXLS(
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
-        this.fileName = this.currentView.text
+        this.fileName = this.currentView.text,
+        this.groupId
       )
       this.exporting = false
     },
@@ -590,7 +618,7 @@ export default {
           updatePromises.push(
             lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
           )
-          if (this.currentColumnToEdit.id === id) this.resetColumnEdit()
+          if (this.currentColumnToEdit?.id === id) this.resetColumnEdit()
         })
       }
       await Promise.all(updatePromises)
@@ -711,7 +739,7 @@ export default {
     },
     async onColumnEdit (editedColumnData) {
       this.submitting = true
-      if (this.currentColumnToEdit.id) {
+      if (this.currentColumnToEdit?.id) {
         try {
           // API request
           const updatedColumn = await lckServices.tableColumn.patch(
@@ -746,20 +774,58 @@ export default {
         }
       }
     },
+    async onActionColumnEdit (dataForm) {
+      this.submitting = true
+      if (this.currentActionColumnToEdit.id) {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { id, createdAt, updatedAt, type_page_to, ...data } = dataForm
+          const updatedActionColumn = await lckServices.tableAction.patch(
+            id,
+            data
+          )
+          // Update the column of each table view of the table
+          this.views.forEach(view => {
+            const currentTableViewAction = view.actions.find(action => action.id === id)
+            if (currentTableViewAction) {
+              for (const key in updatedActionColumn) {
+                if (currentTableViewAction[key] == null && updatedActionColumn[key] != null) this.$set(currentTableViewAction, key, updatedActionColumn[key])
+                else currentTableViewAction[key] = updatedActionColumn[key]
+              }
+            }
+          })
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.currentActionColumnToEdit.label,
+            detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } finally {
+          this.submitting = false
+        }
+      }
+    },
     onColumnSelect (selectedColumn) {
       this.currentColumnToEdit = selectedColumn
+      this.currentAction = null
+      this.showEditColumnSidebar = false
+    },
+    onActionColumnSelect (action) {
+      this.currentActionColumnToEdit = action
+      this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
     onDisplayColumnSidebar () {
       this.showEditColumnSidebar = true
     },
     resetColumnEdit () {
-      this.currentColumnToEdit = {}
+      this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
     async onTableViewColumnEdit (editedColumn) {
       this.submitting = true
-      if (this.currentColumnToEdit.id) {
+      if (this.currentColumnToEdit?.id) {
         try {
           // Update table view column
           const updatedColumn = await lckServices.tableViewColumn.patch(
@@ -814,14 +880,16 @@ export default {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
@@ -834,10 +902,11 @@ export default {
       }
 
       try {
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newValue
-          }
+          },
+          $lckGroupId: this.groupId
         })
         this.cellState.isValid = true
         currentRow.data = res.data
@@ -856,13 +925,14 @@ export default {
     async onTriggerProcess ({ rowId, processId, name }) {
       const res = await createProcessRun({
         table_row_id: rowId,
-        process_id: processId
+        process_id: processId,
+        waitForOutput: true
       })
-      if (res && res.error) {
+      if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
         this.$toast.add({
           severity: 'error',
-          summary: name,
-          detail: this.$t('error.http.' + res.code),
+          summary: name || this.$t('components.processPanel.failedNewRun'),
+          detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
           life: 3000
         })
       } else {
@@ -886,6 +956,14 @@ export default {
           this.processesByRow[indexProcessRow].runs = [rest, ...this.processesByRow[indexProcessRow].runs]
         }
       }
+    },
+    async goToPage () {
+      this.$toast.add({
+        severity: 'info',
+        summary: this.$t('components.datatable.notifAction.summary'),
+        detail: this.$t('components.datatable.notifAction.detail'),
+        life: 5000
+      })
     },
     async onMultipleAutocompleteEditNewRow (columnId) {
       this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
@@ -914,7 +992,7 @@ export default {
           /**
            * Need to update the data with the new files uploaded + the old files
            */
-          const res = await patchTableData(currentRow.id, {
+          const res = await lckServices.tableRow.patch(currentRow.id, {
             data: {
               [columnId]: newDataFiles
             }
@@ -944,7 +1022,7 @@ export default {
 
       try {
         const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newDataFiles
           }
@@ -967,11 +1045,11 @@ export default {
     }
   },
   async mounted () {
-    await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
+    this.database = await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
 
     // load the first table
-    if (this.databaseState.data.tables.length > 0) {
-      this.currentTableId = this.databaseState.data.tables[0].id
+    if (this.database.tables.length > 0) {
+      this.currentTableId = this.database.tables[0].id
       this.loadTableAndProcess()
     }
   }

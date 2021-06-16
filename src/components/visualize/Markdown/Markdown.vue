@@ -64,10 +64,8 @@ export default {
 
 <style lang="scss">
 .lck-markdown {
-  margin: 1rem;
   padding: 1rem;
   background-color: var(--background-color-light);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   h1, h3, h5 {
     color: var(--primary-color);

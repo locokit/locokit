@@ -23,6 +23,16 @@
       />
     </div>
 
+    <div class="p-field p-d-flex p-flex-column">
+      <label for="blockElevation">
+        {{ $t('pages.workspace.block.elevation') }}
+      </label>
+      <p-switch
+        id="blockElevation"
+        v-model="blockCopy.elevation"
+      />
+    </div>
+
     <!-- Custom settings -->
     <paragraph-settings-fields
       v-if="blockCopy.type === BLOCK_TYPE.PARAGRAPH"
@@ -76,18 +86,36 @@
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
+    <action-button-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.ACTIONBUTTON"
+      :id.sync="blockCopy.settings.id"
+      :label.sync="blockCopy.settings.label"
+      :classButton.sync="blockCopy.settings.classButton"
+      :icon.sync="blockCopy.settings.icon"
+      :action.sync="blockCopy.settings.action"
+      :processId.sync="blockCopy.settings.processId"
+      :typePageTo.sync="blockCopy.settings.typePageTo "
+      :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :pageRedirectId.sync="blockCopy.settings.pageRedirectId"
+      :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
+      :tableViewDefinition="blockCopy.definition"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
+      :displayFieldId.sync="blockCopy.settings.displayFieldId"
+      :displayFieldConditionQuery.sync="blockCopy.settings.displayFieldConditionQuery"
+    />
   </lck-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import cloneDeep from 'lodash/cloneDeep'
 
 import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import InputSwitch from 'primevue/inputswitch'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
@@ -96,6 +124,7 @@ import MediaSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBloc
 import TableViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableViewSettingsFields.vue'
 import DetailViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DetailViewSettingsFields.vue'
 import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
+import ActionButtonSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ActionButtonSettingsFields.vue'
 
 export default {
   name: 'UpdateBlockForm',
@@ -107,7 +136,9 @@ export default {
     'table-view-settings-fields': TableViewSettingsFields,
     'detail-view-settings-fields': DetailViewSettingsFields,
     'map-settings-fields': MapSettingsFields,
+    'action-button-settings-fields': ActionButtonSettingsFields,
     'p-input-text': Vue.extend(InputText),
+    'p-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
@@ -138,15 +169,6 @@ export default {
   computed: {
     blockTypesValues () {
       return Object.values(BLOCK_TYPE)
-    }
-  },
-  watch: {
-    block: {
-      handler (newValue: LckBlockExtended) {
-        this.blockCopy = cloneDeep(newValue)
-        if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
-      },
-      immediate: true
     }
   },
   methods: {
@@ -212,6 +234,15 @@ export default {
     },
     onDeleteMapSource (index: number) {
       (this.blockCopy.settings as MapSettings).sources.splice(index, 1)
+    }
+  },
+  watch: {
+    block: {
+      handler (newValue: LckBlockExtended) {
+        this.blockCopy = { ...newValue }
+        if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
+      },
+      immediate: true
     }
   }
 }

@@ -72,6 +72,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
     </div>
      
     <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
       class="p-field"
     >
       <label
@@ -82,7 +112,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
        
       <span
         aria-haspopup="listbox"
-        aria-owns="pv_id_43_list"
+        aria-owns="pv_id_47_list"
         class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
         dropdown="true"
         id="blockSettingsTableView"
@@ -91,7 +121,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_43_list"
+          aria-controls="pv_id_47_list"
           autocomplete="off"
           class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
           id="blockSettingsTableView"
@@ -246,6 +276,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -366,6 +426,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="source-configuration"
@@ -374,14 +464,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           class="p-field"
         >
           <label
-            for="blockSettingsMap"
+            for="blockSettingsMap-0"
           >
             View to display
           </label>
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_44_list"
+            aria-owns="pv_id_48_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-0"
@@ -389,7 +479,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_44_list"
+              aria-controls="pv_id_48_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-0"
@@ -430,7 +520,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           class="p-field"
         >
           <label
-            for="blockSettingsDetailPage"
+            for="blockSettingsDetailPage-0"
           >
             Detail page
           </label>
@@ -504,14 +594,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           class="p-field"
         >
           <label
-            for="blockSettingsMap"
+            for="blockSettingsMap-1"
           >
             View to display
           </label>
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_45_list"
+            aria-owns="pv_id_49_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-1"
@@ -519,7 +609,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_45_list"
+              aria-controls="pv_id_49_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-1"
@@ -560,7 +650,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           class="p-field"
         >
           <label
-            for="blockSettingsDetailPage"
+            for="blockSettingsDetailPage-1"
           >
             Detail page
           </label>
@@ -771,6 +861,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
     </div>
      
     <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
       class="p-field"
     >
       <label
@@ -900,6 +1020,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -1308,6 +1458,36 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -1425,6 +1605,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      
@@ -1561,6 +1771,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="p-field"
@@ -1573,7 +1813,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_42_list"
+          aria-owns="pv_id_46_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="blockSettingsTableView"
@@ -1582,7 +1822,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_42_list"
+            aria-controls="pv_id_46_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockSettingsTableView"
@@ -1843,6 +2083,36 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         </div>
          
         <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
       </div>
     </div>
      

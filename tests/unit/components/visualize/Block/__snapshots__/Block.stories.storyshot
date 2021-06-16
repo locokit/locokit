@@ -9,6 +9,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
   >
     <div
       class="editable-block"
+      style="width: 100%;"
     >
       <div
         class="edit-block-line"
@@ -88,7 +89,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
       </div>
        
       <div
-        class="lck-color-content block-content"
+        class="lck-paragraph block-content"
         title="Titre"
         type="Paragraph"
       >
@@ -110,6 +111,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
   >
     <div
       class=""
+      style="width: 100%;"
     >
       <h3
         class="lck-color-title"
@@ -142,6 +144,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
   >
     <div
       class=""
+      style="width: 100%;"
     >
       <h3
         class="lck-color-title"
@@ -150,7 +153,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
       </h3>
        
       <div
-        class="lck-color-content block-content"
+        class="lck-paragraph block-content"
         title="Titre"
         type="Paragraph"
       >
@@ -172,6 +175,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
   >
     <div
       class=""
+      style="width: 100%;"
     >
       <h3
         class="lck-color-title"
@@ -252,6 +256,8 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
        p-datatable p-component p-datatable-resizable"
               style="width: calc(6rem + 450px);"
             >
+              <!---->
+               
               <!---->
                
               <div>
@@ -492,6 +498,7 @@ exports[`storyshots components/visualize/Block unknown type 1`] = `
   >
     <div
       class=""
+      style="width: 100%;"
     >
       <h3
         class="lck-color-title"

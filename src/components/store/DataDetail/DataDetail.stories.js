@@ -103,6 +103,16 @@ const tableViewData = {
         order: null,
         filter: null,
         displayed: true
+      },
+      {
+        text: 'Zone géographique',
+        id: 'e065323c-1151-447f-be0f-6d2728117b39',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+        column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
+        order: null,
+        filter: null,
+        displayed: true
       }
     ]
   },
@@ -188,6 +198,17 @@ const tableViewData = {
         filter: null,
         displayed: true,
         editable: true
+      },
+      {
+        text: 'Zone géographique',
+        id: 'e065323c-1151-447f-be0f-6d2728117b39',
+        settings: null,
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+        column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
+        order: null,
+        filter: null,
+        displayed: true,
+        editable: true
       }
     ]
   },
@@ -202,8 +223,8 @@ const tableViewData = {
 
       },
       'e065323c-1151-447f-be0f-6d2728117b38': 'Trek',
-      '413bf240-b8fb-4a5b-87eb-074bef2ee21a': 'Welcome at home, \nthis is a multi line text\nand it works'
-
+      '413bf240-b8fb-4a5b-87eb-074bef2ee21a': 'Welcome at home, \nthis is a multi line text\nand it works',
+      'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))'
     },
     id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf'

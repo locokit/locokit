@@ -6,7 +6,7 @@
       class="source-configuration"
     >
       <div class="p-field">
-        <label for="blockSettingsMap">{{ $t('pages.workspace.block.tableView') }}</label>
+        <label :for="`blockSettingsMap-${index}`">{{ $t('pages.workspace.block.tableView') }}</label>
         <lck-autocomplete
           :id="`blockSettingsMap-${index}`"
           field="text"
@@ -18,7 +18,7 @@
         />
       </div>
       <div class="p-field">
-        <label for="blockSettingsDetailPage">{{ $t('pages.workspace.block.detailPage') }}</label>
+        <label :for="`blockSettingsDetailPage-${index}`">{{ $t('pages.workspace.block.detailPage') }}</label>
         <p-dropdown
           :id="`blockSettingsDetailPage-${index}`"
           :options="relatedChapterPages"

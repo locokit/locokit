@@ -37,6 +37,10 @@
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
+      "notifAction": {
+        "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
+        "summary": "Impossible d'effectuer cette action"
+      },
       "toolbar": {
         "export": {
           "label": "Exporter",
@@ -104,6 +108,10 @@
         "duplicate": "Dupliquer",
         "delete": "Supprimer"
       },
+      "actionColumn": {
+        "title": "Action",
+        "edit": "Éditer l'action"
+      },
       "column": {
         "edit": "Éditer la colonne",
         "hide": "Cacher la colonne",
@@ -115,7 +123,8 @@
         "title": "Titre de la colonne",
         "values": "Valeurs de la colonne",
         "displayed": "Colonne affichée",
-        "editable": "Colonne éditable"
+        "editable": "Colonne éditable",
+        "required": "Colonne requis"
       }
     },
     "overlayPanel": {
@@ -155,7 +164,8 @@
       "when": "Executé le",
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
-      "successNewRun": "Le processus a éte exécuté correctement."
+      "successNewRun": "Le processus a éte exécuté correctement.",
+      "failedNewRun": "Le processus a échoué."
     },
     "process": {
       "form": {
@@ -342,6 +352,15 @@
       }
     },
     "workspace": {
+      "form": {
+        "create": "Créer un nouvel espace de travail",
+        "createdSummary": "Votre espace de travail a été créé !",
+        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer.",
+        "textPlaceholder": "Nom de l'espace de travail",
+        "textLabel": "Nom",
+        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
+        "docLabel": "Documentation"
+      },
       "title": "Espaces de travail",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
@@ -368,7 +387,7 @@
         "pageHidden": "Cacher la page",
         "layout": "Disposition",
         "pagePosition": "Position de la page",
-        "pageConfiguration": "Configuration du la page",
+        "pageConfiguration": "Configuration de la page",
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
         "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
@@ -386,6 +405,8 @@
         "noBlocks": "Aucun bloc trouvé",
         "displayedInNavbar": "Navigation activée",
         "navigationExplain": "Configuration de la navigation pour ce conteneur",
+        "elevation": "Élévation",
+        "elevationExplain": "Affichage d'une ombre portée au niveau du conteneur",
         "anchor": {
           "label": "Libellé",
           "icon": "Icône",
@@ -419,6 +440,35 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
+        "elevation": "Élévation",
+        "elevationExplain": "Affichage d'une ombre portée au niveau du bloc",
+        "labelButton": "Libellé du bouton",
+        "classButton": {
+          "title": "Style du bouton",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
+        "icon": "Icône du bouton",
+        "action": {
+          "title": "Action du bouton",
+          "page_detail_to": "Aller sur une page",
+          "process_trigger": "Déclenche une action/processus"
+        },
+        "processId": "Nom de l'action/processus",
+        "pageDetailId": "Nom de la page cachée",
+        "typePageTo": "Redirection vers une page",
+        "pageId": "Nom de la page",
+        "page": "Page accessible",
+        "pageDetail": "Page cachée",
+        "pageQueryFieldId": "Nom de la colonne lié à la page",
+        "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
+        "options": {
+          "displayFieldId": "Afficher le bouton selon ce champ",
+          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
+        },
         "detailPage": "Page de détails",
         "addGeoDataSrc": "Ajouter une nouvelle source de données géographiques"
       }
@@ -440,6 +490,7 @@
       "updateTableSidebar": {
         "updateTable": "Modifier une table",
         "tableName": "Nom de la table",
+        "tableDoc": "Documentation de la table",
         "columnName": "Nom de la colonne",
         "columnType": "Type de colonne",
         "createColumn": "Créer une colonne",
@@ -535,7 +586,8 @@
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
           "editUserInGroup": "Modifier l'utilisateur {userName} du groupe {groupName}",
-          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}."
+          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}.",
+          "workspace": "Espace de travail"
         }
       }
     },

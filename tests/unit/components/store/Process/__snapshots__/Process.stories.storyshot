@@ -145,7 +145,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_1_list"
+                aria-owns="pv_id_5_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="table"
@@ -155,7 +155,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_1_list"
+                  aria-controls="pv_id_5_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="table"
@@ -337,9 +337,9 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-accordion-header"
               >
                 <a
-                  aria-controls="pv_id_2_content"
+                  aria-controls="pv_id_6_content"
                   class="p-accordion-header-link"
-                  id="pv_id_2_header"
+                  id="pv_id_6_header"
                   role="tab"
                   tabindex="0"
                 >
@@ -357,9 +357,9 @@ exports[`storyshots components/store/process/Process default 1`] = `
               </div>
                
               <div
-                aria-labelledby="pv_id_2_header"
+                aria-labelledby="pv_id_6_header"
                 class="p-toggleable-content"
-                id="pv_id_2_content"
+                id="pv_id_6_content"
                 role="region"
                 style="display: none;"
               >
@@ -409,9 +409,9 @@ Over.
                 class="p-accordion-header"
               >
                 <a
-                  aria-controls="pv_id_3_content"
+                  aria-controls="pv_id_7_content"
                   class="p-accordion-header-link"
-                  id="pv_id_3_header"
+                  id="pv_id_7_header"
                   role="tab"
                   tabindex="0"
                 >
@@ -429,9 +429,9 @@ Over.
               </div>
                
               <div
-                aria-labelledby="pv_id_3_header"
+                aria-labelledby="pv_id_7_header"
                 class="p-toggleable-content"
-                id="pv_id_3_content"
+                id="pv_id_7_content"
                 role="region"
                 style="display: none;"
               >
@@ -452,9 +452,9 @@ Over.
                 class="p-accordion-header"
               >
                 <a
-                  aria-controls="pv_id_4_content"
+                  aria-controls="pv_id_8_content"
                   class="p-accordion-header-link"
-                  id="pv_id_4_header"
+                  id="pv_id_8_header"
                   role="tab"
                   tabindex="0"
                 >
@@ -472,9 +472,9 @@ Over.
               </div>
                
               <div
-                aria-labelledby="pv_id_4_header"
+                aria-labelledby="pv_id_8_header"
                 class="p-toggleable-content"
-                id="pv_id_4_content"
+                id="pv_id_8_content"
                 role="region"
                 style="display: none;"
               >

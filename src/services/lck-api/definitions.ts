@@ -1,4 +1,4 @@
-import { COLUMN_TYPE, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, GROUP_ROLE, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -123,6 +123,10 @@ export class LckTableViewColumn extends LckTableColumn {
    * Sort of value
    */
   sort!: SORT_COLUMN;
+  /**
+   * Is value required
+   */
+  required!: boolean;
 }
 
 export enum SORT_COLUMN {
@@ -137,6 +141,21 @@ export class LckTableView extends LckBaseModel {
    */
   table_id!: string;
   columns?: LckTableViewColumn[]
+}
+
+export class LckTableAction extends LckBaseModel {
+  label!: string
+  class_button!: string
+  icon?: string|null
+  action!: string
+  page_redirect_id?: string
+  display_field_id?: string
+  display_field_condition_query?: object|null
+  /**
+   * Reference to the LckTable
+   */
+  table_id!: string
+  process_id?: string
 }
 
 export class LckTableRowDataComplex {
@@ -179,6 +198,7 @@ export class LckContainer extends LckBaseModel {
   text!: string;
   display_title!: boolean;
   displayed_in_navbar!: boolean;
+  elevation!: boolean;
   anchor_label?: string;
   anchor_icon?: string;
   anchor_icon_class?: AnchorClass;
@@ -267,10 +287,32 @@ export class LckUser {
 }
 
 export class LckGroup extends LckBaseModel {
-  workspace?: LckWorkspace;
-  chapter?: LckChapter;
-  chapter_id?: string;
-  workspace_role?: string;
-  name!: string;
-  users?: LckUser[];
+  name!: string
+  users?: LckUser[]
+  usergroups?: {
+    user_id: string;
+    group_id: string;
+    uhg_role: GROUP_ROLE;
+  }[]
+
+  aclset_id!: string
+  aclset?: LckAclSet
+}
+
+export class LckUserGroup extends LckBaseModel {
+  uhg_role!: GROUP_ROLE
+  user_id!: number
+  user?: LckUser
+  group_id!: string
+  group?: LckGroup
+}
+
+export class LckAclSet extends LckBaseModel {
+  label!: string
+  workspace_id!: string
+  workspace?: LckWorkspace
+  chapter_id?: string
+  chapter?: LckChapter
+  manager!: boolean
+  groups?: LckGroup[]
 }

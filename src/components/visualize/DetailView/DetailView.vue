@@ -1,21 +1,17 @@
 <template>
-  <div
+  <lck-data-detail
     v-if="definition && content && content.data && rowId"
-  >
-    <lck-data-detail
-      class="detail-view centered-content-view box-with-shadow"
-      :definition="definition"
-      :workspaceId="workspaceId"
-      :row="content.data[0]"
-      :cellState="cellState"
-      :autocompleteSuggestions="autocompleteSuggestions"
-      v-on="$listeners"
-    />
-  </div>
+    class="detail-view centered-content-view"
+    :definition="definition"
+    :row="content.data[0]"
+    v-on="$listeners"
+    v-bind="$attrs"
+    :title="content.data[0].text"
+  />
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue'
+import Vue, { PropType } from 'vue'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import CommunicatingBlock from '@/components/visualize/Block/CommunicatingBlock'
@@ -68,7 +64,8 @@ export default CommunicatingBlock.extend({
   },
   computed: {
     rowId (): string {
-      return this.$route.query?.rowId as string
+      // return this.$route.query?.rowId as string
+      return this.content?.data?.[0]?.id
     }
   },
   methods: {

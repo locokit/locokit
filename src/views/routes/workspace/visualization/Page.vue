@@ -41,7 +41,8 @@
           :key="container.id"
           class="lck-container"
           :class="{
-            'editable-container': editMode
+            'editable-container': editMode,
+            'lck-elevation': container.elevation
           }"
         >
           <h2 v-if="container.display_title && !editMode" class="lck-color-title">{{ container.text }}</h2>
@@ -103,6 +104,12 @@
               @download-attachment="onDownloadAttachment"
               @upload-files="onUploadFiles(block, $event)"
               @remove-attachment="onRemoveAttachment(block, $event)"
+
+              @go-to-page-detail="goToPage"
+              @create-process-run="onTriggerProcess(block, $event)"
+
+              @update-features="onGeoDataEdit(block, $event)"
+              @remove-features="onGeoDataRemove(block, $event)"
             />
           </draggable>
           <p-button
@@ -184,29 +191,28 @@ import {
 } from '@locokit/lck-glossary'
 
 import {
-  retrievePageWithContainersAndBlocks,
-  retrieveViewDefinition,
-  retrieveViewData,
-  retrieveRow
-} from '@/store/visualize'
-import {
-  patchTableData,
-  saveTableData
-} from '@/store/database'
-import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
 import {
-  isGeoBlock
+  isGeoBlock,
+  transformFeatureToWKT
 } from '@/services/lck-utils/map/transformWithOL'
+import {
+  objectFromArray
+} from '@/services/lck-utils/arrays'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
+import {
+  createProcessRun
+} from '@/services/lck-helpers/process'
 
 import Block from '@/components/visualize/Block/Block'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
+import { ROUTES_NAMES } from '@/router/paths'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Page',
@@ -239,11 +245,16 @@ export default {
     workspaceId: {
       type: String,
       required: true
+    },
+    groupId: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
       page: {},
+      sources: {},
       blocksOptions: {},
       autocompleteSuggestions: null,
       exporting: false,
@@ -260,20 +271,6 @@ export default {
       },
       editableSidebarWidth: '40rem',
       editableAutocompleteSuggestions: null
-    }
-  },
-  watch: {
-    page (newVal) {
-      // Hide the updated container sidebar
-      this.onCloseUpdateContainerSidebar()
-      // retrieve for each blocks the definition / data of the block
-      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
-        container.blocks.sort((a, b) => a.position - b.position)
-        container.blocks.forEach(async block => {
-          await this.loadBlockContentAndDefinition(block)
-        })
-      })
     }
   },
   computed: {
@@ -327,7 +324,10 @@ export default {
   },
   methods: {
     searchItems: lckHelpers.searchItems,
-    async loadBlockTableViewContentAndDefinition (block) {
+    async loadBlockContentAndDefinition (block) {
+      this.$set(block, 'loading', true)
+
+      // Default options for Table
       this.blocksOptions[block.id] = {
         sort: {
           createdAt: 1
@@ -341,28 +341,42 @@ export default {
       }
       if (isGeoBlock(block.type)) {
         // For a geo column, we get the definition of all specified views
-        const definitions = await retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
-        const definitionsObject = definitions.reduce(
-          (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
-          , {}
-        )
-        this.$set(block, 'definition', definitionsObject)
-        if (block.definition !== {}) await this.loadBlockTableViewContent(block)
-      } else {
-        const definition = await retrieveViewDefinition([block.settings?.id])
-        this.$set(block, 'definition', definition[0])
-        if (block.definition?.id) await this.loadBlockTableViewContent(block)
+        const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
+        this.$set(block, 'definition', objectFromArray(definitions, 'id'))
+        if (block.definition !== {}) await this.loadBlockContent(block)
+      } else if (block.settings?.id) {
+        // block.settings.id is a reference to a table_view
+        if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
+          /**
+           * If the source isn't already present,
+           * we load the definition
+           */
+          if (!this.sources[block.settings.id]) {
+            const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
+            this.sources[block.settings.id] = {
+              definition: definition[0],
+              content: null
+            }
+          }
+          this.$set(block, 'definition', this.sources[block.settings.id].definition)
+        } else {
+          const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
+          this.$set(block, 'definition', definition[0])
+        }
+        if (block.definition?.id) await this.loadBlockContent(block)
       }
+      this.$set(block, 'loading', false)
     },
-    async loadBlockTableViewContent (block) { // Rename
+    async loadBlockContent (block) {
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
-          this.$set(block, 'content', await retrieveViewData(
+          this.$set(block, 'content', await lckHelpers.retrieveViewData(
             block.definition.id,
+            this.groupId,
             currentOptions.page * currentOptions.itemsPerPage,
             currentOptions.itemsPerPage,
             currentOptions.sort,
@@ -378,8 +392,9 @@ export default {
            */
           const viewsIds = Object.keys(block.definition)
           const contentByView = await Promise.all(viewsIds.map(async id =>
-            await retrieveViewData(
+            await lckHelpers.retrieveViewData(
               id,
+              this.groupId,
               currentOptions.page * currentOptions.itemsPerPage,
               -1,
               currentOptions.sort,
@@ -394,30 +409,62 @@ export default {
           this.$set(block, 'content', contentByViewObject)
           break
         case BLOCK_TYPE.DETAIL_VIEW:
-          const row = await retrieveRow(this.$route.query.rowId)
+          let row
+          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
+            if (this.$route.query.rowId) {
+              row = await lckServices.tableRow.get(this.$route.query.rowId, {
+                query: {
+                  $lckGroupId: this.groupId
+                }
+              })
+            } else {
+              const rows = await lckServices.tableRow.find({
+                query: {
+                  table_view_id: block.definition.id,
+                  $lckGroupId: this.groupId,
+                  $limit: 1
+                }
+              })
+              row = rows.data[0]
+            }
+            if (this.sources[block.settings.id]) this.sources[block.settings.id].content = { data: [row] }
+          } else {
+            row = this.sources[block.settings.id].content.data[0]
+          }
+
+          // Update content according to sources or table_view
           this.$set(block, 'content', { data: [row] })
           break
         case BLOCK_TYPE.MAPDETAILVIEW: {
           const definitionId = Object.keys(block.definition)[0]
-          const row = await retrieveRow(this.$route.query.rowId)
+          const row = await lckServices.tableRow.get(this.$route.query.rowId)
           if (definitionId) {
             this.$set(block, 'content', { [definitionId]: [row] })
           }
           break
         }
+        case BLOCK_TYPE.ACTIONBUTTON: {
+          let row
+          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
+            const rows = await lckHelpers.retrieveViewData(
+              block.definition.id,
+              this.groupId
+            )
+            row = rows.data[0]
+          } else {
+            row = this.sources[block.settings.id].content.data[0]
+          }
+          this.$set(block, 'content', { data: [row] })
+          break
+        }
       }
-    },
-    async loadBlockContentAndDefinition (block) {
-      this.$set(block, 'loading', true)
-      await this.loadBlockTableViewContentAndDefinition(block)
-      this.$set(block, 'loading', false)
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
           this.blocksOptions[block.id].page = pageIndexToGo
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
@@ -426,7 +473,8 @@ export default {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
-        query
+        query,
+        groupId: this.groupId
       })
     },
     async onUpdateCell ({
@@ -434,14 +482,18 @@ export default {
     }, {
       rowId,
       columnId,
-      newValue
+      newValue,
+      tableViewId = ''
     }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
+      const currentRow = isGeoBlock(currentBlock.type)
+        ? currentBlock.content[tableViewId].find(d => d.id === rowId)
+        : currentBlock.content.data.find(d => d.id === rowId)
+
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -449,11 +501,30 @@ export default {
         isValid: false // don't know if we have to set to false or null
       }
       try {
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newValue
-          }
+          },
+          $lckGroupId: this.groupId
         })
+
+        // Update content for shared TableView
+        if (currentBlock.settings.id && this.sources[currentBlock.settings.id]) {
+          // Update source with new value
+          this.sources[currentBlock.settings.id].content.data[0][columnId] = newValue
+          // Find all block who shared the same table_view
+          const blocksWithSameTableView = []
+          this.page.containers.forEach(container => {
+            if (container.blocks && container.blocks.length > 0) {
+              container.blocks.forEach(block => {
+                // Each block DetailView and ActionButton received a content ({ data: LckTableRow[] })
+                if (block.settings.id && Object.keys(this.sources).includes(block.settings.id)) blocksWithSameTableView.push(block)
+              })
+            }
+          })
+          // Update blocks content
+          blocksWithSameTableView.forEach(block => this.$set(block, 'content', { data: [this.sources[currentBlock.settings.id].content.data[0]] }))
+        }
         this.cellState.isValid = true
         currentRow.data = res.data
       } catch (error) {
@@ -468,7 +539,7 @@ export default {
           this.blocksOptions[block.id].sort = {}
           // find the matching column_type_id to adapt
           this.blocksOptions[block.id].sort[`ref(data:${field})`] = order
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
@@ -478,15 +549,18 @@ export default {
       switch (block.type) {
         case BLOCK_TYPE.TABLE_VIEW:
           this.blocksOptions[block.id].filters = filters
-          await this.loadBlockTableViewContent(block)
+          await this.loadBlockContent(block)
           break
       }
       block.loading = false
     },
     async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
-        name: 'PageDetail',
-        params: { pageId: this.$route.params.pageId, pageDetailId: pageDetailId || block.settings.pageDetailId },
+        name: ROUTES_NAMES.PAGEDETAIL,
+        params: {
+          pageId: this.$route.params.pageId,
+          pageDetailId: pageDetailId || block.settings.pageDetailId
+        },
         query: { rowId }
       })
     },
@@ -510,25 +584,27 @@ export default {
             data[c.id] = null
           }
         })
-      await saveTableData({
+      await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
-        table_id: block.definition.table_id
+        table_view_id: block.definition.id,
+        // table_id: block.definition.table_id,
+        $lckGroupId: this.groupId
       })
       this.$set(block, 'submitting', false)
       this.$set(block, 'displayNewDialog', false)
-      await this.loadBlockTableViewContent(block)
+      await this.loadBlockContent(block)
     },
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
       this.exporting = false
     },
     async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title)
+      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
       this.exporting = false
     },
     async onUploadFiles ({
@@ -566,7 +642,7 @@ export default {
           /**
            * Need to update the data with the new files uploaded + the old files
            */
-          const res = await patchTableData(currentRow.id, {
+          const res = await lckServices.tableRow.patch(currentRow.id, {
             data: {
               [columnId]: newDataFiles
             }
@@ -607,7 +683,7 @@ export default {
 
       try {
         const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await patchTableData(currentRow.id, {
+        const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
             [columnId]: newDataFiles
           }
@@ -627,6 +703,28 @@ export default {
     },
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
+    },
+    async onGeoDataEdit (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: transformFeatureToWKT(features[0]),
+          tableViewId: sourceId
+        })
+      }
+    },
+    async onGeoDataRemove (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: null,
+          tableViewId: sourceId
+        })
+      }
     },
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}
@@ -721,13 +819,15 @@ export default {
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {
         this.submitting = true
-        if (blockToEdit.id !== 'temp') {
+        const { id, ...data } = blockToEdit
+        if (id !== 'temp') {
           // On update
-          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings,
-            position: blockToEdit.position
+          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
+          const updatedBlock = await lckServices.block.patch(id, {
+            title: data.title,
+            elevation: data.elevation,
+            type: data.type,
+            settings: data.settings
           })
           // Reload the block definition and content if it is necessary
           if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
@@ -738,10 +838,7 @@ export default {
         } else {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings,
-            position: blockToEdit.position,
+            ...data,
             container_id: this.currentContainerToEdit.id
           })
           // Load the block definition and content if it is necessary
@@ -834,35 +931,110 @@ export default {
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
         life: 3000
       })
+    },
+    goToPage ({ pageDetailId, pageQueryFieldId, rowData = null }) {
+      const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
+
+      this.$router.push({
+        name: ROUTES_NAMES.PAGEDETAIL,
+        params: {
+          ...this.$route.params,
+          pageDetailId
+        },
+        query: {
+          rowId: queryRowId || this.$route.query.rowId
+        }
+      })
+    },
+    async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
+      const tableRowId = rowData?.id || this.$route.query.rowId
+      if (tableRowId) {
+        this.$set(block, 'loading', true)
+        const res = await createProcessRun({
+          table_row_id: tableRowId,
+          process_id: processId,
+          waitForOutput: true
+        })
+        this.$set(block, 'loading', false)
+
+        if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('components.processPanel.failedNewRun'),
+            detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
+            life: 3000
+          })
+        } else {
+          this.$toast.add({
+            severity: 'success',
+            summary: this.$t('components.processPanel.successNewRun'),
+            detail: this.$t('components.processPanel.successNewRun'),
+            life: 3000
+          })
+
+          /**
+           * Redirect the user when process succeed
+           */
+          if (typePageTo && pageRedirectId) {
+            if (typePageTo === ROUTES_NAMES.PAGEDETAIL) {
+              this.goToPage({ pageRedirectId, pageQueryFieldId, rowData })
+            } else {
+              await this.$router.push({
+                name: ROUTES_NAMES.PAGE,
+                params: {
+                  ...this.$route.params,
+                  pageId: pageRedirectId
+                }
+              })
+            }
+          }
+        }
+      }
     }
   },
   async mounted () {
     if (this.$route?.params?.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.$route.params.pageDetailId)
     } else {
-      this.page = await retrievePageWithContainersAndBlocks(this.pageId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.pageId)
     }
   },
   async beforeRouteUpdate (to, from, next) {
     if (to.params.pageId !== from.params.pageId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
     if (to.params.pageDetailId !== from.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
   },
   async beforeRouteLeave (to, from, next) {
     if (to.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageDetailId)
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
-    if (from.params.pageDetailId) {
-      this.page = await retrievePageWithContainersAndBlocks(to.params.pageId)
+    if (from.params.pageDetailId && to.params.pageId) {
+      this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       next()
     }
     next()
+  },
+  watch: {
+    page (newVal) {
+      // Hide the updated container sidebar
+      this.onCloseUpdateContainerSidebar()
+      // retrieve for each blocks the definition / data of the block
+      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
+      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
+        container.blocks.sort((a, b) => a.position - b.position)
+        container.blocks.forEach(async block => {
+          // Reset sources at each pages change
+          this.sources = {}
+          await this.loadBlockContentAndDefinition(block)
+        })
+      })
+    }
   }
 }
 </script>
@@ -917,12 +1089,16 @@ export default {
   border: 1px solid var(--primary-color) !important;
 }
 
-/deep/ .editable-block .block-content {
+::v-deep .editable-block .block-content {
   padding: 0.5rem;
 }
 
-/deep/ .edit-block-line {
+::v-deep .edit-block-line {
   padding-left: 0.5rem;
+}
+
+.lck-container {
+  border-radius: var(--border-radius);
 }
 
 .lck-container:target {
@@ -937,27 +1113,28 @@ export default {
   color: var(--primary-color)
 }
 
-/deep/ .p-breadcrumb {
+::v-deep .p-breadcrumb {
   background: unset;
   border: unset;
   padding-left: 0;
 }
 /* classic content */
 
-.lck-layout-classic .lck-container div {
+.lck-layout-classic .lck-container {
   display: flex;
   flex-direction: column;
 }
 
 /* Contenu Centré */
 
-.lck-layout-centered .lck-container > div {
+.lck-layout-centered .lck-container {
   display: flex;
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
   overflow: auto;
+  padding: 1rem;
 }
 
 .lck-layout-centered .lck-block {

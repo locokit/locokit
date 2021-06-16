@@ -14,7 +14,9 @@ import {
   LckTableViewColumn,
   SelectValue,
   LckUser,
-  LckAttachment
+  LckAttachment,
+  LckTableView,
+  LckWorkspace
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -30,12 +32,14 @@ import FileType from 'file-type/browser'
  * @param columnTypeId
  * @param tableId
  * @param query
+ * @param groupId
  */
 export async function searchItems ({
   columnTypeId,
   tableId,
-  query
-}: { columnTypeId: number; tableId: string; query: object }) {
+  query,
+  groupId
+}: { columnTypeId: number; tableId: string; query: object; groupId: string }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
@@ -70,7 +74,8 @@ export async function searchItems ({
         table_id: tableId,
         text: {
           $ilike: `%${query}%`
-        }
+        },
+        $lckGroupId: groupId
       }
     }) as Paginated<LckTableRow>
     items = result.data.map(d => ({
@@ -86,9 +91,10 @@ export async function searchItems ({
  *
  * @param tableViewId
  * @param filters
+ * @param groupId
  * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
  */
-async function retrieveTableViewData (tableViewId: string, filters: object = {}): Promise<{
+async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
 }> {
@@ -104,9 +110,11 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {})
     $sort: {
       createdAt: 1
     },
+    $lckGroupId: groupId,
     ...filters
   }
   const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
+
   return {
     viewData,
     viewColumns: currentView.columns
@@ -150,9 +158,10 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
  * @param tableViewId
  * @param filters
  * @param fileName
+ * @param groupId
  */
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export') {
-  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
     // eslint-disable-next-line no-unused-expressions
@@ -181,9 +190,10 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
  * @param tableViewId
  * @param filters
  * @param fileName
+ * @param groupId
  */
-export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string) {
-  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters)
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
+  const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
     viewColumns.map(currentColumn => {
@@ -280,6 +290,86 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
   return await Promise.all(uploadPromises)
 }
 
+export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
+  const group: LckGroup = await lckServices.group.get(groupId, {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: { $eager: 'aclset' }
+  })
+  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+    query: { $eager: '[chapters.[pages]]' }
+  })
+  return {
+    ...workspace,
+    chapters: workspace?.chapters?.map(c => ({
+      ...c,
+      pages: c.pages?.sort((a, b) => a.position - b.position)
+    }))
+  }
+}
+
+export async function retrievePageWithContainersAndBlocks (id: string) {
+  return await lckServices.page.get(id, {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: { $eager: 'containers.[blocks]' }
+  })
+}
+
+export async function retrieveViewDefinition (ids: number[], skip = 0) {
+  const result = await lckServices.tableView.find({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: {
+      $eager: '[columns.[column_type, parents.^], actions]',
+      $modifyEager: {
+        columns: {
+          transmitted: true
+        }
+      },
+      id: {
+        $in: ids
+      },
+      $skip: skip,
+      $limit: 10
+    }
+  }) as Paginated<LckTableView>
+
+  // Reorder the columns of each view
+  result.data.forEach(tableView => {
+    tableView.columns = tableView.columns?.sort(
+      (a: { position: number }, b: { position: number }) => (a.position < b.position ? -1 : 1)
+    )
+  })
+  // Get the next views if there are ones
+  if (result.limit + skip < result.total) {
+    retrieveViewDefinition(ids, skip + result.limit).then(followingViews => {
+      return result.data.concat(followingViews || [])
+    })
+  }
+  return result.data
+}
+
+export async function retrieveViewData (
+  table_view_id: string,
+  group_id: string,
+  skip = 0,
+  limit = 20,
+  sort = {
+    createdAt: 1
+  },
+  filters = {}
+) {
+  return await lckServices.tableRow.find({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    query: {
+      table_view_id,
+      $lckGroupId: group_id,
+      $limit: limit,
+      $skip: skip,
+      $sort: sort,
+      ...filters
+    }
+  })
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
@@ -287,5 +377,10 @@ export default {
   getColumnDisplayValue,
   downloadAttachment,
   getAttachmentBlob,
-  uploadMultipleFiles
+  uploadMultipleFiles,
+  retrieveWorkspaceWithChaptersAndPages,
+  retrieveTableViewData,
+  retrieveViewData,
+  retrieveViewDefinition,
+  retrievePageWithContainersAndBlocks
 }
