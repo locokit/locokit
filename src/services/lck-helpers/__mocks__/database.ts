@@ -288,20 +288,20 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
 }
 
 export async function retrieveTableColumns (tableId: string) {
-  // return [{
-  //   id: 'column-1'
-  // }]
-  return await lckServices.tableColumn.find({
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    query: {
-      table_id: tableId,
-      $limit: -1,
-      $sort: {
-        position: 1
-      },
-      $eager: 'parents.^'
-    }
-  }) as LckTableColumn[]
+  return [{
+    id: 'column-1'
+  }]
+  // return await lckServices.tableColumn.find({
+  //   // eslint-disable-next-line @typescript-eslint/camelcase
+  //   query: {
+  //     table_id: tableId,
+  //     $limit: -1,
+  //     $sort: {
+  //       position: 1
+  //     },
+  //     $eager: 'parents.^'
+  //   }
+  // }) as LckTableColumn[]
 }
 
 export async function retrieveTableRowsWithSkipAndLimit (
