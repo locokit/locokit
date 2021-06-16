@@ -12,6 +12,7 @@ import Vue, { PropType } from 'vue'
 import { TranslateResult } from 'vue-i18n'
 import {
   AnyLayer,
+  EventData,
   GeoJSONSource,
   Map,
   MapboxOptions,
@@ -75,6 +76,10 @@ export default Vue.extend({
     singleEditMode: {
       type: Boolean,
       default: false
+    },
+    defaultSelectedFeatureBySource: {
+      type: Object as PropType<Record<string, string | number>>,
+      default: () => ({})
     }
   },
   data () {
@@ -82,7 +87,7 @@ export default Vue.extend({
       map: null as Map | null,
       mapDraw: null as MapboxDraw | null,
       editableGeometryTypes: new Set() as Set<GeometryType>,
-      selectedFigureBySource: {} as Record<string, string | number>,
+      selectedFeatureBySource: {} as Record<string, string | number>,
       listenersByLayer: {} as Record<string, {
         type: keyof MapLayerEventType;
         func: MapLayerMouseListenerFunction;
@@ -141,19 +146,17 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.loadResources()
       this.setFitBounds()
-      this.makeFeatureInteractive()
-
-      // Add draw control
-      this.initDrawControls(this.resources)
+      this.initDrawControls()
       this.onDrawEvents()
+      this.makeFeaturesInteractive()
+      this.selectDefaultFeatures()
     })
   },
   beforeDestroy () {
-    if (this.map) {
-      this.map.off('draw.delete', this.deleteFeatures)
-      this.map.off('draw.update', this.updateFeaturesOnMove)
-      this.map!.on('draw.modechange', this.onChangeMode)
-    }
+    if (!this.map) return
+    this.map.off('draw.delete', this.onDrawDelete)
+    this.map.off('draw.update', this.onDrawUpdate)
+    this.map.off('draw.modechange', this.onDrawModeChange)
   },
   methods: {
     saveListenerByLayer (eventType: keyof MapLayerEventType, layerId: string, func: MapLayerMouseListenerFunction) {
@@ -171,44 +174,48 @@ export default Vue.extend({
           this.map!.off(type, layerId, func as MapLayerListenerFunction)
         }
       }
-      this.listenersByLayer[layerId] = []
+      delete this.listenersByLayer[layerId]
     },
-    onChangeMode (event: MapboxDraw.DrawModeChageEvent) {
+    onDrawModeChange (event: MapboxDraw.DrawModeChageEvent) {
       if (event.mode === 'simple_select') {
-        // We quit the editing modes -> update the features
+        // We quit an editing mode -> update the features
         const allFeatures = this.mapDraw!.getAll().features
         if (allFeatures.length > 0) this.$emit('update-features', allFeatures)
       } else if (event.mode.match('draw')) {
         // We create a newer feature -> only one feature can be edited at the same time
-        const featuresToDelete = this.mapDraw!.getAll().features
-        featuresToDelete.pop()
-        this.mapDraw!.delete(featuresToDelete.map(f => f.id as string))
+        const featuresIdsToDelete = this.mapDraw!.getAll()
+          .features.slice(0, -1)
+          .map(feature => feature.id as string)
+        this.mapDraw!.delete(featuresIdsToDelete)
       }
     },
-    updateFeaturesOnMove (event: MapboxDraw.DrawUpdateEvent) {
-      if (event.action === 'move' && this.mapDraw?.getMode() === 'simple_select') {
+    onDrawUpdate (event: MapboxDraw.DrawUpdateEvent) {
+      // update the feature on move action during 'simple_select' mode
+      if (event.action === 'move' && this.mapDraw?.getMode() === 'simple_select' && event.features.length > 0) {
         this.$emit('update-features', event.features)
       }
     },
-    deleteFeatures (event: MapboxDraw.DrawDeleteEvent) {
-      this.$emit('remove-features', event.features)
+    onDrawDelete (event: MapboxDraw.DrawDeleteEvent) {
+      if (event.features.length > 0) this.$emit('remove-features', event.features)
     },
-    initDrawControls (resources: LckGeoResource[]) {
-      // Get all available geographic types to edit
+    initDrawControls () {
       const allEditableGeometryTypes: Set<GeometryType> = new Set()
-      resources.forEach(resource => {
+
+      // Get all editable geographic types
+      this.resources.forEach(resource => {
         mergeSets(resource.editableGeometryTypes, allEditableGeometryTypes)
       })
 
-      // Create or update the draw controls if necessary
-      if (allEditableGeometryTypes.size > 0) {
-        // Some controls must be displayed
-        if (!setsAreEqual(allEditableGeometryTypes, this.editableGeometryTypes)) {
-          // The controls must be updated
-          this.editableGeometryTypes = this.singleEditMode ? allEditableGeometryTypes : new Set()
-          // Remove previous controls
-          if (this.mapDraw) this.map!.removeControl(this.mapDraw)
-          // Define the new draw control and add it to the map
+      // Create or update the draw controls if the editable geometry types have been changed
+      if (!setsAreEqual(allEditableGeometryTypes, this.editableGeometryTypes)) {
+        // For now, we can only add a feature in the single edit mode
+        this.editableGeometryTypes = this.singleEditMode ? allEditableGeometryTypes : new Set()
+
+        // Remove previous controls
+        if (this.mapDraw) this.map!.removeControl(this.mapDraw)
+
+        // Define the new draw controls and add them to the map if necessary
+        if (allEditableGeometryTypes.size > 0) {
           this.mapDraw = new MapboxDraw({
             displayControlsDefault: false,
             controls:
@@ -221,17 +228,13 @@ export default Vue.extend({
           })
           this.map!.addControl(this.mapDraw)
         }
-      } else if (this.mapDraw) {
-        // Remove the controls if there is no resource to display
-        this.map!.removeControl(this.mapDraw)
-        this.editableGeometryTypes = new Set()
       }
     },
     onDrawEvents () {
       // Add the specific events to allow to edit the features
-      this.map!.on('draw.delete', this.deleteFeatures)
-      this.map!.on('draw.update', this.updateFeaturesOnMove)
-      this.map!.on('draw.modechange', this.onChangeMode)
+      this.map!.on('draw.delete', this.onDrawDelete)
+      this.map!.on('draw.update', this.onDrawUpdate)
+      this.map!.on('draw.modechange', this.onDrawModeChange)
     },
     addResource (resource: LckGeoResource) {
       this.map!.addSource(resource.id, {
@@ -243,7 +246,7 @@ export default Vue.extend({
         promoteId: 'id'
       })
       resource.layers.forEach((layer) => {
-        this.map!.addLayer({ source: resource.id, ...layer, id: `${resource.id}-${layer.id}` } as AnyLayer)
+        this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
       })
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
@@ -358,7 +361,7 @@ export default Vue.extend({
     },
     removeResource (resource: LckGeoResource) {
       resource.layers.forEach((layer) => {
-        this.map!.removeLayer(`${resource.id}-${layer.id}`)
+        this.map!.removeLayer(layer.id)
         this.removeListenerByLayer(layer.id)
       })
       this.map!.removeSource(resource.id)
@@ -386,7 +389,7 @@ export default Vue.extend({
       this.$emit('open-detail', { rowId, pageDetailId })
     },
     setPointerCursor () {
-      if (!this.map!.getCanvas().style.cursor) this.map!.getCanvas().style.cursor = 'pointer'
+      this.map!.getCanvas().style.cursor = 'pointer'
     },
     resetCursor () {
       this.map!.getCanvas().style.cursor = ''
@@ -413,34 +416,49 @@ export default Vue.extend({
       this.map!.on('mousedown', layerId, wrapperFunction)
       this.saveListenerByLayer('mousedown', layerId, wrapperFunction)
     },
-    selectFeatureOnClick (resourceId: string, resourceIndex: number, layerId: string) {
-      // Make a feature selectable
+    selectFeature (resourceId: string, featureId: string | number) {
+      // Select a specified feature belonging to a resource
+      if (!this.map) return
+
+      // Unselect the previous selected feature
+      if (this.selectedFeatureBySource[resourceId]) {
+        this.map.setFeatureState({
+          source: resourceId,
+          id: this.selectedFeatureBySource[resourceId]
+        }, {
+          selectable: false
+        })
+      }
+      // Save the selected feature
+      this.selectedFeatureBySource[resourceId] = featureId
+      // Customize it
+      this.map.setFeatureState({
+        source: resourceId,
+        id: featureId
+      }, {
+        selectable: true
+      })
+    },
+    selectFeatureOnClick (layerId: string, resourceId: string, resourceIndex: number) {
+      // Make a feature selectable on click
       const wrapperFunction = (e: MapLayerMouseEvent) => {
         const selectedFeature = e.features?.[0]
-        if (selectedFeature?.id && selectedFeature.id !== this.selectedFigureBySource[resourceId]) {
-          // Unselect the previous selected feature
-          if (this.selectedFigureBySource[resourceId]) {
-            this.map!.setFeatureState({
-              source: resourceId,
-              id: this.selectedFigureBySource[resourceId]
-            }, {
-              selectable: false
-            })
-          }
-          // Save the selected feature and customize it
-          this.selectedFigureBySource[resourceId] = selectedFeature.id
-          this.map!.setFeatureState({
-            source: resourceId,
-            id: selectedFeature.id
-          }, {
-            selectable: true
-          })
+        if (selectedFeature?.id && selectedFeature.id !== this.selectedFeatureBySource[resourceId]) {
+          this.selectFeature(resourceId, selectedFeature.id)
           this.$emit('select-feature', selectedFeature, resourceIndex)
         }
       }
       // Add right listener
       this.map!.on('click', layerId, wrapperFunction)
       this.saveListenerByLayer('click', layerId, wrapperFunction)
+    },
+    selectDefaultFeatures () {
+      // Highlight some features specified in the props. Note that the map must be loaded to make it.
+      for (const sourceId in this.defaultSelectedFeatureBySource) {
+        if (this.defaultSelectedFeatureBySource[sourceId] !== this.selectedFeatureBySource[sourceId]) {
+          this.selectFeature(sourceId, this.defaultSelectedFeatureBySource[sourceId])
+        }
+      }
     },
     addPopupOnClick (layerId: string, pageDetailId?: string) {
       // Add Popup on layer on click
@@ -480,52 +498,51 @@ export default Vue.extend({
               `
               }
             }
-            const popup = new Popup()
-              .setLngLat(e.lngLat)
-              .setHTML(html)
-              .addTo(this.map!)
+          })
+          const popup = new Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(html)
+            .addTo(this.map!)
 
-            const element = popup.getElement()
-            const links = element.querySelectorAll('.popup-row-toolbox #row-detail-page');
+          const element = popup.getElement()
+          const links = element.querySelectorAll('.popup-row-toolbox #row-detail-page');
 
-            (e.features || []).forEach(({ properties }, index) => {
-              if (properties?.rowId && pageDetailId) {
-                if (links[index]) {
-                  links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
-                  const { sendIdToDetail } = this
-                  popup.on('close', function () {
-                    links[index].removeEventListener('click', () => sendIdToDetail)
-                  })
-                }
+          (e.features || []).forEach(({ properties }, index) => {
+            if (properties?.rowId && pageDetailId) {
+              if (links[index]) {
+                links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
+                const { sendIdToDetail } = this
+                popup.on('close', function () {
+                  links[index].removeEventListener('click', () => sendIdToDetail)
+                })
               }
-            })
+            }
           })
         }
       }
       this.map!.on('click', layerId, wrapperFunction)
       this.saveListenerByLayer('click', layerId, wrapperFunction)
     },
-    makeFeatureInteractive () {
-      const mapHasPopUp = this.mode === MODE.BLOCK && this.hasPopup
+    makeFeaturesInteractive () {
+      const mapHasPopup = this.mode === MODE.BLOCK && this.hasPopup
       this.resources.forEach((resource, index) => {
-        const hasPopUp = mapHasPopUp && resource.displayPopup
+        const resourceHasPopup = mapHasPopup && resource.displayPopup
         const hasEditableFeatures = resource.editableGeometryTypes.size > 0
-        if (hasPopUp || hasEditableFeatures || resource.selectable) {
+        if (resourceHasPopup || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
-            const currentLayerId = `${resource.id}-${layer.id}`
             if (hasEditableFeatures) {
               // Make the current feature editable
-              this.setFeatureEditableOnMouseDown(currentLayerId)
+              this.setFeatureEditableOnMouseDown(layer.id)
             } else {
               // Change cursor
-              this.changeCursorOnLayerHover(currentLayerId)
+              this.changeCursorOnLayerHover(layer.id)
               if (resource.selectable) {
                 // Make the current feature selectable
-                this.selectFeatureOnClick(resource.id, index, currentLayerId)
+                this.selectFeatureOnClick(layer.id, resource.id, index)
               }
-              if (hasPopUp) {
+              if (resourceHasPopup) {
                 // Display a pop up on click on the current feature
-                this.addPopupOnClick(currentLayerId, resource.pageDetailId)
+                this.addPopupOnClick(layer.id, resource.pageDetailId)
               }
             }
           })
@@ -568,7 +585,10 @@ export default Vue.extend({
         this.updateResource(resourceToUpdate, resourceToCompare)
       })
       // Reinitialize the draw controls depending of the new resources
-      this.initDrawControls(newResources)
+      this.initDrawControls()
+    },
+    defaultSelectedFeatureBySource () {
+      this.selectDefaultFeatures()
     }
   }
 })
@@ -595,12 +615,14 @@ export default Vue.extend({
   margin-bottom: 0.2rem;
 }
 
+/deep/ .mapboxgl-popup-content p.popup-row-title:first-child {
+  margin-top: -10px;
+}
 /deep/ .mapboxgl-popup-content p.popup-row-title {
   font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
   color: var(--primary-color);
-  margin-top: -10px;
   margin-left: -10px;
   margin-right: -10px;
   padding: 5px 10px 0 10px;

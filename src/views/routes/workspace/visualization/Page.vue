@@ -197,6 +197,9 @@ import {
   isGeoBlock,
   transformFeatureToWKT
 } from '@/services/lck-utils/map/transformWithOL'
+import {
+  objectFromArray
+} from '@/services/lck-utils/arrays'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 import {
@@ -338,13 +341,7 @@ export default {
       if (isGeoBlock(block.type)) {
         // For a geo column, we get the definition of all specified views
         const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
-        console.log(definitions)
-        const definitionsObject = definitions.reduce(
-          (allDefinitions, definitionToAdd) => Object.assign(allDefinitions, { [definitionToAdd.id]: definitionToAdd })
-          , {}
-        )
-        this.$set(block, 'definition', definitionsObject)
-        console.log(block.definition)
+        this.$set(block, 'definition', objectFromArray(definitions, 'id'))
         if (block.definition !== {}) await this.loadBlockContent(block)
       } else if (block.settings?.id) {
         if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
@@ -815,12 +812,14 @@ export default {
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
       try {
         this.submitting = true
-        if (blockToEdit.id !== 'temp') {
+        const { id, ...data } = blockToEdit
+        if (id !== 'temp') {
           // On update
-          const updatedBlock = await lckServices.block.patch(blockToEdit.id, {
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings
+          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
+          const updatedBlock = await lckServices.block.patch(id, {
+            title: data.title,
+            type: data.type,
+            settings: data.settings
           })
           // Reload the block definition and content if it is necessary
           if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
@@ -831,10 +830,7 @@ export default {
         } else {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
-            title: blockToEdit.title,
-            type: blockToEdit.type,
-            settings: blockToEdit.settings,
-            position: blockToEdit.position,
+            ...data,
             container_id: this.currentContainerToEdit.id
           })
           // Load the block definition and content if it is necessary

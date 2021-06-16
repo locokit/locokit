@@ -459,7 +459,8 @@ export default {
       })
     },
     getLckGeoResources (column: LckTableViewColumn, data: string): LckGeoResource[] {
-      const layers = getStyleLayers([column])
+      const resourceId = `features-collection-source-id-${column.id}`
+      const layers = getStyleLayers(resourceId, [column])
       const createGeoJsonFeaturesCollection = (data: string): GeoJSONFeatureCollection => {
         // This is necessary when column's type is Multi...
         const features: Feature[] = []
@@ -488,7 +489,7 @@ export default {
 
       return [
         {
-          id: `features-collection-source-id-${column.id}`,
+          id: resourceId,
           layers,
           ...features,
           editableGeometryTypes,

@@ -10,7 +10,7 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
       style="z-index: 1031;"
     >
       <div
-        aria-labelledby="pv_id_33_header"
+        aria-labelledby="pv_id_37_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
@@ -21,7 +21,7 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
         >
           <span
             class="p-dialog-title"
-            id="pv_id_33_header"
+            id="pv_id_37_header"
           >
             Create a new page
           </span>
@@ -309,7 +309,7 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
       style="z-index: 1032;"
     >
       <div
-        aria-labelledby="pv_id_34_header"
+        aria-labelledby="pv_id_38_header"
         aria-modal="true"
         class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
         role="dialog"
@@ -320,7 +320,7 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
         >
           <span
             class="p-dialog-title"
-            id="pv_id_34_header"
+            id="pv_id_38_header"
           >
             Edit a page
           </span>

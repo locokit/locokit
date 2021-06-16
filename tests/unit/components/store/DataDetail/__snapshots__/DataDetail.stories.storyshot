@@ -24,108 +24,1093 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="e065323c-1151-447f-be0f-6d2728117b38"
-      >
-        
-      Nom du vélo
-    
-      </label>
-       
       <div
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; background-color: transparent;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Nom du vélo
         
-      Trek
-    
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        Trek
+      
+        </span>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="3a659ea1-446f-4755-8db9-583a204279cc"
-      >
-        
-      État du vélo
-    
-      </label>
-       
       <div
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; background-color: transparent;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            
+          État du vélo
         
-      En maintenance
-    
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span
+          class="lck-badge"
+          style="color: rgb(238, 255, 17);"
+        >
+          <span
+            class="lck-badge-content"
+          >
+            En maintenance
+          </span>
+        </span>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="bde4bbbd-2584-447f-acff-f434f53619da"
-      >
-        
-      Fournisseur
-    
-      </label>
-       
       <div
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; background-color: transparent;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="bde4bbbd-2584-447f-acff-f434f53619da"
+          >
+            
+          Fournisseur
         
-      AMSTERDAMAIR
-    
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        AMSTERDAMAIR
+      
+        </span>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="b9058b15-44b7-4cd9-a121-a942b69a0434"
-      >
-        
-      Date
-    
-      </label>
-       
       <div
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; background-color: transparent;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="b9058b15-44b7-4cd9-a121-a942b69a0434"
+          >
+            
+          Date
         
-      2020-10-30
-    
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        10/30/2020
+      
+        </span>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
-      >
-        
-      Textarea
-    
-      </label>
-       
       <div
-        class="p-fluid p-inputtext p-component"
-        style="height: 2.5rem; background-color: transparent;"
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+          >
+            
+          Textarea
         
-      Welcome at home, 
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        Welcome at home, 
 this is a multi line text
 and it works
-    
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b39"
+          >
+            
+          Zone géographique
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataDetail with edit state error 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-pb-6 p-pt-4"
+  >
+    <!---->
+     
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Nom du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <input
+            class="p-inputtext p-component p-filled"
+            id="e065323c-1151-447f-be0f-6d2728117b38"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state saved error"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            
+          État du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              <span
+                class="lck-badge"
+                style="color: rgb(238, 255, 17);"
+              >
+                <span
+                  class="lck-badge-content"
+                >
+                  En maintenance
+                </span>
+              </span>
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
+            />
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="bde4bbbd-2584-447f-acff-f434f53619da"
+          >
+            
+          Fournisseur
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_4_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+            id="bde4bbbd-2584-447f-acff-f434f53619da"
+            placeholder="Select an option"
+            value="AMSTERDAMAIR"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_4_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="bde4bbbd-2584-447f-acff-f434f53619da"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="b9058b15-44b7-4cd9-a121-a942b69a0434"
+          >
+            
+          Date
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
+          >
+            <input
+              class="p-inputtext p-component p-filled"
+              id="b9058b15-44b7-4cd9-a121-a942b69a0434"
+              inputmode="none"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+          >
+            
+          Textarea
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <textarea
+            class="p-inputtextarea p-inputtext p-component p-filled"
+            id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b39"
+          >
+            
+          Zone géographique
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="map-container"
+            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-pb-6 p-pt-4"
+  >
+    <!---->
+     
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Nom du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <input
+            class="p-inputtext p-component p-filled"
+            id="e065323c-1151-447f-be0f-6d2728117b38"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state saved valid"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            
+          État du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              <span
+                class="lck-badge"
+                style="color: rgb(238, 255, 17);"
+              >
+                <span
+                  class="lck-badge-content"
+                >
+                  En maintenance
+                </span>
+              </span>
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
+            />
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="bde4bbbd-2584-447f-acff-f434f53619da"
+          >
+            
+          Fournisseur
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_3_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+            id="bde4bbbd-2584-447f-acff-f434f53619da"
+            placeholder="Select an option"
+            value="AMSTERDAMAIR"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_3_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="bde4bbbd-2584-447f-acff-f434f53619da"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="b9058b15-44b7-4cd9-a121-a942b69a0434"
+          >
+            
+          Date
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
+          >
+            <input
+              class="p-inputtext p-component p-filled"
+              id="b9058b15-44b7-4cd9-a121-a942b69a0434"
+              inputmode="none"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+          >
+            
+          Textarea
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <textarea
+            class="p-inputtextarea p-inputtext p-component p-filled"
+            id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b39"
+          >
+            
+          Zone géographique
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="map-container"
+            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-pb-6 p-pt-4"
+  >
+    <!---->
+     
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Nom du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <input
+            class="p-inputtext p-component p-filled"
+            id="e065323c-1151-447f-be0f-6d2728117b38"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state saving error"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            
+          État du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              <span
+                class="lck-badge"
+                style="color: rgb(238, 255, 17);"
+              >
+                <span
+                  class="lck-badge-content"
+                >
+                  En maintenance
+                </span>
+              </span>
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
+            />
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="bde4bbbd-2584-447f-acff-f434f53619da"
+          >
+            
+          Fournisseur
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_2_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+            id="bde4bbbd-2584-447f-acff-f434f53619da"
+            placeholder="Select an option"
+            value="AMSTERDAMAIR"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_2_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="bde4bbbd-2584-447f-acff-f434f53619da"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="b9058b15-44b7-4cd9-a121-a942b69a0434"
+          >
+            
+          Date
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
+          >
+            <input
+              class="p-inputtext p-component p-filled"
+              id="b9058b15-44b7-4cd9-a121-a942b69a0434"
+              inputmode="none"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+          >
+            
+          Textarea
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <textarea
+            class="p-inputtextarea p-inputtext p-component p-filled"
+            id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b39"
+          >
+            
+          Zone géographique
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="map-container"
+            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -144,183 +1129,751 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="e065323c-1151-447f-be0f-6d2728117b38"
-      >
-        
-      Nom du vélo
-    
-      </label>
-       
-      <div>
-        <input
-          class="p-inputtext p-component p-filled"
-          id="e065323c-1151-447f-be0f-6d2728117b38"
-        />
-      </div>
-    </div>
-    <div
-      class="p-field"
-    >
-      <label
-        class="lck-color-subtitle"
-        for="3a659ea1-446f-4755-8db9-583a204279cc"
-      >
-        
-      État du vélo
-    
-      </label>
-       
       <div>
         <div
-          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
-          id="3a659ea1-446f-4755-8db9-583a204279cc"
+          class="p-d-flex"
         >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              aria-haspopup="listbox"
-              readonly="readonly"
-              type="text"
-            />
-          </div>
-           
-          <!---->
-           
-          <span
-            class="p-dropdown-label p-inputtext"
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
           >
             
-            En maintenance
+          Nom du vélo
         
-          </span>
-           
-          <i
-            class="p-dropdown-clear-icon pi pi-times"
-          />
-           
-          <div
-            aria-haspopup="listbox"
-            class="p-dropdown-trigger"
-            role="button"
-          >
-            <span
-              class="p-dropdown-trigger-icon pi pi-chevron-down"
-            />
-          </div>
+          </label>
            
           <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <input
+            class="p-inputtext p-component p-filled"
+            id="e065323c-1151-447f-be0f-6d2728117b38"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
         </div>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="bde4bbbd-2584-447f-acff-f434f53619da"
-      >
-        
-      Fournisseur
-    
-      </label>
-       
       <div>
-        <span
-          aria-haspopup="listbox"
-          aria-owns="pv_id_1_list"
-          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
-          id="bde4bbbd-2584-447f-acff-f434f53619da"
-          placeholder="Select an option"
-          value="AMSTERDAMAIR"
+        <div
+          class="p-d-flex"
         >
-          <input
-            aria-autocomplete="list"
-            aria-controls="pv_id_1_list"
-            autocomplete="off"
-            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Start typing for suggestions"
-            role="searchbox"
-            type="text"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <button
-            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-            type="button"
+          <label
+            class="lck-color-primary"
+            for="3a659ea1-446f-4755-8db9-583a204279cc"
           >
-            <span
-              class="pi pi-chevron-down p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
+            
+          État du vélo
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="3a659ea1-446f-4755-8db9-583a204279cc"
+          >
+            <div
+              class="p-hidden-accessible"
             >
-               
-            </span>
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
              
             <!---->
+             
             <span
-              class="p-ink"
+              class="p-dropdown-label p-inputtext"
+            >
+              <span
+                class="lck-badge"
+                style="color: rgb(238, 255, 17);"
+              >
+                <span
+                  class="lck-badge-content"
+                >
+                  En maintenance
+                </span>
+              </span>
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
             />
-          </button>
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
            
-          <!---->
-        </span>
+          <span
+            class="cell-state"
+          />
+        </div>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="b9058b15-44b7-4cd9-a121-a942b69a0434"
-      >
-        
-      Date
-    
-      </label>
-       
       <div>
-        <span
-          class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
+        <div
+          class="p-d-flex"
         >
-          <input
-            class="p-inputtext p-component p-filled"
-            id="b9058b15-44b7-4cd9-a121-a942b69a0434"
-            inputmode="none"
-            type="text"
+          <label
+            class="lck-color-primary"
+            for="bde4bbbd-2584-447f-acff-f434f53619da"
+          >
+            
+          Fournisseur
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_1_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+            id="bde4bbbd-2584-447f-acff-f434f53619da"
+            placeholder="Select an option"
+            value="AMSTERDAMAIR"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_1_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="bde4bbbd-2584-447f-acff-f434f53619da"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="b9058b15-44b7-4cd9-a121-a942b69a0434"
+          >
+            
+          Date
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <span
+            class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
+          >
+            <input
+              class="p-inputtext p-component p-filled"
+              id="b9058b15-44b7-4cd9-a121-a942b69a0434"
+              inputmode="none"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+          </span>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+          >
+            
+          Textarea
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <textarea
+            class="p-inputtextarea p-inputtext p-component p-filled"
+            id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+            rows="7"
           />
            
-          <!---->
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div>
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b39"
+          >
+            
+          Zone géographique
+        
+          </label>
            
           <!---->
+        </div>
+         
+        <div
+          class="form-field-editable"
+        >
+          <div
+            class="map-container"
+            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid p-pb-6 p-pt-4"
+  >
+    <!---->
+     
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up boolean
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="p-checkbox p-component p-checkbox-checked p-checkbox-disabled"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              disabled="disabled"
+              type="checkbox"
+              value=""
+            />
+          </div>
+           
+          <div
+            aria-checked="true"
+            class="p-checkbox-box p-highlight p-disabled"
+            role="checkbox"
+          >
+            <span
+              class="p-checkbox-icon pi pi-check"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e165323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up string
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        My first string
+      
         </span>
       </div>
     </div>
     <div
       class="p-field"
     >
-      <label
-        class="lck-color-subtitle"
-        for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
       >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e265323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up number
         
-      Textarea
-    
-      </label>
-       
-      <div>
-        <textarea
-          class="p-inputtextarea p-inputtext p-component p-filled"
-          id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
-        />
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        10
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e365323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up float
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        10.5
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e465323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up date
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        01/15/2021
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e565323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up user
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        User 1
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e665323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up group
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        Group 1
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e765323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up relation between tables
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        RBT 1
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e865323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up single select
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span
+          class="lck-badge"
+          style="color: rgb(255, 255, 255); background-color: rgb(0, 119, 52);"
+        >
+          <span
+            class="lck-badge-content"
+          >
+            Option 1
+          </span>
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e965323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up multi select
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        Option 1, Option 2
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e105323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up formula
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        My formula
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e115323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up file
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        File
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e125323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up multi user
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        User 1, User 2
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e135323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up text
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        My text to display...
+      
+        </span>
+      </div>
+    </div>
+    <div
+      class="p-field"
+    >
+      <div
+        class="p-fluid p-inputtext p-component non-editable-field"
+      >
+        <div
+          class="p-d-flex"
+        >
+          <label
+            class="lck-color-primary"
+            for="e145323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Looked_up url
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <span>
+          
+        http://myurl.com
+      
+        </span>
       </div>
     </div>
   </div>

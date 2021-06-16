@@ -82,7 +82,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
        
       <span
         aria-haspopup="listbox"
-        aria-owns="pv_id_43_list"
+        aria-owns="pv_id_47_list"
         class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
         dropdown="true"
         id="blockSettingsTableView"
@@ -91,7 +91,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_43_list"
+          aria-controls="pv_id_47_list"
           autocomplete="off"
           class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
           id="blockSettingsTableView"
@@ -381,7 +381,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_44_list"
+            aria-owns="pv_id_48_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-0"
@@ -389,7 +389,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_44_list"
+              aria-controls="pv_id_48_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-0"
@@ -511,7 +511,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_45_list"
+            aria-owns="pv_id_49_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-1"
@@ -519,7 +519,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_45_list"
+              aria-controls="pv_id_49_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-1"
@@ -1573,7 +1573,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_42_list"
+          aria-owns="pv_id_46_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="blockSettingsTableView"
@@ -1582,7 +1582,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_42_list"
+            aria-controls="pv_id_46_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockSettingsTableView"
