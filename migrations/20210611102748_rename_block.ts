@@ -1,5 +1,5 @@
 import * as Knex from "knex";
-import { formatAlterTableEnumSql } from '../src/utils/databaseConstraint/databaseConstraint'
+import { formatAlterTableEnumSql } from '../priv/databaseConstraint'
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(
