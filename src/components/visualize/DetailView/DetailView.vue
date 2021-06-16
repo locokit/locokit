@@ -1,11 +1,12 @@
 <template>
   <lck-data-detail
     v-if="definition && content && content.data && rowId"
-    class="detail-view centered-content-view box-with-shadow"
+    class="detail-view centered-content-view"
     :definition="definition"
     :row="content.data[0]"
     v-on="$listeners"
     v-bind="$attrs"
+    :title="content.data[0].text"
   />
 </template>
 

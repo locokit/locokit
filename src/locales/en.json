@@ -405,6 +405,8 @@
         "noBlocks": "No block found",
         "displayedInNavbar": "Navigation enabled",
         "navigationExplain": "Navigation configuration for this container",
+        "elevation": "Elevation",
+        "elevationExplain": "Is the container displayed with an elevation",
         "anchor": {
           "label": "label",
           "icon": "Icon",
@@ -438,6 +440,8 @@
         "addAllowed": "Allow adding data",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
+        "elevation": "Elevation",
+        "elevationExplain": "Is the block displayed with an elevation",
         "labelButton": "Button label",
         "classButton": {
           "title": "Button style",

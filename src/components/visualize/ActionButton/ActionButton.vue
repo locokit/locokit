@@ -1,11 +1,11 @@
 <template>
   <p-button
     class="p-button-sm action-button"
-    v-if="settings && row && !isHidden"
+    v-if="settings"
     :label="settings.label"
     :class="settings.classButton"
     :icon="loading ? 'pi pi-spin pi-spinner' : settings.icon"
-    :disabled="loading"
+    :disabled="loading || isHidden"
     @click="onClick(settings)"
   />
   <span v-else-if="displayCheckIcon"><i class="action-condition-checked bi bi-check"/></span>
@@ -65,8 +65,9 @@ export default Vue.extend({
       switch (settings.action) {
         case ACTION_BUTTON_TYPE.PAGE_DETAIL_TO:
           this.$emit('go-to-page-detail', {
-            pageRedirectId: settings.pageRedirectId,
-            pageQueryFieldId: settings.pageQueryFieldId
+            pageDetailId: settings.pageDetailId,
+            pageQueryFieldId: settings.pageQueryFieldId,
+            rowData: this.row
           })
           break
         case ACTION_BUTTON_TYPE.PROCESS_TRIGGER:
@@ -74,7 +75,8 @@ export default Vue.extend({
             processId: settings.processId,
             typePageTo: settings.typePageTo,
             pageRedirectId: settings.pageRedirectId,
-            pageQueryFieldId: settings.pageQueryFieldId
+            pageQueryFieldId: settings.pageQueryFieldId,
+            rowData: this.row
           })
           break
       }

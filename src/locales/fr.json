@@ -405,6 +405,8 @@
         "noBlocks": "Aucun bloc trouvé",
         "displayedInNavbar": "Navigation activée",
         "navigationExplain": "Configuration de la navigation pour ce conteneur",
+        "elevation": "Élévation",
+        "elevationExplain": "Affichage d'une ombre portée au niveau du conteneur",
         "anchor": {
           "label": "Libellé",
           "icon": "Icône",
@@ -438,6 +440,8 @@
         "addAllowed": "Autoriser l'ajout de données",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
+        "elevation": "Élévation",
+        "elevationExplain": "Affichage d'une ombre portée au niveau du bloc",
         "labelButton": "Libellé du bouton",
         "classButton": {
           "title": "Style du bouton",

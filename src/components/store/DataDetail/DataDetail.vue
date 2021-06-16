@@ -11,11 +11,19 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns"
+      v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
       :key="column.id"
     >
-      <div v-if="editableColumns.indexOf(column) > -1">
+      <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
         <div class="p-d-flex">
+          <p-checkbox
+            v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+            v-model="row.data[column.id]"
+            :id="column.id"
+            :binary="true"
+            @input="onEdit(row.id, column.id, row.data[column.id])"
+          />
+
           <label
             class="lck-color-primary"
             :for="column.id"
@@ -118,13 +126,6 @@
             @remove-features="onEdit(row.id, column.id, null)"
             @update-features="onGeoDataEdit(row.id, column.id, $event)"
           />
-          <p-checkbox
-            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
-            v-model="row.data[column.id]"
-            :id="column.id"
-            :binary="true"
-            @input="onEdit(row.id, column.id, row.data[column.id])"
-          />
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
             :attachments="row.data[column.id]"
@@ -140,18 +141,18 @@
           />
 
           <component
-            v-else
+            v-else-if="getComponentEditorDetailForColumnType(column) !== 'p-checkbox'"
             :is="getComponentEditorDetailForColumnType(column)"
             :id="column.id"
             v-model="row.data[column.id]"
             @blur="onEdit(row.id, column.id, row.data[column.id])"
             :rows="7"
           />
-          <span
-            class="cell-state"
-            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-          />
         </div>
+        <span
+          class="cell-state"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+        />
       </div>
 
       <div
@@ -159,6 +160,12 @@
         class="p-fluid p-inputtext p-component non-editable-field"
       >
         <div class="p-d-flex">
+          <p-checkbox
+            v-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
+            :modelValue="getColumnDisplayValue(column, row.data[column.id])"
+            :binary="true"
+            :disabled="true"
+          />
           <label
             class="lck-color-primary"
             :for="column.id"
@@ -182,12 +189,6 @@
             interactive: false
           }"
         />
-        <p-checkbox
-          v-else-if="getComponentDisplayDetailForColumnType(column) === 'p-checkbox'"
-          :modelValue="getColumnDisplayValue(column, row.data[column.id])"
-          :binary="true"
-          :disabled="true"
-        />
         <lck-badge
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
           v-bind="getColumnDisplayValue(column, row.data[column.id])"
@@ -201,7 +202,7 @@
           @download="$emit('download-attachment', $event)"
         />
 
-        <span v-else>
+        <span v-else-if="!getComponentDisplayDetailForColumnType(column) === 'p-checkbox'">
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
 
@@ -499,7 +500,7 @@ export default {
       ]
     },
     getSelectedValueDetails (columnId: string, value: string) {
-      return (this.columnsEnhanced[columnId].dropdownOptions || []).find(element => element.value === value)
+      return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
     }
   },
   watch: {
@@ -551,27 +552,30 @@ export default {
 </script>
 
 <style scoped>
+::v-deep .p-checkbox {
+  margin: 0 0.5rem 0.5rem 0;
+}
 
-/deep/ .p-checkbox .p-checkbox-box {
+::v-deep .p-checkbox .p-checkbox-box {
   border-color: var(--primary-color-lighten);
 }
 
-/deep/ .p-checkbox .p-checkbox-box.p-highlight {
+::v-deep .p-checkbox .p-checkbox-box.p-highlight {
   border-color: var(--primary-color-lighten);
   background: var(--primary-color-lighten);
 }
 
-/deep/ .p-checkbox .p-checkbox-box .p-checkbox-icon {
+::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
   font-weight: bold;
 }
 
-/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
   border-color: var(--primary-color-darken);
   background: var(--primary-color-darken);
 }
 
-/deep/ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
   color: var(--primary-color-lighten) !important;
 }
 
@@ -588,4 +592,5 @@ export default {
   font-size: 1.6rem;
   color: var(--color-error);
 }
+
 </style>
