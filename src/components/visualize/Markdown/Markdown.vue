@@ -2,6 +2,7 @@
   <div
     v-if="settings && settings.content"
     v-html="markdownToDisplay"
+    :class="[settings.textColor, settings.textAlign]"
   />
 </template>
 
@@ -9,6 +10,7 @@
 import Vue, { PropType } from 'vue'
 
 import marked from 'marked'
+
 import { MarkdownSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
@@ -66,8 +68,8 @@ export default Vue.extend({
 
 </style>
 
-<style lang="scss">
-.lck-markdown {
+<style scoped lang="scss">
+.lck-markdown, .lck-markdown-field {
   padding: 1rem;
   background-color: var(--background-color-light);
 
@@ -91,10 +93,6 @@ export default Vue.extend({
     }
   }
 
-  p, ol, ul, li {
-    color: #495057;
-  }
-
   a {
     text-decoration: underline;
     color: var(--primary-color);
@@ -107,6 +105,46 @@ export default Vue.extend({
   table th {
     color: var(--primary-color-text);;
     background-color: #ededed;
+  }
+
+  & .primary {
+    color: var(--primary-color);
+  }
+
+  & .secondary {
+    color: var(--secondary-color);
+  }
+
+  & .danger {
+    color: var(--color-error);
+  }
+
+  & .warning {
+    color: var(--color-warning);
+  }
+
+  & .success {
+    color: var(--color-success);
+  }
+
+  &:not(.success, .warning, .danger, .secondary, .primary) {
+    color: #495057;
+  }
+
+  & .right {
+    text-align: right;
+  }
+
+  & .center {
+    text-align: center;
+  }
+
+  & .justify {
+    text-align: justify;
+  }
+
+  &:not(.right, .center, .justify) {
+    text-align: left;
   }
 }
 </style>
