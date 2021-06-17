@@ -68,7 +68,7 @@ const relatedChapterPages = [
   { id: '4', text: 'Page 4' }
 ]
 
-const tableViewBlock = {
+const tableSetBlock = {
   id: '1',
   title: 'my table view block',
   type: BLOCK_TYPE.TABLESET,
@@ -80,7 +80,7 @@ const tableViewBlock = {
   },
   definition: tableViewDefinition
 }
-const detailViewBlock = {
+const dataRecordBlock = {
   id: '1',
   title: 'my detail view block',
   type: BLOCK_TYPE.DATARECORD,
@@ -150,22 +150,22 @@ export const kanbanBlockStory = () => ({
   template: '<UpdateBlockForm :block="block" />'
 })
 
-export const tableViewBlockStory = () => ({
+export const tableSetBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
     return {
-      block: tableViewBlock,
+      block: tableSetBlock,
       relatedChapterPages: relatedChapterPages
     }
   },
   template: '<UpdateBlockForm :block="block" :relatedChapterPages="relatedChapterPages" />'
 })
 
-export const DetailViewBlockStory = () => ({
+export const DataRecordBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
     return {
-      block: detailViewBlock
+      block: dataRecordBlock
     }
   },
   template: '<UpdateBlockForm :block="block" />'

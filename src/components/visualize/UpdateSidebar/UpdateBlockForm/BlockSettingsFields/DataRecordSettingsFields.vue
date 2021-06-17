@@ -18,7 +18,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import { LckTableView } from '@/services/lck-api/definitions'
 
 export default {
-  name: 'DetailViewSettingsFields',
+  name: 'DataRecordSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete
   },

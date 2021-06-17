@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots components/visualize/UpdateBlockForm Detail View Block Story 1`] = `
+exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story 1`] = `
 <div
   style="height: 100%;"
 >
@@ -1266,7 +1266,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
 </div>
 `;
 
-exports[`storyshots components/visualize/UpdateBlockForm Table View Block Story 1`] = `
+exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1`] = `
 <div
   style="height: 100%;"
 >
