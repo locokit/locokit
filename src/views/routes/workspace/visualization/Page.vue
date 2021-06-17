@@ -457,6 +457,15 @@ export default {
           this.$set(block, 'content', { data: [row] })
           break
         }
+        case BLOCK_TYPE.MARKDOWNFIELD: {
+          const rows = await lckHelpers.retrieveViewData(
+            block.definition.id,
+            this.groupId
+          )
+          row = rows.data[0]
+          this.$set(block, 'content', { data: [row] })
+          break
+        }
       }
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {

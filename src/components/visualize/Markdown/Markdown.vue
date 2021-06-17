@@ -6,9 +6,10 @@
 </template>
 
 <script lang="ts">
-import { MarkdownSettings } from '@locokit/lck-glossary'
 import Vue, { PropType } from 'vue'
+
 import marked from 'marked'
+import { MarkdownSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Markdown',

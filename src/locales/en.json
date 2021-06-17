@@ -412,11 +412,11 @@
           "icon": "Icon",
           "class": {
             "title": "Icon style",
-            "danger": "Danger",
-            "warning": "Warning",
-            "success": "Success",
-            "primary": "Primary Color",
-            "secondary": "Secondary Color"
+            "danger":  "@:common.colorClass.danger",
+            "warning":  "@:common.colorClass.warning",
+            "success":  "@:common.colorClass.success",
+            "primary":  "@:common.colorClass.primary",
+            "secondary":  "@:common.colorClass.secondary"
           },
           "order": "Order"
         }
@@ -443,13 +443,22 @@
         "elevation": "Elevation",
         "elevationExplain": "Is the block displayed with an elevation",
         "labelButton": "Button label",
+        "markdown": {
+          "textAlign": "Text position",
+          "textColor": "Text color"
+        },
+        "markdownField": {
+          "textAlign": "@:pages.workspace.block.markdown.textAlign",
+          "textColor": "@:pages.workspace.block.markdown.textColor",
+          "displayField": "Display text of this field"
+        },
         "classButton": {
-          "title": "Button style",
-          "danger":  "@:pages.workspace.container.anchor.class.danger",
-          "warning":  "@:pages.workspace.container.anchor.class.warning",
-          "success":  "@:pages.workspace.container.anchor.class.success",
-          "primary":  "@:pages.workspace.container.anchor.class.primary",
-          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+          "title": "Style du bouton",
+          "danger":  "@:common.colorClass.danger",
+          "warning":  "@:common.colorClass.warning",
+          "success":  "@:common.colorClass.success",
+          "primary":  "@:common.colorClass.primary",
+          "secondary":  "@:common.colorClass.secondary"
         },
         "icon": "Button Icon",
         "action": {
@@ -678,6 +687,20 @@
   },
   "common": {
     "loading": "Loading…",
-    "logout": "Log out"
+    "logout": "Log out",
+    "colorClass": {
+      "danger": "Danger",
+      "warning": "Warning",
+      "success": "Success",
+      "primary": "Primary Color",
+      "secondary": "Secondary Color",
+      "black": "black"
+    },
+    "alignClass": {
+      "left": "Left",
+      "right": "Right",
+      "center": "Center",
+      "justify": "Justify"
+    }
   }
 }

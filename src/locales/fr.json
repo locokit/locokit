@@ -412,11 +412,11 @@
           "icon": "Icône",
           "class": {
             "title": "Style de l'icône",
-            "danger": "Danger",
-            "warning": "Alerte",
-            "success": "Succès",
-            "primary": "Couleur principale",
-            "secondary": "Couleur secondaire"
+            "danger":  "@:common.colorClass.danger",
+            "warning":  "@:common.colorClass.warning",
+            "success":  "@:common.colorClass.success",
+            "primary":  "@:common.colorClass.primary",
+            "secondary":  "@:common.colorClass.secondary"
           },
           "order": "Ordre"
         }
@@ -443,13 +443,22 @@
         "elevation": "Élévation",
         "elevationExplain": "Affichage d'une ombre portée au niveau du bloc",
         "labelButton": "Libellé du bouton",
+        "markdown": {
+          "textAlign": "Position du texte",
+          "textColor": "Couleur du texte"
+        },
+        "markdownField": {
+          "textAlign": "@:pages.workspace.block.markdown.textAlign",
+          "textColor": "@:pages.workspace.block.markdown.textColor",
+          "displayField": "Afficher le texte de ce champ"
+        },
         "classButton": {
           "title": "Style du bouton",
-          "danger":  "@:pages.workspace.container.anchor.class.danger",
-          "warning":  "@:pages.workspace.container.anchor.class.warning",
-          "success":  "@:pages.workspace.container.anchor.class.success",
-          "primary":  "@:pages.workspace.container.anchor.class.primary",
-          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+          "danger":  "@:common.colorClass.danger",
+          "warning":  "@:common.colorClass.warning",
+          "success":  "@:common.colorClass.success",
+          "primary":  "@:common.colorClass.primary",
+          "secondary":  "@:common.colorClass.secondary"
         },
         "icon": "Icône du bouton",
         "action": {
@@ -678,6 +687,20 @@
   },
   "common": {
     "loading": "Chargement en cours…",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "colorClass": {
+      "danger": "Danger",
+      "warning": "Alerte",
+      "success": "Succès",
+      "primary": "Couleur principale",
+      "secondary": "Couleur secondaire",
+      "black": "Noir"
+    },
+    "alignClass": {
+      "left": "Gauche",
+      "right": "Droite",
+      "center": "Centré",
+      "justify": "Justifié"
+    }
   }
 }

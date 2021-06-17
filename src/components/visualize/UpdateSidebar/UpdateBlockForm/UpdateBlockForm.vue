@@ -41,6 +41,17 @@
     <markdown-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWN"
       :content.sync="blockCopy.settings.content"
+      :textColor.sync="blockCopy.settings.textColor"
+      :textAlign.sync="blockCopy.settings.textAlign"
+    />
+    <markdown-field-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWNFIELD"
+      :displayFieldId.sync="blockCopy.settings.displayFieldId"
+      :textColor.sync="blockCopy.settings.textColor"
+      :textAlign.sync="blockCopy.settings.textAlign"
+      :tableViewDefinition="blockCopy.definition"
+      :autocompleteSuggestions="autocompleteSuggestions"
+      @search-table-view="$emit('search-table-view', $event)"
     />
     <media-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.MEDIA"
@@ -89,7 +100,6 @@
     />
     <action-button-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.ACTION_BUTTON"
-      :id.sync="blockCopy.settings.id"
       :label.sync="blockCopy.settings.label"
       :classButton.sync="blockCopy.settings.classButton"
       :icon.sync="blockCopy.settings.icon"
@@ -121,6 +131,7 @@ import InputSwitch from 'primevue/inputswitch'
 import LckForm from '@/components/ui/Form/Form.vue'
 import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
 import MarkdownSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MarkdownSettingsFields.vue'
+import MarkdownFieldSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MarkdownFieldSettingsFields.vue'
 import MediaSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MediaSettingsFields.vue'
 import TableSetSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableSetSettingsFields.vue'
 import DataRecordSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DataRecordSettingsFields.vue'
@@ -133,6 +144,7 @@ export default {
     'lck-form': LckForm,
     'paragraph-settings-fields': ParagraphSettingsFields,
     'markdown-settings-fields': MarkdownSettingsFields,
+    'markdown-field-settings-fields': MarkdownFieldSettingsFields,
     'media-settings-fields': MediaSettingsFields,
     'table-set-settings-fields': TableSetSettingsFields,
     'data-record-settings-fields': DataRecordSettingsFields,
