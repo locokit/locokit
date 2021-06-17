@@ -890,19 +890,123 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
       </div>
     </div>
      
-    <div
-      class="p-field"
-    >
-      <label
-        for="blockSettingsContent"
+    <div>
+      <div
+        class="p-field"
       >
-        Content
-      </label>
+        <label
+          for="blockSettingsContent"
+        >
+          Content
+        </label>
+         
+        <textarea
+          class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
+          id="blockSettingsContent"
+        />
+      </div>
        
-      <textarea
-        class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
-        id="blockSettingsContent"
-      />
+      <div
+        class="p-field"
+      >
+        <label
+          for="textColor"
+        >
+          Text color
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper"
+          id="textColor"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            <span>
+              
+          Select an option
+        
+            </span>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="textAlign"
+        >
+          Text position
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper"
+          id="textAlign"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            <span>
+              
+          Select an option
+        
+            </span>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
     </div>
      
     <div
