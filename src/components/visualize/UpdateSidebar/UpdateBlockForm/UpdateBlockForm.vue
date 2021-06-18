@@ -114,7 +114,7 @@
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
@@ -123,14 +123,15 @@
     <data-record-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.DATA_RECORD"
       :id.sync="blockCopy.settings.id"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
     <map-settings-fields
       v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
-      :tableViewDefinition="blockCopy.definition"
+      :id.sync="blockCopy.settings.id"
+      :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :sources="blockCopy.settings.sources"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -153,7 +154,7 @@
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :pageRedirectId.sync="blockCopy.settings.pageRedirectId"
       :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
@@ -170,7 +171,7 @@
 import Vue from 'vue'
 
 import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
-import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
+import { LckBlockExtended, LckTableView, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
@@ -234,6 +235,7 @@ export default {
     return {
       BLOCK_TYPE,
       blockCopy: new LckBlockExtended(),
+      tableViewDefinition: null as LckTableView | null,
       blockRefreshRequired: false,
       blockDisplayTableView: null as { text: string; value: string } | null,
       blockDisplayField: null as { text: string; value: string } | null
@@ -313,12 +315,15 @@ export default {
     block: {
       handler (newValue: LckBlockExtended) {
         this.blockCopy = { ...newValue }
+        this.tableViewDefinition = newValue.definition ? newValue.definition : null
         delete this.blockCopy.displayTableView
         delete this.blockCopy.displayField
         delete this.blockCopy.loading
         delete this.blockCopy.createdAt
         delete this.blockCopy.updatedAt
         delete this.blockCopy.definition
+        this.blockDisplayTableView = null
+        this.blockDisplayField = null
         if (newValue.displayTableView) {
           this.blockDisplayTableView = {
             text: newValue.displayTableView.text,
