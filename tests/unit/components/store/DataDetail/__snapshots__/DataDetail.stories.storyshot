@@ -160,32 +160,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
         <!---->
       </div>
     </div>
-    <div
-      class="p-field"
-    >
-      <div
-        class="p-fluid p-inputtext p-component non-editable-field"
-      >
-        <div
-          class="p-d-flex"
-        >
-          <!---->
-           
-          <label
-            class="lck-color-primary"
-            for="e065323c-1151-447f-be0f-6d2728117b39"
-          >
-            
-          Zone géographique
-        
-          </label>
-           
-          <!---->
-        </div>
-         
-        <!---->
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -472,43 +446,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
-          />
-        </div>
-         
-        <span
-          class="cell-state"
-        />
-      </div>
-    </div>
-    <div
-      class="p-field"
-    >
-      <div
-        style="position: relative;"
-      >
-        <div
-          class="p-d-flex"
-        >
-          <!---->
-           
-          <label
-            class="lck-color-primary"
-            for="e065323c-1151-447f-be0f-6d2728117b39"
-          >
-            
-          Zone géographique
-        
-          </label>
-           
-          <!---->
-        </div>
-         
-        <div
-          class="form-field-editable"
-        >
-          <div
-            class="map-container"
-            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
         </div>
          
@@ -811,43 +748,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
         />
       </div>
     </div>
-    <div
-      class="p-field"
-    >
-      <div
-        style="position: relative;"
-      >
-        <div
-          class="p-d-flex"
-        >
-          <!---->
-           
-          <label
-            class="lck-color-primary"
-            for="e065323c-1151-447f-be0f-6d2728117b39"
-          >
-            
-          Zone géographique
-        
-          </label>
-           
-          <!---->
-        </div>
-         
-        <div
-          class="form-field-editable"
-        >
-          <div
-            class="map-container"
-            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
-          />
-        </div>
-         
-        <span
-          class="cell-state"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -1142,43 +1042,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
         />
       </div>
     </div>
-    <div
-      class="p-field"
-    >
-      <div
-        style="position: relative;"
-      >
-        <div
-          class="p-d-flex"
-        >
-          <!---->
-           
-          <label
-            class="lck-color-primary"
-            for="e065323c-1151-447f-be0f-6d2728117b39"
-          >
-            
-          Zone géographique
-        
-          </label>
-           
-          <!---->
-        </div>
-         
-        <div
-          class="form-field-editable"
-        >
-          <div
-            class="map-container"
-            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
-          />
-        </div>
-         
-        <span
-          class="cell-state"
-        />
-      </div>
-    </div>
   </div>
 </div>
 `;
@@ -1465,43 +1328,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
-          />
-        </div>
-         
-        <span
-          class="cell-state"
-        />
-      </div>
-    </div>
-    <div
-      class="p-field"
-    >
-      <div
-        style="position: relative;"
-      >
-        <div
-          class="p-d-flex"
-        >
-          <!---->
-           
-          <label
-            class="lck-color-primary"
-            for="e065323c-1151-447f-be0f-6d2728117b39"
-          >
-            
-          Zone géographique
-        
-          </label>
-           
-          <!---->
-        </div>
-         
-        <div
-          class="form-field-editable"
-        >
-          <div
-            class="map-container"
-            id="map-edit-detail-e065323c-1151-447f-be0f-6d2728117b39"
           />
         </div>
          
