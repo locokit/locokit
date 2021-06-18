@@ -137,6 +137,8 @@
       :page="page"
       :width="editableSidebarWidth"
       :autocompleteSuggestions="editableAutocompleteSuggestions"
+      :blockDisplayTableViewSuggestions="blockDisplayTableViewSuggestions"
+      :blockDisplayFieldSuggestions="blockDisplayFieldSuggestions"
       :relatedChapterPages="relatedChapterPages"
       @update-container="onContainerEditInput"
       @update-block="onBlockEditInput"
@@ -153,6 +155,9 @@
       @reset-current-container="onContainerEditClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
+
+      @search-block-display-table-view="onSearchBlockDisplayTableView"
+      @search-block-display-field="onSearchBlockDisplayField"
     />
     <delete-confirmation-dialog
       :submitting="submitting"
@@ -270,7 +275,9 @@ export default {
         blockDelete: false
       },
       editableSidebarWidth: '40rem',
-      editableAutocompleteSuggestions: null
+      editableAutocompleteSuggestions: null,
+      blockDisplayTableViewSuggestions: null,
+      blockDisplayFieldSuggestions: null
     }
   },
   computed: {
@@ -832,12 +839,13 @@ export default {
         if (id !== 'temp') {
           // On update
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
-          const updatedBlock = await lckServices.block.patch(id, {
-            title: data.title,
-            elevation: data.elevation,
-            type: data.type,
-            settings: data.settings
-          })
+          const updatedBlock = await lckServices.block.patch(id, data)
+          // const updatedBlock = await lckServices.block.patch(id, {
+          //   title: data.title,
+          //   elevation: data.elevation,
+          //   type: data.type,
+          //   settings: data.settings
+          // })
           // Reload the block definition and content if it is necessary
           if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
           // Update the existing block with its new properties
@@ -910,25 +918,69 @@ export default {
           })
       }
     },
+    async searchTableView (query, workspaceId) {
+      const tableViewResult = await lckServices.tableView.find({
+        query: {
+          'table:database.workspace_id': workspaceId,
+          $joinRelation: 'table.[database]',
+          $sort: {
+            text: 1
+          },
+          $select: ['table_view.text'],
+          'table_view.text': {
+            $ilike: `%${query}%`
+          }
+        }
+      })
+      return tableViewResult.data.map(tr => ({
+        text: tr.text,
+        value: tr.id
+      }))
+    },
+    async searchField (query, tableViewId) {
+      console.log(query, tableViewId)
+      const tableColumnResult = await lckServices.tableColumn.find({
+        query: {
+          'views.id': tableViewId,
+          $joinRelation: 'views',
+          $sort: {
+            text: 1
+          },
+          $select: ['table_column.text'],
+          'table_column.text': {
+            $ilike: `%${query}%`
+          },
+          $or: [{
+            column_type_id: COLUMN_TYPE.BOOLEAN
+          }, {
+            settings: {
+              formula_type_id: COLUMN_TYPE.BOOLEAN
+            }
+          }]
+        }
+      })
+      return tableColumnResult.data.map(tc => ({
+        text: tc.text,
+        value: tc.id
+      }))
+    },
     async onSearchTableView ({ query }) {
       try {
-        const tableViewResult = await lckServices.tableView.find({
-          query: {
-            'table:database.workspace_id': this.workspaceId,
-            $limit: 10,
-            $joinRelation: 'table.[database]',
-            $sort: {
-              createdAt: 1
-            },
-            'table_view.text': {
-              $ilike: `%${query}%`
-            }
-          }
-        })
-        this.editableAutocompleteSuggestions = tableViewResult.data.map(tr => ({
-          text: tr.text,
-          value: tr.id
-        }))
+        this.editableAutocompleteSuggestions = await this.searchTableView(query, this.workspaceId)
+      } catch (error) {
+        this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
+      }
+    },
+    async onSearchBlockDisplayTableView ({ query }) {
+      try {
+        this.blockDisplayTableViewSuggestions = await this.searchTableView(query, this.workspaceId)
+      } catch (error) {
+        this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
+      }
+    },
+    async onSearchBlockDisplayField ({ query, tableViewId }) {
+      try {
+        this.blockDisplayFieldSuggestions = await this.searchField(query, tableViewId)
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }

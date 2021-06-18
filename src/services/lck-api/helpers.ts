@@ -310,7 +310,7 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    query: { $eager: 'containers.[blocks]' }
+    query: { $eager: 'containers.[blocks.[displayTableView, displayField]]' }
   })
 }
 

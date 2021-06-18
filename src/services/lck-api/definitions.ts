@@ -215,6 +215,16 @@ export class LckBlockExtended extends LckBaseModel {
   title?: string;
   position?: number;
   settings?: object;
+  elevation?: boolean;
+  conditionalDisplayTableViewId?: string;
+  conditionalDisplayFieldId?: string;
+  conditionalDisplayFieldValue?: boolean;
+
+  displayTableView?: LckTableView;
+  displayField?: LckTableColumn;
+
+  loading?: boolean
+  definition?: LckTableView
 }
 
 export class MediaConfiguration {

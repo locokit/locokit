@@ -446,6 +446,18 @@
           "textAlign": "Position du texte",
           "textColor": "Couleur du texte"
         },
+        "conditionalDisplayTableView": "Vue à utiliser pour conditionner l'affichage",
+        "conditionalDisplayField": "Champ de la vue à utiliser (uniquement des Booléens ou des formules Booléennes)",
+        "conditionalDisplayFieldValue": "Valeur de champ (true / false)",
+        "labelButton": "Libellé du bouton",
+        "classButton": {
+          "title": "Style du bouton",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
         "markdownField": {
           "textAlign": "@:pages.workspace.block.markdown.textAlign",
           "textColor": "@:pages.workspace.block.markdown.textColor",
