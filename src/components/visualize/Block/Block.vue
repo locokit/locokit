@@ -100,30 +100,30 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return [BLOCK_TYPE.KANBANSET, BLOCK_TYPE.FORMRECORD, BLOCK_TYPE.CARDSET, BLOCK_TYPE.MARKDOWNFIELD].includes(this.block.type)
+      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.FORM_RECORD, BLOCK_TYPE.CARD_SET, BLOCK_TYPE.MARKDOWN_FIELD].includes(this.block.type)
     },
     displayDetailButton () {
-      if (this.block.type !== BLOCK_TYPE.TABLESET) return false
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
       return !!(this.block as BlockTableSet).settings?.pageDetailId
     },
     addAllowed () {
-      if (this.block.type !== BLOCK_TYPE.TABLESET) return false
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
       return (this.block as BlockTableSet).settings?.addAllowed
     },
     exportAllowed () {
-      if (this.block.type !== BLOCK_TYPE.TABLESET) return false
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
       return (this.block as BlockTableSet).settings?.exportAllowed
     },
     getBlockTypeClassname () {
       let className = (this.block?.elevation as boolean) ? 'lck-elevation ' : ''
       switch (this.block?.type) {
-        case BLOCK_TYPE.TABLESET:
+        case BLOCK_TYPE.TABLE_SET:
           className += 'lck-table-set'
           break
-        case BLOCK_TYPE.KANBANSET:
+        case BLOCK_TYPE.KANBAN_SET:
           className += 'lck-kanban-set'
           break
-        case BLOCK_TYPE.DATARECORD:
+        case BLOCK_TYPE.DATA_RECORD:
           className += 'lck-data-record'
           break
         case BLOCK_TYPE.PARAGRAPH:
@@ -135,11 +135,11 @@ export default Vue.extend({
         case BLOCK_TYPE.MEDIA:
           className += 'lck-media'
           break
-        case BLOCK_TYPE.ACTIONBUTTON:
+        case BLOCK_TYPE.ACTION_BUTTON:
           className += 'lck-action-button'
           break
-        // case BLOCK_TYPE.MAPSET:
-        // case BLOCK_TYPE.MAPFIELD:
+        // case BLOCK_TYPE.MAP_SET:
+        // case BLOCK_TYPE.MAP_FIELD:
           // className += 'lck-map-set'
         default:
           className += 'lck-block-default'

@@ -24,7 +24,7 @@ import {
 
 import { LckTableRow, LckTableViewColumn } from '@/services/lck-api/definitions'
 
-import { MapSetSettings } from '@locokit/lck-glossary'
+import { MapSettings } from '@locokit/lck-glossary'
 
 // Dynamic import
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
@@ -44,7 +44,7 @@ export default Vue.extend({
       type: Array as PropType<LckTableRow[]>
     },
     settings: {
-      type: Object as PropType<MapSetSettings>
+      type: Object as PropType<MapSettings>
     }
   },
   computed: {

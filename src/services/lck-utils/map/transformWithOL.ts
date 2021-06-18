@@ -16,7 +16,7 @@ import { TranslateResult } from 'vue-i18n'
 import {
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
-  MapSetSettings
+  MapSettings
 } from '@locokit/lck-glossary'
 
 import {
@@ -140,7 +140,7 @@ export const isGEOColumn = (columnTypeId: number) => {
  */
 export function getOnlyGeoColumn (
   columns: LckTableViewColumn[],
-  settings: MapSetSettings
+  settings: MapSettings
 ): LckTableViewColumn[] {
   if (settings.sources) {
     return settings.sources.reduce((acc, { field }) => {
@@ -170,7 +170,7 @@ export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
-  settings: MapSetSettings,
+  settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
@@ -265,7 +265,7 @@ export function makeGeoJsonFeaturesCollection (
 export function getLckGeoResources (
   columns: LckTableViewColumn[],
   data: LckTableRow[],
-  settings: MapSetSettings,
+  settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
 ): LckGeoResource[] {
   const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)

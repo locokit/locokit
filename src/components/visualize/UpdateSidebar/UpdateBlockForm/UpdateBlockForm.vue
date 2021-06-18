@@ -54,7 +54,7 @@
       @delete-media="onDeleteMedia"
     />
     <table-set-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.TABLESET"
+      v-else-if="blockCopy.type === BLOCK_TYPE.TABLE_SET"
       :addAllowed.sync="blockCopy.settings.addAllowed"
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
@@ -66,7 +66,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <data-record-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.DATARECORD"
+      v-else-if="blockCopy.type === BLOCK_TYPE.DATA_RECORD"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -74,7 +74,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <map-settings-fields
-      v-else-if="[BLOCK_TYPE.MAPSET, BLOCK_TYPE.MAPFIELD].includes(blockCopy.type)"
+      v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :relatedChapterPages="relatedChapterPages"
@@ -84,7 +84,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <action-button-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.ACTIONBUTTON"
+      v-else-if="blockCopy.type === BLOCK_TYPE.ACTION_BUTTON"
       :id.sync="blockCopy.settings.id"
       :label.sync="blockCopy.settings.label"
       :classButton.sync="blockCopy.settings.classButton"
