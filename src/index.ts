@@ -68,19 +68,19 @@ export enum GROUP_ROLE {
 }
 
 export enum BLOCK_TYPE {
-  TABLESET = 'TableSet',
-  DATARECORD = 'DataRecord',
+  TABLE_SET = 'TableSet',
+  DATA_RECORD = 'DataRecord',
   PARAGRAPH = 'Paragraph',
   MARKDOWN = 'Markdown',
   MEDIA = 'Media',
-  KANBANSET = 'KanbanSet',
-  HIGHLIGHTFIELD = 'HighlightField',
-  MAPSET = 'MapSet',
-  MAPFIELD = 'MapField',
-  CARDSET = 'CardSet',
-  ACTIONBUTTON = 'ActionButton',
-  MARKDOWNFIELD = 'MarkdownField',
-  FORMRECORD = 'FormRecord',
+  KANBAN_SET = 'KanbanSet',
+  HIGHLIGHT_FIELD = 'HighlightField',
+  MAP_SET = 'MapSet',
+  MAP_FIELD = 'MapField',
+  CARD_SET = 'CardSet',
+  ACTION_BUTTON = 'ActionButton',
+  MARKDOWN_FIELD = 'MarkdownField',
+  FORM_RECORD = 'FormRecord',
 }
 
 export enum MEDIA_TYPE {
@@ -143,7 +143,7 @@ export interface TableSetSettings {
 }
 
 export interface BlockTableSet extends Block {
-  type: BLOCK_TYPE.TABLESET;
+  type: BLOCK_TYPE.TABLE_SET;
   settings: TableSetSettings;
 }
 
@@ -152,7 +152,7 @@ export interface DataRecordSettings {
 }
 
 export interface BlockDataRecord extends Block {
-  type: BLOCK_TYPE.DATARECORD;
+  type: BLOCK_TYPE.DATA_RECORD;
   settings: DataRecordSettings;
 }
 
@@ -166,7 +166,7 @@ export interface KanbanSetSettings {
 }
 
 export interface BlockKanbanSet extends Block {
-  type: BLOCK_TYPE.KANBANSET;
+  type: BLOCK_TYPE.KANBAN_SET;
   settings: KanbanSetSettings;
 }
 
@@ -202,12 +202,12 @@ export interface MapSetSettings {
 }
 
 export interface BlockMapSet extends Block {
-  type: BLOCK_TYPE.MAPSET;
+  type: BLOCK_TYPE.MAP_SET;
   settings: MapSetSettings;
 }
 
 export interface BlockMapField extends Block {
-  type: BLOCK_TYPE.MAPFIELD;
+  type: BLOCK_TYPE.MAP_FIELD;
   settings: MapSetSettings;
 }
 
@@ -220,7 +220,7 @@ export interface HighlightFieldSettings {
 }
 
 export interface BlockHighlightField extends Block {
-  type: BLOCK_TYPE.HIGHLIGHTFIELD;
+  type: BLOCK_TYPE.HIGHLIGHT_FIELD;
   settings: HighlightFieldSettings;
 }
 
@@ -239,7 +239,7 @@ export interface ActionButtonSettings {
 }
 
 export interface BlockActionButton extends Block {
-  type: BLOCK_TYPE.ACTIONBUTTON;
+  type: BLOCK_TYPE.ACTION_BUTTON;
   settings: ActionButtonSettings;
 }
 
@@ -251,7 +251,7 @@ export interface CardSetSettings {
 }
 
 export interface BlockCardSet extends Block {
-  type: BLOCK_TYPE.CARDSET;
+  type: BLOCK_TYPE.CARD_SET;
   settings: CardSetSettings;
 }
 
@@ -263,7 +263,7 @@ export interface MarkdownFieldSettings {
 }
 
 export interface BlockMarkdownField extends Block {
-  type: BLOCK_TYPE.MARKDOWNFIELD;
+  type: BLOCK_TYPE.MARKDOWN_FIELD;
   settings: MarkdownFieldSettings;
 }
 
@@ -272,6 +272,6 @@ export interface FormRecordSettings {
 }
 
 export interface BlockFormRecord extends Block {
-  type: BLOCK_TYPE.FORMRECORD;
+  type: BLOCK_TYPE.FORM_RECORD;
   settings: FormRecordSettings;
 }
