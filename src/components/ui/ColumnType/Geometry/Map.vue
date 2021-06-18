@@ -275,13 +275,12 @@ export default Vue.extend({
       )
 
       layersToRemove.forEach(layerToRemove => {
-        this.map!.removeLayer(`${resourceToUpdate.id}-${layerToRemove.id}`)
+        this.map!.removeLayer(layerToRemove.id)
       })
       layersToAdd.forEach(layerToAdd => {
         this.map!.addLayer({
           source: resourceToUpdate.id,
-          ...layerToAdd,
-          id: `${resourceToUpdate.id}-${layerToAdd.id}`
+          ...layerToAdd
         } as AnyLayer)
       })
       layersToUpdate.forEach(layerToUpdate => {
@@ -303,7 +302,7 @@ export default Vue.extend({
           )
         )
         paintPropertiesToReset.forEach(
-          (paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, paintPropertyToReset, null)
+          (paintPropertyToReset) => this.map!.setPaintProperty(layerToUpdate.id, paintPropertyToReset, null)
         )
         if (layerToUpdate.paint) {
           Object.keys(layerToUpdate.paint)
@@ -316,7 +315,7 @@ export default Vue.extend({
               )
             ).forEach((paintProperty) => {
               this.map!.setPaintProperty(
-                `${resourceToUpdate.id}-${layerToUpdate.id}`,
+                layerToUpdate.id,
                 paintProperty,
                 layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
               )
@@ -333,7 +332,7 @@ export default Vue.extend({
           )
         )
         layoutPropertiesToReset.forEach(
-          (layoutPropertyToReset) => this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, layoutPropertyToReset, null)
+          (layoutPropertyToReset) => this.map!.setLayoutProperty(layerToUpdate.id, layoutPropertyToReset, null)
         )
         if (layerToUpdate.layout) {
           Object.keys(layerToUpdate.layout).filter(
@@ -345,7 +344,7 @@ export default Vue.extend({
             )
           ).forEach((layoutProperty) => {
             this.map!.setLayoutProperty(
-              `${resourceToUpdate.id}-${layerToUpdate.id}`,
+              layerToUpdate.id,
               layoutProperty,
               layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
             )
