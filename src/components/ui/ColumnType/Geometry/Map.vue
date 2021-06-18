@@ -37,7 +37,6 @@ import {
 } from '@/services/lck-utils/map/computeGeo'
 
 import {
-  LckFeatureProperties,
   LckGeoResource,
   LckImplementedLayers,
   PopupContent
@@ -445,7 +444,7 @@ export default Vue.extend({
         const selectedFeature = e.features?.[0]
         if (selectedFeature?.id && selectedFeature.id !== this.selectedFeatureBySource[resourceId]) {
           this.selectFeature(resourceId, selectedFeature.id)
-          this.$emit('select-feature', selectedFeature, resourceIndex)
+          this.$emit('select-feature', selectedFeature, resourceId, resourceIndex)
         }
       }
       // Add right listener
@@ -467,7 +466,7 @@ export default Vue.extend({
           let html = ''
           e.features.forEach(currentFeature => {
             if (currentFeature && currentFeature.properties) {
-              const properties = currentFeature.properties as LckFeatureProperties
+              const properties = currentFeature.properties
 
               html += `<p class="popup-row-title">${properties.title}</p>`
 
@@ -477,12 +476,15 @@ export default Vue.extend({
                   ${content?.field?.value}
                 </p>`
 
-              if (properties.content && properties.content.length > 0) {
-                html += `
-                <div class="popup-row-content">
-                  ${properties.content.map((content: PopupContent) => line(content)).join('')}
-                </div>
-              `
+              if (properties.content) {
+                const content = JSON.parse(properties?.content)
+                if (content.length > 0) {
+                  html += `
+                  <div class="popup-row-content">
+                    ${content.map((content: PopupContent) => line(content)).join('')}
+                  </div>
+                `
+                }
               }
 
               if (properties.rowId && pageDetailId) {
