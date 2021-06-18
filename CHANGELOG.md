@@ -1,5 +1,21 @@
 # CHANGELOG
 
+**v0.2.6**
+
+**Breaking Changes:**
+* use SNAKE_UPPERCASE for BLOCK_TYPE
+* Map configurations must be updated to specify the id of the source and pageDetailId prop is part of the popup configuration.
+
+**Feature**
+* improve Map settings:
+  - add props selectable for edition config
+  - MapSet can use multiple sources
+  - MapField can use one source
+* fix typo in MarkdownField
+
+**Quality**
+* improve documentation
+
 **v0.2.5**
 
 **Breaking Changes:**
