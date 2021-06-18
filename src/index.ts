@@ -185,19 +185,18 @@ export interface BlockMedia extends Block {
 
 export interface MapSourceSettings {
   id: string; // uuid of the table_view
-  pageDetailId: string; // uuid of page, allow to redirect to a detail page (display only a record)
-  geometry: GEOMETRY_TYPE; // geometry type
-  field: string; // column / field 's UUID
-  popup: boolean; // do we display a popup
-  popupSettings: { // a popup is like a card
-    title: string; // column / field 's UUID
-    contentFields: {
+  geometry?: GEOMETRY_TYPE; // geometry type
+  field?: string; // column / field 's UUID
+  popup?: boolean; // do we display a popup
+  popupSettings?: { // a popup is like a card
+    title?: string; // column / field 's UUID
+    pageDetailId?: string; // uuid of page, allow to redirect to a detail page (display only a record)
+    contentFields?: {
       field: string; // column / field's UUID
-      class: string; // css class to apply on this field
+      class?: string; // css class to apply on this field
     }[]
   }
-  editable: boolean; // can we edit the data from the map
-  selectable: boolean; // can we select a feature
+  selectable?: boolean; // can we select a feature
 }
 
 export interface MapSettings {
