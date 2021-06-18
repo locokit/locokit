@@ -306,10 +306,15 @@ export function makeGeoJsonFeaturesCollection (
             /**
              * Indicate that this geometry type is editable
              */
-            if (source.editable) {
+            if (geoColumn.editable) {
               const featureGeoType = geometryTypeFromColumnType(geoColumn.column_type_id)
               if (featureGeoType) editableGeometryTypes.add(featureGeoType)
               featureProperties.sourceId = source.id
+            }
+
+            // Add the text value to have text related to the row
+            if (source.triggerEvents?.includes('click')) {
+              featureProperties.text = row.text || i18nOptions.noReference.toString()
             }
 
             feature.setProperties(featureProperties)

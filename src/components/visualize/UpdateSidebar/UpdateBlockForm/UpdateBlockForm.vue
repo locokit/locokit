@@ -66,7 +66,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <detail-view-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.DETAIL_VIEW"
+      v-else-if="[BLOCK_TYPE.DETAIL_VIEW, BLOCK_TYPE.FORM_RECORD].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :autocompleteSuggestions="autocompleteSuggestions"

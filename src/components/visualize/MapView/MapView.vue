@@ -74,10 +74,12 @@ export default Vue.extend({
   methods: {
     uuidv4,
     onSelectFeature (selectedFeature: GeoJSONFeature, resourceIndex: number) {
-      if (this.resources[resourceIndex].triggerEvents.has('click')) {
+      if (this.resources[resourceIndex].triggerEvents.has('click') && selectedFeature.properties) {
         window.eventHub.$emit(
-          `${this.id}:click`,
-          selectedFeature.properties?.rowId
+          `${this.id}:click`, {
+            reference: selectedFeature.properties?.rowId,
+            value: selectedFeature.properties?.title
+          }
         )
       }
     }

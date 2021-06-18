@@ -346,7 +346,7 @@ export default {
         if (block.definition !== {}) await this.loadBlockContent(block)
       } else if (block.settings?.id) {
         // block.settings.id is a reference to a table_view
-        if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
+        if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW, BLOCK_TYPE.FORM_RECORD].includes(block.type)) {
           /**
            * If the source isn't already present,
            * we load the definition
@@ -494,6 +494,9 @@ export default {
         ? currentBlock.content[tableViewId].find(d => d.id === rowId)
         : currentBlock.content.data.find(d => d.id === rowId)
 
+      // To improve...
+      if (newValue.reference) newValue = newValue.reference
+
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -570,30 +573,51 @@ export default {
         const columnTargetDetail = block.definition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
       }
-      this.$set(block, 'submitting', true)
+      this.$set(block, 'submitting', { inProgress: true })
 
       /**
        * For date columns, we format the date to ISO, date only
        */
       block.definition.columns
-        .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
-          if (isValid(parseISO(newRow.data[c.id]))) {
-            data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
-          } else {
-            data[c.id] = null
+          switch (c.column_type_id) {
+            case COLUMN_TYPE.DATE:
+              if (isValid(parseISO(newRow.data[c.id]))) {
+                data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
+              } else {
+                data[c.id] = null
+              }
+              break
+            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+            case COLUMN_TYPE.USER:
+            case COLUMN_TYPE.GROUP:
+            case COLUMN_TYPE.MULTI_USER:
+              if (data[c.id]?.reference) {
+                data[c.id] = data[c.id].reference
+              }
+              break
           }
         })
-      await lckServices.tableRow.create({
-        data,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        table_view_id: block.definition.id,
-        // table_id: block.definition.table_id,
-        $lckGroupId: this.groupId
-      })
-      this.$set(block, 'submitting', false)
-      this.$set(block, 'displayNewDialog', false)
-      await this.loadBlockContent(block)
+      try {
+        await lckServices.tableRow.create({
+          data,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          table_view_id: block.definition.id,
+          // table_id: block.definition.table_id,
+          $lckGroupId: this.groupId
+        })
+        this.$set(block, 'displayNewDialog', false)
+        this.$set(block, 'submitting', { inProgress: false })
+        await this.loadBlockContent(block)
+      } catch (error) {
+        this.$set(block, 'submitting', { inProgress: false, errors: [error] })
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.http.' + error.code),
+          detail: this.$t('error.basic'),
+          life: 3000
+        })
+      }
     },
     async onExportViewCSV (block) {
       if (!block.settings?.id) return

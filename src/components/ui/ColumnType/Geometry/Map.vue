@@ -37,6 +37,7 @@ import {
 } from '@/services/lck-utils/map/computeGeo'
 
 import {
+  LckFeatureProperties,
   LckGeoResource,
   LckImplementedLayers,
   PopupContent
@@ -464,6 +465,7 @@ export default Vue.extend({
       // Add Popup on layer on click
       const wrapperFunction = (e: MapLayerMouseEvent) => {
         if (e.features?.length) {
+          // this.$toast.removeAllGroups()
           let html = ''
           e.features.forEach(currentFeature => {
             if (currentFeature && currentFeature.properties) {
