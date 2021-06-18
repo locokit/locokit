@@ -20,6 +20,7 @@
         dataKey="value"
         :options="EXTENDED_NAMED_CLASSES"
         :placeholder="$t('components.datatable.placeholder')"
+        :showClear="true"
       >
         <template #value="slotProps">
           <div v-if="slotProps.value">
@@ -45,6 +46,7 @@
         dataKey="value"
         :options="TEXT_ALIGN_CLASS"
         :placeholder="$t('components.datatable.placeholder')"
+        :showClear="true"
       >
         <template #value="slotProps">
           <div v-if="slotProps.value">

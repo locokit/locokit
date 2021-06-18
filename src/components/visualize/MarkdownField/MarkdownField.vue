@@ -8,7 +8,7 @@
 import Vue, { PropType } from 'vue'
 
 import { MarkdownFieldSettings, MarkdownSettings } from '@locokit/lck-glossary'
-import { LckTableRow, LckTableRowData } from '@/services/lck-api/definitions'
+import { LckTableRow } from '@/services/lck-api/definitions'
 
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 
@@ -30,14 +30,14 @@ export default Vue.extend({
     textToDisplayed (): MarkdownSettings {
       if (this.settings?.displayFieldId && this.content?.data.length > 0 && this.content.data[0]) {
         return {
-          textColor: this.settings.textColor,
-          textAlign: this.settings.textAlign,
+          textColor: this.settings?.textColor,
+          textAlign: this.settings?.textAlign,
           content: this.content.data[0].data[this.settings.displayFieldId] as string
         }
       }
       return {
-        textColor: this.settings.textColor,
-        textAlign: this.settings.textAlign,
+        textColor: this.settings?.textColor,
+        textAlign: this.settings?.textAlign,
         content: ''
       }
     }

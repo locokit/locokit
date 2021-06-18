@@ -916,7 +916,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         </label>
          
         <div
-          class="p-dropdown p-component p-inputwrapper"
+          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
           id="textColor"
         >
           <div
@@ -967,7 +967,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         </label>
          
         <div
-          class="p-dropdown p-component p-inputwrapper"
+          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
           id="textAlign"
         >
           <div
