@@ -39,6 +39,7 @@
     </div>
     <div
       class="add-source-div"
+      v-if="!singleSource || (singleSource && sources.length === 0)"
       >
       <p-button
         icon="pi pi-plus"
@@ -82,6 +83,10 @@ export default Vue.extend({
     relatedChapterPages: {
       type: Array,
       default: () => ([])
+    },
+    singleSource: {
+      type: Boolean,
+      default: false
     }
   },
   data (): {

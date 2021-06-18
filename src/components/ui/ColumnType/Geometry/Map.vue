@@ -48,8 +48,8 @@ export enum MODE {
   DIALOG = 'Dialog'
 }
 
-type MapLayerListenerFunction = (ev: (MapLayerMouseEvent | MapLayerTouchEvent) & mapboxgl.EventData) => void;
-type MapLayerMouseListenerFunction = (ev: (MapLayerMouseEvent) & mapboxgl.EventData) => void;
+type MapLayerListenerFunction = (ev: (MapLayerMouseEvent | MapLayerTouchEvent) & EventData) => void;
+type MapLayerMouseListenerFunction = (ev: (MapLayerMouseEvent) & EventData) => void;
 
 export default Vue.extend({
   name: 'Map',
@@ -275,13 +275,12 @@ export default Vue.extend({
       )
 
       layersToRemove.forEach(layerToRemove => {
-        this.map!.removeLayer(`${resourceToUpdate.id}-${layerToRemove.id}`)
+        this.map!.removeLayer(layerToRemove.id)
       })
       layersToAdd.forEach(layerToAdd => {
         this.map!.addLayer({
           source: resourceToUpdate.id,
-          ...layerToAdd,
-          id: `${resourceToUpdate.id}-${layerToAdd.id}`
+          ...layerToAdd
         } as AnyLayer)
       })
       layersToUpdate.forEach(layerToUpdate => {
@@ -303,7 +302,7 @@ export default Vue.extend({
           )
         )
         paintPropertiesToReset.forEach(
-          (paintPropertyToReset) => this.map!.setPaintProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, paintPropertyToReset, null)
+          (paintPropertyToReset) => this.map!.setPaintProperty(layerToUpdate.id, paintPropertyToReset, null)
         )
         if (layerToUpdate.paint) {
           Object.keys(layerToUpdate.paint)
@@ -316,7 +315,7 @@ export default Vue.extend({
               )
             ).forEach((paintProperty) => {
               this.map!.setPaintProperty(
-                `${resourceToUpdate.id}-${layerToUpdate.id}`,
+                layerToUpdate.id,
                 paintProperty,
                 layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
               )
@@ -333,7 +332,7 @@ export default Vue.extend({
           )
         )
         layoutPropertiesToReset.forEach(
-          (layoutPropertyToReset) => this.map!.setLayoutProperty(`${resourceToUpdate.id}-${layerToUpdate.id}`, layoutPropertyToReset, null)
+          (layoutPropertyToReset) => this.map!.setLayoutProperty(layerToUpdate.id, layoutPropertyToReset, null)
         )
         if (layerToUpdate.layout) {
           Object.keys(layerToUpdate.layout).filter(
@@ -345,7 +344,7 @@ export default Vue.extend({
             )
           ).forEach((layoutProperty) => {
             this.map!.setLayoutProperty(
-              `${resourceToUpdate.id}-${layerToUpdate.id}`,
+              layerToUpdate.id,
               layoutProperty,
               layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
             )
@@ -469,7 +468,7 @@ export default Vue.extend({
           let html = ''
           e.features.forEach(currentFeature => {
             if (currentFeature && currentFeature.properties) {
-              const properties = currentFeature.properties
+              const properties = currentFeature.properties as LckFeatureProperties
 
               html += `<p class="popup-row-title">${properties.title}</p>`
 
@@ -479,15 +478,12 @@ export default Vue.extend({
                   ${content?.field?.value}
                 </p>`
 
-              if (properties.content) {
-                const content = JSON.parse(properties?.content)
-                if (content.length > 0) {
-                  html += `
-                  <div class="popup-row-content">
-                    ${content.map((content: PopupContent) => line(content)).join('')}
-                  </div>
-                `
-                }
+              if (properties.content && properties.content.length > 0) {
+                html += `
+                <div class="popup-row-content">
+                  ${properties.content.map((content: PopupContent) => line(content)).join('')}
+                </div>
+              `
               }
 
               if (properties.rowId && pageDetailId) {
@@ -611,6 +607,11 @@ export default Vue.extend({
   min-width: 180px;
 }
 
+/deep/ .mapboxgl-popup-content p {
+  font-size: 0.8rem;
+  color: var(--primary-color-text);
+}
+
 /deep/ .mapboxgl-popup-content p button{
   font-size: 0.8rem;
   font-weight: 400;
@@ -620,6 +621,7 @@ export default Vue.extend({
 /deep/ .mapboxgl-popup-content p.popup-row-title:first-child {
   margin-top: -10px;
 }
+
 /deep/ .mapboxgl-popup-content p.popup-row-title {
   font-size: 0.9rem;
   font-weight: bold;
@@ -628,6 +630,10 @@ export default Vue.extend({
   margin-left: -10px;
   margin-right: -10px;
   padding: 5px 10px 0 10px;
+}
+
+/deep/ .mapboxgl-popup-content .popup-field-label {
+  font-weight: bold;
 }
 
 /deep/ .mapboxgl-popup-content .popup-row-toolbox {

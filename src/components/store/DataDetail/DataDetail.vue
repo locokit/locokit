@@ -201,8 +201,7 @@
           :disabled="true"
           @download="$emit('download-attachment', $event)"
         />
-
-        <span v-else-if="!getComponentDisplayDetailForColumnType(column) === 'p-checkbox'">
+        <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
 
@@ -483,7 +482,7 @@ export default {
 
       const editableGeometryTypes: Set<GeometryType> = new Set()
       // Only display edit options if the column is editable
-      if (this.editableColumns.includes(column)) {
+      if (isEditableColumn(this.crudMode, column)) {
         const geometryType = geometryTypeFromColumnType(column.column_type_id)
         if (geometryType) editableGeometryTypes.add(geometryType)
       }

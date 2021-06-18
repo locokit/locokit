@@ -5,7 +5,7 @@
   >
     <lck-map
       v-if="resources"
-      :id="`block-map-view-${uuidv4()}`"
+      :id="`block-map-view-${id}`"
       :resources="resources"
       :hasPopup="hasPopup"
       @select-feature="onSelectFeature"
@@ -18,9 +18,6 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import { GeoJSONFeature } from 'ol/format/GeoJSON'
-import { v4 as uuidv4 } from 'uuid'
-
 import {
   getLckGeoResources,
   LckGeoResource
@@ -29,6 +26,7 @@ import {
 import { LckTableRow, LckTableView } from '@/services/lck-api/definitions'
 
 import { MapSettings } from '@locokit/lck-glossary'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 // Dynamic import
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
@@ -39,6 +37,9 @@ export default Vue.extend({
     'lck-map': Map
   },
   props: {
+    id: {
+      type: String
+    },
     definition: {
       type: Object as PropType<Record<string, LckTableView>>
     },
@@ -47,9 +48,6 @@ export default Vue.extend({
     },
     settings: {
       type: Object as PropType<MapSettings>
-    },
-    id: {
-      type: String
     }
   },
   computed: {
@@ -72,9 +70,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    uuidv4,
     onSelectFeature (selectedFeature: GeoJSONFeature, resourceIndex: number) {
-      if (this.resources[resourceIndex].triggerEvents.has('click') && selectedFeature.properties) {
+      if (this.resources[resourceIndex].triggerEvents?.has('click') && selectedFeature.properties) {
         window.eventHub.$emit(
           `${this.id}:click`, {
             reference: selectedFeature.properties?.rowId,

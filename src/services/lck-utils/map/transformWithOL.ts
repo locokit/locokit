@@ -85,11 +85,11 @@ export interface LckGeoResource {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
-  displayPopup: boolean;
-  pageDetailId?: string;
   editableGeometryTypes: Set<GeometryType>;
-  selectable: boolean;
-  triggerEvents: Set<MapSourceTriggerEvent>;
+  triggerEvents?: Set<MapSourceTriggerEvent>;
+  displayPopup?: boolean;
+  pageDetailId?: string;
+  selectable?: boolean;
 }
 
 export interface PopupContent {
@@ -100,6 +100,16 @@ export interface PopupContent {
     color?: string | null;
     backgroundColor?: string | null;
   };
+}
+
+export interface LckFeatureProperties {
+  id: string;
+  columnId: string;
+  rowId: string;
+  title?: LckTableRowData;
+  content?: PopupContent[];
+  sourceId?: string;
+  text?: string;
 }
 
 /**
@@ -214,7 +224,7 @@ export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
  *
  * @return {LckTableViewColumn[]}
  */
-export function getOnlyGeoColumn (
+export function getOnlyGeoColumns (
   columns: LckTableViewColumn[],
   sourceSettings: MapSourceSettings
 ): LckTableViewColumn[] {
@@ -243,7 +253,7 @@ export function makeGeoJsonFeaturesCollection (
   definitionColumns: LckTableViewColumn[],
   sources: MapSourceSettings[],
   i18nOptions: LckPopupI18nOptions
-): { features: GeoJSONFeatureCollection; editableGeometryTypes: Set<GeometryType> } {
+): GeoJSONFeatureCollection {
   const features: Feature[] = []
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
@@ -255,8 +265,6 @@ export function makeGeoJsonFeaturesCollection (
     }
   }
 
-  const editableGeometryTypes: Set<GeometryType> = new Set()
-
   rows.forEach(row => {
     geoColumns.forEach(geoColumn => {
       const data = getEWKTFromGeoColumn(geoColumn, row.data)
@@ -264,23 +272,24 @@ export function makeGeoJsonFeaturesCollection (
         const feature = transformEWKTtoFeature(data)
         if (Array.isArray(sources)) {
           sources.forEach(source => {
-            const featureProperties: Record<string, LckTableRowData | PopupContent[] > = {
+            const featureProperties: LckFeatureProperties = {
               id: `${row.id}:${geoColumn.id}`,
               columnId: geoColumn.id,
               rowId: row.id
             }
             /**
-             * Add page detail information if needed
-             */
-            if (source.pageDetailId) {
-              featureProperties.title = row.text || i18nOptions.noReference.toString()
-            }
-            /**
              * Manage popup information
              */
             if (source.popup && source.popupSettings) {
-              featureProperties.title = row.data[source.popupSettings.title] || source.popupSettings.title || ''
-              if (source.popupSettings.contentFields?.length > 0) {
+              // Define the title
+              if (source.popupSettings.title) {
+                // From the specified value
+                featureProperties.title = row.data[source.popupSettings.title] || ''
+              } else if (source.popupSettings.pageDetailId) {
+                // From the row reference if the page detail is specified
+                featureProperties.title = row.text || i18nOptions.noReference.toString()
+              }
+              if (Array.isArray(source.popupSettings.contentFields)) {
                 const allContent: PopupContent[] = []
                 source.popupSettings.contentFields.forEach(contentField => {
                   // Get column's title
@@ -298,17 +307,12 @@ export function makeGeoJsonFeaturesCollection (
                     })
                   }
                 })
-
                 // Set data in Feature properties
                 featureProperties.content = allContent
               }
             }
-            /**
-             * Indicate that this geometry type is editable
-             */
+            // Add the source id to the feature
             if (geoColumn.editable) {
-              const featureGeoType = geometryTypeFromColumnType(geoColumn.column_type_id)
-              if (featureGeoType) editableGeometryTypes.add(featureGeoType)
               featureProperties.sourceId = source.id
             }
 
@@ -327,11 +331,23 @@ export function makeGeoJsonFeaturesCollection (
 
   // Transform OL Feature in Geojson
   const geojsonFormat = new GeoJSON()
-  const geoJSONFeatures = geojsonFormat.writeFeaturesObject(features)
-  return {
-    features: geoJSONFeatures,
-    editableGeometryTypes
-  }
+  return geojsonFormat.writeFeaturesObject(features)
+}
+
+/**
+ * Get the OL geometry types that can be editable from an array of columns
+ * @param columns
+ * @returns { Set<GeometryType> }
+ */
+export function getEditableGeometryTypes (columns: LckTableViewColumn[]) {
+  const editableGeometryTypes: Set<GeometryType> = new Set()
+  columns.forEach(column => {
+    if (column.editable) {
+      const geometryType = geometryTypeFromColumnType(column.column_type_id)
+      if (geometryType) editableGeometryTypes.add(geometryType)
+    }
+  })
+  return editableGeometryTypes
 }
 
 /**
@@ -355,20 +371,21 @@ export function getLckGeoResources (
     const resourceId = `features-collection-source-${index}`
 
     const columns = tableViews[source.id]?.columns || []
-    // Get the specified column of the source and check that it is a geographic one
-    const geoColumn = getOnlyGeoColumn(columns, source)
+    // Get the specified columns of the source and check that they are geographic ones
+    const geoColumns = getOnlyGeoColumns(columns, source)
 
-    if (geoColumn.length > 0) {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+    if (geoColumns.length > 0) {
+      const features = makeGeoJsonFeaturesCollection(
         data[source.id],
-        geoColumn,
+        geoColumns,
         columns,
         [source],
         i18nOptions
       )
-      const layers: LckImplementedLayers[] = getStyleLayers(resourceId, geoColumn)
 
-      const displayPopup = !!(source.pageDetailId || source.popup)
+      const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
+
+      const layers: LckImplementedLayers[] = getStyleLayers(resourceId, geoColumns)
       const triggerEvents = new Set(source.triggerEvents || []) as Set<MapSourceTriggerEvent>
 
       lckGeoResources.push({
@@ -376,8 +393,8 @@ export function getLckGeoResources (
         layers,
         type: features.type,
         features: features.features,
-        displayPopup,
-        pageDetailId: source.pageDetailId,
+        displayPopup: !!source.popup,
+        pageDetailId: source.popupSettings?.pageDetailId,
         editableGeometryTypes,
         selectable: !!(source.selectable || triggerEvents.has('click')),
         triggerEvents
