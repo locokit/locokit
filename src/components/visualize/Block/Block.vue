@@ -140,17 +140,12 @@ export default Vue.extend({
         case BLOCK_TYPE.ACTION_BUTTON:
           className += 'lck-action-button'
           break
-<<<<<<< HEAD
         // case BLOCK_TYPE.MAP_SET:
         // case BLOCK_TYPE.MAP_FIELD:
-=======
-        case BLOCK_TYPE.MARKDOWNFIELD:
+          // className += 'lck-map-set'
+        case BLOCK_TYPE.MARKDOWN_FIELD:
           className += 'lck-markdown-field'
           break
-        // case BLOCK_TYPE.MAPSET:
-        // case BLOCK_TYPE.MAPFIELD:
->>>>>>> Add MarkdownField block
-          // className += 'lck-map-set'
         default:
           className += 'lck-block-default'
       }

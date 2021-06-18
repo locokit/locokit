@@ -45,7 +45,7 @@
       :textAlign.sync="blockCopy.settings.textAlign"
     />
     <markdown-field-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWNFIELD"
+      v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWN_FIELD"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
       :textColor.sync="blockCopy.settings.textColor"
       :textAlign.sync="blockCopy.settings.textAlign"

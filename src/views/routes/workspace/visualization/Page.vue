@@ -457,7 +457,7 @@ export default {
           this.$set(block, 'content', { data: [row] })
           break
         }
-        case BLOCK_TYPE.MARKDOWNFIELD: {
+        case BLOCK_TYPE.MARKDOWN_FIELD: {
           const rows = await lckHelpers.retrieveViewData(
             block.definition.id,
             this.groupId
