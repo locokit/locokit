@@ -5,7 +5,7 @@ import GeometryType from 'ol/geom/GeometryType'
 
 import { LckTableRow, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
 
-import { geometryTypeFromColumnType, GEO_STYLE, getLckGeoResources, getOnlyGeoColumn, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, transformFeatureToWKT } from './transformWithOL'
+import { geometryTypeFromColumnType, GEO_STYLE, getEditableGeometryTypes, getLckGeoResources, getOnlyGeoColumns, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, transformFeatureToWKT } from './transformWithOL'
 
 // Visualization part
 // Page
@@ -38,7 +38,7 @@ const stringColumn: LckTableViewColumn = {
   settings: {},
   table_id: geoTableView.table_id,
   column_type_id: COLUMN_TYPE.STRING,
-  editable: false,
+  editable: true,
   position: 0,
   transmitted: false,
   default: '',
@@ -74,7 +74,7 @@ const geoPolygonColumn: LckTableViewColumn = {
   settings: {},
   table_id: geoTableView.table_id,
   column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
-  editable: false,
+  editable: true,
   position: 1,
   transmitted: false,
   default: '',
@@ -140,16 +140,16 @@ const i18nOptions: LckPopupI18nOptions = {
 
 const defaultMapSourceSettings: MapSourceSettings = {
   id: '',
-  editable: false,
   selectable: false,
   field: '',
   geometry: GEOMETRY_TYPE.POINT,
-  pageDetailId: '',
   popup: false,
   popupSettings: {
+    pageDetailId: '',
     contentFields: [],
     title: ''
-  }
+  },
+  triggerEvents: []
 }
 
 describe('Transformations with OpenLayers', () => {
@@ -232,13 +232,13 @@ describe('Transformations with OpenLayers', () => {
     })
   })
 
-  describe('getOnlyGeoColumn', () => {
+  describe('getOnlyGeoColumns', () => {
     it('Returns all the geographic columns of the table view if no column id is specified in the map source settings', () => {
       const mapSourceSettings = {
         ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
-      const geoColumns = getOnlyGeoColumn(allColumns, mapSourceSettings)
+      const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn, geoPolygonColumn])
     })
     it('Returns an empty array if no column id is specified in the map source settings and there is no geographic column', () => {
@@ -246,7 +246,7 @@ describe('Transformations with OpenLayers', () => {
         ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
-      const geoColumns = getOnlyGeoColumn([stringColumn], mapSourceSettings)
+      const geoColumns = getOnlyGeoColumns([stringColumn], mapSourceSettings)
       expect(geoColumns).toEqual([])
     })
     it('Returns an array containing one geographic column if a column id is specified in the map source settings', () => {
@@ -255,7 +255,7 @@ describe('Transformations with OpenLayers', () => {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b40'
       }
-      const geoColumns = getOnlyGeoColumn(allColumns, mapSourceSettings)
+      const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn])
     })
     it('Returns an empty array if the specified column id does not exist in the table view', () => {
@@ -264,7 +264,7 @@ describe('Transformations with OpenLayers', () => {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b00'
       }
-      const geoColumns = getOnlyGeoColumn(allColumns, mapSourceSettings)
+      const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([])
     })
     it('Returns an empty array if the specified column id is not a geographic column', () => {
@@ -273,7 +273,7 @@ describe('Transformations with OpenLayers', () => {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b38'
       }
-      const geoColumns = getOnlyGeoColumn(allColumns, mapSourceSettings)
+      const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([])
     })
   })
@@ -282,8 +282,8 @@ describe('Transformations with OpenLayers', () => {
       ...defaultMapSourceSettings,
       id: '263c21e6-5339-4748-903f-8c77e21314cf'
     }
-    it('Returns an empty features array and an empty editable geometry types set if there is no row', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+    it('Returns an empty features array if there is no row', () => {
+      const features = makeGeoJsonFeaturesCollection(
         [],
         geoColumns,
         allColumns,
@@ -292,10 +292,9 @@ describe('Transformations with OpenLayers', () => {
       )
       expect(features.type).toBe('FeatureCollection')
       expect(features.features).toHaveLength(0)
-      expect(editableGeometryTypes.size).toBe(0)
     })
     it('Returns an empty features array and an empty editable geometry types set if there is no geographic columns', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [],
         geoColumns,
         allColumns,
@@ -303,10 +302,9 @@ describe('Transformations with OpenLayers', () => {
         i18nOptions
       )
       expect(features.features).toHaveLength(0)
-      expect(editableGeometryTypes.size).toBe(0)
     })
     it('Do not add a feature if the row data is empty', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [emptyRow],
         geoColumns,
         allColumns,
@@ -314,10 +312,9 @@ describe('Transformations with OpenLayers', () => {
         i18nOptions
       )
       expect(features.features).toHaveLength(0)
-      expect(editableGeometryTypes.size).toBe(0)
     })
-    it('Returns the corresponding features and an empty editable geometry types set if there is no source', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+    it('Returns the corresponding features if there is no source', () => {
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -341,10 +338,9 @@ describe('Transformations with OpenLayers', () => {
         properties: null,
         type: 'Feature'
       })
-      expect(editableGeometryTypes.size).toBe(0)
     })
-    it('Returns the corresponding features and an empty editable geometry types set if the source is undefined', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+    it('Returns the corresponding features if the source is undefined', () => {
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -368,10 +364,9 @@ describe('Transformations with OpenLayers', () => {
         properties: null,
         type: 'Feature'
       })
-      expect(editableGeometryTypes.size).toBe(0)
     })
     it('If the sources are specified, add the id, columnId and rowId properties to each feature', () => {
-      const { features, editableGeometryTypes } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -389,17 +384,19 @@ describe('Transformations with OpenLayers', () => {
         columnId: geoPolygonColumn.id,
         id: `${firstRow.id}:${geoPolygonColumn.id}`
       })
-      expect(editableGeometryTypes.size).toBe(0)
     })
     it('If the pageDetailId option is configured, add a title property to each feature', () => {
-      const { features } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow, secondRow],
         geoColumns,
         allColumns,
         [{
           ...defaultMapSourceSettings,
           id: geoTableView.id,
-          pageDetailId
+          popup: true,
+          popupSettings: {
+            pageDetailId
+          }
         }],
         i18nOptions
       )
@@ -410,7 +407,7 @@ describe('Transformations with OpenLayers', () => {
       expect(features.features[3].properties?.title).toBe(i18nOptions.noReference)
     })
     it('If the popup title is configured as a column id, display the value of the corresponding field', () => {
-      const { features } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -428,27 +425,8 @@ describe('Transformations with OpenLayers', () => {
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.title).toBe(firstRow.data[stringColumn.id])
     })
-    it('If the popup title is configured and is not a column id, display its value', () => {
-      const { features } = makeGeoJsonFeaturesCollection(
-        [firstRow],
-        geoColumns,
-        allColumns,
-        [{
-          ...defaultMapSourceSettings,
-          id: geoTableView.id,
-          popup: true,
-          popupSettings: {
-            title: 'My popup title',
-            contentFields: []
-          }
-        }],
-        i18nOptions
-      )
-      expect(features.features).toHaveLength(2)
-      expect(features.features[0].properties?.title).toBe('My popup title')
-    })
     it('If the popup content is configured with a valid column id, display the value of the corresponding field with the specified css class', () => {
-      const { features } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -457,7 +435,6 @@ describe('Transformations with OpenLayers', () => {
           id: geoTableView.id,
           popup: true,
           popupSettings: {
-            title: '',
             contentFields: [
               {
                 field: stringColumn.id,
@@ -469,7 +446,6 @@ describe('Transformations with OpenLayers', () => {
         i18nOptions
       )
       expect(features.features).toHaveLength(2)
-      expect(features.features[0].properties?.title).toBe('')
       expect(features.features[0].properties?.content).toHaveLength(1)
       expect(features.features[0].properties?.content[0]).toMatchObject({
         field: {
@@ -480,7 +456,7 @@ describe('Transformations with OpenLayers', () => {
       })
     })
     it('If the popup content is configured with an invalid column id, just pass this step', () => {
-      const { features } = makeGeoJsonFeaturesCollection(
+      const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
@@ -503,21 +479,12 @@ describe('Transformations with OpenLayers', () => {
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.content).toHaveLength(0)
     })
-    it('If source is editable, add the geometry type to the returned set', () => {
-      const { editableGeometryTypes } = makeGeoJsonFeaturesCollection(
-        [firstRow],
-        geoColumns,
-        allColumns,
-        [{
-          ...defaultMapSourceSettings,
-          id: geoTableView.id,
-          editable: true
-        }],
-        i18nOptions
-      )
-      expect(editableGeometryTypes.size).toBe(2)
-      expect(editableGeometryTypes.has(GeometryType.POINT)).toBe(true)
-      expect(editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
+  })
+  describe('getEditableGeometryTypes', () => {
+    it('Return the OL geometry types related to the geographic editable columns', () => {
+      const editableGeometryTypes = getEditableGeometryTypes(allColumns)
+      expect(editableGeometryTypes.size).toBe(1)
+      expect(editableGeometryTypes.has(GeometryType.POLYGON))
     })
   })
   describe('getLckGeoResources', () => {
@@ -527,7 +494,8 @@ describe('Transformations with OpenLayers', () => {
           { [geoTableView.id]: geoTableView },
           { [geoTableView.id]: rows },
           {
-            sources: []
+            sources: [],
+            triggerEvents: []
           },
           i18nOptions
         )
@@ -539,7 +507,8 @@ describe('Transformations with OpenLayers', () => {
           { [emptyTableView.id]: emptyTableView },
           { [emptyTableView.id]: [] },
           {
-            sources: []
+            sources: [],
+            triggerEvents: []
           },
           i18nOptions
         )
@@ -551,7 +520,8 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: stringTableView },
           { [stringTableView.id]: [] },
           {
-            sources: []
+            sources: [],
+            triggerEvents: []
           },
           i18nOptions
         )
@@ -566,7 +536,8 @@ describe('Transformations with OpenLayers', () => {
             sources: [{
               ...defaultMapSourceSettings,
               id: 'invalid-tableview-id'
-            }]
+            }],
+            triggerEvents: []
           },
           i18nOptions
         )
@@ -580,7 +551,8 @@ describe('Transformations with OpenLayers', () => {
           sources: [{
             ...defaultMapSourceSettings,
             id: geoTableView.id
-          }]
+          }],
+          triggerEvents: []
         },
         i18nOptions
       )
@@ -590,7 +562,8 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].features).toHaveLength(4)
       expect(resources[0].displayPopup).toBe(false)
       expect(resources[0].pageDetailId).toBeFalsy()
-      expect(resources[0].editableGeometryTypes.size).toBe(0)
+      expect(resources[0].editableGeometryTypes.size).toBe(1)
+      expect(resources[0].editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
       expect(resources[0].selectable).toBe(false)
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Point,
@@ -610,28 +583,13 @@ describe('Transformations with OpenLayers', () => {
             ...defaultMapSourceSettings,
             id: geoTableView.id,
             selectable: true
-          }]
+          }],
+          triggerEvents: []
         },
         i18nOptions
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].selectable).toBe(true)
-    })
-    it('Returns that the pop up can be displayed for the resource if the page detail id is specified in the map settings', () => {
-      const resources = getLckGeoResources(
-        { [geoTableView.id]: geoTableView },
-        { [geoTableView.id]: [] },
-        {
-          sources: [{
-            ...defaultMapSourceSettings,
-            id: geoTableView.id,
-            pageDetailId
-          }]
-        },
-        i18nOptions
-      )
-      expect(resources).toHaveLength(1)
-      expect(resources[0].displayPopup).toBe(true)
     })
     it('Returns that the pop up can be displayed for the resource if it is specified in the map settings', () => {
       const resources = getLckGeoResources(
@@ -642,12 +600,34 @@ describe('Transformations with OpenLayers', () => {
             ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true
-          }]
+          }],
+          triggerEvents: []
         },
         i18nOptions
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].displayPopup).toBe(true)
     })
+    it('Returns the page detail id for the resource if it is specified in the map settings', () => {
+      const resources = getLckGeoResources(
+        { [geoTableView.id]: geoTableView },
+        { [geoTableView.id]: [] },
+        {
+          sources: [{
+            ...defaultMapSourceSettings,
+            id: geoTableView.id,
+            popup: true,
+            popupSettings: {
+              pageDetailId
+            }
+          }],
+          triggerEvents: []
+        },
+        i18nOptions
+      )
+      expect(resources).toHaveLength(1)
+      expect(resources[0].pageDetailId).toBe(pageDetailId)
+    })
+
   })
 })

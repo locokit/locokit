@@ -5,7 +5,7 @@
   >
     <lck-map
       v-if="resources"
-      :id="`block-map-view-${uuidv4()}`"
+      :id="`block-map-view-${id}`"
       :resources="resources"
       :hasPopup="hasPopup"
       v-on="$listeners"
@@ -16,8 +16,6 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-
-import { v4 as uuidv4 } from 'uuid'
 
 import {
   getLckGeoResources,
@@ -37,6 +35,9 @@ export default Vue.extend({
     'lck-map': Map
   },
   props: {
+    id: {
+      type: String
+    },
     definition: {
       type: Object as PropType<Record<string, LckTableView>>
     },
@@ -65,9 +66,6 @@ export default Vue.extend({
         this.resources.some(resource => resource.displayPopup)
       )
     }
-  },
-  methods: {
-    uuidv4
   }
 })
 </script>

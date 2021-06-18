@@ -79,6 +79,7 @@
       :relatedChapterPages="relatedChapterPages"
       :sources="blockCopy.settings.sources"
       :autocompleteSuggestions="autocompleteSuggestions"
+      :singleSource="blockCopy.type === BLOCK_TYPE.MAPDETAILVIEW"
       @update-page-detail-id="onUpdateMapSourcePageDetailId"
       @update-id="onUpdateMapSourceId"
       @add-source="onAddMapSource"
