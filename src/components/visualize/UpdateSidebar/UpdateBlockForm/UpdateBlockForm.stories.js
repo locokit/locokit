@@ -44,7 +44,7 @@ const mediaBlock = {
 const kanbanBlock = {
   id: '1',
   title: 'my kanban block',
-  type: BLOCK_TYPE.KANBAN_VIEW,
+  type: BLOCK_TYPE.KANBAN_SET,
   settings: {}
 }
 const markdownBlock = {
@@ -68,10 +68,10 @@ const relatedChapterPages = [
   { id: '4', text: 'Page 4' }
 ]
 
-const tableViewBlock = {
+const tableSetBlock = {
   id: '1',
   title: 'my table view block',
-  type: BLOCK_TYPE.TABLE_VIEW,
+  type: BLOCK_TYPE.TABLE_SET,
   settings: {
     id: '123456',
     exportAllowed: true,
@@ -80,10 +80,10 @@ const tableViewBlock = {
   },
   definition: tableViewDefinition
 }
-const detailViewBlock = {
+const dataRecordBlock = {
   id: '1',
   title: 'my detail view block',
-  type: BLOCK_TYPE.DETAIL_VIEW,
+  type: BLOCK_TYPE.DATA_RECORD,
   settings: {
     content: 'The text to display.'
   },
@@ -150,22 +150,22 @@ export const kanbanBlockStory = () => ({
   template: '<UpdateBlockForm :block="block" />'
 })
 
-export const tableViewBlockStory = () => ({
+export const tableSetBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
     return {
-      block: tableViewBlock,
+      block: tableSetBlock,
       relatedChapterPages: relatedChapterPages
     }
   },
   template: '<UpdateBlockForm :block="block" :relatedChapterPages="relatedChapterPages" />'
 })
 
-export const DetailViewBlockStory = () => ({
+export const DataRecordBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
     return {
-      block: detailViewBlock
+      block: dataRecordBlock
     }
   },
   template: '<UpdateBlockForm :block="block" />'

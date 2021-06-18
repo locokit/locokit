@@ -15,10 +15,10 @@ export const defaultStory = () => (
 defaultStory.storyName = 'default'
 
 /* eslint-disable @typescript-eslint/camelcase */
-const blockTableView = {
+const blockTableSet = {
   id: 1,
-  title: 'My TableView\'s block',
-  type: 'TableView',
+  title: 'My TableSet\'s block',
+  type: 'TableSet',
   definition: {
     text: 'Ensemble des vélos',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
@@ -129,14 +129,14 @@ export const tableViewStory = () => (
     components: { Block },
     data () {
       return {
-        block: blockTableView
+        block: blockTableSet
       }
     },
     template: '<Block :block="block" />'
   }
 )
 
-tableViewStory.storyName = 'TableView'
+tableViewStory.storyName = 'TableSet'
 
 export const paragraphStory = () => (
   {

@@ -53,8 +53,8 @@
       @add-media="onAddMedia"
       @delete-media="onDeleteMedia"
     />
-    <table-view-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.TABLE_VIEW"
+    <table-set-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.TABLE_SET"
       :addAllowed.sync="blockCopy.settings.addAllowed"
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
@@ -65,8 +65,8 @@
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
-    <detail-view-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.DETAIL_VIEW"
+    <data-record-settings-fields
+      v-else-if="blockCopy.type === BLOCK_TYPE.DATA_RECORD"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -74,7 +74,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <map-settings-fields
-      v-else-if="[BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockCopy.type)"
+      v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :relatedChapterPages="relatedChapterPages"
@@ -84,7 +84,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <action-button-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.ACTIONBUTTON"
+      v-else-if="blockCopy.type === BLOCK_TYPE.ACTION_BUTTON"
       :id.sync="blockCopy.settings.id"
       :label.sync="blockCopy.settings.label"
       :classButton.sync="blockCopy.settings.classButton"
@@ -118,8 +118,8 @@ import LckForm from '@/components/ui/Form/Form.vue'
 import ParagraphSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ParagraphSettingsFields.vue'
 import MarkdownSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MarkdownSettingsFields.vue'
 import MediaSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MediaSettingsFields.vue'
-import TableViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableViewSettingsFields.vue'
-import DetailViewSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DetailViewSettingsFields.vue'
+import TableSetSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/TableSetSettingsFields.vue'
+import DataRecordSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DataRecordSettingsFields.vue'
 import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
 import ActionButtonSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ActionButtonSettingsFields.vue'
 
@@ -130,8 +130,8 @@ export default {
     'paragraph-settings-fields': ParagraphSettingsFields,
     'markdown-settings-fields': MarkdownSettingsFields,
     'media-settings-fields': MediaSettingsFields,
-    'table-view-settings-fields': TableViewSettingsFields,
-    'detail-view-settings-fields': DetailViewSettingsFields,
+    'table-set-settings-fields': TableSetSettingsFields,
+    'data-record-settings-fields': DataRecordSettingsFields,
     'map-settings-fields': MapSettingsFields,
     'action-button-settings-fields': ActionButtonSettingsFields,
     'p-input-text': Vue.extend(InputText),
@@ -158,8 +158,8 @@ export default {
   },
   data () {
     return {
+      BLOCK_TYPE,
       blockCopy: new LckBlockExtended(),
-      BLOCK_TYPE: BLOCK_TYPE,
       blockRefreshRequired: false
     }
   },

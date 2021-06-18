@@ -90,7 +90,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
 export default {
-  name: 'TableView',
+  name: 'TableSet',
   components: {
     'lck-datatable': DataTable,
     'lck-data-detail': DataDetail,

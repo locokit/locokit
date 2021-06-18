@@ -53,16 +53,16 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BLOCK_TYPE, Block, BlockTableView } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, Block, BlockTableSet } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 
-import TableView from '@/components/visualize/TableView/TableView.vue'
+import TableSet from '@/components/visualize/TableSet/TableSet.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'
-import MapView from '@/components/visualize/MapView/MapView.vue'
-import Synthesis from '@/components/visualize/Synthesis/Synthesis.vue'
+import MapSet from '@/components/visualize/MapSet/MapSet.vue'
+import HighlightField from '@/components/visualize/HighlightField/HighlightField.vue'
 import Media from '@/components/visualize/Media/Media.vue'
-import DetailView from '@/components/visualize/DetailView/DetailView.vue'
+import DataRecord from '@/components/visualize/DataRecord/DataRecord.vue'
 import ActionButton from '@/components/visualize/ActionButton/ActionButton.vue'
 import Error from '@/components/ui/Error/Error.vue'
 
@@ -70,14 +70,14 @@ export default Vue.extend({
   name: 'Block',
   components: {
     'p-button': Vue.extend(Button),
-    TableView,
-    DetailView,
+    TableSet,
+    DataRecord,
     Paragraph,
     Markdown,
     Media,
-    MapView,
-    MapDetailView: MapView,
-    Synthesis,
+    MapSet,
+    MapField: MapSet,
+    HighlightField,
     ActionButton,
     Error
   },
@@ -100,31 +100,31 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return this.block.type === BLOCK_TYPE.KANBAN_VIEW
+      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.FORM_RECORD, BLOCK_TYPE.CARD_SET, BLOCK_TYPE.MARKDOWN_FIELD].includes(this.block.type)
     },
     displayDetailButton () {
-      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
-      return !!(this.block as BlockTableView).settings?.pageDetailId
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
+      return !!(this.block as BlockTableSet).settings?.pageDetailId
     },
     addAllowed () {
-      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
-      return (this.block as BlockTableView).settings?.addAllowed
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
+      return (this.block as BlockTableSet).settings?.addAllowed
     },
     exportAllowed () {
-      if (this.block.type !== BLOCK_TYPE.TABLE_VIEW) return false
-      return (this.block as BlockTableView).settings?.exportAllowed
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
+      return (this.block as BlockTableSet).settings?.exportAllowed
     },
     getBlockTypeClassname () {
       let className = (this.block?.elevation as boolean) ? 'lck-elevation ' : ''
       switch (this.block?.type) {
-        case BLOCK_TYPE.TABLE_VIEW:
-          className += 'lck-table-view'
+        case BLOCK_TYPE.TABLE_SET:
+          className += 'lck-table-set'
           break
-        case BLOCK_TYPE.KANBAN_VIEW:
-          className += 'lck-kanban-view'
+        case BLOCK_TYPE.KANBAN_SET:
+          className += 'lck-kanban-set'
           break
-        case BLOCK_TYPE.DETAIL_VIEW:
-          className += 'lck-detail-view'
+        case BLOCK_TYPE.DATA_RECORD:
+          className += 'lck-data-record'
           break
         case BLOCK_TYPE.PARAGRAPH:
           className += 'lck-paragraph'
@@ -135,11 +135,12 @@ export default Vue.extend({
         case BLOCK_TYPE.MEDIA:
           className += 'lck-media'
           break
-        case BLOCK_TYPE.ACTIONBUTTON:
+        case BLOCK_TYPE.ACTION_BUTTON:
           className += 'lck-action-button'
           break
-        // case BLOCK_TYPE.MAP_VIEW:
-          // className += 'lck-map-view'
+        // case BLOCK_TYPE.MAP_SET:
+        // case BLOCK_TYPE.MAP_FIELD:
+          // className += 'lck-map-set'
         default:
           className += 'lck-block-default'
       }
