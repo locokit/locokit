@@ -44,7 +44,11 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        Trek
+      
+        </span>
       </div>
     </div>
     <div
@@ -105,7 +109,11 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        AMSTERDAMAIR
+      
+        </span>
       </div>
     </div>
     <div
@@ -131,7 +139,11 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        10/30/2020
+      
+        </span>
       </div>
     </div>
     <div
@@ -157,7 +169,13 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        Welcome at home, 
+this is a multi line text
+and it works
+      
+        </span>
       </div>
     </div>
   </div>
@@ -1394,7 +1412,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        true
+      
+        </span>
       </div>
     </div>
     <div
@@ -1420,7 +1442,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        My first string
+      
+        </span>
       </div>
     </div>
     <div
@@ -1446,7 +1472,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        10
+      
+        </span>
       </div>
     </div>
     <div
@@ -1472,7 +1502,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        10.5
+      
+        </span>
       </div>
     </div>
     <div
@@ -1498,7 +1532,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        01/15/2021
+      
+        </span>
       </div>
     </div>
     <div
@@ -1524,7 +1562,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        User 1
+      
+        </span>
       </div>
     </div>
     <div
@@ -1550,7 +1592,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        Group 1
+      
+        </span>
       </div>
     </div>
     <div
@@ -1576,7 +1622,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        RBT 1
+      
+        </span>
       </div>
     </div>
     <div
@@ -1637,7 +1687,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        Option 1, Option 2
+      
+        </span>
       </div>
     </div>
     <div
@@ -1663,7 +1717,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        My formula
+      
+        </span>
       </div>
     </div>
     <div
@@ -1689,7 +1747,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        File
+      
+        </span>
       </div>
     </div>
     <div
@@ -1715,7 +1777,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        User 1, User 2
+      
+        </span>
       </div>
     </div>
     <div
@@ -1741,7 +1807,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        My text to display...
+      
+        </span>
       </div>
     </div>
     <div
@@ -1767,7 +1837,11 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <!---->
+        <span>
+          
+        http://myurl.com
+      
+        </span>
       </div>
     </div>
   </div>

@@ -201,8 +201,7 @@
           :disabled="true"
           @download="$emit('download-attachment', $event)"
         />
-
-        <span v-else-if="!getComponentDisplayDetailForColumnType(column) === 'p-checkbox'">
+        <span v-else>
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
 
