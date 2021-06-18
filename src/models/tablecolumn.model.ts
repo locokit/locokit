@@ -7,6 +7,7 @@ import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { ColumnType as LckColumnType } from './columnType.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { TableView } from './tableview.model'
 
 export interface SelectValue {
   label: string
@@ -81,22 +82,26 @@ export class TableColumn extends BaseModel {
     return {
       table: {
         relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckTable,
         join: {
           from: 'table_column.table_id',
           to: 'table.id',
         },
       },
+      views: {
+        relation: Model.ManyToManyRelation,
+        modelClass: TableView,
+        join: {
+          from: 'table_column.id',
+          through: {
+            from: 'table_view_has_table_column.table_column_id',
+            to: 'table_view_has_table_column.table_view_id',
+          },
+          to: 'table_view.id',
+        },
+      },
       column_type: {
         relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one. We use a model
-        // subclass constructor `Animal` here.
         modelClass: LckColumnType,
         join: {
           from: 'table_column.column_type_id',
@@ -156,6 +161,13 @@ export class TableColumn extends BaseModel {
     }
     return this.parents[0].getOriginalColumn()
   }
+}
+
+export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
+
+export class TableColumnDTO extends TableColumn {
+  filter?: LckColumnFilter
+  sort?: Object
 }
 
 export default function (app: Application): typeof TableColumn {

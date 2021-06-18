@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, snakeCaseMappers } from 'objection'
+import { JSONSchema, Model, RelationMappings, snakeCaseMappers } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
+import { TableColumn } from './tablecolumn.model'
+import { TableView } from './tableview.model'
 
 export class block extends BaseModel {
   title?: string
@@ -82,6 +84,27 @@ export class block extends BaseModel {
         },
         conditional_display_field_value: {
           type: 'boolean',
+        },
+      },
+    }
+  }
+
+  static get relationMappings (): RelationMappings {
+    return {
+      displayTableView: {
+        relation: Model.HasOneRelation,
+        modelClass: TableView,
+        join: {
+          from: 'block.conditional_display_table_view_id',
+          to: 'table_view.id',
+        },
+      },
+      displayField: {
+        relation: Model.HasOneRelation,
+        modelClass: TableColumn,
+        join: {
+          from: 'block.conditional_display_field_id',
+          to: 'table_column.id',
         },
       },
     }

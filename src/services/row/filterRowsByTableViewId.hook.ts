@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { LckColumnFilter, TableColumnDTO } from '../../models/tableview.model'
+import { LckColumnFilter, TableColumnDTO } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
