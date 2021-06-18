@@ -444,7 +444,7 @@ export default Vue.extend({
         const selectedFeature = e.features?.[0]
         if (selectedFeature?.id && selectedFeature.id !== this.selectedFeatureBySource[resourceId]) {
           this.selectFeature(resourceId, selectedFeature.id)
-          this.$emit('select-feature', selectedFeature, resourceId, resourceIndex)
+          this.$emit('select-feature', selectedFeature, resourceIndex)
         }
       }
       // Add right listener

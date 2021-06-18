@@ -406,7 +406,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           class="p-dropdown-label p-inputtext"
         >
           
-            MapView
+            MapSet
         
         </span>
          
