@@ -492,7 +492,7 @@ export default Vue.extend({
 
                 html += `
                 <div class="popup-row-toolbox">
-                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                  <button class="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
                 </div>
               `
               }
@@ -504,7 +504,7 @@ export default Vue.extend({
             .addTo(this.map!)
 
           const element = popup.getElement()
-          const links = element.querySelectorAll('.popup-row-toolbox #row-detail-page');
+          const links = element.querySelectorAll('.popup-row-toolbox .row-detail-page');
 
           (e.features || []).forEach(({ properties }, index) => {
             if (properties?.rowId && pageDetailId) {
