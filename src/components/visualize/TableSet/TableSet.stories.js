@@ -1,9 +1,9 @@
-import TableView from './TableView'
+import TableSet from './TableSet'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
-  title: 'components/visualize/TableView',
-  component: TableView
+  title: 'components/visualize/TableSet',
+  component: TableSet
 }
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -115,8 +115,8 @@ const content = {
 
 export const defaultStory = () => (
   {
-    components: { TableView },
-    template: '<TableView />'
+    components: { TableSet },
+    template: '<TableSet />'
   }
 )
 
@@ -129,8 +129,8 @@ export const withDefinitionStory = () => (
         definition
       }
     },
-    components: { TableView },
-    template: '<TableView :definition="definition" />'
+    components: { TableSet },
+    template: '<TableSet :definition="definition" />'
   }
 )
 
@@ -144,8 +144,8 @@ export const withDefinitionAndContentStory = () => (
         content
       }
     },
-    components: { TableView },
-    template: '<TableView :definition="definition" :content="content" />'
+    components: { TableSet },
+    template: '<TableSet :definition="definition" :content="content" />'
   }
 )
 
@@ -153,13 +153,13 @@ withDefinitionAndContentStory.storyName = 'with definition and content'
 
 export const WithDefinitionAndToolbarButtonsStory = () => (
   {
-    components: { TableView },
+    components: { TableSet },
     data () {
       return {
         definition
       }
     },
-    template: `<TableView
+    template: `<TableSet
       :definition="definition"
       addAllowed
       exportAllowed
@@ -173,14 +173,14 @@ WithDefinitionAndToolbarButtonsStory.storyName = 'with definition and toolbar bu
 
 export const WithDefAndContentAndToolbarButtonsStory = () => (
   {
-    components: { TableView },
+    components: { TableSet },
     data () {
       return {
         definition,
         content
       }
     },
-    template: `<TableView
+    template: `<TableSet
       :definition="definition"
       :content="content"
       addAllowed

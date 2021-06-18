@@ -1,15 +1,15 @@
-import Synthesis from './Synthesis'
+import HighlightField from './HighlightField'
 
 export default {
-  title: 'components/visualize/Synthesis',
-  component: Synthesis
+  title: 'components/visualize/HighlightField',
+  component: HighlightField
 }
 
 export const withPropsStory = (args, { argTypes }) => {
   return {
-    components: { Synthesis },
+    components: { HighlightField },
     props: Object.keys(argTypes),
-    template: '<Synthesis :title="title" :result="result" :noResult="noResult" />'
+    template: '<HighlightField :title="title" :result="result" :noResult="noResult" />'
   }
 }
 

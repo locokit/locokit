@@ -18,7 +18,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import { LckTableRow } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
-  name: 'DetailView',
+  name: 'DataRecord',
   components: {
     'lck-data-detail': DataDetail
   },

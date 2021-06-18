@@ -346,7 +346,7 @@ export default {
         if (block.definition !== {}) await this.loadBlockContent(block)
       } else if (block.settings?.id) {
         // block.settings.id is a reference to a table_view
-        if ([BLOCK_TYPE.ACTIONBUTTON, BLOCK_TYPE.DETAIL_VIEW].includes(block.type)) {
+        if ([BLOCK_TYPE.ACTION_BUTTON, BLOCK_TYPE.DATA_RECORD].includes(block.type)) {
           /**
            * If the source isn't already present,
            * we load the definition
@@ -373,7 +373,7 @@ export default {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
       switch (block.type) {
-        case BLOCK_TYPE.TABLE_VIEW:
+        case BLOCK_TYPE.TABLE_SET:
           this.$set(block, 'content', await lckHelpers.retrieveViewData(
             block.definition.id,
             this.groupId,
@@ -383,7 +383,7 @@ export default {
             currentOptions.filters
           ))
           break
-        case BLOCK_TYPE.MAPVIEW:
+        case BLOCK_TYPE.MAP_SET:
           /**
            * For the mapview block, we don't limit the result
            * I think we can optimize how we manage the data...
@@ -408,7 +408,7 @@ export default {
           )
           this.$set(block, 'content', contentByViewObject)
           break
-        case BLOCK_TYPE.DETAIL_VIEW:
+        case BLOCK_TYPE.DATA_RECORD:
           let row
           if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
             if (this.$route.query.rowId) {
@@ -435,7 +435,7 @@ export default {
           // Update content according to sources or table_view
           this.$set(block, 'content', { data: [row] })
           break
-        case BLOCK_TYPE.MAPDETAILVIEW: {
+        case BLOCK_TYPE.MAP_FIELD: {
           const definitionId = Object.keys(block.definition)[0]
           const row = await lckServices.tableRow.get(this.$route.query.rowId)
           if (definitionId) {
@@ -443,7 +443,7 @@ export default {
           }
           break
         }
-        case BLOCK_TYPE.ACTIONBUTTON: {
+        case BLOCK_TYPE.ACTION_BUTTON: {
           let row
           if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
             const rows = await lckHelpers.retrieveViewData(
@@ -462,7 +462,7 @@ export default {
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
       switch (block.type) {
-        case BLOCK_TYPE.TABLE_VIEW:
+        case BLOCK_TYPE.TABLE_SET:
           this.blocksOptions[block.id].page = pageIndexToGo
           await this.loadBlockContent(block)
           break
@@ -535,7 +535,7 @@ export default {
     async onSort (block, { field, order }) {
       block.loading = true
       switch (block.type) {
-        case BLOCK_TYPE.TABLE_VIEW:
+        case BLOCK_TYPE.TABLE_SET:
           this.blocksOptions[block.id].sort = {}
           // find the matching column_type_id to adapt
           this.blocksOptions[block.id].sort[`ref(data:${field})`] = order
@@ -547,7 +547,7 @@ export default {
     async onUpdateFilters (block, filters) {
       block.loading = true
       switch (block.type) {
-        case BLOCK_TYPE.TABLE_VIEW:
+        case BLOCK_TYPE.TABLE_SET:
           this.blocksOptions[block.id].filters = filters
           await this.loadBlockContent(block)
           break
