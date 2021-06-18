@@ -35,7 +35,40 @@ export class block extends BaseModel {
           type: 'string',
           format: 'uuid',
         },
-        type: { enum: ['TableView', 'DetailView', 'Paragraph', 'Markdown', 'Heading', 'Media', 'KanbanView', 'GridView', 'MapView', 'Synthesis', 'MapDetailView', 'ActionButton', 'Default'] },
+        type: {
+          enum: [
+            'TableSet',
+            'DataRecord',
+            'Paragraph',
+            'Markdown',
+            'Media',
+            'KanbanSet',
+            'HighlightField',
+            'MapSet',
+            'MapField',
+            'ActionButton',
+            'CardSet',
+            'MarkdownField',
+            'FormRecord',
+            'Default',
+          ],
+          description: `
+- __TableSet__: Table (header + content) of a set of record
+- __DataRecord__: Detail of each data (label + input/text) of a record
+- __Paragraph__: Any text
+- __Markdown__: Any text with markdown style
+- __Media__: Image Collection which can be in shape of Gallery, Carousel and Image or a Video in a player
+- __KanbanSet__: Method Kanban on a set of record
+- __MapSet__: Map with one or many set of record and one or many geographical data
+- __MapField__: Map with one record and one geographical data
+- __HighlightField__: Highlighting a field in a record
+- __ActionButton__: Button which can be related on a field in a record
+- __CardSet__: Collection of card from a set of record
+- __MarkdownField__: Text related on a field in a record with markdown style
+- __FormRecord__: Same as DataRecord with at least submission button
+- __Default__: Safe-keeper (migration backwards compatibility)
+          `,
+        },
         position: { type: ['number', 'null'] },
         settings: { type: ['object', 'null'] },
         elevation: { type: 'boolean' },

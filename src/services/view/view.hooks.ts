@@ -7,7 +7,7 @@ const { authenticate } = authentication.hooks
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [commonHooks.discardQuery('$lckGroupId')],
+    find: [],
     get: [],
     create: [],
     update: [],
