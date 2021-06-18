@@ -39,6 +39,7 @@ export enum COLOR_CLASS {
   SUCCESS = 'success',
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
+  BLACK = 'black',
 }
 export enum TEXT_ALIGN_CLASS {
   LEFT = 'left',
@@ -108,14 +109,14 @@ export enum GEOMETRY_TYPE {
 export interface Block {
   id: string;
   type: BLOCK_TYPE;
-  elevation: boolean;
-  conditionalDisplayTableViewId: string;
-  conditionalDisplayFieldId: string;
-  conditionalDisplayFieldValue: boolean;
+  elevation?: boolean; // option elevation
+  conditionalDisplayTableViewId?: string; // table_view id which allow to choose one field
+  conditionalDisplayFieldId?: string; // field id to compare with conditionalDisplayFieldValue
+  conditionalDisplayFieldValue?: boolean; // value to compare to display block (only boolean for now)
 }
 
 export interface ParagraphSettings {
-  content: string;
+  content: string; // text to display
 }
 
 export interface BlockParagraph extends Block {
@@ -124,9 +125,9 @@ export interface BlockParagraph extends Block {
 }
 
 export interface MarkdownSettings {
-  content: string;
-  textColor: COLOR_CLASS;
-  textAlign: TEXT_ALIGN_CLASS;
+  content: string; // text to display
+  textColor?: COLOR_CLASS; // option to choose text color
+  textAlign?: TEXT_ALIGN_CLASS; // option to choose text position
 }
 
 export interface BlockMarkdown extends Block {
@@ -136,9 +137,9 @@ export interface BlockMarkdown extends Block {
 
 export interface TableSetSettings {
   id: string; // uuid of table_view
-  pageDetailId: string; // uuid of page, allow to redirect to a detail page (display only a record)
-  addAllowed: boolean; // option to allow creation of record
-  exportAllowed: boolean; // option to allow data export
+  pageDetailId?: string; // uuid of page, allow to redirect to a detail page (display only a record)
+  addAllowed?: boolean; // option to allow creation of record
+  exportAllowed?: boolean; // option to allow data export
 }
 
 export interface BlockTableSet extends Block {
@@ -227,14 +228,14 @@ export interface ActionButtonSettings {
   id: string; // uuid of table_view
   label: string; // Title of the button
   classButton: COLOR_CLASS; // Class applied to the button,
-  icon: string; // Class icon injected in the button, at the beginning, like NavBar,
+  icon?: string; // Class icon injected in the button, at the beginning, like NavBar,
   action: ACTION_BUTTON_TYPE; // action's type
-  processId: string; // uuid trigger
-  pageDetailId: string; // uuid pageDetail
-  pageRedirectId: string; // uuid page detail
-  pageQueryFieldId: string; // uuid from a relation_between_table column, allows to get data form another table
-  displayFieldId: string; // "uuid-of-the-field-used-for-display-purpose",
-  displayFieldValue: boolean; // true // for the first iteration, we only use BOOLEAN fields
+  processId?: string; // uuid trigger
+  pageDetailId?: string; // uuid pageDetail
+  pageRedirectId?: string; // uuid page detail
+  pageQueryFieldId?: string; // uuid from a relation_between_table column, allows to get data form another table
+  displayFieldId?: string; // field id to compare with conditionalDisplayFieldValue
+  displayFieldValue?: boolean; // value to compare to display block (only boolean for now)
 }
 
 export interface BlockActionButton extends Block {
@@ -257,8 +258,8 @@ export interface BlockCardSet extends Block {
 export interface MarkdownFieldSettings {
   id: string; // uuid of table_view
   displayFieldId: string; // uuid table_column
-  color: COLOR_CLASS;
-  textAlign: TEXT_ALIGN_CLASS;
+  textColor?: COLOR_CLASS; // option to choose text color
+  textAlign?: TEXT_ALIGN_CLASS; // option to choose text position
 }
 
 export interface BlockMarkdownField extends Block {
