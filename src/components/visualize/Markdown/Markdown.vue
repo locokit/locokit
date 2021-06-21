@@ -69,28 +69,13 @@ export default Vue.extend({
 </style>
 
 <style scoped lang="scss">
-.lck-markdown, .lck-markdown-field {
+// We need to use ::v-deep with v-html and scoped
+::v-deep {
   padding: 1rem;
   background-color: var(--background-color-light);
 
-  h1, h3, h5 {
-    color: var(--primary-color);
-  }
-
-  h2, h4, h6 {
-    color: var(--surface-lck-1);
-  }
-
   h2 {
     padding: 0.5rem 0;
-
-    &:after {
-      display: block;
-      width: 30px;
-      height: 4px;
-      content: "";
-      background-color: var(--primary-color);
-    }
   }
 
   a {
@@ -107,39 +92,59 @@ export default Vue.extend({
     background-color: #ededed;
   }
 
-  & .primary {
+  &.primary {
     color: var(--primary-color);
   }
 
-  & .secondary {
+  &.secondary {
     color: var(--secondary-color);
   }
 
-  & .danger {
+  &.danger {
     color: var(--color-error);
   }
 
-  & .warning {
+  &.warning {
     color: var(--color-warning);
   }
 
-  & .success {
+  &.success {
     color: var(--color-success);
   }
 
   &:not(.success, .warning, .danger, .secondary, .primary) {
-    color: #495057;
+    color: var(--text-color);
+
+    h1, h3, h5 {
+      color: var(--primary-color);
+    }
+
+    h2, h4, h6 {
+      color: var(--surface-lck-1);
+    }
+
+    h2 {
+      display: inline-block;
+
+      &:after {
+        display: block;
+        width: 30px;
+        height: 4px;
+        content: "";
+        background-color: var(--primary-color);
+      }
+    }
   }
 
-  & .right {
+  &.right {
     text-align: right;
   }
 
-  & .center {
+  &.center {
     text-align: center;
   }
 
-  & .justify {
+  &.justify {
     text-align: justify;
   }
 
