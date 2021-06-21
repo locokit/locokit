@@ -123,6 +123,8 @@ import Vue from 'vue'
 
 import { v4 as uuidv4 } from 'uuid'
 
+import { COLOR_SCHEME } from '@/services/lck-utils/color'
+
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Dropdown from 'primevue/dropdown'
@@ -157,32 +159,7 @@ export default {
       defaultSelectTypeValueId: null,
       showDeleteColumnModal: false,
       currentSelectTypeValue: null,
-      colorScheme: [
-        { name: '24', color: '#484848', backgroundColor: '#cdcdcd' },
-        { name: '1', color: '#484848', backgroundColor: '#fffbc2' },
-        { name: '2', color: '#484848', backgroundColor: '#ffedc3' },
-        { name: '3', color: '#484848', backgroundColor: '#ffe1d2' },
-        { name: '4', color: '#484848', backgroundColor: '#ffe4ea' },
-        { name: '5', color: '#484848', backgroundColor: '#ffdeff' },
-        { name: '6', color: '#484848', backgroundColor: '#e1e0ff' },
-        { name: '6', color: '#484848', backgroundColor: '#e3feeb' },
-        { name: '8', color: '#484848', backgroundColor: '#e4f7cf' },
-        { name: '9', color: '#484848', backgroundColor: '#dffbff' },
-        { name: '10', color: '#484848', backgroundColor: '#deedff' },
-        { name: '11', color: '#484848', backgroundColor: '#c3d8fa' },
-        { name: '12', color: '#484848', backgroundColor: '#ededed' },
-        { name: '13', color: '#ffffff', backgroundColor: '#fdda5b' },
-        { name: '14', color: '#ffffff', backgroundColor: '#f0b688' },
-        { name: '15', color: '#ffffff', backgroundColor: '#f87e8e' },
-        { name: '16', color: '#ffffff', backgroundColor: '#e499da' },
-        { name: '17', color: '#ffffff', backgroundColor: '#aa7bea' },
-        { name: '18', color: '#ffffff', backgroundColor: '#afa2f4' },
-        { name: '19', color: '#ffffff', backgroundColor: '#67d187' },
-        { name: '20', color: '#ffffff', backgroundColor: '#bae396' },
-        { name: '21', color: '#ffffff', backgroundColor: '#99daef' },
-        { name: '22', color: '#ffffff', backgroundColor: '#5bd4d5' },
-        { name: '23', color: '#ffffff', backgroundColor: '#55b3fe' }
-      ]
+      colorScheme: COLOR_SCHEME
     }
   },
   methods: {
@@ -266,50 +243,63 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-datatable {
+::v-deep .p-datatable {
   transform: scale(1);
 }
-/deep/ .select-type-values-table {
 
+::v-deep .select-type-values-table {
   border: 1px solid #ededed;
   border-bottom: 2px solid #ededed;
 }
-/deep/ .select-type-values-table tbody {
+
+::v-deep .select-type-values-table tbody {
   height: 200px;
   overflow-y: auto;
   display: block;
 }
-/deep/ .select-type-values-table tr, .select-type-values-table thead {
+
+::v-deep .select-type-values-table tr, .select-type-values-table thead {
   display: table;
   width: 100%;
   table-layout: fixed;
 }
 
-/deep/ .select-type-values-table .p-datatable-tbody > tr > td {
+::v-deep .select-type-values-table .p-datatable-tbody > tr > td:first-child {
+  cursor: move;
+}
+
+::v-deep .select-type-values-table .p-datatable-tbody > tr > td:not(:first-child) {
   padding: 0.5rem !important;
 }
-/deep/.select-type-values-table .p-datatable-thead > tr > th {
+
+::v-deep.select-type-values-table .p-datatable-thead > tr > th {
   padding: 0.5rem !important;
 }
-/deep/ .p-colorpicker-panel {
+
+::v-deep .p-colorpicker-panel {
   display: block !important;
   position: fixed;
   top: 70px !important;
   left: auto !important;
 }
-/deep/ .p-colorpicker-preview {
+
+::v-deep .p-colorpicker-preview {
   width: 2rem !important;
   height: 2rem !important;
 }
-/deep/ .single-select-color .p-colorpicker-panel {
+
+::v-deep .single-select-color .p-colorpicker-panel {
   margin-left: 2rem;
 }
-/deep/ .single-select-background-color .p-colorpicker-panel {
+
+::v-deep .single-select-background-color .p-colorpicker-panel {
   margin-left: 2rem;
 }
-/deep/ .p-inputtext {
+
+::v-deep .p-inputtext {
   width: 100%;
 }
+
 .p-column-button-color {
   color: white !important;
 }
