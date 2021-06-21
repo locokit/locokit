@@ -13,10 +13,15 @@
     <p-datatable
       :value="selectTypeValues"
       class="select-type-values-table"
+      @row-reorder="onRowReorder"
     >
       <template #empty>
           {{ $t('pages.databaseSchema.selectType.noData') }}
       </template>
+      <p-column
+        :rowReorder="true"
+        headerStyle="width: 2rem"
+      />
       <p-column
         field="label"
         headerClass="p-col-4"
@@ -206,14 +211,26 @@ export default {
     onColorSelect (event, currentOption) {
       currentOption.color = event.value.color
       currentOption.backgroundColor = event.value.backgroundColor
+    },
+    onRowReorder (event) {
+      // To be improved if pagination added
+      const sortOptions = []
+      event.value.forEach((option, index) => {
+        const position = index + 1
+        sortOptions.push({ ...option, position })
+      })
+      this.selectTypeValues = sortOptions
     }
   },
   mounted () {
     if (this.columnToHandle && this.columnToHandle.settings) {
       if (this.columnToHandle.settings.values) {
+        // Transform options object to array
         Object.keys(this.columnToHandle.settings.values).map((key) => {
           this.selectTypeValues.push({ id: key, ...this.columnToHandle.settings.values[key] })
         })
+        // Sort options
+        this.selectTypeValues.sort((a, b) => a.position - b.position)
       }
       if (this.columnToHandle.settings.default) {
         this.defaultSelectTypeValueId = this.columnToHandle.settings.default
