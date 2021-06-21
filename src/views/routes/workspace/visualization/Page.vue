@@ -82,6 +82,8 @@
                 'p-mb-4': !editMode,
               }"
               :block="block"
+              :definition="getBlockDefinition(block)"
+              :content="getBlockContent(block)"
               :workspaceId="workspaceId"
               :autocompleteSuggestions="autocompleteSuggestions"
               :exporting="exporting"
@@ -212,7 +214,7 @@ import {
   createProcessRun
 } from '@/services/lck-helpers/process'
 
-import Block from '@/components/visualize/Block/Block'
+import Block from '@/components/visualize/Block/Block.vue'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
@@ -331,6 +333,131 @@ export default {
   },
   methods: {
     searchItems: lckHelpers.searchItems,
+    resetSources () {
+      this.sources = {}
+    },
+    createOrExtendSource (tableViewId, blockId, blockType) {
+      if (this.sources[tableViewId]) {
+        this.sources[tableViewId].blocks.push(blockId)
+      } else {
+        this.$set(this.sources, tableViewId, {
+          definition: null,
+          content: null,
+          blocks: [blockId],
+          options: {
+            sort: {
+              createdAt: 1
+            },
+            page: 0,
+            /**
+             * For the mapview block, we don't limit the result
+             * TODO: we must optimize the way we manage data...
+             */
+            itemsPerPage: blockType === BLOCK_TYPE.MAP_SET ? -1 : 20,
+            filters: {}
+          },
+          // this option allows us to know if we need to use find or get methods for retrieving content
+          multi: [BLOCK_TYPE.TABLE_SET, BLOCK_TYPE.MAP_SET, BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.CARD_SET].indexOf(blockType) > -1
+        })
+      }
+    },
+    /**
+     * Parse all blocks to regroup all block sources,
+     * depending on their type.
+     * We need to inventory
+     * * conditional display sources
+     * * usual table_view_id for display (TableSet, ...)
+     * * map sources ?
+     */
+    inventorySources () {
+      // Reset sources at each pages change
+      this.resetSources()
+
+      if (!this.page || !this.page.containers || !this.page.containers.length > 0) return
+
+      this.page.containers.sort((a, b) => a.position - b.position)
+      this.page.containers.forEach(container => {
+        container.blocks.sort((a, b) => a.position - b.position)
+        container.blocks.forEach(block => {
+          /**
+           * For each block, we'll collect
+           * the conditional display source (if any),
+           * and the data display source (if any)
+           */
+          if (block.conditionalDisplayTableViewId) {
+            this.createOrExtendSource(block.conditionalDisplayTableViewId, block.id)
+            block.conditionalDisplaySource = this.sources[block.conditionalDisplayTableViewId]
+          }
+          if (block.settings.id) {
+            this.createOrExtendSource(block.settings.id, block.id, block.type)
+            // this.$set(block, 'definition', this.sources[block.settings.id].definition)
+            // this.$set(block, 'content', this.sources[block.settings.id].content)
+          }
+        })
+      })
+    },
+    async loadSourcesDefinitions () {
+      await Promise.all(Object.keys(this.sources).map(tableViewId => this.loadSourceDefinition(tableViewId)))
+    },
+    async loadSourceDefinition (tableViewId) {
+      this.$set(this.sources[tableViewId], 'definition', await lckHelpers.retrieveViewDefinition(tableViewId))
+    },
+    async loadSourcesContents () {
+      await Promise.all(Object.keys(this.sources).map(tableViewId => this.loadSourceContent(tableViewId)))
+    },
+    async loadSourceContent (tableViewId) {
+      const currentSource = this.sources[tableViewId]
+      if (this.$route.query.rowId) {
+        currentSource.options.filters.rowId = this.$route.query.rowId
+      }
+      if (currentSource.multi) {
+        currentSource.content = await lckHelpers.retrieveViewData(
+          tableViewId,
+          this.groupId,
+          currentSource.options.page * currentSource.options.itemsPerPage,
+          currentSource.options.itemsPerPage,
+          currentSource.options.sort,
+          currentSource.options.filters
+        )
+      } else {
+        if (this.$route.query.rowId) {
+          currentSource.content = {
+            data: [
+              await lckServices.tableRow.get(this.$route.query.rowId, {
+                query: {
+                  $lckGroupId: this.groupId
+                }
+              })
+            ]
+          }
+        } else {
+          currentSource.content = await lckHelpers.retrieveViewData(
+            tableViewId,
+            this.groupId,
+            currentSource.options.page * currentSource.options.itemsPerPage,
+            currentSource.options.itemsPerPage,
+            currentSource.options.sort,
+            currentSource.options.filters
+          )
+        }
+      }
+    },
+    getBlockDefinition (block) {
+      if (!block.settings.id) return null
+      return this.sources[block.settings.id].definition
+    },
+    getBlockContent (block) {
+      if (!block.settings.id) return null
+      switch (block.type) {
+        case BLOCK_TYPE.TABLE_SET:
+        case BLOCK_TYPE.MAP_SET:
+        case BLOCK_TYPE.DATA_RECORD:
+        case BLOCK_TYPE.ACTION_BUTTON:
+          return this.sources[block.settings.id].content
+        case BLOCK_TYPE.MAP_FIELD:
+          return [this.sources[block.settings.id].content.data[0]]
+      }
+    },
     async loadBlockContentAndDefinition (block) {
       this.$set(block, 'loading', true)
 
@@ -343,16 +470,18 @@ export default {
         itemsPerPage: 20,
         filters: {}
       }
-      if (this.$route.query.rowId) {
-        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
-      }
+      // if (this.$route.query.rowId) {
+      //   this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+      // }
+      /**
+       * block.settings.id is a reference to a table_view
+       */
       if (isGeoBlock(block.type)) {
         // For a geo column, we get the definition of all specified views
         const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
         this.$set(block, 'definition', objectFromArray(definitions, 'id'))
         if (block.definition !== {}) await this.loadBlockContent(block)
       } else if (block.settings?.id) {
-        // block.settings.id is a reference to a table_view
         if ([BLOCK_TYPE.ACTION_BUTTON, BLOCK_TYPE.DATA_RECORD].includes(block.type)) {
           /**
            * If the source isn't already present,
@@ -377,7 +506,7 @@ export default {
     async loadBlockContent (block) {
       const currentOptions = this.blocksOptions[block.id]
       if (this.$route.query.rowId) {
-        this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
+        currentOptions.filters.rowId = this.$route.query.rowId
       }
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
@@ -434,7 +563,9 @@ export default {
               })
               row = rows.data[0]
             }
-            if (this.sources[block.settings.id]) this.sources[block.settings.id].content = { data: [row] }
+            if (this.sources[block.settings.id]) {
+              this.sources[block.settings.id].content = { data: [row] }
+            }
           } else {
             row = this.sources[block.settings.id].content.data[0]
           }
@@ -1094,19 +1225,23 @@ export default {
     next()
   },
   watch: {
-    page (newVal) {
+    async page (newVal) {
       // Hide the updated container sidebar
       this.onCloseUpdateContainerSidebar()
+      this.inventorySources()
+      await this.loadSourcesDefinitions()
+      await this.loadSourcesContents()
+
       // retrieve for each blocks the definition / data of the block
-      if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
-        container.blocks.sort((a, b) => a.position - b.position)
-        container.blocks.forEach(async block => {
-          // Reset sources at each pages change
-          this.sources = {}
-          await this.loadBlockContentAndDefinition(block)
-        })
-      })
+      // if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
+      // newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
+      //   container.blocks.sort((a, b) => a.position - b.position)
+      //   container.blocks.forEach(async block => {
+      //     // Reset sources at each pages change
+      //     this.sources = {}
+      //     await this.loadBlockContentAndDefinition(block)
+      //   })
+      // })
     }
   }
 }
