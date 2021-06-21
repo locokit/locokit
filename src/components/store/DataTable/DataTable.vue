@@ -214,7 +214,7 @@
             />
             <p-dropdown
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-dropdown'"
-              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+              :options="getAndSortOptions(columnsEnhanced, column.id)"
               optionLabel="label"
               optionValue="value"
               appendTo="body"
@@ -234,7 +234,7 @@
             </p-dropdown>
             <lck-multiselect
               v-else-if="getComponentEditorCellForColumnType(column) === 'lck-multiselect'"
-              :options="columnsEnhanced && columnsEnhanced[column.id] && columnsEnhanced[column.id].dropdownOptions"
+              :options="getAndSortOptions(columnsEnhanced, column.id)"
               optionLabel="label"
               optionValue="value"
               v-model="multiSelectValues"
@@ -566,6 +566,11 @@ export default {
     isEditableColumn,
     getDisabledProcessTrigger,
     getColumnClass,
+    getAndSortOptions (columnsEnhanced, columnId) {
+      if (columnsEnhanced && columnsEnhanced[columnId] && columnsEnhanced[columnId]?.dropdownOptions) {
+        return columnsEnhanced[columnId]?.dropdownOptions.sort((a, b) => a.position - b.position)
+      }
+    },
     getComponentEditorCellForColumnType (column) {
       return getComponentEditorCellForColumnType(getColumnTypeId(column))
     },
