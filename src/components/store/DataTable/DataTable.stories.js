@@ -38,7 +38,7 @@ const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 const tableViewData = {
   id: 1,
   title: 'My DataTable\'s block',
-  type: 'TableView',
+  type: 'TableSet',
   definition: {
     text: 'Ensemble des vélos',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
@@ -462,7 +462,7 @@ withExpectedPropsAndCrudModeToEditUnsortableColumn.args = {
 const tableViewDataLookedUpColumn = {
   id: 1,
   title: 'My DataTable\'s block',
-  type: 'TableView',
+  type: 'TableSet',
   definition: {
     text: 'Test des lookup-columns',
     table_id: '163c21e6-5339-4748-903f-8c77e21314cf',

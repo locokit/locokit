@@ -1412,11 +1412,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           <!---->
         </div>
          
-        <span>
-          
-        true
-      
-        </span>
+        <!---->
       </div>
     </div>
     <div

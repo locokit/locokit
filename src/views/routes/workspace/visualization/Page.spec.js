@@ -20,8 +20,8 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 jest.mock('@locokit/lck-glossary', () => ({
   BLOCK_TYPE: {
     PARAGRAPH: 'Paragraph',
-    TABLE_VIEW: 'TableView',
-    MAPVIEW: 'MapView'
+    MAP_SET: 'MapSet',
+    TABLE_SET: 'TableSet'
   },
   COLUMN_TYPE: {
   }
@@ -90,8 +90,8 @@ const mockPages = {
             settings: {
               id: '1'
             },
-            title: 'My table view block',
-            type: BLOCK_TYPE.TABLE_VIEW,
+            title: 'My TableSet block',
+            type: BLOCK_TYPE.TABLE_SET,
             position: 1,
             container_id: '11'
           },
@@ -113,7 +113,7 @@ const mockPages = {
               ]
             },
             title: 'My map block',
-            type: BLOCK_TYPE.MAPVIEW,
+            type: BLOCK_TYPE.MAP_SET,
             position: 3,
             container_id: '11'
           }
@@ -425,7 +425,7 @@ describe('Page', () => {
         it('Get the right properties for the Paragraph block (default)', () => {
           expect(wrapper.vm.page.containers[1].blocks[1]).toMatchObject(mockPages['1'].containers[0].blocks[0])
         })
-        it('Get the right properties for the TableView block', () => {
+        it('Get the right properties for the TableSet block', () => {
           expect(wrapper.vm.page.containers[1].blocks[0]).toMatchObject(mockPages['1'].containers[0].blocks[1])
           expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual(mockTableViewDefinitions['1'])
           expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual(mockTableViewContents['1'])

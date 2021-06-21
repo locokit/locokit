@@ -37,7 +37,6 @@ import {
 } from '@/services/lck-utils/map/computeGeo'
 
 import {
-  LckFeatureProperties,
   LckGeoResource,
   LckImplementedLayers,
   PopupContent
@@ -468,7 +467,7 @@ export default Vue.extend({
           let html = ''
           e.features.forEach(currentFeature => {
             if (currentFeature && currentFeature.properties) {
-              const properties = currentFeature.properties as LckFeatureProperties
+              const properties = currentFeature.properties
 
               html += `<p class="popup-row-title">${properties.title}</p>`
 
@@ -478,12 +477,15 @@ export default Vue.extend({
                   ${content?.field?.value}
                 </p>`
 
-              if (properties.content && properties.content.length > 0) {
-                html += `
-                <div class="popup-row-content">
-                  ${properties.content.map((content: PopupContent) => line(content)).join('')}
-                </div>
-              `
+              if (properties.content) {
+                const content = JSON.parse(properties?.content)
+                if (content.length > 0) {
+                  html += `
+                  <div class="popup-row-content">
+                    ${content.map((content: PopupContent) => line(content)).join('')}
+                  </div>
+                `
+                }
               }
 
               if (properties.rowId && pageDetailId) {
@@ -491,7 +493,7 @@ export default Vue.extend({
 
                 html += `
                 <div class="popup-row-toolbox">
-                  <button id="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                  <button class="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
                 </div>
               `
               }
@@ -503,7 +505,7 @@ export default Vue.extend({
             .addTo(this.map!)
 
           const element = popup.getElement()
-          const links = element.querySelectorAll('.popup-row-toolbox #row-detail-page');
+          const links = element.querySelectorAll('.popup-row-toolbox .row-detail-page');
 
           (e.features || []).forEach(({ properties }, index) => {
             if (properties?.rowId && pageDetailId) {

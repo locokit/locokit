@@ -243,7 +243,6 @@ export const withEditableColumnsAndRow = () => (
     <lck-data-detail
       :definition="definition"
       :row="row"
-      :cellState="cellState"
     />
     `
   }

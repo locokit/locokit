@@ -55,7 +55,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import { LckTableView } from '@/services/lck-api/definitions'
 
 export default {
-  name: 'TableViewSettingsFields',
+  name: 'TableSetSettingsFields',
   components: {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),

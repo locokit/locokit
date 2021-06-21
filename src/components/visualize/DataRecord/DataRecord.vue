@@ -20,7 +20,7 @@ import { LckTableRowData } from '@/services/lck-api/definitions'
 import { TableViewContent, TableViewDefinition, BlockDefaultSettings } from '@locokit/lck-glossary'
 
 export default CommunicatingBlock.extend({
-  name: 'DetailView',
+  name: 'DataRecord',
   components: {
     'lck-data-detail': DataDetail
   },

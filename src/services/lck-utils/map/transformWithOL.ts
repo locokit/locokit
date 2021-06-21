@@ -199,7 +199,7 @@ export const isGEOColumn = (columnTypeId: number) => {
 }
 
 export const isGeoBlock = (blockType: BLOCK_TYPE) => {
-  return [BLOCK_TYPE.MAPVIEW, BLOCK_TYPE.MAPDETAILVIEW].includes(blockType)
+  return [BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockType)
 }
 
 export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {

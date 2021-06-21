@@ -148,8 +148,7 @@ const defaultMapSourceSettings: MapSourceSettings = {
     pageDetailId: '',
     contentFields: [],
     title: ''
-  },
-  triggerEvents: []
+  }
 }
 
 describe('Transformations with OpenLayers', () => {
@@ -203,13 +202,13 @@ describe('Transformations with OpenLayers', () => {
 
   describe('isGeoBlock', () => {
     it('Returns true if the current block type is a map view', () => {
-      expect(isGeoBlock(BLOCK_TYPE.MAPVIEW)).toBe(true)
+      expect(isGeoBlock(BLOCK_TYPE.MAP_SET)).toBe(true)
     })
     it('Returns true if the current block type is a map detail view', () => {
-      expect(isGeoBlock(BLOCK_TYPE.MAPDETAILVIEW)).toBe(true)
+      expect(isGeoBlock(BLOCK_TYPE.MAP_FIELD)).toBe(true)
     })
     it('Returns false if the current block type is a table view', () => {
-      expect(isGeoBlock(BLOCK_TYPE.TABLE_VIEW)).toBe(false)
+      expect(isGeoBlock(BLOCK_TYPE.TABLE_SET)).toBe(false)
     })
   })
 
@@ -494,8 +493,7 @@ describe('Transformations with OpenLayers', () => {
           { [geoTableView.id]: geoTableView },
           { [geoTableView.id]: rows },
           {
-            sources: [],
-            triggerEvents: []
+            sources: []
           },
           i18nOptions
         )
@@ -507,8 +505,7 @@ describe('Transformations with OpenLayers', () => {
           { [emptyTableView.id]: emptyTableView },
           { [emptyTableView.id]: [] },
           {
-            sources: [],
-            triggerEvents: []
+            sources: []
           },
           i18nOptions
         )
@@ -520,8 +517,7 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: stringTableView },
           { [stringTableView.id]: [] },
           {
-            sources: [],
-            triggerEvents: []
+            sources: []
           },
           i18nOptions
         )
@@ -536,8 +532,7 @@ describe('Transformations with OpenLayers', () => {
             sources: [{
               ...defaultMapSourceSettings,
               id: 'invalid-tableview-id'
-            }],
-            triggerEvents: []
+            }]
           },
           i18nOptions
         )
@@ -551,8 +546,7 @@ describe('Transformations with OpenLayers', () => {
           sources: [{
             ...defaultMapSourceSettings,
             id: geoTableView.id
-          }],
-          triggerEvents: []
+          }]
         },
         i18nOptions
       )
@@ -583,8 +577,7 @@ describe('Transformations with OpenLayers', () => {
             ...defaultMapSourceSettings,
             id: geoTableView.id,
             selectable: true
-          }],
-          triggerEvents: []
+          }]
         },
         i18nOptions
       )
@@ -600,8 +593,7 @@ describe('Transformations with OpenLayers', () => {
             ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true
-          }],
-          triggerEvents: []
+          }]
         },
         i18nOptions
       )
@@ -620,14 +612,12 @@ describe('Transformations with OpenLayers', () => {
             popupSettings: {
               pageDetailId
             }
-          }],
-          triggerEvents: []
+          }]
         },
         i18nOptions
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].pageDetailId).toBe(pageDetailId)
     })
-
   })
 })

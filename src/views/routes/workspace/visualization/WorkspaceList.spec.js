@@ -2,7 +2,6 @@
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import ToggleButton from 'primevue/togglebutton'
 import VueRouter from 'vue-router'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'

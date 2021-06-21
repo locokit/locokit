@@ -7,10 +7,10 @@
 
 <script lang="ts">
 import { MarkdownSettings } from '@locokit/lck-glossary'
-import { PropType } from 'vue'
+import Vue, { PropType } from 'vue'
 import marked from 'marked'
 
-export default {
+export default Vue.extend({
   name: 'Markdown',
   props: {
     settings: {
@@ -21,16 +21,16 @@ export default {
     }
   },
   computed: {
-    markdownToDisplay () {
+    markdownToDisplay (): string {
       return marked(this.settings.content || '')
     }
   }
-}
+})
 </script>
 
 <style scoped>
-/deep/ table td,
-/deep/ table th {
+::v-deep table td,
+::v-deep table th {
   border: 1px solid #e9ecef;
   padding: 0.5rem;
   word-wrap: break-word;
@@ -40,23 +40,26 @@ export default {
   -ms-hyphens: auto;
   hyphens: auto;
   line-break: loose;
-  text-wrap: balance;
+  /*
+    Draft in doing: https://drafts.csswg.org/css-text-4/#propdef-text-wrap
+    Demo + Explain: https://opensource.adobe.com/balance-text/
+    text-wrap: balance; // https://drafts.csswg.org/css-text-4/#valdef-text-wrap-balance
+  */
   min-width: 5rem;
   vertical-align: top;
 }
 
-/deep/ table th {
+::v-deep table th {
   background-color: #ededed;
 }
 
-/deep/ table {
+::v-deep table {
   margin: auto;
   border-collapse: collapse;
   display: inline-block;
   vertical-align: top;
   max-width: 100%;
   overflow-x: auto;
-  border-collapse: collapse;
   border-spacing: 0;
 }
 

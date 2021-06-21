@@ -32,7 +32,7 @@ import { GeoJSONFeature } from 'ol/format/GeoJSON'
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
 export default Vue.extend({
-  name: 'MapView',
+  name: 'MapSet',
   components: {
     'lck-map': Map
   },
