@@ -46,15 +46,15 @@
               <lck-badge
                 v-if="slotProps.value"
                 :label="props.data.label"
-                :backgroundColor="slotProps.value.backgroundColor"
                 :color="slotProps.value.color"
+                :backgroundColor="slotProps.value.backgroundColor"
               />
             </template>
             <template #option="slotProps">
               <lck-badge
                 :label="props.data.label"
-                :backgroundColor="slotProps.option.backgroundColor"
                 :color="slotProps.option.color"
+                :backgroundColor="slotProps.option.backgroundColor"
               />
             </template>
           </p-dropdown>

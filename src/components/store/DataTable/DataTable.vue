@@ -218,12 +218,20 @@
               optionLabel="label"
               optionValue="value"
               appendTo="body"
-              :value="slotProps.data.data[column.id]"
+              :value="getDropdownValue(slotProps.data.data[column.id], column)"
               :showClear="true"
               :placeholder="$t('components.datatable.placeholder')"
               @change="onDropdownEdit(slotProps.data.id, column.id, $event)"
               class="field-editable"
             >
+              <template #value="slotProps">
+                <lck-badge
+                  v-if="slotProps.value.value"
+                  :label="slotProps.value.label"
+                  :color="slotProps.value.color"
+                  :backgroundColor="slotProps.value.backgroundColor"
+                />
+              </template>
               <template #option="slotProps">
                 <lck-badge
                   :label="slotProps.option.label"
@@ -504,7 +512,8 @@ export default {
             value: k,
             label: currentColumn.settings.values[k].label,
             color: currentColumn.settings.values[k].color,
-            backgroundColor: currentColumn.settings.values[k].backgroundColor
+            backgroundColor: currentColumn.settings.values[k].backgroundColor,
+            position: currentColumn.settings.values[k].position
           }))
         }
       })
@@ -566,6 +575,12 @@ export default {
     isEditableColumn,
     getDisabledProcessTrigger,
     getColumnClass,
+    getDropdownValue (value, column) {
+      if (value && column.settings?.values[value]) {
+        const columnTagInfo = column.settings.values[value]
+        return { value, color: columnTagInfo?.color, backgroundColor: columnTagInfo.backgroundColor, label: columnTagInfo.label }
+      }
+    },
     getAndSortOptions (columnsEnhanced, columnId) {
       if (columnsEnhanced && columnsEnhanced[columnId] && columnsEnhanced[columnId]?.dropdownOptions) {
         return columnsEnhanced[columnId]?.dropdownOptions.sort((a, b) => a.position - b.position)
