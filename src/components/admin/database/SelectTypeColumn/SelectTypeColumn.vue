@@ -20,6 +20,7 @@
       </template>
       <p-column
         :rowReorder="true"
+        rowReorderIcon="bi bi-three-dots-vertical"
         headerStyle="width: 2rem"
       />
       <p-column
@@ -185,14 +186,20 @@ export default {
     }
   },
   methods: {
-    addSelectTypeValue () {
-      this.selectTypeValues.push({
+    async addSelectTypeValue () {
+      // Await necessary to scroll to the last element
+      await this.selectTypeValues.push({
         id: uuidv4(),
         label: '',
         color: this.colorScheme[0].color,
         backgroundColor: this.colorScheme[0].backgroundColor,
-        position: 0
+        position: this.selectTypeValues.length > 0 ? Math.max(...this.selectTypeValues.map(({ position }) => position)) + 1 : 1
       })
+      // Scroll to last td
+      const lastTr = this.$el.querySelector('.select-type-values-table tbody tr:last-child')
+      lastTr.scrollIntoView({ behavior: 'smooth' })
+      // Add focus on first input in the row
+      lastTr.querySelector('td input').focus()
     },
     handleDeleteColumnModalVisibility (visibility, data) {
       this.currentSelectTypeValue = data
@@ -206,7 +213,14 @@ export default {
         this.defaultSelectTypeValueId = null
       }
       this.selectTypeValues.splice(selectTypeValueIndex, 1)
+
       this.handleDeleteColumnModalVisibility(false, null)
+
+      // Keep position with continuous numbering
+      for (let index = 0; index <= this.selectTypeValues.length; index++) {
+        const currentRow = this.selectTypeValues[index]
+        currentRow.position = index + 1
+      }
     },
     onColorSelect (event, currentOption) {
       currentOption.color = event.value.color
