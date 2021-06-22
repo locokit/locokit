@@ -93,6 +93,8 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                
               <!---->
                
+              <!---->
+               
               <div
                 class="p-datatable-wrapper"
               >

@@ -51,6 +51,8 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
        
       <!---->
        
+      <!---->
+       
       <div
         class="p-datatable-wrapper"
       >
@@ -193,6 +195,8 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
     <div
       class="select-type-values-table p-datatable p-component"
     >
+       
+      <!---->
        
       <!---->
        
