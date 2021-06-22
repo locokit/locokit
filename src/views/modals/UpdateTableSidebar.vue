@@ -10,6 +10,11 @@
     <div v-if="currentTableToUpdate">
       <h2 class="lck-color-page-title">{{ $t('pages.databaseSchema.updateTableSidebar.updateTable') }}</h2>
       <div class="p-fluid">
+        <div class="p-mb-3">
+          <label>
+            {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ currentTable.id }}
+          </label>
+        </div>
         <div class="p-field">
           <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
           <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
