@@ -5,7 +5,7 @@
   >
     <lck-map
       v-if="resources"
-      :id="'block-map-view-' + definition.id"
+      :id="`block-map-view-${id}`"
       :resources="resources"
       :hasPopup="hasPopup"
       v-on="$listeners"
@@ -22,7 +22,7 @@ import {
   LckGeoResource
 } from '@/services/lck-utils/map/transformWithOL'
 
-import { LckTableRow, LckTableViewColumn } from '@/services/lck-api/definitions'
+import { LckTableRow, LckTableView } from '@/services/lck-api/definitions'
 
 import { MapSettings } from '@locokit/lck-glossary'
 
@@ -35,13 +35,14 @@ export default Vue.extend({
     'lck-map': Map
   },
   props: {
+    id: {
+      type: String
+    },
     definition: {
-      type: Object as PropType<{
-        columns: LckTableViewColumn[];
-      }>
+      type: Object as PropType<Record<string, LckTableView>>
     },
     content: {
-      type: Array as PropType<LckTableRow[]>
+      type: Object as PropType<Record<string, LckTableRow[]>>
     },
     settings: {
       type: Object as PropType<MapSettings>
@@ -50,7 +51,7 @@ export default Vue.extend({
   computed: {
     resources (): LckGeoResource[] {
       return getLckGeoResources(
-        this.definition?.columns,
+        this.definition,
         this.content,
         this.settings,
         {
@@ -60,11 +61,10 @@ export default Vue.extend({
         }
       )
     },
-    hasPopup () {
+    hasPopup (): boolean {
       return (
-        this.settings?.sources?.length > 0 &&
-        this.settings?.sources?.some(source => source.popup)
-      ) || !!(this.settings?.pageDetailId)
+        this.resources.some(resource => resource.displayPopup)
+      )
     }
   }
 })

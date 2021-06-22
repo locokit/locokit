@@ -75,11 +75,15 @@
     />
     <map-settings-fields
       v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
-      :id.sync="blockCopy.settings.id"
       :tableViewDefinition="blockCopy.definition"
       :relatedChapterPages="relatedChapterPages"
-      :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :sources="blockCopy.settings.sources"
       :autocompleteSuggestions="autocompleteSuggestions"
+      :singleSource="blockCopy.type === BLOCK_TYPE.MAP_FIELD"
+      @update-page-detail-id="onUpdateMapSourcePageDetailId"
+      @update-id="onUpdateMapSourceId"
+      @add-source="onAddMapSource"
+      @delete-source="onDeleteMapSource"
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
@@ -107,7 +111,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { BLOCK_TYPE, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'
@@ -175,6 +179,10 @@ export default {
         case BLOCK_TYPE.MEDIA:
           (defaultSettings as MediaSettings).medias = []
           break
+        case BLOCK_TYPE.MAP_SET:
+        case BLOCK_TYPE.MAP_FIELD:
+          (defaultSettings as MapSettings).sources = []
+          break
       }
       this.$set(this.blockCopy, 'settings', defaultSettings)
     },
@@ -212,6 +220,21 @@ export default {
     },
     onDeleteMedia (index: number) {
       (this.blockCopy.settings as MediaSettings).medias.splice(index, 1)
+    },
+    // Manage the map block
+    onUpdateMapSourcePageDetailId ({ source, pageDetailId }: { source: MapSourceSettings; pageDetailId: string }) {
+      this.$set(source, 'pageDetailId', pageDetailId)
+    },
+    onUpdateMapSourceId ({ source, id }: { source: MapSourceSettings; id: string }) {
+      source.id = id
+    },
+    onAddMapSource () {
+      (this.blockCopy.settings as MapSettings).sources.push({
+        id: ''
+      })
+    },
+    onDeleteMapSource (index: number) {
+      (this.blockCopy.settings as MapSettings).sources.splice(index, 1)
     }
   },
   watch: {

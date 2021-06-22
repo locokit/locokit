@@ -4,9 +4,11 @@ import GeoJSON, {
   GeoJSONFeature,
   GeoJSONFeatureCollection
 } from 'ol/format/GeoJSON'
+import GeometryType from 'ol/geom/GeometryType'
 
 import {
   CircleLayer,
+  Expression,
   FillLayer,
   LineLayer
 } from 'mapbox-gl'
@@ -14,15 +16,18 @@ import {
 import { TranslateResult } from 'vue-i18n'
 
 import {
+  BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
-  MapSettings
+  MapSettings,
+  MapSourceSettings
 } from '@locokit/lck-glossary'
 
 import {
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
+  LckTableView,
   LckTableViewColumn
 } from '@/services/lck-api/definitions'
 import {
@@ -30,12 +35,21 @@ import {
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
 
+const lckGeoColor: Expression = [
+  'case',
+  ['boolean', ['feature-state', 'selectable'], false],
+  // Feature color on selection
+  'rgb(158,25,25)',
+  // Default feature color
+  'rgba(234,14,14,0.6)'
+]
+
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
   type: 'circle',
   paint: {
     'circle-radius': 10,
-    'circle-color': '#ea0e0e',
+    'circle-color': lckGeoColor,
     'circle-stroke-width': 2,
     'circle-stroke-color': '#FFFFFF'
   }
@@ -44,15 +58,16 @@ const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   id: 'layer-type-line',
   type: 'line',
   paint: {
-    'line-width': 15,
-    'line-color': '#ea0e0e'
+    'line-width': 10,
+    'line-color': lckGeoColor
   }
 }
 const LCK_GEO_STYLE_POLYGON: FillLayer = {
   id: 'layer-type-fill',
   type: 'fill',
   paint: {
-    'fill-color': '#ea0e0e'
+    'fill-color': lckGeoColor,
+    'fill-outline-color': 'rgba(0,0,0,0)'
   }
 }
 
@@ -69,6 +84,29 @@ export interface LckGeoResource {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
+  editableGeometryTypes: Set<GeometryType>;
+  displayPopup?: boolean;
+  pageDetailId?: string;
+  selectable?: boolean;
+}
+
+export interface PopupContent {
+  class?: string | null;
+  field: {
+    label: string | null;
+    value: string | number | null;
+    color?: string | null;
+    backgroundColor?: string | null;
+  };
+}
+
+export interface LckFeatureProperties {
+  id: string;
+  columnId: string;
+  rowId: string;
+  title?: LckTableRowData;
+  content?: PopupContent[];
+  sourceId?: string;
 }
 
 /**
@@ -94,31 +132,60 @@ export const transformEWKTtoFeature = (ewkt: string) => {
 }
 
 /**
+ * Convert a Geojson OL feature into ewkt
+ *
+ * @param geoJSONFeature feature
+ *
+ * @return {string | null}
+ */
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326') => {
+  // Transform geoJSON to OL Feature
+  const geoJSONformat = new GeoJSON()
+  const feature = geoJSONformat.readFeature(geoJSONFeature)
+
+  // Transform OL Feature to WKT
+  const wktFormat = new WKT()
+  return `SRID=${srid};${wktFormat.writeFeature(feature, {
+    dataProjection: `EPSG:${srid}`,
+    featureProjection: 'EPSG:4326'
+  })}`
+}
+
+/**
  * Add style for a specific spatial geometry present in layer
  *
+ * @param sourceId
  * @param geoColumns
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (geoColumns: LckTableColumn[]): LckImplementedLayers[] {
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[]): LckImplementedLayers[] {
   const geoTypes = new Set()
   const layers: LckImplementedLayers[] = []
 
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
+  let geoStyle: (LckImplementedLayers | null)
   geoTypes.forEach(geoType => {
+    geoStyle = null
     switch (geoType) {
       case COLUMN_TYPE.GEOMETRY_POINT:
-        layers.push(GEO_STYLE.Point)
+        geoStyle = GEO_STYLE.Point
         break
       case COLUMN_TYPE.GEOMETRY_LINESTRING:
-        layers.push(GEO_STYLE.Linestring)
+        geoStyle = GEO_STYLE.Linestring
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
-        layers.push(GEO_STYLE.Polygon)
+        geoStyle = GEO_STYLE.Polygon
         break
       default:
         // eslint-disable no-console
         console.error('Column type unknown')
+    }
+    if (geoStyle) {
+      layers.push({
+        ...geoStyle,
+        id: `${sourceId}-${geoStyle.id}`
+      })
     }
   })
   return layers
@@ -128,28 +195,39 @@ export const isGEOColumn = (columnTypeId: number) => {
   return Object.values(COLUMN_GEO_TYPE).includes(columnTypeId)
 }
 
+export const isGeoBlock = (blockType: BLOCK_TYPE) => {
+  return [BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockType)
+}
+
+export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
+  switch (columnTypeId) {
+    case COLUMN_TYPE.GEOMETRY_POINT:
+      return GeometryType.POINT
+    case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      return GeometryType.LINE_STRING
+    case COLUMN_TYPE.GEOMETRY_POLYGON:
+      return GeometryType.POLYGON
+  }
+  return null
+}
+
 /**
- * Get Geo colunms
- *  Two scenario possible:
- *   - if source exist, only data of (geo)column will be display
- *   - otherwise all data of geocolumn
+ * Get geo columns
+ *  Two possible scenarios:
+ *   - if the source field is a valid geo column, only data of this column will be display
+ *   - otherwise all data of geo columns
  * @param columns
- * @param settings
+ * @param sourceSettings
  *
  * @return {LckTableViewColumn[]}
  */
-export function getOnlyGeoColumn (
+export function getOnlyGeoColumns (
   columns: LckTableViewColumn[],
-  settings: MapSettings
+  sourceSettings: MapSourceSettings
 ): LckTableViewColumn[] {
-  if (settings.sources) {
-    return settings.sources.reduce((acc, { field }) => {
-      const col = columns.find(column => column.id === field)
-      if (col?.column_type_id && isGEOColumn(getColumnTypeId(col))) {
-        acc.push(col)
-      }
-      return acc
-    }, [] as LckTableViewColumn[])
+  if (sourceSettings.field) {
+    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(column.column_type_id))
+    return sourceGeoColumn ? [sourceGeoColumn] : []
   }
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
 }
@@ -170,7 +248,7 @@ export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
-  settings: MapSettings,
+  sources: MapSourceSettings[],
   i18nOptions: LckPopupI18nOptions
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
@@ -189,34 +267,27 @@ export function makeGeoJsonFeaturesCollection (
       const data = getEWKTFromGeoColumn(geoColumn, row.data)
       if (data) {
         const feature = transformEWKTtoFeature(data)
-        /**
-         * Add page detail information if needed
-         */
-        if (settings.pageDetailId) {
-          feature.setProperties({
-            rowId: row.id,
-            title: row.text || i18nOptions.noReference
-          })
-        }
-        /**
-         * Manage popup information
-         */
-        if (settings?.sources) {
-          settings.sources.forEach(source => {
-            if (source.popup) {
-              feature.setProperties({
-                title: row.data[source.popupSettings.title]
-              })
-              if (source.popupSettings?.contentFields?.length > 0) {
-                const allContent: {
-                  class?: string;
-                  field: {
-                    label: string;
-                    value: string | number;
-                    color?: string;
-                    backgroundColor?: string;
-                  };
-                }[] = []
+        if (Array.isArray(sources)) {
+          sources.forEach(source => {
+            const featureProperties: LckFeatureProperties = {
+              id: `${row.id}:${geoColumn.id}`,
+              columnId: geoColumn.id,
+              rowId: row.id
+            }
+            /**
+             * Manage popup information
+             */
+            if (source.popup && source.popupSettings) {
+              // Define the title
+              if (source.popupSettings.title) {
+                // From the specified value
+                featureProperties.title = row.data[source.popupSettings.title] || ''
+              } else if (source.popupSettings.pageDetailId) {
+                // From the row reference if the page detail is specified
+                featureProperties.title = row.text || i18nOptions.noReference.toString()
+              }
+              if (Array.isArray(source.popupSettings.contentFields)) {
+                const allContent: PopupContent[] = []
                 source.popupSettings.contentFields.forEach(contentField => {
                   // Get column's title
                   const matchingColumnField = definitionColumns.find(({ id }) => id === contentField.field)
@@ -233,13 +304,16 @@ export function makeGeoJsonFeaturesCollection (
                     })
                   }
                 })
-
                 // Set data in Feature properties
-                feature.setProperties({
-                  content: allContent
-                })
+                featureProperties.content = allContent
               }
             }
+            // Add the source id to the feature
+            if (geoColumn.editable) {
+              featureProperties.sourceId = source.id
+            }
+
+            feature.setProperties(featureProperties)
           })
         }
         features.push(feature)
@@ -253,6 +327,22 @@ export function makeGeoJsonFeaturesCollection (
 }
 
 /**
+ * Get the OL geometry types that can be editable from an array of columns
+ * @param columns
+ * @returns { Set<GeometryType> }
+ */
+export function getEditableGeometryTypes (columns: LckTableViewColumn[]) {
+  const editableGeometryTypes: Set<GeometryType> = new Set()
+  columns.forEach(column => {
+    if (column.editable) {
+      const geometryType = geometryTypeFromColumnType(column.column_type_id)
+      if (geometryType) editableGeometryTypes.add(geometryType)
+    }
+  })
+  return editableGeometryTypes
+}
+
+/**
  * Set style on features
  *
  * @param columns
@@ -263,30 +353,48 @@ export function makeGeoJsonFeaturesCollection (
  * @return {{features: Array<Feature<Geometry, GeoJsonProperties>>, layers: LckImplementedLayers[], id: string, type: "FeatureCollection"}[]}
  */
 export function getLckGeoResources (
-  columns: LckTableViewColumn[],
-  data: LckTableRow[],
+  tableViews: Record<string, LckTableView>,
+  data: Record<string, LckTableRow[]>,
   settings: MapSettings,
   i18nOptions: LckPopupI18nOptions
 ): LckGeoResource[] {
-  const geoColumns: LckTableViewColumn[] = getOnlyGeoColumn(columns, settings)
-  const features: GeoJSONFeatureCollection = makeGeoJsonFeaturesCollection(
-    data,
-    geoColumns,
-    columns,
-    settings,
-    i18nOptions
-  )
-  const layers: LckImplementedLayers[] = getStyleLayers(geoColumns)
+  const lckGeoResources: LckGeoResource[] = []
+  settings.sources.forEach((source, index) => {
+    const resourceId = `features-collection-source-${index}`
 
-  return [{
-    id: 'features-collection-source',
-    layers,
-    type: features.type,
-    features: features.features
-  }]
+    const columns = tableViews[source.id]?.columns || []
+    // Get the specified columns of the source and check that they are geographic ones
+    const geoColumns = getOnlyGeoColumns(columns, source)
+
+    if (geoColumns.length > 0) {
+      const features = makeGeoJsonFeaturesCollection(
+        data[source.id],
+        geoColumns,
+        columns,
+        [source],
+        i18nOptions
+      )
+
+      const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
+
+      const layers: LckImplementedLayers[] = getStyleLayers(resourceId, geoColumns)
+
+      lckGeoResources.push({
+        id: resourceId,
+        layers,
+        type: features.type,
+        features: features.features,
+        displayPopup: !!source.popup,
+        pageDetailId: source.popupSettings?.pageDetailId,
+        editableGeometryTypes,
+        selectable: !!source.selectable
+      })
+    }
+  })
+  return lckGeoResources
 }
 
-interface LckPopupI18nOptions {
+export interface LckPopupI18nOptions {
   noReference: string | TranslateResult;
   noData: string | TranslateResult;
   dateFormat: string | TranslateResult;

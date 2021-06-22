@@ -107,6 +107,9 @@
 
               @go-to-page-detail="goToPage"
               @create-process-run="onTriggerProcess(block, $event)"
+
+              @update-features="onGeoDataEdit(block, $event)"
+              @remove-features="onGeoDataRemove(block, $event)"
             />
           </draggable>
           <p-button
@@ -155,7 +158,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.containerDelete"
       :value="currentContainerToDelete"
-      :itemCategory="$t('pages.workspace.container.name')"
+      :itemCategory="$t('pages.workspace.container.title')"
       @close="onContainerDeleteClose"
       @input="onContainerDeleteInput"
     />
@@ -163,7 +166,7 @@
       :submitting="submitting"
       :visible="dialogVisibility.blockDelete"
       :value="currentBlockToDelete"
-      :itemCategory="$t('pages.workspace.block.name')"
+      :itemCategory="$t('pages.workspace.block.title')"
       fieldToDisplay="title"
       @close="onBlockDeleteClose"
       @input="onBlockDeleteInput"
@@ -191,7 +194,13 @@ import {
   lckHelpers,
   lckServices
 } from '@/services/lck-api'
-
+import {
+  isGeoBlock,
+  transformFeatureToWKT
+} from '@/services/lck-utils/map/transformWithOL'
+import {
+  objectFromArray
+} from '@/services/lck-utils/arrays'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 import {
@@ -330,28 +339,31 @@ export default {
       if (this.$route.query.rowId) {
         this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
       }
-      /**
-       * block.settings.id is a reference to a table_view
-       */
-      if (block.settings?.id) {
+      if (isGeoBlock(block.type)) {
+        // For a geo column, we get the definition of all specified views
+        const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
+        this.$set(block, 'definition', objectFromArray(definitions, 'id'))
+        if (block.definition !== {}) await this.loadBlockContent(block)
+      } else if (block.settings?.id) {
+        // block.settings.id is a reference to a table_view
         if ([BLOCK_TYPE.ACTION_BUTTON, BLOCK_TYPE.DATA_RECORD].includes(block.type)) {
           /**
            * If the source isn't already present,
            * we load the definition
            */
           if (!this.sources[block.settings.id]) {
+            const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
             this.sources[block.settings.id] = {
-              definition: await lckHelpers.retrieveViewDefinition(block.settings.id),
+              definition: definition[0],
               content: null
             }
           }
           this.$set(block, 'definition', this.sources[block.settings.id].definition)
         } else {
-          this.$set(block, 'definition', await lckHelpers.retrieveViewDefinition(block.settings.id))
+          const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
+          this.$set(block, 'definition', definition[0])
         }
-        if (block.definition?.id) {
-          await this.loadBlockContent(block)
-        }
+        if (block.definition?.id) await this.loadBlockContent(block)
       }
       this.$set(block, 'loading', false)
     },
@@ -375,15 +387,26 @@ export default {
           /**
            * For the mapview block, we don't limit the result
            * I think we can optimize how we manage the data...
+           * Moreover, for now, we don't have filters so we can consider that
+           * the content is the same for each table view.
            */
-          this.$set(block, 'content', await lckHelpers.retrieveViewData(
-            block.definition.id,
-            this.groupId,
-            currentOptions.page * currentOptions.itemsPerPage,
-            -1,
-            currentOptions.sort,
-            currentOptions.filters
+          const viewsIds = Object.keys(block.definition)
+          const contentByView = await Promise.all(viewsIds.map(async id =>
+            await lckHelpers.retrieveViewData(
+              id,
+              this.groupId,
+              currentOptions.page * currentOptions.itemsPerPage,
+              -1,
+              currentOptions.sort,
+              currentOptions.filters
+            )
           ))
+          // The result in an object whose the keys are the views ids and the values are the corresponding rows
+          const contentByViewObject = viewsIds.reduce(
+            (allContents, definitionId, index) => Object.assign(allContents, { [definitionId]: contentByView[index] })
+            , {}
+          )
+          this.$set(block, 'content', contentByViewObject)
           break
         case BLOCK_TYPE.DATA_RECORD:
           let row
@@ -413,8 +436,11 @@ export default {
           this.$set(block, 'content', { data: [row] })
           break
         case BLOCK_TYPE.MAP_FIELD: {
+          const definitionId = Object.keys(block.definition)[0]
           const row = await lckServices.tableRow.get(this.$route.query.rowId)
-          this.$set(block, 'content', [row])
+          if (definitionId) {
+            this.$set(block, 'content', { [definitionId]: [row] })
+          }
           break
         }
         case BLOCK_TYPE.ACTION_BUTTON: {
@@ -456,14 +482,18 @@ export default {
     }, {
       rowId,
       columnId,
-      newValue
+      newValue,
+      tableViewId = ''
     }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
+      const currentRow = isGeoBlock(currentBlock.type)
+        ? currentBlock.content[tableViewId].find(d => d.id === rowId)
+        : currentBlock.content.data.find(d => d.id === rowId)
+
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -524,12 +554,12 @@ export default {
       }
       block.loading = false
     },
-    async onPageDetail (block, rowId) {
+    async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
         params: {
           pageId: this.$route.params.pageId,
-          pageDetailId: block.settings.pageDetailId
+          pageDetailId: pageDetailId || block.settings.pageDetailId
         },
         query: { rowId }
       })
@@ -674,6 +704,28 @@ export default {
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
     },
+    async onGeoDataEdit (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: transformFeatureToWKT(features[0]),
+          tableViewId: sourceId
+        })
+      }
+    },
+    async onGeoDataRemove (block, features = []) {
+      const { rowId, columnId, sourceId } = features[0]?.properties
+      if (rowId && columnId && sourceId) {
+        await this.onUpdateCell(block, {
+          rowId,
+          columnId,
+          newValue: null,
+          tableViewId: sourceId
+        })
+      }
+    },
     onContainerEditClick (containerToEdit) {
       this.currentContainerToEdit = containerToEdit.id ? containerToEdit : {}
       this.currentBlockToEdit = {}
@@ -777,6 +829,9 @@ export default {
             type: data.type,
             settings: data.settings
           })
+          // Reload the block definition and content if it is necessary
+          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
+          // Update the existing block with its new properties
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
           }
@@ -786,14 +841,15 @@ export default {
             ...data,
             container_id: this.currentContainerToEdit.id
           })
+          // Load the block definition and content if it is necessary
+          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
+          // Add the block to the related container
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
           } else {
             this.$set(this.currentContainerToEdit, 'blocks', [this.currentBlockToEdit])
           }
         }
-        // Reload the block definition and content if it is necessary
-        if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${this.currentBlockToEdit.title}`, error)
       } finally {

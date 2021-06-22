@@ -166,12 +166,12 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
 </div>
 `;
 
-exports[`storyshots components/visualize/Block TableView 1`] = `
+exports[`storyshots components/visualize/Block TableSet 1`] = `
 <div
   style="height: 100%;"
 >
   <div
-    class="lck-table-view"
+    class="lck-table-set"
   >
     <div
       class=""
@@ -180,13 +180,13 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
       <h3
         class="lck-color-title"
       >
-        My TableView's block
+        My TableSet's block
       </h3>
        
       <div
         class="block-content"
         id="1"
-        type="TableView"
+        type="TableSet"
       >
         <div
           class="
@@ -240,7 +240,7 @@ exports[`storyshots components/visualize/Block TableView 1`] = `
           class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
           id="1"
           style="min-height: 30rem;"
-          type="TableView"
+          type="TableSet"
         >
           <div
             class="responsive-table-wrapper p-fluid d-flex-1"

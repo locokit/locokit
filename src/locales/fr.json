@@ -469,7 +469,8 @@
           "displayFieldId": "Afficher le bouton selon ce champ",
           "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
         },
-        "detailPage": "Page de détails"
+        "detailPage": "Page de détails",
+        "addGeoDataSrc": "Ajouter une nouvelle source de données géographiques"
       }
     },
     "database": {

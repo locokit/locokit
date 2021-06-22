@@ -11,7 +11,7 @@ import { lckServices } from '@/services/lck-api'
 import Page from './Page.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
 
-import Block from '@/components/visualize/Block/Block'
+import Block from '@/components/visualize/Block/Block.vue'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
@@ -20,6 +20,7 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 jest.mock('@locokit/lck-glossary', () => ({
   BLOCK_TYPE: {
     PARAGRAPH: 'Paragraph',
+    MAP_SET: 'MapSet',
     TABLE_SET: 'TableSet'
   },
   COLUMN_TYPE: {
@@ -44,7 +45,7 @@ jest.mock('primevue/breadcrumb', () => ({
 // Mock error
 class MockError extends Error {
   constructor (code, ...args) {
-    super(args)
+    super(...args)
     this.code = code
   }
 }
@@ -66,8 +67,9 @@ const mockPages = {
         createdAt: '2020-11-02T16:11:03.109Z',
         updatedAt: '2020-11-02T16:11:03.109Z',
         page_id: '1',
-        settings: null,
         position: 2,
+        display_title: false,
+        displayed_in_navbar: false,
         blocks: [
           {
             id: '121',
@@ -86,11 +88,33 @@ const mockPages = {
             createdAt: '2020-11-02T16:11:03.109Z',
             updatedAt: '2020-11-02T16:11:03.109Z',
             settings: {
-              id: 'ref_view'
+              id: '1'
             },
             title: 'My TableSet block',
             type: BLOCK_TYPE.TABLE_SET,
             position: 1,
+            container_id: '11'
+          },
+          {
+            id: '123',
+            createdAt: '2020-11-02T16:11:03.109Z',
+            updatedAt: '2020-11-02T16:11:03.109Z',
+            settings: {
+              sources: [
+                {
+                  id: '1'
+                },
+                {
+                  id: '2'
+                },
+                {
+                  id: '3'
+                }
+              ]
+            },
+            title: 'My map block',
+            type: BLOCK_TYPE.MAP_SET,
+            position: 3,
             container_id: '11'
           }
         ]
@@ -101,7 +125,8 @@ const mockPages = {
         createdAt: '2020-11-02T16:11:03.109Z',
         updatedAt: '2020-11-02T16:11:03.109Z',
         page_id: '1',
-        settings: null,
+        display_title: false,
+        displayed_in_navbar: false,
         position: 1,
         blocks: []
       }
@@ -132,20 +157,69 @@ const mockPages = {
 const mockChapters = [
   {
     id: 'C1',
+    text: 'First chapter',
     pages: [mockPages['1'], mockPages['3']]
   },
   {
     id: 'C2',
+    text: 'Second chapter',
     pages: [mockPages['2']]
   }
 ]
 
-const mockTableViewDefinition = {
-  id: '123456',
-  text: 'My view to display'
+const mockTableViewDefinitions = {
+  1: {
+    id: '1',
+    columns: []
+  },
+  2: {
+    id: '2',
+    columns: []
+  },
+  3: {
+    id: '3',
+    columns: []
+  }
 }
 
-const mockTableViewContent = 'content'
+const mockTableViewContents = {
+  1: {
+    data: [
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }
+    ]
+  },
+  2: {
+    data: [
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      }
+    ]
+  },
+  3: {
+    data: [
+      {
+        id: 'tv3r1',
+        text: 'TableView 3 - Row 1',
+        table_id: 't1',
+        data: {
+          c3: 'third content'
+        }
+      }
+    ]
+  }
+}
 
 const unknownTypeBlock = {
   id: 'temp',
@@ -211,9 +285,15 @@ jest.mock('@/services/lck-api', () => ({
       { label: 'C', value: 3 }
     ])),
     exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
-    retrievePageWithContainersAndBlocks: jest.fn((pageId) => mockDeepCloneObject(mockPages[pageId])),
-    retrieveViewDefinition: jest.fn(() => mockTableViewDefinition),
-    retrieveViewData: jest.fn(() => mockTableViewContent)
+    retrievePageWithContainersAndBlocks: jest.fn(pageId => mockDeepCloneObject(mockPages[pageId])),
+    retrieveViewDefinition: jest.fn(
+      tableViewIds => Object.values(mockTableViewDefinitions).filter(view => tableViewIds.includes(view.id))
+    ),
+    retrieveViewData: jest.fn(
+      (tableViewId, _0, _1, limit) => limit === -1
+        ? mockTableViewContents[tableViewId].data
+        : mockTableViewContents[tableViewId] // Paginated result
+    )
   }
 }))
 
@@ -340,14 +420,28 @@ describe('Page', () => {
         it('The blocks inside each container are sorted', () => {
           expect(wrapper.vm.page.containers[1].blocks[0].id).toBe(mockPages['1'].containers[0].blocks[1].id)
           expect(wrapper.vm.page.containers[1].blocks[1].id).toBe(mockPages['1'].containers[0].blocks[0].id)
+          expect(wrapper.vm.page.containers[1].blocks[2].id).toBe(mockPages['1'].containers[0].blocks[2].id)
         })
         it('Get the right properties for the Paragraph block (default)', () => {
           expect(wrapper.vm.page.containers[1].blocks[1]).toMatchObject(mockPages['1'].containers[0].blocks[0])
         })
         it('Get the right properties for the TableSet block', () => {
           expect(wrapper.vm.page.containers[1].blocks[0]).toMatchObject(mockPages['1'].containers[0].blocks[1])
-          expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual(mockTableViewDefinition)
-          expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual(mockTableViewContent)
+          expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual(mockTableViewDefinitions['1'])
+          expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual(mockTableViewContents['1'])
+        })
+        it('Get the right properties for the map block', () => {
+          expect(wrapper.vm.page.containers[1].blocks[2]).toMatchObject(mockPages['1'].containers[0].blocks[2])
+          expect(wrapper.vm.page.containers[1].blocks[2].definition).toStrictEqual({
+            1: mockTableViewDefinitions['1'],
+            2: mockTableViewDefinitions['2'],
+            3: mockTableViewDefinitions['3']
+          })
+          expect(wrapper.vm.page.containers[1].blocks[2].content).toStrictEqual({
+            1: mockTableViewContents['1'].data,
+            2: mockTableViewContents['2'].data,
+            3: mockTableViewContents['3'].data
+          })
         })
       })
     })
@@ -407,8 +501,14 @@ describe('Page', () => {
       })
 
       describe('Add a new container', () => {
+        let spyOnContainerCreate
+
+        beforeAll(() => {
+          spyOnContainerCreate = jest.spyOn(lckServices.container, 'create')
+        })
+
         beforeEach(() => {
-          lckServices.container.create.mockClear()
+          spyOnContainerCreate.mockClear()
         })
 
         it('Display the update container sidebar with an empty object when the new container button is clicked', async () => {
@@ -421,7 +521,7 @@ describe('Page', () => {
           await wrapper.find('.new-container-button').vm.$emit('click')
           await containerSidebarWrapper.vm.$emit('update-container', { id: 'temp', text: newContainerName, page_id: '1' })
           // Send API request
-          expect(lckServices.container.create).toHaveBeenCalledWith({ text: newContainerName, page_id: mockPages['1'].id })
+          expect(spyOnContainerCreate).toHaveBeenCalledWith({ text: newContainerName, page_id: mockPages['1'].id })
           // Update the component data
           const newContainer = wrapper.vm.page.containers[2]
           expect(newContainer).toBeDefined()
@@ -430,8 +530,14 @@ describe('Page', () => {
       })
 
       describe('Update an existing container', () => {
+        let spyOnContainerPatch
+
+        beforeAll(() => {
+          spyOnContainerPatch = jest.spyOn(lckServices.container, 'patch')
+        })
+
         beforeEach(() => {
-          lckServices.container.patch.mockClear()
+          spyOnContainerPatch.mockClear()
         })
 
         it('Display the update container sidebar with the specified container when the edit button is clicked', async () => {
@@ -452,18 +558,19 @@ describe('Page', () => {
           await wrapper.find('.edit-container-button').vm.$emit('click', firstDisplayedContainer)
           await containerSidebarWrapper.vm.$emit('update-container', { id: firstDisplayedContainer.id, text: newContainerName })
           // Send API request
-          expect(lckServices.container.patch).toHaveBeenCalledWith(firstDisplayedContainer.id, { text: newContainerName })
+          expect(spyOnContainerPatch).toHaveBeenCalledWith(firstDisplayedContainer.id, { text: newContainerName })
           // Update the component data
           expect(
-            wrapper.vm.page.containers.find(
-              container => container.id === firstDisplayedContainer.id &&
-              container.text === newContainerName)
+            wrapper.vm.page.containers.find(container =>
+              container.id === firstDisplayedContainer.id &&
+              container.text === newContainerName
+            )
           ).toBeDefined()
         })
 
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.container.patch.mockImplementationOnce(() => { throw new Error() })
+          spyOnContainerPatch.mockImplementationOnce(() => { throw new Error() })
           await wrapper.find('.edit-container-button').vm.$emit('click', firstDisplayedContainer)
           await containerSidebarWrapper.vm.$emit('update-container', { id: firstDisplayedContainer.id, text: newContainerName })
           expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -471,8 +578,14 @@ describe('Page', () => {
       })
 
       describe('Delete a container', () => {
+        let spyOnContainerRemove
+
+        beforeAll(() => {
+          spyOnContainerRemove = jest.spyOn(lckServices.container, 'remove')
+        })
+
         beforeEach(() => {
-          lckServices.container.remove.mockClear()
+          spyOnContainerRemove.mockClear()
         })
 
         it('Display the confirmation dialog with the specified container when the remove button is clicked', async () => {
@@ -493,7 +606,7 @@ describe('Page', () => {
           await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', firstDisplayedContainer)
           // Send API request
-          expect(lckServices.container.remove).toHaveBeenCalledWith(firstDisplayedContainer.id)
+          expect(spyOnContainerRemove).toHaveBeenCalledWith(firstDisplayedContainer.id)
           // Update the component data
           expect(
             wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id)
@@ -526,7 +639,7 @@ describe('Page', () => {
 
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.container.remove.mockImplementationOnce(() => { throw new Error() })
+          spyOnContainerRemove.mockImplementationOnce(() => { throw new Error() })
           await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteConfirmationWrapper.vm.$emit('input', { id: firstDisplayedContainer.id })
           expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -534,28 +647,38 @@ describe('Page', () => {
       })
 
       describe('Reorder the containers', () => {
-        beforeEach(() => {
-          lckServices.container.patch.mockClear()
+        let spyOnContainerPatch
+
+        beforeAll(() => {
+          spyOnContainerPatch = jest.spyOn(lckServices.container, 'patch')
         })
+
+        beforeEach(() => {
+          spyOnContainerPatch.mockClear()
+        })
+
         it('Save the new containers positions if the change event is emitted (oldIndex < newIndex)', async () => {
           await wrapper.findComponent(draggable).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
-          expect(lckServices.container.patch).toHaveBeenCalledTimes(2)
-          expect(lckServices.container.patch).toHaveBeenNthCalledWith(1, firstDisplayedContainer.id, { position: 0 })
-          expect(lckServices.container.patch).toHaveBeenNthCalledWith(2, secondDisplayedContainer.id, { position: 1 })
+          expect(spyOnContainerPatch).toHaveBeenCalledTimes(2)
+          expect(spyOnContainerPatch).toHaveBeenNthCalledWith(1, firstDisplayedContainer.id, { position: 0 })
+          expect(spyOnContainerPatch).toHaveBeenNthCalledWith(2, secondDisplayedContainer.id, { position: 1 })
         })
+
         it('Save the new containers positions if the change event is emitted (oldIndex > newIndex)', async () => {
           await wrapper.findComponent(draggable).vm.$emit('change', { moved: { oldIndex: 1, newIndex: 0 } })
-          expect(lckServices.container.patch).toHaveBeenCalledTimes(2)
-          expect(lckServices.container.patch).toHaveBeenNthCalledWith(1, firstDisplayedContainer.id, { position: 0 })
-          expect(lckServices.container.patch).toHaveBeenNthCalledWith(2, secondDisplayedContainer.id, { position: 1 })
+          expect(spyOnContainerPatch).toHaveBeenCalledTimes(2)
+          expect(spyOnContainerPatch).toHaveBeenNthCalledWith(1, firstDisplayedContainer.id, { position: 0 })
+          expect(spyOnContainerPatch).toHaveBeenNthCalledWith(2, secondDisplayedContainer.id, { position: 1 })
         })
+
         it('Do not save the new containers positions if the drag over event is not a move event ', async () => {
           await wrapper.findComponent(draggable).vm.$emit('change', { added: { newIndex: 0 } })
-          expect(lckServices.container.patch).toHaveBeenCalledTimes(0)
+          expect(spyOnContainerPatch).toHaveBeenCalledTimes(0)
         })
+
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.container.patch.mockRejectedValueOnce(new MockError())
+          spyOnContainerPatch.mockRejectedValueOnce(new MockError(400))
           await wrapper.findComponent(draggable).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
           process.nextTick(() => {
             expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -595,8 +718,14 @@ describe('Page', () => {
       })
 
       describe('Add a new block', () => {
+        let spyOnBlockCreate
+
+        beforeAll(() => {
+          spyOnBlockCreate = jest.spyOn(lckServices.block, 'create')
+        })
+
         beforeEach(() => {
-          lckServices.block.create.mockClear()
+          spyOnBlockCreate.mockClear()
         })
 
         it('Display the update container sidebar with the related container and an object with an empty id for the block when the new block button is clicked', async () => {
@@ -617,7 +746,7 @@ describe('Page', () => {
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
           // Send API request
           const { id, ...data } = unknownTypeBlock
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
+          expect(spyOnBlockCreate).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -631,7 +760,7 @@ describe('Page', () => {
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: unknownTypeBlock })
           // Send API request
           const { id, ...data } = unknownTypeBlock
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
+          expect(spyOnBlockCreate).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -644,7 +773,7 @@ describe('Page', () => {
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: paragraphBlock })
           // Send API request
           const { id, ...data } = paragraphBlock
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
+          expect(spyOnBlockCreate).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -657,7 +786,7 @@ describe('Page', () => {
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit: mediaBlock })
           // Send API request
           const { id, ...data } = mediaBlock
-          expect(lckServices.block.create).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
+          expect(spyOnBlockCreate).toHaveBeenCalledWith({ ...data, container_id: firstDisplayedContainer.id })
           // Update the component data
           const newBlock = wrapper.vm.page.containers[0].blocks[0]
           expect(newBlock).toBeDefined()
@@ -667,11 +796,16 @@ describe('Page', () => {
         })
       })
 
-      describe('Update an existing container', () => {
+      describe('Update an existing block', () => {
         const blockToEdit = { id: secondDisplayedBlock.id, title: 'newBlockName', type: 'MARKDOWN', settings: { content: 'My new content' } }
+        let spyOnBlockPatch
+
+        beforeAll(() => {
+          spyOnBlockPatch = jest.spyOn(lckServices.block, 'patch')
+        })
 
         beforeEach(() => {
-          lckServices.container.patch.mockClear()
+          spyOnBlockPatch.mockClear()
         })
 
         it('Display the update container sidebar with the specified container and paragraph block when the update block event is emitted from the block component', async () => {
@@ -686,20 +820,17 @@ describe('Page', () => {
           await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
           await containerSidebarWrapper.vm.$emit('click-block', firstDisplayedBlock)
           expect(containerSidebarWrapper.props('container').id).toBe(secondDisplayedContainer.id)
-          // expect(containerSidebarWrapper.props('block')).toStrictEqual(
-          //   expect.objectContaining({ ...firstDisplayedBlock })
-          // )
         })
 
         it('Display the update container sidebar with the specified container and table view block when the update block event is emitted from the block component', async () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
-          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinition)
-          expect(containerSidebarWrapper.props('block').content).toStrictEqual(mockTableViewContent)
+          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinitions['1'])
+          expect(containerSidebarWrapper.props('block').content).toStrictEqual(mockTableViewContents['1'])
         })
 
         it('Display the update container sidebar with the specified container and detail view block when the update block event is emitted from the block component', async () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
-          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinition)
+          expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinitions['1'])
         })
 
         it('Update the block if the update-block event is emitted with an existing block from the sidebar', async () => {
@@ -707,7 +838,7 @@ describe('Page', () => {
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit })
 
           // Send API request
-          expect(lckServices.block.patch).toHaveBeenCalledWith(
+          expect(spyOnBlockPatch).toHaveBeenCalledWith(
             secondDisplayedBlock.id,
             {
               title: blockToEdit.title,
@@ -729,7 +860,7 @@ describe('Page', () => {
 
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.block.patch.mockImplementationOnce(() => { throw new Error() })
+          spyOnBlockPatch.mockImplementationOnce(() => { throw new Error() })
           await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit })
           expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -738,9 +869,14 @@ describe('Page', () => {
 
       describe('Delete a container', () => {
         let deleteBlockWrapper
+        let spyOnBlockRemove
+
+        beforeAll(() => {
+          spyOnBlockRemove = jest.spyOn(lckServices.block, 'remove')
+        })
 
         beforeEach(async () => {
-          lckServices.block.remove.mockClear()
+          spyOnBlockRemove.mockClear()
           deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
         })
 
@@ -770,7 +906,7 @@ describe('Page', () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
           await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
           // Send API request
-          expect(lckServices.block.remove).toHaveBeenCalledWith(firstDisplayedBlock.id)
+          expect(spyOnBlockRemove).toHaveBeenCalledWith(firstDisplayedBlock.id)
           // // Update the component data
           // expect(
           //   wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
@@ -782,7 +918,7 @@ describe('Page', () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
           await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
           // Send API request
-          expect(lckServices.block.remove).toHaveBeenCalledWith(firstDisplayedBlock.id)
+          expect(spyOnBlockRemove).toHaveBeenCalledWith(firstDisplayedBlock.id)
           // Update the component data
           // expect(
           //   wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
@@ -792,20 +928,20 @@ describe('Page', () => {
         it('Do nothing if the input event is emitted with an empty block', async () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
           await deleteBlockWrapper.vm.$emit('input', {})
-          expect(lckServices.block.remove).not.toHaveBeenCalled()
-          expect(wrapper.vm.page.containers[1].blocks.length).toBe(2)
+          expect(spyOnBlockRemove).not.toHaveBeenCalled()
+          expect(wrapper.vm.page.containers[1].blocks.length).toBe(3)
         })
 
         it('Do not update the local data if the input event is emitted with an unknown container', async () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
           await deleteBlockWrapper.vm.$emit('input', { ...firstDisplayedBlock, id: '-1' })
-          expect(lckServices.block.remove).toHaveBeenCalled()
-          expect(wrapper.vm.page.containers[1].blocks.length).toBe(2)
+          expect(spyOnBlockRemove).toHaveBeenCalled()
+          expect(wrapper.vm.page.containers[1].blocks.length).toBe(3)
         })
 
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.block.remove.mockImplementationOnce(() => { throw new Error() })
+          spyOnBlockRemove.mockImplementationOnce(() => { throw new Error() })
           await wrapper.find('.remove-container-button').vm.$emit('click')
           await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
           expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -813,28 +949,35 @@ describe('Page', () => {
       })
 
       describe('Reorder the blocks', () => {
-        beforeEach(() => {
-          lckServices.block.patch.mockClear()
+        let spyOnBlockPatch
+
+        beforeAll(() => {
+          spyOnBlockPatch = jest.spyOn(lckServices.block, 'patch')
         })
+
+        beforeEach(() => {
+          spyOnBlockPatch.mockClear()
+        })
+
         it('Save the new blocks positions if the change event is emitted (oldIndex < newIndex)', async () => {
           await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
-          expect(lckServices.block.patch).toHaveBeenCalledTimes(2)
-          expect(lckServices.block.patch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
-          expect(lckServices.block.patch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
+          expect(spyOnBlockPatch).toHaveBeenCalledTimes(2)
+          expect(spyOnBlockPatch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
+          expect(spyOnBlockPatch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
         })
         it('Save the new blocks positions if the change event is emitted (oldIndex > newIndex)', async () => {
           await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 1, newIndex: 0 } })
-          expect(lckServices.block.patch).toHaveBeenCalledTimes(2)
-          expect(lckServices.block.patch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
-          expect(lckServices.block.patch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
+          expect(spyOnBlockPatch).toHaveBeenCalledTimes(2)
+          expect(spyOnBlockPatch).toHaveBeenNthCalledWith(1, firstDisplayedBlock.id, { position: 0 })
+          expect(spyOnBlockPatch).toHaveBeenNthCalledWith(2, secondDisplayedBlock.id, { position: 1 })
         })
         it('Do not save the new blocks positions if the drag over event is not a move event ', async () => {
           await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { added: { newIndex: 0 } })
-          expect(lckServices.block.patch).toHaveBeenCalledTimes(0)
+          expect(spyOnBlockPatch).toHaveBeenCalledTimes(0)
         })
         it('Display a toast if an error is occured', async () => {
           const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          lckServices.block.patch.mockRejectedValueOnce(new MockError())
+          spyOnBlockPatch.mockRejectedValueOnce(new MockError(400))
           await wrapper.findAllComponents(draggable).at(2).vm.$emit('change', { moved: { oldIndex: 0, newIndex: 1 } })
           process.nextTick(() => {
             expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -847,19 +990,20 @@ describe('Page', () => {
   describe('Methods', () => {
     describe('displayToastOnError', () => {
       let wrapper
+      let spyOnToastAdd
 
       beforeAll(async () => {
         wrapper = await shallowMount(Page, globalComponentParams())
-        wrapper.vm.$toast.add.mockClear()
+        spyOnToastAdd = jest.spyOn(wrapper.vm.$toast, 'add')
       })
 
       afterEach(() => {
-        wrapper.vm.$toast.add.mockClear()
+        spyOnToastAdd.mockClear()
       })
 
       it('Display a toast with the specified parameters for an error without code', () => {
         wrapper.vm.displayToastOnError('summary', new Error('an error without a code'))
-        expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
+        expect(spyOnToastAdd).toHaveBeenLastCalledWith(
           expect.objectContaining({
             summary: 'summary',
             detail: 'error.basic'
@@ -869,7 +1013,7 @@ describe('Page', () => {
 
       it('Display a toast with the specified parameters for an error with a code', () => {
         wrapper.vm.displayToastOnError('summary', new MockError(404, 'an error with a code'))
-        expect(wrapper.vm.$toast.add).toHaveBeenLastCalledWith(
+        expect(spyOnToastAdd).toHaveBeenLastCalledWith(
           expect.objectContaining({
             summary: 'summary',
             detail: 'error.http.404'

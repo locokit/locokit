@@ -469,7 +469,8 @@
           "displayFieldId": "Display the button according to this field",
           "displayFieldConditionQuery": "Display the button if the value is equivalent to"
         },
-        "detailPage": "Detail page"
+        "detailPage": "Detail page",
+        "addGeoDataSrc": "Add a new geographic data source"
       }
     },
     "database": {

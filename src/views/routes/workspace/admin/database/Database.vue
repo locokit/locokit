@@ -618,7 +618,7 @@ export default {
           updatePromises.push(
             lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
           )
-          if (this.currentColumnToEdit.id === id) this.resetColumnEdit()
+          if (this.currentColumnToEdit?.id === id) this.resetColumnEdit()
         })
       }
       await Promise.all(updatePromises)
@@ -739,7 +739,7 @@ export default {
     },
     async onColumnEdit (editedColumnData) {
       this.submitting = true
-      if (this.currentColumnToEdit.id) {
+      if (this.currentColumnToEdit?.id) {
         try {
           // API request
           const updatedColumn = await lckServices.tableColumn.patch(
@@ -825,7 +825,7 @@ export default {
     },
     async onTableViewColumnEdit (editedColumn) {
       this.submitting = true
-      if (this.currentColumnToEdit.id) {
+      if (this.currentColumnToEdit?.id) {
         try {
           // Update table view column
           const updatedColumn = await lckServices.tableViewColumn.patch(
@@ -871,7 +871,7 @@ export default {
       await lckServices.tableRow.create({ data: duplicatedData, table_id: this.currentTableId })
       this.loadCurrentTableData()
     },
-    async onOpenDetail (rowId) {
+    async onOpenDetail ({ rowId }) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
