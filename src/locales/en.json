@@ -532,6 +532,9 @@
       "deleteColumnModal": {
         "deleteColumn": "Delete column",
         "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"
+      },
+      "displayUuid": {
+        "uuid": "UUID: "
       }
     },
     "admin": {
