@@ -960,8 +960,8 @@ export default {
     async goToPage () {
       this.$toast.add({
         severity: 'info',
-        summary: this.$t('components.datatable.notifAction.summary'),
-        detail: this.$t('components.datatable.notifAction.detail'),
+        summary: this.$t('components.datatable.notifWarningRedirectionAction.summary'),
+        detail: this.$t('components.datatable.notifWarningRedirectionAction.detail'),
         life: 5000
       })
     },

@@ -114,6 +114,10 @@
       @search-table-view="$emit('search-table-view', $event)"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
       :displayFieldConditionQuery.sync="blockCopy.settings.displayFieldConditionQuery"
+      :notificationSuccessTitle.sync="blockCopy.settings.notificationSuccessTitle"
+      :notificationSuccessDescription.sync="blockCopy.settings.notificationSuccessDescription"
+      :notificationErrorTitle.sync="blockCopy.settings.notificationErrorTitle"
+      :notificationErrorDescription.sync="blockCopy.settings.notificationErrorDescription"
     />
   </lck-form>
 </template>
