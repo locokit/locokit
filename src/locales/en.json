@@ -671,6 +671,10 @@
       "ROW_DELETION": "An error occured when deleting the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
+    },
+    "cms": {
+      "blockMultiConflictSummary": "Conflict at shared sources level",
+      "blockMultiConflictDetail": "Some shared blocks sources in your page are simultaneously multi and mono items. Please fix it."
     }
   },
   "form" : {

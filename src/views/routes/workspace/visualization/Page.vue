@@ -74,45 +74,47 @@
             @change="onBlockReorderClick(container, $event)"
             handle=".handle-block"
           >
-            <Block
-              v-for="block in container.blocks"
-              :key="block.id"
-              class="lck-block"
-              :class="{
-                'p-mb-4': !editMode,
-              }"
-              :block="block"
-              :definition="getBlockDefinition(block)"
-              :content="getBlockContent(block)"
-              :workspaceId="workspaceId"
-              :autocompleteSuggestions="autocompleteSuggestions"
-              :exporting="exporting"
-              :cellState="cellState"
-              :editMode="editMode"
-              v-on="$listeners"
-              @update-row="onUpdateCell(block, $event)"
-              @update-cell="onUpdateCell(block, $event)"
-              @update-content="onUpdateContentBlockTableView(block, $event)"
-              @update-suggestions="onUpdateSuggestions"
-              @sort="onSort(block, $event)"
-              @open-detail="onPageDetail(block, $event)"
-              @create-row="onCreateRow(block, $event)"
-              @export-view-csv="onExportViewCSV(block)"
-              @export-view-xls="onExportViewXLS(block)"
-              @update-filters="onUpdateFilters(block, $event)"
-              @update-block="onBlockEditClick(container, block)"
-              @delete-block="onBlockDeleteClick(container, block)"
+            <template v-for="block in container.blocks">
+              <Block
+                :key="block.id"
+                v-if="editMode || isBlockDisplayed(block)"
+                class="lck-block"
+                :class="{
+                  'p-mb-4': !editMode,
+                }"
+                :block="block"
+                :definition="getBlockDefinition(block)"
+                :content="getBlockContent(block)"
+                :workspaceId="workspaceId"
+                :autocompleteSuggestions="autocompleteSuggestions"
+                :exporting="exporting"
+                :cellState="cellState"
+                :editMode="editMode"
+                v-on="$listeners"
+                @update-row="onUpdateCell(block, $event)"
+                @update-cell="onUpdateCell(block, $event)"
+                @update-content="onUpdateContentBlockTableView(block, $event)"
+                @update-suggestions="onUpdateSuggestions"
+                @sort="onSort(block, $event)"
+                @open-detail="onPageDetail(block, $event)"
+                @create-row="onCreateRow(block, $event)"
+                @export-view-csv="onExportViewCSV(block)"
+                @export-view-xls="onExportViewXLS(block)"
+                @update-filters="onUpdateFilters(block, $event)"
+                @update-block="onBlockEditClick(container, block)"
+                @delete-block="onBlockDeleteClick(container, block)"
 
-              @download-attachment="onDownloadAttachment"
-              @upload-files="onUploadFiles(block, $event)"
-              @remove-attachment="onRemoveAttachment(block, $event)"
+                @download-attachment="onDownloadAttachment"
+                @upload-files="onUploadFiles(block, $event)"
+                @remove-attachment="onRemoveAttachment(block, $event)"
 
-              @go-to-page-detail="goToPage"
-              @create-process-run="onTriggerProcess(block, $event)"
+                @go-to-page-detail="goToPage"
+                @create-process-run="onTriggerProcess(block, $event)"
 
-              @update-features="onGeoDataEdit(block, $event)"
-              @remove-features="onGeoDataRemove(block, $event)"
-            />
+                @update-features="onGeoDataEdit(block, $event)"
+                @remove-features="onGeoDataRemove(block, $event)"
+              />
+            </template>
           </draggable>
           <p-button
             v-if="editMode"
@@ -336,8 +338,22 @@ export default {
     resetSources () {
       this.sources = {}
     },
-    createOrExtendSource (tableViewId, blockId, blockType) {
+    /**
+     * is the block type a multi-line one,
+     * all _SET blocks
+     */
+    isMultiBlock (blockType) {
+      return [BLOCK_TYPE.TABLE_SET, BLOCK_TYPE.MAP_SET, BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.CARD_SET].indexOf(blockType) > -1
+    },
+    createOrExtendSource (tableViewId, blockId, blockType = null) {
       if (this.sources[tableViewId]) {
+        if (this.isMultiBlock(blockType) !== this.sources[tableViewId].multi) {
+          this.$toast.add({
+            severity: 'warn',
+            summary: this.$t('error.cms.blockMultiConflictSummary'),
+            detail: this.$t('error.cms.blockMultiConflictDetail')
+          })
+        }
         this.sources[tableViewId].blocks.push(blockId)
       } else {
         this.$set(this.sources, tableViewId, {
@@ -353,11 +369,11 @@ export default {
              * For the mapview block, we don't limit the result
              * TODO: we must optimize the way we manage data...
              */
-            itemsPerPage: blockType === BLOCK_TYPE.MAP_SET ? -1 : 20,
+            itemsPerPage: isGeoBlock(blockType) ? -1 : 20,
             filters: {}
           },
           // this option allows us to know if we need to use find or get methods for retrieving content
-          multi: [BLOCK_TYPE.TABLE_SET, BLOCK_TYPE.MAP_SET, BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.CARD_SET].indexOf(blockType) > -1
+          multi: this.isMultiBlock(blockType)
         })
       }
     },
@@ -386,21 +402,23 @@ export default {
            */
           if (block.conditionalDisplayTableViewId) {
             this.createOrExtendSource(block.conditionalDisplayTableViewId, block.id)
-            block.conditionalDisplaySource = this.sources[block.conditionalDisplayTableViewId]
+            // block.conditionalDisplaySource = this.sources[block.conditionalDisplayTableViewId]
+          }
+          if (isGeoBlock(block.type)) {
+            // For a geo column, we get the definition of all specified views
+            block.settings.sources.forEach(mapSource => this.createOrExtendSource(mapSource.id, block.id, block.type))
           }
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type)
-            // this.$set(block, 'definition', this.sources[block.settings.id].definition)
-            // this.$set(block, 'content', this.sources[block.settings.id].content)
           }
         })
       })
     },
     async loadSourcesDefinitions () {
-      await Promise.all(Object.keys(this.sources).map(tableViewId => this.loadSourceDefinition(tableViewId)))
-    },
-    async loadSourceDefinition (tableViewId) {
-      this.$set(this.sources[tableViewId], 'definition', await lckHelpers.retrieveViewDefinition(tableViewId))
+      const tableViews = await lckHelpers.retrieveViewDefinition(Object.keys(this.sources))
+      tableViews.forEach(tv => {
+        this.$set(this.sources[tv.id], 'definition', tv)
+      })
     },
     async loadSourcesContents () {
       await Promise.all(Object.keys(this.sources).map(tableViewId => this.loadSourceContent(tableViewId)))
@@ -442,176 +460,69 @@ export default {
         }
       }
     },
+    async refreshDefinitionAndContent () {
+      this.inventorySources()
+      await this.loadSourcesDefinitions()
+      await this.loadSourcesContents()
+    },
     getBlockDefinition (block) {
+      if (block.id === 'temp') return null
+      /**
+       * Special case for MapSet components,
+       * definition is a Record<tableViewId, LckTableView>
+       */
+      if (isGeoBlock(block.type)) {
+        const definitions = block.settings.sources.map(mapSource => this.sources[mapSource.id].definition)
+        return objectFromArray(definitions, 'id')
+      }
       if (!block.settings.id) return null
+
       return this.sources[block.settings.id].definition
     },
     getBlockContent (block) {
-      if (!block.settings.id) return null
       switch (block.type) {
-        case BLOCK_TYPE.TABLE_SET:
         case BLOCK_TYPE.MAP_SET:
+          // The result in an object whose the keys are the views ids and the values are the corresponding rows
+          return block.settings.sources.reduce(
+            (allContents, mapSource) => Object.assign(allContents, { [mapSource.id]: this.sources[mapSource.id].content || [] }),
+            {}
+          )
+        case BLOCK_TYPE.TABLE_SET:
         case BLOCK_TYPE.DATA_RECORD:
         case BLOCK_TYPE.ACTION_BUTTON:
+        case BLOCK_TYPE.MARKDOWN_FIELD:
+          if (!block.settings.id) return null
           return this.sources[block.settings.id].content
         case BLOCK_TYPE.MAP_FIELD:
-          return [this.sources[block.settings.id].content.data[0]]
+          return {
+            [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id].content]
+          }
       }
     },
-    async loadBlockContentAndDefinition (block) {
-      this.$set(block, 'loading', true)
-
-      // Default options for Table
-      this.blocksOptions[block.id] = {
-        sort: {
-          createdAt: 1
-        },
-        page: 0,
-        itemsPerPage: 20,
-        filters: {}
-      }
-      // if (this.$route.query.rowId) {
-      //   this.blocksOptions[block.id].filters.rowId = this.$route.query.rowId
-      // }
-      /**
-       * block.settings.id is a reference to a table_view
-       */
-      if (isGeoBlock(block.type)) {
-        // For a geo column, we get the definition of all specified views
-        const definitions = await lckHelpers.retrieveViewDefinition((block.settings.sources).map(mapSource => mapSource.id)) || []
-        this.$set(block, 'definition', objectFromArray(definitions, 'id'))
-        if (block.definition !== {}) await this.loadBlockContent(block)
-      } else if (block.settings?.id) {
-        if ([BLOCK_TYPE.ACTION_BUTTON, BLOCK_TYPE.DATA_RECORD].includes(block.type)) {
-          /**
-           * If the source isn't already present,
-           * we load the definition
-           */
-          if (!this.sources[block.settings.id]) {
-            const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
-            this.sources[block.settings.id] = {
-              definition: definition[0],
-              content: null
-            }
-          }
-          this.$set(block, 'definition', this.sources[block.settings.id].definition)
-        } else {
-          const definition = await lckHelpers.retrieveViewDefinition([block.settings.id])
-          this.$set(block, 'definition', definition[0])
-        }
-        if (block.definition?.id) await this.loadBlockContent(block)
-      }
-      this.$set(block, 'loading', false)
-    },
-    async loadBlockContent (block) {
-      const currentOptions = this.blocksOptions[block.id]
-      if (this.$route.query.rowId) {
-        currentOptions.filters.rowId = this.$route.query.rowId
-      }
-      switch (block.type) {
-        case BLOCK_TYPE.TABLE_SET:
-          this.$set(block, 'content', await lckHelpers.retrieveViewData(
-            block.definition.id,
-            this.groupId,
-            currentOptions.page * currentOptions.itemsPerPage,
-            currentOptions.itemsPerPage,
-            currentOptions.sort,
-            currentOptions.filters
-          ))
-          break
-        case BLOCK_TYPE.MAP_SET:
-          /**
-           * For the mapview block, we don't limit the result
-           * I think we can optimize how we manage the data...
-           * Moreover, for now, we don't have filters so we can consider that
-           * the content is the same for each table view.
-           */
-          const viewsIds = Object.keys(block.definition)
-          const contentByView = await Promise.all(viewsIds.map(async id =>
-            await lckHelpers.retrieveViewData(
-              id,
-              this.groupId,
-              currentOptions.page * currentOptions.itemsPerPage,
-              -1,
-              currentOptions.sort,
-              currentOptions.filters
-            )
-          ))
-          // The result in an object whose the keys are the views ids and the values are the corresponding rows
-          const contentByViewObject = viewsIds.reduce(
-            (allContents, definitionId, index) => Object.assign(allContents, { [definitionId]: contentByView[index] })
-            , {}
-          )
-          this.$set(block, 'content', contentByViewObject)
-          break
-        case BLOCK_TYPE.DATA_RECORD:
-          let row
-          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
-            if (this.$route.query.rowId) {
-              row = await lckServices.tableRow.get(this.$route.query.rowId, {
-                query: {
-                  $lckGroupId: this.groupId
-                }
-              })
-            } else {
-              const rows = await lckServices.tableRow.find({
-                query: {
-                  table_view_id: block.definition.id,
-                  $lckGroupId: this.groupId,
-                  $limit: 1
-                }
-              })
-              row = rows.data[0]
-            }
-            if (this.sources[block.settings.id]) {
-              this.sources[block.settings.id].content = { data: [row] }
-            }
-          } else {
-            row = this.sources[block.settings.id].content.data[0]
-          }
-
-          // Update content according to sources or table_view
-          this.$set(block, 'content', { data: [row] })
-          break
-        case BLOCK_TYPE.MAP_FIELD: {
-          const definitionId = Object.keys(block.definition)[0]
-          const row = await lckServices.tableRow.get(this.$route.query.rowId)
-          if (definitionId) {
-            this.$set(block, 'content', { [definitionId]: [row] })
-          }
-          break
-        }
-        case BLOCK_TYPE.ACTION_BUTTON: {
-          let row
-          if (this.sources[block.settings.id] && !this.sources[block.settings.id].content) {
-            const rows = await lckHelpers.retrieveViewData(
-              block.definition.id,
-              this.groupId
-            )
-            row = rows.data[0]
-          } else {
-            row = this.sources[block.settings.id].content.data[0]
-          }
-          this.$set(block, 'content', { data: [row] })
-          break
-        }
-        case BLOCK_TYPE.MARKDOWN_FIELD: {
-          const rows = await lckHelpers.retrieveViewData(
-            block.definition.id,
-            this.groupId
-          )
-          row = rows.data[0]
-          this.$set(block, 'content', { data: [row] })
-          break
-        }
-      }
+    /**
+     * Compute if the block need to be displayed,
+     * depends on conditional display if set
+     */
+    isBlockDisplayed (block) {
+      if (!block.conditionalDisplayTableViewId) return true
+      if (!block.conditionalDisplayFieldId) return true
+      const currentData = this.sources[block.conditionalDisplayTableViewId]?.content?.data?.[0]
+      // console.log(
+      //   JSON.parse(JSON.stringify(currentData)),
+      //   block.conditionalDisplayFieldId,
+      //   block.conditionalDisplayFieldValue,
+      //   currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
+      // )
+      if (!currentData) return false
+      return currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
       block.loading = true
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
-          this.blocksOptions[block.id].page = pageIndexToGo
-          await this.loadBlockContent(block)
+          const currentSource = this.sources[block.settings.id]
+          currentSource.options.page = pageIndexToGo
+          await this.loadSourceContent(block.settings.id)
           break
       }
       block.loading = false
@@ -624,22 +535,22 @@ export default {
         groupId: this.groupId
       })
     },
-    async onUpdateCell ({
-      id: blockId
-    }, {
+    async onUpdateCell (block, {
       rowId,
       columnId,
       newValue,
       tableViewId = ''
     }) {
       let currentBlock = null
+      const blockId = block.id
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
+      const blockContent = this.getBlockContent(block)
       const currentRow = isGeoBlock(currentBlock.type)
-        ? currentBlock.content[tableViewId].find(d => d.id === rowId)
-        : currentBlock.content.data.find(d => d.id === rowId)
+        ? blockContent[tableViewId].find(d => d.id === rowId)
+        : blockContent.data.find(d => d.id === rowId)
 
       this.cellState = {
         rowId: currentRow.id,
@@ -654,24 +565,6 @@ export default {
           },
           $lckGroupId: this.groupId
         })
-
-        // Update content for shared TableView
-        if (currentBlock.settings.id && this.sources[currentBlock.settings.id]) {
-          // Update source with new value
-          this.sources[currentBlock.settings.id].content.data[0][columnId] = newValue
-          // Find all block who shared the same table_view
-          const blocksWithSameTableView = []
-          this.page.containers.forEach(container => {
-            if (container.blocks && container.blocks.length > 0) {
-              container.blocks.forEach(block => {
-                // Each block DetailView and ActionButton received a content ({ data: LckTableRow[] })
-                if (block.settings.id && Object.keys(this.sources).includes(block.settings.id)) blocksWithSameTableView.push(block)
-              })
-            }
-          })
-          // Update blocks content
-          blocksWithSameTableView.forEach(block => this.$set(block, 'content', { data: [this.sources[currentBlock.settings.id].content.data[0]] }))
-        }
         this.cellState.isValid = true
         currentRow.data = res.data
       } catch (error) {
@@ -683,10 +576,11 @@ export default {
       block.loading = true
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
-          this.blocksOptions[block.id].sort = {}
           // find the matching column_type_id to adapt
-          this.blocksOptions[block.id].sort[`ref(data:${field})`] = order
-          await this.loadBlockContent(block)
+          const currentSource = this.sources[block.settings.id]
+          currentSource.options.sort = {}
+          currentSource.options.sort[`ref(data:${field})`] = order
+          await this.loadSourceContent(block.settings.id)
           break
       }
       block.loading = false
@@ -695,8 +589,9 @@ export default {
       block.loading = true
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
-          this.blocksOptions[block.id].filters = filters
-          await this.loadBlockContent(block)
+          const currentSource = this.sources[block.settings.id]
+          currentSource.options.filters = filters
+          await this.loadSourceContent(block.settings.id)
           break
       }
       block.loading = false
@@ -713,8 +608,9 @@ export default {
     },
     async onCreateRow (block, newRow) {
       const data = { ...newRow.data }
+      const currentBlockDefinition = this.getBlockDefinition(block)
       if (this.$route.query.rowId) {
-        const columnTargetDetail = block.definition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
+        const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
       }
       this.$set(block, 'submitting', true)
@@ -722,7 +618,7 @@ export default {
       /**
        * For date columns, we format the date to ISO, date only
        */
-      block.definition.columns
+      currentBlockDefinition.columns
         .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
         .forEach(c => {
           if (isValid(parseISO(newRow.data[c.id]))) {
@@ -734,13 +630,12 @@ export default {
       await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
-        table_view_id: block.definition.id,
-        // table_id: block.definition.table_id,
+        table_view_id: currentBlockDefinition.id,
         $lckGroupId: this.groupId
       })
       this.$set(block, 'submitting', false)
       this.$set(block, 'displayNewDialog', false)
-      await this.loadBlockContent(block)
+      await this.loadSourceContent(block.settings.id)
     },
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
@@ -766,7 +661,7 @@ export default {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = newRow || currentBlock.content.data.find(d => d.id === rowId)
+      const currentRow = newRow || this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -820,7 +715,7 @@ export default {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
-      const currentRow = currentBlock.content.data.find(d => d.id === rowId)
+      const currentRow = this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
       this.cellState = {
         rowId: currentRow.id,
         columnId,
@@ -953,14 +848,21 @@ export default {
       this.showUpdateSidebar = false
     },
     onBlockEditClickFromSidebar (blockToEdit) {
-      this.currentBlockToEdit = blockToEdit
+      this.currentBlockToEdit = {
+        ...blockToEdit,
+        definition: this.getBlockDefinition(blockToEdit)
+      }
     },
-    onContainerEditClickFromSidebar (blockToEdit) {
-      this.currentContainerToEdit = blockToEdit
+    onContainerEditClickFromSidebar (containerToEdit) {
+      this.currentContainerToEdit = containerToEdit
     },
     onBlockEditClick (containerToEdit, blockToEdit) {
+      console.log(containerToEdit, blockToEdit)
       this.currentContainerToEdit = containerToEdit
-      this.currentBlockToEdit = blockToEdit
+      this.currentBlockToEdit = {
+        ...blockToEdit,
+        definition: this.getBlockDefinition(blockToEdit)
+      }
       this.showUpdateSidebar = true
     },
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
@@ -971,14 +873,6 @@ export default {
           // On update
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
-          // const updatedBlock = await lckServices.block.patch(id, {
-          //   title: data.title,
-          //   elevation: data.elevation,
-          //   type: data.type,
-          //   settings: data.settings
-          // })
-          // Reload the block definition and content if it is necessary
-          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(updatedBlock)
           // Update the existing block with its new properties
           for (const key in updatedBlock) {
             this.currentBlockToEdit[key] = updatedBlock[key]
@@ -989,8 +883,6 @@ export default {
             ...data,
             container_id: this.currentContainerToEdit.id
           })
-          // Load the block definition and content if it is necessary
-          if (blockRefreshRequired) await this.loadBlockContentAndDefinition(this.currentBlockToEdit)
           // Add the block to the related container
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
             this.currentContainerToEdit.blocks.push(this.currentBlockToEdit)
@@ -998,6 +890,8 @@ export default {
             this.$set(this.currentContainerToEdit, 'blocks', [this.currentBlockToEdit])
           }
         }
+        // Load the block definition and content if it is necessary
+        if (blockRefreshRequired) await this.refreshDefinitionAndContent(this.currentBlockToEdit)
       } catch (error) {
         this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${this.currentBlockToEdit.title}`, error)
       } finally {
@@ -1069,7 +963,6 @@ export default {
       }))
     },
     async searchField (query, tableViewId) {
-      console.log(query, tableViewId)
       const tableColumnResult = await lckServices.tableColumn.find({
         query: {
           'views.id': tableViewId,
@@ -1225,23 +1118,10 @@ export default {
     next()
   },
   watch: {
-    async page (newVal) {
+    async page () {
       // Hide the updated container sidebar
       this.onCloseUpdateContainerSidebar()
-      this.inventorySources()
-      await this.loadSourcesDefinitions()
-      await this.loadSourcesContents()
-
-      // retrieve for each blocks the definition / data of the block
-      // if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      // newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
-      //   container.blocks.sort((a, b) => a.position - b.position)
-      //   container.blocks.forEach(async block => {
-      //     // Reset sources at each pages change
-      //     this.sources = {}
-      //     await this.loadBlockContentAndDefinition(block)
-      //   })
-      // })
+      await this.refreshDefinitionAndContent()
     }
   }
 }
