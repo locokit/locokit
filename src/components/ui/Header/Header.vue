@@ -132,7 +132,9 @@ export default {
   height: var(--header-height) !important;
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
+  z-index: 1050;
 }
+
 .menu-button {
   line-height: var(--header-height);
   display: none;
@@ -143,9 +145,11 @@ export default {
   text-align: center;
   color: var(--primary-color);
 }
+
 .menu-button:hover {
   background-color: var(--surface-c);
 }
+
 .menu-button i {
   font-size: 24px;
   line-height: inherit;
