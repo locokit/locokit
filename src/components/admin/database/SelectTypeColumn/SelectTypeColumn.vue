@@ -21,12 +21,15 @@
       <p-column
         :rowReorder="true"
         rowReorderIcon="bi bi-three-dots-vertical"
-        headerStyle="width: 2rem"
+        headerClass="p-col-1"
+        bodyClass="p-col-1"
+        bodyStyle="text-align: center"
+
       />
       <p-column
         field="label"
-        headerClass="p-col-4"
-        bodyClass="p-col-4"
+        headerClass="p-col-5"
+        bodyClass="p-col-5"
         :header="$t('pages.databaseSchema.selectType.label')"
       >
         <template #body="props">
@@ -67,18 +70,9 @@
         </template>
       </p-column>
       <p-column
-        field="position"
         headerClass="p-col-2"
         bodyClass="p-col-2"
-        :header="$t('pages.databaseSchema.selectType.position')"
-      >
-        <template #body="props">
-          <p-input-number v-model="props.data.position" :min="0" />
-        </template>
-      </p-column>
-      <p-column
-        headerClass="p-col-1"
-        bodyClass="p-col-1"
+        bodyStyle="text-align: center"
       >
         <template #body="props">
           <p-button
@@ -126,7 +120,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { COLOR_SCHEME } from '@/services/lck-utils/color'
 
 import InputText from 'primevue/inputtext'
-import InputNumber from 'primevue/inputnumber'
 import Dropdown from 'primevue/dropdown'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -139,7 +132,6 @@ export default {
   name: 'SelectTypeColumn',
   components: {
     'p-input-text': Vue.extend(InputText),
-    'p-input-number': Vue.extend(InputNumber),
     'p-dropdown': Vue.extend(Dropdown),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
