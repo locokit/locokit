@@ -2,13 +2,16 @@
   <div
     v-if="settings && settings.content"
     v-html="markdownToDisplay"
+    :class="[settings.textColor, settings.textAlign]"
   />
 </template>
 
 <script lang="ts">
-import { MarkdownSettings } from '@locokit/lck-glossary'
 import Vue, { PropType } from 'vue'
+
 import marked from 'marked'
+
+import { MarkdownSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Markdown',
@@ -65,33 +68,14 @@ export default Vue.extend({
 
 </style>
 
-<style lang="scss">
-.lck-markdown {
+<style scoped lang="scss">
+// We need to use ::v-deep with v-html and scoped
+::v-deep {
   padding: 1rem;
   background-color: var(--background-color-light);
 
-  h1, h3, h5 {
-    color: var(--primary-color);
-  }
-
-  h2, h4, h6 {
-    color: var(--surface-lck-1);
-  }
-
   h2 {
     padding: 0.5rem 0;
-
-    &:after {
-      display: block;
-      width: 30px;
-      height: 4px;
-      content: "";
-      background-color: var(--primary-color);
-    }
-  }
-
-  p, ol, ul, li {
-    color: #495057;
   }
 
   a {
@@ -106,6 +90,66 @@ export default Vue.extend({
   table th {
     color: var(--primary-color-text);;
     background-color: #ededed;
+  }
+
+  &.primary {
+    color: var(--primary-color);
+  }
+
+  &.secondary {
+    color: var(--secondary-color);
+  }
+
+  &.danger {
+    color: var(--color-error);
+  }
+
+  &.warning {
+    color: var(--color-warning);
+  }
+
+  &.success {
+    color: var(--color-success);
+  }
+
+  &:not(.success, .warning, .danger, .secondary, .primary) {
+    color: var(--text-color);
+
+    h1, h3, h5 {
+      color: var(--primary-color);
+    }
+
+    h2, h4, h6 {
+      color: var(--surface-lck-1);
+    }
+
+    h2 {
+      display: inline-block;
+
+      &:after {
+        display: block;
+        width: 30px;
+        height: 4px;
+        content: "";
+        background-color: var(--primary-color);
+      }
+    }
+  }
+
+  &.right {
+    text-align: right;
+  }
+
+  &.center {
+    text-align: center;
+  }
+
+  &.justify {
+    text-align: justify;
+  }
+
+  &:not(.right, .center, .justify) {
+    text-align: left;
   }
 }
 </style>

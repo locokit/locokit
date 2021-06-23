@@ -64,6 +64,7 @@ import HighlightField from '@/components/visualize/HighlightField/HighlightField
 import Media from '@/components/visualize/Media/Media.vue'
 import DataRecord from '@/components/visualize/DataRecord/DataRecord.vue'
 import ActionButton from '@/components/visualize/ActionButton/ActionButton.vue'
+import MarkdownField from '@/components/visualize/MarkdownField/MarkdownField.vue'
 import Error from '@/components/ui/Error/Error.vue'
 
 export default Vue.extend({
@@ -79,6 +80,7 @@ export default Vue.extend({
     MapField: MapSet,
     HighlightField,
     ActionButton,
+    MarkdownField,
     Error
   },
   props: {
@@ -100,7 +102,7 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.FORM_RECORD, BLOCK_TYPE.CARD_SET, BLOCK_TYPE.MARKDOWN_FIELD].includes(this.block.type)
+      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.FORM_RECORD, BLOCK_TYPE.CARD_SET].includes(this.block.type)
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
@@ -141,6 +143,9 @@ export default Vue.extend({
         // case BLOCK_TYPE.MAP_SET:
         // case BLOCK_TYPE.MAP_FIELD:
           // className += 'lck-map-set'
+        case BLOCK_TYPE.MARKDOWN_FIELD:
+          className += 'lck-markdown-field'
+          break
         default:
           className += 'lck-block-default'
       }

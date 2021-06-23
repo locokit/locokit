@@ -119,7 +119,7 @@ a {
   display: block;
   padding: .75rem 0 .75rem 2rem;
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
 }
 
 .router-link-exact-active {
@@ -128,8 +128,8 @@ a {
 
 a:hover,
 .router-link-exact-active {
-  background-color: var(--text-color);
-  color: var(--text-color-active) !important;
+  background-color: var(--sidebar-text-color);
+  color: var(--sidebar-text-color-active) !important;
 }
 
 .action-button {
@@ -138,14 +138,14 @@ a:hover,
 }
 
 .action-button:hover {
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   background-color: var(--primary-color-darken);
   transition-duration: 0.5s;
 }
 
 a:hover .action-button:hover ,
 .router-link-exact-active .action-button:hover {
-  background-color: var(--text-color-active);
+  background-color: var(--sidebar-text-color-active);
 }
 
 .action-set {
@@ -158,11 +158,11 @@ a:hover .action-button:hover ,
   position: relative;
   display: flex;
   align-items: center;
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
 }
 
 .p-accordion-content a:visited {
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
 }
 
 .p-accordion-content {
@@ -198,14 +198,14 @@ a:hover .action-button:hover ,
 <style>
 .lck-sidebar.p-accordion .p-accordion-header .p-accordion-header-link {
   transition: box-shadow 0.15s;
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   border: unset;
   background: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled):not(.p-highlight):hover .p-accordion-header-link {
-  color: var(--text-color-active);
+  color: var(--sidebar-text-color-active);
   border: unset;
-  background-color: var(--text-color);
+  background-color: var(--sidebar-text-color);
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
   color: var(--primary-color);
@@ -215,11 +215,11 @@ a:hover .action-button:hover ,
   color: var(--primary-color);
   border: unset;
   background: unset;
-  background-color: var(--text-color);
+  background-color: var(--sidebar-text-color);
 }
 .lck-sidebar.p-accordion .p-accordion-content {
   padding: unset;
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   border: unset;
   background: unset;
 }
@@ -227,18 +227,18 @@ a:hover .action-button:hover ,
   border: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   border: unset;
   background: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   border: unset;
   background: unset;
 }
 .lck-sidebar.p-accordion .p-accordion-content {
   padding: unset;
-  color: var(--text-color);
+  color: var(--sidebar-text-color);
   border: unset;
   background: unset;
 }

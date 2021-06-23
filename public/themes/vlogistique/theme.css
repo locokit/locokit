@@ -31,9 +31,9 @@
   /* Sidebar */
   --sidebar-background-color: var(--primary-color);
   /* Sidebar text-color, sidebar active route background, used for paginator */
-  --text-color: rgba(255, 255, 255, 0.87) !important;
+  --sidebar-text-color: rgba(255, 255, 255, 0.87) !important;
   /* Used */
-  --text-color-active: var(--primary-color) !important;
+  --sidebar-text-color-active: var(--primary-color) !important;
 
   /* Internal nav background color */
   --popeyebar-background-color: rgba(255, 255, 255, 0.9);
@@ -63,21 +63,21 @@
   --accordion-header-link-padding: 10rem .5rem !important;
 
   /* Main Header */
-
   --header-height: 4rem !important;
   --header-background-color: #ffffff !important;
   --header-border-bottom-color: #ebebeb !important;
 
   /* Toolbar over table */
-
   --toolbar-background-color: #ffffff !important;
   --toolbar-border-bottom-color: #eeeeee !important;
 
   /* Background color, main content */
-
   --background-color: #fafafa;
 
   /* Use on markdown */
   --background-color-light: #ffffff;
 
+  /* Todo: Gift for hga */
+  /* Text Color (Markdown, Title, Paragraph */
+  --text-color: #495057;
 }
