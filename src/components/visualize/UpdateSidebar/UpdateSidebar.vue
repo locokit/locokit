@@ -92,11 +92,11 @@ export default {
     },
     container: {
       type: Object as PropType<LckContainer>,
-      default: () => ({})
+      default: () => (new LckContainer())
     },
     block: {
       type: Object as PropType<LckBlockExtended>,
-      default: () => ({})
+      default: () => (new LckBlockExtended())
     },
     page: {
       type: Object,
