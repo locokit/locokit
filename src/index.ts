@@ -54,6 +54,11 @@ export enum AGGREGATE_FUNCTION {
   COUNT = 'COUNT',
 }
 
+export enum TYPE_PAGE {
+  PAGEDETAIL = 'PageDetail',
+  PAGE = 'Page',
+}
+
 export enum USER_PROFILE {
   ADMIN = 'ADMIN',
   SUPERADMIN = 'SUPERADMIN',
@@ -236,9 +241,14 @@ export interface ActionButtonSettings {
   processId?: string; // uuid trigger
   pageDetailId?: string; // uuid pageDetail
   pageRedirectId?: string; // uuid page detail
+  typePageTo: TYPE_PAGE; // Type page, needed for router
   pageQueryFieldId?: string; // uuid from a relation_between_table column, allows to get data form another table
   displayFieldId?: string; // field id to compare with conditionalDisplayFieldValue
   displayFieldValue?: boolean; // value to compare to display block (only boolean for now)
+  notificationSuccessTitle?: string; // Message title display in the notification when action succeed
+  notificationSuccessDescription?: string; // Message description display in the notification when action succeed
+  notificationErrorTitle?: string; // Message title display in the notification when action failed
+  notificationErrorDescription?: string; // Message title display in the notification when action failed
 }
 
 export interface BlockActionButton extends Block {
