@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.2.7**
+
+**Feature**
+* improve ActionButton settings: add props to have custom content notification
+
 **v0.2.6**
 
 **Breaking Changes:**
