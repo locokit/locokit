@@ -158,6 +158,7 @@
      />
    </div>
    <p-panel
+     v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
      :header="$t('pages.workspace.block.actionButton.notification.settings')"
      :toggleable="true"
      :collapsed="true"
