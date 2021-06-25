@@ -1,5 +1,604 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid lck-update-block-form lck-color-content p-text-bold"
+  >
+    <div
+      class="p-field "
+    >
+      <label
+        for="blockTitleField"
+      >
+        Block title
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="blockTitleField"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="blockTypeField"
+      >
+        Block type
+      </label>
+       
+      <div
+        class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+        id="blockTypeField"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            aria-haspopup="listbox"
+            readonly="readonly"
+            type="text"
+          />
+        </div>
+         
+        <!---->
+         
+        <span
+          class="p-dropdown-label p-inputtext"
+        >
+          
+            ActionButton
+        
+        </span>
+         
+        <!---->
+         
+        <div
+          aria-haspopup="listbox"
+          class="p-dropdown-trigger"
+          role="button"
+        >
+          <span
+            class="p-dropdown-trigger-icon pi pi-chevron-down"
+          />
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockElevation"
+      >
+        
+      Elevation
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div>
+      <div
+        class="p-field"
+      >
+        <label
+          for="labelButton"
+        >
+          Button label
+        </label>
+         
+        <input
+          class="p-inputtext p-component p-filled"
+          id="labelButton"
+        />
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="classButton"
+        >
+          Style du bouton
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+          id="classButton"
+          required="required"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext"
+          >
+            <div>
+              
+           Primary Color
+         
+            </div>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="icon"
+        >
+          Button Icon
+        </label>
+         
+        <input
+          class="p-inputtext p-component p-filled"
+          id="icon"
+        />
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="action"
+        >
+          Button action
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+          id="action"
+          required="required"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext"
+          >
+            <div>
+              
+           Trigger an action/process
+         
+            </div>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="p-field action-trigger"
+      >
+        <label
+          for="processId"
+        >
+          Action/Process name
+        </label>
+         
+        <input
+          class="p-inputtext p-component"
+          id="processId"
+          required="required"
+        />
+         
+        <span>
+          Redirection to page
+        </span>
+         
+        <div>
+          <div
+            class="p-field-radiobutton"
+          >
+            <div
+              class="p-radiobutton p-component p-radiobutton-checked"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  id="Page"
+                  name="Page"
+                  type="radio"
+                  value="Page"
+                />
+              </div>
+               
+              <div
+                aria-checked="true"
+                class="p-radiobutton-box p-highlight"
+                role="radio"
+              >
+                <div
+                  class="p-radiobutton-icon"
+                />
+              </div>
+            </div>
+             
+            <label
+              for="Page"
+            >
+              Visible page
+            </label>
+          </div>
+           
+          <div
+            class="p-field-radiobutton"
+          >
+            <div
+              class="p-radiobutton p-component"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  id="PageDetail"
+                  name="PageDetail"
+                  type="radio"
+                  value="PageDetail"
+                />
+              </div>
+               
+              <div
+                class="p-radiobutton-box"
+                role="radio"
+              >
+                <div
+                  class="p-radiobutton-icon"
+                />
+              </div>
+            </div>
+             
+            <label
+              for="PageDetail"
+            >
+              Hidden page
+            </label>
+          </div>
+        </div>
+         
+        <label
+          for="pageRedirectId"
+        >
+          Page name
+        </label>
+         
+        <input
+          class="p-inputtext p-component"
+          id="pageRedirectId"
+        />
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockSettingsTableView"
+        >
+          View to display
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_50_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+          dropdown="true"
+          id="blockSettingsTableView"
+          suggestions=""
+          value="[object Object]"
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_50_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="blockSettingsTableView"
+            placeholder="Start typing for suggestions"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="displayFieldId"
+        >
+          Display the button according to this field
+        </label>
+         
+        <input
+          class="p-inputtext p-component"
+          id="displayFieldId"
+        />
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="displayFieldConditionQuery"
+        >
+          Display the button if the value is equivalent to
+        </label>
+         
+        <input
+          class="p-inputtext p-component p-filled"
+          id="displayFieldConditionQuery"
+        />
+      </div>
+       
+      <div
+        class="p-mb-4 p-panel p-component p-panel-toggleable"
+      >
+        <div
+          class="p-panel-header"
+        >
+          <span
+            class="p-panel-title"
+            id="pv_id_51_header"
+          >
+            Notification settings
+          </span>
+           
+          <div
+            class="p-panel-icons"
+          >
+             
+            <button
+              aria-controls="pv_id_51_content"
+              class="p-panel-header-icon p-panel-toggler p-link"
+              id="pv_id_51_header"
+              type="button"
+            >
+              <span
+                class="pi pi-plus"
+              />
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </div>
+         
+        <div
+          aria-labelledby="pv_id_51_header"
+          class="p-toggleable-content"
+          id="pv_id_51_content"
+          role="region"
+          style="display: none;"
+        >
+          <div
+            class="p-panel-content"
+          >
+            <p>
+              A notification will be displayed when a user clicks on the button. You can change the content depending on whether the action worked or failed.
+            </p>
+             
+            <div
+              class="lck-color-content p-text-bold"
+            >
+              <p
+                class="lck-separator"
+              >
+                When the action has succeed:
+              </p>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="notificationSuccessTitle"
+                >
+                  Notification title
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component p-filled"
+                  id="notificationSuccessTitle"
+                />
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="notificationSuccessDescription"
+                >
+                  Notification description
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component p-filled"
+                  id="notificationSuccessDescription"
+                />
+              </div>
+               
+              <p
+                class="lck-separator"
+              >
+                When the action has failed:
+              </p>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="notificationErrorTitle"
+                >
+                  Notification title
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component"
+                  id="notificationErrorTitle"
+                />
+              </div>
+               
+              <div
+                class="p-field "
+              >
+                <label
+                  for="notificationErrorDescription"
+                >
+                  Notification description
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component"
+                  id="notificationErrorDescription"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story 1`] = `
 <div
   style="height: 100%;"
@@ -890,19 +1489,123 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
       </div>
     </div>
      
-    <div
-      class="p-field"
-    >
-      <label
-        for="blockSettingsContent"
+    <div>
+      <div
+        class="p-field"
       >
-        Content
-      </label>
+        <label
+          for="blockSettingsContent"
+        >
+          Content
+        </label>
+         
+        <textarea
+          class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
+          id="blockSettingsContent"
+        />
+      </div>
        
-      <textarea
-        class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
-        id="blockSettingsContent"
-      />
+      <div
+        class="p-field"
+      >
+        <label
+          for="textColor"
+        >
+          Text color
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+          id="textColor"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            <span>
+              
+          Select an option
+        
+            </span>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          for="textAlign"
+        >
+          Text position
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+          id="textAlign"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            <span>
+              
+          Select an option
+        
+            </span>
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+      </div>
     </div>
      
     <div

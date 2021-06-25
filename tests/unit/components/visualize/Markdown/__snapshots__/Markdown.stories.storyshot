@@ -5,6 +5,7 @@ exports[`storyshots components/visualize/Markdown default 1`] = `
   style="height: 100%;"
 >
   <div
+    class=""
     title="Futur Markdown"
     type="Markdown"
   >
@@ -22,6 +23,7 @@ exports[`storyshots components/visualize/Markdown with a markdown demo 1`] = `
   style="height: 100%;"
 >
   <div
+    class=""
     title="Futur Markdown"
     type="Markdown"
   >

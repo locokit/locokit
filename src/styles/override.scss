@@ -169,3 +169,8 @@ a.no-decoration-link {
 .p-card .p-card-title {
   font-weight: normal;
 }
+
+// Toast
+.p-toast {
+  z-index: 1101 !important;
+}

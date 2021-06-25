@@ -457,6 +457,15 @@ export default {
           this.$set(block, 'content', { data: [row] })
           break
         }
+        case BLOCK_TYPE.MARKDOWN_FIELD: {
+          const rows = await lckHelpers.retrieveViewData(
+            block.definition.id,
+            this.groupId
+          )
+          row = rows.data[0]
+          this.$set(block, 'content', { data: [row] })
+          break
+        }
       }
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
@@ -970,7 +979,19 @@ export default {
         }
       })
     },
-    async onTriggerProcess (block, { processId, typePageTo, pageRedirectId, pageQueryFieldId, rowData = null }) {
+    async onTriggerProcess (
+      block,
+      {
+        processId,
+        typePageTo,
+        pageRedirectId,
+        pageQueryFieldId,
+        notificationSuccessTitle,
+        notificationSuccessDescription,
+        notificationErrorTitle,
+        notificationErrorDescription,
+        rowData = null
+      }) {
       const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
         this.$set(block, 'loading', true)
@@ -984,15 +1005,15 @@ export default {
         if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
           this.$toast.add({
             severity: 'error',
-            summary: this.$t('components.processPanel.failedNewRun'),
-            detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
+            summary: notificationErrorTitle || this.$t('components.processPanel.failedNewRun'),
+            detail: notificationErrorDescription || (res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic')),
             life: 3000
           })
         } else {
           this.$toast.add({
             severity: 'success',
-            summary: this.$t('components.processPanel.successNewRun'),
-            detail: this.$t('components.processPanel.successNewRun'),
+            summary: notificationSuccessTitle || this.$t('components.processPanel.successNewRun'),
+            detail: notificationSuccessDescription || this.$t('components.processPanel.successNewRun'),
             life: 3000
           })
 

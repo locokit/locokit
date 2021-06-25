@@ -1,7 +1,7 @@
 <template>
  <div>
     <div class="p-field">
-      <label for="labelButton">{{ $t('pages.workspace.block.labelButton') }}</label>
+      <label for="labelButton">{{ $t('pages.workspace.block.actionButton.labelButton') }}</label>
       <p-input-text
         id="labelButton"
         :value="label"
@@ -9,7 +9,7 @@
       />
     </div>
     <div class="p-field">
-      <label for="classButton">{{ $t('pages.workspace.block.classButton.title') }}</label>
+      <label for="classButton">{{ $t('pages.workspace.block.actionButton.classButton.title') }}</label>
       <p-dropdown
         id="classButton"
         :value="classButton"
@@ -23,19 +23,19 @@
       >
         <template #value="slotProps">
           <div v-if="slotProps.value">
-            {{ $t(`pages.workspace.block.classButton.${slotProps.value}`) }}
+            {{ $t(`pages.workspace.block.actionButton.classButton.${slotProps.value}`) }}
           </div>
           <span v-else>
-            {{slotProps.placeholder}}
+            {{ slotProps.placeholder }}
           </span>
         </template>
         <template #option="slotProps">
-          {{ $t(`pages.workspace.block.classButton.${slotProps.option.value}`) }}
+          {{ $t(`pages.workspace.block.actionButton.classButton.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
     </div>
     <div class="p-field">
-      <label for="icon">{{ $t('pages.workspace.block.icon') }}</label>
+      <label for="icon">{{ $t('pages.workspace.block.actionButton.icon') }}</label>
       <p-input-text
         id="icon"
         :value="icon"
@@ -43,7 +43,7 @@
       />
     </div>
     <div class="p-field">
-      <label for="action">{{ $t('pages.workspace.block.action.title') }}</label>
+      <label for="action">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
       <p-dropdown
         id="action"
         :value="action"
@@ -57,14 +57,14 @@
       >
         <template #value="slotProps">
           <div v-if="slotProps.value">
-            {{ $t(`pages.workspace.block.action.${slotProps.value}`) }}
+            {{ $t(`pages.workspace.block.actionButton.trigger.${slotProps.value}`) }}
           </div>
           <span v-else>
-            {{slotProps.placeholder}}
+            {{ slotProps.placeholder }}
           </span>
         </template>
         <template #option="slotProps">
-          {{ $t(`pages.workspace.block.action.${slotProps.option.value}`) }}
+          {{ $t(`pages.workspace.block.actionButton.trigger.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
     </div>
@@ -72,14 +72,14 @@
       class="p-field action-trigger"
       v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
     >
-      <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
+      <label for="processId">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
       <p-input-text
         id="processId"
         :value="processId"
         @input="$emit('update:processId', $event)"
         required
       />
-      <span>{{ $t('pages.workspace.block.typePageTo') }}</span>
+      <span>{{ $t('pages.workspace.block.actionButton.typePageTo') }}</span>
       <div>
         <div class="p-field-radiobutton">
           <p-radio-button
@@ -89,7 +89,7 @@
             :modelValue="typePageTo"
             @input="$emit('update:typePageTo', $event)"
           />
-          <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.page')  }}</label>
+          <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.actionButton.page')  }}</label>
         </div>
         <div class="p-field-radiobutton">
           <p-radio-button
@@ -99,10 +99,10 @@
             :modelValue="typePageTo"
             @input="$emit('update:typePageTo', $event)"
           />
-          <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
+          <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.actionButton.pageDetail')  }}</label>
         </div>
       </div>
-      <label for="pageRedirectId">{{ $t('pages.workspace.block.pageId') }}</label>
+      <label for="pageRedirectId">{{ $t('pages.workspace.block.actionButton.pageId') }}</label>
       <p-input-text
         id="pageRedirectId"
         :value="pageRedirectId"
@@ -111,7 +111,7 @@
     </div>
    <div v-else>
      <div class="p-field">
-       <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+       <label for="pageDetailId">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
        <p-input-text
          id="pageDetailId"
          :value="pageDetailId"
@@ -120,17 +120,17 @@
        />
      </div>
      <div class="p-field">
-       <label for="pageQueryFieldId">{{ $t('pages.workspace.block.pageQueryFieldId') }}</label>
+       <label for="pageQueryFieldId">{{ $t('pages.workspace.block.actionButton.pageQueryFieldId') }}</label>
        <p-input-text
          id="pageQueryFieldId"
          :value="pageQueryFieldId"
          @input="$emit('update:pageQueryFieldId', $event)"
        />
-       <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.helpPageQueryFieldId') }}</small>
+       <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.actionButton.helpPageQueryFieldId') }}</small>
      </div>
    </div>
    <div class="p-field">
-     <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+     <label for="blockSettingsTableView">{{ $t('pages.workspace.block.actionButton.tableView') }}</label>
      <lck-autocomplete
        id="blockSettingsTableView"
        field="text"
@@ -142,7 +142,7 @@
      />
    </div>
    <div class="p-field">
-     <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
+     <label for="displayFieldId">{{ $t('pages.workspace.block.actionButton.displayFieldId') }}</label>
      <p-input-text
        id="displayFieldId"
        :value="displayFieldId"
@@ -150,13 +150,60 @@
      />
    </div>
    <div class="p-field">
-     <label for="displayFieldConditionQuery">{{ $t('pages.workspace.block.options.displayFieldConditionQuery') }}</label>
+     <label for="displayFieldConditionQuery">{{ $t('pages.workspace.block.actionButton.displayFieldConditionQuery') }}</label>
      <p-input-text
        id="displayFieldConditionQuery"
        :value="displayFieldConditionQuery"
        @input="$emit('update:displayFieldConditionQuery', $event)"
      />
    </div>
+   <p-panel
+     v-if="action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
+     :header="$t('pages.workspace.block.actionButton.notification.settings')"
+     :toggleable="true"
+     :collapsed="true"
+     class="p-mb-4"
+   >
+     <p>{{ $t('pages.workspace.block.actionButton.notification.explain') }}</p>
+     <div
+      class="lck-color-content p-text-bold"
+     >
+       <p class="lck-separator">{{ $t('pages.workspace.block.actionButton.notification.success.info') }}</p>
+       <div class="p-field">
+         <label for="notificationSuccessTitle">{{ $t('pages.workspace.block.actionButton.notification.success.title') }}</label>
+         <p-input-text
+           id="notificationSuccessTitle"
+           :value="notificationSuccessTitle"
+           @input="$emit('update:notificationSuccessTitle', $event)"
+         />
+       </div>
+       <div class="p-field">
+         <label for="notificationSuccessDescription">{{ $t('pages.workspace.block.actionButton.notification.success.description') }}</label>
+         <p-input-text
+           id="notificationSuccessDescription"
+           :value="notificationSuccessDescription"
+           @input="$emit('update:notificationSuccessDescription', $event)"
+         />
+       </div>
+       <p class="lck-separator">{{ $t('pages.workspace.block.actionButton.notification.error.info') }}</p>
+       <div class="p-field">
+         <label for="notificationErrorTitle">{{ $t('pages.workspace.block.actionButton.notification.error.title') }}</label>
+         <p-input-text
+           id="notificationErrorTitle"
+           :value="notificationErrorTitle"
+           @input="$emit('update:notificationErrorTitle', $event)"
+         />
+       </div>
+       <div class="p-field ">
+         <label for="notificationErrorDescription">{{ $t('pages.workspace.block.actionButton.notification.error.description') }}</label>
+         <p-input-text
+           id="notificationErrorDescription"
+           :value="notificationErrorDescription"
+           @input="$emit('update:notificationErrorDescription', $event)"
+         />
+       </div>
+     </div>
+   </p-panel>
   </div>
 </template>
 
@@ -176,13 +223,10 @@ import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
 import RadioButton from 'primevue/radiobutton'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import Dropdown from 'primevue/dropdown'
+import Panel from 'primevue/panel'
 
-type Options = {
-  displayFieldId: string|null;
-  displayFieldConditionQuery: boolean|null;
-}
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 export default {
   name: 'ActionButtonSettingsFields',
@@ -190,6 +234,7 @@ export default {
     'lck-autocomplete': AutoComplete,
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
+    'p-panel': Vue.extend(Panel),
     'p-dropdown': Vue.extend(Dropdown)
   },
   props: {
@@ -226,8 +271,17 @@ export default {
     displayFieldConditionQuery: {
       type: String
     },
-    options: {
-      type: Object as PropType<Options>
+    notificationSuccessTitle: {
+      type: String
+    },
+    notificationSuccessDescription: {
+      type: String
+    },
+    notificationErrorTitle: {
+      type: String
+    },
+    notificationErrorDescription: {
+      type: String
     },
     tableViewDefinition: {
       type: Object as Vue.PropType<LckTableView>
@@ -271,14 +325,28 @@ export default {
   > div {
     display: flex;
     flex-direction: row;
+
     > div {
       padding-right: 1rem;
     }
   }
+
   > span {
     display: block;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+  }
+}
+
+.lck-separator {
+  margin-top: 1rem;
+
+  &:after {
+    display: block;
+    width: 30px;
+    height: 4px;
+    content: "";
+    background-color: var(--primary-color);
   }
 }
 </style>

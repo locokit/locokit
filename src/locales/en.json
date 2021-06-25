@@ -37,7 +37,7 @@
       "noDefinitionAvailable": "No definition available. Please check your block's configuration.",
       "detail": "Detail row",
       "addNewRow": "Add new row",
-      "notifAction": {
+      "notifWarningRedirectionAction": {
         "detail": "This redirection type action can only be done from visualisation.",
         "summary": "Unable to perform this action"
       },
@@ -412,11 +412,11 @@
           "icon": "Icon",
           "class": {
             "title": "Icon style",
-            "danger": "Danger",
-            "warning": "Warning",
-            "success": "Success",
-            "primary": "Primary Color",
-            "secondary": "Secondary Color"
+            "danger":  "@:common.colorClass.danger",
+            "warning":  "@:common.colorClass.warning",
+            "success":  "@:common.colorClass.success",
+            "primary":  "@:common.colorClass.primary",
+            "secondary":  "@:common.colorClass.secondary"
           },
           "order": "Order"
         }
@@ -442,32 +442,56 @@
         "tableView": "View to display",
         "elevation": "Elevation",
         "elevationExplain": "Is the block displayed with an elevation",
-        "labelButton": "Button label",
-        "classButton": {
-          "title": "Button style",
-          "danger":  "@:pages.workspace.container.anchor.class.danger",
-          "warning":  "@:pages.workspace.container.anchor.class.warning",
-          "success":  "@:pages.workspace.container.anchor.class.success",
-          "primary":  "@:pages.workspace.container.anchor.class.primary",
-          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        "markdown": {
+          "textAlign": "Text position",
+          "textColor": "Text color"
         },
-        "icon": "Button Icon",
-        "action": {
-          "title": "Button action",
-          "page_detail_to": "Go to page",
-          "process_trigger": "Trigger an action/process"
+        "markdownField": {
+          "textAlign": "@:pages.workspace.block.markdown.textAlign",
+          "textColor": "@:pages.workspace.block.markdown.textColor",
+          "displayField": "Display text of this field"
         },
-        "processId": "Action/Process name",
-        "pageDetailId": "Hidden Page name",
-        "typePageTo": "Redirection to page",
-        "pageId": "Page name",
-        "page": "Visible paage",
-        "pageDetail": "Hidden page",
-        "pageQueryFieldId": "Column name related to page",
-        "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
-        "options": {
+        "actionButton": {
+          "labelButton": "Button label",
+          "classButton": {
+            "title": "Style du bouton",
+            "danger":  "@:common.colorClass.danger",
+            "warning":  "@:common.colorClass.warning",
+            "success":  "@:common.colorClass.success",
+            "primary":  "@:common.colorClass.primary",
+            "secondary":  "@:common.colorClass.secondary"
+          },
+          "icon": "Button Icon",
+          "trigger": {
+            "type": "Button action",
+            "process_trigger": "Trigger an action/process",
+            "page_detail_to": "Go to page"
+          },
+          "processId": "Action/Process name",
+          "typePageTo": "Redirection to page",
+          "page": "Visible page",
+          "pageDetail": "Hidden page",
+          "pageId": "Page name",
+          "pageDetailId": "Hidden Page name",
+          "pageQueryFieldId": "Column name related to page",
+          "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
+          "tableView": "View to display",
           "displayFieldId": "Display the button according to this field",
-          "displayFieldConditionQuery": "Display the button if the value is equivalent to"
+          "displayFieldConditionQuery": "Display the button if the value is equivalent to",
+          "notification": {
+            "settings": "Notification settings",
+            "explain": "A notification will be displayed when a user clicks on the button. You can change the content depending on whether the action worked or failed.",
+            "success": {
+              "info": "When the action has succeed:",
+              "title": "Notification title",
+              "description": "Notification description"
+            },
+            "error": {
+              "info": "When the action has failed:",
+              "title": "Notification title",
+              "description": "Notification description"
+            }
+          }
         },
         "detailPage": "Detail page",
         "addGeoDataSrc": "Add a new geographic data source"
@@ -533,6 +557,9 @@
       "deleteColumnModal": {
         "deleteColumn": "Delete column",
         "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"
+      },
+      "displayUuid": {
+        "uuid": "UUID: "
       }
     },
     "admin": {
@@ -678,6 +705,20 @@
   },
   "common": {
     "loading": "Loading…",
-    "logout": "Log out"
+    "logout": "Log out",
+    "colorClass": {
+      "danger": "Danger",
+      "warning": "Warning",
+      "success": "Success",
+      "primary": "Primary Color",
+      "secondary": "Secondary Color",
+      "black": "black"
+    },
+    "alignClass": {
+      "left": "Left",
+      "right": "Right",
+      "center": "Center",
+      "justify": "Justify"
+    }
   }
 }

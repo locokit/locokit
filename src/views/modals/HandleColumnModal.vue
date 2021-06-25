@@ -11,7 +11,9 @@
     @close="closeHandleColumnModal"
   >
     <div v-if="columnToHandle" class="p-mb-3">
-      UUID : {{ columnToHandle.id }}
+      <label>
+        {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ columnToHandle.id }}
+      </label>
     </div>
     <div class="p-field">
       <label for="column-name">
@@ -298,11 +300,11 @@ export default {
 }
 
 /** Need these two rules to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
-/deep/ .monaco-editor .overflow-guard {
+::v-deep .monaco-editor .overflow-guard {
   position: static;
 }
 
-/deep/ .monaco-editor .suggest-details-container {
+::v-deep .monaco-editor .suggest-details-container {
   position: absolute !important;
   left: -1px !important;
   top: -1px !important;

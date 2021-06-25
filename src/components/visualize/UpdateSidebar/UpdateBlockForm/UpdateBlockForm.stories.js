@@ -108,6 +108,27 @@ const mapBlock = {
   definition: { [tableViewDefinition.id]: tableViewDefinition }
 }
 
+const actionButtonBlock = {
+  id: '1',
+  title: 'my action buuton',
+  type: BLOCK_TYPE.ACTION_BUTTON,
+  settings: {
+    id: 'd50ae471-fc89-4960-97f1-062736586237',
+    icon: 'bi bi-check-circle',
+    label: 'My Action Block',
+    action: 'process_trigger',
+    typePageTo: 'Page',
+    classButton: 'primary',
+    pageDetailId: '',
+    displayFieldId: '',
+    displayFieldConditionQuery: 'true',
+    notificationSuccessTitle: "It's done!",
+    notificationSuccessDescription: "This action has succeed!",
+    notificationErrorTitle: '',
+    notificationErrorDescription: ''
+  }
+}
+
 export const newBlockStory = () => ({
   components: { UpdateBlockForm },
   data () {
@@ -198,4 +219,14 @@ export const mapBlockStory = () => ({
     }
   },
   template: '<UpdateBlockForm :block="block" :relatedChapterPages="relatedChapterPages" />'
+})
+
+export const actionButtonBlockStory = () => ({
+  components: { UpdateBlockForm },
+  data () {
+    return {
+      block: actionButtonBlock
+    }
+  },
+  template: '<UpdateBlockForm :block="block" />'
 })
