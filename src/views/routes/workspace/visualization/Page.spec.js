@@ -426,18 +426,22 @@ describe('Page', () => {
           expect(wrapper.vm.page.containers[1].blocks[1]).toMatchObject(mockPages['1'].containers[0].blocks[0])
         })
         it('Get the right properties for the TableSet block', () => {
+          const definitionId = wrapper.vm.page.containers[1].blocks[0].settings.id
           expect(wrapper.vm.page.containers[1].blocks[0]).toMatchObject(mockPages['1'].containers[0].blocks[1])
-          expect(wrapper.vm.page.containers[1].blocks[0].definition).toStrictEqual(mockTableViewDefinitions['1'])
-          expect(wrapper.vm.page.containers[1].blocks[0].content).toStrictEqual(mockTableViewContents['1'])
+          expect(wrapper.vm.sources[definitionId].definition).toStrictEqual(mockTableViewDefinitions['1'])
+          expect(wrapper.vm.sources[definitionId].content).toStrictEqual(mockTableViewContents['1'])
         })
         it('Get the right properties for the map block', () => {
+          expect.assertions(3)          
           expect(wrapper.vm.page.containers[1].blocks[2]).toMatchObject(mockPages['1'].containers[0].blocks[2])
-          expect(wrapper.vm.page.containers[1].blocks[2].definition).toStrictEqual({
+          const blockDefinition = wrapper.vm.getBlockDefinition(wrapper.vm.page.containers[1].blocks[2])
+          expect(blockDefinition).toStrictEqual({
             1: mockTableViewDefinitions['1'],
             2: mockTableViewDefinitions['2'],
             3: mockTableViewDefinitions['3']
           })
-          expect(wrapper.vm.page.containers[1].blocks[2].content).toStrictEqual({
+          const blockContent = wrapper.vm.getBlockContent(wrapper.vm.page.containers[1].blocks[2])
+          expect(blockContent).toStrictEqual({
             1: mockTableViewContents['1'].data,
             2: mockTableViewContents['2'].data,
             3: mockTableViewContents['3'].data
@@ -447,6 +451,7 @@ describe('Page', () => {
     })
     describe('Load the specified page without any containers', () => {
       it('Get the right containers', async () => {
+        expect.assertions(1)
         const wrapper = await shallowMount(Page, globalComponentParams('2'))
         expect(wrapper.vm.page.containers).toStrictEqual([])
       })
@@ -797,7 +802,12 @@ describe('Page', () => {
       })
 
       describe('Update an existing block', () => {
-        const blockToEdit = { id: secondDisplayedBlock.id, title: 'newBlockName', type: 'MARKDOWN', settings: { content: 'My new content' } }
+        const blockToEdit = {
+          id: secondDisplayedBlock.id,
+          title: 'newBlockName',
+          type: 'MARKDOWN',
+          settings: { content: 'My new content' } 
+        }
         let spyOnBlockPatch
 
         beforeAll(() => {
@@ -825,7 +835,6 @@ describe('Page', () => {
         it('Display the update container sidebar with the specified container and table view block when the update block event is emitted from the block component', async () => {
           await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
           expect(containerSidebarWrapper.props('block').definition).toStrictEqual(mockTableViewDefinitions['1'])
-          expect(containerSidebarWrapper.props('block').content).toStrictEqual(mockTableViewContents['1'])
         })
 
         it('Display the update container sidebar with the specified container and detail view block when the update block event is emitted from the block component', async () => {
@@ -837,6 +846,7 @@ describe('Page', () => {
           await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit })
 
+          expect.assertions(2)
           // Send API request
           expect(spyOnBlockPatch).toHaveBeenCalledWith(
             secondDisplayedBlock.id,
@@ -852,10 +862,10 @@ describe('Page', () => {
         })
 
         it('Refresh the block after updating if is necessary', async () => {
-          const spyOnLoadBlockContentAndDefinition = jest.spyOn(wrapper.vm, 'loadBlockContentAndDefinition')
+          const spyOnRefreshDefinitionAndContent = jest.spyOn(wrapper.vm, 'refreshDefinitionAndContent')
           await wrapper.findAllComponents(Block).at(1).vm.$emit('update-block')
           await containerSidebarWrapper.vm.$emit('update-block', { blockToEdit, blockRefreshRequired: true })
-          expect(spyOnLoadBlockContentAndDefinition).toHaveBeenCalled()
+          expect(spyOnRefreshDefinitionAndContent).toHaveBeenCalled()
         })
 
         it('Display a toast if an error is occured', async () => {

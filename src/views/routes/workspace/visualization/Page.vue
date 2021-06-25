@@ -355,6 +355,18 @@ export default {
           })
         }
         this.sources[tableViewId].blocks.push(blockId)
+        /**
+         * If the source already exist,
+         * and if the block is not a geo one,
+         * we set the itemsPerPage to the default (20).
+         * This means that, if a source is shared between a Table / Card / ... Set
+         * AND a MapSet,
+         * the pagination is enabled. 
+         * The map will only display the paginated result.
+         * If we need to have "more" results in the Map (all for examples),
+         * the map need to have its own source, so not the same TableView
+         */
+         if (!isGeoBlock(blockType)) this.sources[tableViewId].options.itemsPerPage = 20
       } else {
         this.$set(this.sources, tableViewId, {
           definition: null,
@@ -420,15 +432,34 @@ export default {
         this.$set(this.sources[tv.id], 'definition', tv)
       })
     },
+    /**
+     * Load all content sources
+     */
     async loadSourcesContents () {
       await Promise.all(Object.keys(this.sources).map(tableViewId => this.loadSourceContent(tableViewId)))
     },
+    /**
+     * Load a single content source from its tableViewId
+     * Depending it's a multi or mono source, 
+     * or if a {rowId} is in the query params,
+     * we use a find or get method
+     */
     async loadSourceContent (tableViewId) {
       const currentSource = this.sources[tableViewId]
       if (this.$route.query.rowId) {
         currentSource.options.filters.rowId = this.$route.query.rowId
       }
-      if (currentSource.multi) {
+      if (!currentSource.multi && this.$route.query.rowId) {
+        currentSource.content = {
+          data: [
+            await lckServices.tableRow.get(this.$route.query.rowId, {
+              query: {
+                $lckGroupId: this.groupId
+              }
+            })
+          ]
+        }
+      } else {
         currentSource.content = await lckHelpers.retrieveViewData(
           tableViewId,
           this.groupId,
@@ -437,27 +468,6 @@ export default {
           currentSource.options.sort,
           currentSource.options.filters
         )
-      } else {
-        if (this.$route.query.rowId) {
-          currentSource.content = {
-            data: [
-              await lckServices.tableRow.get(this.$route.query.rowId, {
-                query: {
-                  $lckGroupId: this.groupId
-                }
-              })
-            ]
-          }
-        } else {
-          currentSource.content = await lckHelpers.retrieveViewData(
-            tableViewId,
-            this.groupId,
-            currentSource.options.page * currentSource.options.itemsPerPage,
-            currentSource.options.itemsPerPage,
-            currentSource.options.sort,
-            currentSource.options.filters
-          )
-        }
       }
     },
     async refreshDefinitionAndContent () {
@@ -472,7 +482,7 @@ export default {
        * definition is a Record<tableViewId, LckTableView>
        */
       if (isGeoBlock(block.type)) {
-        const definitions = block.settings.sources.map(mapSource => this.sources[mapSource.id].definition)
+        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id].definition) || []
         return objectFromArray(definitions, 'id')
       }
       if (!block.settings.id) return null
@@ -484,7 +494,22 @@ export default {
         case BLOCK_TYPE.MAP_SET:
           // The result in an object whose the keys are the views ids and the values are the corresponding rows
           return block.settings.sources.reduce(
-            (allContents, mapSource) => Object.assign(allContents, { [mapSource.id]: this.sources[mapSource.id].content || [] }),
+            (allContents, mapSource) => {
+              /**
+               * To manage shared sources between a MapSet and a TableSet or other set,
+               * we need to check if the source content is an array (source is only used by MapSet)
+               * or an { total, limit, skip, data } object (shared source)
+               * If it's an object, we return data (paginated array), else only the content (already an array)
+               */
+              const sourceContent = this.sources[mapSource.id].content
+              let currentContent = []
+              if (Array.isArray(sourceContent)) {
+                currentContent = sourceContent
+              } else if (sourceContent?.data) {
+                currentContent = sourceContent.data
+              }
+              return Object.assign(allContents, { [mapSource.id]: currentContent })
+            },
             {}
           )
         case BLOCK_TYPE.TABLE_SET:
@@ -857,12 +882,12 @@ export default {
       this.currentContainerToEdit = containerToEdit
     },
     onBlockEditClick (containerToEdit, blockToEdit) {
-      console.log(containerToEdit, blockToEdit)
       this.currentContainerToEdit = containerToEdit
       this.currentBlockToEdit = {
         ...blockToEdit,
-        definition: this.getBlockDefinition(blockToEdit)
       }
+      const currentBlockDefinition = this.getBlockDefinition(blockToEdit)
+      if (currentBlockDefinition) this.currentBlockToEdit.definition = currentBlockDefinition
       this.showUpdateSidebar = true
     },
     async onBlockEditInput ({ blockToEdit, blockRefreshRequired }) {
@@ -873,9 +898,10 @@ export default {
           // On update
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
-          // Update the existing block with its new properties
+          // Update the existing block in page>container>block with its new properties
+          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.container_id).blocks.find(b => b.id ===updatedBlock.id)
           for (const key in updatedBlock) {
-            this.currentBlockToEdit[key] = updatedBlock[key]
+            currentBlock[key] = updatedBlock[key]
           }
         } else {
           // On create
