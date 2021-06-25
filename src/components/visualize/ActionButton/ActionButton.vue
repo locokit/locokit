@@ -76,6 +76,10 @@ export default Vue.extend({
             typePageTo: settings.typePageTo,
             pageRedirectId: settings.pageRedirectId,
             pageQueryFieldId: settings.pageQueryFieldId,
+            notificationSuccessTitle: settings.notificationSuccessTitle,
+            notificationSuccessDescription: settings.notificationSuccessDescription,
+            notificationErrorTitle: settings.notificationErrorTitle,
+            notificationErrorDescription: settings.notificationErrorDescription,
             rowData: this.row
           })
           break

@@ -37,7 +37,7 @@
       "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
       "detail": "Détail d'une ligne",
       "addNewRow": "Ajouter une ligne",
-      "notifAction": {
+      "notifWarningRedirectionAction": {
         "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
         "summary": "Impossible d'effectuer cette action"
       },
@@ -442,7 +442,6 @@
         "tableView": "Vue à afficher",
         "elevation": "Élévation",
         "elevationExplain": "Affichage d'une ombre portée au niveau du bloc",
-        "labelButton": "Libellé du bouton",
         "markdown": {
           "textAlign": "Position du texte",
           "textColor": "Couleur du texte"
@@ -452,33 +451,49 @@
           "textColor": "@:pages.workspace.block.markdown.textColor",
           "displayField": "Afficher le texte de ce champ"
         },
-        "classButton": {
-          "title": "Style du bouton",
-          "danger":  "@:common.colorClass.danger",
-          "warning":  "@:common.colorClass.warning",
-          "success":  "@:common.colorClass.success",
-          "primary":  "@:common.colorClass.primary",
-          "secondary":  "@:common.colorClass.secondary"
-        },
-        "icon": "Icône du bouton",
-        "action": {
-          "title": "Action du bouton",
-          "page_detail_to": "Aller sur une page",
-          "process_trigger": "Déclenche une action/processus"
-        },
-        "processId": "Nom de l'action/processus",
-        "pageDetailId": "Nom de la page cachée",
-        "typePageTo": "Redirection vers une page",
-        "pageId": "Nom de la page",
-        "page": "Page accessible",
-        "pageDetail": "Page cachée",
-        "pageQueryFieldId": "Nom de la colonne lié à la page",
-        "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
-        "options": {
+        "actionButton": {
+          "labelButton": "Libellé du bouton",
+          "classButton": {
+            "title": "Style du bouton",
+            "danger":  "@:common.colorClass.danger",
+            "warning":  "@:common.colorClass.warning",
+            "success":  "@:common.colorClass.success",
+            "primary":  "@:common.colorClass.primary",
+            "secondary":  "@:common.colorClass.secondary"
+          },
+          "icon": "Icône du bouton",
+          "trigger": {
+            "type": "Action du bouton",
+            "process_trigger": "Déclenche une action/processus",
+            "page_detail_to": "Aller sur une page"
+          },
+          "processId": "Nom de l'action/processus",
+          "typePageTo": "Redirection vers une page",
+          "page": "Page accessible",
+          "pageDetail": "Page cachée",
+          "pageId": "Nom de la page",
+          "pageDetailId": "Nom de la page cachée",
+          "pageQueryFieldId": "Nom de la colonne lié à la page",
+          "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
+          "tableView": "Vue à afficher",
           "displayFieldId": "Afficher le bouton selon ce champ",
-          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à"
+          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à",
+          "notification": {
+            "settings": "Configuration de la notification",
+            "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modfiier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
+            "success": {
+              "info": "Lorsque l'action a réussi :",
+              "title": "Titre de la notification",
+              "description": "Description de la notification"
+            },
+            "error": {
+              "info": "Lorsque l'action a échoué :",
+              "title": "Titre de la notification",
+              "description": "Description de la notification"
+            }
+          }
         },
-        "detailPage": "Page de détails",
+        "detailPage": "Page de détail",
         "addGeoDataSrc": "Ajouter une nouvelle source de données géographiques"
       }
     },
