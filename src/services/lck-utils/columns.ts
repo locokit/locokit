@@ -178,6 +178,7 @@ export function getDataFromTableViewColumn (
   options: {
     dateFormat: string | TranslateResult;
     noData: string | TranslateResult;
+    noReference: string | TranslateResult;
   }):
   { label: string; value: string | number; color?: string; backgroundColor?: string } {
   switch (column.column_type_id) {
@@ -285,7 +286,8 @@ export function getColumnClass (column: LckTableViewColumn): string {
  */
 export function getColumnDisplayValue (
   column: LckTableColumn,
-  data: LckTableRowData = ''
+  data: LckTableRowData = '',
+  onlyBaseValue = false
 ): string | undefined | SelectValue {
   if (
     data === '' ||
@@ -305,9 +307,9 @@ export function getColumnDisplayValue (
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT
         ].includes(originalColumn.column_type_id)) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue)
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex))
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
         } else {
           return (data as LckTableRowDataComplex).value
         }

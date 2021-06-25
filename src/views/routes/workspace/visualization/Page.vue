@@ -1045,17 +1045,24 @@ export default {
     next()
   },
   watch: {
-    page (newVal) {
+    async page (newVal) {
       // Hide the updated container sidebar
       this.onCloseUpdateContainerSidebar()
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
-      newVal.containers.sort((a, b) => a.position - b.position).forEach(container => {
-        container.blocks.sort((a, b) => a.position - b.position)
-        container.blocks.forEach(async block => {
-          // Reset sources at each pages change
-          this.sources = {}
+      // To remove after the source mutualization merge request
+      console.log('before all')
+      for (const container of newVal.containers.sort((c1, c2) => c1.position - c2.position)) {
+        for (const block of container.blocks.sort((b1, b2) => b1.position - b2.position)) {
+          console.log('before b')
           await this.loadBlockContentAndDefinition(block)
+          console.log('after b')
+        }
+      }
+      console.log('after all')
+      this.page.containers.forEach(container => {
+        container.blocks.forEach(block => {
+          this.$set(block, 'pageLoaded', true)
         })
       })
     }
@@ -1178,6 +1185,7 @@ export default {
   flex-grow: 1;
   flex-basis: 0;
   flex-wrap: wrap;
+  column-gap: 1rem;
 }
 
 .lck-layout-flex .lck-container .lck-block.lck-media {

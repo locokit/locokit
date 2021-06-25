@@ -604,7 +604,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           <!---->
            
           <button
-            class="p-button-text p-button p-component"
+            class="p-button p-component p-button-text"
             disabled="disabled"
             type="button"
           >
@@ -733,7 +733,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           <!---->
            
           <button
-            class="p-button-text p-button p-component"
+            class="p-button p-component p-button-text"
             disabled="disabled"
             type="button"
           >

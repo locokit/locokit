@@ -133,7 +133,7 @@ exports[`storyshots components/ui/Form submitting 1`] = `
       </button>
        
       <button
-        class="p-button-text p-button p-component"
+        class="p-button p-component p-button-text"
         disabled="disabled"
         type="button"
       >

@@ -8,8 +8,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
     class="lck-paragraph"
   >
     <div
-      class="editable-block"
-      style="width: 100%;"
+      class="editable-block block-container"
     >
       <div
         class="edit-block-line"
@@ -110,8 +109,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
     class="lck-markdown"
   >
     <div
-      class=""
-      style="width: 100%;"
+      class="block-container"
     >
       <h3
         class="lck-color-title"
@@ -143,8 +141,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
     class="lck-paragraph"
   >
     <div
-      class=""
-      style="width: 100%;"
+      class="block-container"
     >
       <h3
         class="lck-color-title"
@@ -174,8 +171,7 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
     class="lck-table-set"
   >
     <div
-      class=""
-      style="width: 100%;"
+      class="block-container"
     >
       <h3
         class="lck-color-title"
@@ -497,8 +493,7 @@ exports[`storyshots components/visualize/Block unknown type 1`] = `
     class="lck-block-default"
   >
     <div
-      class=""
-      style="width: 100%;"
+      class="block-container"
     >
       <h3
         class="lck-color-title"

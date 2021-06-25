@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
     v-if="row"
   >
     <h3
@@ -493,9 +493,8 @@ export default {
           layers,
           ...features,
           editableGeometryTypes,
-          displayPopup: false,
-          selectable: false,
-          triggerEvents: new Set()
+          popupMode: null,
+          selectable: false
         }
       ]
     },

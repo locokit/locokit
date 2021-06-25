@@ -1,7 +1,7 @@
 <template>
   <form
     class="p-fluid"
-    @submit.prevent="$emit('submit')"
+    @submit.prevent="canSubmit && $emit('submit')"
   >
     <slot />
 
@@ -9,6 +9,7 @@
       <p-button
         v-if="displayCancelButton"
         class="p-button-text p-button-secondary"
+        :class="{ 'full-width-button': fullWidthButton }"
         :label="$t('form.cancel')"
         icon="pi pi-times"
         @click="$emit('cancel')"
@@ -18,10 +19,12 @@
         v-if="submitting"
         :label="$t('form.waiting')"
         icon="pi pi-spin pi-spinner"
-        class="p-button-text"
+        :class="{ 'p-button-text': true, 'full-width-button': fullWidthButton }"
       />
       <p-button
         v-else
+        :class="{ 'full-width-button': fullWidthButton }"
+        :disabled="!canSubmit"
         :label="$t('form.save')"
         icon="pi pi-save"
         type="submit"
@@ -49,6 +52,14 @@ export default {
     displayCancelButton: {
       type: Boolean,
       default: true
+    },
+    canSubmit: {
+      type: Boolean,
+      default: true
+    },
+    fullWidthButton: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -61,5 +72,9 @@ export default {
 
 .p-fluid .lck-form-footer .p-button {
   width: auto;
+}
+
+.p-fluid .lck-form-footer .full-width-button {
+  width: 100%;
 }
 </style>

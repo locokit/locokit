@@ -1,6 +1,6 @@
 <template>
   <div :class="getBlockTypeClassname">
-    <div v-if="block" :class="{ 'editable-block': editMode }" style="width: 100%;">
+    <div v-if="block" :class="{ 'editable-block': editMode, 'block-container': true }">
       <div v-if="editMode" class="edit-block-line">
         <h3 class="lck-color-title">{{ block.title }}</h3>
         <span class="p-buttonset">
@@ -102,7 +102,7 @@ export default Vue.extend({
       return values.includes(this.block.type)
     },
     isNotYetImplemented () {
-      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.FORM_RECORD, BLOCK_TYPE.CARD_SET, BLOCK_TYPE.MARKDOWN_FIELD].includes(this.block.type)
+      return [BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.CARD_SET, BLOCK_TYPE.MARKDOWN_FIELD].includes(this.block.type)
     },
     displayDetailButton () {
       if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
@@ -153,6 +153,22 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+
+.block-container {
+  width: 100%;
+}
+
+.lck-layout-flex .block-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.lck-layout-flex .block-content {
+  flex-grow: 2;
+  max-width: initial;
+  margin: initial;
+}
+
 .edit-block-line {
   display: flex;
   align-items: center;

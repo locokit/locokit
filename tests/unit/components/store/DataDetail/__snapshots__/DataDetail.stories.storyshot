@@ -17,7 +17,7 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      
@@ -187,7 +187,7 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      
@@ -481,7 +481,7 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      
@@ -775,7 +775,7 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      
@@ -1069,7 +1069,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      
@@ -1363,7 +1363,7 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-pb-6 p-pt-4"
+    class="p-fluid"
   >
     <!---->
      

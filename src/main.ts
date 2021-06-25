@@ -21,9 +21,6 @@ async function boot () {
     i18n,
     render: h => h(App)
   }).$mount('#app')
-
-  // Create the event hub to allow a direct communication between components
-  window.eventHub = new Vue()
 }
 
 boot()

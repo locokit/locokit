@@ -128,7 +128,7 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
  * @param currentRowValue
  * @returns string|undefined
  */
-function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
+export function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
   switch (currentColumn.column_type_id) {
     case COLUMN_TYPE.SINGLE_SELECT:
       return (getColumnDisplayValue(

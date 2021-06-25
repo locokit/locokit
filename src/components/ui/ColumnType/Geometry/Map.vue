@@ -41,6 +41,7 @@ import {
   LckImplementedLayers,
   PopupContent
 } from '@/services/lck-utils/map/transformWithOL'
+import { MapPopupMode } from '@/services/lck-api/definitions'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -78,7 +79,7 @@ export default Vue.extend({
       default: false
     },
     defaultSelectedFeatureBySource: {
-      type: Object as PropType<Record<string, string | number>>,
+      type: Object as PropType<Record<string, string | number | null>>,
       default: () => ({})
     }
   },
@@ -87,11 +88,15 @@ export default Vue.extend({
       map: null as Map | null,
       mapDraw: null as MapboxDraw | null,
       editableGeometryTypes: new Set() as Set<GeometryType>,
-      selectedFeatureBySource: {} as Record<string, string | number>,
+      selectedFeatureBySource: {} as Record<string, string | number | null>,
       listenersByLayer: {} as Record<string, {
         type: keyof MapLayerEventType;
         func: MapLayerMouseListenerFunction;
-      }[]>
+      }[]>,
+      popup: {
+        component: null as Popup | null,
+        featuresIds: ''
+      }
     }
   },
   mounted () {
@@ -137,9 +142,7 @@ export default Vue.extend({
     this.map.touchZoomRotate.disableRotation()
 
     // Force resize canvas map to avoid issue with dialog initialisation
-    if (this.mode === MODE.DIALOG) {
-      this.onResize()
-    }
+    this.onResize()
 
     window.addEventListener('resize', this.onResize)
 
@@ -415,36 +418,38 @@ export default Vue.extend({
       this.map!.on('mousedown', layerId, wrapperFunction)
       this.saveListenerByLayer('mousedown', layerId, wrapperFunction)
     },
-    selectFeature (resourceId: string, featureId: string | number) {
+    selectFeature (resourceId: string, featureId: string | number | null) {
       // Select a specified feature belonging to a resource
-      if (!this.map) return
+      if (!this.map?.getSource(resourceId)) return
 
       // Unselect the previous selected feature
       if (this.selectedFeatureBySource[resourceId]) {
         this.map.setFeatureState({
           source: resourceId,
-          id: this.selectedFeatureBySource[resourceId]
+          id: this.selectedFeatureBySource[resourceId]!
         }, {
           selectable: false
         })
       }
       // Save the selected feature
       this.selectedFeatureBySource[resourceId] = featureId
-      // Customize it
-      this.map.setFeatureState({
-        source: resourceId,
-        id: featureId
-      }, {
-        selectable: true
-      })
+      if (featureId) {
+        // Customize it
+        this.map.setFeatureState({
+          source: resourceId,
+          id: featureId
+        }, {
+          selectable: true
+        })
+      }
     },
-    selectFeatureOnClick (layerId: string, resourceId: string, resourceIndex: number) {
+    selectFeatureOnClick (layerId: string, resourceId: string) {
       // Make a feature selectable on click
       const wrapperFunction = (e: MapLayerMouseEvent) => {
         const selectedFeature = e.features?.[0]
         if (selectedFeature?.id && selectedFeature.id !== this.selectedFeatureBySource[resourceId]) {
           this.selectFeature(resourceId, selectedFeature.id)
-          this.$emit('select-feature', selectedFeature, resourceIndex)
+          this.$emit('select-feature', selectedFeature)
         }
       }
       // Add right listener
@@ -459,11 +464,28 @@ export default Vue.extend({
         }
       }
     },
-    addPopupOnClick (layerId: string, pageDetailId?: string) {
+    addPopupOnFeature (layerId: string, popupMode: MapPopupMode, pageDetailId?: string) {
       // Add Popup on layer on click
-      const wrapperFunction = (e: MapLayerMouseEvent) => {
-        if (e.features?.length) {
-          // this.$toast.removeAllGroups()
+      const wrapperFunction = (e: MapLayerMouseEvent | MapLayerTouchEvent) => {
+        if (e.features?.length && this.popup.component) {
+          // Display the popup if necessary
+          if (!this.popup.component.isOpen()) {
+            this.popup.component.addTo(this.map!)
+          }
+
+          // Display the popup at the cursor position
+          this.popup.component.setLngLat(e.lngLat)
+
+          if (e.type === 'mousemove') {
+            // Update the popup content only if the current features are different
+            const hoveredFeatures = e.features.map(feature => feature.id).join('-')
+            if (this.popup.featuresIds !== hoveredFeatures) {
+              this.popup.featuresIds = hoveredFeatures
+            } else {
+              return
+            }
+          }
+
           let html = ''
           e.features.forEach(currentFeature => {
             if (currentFeature && currentFeature.properties) {
@@ -499,34 +521,59 @@ export default Vue.extend({
               }
             }
           })
-          const popup = new Popup()
-            .setLngLat(e.lngLat)
-            .setHTML(html)
-            .addTo(this.map!)
 
-          const element = popup.getElement()
+          // Set content
+          this.popup.component.setHTML(html)
+
+          // Add the event on click on the page detail button
+          if (!pageDetailId) return
+          const element = this.popup.component.getElement()
           const links = element.querySelectorAll('.popup-row-toolbox .row-detail-page');
 
           (e.features || []).forEach(({ properties }, index) => {
-            if (properties?.rowId && pageDetailId) {
+            if (properties?.rowId) {
               if (links[index]) {
                 links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
-                const { sendIdToDetail } = this
-                popup.on('close', function () {
-                  links[index].removeEventListener('click', () => sendIdToDetail)
-                })
+                const { sendIdToDetail, popup } = this
+                if (popup.component) {
+                  popup.component.on('close', function () {
+                    links[index].removeEventListener('click', () => sendIdToDetail)
+                  })
+                }
               }
             }
           })
         }
       }
-      this.map!.on('click', layerId, wrapperFunction)
-      this.saveListenerByLayer('click', layerId, wrapperFunction)
+      const wrapperFunctionOnLeave = () => {
+        if (this.popup.component) {
+          this.popup.component.remove()
+        }
+        this.popup.featuresIds = ''
+      }
+      if (popupMode === 'hover') {
+        // Manage the popup position and the popup content if necessary
+        this.map!.on('mousemove', layerId, wrapperFunction)
+        this.saveListenerByLayer('mousemove', layerId, wrapperFunction)
+        // Hide the popup
+        this.map!.on('mouseleave', layerId, wrapperFunctionOnLeave)
+        this.saveListenerByLayer('mouseleave', layerId, wrapperFunctionOnLeave)
+        // Alternative event for mobile devices
+        this.map!.on('touchstart', layerId, wrapperFunction)
+        this.saveListenerByLayer('touchstart', layerId, wrapperFunction)
+      } else {
+        // Click mode by default
+        this.map!.on('click', layerId, wrapperFunction)
+        this.saveListenerByLayer('click', layerId, wrapperFunction)
+      }
     },
     makeFeaturesInteractive () {
       const mapHasPopup = this.mode === MODE.BLOCK && this.hasPopup
-      this.resources.forEach((resource, index) => {
-        const resourceHasPopup = mapHasPopup && resource.displayPopup
+      if (mapHasPopup) {
+        this.popup.component = new Popup({ offset: 10, closeOnClick: false }).addTo(this.map!)
+      }
+      this.resources.forEach(resource => {
+        const resourceHasPopup = mapHasPopup && resource.popupMode
         const hasEditableFeatures = resource.editableGeometryTypes.size > 0
         if (resourceHasPopup || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
@@ -534,15 +581,17 @@ export default Vue.extend({
               // Make the current feature editable
               this.setFeatureEditableOnMouseDown(layer.id)
             } else {
-              // Change cursor
-              this.changeCursorOnLayerHover(layer.id)
+              if (resource.selectable || resourceHasPopup === 'click') {
+                // Change cursor
+                this.changeCursorOnLayerHover(layer.id)
+              }
               if (resource.selectable) {
                 // Make the current feature selectable
-                this.selectFeatureOnClick(layer.id, resource.id, index)
+                this.selectFeatureOnClick(layer.id, resource.id)
               }
               if (resourceHasPopup) {
                 // Display a pop up on click on the current feature
-                this.addPopupOnClick(layer.id, resource.pageDetailId)
+                this.addPopupOnFeature(layer.id, resource.popupMode, resource.pageDetailId)
               }
             }
           })
@@ -587,8 +636,11 @@ export default Vue.extend({
       // Reinitialize the draw controls depending of the new resources
       this.initDrawControls()
     },
-    defaultSelectedFeatureBySource () {
-      this.selectDefaultFeatures()
+    defaultSelectedFeatureBySource: {
+      deep: true,
+      handler () {
+        this.selectDefaultFeatures()
+      }
     }
   }
 })
@@ -607,11 +659,13 @@ export default Vue.extend({
 /* Styles de la modale */
 /deep/ .mapboxgl-popup {
   min-width: 180px;
+  opacity: 0.93;
 }
 
 /deep/ .mapboxgl-popup-content p {
   font-size: 0.8rem;
   color: var(--primary-color-text);
+  margin-bottom: 0;
 }
 
 /deep/ .mapboxgl-popup-content p button{

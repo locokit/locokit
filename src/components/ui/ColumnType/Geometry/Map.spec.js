@@ -40,7 +40,7 @@ const mockResources = [
       }
     ],
     layers: [GEO_STYLE.Point],
-    displayPopup: false,
+    popupMode: null,
     editableGeometryTypes: new Set([GeometryType.POINT]),
     selectable: false
   },
@@ -49,7 +49,7 @@ const mockResources = [
     type: 'FeatureCollection',
     features: [],
     layers: [GEO_STYLE.Point],
-    displayPopup: false,
+    popupMode: null,
     editableGeometryTypes: new Set([GeometryType.POLYGON]),
     selectable: false
   },
@@ -58,7 +58,7 @@ const mockResources = [
     type: 'FeatureCollection',
     features: [],
     layers: [GEO_STYLE.Point],
-    displayPopup: true,
+    popupMode: 'click',
     editableGeometryTypes: new Set(),
     selectable: false
   },
@@ -67,7 +67,7 @@ const mockResources = [
     type: 'FeatureCollection',
     features: [],
     layers: [GEO_STYLE.Point],
-    displayPopup: false,
+    popupMode: null,
     editableGeometryTypes: new Set(),
     selectable: true
   }
@@ -120,7 +120,10 @@ jest.mock('mapbox-gl', () => ({
     setZoom: jest.fn()
   })),
   NavigationControl: jest.fn(),
-  ScaleControl: jest.fn()
+  ScaleControl: jest.fn(),
+  Popup: jest.fn(() => ({
+    addTo: jest.fn()
+  }))
 }))
 
 // jest.mock('@mapbox/mapbox-gl-draw/')
@@ -379,7 +382,7 @@ describe('Map component', () => {
             features: [mockFirstFeature]
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('select-feature', mockFirstFeature, 1)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('select-feature', mockFirstFeature)
         })
 
         it('Do not emit an event if the selected feature has not got id', () => {

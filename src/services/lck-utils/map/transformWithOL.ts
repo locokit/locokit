@@ -21,7 +21,7 @@ import {
   COLUMN_TYPE,
   MapSettings,
   MapSourceSettings,
-  MapSourceTriggerEvent
+  MapSourceTriggerEvents
 } from '@locokit/lck-glossary'
 
 import {
@@ -29,12 +29,16 @@ import {
   LckTableRow,
   LckTableRowData,
   LckTableView,
-  LckTableViewColumn
+  LckTableViewColumn,
+  MapPopupMode,
+  SelectValue
 } from '@/services/lck-api/definitions'
 import {
+  getColumnDisplayValue,
   getColumnTypeId,
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
+import { objectFromArray } from '../arrays'
 
 const lckGeoColor: Expression = [
   'case',
@@ -86,8 +90,9 @@ export interface LckGeoResource {
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
   editableGeometryTypes: Set<GeometryType>;
-  triggerEvents?: Set<MapSourceTriggerEvent>;
-  displayPopup?: boolean;
+  popupMode: MapPopupMode;
+  triggerEvents?: MapSourceTriggerEvents;
+  caughtEvents?: string[];
   pageDetailId?: string;
   selectable?: boolean;
 }
@@ -110,6 +115,8 @@ export interface LckFeatureProperties {
   content?: PopupContent[];
   sourceId?: string;
   text?: string;
+  originalData?: Record<string, LckTableRowData>;
+  displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
 
 /**
@@ -251,10 +258,12 @@ export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
   definitionColumns: LckTableViewColumn[],
-  sources: MapSourceSettings[],
+  source: MapSourceSettings,
   i18nOptions: LckPopupI18nOptions
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
+
+  const definitionColumnsObject = objectFromArray<LckTableViewColumn>(definitionColumns, 'id')
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
     switch (geoColumn.column_type_id) {
@@ -265,64 +274,93 @@ export function makeGeoJsonFeaturesCollection (
     }
   }
 
+  let hasSelectRowEvent = false
+  const fieldsToSelectOnEvent: string[] = []
+
+  if (Array.isArray(source.triggerEvents)) {
+    source.triggerEvents.forEach(event => {
+      if (event.type === 'selectRow') {
+        hasSelectRowEvent = true
+      } else if (event.type === 'selectField' && event.field) {
+        fieldsToSelectOnEvent.push(event.field)
+      }
+    })
+  }
+
   rows.forEach(row => {
     geoColumns.forEach(geoColumn => {
       const data = getEWKTFromGeoColumn(geoColumn, row.data)
       if (data) {
         const feature = transformEWKTtoFeature(data)
-        if (Array.isArray(sources)) {
-          sources.forEach(source => {
-            const featureProperties: LckFeatureProperties = {
-              id: `${row.id}:${geoColumn.id}`,
-              columnId: geoColumn.id,
-              rowId: row.id
+        if (source) {
+          const featureProperties: LckFeatureProperties = {
+            id: `${row.id}:${geoColumn.id}`,
+            columnId: geoColumn.id,
+            rowId: row.id
+          }
+          /**
+           * Manage popup information
+           */
+          if (source.popup && source.popupSettings) {
+            // Define the title
+            if (source.popupSettings.title) {
+              // From the specified value
+              featureProperties.title = row.data[source.popupSettings.title] || ''
+            } else if (source.popupSettings.pageDetailId) {
+              // From the row reference if the page detail is specified
+              featureProperties.title = row.text || i18nOptions.noReference.toString()
             }
-            /**
-             * Manage popup information
-             */
-            if (source.popup && source.popupSettings) {
-              // Define the title
-              if (source.popupSettings.title) {
-                // From the specified value
-                featureProperties.title = row.data[source.popupSettings.title] || ''
-              } else if (source.popupSettings.pageDetailId) {
-                // From the row reference if the page detail is specified
-                featureProperties.title = row.text || i18nOptions.noReference.toString()
-              }
-              if (Array.isArray(source.popupSettings.contentFields)) {
-                const allContent: PopupContent[] = []
-                source.popupSettings.contentFields.forEach(contentField => {
-                  // Get column's title
-                  const matchingColumnField = definitionColumns.find(({ id }) => id === contentField.field)
-                  if (matchingColumnField) {
-                    // Get data from row
-                    const data = getDataFromTableViewColumn(
-                      matchingColumnField,
-                      row.data[contentField.field],
-                      i18nOptions
-                    )
-                    allContent.push({
-                      ...contentField,
-                      field: data
-                    })
-                  }
-                })
-                // Set data in Feature properties
-                featureProperties.content = allContent
-              }
+            if (Array.isArray(source.popupSettings.contentFields)) {
+              const allContent: PopupContent[] = []
+              source.popupSettings.contentFields.forEach(contentField => {
+                // Get column's title
+                const matchingColumnField = definitionColumnsObject[contentField.field]
+                if (matchingColumnField) {
+                  // Get data from row
+                  const data = getDataFromTableViewColumn(
+                    matchingColumnField,
+                    row.data[contentField.field],
+                    i18nOptions
+                  )
+                  allContent.push({
+                    ...contentField,
+                    field: data
+                  })
+                }
+              })
+              // Set data in Feature properties
+              featureProperties.content = allContent
             }
-            // Add the source id to the feature
-            if (geoColumn.editable) {
-              featureProperties.sourceId = source.id
-            }
+          }
+          // Add the source id to the feature
+          if (geoColumn.editable) {
+            featureProperties.sourceId = source.id
+          }
 
-            // Add the text value to have text related to the row
-            if (source.triggerEvents?.includes('click')) {
-              featureProperties.text = row.text || i18nOptions.noReference.toString()
+          // Add information for events
+          if (hasSelectRowEvent || fieldsToSelectOnEvent.length > 0) {
+            featureProperties.originalData = {}
+            featureProperties.displayedData = {}
+            if (hasSelectRowEvent) {
+              // Add the text value to have text related to the row
+              featureProperties.originalData.text = row.text
+              featureProperties.displayedData.text = row.text
             }
-
-            feature.setProperties(featureProperties)
-          })
+            if (fieldsToSelectOnEvent.length > 0) {
+              // Add the desired fields
+              fieldsToSelectOnEvent.forEach(field => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                featureProperties.originalData![field] = row.data[field]
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                featureProperties.displayedData![field] = getColumnDisplayValue(
+                  definitionColumnsObject[field],
+                  row.data[field],
+                  true
+                )
+              })
+            }
+          }
+          feature.setProperties(featureProperties)
         }
         features.push(feature)
       }
@@ -379,25 +417,35 @@ export function getLckGeoResources (
         data[source.id],
         geoColumns,
         columns,
-        [source],
+        source,
         i18nOptions
       )
 
       const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
 
       const layers: LckImplementedLayers[] = getStyleLayers(resourceId, geoColumns)
-      const triggerEvents = new Set(source.triggerEvents || []) as Set<MapSourceTriggerEvent>
+
+      const selectable =
+        source.selectable || (
+          Array.isArray(source.triggerEvents) &&
+          source.triggerEvents.some(event => event.type === 'selectField' || event.type === 'selectRow')
+        )
+
+      const popupMode: MapPopupMode = source.popup
+        ? source.popupSettings?.onHover ? 'hover' : 'click'
+        : null
 
       lckGeoResources.push({
         id: resourceId,
         layers,
         type: features.type,
         features: features.features,
-        displayPopup: !!source.popup,
+        popupMode,
         pageDetailId: source.popupSettings?.pageDetailId,
         editableGeometryTypes,
-        selectable: !!(source.selectable || triggerEvents.has('click')),
-        triggerEvents
+        triggerEvents: source.triggerEvents,
+        caughtEvents: source.caughtEvents,
+        selectable
       })
     }
   })

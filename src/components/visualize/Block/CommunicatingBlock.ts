@@ -1,13 +1,18 @@
-import { LckTableRowData } from '@/services/lck-api/definitions'
 import Vue, { PropType } from 'vue'
 
-import { BlockDefaultSettings } from '@locokit/lck-glossary'
+import { CommunicatingBlockSettings } from '@locokit/lck-glossary'
+
+import { EmittedBlockEvent } from '@/services/lck-api/definitions'
+import eventHub from '@/services/lck-event-hub/eventHub'
 
 export default Vue.extend({
   props: {
     settings: {
-      type: Object as PropType<BlockDefaultSettings>,
-      default: () => ({ caughtEvents: undefined })
+      type: Object as PropType<CommunicatingBlockSettings>
+    },
+    pageLoaded: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -16,33 +21,32 @@ export default Vue.extend({
     }
   },
   created () {
+    if (!this.settings.caughtEvents) return
     // Listen all the defined events
-    for (const [triggerBlockId, caughtEvents] of Object.entries(this.settings.caughtEvents || {})) {
-      caughtEvents.map(event => {
-        // Execute the right function depending of the type event
-        const onEventFunction = (type => {
-          switch (type) {
+    for (const [triggerBlockId, caughtEvents] of Object.entries(this.settings.caughtEvents)) {
+      const onEventFunction = (eventData: EmittedBlockEvent) => {
+        caughtEvents.map(event => {
+          // Execute the right functions depending of the configuration
+          switch (event.type) {
             case 'select':
-              return (eventData: LckTableRowData) => {
-                this.onColumnSelect(event.targetId, eventData)
-              }
+              this.onSelectBlockEvent(event.targetField, eventData, triggerBlockId)
+              break
             case 'reset':
-              return () => {
-                this.onColumnSelect(event.targetId, null)
-              }
+              this.onResetBlockEvent(event.targetField, triggerBlockId)
+              break
           }
-        })(event.type)
-        if (onEventFunction) {
-          window.eventHub.$on(triggerBlockId, onEventFunction)
-          this.eventListeners.push({ id: triggerBlockId, relatedFunction: onEventFunction })
-        }
-      })
+        })
+      }
+      if (onEventFunction) {
+        eventHub.$on(triggerBlockId, onEventFunction)
+        this.eventListeners.push({ id: triggerBlockId, relatedFunction: onEventFunction })
+      }
     }
   },
   destroyed () {
     // Remove all the custom listeners related to the catch events defined in the block settings
     for (const { id, relatedFunction } of this.eventListeners) {
-      window.eventHub.$off(id, relatedFunction)
+      eventHub.$off(id, relatedFunction)
     }
     this.eventListeners = []
   },
@@ -52,7 +56,10 @@ export default Vue.extend({
     },
     // These methods must be defined in the sub classes if we want to use the related events
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    onColumnSelect (columnId: string, eventData: LckTableRowData | null) {
+    onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string) {
+      this.eventBlockNotImplemented()
+    },
+    onResetBlockEvent (columnId: string | undefined, triggerBlockId: string) {
       this.eventBlockNotImplemented()
     }
     /* eslint-enable @typescript-eslint/no-unused-vars */
