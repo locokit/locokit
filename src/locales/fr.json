@@ -673,7 +673,7 @@
       "VIEW_USED_IN_BLOCK": "La vue est toujours utilisée dans un bloc. Merci de supprimer le bloc au préalable."
     },
     "cms": {
-      "blockMultiConflictSummary": "Conflit au niveau de sources partagées",
+      "blockMultiConflictSummary": "Conflit au niveau des sources partagées",
       "blockMultiConflictDetail": "Certaines sources partagées de blocs sont à la fois multi et mono donnée. Merci de vérifier la configuration de vos blocs."
     }
   },
