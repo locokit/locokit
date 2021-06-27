@@ -572,13 +572,13 @@ export default {
       let currentBlock = null
       const blockId = block.id
       this.page.containers.forEach(container => {
-        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+        const blockIdIndex = container.blocks.findIndex(({ id }) => id === blockId)
         blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
       })
       const blockContent = this.getBlockContent(block)
       const currentRow = isGeoBlock(currentBlock.type)
-        ? blockContent[tableViewId].find(d => d.id === rowId)
-        : blockContent.data.find(d => d.id === rowId)
+        ? blockContent[tableViewId].find(({ id }) => id === rowId)
+        : blockContent.data.find(({ id }) => id === rowId)
 
       this.cellState = {
         rowId: currentRow.id,

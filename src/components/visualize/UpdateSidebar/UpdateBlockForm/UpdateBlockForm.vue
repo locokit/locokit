@@ -130,7 +130,6 @@
     />
     <map-settings-fields
       v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
-      :id.sync="blockCopy.settings.id"
       :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :sources="blockCopy.settings.sources"
