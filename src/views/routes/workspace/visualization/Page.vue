@@ -338,7 +338,7 @@ export default {
     resetSources () {
       this.sources = {}
     },
-    createOrExtendSource (tableViewId, blockId, blockType = null) {
+    createOrExtendSource (tableViewId, blockId, blockType) {
       /**
        * is the block type a multi-line one,
        * all _SET blocks
