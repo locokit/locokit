@@ -4,6 +4,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
+import Toast from 'primevue/toast'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { lckServices } from '@/services/lck-api'
@@ -16,16 +17,6 @@ import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vu
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 
 // Mock external libraries
-
-jest.mock('@locokit/lck-glossary', () => ({
-  BLOCK_TYPE: {
-    PARAGRAPH: 'Paragraph',
-    MAP_SET: 'MapSet',
-    TABLE_SET: 'TableSet'
-  },
-  COLUMN_TYPE: {
-  }
-}))
 
 jest.mock('date-fns')
 jest.mock('file-saver')
@@ -81,7 +72,7 @@ const mockPages = {
             title: 'My paragraph block',
             type: BLOCK_TYPE.PARAGRAPH,
             position: 2,
-            container_id: '11'
+            container_id: '12'
           },
           {
             id: '122',
@@ -93,7 +84,7 @@ const mockPages = {
             title: 'My TableSet block',
             type: BLOCK_TYPE.TABLE_SET,
             position: 1,
-            container_id: '11'
+            container_id: '12'
           },
           {
             id: '123',
@@ -115,7 +106,7 @@ const mockPages = {
             title: 'My map block',
             type: BLOCK_TYPE.MAP_SET,
             position: 3,
-            container_id: '11'
+            container_id: '12'
           }
         ]
       },
@@ -151,6 +142,122 @@ const mockPages = {
     position: 2,
     hidden: true,
     containers: []
+  },
+  4: {
+    id: '4',
+    text: 'Page 4',
+    createdAt: '2021-06-25T18:40:03.109Z',
+    updatedAt: '2021-06-25T18:40:03.109Z',
+    chapter_id: 'C1',
+    position: 3,
+    chapter_id: 'C1',
+    containers: [
+      {
+        id: '14',
+        text: 'Main container',
+        createdAt: '2021-06-25T18:40:03.109Z',
+        updatedAt: '2021-06-25T18:40:03.109Z',
+        page_id: '1',
+        position: 2,
+        display_title: false,
+        displayed_in_navbar: false,
+        blocks: [
+          {
+            id: '140',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '1'
+            },
+            title: 'My TableSet block',
+            type: BLOCK_TYPE.TABLE_SET,
+            position: 1,
+            container_id: '14'
+          },
+          {
+            id: '141',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              sources: [
+                {
+                  id: '1'
+                },
+                {
+                  id: '2'
+                },
+              ]
+            },
+            title: 'My map block',
+            type: BLOCK_TYPE.MAP_SET,
+            position: 2,
+            container_id: '14',
+            conditionalDisplayTableViewId: '3',
+            conditionalDisplayFieldId: 'displayField',
+            conditionalDisplayFieldValue: true
+          },
+          {
+            id: '142',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '3'
+            },
+            title: 'My data record block',
+            type: BLOCK_TYPE.DATA_RECORD,
+            position: 3,
+            container_id: '14'
+          }
+        ]
+      }
+    ]
+  },
+  5: {
+    id: '5',
+    text: 'Page 5',
+    createdAt: '2021-06-25T18:40:03.109Z',
+    updatedAt: '2021-06-25T18:40:03.109Z',
+    chapter_id: 'C1',
+    position: 4,
+    chapter_id: 'C1',
+    containers: [
+      {
+        id: '15',
+        text: 'Main container',
+        createdAt: '2021-06-25T18:40:03.109Z',
+        updatedAt: '2021-06-25T18:40:03.109Z',
+        page_id: '1',
+        position: 2,
+        display_title: false,
+        displayed_in_navbar: false,
+        blocks: [
+          {
+            id: '150',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '1'
+            },
+            title: 'My TableSet block',
+            type: BLOCK_TYPE.TABLE_SET,
+            position: 1,
+            container_id: '15'
+          },
+          {
+            id: '151',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '1'
+            },
+            title: 'My data record block',
+            type: BLOCK_TYPE.DATA_RECORD,
+            position: 3,
+            container_id: '15'
+          }
+        ]
+      }
+    ]
   }
 }
 
@@ -182,9 +289,233 @@ const mockTableViewDefinitions = {
   }
 }
 
-const mockTableViewContents = {
+const mockTableViewContents = () => ({
   1: {
     data: [
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
+      {
+        id: 'tv1r1',
+        text: 'TableView 1 - Row 1',
+        table_id: 't1',
+        data: {
+          c1: 'first content'
+        }
+      }, 
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -204,7 +535,223 @@ const mockTableViewContents = {
         data: {
           c2: 'second content'
         }
-      }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
+      {
+        id: 'tv2r1',
+        text: 'TableView 2 - Row 1',
+        table_id: 't1',
+        data: {
+          c2: 'second content'
+        }
+      },
     ]
   },
   3: {
@@ -214,12 +761,22 @@ const mockTableViewContents = {
         text: 'TableView 3 - Row 1',
         table_id: 't1',
         data: {
-          c3: 'third content'
+          c3: 'third content',
+          displayField: false
+        }
+      }, 
+      {
+        id: 'tv3r1',
+        text: 'TableView 3 - Row 1',
+        table_id: 't1',
+        data: {
+          c3: 'third content',
+          displayField: false
         }
       }
     ]
   }
-}
+})
 
 const unknownTypeBlock = {
   id: 'temp',
@@ -290,9 +847,17 @@ jest.mock('@/services/lck-api', () => ({
       tableViewIds => Object.values(mockTableViewDefinitions).filter(view => tableViewIds.includes(view.id))
     ),
     retrieveViewData: jest.fn(
-      (tableViewId, _0, _1, limit) => limit === -1
-        ? mockTableViewContents[tableViewId].data
-        : mockTableViewContents[tableViewId] // Paginated result
+      (tableViewId, _0, skip, limit) => {
+        const content = mockTableViewContents()[tableViewId]
+        return limit === -1
+        ? mockTableViewContents()[tableViewId].data
+        : {
+          total: content.data.length,
+          limit,
+          skip,
+          data: content.data.slice(skip, skip + limit) // Paginated result
+        }
+      }
     )
   }
 }))
@@ -429,7 +994,7 @@ describe('Page', () => {
           const definitionId = wrapper.vm.page.containers[1].blocks[0].settings.id
           expect(wrapper.vm.page.containers[1].blocks[0]).toMatchObject(mockPages['1'].containers[0].blocks[1])
           expect(wrapper.vm.sources[definitionId].definition).toStrictEqual(mockTableViewDefinitions['1'])
-          expect(wrapper.vm.sources[definitionId].content).toStrictEqual(mockTableViewContents['1'])
+          expect(wrapper.vm.sources[definitionId].content.data).toStrictEqual(mockTableViewContents()['1'].data.slice(0, 20))
         })
         it('Get the right properties for the map block', () => {
           expect.assertions(3)          
@@ -442,9 +1007,9 @@ describe('Page', () => {
           })
           const blockContent = wrapper.vm.getBlockContent(wrapper.vm.page.containers[1].blocks[2])
           expect(blockContent).toStrictEqual({
-            1: mockTableViewContents['1'].data,
-            2: mockTableViewContents['2'].data,
-            3: mockTableViewContents['3'].data
+            1: mockTableViewContents()['1'].data.slice(0, 20),
+            2: mockTableViewContents()['2'].data,
+            3: mockTableViewContents()['3'].data
           })
         })
       })
@@ -1030,6 +1595,163 @@ describe('Page', () => {
           })
         )
       })
+    })
+  })
+
+  describe('Conditional display', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = shallowMount(Page, {
+        ...globalComponentParams(),
+        propsData: {
+          pageId: '4',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group'
+        }
+      })
+    })
+
+    it('hide the block if the display value is not respected', async () => {
+      const blocks = await wrapper.findAllComponents(Block)
+      expect.assertions(4)
+      expect(blocks.length).toBe(2)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[0])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[1])).toBe(false)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[2])).toBe(true)
+    })
+    it('show the block if the display value is respected', async () => {
+      await wrapper.setData({
+        sources: {
+          3: {
+            content: {
+              data: [{
+                ...wrapper.vm.sources['3'].content.data[0],
+                data: {
+                  ...wrapper.vm.sources['3'].content.data[0].data,
+                  displayField: true
+                }
+              }]
+            }
+          }
+        }
+      })
+      const blocks = await wrapper.findAllComponents(Block)
+      expect.assertions(4)
+      expect(blocks.length).toBe(3)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[0])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[1])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[2])).toBe(true)
+    })
+    it('show the block after the display value change to be the good one', async () => {
+      let blocks = await wrapper.findAllComponents(Block)
+      expect.assertions(10)
+      expect(wrapper.vm.sources['3'].content.data[0].data.displayField).toBe(false)
+      expect(blocks.length).toBe(2)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[0])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[1])).toBe(false)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[2])).toBe(true)
+      await wrapper.setData({
+        sources: {
+          3: {
+            content: {
+              data: [{
+                ...wrapper.vm.sources['3'].content.data[0],
+                data: {
+                  ...wrapper.vm.sources['3'].content.data[0].data,
+                  displayField: true
+                }
+              }]
+            }
+          }
+        }
+      })
+      expect(wrapper.vm.sources['3'].content.data[0].data.displayField).toBe(true)
+      blocks = await wrapper.findAllComponents(Block)
+      expect(blocks.length).toBe(3)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[0])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[1])).toBe(true)
+      expect(wrapper.vm.isBlockDisplayed(mockPages['4'].containers[0].blocks[2])).toBe(true)
+    })
+  })
+
+  describe('Mutualisation sources', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = shallowMount(Page, {
+        ...globalComponentParams(),
+        propsData: {
+          pageId: '4',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group'
+        }
+      })
+    })
+
+    it('mutualize in 3 sources', () => {
+      expect.assertions(4)
+      expect(wrapper.vm.sources['1']).toBeDefined()
+      expect(wrapper.vm.sources['2']).toBeDefined()
+      expect(wrapper.vm.sources['3']).toBeDefined()
+      expect(Object.keys(wrapper.vm.sources).length).toBe(3)
+    })
+    it('mutualize all definitions in the page sources', () => {
+      expect.assertions(3)
+      expect(wrapper.vm.sources['1'].definition).toStrictEqual(mockTableViewDefinitions['1'])
+      expect(wrapper.vm.sources['2'].definition).toStrictEqual(mockTableViewDefinitions['2'])
+      expect(wrapper.vm.sources['3'].definition).toStrictEqual(mockTableViewDefinitions['3'])
+    })
+    it('mutualize all content in the page sources', () => {
+      expect.assertions(3)
+      expect(wrapper.vm.sources['1'].content.data).toStrictEqual(mockTableViewContents()['1'].data.slice(0,20)) // paginated result
+      expect(wrapper.vm.sources['2'].content).toStrictEqual(mockTableViewContents()['2'].data) // this is a geo source only, limit to -1
+      expect(wrapper.vm.sources['3'].content.data).toStrictEqual([mockTableViewContents()['3'].data[0]])
+    })
+    it('provide paginated data to MapSet if mutualized with a TableSet', () => {
+      expect.assertions(3)
+      const tableSetContent = wrapper.vm.getBlockContent(mockPages['4'].containers[0].blocks[0])
+      const mapSetContent = wrapper.vm.getBlockContent(mockPages['4'].containers[0].blocks[1])
+      expect(tableSetContent.data).toBe(mapSetContent['1'])
+      expect(tableSetContent.data.length).toBe(20)
+      expect(mapSetContent['2'].length).toBe(28) // no limit for a geo source used only by one block
+     
+    })
+    it('provide correctly data to record blocks', () => {
+      expect.assertions(1)
+      const dataRecordContent = wrapper.vm.getBlockContent(mockPages['4'].containers[0].blocks[2])
+      expect(dataRecordContent.data.length).toBe(1)
+    })
+    it('do not display warning toaster if no mixed multi-mono sources', async () => {
+      expect.assertions(1)
+      const toasts = await wrapper.findAllComponents(Toast)
+      expect(toasts.length).toBe(0)
+    })
+    it('display a warning toaster if multi and mono sources are mixed in the same page', async () => {
+
+      const wrapper = await shallowMount(Page, {
+        ...globalComponentParams(),
+        propsData: {
+          pageId: '5',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group'
+        }
+      })
+      const spyOnToastAdd = jest.spyOn(wrapper.vm.$toast, 'add')
+      await wrapper.vm.$nextTick()
+
+      expect.assertions(2)
+      expect(spyOnToastAdd).toHaveBeenCalledTimes(1)
+      expect(spyOnToastAdd).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          severity: 'warn'
+        })
+      )
+
+      spyOnToastAdd.mockClear()
     })
   })
 })

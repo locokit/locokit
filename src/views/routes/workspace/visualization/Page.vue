@@ -338,16 +338,19 @@ export default {
     resetSources () {
       this.sources = {}
     },
-    /**
-     * is the block type a multi-line one,
-     * all _SET blocks
-     */
-    isMultiBlock (blockType) {
-      return [BLOCK_TYPE.TABLE_SET, BLOCK_TYPE.MAP_SET, BLOCK_TYPE.KANBAN_SET, BLOCK_TYPE.CARD_SET].indexOf(blockType) > -1
-    },
     createOrExtendSource (tableViewId, blockId, blockType = null) {
+      /**
+       * is the block type a multi-line one,
+       * all _SET blocks
+       */
+      const multi = [
+        BLOCK_TYPE.TABLE_SET,
+        BLOCK_TYPE.MAP_SET,
+        BLOCK_TYPE.KANBAN_SET,
+        BLOCK_TYPE.CARD_SET,
+      ].indexOf(blockType) > -1
       if (this.sources[tableViewId]) {
-        if (this.isMultiBlock(blockType) !== this.sources[tableViewId].multi) {
+        if (multi !== this.sources[tableViewId].multi) {
           this.$toast.add({
             severity: 'warn',
             summary: this.$t('error.cms.blockMultiConflictSummary'),
@@ -366,8 +369,17 @@ export default {
          * If we need to have "more" results in the Map (all for examples),
          * the map need to have its own source, so not the same TableView
          */
-         if (!isGeoBlock(blockType)) this.sources[tableViewId].options.itemsPerPage = 20
+         if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
       } else {
+        /**
+         * For the mapview block, we don't limit the result
+         * And for data records (or action button), we limit to 1
+         * TODO: we must optimize the way we manage data...
+         */
+        let itemsPerPage = 20
+        if (isGeoBlock(blockType)) itemsPerPage = -1
+        if (!multi) itemsPerPage = 1
+
         this.$set(this.sources, tableViewId, {
           definition: null,
           content: null,
@@ -377,15 +389,11 @@ export default {
               createdAt: 1
             },
             page: 0,
-            /**
-             * For the mapview block, we don't limit the result
-             * TODO: we must optimize the way we manage data...
-             */
-            itemsPerPage: isGeoBlock(blockType) ? -1 : 20,
+            itemsPerPage,
             filters: {}
           },
           // this option allows us to know if we need to use find or get methods for retrieving content
-          multi: this.isMultiBlock(blockType)
+          multi
         })
       }
     },
@@ -413,8 +421,8 @@ export default {
            * and the data display source (if any)
            */
           if (block.conditionalDisplayTableViewId) {
-            this.createOrExtendSource(block.conditionalDisplayTableViewId, block.id)
-            // block.conditionalDisplaySource = this.sources[block.conditionalDisplayTableViewId]
+            // we use BLOCK_TYPE.DATA_RECORD to explicit this is a one record source
+            this.createOrExtendSource(block.conditionalDisplayTableViewId, block.id, BLOCK_TYPE.DATA_RECORD)
           }
           if (isGeoBlock(block.type)) {
             // For a geo column, we get the definition of all specified views
@@ -512,16 +520,17 @@ export default {
             },
             {}
           )
-        case BLOCK_TYPE.TABLE_SET:
-        case BLOCK_TYPE.DATA_RECORD:
-        case BLOCK_TYPE.ACTION_BUTTON:
-        case BLOCK_TYPE.MARKDOWN_FIELD:
-          if (!block.settings.id) return null
-          return this.sources[block.settings.id].content
         case BLOCK_TYPE.MAP_FIELD:
           return {
             [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id].content]
           }
+        case BLOCK_TYPE.TABLE_SET:
+        case BLOCK_TYPE.DATA_RECORD:
+        case BLOCK_TYPE.ACTION_BUTTON:
+        case BLOCK_TYPE.MARKDOWN_FIELD:
+        default:
+          if (!block.settings.id) return null
+          return this.sources[block.settings.id]?.content
       }
     },
     /**
@@ -532,12 +541,6 @@ export default {
       if (!block.conditionalDisplayTableViewId) return true
       if (!block.conditionalDisplayFieldId) return true
       const currentData = this.sources[block.conditionalDisplayTableViewId]?.content?.data?.[0]
-      // console.log(
-      //   JSON.parse(JSON.stringify(currentData)),
-      //   block.conditionalDisplayFieldId,
-      //   block.conditionalDisplayFieldValue,
-      //   currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
-      // )
       if (!currentData) return false
       return currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
     },

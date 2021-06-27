@@ -29,8 +29,5 @@ describe('Array utils', () => {
     it('Return an empty object if the selected property is not a string', () => {
       expect(objectFromArray(arrayOfObjects, 'number')).toStrictEqual({})
     })
-    it('Return an empty object if the array is a array of null values', () => {
-      expect(objectFromArray([null, null], 'number')).toStrictEqual({})
-    })
   })
 })
