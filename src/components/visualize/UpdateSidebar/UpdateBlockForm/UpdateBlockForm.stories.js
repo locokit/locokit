@@ -126,7 +126,8 @@ const actionButtonBlock = {
     notificationSuccessDescription: "This action has succeed!",
     notificationErrorTitle: '',
     notificationErrorDescription: ''
-  }
+  },
+  definition: tableViewDefinition
 }
 
 export const newBlockStory = () => ({
