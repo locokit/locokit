@@ -347,7 +347,7 @@ export default {
         BLOCK_TYPE.TABLE_SET,
         BLOCK_TYPE.MAP_SET,
         BLOCK_TYPE.KANBAN_SET,
-        BLOCK_TYPE.CARD_SET,
+        BLOCK_TYPE.CARD_SET
       ].indexOf(blockType) > -1
       if (this.sources[tableViewId]) {
         if (multi !== this.sources[tableViewId].multi) {
@@ -364,12 +364,12 @@ export default {
          * we set the itemsPerPage to the default (20).
          * This means that, if a source is shared between a Table / Card / ... Set
          * AND a MapSet,
-         * the pagination is enabled. 
+         * the pagination is enabled.
          * The map will only display the paginated result.
          * If we need to have "more" results in the Map (all for examples),
          * the map need to have its own source, so not the same TableView
          */
-         if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
+        if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
       } else {
         /**
          * For the mapview block, we don't limit the result
@@ -448,7 +448,7 @@ export default {
     },
     /**
      * Load a single content source from its tableViewId
-     * Depending it's a multi or mono source, 
+     * Depending it's a multi or mono source,
      * or if a {rowId} is in the query params,
      * we use a find or get method
      */
@@ -887,7 +887,7 @@ export default {
     onBlockEditClick (containerToEdit, blockToEdit) {
       this.currentContainerToEdit = containerToEdit
       this.currentBlockToEdit = {
-        ...blockToEdit,
+        ...blockToEdit
       }
       const currentBlockDefinition = this.getBlockDefinition(blockToEdit)
       if (currentBlockDefinition) this.currentBlockToEdit.definition = currentBlockDefinition
@@ -902,7 +902,7 @@ export default {
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
           // Update the existing block in page>container>block with its new properties
-          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.container_id).blocks.find(b => b.id ===updatedBlock.id)
+          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.container_id).blocks.find(b => b.id === updatedBlock.id)
           for (const key in updatedBlock) {
             currentBlock[key] = updatedBlock[key]
           }

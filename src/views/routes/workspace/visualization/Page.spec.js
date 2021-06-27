@@ -148,7 +148,6 @@ const mockPages = {
     text: 'Page 4',
     createdAt: '2021-06-25T18:40:03.109Z',
     updatedAt: '2021-06-25T18:40:03.109Z',
-    chapter_id: 'C1',
     position: 3,
     chapter_id: 'C1',
     containers: [
@@ -185,7 +184,7 @@ const mockPages = {
                 },
                 {
                   id: '2'
-                },
+                }
               ]
             },
             title: 'My map block',
@@ -219,7 +218,6 @@ const mockPages = {
     updatedAt: '2021-06-25T18:40:03.109Z',
     chapter_id: 'C1',
     position: 4,
-    chapter_id: 'C1',
     containers: [
       {
         id: '15',
@@ -299,7 +297,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -307,7 +305,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -315,7 +313,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -323,7 +321,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -331,7 +329,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -339,7 +337,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -347,7 +345,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -355,7 +353,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -363,7 +361,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -371,7 +369,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -379,7 +377,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -387,7 +385,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -395,7 +393,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -403,7 +401,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -411,7 +409,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -419,7 +417,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -427,7 +425,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -435,7 +433,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -443,7 +441,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -451,7 +449,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -459,7 +457,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -467,7 +465,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -475,7 +473,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -483,7 +481,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -491,7 +489,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -499,7 +497,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -507,7 +505,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -515,7 +513,7 @@ const mockTableViewContents = () => ({
         data: {
           c1: 'first content'
         }
-      }, 
+      },
       {
         id: 'tv1r1',
         text: 'TableView 1 - Row 1',
@@ -751,7 +749,7 @@ const mockTableViewContents = () => ({
         data: {
           c2: 'second content'
         }
-      },
+      }
     ]
   },
   3: {
@@ -764,7 +762,7 @@ const mockTableViewContents = () => ({
           c3: 'third content',
           displayField: false
         }
-      }, 
+      },
       {
         id: 'tv3r1',
         text: 'TableView 3 - Row 1',
@@ -850,13 +848,13 @@ jest.mock('@/services/lck-api', () => ({
       (tableViewId, _0, skip, limit) => {
         const content = mockTableViewContents()[tableViewId]
         return limit === -1
-        ? mockTableViewContents()[tableViewId].data
-        : {
-          total: content.data.length,
-          limit,
-          skip,
-          data: content.data.slice(skip, skip + limit) // Paginated result
-        }
+          ? mockTableViewContents()[tableViewId].data
+          : {
+            total: content.data.length,
+            limit,
+            skip,
+            data: content.data.slice(skip, skip + limit) // Paginated result
+          }
       }
     )
   }
@@ -997,7 +995,7 @@ describe('Page', () => {
           expect(wrapper.vm.sources[definitionId].content.data).toStrictEqual(mockTableViewContents()['1'].data.slice(0, 20))
         })
         it('Get the right properties for the map block', () => {
-          expect.assertions(3)          
+          expect.assertions(3)
           expect(wrapper.vm.page.containers[1].blocks[2]).toMatchObject(mockPages['1'].containers[0].blocks[2])
           const blockDefinition = wrapper.vm.getBlockDefinition(wrapper.vm.page.containers[1].blocks[2])
           expect(blockDefinition).toStrictEqual({
@@ -1371,7 +1369,7 @@ describe('Page', () => {
           id: secondDisplayedBlock.id,
           title: 'newBlockName',
           type: 'MARKDOWN',
-          settings: { content: 'My new content' } 
+          settings: { content: 'My new content' }
         }
         let spyOnBlockPatch
 
@@ -1706,7 +1704,7 @@ describe('Page', () => {
     })
     it('mutualize all content in the page sources', () => {
       expect.assertions(3)
-      expect(wrapper.vm.sources['1'].content.data).toStrictEqual(mockTableViewContents()['1'].data.slice(0,20)) // paginated result
+      expect(wrapper.vm.sources['1'].content.data).toStrictEqual(mockTableViewContents()['1'].data.slice(0, 20)) // paginated result
       expect(wrapper.vm.sources['2'].content).toStrictEqual(mockTableViewContents()['2'].data) // this is a geo source only, limit to -1
       expect(wrapper.vm.sources['3'].content.data).toStrictEqual([mockTableViewContents()['3'].data[0]])
     })
@@ -1717,7 +1715,6 @@ describe('Page', () => {
       expect(tableSetContent.data).toBe(mapSetContent['1'])
       expect(tableSetContent.data.length).toBe(20)
       expect(mapSetContent['2'].length).toBe(28) // no limit for a geo source used only by one block
-     
     })
     it('provide correctly data to record blocks', () => {
       expect.assertions(1)
@@ -1730,7 +1727,6 @@ describe('Page', () => {
       expect(toasts.length).toBe(0)
     })
     it('display a warning toaster if multi and mono sources are mixed in the same page', async () => {
-
       const wrapper = await shallowMount(Page, {
         ...globalComponentParams(),
         propsData: {
