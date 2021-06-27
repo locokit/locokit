@@ -1,3 +1,4 @@
+// Github issue: https://github.com/knex/knex/issues/1699
 /**
  * Allow to manage constraint for enum/enu
  * Useful when adding, deleting, editing an element of a enum/enu
