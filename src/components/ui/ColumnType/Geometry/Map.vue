@@ -254,6 +254,8 @@ export default Vue.extend({
       })
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
+      if (!this.map?.getSource(resourceToUpdate.id)) return
+
       const layersToAdd: LckImplementedLayers[] = []
       const layersToUpdate: LckImplementedLayers[] = []
       const layersToRemove: LckImplementedLayers[] = []
@@ -614,6 +616,8 @@ export default Vue.extend({
       }
     },
     resources (newResources: LckGeoResource[], oldResources: LckGeoResource[]) {
+      if (!this.map) return
+
       const resourcesToAdd: LckGeoResource[] = []
       const resourcesToUpdate: LckGeoResource[] = []
       const resourcesToRemove: LckGeoResource[] = []
@@ -632,6 +636,9 @@ export default Vue.extend({
         const resourceToCompare: LckGeoResource = oldResources.find((oldResource) => oldResource.id === resourceToUpdate.id)!
         this.updateResource(resourceToUpdate, resourceToCompare)
       })
+
+      if (!this.singleEditMode) this.setFitBounds()
+
       // Reinitialize the draw controls depending of the new resources
       this.initDrawControls()
     },
