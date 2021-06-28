@@ -1,5 +1,11 @@
 # CHANGELOG
 
+**v0.2.8**
+
+**Feature**
+* add some block settings to allow the communication between the map and two blocks : the formrecord and the detailrecord
+* add a way to display a popup in the map on hover 
+
 **v0.2.7**
 
 **Feature**
