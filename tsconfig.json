@@ -12,7 +12,7 @@
     "knexfile.ts",
     "migrations",
     "seeds",
-    "utils",
+    "knexutils",
     "temp",
     "node_modules/feathers-authentication-management"
   ]

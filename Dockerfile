@@ -9,7 +9,7 @@ RUN apt-get autoclean
 RUN apt install nano
 COPY package*.json /code/
 COPY src /code/src/
-COPY utils /code/utils/
+COPY knexutils /code/knexutils/
 COPY public /code/public/
 COPY templates /code/templates/
 COPY lib /code/lib/

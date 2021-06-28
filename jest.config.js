@@ -16,5 +16,5 @@ module.exports = {
     '**/src/*.test.ts',
     '**/src/**/*.test.ts',
   ],
-  testPathIgnorePatterns: ['utils'],
+  testPathIgnorePatterns: ['knexutils'],
 }
