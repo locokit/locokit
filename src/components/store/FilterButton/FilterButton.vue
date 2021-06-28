@@ -361,7 +361,25 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.NOT_EMPTY
     ],
     patternComponentOptions: {
-      dateFormat: i18n.t('date.dateFormatPrime')
+      dateFormat: i18n.t('date.dateFormatPrime'),
+      showTime: false
+    }
+  },
+  [COLUMN_TYPE.DATETIME]: {
+    actions: [
+      ACTIONS.EQUAL,
+      ACTIONS.NOT_EQUAL,
+      { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
+      { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
+      { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
+      { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
+      ACTIONS.EMPTY,
+      ACTIONS.NOT_EMPTY
+    ],
+    patternComponent: 'p-calendar',
+    patternComponentOptions: {
+      dateFormat: i18n.t('date.dateFormatPrime'),
+      showTime: true
     }
   }
 }

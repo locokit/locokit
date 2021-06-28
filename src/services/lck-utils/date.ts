@@ -8,3 +8,7 @@ export function formatDate (date: string, format: TranslateResult) {
 export function formatDateISO (date: Date) {
   return formatISO(date, { representation: 'date' })
 }
+
+export function formatDateTimeISO (date: Date) {
+  return formatISO(date, { representation: 'complete' })
+}

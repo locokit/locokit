@@ -107,7 +107,15 @@
             :id="column.id"
             :dateFormat="$t('date.dateFormatPrime')"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event)"
+            @input="onDateEdit(row.id, column.id, $event, 'date')"
+            appendTo="body"
+          />
+          <p-calendar
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
+            v-model="row.data[column.id]"
+            @input="onDateEdit(row.id, column.id, $event, 'complete')"
+            :dateFormat="$t('date.dateFormatPrime')"
+            :showTime="true"
             appendTo="body"
           />
           <p-input-number
@@ -425,11 +433,11 @@ export default {
         this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
       )
     },
-    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
+    async onDateEdit (rowId: string, columnId: string, value: Date | null, representation: 'date' | 'complete') {
       await this.onEdit(
         rowId,
         columnId,
-        value ? formatISO(value, { representation: 'date' }) : null
+        value ? formatISO(value, { representation }) : null
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {

@@ -47,6 +47,14 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
     </p>
     <p>
       <i
+        class="bi bi-clock"
+      />
+      
+        DateTime
+      
+    </p>
+    <p>
+      <i
         class="bi bi-person-fill"
       />
       
