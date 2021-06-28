@@ -101,6 +101,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_68_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_68_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_69_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_69_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="p-field"
@@ -349,7 +498,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_50_list"
+          aria-owns="pv_id_70_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="blockSettingsTableView"
@@ -358,7 +507,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_50_list"
+            aria-controls="pv_id_70_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockSettingsTableView"
@@ -433,7 +582,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <span
             class="p-panel-title"
-            id="pv_id_51_header"
+            id="pv_id_71_header"
           >
             Notification settings
           </span>
@@ -443,9 +592,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
              
             <button
-              aria-controls="pv_id_51_content"
+              aria-controls="pv_id_71_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_51_header"
+              id="pv_id_71_header"
               type="button"
             >
               <span
@@ -459,9 +608,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         </div>
          
         <div
-          aria-labelledby="pv_id_51_header"
+          aria-labelledby="pv_id_71_header"
           class="p-toggleable-content"
-          id="pv_id_51_content"
+          id="pv_id_71_content"
           role="region"
           style="display: none;"
         >
@@ -701,6 +850,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
     </div>
      
     <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_61_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_61_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_62_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_62_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
       class="p-field"
     >
       <label
@@ -711,7 +1009,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
        
       <span
         aria-haspopup="listbox"
-        aria-owns="pv_id_47_list"
+        aria-owns="pv_id_63_list"
         class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
         dropdown="true"
         id="blockSettingsTableView"
@@ -720,7 +1018,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_47_list"
+          aria-controls="pv_id_63_list"
           autocomplete="off"
           class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
           id="blockSettingsTableView"
@@ -905,6 +1203,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_56_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_56_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_57_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_57_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -1055,6 +1502,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_64_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_64_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_65_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_65_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="source-configuration"
@@ -1070,7 +1666,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_48_list"
+            aria-owns="pv_id_66_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-0"
@@ -1078,7 +1674,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_48_list"
+              aria-controls="pv_id_66_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-0"
@@ -1200,7 +1796,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_49_list"
+            aria-owns="pv_id_67_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
             dropdown="true"
             id="blockSettingsMap-1"
@@ -1208,7 +1804,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_49_list"
+              aria-controls="pv_id_67_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsMap-1"
@@ -1489,6 +2085,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_54_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_54_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_55_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_55_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="p-field"
@@ -1740,6 +2485,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
       <div
         class="p-inputswitch p-component"
         id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_52_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_52_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_53_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_53_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
       >
         <div
           class="p-hidden-accessible"
@@ -2191,6 +3085,155 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_46_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_46_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_47_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_47_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <!---->
      
     <div
@@ -2325,6 +3368,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
       <div
         class="p-inputswitch p-component"
         id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_50_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_50_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_51_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_51_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
       >
         <div
           class="p-hidden-accessible"
@@ -2504,6 +3696,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
       </div>
     </div>
      
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_58_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_58_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_59_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_59_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
     <div>
       <div
         class="p-field"
@@ -2516,7 +3857,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_46_list"
+          aria-owns="pv_id_60_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="blockSettingsTableView"
@@ -2525,7 +3866,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_46_list"
+            aria-controls="pv_id_60_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockSettingsTableView"
@@ -2803,6 +4144,155 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
       <div
         class="p-inputswitch p-component"
         id="blockElevation"
+      >
+        <div
+          class="p-hidden-accessible"
+        >
+          <input
+            role="switch"
+            type="checkbox"
+          />
+        </div>
+         
+        <span
+          class="p-inputswitch-slider"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayTableViewId"
+      >
+        
+      View to use for conditional display
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_48_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        dropdown="true"
+        id="blockSettingsTableView"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_48_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+          id="blockSettingsTableView"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldId"
+      >
+        
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+      </label>
+       
+      <span
+        aria-haspopup="listbox"
+        aria-owns="pv_id_49_list"
+        class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+        disabled="disabled"
+        dropdown="true"
+        id="blockConditionalDisplayFieldId"
+        suggestions=""
+      >
+        <input
+          aria-autocomplete="list"
+          aria-controls="pv_id_49_list"
+          autocomplete="off"
+          class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+          disabled="disabled"
+          id="blockConditionalDisplayFieldId"
+          placeholder="Start typing for suggestions"
+          role="searchbox"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <button
+          class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+          disabled="disabled"
+          type="button"
+        >
+          <span
+            class="pi pi-chevron-down p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </span>
+    </div>
+     
+    <div
+      class="p-field p-d-flex p-flex-column"
+    >
+      <label
+        for="blockConditionalDisplayFieldValue"
+      >
+        
+      Field's value for conditional display (true / false)
+    
+      </label>
+       
+      <div
+        class="p-inputswitch p-component"
+        id="blockConditionalDisplayFieldValue"
       >
         <div
           class="p-hidden-accessible"

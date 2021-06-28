@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { lckServices } from '@/services/lck-api'
-import { LckTableColumn, LckTableView } from '@/services/lck-api/definitions'
+import { LckTableView } from '@/services/lck-api/definitions'
 import { Paginated } from '@feathersjs/feathers'
 
 export const mockDatabase = {
@@ -287,7 +287,7 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
   return mockDatabase
 }
 
-export async function retrieveTableColumns (tableId: string) {
+export async function retrieveTableColumns (/* tableId: string */) {
   return [{
     id: 'column-1'
   }]

@@ -66,7 +66,7 @@ html, body, #app {
 }
 
 .generic-view-container {
-  max-width: 960px;
+  max-width: min(960px, 100vw);
   width: 960px;
 }
 
