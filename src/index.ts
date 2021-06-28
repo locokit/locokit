@@ -124,8 +124,8 @@ export interface CaughtBlockEvent {
 }
 
 export interface CommunicatingBlockSettings<T extends string = string> {
-  caughtEvents?: Record<string, CaughtBlockEvent[]>;
-  triggerEvents?: TriggerBlockEvent<T>[];
+  caughtEvents?: Record<string, CaughtBlockEvent[]>; // The key is the trigger event name of the event triggered by another block
+  triggerEvents?: TriggerBlockEvent<T>[]; // Events to trigger for the block
 }
 
 export interface Block {
