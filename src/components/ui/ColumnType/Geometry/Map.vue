@@ -240,6 +240,7 @@ export default Vue.extend({
       this.map!.on('draw.modechange', this.onDrawModeChange)
     },
     addResource (resource: LckGeoResource) {
+      if (this.map!.getSource(resource.id)) return
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {

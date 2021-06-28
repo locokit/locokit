@@ -123,7 +123,7 @@ export default {
       default: 'TableView'
     },
     submitting: {
-      type: Object,
+      type: Object, // Submitting type : { inProgress: boolean, errors?: Errors[] }
       default: () => ({ inProgress: false })
     },
     exporting: {
