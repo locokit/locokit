@@ -318,6 +318,7 @@ export default {
         delete this.blockCopy.displayTableView
         delete this.blockCopy.displayField
         delete this.blockCopy.loading
+        delete this.blockCopy.pageLoaded
         delete this.blockCopy.createdAt
         delete this.blockCopy.updatedAt
         delete this.blockCopy.definition

@@ -225,6 +225,7 @@ export class LckBlockExtended extends LckBaseModel {
 
   loading?: boolean
   definition?: LckTableView
+  pageLoaded?: boolean;
 }
 
 export class MediaConfiguration {
