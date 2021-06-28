@@ -446,6 +446,18 @@
           "textAlign": "Text position",
           "textColor": "Text color"
         },
+        "conditionalDisplayTableView": "View to use for conditional display",
+        "conditionalDisplayField": "View's field for conditional display (only Boolean fields or Boolean formulas)",
+        "conditionalDisplayFieldValue": "Field's value for conditional display (true / false)",
+        "labelButton": "Button label",
+        "classButton": {
+          "title": "Button style",
+          "danger":  "@:pages.workspace.container.anchor.class.danger",
+          "warning":  "@:pages.workspace.container.anchor.class.warning",
+          "success":  "@:pages.workspace.container.anchor.class.success",
+          "primary":  "@:pages.workspace.container.anchor.class.primary",
+          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+        },
         "markdownField": {
           "textAlign": "@:pages.workspace.block.markdown.textAlign",
           "textColor": "@:pages.workspace.block.markdown.textColor",
@@ -659,6 +671,10 @@
       "ROW_DELETION": "An error occured when deleting the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
+    },
+    "cms": {
+      "blockMultiConflictSummary": "Conflict at shared sources level",
+      "blockMultiConflictDetail": "Some shared blocks sources in your page are simultaneously multi and mono items. Please fix it."
     }
   },
   "form" : {

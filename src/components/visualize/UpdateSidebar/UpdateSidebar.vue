@@ -43,11 +43,15 @@
           <update-block-form
             :block="block"
             :autocompleteSuggestions="autocompleteSuggestions"
+            :blockDisplayTableViewSuggestions="blockDisplayTableViewSuggestions"
+            :blockDisplayFieldSuggestions="blockDisplayFieldSuggestions"
             :relatedChapterPages="relatedChapterPages"
             :submitting="submitting"
             @input="$emit('update-block', $event)"
             @close="resetSidebar"
             @search-table-view="$emit('search-table-view', $event)"
+            @search-block-display-table-view="$emit('search-block-display-table-view', $event)"
+            @search-block-display-field="$emit('search-block-display-field', $event)"
           />
         </p-tab-panel>
       </p-tab-view>
@@ -88,11 +92,11 @@ export default {
     },
     container: {
       type: Object as PropType<LckContainer>,
-      default: () => ({})
+      default: () => (new LckContainer())
     },
     block: {
       type: Object as PropType<LckBlockExtended>,
-      default: () => ({})
+      default: () => (new LckBlockExtended())
     },
     page: {
       type: Object,
@@ -107,6 +111,14 @@ export default {
       default: '40rem'
     },
     autocompleteSuggestions: {
+      type: Array as PropType<{ label: string; value: string }[]>,
+      default: () => ([])
+    },
+    blockDisplayTableViewSuggestions: {
+      type: Array as PropType<{ label: string; value: string }[]>,
+      default: () => ([])
+    },
+    blockDisplayFieldSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
       default: () => ([])
     },

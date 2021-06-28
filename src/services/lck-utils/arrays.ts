@@ -31,6 +31,7 @@ export const getArrayDepth = (value: any): number => {
 export function objectFromArray<T extends object> (array: T[], idKey: keyof T): Record<string, T> {
   return array.reduce<Record<string, T>>(
     (allElements, elementToAdd) => {
+      if (!elementToAdd) return allElements
       const keyValue = elementToAdd[idKey]
       if (typeof keyValue === 'string') {
         Object.assign(allElements, { [keyValue]: elementToAdd })

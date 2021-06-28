@@ -33,6 +33,50 @@
       />
     </div>
 
+    <div class="p-field p-d-flex p-flex-column">
+      <label for="blockConditionalDisplayTableViewId">
+        {{ $t('pages.workspace.block.conditionalDisplayTableView') }}
+      </label>
+      <lck-autocomplete
+        id="blockSettingsTableView"
+        field="text"
+        v-model="blockDisplayTableView"
+        :dropdown="true"
+        :suggestions="blockDisplayTableViewSuggestions"
+        @item-select="blockCopy.conditionalDisplayTableViewId = blockDisplayTableView.value"
+        @search="$emit('search-block-display-table-view', $event)"
+      />
+    </div>
+
+    <div class="p-field p-d-flex p-flex-column">
+      <label for="blockConditionalDisplayFieldId">
+        {{ $t('pages.workspace.block.conditionalDisplayField') }}
+      </label>
+      <lck-autocomplete
+        id="blockConditionalDisplayFieldId"
+        :disabled="!blockDisplayTableView"
+        field="text"
+        v-model="blockDisplayField"
+        :dropdown="true"
+        :suggestions="blockDisplayFieldSuggestions"
+        @item-select="blockCopy.conditionalDisplayFieldId = blockDisplayField.value"
+        @search="$emit('search-block-display-field', {
+          ...$event,
+          tableViewId: blockCopy.conditionalDisplayTableViewId
+        })"
+      />
+    </div>
+
+    <div class="p-field p-d-flex p-flex-column">
+      <label for="blockConditionalDisplayFieldValue">
+        {{ $t('pages.workspace.block.conditionalDisplayFieldValue') }}
+      </label>
+      <p-switch
+        id="blockConditionalDisplayFieldValue"
+        v-model="blockCopy.conditionalDisplayFieldValue"
+      />
+    </div>
+
     <!-- Custom settings -->
     <paragraph-settings-fields
       v-if="blockCopy.type === BLOCK_TYPE.PARAGRAPH"
@@ -70,7 +114,7 @@
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
@@ -79,14 +123,14 @@
     <data-record-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.DATA_RECORD"
       :id.sync="blockCopy.settings.id"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
     <map-settings-fields
       v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :sources="blockCopy.settings.sources"
       :autocompleteSuggestions="autocompleteSuggestions"
@@ -109,7 +153,7 @@
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
       :pageRedirectId.sync="blockCopy.settings.pageRedirectId"
       :pageQueryFieldId.sync="blockCopy.settings.pageQueryFieldId"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
@@ -126,7 +170,7 @@
 import Vue from 'vue'
 
 import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
-import { LckBlockExtended, MediaConfiguration } from '@/services/lck-api/definitions'
+import { LckBlockExtended, LckTableView, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
@@ -141,11 +185,13 @@ import TableSetSettingsFields from '@/components/visualize/UpdateSidebar/UpdateB
 import DataRecordSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/DataRecordSettingsFields.vue'
 import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
 import ActionButtonSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ActionButtonSettingsFields.vue'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 export default {
   name: 'UpdateBlockForm',
   components: {
     'lck-form': LckForm,
+    'lck-autocomplete': AutoComplete,
     'paragraph-settings-fields': ParagraphSettingsFields,
     'markdown-settings-fields': MarkdownSettingsFields,
     'markdown-field-settings-fields': MarkdownFieldSettingsFields,
@@ -171,6 +217,14 @@ export default {
       type: Array,
       default: () => ([])
     } as Vue.PropOptions<{ label: string; value: string }[]>,
+    blockDisplayTableViewSuggestions: {
+      type: Array,
+      default: () => ([])
+    } as Vue.PropOptions<{ label: string; value: string }[]>,
+    blockDisplayFieldSuggestions: {
+      type: Array,
+      default: () => ([])
+    } as Vue.PropOptions<{ label: string; value: string }[]>,
     relatedChapterPages: {
       type: Array,
       default: () => ([])
@@ -180,7 +234,10 @@ export default {
     return {
       BLOCK_TYPE,
       blockCopy: new LckBlockExtended(),
-      blockRefreshRequired: false
+      tableViewDefinition: null as LckTableView | null,
+      blockRefreshRequired: false,
+      blockDisplayTableView: null as { text: string; value: string } | null,
+      blockDisplayField: null as { text: string; value: string } | null
     }
   },
   computed: {
@@ -257,6 +314,27 @@ export default {
     block: {
       handler (newValue: LckBlockExtended) {
         this.blockCopy = { ...newValue }
+        this.tableViewDefinition = newValue.definition ? newValue.definition : null
+        delete this.blockCopy.displayTableView
+        delete this.blockCopy.displayField
+        delete this.blockCopy.loading
+        delete this.blockCopy.createdAt
+        delete this.blockCopy.updatedAt
+        delete this.blockCopy.definition
+        this.blockDisplayTableView = null
+        this.blockDisplayField = null
+        if (newValue.displayTableView) {
+          this.blockDisplayTableView = {
+            text: newValue.displayTableView.text,
+            value: newValue.displayTableView.id
+          }
+        }
+        if (newValue.displayField) {
+          this.blockDisplayField = {
+            text: newValue.displayField.text,
+            value: newValue.displayField.id
+          }
+        }
         if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
       },
       immediate: true
