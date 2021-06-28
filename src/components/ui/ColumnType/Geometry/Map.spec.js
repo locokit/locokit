@@ -27,7 +27,19 @@ const mockResources = [
           coordinates: [10, 20]
         },
         id: 'f1',
-        properties: []
+        properties: {
+          title: 'First feature',
+          rowId: 'row1',
+          columnId: 'row2',
+          content: JSON.stringify([
+            {
+              field: {
+                label: 'First field',
+                value: 10
+              }
+            }
+          ])
+        }
       },
       {
         type: 'Feature',
@@ -36,7 +48,7 @@ const mockResources = [
           coordinates: [15, 30]
         },
         id: 'f2',
-        properties: []
+        properties: {}
       }
     ],
     layers: [GEO_STYLE.Point],
@@ -67,9 +79,18 @@ const mockResources = [
     type: 'FeatureCollection',
     features: [],
     layers: [GEO_STYLE.Point],
-    popupMode: null,
+    popupMode: 'click',
     editableGeometryTypes: new Set(),
     selectable: true
+  },
+  {
+    id: 'resource_5',
+    type: 'FeatureCollection',
+    features: [],
+    layers: [GEO_STYLE.Point],
+    popupMode: 'hover',
+    editableGeometryTypes: new Set(),
+    selectable: false
   }
 ]
 
@@ -122,7 +143,14 @@ jest.mock('mapbox-gl', () => ({
   NavigationControl: jest.fn(),
   ScaleControl: jest.fn(),
   Popup: jest.fn(() => ({
-    addTo: jest.fn()
+    remove: jest.fn(),
+    isOpen: jest.fn(),
+    setLngLat: jest.fn(),
+    addTo: jest.fn(),
+    setHTML: jest.fn(),
+    getElement: jest.fn(() => ({
+      querySelectorAll: jest.fn(() => [])
+    }))
   }))
 }))
 
@@ -279,6 +307,23 @@ describe('Map component', () => {
         })
       })
 
+      it('Select a feature with a null id in a source', () => {
+        // Initialize the component
+        const wrapper = shallowMount(Map, {
+          propsData: {
+            resources: mockResources
+          }
+        })
+        // Select a feature
+        wrapper.vm.selectFeature(resourceId, null)
+        // Save this information
+        expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
+          [resourceId]: null
+        })
+        // Don't customize it
+        expect(wrapper.vm.map.setFeatureState).not.toHaveBeenCalled()
+      })
+
       it('Select a default feature from the props', async () => {
         // Initialize the component
         const wrapper = shallowMount(Map, {
@@ -367,7 +412,7 @@ describe('Map component', () => {
               resources: mockResources
             }
           })
-          wrapper.vm.selectFeatureOnClick('customLayerId', 'resourceId', 1)
+          wrapper.vm.selectFeatureOnClick('customLayerId', 'resourceId')
           selectFeatureOnClickFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
           spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
         })
@@ -403,6 +448,109 @@ describe('Map component', () => {
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
         })
+      })
+    })
+
+    describe('addPopupOnFeature', () => {
+      let wrapper, addPopupOnFeatureFunction
+
+      beforeEach(() => {
+        wrapper = shallowMount(Map, {
+          propsData: {
+            resources: mockResources,
+            hasPopup: true,
+            mode: 'Block'
+          },
+          mocks: {
+            t: key => key,
+            $t: key => key
+          }
+        })
+        wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
+        addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
+      })
+
+      it('Add the popup to the map only if it is not displayed yet', () => {
+        wrapper.vm.popup.component.addTo.mockClear()
+        wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => false)
+        addPopupOnFeatureFunction({
+          features: [mockFirstFeature],
+          type: 'mousemove'
+        })
+        expect(wrapper.vm.popup.component.addTo).toHaveBeenCalledWith(wrapper.vm.map)
+        expect(wrapper.vm.popup.featuresIds).toBe('f1')
+      })
+
+      it('Do not add the popup to the map if it is already displayed', () => {
+        wrapper.vm.popup.component.addTo.mockClear()
+        wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => true)
+        addPopupOnFeatureFunction({
+          features: [mockFirstFeature]
+        })
+        expect(wrapper.vm.popup.component.addTo).not.toHaveBeenCalled()
+      })
+
+      it('Do not move the popup if there is no features', () => {
+        wrapper.vm.popup.component.setLngLat.mockClear()
+        addPopupOnFeatureFunction({
+          features: []
+        })
+        expect(wrapper.vm.popup.component.setLngLat).not.toHaveBeenCalled()
+      })
+
+      it('Only update the popup content if the selected features are different', () => {
+        wrapper.vm.popup.component.setHTML.mockClear()
+        // Display the popup the first time on one feature
+        addPopupOnFeatureFunction({
+          features: [mockFirstFeature],
+          type: 'mousemove'
+        })
+        expect(wrapper.vm.popup.component.setHTML).toHaveBeenCalledTimes(1)
+        wrapper.vm.popup.component.setHTML.mockClear()
+        // Display the popup the second time on the same feature
+        addPopupOnFeatureFunction({
+          features: [mockFirstFeature],
+          type: 'mousemove'
+        })
+        expect(wrapper.vm.popup.component.setHTML).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('RemovePopupOnFeature', () => {
+      let wrapper, removePopupOnFeatureFunction, addPopupOnFeatureFunction
+
+      beforeAll(() => {
+        wrapper = shallowMount(Map, {
+          propsData: {
+            resources: [mockResources[4]],
+            hasPopup: true,
+            mode: 'Block'
+          },
+          mocks: {
+            t: key => key,
+            $t: key => key
+          }
+        })
+        wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
+        addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId.find(listener =>
+          listener.type === 'touchstart'
+        ).func
+        removePopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId.find(listener =>
+          listener.type === 'mouseleave'
+        ).func
+      })
+
+      it('Remove the popup from the map', () => {
+        addPopupOnFeatureFunction({
+          features: [mockFirstFeature],
+          type: 'mousemove'
+        })
+        wrapper.vm.popup.component.remove.mockClear()
+        removePopupOnFeatureFunction({
+          features: [mockResources[4]]
+        })
+        expect(wrapper.vm.popup.component.remove).toHaveBeenCalled()
+        expect(wrapper.vm.popup.featuresIds).toBe('')
       })
     })
 
@@ -516,6 +664,25 @@ describe('Map component', () => {
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
           expect(listeners).toContainEqual({
+            type: 'mouseenter',
+            func: wrapper.vm.setPointerCursor
+          },
+          {
+            type: 'mouseleave',
+            func: wrapper.vm.resetCursor
+          })
+        })
+
+        it('if a popup can be displayed on feature hover', () => {
+          const wrapper = shallowMount(Map, {
+            propsData: {
+              resources: [mockResources[4]],
+              hasPopup: true
+            }
+          })
+          const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
+          expect(listeners.length).toBe(3)
+          expect(listeners).not.toContainEqual({
             type: 'mouseenter',
             func: wrapper.vm.setPointerCursor
           },

@@ -113,14 +113,12 @@ export default Vue.extend({
       // Catch an event coming from another block : must receive a row reference to select the related feature
       if (columnId && eventData.originalValue !== undefined) {
         const reference: LckTableRowData = (eventData.originalValue as LckTableRowDataComplex)?.reference || eventData.originalValue
-        console.log('REFERENCE', reference)
         if (!reference) return this.onResetBlockEvent(columnId, triggerBlockId)
         const geoResources = this.resources.filter(r => r.caughtEvents?.includes(triggerBlockId))
         geoResources.forEach(geoResource => {
           this.$set(this.selectedFeatureBySource, geoResource.id, `${reference}:${columnId}`)
         })
       }
-      // console.log(this.selectedFeatureBySource)
     },
     onResetBlockEvent (_: string | undefined, triggerBlockId: string) {
       // Catch an event coming from another block : unselect some features

@@ -503,7 +503,6 @@ export default {
         ? currentBlock.content[tableViewId].find(d => d.id === rowId)
         : currentBlock.content.data.find(d => d.id === rowId)
 
-      // To improve...
       if (newValue.reference) newValue = newValue.reference
 
       this.cellState = {
@@ -1072,15 +1071,11 @@ export default {
       // retrieve for each blocks the definition / data of the block
       if (!newVal || !newVal.containers || !newVal.containers.length > 0) return
       // To remove after the source mutualization merge request
-      console.log('before all')
       for (const container of newVal.containers.sort((c1, c2) => c1.position - c2.position)) {
         for (const block of container.blocks.sort((b1, b2) => b1.position - b2.position)) {
-          console.log('before b')
           await this.loadBlockContentAndDefinition(block)
-          console.log('after b')
         }
       }
-      console.log('after all')
       this.page.containers.forEach(container => {
         container.blocks.forEach(block => {
           this.$set(block, 'pageLoaded', true)

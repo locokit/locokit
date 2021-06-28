@@ -1,5 +1,6 @@
 <template>
   <lck-form
+    :displayCancelButton="false"
     :submitting="submitting.inProgress"
     :fullWidthButton="true"
     :canSubmit="completeForm"

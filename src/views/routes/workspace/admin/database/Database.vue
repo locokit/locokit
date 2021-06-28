@@ -116,8 +116,8 @@
             @sort="onSort"
             @column-resize="onColumnResize"
             @column-reorder="onColumnReorder"
-            @column-select="onSelectBlockEvent"
-            @action-column-select="onActionSelectBlockEvent"
+            @column-select="onColumnSelect"
+            @action-column-select="onActionColumnSelect"
             @display-column-sidebar="onDisplayColumnSidebar"
             @table-view-column-edit="onTableViewColumnEdit"
             @row-delete="onRowDelete"
@@ -806,12 +806,12 @@ export default {
         }
       }
     },
-    onSelectBlockEvent (selectedColumn) {
+    onColumnSelect (selectedColumn) {
       this.currentColumnToEdit = selectedColumn
       this.currentAction = null
       this.showEditColumnSidebar = false
     },
-    onActionSelectBlockEvent (action) {
+    onActionColumnSelect (action) {
       this.currentActionColumnToEdit = action
       this.currentColumnToEdit = null
       this.showEditColumnSidebar = false

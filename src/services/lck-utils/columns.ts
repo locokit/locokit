@@ -317,6 +317,9 @@ export function getColumnDisplayValue (
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
         const currentValue = (column.settings.values?.[data as string]) as SelectValue
+        if (onlyBaseValue) {
+          return currentValue?.label
+        }
         return {
           value: currentValue?.value,
           label: currentValue?.label,

@@ -374,7 +374,7 @@ export default {
 .lck-edit-button {
   position: fixed;
   bottom: 1em;
-  left: 1em;
+  right: 1em;
   z-index: 15;
 }
 </style>

@@ -21,7 +21,7 @@ export default Vue.extend({
     }
   },
   created () {
-    if (!this.settings.caughtEvents) return
+    if (!this.settings?.caughtEvents) return
     // Listen all the defined events
     for (const [triggerBlockId, caughtEvents] of Object.entries(this.settings.caughtEvents)) {
       const onEventFunction = (eventData: EmittedBlockEvent) => {

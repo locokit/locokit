@@ -531,15 +531,13 @@ export default Vue.extend({
           const links = element.querySelectorAll('.popup-row-toolbox .row-detail-page');
 
           (e.features || []).forEach(({ properties }, index) => {
-            if (properties?.rowId) {
-              if (links[index]) {
-                links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
-                const { sendIdToDetail, popup } = this
-                if (popup.component) {
-                  popup.component.on('close', function () {
-                    links[index].removeEventListener('click', () => sendIdToDetail)
-                  })
-                }
+            if (properties?.rowId && links[index]) {
+              links[index].addEventListener('click', () => this.sendIdToDetail(properties.rowId, pageDetailId))
+              const { sendIdToDetail, popup } = this
+              if (popup.component) {
+                popup.component.on('close', function () {
+                  links[index].removeEventListener('click', () => sendIdToDetail)
+                })
               }
             }
           })
@@ -570,7 +568,7 @@ export default Vue.extend({
     makeFeaturesInteractive () {
       const mapHasPopup = this.mode === MODE.BLOCK && this.hasPopup
       if (mapHasPopup) {
-        this.popup.component = new Popup({ offset: 10, closeOnClick: false }).addTo(this.map!)
+        this.popup.component = new Popup({ offset: 10, closeOnClick: false })
       }
       this.resources.forEach(resource => {
         const resourceHasPopup = mapHasPopup && resource.popupMode
