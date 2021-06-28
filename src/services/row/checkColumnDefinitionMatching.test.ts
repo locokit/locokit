@@ -504,12 +504,39 @@ describe('checkColumnDefinitionMatching hook', () => {
       .rejects.toThrow(NotAcceptable)
   })
 
+  // it('throw an error if a date column receive a non ISO8601 string', async () => {
+  //   expect.assertions(1)
+  //   await expect(app.service('row')
+  //     .create({
+  //       data: {
+  //         [columnTable1Date.id]: '2020-10-291',
+  //       },
+  //       table_id: table1.id,
+  //     }))
+  //     .rejects.toThrow(NotAcceptable)
+  // })
+
   it('accept an ISO8601 string value for a date column type', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
     const rowTable1 = await app.service('row')
       .create({
         data: {
           [columnTable1Date.id]: '2020-10-29',
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1Date.id]).toBe('2020-10-29')
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept an ISO8601 string value for a datetime column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1Date.id]: '2020-10-29T12:09:12',
         },
         table_id: table1.id,
       })
