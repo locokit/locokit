@@ -169,7 +169,7 @@ export interface BlockTableSet extends Block {
   settings: TableSetSettings;
 }
 
-export interface DataRecordSettings extends CommunicatingBlockSettings<'update'>  {
+export interface DataRecordSettings extends CommunicatingBlockSettings<'update'> {
   id: string; // uuid of table_view
 }
 
