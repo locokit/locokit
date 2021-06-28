@@ -35,7 +35,7 @@ export default function (app: Application): void {
       '$any',
       '$eager',
     ],
-    allowedEager: '[containers.[blocks]]',
+    allowedEager: '[containers.[blocks.[displayTableView, displayField]]]',
     paginate: app.get('paginate'),
   }
 

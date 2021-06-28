@@ -3,18 +3,11 @@
 // for more of what you can do here.
 import { Model, QueryBuilder, RelationMappings, JSONSchema } from 'objection'
 import { Application } from '../declarations'
-import { TableColumn } from './tablecolumn.model'
+import { TableColumn, TableColumnDTO } from './tablecolumn.model'
 import { TableRow } from './tablerow.model'
 import { BaseModel } from './base.model'
 import { Table } from './table.model'
 import { TableAction } from './tableaction.model'
-
-export type LckColumnFilter = Record<string, string | Array<string | number> | Object>
-
-export class TableColumnDTO extends TableColumn {
-  filter?: LckColumnFilter
-  sort?: Object
-}
 
 export class TableView extends BaseModel {
   columns?: TableColumnDTO[]

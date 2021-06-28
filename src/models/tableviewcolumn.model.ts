@@ -58,14 +58,6 @@ export class TableViewColumn extends BaseModel {
       },
     }
   }
-
-  $beforeInsert (): void {
-    this.createdAt = this.updatedAt = new Date().toISOString()
-  }
-
-  $beforeUpdate (): void {
-    this.updatedAt = new Date().toISOString()
-  }
 }
 
 export default function (app: Application): typeof TableViewColumn {
