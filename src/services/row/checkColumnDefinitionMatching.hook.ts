@@ -18,6 +18,9 @@ enum GEOMETRY_TYPE {
   POINT = 'POINT',
   POLYGON = 'POLYGON',
   LINESTRING = 'LINESTRING',
+  MULTIPOINT = 'MULTIPOINT',
+  MULTIPOLYGON = 'MULTIPOLYGON',
+  MULTILINESTRING = 'MULTILINESTRING',
 }
 
 function getGeometryType (columnType: COLUMN_TYPE): GEOMETRY_TYPE | null {
@@ -28,6 +31,12 @@ function getGeometryType (columnType: COLUMN_TYPE): GEOMETRY_TYPE | null {
       return GEOMETRY_TYPE.POINT
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return GEOMETRY_TYPE.POLYGON
+    case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+      return GEOMETRY_TYPE.MULTILINESTRING
+    case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+      return GEOMETRY_TYPE.MULTIPOINT
+    case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
+      return GEOMETRY_TYPE.MULTIPOLYGON
     default:
       return null
   }
@@ -37,7 +46,8 @@ function getGeometryType (columnType: COLUMN_TYPE): GEOMETRY_TYPE | null {
  * match its definition :
  * * a BOOLEAN is a boolean, true / false or nullable value
  * * a NUMBER is a number or nullable value
- * * a DATE is a ISO 8601 Date, or nullable value
+ * * a DATE is a ISO 8601 Date, or nullable value https://en.wikipedia.org/wiki/ISO_8601#Dates
+ * * a DATETIME is a ISO 8601 DateTime, or nullable value https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations
  * * a STRING is a string or nullable value
  * * a FLOAT is a float or nullable value
  * * a USER is an existing user, defined by its reference
@@ -128,6 +138,7 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
           case COLUMN_TYPE.DATE:
+          case COLUMN_TYPE.DATETIME:
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
@@ -357,6 +368,9 @@ export function checkColumnDefinitionMatching (): Hook {
           case COLUMN_TYPE.GEOMETRY_POINT:
           case COLUMN_TYPE.GEOMETRY_LINESTRING:
           case COLUMN_TYPE.GEOMETRY_POLYGON:
+          case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+          case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+          case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
             /**
              * Check if it is a string
              */
