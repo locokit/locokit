@@ -111,6 +111,23 @@ export enum GEOMETRY_TYPE {
   POLYGON = 'Polygon',
 }
 
+export interface TriggerBlockEvent<T> {
+  name: string; // Name of the trigger event (must be unique in a page)
+  type: T; // Type of the trigger event
+  field?: string; // The field to include in an event
+  raiseOnLoad?: boolean; // Trigger the event on load
+}
+
+export interface CaughtBlockEvent {
+  type: 'select' | 'reset' // Type of the catch event
+  targetField?: string; // The target id
+}
+
+export interface CommunicatingBlockSettings<T extends string = string> {
+  caughtEvents?: Record<string, CaughtBlockEvent[]>;
+  triggerEvents?: TriggerBlockEvent<T>[];
+}
+
 export interface Block {
   id: string;
   type: BLOCK_TYPE;
@@ -120,7 +137,7 @@ export interface Block {
   conditionalDisplayFieldValue?: boolean; // value to compare to display block (only boolean for now)
 }
 
-export interface ParagraphSettings {
+export interface ParagraphSettings extends CommunicatingBlockSettings {
   content: string; // text to display
 }
 
@@ -152,7 +169,7 @@ export interface BlockTableSet extends Block {
   settings: TableSetSettings;
 }
 
-export interface DataRecordSettings {
+export interface DataRecordSettings extends CommunicatingBlockSettings<'update'>  {
   id: string; // uuid of table_view
 }
 
@@ -189,6 +206,8 @@ export interface BlockMedia extends Block {
   settings: MediaSettings;
 }
 
+export type MapSourceTriggerEvents = TriggerBlockEvent<'selectRow'|'selectField'>[];
+
 export interface MapSourceSettings {
   id: string; // uuid of the table_view
   geometry?: GEOMETRY_TYPE; // geometry type
@@ -197,15 +216,18 @@ export interface MapSourceSettings {
   popupSettings?: { // a popup is like a card
     title?: string; // column / field 's UUID
     pageDetailId?: string; // uuid of page, allow to redirect to a detail page (display only a record)
+    onHover?: boolean;
     contentFields?: {
       field: string; // column / field's UUID
       class?: string; // css class to apply on this field
     }[]
   }
   selectable?: boolean; // can we select a feature
+  triggerEvents?: MapSourceTriggerEvents; // event to trigger
+  caughtEvents?: string[] // ids of the caught events to capture for this source
 }
 
-export interface MapSettings {
+export interface MapSettings extends CommunicatingBlockSettings {
   sources: MapSourceSettings[];
 }
 
@@ -280,7 +302,7 @@ export interface BlockMarkdownField extends Block {
   settings: MarkdownFieldSettings;
 }
 
-export interface FormRecordSettings {
+export interface FormRecordSettings extends CommunicatingBlockSettings<'update'|'submit'> {
   id: string; // uuid of table_view
 }
 
