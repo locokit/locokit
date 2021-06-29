@@ -107,7 +107,7 @@ export default {
       type: String
     },
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView>
+      type: Object as Vue.PropType<LckTableView | null>
     },
     autocompleteSuggestions: {
       type: Array,
@@ -129,10 +129,12 @@ export default {
   },
   watch: {
     tableViewDefinition: {
-      handler ({ text, id } = { text: '', id: '' }) {
-        this.tableView = {
-          value: id,
-          text
+      handler (view: LckTableView | null) {
+        if (view) {
+          this.tableView = {
+            value: view.id,
+            text: view.text
+          }
         }
       },
       immediate: true

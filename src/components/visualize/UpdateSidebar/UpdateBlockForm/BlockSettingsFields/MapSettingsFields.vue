@@ -78,7 +78,7 @@ export default Vue.extend({
       default: () => ([])
     },
     tableViewDefinition: {
-      type: Object as PropType<Record<string, LckTableView>>
+      type: Object as PropType<Record<string, LckTableView> | null>
     },
     relatedChapterPages: {
       type: Array,
@@ -102,7 +102,7 @@ export default Vue.extend({
     sources (newSources: MapSourceSettings[]) {
       this.updateSourceViewOptions(newSources)
     },
-    tableViewDefinition (newTableViewDefinition: Record<string, LckTableView>) {
+    tableViewDefinition (newTableViewDefinition: Record<string, LckTableView> | null) {
       this.updateTableViewIdsTextsAssociation(newTableViewDefinition)
       this.updateSourceViewOptions(this.sources)
     }
@@ -123,7 +123,7 @@ export default Vue.extend({
     onDeleteSource (index: number) {
       this.$emit('delete-source', index)
     },
-    updateTableViewIdsTextsAssociation (definitions: Record<string, LckTableView>) {
+    updateTableViewIdsTextsAssociation (definitions: Record<string, LckTableView> | null) {
       // Build an object making the association between the view id and the view name
       for (const viewId in definitions) {
         this.tableViewIdsNamesAssociation[viewId] = definitions[viewId].text

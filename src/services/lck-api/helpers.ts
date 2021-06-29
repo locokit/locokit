@@ -315,6 +315,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
 }
 
 export async function retrieveViewDefinition (ids: number[], skip = 0) {
+  if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
     // eslint-disable-next-line @typescript-eslint/camelcase
     query: {

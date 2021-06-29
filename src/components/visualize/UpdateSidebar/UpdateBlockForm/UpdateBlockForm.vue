@@ -234,7 +234,7 @@ export default {
     return {
       BLOCK_TYPE,
       blockCopy: new LckBlockExtended(),
-      tableViewDefinition: null as LckTableView | null,
+      tableViewDefinition: null as Record<string, LckTableView> | LckTableView | null,
       blockRefreshRequired: false,
       blockDisplayTableView: null as { text: string; value: string } | null,
       blockDisplayField: null as { text: string; value: string } | null
