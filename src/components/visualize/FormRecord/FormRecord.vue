@@ -16,7 +16,7 @@
       @update-row="onUpdateRow"
       @download-attachment="$listeners['download-attachment']"
       @update-suggestions="$listeners['update-suggestions']"
-      @upload-files="$listeners['upload-files']"
+      @upload-files="$emit('upload-files', $event, newRow)"
     />
   </lck-form>
 </template>
