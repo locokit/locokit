@@ -599,6 +599,16 @@
       "editUser": "Edit User",
       "disableUser": "Disable User",
       "resendVerifySignup": "Resend verify link",
+      "notification": {
+        "success": {
+          "summary": "Email sent !",
+          "detail": "The account verification email has been sent"
+        },
+        "error": {
+          "summary": "Email not sent !",
+          "detail": "The account verification email has not been sent"
+        }
+      },
       "buttons": {
         "newUser": "Save",
         "editUser": "Update"

@@ -1,14 +1,10 @@
 <template>
-  <div
-      class="p-mx-auto p-px-2"
-  >
+  <div class="p-mx-auto p-px-2">
     <div class="lck-color-primary p-my-4">
-      <h1>{{ $t('pages.userManagement.title') }}</h1>
+      <h1>{{ $t("pages.userManagement.title") }}</h1>
     </div>
 
-    <div
-      class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
-    >
+    <div class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
       <p-toolbar class="w-full p-my-4">
         <template slot="left">
           <lck-filter-button
@@ -20,7 +16,12 @@
           />
         </template>
         <template slot="right">
-          <p-button :label="$t('pages.userManagement.addNewUser')" icon="pi pi-plus" class="p-mr-2" @click="addUser" />
+          <p-button
+            :label="$t('pages.userManagement.addNewUser')"
+            icon="pi pi-plus"
+            class="p-mr-2"
+            @click="addUser"
+          />
         </template>
       </p-toolbar>
 
@@ -35,16 +36,18 @@
         :resizableColumns="true"
         columnResizeMode="fit"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-        :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
+        :currentPageReportTemplate="
+          $t('components.paginator.currentPageReportTemplate')
+        "
         @page="onPage($event)"
       >
         <p-column
           field="id"
-            headerClass="p-text-center p-col-1"
-            bodyClass="p-text-center"
-            :header="$t('pages.userManagement.id')"
-            sortable
-          >
+          headerClass="p-text-center p-col-1"
+          bodyClass="p-text-center"
+          :header="$t('pages.userManagement.id')"
+          sortable
+        >
         </p-column>
         <p-column
           field="name"
@@ -70,7 +73,7 @@
           sortable
         >
           <template #body="slotProps">
-             {{ slotProps.data['profile'] }}
+            {{ slotProps.data["profile"] }}
           </template>
         </p-column>
         <p-column
@@ -87,32 +90,33 @@
               />
               <p-button
                 :icon="
-                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading
+                  resendVerifySignupUsers[slotProps.data.id] &&
+                  resendVerifySignupUsers[slotProps.data.id].loading
                     ? 'pi pi-spin pi-spinner'
-                    : (
-                      resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
-                      ? 'pi pi-exclamation-circle'
-                      : 'pi pi-envelope'
-                    )
+                    : resendVerifySignupUsers[slotProps.data.id] &&
+                      resendVerifySignupUsers[slotProps.data.id].error
+                    ? 'pi pi-exclamation-circle'
+                    : 'pi pi-envelope'
                 "
                 :class="
-                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
-                  ? 'p-button-danger'
-                  : (
-                    slotProps.data.isVerified
+                  resendVerifySignupUsers[slotProps.data.id] &&
+                  resendVerifySignupUsers[slotProps.data.id].error
+                    ? 'p-button-danger'
+                    : slotProps.data.isVerified
                     ? 'p-button-outlined p-disabled'
                     : ''
-                  )
                 "
                 @click="resendVerifySignup(slotProps.data)"
                 :disabled="
-                  slotProps.data.isVerified
-                  || ( resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading )
+                  slotProps.data.isVerified ||
+                    (resendVerifySignupUsers[slotProps.data.id] &&
+                      resendVerifySignupUsers[slotProps.data.id].loading)
                 "
                 :title="
-                  resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error
-                  ? resendVerifySignupUsers[slotProps.data.id].error
-                  : $t('pages.userManagement.resendVerifySignup')
+                  resendVerifySignupUsers[slotProps.data.id] &&
+                  resendVerifySignupUsers[slotProps.data.id].error
+                    ? resendVerifySignupUsers[slotProps.data.id].error
+                    : $t('pages.userManagement.resendVerifySignup')
                 "
               />
               <p-button
@@ -125,41 +129,48 @@
         </p-column>
       </p-datatable>
       <div
-        v-else-if="usersWithPagination && usersWithPagination.data.length === 0 && currentDatatableFilters.length > 0"
+        v-else-if="
+          usersWithPagination &&
+            usersWithPagination.data.length === 0 &&
+            currentDatatableFilters.length > 0
+        "
         class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
       >
-        <p>{{ $t('pages.userManagement.noUserFound') }}</p>
+        <p>{{ $t("pages.userManagement.noUserFound") }}</p>
       </div>
-      <div
-        v-else
-        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
-      >
-        <p>{{ $t('pages.userManagement.noUser') }}</p>
+      <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+        <p>{{ $t("pages.userManagement.noUser") }}</p>
       </div>
     </div>
 
     <lck-dialog-form
       :visible.sync="openDialog"
-      :header="$t(`pages.userManagement.${editingUser ? 'editUserDetails': 'createUserDetails'}`)"
+      :header="
+        $t(
+          `pages.userManagement.${
+            editingUser ? 'editUserDetails' : 'createUserDetails'
+          }`
+        )
+      "
       @close="openDialog = false"
       :submitting="submitting"
-      :contentStyle="{'overflow-y': 'visible'}"
+      :contentStyle="{ 'overflow-y': 'visible' }"
       @input="saveUser"
     >
       <template>
         <div class="p-field">
-          <label for="name">{{ $t('pages.userManagement.name') }}</label>
+          <label for="name">{{ $t("pages.userManagement.name") }}</label>
           <p-input-text
             id="name"
             v-model.trim="user.name"
             required
             autofocus
-            :class="{'p-invalid': submitting && !user.name}"
+            :class="{ 'p-invalid': submitting && !user.name }"
           />
         </div>
         <div class="p-field">
           <label for="email">
-            {{ $t('pages.userManagement.email') }}
+            {{ $t("pages.userManagement.email") }}
           </label>
           <p-input-text
             id="email"
@@ -169,12 +180,9 @@
             :disabled="editingUser"
           />
         </div>
-        <div
-          class="p-field"
-          v-if="editingUser"
-        >
+        <div class="p-field" v-if="editingUser">
           <label for="isVerified">
-            {{ $t('pages.userManagement.isVerified') }}
+            {{ $t("pages.userManagement.isVerified") }}
           </label>
           <p-input-switch
             class="p-d-block"
@@ -184,14 +192,14 @@
           />
         </div>
         <p class="p-field">
-          <label for="profile">{{ $t('pages.userManagement.profile') }}</label>
+          <label for="profile">{{ $t("pages.userManagement.profile") }}</label>
           <p-dropdown
             id="profile"
             v-model.trim="user.profile"
             :options="profiles"
             optionLabel="label"
             optionValue="value"
-            :class="{'p-invalid': submitting && !user.profile}"
+            :class="{ 'p-invalid': submitting && !user.profile }"
             :placeholder="$t('pages.userManagement.selectProfile')"
           >
             <template #option="slotProps">
@@ -244,7 +252,10 @@ export default {
       openDialog: false,
       editingUser: null,
       submitting: false,
-      profiles: Object.keys(USER_PROFILE).map(key => ({ label: key, value: key })),
+      profiles: Object.keys(USER_PROFILE).map(key => ({
+        label: key,
+        value: key
+      })),
       currentPage: 0,
       resendVerifySignupUsers: {}
     }
@@ -259,12 +270,14 @@ export default {
             text: this.$t('pages.userManagement.name'),
             // eslint-disable-next-line @typescript-eslint/camelcase
             column_type_id: COLUMN_TYPE.STRING
-          }, {
+          },
+          {
             id: 'email',
             text: this.$t('pages.userManagement.email'),
             // eslint-disable-next-line @typescript-eslint/camelcase
             column_type_id: COLUMN_TYPE.STRING
-          }, {
+          },
+          {
             id: 'isVerified',
             text: this.$t('pages.userManagement.isVerified'),
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -289,26 +302,42 @@ export default {
     editUser (user) {
       this.user = {
         id: user.id,
+
         name: user.name,
         profile: user.profile,
         isVerified: user.isVerified,
+
         email: user.email
       }
       this.editingUser = true
       this.openDialog = true
     },
     async resendVerifySignup (user) {
-      this.$set(this.resendVerifySignupUsers, user.id, { loading: true, error: null })
+      this.$set(this.resendVerifySignupUsers, user.id, {
+        loading: true,
+        error: null
+      })
       try {
-        await lckClient.service('authManagement').create(
-          {
-            action: 'resendVerifySignup',
-            value: { email: user.email }
-          }
-        )
+        await lckClient.service('authManagement').create({
+          action: 'resendVerifySignup',
+          value: { email: user.email }
+        })
         this.retrieveUsersData()
+
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('pages.userManagement.notification.success.summary'),
+          detail: this.$t('pages.userManagement.notification.success.detail'),
+          life: 3000
+        })
       } catch (error) {
         this.resendVerifySignupUsers[user.id].error = error
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('pages.userManagement.notification.error.summary'),
+          detail: this.$t('pages.userManagement.notification.error.detail'),
+          life: 3000
+        })
       }
       this.resendVerifySignupUsers[user.id].loading = false
     },
