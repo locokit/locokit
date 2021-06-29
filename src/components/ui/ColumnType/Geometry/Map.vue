@@ -96,7 +96,8 @@ export default Vue.extend({
       popup: {
         component: null as Popup | null,
         featuresIds: ''
-      }
+      },
+      mapIsLoaded: false
     }
   },
   mounted () {
@@ -147,6 +148,7 @@ export default Vue.extend({
     window.addEventListener('resize', this.onResize)
 
     this.map.on('load', () => {
+      this.mapIsLoaded = true
       this.loadResources()
       this.setFitBounds()
       this.initDrawControls()
@@ -240,7 +242,6 @@ export default Vue.extend({
       this.map!.on('draw.modechange', this.onDrawModeChange)
     },
     addResource (resource: LckGeoResource) {
-      if (this.map!.getSource(resource.id)) return
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {
@@ -254,8 +255,6 @@ export default Vue.extend({
       })
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
-      if (!this.map?.getSource(resourceToUpdate.id)) return
-
       const layersToAdd: LckImplementedLayers[] = []
       const layersToUpdate: LckImplementedLayers[] = []
       const layersToRemove: LckImplementedLayers[] = []
@@ -616,7 +615,7 @@ export default Vue.extend({
       }
     },
     resources (newResources: LckGeoResource[], oldResources: LckGeoResource[]) {
-      if (!this.map) return
+      if (!this.mapIsLoaded) { return }
 
       const resourcesToAdd: LckGeoResource[] = []
       const resourcesToUpdate: LckGeoResource[] = []
