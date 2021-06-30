@@ -253,16 +253,14 @@
             />
             <p-calendar
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar'"
-              v-model="currentDateToEdit"
-              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              v-model="slotProps.data.data[column.id]"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar-time'"
-              v-model="currentDateToEdit"
-              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              v-model="slotProps.data.data[column.id]"
               :dateFormat="$t('date.dateFormatPrime')"
               :showTime="true"
               appendTo="body"
@@ -796,11 +794,11 @@ export default {
            * we format it in the date representation,
            * we just want to store the date
            */
-          if (this.currentDateToEdit instanceof Date) {
+          if (event.data.data[event.field] instanceof Date) {
             value = currentColumn.column_type_id === COLUMN_TYPE.DATETIME
-              ? formatDateTimeISO(this.currentDateToEdit)
-              : formatDateISO(this.currentDateToEdit)
-          } else if (this.currentDateToEdit === '') {
+              ? formatDateTimeISO(event.data.data[event.field])
+              : formatDateISO(event.data.data[event.field])
+          } else if (event.data.data[event.field] === '') {
             value = null
           } else {
             return

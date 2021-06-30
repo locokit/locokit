@@ -187,6 +187,7 @@ export function getDataFromTableViewColumn (
   data: LckTableRowData,
   options: {
     dateFormat: string | TranslateResult;
+    datetimeFormat: string | TranslateResult;
     noData: string | TranslateResult;
     noReference: string | TranslateResult;
   }):
@@ -219,7 +220,7 @@ export function getDataFromTableViewColumn (
       }
     case COLUMN_TYPE.FORMULA:
       const value = getColumnTypeId(column) === COLUMN_TYPE.DATE
-        ? formatDate(data as string, options.dateFormat)
+        ? formatDate(data as Date, options.dateFormat)
         : data
 
       return {
@@ -230,7 +231,13 @@ export function getDataFromTableViewColumn (
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as string, options.dateFormat) || options.noData) as string
+        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string
+      }
+    case COLUMN_TYPE.DATETIME:
+      // eslint-disable-next-line no-case-declarations
+      return {
+        label: column.text,
+        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string
       }
     default:
       return { label: column.text, value: (data || options.noData) as string }
@@ -316,6 +323,7 @@ export function getColumnDisplayValue (
         const originalColumn = getOriginalColumn(column)
         if ([
           COLUMN_TYPE.DATE,
+          COLUMN_TYPE.DATETIME,
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT
         ].includes(originalColumn.column_type_id)) {
@@ -347,14 +355,14 @@ export function getColumnDisplayValue (
 
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-          return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+          return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
         } else {
           return data as string
         }
       case COLUMN_TYPE.DATE:
-        return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+        return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
       case COLUMN_TYPE.DATETIME:
-        return formatDate((data as string), i18n.t('date.datetimeFormat')) || ''
+        return formatDate((data as Date), i18n.t('date.datetimeFormat')) || ''
       default:
         return data as string
     }

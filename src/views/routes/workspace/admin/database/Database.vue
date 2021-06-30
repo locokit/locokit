@@ -504,6 +504,7 @@ export default {
           filters: this.getCurrentFilters(this.currentDatatableFilters)
         }
       )
+      lckHelpers.convertDateInRecords(this.block.content.data, this.block.definition.columns)
       this.block.loading = false
     },
     async saveRow () {
@@ -909,6 +910,7 @@ export default {
           $lckGroupId: this.groupId
         })
         this.cellState.isValid = true
+        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
@@ -998,6 +1000,7 @@ export default {
             }
           })
           this.cellState.isValid = true
+          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
           currentRow.data = res.data
         }
       } catch (error) {
@@ -1028,6 +1031,7 @@ export default {
           }
         })
         this.cellState.isValid = true
+        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false

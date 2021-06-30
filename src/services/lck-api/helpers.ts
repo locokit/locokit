@@ -16,14 +16,17 @@ import {
   LckUser,
   LckAttachment,
   LckTableView,
-  LckWorkspace
+  LckWorkspace,
+  LckTableColumn,
+  LckTableRowDataComplex
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { getColumnDisplayValue } from '../lck-utils/columns'
+import { getColumnDisplayValue, getColumnTypeId } from '../lck-utils/columns'
 import FileType from 'file-type/browser'
+import { parseISO } from 'date-fns'
 
 /**
  * Contact the API for searching items.
@@ -371,6 +374,50 @@ export async function retrieveViewData (
   })
 }
 
+/**
+ * Convert every date field in a single data record in Date
+ */
+function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[]) {
+  dateFields.forEach(({ id, column_type_id }) => {
+    if (!record.data[id]) return
+    if (column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+      if (!(record.data[id] as LckTableRowDataComplex).value) return
+      (record.data[id] as LckTableRowDataComplex).value = parseISO((record.data[id] as LckTableRowDataComplex).value as string)
+    } else {
+      record.data[id] = parseISO(record.data[id] as string)
+    }
+  })
+}
+
+/**
+ * Convert every date field in data records (from the LCK API) in Date
+ * Match also formulas with
+ * This allow prime calendar to be displayed with the good data
+ */
+export function convertDateInRecords (records: LckTableRow | LckTableRow[], fieldDefinition: LckTableColumn[]): void {
+  const dateFields = fieldDefinition.filter(f => {
+    let keepField = false
+    switch (f.column_type_id) {
+      case COLUMN_TYPE.DATE:
+      case COLUMN_TYPE.DATETIME:
+        keepField = true
+        break
+      case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      case COLUMN_TYPE.FORMULA:
+        keepField = [
+          COLUMN_TYPE.DATE,
+          COLUMN_TYPE.DATETIME
+        ].includes(getColumnTypeId(f))
+    }
+    return keepField
+  })
+  if (Array.isArray(records)) {
+    records.forEach(currentRecord => convertDateInRecord(currentRecord, dateFields))
+  } else {
+    convertDateInRecord(records, dateFields)
+  }
+}
+
 export default {
   searchItems,
   exportTableRowDataXLS,
@@ -383,5 +430,6 @@ export default {
   retrieveTableViewData,
   retrieveViewData,
   retrieveViewDefinition,
-  retrievePageWithContainersAndBlocks
+  retrievePageWithContainersAndBlocks,
+  convertDateInRecords
 }
