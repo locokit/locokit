@@ -179,12 +179,15 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[]):
     geoStyle = null
     switch (geoType) {
       case COLUMN_TYPE.GEOMETRY_POINT:
+      case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
         geoStyle = GEO_STYLE.Point
         break
       case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
         geoStyle = GEO_STYLE.Linestring
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
+      case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
         geoStyle = GEO_STYLE.Polygon
         break
       default:
