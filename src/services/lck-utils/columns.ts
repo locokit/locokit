@@ -12,6 +12,7 @@ import {
   SelectValue
 } from '@/services/lck-api/definitions'
 import { formatDate } from '@/services/lck-utils/date'
+import { PopupContent } from './map/transformWithOL'
 
 /**
  * DataTable cells display & editor components
@@ -190,8 +191,7 @@ export function getDataFromTableViewColumn (
     datetimeFormat: string | TranslateResult;
     noData: string | TranslateResult;
     noReference: string | TranslateResult;
-  }):
-  { label: string; value: string | number; color?: string; backgroundColor?: string } {
+  }): PopupContent['field'] {
   switch (column.column_type_id) {
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
@@ -199,7 +199,7 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
       return {
         label: column.text,
-        value: (data as LckTableRowDataComplex).value || options.noData as string
+        value: (data as LckTableRowDataComplex).value as string || options.noData as string
       }
     case COLUMN_TYPE.MULTI_USER:
       return {
@@ -318,7 +318,7 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.USER:
       case COLUMN_TYPE.GROUP:
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        return (data as LckTableRowDataComplex).value
+        return (data as LckTableRowDataComplex).value as string
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
         const originalColumn = getOriginalColumn(column)
         if ([
@@ -331,7 +331,7 @@ export function getColumnDisplayValue (
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
           return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
         } else {
-          return (data as LckTableRowDataComplex).value
+          return (data as LckTableRowDataComplex).value as string
         }
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')

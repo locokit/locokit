@@ -105,16 +105,16 @@
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
             :id="column.id"
-            :dateFormat="$t('date.dateFormatPrime')"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'date')"
+            :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id], 'date')"
             appendTo="body"
           />
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'complete')"
             :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id], 'complete')"
             :showTime="true"
             appendTo="body"
           />
@@ -448,11 +448,13 @@ export default {
       )
     },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
-      this.$emit('update-row', {
-        rowId,
-        columnId,
-        newValue: value
-      })
+      if (this.mode === 'read') {
+        this.$emit('update-row', {
+          rowId,
+          columnId,
+          newValue: value
+        })
+      }
     },
     /**
      * Remove an attachment for the column's attachments

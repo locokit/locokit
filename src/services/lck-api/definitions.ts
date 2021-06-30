@@ -168,13 +168,13 @@ export class LCKTableRowMultiDataComplex {
   value!: string[];
 }
 
-export type LckTableRowData = Date 
-  | string[] 
-  | string 
-  | number 
-  | LckTableRowDataComplex 
-  | LCKTableRowMultiDataComplex 
-  | null 
+export type LckTableRowData = Date
+  | string[]
+  | string
+  | number
+  | LckTableRowDataComplex
+  | LCKTableRowMultiDataComplex
+  | null
   | boolean;
 
 export class LckTableRow extends LckBaseModel {
