@@ -869,57 +869,57 @@ export default {
 
 <style scoped>
 
-/deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
+::v-deep tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
   border: 2px solid #fff;
   background-color: #fff;
 }
-/deep/ td .p-checkbox {
+::v-deep td .p-checkbox {
   display: flex;
   margin: 0 auto;
 }
 
-/deep/ td .p-checkbox .p-checkbox-box {
+::v-deep td .p-checkbox .p-checkbox-box {
   border-color: var(--primary-color-lighten);
 }
 
-/deep/ td .p-checkbox .p-checkbox-box.p-highlight {
+::v-deep td .p-checkbox .p-checkbox-box.p-highlight {
   border-color: var(--primary-color-lighten);
   background: var(--primary-color-lighten);
 }
 
-/deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
+::v-deep td .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
   font-weight: bold;
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
   border-color: var(--primary-color-darken);
   background: var(--primary-color-darken);
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
   color: var(--primary-color-lighten) !important;
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
   box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
   border-color: var(--primary-color) !important;
 }
 
-/deep/ .p-editable-column.p-cell-editing .p-dropdown,
-/deep/ .p-editable-column.p-cell-editing .p-multiselect {
+::v-deep .p-editable-column.p-cell-editing .p-dropdown,
+::v-deep .p-editable-column.p-cell-editing .p-multiselect {
   border: 1px solid var(--primary-color);
   border-radius: 0;
 }
 
-/deep/ .p-datatable-resizable > .p-datatable-wrapper {
+::v-deep .p-datatable-resizable > .p-datatable-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 100%;
 }
 
-/deep/ .p-cell-editing .p-inputtextarea {
+::v-deep .p-cell-editing .p-inputtextarea {
   border: 1px solid var(--primary-color);
   border-radius: 0;
   background-color: white;
@@ -928,7 +928,7 @@ export default {
   height: 160px;
 }
 
-/deep/ .edit-column-icon {
+::v-deep .edit-column-icon {
   color: inherit !important;
   background: transparent !important;
   border: 0;
