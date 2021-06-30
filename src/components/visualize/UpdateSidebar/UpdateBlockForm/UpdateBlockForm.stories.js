@@ -123,7 +123,7 @@ const actionButtonBlock = {
     displayFieldId: '',
     displayFieldConditionQuery: 'true',
     notificationSuccessTitle: "It's done!",
-    notificationSuccessDescription: "This action has succeed!",
+    notificationSuccessDescription: 'This action has succeed!',
     notificationErrorTitle: '',
     notificationErrorDescription: ''
   },

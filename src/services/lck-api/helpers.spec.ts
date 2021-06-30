@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { convertDateInRecords } from './helpers'
 import { LckTableRow, LckTableColumn, LckTableRowDataComplex } from './definitions'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -48,7 +49,7 @@ describe('LCK API helpers utilities', () => {
         text: 'record-test',
         data: {
           'formula-date-field': '2021-06-12Z',
-          'formula-date-time-field': '2021-06-12T12:00:00',
+          'formula-date-time-field': '2021-06-12T12:00:00'
         }
       }
       const definitions: LckTableColumn[] = [{
@@ -82,12 +83,12 @@ describe('LCK API helpers utilities', () => {
         data: {
           'lkdp-date-field': {
             reference: 'foreign-uuid',
-            value: '2021-06-12Z',
+            value: '2021-06-12Z'
           },
           'lkdp-date-time-field': {
             reference: 'foreign-uuid',
-            value: '2021-06-12T12:00:00',
-          },
+            value: '2021-06-12T12:00:00'
+          }
         }
       }
       const definitions: LckTableColumn[] = [{
@@ -133,16 +134,16 @@ describe('LCK API helpers utilities', () => {
           'datetime-field': null,
           'lkdp-date-field': {
             reference: 'foreign-uuid',
-            value: null,
+            value: null
           },
           'lkdp-date-time-field': {
             reference: 'foreign-uuid',
-            value: null,
+            value: null
           },
           'lkdp-date-field1': null,
           'lkdp-date-time-field1': null,
           'formula-date-field': null,
-          'formula-date-time-field': null,
+          'formula-date-time-field': null
         }
       }
       const definitions: LckTableColumn[] = [{
@@ -229,13 +230,13 @@ describe('LCK API helpers utilities', () => {
       convertDateInRecords(record, definitions)
       expect.assertions(8)
       expect(record.data['date-field']).toBeNull()
-      expect(record.data['datetime-field'] ).toBeNull()
+      expect(record.data['datetime-field']).toBeNull()
       expect((record.data['lkdp-date-field'] as LckTableRowDataComplex).value).toBeNull()
       expect((record.data['lkdp-date-time-field'] as LckTableRowDataComplex).value).toBeNull()
       expect((record.data['lkdp-date-field1'] as LckTableRowDataComplex)).toBeNull()
       expect((record.data['lkdp-date-time-field1'] as LckTableRowDataComplex)).toBeNull()
       expect(record.data['formula-date-field']).toBeNull()
-      expect(record.data['formula-date-time-field'] ).toBeNull()
+      expect(record.data['formula-date-time-field']).toBeNull()
     })
   })
 })
