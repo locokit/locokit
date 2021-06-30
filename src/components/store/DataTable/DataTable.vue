@@ -776,16 +776,7 @@ export default {
            * or if he's just switching between months.
            * For that, we'll check in the DOM directly with the event target.
            */
-          if (event.originalEvent.target.className.indexOf('p-datepicker') > -1) {
-            event.preventDefault()
-            return
-          }
-          /**
-           * If the user is on a DATETIME field,
-           * he would like to click several times on cursors down / up to select the right time
-           * We need to prevent in this case too
-           */
-          if (event.originalEvent.target.closest('.p-timepicker') !== null) {
+          if (event.originalEvent.target.closest('.p-datepicker') !== null) {
             event.preventDefault()
             return
           }

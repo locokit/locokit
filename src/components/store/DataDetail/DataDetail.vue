@@ -437,7 +437,7 @@ export default {
       await this.onEdit(
         rowId,
         columnId,
-        value ? formatISO(value, { representation }) : null
+        value // ? formatISO(value, { representation }) : null
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
@@ -447,14 +447,12 @@ export default {
         transformFeatureToWKT(features[0])
       )
     },
-    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
-      if (this.mode === 'read') {
-        this.$emit('update-row', {
-          rowId,
-          columnId,
-          newValue: value
-        })
-      }
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
+      this.$emit('update-row', {
+        rowId,
+        columnId,
+        newValue: value
+      })
     },
     /**
      * Remove an attachment for the column's attachments

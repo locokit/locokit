@@ -477,6 +477,13 @@ export default {
           currentSource.options.filters
         )
       }
+      // if the source is a multi one with $limit = -1,
+      if (Array.isArray(currentSource.content)) {
+        lckHelpers.convertDateInRecords(currentSource.content, this.sources[tableViewId].definition.columns)
+      } else {
+        // we are on a paginated result
+        lckHelpers.convertDateInRecords(currentSource.content.data, this.sources[tableViewId].definition.columns)
+      }
     },
     async refreshDefinitionAndContent () {
       this.inventorySources()
@@ -596,6 +603,12 @@ export default {
           $lckGroupId: this.groupId
         })
         this.cellState.isValid = true
+        const blockDefinition = this.getBlockDefinition(block)
+        const currentDefinition = isGeoBlock(currentBlock.type)
+          ? blockDefinition[tableViewId]
+          : blockDefinition
+
+        lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
