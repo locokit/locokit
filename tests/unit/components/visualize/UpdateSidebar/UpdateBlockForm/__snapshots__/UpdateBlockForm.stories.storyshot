@@ -493,7 +493,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         <label
           for="blockSettingsTableView"
         >
-          View to display
+          View used for enabling button
         </label>
          
         <span
@@ -550,7 +550,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         <label
           for="displayFieldId"
         >
-          Display the button according to this field
+          Enable the button according to this field
         </label>
          
         <input
@@ -565,7 +565,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         <label
           for="displayFieldConditionQuery"
         >
-          Display the button if the value is equivalent to
+          Enable the button if the value is equivalent to
         </label>
          
         <input

@@ -195,7 +195,7 @@ const tableViewData = {
     text: 'Vélo n° 42',
     data: {
       '3a659ea1-446f-4755-8db9-583a204279cc': 'first',
-      'b9058b15-44b7-4cd9-a121-a942b69a0434': '2020-10-30',
+      'b9058b15-44b7-4cd9-a121-a942b69a0434': new Date('2020-10-30'),
       'bde4bbbd-2584-447f-acff-f434f53619da': {
         value: 'AMSTERDAMAIR',
         reference: 4
@@ -784,7 +784,7 @@ const rowLookedUpColumn = {
     },
     'e465323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: '2021-01-15'
+      value: new Date('2021-01-15')
     },
     'e565323c-1151-447f-be0f-6d2728117b38': {
       reference: 'u015323c-1151-447f-be0f-6d2728117b38',

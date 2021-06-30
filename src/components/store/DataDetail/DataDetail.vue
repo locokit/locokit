@@ -107,14 +107,14 @@
             :id="column.id"
             v-model="row.data[column.id]"
             :dateFormat="$t('date.dateFormatPrime')"
-            @hide="onDateEdit(row.id, column.id, row.data[column.id], 'date')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             appendTo="body"
           />
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
             v-model="row.data[column.id]"
             :dateFormat="$t('date.dateFormatPrime')"
-            @hide="onDateEdit(row.id, column.id, row.data[column.id], 'complete')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             :showTime="true"
             appendTo="body"
           />
@@ -224,7 +224,6 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
 import GeometryType from 'ol/geom/GeometryType'
@@ -433,7 +432,7 @@ export default {
         this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
       )
     },
-    async onDateEdit (rowId: string, columnId: string, value: Date | null, representation: 'date' | 'complete') {
+    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
         rowId,
         columnId,
