@@ -699,18 +699,6 @@
     "dateFormat": "dd/MM/yyyy",
     "dateFormatPrime": "dd/mm/yy",
     "datetimeFormat": "dd/MM/yyyy HH:mm",
-    "localePrime": {
-      "firstDayOfWeek": 1,
-      "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-      "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-      "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
-      "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-      "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
-      "today": "Aujourd'hui",
-      "clear": "Réinitialiser",
-      "dateFormat": "dd/mm/yy",
-      "weekHeader": "Sm"
-    },
     "datetimeLogFormat": "dd/MM/yyyy HH:mm:ss"
   },
   "sw": {
@@ -736,5 +724,26 @@
       "center": "Centré",
       "justify": "Justifié"
     }
+  },
+  "localePrime": {
+    "accept": "Oui",
+    "reject": "Non",
+    "choose": "Choisir",
+    "upload": "Téléverser",
+    "cancel": "Annuler",
+    "firstDayOfWeek": 1,
+    "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
+    "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+    "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+    "today": "Aujourd'hui",
+    "clear": "Réinitialiser",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Sm",
+    "weak": "Faible",
+    "medium": "Moyen",
+    "strong": "Fort",
+    "passwordPrompt": "Saisissez un mot de passe"
   }
 }

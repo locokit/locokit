@@ -699,18 +699,6 @@
     "dateFormat": "MM/dd/yyyy",
     "dateFormatPrime": "mm/dd/yy",
     "datetimeFormat": "MM/dd/yyyy HH:mm",
-    "localePrime": {
-      "firstDayOfWeek": 0,
-      "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      "dayNamesMin": ["Su","Mo","Tu","We","Th","Fr","Sa"],
-      "monthNames": [ "January","February","March","April","May","June","July","August","September","October","November","December" ],
-      "monthNamesShort": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
-      "today": "Today",
-      "clear": "Clear",
-      "dateFormat": "mm/dd/yy",
-      "weekHeader": "Wk"
-    },
     "datetimeLogFormat": "MM/dd/yyyy HH:mm:ss"
   },
   "sw": {
@@ -736,5 +724,26 @@
       "center": "Center",
       "justify": "Justify"
     }
+  },
+  "localePrime": {
+    "accept": "Yes",
+    "reject": "No",
+    "choose": "Choose",
+    "upload": "Upload",
+    "cancel": "Cancel",
+    "firstDayOfWeek": 0,
+    "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "dayNamesMin": ["Su","Mo","Tu","We","Th","Fr","Sa"],
+    "monthNames": [ "January","February","March","April","May","June","July","August","September","October","November","December" ],
+    "monthNamesShort": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+    "today": "Today",
+    "clear": "Clear",
+    "dateFormat": "mm/dd/yy",
+    "weekHeader": "Wk",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "passwordPrompt": "Enter a password"
   }
 }

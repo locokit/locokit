@@ -89,6 +89,14 @@ export default {
     document.addEventListener('swUpdated', () => {
       this.displayPopupReload = true
     }, { once: true })
+  },
+  watch: {
+    '$i18n.locale': {
+      handler () {
+        this.$primevue.config.locale = this.$t('localePrime')
+      },
+      immediate: true
+    }
   }
 
 }
