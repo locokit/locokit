@@ -545,7 +545,7 @@ export default {
       return currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -553,7 +553,7 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
@@ -603,7 +603,7 @@ export default {
       this.cellState.waiting = false
     },
     async onSort (block, { field, order }) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           // find the matching column_type_id to adapt
@@ -613,10 +613,10 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateFilters (block, filters) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -624,7 +624,7 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
