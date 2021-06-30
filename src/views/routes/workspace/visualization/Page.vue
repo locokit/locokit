@@ -658,6 +658,11 @@ export default {
                 data[c.id] = null
               }
               break
+            case COLUMN_TYPE.FILE:
+              if (Array.isArray(newRow.data[c.id])) {
+                data[c.id] = newRow.data[c.id].map(a => a.id)
+              }
+              break
             case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
             case COLUMN_TYPE.USER:
             case COLUMN_TYPE.GROUP:
@@ -705,8 +710,9 @@ export default {
     }, {
       rowId,
       columnId,
-      fileList
-    }, newRow) {
+      fileList,
+      newRow
+    }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
@@ -740,9 +746,9 @@ export default {
               [columnId]: newDataFiles
             }
           })
-          this.cellState.isValid = true
           currentRow.data = res.data
         }
+        this.cellState.isValid = true
       } catch (error) {
         this.cellState.isValid = false
         this.$toast.add({
