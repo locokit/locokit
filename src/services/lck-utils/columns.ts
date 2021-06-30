@@ -40,6 +40,8 @@ export function getComponentEditorCellForColumnType (columnTypeId: number) {
       return 'p-dropdown'
     case COLUMN_TYPE.DATE:
       return 'p-calendar'
+    case COLUMN_TYPE.DATETIME:
+      return 'p-calendar-time'
     case COLUMN_TYPE.STRING:
       return 'p-input-text'
     case COLUMN_TYPE.TEXT:
@@ -98,6 +100,8 @@ export function getComponentEditorDetailForColumnType (columnTypeId: number) {
       return 'p-dropdown'
     case COLUMN_TYPE.DATE:
       return 'p-calendar'
+    case COLUMN_TYPE.DATETIME:
+      return 'p-calendar-time'
     case COLUMN_TYPE.STRING:
       return 'p-input-text'
     case COLUMN_TYPE.TEXT:
@@ -109,6 +113,9 @@ export function getComponentEditorDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
+    case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+    case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+    case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
       return 'lck-map'
     case COLUMN_TYPE.FILE:
       return 'lck-file-input'
@@ -131,6 +138,9 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.GEOMETRY_POINT:
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
     case COLUMN_TYPE.GEOMETRY_POLYGON:
+    case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+    case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+    case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
       return 'lck-map'
     case COLUMN_TYPE.FILE:
       return 'lck-file-input'
@@ -178,6 +188,7 @@ export function getDataFromTableViewColumn (
   options: {
     dateFormat: string | TranslateResult;
     noData: string | TranslateResult;
+    noReference: string | TranslateResult;
   }):
   { label: string; value: string | number; color?: string; backgroundColor?: string } {
   switch (column.column_type_id) {
@@ -239,6 +250,8 @@ export function getColumnClass (column: LckTableViewColumn): string {
       return 'bi bi-hash'
     case COLUMN_TYPE.DATE:
       return 'bi bi-calendar-date'
+    case COLUMN_TYPE.DATETIME:
+      return 'bi bi-clock'
     case COLUMN_TYPE.USER:
       return 'bi bi-person-fill'
     case COLUMN_TYPE.GROUP:
@@ -285,7 +298,8 @@ export function getColumnClass (column: LckTableViewColumn): string {
  */
 export function getColumnDisplayValue (
   column: LckTableColumn,
-  data: LckTableRowData = ''
+  data: LckTableRowData = '',
+  onlyBaseValue = false
 ): string | undefined | SelectValue {
   if (
     data === '' ||
@@ -305,9 +319,9 @@ export function getColumnDisplayValue (
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT
         ].includes(originalColumn.column_type_id)) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue)
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex))
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
         } else {
           return (data as LckTableRowDataComplex).value
         }
@@ -315,6 +329,9 @@ export function getColumnDisplayValue (
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
         const currentValue = (column.settings.values?.[data as string]) as SelectValue
+        if (onlyBaseValue) {
+          return currentValue?.label
+        }
         return {
           value: currentValue?.value,
           label: currentValue?.label,
@@ -336,6 +353,8 @@ export function getColumnDisplayValue (
         }
       case COLUMN_TYPE.DATE:
         return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+      case COLUMN_TYPE.DATETIME:
+        return formatDate((data as string), i18n.t('date.datetimeFormat')) || ''
       default:
         return data as string
     }

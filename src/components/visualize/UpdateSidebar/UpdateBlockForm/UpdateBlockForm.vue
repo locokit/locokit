@@ -121,7 +121,7 @@
       @component-refresh-required="onComponentRefreshRequired"
     />
     <data-record-settings-fields
-      v-else-if="blockCopy.type === BLOCK_TYPE.DATA_RECORD"
+      v-else-if="[BLOCK_TYPE.DATA_RECORD, BLOCK_TYPE.FORM_RECORD].includes(blockCopy.type)"
       :id.sync="blockCopy.settings.id"
       :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"

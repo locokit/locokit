@@ -326,3 +326,16 @@ export class LckAclSet extends LckBaseModel {
   manager!: boolean
   groups?: LckGroup[]
 }
+
+export interface Submitting {
+  inProgress: boolean;
+  errors?: Error[];
+}
+
+export interface EmittedBlockEvent {
+  sourceId?: string;
+  originalValue?: LckTableRowData;
+  displayedValue?: string | number;
+}
+
+export type MapPopupMode = 'click' | 'hover' | null

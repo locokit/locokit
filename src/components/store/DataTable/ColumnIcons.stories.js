@@ -35,6 +35,10 @@ const columns = [
     column_type_id: COLUMN_TYPE.DATE
   },
   {
+    text: 'DateTime',
+    column_type_id: COLUMN_TYPE.DATETIME
+  },
+  {
     text: 'User',
     column_type_id: COLUMN_TYPE.USER
   },

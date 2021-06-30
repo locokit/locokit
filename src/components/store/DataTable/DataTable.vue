@@ -259,6 +259,15 @@
               appendTo="body"
               class="field-editable"
             />
+            <p-calendar
+              v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar-time'"
+              v-model="currentDateToEdit"
+              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              :dateFormat="$t('date.dateFormatPrime')"
+              :showTime="true"
+              appendTo="body"
+              class="field-editable"
+            />
             <p-input-number
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-input-float'"
               v-model="slotProps.data.data[column.id]"
@@ -379,7 +388,7 @@ import {
   getColumnClass
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
-import { formatDateISO } from '@/services/lck-utils/date'
+import { formatDateISO, formatDateTimeISO } from '@/services/lck-utils/date'
 import { zipArrays } from '@/services/lck-utils/arrays'
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
 
@@ -639,6 +648,7 @@ export default {
        */
       switch (columnTypeId) {
         case COLUMN_TYPE.DATE:
+        case COLUMN_TYPE.DATETIME:
           this.currentDateToEdit = null
           try {
             if (value) {
@@ -761,6 +771,7 @@ export default {
            */
           return
         case COLUMN_TYPE.DATE:
+        case COLUMN_TYPE.DATETIME:
           /**
            * For the date, and the Calendar component,
            * we need to check if the user has really click outside the calendar,
@@ -772,12 +783,23 @@ export default {
             return
           }
           /**
+           * If the user is on a DATETIME field,
+           * he would like to click several times on cursors down / up to select the right time
+           * We need to prevent in this case too
+           */
+          if (event.originalEvent.target.closest('.p-timepicker') !== null) {
+            event.preventDefault()
+            return
+          }
+          /**
            * in case of a Date, value is stored in the currentDateToEdit data
            * we format it in the date representation,
            * we just want to store the date
            */
           if (this.currentDateToEdit instanceof Date) {
-            value = formatDateISO(this.currentDateToEdit)
+            value = currentColumn.column_type_id === COLUMN_TYPE.DATETIME
+              ? formatDateTimeISO(this.currentDateToEdit)
+              : formatDateISO(this.currentDateToEdit)
           } else if (this.currentDateToEdit === '') {
             value = null
           } else {

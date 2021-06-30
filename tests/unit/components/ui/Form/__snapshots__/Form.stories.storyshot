@@ -78,6 +78,85 @@ exports[`storyshots components/ui/Form default 1`] = `
 </div>
 `;
 
+exports[`storyshots components/ui/Form non-submissible form 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid"
+  >
+    <p>
+      
+        Here we are in the slot. We add what we want.
+        
+    </p>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="text"
+      >
+        
+            This is a text input
+          
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="text"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component"
+        disabled="disabled"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`storyshots components/ui/Form submitting 1`] = `
 <div
   style="height: 100%;"
@@ -133,7 +212,7 @@ exports[`storyshots components/ui/Form submitting 1`] = `
       </button>
        
       <button
-        class="p-button-text p-button p-component"
+        class="p-button p-component p-button-text"
         disabled="disabled"
         type="button"
       >
@@ -145,6 +224,144 @@ exports[`storyshots components/ui/Form submitting 1`] = `
           class="p-button-label"
         >
           Please wait
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/ui/Form with large buttons 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid"
+  >
+    <p>
+      
+        Here we are in the slot. We add what we want.
+        
+    </p>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="text"
+      >
+        
+            This is a text input
+          
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="text"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <button
+        class="p-button-text p-button-secondary p-button p-component full-width-button"
+        type="button"
+      >
+        <span
+          class="pi pi-times p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Cancel
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+       
+      <button
+        class="p-button p-component full-width-button"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/ui/Form without the cancel button 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-fluid"
+  >
+    <p>
+      
+        Here we are in the slot. We add what we want.
+        
+    </p>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="text"
+      >
+        
+            This is a text input
+          
+      </label>
+       
+      <input
+        class="p-inputtext p-component p-filled"
+        id="text"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="lck-form-footer"
+    >
+      <!---->
+       
+      <button
+        class="p-button p-component"
+        type="submit"
+      >
+        <span
+          class="pi pi-save p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Save
         </span>
          
         <!---->

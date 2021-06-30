@@ -54,7 +54,7 @@
     <lck-dialog-form
       :visible.sync="displayNewDialog"
       :header="$t('components.datatable.addNewRow')"
-      :submitting="submitting"
+      :submitting="submitting.inProgress"
       @close="displayNewDialog = false"
       @input="handleSubmitCreateRow"
     >
@@ -123,8 +123,8 @@ export default {
       default: 'TableView'
     },
     submitting: {
-      type: Boolean,
-      default: false
+      type: Object, // Submitting type : { inProgress: boolean, errors?: Errors[] }
+      default: () => ({ inProgress: false })
     },
     exporting: {
       type: Boolean,
@@ -223,7 +223,13 @@ export default {
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
-      this.displayNewDialog = false
+    }
+  },
+  watch: {
+    submitting (submittingValue) {
+      if (!submittingValue.inProgress && !submittingValue.errors) {
+        this.displayNewDialog = false
+      }
     }
   }
 }

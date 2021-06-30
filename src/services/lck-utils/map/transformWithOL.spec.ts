@@ -143,8 +143,9 @@ const defaultMapSourceSettings: MapSourceSettings = {
   selectable: false,
   field: '',
   geometry: GEOMETRY_TYPE.POINT,
-  popup: false,
+  popup: true,
   popupSettings: {
+    onHover: false,
     pageDetailId: '',
     contentFields: [],
     title: ''
@@ -286,7 +287,7 @@ describe('Transformations with OpenLayers', () => {
         [],
         geoColumns,
         allColumns,
-        [mapSourceSettings],
+        mapSourceSettings,
         i18nOptions
       )
       expect(features.type).toBe('FeatureCollection')
@@ -297,7 +298,7 @@ describe('Transformations with OpenLayers', () => {
         [],
         geoColumns,
         allColumns,
-        [mapSourceSettings],
+        mapSourceSettings,
         i18nOptions
       )
       expect(features.features).toHaveLength(0)
@@ -307,69 +308,17 @@ describe('Transformations with OpenLayers', () => {
         [emptyRow],
         geoColumns,
         allColumns,
-        [mapSourceSettings],
+        mapSourceSettings,
         i18nOptions
       )
       expect(features.features).toHaveLength(0)
-    })
-    it('Returns the corresponding features if there is no source', () => {
-      const features = makeGeoJsonFeaturesCollection(
-        [firstRow],
-        geoColumns,
-        allColumns,
-        [],
-        i18nOptions
-      )
-      expect(features.features).toHaveLength(2)
-      expect(features.features[0]).toMatchObject({
-        geometry: {
-          coordinates: [1.4, 45],
-          type: 'Point'
-        },
-        properties: null,
-        type: 'Feature'
-      })
-      expect(features.features[1]).toMatchObject({
-        geometry: {
-          coordinates: [[[1.4, 45.75], [2, 45.6], [1.9, 45.3], [1.4, 45.75]]],
-          type: 'Polygon'
-        },
-        properties: null,
-        type: 'Feature'
-      })
-    })
-    it('Returns the corresponding features if the source is undefined', () => {
-      const features = makeGeoJsonFeaturesCollection(
-        [firstRow],
-        geoColumns,
-        allColumns,
-        undefined as unknown as [],
-        i18nOptions
-      )
-      expect(features.features).toHaveLength(2)
-      expect(features.features[0]).toMatchObject({
-        geometry: {
-          coordinates: [1.4, 45],
-          type: 'Point'
-        },
-        properties: null,
-        type: 'Feature'
-      })
-      expect(features.features[1]).toMatchObject({
-        geometry: {
-          coordinates: [[[1.4, 45.75], [2, 45.6], [1.9, 45.3], [1.4, 45.75]]],
-          type: 'Polygon'
-        },
-        properties: null,
-        type: 'Feature'
-      })
     })
     it('If the sources are specified, add the id, columnId and rowId properties to each feature', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
         allColumns,
-        [mapSourceSettings],
+        mapSourceSettings,
         i18nOptions
       )
       expect(features.features).toHaveLength(2)
@@ -389,14 +338,14 @@ describe('Transformations with OpenLayers', () => {
         [firstRow, secondRow],
         geoColumns,
         allColumns,
-        [{
+        {
           ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
             pageDetailId
           }
-        }],
+        },
         i18nOptions
       )
       expect(features.features).toHaveLength(4)
@@ -410,7 +359,7 @@ describe('Transformations with OpenLayers', () => {
         [firstRow],
         geoColumns,
         allColumns,
-        [{
+        {
           ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
@@ -418,7 +367,7 @@ describe('Transformations with OpenLayers', () => {
             title: stringColumn.id,
             contentFields: []
           }
-        }],
+        },
         i18nOptions
       )
       expect(features.features).toHaveLength(2)
@@ -429,7 +378,7 @@ describe('Transformations with OpenLayers', () => {
         [firstRow],
         geoColumns,
         allColumns,
-        [{
+        {
           ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
@@ -441,7 +390,7 @@ describe('Transformations with OpenLayers', () => {
               }
             ]
           }
-        }],
+        },
         i18nOptions
       )
       expect(features.features).toHaveLength(2)
@@ -459,7 +408,7 @@ describe('Transformations with OpenLayers', () => {
         [firstRow],
         geoColumns,
         allColumns,
-        [{
+        {
           ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
@@ -472,7 +421,7 @@ describe('Transformations with OpenLayers', () => {
               }
             ]
           }
-        }],
+        },
         i18nOptions
       )
       expect(features.features).toHaveLength(2)
@@ -554,7 +503,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].id).toBe('features-collection-source-0')
       expect(resources[0].type).toBe('FeatureCollection')
       expect(resources[0].features).toHaveLength(4)
-      expect(resources[0].displayPopup).toBe(false)
+      expect(resources[0].popupMode).toBe('click')
       expect(resources[0].pageDetailId).toBeFalsy()
       expect(resources[0].editableGeometryTypes.size).toBe(1)
       expect(resources[0].editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
@@ -598,7 +547,26 @@ describe('Transformations with OpenLayers', () => {
         i18nOptions
       )
       expect(resources).toHaveLength(1)
-      expect(resources[0].displayPopup).toBe(true)
+      expect(resources[0].popupMode).toBe('click')
+    })
+    it('Returns that the pop up can be displayed for the resource on hover if it is specified in the map settings', () => {
+      const resources = getLckGeoResources(
+        { [geoTableView.id]: geoTableView },
+        { [geoTableView.id]: [] },
+        {
+          sources: [{
+            ...defaultMapSourceSettings,
+            id: geoTableView.id,
+            popup: true,
+            popupSettings: {
+              onHover: true
+            }
+          }]
+        },
+        i18nOptions
+      )
+      expect(resources).toHaveLength(1)
+      expect(resources[0].popupMode).toBe('hover')
     })
     it('Returns the page detail id for the resource if it is specified in the map settings', () => {
       const resources = getLckGeoResources(
