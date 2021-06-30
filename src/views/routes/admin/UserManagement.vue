@@ -138,7 +138,10 @@
       >
         <p>{{ $t("pages.userManagement.noUserFound") }}</p>
       </div>
-      <div v-else class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
+      <div
+        v-else
+        class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
+      >
         <p>{{ $t("pages.userManagement.noUser") }}</p>
       </div>
     </div>
@@ -180,7 +183,10 @@
             :disabled="editingUser"
           />
         </div>
-        <div class="p-field" v-if="editingUser">
+        <div
+          class="p-field"
+          v-if="editingUser"
+        >
           <label for="isVerified">
             {{ $t("pages.userManagement.isVerified") }}
           </label>
@@ -282,6 +288,12 @@ export default {
             text: this.$t('pages.userManagement.isVerified'),
             // eslint-disable-next-line @typescript-eslint/camelcase
             column_type_id: COLUMN_TYPE.BOOLEAN
+          },
+          {
+            id: 'profile',
+            text: this.$t('pages.userManagement.profile'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.STRING
           }
         ]
       }
