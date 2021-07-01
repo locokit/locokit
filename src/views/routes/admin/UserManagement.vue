@@ -61,11 +61,22 @@
           sortable
         >
         </p-column>
+
         <p-column
           field="isVerified"
           :header="$t('pages.userManagement.isVerified')"
+          sortField="isVerified"
           sortable
-        />
+        >
+          <template #body="slotProps">
+            <p-checkbox
+              :binary="true"
+              :modelValue="slotProps.data.isVerified"
+              :disabled="true"
+            />
+          </template>
+        </p-column>
+
         <p-column
           field="createdAt"
           :header="$t('pages.userManagement.createdAt')"
@@ -171,7 +182,7 @@
           <p-input-text
             id="name"
             v-model.trim="user.name"
-            required
+            requiredolumn
             autofocus
             :class="{ 'p-invalid': submitting && !user.name }"
           />
@@ -188,6 +199,7 @@
             :disabled="editingUser"
           />
         </div>
+
         <div
           class="p-field"
           v-if="editingUser"
@@ -195,9 +207,10 @@
           <label for="isVerified">
             {{ $t("pages.userManagement.isVerified") }}
           </label>
-          <p-input-switch
-            class="p-d-block"
-            id="isVerified"
+          <p-checkbox
+            class="p-field-checkbox"
+            :id="isVerified"
+            :binary="true"
             v-model="user.isVerified"
             :disabled="true"
           />
@@ -238,7 +251,7 @@ import Toolbar from 'primevue/toolbar'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
-import InputSwitch from 'primevue/inputswitch'
+import Checkbox from 'primevue/checkbox'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
@@ -252,7 +265,7 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'p-input-switch': Vue.extend(InputSwitch),
+    'p-checkbox': Vue.extend(Checkbox),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText)
   },
