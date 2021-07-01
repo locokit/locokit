@@ -29,7 +29,7 @@ import { ServiceTypes } from '../declarations'
 export async function defineAbilityFor (
   user: User,
   query: Query,
-  services: ServiceTypes
+  services: ServiceTypes,
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
@@ -37,7 +37,7 @@ export async function defineAbilityFor (
   /**
    * If no groupId is given,
    * we need to fetch all groups available for the user ?
-   */ 
+   */
   if (!query?.$lckGroupId) {
     throw new NotAcceptable('Missing filter $lckGroupId.', {
       code: 'RECORDS_NOT_FILTERABLE',
@@ -80,7 +80,7 @@ export async function defineAbilityFor (
        * We have a filter, like a table_id, table_view_id or id
        * (if not, we need to throw an error)
        */
-       /**
+      /**
         * The Creator is manager of this workspaces,
         * so he have all permissions on rows from these workspaces
         */
@@ -119,7 +119,7 @@ export async function defineAbilityFor (
        * We need to know all acls for records, views and tables
        * for this user, through its group
        */
-       /**
+      /**
         * TODO: manage a user without the $lckGroupId
         * and combine all read_filters
         */
@@ -131,10 +131,10 @@ export async function defineAbilityFor (
           $eager: 'acltables',
           $modifyEager: {
             acltables: {
-              table_id: query?.table_id
-            }
+              table_id: query?.table_id,
+            },
           },
-          'groups:users.id': user.id
+          'groups:users.id': user.id,
         },
         paginate: false,
       }) as LckAclSet[] || []
@@ -153,7 +153,7 @@ export async function defineAbilityFor (
         })
       })
       break
-  } 
+  }
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }

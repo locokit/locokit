@@ -92,8 +92,8 @@ export class LckAclSet extends BaseModel {
         join: {
           from: 'acl_set.id',
           to: 'acl_table.aclset_id',
-        }
-      }
+        },
+      },
     }
   }
 }
