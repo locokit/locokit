@@ -5,6 +5,8 @@ export async function up (knex: Knex): Promise<any> {
     await knex.schema
       .alterTable('acl_table', table => {
         table.jsonb('read_filter')
+        table.jsonb('update_filter')
+        table.jsonb('delete_filter')
       })
       .alterTable('table_view', table => {
         table.jsonb('filter')
@@ -21,7 +23,9 @@ export async function down (knex: Knex): Promise<any> {
     })
     .alterTable('acl_table', table => {
       table.dropColumn('read_filter')
-    })
+      table.dropColumn('update_filter')
+      table.dropColumn('delete_filter')
+  })
     await trx.commit()
   })
 }

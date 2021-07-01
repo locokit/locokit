@@ -43,6 +43,8 @@ export async function defineAbilityFor (
       code: 'RECORDS_NOT_FILTERABLE',
     })
   }
+  const groupId = query?.$lckGroupId
+  const userId = user?.id
 
   if (!query?.table_id) {
     throw new NotAcceptable('Missing table_id.', {
@@ -124,7 +126,7 @@ export async function defineAbilityFor (
         * and combine all read_filters
         */
 
-      // find all workspaces where user is linked to the workspace through aclset > group
+      // find matching acl for the current user through aclset > group
       const aclsetsSimple = await services.aclset.find({
         query: {
           $joinRelation: 'groups.[users]',
@@ -138,18 +140,51 @@ export async function defineAbilityFor (
         },
         paginate: false,
       }) as LckAclSet[] || []
-      console.log(aclsetsSimple)
-      // const filters = {
-      //   $or: {}
-      // }
-      // aclsetsSimple.forEach(currentAcl => {
-      //   currentAcl.acltables?.forEach(currentAclTable => {
-      //     filters.$or[]
-      //   })
-      // })
       aclsetsSimple.forEach(currentAclset => {
+        /**
+         * if the user is a member of a group managing the workspace,
+         * he has access to all the workspace, so to all of the workspace > database > tables
+         */
+        if (currentAclset.manager) {
+          can('manage', 'row', { table_id: query?.table_id })
+        }
         currentAclset.acltables?.forEach(currentAcltable => {
-          can('read', 'row', { data: currentAcltable.read_filter })
+          if (currentAcltable.create_rows) {
+            can('create', 'row', { table_id: currentAcltable.table_id })
+          }
+          if (currentAcltable.update_rows) {
+            const updateFilterParsed = JSON.parse(
+              JSON.stringify(currentAcltable.update_filter)
+                .replace('{userId}', userId.toString())
+                .replace('{groupId}', groupId),
+            )
+
+            can('update', 'row', {
+              ...updateFilterParsed,
+              table_id: currentAcltable.table_id,
+            })
+          }
+          if (currentAcltable.delete_rows) {
+            const deleteFilterParsed = JSON.parse(
+              JSON.stringify(currentAcltable.delete_filter)
+                .replace('{userId}', userId.toString())
+                .replace('{groupId}', groupId),
+            )
+
+            can('delete', 'row', {
+              ...deleteFilterParsed,
+              table_id: currentAcltable.table_id,
+            })
+          }
+          const readFilterParsed = JSON.parse(
+            JSON.stringify(currentAcltable.read_filter)
+              .replace('{userId}', userId.toString())
+              .replace('{groupId}', groupId),
+          )
+          can('read', 'row', {
+            ...readFilterParsed,
+            table_id: currentAcltable.table_id,
+          })
         })
       })
       break

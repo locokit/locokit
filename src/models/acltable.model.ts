@@ -22,6 +22,8 @@ export class LckAclTable extends BaseModel {
   update_views!: boolean
   delete_views!: boolean
   read_filter!: object
+  update_filter!: object
+  delete_filter!: object
 
   static get tableName (): string {
     return 'acl_table'
@@ -46,6 +48,8 @@ export class LckAclTable extends BaseModel {
           format: 'uuid',
         },
         read_filter: { type: 'object' },
+        update_filter: { type: 'object' },
+        delete_filter: { type: 'object' },
       },
     }
   }
