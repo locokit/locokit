@@ -592,6 +592,7 @@
       "password": "Mot de passe",
       "profile": "Profil",
       "selectProfile": "Sélectionnez un profil",
+      "createdAt": "Date création",
       "userDetails": "Compte utilisateur",
       "createUserDetails": "Créer un utilisateur",
       "editUserDetails": "Éditer un utilisateur",
