@@ -44,11 +44,11 @@ function rebuild (items: TableRow[], columns: TableColumn[]): Array<Partial<Tabl
       table_id: d.table_id,
       createdAt: d.createdAt,
       updatedAt: d.updatedAt,
-      ...d, // TODO: this need to be removed, but there is a bug after removal in computeLookedUpColumns hook
+      ...d.data, // TODO: this need to be removed, but there is a bug after removal in computeLookedUpColumns hook
       data: {},
     }
     columns.forEach((c: TableColumn) => {
-      (newData.data as RowData)[c.id] = d[c.id]
+      (newData.data as RowData)[c.id] = d.data[c.id]
     })
     return newData
   })
