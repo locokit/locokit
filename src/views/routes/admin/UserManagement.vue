@@ -67,6 +67,11 @@
           sortable
         />
         <p-column
+          field="createdAt"
+          :header="$t('pages.userManagement.createdAt')"
+          sortable
+        />
+        <p-column
           field="profile"
           headerClass="p-col-1"
           :header="$t('pages.userManagement.profile')"
@@ -197,6 +202,7 @@
             :disabled="true"
           />
         </div>
+
         <p class="p-field">
           <label for="profile">{{ $t("pages.userManagement.profile") }}</label>
           <p-dropdown
@@ -290,6 +296,12 @@ export default {
             column_type_id: COLUMN_TYPE.BOOLEAN
           },
           {
+            id: 'createdAt',
+            text: this.$t('pages.userManagement.createdAt'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.DATE
+          },
+          {
             id: 'profile',
             text: this.$t('pages.userManagement.profile'),
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -314,11 +326,8 @@ export default {
     editUser (user) {
       this.user = {
         id: user.id,
-
         name: user.name,
         profile: user.profile,
-        isVerified: user.isVerified,
-
         email: user.email
       }
       this.editingUser = true

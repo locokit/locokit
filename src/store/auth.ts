@@ -30,6 +30,7 @@ class User {
   id!: number;
   email!: string;
   name!: string;
+  createdAt!: string;
   isVerified!: boolean
   profile!: typeof USER_PROFILE
   groups?: Group[]
