@@ -29,7 +29,6 @@ stages:
 test:
   tags: [shared-ci-docker]
   stage: quality
-  allow_failure: true
   variables:
     POSTGRES_DB: postgres
     POSTGRES_USER: postgres
