@@ -627,7 +627,7 @@ export default {
        */
       const newViewDefinition = await lckServices.tableView.get(this.selectedViewId, {
         query: {
-          $eager: 'columns'
+          $eager: 'columns.[parents.^]'
         }
       })
       this.$set(
