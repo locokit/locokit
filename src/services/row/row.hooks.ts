@@ -27,6 +27,8 @@ import {
   selectColumnsOfTableOrTableView,
   rebuildData,
 } from './selectColumnsOfTableOrView.hook'
+import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 
 const { authenticate } = authentication.hooks
 
@@ -45,12 +47,21 @@ export default {
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
           selectColumnsOfTableOrTableView(),
+          defineAbilitiesIffHook(),
           commonHooks.discardQuery('$lckGroupId'),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ],
         commonHooks.disallow(),
       ),
     ],
     get: [
+      /**
+       * TODO: permissions,
+       * load the current row,
+       * filter permissions for a table
+       */
       commonHooks.discardQuery('$lckGroupId'), // remove the $lckGroupId (used to compute abilities)
     ],
     create: [

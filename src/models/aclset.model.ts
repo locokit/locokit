@@ -6,6 +6,7 @@ import { BaseModel } from './base.model'
 import { workspace as LckWorkspace } from './workspace.model'
 import { chapter as LckChapter } from './chapter.model'
 import { Group } from './group.model'
+import { LckAclTable } from './acltable.model'
 
 export class LckAclSet extends BaseModel {
   label!: string
@@ -15,6 +16,7 @@ export class LckAclSet extends BaseModel {
   chapter?: LckChapter
   manager!: boolean
   groups?: Group[]
+  acltables?: LckAclTable[]
 
   static get tableName (): string {
     return 'acl_set'
@@ -84,6 +86,14 @@ export class LckAclSet extends BaseModel {
           to: 'group.aclset_id',
         },
       },
+      acltables: {
+        relation: Model.HasManyRelation,
+        modelClass: LckAclTable,
+        join: {
+          from: 'acl_set.id',
+          to: 'acl_table.aclset_id',
+        }
+      }
     }
   }
 }

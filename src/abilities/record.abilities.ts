@@ -26,15 +26,32 @@ import { ServiceTypes } from '../declarations'
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
-export async function defineAbilityFor (user: User, query: Query, services: ServiceTypes): Promise<AppAbility> {
+export async function defineAbilityFor (
+  user: User,
+  query: Query,
+  services: ServiceTypes
+): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
 
+  /**
+   * If no groupId is given,
+   * we need to fetch all groups available for the user ?
+   */ 
   if (!query?.$lckGroupId) {
     throw new NotAcceptable('Missing filter $lckGroupId.', {
       code: 'RECORDS_NOT_FILTERABLE',
     })
   }
+
+  if (!query?.table_id) {
+    throw new NotAcceptable('Missing table_id.', {
+      code: 'RECORDS_NOT_FILTERABLE',
+    })
+  }
+  // are we on a get ? => use the id to find the correlated table to filter for abilities
+  // are we on a update / patch / delete => same thing
+  // are we on a find ? => use the table_id
 
   /**
    * User is anonymous, no permission granted
@@ -56,37 +73,45 @@ export async function defineAbilityFor (user: User, query: Query, services: Serv
      */
     case USER_PROFILE.CREATOR:
       /**
+       * TODO: check that the creator is a manager of the workspace through its group if set,
+       * or through a group having access to the workspace's table
+       */
+      /**
        * We have a filter, like a table_id, table_view_id or id
        * (if not, we need to throw an error)
        */
+       /**
+        * The Creator is manager of this workspaces,
+        * so he have all permissions on rows from these workspaces
+        */
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const { table_id, table_view_id, id } = query as Query
-      if (!table_id && !table_view_id && !id) {
-        throw new NotAcceptable('Missing filter table_id | table_view_id | id.', {
-          code: 'RECORDS_NOT_FILTERABLE',
-        })
-      }
-      if (table_id) {
-        const table = await services.table.get(table_id, {
-          $joinRelation: 'database.[workspace.[aclset.[groups.[users]]]]',
-          'database:workspace:aclset:groups:users.id': user.id,
-        })
-        if (table) can('manage', 'row', { table_id })
-      } else if (table_view_id) {
-        const tableView = await services.view.get(table_view_id, {
-          $eager: 'table',
-          $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
-          'table:database:workspace:aclset:groups:users.id': user.id,
-        })
-        if (tableView) can('manage', 'row', { table_id: tableView.table?.id })
-      } else if (id) {
-        const tableRow = await services.row.get(id, {
-          $eager: 'table',
-          $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
-          'table:database:workspace:aclset:groups:users.id': user.id,
-        })
-        if (tableRow) can('manage', 'row', { table_id: tableRow.table.id })
-      }
+      // const { table_id, table_view_id, id } = query as Query
+      // if (!table_id && !table_view_id && !id) {
+      //   throw new NotAcceptable('Missing filter table_id | table_view_id | id.', {
+      //     code: 'RECORDS_NOT_FILTERABLE',
+      //   })
+      // }
+      // if (table_id) {
+      //   const table = await services.table.get(table_id, {
+      //     $joinRelation: 'database.[workspace.[aclset.[groups.[users]]]]',
+      //     'database:workspace:aclset:groups:users.id': user.id,
+      //   })
+      //   if (table) can('manage', 'row', { table_id })
+      // } else if (table_view_id) {
+      //   const tableView = await services.view.get(table_view_id, {
+      //     $eager: 'table',
+      //     $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
+      //     'table:database:workspace:aclset:groups:users.id': user.id,
+      //   })
+      //   if (tableView) can('manage', 'row', { table_id: tableView.table?.id })
+      // } else if (id) {
+      //   const tableRow = await services.row.get(id, {
+      //     $eager: 'table',
+      //     $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
+      //     'table:database:workspace:aclset:groups:users.id': user.id,
+      //   })
+      //   if (tableRow) can('manage', 'row', { table_id: tableRow.table.id })
+      // }
       break
 
     case USER_PROFILE.USER:
@@ -94,21 +119,41 @@ export async function defineAbilityFor (user: User, query: Query, services: Serv
        * We need to know all acls for records, views and tables
        * for this user, through its group
        */
+       /**
+        * TODO: manage a user without the $lckGroupId
+        * and combine all read_filters
+        */
 
       // find all workspaces where user is linked to the workspace through aclset > group
       const aclsetsSimple = await services.aclset.find({
         query: {
           $joinRelation: 'groups.[users]',
-          'groups:users.id': user.id,
+          $eager: 'acltables',
+          $modifyEager: {
+            acltables: {
+              table_id: query?.table_id
+            }
+          },
+          'groups:users.id': user.id
         },
         paginate: false,
-      }) as LckAclSet[]
-      can('read', 'workspace', {
-        id: {
-          $in: aclsetsSimple.map((aclset: LckAclSet) => aclset.workspace_id),
-        },
+      }) as LckAclSet[] || []
+      console.log(aclsetsSimple)
+      // const filters = {
+      //   $or: {}
+      // }
+      // aclsetsSimple.forEach(currentAcl => {
+      //   currentAcl.acltables?.forEach(currentAclTable => {
+      //     filters.$or[]
+      //   })
+      // })
+      aclsetsSimple.forEach(currentAclset => {
+        currentAclset.acltables?.forEach(currentAcltable => {
+          can('read', 'row', { data: currentAcltable.read_filter })
+        })
       })
-  }
+      break
+  } 
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
