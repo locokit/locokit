@@ -46,7 +46,7 @@ export default {
           filterRowsByTableViewId(),
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
-          selectColumnsOfTableOrTableView(),
+          // selectColumnsOfTableOrTableView(),
           defineAbilitiesIffHook(),
           commonHooks.discardQuery('$lckGroupId'),
           authorize({
