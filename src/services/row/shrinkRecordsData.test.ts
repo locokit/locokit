@@ -9,7 +9,7 @@ import { workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableView } from '../../models/tableview.model'
 
-describe('selectColumnsOfTableOrTableView hook', () => {
+describe('shrinkRecordsData hook', () => {
   let workspace: workspace
   let database: database
   let table1: Table
@@ -144,6 +144,10 @@ describe('selectColumnsOfTableOrTableView hook', () => {
     expect(rows[0].data[columnTable1LastName.id]).toBeUndefined()
     expect(rows[0].data[columnTable1Geom.id]).toBeUndefined()
     await app.service('view').remove(tableView.id)
+  })
+
+  it('restrict data to the data that need to be transmitted', async () => {
+
   })
 
   afterAll(async () => {

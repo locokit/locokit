@@ -23,10 +23,7 @@ import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
 import { isBulkPatch, isValidBulkPatch, onlyUpdateFormulaColumns } from './isBulkPatch'
-import {
-  selectColumnsOfTableOrTableView,
-  rebuildData,
-} from './selectColumnsOfTableOrView.hook'
+import { shrinkRecordsData } from './shrinkRecordsData.hook'
 import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
 import { authorize } from 'feathers-casl/dist/hooks'
 
@@ -132,7 +129,7 @@ export default {
       // historizeDataEvents()
     ],
     find: [
-      rebuildData(),
+      shrinkRecordsData(),
     ],
     get: [
     ],
