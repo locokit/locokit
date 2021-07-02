@@ -134,6 +134,7 @@ const rows: LckTableRow[] = [
 // Others
 const i18nOptions: LckPopupI18nOptions = {
   dateFormat: 'yyyy-mm-dd',
+  datetimeFormat: 'yyyy-mm-dd HH:MM',
   noData: 'No data',
   noReference: 'No reference'
 }

@@ -253,16 +253,14 @@
             />
             <p-calendar
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar'"
-              v-model="currentDateToEdit"
-              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              v-model="slotProps.data.data[column.id]"
               :dateFormat="$t('date.dateFormatPrime')"
               appendTo="body"
               class="field-editable"
             />
             <p-calendar
               v-else-if="getComponentEditorCellForColumnType(column) === 'p-calendar-time'"
-              v-model="currentDateToEdit"
-              @show="onShowCalendar(column, slotProps.data.data[column.id])"
+              v-model="slotProps.data.data[column.id]"
               :dateFormat="$t('date.dateFormatPrime')"
               :showTime="true"
               appendTo="body"
@@ -778,16 +776,7 @@ export default {
            * or if he's just switching between months.
            * For that, we'll check in the DOM directly with the event target.
            */
-          if (event.originalEvent.target.className.indexOf('p-datepicker') > -1) {
-            event.preventDefault()
-            return
-          }
-          /**
-           * If the user is on a DATETIME field,
-           * he would like to click several times on cursors down / up to select the right time
-           * We need to prevent in this case too
-           */
-          if (event.originalEvent.target.closest('.p-timepicker') !== null) {
+          if (event.originalEvent.target.closest('.p-datepicker') !== null) {
             event.preventDefault()
             return
           }
@@ -796,11 +785,11 @@ export default {
            * we format it in the date representation,
            * we just want to store the date
            */
-          if (this.currentDateToEdit instanceof Date) {
+          if (event.data.data[event.field] instanceof Date) {
             value = currentColumn.column_type_id === COLUMN_TYPE.DATETIME
-              ? formatDateTimeISO(this.currentDateToEdit)
-              : formatDateISO(this.currentDateToEdit)
-          } else if (this.currentDateToEdit === '') {
+              ? formatDateTimeISO(event.data.data[event.field])
+              : formatDateISO(event.data.data[event.field])
+          } else if (event.data.data[event.field] === '') {
             value = null
           } else {
             return
@@ -871,57 +860,57 @@ export default {
 
 <style scoped>
 
-/deep/ tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
+::v-deep tr.p-highlight-contextmenu td .p-checkbox  .p-checkbox-box {
   border: 2px solid #fff;
   background-color: #fff;
 }
-/deep/ td .p-checkbox {
+::v-deep td .p-checkbox {
   display: flex;
   margin: 0 auto;
 }
 
-/deep/ td .p-checkbox .p-checkbox-box {
+::v-deep td .p-checkbox .p-checkbox-box {
   border-color: var(--primary-color-lighten);
 }
 
-/deep/ td .p-checkbox .p-checkbox-box.p-highlight {
+::v-deep td .p-checkbox .p-checkbox-box.p-highlight {
   border-color: var(--primary-color-lighten);
   background: var(--primary-color-lighten);
 }
 
-/deep/ td .p-checkbox .p-checkbox-box .p-checkbox-icon {
+::v-deep td .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
   font-weight: bold;
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
   border-color: var(--primary-color-darken);
   background: var(--primary-color-darken);
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
   color: var(--primary-color-lighten) !important;
 }
 
-/deep/ td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
   box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
   border-color: var(--primary-color) !important;
 }
 
-/deep/ .p-editable-column.p-cell-editing .p-dropdown,
-/deep/ .p-editable-column.p-cell-editing .p-multiselect {
+::v-deep .p-editable-column.p-cell-editing .p-dropdown,
+::v-deep .p-editable-column.p-cell-editing .p-multiselect {
   border: 1px solid var(--primary-color);
   border-radius: 0;
 }
 
-/deep/ .p-datatable-resizable > .p-datatable-wrapper {
+::v-deep .p-datatable-resizable > .p-datatable-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 100%;
 }
 
-/deep/ .p-cell-editing .p-inputtextarea {
+::v-deep .p-cell-editing .p-inputtextarea {
   border: 1px solid var(--primary-color);
   border-radius: 0;
   background-color: white;
@@ -930,7 +919,7 @@ export default {
   height: 160px;
 }
 
-/deep/ .edit-column-icon {
+::v-deep .edit-column-icon {
   color: inherit !important;
   background: transparent !important;
   border: 0;

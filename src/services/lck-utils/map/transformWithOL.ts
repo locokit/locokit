@@ -102,7 +102,7 @@ export interface PopupContent {
   class?: string | null;
   field: {
     label: string | null;
-    value: string | number | null;
+    value: string | number | boolean | null;
     color?: string | null;
     backgroundColor?: string | null;
   };
@@ -450,4 +450,5 @@ export interface LckPopupI18nOptions {
   noReference: string | TranslateResult;
   noData: string | TranslateResult;
   dateFormat: string | TranslateResult;
+  datetimeFormat: string | TranslateResult;
 }

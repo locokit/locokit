@@ -91,7 +91,7 @@
             :header="$t('components.processPanel.when')"
           >
             <template #body="slotProps">
-              <span>{{ formatDate(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
+              <span>{{ formatDateString(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
               <span
                 v-if="slotProps.data.status !== PROCESS_TRIGGER.RUNNING && slotProps.data.duration"
               >
@@ -131,7 +131,7 @@ import PrimeDataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
-import { formatDate } from '@/services/lck-utils/date'
+import { formatDateString } from '@/services/lck-utils/date'
 import { PROCESS_RUN_STATUS, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
@@ -161,7 +161,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    formatDate,
+    formatDateString,
     getDisabledProcessTrigger,
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
       this.$emit('create-process-run', {
@@ -181,7 +181,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-/deep/ .p-panel-header {
+::v-deep .p-panel-header {
   flex-direction: row-reverse;
 }
 

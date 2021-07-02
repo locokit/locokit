@@ -92,7 +92,11 @@ export default Vue.extend({
     completeForm () {
       // Return true if all required fields are defined and not null
       for (const field of this.requiredColumnsIds) {
-        if (this.newRow.data[field] == null) {
+        if (
+          this.newRow.data[field] === null ||
+          this.newRow.data[field] === undefined ||
+          (typeof this.newRow.data[field] === 'string' && (this.newRow.data[field] as string).length === 0)
+        ) {
           return false
         }
       }

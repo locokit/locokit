@@ -504,6 +504,7 @@ export default {
           filters: this.getCurrentFilters(this.currentDatatableFilters)
         }
       )
+      lckHelpers.convertDateInRecords(this.block.content.data, this.block.definition.columns)
       this.block.loading = false
     },
     async saveRow () {
@@ -909,6 +910,7 @@ export default {
           $lckGroupId: this.groupId
         })
         this.cellState.isValid = true
+        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
@@ -998,6 +1000,7 @@ export default {
             }
           })
           this.cellState.isValid = true
+          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
           currentRow.data = res.data
         }
       } catch (error) {
@@ -1028,6 +1031,7 @@ export default {
           }
         })
         this.cellState.isValid = true
+        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
@@ -1057,14 +1061,14 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .lck-database-nav .p-tabview .p-tabview-nav {
+::v-deep .lck-database-nav .p-tabview .p-tabview-nav {
   background-color: transparent;
   overflow: auto;
   border: unset;
   flex-wrap: unset;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-panels {
+::v-deep .lck-database-nav .p-tabview .p-tabview-panels {
   padding: 0;
   flex: 1;
   display: flex;
@@ -1072,18 +1076,18 @@ export default {
   background-color: unset;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-panels .p-tabview-panel {
+::v-deep .lck-database-nav .p-tabview .p-tabview-panels .p-tabview-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-nav li {
+::v-deep .lck-database-nav .p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+::v-deep .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.5rem;
   border: 1px solid var(--surface-a);
   border-bottom: 0;
@@ -1092,13 +1096,13 @@ export default {
   margin: 0 0.25rem;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+::v-deep .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
   color: var(--primary-color-darken);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
 }
 
-/deep/ .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+::v-deep .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
@@ -1144,16 +1148,16 @@ export default {
   min-width: 350px;
 }
 
-/deep/ .lck-database-panel .lck-toolbar {
+::v-deep .lck-database-panel .lck-toolbar {
   background-color: var(--primary-color) !important;
   color: #fff;
 }
 
-/deep/ .lck-database-panel .lck-toolbar .p-button-primary {
+::v-deep .lck-database-panel .lck-toolbar .p-button-primary {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-/deep/ .lck-database-panel .lck-toolbar .p-button-primary:hover {
+::v-deep .lck-database-panel .lck-toolbar .p-button-primary:hover {
   background-color: rgba(255, 255, 255, 0.9);
 }
 .process-toolbar-button {
@@ -1161,13 +1165,13 @@ export default {
 }
 
 @media only screen and (max-device-width: 480px) {
-  /deep/ .p-button .p-button-icon-left {
+  ::v-deep .p-button .p-button-icon-left {
     margin-right: 0;
   }
-  /deep/ .p-button .p-button-icon-right {
+  ::v-deep .p-button .p-button-icon-right {
     margin-left: 0;
   }
-  /deep/ .p-button .p-button-label {
+  ::v-deep .p-button .p-button-label {
     display: none;
   }
 }

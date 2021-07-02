@@ -105,16 +105,16 @@
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
             :id="column.id"
-            :dateFormat="$t('date.dateFormatPrime')"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'date')"
+            :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             appendTo="body"
           />
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'complete')"
             :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             :showTime="true"
             appendTo="body"
           />
@@ -224,7 +224,6 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
 import GeometryType from 'ol/geom/GeometryType'
@@ -433,11 +432,11 @@ export default {
         this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
       )
     },
-    async onDateEdit (rowId: string, columnId: string, value: Date | null, representation: 'date' | 'complete') {
+    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
         rowId,
         columnId,
-        value ? formatISO(value, { representation }) : null
+        value
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
@@ -447,7 +446,7 @@ export default {
         transformFeatureToWKT(features[0])
       )
     },
-    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
       this.$emit('update-row', {
         rowId,
         columnId,

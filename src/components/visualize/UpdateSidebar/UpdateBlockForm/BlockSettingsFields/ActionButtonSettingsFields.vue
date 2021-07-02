@@ -208,7 +208,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropType, PropOptions } from 'vue'
 
 import {
   ACTION_BUTTON_TYPE
@@ -284,12 +284,12 @@ export default {
       type: String
     },
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView | null>
+      type: Object as PropType<LckTableView | null>
     },
     autocompleteSuggestions: {
       type: Array,
       default: () => ([])
-    } as Vue.PropOptions<{ label: string; value: string }[]>
+    } as PropOptions<{ label: string; value: string }[]>
   },
   data () {
     return {

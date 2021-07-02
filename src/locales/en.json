@@ -487,9 +487,9 @@
           "pageDetailId": "Hidden Page name",
           "pageQueryFieldId": "Column name related to page",
           "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
-          "tableView": "View to display",
-          "displayFieldId": "Display the button according to this field",
-          "displayFieldConditionQuery": "Display the button if the value is equivalent to",
+          "tableView": "View used for enabling button",
+          "displayFieldId": "Enable the button according to this field",
+          "displayFieldConditionQuery": "Enable the button if the value is equivalent to",
           "notification": {
             "settings": "Notification settings",
             "explain": "A notification will be displayed when a user clicks on the button. You can change the content depending on whether the action worked or failed.",

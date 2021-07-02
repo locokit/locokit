@@ -12,6 +12,7 @@ import {
   SelectValue
 } from '@/services/lck-api/definitions'
 import { formatDate } from '@/services/lck-utils/date'
+import { PopupContent } from './map/transformWithOL'
 
 /**
  * DataTable cells display & editor components
@@ -187,10 +188,10 @@ export function getDataFromTableViewColumn (
   data: LckTableRowData,
   options: {
     dateFormat: string | TranslateResult;
+    datetimeFormat: string | TranslateResult;
     noData: string | TranslateResult;
     noReference: string | TranslateResult;
-  }):
-  { label: string; value: string | number; color?: string; backgroundColor?: string } {
+  }): PopupContent['field'] {
   switch (column.column_type_id) {
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
@@ -198,7 +199,7 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
       return {
         label: column.text,
-        value: (data as LckTableRowDataComplex).value || options.noData as string
+        value: (data as LckTableRowDataComplex).value as string || options.noData as string
       }
     case COLUMN_TYPE.MULTI_USER:
       return {
@@ -219,7 +220,7 @@ export function getDataFromTableViewColumn (
       }
     case COLUMN_TYPE.FORMULA:
       const value = getColumnTypeId(column) === COLUMN_TYPE.DATE
-        ? formatDate(data as string, options.dateFormat)
+        ? formatDate(data as Date, options.dateFormat)
         : data
 
       return {
@@ -230,7 +231,13 @@ export function getDataFromTableViewColumn (
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as string, options.dateFormat) || options.noData) as string
+        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string
+      }
+    case COLUMN_TYPE.DATETIME:
+      // eslint-disable-next-line no-case-declarations
+      return {
+        label: column.text,
+        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string
       }
     default:
       return { label: column.text, value: (data || options.noData) as string }
@@ -311,11 +318,12 @@ export function getColumnDisplayValue (
       case COLUMN_TYPE.USER:
       case COLUMN_TYPE.GROUP:
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-        return (data as LckTableRowDataComplex).value
+        return (data as LckTableRowDataComplex).value as string
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
         const originalColumn = getOriginalColumn(column)
         if ([
           COLUMN_TYPE.DATE,
+          COLUMN_TYPE.DATETIME,
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT
         ].includes(originalColumn.column_type_id)) {
@@ -323,7 +331,7 @@ export function getColumnDisplayValue (
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
           return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
         } else {
-          return (data as LckTableRowDataComplex).value
+          return (data as LckTableRowDataComplex).value as string
         }
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
@@ -347,14 +355,14 @@ export function getColumnDisplayValue (
 
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-          return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+          return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
         } else {
           return data as string
         }
       case COLUMN_TYPE.DATE:
-        return formatDate((data as string), i18n.t('date.dateFormat')) || ''
+        return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
       case COLUMN_TYPE.DATETIME:
-        return formatDate((data as string), i18n.t('date.datetimeFormat')) || ''
+        return formatDate((data as Date), i18n.t('date.datetimeFormat')) || ''
       default:
         return data as string
     }

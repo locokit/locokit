@@ -657,33 +657,33 @@ export default Vue.extend({
   height: 100%;
   min-height: 400px;
 }
-/deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
+::v-deep .mapboxgl-ctrl-attrib.mapboxgl-compact {
   box-sizing: content-box;
 }
 
 /* Styles de la modale */
-/deep/ .mapboxgl-popup {
+::v-deep .mapboxgl-popup {
   min-width: 180px;
   opacity: 0.93;
 }
 
-/deep/ .mapboxgl-popup-content p {
+::v-deep .mapboxgl-popup-content p {
   font-size: 0.8rem;
   color: var(--primary-color-text);
   margin-bottom: 0;
 }
 
-/deep/ .mapboxgl-popup-content p button{
+::v-deep .mapboxgl-popup-content p button{
   font-size: 0.8rem;
   font-weight: 400;
   margin-bottom: 0.2rem;
 }
 
-/deep/ .mapboxgl-popup-content p.popup-row-title:first-child {
+::v-deep .mapboxgl-popup-content p.popup-row-title:first-child {
   margin-top: -10px;
 }
 
-/deep/ .mapboxgl-popup-content p.popup-row-title {
+::v-deep .mapboxgl-popup-content p.popup-row-title {
   font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
@@ -693,19 +693,19 @@ export default Vue.extend({
   padding: 5px 10px 0 10px;
 }
 
-/deep/ .mapboxgl-popup-content .popup-field-label {
+::v-deep .mapboxgl-popup-content .popup-field-label {
   font-weight: bold;
 }
 
-/deep/ .mapboxgl-popup-content .popup-row-toolbox {
+::v-deep .mapboxgl-popup-content .popup-row-toolbox {
   display: flex;
 }
 
-/deep/ .mapboxgl-popup-content .popup-row-toolbox > button {
+::v-deep .mapboxgl-popup-content .popup-row-toolbox > button {
   margin: auto;
 }
 
-/deep/ .mapboxgl-popup-close-button {
+::v-deep .mapboxgl-popup-close-button {
   color: var(--primary-color);
 }
 </style>

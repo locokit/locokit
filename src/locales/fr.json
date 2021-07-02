@@ -487,9 +487,9 @@
           "pageDetailId": "Nom de la page cachée",
           "pageQueryFieldId": "Nom de la colonne lié à la page",
           "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
-          "tableView": "Vue à afficher",
-          "displayFieldId": "Afficher le bouton selon ce champ",
-          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à",
+          "tableView": "Vue utilisée pour l'activation du bouton",
+          "displayFieldId": "Activer le bouton selon ce champ",
+          "displayFieldConditionQuery": "Activer le bouton si la valeur équivaut à",
           "notification": {
             "settings": "Configuration de la notification",
             "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modfiier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
