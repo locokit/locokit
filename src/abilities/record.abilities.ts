@@ -4,11 +4,12 @@ import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
 import { AppAbility, resolveAction } from './definitions'
 import { HookContext, Query } from '@feathersjs/feathers'
-import { NotAcceptable } from '@feathersjs/errors'
+// import { NotAcceptable } from '@feathersjs/errors'
 import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
+import { Table } from '../models/table.model'
 
 /**
  * Define abilities for records
@@ -38,19 +39,19 @@ export async function defineAbilityFor (
    * If no groupId is given,
    * we need to fetch all groups available for the user ?
    */
-  if (!query?.$lckGroupId) {
-    throw new NotAcceptable('Missing filter $lckGroupId.', {
-      code: 'RECORDS_NOT_FILTERABLE',
-    })
-  }
+  // if (!query?.$lckGroupId) {
+  //   throw new NotAcceptable('Missing filter $lckGroupId.', {
+  //     code: 'RECORDS_NOT_FILTERABLE',
+  //   })
+  // }
   const groupId = query?.$lckGroupId
   const userId = user?.id
 
-  if (!query?.table_id) {
-    throw new NotAcceptable('Missing table_id.', {
-      code: 'RECORDS_NOT_FILTERABLE',
-    })
-  }
+  // if (!query?.table_id) {
+  //   throw new NotAcceptable('Missing table_id.', {
+  //     code: 'RECORDS_NOT_FILTERABLE',
+  //   })
+  // }
   // are we on a get ? => use the id to find the correlated table to filter for abilities
   // are we on a update / patch / delete => same thing
   // are we on a find ? => use the table_id
@@ -129,14 +130,14 @@ export async function defineAbilityFor (
       // find matching acl for the current user through aclset > group
       const aclsetsSimple = await services.aclset.find({
         query: {
-          $joinRelation: 'groups.[users]',
-          $eager: 'acltables',
+          $joinRelation: 'groupsacl.[users]',
+          $eager: '[acltables, workspace.[databases.[tables]]]',
           $modifyEager: {
             acltables: {
               table_id: query?.table_id,
             },
           },
-          'groups:users.id': user.id,
+          'groupsacl:users.id': user.id,
         },
         paginate: false,
       }) as LckAclSet[] || []
@@ -146,45 +147,67 @@ export async function defineAbilityFor (
          * he has access to all the workspace, so to all of the workspace > database > tables
          */
         if (currentAclset.manager) {
-          can('manage', 'row', { table_id: query?.table_id })
+          /**
+           * We want to give access to all tables of the workspace
+           * We need to retrieve all tables of the workspace
+           */
+          const workspaceTableIds = currentAclset?.workspace?.databases?.reduce((acc, currentDB) => {
+            if (!currentDB.tables) return acc
+            const tableIds = currentDB.tables?.map(t => t.id)
+            return acc.concat(tableIds)
+          }, [] as string[])
+          can('manage', 'row', { table_id: { $in: workspaceTableIds } })
         }
         currentAclset.acltables?.forEach(currentAcltable => {
           if (currentAcltable.create_rows) {
             can('create', 'row', { table_id: currentAcltable.table_id })
           }
+          if (currentAcltable.read_rows) {
+            if (!currentAcltable.read_filter) {
+              const readFilterParsed = JSON.parse(
+                JSON.stringify(currentAcltable.read_filter)
+                  .replace('{userId}', userId.toString())
+                  .replace('{groupId}', groupId),
+              )
+              can('read', 'row', {
+                ...readFilterParsed,
+                table_id: currentAcltable.table_id,
+              })
+            } else {
+              can('read', 'row', { table_id: currentAcltable.table_id })
+            }
+          }
           if (currentAcltable.update_rows) {
-            const updateFilterParsed = JSON.parse(
-              JSON.stringify(currentAcltable.update_filter)
-                .replace('{userId}', userId.toString())
-                .replace('{groupId}', groupId),
-            )
-
-            can('update', 'row', {
-              ...updateFilterParsed,
-              table_id: currentAcltable.table_id,
-            })
+            if (!currentAcltable.update_filter) {
+              const updateFilterParsed = JSON.parse(
+                JSON.stringify(currentAcltable.update_filter)
+                  .replace('{userId}', userId.toString())
+                  .replace('{groupId}', groupId),
+              )
+              can('update', 'row', {
+                ...updateFilterParsed,
+                table_id: currentAcltable.table_id,
+              })
+            } else {
+              can('update', 'row', { table_id: currentAcltable.table_id })
+            }
           }
           if (currentAcltable.delete_rows) {
-            const deleteFilterParsed = JSON.parse(
-              JSON.stringify(currentAcltable.delete_filter)
-                .replace('{userId}', userId.toString())
-                .replace('{groupId}', groupId),
-            )
-
-            can('delete', 'row', {
-              ...deleteFilterParsed,
-              table_id: currentAcltable.table_id,
-            })
+            console.log(currentAcltable.delete_filter)
+            if (!currentAcltable.delete_filter) {
+              const deleteFilterParsed = JSON.parse(
+                JSON.stringify(currentAcltable.delete_filter)
+                  .replace('{userId}', userId.toString())
+                  .replace('{groupId}', groupId),
+              )
+              can('delete', 'row', {
+                ...deleteFilterParsed,
+                table_id: currentAcltable.table_id,
+              })
+            } else {
+              can('delete', 'row', { table_id: currentAcltable.table_id })
+            }
           }
-          const readFilterParsed = JSON.parse(
-            JSON.stringify(currentAcltable.read_filter)
-              .replace('{userId}', userId.toString())
-              .replace('{groupId}', groupId),
-          )
-          can('read', 'row', {
-            ...readFilterParsed,
-            table_id: currentAcltable.table_id,
-          })
         })
       })
       break

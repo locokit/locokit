@@ -13,14 +13,6 @@ export class LckAclTable extends BaseModel {
   read_rows!: boolean
   update_rows!: boolean
   delete_rows!: boolean
-  create_columns!: boolean
-  read_columns!: boolean
-  update_columns!: boolean
-  delete_columns!: boolean
-  create_views!: boolean
-  read_views!: boolean
-  update_views!: boolean
-  delete_views!: boolean
   read_filter!: object
   update_filter!: object
   delete_filter!: object
@@ -32,7 +24,7 @@ export class LckAclTable extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['id', 'aclset_id', 'table_id'],
+      required: ['aclset_id', 'table_id'],
 
       properties: {
         id: {
@@ -47,6 +39,10 @@ export class LckAclTable extends BaseModel {
           type: 'string',
           format: 'uuid',
         },
+        create_rows: { type: 'boolean' },
+        read_rows: { type: 'boolean' },
+        update_rows: { type: 'boolean' },
+        delete_rows: { type: 'boolean' },
         read_filter: { type: 'object' },
         update_filter: { type: 'object' },
         delete_filter: { type: 'object' },
@@ -76,6 +72,6 @@ export class LckAclTable extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof LckAclSet {
-  return LckAclSet
+export default function (app: Application): typeof LckAclTable {
+  return LckAclTable
 }

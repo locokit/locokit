@@ -129,6 +129,9 @@ export default {
       // historizeDataEvents()
     ],
     find: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
       shrinkRecordsData(),
     ],
     get: [
