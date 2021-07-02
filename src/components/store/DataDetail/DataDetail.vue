@@ -289,7 +289,7 @@ export default {
     'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
-    'lck-input-url': URLInput,
+    'lck-url-input': URLInput,
     'lck-map': Map,
     'lck-badge': Badge,
     'lck-file-input': FileInput,
