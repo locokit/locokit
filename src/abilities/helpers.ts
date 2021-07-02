@@ -9,7 +9,7 @@ import { database } from '../models/database.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableColumn } from '../models/tablecolumn.model'
 import { Table } from '../models/table.model'
-import { LckAclTable } from '../models/acltable.model'
+// import { LckAclTable } from '../models/acltable.model'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function builderTestEnvironment () {
