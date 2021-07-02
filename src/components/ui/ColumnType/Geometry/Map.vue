@@ -241,6 +241,7 @@ export default Vue.extend({
     },
     addResource (resource: LckGeoResource) {
       if (this.map!.getSource(resource.id)) return
+      // Add the mapbox source
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {
@@ -249,9 +250,24 @@ export default Vue.extend({
         },
         promoteId: 'id'
       })
-      resource.layers.forEach((layer) => {
-        this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
-      })
+      // Add the related layers
+      for (const layer of resource.layers) {
+        if (!layer.imagesToLoad?.size) {
+          this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
+        } else {
+          // Load the images if needed
+          for (const image of layer.imagesToLoad) {
+            if (!this.map!.hasImage(image)) {
+              this.map!.loadImage(image, (error: Error, loadedImage: HTMLImageElement) => {
+                if (!error) {
+                  this.map!.addImage(image, loadedImage, { sdf: true })
+                }
+                this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
+              })
+            }
+          }
+        }
+      }
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
       if (!this.map?.getSource(resourceToUpdate.id)) return

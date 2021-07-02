@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BLOCK_TYPE, COLUMN_TYPE, GEOMETRY_TYPE, MapSourceSettings } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
 
@@ -679,6 +679,37 @@ describe('Transformations with OpenLayers', () => {
             'circle-stroke-color': '#111',
             'circle-stroke-width': 10
           }
+        })
+      })
+      it('Return the specified default style with markers', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            default: {
+              icon: 'myUrlIcon',
+              fill: {
+                color: '#000'
+              },
+              stroke: {
+                color: '#111',
+                width: 10
+              }
+            }
+          }
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Marker,
+          id: `myResourceId-${GEO_STYLE.Marker.id}`,
+          paint: {
+            ...GEO_STYLE.Marker.paint,
+            'icon-color': '#000'
+          },
+          layout: {
+            'icon-image': 'myUrlIcon'
+          },
+          imagesToLoad: new Set(['myUrlIcon'])
         })
       })
       it('Return the style based on a single select column', () => {
