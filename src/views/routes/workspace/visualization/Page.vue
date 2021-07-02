@@ -490,12 +490,12 @@ export default {
        * definition is a Record<tableViewId, LckTableView>
        */
       if (isGeoBlock(block.type)) {
-        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id].definition) || []
+        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
         return objectFromArray(definitions, 'id')
       }
       if (!block.settings.id) return null
 
-      return this.sources[block.settings.id].definition
+      return this.sources[block.settings.id]?.definition
     },
     getBlockContent (block) {
       switch (block.type) {
@@ -509,7 +509,7 @@ export default {
                * or an { total, limit, skip, data } object (shared source)
                * If it's an object, we return data (paginated array), else only the content (already an array)
                */
-              const sourceContent = this.sources[mapSource.id].content
+              const sourceContent = this.sources[mapSource.id]?.content
               let currentContent = []
               if (Array.isArray(sourceContent)) {
                 currentContent = sourceContent
@@ -522,7 +522,7 @@ export default {
           )
         case BLOCK_TYPE.MAP_FIELD:
           return {
-            [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id].content]
+            [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content]
           }
         case BLOCK_TYPE.TABLE_SET:
         case BLOCK_TYPE.DATA_RECORD:
@@ -545,7 +545,7 @@ export default {
       return currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -553,7 +553,7 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
@@ -603,7 +603,7 @@ export default {
       this.cellState.waiting = false
     },
     async onSort (block, { field, order }) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           // find the matching column_type_id to adapt
@@ -613,10 +613,10 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateFilters (block, filters) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -624,7 +624,7 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
@@ -656,6 +656,11 @@ export default {
                 data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
               } else {
                 data[c.id] = null
+              }
+              break
+            case COLUMN_TYPE.FILE:
+              if (Array.isArray(newRow.data[c.id])) {
+                data[c.id] = newRow.data[c.id].map(a => a.id)
               }
               break
             case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
@@ -705,8 +710,9 @@ export default {
     }, {
       rowId,
       columnId,
-      fileList
-    }, newRow) {
+      fileList,
+      newRow
+    }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
@@ -740,9 +746,9 @@ export default {
               [columnId]: newDataFiles
             }
           })
-          this.cellState.isValid = true
           currentRow.data = res.data
         }
+        this.cellState.isValid = true
       } catch (error) {
         this.cellState.isValid = false
         this.$toast.add({
@@ -925,7 +931,7 @@ export default {
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
           // Update the existing block in page>container>block with its new properties
-          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.container_id).blocks.find(b => b.id === updatedBlock.id)
+          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.containerId).blocks.find(b => b.id === updatedBlock.id)
           for (const key in updatedBlock) {
             currentBlock[key] = updatedBlock[key]
           }

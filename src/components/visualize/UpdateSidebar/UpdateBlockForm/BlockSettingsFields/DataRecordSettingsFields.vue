@@ -31,7 +31,7 @@ export default {
       default: () => ([])
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView>
+      type: Object as Vue.PropType<LckTableView | null>
     }
   },
   data (): {
@@ -46,10 +46,12 @@ export default {
   },
   watch: {
     tableViewDefinition: {
-      handler ({ text, id } = { text: '', id: '' }) {
-        this.tableView = {
-          value: id,
-          text
+      handler (view: LckTableView | null) {
+        if (view) {
+          this.tableView = {
+            value: view.id,
+            text: view.text
+          }
         }
       },
       immediate: true

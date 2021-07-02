@@ -1,9 +1,11 @@
 <template>
   <lck-form
-    :displayCancelButton="false"
-    :submitting="submitting.inProgress"
-    :fullWidthButton="true"
     :canSubmit="completeForm"
+    :displayCancelButton="false"
+    :fullWidthButton="true"
+    :reset="resetForm"
+    :submitting="submitting.inProgress"
+    @reset-form="reset=false"
     @submit="onSubmitNewRow"
   >
     <lck-data-detail
@@ -16,7 +18,7 @@
       @update-row="onUpdateRow"
       @download-attachment="$listeners['download-attachment']"
       @update-suggestions="$listeners['update-suggestions']"
-      @upload-files="$listeners['upload-files']"
+      @upload-files="onUploadFiles"
     />
   </lck-form>
 </template>
@@ -67,7 +69,8 @@ export default Vue.extend({
         id: '',
         text: '',
         data: {}
-      } as LckTableRow
+      } as LckTableRow,
+      resetForm: false
     }
   },
   computed: {
@@ -121,6 +124,13 @@ export default Vue.extend({
         text: '',
         data: {}
       }
+      this.resetForm = true
+    },
+    onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
+      this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow
+      })
     },
     onSelectBlockEvent (columnId: string | undefined, { originalValue }: EmittedBlockEvent) {
       // Catch an event coming from another block to affect the value to a specific field

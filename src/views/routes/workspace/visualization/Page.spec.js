@@ -72,7 +72,7 @@ const mockPages = {
             title: 'My paragraph block',
             type: BLOCK_TYPE.PARAGRAPH,
             position: 2,
-            container_id: '12'
+            containerId: '12'
           },
           {
             id: '122',
@@ -84,7 +84,7 @@ const mockPages = {
             title: 'My TableSet block',
             type: BLOCK_TYPE.TABLE_SET,
             position: 1,
-            container_id: '12'
+            containerId: '12'
           },
           {
             id: '123',
@@ -106,7 +106,7 @@ const mockPages = {
             title: 'My map block',
             type: BLOCK_TYPE.MAP_SET,
             position: 3,
-            container_id: '12'
+            containerId: '12'
           }
         ]
       },
@@ -171,7 +171,7 @@ const mockPages = {
             title: 'My TableSet block',
             type: BLOCK_TYPE.TABLE_SET,
             position: 1,
-            container_id: '14'
+            containerId: '14'
           },
           {
             id: '141',
@@ -190,7 +190,7 @@ const mockPages = {
             title: 'My map block',
             type: BLOCK_TYPE.MAP_SET,
             position: 2,
-            container_id: '14',
+            containerId: '14',
             conditionalDisplayTableViewId: '3',
             conditionalDisplayFieldId: 'displayField',
             conditionalDisplayFieldValue: true
@@ -205,7 +205,7 @@ const mockPages = {
             title: 'My data record block',
             type: BLOCK_TYPE.DATA_RECORD,
             position: 3,
-            container_id: '14'
+            containerId: '14'
           }
         ]
       }
@@ -239,7 +239,7 @@ const mockPages = {
             title: 'My TableSet block',
             type: BLOCK_TYPE.TABLE_SET,
             position: 1,
-            container_id: '15'
+            containerId: '15'
           },
           {
             id: '151',
@@ -251,7 +251,7 @@ const mockPages = {
             title: 'My data record block',
             type: BLOCK_TYPE.DATA_RECORD,
             position: 3,
-            container_id: '15'
+            containerId: '15'
           }
         ]
       }

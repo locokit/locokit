@@ -2,6 +2,7 @@
   <form
     class="p-fluid"
     @submit.prevent="canSubmit && $emit('submit')"
+    ref="lck-form-record"
   >
     <slot />
 
@@ -60,6 +61,18 @@ export default {
     fullWidthButton: {
       type: Boolean,
       default: false
+    },
+    reset: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    reset (newValue: boolean) {
+      if (newValue) {
+        (this.$refs['lck-form-record'] as HTMLFormElement).reset()
+        this.$emit('reset-form')
+      }
     }
   }
 }
