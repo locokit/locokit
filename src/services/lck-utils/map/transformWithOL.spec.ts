@@ -5,7 +5,7 @@ import GeometryType from 'ol/geom/GeometryType'
 
 import { LckTableRow, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
 
-import { geometryTypeFromColumnType, GEO_STYLE, getEditableGeometryTypes, getLckGeoResources, getOnlyGeoColumns, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, transformFeatureToWKT } from './transformWithOL'
+import { geometryTypeFromColumnType, GEO_STYLE, getEditableGeometryTypes, getLckGeoResources, getOnlyGeoColumns, getStyleLayers, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, transformFeatureToWKT } from './transformWithOL'
 
 // Visualization part
 // Page
@@ -32,13 +32,9 @@ const emptyTableView: LckTableView = {
 }
 
 // Table columns
-const stringColumn: LckTableViewColumn = {
-  text: 'Nom',
-  id: 'e065323c-1151-447f-be0f-6d2728117b38',
-  settings: {},
+const defaultParamsTableViewColumn = {
   table_id: geoTableView.table_id,
-  column_type_id: COLUMN_TYPE.STRING,
-  editable: true,
+  editable: false,
   position: 0,
   transmitted: false,
   default: '',
@@ -54,36 +50,70 @@ const geoPointColumn: LckTableViewColumn = {
   text: 'Point',
   id: 'e065323c-1151-447f-be0f-6d2728117b40',
   settings: {},
-  table_id: geoTableView.table_id,
   column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
-  editable: false,
-  position: 2,
-  transmitted: false,
-  default: '',
-  displayed: true,
-  required: false,
-  sort: 'DESC' as SORT_COLUMN,
-  table_column_id: '',
-  table_view_id: geoTableView.id,
-  style: {}
+  ...defaultParamsTableViewColumn
 }
 
 const geoPolygonColumn: LckTableViewColumn = {
-  text: 'Zone géographique',
+  text: 'Geographic area',
   id: 'e065323c-1151-447f-be0f-6d2728117b39',
   settings: {},
-  table_id: geoTableView.table_id,
   column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
-  editable: true,
-  position: 1,
-  transmitted: false,
-  default: '',
-  displayed: true,
-  required: false,
-  sort: 'DESC' as SORT_COLUMN,
-  table_column_id: '',
-  table_view_id: geoTableView.id,
-  style: {}
+  ...defaultParamsTableViewColumn,
+  editable: true
+}
+
+const geoLineStringColumn: LckTableViewColumn = {
+  text: 'Line string',
+  id: 'e065323c-1151-447f-be0f-6d2728117b38',
+  settings: {},
+  column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
+  ...defaultParamsTableViewColumn
+}
+
+const stringColumn: LckTableViewColumn = {
+  text: 'Name',
+  id: 'e065323c-1151-447f-be0f-6d2728117b38',
+  settings: {},
+  column_type_id: COLUMN_TYPE.STRING,
+  ...defaultParamsTableViewColumn
+}
+
+const singleSelectColumn: LckTableViewColumn = {
+  text: 'Selection',
+  id: 'e065323c-1151-447f-be0f-6d2728117b37',
+  settings: {
+    values: {
+      1: {
+        backgroundColor: '#ddd',
+        color: '#aaa',
+        label: 'First option',
+        value: '1'
+      },
+      2: {
+        backgroundColor: '#eee',
+        color: '#bbb',
+        label: 'Second option',
+        value: '2'
+      },
+      3: {
+        backgroundColor: '#fff',
+        color: '#ccc',
+        label: 'Third option',
+        value: '3'
+      }
+    }
+  },
+  column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+  ...defaultParamsTableViewColumn
+}
+
+const booleanColumn: LckTableViewColumn = {
+  text: 'Checkbox',
+  id: 'e065323c-1151-447f-be0f-6d2728117b36',
+  settings: {},
+  column_type_id: COLUMN_TYPE.BOOLEAN,
+  ...defaultParamsTableViewColumn
 }
 
 const geoColumns: LckTableViewColumn[] = [
@@ -96,6 +126,12 @@ const allColumns: LckTableViewColumn[] = [
   geoPointColumn,
   geoPolygonColumn
 ]
+
+const allColumnsObject: Record<string, LckTableViewColumn> = {
+  [stringColumn.id]: stringColumn,
+  [geoPointColumn.id]: geoPointColumn,
+  [geoPolygonColumn.id]: geoPolygonColumn
+}
 
 geoTableView.columns = allColumns
 stringTableView.columns = [stringColumn]
@@ -136,20 +172,6 @@ const i18nOptions: LckPopupI18nOptions = {
   dateFormat: 'yyyy-mm-dd',
   noData: 'No data',
   noReference: 'No reference'
-}
-
-const defaultMapSourceSettings: MapSourceSettings = {
-  id: '',
-  selectable: false,
-  field: '',
-  geometry: GEOMETRY_TYPE.POINT,
-  popup: true,
-  popupSettings: {
-    onHover: false,
-    pageDetailId: '',
-    contentFields: [],
-    title: ''
-  }
 }
 
 describe('Transformations with OpenLayers', () => {
@@ -235,7 +257,6 @@ describe('Transformations with OpenLayers', () => {
   describe('getOnlyGeoColumns', () => {
     it('Returns all the geographic columns of the table view if no column id is specified in the map source settings', () => {
       const mapSourceSettings = {
-        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
@@ -243,7 +264,6 @@ describe('Transformations with OpenLayers', () => {
     })
     it('Returns an empty array if no column id is specified in the map source settings and there is no geographic column', () => {
       const mapSourceSettings = {
-        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf'
       }
       const geoColumns = getOnlyGeoColumns([stringColumn], mapSourceSettings)
@@ -251,7 +271,6 @@ describe('Transformations with OpenLayers', () => {
     })
     it('Returns an array containing one geographic column if a column id is specified in the map source settings', () => {
       const mapSourceSettings = {
-        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b40'
       }
@@ -260,7 +279,6 @@ describe('Transformations with OpenLayers', () => {
     })
     it('Returns an empty array if the specified column id does not exist in the table view', () => {
       const mapSourceSettings = {
-        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b00'
       }
@@ -269,7 +287,6 @@ describe('Transformations with OpenLayers', () => {
     })
     it('Returns an empty array if the specified column id is not a geographic column', () => {
       const mapSourceSettings = {
-        ...defaultMapSourceSettings,
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
         field: 'e065323c-1151-447f-be0f-6d2728117b38'
       }
@@ -279,14 +296,13 @@ describe('Transformations with OpenLayers', () => {
   })
   describe('makeGeoJsonFeaturesCollection', () => {
     const mapSourceSettings = {
-      ...defaultMapSourceSettings,
       id: '263c21e6-5339-4748-903f-8c77e21314cf'
     }
     it('Returns an empty features array if there is no row', () => {
       const features = makeGeoJsonFeaturesCollection(
         [],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         mapSourceSettings,
         i18nOptions
       )
@@ -297,7 +313,7 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         mapSourceSettings,
         i18nOptions
       )
@@ -307,7 +323,7 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [emptyRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         mapSourceSettings,
         i18nOptions
       )
@@ -317,7 +333,7 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         mapSourceSettings,
         i18nOptions
       )
@@ -337,9 +353,8 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow, secondRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         {
-          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -358,9 +373,8 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         {
-          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -377,9 +391,8 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         {
-          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -407,9 +420,8 @@ describe('Transformations with OpenLayers', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow],
         geoColumns,
-        allColumns,
+        allColumnsObject,
         {
-          ...defaultMapSourceSettings,
           id: geoTableView.id,
           popup: true,
           popupSettings: {
@@ -479,7 +491,6 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: [] },
           {
             sources: [{
-              ...defaultMapSourceSettings,
               id: 'invalid-tableview-id'
             }]
           },
@@ -493,7 +504,6 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: rows },
         {
           sources: [{
-            ...defaultMapSourceSettings,
             id: geoTableView.id
           }]
         },
@@ -503,7 +513,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].id).toBe('features-collection-source-0')
       expect(resources[0].type).toBe('FeatureCollection')
       expect(resources[0].features).toHaveLength(4)
-      expect(resources[0].popupMode).toBe('click')
+      expect(resources[0].popupMode).toBeNull()
       expect(resources[0].pageDetailId).toBeFalsy()
       expect(resources[0].editableGeometryTypes.size).toBe(1)
       expect(resources[0].editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
@@ -523,7 +533,6 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
-            ...defaultMapSourceSettings,
             id: geoTableView.id,
             selectable: true
           }]
@@ -539,7 +548,6 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
-            ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true
           }]
@@ -555,7 +563,6 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
-            ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true,
             popupSettings: {
@@ -574,7 +581,6 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: [] },
         {
           sources: [{
-            ...defaultMapSourceSettings,
             id: geoTableView.id,
             popup: true,
             popupSettings: {
@@ -586,6 +592,363 @@ describe('Transformations with OpenLayers', () => {
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].pageDetailId).toBe(pageDetailId)
+    })
+    it('Returns the correct style based on the specified default one', () => {
+      const resources = getLckGeoResources(
+        { [geoTableView.id]: geoTableView },
+        { [geoTableView.id]: [] },
+        {
+          sources: [{
+            id: geoTableView.id,
+            style: {
+              default: {
+                stroke: {
+                  color: '#000',
+                  width: 10,
+                  isDashed: true
+                },
+                fill: {
+                  color: '#FFF'
+                }
+              }
+            }
+          }]
+        },
+        i18nOptions
+      )
+      expect(resources).toHaveLength(1)
+      expect(resources[0].layers[0]).toEqual({
+        ...GEO_STYLE.Point,
+        id: `features-collection-source-0-${GEO_STYLE.Point.id}`,
+        paint: {
+          ...GEO_STYLE.Point.paint,
+          'circle-color': '#FFF',
+          'circle-stroke-color': '#000',
+          'circle-stroke-width': 10
+        }
+      })
+    })
+  })
+  describe('getStyleLayers', () => {
+    // Default configuration
+    const defaultStrokeWidth = 2
+    const defaultFillColor = '#EA0E0E'
+    const defaultStrokeColor = '#FFFFFF'
+
+    describe('Geometry point', () => {
+      it('Return the correct default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn]
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Point,
+          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          paint: {
+            ...GEO_STYLE.Point.paint,
+            'circle-color': defaultFillColor,
+            'circle-stroke-color': defaultStrokeColor,
+            'circle-stroke-width': defaultStrokeWidth
+          }
+        })
+      })
+      it('Return the specified default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            default: {
+              fill: {
+                color: '#000'
+              },
+              stroke: {
+                color: '#111',
+                width: 10
+              }
+            }
+          }
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Point,
+          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          paint: {
+            ...GEO_STYLE.Point.paint,
+            'circle-color': '#000',
+            'circle-stroke-color': '#111',
+            'circle-stroke-width': 10
+          }
+        })
+      })
+      it('Return the style based on a single select column', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            field: singleSelectColumn.id
+          },
+          singleSelectColumn
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Point,
+          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          paint: {
+            ...GEO_STYLE.Point.paint,
+            'circle-color': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              '#ddd',
+              '2',
+              '#eee',
+              '3',
+              '#fff',
+              defaultFillColor
+            ],
+            'circle-stroke-color': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              '#ddd',
+              '2',
+              '#eee',
+              '3',
+              '#fff',
+              defaultStrokeColor
+            ]
+          }
+        })
+      })
+      it('Return the style based on a single select column with some overrided settings', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            field: singleSelectColumn.id,
+            dataDriven: [
+              {
+                value: '1',
+                style: {
+                  stroke: {
+                    color: '#111',
+                    width: 5
+                  }
+                }
+              },
+              {
+                value: '2',
+                style: {
+                  fill: {
+                    color: '#222'
+                  }
+                }
+              },
+              {
+                value: '3',
+                style: {
+                  stroke: {
+                    color: '#333',
+                    width: 10
+                  }
+                }
+              }
+            ]
+          },
+          singleSelectColumn
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Point,
+          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          paint: {
+            ...GEO_STYLE.Point.paint,
+            'circle-color': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              '#ddd',
+              '2',
+              '#222',
+              '3',
+              '#fff',
+              defaultFillColor
+            ],
+            'circle-stroke-color': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              '#111',
+              '2',
+              '#eee',
+              '3',
+              '#333',
+              defaultStrokeColor
+            ],
+            'circle-stroke-width': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              5,
+              '3',
+              10,
+              defaultStrokeWidth
+            ]
+          }
+        })
+      })
+      it('Return the style based on explicit style settings', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            field: booleanColumn.id,
+            dataDriven: [
+              {
+                value: false,
+                style: {
+                  stroke: {
+                    color: '#111',
+                    width: 5
+                  }
+                }
+              },
+              {
+                value: true,
+                style: {
+                  fill: {
+                    color: '#222'
+                  }
+                }
+              }
+            ]
+          },
+          booleanColumn
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Point,
+          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          paint: {
+            ...GEO_STYLE.Point.paint,
+            'circle-color': [
+              'match',
+              ['get', 'styleField'],
+              true,
+              '#222',
+              defaultFillColor
+            ],
+            'circle-stroke-color': [
+              'match',
+              ['get', 'styleField'],
+              false,
+              '#111',
+              defaultStrokeColor
+            ],
+            'circle-stroke-width': [
+              'match',
+              ['get', 'styleField'],
+              false,
+              5,
+              defaultStrokeWidth
+            ]
+          }
+        })
+      })
+    })
+    describe('Geometry polygon', () => {
+      it('Return the correct default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPolygonColumn]
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Polygon,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}`,
+          paint: {
+            ...GEO_STYLE.Polygon.paint,
+            'fill-color': defaultFillColor,
+            'fill-outline-color': defaultStrokeColor
+          }
+        })
+      })
+      it('Return the specified default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPolygonColumn],
+          {
+            default: {
+              fill: {
+                color: '#000'
+              },
+              stroke: {
+                color: '#111',
+                width: 10
+              }
+            }
+          }
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Polygon,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}`,
+          paint: {
+            ...GEO_STYLE.Polygon.paint,
+            'fill-color': '#000',
+            'fill-outline-color': '#111'
+          }
+        })
+      })
+    })
+    describe('Geometry linestring', () => {
+      it('Return the correct default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoLineStringColumn],
+          {
+            default: {}
+          }
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Linestring,
+          id: `myResourceId-${GEO_STYLE.Linestring.id}`,
+          paint: {
+            ...GEO_STYLE.Linestring.paint,
+            'line-color': defaultFillColor,
+            'line-width': defaultStrokeWidth
+          }
+        })
+      })
+      it('Return the specified default style', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoLineStringColumn],
+          {
+            default: {
+              fill: {
+                color: '#000'
+              },
+              stroke: {
+                color: '#111',
+                width: 10
+              }
+            }
+          }
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Linestring,
+          id: `myResourceId-${GEO_STYLE.Linestring.id}`,
+          paint: {
+            ...GEO_STYLE.Linestring.paint,
+            'line-color': '#000',
+            'line-width': 10
+          }
+        })
+      })
     })
   })
 })

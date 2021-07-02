@@ -226,7 +226,7 @@
             >
               <template #value="slotProps">
                 <lck-badge
-                  v-if="slotProps.value.value"
+                  v-if="slotProps.value"
                   :label="slotProps.value.label"
                   :color="slotProps.value.color"
                   :backgroundColor="slotProps.value.backgroundColor"
