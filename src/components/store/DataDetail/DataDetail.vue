@@ -436,7 +436,7 @@ export default {
       await this.onEdit(
         rowId,
         columnId,
-        value // ? formatISO(value, { representation }) : null
+        value
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
