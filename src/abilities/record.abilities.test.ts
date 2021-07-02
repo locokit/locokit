@@ -4,7 +4,7 @@ import { defineAbilityFor } from './record.abilities'
 import app from '../app'
 import { User } from '../models/user.model'
 
-import { builderTestEnvironment } from './helpers
+import { builderTestEnvironment } from './helpers'
 import { LckAclSet } from '../models/aclset.model'
 import { LckAclTable } from '../models/acltable.model'
 

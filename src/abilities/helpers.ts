@@ -24,7 +24,7 @@ export function builderTestEnvironment () {
   let workspace2: workspace
   let database1: database
   let aclset1: LckAclSet
-  let acltable1: LckAclTable
+  // let acltable1: LckAclTable
   let aclset2: LckAclSet
   let aclset3: LckAclSet
   let aclset4: LckAclSet

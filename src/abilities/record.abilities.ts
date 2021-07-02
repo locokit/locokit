@@ -9,7 +9,7 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
-import { Table } from '../models/table.model'
+// import { Table } from '../models/table.model'
 
 /**
  * Define abilities for records
