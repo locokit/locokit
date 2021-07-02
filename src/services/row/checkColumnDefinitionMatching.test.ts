@@ -134,6 +134,9 @@ const ewktPolygon = 'SRID=4326;POLYGON ((16.6552734375 53.93021986394,11.6894531
 const ewktPolygonWithInjection = 'SRID=4326;POLYGON ((16.6552734375 53.93021986394,11.689453125 56.3652501368561,2.0654296875 57.2077100977502,-6.328125 54.13669645687,-4.7900390625 47.7836346352638,0.615234375 45.0269504531855,9.5361328125 40.8470603560712,24.6533203125 51.0966229450299,6.767578125 50.485473545785,16.6552734375 53.93021986394))\')); DROP TABLE table_row; SELECT ((\'1'
 const ewktPoint = 'SRID=4326;POINT (29.00390625 54.546579538405)'
 const ewktLinestring = 'SRID=4326;LINESTRING (37.265625 52.5897007687178,41.484375 46.890231573594,29.9267578125 41.4097758320096,21.4892578125 38.7883453550856,18.6767578125 41.8040781442723,17.05078125 45.6754821756065,16.083984375 50.8753111422008,21.3134765625 53.5141845207711,28.65234375 54.7246201949245,31.1572265625 54.8766066541087,32.7392578125 54.1881554810715,31.201171875 50.7086344008282)'
+const ewktMultiPolygon = 'SRID=4326;MULTIPOLYGON (((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2)),((6 3,9 2,9 4,6 3)))'
+const ewktMultiPoint = 'SRID=4326;MULTIPOINT ((3.5 5.6),(4.8 10.5))'
+const ewktMultiLinestring = 'SRID=4326;MULTILINESTRING ((3 4,10 50,20 25),(-5 -8,-10 -8,-15 -4))'
 
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: workspace
@@ -160,6 +163,9 @@ describe('checkColumnDefinitionMatching hook', () => {
   let columnTable1GeomPoint: TableColumn
   let columnTable1GeomPolygon: TableColumn
   let columnTable1GeomLinestring: TableColumn
+  let columnTable1GeomMultiPoint: TableColumn
+  let columnTable1GeomMultiPolygon: TableColumn
+  let columnTable1GeomMultiLinestring: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2Name: TableColumn
   // let user1: User
@@ -330,6 +336,21 @@ describe('checkColumnDefinitionMatching hook', () => {
     columnTable1GeomPolygon = await app.service('column').create({
       text: 'POLYGON',
       column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
+      table_id: table1.id,
+    })
+    columnTable1GeomMultiPoint = await app.service('column').create({
+      text: 'MultiPOINT',
+      column_type_id: COLUMN_TYPE.GEOMETRY_MULTIPOINT,
+      table_id: table1.id,
+    })
+    columnTable1GeomMultiLinestring = await app.service('column').create({
+      text: 'MultiLINESTRING',
+      column_type_id: COLUMN_TYPE.GEOMETRY_MULTILINESTRING,
+      table_id: table1.id,
+    })
+    columnTable1GeomMultiPolygon = await app.service('column').create({
+      text: 'MultiPOLYGON',
+      column_type_id: COLUMN_TYPE.GEOMETRY_MULTIPOLYGON,
       table_id: table1.id,
     })
   })
@@ -1552,6 +1573,201 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('row').remove(rowTable1.id)
   })
 
+  it('throw an error if a GEOMETRY_MULTILINESTRING column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiLinestring.id]: 123,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTILINESTRING column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiLinestring.id]: {},
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTILINESTRING column receive a geometry that is not a multilinestring', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiLinestring.id]: ewktMultiPoint,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_MULTILINESTRING column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiLinestring.id]: null,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a multilinestring for a GEOMETRY_MULTILINESTRING column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiLinestring.id]: ewktMultiLinestring,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomMultiLinestring.id]).toBe(ewktMultiLinestring)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOINT column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPoint.id]: 123,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOINT column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPoint.id]: {},
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOINT column receive a geometry that is not a multipoint', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPoint.id]: ewktPoint,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_MULTIPOINT column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPoint.id]: null,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a multipoint for a GEOMETRY_MULTIPOINT column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPoint.id]: ewktMultiPoint,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomMultiPoint.id]).toBe(ewktMultiPoint)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOLYGON column receive a number value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPolygon.id]: 123,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOLYGON column receive an object which is not a valid geometry', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPolygon.id]: {},
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a GEOMETRY_MULTIPOLYGON column receive a geometry that is not a multipolygon', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPolygon.id]: ewktPolygon,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('accept a null value for a GEOMETRY_MULTIPOLYGON column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPolygon.id]: null,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a valid geometry that is a multipolygon for a GEOMETRY_MULTIPOLYGON column', async () => {
+    expect.assertions(3)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1GeomMultiPolygon.id]: ewktMultiPolygon,
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    expect(rowTable1.data[columnTable1GeomMultiPolygon.id]).toBe(ewktMultiPolygon)
+    await app.service('row').remove(rowTable1.id)
+  })
+
   it('sanitize string before using it in database (POLYGON example)', async () => {
     expect.assertions(1)
     await expect(app.service('row')
@@ -1589,6 +1805,9 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1GeomPoint.id)
     await app.service('column').remove(columnTable1GeomPolygon.id)
     await app.service('column').remove(columnTable1GeomLinestring.id)
+    await app.service('column').remove(columnTable1GeomMultiPoint.id)
+    await app.service('column').remove(columnTable1GeomMultiPolygon.id)
+    await app.service('column').remove(columnTable1GeomMultiLinestring.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
