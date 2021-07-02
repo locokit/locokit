@@ -162,6 +162,23 @@ describe('FormRecord', () => {
         })
         expect(wrapper.vm.completeForm).toBe(false)
       })
+
+      it('Return false if a previous string field was set but reset', async () => {
+        await wrapper.setProps({
+          definition: mockDefinitionsWithRequiredColumns
+        })
+        wrapper.setData({
+          newRow: {
+            data: {
+              string_1_column: '',
+              number_1_column: 10,
+              boolean_1_column: false
+            }
+          }
+        })
+        expect(wrapper.vm.completeForm).toBe(false)
+      })
+
       it('Return true if all required fields are complete', async () => {
         await wrapper.setProps({
           definition: mockDefinitionsWithRequiredColumns
