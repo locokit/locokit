@@ -77,36 +77,36 @@ export default {
     'p-button': Vue.extend(Button),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'lck-overlaypanel': OverlayPanel
+    'lck-overlaypanel': OverlayPanel,
   },
   props: {
     views: {
       type: Array,
       required: false,
-      default: () => ([])
+      default: () => ([]),
     },
     value: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
-      drag: false
+      drag: false,
     }
   },
   computed: {
     label () {
       if (this.views.length === 0) return this.$t('components.datatable.toolbar.views.noview')
       return this.views.find(v => v.id === this.value)?.text
-    }
+    },
   },
   methods: {
     emitEvent (eventName, toggleOverlayPanel, data) {
       toggleOverlayPanel()
       this.$emit(eventName, data)
-    }
-  }
+    },
+  },
 }
 </script>
 

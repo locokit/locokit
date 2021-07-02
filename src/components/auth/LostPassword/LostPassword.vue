@@ -42,26 +42,26 @@ export default Vue.extend({
   props: {
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     error: {
       type: Error,
-      default: null
-    }
+      default: null,
+    },
   },
   data () {
     return {
-      email: ''
+      email: '',
     }
   },
   components: {
     'p-input-text': Vue.extend(InputText),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   methods: {
     emitSubmit () {
       this.$emit('submit', this.email)
-    }
-  }
+    },
+  },
 })
 </script>

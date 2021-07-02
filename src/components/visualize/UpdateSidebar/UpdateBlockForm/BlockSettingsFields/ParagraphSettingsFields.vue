@@ -17,13 +17,13 @@ import Textarea from 'primevue/textarea'
 export default {
   name: 'ParagraphSettingsFields',
   components: {
-    'p-textarea': Vue.extend(Textarea)
+    'p-textarea': Vue.extend(Textarea),
   },
   props: {
     content: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 }
 </script>
 

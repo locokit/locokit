@@ -118,7 +118,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 import {
   LckProcess,
-  PROCESS_TRIGGER
+  PROCESS_TRIGGER,
 } from '@/services/lck-api/definitions'
 
 export default {
@@ -129,24 +129,24 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
     'lck-autocomplete': AutoComplete,
-    'lck-form': Form
+    'lck-form': Form,
   },
   props: {
     process: {
-      type: Object
+      type: Object,
     } as PropOptions<LckProcess>,
     tables: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as PropOptions<{ label: string; value: string }[]>,
     columns: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as PropOptions<{ label: string; value: string }[]>,
     submitting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data (): {
     processCloned: LckProcess;
@@ -156,26 +156,26 @@ export default {
       processCloned: new LckProcess(),
       triggerOptions: [{
         label: PROCESS_TRIGGER.CREATE_ROW,
-        value: PROCESS_TRIGGER.CREATE_ROW
+        value: PROCESS_TRIGGER.CREATE_ROW,
       }, {
         label: PROCESS_TRIGGER.UPDATE_ROW,
-        value: PROCESS_TRIGGER.UPDATE_ROW
+        value: PROCESS_TRIGGER.UPDATE_ROW,
       }, {
         label: PROCESS_TRIGGER.UPDATE_ROW_DATA,
-        value: PROCESS_TRIGGER.UPDATE_ROW_DATA
+        value: PROCESS_TRIGGER.UPDATE_ROW_DATA,
       }, {
         label: PROCESS_TRIGGER.CRON,
-        value: PROCESS_TRIGGER.CRON
+        value: PROCESS_TRIGGER.CRON,
       }, {
         label: PROCESS_TRIGGER.MANUAL,
-        value: PROCESS_TRIGGER.MANUAL
-      }]
+        value: PROCESS_TRIGGER.MANUAL,
+      }],
     }
   },
   computed: {
     triggerWithSettings (): boolean {
       return this.processCloned.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA
-    }
+    },
   },
   watch: {
     process: {
@@ -186,12 +186,12 @@ export default {
         if (settings?.columns) {
           this.processCloned.settings = {
             ...settings,
-            column: { ...settings.columns }
+            column: { ...settings.columns },
           }
         }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>

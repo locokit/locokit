@@ -8,7 +8,7 @@ module.exports = {
     'json',
     'vue',
     'ts',
-    'tsx'
+    'tsx',
   ],
 
   transform: {
@@ -16,7 +16,7 @@ module.exports = {
     // '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor'
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
 
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
@@ -25,7 +25,7 @@ module.exports = {
     'src/**/*.{js,ts,vue}',
     '!src/**/*.stories.js',
     '!src/registerServiceWorker.ts',
-    '!src/plugins/*.{js,ts}'
+    '!src/plugins/*.{js,ts}',
   ],
 
   moduleNameMapper: {
@@ -35,15 +35,15 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '\\.(css|scss|stylesheet)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
-    '\\.mdx': '<rootDir>/__mocks__/fileMock.js'
+    '\\.mdx': '<rootDir>/__mocks__/fileMock.js',
   },
 
   snapshotSerializers: [
-    'jest-serializer-vue'
+    'jest-serializer-vue',
   ],
 
   testMatch: [
-    '**/*.spec.(js|jsx|ts|tsx)'
+    '**/*.spec.(js|jsx|ts|tsx)',
   ],
 
   testURL: 'http://localhost/',
@@ -52,19 +52,19 @@ module.exports = {
     'ts-jest': {
       babelConfig: true,
       diagnostics: {
-        warnOnly: true
-      }
-    }
+        warnOnly: true,
+      },
+    },
   },
 
   setupFiles: [
     '<rootDir>/tests/unit/register-context.js',
     '<rootDir>/tests/unit/setupFiles.js',
-    '<rootDir>/.storybook/setupGlobalVars.js'
+    '<rootDir>/.storybook/setupGlobalVars.js',
   ],
 
   reporters: [
     'default',
-    'jest-image-snapshot/src/outdated-snapshot-reporter.js'
-  ]
+    'jest-image-snapshot/src/outdated-snapshot-reporter.js',
+  ],
 }

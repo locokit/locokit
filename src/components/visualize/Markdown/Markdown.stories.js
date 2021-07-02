@@ -2,7 +2,7 @@ import Markdown from './Markdown'
 
 export default {
   title: 'components/visualize/Markdown',
-  component: Markdown
+  component: Markdown,
 }
 
 export const defaultStory = () => ({
@@ -13,12 +13,12 @@ export const defaultStory = () => ({
         type: 'Markdown',
         title: 'Futur Markdown',
         settings: {
-          content: 'This is the content.'
-        }
-      }
+          content: 'This is the content.',
+        },
+      },
     }
   },
-  template: '<Markdown v-bind="{...block}" />'
+  template: '<Markdown v-bind="{...block}" />',
 })
 
 defaultStory.storyName = 'default'
@@ -43,12 +43,12 @@ We can write in *italic*, **bold**, and ***both***.
 |Head 1|Head2|
 |------|-----|
 |And with table | too |
-`
-        }
-      }
+`,
+        },
+      },
     }
   },
-  template: '<Markdown v-bind="{...block}" />'
+  template: '<Markdown v-bind="{...block}" />',
 })
 
 markdownDemonstration.storyName = 'with a markdown demo'

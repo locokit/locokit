@@ -141,23 +141,23 @@ export default Vue.extend({
     'p-panel': Vue.extend(Panel),
     'p-datatable': Vue.extend(PrimeDataTable),
     'p-column': Vue.extend(Column),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     processesByRow: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     rowId: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data () {
     return {
       PROCESS_RUN_STATUS,
       PROCESS_TRIGGER,
-      expandedRows: []
+      expandedRows: [],
     }
   },
   methods: {
@@ -167,16 +167,16 @@ export default Vue.extend({
       this.$emit('create-process-run', {
         rowId,
         processId: process.id,
-        name: process.text
+        name: process.text,
       })
     },
     onActivityProcess (processId: string, event: boolean) {
       this.$emit('toggle-process', {
         processId,
-        enabled: event
+        enabled: event,
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

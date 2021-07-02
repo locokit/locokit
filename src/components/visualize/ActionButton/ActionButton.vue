@@ -17,7 +17,7 @@ import Vue, { PropType } from 'vue'
 import { LckTableRow } from '@/services/lck-api/definitions'
 import {
   ACTION_BUTTON_TYPE,
-  ActionButtonSettings
+  ActionButtonSettings,
 } from '@locokit/lck-glossary'
 
 import Button from 'primevue/button'
@@ -25,24 +25,24 @@ import Button from 'primevue/button'
 export default Vue.extend({
   name: 'ActionButton',
   components: {
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     displayCheckIcon: {
       type: Boolean,
-      default: false
+      default: false,
     },
     content: {
-      type: Object as PropType<{ data: LckTableRow[] | LckTableRow }>
+      type: Object as PropType<{ data: LckTableRow[] | LckTableRow }>,
     },
     settings: {
       type: Object as PropType<ActionButtonSettings>,
-      required: true
+      required: true,
     },
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     isHidden () {
@@ -58,7 +58,7 @@ export default Vue.extend({
       }
       // Case for ActionButton in DataTable
       return this.content
-    }
+    },
   },
   methods: {
     onClick (settings: ActionButtonSettings) {
@@ -67,7 +67,7 @@ export default Vue.extend({
           this.$emit('go-to-page-detail', {
             pageDetailId: settings.pageDetailId,
             pageQueryFieldId: settings.pageQueryFieldId,
-            rowData: this.row
+            rowData: this.row,
           })
           break
         case ACTION_BUTTON_TYPE.PROCESS_TRIGGER:
@@ -80,12 +80,12 @@ export default Vue.extend({
             notificationSuccessDescription: settings.notificationSuccessDescription,
             notificationErrorTitle: settings.notificationErrorTitle,
             notificationErrorDescription: settings.notificationErrorDescription,
-            rowData: this.row
+            rowData: this.row,
           })
           break
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

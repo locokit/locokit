@@ -3,21 +3,21 @@ import PopupReload from './PopupReload'
 
 export default {
   title: 'components/ui/PopupReload',
-  component: PopupReload
+  component: PopupReload,
 }
 
 export const defaultStory = () => ({
   components: { PopupReload },
   data () {
     return {
-      displayPopup: true
+      displayPopup: true,
     }
   },
   template: `
     <PopupReload
       @cancel="displayPopup = false"
     />
-  `
+  `,
 })
 
 defaultStory.storyName = 'default'

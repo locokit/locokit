@@ -16,7 +16,7 @@ import { ROUTES_PATH } from '@/router/paths'
 export default {
   name: 'Admin',
   components: {
-    'lck-sidebar': Sidebar
+    'lck-sidebar': Sidebar,
   },
   computed: {
     sidebarItems () {
@@ -28,15 +28,15 @@ export default {
           id: 0,
           label: this.$t('pages.userManagement.title'),
           to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
-          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`
+          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
         }, {
           id: 1,
           label: this.$t('pages.groupManagement.title'),
           to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
-          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`
-        }]
+          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
+        }],
       }]
-    }
-  }
+    },
+  },
 }
 </script>

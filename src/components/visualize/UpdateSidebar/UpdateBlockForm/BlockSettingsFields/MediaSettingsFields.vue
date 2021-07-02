@@ -82,11 +82,11 @@ export default {
   components: {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     displayMode: {
-      type: String as Vue.PropType<MEDIA_TYPE>
+      type: String as Vue.PropType<MEDIA_TYPE>,
     },
     medias: {
       type: Array as Vue.PropType<{
@@ -94,14 +94,14 @@ export default {
         srcURL: string;
         type: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
       }[]>,
-      default: () => ([])
-    }
+      default: () => ([]),
+    },
   },
   computed: {
     mediaTypes (): { label: TranslateResult; value: string }[] {
       return Object.entries(MEDIA_TYPE).map(mediaType => ({
         label: this.$t(`media.${mediaType[0]}`),
-        value: mediaType[1]
+        value: mediaType[1],
       }))
     },
     basicMediaValues (): string [] {
@@ -109,13 +109,13 @@ export default {
     },
     basicMediaTypes (): { label: TranslateResult; value: string }[] {
       return this.mediaTypes.filter(
-        mediaType => this.basicMediaValues.includes(mediaType.value)
+        mediaType => this.basicMediaValues.includes(mediaType.value),
       )
     },
     isBasicMedia (): boolean {
       return this.basicMediaValues.includes(this.displayMode)
-    }
-  }
+    },
+  },
 }
 </script>
 

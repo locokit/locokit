@@ -211,12 +211,12 @@
 import Vue, { PropType, PropOptions } from 'vue'
 
 import {
-  ACTION_BUTTON_TYPE
+  ACTION_BUTTON_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
   ACTIONS_TYPE,
-  NAMED_CLASSES
+  NAMED_CLASSES,
 } from '@/services/lck-utils/prime'
 import { LckTableView } from '@/services/lck-api/definitions'
 import { ROUTES_NAMES } from '@/router/paths'
@@ -235,61 +235,61 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
     'p-panel': Vue.extend(Panel),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     label: {
-      type: String
+      type: String,
     },
     classButton: {
-      type: String
+      type: String,
     },
     icon: {
-      type: String
+      type: String,
     },
     action: {
-      type: String
+      type: String,
     },
     processId: {
-      type: String
+      type: String,
     },
     typePageTo: {
-      type: String
+      type: String,
     },
     pageRedirectId: {
-      type: String
+      type: String,
     },
     pageDetailId: {
-      type: String
+      type: String,
     },
     pageQueryFieldId: {
-      type: String
+      type: String,
     },
     displayFieldId: {
-      type: String
+      type: String,
     },
     displayFieldConditionQuery: {
-      type: String
+      type: String,
     },
     notificationSuccessTitle: {
-      type: String
+      type: String,
     },
     notificationSuccessDescription: {
-      type: String
+      type: String,
     },
     notificationErrorTitle: {
-      type: String
+      type: String,
     },
     notificationErrorDescription: {
-      type: String
+      type: String,
     },
     tableViewDefinition: {
-      type: Object as PropType<LckTableView | null>
+      type: Object as PropType<LckTableView | null>,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
-    } as PropOptions<{ label: string; value: string }[]>
+      default: () => ([]),
+    } as PropOptions<{ label: string; value: string }[]>,
   },
   data () {
     return {
@@ -297,14 +297,14 @@ export default {
       NAMED_CLASSES,
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
-      tableView: { text: '', value: '' }
+      tableView: { text: '', value: '' },
     }
   },
   methods: {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
       this.$emit('component-refresh-required', true)
-    }
+    },
   },
   watch: {
     tableViewDefinition: {
@@ -312,13 +312,13 @@ export default {
         if (view) {
           this.tableView = {
             value: view.id,
-            text: view.text
+            text: view.text,
           }
         }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

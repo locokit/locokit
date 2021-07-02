@@ -68,7 +68,7 @@ import TabPanel from 'primevue/tabpanel'
 
 import {
   LckBlockExtended,
-  LckContainer
+  LckContainer,
 } from '@/services/lck-api/definitions'
 
 import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue'
@@ -83,49 +83,49 @@ export default {
     'update-page-form': UpdatePageForm,
     'p-sidebar': Vue.extend(Sidebar),
     'p-tab-view': Vue.extend(TabView),
-    'p-tab-panel': Vue.extend(TabPanel)
+    'p-tab-panel': Vue.extend(TabPanel),
   },
   props: {
     showSidebar: {
       type: Boolean,
-      default: false
+      default: false,
     },
     container: {
       type: Object as PropType<LckContainer>,
-      default: () => (new LckContainer())
+      default: () => (new LckContainer()),
     },
     block: {
       type: Object as PropType<LckBlockExtended>,
-      default: () => (new LckBlockExtended())
+      default: () => (new LckBlockExtended()),
     },
     page: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     width: {
       type: String,
-      default: '40rem'
+      default: '40rem',
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
+      default: () => ([]),
     },
     blockDisplayTableViewSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
+      default: () => ([]),
     },
     blockDisplayFieldSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
+      default: () => ([]),
     },
     relatedChapterPages: {
       type: Array,
-      default: () => ([])
-    }
+      default: () => ([]),
+    },
   },
   computed: {
     activePanel (): boolean[] {
@@ -135,7 +135,7 @@ export default {
         if (this.container.id) return [false, true, false]
         return [true, false, false]
       }
-    }
+    },
   },
   methods: {
     onTabChange () {
@@ -149,8 +149,8 @@ export default {
     },
     resetSidebar () {
       this.$emit('reset-current-block', {})
-    }
-  }
+    },
+  },
 }
 </script>
 

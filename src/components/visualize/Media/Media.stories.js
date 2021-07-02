@@ -1,7 +1,7 @@
 import Media from './Media'
 export default {
   title: 'components/visualize/Media',
-  component: Media
+  component: Media,
 }
 
 export const withPropsStory = () => ({
@@ -16,13 +16,13 @@ export const withPropsStory = () => ({
           medias: [{
             name: 'Image',
             srcURL: './themes/locokit/img/logokit-grayscale.png',
-            type: 'image'
-          }]
-        }
-      }
+            type: 'image',
+          }],
+        },
+      },
     }
   },
-  template: '<Media v-bind="{...block}" />'
+  template: '<Media v-bind="{...block}" />',
 })
 
 withPropsStory.storyName = 'with props'

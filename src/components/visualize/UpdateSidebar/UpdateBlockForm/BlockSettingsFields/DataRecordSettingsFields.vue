@@ -20,19 +20,19 @@ import { LckTableView } from '@/services/lck-api/definitions'
 export default {
   name: 'DataRecordSettingsFields',
   components: {
-    'lck-autocomplete': AutoComplete
+    'lck-autocomplete': AutoComplete,
   },
   props: {
     id: {
-      type: String
+      type: String,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView | null>
-    }
+      type: Object as Vue.PropType<LckTableView | null>,
+    },
   },
   data (): {
     tableView: { text: string; value: string };
@@ -40,8 +40,8 @@ export default {
     return {
       tableView: {
         text: '',
-        value: ''
-      }
+        value: '',
+      },
     }
   },
   watch: {
@@ -50,18 +50,18 @@ export default {
         if (view) {
           this.tableView = {
             value: view.id,
-            text: view.text
+            text: view.text,
           }
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
       this.$emit('component-refresh-required', true)
-    }
-  }
+    },
+  },
 }
 </script>

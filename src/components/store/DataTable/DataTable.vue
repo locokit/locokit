@@ -383,7 +383,7 @@ import {
   isEditableColumn,
   getColumnTypeId,
   getColumnDisplayValue,
-  getColumnClass
+  getColumnClass,
 } from '@/services/lck-utils/columns'
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
 import { formatDateISO, formatDateTimeISO } from '@/services/lck-utils/date'
@@ -414,50 +414,50 @@ export default {
     'p-context-menu': Vue.extend(ContextMenu),
     'p-button': Vue.extend(Button),
     'p-menu': Vue.extend(Menu),
-    'p-checkbox': Vue.extend(Checkbox)
+    'p-checkbox': Vue.extend(Checkbox),
   },
   props: {
     actions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     definition: {
-      type: Object
+      type: Object,
     },
     content: {
-      type: Object
+      type: Object,
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     manualProcesses: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     rowsNumber: {
       type: Number,
-      default: 20
+      default: 20,
     },
     crudMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayCheckIcon: {
       type: Boolean,
-      default: false
+      default: false,
     },
     locked: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayDetailButton: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cellState: {
       type: Object,
@@ -466,18 +466,18 @@ export default {
           rowId: null,
           columnId: null,
           waiting: false,
-          isValid: null
+          isValid: null,
         }
-      }
+      },
     },
     columnsSetPrefix: {
       type: String,
-      default: ''
+      default: '',
     },
     workspaceId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data () {
     return {
@@ -491,15 +491,15 @@ export default {
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
         icon: 'pi pi-fw pi-search',
-        command: () => this.$emit('row-duplicate', this.selectedRow)
+        command: () => this.$emit('row-duplicate', this.selectedRow),
       }, {
         label: this.$t('components.datatable.contextmenu.delete'),
         icon: 'pi pi-fw pi-times',
-        command: () => this.$emit('row-delete', this.selectedRow)
-      }
+        command: () => this.$emit('row-delete', this.selectedRow),
+      },
       ],
       sortField: null,
-      sortOrder: 1
+      sortOrder: 1,
     }
   },
   computed: {
@@ -509,7 +509,7 @@ export default {
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
-          column_type_id: currentColumn.column_type_id
+          column_type_id: currentColumn.column_type_id,
         }
         if (
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
@@ -520,7 +520,7 @@ export default {
             label: currentColumn.settings.values[k].label,
             color: currentColumn.settings.values[k].color,
             backgroundColor: currentColumn.settings.values[k].backgroundColor,
-            position: currentColumn.settings.values[k].position
+            position: currentColumn.settings.values[k].position,
           }))
         }
       })
@@ -542,16 +542,16 @@ export default {
           icon: 'pi pi-pencil',
           command: () => {
             this.$emit('display-column-sidebar')
-          }
+          },
         },
         {
           label: this.selectedColumn.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
           icon: this.selectedColumn.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
           command: () => {
             this.$emit('table-view-column-edit', {
-              displayed: !this.selectedColumn.displayed
+              displayed: !this.selectedColumn.displayed,
             })
-          }
+          },
         },
         {
           icon: 'pi pi-sort-amount-up',
@@ -561,7 +561,7 @@ export default {
             this.sortField = this.selectedColumn.id
             this.sortOrder = 1
             this.onSort()
-          }
+          },
         },
         {
           icon: 'pi pi-sort-amount-down',
@@ -571,10 +571,10 @@ export default {
             this.sortField = this.selectedColumn.id
             this.sortOrder = -1
             this.onSort()
-          }
-        }
+          },
+        },
       ]
-    }
+    },
   },
   methods: {
     getColumnDisplayValue,
@@ -613,12 +613,12 @@ export default {
                   this.$emit('create-process-run', {
                     rowId,
                     processId: process.id,
-                    name: process.text
+                    name: process.text,
                   })
-                }
+                },
               }
-            })
-          }
+            }),
+          },
         ]
       }
     },
@@ -663,55 +663,55 @@ export default {
       this.$emit(
         'update-suggestions',
         { columnTypeId, settings },
-        { query }
+        { query },
       )
     },
     onColumnResize (event) {
       this.$emit(
         'column-resize',
         event.element.offsetWidth,
-        event.element.querySelector('[data-column-id]')?.attributes['data-column-id'].value
+        event.element.querySelector('[data-column-id]')?.attributes['data-column-id'].value,
       )
     },
     onColumnReorder (event) {
       this.$emit('column-reorder', {
         fromIndex: event.dragIndex - this.unorderableColumnsNumber,
-        toIndex: event.dropIndex - this.unorderableColumnsNumber
+        toIndex: event.dropIndex - this.unorderableColumnsNumber,
       })
     },
     onDropdownEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: event.value
+        newValue: event.value,
       })
     },
     onMultiSelectEdit (rowId, columnId, event) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: event.value // .map(v => v.value)
+        newValue: event.value, // .map(v => v.value)
       })
     },
     onAutocompleteEdit (rowId, columnId, event = null) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: event ? event?.value?.value : null
+        newValue: event ? event?.value?.value : null,
       })
     },
     onMultipleAutocompleteEdit (rowId, columnId) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue: this.multipleAutocompleteInput.map(item => item.value)
+        newValue: this.multipleAutocompleteInput.map(item => item.value),
       })
     },
     onCheckboxEdit (rowId, columnId, newValue) {
       this.$emit('update-cell', {
         rowId,
         columnId,
-        newValue
+        newValue,
       })
     },
     /**
@@ -721,14 +721,14 @@ export default {
       this.$emit('upload-files', {
         rowId,
         columnId,
-        fileList
+        fileList,
       })
     },
     onRemoveAttachment (rowId, columnId, attachmentId) {
       this.$emit('remove-attachment', {
         rowId,
         columnId,
-        attachmentId
+        attachmentId,
       })
     },
     /**
@@ -799,7 +799,7 @@ export default {
       this.$emit('update-cell', {
         rowId: event.data.id,
         columnId: event.field,
-        newValue: value
+        newValue: value,
       })
     },
     onCellEditInit ({ data, field }) {
@@ -821,7 +821,7 @@ export default {
     onSort () {
       this.$emit('sort', {
         field: this.sortField,
-        order: this.sortOrder
+        order: this.sortOrder,
       })
     },
     onRowContextMenu (event) {
@@ -835,7 +835,7 @@ export default {
     onEditActionColumnClick (event, action) {
       this.$refs.menuAction.toggle(event)
       this.$emit('action-column-select', action)
-    }
+    },
   },
   watch: {
     definition: {
@@ -852,9 +852,9 @@ export default {
           tableWithStyle.removeAttribute('style')
         }
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 }
 </script>
 

@@ -4,7 +4,7 @@ import { StoryContext, StoryFn } from '@storybook/addons'
 const dataToReturn = {
   limit: 0,
   total: 0,
-  data: []
+  data: [],
 }
 function defaultServiceFunction () {
   return new Promise(resolve => {
@@ -17,7 +17,7 @@ const feathersService = {
   get: (id: string, params: Params) => ({ id, params }),
   put: defaultServiceFunction,
   patch: defaultServiceFunction,
-  remove: defaultServiceFunction
+  remove: defaultServiceFunction,
 }
 
 export const lckServices = {
@@ -47,7 +47,7 @@ export const lckServices = {
    * User
    */
   user: feathersService,
-  group: feathersService
+  group: feathersService,
 }
 
 type lckServicesName = 'database' | 'table' | 'tableColumn' | 'tableView' | 'tableRow' | 'tableViewColumn'
@@ -57,7 +57,7 @@ type lckServicesName = 'database' | 'table' | 'tableColumn' | 'tableView' | 'tab
 
 export function lckServicesDecorator (
   story: StoryFn,
-  { parameters }: StoryContext
+  { parameters }: StoryContext,
 ) {
   if (parameters?.lckServices) {
     (Object.keys(parameters.lckServices) as lckServicesName[]).forEach(serviceName => {

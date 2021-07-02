@@ -5,8 +5,8 @@ const optionsWithoutBackgroundTiles = {
     version: 8,
     sources: {},
     glyphs: '/fonts/{fontstack}/{range}.pbf',
-    layers: []
-  }
+    layers: [],
+  },
 }
 
 const optionsWithBackgroundTiles = {
@@ -18,10 +18,10 @@ const optionsWithBackgroundTiles = {
         tiles: [
           'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
           'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
         ],
-        tileSize: 256
-      }
+        tileSize: 256,
+      },
     },
     glyphs: '/fonts/{fontstack}/{range}.pbf',
     layers: [
@@ -30,10 +30,10 @@ const optionsWithBackgroundTiles = {
         type: 'raster',
         source: 'tiles-background',
         minzoom: 0,
-        maxzoom: 17
-      }
-    ]
-  }
+        maxzoom: 17,
+      },
+    ],
+  },
 }
 
 const defaultArgTypes = {
@@ -42,11 +42,11 @@ const defaultArgTypes = {
       type: 'select',
       options: [
         JSON.stringify(optionsWithoutBackgroundTiles),
-        JSON.stringify(optionsWithBackgroundTiles)
-      ]
+        JSON.stringify(optionsWithBackgroundTiles),
+      ],
     },
-    defaultValue: JSON.stringify(optionsWithBackgroundTiles)
-  }
+    defaultValue: JSON.stringify(optionsWithBackgroundTiles),
+  },
 }
 
 const resourcesExamples = {
@@ -57,24 +57,24 @@ const resourcesExamples = {
         type: 'feature',
         geometry: {
           type: 'Point',
-          coordinates: [2, 46]
+          coordinates: [2, 46],
         },
-        properties: {}
-      }
+        properties: {},
+      },
     ],
     layers: [
       {
         id: 'features-type-circle-layer-id',
         type: 'circle',
-        paint: { 'circle-radius': 15, 'circle-color': '#53ACB4' }
+        paint: { 'circle-radius': 15, 'circle-color': '#53ACB4' },
       },
       {
         id: 'features-type-symbol-layer-id',
         type: 'symbol',
         paint: { 'text-color': '#FFFFFF' },
-        layout: { 'text-field': '1', 'text-font': ['Open Sans Regular'] }
-      }
-    ]
+        layout: { 'text-field': '1', 'text-font': ['Open Sans Regular'] },
+      },
+    ],
   },
   lineString: {
     id: 'features-type-linestring-source-id',
@@ -83,18 +83,18 @@ const resourcesExamples = {
         type: 'feature',
         geometry: {
           type: 'LineString',
-          coordinates: [[-20, 46], [-40, 48]]
+          coordinates: [[-20, 46], [-40, 48]],
         },
-        properties: {}
-      }
+        properties: {},
+      },
     ],
     layers: [
       {
         id: 'features-type-line-layer-id',
         type: 'line',
-        paint: { 'line-width': 15, 'line-color': '#53ACB4' }
-      }
-    ]
+        paint: { 'line-width': 15, 'line-color': '#53ACB4' },
+      },
+    ],
   },
   polygon: {
     id: 'features-type-polygon-source-id',
@@ -103,19 +103,19 @@ const resourcesExamples = {
         type: 'feature',
         geometry: {
           type: 'Polygon',
-          coordinates: [[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]]
+          coordinates: [[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]],
         },
-        properties: {}
-      }
+        properties: {},
+      },
     ],
     layers: [
       {
         id: 'features-type-fill-layer-id',
         type: 'fill',
-        paint: { 'fill-color': '#53ACB4' }
-      }
-    ]
-  }
+        paint: { 'fill-color': '#53ACB4' },
+      },
+    ],
+  },
 }
 
 export default {
@@ -124,17 +124,17 @@ export default {
   argTypes: {
     timeoutBeforeScreenshot: {
       table: {
-        disable: true
-      }
-    }
-  }
+        disable: true,
+      },
+    },
+  },
 }
 
 export const withPointLayerStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
@@ -143,100 +143,100 @@ withPointLayerStory.args = {
   resources: [
     {
       ...resourcesExamples.pointAndText,
-      layers: [resourcesExamples.pointAndText.layers[0]]
-    }
-  ]
+      layers: [resourcesExamples.pointAndText.layers[0]],
+    },
+  ],
 }
 withPointLayerStory.argTypes = defaultArgTypes
 withPointLayerStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }
 
 export const withPointAndTextLayersStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
 withPointAndTextLayersStory.storyName = 'with Point and Text layers'
 withPointAndTextLayersStory.args = {
   resources: [
-    resourcesExamples.pointAndText
-  ]
+    resourcesExamples.pointAndText,
+  ],
 }
 withPointAndTextLayersStory.argTypes = defaultArgTypes
 withPointAndTextLayersStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }
 
 export const withLineStringLayerStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
 withLineStringLayerStory.storyName = 'with LineString layer'
 withLineStringLayerStory.args = {
   resources: [
-    resourcesExamples.lineString
-  ]
+    resourcesExamples.lineString,
+  ],
 }
 withLineStringLayerStory.argTypes = defaultArgTypes
 withLineStringLayerStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }
 
 export const withPolygonLayerStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
 withPolygonLayerStory.storyName = 'with Polygon layer'
 withPolygonLayerStory.args = {
   resources: [
-    resourcesExamples.polygon
-  ]
+    resourcesExamples.polygon,
+  ],
 }
 withPolygonLayerStory.argTypes = defaultArgTypes
 withPolygonLayerStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }
 
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
 withMultipleSourcesAndLayersStory.storyName = 'with multiple sources and layers'
 withMultipleSourcesAndLayersStory.args = {
-  resources: Object.values(resourcesExamples)
+  resources: Object.values(resourcesExamples),
 }
 withMultipleSourcesAndLayersStory.argTypes = defaultArgTypes
 withMultipleSourcesAndLayersStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }
 
 export const withCustomOptionsStory = (args, { argTypes }) => {
   return {
     components: { Map },
     props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />'
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
   }
 }
 
 withCustomOptionsStory.storyName = 'with custom options'
 withCustomOptionsStory.args = {
-  resources: []
+  resources: [],
 }
 withCustomOptionsStory.argTypes = {
   options: {
@@ -246,18 +246,18 @@ withCustomOptionsStory.argTypes = {
         JSON.stringify({
           ...optionsWithoutBackgroundTiles,
           center: [2, 46],
-          zoom: 8
+          zoom: 8,
         }),
         JSON.stringify({
           ...optionsWithBackgroundTiles,
           center: [-20, 46],
-          zoom: 8
-        })
-      ]
+          zoom: 8,
+        }),
+      ],
     },
-    defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 })
-  }
+    defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }),
+  },
 }
 withCustomOptionsStory.parameters = {
-  storyshots: false
+  storyshots: false,
 }

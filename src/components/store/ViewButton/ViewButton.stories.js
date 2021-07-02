@@ -2,13 +2,13 @@ import ViewButton from './ViewButton'
 
 export default {
   title: 'components/store/View/ViewButton',
-  component: ViewButton
+  component: ViewButton,
 }
 
 export const defaultStory = () => (
   {
     components: { ViewButton },
-    template: '<ViewButton />'
+    template: '<ViewButton />',
   }
 )
 
@@ -20,13 +20,13 @@ export const overlayOpenedStory = () => (
     template: '<ViewButton ref="vb" />',
     mounted () {
       this.$refs.vb.$el.querySelector('button').click()
-    }
+    },
   }
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
 overlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel'
+  waitForSelector: '.p-overlaypanel',
 }
 
 export const overlayOpenedStoryWithViews = () => (
@@ -36,26 +36,26 @@ export const overlayOpenedStoryWithViews = () => (
       return {
         views: [{
           id: 1,
-          text: 'First view'
+          text: 'First view',
         }, {
           id: 2,
-          text: 'Second view'
+          text: 'Second view',
         }, {
           id: 3,
           text: 'Second view',
-          locked: true
+          locked: true,
         }],
-        value: '1'
+        value: '1',
       }
     },
     template: '<ViewButton ref="vb" :views="views" v-model="value" />',
     mounted () {
       this.$refs.vb.$el.querySelector('button').click()
-    }
+    },
   }
 )
 
 overlayOpenedStoryWithViews.storyName = 'overlay opened with views'
 overlayOpenedStoryWithViews.args = {
-  waitForSelector: '.p-overlaypanel'
+  waitForSelector: '.p-overlaypanel',
 }

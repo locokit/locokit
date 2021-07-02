@@ -66,28 +66,28 @@ export default Vue.extend({
   components: {
     'p-button': Vue.extend(Button),
     'p-dropdown': Vue.extend(Dropdown),
-    'lck-autocomplete': AutoComplete
+    'lck-autocomplete': AutoComplete,
   },
   props: {
     sources: {
       type: Array as PropType<MapSourceSettings[]>,
-      default: () => ([])
+      default: () => ([]),
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
+      default: () => ([]),
     },
     tableViewDefinition: {
-      type: Object as PropType<Record<string, LckTableView> | null>
+      type: Object as PropType<Record<string, LckTableView> | null>,
     },
     relatedChapterPages: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     singleSource: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data (): {
     sourceTableViewOptions: Array<{ text: string; value: string }>;
@@ -95,7 +95,7 @@ export default Vue.extend({
     } {
     return {
       sourceTableViewOptions: [],
-      tableViewIdsNamesAssociation: {}
+      tableViewIdsNamesAssociation: {},
     }
   },
   watch: {
@@ -105,7 +105,7 @@ export default Vue.extend({
     tableViewDefinition (newTableViewDefinition: Record<string, LckTableView> | null) {
       this.updateTableViewIdsTextsAssociation(newTableViewDefinition)
       this.updateSourceViewOptions(this.sources)
-    }
+    },
   },
   mounted () {
     this.updateTableViewIdsTextsAssociation(this.tableViewDefinition)
@@ -136,12 +136,12 @@ export default Vue.extend({
         if (tableViewId) {
           this.sourceTableViewOptions.push({
             value: tableViewId,
-            text: this.tableViewIdsNamesAssociation[tableViewId]
+            text: this.tableViewIdsNamesAssociation[tableViewId],
           })
         }
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -17,10 +17,10 @@ if (process.env.NODE_ENV === 'production') {
         tracingOptions: {
           trackComponents: true,
           timeout: 100,
-          hooks: ['create', 'mount', 'update', 'destroy']
-        }
-      })
+          hooks: ['create', 'mount', 'update', 'destroy'],
+        },
+      }),
     ],
-    tracesSampleRate: 1.0 // Be sure to lower this in production
+    tracesSampleRate: 1.0, // Be sure to lower this in production
   })
 }

@@ -35,12 +35,12 @@ export default Vue.extend({
     return {
       loading: false,
       sendResetOK: false,
-      error: null
+      error: null,
     }
   },
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
-    'lost-password': Vue.extend(LostPassword)
+    'lost-password': Vue.extend(LostPassword),
   },
   methods: {
     async sendResetPasswordLink (email: string) {
@@ -49,8 +49,8 @@ export default Vue.extend({
         await lckClient.service('authManagement').create({
           action: 'sendResetPwd',
           value: {
-            email
-          }
+            email,
+          },
         })
         this.error = null
         this.sendResetOK = true
@@ -58,8 +58,8 @@ export default Vue.extend({
         this.error = err
       }
       this.loading = false
-    }
-  }
+    },
+  },
 })
 
 </script>

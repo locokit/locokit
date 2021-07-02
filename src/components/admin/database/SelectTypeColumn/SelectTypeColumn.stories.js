@@ -2,13 +2,13 @@ import SelectTypeColumn from './SelectTypeColumn'
 
 export default {
   title: 'components/admin/database/SelectTypeColumn',
-  component: SelectTypeColumn
+  component: SelectTypeColumn,
 }
 
 export const createStory = () => (
   {
     components: { SelectTypeColumn },
-    template: '<SelectTypeColumn />'
+    template: '<SelectTypeColumn />',
   }
 )
 
@@ -27,26 +27,26 @@ export const updateStory = () => (
                   label: 'Type 1',
                   color: '#FFFFFF',
                   backgroundColor: '#000000',
-                  position: 1
+                  position: 1,
                 },
               2:
                 {
                   label: 'Type 2',
                   color: '#000000',
                   backgroundColor: '#FFFFFF',
-                  position: 2
-                }
+                  position: 2,
+                },
             },
-            default: '2'
-          }
-        }
+            default: '2',
+          },
+        },
       }
     },
     template: `
       <SelectTypeColumn
         :columnToHandle="columnToHandle"
       />
-    `
+    `,
   }
 )
 

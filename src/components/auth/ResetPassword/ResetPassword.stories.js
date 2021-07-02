@@ -4,13 +4,13 @@ import ResetPassword from './ResetPassword'
 
 export default {
   title: 'components/auth/ResetPassword',
-  component: ResetPassword
+  component: ResetPassword,
 }
 
 export const defaultStory = () => ({
   components: { ResetPassword },
   template: '<ResetPassword @submit="this.submit" />',
-  methods: { submit: action('submit') }
+  methods: { submit: action('submit') },
 })
 
 defaultStory.storyName = 'default'
@@ -24,7 +24,7 @@ export const passwordMismatch = () => ({
     this.$refs.rp.passwordCheck = 'azeaze'
     await this.$nextTick()
     this.$refs.rp.$el.querySelector('button').click()
-  }
+  },
 })
 
 passwordMismatch.storyName = 'password mismatch'

@@ -59,32 +59,32 @@ export default {
   components: {
     'p-input-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
-    'lck-autocomplete': AutoComplete
+    'lck-autocomplete': AutoComplete,
   },
   props: {
     addAllowed: {
-      type: Boolean
+      type: Boolean,
     },
     exportAllowed: {
-      type: Boolean
+      type: Boolean,
     },
     id: {
-      type: String
+      type: String,
     },
     pageDetailId: {
-      type: String
+      type: String,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView | null>
+      type: Object as Vue.PropType<LckTableView | null>,
     },
     relatedChapterPages: {
       type: Array,
-      default: () => ([])
-    }
+      default: () => ([]),
+    },
   },
   data (): {
     tableView: { text: string; value: string };
@@ -92,8 +92,8 @@ export default {
     return {
       tableView: {
         text: '',
-        value: ''
-      }
+        value: '',
+      },
     }
   },
   watch: {
@@ -102,19 +102,19 @@ export default {
         if (view) {
           this.tableView = {
             value: view.id,
-            text: view.text
+            text: view.text,
           }
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
       this.$emit('component-refresh-required', true)
-    }
-  }
+    },
+  },
 }
 </script>
 

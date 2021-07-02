@@ -2,7 +2,7 @@ import lckAbilities from '@/services/lck-abilities'
 import { lckClient } from '@/services/lck-api'
 import {
   USER_PROFILE,
-  GROUP_ROLE
+  GROUP_ROLE,
 } from '@locokit/lck-glossary'
 import { BaseState } from './state'
 
@@ -55,15 +55,15 @@ export const authState: AuthState = {
   data: {
     isAuthenticated: false,
     user: null,
-    currentGroupId: null
-  }
+    currentGroupId: null,
+  },
 }
 
 export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
   authState.data.user = await lckClient.service('user').get(id, {
     query: {
-      $eager: 'groups.[aclset.[workspace.[databases]]]'
-    }
+      $eager: 'groups.[aclset.[workspace.[databases]]]',
+    },
   })
 }
 
@@ -87,7 +87,7 @@ export async function authenticate (data: AuthDTO) {
     const result = await lckClient.authenticate({
       strategy: 'local',
       email: data.email,
-      password: data.password
+      password: data.password,
     })
     lckAbilities.update(result.user.rules)
     authState.data.isAuthenticated = true
@@ -103,7 +103,7 @@ export function logout () {
   authState.data = {
     isAuthenticated: false,
     user: null,
-    currentGroupId: null
+    currentGroupId: null,
   }
   lckAbilities.update([])
   return lckClient.logout()

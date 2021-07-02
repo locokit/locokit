@@ -31,7 +31,7 @@ export const retrieveViewDefinition = () => ({})
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    query: { $eager: 'containers.[blocks]' }
+    query: { $eager: 'containers.[blocks]' },
   })
 }
 export default {
@@ -46,5 +46,5 @@ export default {
   retrieveTableViewData,
   retrieveViewData,
   retrieveViewDefinition,
-  retrievePageWithContainersAndBlocks
+  retrievePageWithContainersAndBlocks,
 }

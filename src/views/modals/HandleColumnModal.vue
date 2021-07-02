@@ -132,24 +132,24 @@ export default {
     'p-textarea': Vue.extend(Textarea),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-switch': Vue.extend(InputSwitch),
-    'p-input-number': Vue.extend(InputNumber)
+    'p-input-number': Vue.extend(InputNumber),
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     databaseId: String,
     tableId: String,
     columnToHandle: {
       type: Object,
-      required: false
+      required: false,
     },
     tableColumns: {
       type: Array,
       required: false,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data () {
     return {
@@ -159,7 +159,7 @@ export default {
       referenceToHandle: { isActive: false, position: 0 },
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
-      settings: {}
+      settings: {},
     }
   },
   computed: {
@@ -177,7 +177,7 @@ export default {
     },
     isBooleanType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.BOOLEAN
-    }
+    },
   },
   methods: {
     closeHandleColumnModal () {
@@ -199,7 +199,7 @@ export default {
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.getSettings()
+              settings: this.getSettings(),
             })
           } else {
             await lckServices.tableColumn.create({
@@ -212,7 +212,7 @@ export default {
               reference_position: Number(this.referenceToHandle.position),
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
-              settings: this.getSettings()
+              settings: this.getSettings(),
             })
           }
           this.columnNameToHandle = null
@@ -267,9 +267,9 @@ export default {
     },
     formulaSettings () {
       return {
-        formula: formulaColumnsNamesToIds(this.settings.formula || '', this.tableColumns)
+        formula: formulaColumnsNamesToIds(this.settings.formula || '', this.tableColumns),
       }
-    }
+    },
   },
   watch: {
     columnToHandle: function () {
@@ -289,8 +289,8 @@ export default {
         }
       }
       this.errorHandleColumn = null
-    }
-  }
+    },
+  },
 }
 </script>
 

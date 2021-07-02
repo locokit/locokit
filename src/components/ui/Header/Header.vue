@@ -54,31 +54,31 @@ export default {
   name: 'LckHeader',
   components: {
     'p-button': Vue.extend(Button),
-    'p-menu': Vue.extend(Menu)
+    'p-menu': Vue.extend(Menu),
   },
   props: {
     logoUrl: {
       type: String,
-      required: true
+      required: true,
     },
     logoMobileUrl: {
       type: String,
-      required: true
+      required: true,
     },
     isSuperAdmin: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     hasBurgerMenu: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
-      ROUTES_PATH
+      ROUTES_PATH,
     }
   },
   computed: {
@@ -91,7 +91,7 @@ export default {
           command: () => {
             this.$refs.menu.hide()
             this.$router.push(ROUTES_PATH.ADMIN)
-          }
+          },
         })
       }
       return result.concat([
@@ -101,17 +101,17 @@ export default {
           command: () => {
             this.$refs.menu.hide()
             this.$router.push(ROUTES_PATH.PROFILE)
-          }
+          },
         },
         {
           label: this.$t('common.logout'),
           icon: 'pi pi-lock-open',
           command: () => {
             this.logoutClick()
-          }
-        }
+          },
+        },
       ])
-    }
+    },
   },
   methods: {
     toggle (event) {
@@ -122,8 +122,8 @@ export default {
     },
     logoutClick () {
       this.$emit('logoutClick')
-    }
-  }
+    },
+  },
 }
 </script>
 

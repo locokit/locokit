@@ -29,13 +29,13 @@ export const TEXT_TYPES = [
   COLUMN_TYPE.STRING,
   COLUMN_TYPE.TEXT,
   COLUMN_TYPE.URL,
-  COLUMN_TYPE.USER
+  COLUMN_TYPE.USER,
 ]
 
 // The list of the columns types that can be used as function numeric parameters.
 const NUMERIC_TYPES = [
   COLUMN_TYPE.FLOAT,
-  COLUMN_TYPE.NUMBER
+  COLUMN_TYPE.NUMBER,
 ]
 
 // The list of the original columns types that can be used in a formula
@@ -43,7 +43,7 @@ export const implementedInFormulaColumnTypes = [
   ...TEXT_TYPES,
   ...NUMERIC_TYPES,
   COLUMN_TYPE.DATE,
-  COLUMN_TYPE.BOOLEAN
+  COLUMN_TYPE.BOOLEAN,
 ]
 
 // Fonctions
@@ -61,182 +61,182 @@ export const formulaFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula
       params: [
         {
           name: 'startDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'number',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'unit',
-          type: COLUMN_TYPE.STRING
-        }
+          type: COLUMN_TYPE.STRING,
+        },
       ],
-      returnType: COLUMN_TYPE.DATE
+      returnType: COLUMN_TYPE.DATE,
     },
     DAY: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     DAYS: {
       params: [
         {
           name: 'startDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'endDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     EARLIER: {
       params: [
         {
           name: 'firstDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'secondDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     EQUAL: {
       params: [
         {
           name: 'firstDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'secondDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     EOMONTH: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'numMonths',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.DATE
+      returnType: COLUMN_TYPE.DATE,
     },
     HOUR: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     LATER: {
       params: [
         {
           name: 'firstDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'secondDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     MINUTE: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     MONTH: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     MONTHS: {
       params: [
         {
           name: 'startDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'endDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     SECOND: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     WEEKDAY: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     WEEKNUM: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     YEAR: {
       params: [
         {
           name: 'date',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     YEARS: {
       params: [
         {
           name: 'startDate',
-          type: COLUMN_TYPE.DATE
+          type: COLUMN_TYPE.DATE,
         },
         {
           name: 'endDate',
-          type: COLUMN_TYPE.DATE
-        }
+          type: COLUMN_TYPE.DATE,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
-    }
+      returnType: COLUMN_TYPE.NUMBER,
+    },
   },
   LOGIC: {
     AND: {
@@ -244,341 +244,341 @@ export const formulaFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula
         {
           name: 'condition',
           type: COLUMN_TYPE.BOOLEAN,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     FALSE: {
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     IF: {
       params: [
         {
           name: 'condition',
-          type: COLUMN_TYPE.BOOLEAN
+          type: COLUMN_TYPE.BOOLEAN,
         },
         {
           name: 'resultIfTrue',
-          type: implementedInFormulaColumnTypes
+          type: implementedInFormulaColumnTypes,
         },
         {
           name: 'resultIfFalse',
-          type: implementedInFormulaColumnTypes
-        }
+          type: implementedInFormulaColumnTypes,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     IFS: {
       params: [
         [
           {
             name: 'condition',
-            type: COLUMN_TYPE.BOOLEAN
+            type: COLUMN_TYPE.BOOLEAN,
           },
           {
             name: 'resultIfTrue',
-            type: implementedInFormulaColumnTypes
-          }
-        ]
+            type: implementedInFormulaColumnTypes,
+          },
+        ],
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     NOT: {
       params: [
         {
           name: 'condition',
-          type: COLUMN_TYPE.BOOLEAN
-        }
+          type: COLUMN_TYPE.BOOLEAN,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     OR: {
       params: [
         {
           name: 'condition',
           type: COLUMN_TYPE.BOOLEAN,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     SWITCH: {
       params: [
         {
           name: 'expression',
-          type: implementedInFormulaColumnTypes
+          type: implementedInFormulaColumnTypes,
         },
         [
           {
             name: 'pattern',
-            type: implementedInFormulaColumnTypes
+            type: implementedInFormulaColumnTypes,
           },
           {
             name: 'resultIfMatching',
-            type: implementedInFormulaColumnTypes
-          }
+            type: implementedInFormulaColumnTypes,
+          },
         ],
         {
           name: 'defaultResult',
           type: implementedInFormulaColumnTypes,
-          required: false
-        }
+          required: false,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     TRUE: {
-      returnType: COLUMN_TYPE.BOOLEAN
-    }
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
   },
   NUMERIC: {
     ABS: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     AVERAGE: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     CEILING: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     DIVIDE: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     E: {
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     EQUAL: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     FLOOR: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     GREATER: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     GREATEREQ: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     INT: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     LESS: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     LESSEQ: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     LOG: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'base',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     MAX: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     MIN: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     MOD: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'divisor',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     PI: {
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     PRODUCT: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     ROUND: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'numDigits',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     SIGN: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     SQRT: {
       params: [
         {
           name: 'number',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     SUBTRACT: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     SUM: {
       params: [
         {
           name: 'number',
           type: NUMERIC_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.FLOAT
+      returnType: COLUMN_TYPE.FLOAT,
     },
     UNEQUAL: {
       params: [
         {
           name: 'firstNumber',
-          type: NUMERIC_TYPES
+          type: NUMERIC_TYPES,
         },
         {
           name: 'secondNumber',
-          type: NUMERIC_TYPES
-        }
+          type: NUMERIC_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
-    }
+      returnType: COLUMN_TYPE.BOOLEAN,
+    },
   },
   TEXT: {
     CONCAT: {
@@ -586,182 +586,182 @@ export const formulaFunctions: Record<FUNCTION_CATEGORY, Record<string, IFormula
         {
           name: 'text',
           type: TEXT_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     EXACT: {
       params: [
         {
           name: 'firstText',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'secondText',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.BOOLEAN
+      returnType: COLUMN_TYPE.BOOLEAN,
     },
     FIND: {
       params: [
         {
           name: 'findText',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'withinText',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     LEFT: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'numChars',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     LEN: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.NUMBER
+      returnType: COLUMN_TYPE.NUMBER,
     },
     LOWER: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     MID: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'startPos',
-          type: COLUMN_TYPE.NUMBER
+          type: COLUMN_TYPE.NUMBER,
         },
         {
           name: 'numChars',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     REPLACE: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'startPos',
-          type: COLUMN_TYPE.NUMBER
+          type: COLUMN_TYPE.NUMBER,
         },
         {
           name: 'numChars',
-          type: COLUMN_TYPE.NUMBER
+          type: COLUMN_TYPE.NUMBER,
         },
         {
           name: 'newText',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     REPT: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'number',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     RIGHT: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'numChars',
-          type: COLUMN_TYPE.NUMBER
-        }
+          type: COLUMN_TYPE.NUMBER,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     SUBSTITUTE: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'searchedText',
-          type: TEXT_TYPES
+          type: TEXT_TYPES,
         },
         {
           name: 'newText',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     TEXTJOIN: {
       params: [
         {
           name: 'separator',
-          type: COLUMN_TYPE.STRING
+          type: COLUMN_TYPE.STRING,
         },
         {
           name: 'text',
           type: TEXT_TYPES,
-          multiple: true
-        }
+          multiple: true,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     TRIM: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
+      returnType: COLUMN_TYPE.TEXT,
     },
     UPPER: {
       params: [
         {
           name: 'text',
-          type: TEXT_TYPES
-        }
+          type: TEXT_TYPES,
+        },
       ],
-      returnType: COLUMN_TYPE.TEXT
-    }
-  }
+      returnType: COLUMN_TYPE.TEXT,
+    },
+  },
 }
 
 export const COLUMN_PREFIX = 'COLUMN'
@@ -777,7 +777,7 @@ export function getDefaultRange (): IRange {
     startLineNumber: 1,
     startColumn: 1,
     endLineNumber: 1,
-    endColumn: 1
+    endColumn: 1,
   }
 }
 
@@ -792,7 +792,7 @@ export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTabl
     new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[^}]+(?=})`, 'g'),
     columnName => {
       return (tableColumns.find(column => column.text === columnName))?.id || columnName
-    }
+    },
   )
 }
 
@@ -805,7 +805,7 @@ export function formulaColumnsNamesToIds (formula: string, tableColumns: LckTabl
 export function formulaColumnsIdsToNames (formula: string, tableColumns: LckTableColumn[]) {
   return formula.replace(
     new RegExp(`(?<=${COLUMN_PREFIX}\\.{)[a-z0-9-]+(?=})`, 'g'),
-    columnId => (tableColumns.find(column => column.id === columnId))?.text || columnId
+    columnId => (tableColumns.find(column => column.id === columnId))?.text || columnId,
   )
 }
 
@@ -825,14 +825,14 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
     DATE: [],
     LOGIC: [],
     NUMERIC: [],
-    TEXT: []
+    TEXT: [],
   }
   // Initialize the signatures
   const functionSignatures: Record<FUNCTION_CATEGORY, Record<string, string>> = {
     DATE: {},
     LOGIC: {},
     NUMERIC: {},
-    TEXT: {}
+    TEXT: {},
   }
 
   // Default range
@@ -844,7 +844,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
     kind: languages.CompletionItemKind.Class,
     documentation: i18n.t('components.formulas.column').toString(),
     insertText: COLUMN_PREFIX,
-    range: defaultRange
+    range: defaultRange,
   }
   allSuggestions.push(currentSuggestion)
 
@@ -856,7 +856,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
       kind: languages.CompletionItemKind.Class,
       documentation: i18n.t(`components.formulas.categories.${categoryName}`).toString(),
       insertText: categoryName,
-      range: defaultRange
+      range: defaultRange,
     }
     allSuggestions.push(currentSuggestion)
     const categoryPrefix = categoryName + '.'
@@ -928,7 +928,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
         insertText: insertTextFunction,
         insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: functionSignature,
-        range: defaultRange
+        range: defaultRange,
       }
       functionSuggestions[categoryName as FUNCTION_CATEGORY].push(currentSuggestion)
       allSuggestions.push(currentSuggestion)
@@ -937,7 +937,7 @@ export function getMonacoSuggestions (categoriesWithFunctions: Record<FUNCTION_C
   return {
     allSuggestions,
     functionSuggestions,
-    functionSignatures
+    functionSignatures,
   }
 }
 

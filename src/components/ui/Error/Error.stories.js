@@ -3,12 +3,12 @@ import Error from './Error'
 
 export default {
   title: 'components/ui/Error',
-  component: Error
+  component: Error,
 }
 
 export const defaultStory = () => ({
   components: { Error },
-  template: '<Error />'
+  template: '<Error />',
 })
 
 defaultStory.storyName = 'default'

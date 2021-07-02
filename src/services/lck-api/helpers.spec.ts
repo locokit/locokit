@@ -12,27 +12,27 @@ describe('LCK API helpers utilities', () => {
         data: {
           'date-field': '2021-06-12Z',
           'datetime-field': '2021-06-12T12:00:00',
-          'non-date-field': '2021-06-12'
-        }
+          'non-date-field': '2021-06-12',
+        },
       }
       const definitions: LckTableColumn[] = [{
         id: 'date-field',
         column_type_id: COLUMN_TYPE.DATE,
         settings: {},
         text: 'date field',
-        table_id: 'table1'
+        table_id: 'table1',
       }, {
         id: 'datetime-field',
         column_type_id: COLUMN_TYPE.DATETIME,
         settings: {},
         text: 'datetime field',
-        table_id: 'table1'
+        table_id: 'table1',
       }, {
         id: 'non-date-field',
         column_type_id: COLUMN_TYPE.STRING,
         settings: {},
         text: 'non date field',
-        table_id: 'table1'
+        table_id: 'table1',
       }]
       convertDateInRecords(record, definitions)
       expect.assertions(6)
@@ -49,8 +49,8 @@ describe('LCK API helpers utilities', () => {
         text: 'record-test',
         data: {
           'formula-date-field': '2021-06-12Z',
-          'formula-date-time-field': '2021-06-12T12:00:00'
-        }
+          'formula-date-time-field': '2021-06-12T12:00:00',
+        },
       }
       const definitions: LckTableColumn[] = [{
         id: 'formula-date-field',
@@ -58,16 +58,16 @@ describe('LCK API helpers utilities', () => {
         text: 'date field',
         table_id: 'table1',
         settings: {
-          formula_type_id: COLUMN_TYPE.DATE
-        }
+          formula_type_id: COLUMN_TYPE.DATE,
+        },
       }, {
         id: 'formula-date-time-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'datetime field',
         table_id: 'table1',
         settings: {
-          formula_type_id: COLUMN_TYPE.DATETIME
-        }
+          formula_type_id: COLUMN_TYPE.DATETIME,
+        },
       }]
       convertDateInRecords(record, definitions)
       expect.assertions(4)
@@ -83,13 +83,13 @@ describe('LCK API helpers utilities', () => {
         data: {
           'lkdp-date-field': {
             reference: 'foreign-uuid',
-            value: '2021-06-12Z'
+            value: '2021-06-12Z',
           },
           'lkdp-date-time-field': {
             reference: 'foreign-uuid',
-            value: '2021-06-12T12:00:00'
-          }
-        }
+            value: '2021-06-12T12:00:00',
+          },
+        },
       }
       const definitions: LckTableColumn[] = [{
         id: 'lkdp-date-field',
@@ -102,8 +102,8 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }, {
         id: 'lkdp-date-time-field',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -115,8 +115,8 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }]
       convertDateInRecords(record, definitions)
       expect.assertions(4)
@@ -134,30 +134,30 @@ describe('LCK API helpers utilities', () => {
           'datetime-field': null,
           'lkdp-date-field': {
             reference: 'foreign-uuid',
-            value: null
+            value: null,
           },
           'lkdp-date-time-field': {
             reference: 'foreign-uuid',
-            value: null
+            value: null,
           },
           'lkdp-date-field1': null,
           'lkdp-date-time-field1': null,
           'formula-date-field': null,
-          'formula-date-time-field': null
-        }
+          'formula-date-time-field': null,
+        },
       }
       const definitions: LckTableColumn[] = [{
         id: 'date-field',
         column_type_id: COLUMN_TYPE.DATE,
         settings: {},
         text: 'date field',
-        table_id: 'table1'
+        table_id: 'table1',
       }, {
         id: 'datetime-field',
         column_type_id: COLUMN_TYPE.DATETIME,
         settings: {},
         text: 'datetime field',
-        table_id: 'table1'
+        table_id: 'table1',
       }, {
         id: 'lkdp-date-field',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -169,8 +169,8 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }, {
         id: 'lkdp-date-time-field',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -182,8 +182,8 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }, {
         id: 'lkdp-date-field1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -195,8 +195,8 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }, {
         id: 'lkdp-date-time-field1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -208,24 +208,24 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
-          table_id: 'table1'
-        }]
+          table_id: 'table1',
+        }],
       }, {
         id: 'formula-date-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'date field',
         table_id: 'table1',
         settings: {
-          formula_type_id: COLUMN_TYPE.DATE
-        }
+          formula_type_id: COLUMN_TYPE.DATE,
+        },
       }, {
         id: 'formula-date-time-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'datetime field',
         table_id: 'table1',
         settings: {
-          formula_type_id: COLUMN_TYPE.DATETIME
-        }
+          formula_type_id: COLUMN_TYPE.DATETIME,
+        },
       }]
       convertDateInRecords(record, definitions)
       expect.assertions(8)

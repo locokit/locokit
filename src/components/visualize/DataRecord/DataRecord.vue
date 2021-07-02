@@ -26,27 +26,27 @@ import eventHub from '@/services/lck-event-hub/eventHub'
 export default Vue.extend({
   name: 'DataRecord',
   components: {
-    'lck-data-detail': DataDetail
+    'lck-data-detail': DataDetail,
   },
   mixins: [CommunicatingBlock],
   props: {
     settings: {
-      type: Object as PropType<DataRecordSettings>
+      type: Object as PropType<DataRecordSettings>,
     },
     definition: {
       type: Object as PropType<LckTableView>,
       default: () => ({
-        columns: []
-      })
+        columns: [],
+      }),
     },
     content: {
       type: Object as PropType<Record<string, LckTableRow[]>>,
-      default: () => ({ data: [] })
+      default: () => ({ data: [] }),
     },
     pageLoaded: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     rowId (): string {
@@ -56,7 +56,7 @@ export default Vue.extend({
       // Get an object containing the columns as values and their ids as keys
       if (!this.definition.columns) return {}
       return objectFromArray<LckTableViewColumn>(this.definition.columns, 'id')
-    }
+    },
   },
   methods: {
     onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent) {
@@ -65,7 +65,7 @@ export default Vue.extend({
         this.$emit('update-row', {
           columnId,
           newValue: eventData.originalValue,
-          rowId: this.rowId
+          rowId: this.rowId,
         })
       }
     },
@@ -78,10 +78,10 @@ export default Vue.extend({
       if (triggerEvent) {
         eventHub.$emit(triggerEvent.name, {
           originalValue: updatedData.newValue,
-          displayedValue: getColumnDisplayValue(this.columnsObject[updatedData.columnId], updatedData.newValue, true)
+          displayedValue: getColumnDisplayValue(this.columnsObject[updatedData.columnId], updatedData.newValue, true),
         } as EmittedBlockEvent)
       }
-    }
+    },
   },
   watch: {
     pageLoaded (newValue) {
@@ -92,12 +92,12 @@ export default Vue.extend({
             const currentData = this.content.data[0]?.data[event.field]
             eventHub.$emit(event.name, {
               originalValue: currentData,
-              displayedValue: getColumnDisplayValue(this.columnsObject[event.field], currentData, true)
+              displayedValue: getColumnDisplayValue(this.columnsObject[event.field], currentData, true),
             } as EmittedBlockEvent)
           }
         })
       }
-    }
-  }
+    },
+  },
 })
 </script>

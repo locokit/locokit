@@ -23,19 +23,19 @@ jest.mock('@locokit/lck-glossary', () => ({
   USER_PROFILE: {
     ADMIN: 'ADMIN',
     SUPERADMIN: 'SUPERADMIN',
-    USER: 'USER'
+    USER: 'USER',
   },
   WORKSPACE_ROLE: {
     ADMIN: 'ADMIN',
     OWNER: 'OWNER',
-    MEMBER: 'MEMBER'
-  }
+    MEMBER: 'MEMBER',
+  },
 }))
 
 // Mock primevue component
 jest.mock('primevue/togglebutton', () => ({
   name: 'p-toggle-button',
-  render: h => h('p-toggle-button')
+  render: h => h('p-toggle-button'),
 }))
 
 // Mock error
@@ -75,7 +75,7 @@ const mockWorkspaceContent = {
           updatedAt: '2020-11-02T16:11:03.109Z',
           chapter_id: '1',
           position: 0,
-          hidden: false
+          hidden: false,
         },
         {
           id: '12',
@@ -84,18 +84,18 @@ const mockWorkspaceContent = {
           updatedAt: '2020-11-02T16:11:03.109Z',
           chapter_id: '1',
           position: 1,
-          hidden: true
-        }
-      ]
+          hidden: true,
+        },
+      ],
     },
     {
       id: '2',
       text: 'Chapter 2',
       createdAt: '2020-11-02T16:11:03.109Z',
       updatedAt: '2020-12-23T10:56:11.789Z',
-      workspace_id: '0'
-    }
-  ]
+      workspace_id: '0',
+    },
+  ],
 }
 
 function mockDeepCloneObject (object) {
@@ -111,19 +111,19 @@ jest.mock('@/services/lck-api', () => ({
         ({ ...mockWorkspaceContent.chapters.find(c => c.id === id), ...data })),
       create: jest.fn(data =>
         ({ ...mockWorkspaceContent.chapters[0], ...data, id: '2' })),
-      remove: jest.fn()
+      remove: jest.fn(),
     },
     page: {
       patch: jest.fn((id, data) =>
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id })),
       create: jest.fn(data =>
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id: '13' })),
-      remove: jest.fn()
-    }
+      remove: jest.fn(),
+    },
   },
   lckHelpers: {
-    retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent)
-  }
+    retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent),
+  },
 }))
 
 jest.mock('@/store/auth', () => ({
@@ -132,27 +132,27 @@ jest.mock('@/store/auth', () => ({
       isAuthenticated: true,
       user: {
         profile: '',
-        groups: []
-      }
-    }
-  }
+        groups: [],
+      },
+    },
+  },
 }))
 
 jest.mock('@/router/paths', () => ({
   ROUTES_PATH: {
     WORKSPACE: '/workspace',
-    VISUALIZATION: '/visualization'
+    VISUALIZATION: '/visualization',
   },
   ROUTES_NAMES: {
     VISUALIZATION: 'WorkspaceVisualization',
-    PAGE: 'Page'
-  }
+    PAGE: 'Page',
+  },
 }))
 
 // Mock Vue components
 jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
   name: 'Page',
-  render: h => h('section')
+  render: h => h('section'),
 }))
 
 // Mock routes
@@ -166,9 +166,9 @@ const mockRoutes = [
       name: ROUTES_NAMES.PAGE,
       path: 'page/:pageId',
       props: true,
-      component: Page
-    }]
-  }
+      component: Page,
+    }],
+  },
 ]
 // Tests
 
@@ -187,9 +187,9 @@ describe('Workspace', () => {
       t: key => key,
       $t: key => key,
       $toast: {
-        add: jest.fn()
-      }
-    }
+        add: jest.fn(),
+      },
+    },
   }
 
   describe('Edit button', () => {
@@ -304,9 +304,9 @@ describe('Workspace', () => {
               name: ROUTES_NAMES.PAGE,
               params: {
                 worspaceId: firstChapter.workspace_id,
-                pageId: firstChapter.pages[0].id
-              }
-            }).route.path
+                pageId: firstChapter.pages[0].id,
+              },
+            }).route.path,
           )
         })
 
@@ -535,8 +535,8 @@ describe('Workspace', () => {
           name: ROUTES_NAMES.PAGE,
           params: {
             worspaceId: mockWorkspaceContent.id,
-            pageId: '13'
-          }
+            pageId: '13',
+          },
         }).route.path)
       })
     })
@@ -579,8 +579,8 @@ describe('Workspace', () => {
           name: ROUTES_NAMES.PAGE,
           params: {
             worspaceId: mockWorkspaceContent.id,
-            pageId: '12'
-          }
+            pageId: '12',
+          },
         }).route.path)
       })
 
@@ -629,8 +629,8 @@ describe('Workspace', () => {
         expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
           name: ROUTES_NAMES.VISUALIZATION,
           params: {
-            worspaceId: mockWorkspaceContent.id
-          }
+            worspaceId: mockWorkspaceContent.id,
+          },
         }).route.path)
       })
 
@@ -641,8 +641,8 @@ describe('Workspace', () => {
           name: ROUTES_NAMES.PAGE,
           params: {
             worspaceId: mockWorkspaceContent.id,
-            pageId: mockWorkspaceContent.chapters[0].pages[0].id
-          }
+            pageId: mockWorkspaceContent.chapters[0].pages[0].id,
+          },
         }).route.path)
       })
 
@@ -731,15 +731,15 @@ describe('Workspace', () => {
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
-          pageId: mockWorkspaceContent.chapters[0].pages[0].id
-        }
+          pageId: mockWorkspaceContent.chapters[0].pages[0].id,
+        },
       }).route.path
       secondPagePath = wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
-          pageId: mockWorkspaceContent.chapters[0].pages[1].id
-        }
+          pageId: mockWorkspaceContent.chapters[0].pages[1].id,
+        },
       }).route.path
     })
 
@@ -771,8 +771,8 @@ describe('Workspace', () => {
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
-          pageId: firstChapter.pages[1].id
-        }
+          pageId: firstChapter.pages[1].id,
+        },
       }).route.path)
     })
 
@@ -785,8 +785,8 @@ describe('Workspace', () => {
         name: ROUTES_NAMES.PAGE,
         params: {
           worspaceId: mockWorkspaceContent.id,
-          pageId: firstChapter.pages[0].id
-        }
+          pageId: firstChapter.pages[0].id,
+        },
       }).route.path)
     })
 
@@ -814,8 +814,8 @@ describe('Workspace', () => {
       expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
         name: ROUTES_NAMES.VISUALIZATION,
         params: {
-          worspaceId: mockWorkspaceContent.id
-        }
+          worspaceId: mockWorkspaceContent.id,
+        },
       }).route.path)
     })
 
@@ -858,8 +858,8 @@ describe('Workspace', () => {
       expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
-          detail: 'error.basic'
-        })
+          detail: 'error.basic',
+        }),
       )
     })
 
@@ -868,8 +868,8 @@ describe('Workspace', () => {
       expect(wrapper.vm.$toast.add).toHaveBeenCalledWith(
         expect.objectContaining({
           summary: 'summary',
-          detail: 'error.http.404'
-        })
+          detail: 'error.http.404',
+        }),
       )
     })
   })

@@ -137,13 +137,13 @@ export default {
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
     'lck-dialog-form': DialogForm,
-    'lck-badge': Badge
+    'lck-badge': Badge,
   },
   props: {
     columnToHandle: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
@@ -151,7 +151,7 @@ export default {
       defaultSelectTypeValueId: null,
       showDeleteColumnModal: false,
       currentSelectTypeValue: null,
-      colorScheme: COLOR_SCHEME
+      colorScheme: COLOR_SCHEME,
     }
   },
   methods: {
@@ -162,7 +162,7 @@ export default {
         label: '',
         color: this.colorScheme[0].color,
         backgroundColor: this.colorScheme[0].backgroundColor,
-        position: this.selectTypeValues.length > 0 ? Math.max(...this.selectTypeValues.map(({ position }) => position)) + 1 : 1
+        position: this.selectTypeValues.length > 0 ? Math.max(...this.selectTypeValues.map(({ position }) => position)) + 1 : 1,
       })
       // Scroll to last td
       const lastTr = this.$el.querySelector('.select-type-values-table tbody tr:last-child')
@@ -176,7 +176,7 @@ export default {
     },
     deleteSelectTypeValue () {
       const selectTypeValueIndex = this.selectTypeValues.findIndex(
-        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id
+        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
       )
       if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
         this.defaultSelectTypeValueId = null
@@ -203,7 +203,7 @@ export default {
         sortOptions.push({ ...option, position })
       })
       this.selectTypeValues = sortOptions
-    }
+    },
   },
   mounted () {
     if (this.columnToHandle && this.columnToHandle.settings) {
@@ -225,12 +225,12 @@ export default {
       handler: function () {
         this.$emit('select-type-values-change', this.selectTypeValues)
       },
-      deep: true
+      deep: true,
     },
     defaultSelectTypeValueId () {
       this.$emit('default-select-type-value-id-change', this.defaultSelectTypeValueId)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -83,20 +83,20 @@ export default Vue.extend({
     ActionButton,
     FormRecord,
     MarkdownField,
-    Error
+    Error,
   },
   props: {
     block: {
-      type: Object as PropType<Block>
+      type: Object as PropType<Block>,
     },
     editMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     workspaceId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isBlockTypeValid () {
@@ -152,8 +152,8 @@ export default Vue.extend({
           className += 'lck-block-default'
       }
       return className
-    }
-  }
+    },
+  },
 })
 </script>
 

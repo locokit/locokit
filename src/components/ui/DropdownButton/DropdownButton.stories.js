@@ -3,12 +3,12 @@ import DropdownButton from './DropdownButton'
 
 export default {
   title: 'components/ui/DropdownButton',
-  component: DropdownButton
+  component: DropdownButton,
 }
 
 export const defaultStory = () => ({
   components: { DropdownButton },
-  template: '<DropdownButton />'
+  template: '<DropdownButton />',
 })
 
 defaultStory.storyName = 'default'
@@ -16,22 +16,22 @@ defaultStory.storyName = 'default'
 const model = [{
   id: 0,
   label: 'Suggestion one',
-  to: '/my-route/0'
+  to: '/my-route/0',
 }, {
   id: 1,
   label: 'Suggestion two',
-  to: '/my-route/1'
+  to: '/my-route/1',
 }, {
   id: 2,
   label: 'Suggestion three',
-  to: '/my-route/2'
+  to: '/my-route/2',
 }]
 
 export const withModel = () => ({
   components: { DropdownButton },
   data () {
     return {
-      model
+      model,
     }
   },
   template: `
@@ -40,7 +40,7 @@ export const withModel = () => ({
       label="This is a dropdown button"
       :model="model"
     />
-  `
+  `,
 })
 
 withModel.storyName = 'with model'
@@ -49,7 +49,7 @@ export const dropdownOpenedWithModel = () => ({
   components: { DropdownButton },
   data () {
     return {
-      model
+      model,
     }
   },
   template: `
@@ -62,10 +62,10 @@ export const dropdownOpenedWithModel = () => ({
   `,
   async mounted () {
     await this.$refs.db.$el.querySelector('button').click()
-  }
+  },
 })
 
 dropdownOpenedWithModel.storyName = 'dropdown opened with model'
 dropdownOpenedWithModel.args = {
-  waitForSelector: '.p-menu-overlay'
+  waitForSelector: '.p-menu-overlay',
 }

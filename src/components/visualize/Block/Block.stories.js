@@ -3,12 +3,12 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   title: 'components/visualize/Block',
-  component: Block
+  component: Block,
 }
 export const defaultStory = () => (
   {
     components: { Block },
-    template: '<Block />'
+    template: '<Block />',
   }
 )
 
@@ -35,8 +35,8 @@ const blockTableSet = {
         displayed: true,
         type: {
           text: 'String',
-          id: 3
-        }
+          id: 3,
+        },
       }, {
         text: 'État du vélo',
         data: {},
@@ -45,20 +45,20 @@ const blockTableSet = {
           values: {
             1: {
               color: '#ef1',
-              label: 'En maintenance'
+              label: 'En maintenance',
 
             },
             2: {
               color: '#ef1',
-              label: 'En utilisation'
+              label: 'En utilisation',
 
             },
             3: {
               color: '#ef1',
-              label: 'Stocké'
+              label: 'Stocké',
 
-            }
-          }
+            },
+          },
         },
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
         column_type_id: COLUMN_TYPE.SINGLE_SELECT,
@@ -67,8 +67,8 @@ const blockTableSet = {
         displayed: true,
         type: {
           text: 'Single select',
-          id: 9
-        }
+          id: 9,
+        },
       }, {
         text: 'Fournisseur',
         data: {},
@@ -81,10 +81,10 @@ const blockTableSet = {
         displayed: true,
         type: {
           text: 'User',
-          id: 5
-        }
-      }
-    ]
+          id: 5,
+        },
+      },
+    ],
   },
   content: {
     total: 2,
@@ -96,31 +96,31 @@ const blockTableSet = {
           '3a659ea1-446f-4755-8db9-583a204279cc': 1,
           'bde4bbbd-2584-447f-acff-f434f53619da': {
             value: 'AMSTERDAMAIR',
-            reference: 4
+            reference: 4,
 
           },
-          'e065323c-1151-447f-be0f-6d2728117b38': 'Trek'
+          'e065323c-1151-447f-be0f-6d2728117b38': 'Trek',
 
         },
         id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-        table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       }, {
         text: 'Vélo n° YYYY',
         data: {
           '3a659ea1-446f-4755-8db9-583a204279cc': 2,
           'bde4bbbd-2584-447f-acff-f434f53619da': {
             value: 'CYCLABLE ENTREPRISE',
-            reference: 3
+            reference: 3,
 
           },
-          'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin'
+          'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin',
 
         },
         id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
-        table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
-      }
-    ]
-  }
+        table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+      },
+    ],
+  },
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
@@ -129,10 +129,10 @@ export const tableViewStory = () => (
     components: { Block },
     data () {
       return {
-        block: blockTableSet
+        block: blockTableSet,
       }
     },
-    template: '<Block :block="block" />'
+    template: '<Block :block="block" />',
   }
 )
 
@@ -147,12 +147,12 @@ export const paragraphStory = () => (
           type: 'Paragraph',
           title: 'Titre',
           settings: {
-            content: 'Je suis un texte.'
-          }
-        }
+            content: 'Je suis un texte.',
+          },
+        },
       }
     },
-    template: '<Block :block="block" />'
+    template: '<Block :block="block" />',
   }
 )
 
@@ -167,12 +167,12 @@ export const markownStory = () => (
           type: 'Markdown',
           title: 'Futur Markdown',
           settings: {
-            content: 'This is the content.'
-          }
-        }
+            content: 'This is the content.',
+          },
+        },
       }
     },
-    template: '<Block :block="block" />'
+    template: '<Block :block="block" />',
   }
 )
 
@@ -185,11 +185,11 @@ export const unknownTypeStory = () => (
       return {
         block: {
           type: 'NotKnown',
-          title: 'Not Known'
-        }
+          title: 'Not Known',
+        },
       }
     },
-    template: '<Block :block="block" />'
+    template: '<Block :block="block" />',
   }
 )
 
@@ -204,12 +204,12 @@ export const editStory = () => (
           type: 'Paragraph',
           title: 'Titre',
           settings: {
-            content: 'Je suis un texte.'
-          }
-        }
+            content: 'Je suis un texte.',
+          },
+        },
       }
     },
-    template: '<Block :block="block" :editMode="true" />'
+    template: '<Block :block="block" :editMode="true" />',
   }
 )
 

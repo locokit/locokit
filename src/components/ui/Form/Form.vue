@@ -43,29 +43,29 @@ import Button from 'primevue/button'
 export default {
   name: 'LckForm',
   components: {
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayCancelButton: {
       type: Boolean,
-      default: true
+      default: true,
     },
     canSubmit: {
       type: Boolean,
-      default: true
+      default: true,
     },
     fullWidthButton: {
       type: Boolean,
-      default: false
+      default: false,
     },
     reset: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   watch: {
     reset (newValue: boolean) {
@@ -73,8 +73,8 @@ export default {
         (this.$refs['lck-form-record'] as HTMLFormElement).reset()
         this.$emit('reset-form')
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

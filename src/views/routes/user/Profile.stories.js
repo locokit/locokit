@@ -7,13 +7,13 @@ import { authState } from '../../../store/auth'
 
 export default {
   title: 'views/routes/user/Profile',
-  component: Profile
+  component: Profile,
 }
 
 export const defaultStory = () => ({
   components: { Profile },
   template: '<Profile @submit="this.submit" />',
-  methods: { submit: action('submit') }
+  methods: { submit: action('submit') },
 })
 
 defaultStory.storyName = 'default'
@@ -31,10 +31,10 @@ export const withAuthUser = () => ({
       id: 1,
       name: 'Mathieu DARTIGUES',
       email: 'mathieu.dartigues@makina-corpus.com',
-      profile: USER_PROFILE.SUPERADMIN
+      profile: USER_PROFILE.SUPERADMIN,
     }
     await Vue.nextTick()
-  }
+  },
 })
 
 withAuthUser.storyName = 'with auth user'
@@ -62,18 +62,18 @@ export const withAuthUserAndGroup = () => ({
           workspace_id: 'workspace-id',
           workspace: {
             id: 'uuid-v4',
-            text: 'An amazing workspace'
-          }
+            text: 'An amazing workspace',
+          },
         },
         // eslint-disable-next-line @typescript-eslint/camelcase
-        uhg_role: GROUP_ROLE.ADMIN
-      }]
+        uhg_role: GROUP_ROLE.ADMIN,
+      }],
     }
     await Vue.nextTick()
   },
   beforeDestroy () {
     this.authState.data.user = null
-  }
+  },
 })
 
 withAuthUserAndGroup.storyName = 'with auth user and groups'

@@ -13,5 +13,5 @@ export const mergeSets = (setToAdd: Set<unknown>, destinationSet: Set<unknown>):
 
 export default {
   setsAreEqual,
-  mergeSets
+  mergeSets,
 }

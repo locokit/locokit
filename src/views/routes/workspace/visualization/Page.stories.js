@@ -3,7 +3,7 @@ import Page from './Page'
 
 export default {
   title: 'views/visualize/Page',
-  component: Page
+  component: Page,
 }
 
 const chapterInfo = [
@@ -21,10 +21,10 @@ const chapterInfo = [
         updatedAt: '2020-10-14T13:38:58.355Z',
         chapter_id: 'ch1',
         position: null,
-        hidden: null
-      }
-    ]
-  }
+        hidden: null,
+      },
+    ],
+  },
 ]
 
 const pageInfo = {
@@ -55,9 +55,9 @@ const pageInfo = {
 This is the content.
 
 We can write in *italic*, **bold**, and ***both***.
-`
+`,
           },
-          container_id: 'fa1'
+          container_id: 'fa1',
         },
         {
           id: 'ba2',
@@ -73,9 +73,9 @@ We can write in *italic*, **bold**, and ***both***.
 This is the content.
 
 We can write in *italic*, **bold**, and ***both***.
-`
+`,
           },
-          container_id: 'fa1'
+          container_id: 'fa1',
         },
         {
           id: 'ba3',
@@ -91,11 +91,11 @@ We can write in *italic*, **bold**, and ***both***.
 This is the content.
 
 We can write in *italic*, **bold**, and ***both***.
-`
+`,
           },
-          container_id: 'fa1'
-        }
-      ]
+          container_id: 'fa1',
+        },
+      ],
     },
     {
       id: 'cont1',
@@ -114,12 +114,12 @@ We can write in *italic*, **bold**, and ***both***.
               {
                 name: 'Page en construction',
                 type: 'image',
-                srcURL: './themes/locokit/img/logokit-grayscale.png'
-              }
+                srcURL: './themes/locokit/img/logokit-grayscale.png',
+              },
             ],
-            displayMode: 'image'
+            displayMode: 'image',
           },
-          container_id: 'cont1'
+          container_id: 'cont1',
         },
         {
           id: 'bl2',
@@ -135,18 +135,18 @@ We can write in *italic*, **bold**, and ***both***.
 This is the content.
 
 We can write in *italic*, **bold**, and ***both***.
-`
+`,
           },
-          container_id: 'fa2'
-        }
-      ]
-    }
-  ]
+          container_id: 'fa2',
+        },
+      ],
+    },
+  ],
 }
 
 export const defaultStory = () => ({
   component: { Page },
-  template: '<Page />'
+  template: '<Page />',
 })
 
 defaultStory.storyName = 'default'
@@ -160,10 +160,10 @@ export const pageWithBlock = () => (
         chapters: chapterInfo,
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
-        pageId: 'pa1'
+        pageId: 'pa1',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true />'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true />',
   }
 )
 
@@ -174,9 +174,9 @@ pageWithBlock.parameters = {
         return new Promise(resolve => {
           resolve(pageInfo)
         })
-      }
-    }
-  }
+      },
+    },
+  },
 }
 pageWithBlock.storyName = 'with some blocks, default layout'
 
@@ -189,10 +189,10 @@ export const pageWithBlockCentered = () => (
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
         pageId: 'pa1',
-        layout: 'centered'
+        layout: 'centered',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>',
   }
 )
 
@@ -203,9 +203,9 @@ pageWithBlockCentered.parameters = {
         return new Promise(resolve => {
           resolve(pageInfo)
         })
-      }
-    }
-  }
+      },
+    },
+  },
 }
 pageWithBlockCentered.storyName = 'with some blocks, centered layout'
 
@@ -218,10 +218,10 @@ export const pageWithBlockFlex = () => (
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
         pageId: 'pa1',
-        layout: 'flex'
+        layout: 'flex',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>'
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>',
   }
 )
 
@@ -232,9 +232,9 @@ pageWithBlockFlex.parameters = {
         return new Promise(resolve => {
           resolve(pageInfo)
         })
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 pageWithBlockFlex.storyName = 'with some blocks, flex layout'

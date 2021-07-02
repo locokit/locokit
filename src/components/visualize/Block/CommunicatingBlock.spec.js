@@ -16,10 +16,10 @@ jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({
     addControl: jest.fn(),
     dragRotate: {
-      disable: jest.fn()
+      disable: jest.fn(),
     },
     touchZoomRotate: {
-      disableRotation: jest.fn()
+      disableRotation: jest.fn(),
     },
     on: jest.fn((event, func) => {
       if (event === 'load') func()
@@ -32,7 +32,7 @@ jest.mock('mapbox-gl', () => ({
     removeLayer: jest.fn(),
     setPaintProperty: jest.fn(),
     getSource: jest.fn(() => ({
-      setData: jest.fn()
+      setData: jest.fn(),
     })),
     removeSource: jest.fn(),
     fitBounds: jest.fn(),
@@ -40,7 +40,7 @@ jest.mock('mapbox-gl', () => ({
     setFeatureState: jest.fn(),
     setStyle: jest.fn(),
     setCenter: jest.fn(),
-    setZoom: jest.fn()
+    setZoom: jest.fn(),
   })),
   NavigationControl: jest.fn(),
   ScaleControl: jest.fn(),
@@ -51,19 +51,19 @@ jest.mock('mapbox-gl', () => ({
     addTo: jest.fn(),
     setHTML: jest.fn(),
     getElement: jest.fn(() => ({
-      querySelectorAll: jest.fn(() => [])
-    }))
+      querySelectorAll: jest.fn(() => []),
+    })),
   })),
   LngLatBounds: jest.fn(() => ({
     isEmpty: jest.fn(),
-    extend: jest.fn()
-  }))
+    extend: jest.fn(),
+  })),
 }))
 // Mock internal functions
 jest.mock('@/services/lck-utils/map/computeGeo', () => ({
   computeBoundingBox: () => ({
-    isEmpty: () => true
-  })
+    isEmpty: () => true,
+  }),
 }))
 // jest.mock('@/components/ui/ColumnType/Geometry/Map.vue')
 
@@ -78,49 +78,49 @@ const mockMapSetBlock = {
         id: 'table_view_1',
         caughtEvents: [
           'form-record-update-field',
-          'form-record-submit'
+          'form-record-submit',
         ],
         triggerEvents: [
           {
             name: 'map-select-row',
-            type: 'selectRow'
+            type: 'selectRow',
           },
           {
             name: 'map-select-row-field',
             type: 'selectField',
-            field: 'string_1_column'
+            field: 'string_1_column',
           },
           {
             name: 'unknown event',
-            type: 'undefinedType'
-          }
-        ]
+            type: 'undefinedType',
+          },
+        ],
       },
       {
-        id: 'table_view_1'
-      }
+        id: 'table_view_1',
+      },
     ],
     caughtEvents: {
       'form-record-submit': [
         {
-          type: 'reset'
-        }
+          type: 'reset',
+        },
       ],
       'form-record-update-field': [
         {
           type: 'select',
-          targetField: 'geo_column'
+          targetField: 'geo_column',
         },
         {
-          type: 'select'
-        }
-      ]
-    }
+          type: 'select',
+        },
+      ],
+    },
   },
   title: 'My map block',
   type: BLOCK_TYPE.MAP_SET,
   position: 1,
-  container_id: '11'
+  container_id: '11',
 }
 
 const mockFormRecordBlock = {
@@ -133,37 +133,37 @@ const mockFormRecordBlock = {
       'map-select-row': [
         {
           type: 'select',
-          targetField: 'rbt_column'
-        }
+          targetField: 'rbt_column',
+        },
       ],
       'map-select-row-field': [
         {
           type: 'select',
-          targetField: 'string_2_column'
-        }
-      ]
+          targetField: 'string_2_column',
+        },
+      ],
     },
     triggerEvents: [
       {
         name: 'form-record-update-field',
         type: 'update',
-        field: 'rbt_column'
+        field: 'rbt_column',
       },
       {
         name: 'form-record-submit',
-        type: 'submit'
+        type: 'submit',
       },
       {
         name: 'form-record-unknown-field',
         type: 'update',
-        field: 'unknown_column'
-      }
-    ]
+        field: 'unknown_column',
+      },
+    ],
   },
   title: 'My map block',
   type: BLOCK_TYPE.FORM_RECORD,
   position: 2,
-  container_id: '11'
+  container_id: '11',
 }
 
 const mockDataRecordBlock = {
@@ -176,29 +176,29 @@ const mockDataRecordBlock = {
       'map-select-row': [
         {
           type: 'select',
-          targetField: 'rbt_column'
-        }
+          targetField: 'rbt_column',
+        },
       ],
       'map-select-row-field': [
         {
           type: 'select',
-          targetField: 'string_2_column'
-        }
-      ]
+          targetField: 'string_2_column',
+        },
+      ],
     },
     triggerEvents: [
       {
         name: 'form-record-update-field',
         type: 'update',
         field: 'rbt_column',
-        raiseOnLoad: true
-      }
-    ]
+        raiseOnLoad: true,
+      },
+    ],
   },
   title: 'My map block',
   type: BLOCK_TYPE.FORM_RECORD,
   position: 3,
-  container_id: '11'
+  container_id: '11',
 }
 
 const mockDefinitions = {
@@ -220,7 +220,7 @@ const mockDefinitions = {
         sort: 'DESC',
         table_column_id: '',
         table_view_id: 'table_view_1',
-        style: {}
+        style: {},
       },
       {
         text: 'Point',
@@ -237,9 +237,9 @@ const mockDefinitions = {
         sort: 'DESC',
         table_column_id: '',
         table_view_id: 'table_view_1',
-        style: {}
-      }
-    ]
+        style: {},
+      },
+    ],
   },
   table_view_2: {
     id: 'table_view_2',
@@ -259,13 +259,13 @@ const mockDefinitions = {
         sort: 'DESC',
         table_column_id: '',
         table_view_id: 'table_view_2',
-        style: {}
+        style: {},
       },
       {
         text: 'Relation between tables',
         id: 'rbt_column',
         settings: {
-          table_id: 'table_2'
+          table_id: 'table_2',
         },
         table_id: 'table_2',
         column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
@@ -278,10 +278,10 @@ const mockDefinitions = {
         sort: 'DESC',
         table_column_id: '',
         table_view_id: 'table_view_2',
-        style: {}
-      }
-    ]
-  }
+        style: {},
+      },
+    ],
+  },
 }
 
 const mockTable1GeoContent = {
@@ -292,8 +292,8 @@ const mockTable1GeoContent = {
       table_id: 't1',
       data: {
         string_1_column: 'My first row',
-        geo_column: 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))'
-      }
+        geo_column: 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
+      },
     },
     {
       id: 't1r2',
@@ -301,10 +301,10 @@ const mockTable1GeoContent = {
       table_id: 't1',
       data: {
         string_1_column: 'My second row',
-        geo_column: 'SRID=4326;POLYGON((1.2 45.75,2 45.6,1.9 45.3,1.4 45.75))'
-      }
-    }
-  ]
+        geo_column: 'SRID=4326;POLYGON((1.2 45.75,2 45.6,1.9 45.3,1.4 45.75))',
+      },
+    },
+  ],
 }
 
 const mockTable2Content = {
@@ -317,11 +317,11 @@ const mockTable2Content = {
         string_2_column: 'My table 2 row 1',
         rbt_column: {
           reference: 't1r2',
-          value: 'Table 1 - Row 2'
-        }
-      }
-    }
-  ]
+          value: 'Table 1 - Row 2',
+        },
+      },
+    },
+  ],
 }
 
 describe('Communicating block', () => {
@@ -341,18 +341,18 @@ describe('Communicating block', () => {
                 trigger1: [
                   {
                     type: 'select',
-                    targetField: 'firstField'
-                  }
+                    targetField: 'firstField',
+                  },
                 ],
                 trigger2: [
                   {
                     type: 'select',
-                    targetField: 'firstField'
-                  }
-                ]
-              }
-            }
-          }
+                    targetField: 'firstField',
+                  },
+                ],
+              },
+            },
+          },
         })
         expect(wrapper.$data.eventListeners.length).toBe(2)
         const firstListener = wrapper.$data.eventListeners[0]
@@ -369,9 +369,9 @@ describe('Communicating block', () => {
         const wrapper = new CommunicatingBlock({
           propsData: {
             settings: {
-              caughtEvents: {}
-            }
-          }
+              caughtEvents: {},
+            },
+          },
         })
         // Check that the listeners are saved in the component data
         expect(wrapper.$data.eventListeners.length).toBe(0)
@@ -381,8 +381,8 @@ describe('Communicating block', () => {
       it('With no catch event setting', () => {
         const wrapper = new CommunicatingBlock({
           propsData: {
-            settings: {}
-          }
+            settings: {},
+          },
         })
         // Check that the listeners are saved in the component data
         expect(wrapper.$data.eventListeners.length).toBe(0)
@@ -400,18 +400,18 @@ describe('Communicating block', () => {
                 trigger1: [
                   {
                     type: 'select',
-                    targetField: 'firstField'
-                  }
+                    targetField: 'firstField',
+                  },
                 ],
                 trigger2: [
                   {
                     type: 'select',
-                    targetField: 'firstField'
-                  }
-                ]
-              }
-            }
-          }
+                    targetField: 'firstField',
+                  },
+                ],
+              },
+            },
+          },
         })
         const firstListener = wrapper.$data.eventListeners[0]
         const secondListener = wrapper.$data.eventListeners[1]
@@ -427,9 +427,9 @@ describe('Communicating block', () => {
         const wrapper = new CommunicatingBlock({
           propsData: {
             settings: {
-              caughtEvents: {}
-            }
-          }
+              caughtEvents: {},
+            },
+          },
         })
         wrapper.$destroy()
         // Check that the listeners are saved in the component data
@@ -440,8 +440,8 @@ describe('Communicating block', () => {
       it('With no catch event setting', () => {
         const wrapper = new CommunicatingBlock({
           propsData: {
-            settings: {}
-          }
+            settings: {},
+          },
         })
         wrapper.$destroy()
         // Check that the listeners are saved in the component data
@@ -462,12 +462,12 @@ describe('Communicating block', () => {
           settings: mockMapSetBlock.settings,
           definition: mockDefinitions,
           content: mockTable1GeoContent,
-          id: 'b1'
+          id: 'b1',
         },
         mocks: {
           t: key => key,
-          $t: key => key
-        }
+          $t: key => key,
+        },
       })
       spyOnEmitEventHub.mockClear()
     })
@@ -505,14 +505,14 @@ describe('Communicating block', () => {
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('map-select-row', {
           originalValue: {
             reference: 't1r1',
-            value: 'Table 1 - Row 1'
+            value: 'Table 1 - Row 1',
           },
-          displayedValue: 'Table 1 - Row 1'
+          displayedValue: 'Table 1 - Row 1',
         })
         // Check that the selectField event is emitted from the MapSet block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('map-select-row-field', {
           originalValue: 'My first row',
-          displayedValue: 'My first row'
+          displayedValue: 'My first row',
         })
       })
     })
@@ -523,20 +523,20 @@ describe('Communicating block', () => {
         formRecordWrapper = shallowMount(FormRecord, {
           propsData: {
             settings: mockFormRecordBlock.settings,
-            definition: mockDefinitions.table_view_2
+            definition: mockDefinitions.table_view_2,
           },
           attrs: {
-            workspaceId: 'workspace_1'
+            workspaceId: 'workspace_1',
           },
           listeners: {
             'download-attachment': () => ({}),
             'update-suggestions': () => ({}),
-            'upload-files': () => ({})
+            'upload-files': () => ({}),
           },
           mocks: {
             t: key => key,
-            $t: key => key
-          }
+            $t: key => key,
+          },
         })
       })
       it('Check that we can send the selected row from MapSet', () => {
@@ -550,7 +550,7 @@ describe('Communicating block', () => {
         // Check that the event is received inside the FormRecord block
         expect(formRecordWrapper.vm.newRow.data.rbt_column).toStrictEqual({
           reference: 't1r1',
-          value: 'Table 1 - Row 1'
+          value: 'Table 1 - Row 1',
         })
       })
       it('Check that we can send one field of the selected row from MapSet', () => {
@@ -567,12 +567,12 @@ describe('Communicating block', () => {
       it('Check that we can send the updated field with only the reference to MapSet', () => {
         formRecordWrapper.vm.onUpdateRow({
           columnId: 'rbt_column',
-          newValue: 't1r1'
+          newValue: 't1r1',
         })
         // Check that the event is emitted from the FormRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: 't1r1',
-          displayedValue: undefined
+          displayedValue: undefined,
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -581,12 +581,12 @@ describe('Communicating block', () => {
       it('Check that we can reset the selected field if a null reference is specified', () => {
         formRecordWrapper.vm.onUpdateRow({
           columnId: 'rbt_column',
-          newValue: null
+          newValue: null,
         })
         // Check that the event is emitted from the FormRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: null,
-          displayedValue: ''
+          displayedValue: '',
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -595,12 +595,12 @@ describe('Communicating block', () => {
       it('Check that we can reset the selected field if an undefined reference is specified', () => {
         formRecordWrapper.vm.onUpdateRow({
           columnId: 'rbt_column',
-          newValue: undefined
+          newValue: undefined,
         })
         // Check that the event is emitted from the FormRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: undefined,
-          displayedValue: ''
+          displayedValue: '',
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -610,13 +610,13 @@ describe('Communicating block', () => {
         // Simulate a form submit
         await formRecordWrapper.setProps({
           submitting: {
-            inProgress: false
-          }
+            inProgress: false,
+          },
         })
         await formRecordWrapper.setProps({
           submitting: {
-            inProgress: true
-          }
+            inProgress: true,
+          },
         })
         // Check that the event is emitted from the MapSet block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-submit', {})
@@ -633,11 +633,11 @@ describe('Communicating block', () => {
           propsData: {
             settings: mockDataRecordBlock.settings,
             definition: mockDefinitions.table_view_2,
-            content: mockTable2Content
+            content: mockTable2Content,
           },
           attrs: {
-            workspaceId: 'workspace_1'
-          }
+            workspaceId: 'workspace_1',
+          },
         })
         spyOnEmitDataRecord = jest.spyOn(dataRecordWrapper.vm, '$emit')
       })
@@ -654,9 +654,9 @@ describe('Communicating block', () => {
           columnId: 'rbt_column',
           newValue: {
             reference: 't1r1',
-            value: 'Table 1 - Row 1'
+            value: 'Table 1 - Row 1',
           },
-          rowId: 't2r1'
+          rowId: 't2r1',
         })
       })
       it('Check that we can send one field of the selected row', () => {
@@ -670,7 +670,7 @@ describe('Communicating block', () => {
         expect(spyOnEmitDataRecord).toHaveBeenCalledWith('update-row', {
           columnId: 'string_2_column',
           newValue: 'My first row',
-          rowId: 't2r1'
+          rowId: 't2r1',
         })
       })
       it('Check that we can send the updated field with an object { reference, value } to MapSet', () => {
@@ -678,16 +678,16 @@ describe('Communicating block', () => {
           columnId: 'rbt_column',
           newValue: {
             reference: 't1r1',
-            value: 'Table 1 - Row 1'
-          }
+            value: 'Table 1 - Row 1',
+          },
         })
         // Check that the event is emitted from the DataRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: {
             reference: 't1r1',
-            value: 'Table 1 - Row 1'
+            value: 'Table 1 - Row 1',
           },
-          displayedValue: 'Table 1 - Row 1'
+          displayedValue: 'Table 1 - Row 1',
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -696,12 +696,12 @@ describe('Communicating block', () => {
       it('Check that we can send the updated field with only the reference to MapSet', () => {
         dataRecordWrapper.vm.onUpdateRow({
           columnId: 'rbt_column',
-          newValue: 't1r1'
+          newValue: 't1r1',
         })
         // Check that the event is emitted from the DataRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: 't1r1',
-          displayedValue: undefined
+          displayedValue: undefined,
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -710,15 +710,15 @@ describe('Communicating block', () => {
       it('Check that we can send the updated field with only the reference to MapSet at loading', async () => {
         // Simulate that all the blocs are loaded in the page
         await dataRecordWrapper.setProps({
-          pageLoaded: true
+          pageLoaded: true,
         })
         // Check that the event is emitted from the DataRecord block
         expect(spyOnEmitEventHub).toHaveBeenCalledWith('form-record-update-field', {
           originalValue: {
             reference: 't1r2',
-            value: 'Table 1 - Row 2'
+            value: 'Table 1 - Row 2',
           },
-          displayedValue: 'Table 1 - Row 2'
+          displayedValue: 'Table 1 - Row 2',
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
@@ -735,15 +735,15 @@ describe('Communicating block', () => {
               caughtEvents: {
                 'map-select-row-field': [
                   {
-                    type: 'select'
-                  }
-                ]
-              }
-            }
+                    type: 'select',
+                  },
+                ],
+              },
+            },
           },
           attrs: {
-            workspaceId: 'workspace_1'
-          }
+            workspaceId: 'workspace_1',
+          },
         })
         const mockSelectedFeature = mapSetWrapper.vm.resources[0].features[0]
         // These attributes are automatically updated when using the map
@@ -764,18 +764,18 @@ describe('Communicating block', () => {
               caughtEvents: {
                 'map-select-row-field': [
                   {
-                    type: 'reset'
-                  }
-                ]
-              }
-            }
+                    type: 'reset',
+                  },
+                ],
+              },
+            },
           },
           attrs: {
-            workspaceId: 'workspace_1'
-          }
+            workspaceId: 'workspace_1',
+          },
         })
         paragraphWrapper.setData({
-          content: 'New content'
+          content: 'New content',
         })
         const mockSelectedFeature = mapSetWrapper.vm.resources[0].features[0]
         // These attributes are automatically updated when using the map

@@ -4,20 +4,20 @@ import InputText from 'primevue/inputtext'
 
 export default {
   title: 'components/ui/Form',
-  component: Form
+  component: Form,
 }
 
 export const defaultStory = () => (
   {
     components: {
       Form,
-      'p-input-text': InputText
+      'p-input-text': InputText,
     },
     data () {
       return {
         item: {
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -36,7 +36,7 @@ export const defaultStory = () => (
           />
         </div>
       </Form>
-    `
+    `,
   }
 )
 
@@ -46,13 +46,13 @@ export const submittingStory = () => (
   {
     components: {
       Form,
-      'p-input-text': InputText
+      'p-input-text': InputText,
     },
     data () {
       return {
         item: {
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -71,7 +71,7 @@ export const submittingStory = () => (
           />
         </div>
       </Form>
-    `
+    `,
   }
 )
 
@@ -81,13 +81,13 @@ export const withoutCancelButtonStory = () => (
   {
     components: {
       Form,
-      'p-input-text': InputText
+      'p-input-text': InputText,
     },
     data () {
       return {
         item: {
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -106,7 +106,7 @@ export const withoutCancelButtonStory = () => (
           />
         </div>
       </Form>
-    `
+    `,
   }
 )
 
@@ -116,13 +116,13 @@ export const withLargeButtonsStory = () => (
   {
     components: {
       Form,
-      'p-input-text': InputText
+      'p-input-text': InputText,
     },
     data () {
       return {
         item: {
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -141,7 +141,7 @@ export const withLargeButtonsStory = () => (
           />
         </div>
       </Form>
-    `
+    `,
   }
 )
 
@@ -151,13 +151,13 @@ export const disableFormStory = () => (
   {
     components: {
       Form,
-      'p-input-text': InputText
+      'p-input-text': InputText,
     },
     data () {
       return {
         item: {
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -176,7 +176,7 @@ export const disableFormStory = () => (
           />
         </div>
       </Form>
-    `
+    `,
   }
 )
 

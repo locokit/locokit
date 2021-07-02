@@ -80,7 +80,7 @@ import Vue from 'vue'
 
 import {
   EXTENDED_NAMED_CLASSES,
-  TEXT_ALIGN_CLASS
+  TEXT_ALIGN_CLASS,
 } from '@/services/lck-utils/prime'
 import { LckTableView } from '@/services/lck-api/definitions'
 
@@ -94,38 +94,38 @@ export default {
   components: {
     'lck-autocomplete': AutoComplete,
     'p-input-text': Vue.extend(InputText),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     displayFieldId: {
-      type: String
+      type: String,
     },
     textColor: {
-      type: String
+      type: String,
     },
     textAlign: {
-      type: String
+      type: String,
     },
     tableViewDefinition: {
-      type: Object as Vue.PropType<LckTableView | null>
+      type: Object as Vue.PropType<LckTableView | null>,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
-    } as Vue.PropOptions<{ label: string; value: string }[]>
+      default: () => ([]),
+    } as Vue.PropOptions<{ label: string; value: string }[]>,
   },
   data () {
     return {
       EXTENDED_NAMED_CLASSES,
       TEXT_ALIGN_CLASS,
-      tableView: { text: '', value: '' }
+      tableView: { text: '', value: '' },
     }
   },
   methods: {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
       this.$emit('component-refresh-required', true)
-    }
+    },
   },
   watch: {
     tableViewDefinition: {
@@ -133,13 +133,13 @@ export default {
         if (view) {
           this.tableView = {
             value: view.id,
-            text: view.text
+            text: view.text,
           }
         }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

@@ -8,32 +8,32 @@ export default {
       description: `
         AsyncImage component allows us to load an image asynchronously,
         making fetch calls to GET an image protected by authentication, for example.
-      `
-    }
-  }
+      `,
+    },
+  },
 }
 
 export const defaultStory = () => (
   {
     components: {
-      LckAsyncImage
+      LckAsyncImage,
     },
     template: `
     <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
       <lck-async-image src="/themes/locokit/img/logokit-grayscale.png" />
-    </div>`
+    </div>`,
   }
 )
 
 defaultStory.storyName = 'default'
 defaultStory.args = {
-  waitForSelector: 'img'
+  waitForSelector: 'img',
 }
 
 export const loadingStory = () => (
   {
     components: {
-      LckAsyncImage
+      LckAsyncImage,
     },
     template: `
     <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
@@ -41,7 +41,7 @@ export const loadingStory = () => (
     </div>`,
     mounted () {
       this.$refs.lai.loading = true
-    }
+    },
   }
 )
 
@@ -50,12 +50,12 @@ loadingStory.storyName = 'loading'
 export const errorStory = () => (
   {
     components: {
-      LckAsyncImage
+      LckAsyncImage,
     },
     template: `
     <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
       <lck-async-image src="bad-src" ref="lai" />
-    </div>`
+    </div>`,
   }
 )
 
@@ -64,12 +64,12 @@ errorStory.storyName = 'error'
 export const noImage = () => (
   {
     components: {
-      LckAsyncImage
+      LckAsyncImage,
     },
     template: `
     <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
       <lck-async-image />
-    </div>`
+    </div>`,
   }
 )
 
