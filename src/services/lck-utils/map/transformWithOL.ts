@@ -5,6 +5,7 @@ import GeoJSON, {
   GeoJSONFeatureCollection
 } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
+import Geometry from 'ol/geom/Geometry'
 
 import {
   CircleLayer,
@@ -122,12 +123,8 @@ export interface LckFeatureProperties {
 /**
  * Convert spatial geometry EWKT
  * Transform EWKT into OL Feature
- *
- * @param ewkt
- *
- * @return {Feature<Geometry>}
  */
-export const transformEWKTtoFeature = (ewkt: string) => {
+export const transformEWKTtoFeature = (ewkt: string): Feature<Geometry> => {
   // Split EWKT to get reference coordinate system and geometry object
   const formattedData = ewkt.split(';', 2)
   const srid = formattedData[0].substring(5)
@@ -143,12 +140,8 @@ export const transformEWKTtoFeature = (ewkt: string) => {
 
 /**
  * Convert a Geojson OL feature into ewkt
- *
- * @param geoJSONFeature feature
- *
- * @return {string | null}
  */
-export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326') => {
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326'): string | null => {
   // Transform geoJSON to OL Feature
   const geoJSONformat = new GeoJSON()
   const feature = geoJSONformat.readFeature(geoJSONFeature)
@@ -377,10 +370,8 @@ export function makeGeoJsonFeaturesCollection (
 
 /**
  * Get the OL geometry types that can be editable from an array of columns
- * @param columns
- * @returns { Set<GeometryType> }
  */
-export function getEditableGeometryTypes (columns: LckTableViewColumn[]) {
+export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<GeometryType> {
   const editableGeometryTypes: Set<GeometryType> = new Set()
   columns.forEach(column => {
     if (column.editable) {
