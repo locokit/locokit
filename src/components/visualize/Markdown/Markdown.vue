@@ -19,15 +19,15 @@ export default Vue.extend({
     settings: {
       type: Object as PropType<MarkdownSettings>,
       default: () => ({
-        content: ''
-      })
-    }
+        content: '',
+      }),
+    },
   },
   computed: {
     markdownToDisplay (): string {
       return marked(this.settings.content || '')
-    }
-  }
+    },
+  },
 })
 </script>
 

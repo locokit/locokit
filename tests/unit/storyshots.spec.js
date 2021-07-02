@@ -6,5 +6,5 @@ initStoryshots({
   suite: 'storyshots',
   configPath: path.join(__dirname, '../../.storybook'),
   // integrityOptions: { cwd: path.resolve(__dirname, '../../src/') },
-  test: multiSnapshotWithOptions()
+  test: multiSnapshotWithOptions(),
 })

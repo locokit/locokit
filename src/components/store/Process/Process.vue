@@ -82,11 +82,11 @@ export default {
   props: {
     process: {
       type: Object,
-      required: true
+      required: true,
     } as PropOptions<LckProcess>,
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     /**
      * If Process is given a tableId prop,
@@ -94,16 +94,16 @@ export default {
      */
     tableId: {
       type: String,
-      required: false
+      required: false,
     },
     suggestionsTable: {
       type: Array,
-      required: false
+      required: false,
     },
     suggestionsColumn: {
       type: Array,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
     'p-button': Vue.extend(Button),
@@ -111,8 +111,8 @@ export default {
     'p-tab-panel': Vue.extend(TabPanel),
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
-    'lck-process-form': ProcessForm
-  }
+    'lck-process-form': ProcessForm,
+  },
 }
 </script>
 

@@ -2,7 +2,7 @@ import RelationBetweenTablesTypeColumn from './RelationBetweenTablesTypeColumn'
 
 export default {
   title: 'views/modals/RelationBetweenTablesTypeColumn',
-  component: RelationBetweenTablesTypeColumn
+  component: RelationBetweenTablesTypeColumn,
 }
 
 export const defaultStory = () => (
@@ -12,7 +12,7 @@ export const defaultStory = () => (
       <div class="p-fluid">
         <RelationBetweenTablesTypeColumn />
       </div>
-    `
+    `,
   }
 )
 

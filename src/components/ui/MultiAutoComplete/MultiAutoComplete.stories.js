@@ -2,25 +2,25 @@ import MultiAutoComplete from './MultiAutoComplete'
 
 export default {
   title: 'components/ui/MultiAutoComplete',
-  component: MultiAutoComplete
+  component: MultiAutoComplete,
 }
 
 export const defaultStory = () => ({
   components: { MultiAutoComplete },
   template: '<MultiAutoComplete />',
-  methods: { }
+  methods: { },
 })
 defaultStory.storyName = 'default'
 
 const suggestions = [{
   label: 'Suggestion one',
-  value: 1
+  value: 1,
 }, {
   label: 'Suggestion two',
-  value: 2
+  value: 2,
 }, {
   label: 'Suggestion three',
-  value: 3
+  value: 3,
 }]
 
 export const withSuggestions = () => ({
@@ -28,7 +28,7 @@ export const withSuggestions = () => ({
   data () {
     return {
       suggestions: [],
-      autocompleteModel: []
+      autocompleteModel: [],
     }
   },
   template: `
@@ -42,11 +42,11 @@ export const withSuggestions = () => ({
   methods: {
     searchItems () {
       this.suggestions = [...suggestions]
-    }
+    },
   },
   mounted () {
     this.$refs.multiAutoComplete.$el.querySelector('input').value = 'Suggestion'
-  }
+  },
 })
 
 withSuggestions.storyName = 'with suggestions'
@@ -56,7 +56,7 @@ export const singleLineWithValues = () => ({
   data () {
     return {
       suggestions: [],
-      autocompleteModel: [...suggestions]
+      autocompleteModel: [...suggestions],
     }
   },
   template: `
@@ -72,8 +72,8 @@ export const singleLineWithValues = () => ({
   methods: {
     searchItems () {
       this.suggestions = [...suggestions]
-    }
-  }
+    },
+  },
 })
 
 singleLineWithValues.storyName = 'single line with values'
@@ -83,7 +83,7 @@ export const multiLineWithValues = () => ({
   data () {
     return {
       suggestions: [],
-      autocompleteModel: [...suggestions]
+      autocompleteModel: [...suggestions],
     }
   },
   template: `
@@ -99,8 +99,8 @@ export const multiLineWithValues = () => ({
   methods: {
     searchItems () {
       this.suggestions = [...suggestions]
-    }
-  }
+    },
+  },
 })
 
 multiLineWithValues.storyName = 'multi line with values'

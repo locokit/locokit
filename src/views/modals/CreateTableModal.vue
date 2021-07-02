@@ -47,20 +47,20 @@ export default {
   name: 'CreateTableModal',
   components: {
     'lck-dialog-form': DialogForm,
-    'p-input-text': Vue.extend(InputText)
+    'p-input-text': Vue.extend(InputText),
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    databaseId: String
+    databaseId: String,
   },
   data () {
     return {
       tableNameToCreate: null,
       tableDocumentation: null,
-      errorTableNameToCreate: null
+      errorTableNameToCreate: null,
     }
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
           text: this.tableNameToCreate,
-          documentation: this.tableDocumentation
+          documentation: this.tableDocumentation,
         })
         if (createTableResponse) {
           this.tableNameToCreate = null
@@ -86,7 +86,7 @@ export default {
       } catch (errorCreateTable) {
         this.errorTableNameToCreate = errorCreateTable.message
       }
-    }
-  }
+    },
+  },
 }
 </script>

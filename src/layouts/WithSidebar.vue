@@ -22,14 +22,14 @@ import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
 export default {
   name: 'LayoutWithSidebar',
   components: {
-    'lck-sidebar': Sidebar
+    'lck-sidebar': Sidebar,
   },
   props: {
     chapters: {
       type: Array,
-      default: () => ([])
-    }
-  }
+      default: () => ([]),
+    },
+  },
 }
 </script>
 

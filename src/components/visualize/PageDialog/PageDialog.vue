@@ -49,7 +49,7 @@ const layoutTypes = [
   { name: 'classic', label: 'Mise en page classique', img: 'classic-layout' },
   { name: 'center', label: 'Mise en page centrée', img: 'centered-layout' },
   { name: 'flex', label: 'Mise en page flexible', img: 'flex-layout' },
-  { name: 'full', label: 'Mise en page pleine', img: 'full-layout' }
+  { name: 'full', label: 'Mise en page pleine', img: 'full-layout' },
 ]
 
 export default {
@@ -58,28 +58,28 @@ export default {
     'lck-dialog-form': LckDialogForm,
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
-    'p-radio-button': Vue.extend(RadioButton)
+    'p-radio-button': Vue.extend(RadioButton),
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     page: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     submitting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
       pageTextCopy: '',
       pageHiddenCopy: false,
       layoutTypes,
-      selectedLayout: null
+      selectedLayout: null,
     }
   },
   watch: {
@@ -89,9 +89,9 @@ export default {
         this.pageHiddenCopy = hidden
         this.selectedLayout = layout
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

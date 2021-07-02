@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { shallowMount } from '@vue/test-utils'
 
 import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
@@ -22,7 +22,7 @@ const mockDefinitionsWithRequiredColumns = {
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
-      style: {}
+      style: {},
     },
     {
       text: 'Number',
@@ -39,7 +39,7 @@ const mockDefinitionsWithRequiredColumns = {
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
-      style: {}
+      style: {},
     },
     {
       text: 'Boolean',
@@ -56,9 +56,9 @@ const mockDefinitionsWithRequiredColumns = {
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
-      style: {}
-    }
-  ]
+      style: {},
+    },
+  ],
 }
 
 const mockDefinitionsWithoutRequiredColumns = {
@@ -79,7 +79,7 @@ const mockDefinitionsWithoutRequiredColumns = {
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_2',
-      style: {}
+      style: {},
     },
     {
       text: 'Number',
@@ -96,9 +96,9 @@ const mockDefinitionsWithoutRequiredColumns = {
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_2',
-      style: {}
-    }
-  ]
+      style: {},
+    },
+  ],
 }
 
 describe('FormRecord', () => {
@@ -106,13 +106,13 @@ describe('FormRecord', () => {
   beforeEach(() => {
     wrapper = shallowMount(FormRecord, {
       attrs: {
-        workspaceId: 'workspace_1'
+        workspaceId: 'workspace_1',
       },
       listeners: {
         'download-attachment': () => ({}),
         'update-suggestions': () => ({}),
-        'upload-files': () => ({})
-      }
+        'upload-files': () => ({}),
+      },
     })
     expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
   })
@@ -123,8 +123,8 @@ describe('FormRecord', () => {
         await wrapper.setProps({
           definition: mockDefinitionsWithRequiredColumns,
           settings: {
-            id: mockDefinitionsWithRequiredColumns.id
-          }
+            id: mockDefinitionsWithRequiredColumns.id,
+          },
         })
         expect(wrapper.vm.requiredColumnsIds.size).toBe(3)
         expect(wrapper.vm.requiredColumnsIds.has('string_1_column')).toBe(true)
@@ -135,14 +135,14 @@ describe('FormRecord', () => {
         await wrapper.setProps({
           definition: mockDefinitionsWithoutRequiredColumns,
           settings: {
-            id: mockDefinitionsWithoutRequiredColumns.id
-          }
+            id: mockDefinitionsWithoutRequiredColumns.id,
+          },
         })
         expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
       })
       it('Returns an empty set if there is no definition', async () => {
         await wrapper.setProps({
-          definition: null
+          definition: null,
         })
         expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
       })
@@ -150,47 +150,47 @@ describe('FormRecord', () => {
     describe('completeForm', () => {
       it('Return false if at least one required field is complete', async () => {
         await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns
+          definition: mockDefinitionsWithRequiredColumns,
         })
         wrapper.setData({
           newRow: {
             data: {
               string_1_column: 'Data',
-              number_1_column: 10
-            }
-          }
+              number_1_column: 10,
+            },
+          },
         })
         expect(wrapper.vm.completeForm).toBe(false)
       })
 
       it('Return false if a previous string field was set but reset', async () => {
         await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns
+          definition: mockDefinitionsWithRequiredColumns,
         })
         wrapper.setData({
           newRow: {
             data: {
               string_1_column: '',
               number_1_column: 10,
-              boolean_1_column: false
-            }
-          }
+              boolean_1_column: false,
+            },
+          },
         })
         expect(wrapper.vm.completeForm).toBe(false)
       })
 
       it('Return true if all required fields are complete', async () => {
         await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns
+          definition: mockDefinitionsWithRequiredColumns,
         })
         wrapper.setData({
           newRow: {
             data: {
               string_1_column: 'Data',
               number_1_column: 10,
-              boolean_1_column: false
-            }
-          }
+              boolean_1_column: false,
+            },
+          },
         })
         expect(wrapper.vm.completeForm).toBe(true)
       })

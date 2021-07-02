@@ -22,5 +22,5 @@ export const COLOR_SCHEME = [
   { name: '20', color: '#ffffff', backgroundColor: '#bae396' },
   { name: '21', color: '#ffffff', backgroundColor: '#99daef' },
   { name: '22', color: '#ffffff', backgroundColor: '#5bd4d5' },
-  { name: '23', color: '#ffffff', backgroundColor: '#55b3fe' }
+  { name: '23', color: '#ffffff', backgroundColor: '#55b3fe' },
 ]

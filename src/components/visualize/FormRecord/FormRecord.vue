@@ -41,36 +41,36 @@ export default Vue.extend({
   mixins: [CommunicatingBlock],
   components: {
     'lck-data-detail': DataDetail,
-    'lck-form': Form
+    'lck-form': Form,
   },
   props: {
     id: {
-      type: String
+      type: String,
     },
     settings: {
-      type: Object as Vue.PropType<FormRecordSettings>
+      type: Object as Vue.PropType<FormRecordSettings>,
     },
     definition: {
       type: Object as Vue.PropType<LckTableView>,
       default: () => ({
-        columns: []
-      })
+        columns: [],
+      }),
     },
     submitting: {
       type: Object as Vue.PropType<Submitting>,
       default: () => ({
-        inProgress: false
-      })
-    }
+        inProgress: false,
+      }),
+    },
   },
   data () {
     return {
       newRow: {
         id: '',
         text: '',
-        data: {}
+        data: {},
       } as LckTableRow,
-      resetForm: false
+      resetForm: false,
     }
   },
   computed: {
@@ -101,7 +101,7 @@ export default Vue.extend({
         }
       }
       return true
-    }
+    },
   },
   methods: {
     onUpdateRow ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData }) {
@@ -115,7 +115,7 @@ export default Vue.extend({
       if (triggerEvent) {
         eventHub.$emit(triggerEvent.name, {
           originalValue: newValue,
-          displayedValue: getColumnDisplayValue(this.columnsObject[columnId], newValue, true)
+          displayedValue: getColumnDisplayValue(this.columnsObject[columnId], newValue, true),
         } as EmittedBlockEvent)
       }
     },
@@ -126,14 +126,14 @@ export default Vue.extend({
       this.newRow = {
         id: '',
         text: '',
-        data: {}
+        data: {},
       }
       this.resetForm = true
     },
     onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
       this.$emit('upload-files', {
         ...event,
-        newRow: this.newRow
+        newRow: this.newRow,
       })
     },
     onSelectBlockEvent (columnId: string | undefined, { originalValue }: EmittedBlockEvent) {
@@ -142,10 +142,10 @@ export default Vue.extend({
         const { data } = this.newRow
         data[columnId] = originalValue
         this.newRow.data = {
-          ...data
+          ...data,
         }
       }
-    }
+    },
   },
   watch: {
     submitting (submittingValue: Submitting) {
@@ -158,7 +158,7 @@ export default Vue.extend({
           eventHub.$emit(triggerEvent.name, {} as EmittedBlockEvent)
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>

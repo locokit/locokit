@@ -4,13 +4,13 @@ import VerifySignup from './VerifySignup'
 
 export default {
   title: 'views/routes/user/VerifySignup',
-  component: VerifySignup
+  component: VerifySignup,
 }
 
 export const defaultStory = () => ({
   components: { VerifySignup },
   template: '<VerifySignup @submit="this.submit" />',
-  methods: { submit: action('submit') }
+  methods: { submit: action('submit') },
 })
 
 defaultStory.storyName = 'default'

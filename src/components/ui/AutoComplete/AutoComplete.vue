@@ -22,22 +22,22 @@ export default {
   props: {
     appendTo: {
       type: String,
-      default: 'body'
+      default: 'body',
     },
     field: {
       type: String,
       required: false,
-      default: 'label'
-    }
+      default: 'label',
+    },
   },
   components: {
-    'p-autocomplete': Vue.extend(PrimeAutoComplete)
+    'p-autocomplete': Vue.extend(PrimeAutoComplete),
   },
   methods: {
     searchItems (event) {
       this.$emit('search', event)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -2,7 +2,7 @@ import WithToolbar from './WithToolbar'
 
 export default {
   title: 'layouts/toolbar',
-  component: WithToolbar
+  component: WithToolbar,
 }
 
 export const defaultStory = () => ({
@@ -14,7 +14,7 @@ export const defaultStory = () => ({
       </template>
       This is the main content
     </WithToolbar>
-  `
+  `,
 })
 
 defaultStory.storyName = 'default'

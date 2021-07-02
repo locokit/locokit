@@ -49,24 +49,24 @@ export default {
   name: 'LckViewColumnButton',
   components: {
     'p-listbox': Vue.extend(Listbox),
-    'lck-overlaypanel': Vue.extend(OverlayPanel)
+    'lck-overlaypanel': Vue.extend(OverlayPanel),
   },
   props: {
     columns: {
       type: Array,
       required: false,
-      default: () => ([])
+      default: () => ([]),
     },
     value: {
       type: Array,
       required: false,
-      default: () => ([])
+      default: () => ([]),
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>
 

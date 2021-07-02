@@ -130,7 +130,7 @@ import { lckServices } from '@/services/lck-api'
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+  MEMBER: 'MEMBER',
 }
 
 export default {
@@ -140,7 +140,7 @@ export default {
     'p-button': Vue.extend(Button),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
-    'lck-dropdown-button': Vue.extend(DropdownButton)
+    'lck-dropdown-button': Vue.extend(DropdownButton),
   },
   data () {
     return {
@@ -150,9 +150,9 @@ export default {
       WORKSPACE_ROLE,
       newWorkspace: {
         text: '',
-        documentation: ''
+        documentation: '',
       },
-      groups: []
+      groups: [],
     }
   },
   methods: {
@@ -160,7 +160,7 @@ export default {
       return databases.map(({ text, id }) => ({
         id,
         label: text,
-        to: `${ROUTES_PATH.WORKSPACE}/${groupId}${ROUTES_PATH.DATABASE}/${id}${schema ? ROUTES_PATH.DATABASESCHEMA : ''}`
+        to: `${ROUTES_PATH.WORKSPACE}/${groupId}${ROUTES_PATH.DATABASE}/${id}${schema ? ROUTES_PATH.DATABASESCHEMA : ''}`,
       }))
     },
     async createWorkspace () {
@@ -170,11 +170,11 @@ export default {
           severity: 'success',
           summary: this.$t('pages.workspace.form.createdSummary'),
           detail: this.$t('pages.workspace.form.createdDetail'),
-          life: 3000
+          life: 3000,
         })
         this.newWorkspace = {
           text: '',
-          documentation: ''
+          documentation: '',
         }
         this.fetchUserGroups()
       } catch (error) {
@@ -182,7 +182,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000
+          life: 3000,
         })
       }
     },
@@ -194,11 +194,11 @@ export default {
           $eager: '[aclset.[workspace.[databases]]]',
           $joinRelation: 'users',
           'users.id': authState.data.user.id,
-          $limit: -1
-        }
+          $limit: -1,
+        },
       })
       this.loading = false
-    }
+    },
   },
   mounted () {
     this.fetchUserGroups()
@@ -219,11 +219,11 @@ export default {
       // we redirect user on the visualization route
       authState.data.currentGroupId = userWorkspacesAvailable[0].id
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${authState.data.currentGroupId}${ROUTES_PATH.VISUALIZATION}`
+        path: `${ROUTES_PATH.WORKSPACE}/${authState.data.currentGroupId}${ROUTES_PATH.VISUALIZATION}`,
       })
     } else {
       next()
     }
-  }
+  },
 }
 </script>

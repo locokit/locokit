@@ -27,25 +27,25 @@ export default {
   name: 'ChapterDialog',
   components: {
     'lck-dialog-form': LckDialogForm,
-    'p-input-text': Vue.extend(InputText)
+    'p-input-text': Vue.extend(InputText),
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     chapter: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     submitting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
-      chapterTextCopy: ''
+      chapterTextCopy: '',
     }
   },
   watch: {
@@ -53,8 +53,8 @@ export default {
       handler ({ text }) {
         this.chapterTextCopy = text
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>

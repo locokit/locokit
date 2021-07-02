@@ -72,7 +72,7 @@ import InputSwitch from 'primevue/inputswitch'
 import {
   LckTableViewColumn,
   SelectValue,
-  SelectValueWithId
+  SelectValueWithId,
 } from '@/services/lck-api/definitions'
 import LckForm from '@/components/ui/Form/Form.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
@@ -83,23 +83,23 @@ export default {
     'lck-form': LckForm,
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
-    'p-input-switch': Vue.extend(InputSwitch)
+    'p-input-switch': Vue.extend(InputSwitch),
   },
   props: {
     column: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     submitting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data (): {
     columnCopy: LckTableViewColumn;
     } {
     return {
-      columnCopy: new LckTableViewColumn()
+      columnCopy: new LckTableViewColumn(),
     }
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
         this.columnCopy.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
         this.columnCopy.column_type_id === COLUMN_TYPE.MULTI_SELECT
       )
-    }
+    },
   },
   watch: {
     column: {
@@ -119,8 +119,8 @@ export default {
         }
       },
       immediate: true,
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     selectTypeValuesChange (data: SelectValueWithId[]) {
@@ -135,7 +135,7 @@ export default {
     },
     submitColumnData () {
       const editedColumn: { text: string; settings?: object} = {
-        text: this.columnCopy.text
+        text: this.columnCopy.text,
       }
       if (this.isSelectColumnType) {
         editedColumn.settings = this.columnCopy.settings
@@ -146,10 +146,10 @@ export default {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
         editable: this.columnCopy.editable,
-        required: this.columnCopy.required
+        required: this.columnCopy.required,
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

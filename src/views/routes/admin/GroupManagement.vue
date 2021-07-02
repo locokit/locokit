@@ -212,7 +212,7 @@ import { lckClient } from '@/services/lck-api'
 const defaultUsergroup = {
   userId: null,
   groupId: null,
-  role: null
+  role: null,
 }
 
 export default {
@@ -224,7 +224,7 @@ export default {
     'p-button': Vue.extend(Button),
     'p-dropdown': Vue.extend(Dropdown),
     'p-dialog': Vue.extend(Dialog),
-    'lck-autocomplete': Vue.extend(AutoComplete)
+    'lck-autocomplete': Vue.extend(AutoComplete),
   },
   data: function () {
     return {
@@ -233,14 +233,14 @@ export default {
       openConfirmation: false,
       isEditingUser: null,
       usergroup: {
-        ...defaultUsergroup
+        ...defaultUsergroup,
       },
       allRoles: Object.keys(GROUP_ROLE).map(key => ({ label: key, value: key })),
       allUsers: [],
       submitting: false,
       submitted: false,
       hasSubmitError: false,
-      autocompleteUserSuggestions: []
+      autocompleteUserSuggestions: [],
     }
   },
   methods: {
@@ -260,7 +260,7 @@ export default {
       this.usergroup = {
         ...defaultUsergroup,
         groupId,
-        groupName
+        groupName,
       }
       this.submitted = false
     },
@@ -273,7 +273,7 @@ export default {
         userName: data.name,
         groupId: group.id,
         groupName: group.name,
-        role: data.uhg_role
+        role: data.uhg_role,
       }
       this.submitted = false
     },
@@ -285,13 +285,13 @@ export default {
         userName: data.name,
         groupId: group.id,
         groupName: group.name,
-        role: data.uhg_role
+        role: data.uhg_role,
       }
     },
     async confirmDeleteUserInGroup () {
       try {
         return await lckClient.service('usergroup').remove(
-          `${this.usergroup.userId},${this.usergroup.groupId}`
+          `${this.usergroup.userId},${this.usergroup.groupId}`,
         )
       } catch ({ code, name }) {
         this.hasSubmitError = true
@@ -306,13 +306,13 @@ export default {
         if (this.isEditingUser) {
           await lckClient.service('usergroup').patch(
             `${this.usergroup.userId},${this.usergroup.groupId}`,
-            { uhg_role: this.usergroup.role }
+            { uhg_role: this.usergroup.role },
           )
         } else {
           await lckClient.service('usergroup').create({
             user_id: this.usergroup.userId,
             group_id: this.usergroup.groupId,
-            uhg_role: this.usergroup.role
+            uhg_role: this.usergroup.role,
           })
         }
       } catch ({ code, name }) {
@@ -328,8 +328,8 @@ export default {
       this.groups = await lckClient.service('group').find({
         query: {
           $eager: '[users,aclset.[workspace, chapter]]',
-          $limit: -1
-        }
+          $limit: -1,
+        },
       })
     },
     async updateUserSuggestions ({ query }) {
@@ -337,18 +337,18 @@ export default {
         query: {
           blocked: false,
           name: {
-            $ilike: `%${query}%`
-          }
-        }
+            $ilike: `%${query}%`,
+          },
+        },
       })
       this.autocompleteUserSuggestions = usersMatched.data.map(d => ({
         label: d.name,
-        value: d.id
+        value: d.id,
       }))
-    }
+    },
   },
   async mounted () {
     await this.loadCurrentGroupsWithUser()
-  }
+  },
 }
 </script>

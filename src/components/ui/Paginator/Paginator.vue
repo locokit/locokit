@@ -38,38 +38,38 @@ export default {
   name: 'LckPaginator',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
-    'p-paginator': Vue.extend(PrimePaginator)
+    'p-paginator': Vue.extend(PrimePaginator),
   },
   props: {
     rows: {
       type: Number,
       required: false,
-      default: 20
+      default: 20,
     },
     skip: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     totalRecords: {
       type: Number,
       required: false,
-      default: 0
-    }
+      default: 0,
+    },
   },
   computed: {
     pagesList () {
       return Array.from({ length: Math.ceil(this.totalRecords / this.rows) }, (_, i) => ({
         value: i,
-        label: i + 1
+        label: i + 1,
       }))
-    }
+    },
   },
   methods: {
     onPage (pageIndexToGo) {
       this.$emit('update-content', pageIndexToGo)
-    }
-  }
+    },
+  },
 }
 </script>
 

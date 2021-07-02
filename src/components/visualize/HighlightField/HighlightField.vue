@@ -20,17 +20,17 @@ export default Vue.extend({
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     result: {
       type: String,
-      default: ''
+      default: '',
     },
     noResult: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 })
 </script>
 

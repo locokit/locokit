@@ -65,12 +65,12 @@ export default Vue.extend({
       // eslint-disable-next-line no-undef
       logoBgPrimaryURL: LCK_THEME.LOGO_BG_PRIMARY_URL,
       // eslint-disable-next-line no-undef
-      version: LCK_VERSION
+      version: LCK_VERSION,
     }
   },
   components: {
-    'p-card': Vue.extend(Card)
-  }
+    'p-card': Vue.extend(Card),
+  },
 })
 
 </script>

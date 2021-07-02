@@ -202,33 +202,33 @@ export default {
     'action-button-settings-fields': ActionButtonSettingsFields,
     'p-input-text': Vue.extend(InputText),
     'p-switch': Vue.extend(InputSwitch),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     block: {
       type: Object as Vue.PropType<LckBlockExtended>,
-      required: true
+      required: true,
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     autocompleteSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     blockDisplayTableViewSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     blockDisplayFieldSuggestions: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as Vue.PropOptions<{ label: string; value: string }[]>,
     relatedChapterPages: {
       type: Array,
-      default: () => ([])
-    }
+      default: () => ([]),
+    },
   },
   data () {
     return {
@@ -237,13 +237,13 @@ export default {
       tableViewDefinition: null as Record<string, LckTableView> | LckTableView | null,
       blockRefreshRequired: false,
       blockDisplayTableView: null as { text: string; value: string } | null,
-      blockDisplayField: null as { text: string; value: string } | null
+      blockDisplayField: null as { text: string; value: string } | null,
     }
   },
   computed: {
     blockTypesValues () {
       return Object.values(BLOCK_TYPE)
-    }
+    },
   },
   methods: {
     resetBlockSettings (blockType: string) {
@@ -262,7 +262,7 @@ export default {
     onFormSubmit () {
       this.$emit('input', {
         blockToEdit: this.blockCopy,
-        blockRefreshRequired: this.blockRefreshRequired
+        blockRefreshRequired: this.blockRefreshRequired,
       })
       this.blockRefreshRequired = false
     },
@@ -283,7 +283,7 @@ export default {
       (this.blockCopy.settings as MediaSettings).medias.push({
         name: '',
         srcURL: '',
-        type: MEDIA_TYPE.IMAGE
+        type: MEDIA_TYPE.IMAGE,
       })
     },
     onUpdateMediaDisplayMode (displayMode: MEDIA_TYPE) {
@@ -303,12 +303,12 @@ export default {
     },
     onAddMapSource () {
       (this.blockCopy.settings as MapSettings).sources.push({
-        id: ''
+        id: '',
       })
     },
     onDeleteMapSource (index: number) {
       (this.blockCopy.settings as MapSettings).sources.splice(index, 1)
-    }
+    },
   },
   watch: {
     block: {
@@ -327,19 +327,19 @@ export default {
         if (newValue.displayTableView) {
           this.blockDisplayTableView = {
             text: newValue.displayTableView.text,
-            value: newValue.displayTableView.id
+            value: newValue.displayTableView.id,
           }
         }
         if (newValue.displayField) {
           this.blockDisplayField = {
             text: newValue.displayField.text,
-            value: newValue.displayField.id
+            value: newValue.displayField.id,
           }
         }
         if (!this.blockCopy.settings) this.resetBlockSettings(this.blockCopy.type)
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>

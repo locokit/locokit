@@ -76,25 +76,25 @@ export default {
   name: 'MarkdownSettingsFields',
   components: {
     'p-textarea': Vue.extend(Textarea),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     content: {
-      type: String
+      type: String,
     },
     textColor: {
-      type: String
+      type: String,
     },
     textAlign: {
-      type: String
-    }
+      type: String,
+    },
   },
   data () {
     return {
       EXTENDED_NAMED_CLASSES,
-      TEXT_ALIGN_CLASS
+      TEXT_ALIGN_CLASS,
     }
-  }
+  },
 }
 </script>
 

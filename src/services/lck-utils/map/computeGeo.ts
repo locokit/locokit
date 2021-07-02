@@ -6,7 +6,7 @@ import {
   LineLayout,
   LinePaint,
   LngLatBounds,
-  LngLatLike
+  LngLatLike,
 } from 'mapbox-gl'
 
 import { getArrayDepth } from '@/services/lck-utils/arrays'

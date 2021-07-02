@@ -3,13 +3,13 @@ import ProcessPanel from './ProcessPanel'
 
 export default {
   title: 'components/store/ProcessPanel',
-  component: ProcessPanel
+  component: ProcessPanel,
 }
 
 export const defaultStory = () => (
   {
     components: { ProcessPanel },
-    template: '<ProcessPanel />'
+    template: '<ProcessPanel />',
   }
 )
 
@@ -37,7 +37,7 @@ export const withProcessesByRowAndRowId = () => (
                 status: 'SUCCESS',
                 duration: 100,
                 table_row_id: '17',
-                log: 'This is the log'
+                log: 'This is the log',
               }, {
                 id: 'uuid-v4-t1-run-2',
                 text: 'Run 2',
@@ -46,7 +46,7 @@ export const withProcessesByRowAndRowId = () => (
                 status: 'WARNING',
                 duration: null,
                 table_row_id: '17',
-                log: 'This is the log'
+                log: 'This is the log',
               }, {
                 id: 'uuid-v4-t1-run-3',
                 text: 'Run 1',
@@ -55,15 +55,15 @@ export const withProcessesByRowAndRowId = () => (
                 status: 'ERROR',
                 duration: null,
                 table_row_id: '17',
-                log: 'This is the log'
-              }
-            ]
+                log: 'This is the log',
+              },
+            ],
           }, {
             id: 'uuid-v4-t2',
             text: 'Trigger 2',
             trigger: 'CRON',
             enabled: 'true',
-            table_id: 'uuid-v4-table-1'
+            table_id: 'uuid-v4-table-1',
           }, {
             id: 'uuid-v4-t3',
             text: 'Trigger 3',
@@ -77,16 +77,16 @@ export const withProcessesByRowAndRowId = () => (
                 status: 'RUNNING',
                 duration: 100,
                 table_row_id: '17',
-                log: 'This is the log'
-              }
+                log: 'This is the log',
+              },
             ],
             enabled: 'true',
-            table_id: 'uuid-v4-table-1'
-          }
-        ]
+            table_id: 'uuid-v4-table-1',
+          },
+        ],
       }
     },
-    template: '<ProcessPanel :processesByRow="processTrigger" rowId="17" />'
+    template: '<ProcessPanel :processesByRow="processTrigger" rowId="17" />',
   }
 )
 

@@ -15,19 +15,19 @@ import ActionButton from '@/components/visualize/ActionButton/ActionButton'
 export default Vue.extend({
   name: 'LckActionCell',
   components: {
-    'lck-action-button': ActionButton
+    'lck-action-button': ActionButton,
   },
   props: {
     displayCheckIcon: {
       type: Boolean,
-      default: false
+      default: false,
     },
     action: {
-      type: Object
+      type: Object,
     },
     content: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 })
 </script>

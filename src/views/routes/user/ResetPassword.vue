@@ -40,12 +40,12 @@ export default Vue.extend({
     return {
       loading: false,
       resetOK: false,
-      error: null
+      error: null,
     }
   },
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
-    'reset-password': Vue.extend(ResetPassword)
+    'reset-password': Vue.extend(ResetPassword),
   },
   methods: {
     async resetPassword (password: string) {
@@ -55,8 +55,8 @@ export default Vue.extend({
           action: 'resetPwdLong',
           value: {
             token: this.$route.query?.token, // compares to .resetToken
-            password // new password
-          }
+            password, // new password
+          },
         })
         this.error = null
         this.resetOK = true
@@ -64,8 +64,8 @@ export default Vue.extend({
         this.error = err
       }
       this.loading = false
-    }
-  }
+    },
+  },
 })
 
 </script>

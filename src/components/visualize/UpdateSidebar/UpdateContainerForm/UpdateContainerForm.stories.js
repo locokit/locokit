@@ -3,7 +3,7 @@ import UpdateContainerForm from './UpdateContainerForm.vue'
 
 export default {
   title: 'components/visualize/UpdateContainerForm',
-  component: UpdateContainerForm
+  component: UpdateContainerForm,
 }
 
 const newContainer = {
@@ -13,7 +13,7 @@ const newContainer = {
   elevation: false,
   anchor_label: '',
   anchor_icon: '',
-  anchor_icon_class: ''
+  anchor_icon_class: '',
 
 }
 
@@ -21,8 +21,8 @@ export const newBlockStory = () => ({
   components: { UpdateContainerForm },
   data () {
     return {
-      container: newContainer
+      container: newContainer,
     }
   },
-  template: '<UpdateContainerForm :container="container" />'
+  template: '<UpdateContainerForm :container="container" />',
 })

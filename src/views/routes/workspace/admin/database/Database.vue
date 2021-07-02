@@ -226,7 +226,7 @@ import Vue from 'vue'
 import {
   formatISO,
   isValid,
-  parseISO
+  parseISO,
 } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -234,21 +234,21 @@ import {
   retrieveDatabaseTableAndViewsDefinitions,
   retrieveTableColumns,
   retrieveTableRowsWithSkipAndLimit,
-  retrieveTableViews
+  retrieveTableViews,
 } from '@/services/lck-helpers/database'
 import {
   createProcessRun,
   patchProcess,
   retrieveManualProcessWithRuns,
-  retrieveProcessesByRow
+  retrieveProcessesByRow,
 } from '@/services/lck-helpers/process'
 import {
   isEditableColumn,
-  getOriginalColumn
+  getOriginalColumn,
 } from '@/services/lck-utils/columns'
 import {
   lckHelpers,
-  lckServices
+  lckServices,
 } from '@/services/lck-api'
 
 import { getCurrentFilters } from '@/services/lck-utils/filter'
@@ -277,7 +277,7 @@ import WithToolbar from '@/layouts/WithToolbar.vue'
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 const defaultDatatableSort = {
-  createdAt: 1
+  createdAt: 1,
 }
 
 export default {
@@ -300,24 +300,24 @@ export default {
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
     'p-button': Vue.extend(Button),
-    'p-sidebar': Vue.extend(Sidebar)
+    'p-sidebar': Vue.extend(Sidebar),
   },
   props: {
     databaseId: {
       type: String,
-      required: true
+      required: true,
     },
     groupId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
       database: {
-        tables: []
+        tables: [],
       },
       crudMode: true,
       cellState: {},
@@ -327,31 +327,31 @@ export default {
           icon: 'pi pi-file',
           command: () => {
             this.onClickExportButtonCSV()
-          }
+          },
         },
         {
           label: this.$t('components.datatable.toolbar.export.exportXLS'),
           icon: 'pi pi-file-excel',
           command: () => {
             this.onClickExportButtonXLS()
-          }
-        }
+          },
+        },
       ],
       block: {
         loading: false,
         content: {
           total: 0,
-          data: null
+          data: null,
         },
         definition: {
-          columns: []
-        }
+          columns: [],
+        },
       },
       views: [],
       selectedViewId: null,
       displayNewDialog: false,
       newRow: {
-        data: {}
+        data: {},
       },
       manualProcesses: [],
       processesByRow: [],
@@ -361,7 +361,7 @@ export default {
       currentDatatableFirst: 0,
       currentDatatableRows: 20,
       currentDatatableSort: {
-        ...defaultDatatableSort
+        ...defaultDatatableSort,
       },
       currentDatatableFilters: [],
       currentPageIndex: 0,
@@ -380,7 +380,7 @@ export default {
       // Column part
       currentColumnToEdit: null,
       currentActionColumnToEdit: null,
-      showEditColumnSidebar: false
+      showEditColumnSidebar: false,
     }
   },
   computed: {
@@ -395,7 +395,7 @@ export default {
       if (!this.block.definition.columns) return []
       return {
         columns: this.block.definition.columns.filter((column) =>
-          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA)
+          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA),
       }
     },
     currentBlockDropdownOptions () {
@@ -408,7 +408,7 @@ export default {
         ) {
           result[currentColumn.id] = Object.keys(originalColumn.settings?.values || {}).map(k => ({
             value: k,
-            label: originalColumn.settings.values[k].label
+            label: originalColumn.settings.values[k].label,
           }))
         }
       })
@@ -437,7 +437,7 @@ export default {
     workspaceId () {
       if (!this.database) return null
       return this.database.workspace_id
-    }
+    },
   },
   methods: {
     isEditableColumn,
@@ -451,21 +451,21 @@ export default {
         loading: false,
         content: null,
         definition: {
-          columns: []
-        }
+          columns: [],
+        },
       }
       this.views = []
       this.selectedViewId = null
       this.displayNewDialog = false
       this.newRow = {
-        data: {}
+        data: {},
       }
       this.submitting = false
       this.currentDatatableFirst = 0
       this.currentDatatableRows = 20
       this.currentPageIndex = 0
       this.currentDatatableSort = {
-        ...defaultDatatableSort
+        ...defaultDatatableSort,
       }
       this.currentDatatableFilters = []
       this.resetColumnEdit()
@@ -483,7 +483,7 @@ export default {
       this.block.loading = true
       this.block.content = {
         total: 0,
-        data: null
+        data: null,
       }
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
       this.views = await retrieveTableViews(this.currentTableId)
@@ -501,8 +501,8 @@ export default {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
           sort: this.currentDatatableSort,
-          filters: this.getCurrentFilters(this.currentDatatableFilters)
-        }
+          filters: this.getCurrentFilters(this.currentDatatableFilters),
+        },
       )
       lckHelpers.convertDateInRecords(this.block.content.data, this.block.definition.columns)
       this.block.loading = false
@@ -534,7 +534,7 @@ export default {
       await lckServices.tableRow.create({
         data,
         // eslint-disable-next-line @typescript-eslint/camelcase
-        table_id: this.currentTableId
+        table_id: this.currentTableId,
       })
       this.submitting = false
       this.displayNewDialog = false
@@ -542,7 +542,7 @@ export default {
     },
     onSort ({ field, order }) {
       this.currentDatatableSort = {
-        [`ref(data:${field})`]: order
+        [`ref(data:${field})`]: order,
       }
       this.loadCurrentTableData()
     },
@@ -555,7 +555,7 @@ export default {
     },
     onClickAddButton () {
       this.newRow = {
-        data: {}
+        data: {},
       }
       this.block.definition.columns.forEach(c => {
         if (
@@ -576,7 +576,7 @@ export default {
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
         this.fileName = this.currentView.text,
-        this.groupId
+        this.groupId,
       )
       this.exporting = false
     },
@@ -587,7 +587,7 @@ export default {
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
         this.fileName = this.currentView.text,
-        this.groupId
+        this.groupId,
       )
       this.exporting = false
     },
@@ -610,14 +610,14 @@ export default {
             table_column_id: id,
             table_view_id: this.selectedViewId,
             position: value.length + index,
-            displayed: true
-          })
+            displayed: true,
+          }),
         ))
       }
       if (columnsIdsToRemove.length > 0) {
         columnsIdsToRemove.forEach(id => {
           updatePromises.push(
-            lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`)
+            lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`),
           )
           if (this.currentColumnToEdit?.id === id) this.resetColumnEdit()
         })
@@ -628,13 +628,13 @@ export default {
        */
       const newViewDefinition = await lckServices.tableView.get(this.selectedViewId, {
         query: {
-          $eager: 'columns.[parents.^]'
-        }
+          $eager: 'columns.[parents.^]',
+        },
       })
       this.$set(
         this.views,
         this.views.findIndex(({ id }) => this.selectedViewId === id),
-        newViewDefinition
+        newViewDefinition,
       )
     },
     async onCreateView () {
@@ -661,7 +661,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000
+          life: 3000,
         })
       }
     },
@@ -669,8 +669,8 @@ export default {
       this.views = views
       await Promise.all(
         views.map((v, index) => lckServices.tableView.patch(v.id, {
-          position: index
-        }))
+          position: index,
+        })),
       )
       this.views = await retrieveTableViews(this.currentTableId)
     },
@@ -678,13 +678,13 @@ export default {
       if (view.id) {
         await lckServices.tableView.patch(view.id, {
           text: view.text,
-          locked: view.locked
+          locked: view.locked,
         })
         this.views = await retrieveTableViews(this.currentTableId)
       } else {
         const newView = await lckServices.tableView.create({
           table_id: this.currentTableId,
-          ...view
+          ...view,
         })
         this.views = await retrieveTableViews(this.currentTableId)
         this.selectedViewId = newView.id
@@ -700,22 +700,22 @@ export default {
         `${this.selectedViewId},${columnId}`, {
           style: {
             ...currentColumn.style,
-            width: newWidth
-          }
+            width: newWidth,
+          },
         })
       // replace existing definition with new column
       currentColumn.style = newColumn.style
     },
     async onColumnReorder ({
       fromIndex,
-      toIndex
+      toIndex,
     }) {
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
       // first, find the column related
       await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${this.viewColumnsIds[fromIndex]}`, {
-          position: toIndex
+          position: toIndex,
         })
       if (fromIndex > toIndex) {
         // if the fromIndex is after the toIndex
@@ -723,7 +723,7 @@ export default {
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
           await lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i1]}`, {
-              position: i1 + 1
+              position: i1 + 1,
             })
         }
       } else {
@@ -732,7 +732,7 @@ export default {
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
           await lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i2]}`, {
-              position: i2 - 1
+              position: i2 - 1,
             })
         }
       }
@@ -745,7 +745,7 @@ export default {
           // API request
           const updatedColumn = await lckServices.tableColumn.patch(
             this.currentColumnToEdit.id,
-            editedColumnData
+            editedColumnData,
           )
           // Update the table column
           if (Array.isArray(this.block?.definition?.columns)) {
@@ -768,7 +768,7 @@ export default {
             severity: 'error',
             summary: this.currentColumnToEdit.text,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000
+            life: 3000,
           })
         } finally {
           this.submitting = false
@@ -783,7 +783,7 @@ export default {
           const { id, createdAt, updatedAt, type_page_to, ...data } = dataForm
           const updatedActionColumn = await lckServices.tableAction.patch(
             id,
-            data
+            data,
           )
           // Update the column of each table view of the table
           this.views.forEach(view => {
@@ -800,7 +800,7 @@ export default {
             severity: 'error',
             summary: this.currentActionColumnToEdit.label,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000
+            life: 3000,
           })
         } finally {
           this.submitting = false
@@ -831,7 +831,7 @@ export default {
           // Update table view column
           const updatedColumn = await lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.currentColumnToEdit.id}`,
-            editedColumn
+            editedColumn,
           )
           for (const key in updatedColumn) {
             if (this.currentColumnToEdit[key] == null && updatedColumn[key] != null) this.$set(this.currentColumnToEdit, key, updatedColumn[key])
@@ -842,7 +842,7 @@ export default {
             severity: 'error',
             summary: this.currentColumnToEdit.text,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000
+            life: 3000,
           })
         } finally {
           this.submitting = false
@@ -858,7 +858,7 @@ export default {
           severity: 'error',
           summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
           detail: this.$t('error.lck.ROW_DELETION'),
-          life: 3000
+          life: 3000,
         })
       }
     },
@@ -882,7 +882,7 @@ export default {
         columnTypeId,
         tableId: settings?.tableId,
         query,
-        groupId: this.groupId
+        groupId: this.groupId,
       })
     },
     async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
@@ -890,7 +890,7 @@ export default {
         columnTypeId,
         tableId: settings?.tableId,
         query,
-        groupId: this.groupId
+        groupId: this.groupId,
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
@@ -899,15 +899,15 @@ export default {
         rowId: currentRow.id,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
 
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
-            [columnId]: newValue
+            [columnId]: newValue,
           },
-          $lckGroupId: this.groupId
+          $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
         lckHelpers.convertDateInRecords(res, this.block.definition.columns)
@@ -928,21 +928,21 @@ export default {
       const res = await createProcessRun({
         table_row_id: rowId,
         process_id: processId,
-        waitForOutput: true
+        waitForOutput: true,
       })
       if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
         this.$toast.add({
           severity: 'error',
           summary: name || this.$t('components.processPanel.failedNewRun'),
           detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
-          life: 3000
+          life: 3000,
         })
       } else {
         this.$toast.add({
           severity: 'success',
           summary: name,
           detail: this.$t('components.processPanel.successNewRun'),
-          life: 3000
+          life: 3000,
         })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { process: useless, ...rest } = res
@@ -964,7 +964,7 @@ export default {
         severity: 'info',
         summary: this.$t('components.datatable.notifWarningRedirectionAction.summary'),
         detail: this.$t('components.datatable.notifWarningRedirectionAction.detail'),
-        life: 5000
+        life: 5000,
       })
     },
     async onMultipleAutocompleteEditNewRow (columnId) {
@@ -976,7 +976,7 @@ export default {
         rowId,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
 
       try {
@@ -996,8 +996,8 @@ export default {
            */
           const res = await lckServices.tableRow.patch(currentRow.id, {
             data: {
-              [columnId]: newDataFiles
-            }
+              [columnId]: newDataFiles,
+            },
           })
           this.cellState.isValid = true
           lckHelpers.convertDateInRecords(res, this.block.definition.columns)
@@ -1009,7 +1009,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000
+          life: 3000,
         })
       }
       this.cellState.waiting = false
@@ -1020,15 +1020,15 @@ export default {
         rowId,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
 
       try {
         const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
-            [columnId]: newDataFiles
-          }
+            [columnId]: newDataFiles,
+          },
         })
         this.cellState.isValid = true
         lckHelpers.convertDateInRecords(res, this.block.definition.columns)
@@ -1039,14 +1039,14 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000
+          life: 3000,
         })
       }
       this.cellState.waiting = false
     },
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
-    }
+    },
   },
   async mounted () {
     this.database = await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
@@ -1056,7 +1056,7 @@ export default {
       this.currentTableId = this.database.tables[0].id
       this.loadTableAndProcess()
     }
-  }
+  },
 }
 </script>
 

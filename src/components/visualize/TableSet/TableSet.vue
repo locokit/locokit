@@ -78,7 +78,7 @@ import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 import {
-  getOriginalColumn
+  getOriginalColumn,
 } from '@/services/lck-utils/columns'
 
 import Button from 'primevue/button'
@@ -97,43 +97,43 @@ export default {
     'lck-filter-button': FilterButton,
     'lck-dialog-form': DialogForm,
     'p-button': Vue.extend(Button),
-    'lck-dropdown-button': DropdownButton
+    'lck-dropdown-button': DropdownButton,
   },
   props: {
     addAllowed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     exportAllowed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     filterAllowed: {
       type: Boolean,
-      default: true
+      default: true,
     },
     definition: {
-      type: Object
+      type: Object,
     },
     content: {
-      type: Object
+      type: Object,
     },
     title: {
       type: String,
-      default: 'TableView'
+      default: 'TableView',
     },
     submitting: {
       type: Object, // Submitting type : { inProgress: boolean, errors?: Errors[] }
-      default: () => ({ inProgress: false })
+      default: () => ({ inProgress: false }),
     },
     exporting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     workspaceId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -146,16 +146,16 @@ export default {
           icon: 'pi pi-file',
           command: () => {
             this.$emit('export-view-csv')
-          }
+          },
         },
         {
           label: this.$t('components.datatable.toolbar.export.exportXLS'),
           icon: 'pi pi-file-excel',
           command: () => {
             this.$emit('export-view-xls')
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
   },
   computed: {
@@ -169,7 +169,7 @@ export default {
       if (!this.hasColumns) return []
       return {
         columns: this.definition.columns.filter((column) =>
-          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA)
+          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA),
       }
     },
     columnsDropdownOptions () {
@@ -183,7 +183,7 @@ export default {
           ) {
             result[currentColumn.id] = Object.keys(originalColumn.settings?.values || {}).map(k => ({
               value: k,
-              label: originalColumn.settings.values[k].label
+              label: originalColumn.settings.values[k].label,
             }))
           }
         })
@@ -192,13 +192,13 @@ export default {
     },
     hasDataToDisplay () {
       return this.hasColumns && this.content?.total > 0
-    }
+    },
   },
   methods: {
     getCurrentFilters,
     onClickAddButton () {
       this.newRow = {
-        data: {}
+        data: {},
       }
       this.definition.columns.forEach(c => {
         if (
@@ -223,15 +223,15 @@ export default {
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
-    }
+    },
   },
   watch: {
     submitting (submittingValue) {
       if (!submittingValue.inProgress && !submittingValue.errors) {
         this.displayNewDialog = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

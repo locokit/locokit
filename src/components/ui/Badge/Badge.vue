@@ -13,8 +13,8 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'LckBadge',
   props: {
-    label: String, color: String, backgroundColor: String
-  }
+    label: String, color: String, backgroundColor: String,
+  },
 })
 
 </script>

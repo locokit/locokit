@@ -26,29 +26,29 @@ export default {
   name: 'LckDialogFile',
   components: {
     LckDialog,
-    LckCellFileInput
+    LckCellFileInput,
   },
   props: {
     attachments: {
       type: Array as PropType<LckAttachment[]>,
-      default: () => []
+      default: () => [],
     },
     visible: {
       type: Boolean,
-      default: true
+      default: true,
     },
     workspaceId: {
       type: String,
-      default: ''
+      default: '',
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>

@@ -10,15 +10,15 @@ export default {
       description: `
         This component represent the detailed presentation of data,
         for a particular row of the LCK Datatable component.
-      `
-    }
-  }
+      `,
+    },
+  },
 }
 
 export const defaultStory = () => (
   {
     components: { 'lck-data-detail': DataDetail },
-    template: '<lck-data-detail />'
+    template: '<lck-data-detail />',
   }
 )
 
@@ -40,8 +40,8 @@ const tableViewData = {
         displayed: true,
         type: {
           text: 'String',
-          id: 3
-        }
+          id: 3,
+        },
       }, {
         text: 'État du vélo',
         id: '3a659ea1-446f-4755-8db9-583a204279cc',
@@ -49,19 +49,19 @@ const tableViewData = {
           values: {
             first: {
               color: '#ef1',
-              label: 'En maintenance'
+              label: 'En maintenance',
             },
             second: {
               color: '#ef1',
-              label: 'En utilisation'
+              label: 'En utilisation',
 
             },
             third: {
               color: '#ef1',
-              label: 'Stocké'
+              label: 'Stocké',
 
-            }
-          }
+            },
+          },
         },
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
         column_type_id: COLUMN_TYPE.SINGLE_SELECT,
@@ -70,8 +70,8 @@ const tableViewData = {
         displayed: true,
         type: {
           text: 'Single select',
-          id: 9
-        }
+          id: 9,
+        },
       }, {
         text: 'Fournisseur',
         id: 'bde4bbbd-2584-447f-acff-f434f53619da',
@@ -83,8 +83,8 @@ const tableViewData = {
         displayed: true,
         type: {
           text: 'User',
-          id: 5
-        }
+          id: 5,
+        },
       }, {
         text: 'Date',
         id: 'b9058b15-44b7-4cd9-a121-a942b69a0434',
@@ -93,7 +93,7 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.DATE,
         order: null,
         filter: null,
-        displayed: true
+        displayed: true,
       }, {
         text: 'Textarea',
         id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
@@ -102,9 +102,9 @@ const tableViewData = {
         column_type_id: COLUMN_TYPE.TEXT,
         order: null,
         filter: null,
-        displayed: true
-      }
-    ]
+        displayed: true,
+      },
+    ],
   },
   definitionEditable: {
     text: 'Ensemble des vélos',
@@ -122,8 +122,8 @@ const tableViewData = {
         editable: true,
         type: {
           text: 'String',
-          id: 3
-        }
+          id: 3,
+        },
       }, {
         text: 'État du vélo',
         id: '3a659ea1-446f-4755-8db9-583a204279cc',
@@ -131,18 +131,18 @@ const tableViewData = {
           values: {
             first: {
               color: '#ef1',
-              label: 'En maintenance'
+              label: 'En maintenance',
             },
             second: {
               color: '#ef1',
-              label: 'En utilisation'
+              label: 'En utilisation',
 
             },
             third: {
               color: '#ef1',
-              label: 'Stocké'
-            }
-          }
+              label: 'Stocké',
+            },
+          },
         },
         table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
         column_type_id: COLUMN_TYPE.SINGLE_SELECT,
@@ -152,8 +152,8 @@ const tableViewData = {
         editable: true,
         type: {
           text: 'Single select',
-          id: 9
-        }
+          id: 9,
+        },
       }, {
         text: 'Fournisseur',
         id: 'bde4bbbd-2584-447f-acff-f434f53619da',
@@ -166,8 +166,8 @@ const tableViewData = {
         editable: true,
         type: {
           text: 'User',
-          id: 5
-        }
+          id: 5,
+        },
       }, {
         text: 'Date',
         id: 'b9058b15-44b7-4cd9-a121-a942b69a0434',
@@ -177,7 +177,7 @@ const tableViewData = {
         order: null,
         filter: null,
         displayed: true,
-        editable: true
+        editable: true,
       }, {
         text: 'Textarea',
         id: '413bf240-b8fb-4a5b-87eb-074bef2ee21a',
@@ -187,9 +187,9 @@ const tableViewData = {
         order: null,
         filter: null,
         displayed: true,
-        editable: true
-      }
-    ]
+        editable: true,
+      },
+    ],
   },
   row: {
     text: 'Vélo n° 42',
@@ -198,16 +198,16 @@ const tableViewData = {
       'b9058b15-44b7-4cd9-a121-a942b69a0434': new Date('2020-10-30'),
       'bde4bbbd-2584-447f-acff-f434f53619da': {
         value: 'AMSTERDAMAIR',
-        reference: 4
+        reference: 4,
 
       },
       'e065323c-1151-447f-be0f-6d2728117b38': 'Trek',
       '413bf240-b8fb-4a5b-87eb-074bef2ee21a': 'Welcome at home, \nthis is a multi line text\nand it works',
-      'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))'
+      'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
     },
     id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-    table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
-  }
+    table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  },
 }
 
 export const withDefinitionAndRow = () => (
@@ -216,7 +216,7 @@ export const withDefinitionAndRow = () => (
     data () {
       return {
         definition: tableViewData.definitionReadOnly,
-        row: tableViewData.row
+        row: tableViewData.row,
       }
     },
     template: `
@@ -224,7 +224,7 @@ export const withDefinitionAndRow = () => (
       :definition="definition"
       :row="row"
     />
-    `
+    `,
   }
 )
 
@@ -236,7 +236,7 @@ export const withEditableColumnsAndRow = () => (
     data () {
       return {
         definition: tableViewData.definitionEditable,
-        row: tableViewData.row
+        row: tableViewData.row,
       }
     },
     template: `
@@ -244,7 +244,7 @@ export const withEditableColumnsAndRow = () => (
       :definition="definition"
       :row="row"
     />
-    `
+    `,
   }
 )
 
@@ -261,8 +261,8 @@ export const withEditableColumnsAndRowStateSaving = () => (
           rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
           columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
           waiting: true,
-          isValid: null
-        }
+          isValid: null,
+        },
       }
     },
     template: `
@@ -271,7 +271,7 @@ export const withEditableColumnsAndRowStateSaving = () => (
       :row="row"
       :cellState="cellState"
     />
-    `
+    `,
   }
 )
 
@@ -288,8 +288,8 @@ export const withEditableColumnsAndRowStateOK = () => (
           rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
           columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
           waiting: false,
-          isValid: true
-        }
+          isValid: true,
+        },
       }
     },
     template: `
@@ -298,7 +298,7 @@ export const withEditableColumnsAndRowStateOK = () => (
       :row="row"
       :cellState="cellState"
     />
-    `
+    `,
   }
 )
 
@@ -315,8 +315,8 @@ export const withEditableColumnsAndRowStateError = () => (
           rowId: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
           columnId: 'e065323c-1151-447f-be0f-6d2728117b38',
           waiting: false,
-          isValid: false
-        }
+          isValid: false,
+        },
       }
     },
     template: `
@@ -325,7 +325,7 @@ export const withEditableColumnsAndRowStateError = () => (
         :row="row"
         :cellState="cellState"
       />
-    `
+    `,
   }
 )
 
@@ -345,7 +345,7 @@ const definitionWithLookedUpColumns = {
       id: 'e065323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd065323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd065323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -362,16 +362,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up string',
       id: 'e165323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd165323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd165323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -388,16 +388,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up number',
       id: 'e265323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd265323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd265323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -414,16 +414,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up float',
       id: 'e365323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd365323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd365323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -440,16 +440,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up date',
       id: 'e465323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd465323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd465323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -466,16 +466,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up user',
       id: 'e565323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd565323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd565323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -492,16 +492,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up group',
       id: 'e665323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd665323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd665323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -518,16 +518,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up relation between tables',
       id: 'e765323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd765323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd765323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -544,16 +544,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up single select',
       id: 'e865323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd865323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd865323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -569,35 +569,35 @@ const definitionWithLookedUpColumns = {
               [singleSelectOption1UUID]: {
                 label: 'Option 1',
                 color: '#ffffff',
-                backgroundColor: '#007734'
+                backgroundColor: '#007734',
               },
               [singleSelectOption2UUID]: {
                 label: 'Option 2',
                 color: '#ffffff',
-                backgroundColor: '#883477'
+                backgroundColor: '#883477',
               },
               [singleSelectOption3UUID]: {
                 label: 'Option 3',
                 color: '#ffffff',
-                backgroundColor: '#003477'
-              }
-            }
+                backgroundColor: '#003477',
+              },
+            },
           },
           table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
           column_type_id: COLUMN_TYPE.SINGLE_SELECT,
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up multi select',
       id: 'e965323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd965323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd965323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -611,31 +611,31 @@ const definitionWithLookedUpColumns = {
           settings: {
             values: {
               [singleSelectOption1UUID]: {
-                label: 'Option 1'
+                label: 'Option 1',
               },
               [singleSelectOption2UUID]: {
-                label: 'Option 2'
+                label: 'Option 2',
               },
               [singleSelectOption3UUID]: {
-                label: 'Option 3'
-              }
-            }
+                label: 'Option 3',
+              },
+            },
           },
           table_id: '000c21e6-5339-4748-903f-8c77e21314cf',
           column_type_id: COLUMN_TYPE.MULTI_SELECT,
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up formula',
       id: 'e105323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd105323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd105323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -652,16 +652,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up file',
       id: 'e115323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd115323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd115323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -678,16 +678,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up multi user',
       id: 'e125323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd125323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd125323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -704,16 +704,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up text',
       id: 'e135323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd135323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd135323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -730,16 +730,16 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
+          parents: [],
+        },
+      ],
     },
     {
       text: 'Looked_up url',
       id: 'e145323c-1151-447f-be0f-6d2728117b38',
       settings: {
         localField: 'a065323c-1151-447f-be0f-6d2728117b30',
-        foreignField: 'd145323c-1151-447f-be0f-6d2728117b31'
+        foreignField: 'd145323c-1151-447f-be0f-6d2728117b31',
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -756,11 +756,11 @@ const definitionWithLookedUpColumns = {
           order: null,
           filter: null,
           displayed: true,
-          parents: []
-        }
-      ]
-    }
-  ]
+          parents: [],
+        },
+      ],
+    },
+  ],
 }
 
 const rowLookedUpColumn = {
@@ -768,67 +768,67 @@ const rowLookedUpColumn = {
   data: {
     'e065323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: true
+      value: true,
     },
     'e165323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'My first string'
+      value: 'My first string',
     },
     'e265323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 10
+      value: 10,
     },
     'e365323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 10.5
+      value: 10.5,
     },
     'e465323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: new Date('2021-01-15')
+      value: new Date('2021-01-15'),
     },
     'e565323c-1151-447f-be0f-6d2728117b38': {
       reference: 'u015323c-1151-447f-be0f-6d2728117b38',
-      value: 'User 1'
+      value: 'User 1',
     },
     'e665323c-1151-447f-be0f-6d2728117b38': {
       reference: 'g015323c-1151-447f-be0f-6d2728117b38',
-      value: 'Group 1'
+      value: 'Group 1',
     },
     'e765323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'RBT 1'
+      value: 'RBT 1',
     },
     'e865323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: singleSelectOption1UUID
+      value: singleSelectOption1UUID,
     },
     'e965323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: [singleSelectOption1UUID, singleSelectOption2UUID]
+      value: [singleSelectOption1UUID, singleSelectOption2UUID],
     },
     'e105323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'My formula'
+      value: 'My formula',
     },
     'e115323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'File'
+      value: 'File',
     },
     'e125323c-1151-447f-be0f-6d2728117b38': {
       reference: ['u015323c-1151-447f-be0f-6d2728117b38', 'u115323c-1151-447f-be0f-6d2728117b38'],
-      value: ['User 1', 'User 2']
+      value: ['User 1', 'User 2'],
     },
     'e135323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'My text to display...'
+      value: 'My text to display...',
     },
     'e145323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
-      value: 'http://myurl.com'
-    }
+      value: 'http://myurl.com',
+    },
   },
   id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-  table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
 }
 
 export const withLookedUpColumns = () => (
@@ -837,7 +837,7 @@ export const withLookedUpColumns = () => (
     data () {
       return {
         definition: definitionWithLookedUpColumns,
-        row: rowLookedUpColumn
+        row: rowLookedUpColumn,
       }
     },
     template: `
@@ -846,7 +846,7 @@ export const withLookedUpColumns = () => (
       :row="row"
       workspaceId="wsed19db-588d-4ca1-8ab3-c8b17d60db2d"
     />
-    `
+    `,
   }
 )
 
