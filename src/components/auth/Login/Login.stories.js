@@ -4,13 +4,13 @@ import Login from './Login'
 
 export default {
   title: 'components/auth/Login',
-  component: Login
+  component: Login,
 }
 
 export const LoginStory = () => ({
   components: { Login },
   template: '<Login @submit="this.submit" />',
-  methods: { submit: action('submit') }
+  methods: { submit: action('submit') },
 })
 
 LoginStory.storyName = 'Login'

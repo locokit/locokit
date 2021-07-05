@@ -3,7 +3,7 @@ import Process from './Process'
 
 export default {
   title: 'components/store/process/Process',
-  component: Process
+  component: Process,
 }
 
 export const defaultStory = () => (
@@ -21,33 +21,33 @@ export const defaultStory = () => (
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
-              id: 'uuid-v4-table-1'
-            }
+              id: 'uuid-v4-table-1',
+            },
           }, {
             id: 'uuid-v4-t2',
             text: 'Trigger 2',
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
-              id: 'uuid-v4-table-1'
+              id: 'uuid-v4-table-1',
             },
             settings: {
-              on: 'CREATE_ROW'
-            }
+              on: 'CREATE_ROW',
+            },
           }, {
             id: 'uuid-v4-t3',
             text: 'Trigger 3',
             table_id: 'uuid-v4-table-1',
             table: {
               text: 'My Table',
-              id: 'uuid-v4-table-1'
+              id: 'uuid-v4-table-1',
             },
             settings: {
               on: 'UPDATE_ROW',
               column_id: 'uuid-v4-column1',
               fromValue: 'THIS VALUE',
-              toValue: 'THAT VALUE'
-            }
+              toValue: 'THAT VALUE',
+            },
           }],
           runs: [{
             id: 'uuid-v4-run-1',
@@ -84,26 +84,26 @@ Game
 
 ...
 
-Over.`
+Over.`,
           }, {
             id: 'uuid-v4-run-2',
             text: 'Run 2',
             trigger_id: 'uuid-v4-t2',
             status: 'SUCCESS',
             duration: 250,
-            log: 'This is the log'
+            log: 'This is the log',
           }, {
             id: 'uuid-v4-run-3',
             text: 'Run 3',
             trigger_id: 'uuid-v4-t3',
             status: 'SUCCESS',
             duration: 5365,
-            log: 'This is the log'
-          }]
-        }
+            log: 'This is the log',
+          }],
+        },
       }
     },
-    template: '<Process :process="process" />'
+    template: '<Process :process="process" />',
   }
 )
 

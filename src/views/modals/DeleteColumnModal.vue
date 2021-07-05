@@ -24,22 +24,22 @@ import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 export default {
   name: 'DeleteColumnModal',
   components: {
-    'lck-dialog-form': DialogForm
+    'lck-dialog-form': DialogForm,
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tableId: String,
     columnToHandle: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
-      errorColumnToDelete: null
+      errorColumnToDelete: null,
     }
   },
   methods: {
@@ -57,7 +57,7 @@ export default {
       } catch (errorDeleteColumn) {
         this.errorColumnToDelete = errorDeleteColumn.message
       }
-    }
-  }
+    },
+  },
 }
 </script>

@@ -2,7 +2,7 @@ import LckMonacoEditor from './MonacoEditor.vue'
 
 export default {
   title: 'components/store/LckMonacoEditor',
-  component: LckMonacoEditor
+  component: LckMonacoEditor,
 }
 
 export const defaultEditorWithValue = () => (
@@ -10,10 +10,10 @@ export const defaultEditorWithValue = () => (
     components: { LckMonacoEditor },
     data () {
       return {
-        value: '10.0 "A text" COLUMN.{A column} NUMERIC.MYFUNCTION()'
+        value: '10.0 "A text" COLUMN.{A column} NUMERIC.MYFUNCTION()',
       }
     },
-    template: '<LckMonacoEditor :value="value"/>'
+    template: '<LckMonacoEditor :value="value"/>',
   }
 )
 
@@ -24,10 +24,10 @@ export const editorWithLckLanguageAndTheme = () => (
     components: { LckMonacoEditor },
     data () {
       return {
-        value: '10.0 "A text" COLUMN.{A column} NUMERIC.MYFUNCTION()'
+        value: '10.0 "A text" COLUMN.{A column} NUMERIC.MYFUNCTION()',
       }
     },
-    template: '<LckMonacoEditor language="locokitLanguage" theme="locokitTheme" :value="value" />'
+    template: '<LckMonacoEditor language="locokitLanguage" theme="locokitTheme" :value="value" />',
   }
 )
 
@@ -40,11 +40,11 @@ export const editorWithErrors = () => (
       return {
         handledError: {
           message: 'The value is incorrect',
-          data: { location: { start: { line: 1, column: 1 }, end: { line: 1, column: 5 } } }
-        }
+          data: { location: { start: { line: 1, column: 1 }, end: { line: 1, column: 5 } } },
+        },
       }
     },
-    template: '<LckMonacoEditor value="10.0" :handledError="handledError" />'
+    template: '<LckMonacoEditor value="10.0" :handledError="handledError" />',
   }
 )
 

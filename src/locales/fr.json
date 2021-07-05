@@ -487,9 +487,9 @@
           "pageDetailId": "Nom de la page cachée",
           "pageQueryFieldId": "Nom de la colonne lié à la page",
           "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
-          "tableView": "Vue à afficher",
-          "displayFieldId": "Afficher le bouton selon ce champ",
-          "displayFieldConditionQuery": "Afficher le bouton si la valeur équivaut à",
+          "tableView": "Vue utilisée pour l'activation du bouton",
+          "displayFieldId": "Activer le bouton selon ce champ",
+          "displayFieldConditionQuery": "Activer le bouton si la valeur équivaut à",
           "notification": {
             "settings": "Configuration de la notification",
             "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modfiier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
@@ -592,6 +592,7 @@
       "password": "Mot de passe",
       "profile": "Profil",
       "selectProfile": "Sélectionnez un profil",
+      "createdAt": "Date création",
       "userDetails": "Compte utilisateur",
       "createUserDetails": "Créer un utilisateur",
       "editUserDetails": "Éditer un utilisateur",
@@ -709,18 +710,6 @@
     "dateFormat": "dd/MM/yyyy",
     "dateFormatPrime": "dd/mm/yy",
     "datetimeFormat": "dd/MM/yyyy HH:mm",
-    "localePrime": {
-      "firstDayOfWeek": 1,
-      "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-      "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-      "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
-      "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-      "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
-      "today": "Aujourd'hui",
-      "clear": "Réinitialiser",
-      "dateFormat": "dd/mm/yy",
-      "weekHeader": "Sm"
-    },
     "datetimeLogFormat": "dd/MM/yyyy HH:mm:ss"
   },
   "sw": {
@@ -746,5 +735,26 @@
       "center": "Centré",
       "justify": "Justifié"
     }
+  },
+  "localePrime": {
+    "accept": "Oui",
+    "reject": "Non",
+    "choose": "Choisir",
+    "upload": "Téléverser",
+    "cancel": "Annuler",
+    "firstDayOfWeek": 1,
+    "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
+    "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+    "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+    "today": "Aujourd'hui",
+    "clear": "Réinitialiser",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Sm",
+    "weak": "Faible",
+    "medium": "Moyen",
+    "strong": "Fort",
+    "passwordPrompt": "Saisissez un mot de passe"
   }
 }

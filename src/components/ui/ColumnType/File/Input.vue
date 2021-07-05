@@ -78,36 +78,36 @@ export default {
   name: 'LckFileInput',
   components: {
     'lck-async-image': LckAsyncImage,
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     attachments: {
       type: Array as PropType<LckAttachment[]>,
-      default: () => []
+      default: () => [],
     },
     workspaceId: {
       type: String,
-      default: ''
+      default: '',
     },
     displayLabels: {
       type: Boolean,
-      default: true
+      default: true,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     attachmentsToDisplay () {
       return getAttachmentsToDisplay(this.attachments, this.workspaceId)
-    }
+    },
   },
   methods: {
     onDialogInput () {
       this.$emit('input', (this.$refs['input-file'] as HTMLInputElement).files)
-    }
-  }
+    },
+  },
 }
 </script>
 

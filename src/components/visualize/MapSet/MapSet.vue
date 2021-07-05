@@ -20,7 +20,7 @@ import { MapSettings } from '@locokit/lck-glossary'
 import { EmittedBlockEvent, LckTableRow, LckTableRowData, LckTableRowDataComplex, LckTableView } from '@/services/lck-api/definitions'
 import {
   getLckGeoResources,
-  LckGeoResource
+  LckGeoResource,
 } from '@/services/lck-utils/map/transformWithOL'
 
 import CommunicatingBlock from '../Block/CommunicatingBlock'
@@ -33,28 +33,28 @@ const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/compone
 export default Vue.extend({
   name: 'MapSet',
   components: {
-    'lck-map': Map
+    'lck-map': Map,
   },
   mixins: [CommunicatingBlock],
   data () {
     return {
       selectedFeatureBySource: {
-      } as Record<string, string>
+      } as Record<string, string>,
     }
   },
   props: {
     id: {
-      type: String
+      type: String,
     },
     definition: {
-      type: Object as PropType<Record<string, LckTableView>>
+      type: Object as PropType<Record<string, LckTableView>>,
     },
     content: {
-      type: Object as PropType<Record<string, LckTableRow[]>>
+      type: Object as PropType<Record<string, LckTableRow[]>>,
     },
     settings: {
-      type: Object as PropType<MapSettings>
-    }
+      type: Object as PropType<MapSettings>,
+    },
   },
   computed: {
     hasRightConfiguration () {
@@ -69,15 +69,15 @@ export default Vue.extend({
         {
           noReference: this.$t('components.mapview.noReference'),
           noData: this.$t('components.mapview.noRowData'),
-          dateFormat: this.$t('date.dateFormat')
-        }
+          dateFormat: this.$t('date.dateFormat'),
+        },
       )
     },
     hasPopup (): boolean {
       return (
         this.resources.some(resource => resource.popupMode)
       )
-    }
+    },
   },
   methods: {
     onSelectFeature (selectedFeature: MapboxGeoJSONFeature) {
@@ -95,15 +95,15 @@ export default Vue.extend({
             eventHub.$emit(event.name, {
               originalValue: {
                 reference: rowId,
-                value: parsedOriginalData.text
+                value: parsedOriginalData.text,
               },
-              displayedValue: parsedDisplayedData.text
+              displayedValue: parsedDisplayedData.text,
             } as EmittedBlockEvent)
           } else if (event.type === 'selectField' && event.field) {
             // Single field
             eventHub.$emit(event.name, {
               originalValue: parsedOriginalData[event.field],
-              displayedValue: parsedDisplayedData[event.field]
+              displayedValue: parsedDisplayedData[event.field],
             } as EmittedBlockEvent)
           }
         })
@@ -111,8 +111,8 @@ export default Vue.extend({
     },
     onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string) {
       // Catch an event coming from another block : must receive a row reference to select the related feature
-      if (columnId && eventData.originalValue !== undefined) {
-        const reference: LckTableRowData = (eventData.originalValue as LckTableRowDataComplex)?.reference || eventData.originalValue
+      if (columnId) {
+        const reference: LckTableRowData | undefined = (eventData.originalValue as LckTableRowDataComplex)?.reference || eventData.originalValue
         if (!reference) return this.onResetBlockEvent(columnId, triggerBlockId)
         const geoResources = this.resources.filter(r => r.caughtEvents?.includes(triggerBlockId))
         geoResources.forEach(geoResource => {
@@ -126,7 +126,7 @@ export default Vue.extend({
       geoResources.forEach(geoResource => {
         this.$set(this.selectedFeatureBySource, geoResource.id, null)
       })
-    }
-  }
+    },
+  },
 })
 </script>

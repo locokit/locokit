@@ -8,7 +8,7 @@ export const zipArrays = (firstArray: [], secondArray: [], firstKey: string, sec
     for (let index = 0; index < maxLength; index++) {
       zippedArray.push({
         [firstKey]: firstArray[index],
-        [secondKey]: secondArray[index]
+        [secondKey]: secondArray[index],
       })
     }
   }
@@ -38,12 +38,12 @@ export function objectFromArray<T extends object> (array: T[], idKey: keyof T): 
       }
       return allElements
     }
-    , {}
+    , {},
   )
 }
 
 export default {
   zipArrays,
   getArrayDepth,
-  objectFromArray
+  objectFromArray,
 }

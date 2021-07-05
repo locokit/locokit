@@ -56,36 +56,36 @@ export default {
   name: 'LckFileCell',
   components: {
     LckAsyncImage,
-    LckCellFileDialog
+    LckCellFileDialog,
   },
   props: {
     attachments: {
       type: Array as PropType<LckAttachment[]>,
-      default: () => []
+      default: () => [],
     },
     workspaceId: {
       type: String,
-      default: ''
+      default: '',
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     attachmentsToDisplay () {
       return getAttachmentsToDisplay(this.attachments, this.workspaceId)
-    }
+    },
   },
   data () {
     return {
-      dialogFileVisible: false
+      dialogFileVisible: false,
     }
-  }
+  },
 }
 </script>
 

@@ -28,9 +28,9 @@ export default Vue.extend({
   props: {
     settings: {
       type: Object as PropType<MediaSettings>,
-      default: () => ({})
-    }
-  }
+      default: () => ({}),
+    },
+  },
 })
 </script>
 

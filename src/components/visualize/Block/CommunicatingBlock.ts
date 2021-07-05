@@ -8,16 +8,16 @@ import eventHub from '@/services/lck-event-hub/eventHub'
 export default Vue.extend({
   props: {
     settings: {
-      type: Object as PropType<CommunicatingBlockSettings>
+      type: Object as PropType<CommunicatingBlockSettings>,
     },
     pageLoaded: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
-      eventListeners: [] as Array<{ id: string; relatedFunction: Function }>
+      eventListeners: [] as Array<{ id: string; relatedFunction: Function }>,
     }
   },
   created () {
@@ -61,7 +61,7 @@ export default Vue.extend({
     },
     onResetBlockEvent (columnId: string | undefined, triggerBlockId: string) {
       this.eventBlockNotImplemented()
-    }
+    },
     /* eslint-enable @typescript-eslint/no-unused-vars */
-  }
+  },
 })

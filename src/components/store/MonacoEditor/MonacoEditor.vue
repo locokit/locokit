@@ -22,7 +22,7 @@ import {
   editor,
   IDisposable,
   MarkerSeverity,
-  Range
+  Range,
 } from 'monaco-editor-core/esm/vs/editor/editor.api.js'
 
 import {
@@ -30,7 +30,7 @@ import {
   getDefaultRange,
   predefinedMonacoSuggestions,
   FUNCTION_CATEGORY,
-  COLUMN_PREFIX
+  COLUMN_PREFIX,
 } from '@/services/lck-utils/formula'
 import { LckTableColumn } from '@/services/lck-api/definitions'
 
@@ -38,7 +38,7 @@ import { LckTableColumn } from '@/services/lck-api/definitions'
 self.MonacoEnvironment = {
   getWorkerUrl: function () {
     return process.env.BASE_URL + 'editor.worker.bundle.js'
-  }
+  },
 }
 
 export default {
@@ -46,16 +46,16 @@ export default {
   data () {
     return {
       editor: {} as editor.IStandaloneCodeEditor,
-      currentCompletionItemProvider: {} as IDisposable
+      currentCompletionItemProvider: {} as IDisposable,
     }
   },
   props: {
     handledError: {
-      type: Object
+      type: Object,
     },
     language: {
       type: String,
-      default: ''
+      default: '',
     },
     options: {
       type: Object,
@@ -66,26 +66,26 @@ export default {
         folding: false,
         lineNumbersMinChars: 0,
         suggest: {
-          snippetsPreventQuickSuggestions: false
+          snippetsPreventQuickSuggestions: false,
         },
         overviewRulerBorder: false,
         scrollBeyondLastColumn: 0,
         renderLineHighlight: 'none',
-        lineDecorationsWidth: 0
-      })
+        lineDecorationsWidth: 0,
+      }),
     } as PropOptions<editor.IEditorOptions & editor.IGlobalEditorOptions>,
     tableColumns: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     } as PropOptions<LckTableColumn[]>,
     theme: {
       type: String,
-      default: 'vs'
+      default: 'vs',
     },
     value: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   beforeMount () {
     const locokitLanguage = 'locokitLanguage'
@@ -105,13 +105,13 @@ export default {
             { include: '@categories' },
             { include: '@columns' },
             { include: '@numbers' },
-            [/[()]/, '@brackets']
+            [/[()]/, '@brackets'],
           ],
 
           // whitespace
           whitespace: [
             [/\s+/, 'white'],
-            [/"[^"]*$/, 'string', '@endMultipleLineString']
+            [/"[^"]*$/, 'string', '@endMultipleLineString'],
           ],
 
           // strings
@@ -119,13 +119,13 @@ export default {
             [/[^\\"]+/, 'string'],
             [/\./, 'string.escape'],
             [/\\./, 'string.escape'],
-            [/"/, 'string', '@pop']
+            [/"/, 'string', '@pop'],
           ],
           // multiple line string
           endMultipleLineString: [
             [/\\"/, 'string'],
             [/.*"/, 'string', '@popall'],
-            [/.*$/, 'string']
+            [/.*$/, 'string'],
           ],
 
           // categories
@@ -135,8 +135,8 @@ export default {
           columns: [[new RegExp(`${COLUMN_PREFIX}\\.{[^}]+}`), 'column']],
 
           // numbers
-          numbers: [[/-?(\d)+(\.\d+)?/, 'number']]
-        }
+          numbers: [[/-?(\d)+(\.\d+)?/, 'number']],
+        },
       })
 
       // Register an hover item provider for the language
@@ -144,7 +144,7 @@ export default {
         provideHover: (model, position) => {
           // Hover on functions names
           let providerResult: languages.Hover = {
-            contents: []
+            contents: [],
           }
           // Get the current formula
           const currentValue = model.getValue()
@@ -158,7 +158,7 @@ export default {
               // If the hovered word is between '.' and '(', maybe it's a function so we check if it exists
               const categoryName = model.getWordUntilPosition({
                 lineNumber: position.lineNumber,
-                column: indexInf + 1
+                column: indexInf + 1,
               }).word as FUNCTION_CATEGORY
               const functionName = currentValue.slice(indexInf + 1, indexSup)
               const functionSignature = predefinedMonacoSuggestions.functionSignatures[categoryName]?.[functionName]
@@ -168,20 +168,20 @@ export default {
                     position.lineNumber,
                     indexInf + 2,
                     position.lineNumber,
-                    indexSup + 1
+                    indexSup + 1,
                   ),
                   contents: [
                     // function signature
                     { value: functionSignature },
                     // function documentation
-                    { value: this.$t(`components.formulas.functions.${categoryName}.${functionName}`).toString() }
-                  ]
+                    { value: this.$t(`components.formulas.functions.${categoryName}.${functionName}`).toString() },
+                  ],
                 }
               }
             }
           }
           return providerResult
-        }
+        },
       })
 
       // Define a new theme
@@ -190,14 +190,14 @@ export default {
         inherit: true,
         rules: [
           { token: 'category', foreground: '005666' },
-          { token: 'column', foreground: '664805' }
+          { token: 'column', foreground: '664805' },
         ],
         colors: {
           'editorSuggestWidget.background': '#FFFFFF',
           'editorSuggestWidget.foreground': '#444444',
           'editorHoverWidget.background': '#FFFFFF',
-          'editorHoverWidget.foreground': '#444444'
-        }
+          'editorHoverWidget.foreground': '#444444',
+        },
       })
 
       // Language configuration
@@ -205,8 +205,8 @@ export default {
         brackets: [['(', ')']],
         autoClosingPairs: [
           { open: '(', close: ')' },
-          { open: '"', close: '"' }
-        ]
+          { open: '"', close: '"' },
+        ],
       })
     }
 
@@ -219,7 +219,7 @@ export default {
         const currentWord = context.triggerCharacter
           ? model.getWordUntilPosition({
             lineNumber: position.lineNumber,
-            column: position.column - 1
+            column: position.column - 1,
           })
           : model.getWordUntilPosition(position)
         // Get the right suggestions to return
@@ -239,15 +239,15 @@ export default {
           startLineNumber: position.lineNumber,
           endLineNumber: position.lineNumber,
           startColumn: currentWord.startColumn,
-          endColumn: currentWord.endColumn
+          endColumn: currentWord.endColumn,
         }
         suggestions.forEach(suggestion => {
           suggestion.range = range
         })
         return {
-          suggestions
+          suggestions,
         }
-      }
+      },
     })
   },
   mounted () {
@@ -260,7 +260,7 @@ export default {
       // Create the editor
       this.editor = editor.create(
         this.$refs.monacoEditor as HTMLElement,
-        fullOptions
+        fullOptions,
       )
 
       // Add events
@@ -300,9 +300,9 @@ export default {
         label: `${COLUMN_PREFIX}.{${column.text}}`,
         kind: languages.CompletionItemKind.Variable,
         insertText: `${COLUMN_PREFIX}.{${column.text}}`,
-        range: defaultRange
+        range: defaultRange,
       }))
-    }
+    },
   },
   methods: {
     handleNewError (newError: FeathersError) {
@@ -317,12 +317,12 @@ export default {
               endLineNumber: location.end.line,
               endColumn: location.end.column,
               message: message,
-              severity: MarkerSeverity.Error
-            }
+              severity: MarkerSeverity.Error,
+            },
           ])
         }
       }
-    }
+    },
   },
   watch: {
     options: {
@@ -331,7 +331,7 @@ export default {
           this.editor.updateOptions(options)
         }
       },
-      deep: true
+      deep: true,
     },
     value (newValue: string) {
       if (this.editor) {
@@ -353,8 +353,8 @@ export default {
     },
     handledError (newError: FeathersError) {
       this.handleNewError(newError)
-    }
-  }
+    },
+  },
 }
 </script>
 

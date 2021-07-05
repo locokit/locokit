@@ -19,9 +19,9 @@ export default Vue.extend({
   data () {
     return {
     // eslint-disable-next-line no-undef
-      backgroundImage: LCK_THEME.PAGE_404_BACKGROUND_IMAGE_URL
+      backgroundImage: LCK_THEME.PAGE_404_BACKGROUND_IMAGE_URL,
     }
-  }
+  },
 })
 
 </script>

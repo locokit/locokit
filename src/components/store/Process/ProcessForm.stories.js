@@ -3,7 +3,7 @@ import ProcessForm from './ProcessForm'
 
 export default {
   title: 'components/store/process/ProcessForm',
-  component: ProcessForm
+  component: ProcessForm,
 }
 
 export const defaultStory = () => (
@@ -17,14 +17,14 @@ export const defaultStory = () => (
           table_id: 'uuid-v4-table-1',
           table: {
             text: 'My Table',
-            id: 'uuid-v4-table-1'
+            id: 'uuid-v4-table-1',
           },
           trigger: 'CREATE_ROW',
-          enabled: true
-        }
+          enabled: true,
+        },
       }
     },
-    template: '<ProcessForm :process="process" />'
+    template: '<ProcessForm :process="process" />',
   }
 )
 
@@ -41,14 +41,14 @@ export const submittingStory = () => (
           table_id: 'uuid-v4-table-1',
           table: {
             text: 'My Table',
-            id: 'uuid-v4-table-1'
+            id: 'uuid-v4-table-1',
           },
           trigger: 'CREATE_ROW',
-          enabled: false
-        }
+          enabled: false,
+        },
       }
     },
-    template: '<ProcessForm :process="process" :submitting="true"/>'
+    template: '<ProcessForm :process="process" :submitting="true"/>',
   }
 )
 

@@ -4,13 +4,13 @@ import ResetPassword from './ResetPassword'
 
 export default {
   title: 'views/routes/user/ResetPassword',
-  component: ResetPassword
+  component: ResetPassword,
 }
 
 export const defaultStory = () => ({
   components: { ResetPassword },
   template: '<ResetPassword @submit="this.submit" />',
-  methods: { submit: action('submit') }
+  methods: { submit: action('submit') },
 })
 
 defaultStory.storyName = 'default'

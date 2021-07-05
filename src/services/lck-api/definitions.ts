@@ -160,7 +160,7 @@ export class LckTableAction extends LckBaseModel {
 
 export class LckTableRowDataComplex {
   reference!: string;
-  value!: string;
+  value!: string | Date | boolean | null;
 }
 
 export class LCKTableRowMultiDataComplex {
@@ -168,7 +168,14 @@ export class LCKTableRowMultiDataComplex {
   value!: string[];
 }
 
-export type LckTableRowData = string[] | string | number | LckTableRowDataComplex | LCKTableRowMultiDataComplex;
+export type LckTableRowData = Date
+  | string[]
+  | string
+  | number
+  | LckTableRowDataComplex
+  | LCKTableRowMultiDataComplex
+  | null
+  | boolean;
 
 export class LckTableRow extends LckBaseModel {
   text!: string;
@@ -225,6 +232,7 @@ export class LckBlockExtended extends LckBaseModel {
 
   loading?: boolean
   definition?: LckTableView
+  pageLoaded?: boolean;
 }
 
 export class MediaConfiguration {

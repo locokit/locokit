@@ -204,7 +204,7 @@ import Password from 'primevue/password'
 import { lckClient } from '@/services/lck-api'
 import {
   authState,
-  logout
+  logout,
 } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import { regexPasswordRules } from '@/services/lck-utils/regex'
@@ -218,19 +218,19 @@ export default {
       password: {
         oldPassword: null,
         password: null,
-        passwordCheck: null
+        passwordCheck: null,
       },
       displayErrorMismatch: false,
       incorrectPassword: false,
       errorPasswordRules: null,
-      regexPasswordRules
+      regexPasswordRules,
     }
   },
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
     'p-password': Vue.extend(Password),
-    'p-input-text': Vue.extend(InputText)
+    'p-input-text': Vue.extend(InputText),
   },
   methods: {
     async submitPassword () {
@@ -243,14 +243,14 @@ export default {
             action: 'passwordChange',
             value: {
               user: { email: authState.data.user?.email },
-              ...this.password
-            }
-          }
+              ...this.password,
+            },
+          },
         )
         this.password = {
           oldPassword: null,
           password: null,
-          passwordCheck: null
+          passwordCheck: null,
         }
       } catch (error) {
         if (error.data && error.data.failedRules) {
@@ -275,8 +275,8 @@ export default {
     logout () {
       logout()
       this.$router.push(ROUTES_PATH.HOME)
-    }
-  }
+    },
+  },
 }
 </script>
 

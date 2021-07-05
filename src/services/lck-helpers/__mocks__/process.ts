@@ -11,8 +11,8 @@ export async function retrieveManualProcessWithRuns (tableId: string) {
         trigger: PROCESS_TRIGGER.MANUAL,
         $sort: { createdAt: 1 },
         $eager: 'runs',
-        $limit: 50
-      }
+        $limit: 50,
+      },
     }) as Paginated<LckProcess>
     return res.data
   } catch ({ code, name }) {
@@ -27,8 +27,8 @@ export async function retrieveProcessesByRow (tableId: string, rowId: string) {
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: tableId,
         $sort: { createdAt: 1 },
-        $limit: 50 // $limit: -1  // Disable pagination
-      }
+        $limit: 50, // $limit: -1  // Disable pagination
+      },
     }) as Paginated<LckProcess>
 
     const resRuns = await lckServices.processRun.find({
@@ -36,8 +36,8 @@ export async function retrieveProcessesByRow (tableId: string, rowId: string) {
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_row_id: rowId,
         $sort: { createdAt: -1 },
-        $limit: 50 // $limit: -1  // Disable pagination
-      }
+        $limit: 50, // $limit: -1  // Disable pagination
+      },
     }) as Paginated<LckProcessRun>
 
     return resProcess.data.map(process => {

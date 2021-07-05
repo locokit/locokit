@@ -3,25 +3,25 @@ import AutoComplete from './AutoComplete'
 
 export default {
   title: 'components/ui/AutoComplete',
-  component: AutoComplete
+  component: AutoComplete,
 }
 
 export const defaultStory = () => ({
   components: { AutoComplete },
   template: '<AutoComplete />',
-  methods: { }
+  methods: { },
 })
 defaultStory.storyName = 'default'
 
 const suggestions = [{
   label: 'Suggestion one',
-  value: 1
+  value: 1,
 }, {
   label: 'Suggestion two',
-  value: 2
+  value: 2,
 }, {
   label: 'Suggestion three',
-  value: 3
+  value: 3,
 }]
 
 export const withSuggestionsAndDropdownOpened = () => ({
@@ -29,7 +29,7 @@ export const withSuggestionsAndDropdownOpened = () => ({
   data () {
     return {
       suggestions: [],
-      autocompleteModel: null
+      autocompleteModel: null,
     }
   },
   template: `
@@ -43,14 +43,14 @@ export const withSuggestionsAndDropdownOpened = () => ({
   methods: {
     searchItems () {
       this.suggestions = [...suggestions]
-    }
+    },
   },
   async mounted () {
     await this.$refs.ac.$el.querySelector('button').click()
-  }
+  },
 })
 
 withSuggestionsAndDropdownOpened.storyName = 'with suggestions and dropdown opened'
 withSuggestionsAndDropdownOpened.args = {
-  waitForSelector: '.p-autocomplete-panel'
+  waitForSelector: '.p-autocomplete-panel',
 }

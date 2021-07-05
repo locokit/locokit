@@ -2,13 +2,13 @@ import OverlayPanel from './OverlayPanel'
 
 export default {
   title: 'components/ui/OverlayPanel',
-  component: OverlayPanel
+  component: OverlayPanel,
 }
 
 export const defaultStory = () => (
   {
     components: { OverlayPanel },
-    template: '<OverlayPanel />'
+    template: '<OverlayPanel />',
   }
 )
 
@@ -17,7 +17,7 @@ defaultStory.storyName = 'default'
 export const overlayOpenedStory = () => (
   {
     components: {
-      'lck-overlaypanel': OverlayPanel
+      'lck-overlaypanel': OverlayPanel,
     },
     template: `
       <lck-overlaypanel label="Hello there" ref="op">
@@ -28,11 +28,11 @@ export const overlayOpenedStory = () => (
     `,
     mounted () {
       this.$refs.op.$el.querySelector('button').click()
-    }
+    },
   }
 )
 
 overlayOpenedStory.storyName = 'overlay opened'
 overlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel'
+  waitForSelector: '.p-overlaypanel',
 }

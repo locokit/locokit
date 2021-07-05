@@ -191,29 +191,29 @@ import draggable from 'vuedraggable'
 import {
   formatISO,
   isValid,
-  parseISO
+  parseISO,
 } from 'date-fns'
 
 import {
   BLOCK_TYPE,
-  COLUMN_TYPE
+  COLUMN_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
   lckHelpers,
-  lckServices
+  lckServices,
 } from '@/services/lck-api'
 import {
   isGeoBlock,
-  transformFeatureToWKT
+  transformFeatureToWKT,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
-  objectFromArray
+  objectFromArray,
 } from '@/services/lck-utils/arrays'
 import Breadcrumb from 'primevue/breadcrumb'
 import Button from 'primevue/button'
 import {
-  createProcessRun
+  createProcessRun,
 } from '@/services/lck-helpers/process'
 
 import Block from '@/components/visualize/Block/Block.vue'
@@ -232,33 +232,33 @@ export default {
     'lck-nav-anchor-link': NavAnchorLink,
     'p-breadcrumb': Vue.extend(Breadcrumb),
     'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable)
+    draggable: Vue.extend(draggable),
   },
   props: {
     pageId: {
       type: [String, Number], // param is string because its form url params
-      required: true
+      required: true,
     },
     pageDetailId: {
       type: [String, Number], // param is string because its form url params
-      required: false
+      required: false,
     },
     editMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     chapters: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     workspaceId: {
       type: String,
-      required: true
+      required: true,
     },
     groupId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -276,12 +276,12 @@ export default {
       submitting: false,
       dialogVisibility: {
         containerDelete: false,
-        blockDelete: false
+        blockDelete: false,
       },
       editableSidebarWidth: '40rem',
       editableAutocompleteSuggestions: null,
       blockDisplayTableViewSuggestions: null,
-      blockDisplayFieldSuggestions: null
+      blockDisplayFieldSuggestions: null,
     }
   },
   computed: {
@@ -295,12 +295,12 @@ export default {
       return [
         {
           label: parent.label,
-          to: this.$route.params.pageId
+          to: this.$route.params.pageId,
         },
         {
           label: this.page.text,
-          disabled: true
-        }
+          disabled: true,
+        },
       ]
     },
     isNavBarAnchorLinkDisplayed () {
@@ -310,7 +310,7 @@ export default {
       let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
         relatedChapterPages = this.chapters.find(
-          chapter => chapter.id === this.page.chapter_id
+          chapter => chapter.id === this.page.chapter_id,
         )?.pages.filter(
           page => page.id !== this.page.id
         )
@@ -331,7 +331,7 @@ export default {
         }
       }
       return ''
-    }
+    },
   },
   methods: {
     searchItems: lckHelpers.searchItems,
@@ -347,14 +347,14 @@ export default {
         BLOCK_TYPE.TABLE_SET,
         BLOCK_TYPE.MAP_SET,
         BLOCK_TYPE.KANBAN_SET,
-        BLOCK_TYPE.CARD_SET
+        BLOCK_TYPE.CARD_SET,
       ].indexOf(blockType) > -1
       if (this.sources[tableViewId]) {
         if (multi !== this.sources[tableViewId].multi) {
           this.$toast.add({
             severity: 'warn',
             summary: this.$t('error.cms.blockMultiConflictSummary'),
-            detail: this.$t('error.cms.blockMultiConflictDetail')
+            detail: this.$t('error.cms.blockMultiConflictDetail'),
           })
         }
         this.sources[tableViewId].blocks.push(blockId)
@@ -386,14 +386,14 @@ export default {
           blocks: [blockId],
           options: {
             sort: {
-              createdAt: 1
+              createdAt: 1,
             },
             page: 0,
             itemsPerPage,
-            filters: {}
+            filters: {},
           },
           // this option allows us to know if we need to use find or get methods for retrieving content
-          multi
+          multi,
         })
       }
     },
@@ -462,10 +462,10 @@ export default {
           data: [
             await lckServices.tableRow.get(this.$route.query.rowId, {
               query: {
-                $lckGroupId: this.groupId
-              }
-            })
-          ]
+                $lckGroupId: this.groupId,
+              },
+            }),
+          ],
         }
       } else {
         currentSource.content = await lckHelpers.retrieveViewData(
@@ -474,8 +474,15 @@ export default {
           currentSource.options.page * currentSource.options.itemsPerPage,
           currentSource.options.itemsPerPage,
           currentSource.options.sort,
-          currentSource.options.filters
+          currentSource.options.filters,
         )
+      }
+      // if the source is a multi one with $limit = -1,
+      if (Array.isArray(currentSource.content)) {
+        lckHelpers.convertDateInRecords(currentSource.content, this.sources[tableViewId].definition.columns)
+      } else {
+        // we are on a paginated result
+        lckHelpers.convertDateInRecords(currentSource.content.data, this.sources[tableViewId].definition.columns)
       }
     },
     async refreshDefinitionAndContent () {
@@ -490,12 +497,12 @@ export default {
        * definition is a Record<tableViewId, LckTableView>
        */
       if (isGeoBlock(block.type)) {
-        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id].definition) || []
+        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
         return objectFromArray(definitions, 'id')
       }
       if (!block.settings.id) return null
 
-      return this.sources[block.settings.id].definition
+      return this.sources[block.settings.id]?.definition
     },
     getBlockContent (block) {
       switch (block.type) {
@@ -509,7 +516,7 @@ export default {
                * or an { total, limit, skip, data } object (shared source)
                * If it's an object, we return data (paginated array), else only the content (already an array)
                */
-              const sourceContent = this.sources[mapSource.id].content
+              const sourceContent = this.sources[mapSource.id]?.content
               let currentContent = []
               if (Array.isArray(sourceContent)) {
                 currentContent = sourceContent
@@ -518,11 +525,11 @@ export default {
               }
               return Object.assign(allContents, { [mapSource.id]: currentContent })
             },
-            {}
+            {},
           )
         case BLOCK_TYPE.MAP_FIELD:
           return {
-            [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id].content]
+            [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content],
           }
         case BLOCK_TYPE.TABLE_SET:
         case BLOCK_TYPE.DATA_RECORD:
@@ -545,7 +552,7 @@ export default {
       return currentData.data[block.conditionalDisplayFieldId] === block.conditionalDisplayFieldValue
     },
     async onUpdateContentBlockTableView (block, pageIndexToGo) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -553,21 +560,21 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query,
-        groupId: this.groupId
+        groupId: this.groupId,
       })
     },
     async onUpdateCell (block, {
       rowId,
       columnId,
       newValue,
-      tableViewId = ''
+      tableViewId = '',
     }) {
       let currentBlock = null
       const blockId = block.id
@@ -586,16 +593,22 @@ export default {
         rowId: currentRow.id,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
-            [columnId]: newValue
+            [columnId]: newValue,
           },
-          $lckGroupId: this.groupId
+          $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
+        const blockDefinition = this.getBlockDefinition(block)
+        const currentDefinition = isGeoBlock(currentBlock.type)
+          ? blockDefinition[tableViewId]
+          : blockDefinition
+
+        lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
@@ -603,7 +616,7 @@ export default {
       this.cellState.waiting = false
     },
     async onSort (block, { field, order }) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           // find the matching column_type_id to adapt
@@ -613,10 +626,10 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onUpdateFilters (block, filters) {
-      block.loading = true
+      this.$set(block, 'loading', true)
       switch (block.type) {
         case BLOCK_TYPE.TABLE_SET:
           const currentSource = this.sources[block.settings.id]
@@ -624,16 +637,16 @@ export default {
           await this.loadSourceContent(block.settings.id)
           break
       }
-      block.loading = false
+      this.$set(block, 'loading', false)
     },
     async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
         params: {
           pageId: this.$route.params.pageId,
-          pageDetailId: pageDetailId || block.settings.pageDetailId
+          pageDetailId: pageDetailId || block.settings.pageDetailId,
         },
-        query: { rowId }
+        query: { rowId },
       })
     },
     async onCreateRow (block, newRow) {
@@ -658,6 +671,11 @@ export default {
                 data[c.id] = null
               }
               break
+            case COLUMN_TYPE.FILE:
+              if (Array.isArray(newRow.data[c.id])) {
+                data[c.id] = newRow.data[c.id].map(a => a.id)
+              }
+              break
             case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
             case COLUMN_TYPE.USER:
             case COLUMN_TYPE.GROUP:
@@ -673,7 +691,7 @@ export default {
           data,
           // eslint-disable-next-line @typescript-eslint/camelcase
           table_view_id: currentBlockDefinition.id,
-          $lckGroupId: this.groupId
+          $lckGroupId: this.groupId,
         })
         this.$set(block, 'displayNewDialog', false)
         this.$set(block, 'submitting', { inProgress: false })
@@ -684,7 +702,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.basic'),
-          life: 3000
+          life: 3000,
         })
       }
     },
@@ -701,12 +719,13 @@ export default {
       this.exporting = false
     },
     async onUploadFiles ({
-      id: blockId
+      id: blockId,
     }, {
       rowId,
       columnId,
-      fileList
-    }, newRow) {
+      fileList,
+      newRow,
+    }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
         const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
@@ -717,7 +736,7 @@ export default {
         rowId: currentRow.id,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
 
       try {
@@ -737,29 +756,29 @@ export default {
            */
           const res = await lckServices.tableRow.patch(currentRow.id, {
             data: {
-              [columnId]: newDataFiles
-            }
+              [columnId]: newDataFiles,
+            },
           })
-          this.cellState.isValid = true
           currentRow.data = res.data
         }
+        this.cellState.isValid = true
       } catch (error) {
         this.cellState.isValid = false
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000
+          life: 3000,
         })
       }
       this.cellState.waiting = false
     },
     async onRemoveAttachment ({
-      id: blockId
+      id: blockId,
     }, {
       rowId,
       columnId,
-      attachmentId
+      attachmentId,
     }) {
       let currentBlock = null
       this.page.containers.forEach(container => {
@@ -771,15 +790,15 @@ export default {
         rowId: currentRow.id,
         columnId,
         waiting: true,
-        isValid: false // don't know if we have to set to false or null
+        isValid: false, // don't know if we have to set to false or null
       }
 
       try {
         const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data: {
-            [columnId]: newDataFiles
-          }
+            [columnId]: newDataFiles,
+          },
         })
         this.cellState.isValid = true
         currentRow.data = res.data
@@ -789,7 +808,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000
+          life: 3000,
         })
       }
       this.cellState.waiting = false
@@ -804,7 +823,7 @@ export default {
           rowId,
           columnId,
           newValue: transformFeatureToWKT(features[0]),
-          tableViewId: sourceId
+          tableViewId: sourceId,
         })
       }
     },
@@ -815,7 +834,7 @@ export default {
           rowId,
           columnId,
           newValue: null,
-          tableViewId: sourceId
+          tableViewId: sourceId,
         })
       }
     },
@@ -884,7 +903,7 @@ export default {
         const updatedContainerPromises = []
         for (let index = minIndex; index <= maxIndex; index++) {
           updatedContainerPromises.push(
-            lckServices.container.patch(this.page.containers[index].id, { position: index })
+            lckServices.container.patch(this.page.containers[index].id, { position: index }),
           )
         }
         await Promise.all(updatedContainerPromises)
@@ -901,7 +920,7 @@ export default {
     onBlockEditClickFromSidebar (blockToEdit) {
       this.currentBlockToEdit = {
         ...blockToEdit,
-        definition: this.getBlockDefinition(blockToEdit)
+        definition: this.getBlockDefinition(blockToEdit),
       }
     },
     onContainerEditClickFromSidebar (containerToEdit) {
@@ -910,7 +929,7 @@ export default {
     onBlockEditClick (containerToEdit, blockToEdit) {
       this.currentContainerToEdit = containerToEdit
       this.currentBlockToEdit = {
-        ...blockToEdit
+        ...blockToEdit,
       }
       const currentBlockDefinition = this.getBlockDefinition(blockToEdit)
       if (currentBlockDefinition) this.currentBlockToEdit.definition = currentBlockDefinition
@@ -925,7 +944,7 @@ export default {
           // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
           // Update the existing block in page>container>block with its new properties
-          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.container_id).blocks.find(b => b.id === updatedBlock.id)
+          const currentBlock = this.page.containers.find(c => c.id === updatedBlock.containerId).blocks.find(b => b.id === updatedBlock.id)
           for (const key in updatedBlock) {
             currentBlock[key] = updatedBlock[key]
           }
@@ -933,7 +952,7 @@ export default {
           // On create
           this.currentBlockToEdit = await lckServices.block.create({
             ...data,
-            container_id: this.currentContainerToEdit.id
+            container_id: this.currentContainerToEdit.id,
           })
           // Add the block to the related container
           if (Array.isArray(this.currentContainerToEdit.blocks)) {
@@ -986,7 +1005,7 @@ export default {
         const updatedBlockPromises = []
         for (let index = minIndex; index <= maxIndex; index++) {
           updatedBlockPromises.push(
-            lckServices.block.patch(container.blocks[index].id, { position: index })
+            lckServices.block.patch(container.blocks[index].id, { position: index }),
           )
         }
         await Promise.all(updatedBlockPromises)
@@ -1001,17 +1020,17 @@ export default {
           'table:database.workspace_id': workspaceId,
           $joinRelation: 'table.[database]',
           $sort: {
-            text: 1
+            text: 1,
           },
           $select: ['table_view.text'],
           'table_view.text': {
-            $ilike: `%${query}%`
-          }
-        }
+            $ilike: `%${query}%`,
+          },
+        },
       })
       return tableViewResult.data.map(tr => ({
         text: tr.text,
-        value: tr.id
+        value: tr.id,
       }))
     },
     async searchField (query, tableViewId) {
@@ -1020,24 +1039,24 @@ export default {
           'views.id': tableViewId,
           $joinRelation: 'views',
           $sort: {
-            text: 1
+            text: 1,
           },
           $select: ['table_column.text'],
           'table_column.text': {
-            $ilike: `%${query}%`
+            $ilike: `%${query}%`,
           },
           $or: [{
-            column_type_id: COLUMN_TYPE.BOOLEAN
+            column_type_id: COLUMN_TYPE.BOOLEAN,
           }, {
             settings: {
-              formula_type_id: COLUMN_TYPE.BOOLEAN
-            }
-          }]
-        }
+              formula_type_id: COLUMN_TYPE.BOOLEAN,
+            },
+          }],
+        },
       })
       return tableColumnResult.data.map(tc => ({
         text: tc.text,
-        value: tc.id
+        value: tc.id,
       }))
     },
     async onSearchTableView ({ query }) {
@@ -1066,7 +1085,7 @@ export default {
         severity: 'error',
         summary,
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        life: 3000
+        life: 3000,
       })
     },
     goToPage ({ pageDetailId, pageQueryFieldId, rowData = null }) {
@@ -1076,11 +1095,11 @@ export default {
         name: ROUTES_NAMES.PAGEDETAIL,
         params: {
           ...this.$route.params,
-          pageDetailId
+          pageDetailId,
         },
         query: {
-          rowId: queryRowId || this.$route.query.rowId
-        }
+          rowId: queryRowId || this.$route.query.rowId,
+        },
       })
     },
     async onTriggerProcess (
@@ -1094,7 +1113,7 @@ export default {
         notificationSuccessDescription,
         notificationErrorTitle,
         notificationErrorDescription,
-        rowData = null
+        rowData = null,
       }) {
       const tableRowId = rowData?.id || this.$route.query.rowId
       if (tableRowId) {
@@ -1102,7 +1121,7 @@ export default {
         const res = await createProcessRun({
           table_row_id: tableRowId,
           process_id: processId,
-          waitForOutput: true
+          waitForOutput: true,
         })
         this.$set(block, 'loading', false)
 
@@ -1111,14 +1130,14 @@ export default {
             severity: 'error',
             summary: notificationErrorTitle || this.$t('components.processPanel.failedNewRun'),
             detail: notificationErrorDescription || (res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic')),
-            life: 3000
+            life: 3000,
           })
         } else {
           this.$toast.add({
             severity: 'success',
             summary: notificationSuccessTitle || this.$t('components.processPanel.successNewRun'),
             detail: notificationSuccessDescription || this.$t('components.processPanel.successNewRun'),
-            life: 3000
+            life: 3000,
           })
 
           /**
@@ -1132,14 +1151,14 @@ export default {
                 name: ROUTES_NAMES.PAGE,
                 params: {
                   ...this.$route.params,
-                  pageId: pageRedirectId
-                }
+                  pageId: pageRedirectId,
+                },
               })
             }
           }
         }
       }
-    }
+    },
   },
   async mounted () {
     if (this.$route?.params?.pageDetailId) {
@@ -1179,8 +1198,8 @@ export default {
           this.$set(block, 'pageLoaded', true)
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

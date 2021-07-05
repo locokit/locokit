@@ -21,7 +21,7 @@ import {
   MapLayerTouchEvent,
   NavigationControl,
   Popup,
-  ScaleControl
+  ScaleControl,
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
@@ -33,13 +33,13 @@ import { setsAreEqual, mergeSets } from '@/services/lck-utils/set'
 import {
   computeBoundingBox,
   LckImplementedLayoutProperty,
-  LckImplementedPaintProperty
+  LckImplementedPaintProperty,
 } from '@/services/lck-utils/map/computeGeo'
 
 import {
   LckGeoResource,
   LckImplementedLayers,
-  PopupContent
+  PopupContent,
 } from '@/services/lck-utils/map/transformWithOL'
 import { MapPopupMode } from '@/services/lck-api/definitions'
 
@@ -56,32 +56,32 @@ export default Vue.extend({
   props: {
     id: {
       type: String,
-      default: 'map-container'
+      default: 'map-container',
     },
     options: {
       type: Object as PropType<MapboxOptions>,
-      default: () => ({})
+      default: () => ({}),
     },
     resources: {
       type: Array as PropType<LckGeoResource[]>,
-      default: () => []
+      default: () => [],
     },
     mode: {
       type: String as PropType<MODE>,
-      default: MODE.BLOCK
+      default: MODE.BLOCK,
     },
     hasPopup: {
       type: Boolean,
-      default: false
+      default: false,
     },
     singleEditMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     defaultSelectedFeatureBySource: {
       type: Object as PropType<Record<string, string | number | null>>,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data () {
     return {
@@ -95,8 +95,9 @@ export default Vue.extend({
       }[]>,
       popup: {
         component: null as Popup | null,
-        featuresIds: ''
-      }
+        featuresIds: '',
+      },
+      mapIsLoaded: false,
     }
   },
   mounted () {
@@ -111,10 +112,10 @@ export default Vue.extend({
             tiles: [
               'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
               'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
             ],
-            tileSize: 256
-          }
+            tileSize: 256,
+          },
         },
         glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
         layers: [
@@ -123,13 +124,13 @@ export default Vue.extend({
             type: 'raster',
             source: 'tiles-background',
             minzoom: 0,
-            maxzoom: 20
-          }
-        ]
+            maxzoom: 20,
+          },
+        ],
       },
       minZoom: 1,
       maxZoom: 16,
-      ...this.options
+      ...this.options,
     })
 
     // Add navigation control (zoom + compass)
@@ -147,6 +148,7 @@ export default Vue.extend({
     window.addEventListener('resize', this.onResize)
 
     this.map.on('load', () => {
+      this.mapIsLoaded = true
       this.loadResources()
       this.setFitBounds()
       this.initDrawControls()
@@ -167,7 +169,7 @@ export default Vue.extend({
       if (!Array.isArray(this.listenersByLayer[layerId])) this.listenersByLayer[layerId] = []
       this.listenersByLayer[layerId].push({
         type: eventType,
-        func
+        func,
       })
     },
     removeListenerByLayer (layerId: string) {
@@ -226,8 +228,8 @@ export default Vue.extend({
               point: this.editableGeometryTypes.has(GeometryType.POINT),
               line_string: this.editableGeometryTypes.has(GeometryType.LINE_STRING), // eslint-disable-line @typescript-eslint/camelcase
               polygon: this.editableGeometryTypes.has(GeometryType.POLYGON),
-              trash: true
-            }
+              trash: true,
+            },
           })
           this.map!.addControl(this.mapDraw)
         }
@@ -240,43 +242,40 @@ export default Vue.extend({
       this.map!.on('draw.modechange', this.onDrawModeChange)
     },
     addResource (resource: LckGeoResource) {
-      if (this.map!.getSource(resource.id)) return
       this.map!.addSource(resource.id, {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: resource.features
+          features: resource.features,
         },
-        promoteId: 'id'
+        promoteId: 'id',
       })
       resource.layers.forEach((layer) => {
         this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
       })
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
-      if (!this.map?.getSource(resourceToUpdate.id)) return
-
       const layersToAdd: LckImplementedLayers[] = []
       const layersToUpdate: LckImplementedLayers[] = []
       const layersToRemove: LckImplementedLayers[] = []
       layersToAdd.push(
         ...resourceToUpdate.layers.filter(
           (resourceToUpdateLayer) => !resourceToCompare.layers.find(
-            (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id
-          )
-        )
+            (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id,
+          ),
+        ),
       )
       layersToUpdate.push(...resourceToUpdate.layers.filter(
         (resourceToUpdateLayer) => resourceToCompare.layers.find(
-          (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id
-        )
-      )
+          (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id,
+        ),
+      ),
       )
       layersToRemove.push(...resourceToCompare.layers.filter(
         (resourceToCompareLayer) => !resourceToUpdate.layers.find(
-          (resourceToUpdateLayer) => resourceToUpdateLayer.id === resourceToCompareLayer.id
-        )
-      )
+          (resourceToUpdateLayer) => resourceToUpdateLayer.id === resourceToCompareLayer.id,
+        ),
+      ),
       )
 
       layersToRemove.forEach(layerToRemove => {
@@ -285,7 +284,7 @@ export default Vue.extend({
       layersToAdd.forEach(layerToAdd => {
         this.map!.addLayer({
           source: resourceToUpdate.id,
-          ...layerToAdd
+          ...layerToAdd,
         } as AnyLayer)
       })
       layersToUpdate.forEach(layerToUpdate => {
@@ -300,14 +299,14 @@ export default Vue.extend({
 
         paintPropertiesToReset.push(
           ...Object.keys(
-            layerToCompare.paint ? layerToCompare.paint : []
+            layerToCompare.paint ? layerToCompare.paint : [],
           ).filter(
             (layerToComparePaintProperty) => !Object.keys(layerToUpdate.paint ? layerToUpdate.paint : []).find(
-              (layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty)
-          )
+              (layerPaintProperty) => layerPaintProperty === layerToComparePaintProperty),
+          ),
         )
         paintPropertiesToReset.forEach(
-          (paintPropertyToReset) => this.map!.setPaintProperty(layerToUpdate.id, paintPropertyToReset, null)
+          (paintPropertyToReset) => this.map!.setPaintProperty(layerToUpdate.id, paintPropertyToReset, null),
         )
         if (layerToUpdate.paint) {
           Object.keys(layerToUpdate.paint)
@@ -317,27 +316,27 @@ export default Vue.extend({
               ) || (
                 layerToCompare.paint &&
                 layerToCompare.paint[paintProperty as LckImplementedPaintProperty] !== layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
-              )
+              ),
             ).forEach((paintProperty) => {
               this.map!.setPaintProperty(
                 layerToUpdate.id,
                 paintProperty,
-                layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty]
+                layerToUpdate.paint?.[paintProperty as LckImplementedPaintProperty],
               )
             })
         }
 
         layoutPropertiesToReset.push(
           ...Object.keys(
-            layerToCompare.layout ? layerToCompare.layout : []
+            layerToCompare.layout ? layerToCompare.layout : [],
           ).filter(
             (layerToCompareLayoutProperty) =>
               !Object.keys(layerToUpdate.layout ? layerToUpdate.layout : [])
-                .find((layerLayoutProperty) => layerLayoutProperty === layerToCompareLayoutProperty)
-          )
+                .find((layerLayoutProperty) => layerLayoutProperty === layerToCompareLayoutProperty),
+          ),
         )
         layoutPropertiesToReset.forEach(
-          (layoutPropertyToReset) => this.map!.setLayoutProperty(layerToUpdate.id, layoutPropertyToReset, null)
+          (layoutPropertyToReset) => this.map!.setLayoutProperty(layerToUpdate.id, layoutPropertyToReset, null),
         )
         if (layerToUpdate.layout) {
           Object.keys(layerToUpdate.layout).filter(
@@ -346,12 +345,12 @@ export default Vue.extend({
             ) || (
               (layerToCompare).layout &&
               layerToCompare.layout[layoutProperty as LckImplementedLayoutProperty] !== layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
-            )
+            ),
           ).forEach((layoutProperty) => {
             this.map!.setLayoutProperty(
               layerToUpdate.id,
               layoutProperty,
-              layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty]
+              layerToUpdate.layout?.[layoutProperty as LckImplementedLayoutProperty],
             )
           })
         }
@@ -360,8 +359,8 @@ export default Vue.extend({
       (this.map!.getSource(resourceToUpdate.id) as GeoJSONSource).setData(
         {
           type: 'FeatureCollection',
-          features: resourceToUpdate.features
-        }
+          features: resourceToUpdate.features,
+        },
       )
     },
     removeResource (resource: LckGeoResource) {
@@ -386,7 +385,7 @@ export default Vue.extend({
       if (!bounds.isEmpty()) {
         this.map!.fitBounds(bounds, {
           padding: 40,
-          animate: this.mode === MODE.BLOCK
+          animate: this.mode === MODE.BLOCK,
         })
       }
     },
@@ -414,7 +413,7 @@ export default Vue.extend({
         if (this.mapDraw!.getMode() === 'simple_select' && currentFeature?.id && !this.mapDraw!.getSelectedIds().includes(currentFeature.id as string)) {
           this.mapDraw!.set({
             type: 'FeatureCollection',
-            features: [currentFeature]
+            features: [currentFeature],
           })
         }
       }
@@ -429,9 +428,9 @@ export default Vue.extend({
       if (this.selectedFeatureBySource[resourceId]) {
         this.map.setFeatureState({
           source: resourceId,
-          id: this.selectedFeatureBySource[resourceId]!
+          id: this.selectedFeatureBySource[resourceId]!,
         }, {
-          selectable: false
+          selectable: false,
         })
       }
       // Save the selected feature
@@ -440,9 +439,9 @@ export default Vue.extend({
         // Customize it
         this.map.setFeatureState({
           source: resourceId,
-          id: featureId
+          id: featureId,
         }, {
-          selectable: true
+          selectable: true,
         })
       }
     },
@@ -598,7 +597,7 @@ export default Vue.extend({
           })
         }
       })
-    }
+    },
   },
   watch: {
     options (newOptions: MapboxOptions, oldOptions: MapboxOptions) {
@@ -616,7 +615,7 @@ export default Vue.extend({
       }
     },
     resources (newResources: LckGeoResource[], oldResources: LckGeoResource[]) {
-      if (!this.map) return
+      if (!this.mapIsLoaded) { return }
 
       const resourcesToAdd: LckGeoResource[] = []
       const resourcesToUpdate: LckGeoResource[] = []
@@ -646,9 +645,9 @@ export default Vue.extend({
       deep: true,
       handler () {
         this.selectDefaultFeatures()
-      }
-    }
-  }
+      },
+    },
+  },
 })
 </script>
 
@@ -658,33 +657,33 @@ export default Vue.extend({
   height: 100%;
   min-height: 400px;
 }
-/deep/ .mapboxgl-ctrl-attrib.mapboxgl-compact {
+::v-deep .mapboxgl-ctrl-attrib.mapboxgl-compact {
   box-sizing: content-box;
 }
 
 /* Styles de la modale */
-/deep/ .mapboxgl-popup {
+::v-deep .mapboxgl-popup {
   min-width: 180px;
   opacity: 0.93;
 }
 
-/deep/ .mapboxgl-popup-content p {
+::v-deep .mapboxgl-popup-content p {
   font-size: 0.8rem;
   color: var(--primary-color-text);
   margin-bottom: 0;
 }
 
-/deep/ .mapboxgl-popup-content p button{
+::v-deep .mapboxgl-popup-content p button{
   font-size: 0.8rem;
   font-weight: 400;
   margin-bottom: 0.2rem;
 }
 
-/deep/ .mapboxgl-popup-content p.popup-row-title:first-child {
+::v-deep .mapboxgl-popup-content p.popup-row-title:first-child {
   margin-top: -10px;
 }
 
-/deep/ .mapboxgl-popup-content p.popup-row-title {
+::v-deep .mapboxgl-popup-content p.popup-row-title {
   font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
@@ -694,19 +693,19 @@ export default Vue.extend({
   padding: 5px 10px 0 10px;
 }
 
-/deep/ .mapboxgl-popup-content .popup-field-label {
+::v-deep .mapboxgl-popup-content .popup-field-label {
   font-weight: bold;
 }
 
-/deep/ .mapboxgl-popup-content .popup-row-toolbox {
+::v-deep .mapboxgl-popup-content .popup-row-toolbox {
   display: flex;
 }
 
-/deep/ .mapboxgl-popup-content .popup-row-toolbox > button {
+::v-deep .mapboxgl-popup-content .popup-row-toolbox > button {
   margin: auto;
 }
 
-/deep/ .mapboxgl-popup-close-button {
+::v-deep .mapboxgl-popup-close-button {
   color: var(--primary-color);
 }
 </style>

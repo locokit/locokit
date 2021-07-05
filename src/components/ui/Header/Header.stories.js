@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   title: 'components/ui/Header',
-  component: Header
+  component: Header,
 }
 
 Vue.component('RouterLink', {
@@ -14,9 +14,9 @@ Vue.component('RouterLink', {
   methods: {
     log () {
       action('link target')(this.to)
-    }
+    },
   },
-  template: '<a class="mock-link" @click="log()"><slot>RouterLink</slot></a>'
+  template: '<a class="mock-link" @click="log()"><slot>RouterLink</slot></a>',
 })
 
 export const withLogo = () => (
@@ -27,11 +27,11 @@ export const withLogo = () => (
         // eslint-disable-next-line no-undef
         logoUrl: LCK_THEME.LOGO_BG_WHITE_URL,
         // eslint-disable-next-line no-undef
-        logoMobileUrl: LCK_THEME.LOGO_MOBILE_URL
+        logoMobileUrl: LCK_THEME.LOGO_MOBILE_URL,
       }
     },
     template: '<Header :logoUrl="logoUrl" :logoMobileUrl="logoMobileUrl"/>',
-    decorators: [StoryRouter]
+    decorators: [StoryRouter],
   }
 )
 

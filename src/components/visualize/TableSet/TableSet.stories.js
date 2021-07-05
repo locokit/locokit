@@ -3,7 +3,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   title: 'components/visualize/TableSet',
-  component: TableSet
+  component: TableSet,
 }
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -23,8 +23,8 @@ const definition = {
       displayed: true,
       type: {
         text: 'String',
-        id: 3
-      }
+        id: 3,
+      },
     }, {
       text: 'État du vélo',
       data: {},
@@ -33,20 +33,20 @@ const definition = {
         values: {
           1: {
             color: '#ef1',
-            label: 'En maintenance'
+            label: 'En maintenance',
 
           },
           2: {
             color: '#ef1',
-            label: 'En utilisation'
+            label: 'En utilisation',
 
           },
           3: {
             color: '#ef1',
-            label: 'Stocké'
+            label: 'Stocké',
 
-          }
-        }
+          },
+        },
       },
       table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
       column_type_id: COLUMN_TYPE.SINGLE_SELECT,
@@ -55,8 +55,8 @@ const definition = {
       displayed: true,
       type: {
         text: 'Single select',
-        id: 9
-      }
+        id: 9,
+      },
     }, {
       text: 'Fournisseur',
       data: {},
@@ -69,10 +69,10 @@ const definition = {
       displayed: true,
       type: {
         text: 'User',
-        id: 5
-      }
-    }
-  ]
+        id: 5,
+      },
+    },
+  ],
 }
 
 const content = {
@@ -85,30 +85,30 @@ const content = {
         '3a659ea1-446f-4755-8db9-583a204279cc': 1,
         'bde4bbbd-2584-447f-acff-f434f53619da': {
           value: 'AMSTERDAMAIR',
-          reference: 4
+          reference: 4,
 
         },
-        'e065323c-1151-447f-be0f-6d2728117b38': 'Trek'
+        'e065323c-1151-447f-be0f-6d2728117b38': 'Trek',
 
       },
       id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
-      table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
     }, {
       text: 'Vélo n° YYYY',
       data: {
         '3a659ea1-446f-4755-8db9-583a204279cc': 2,
         'bde4bbbd-2584-447f-acff-f434f53619da': {
           value: 'CYCLABLE ENTREPRISE',
-          reference: 3
+          reference: 3,
 
         },
-        'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin'
+        'e065323c-1151-447f-be0f-6d2728117b38': 'Btwin',
 
       },
       id: 'cd57a998-1775-4d13-b493-2cbdf7c54e4c',
-      table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
-    }
-  ]
+      table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+    },
+  ],
 }
 
 /* eslint-enable @typescript-eslint/camelcase */
@@ -116,7 +116,7 @@ const content = {
 export const defaultStory = () => (
   {
     components: { TableSet },
-    template: '<TableSet />'
+    template: '<TableSet />',
   }
 )
 
@@ -126,11 +126,11 @@ export const withDefinitionStory = () => (
   {
     data () {
       return {
-        definition
+        definition,
       }
     },
     components: { TableSet },
-    template: '<TableSet :definition="definition" />'
+    template: '<TableSet :definition="definition" />',
   }
 )
 
@@ -141,11 +141,11 @@ export const withDefinitionAndContentStory = () => (
     data () {
       return {
         definition,
-        content
+        content,
       }
     },
     components: { TableSet },
-    template: '<TableSet :definition="definition" :content="content" />'
+    template: '<TableSet :definition="definition" :content="content" />',
   }
 )
 
@@ -156,7 +156,7 @@ export const WithDefinitionAndToolbarButtonsStory = () => (
     components: { TableSet },
     data () {
       return {
-        definition
+        definition,
       }
     },
     template: `<TableSet
@@ -165,7 +165,7 @@ export const WithDefinitionAndToolbarButtonsStory = () => (
       exportAllowed
       filterAllowed
       @update-suggestions="() => 1"
-    />`
+    />`,
   }
 )
 
@@ -177,7 +177,7 @@ export const WithDefAndContentAndToolbarButtonsStory = () => (
     data () {
       return {
         definition,
-        content
+        content,
       }
     },
     template: `<TableSet
@@ -187,7 +187,7 @@ export const WithDefAndContentAndToolbarButtonsStory = () => (
       exportAllowed
       filterAllowed
       @update-suggestions="() => 1"
-    />`
+    />`,
   }
 )
 

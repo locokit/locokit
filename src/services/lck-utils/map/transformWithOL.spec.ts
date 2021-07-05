@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BLOCK_TYPE, COLUMN_TYPE, GEOMETRY_TYPE, MapSourceSettings } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
 
@@ -16,19 +16,19 @@ const pageDetailId = '333c21e6-5339-4748-903f-8c77e21314aa'
 const geoTableView: LckTableView = {
   id: '263c21e6-5339-4748-903f-8c77e21314cf',
   text: 'Table view with geographic data',
-  table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
 }
 
 const stringTableView: LckTableView = {
   id: '363c21e6-5339-4748-903f-8c77e21314cg',
   text: 'Table view without geographic data',
-  table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
 }
 
 const emptyTableView: LckTableView = {
   id: '463c21e6-5339-4748-903f-8c77e21314ch',
   text: 'Table view without any data',
-  table_id: '163c21e6-5339-4748-903f-8c77e21314cf'
+  table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
 }
 
 // Table columns
@@ -43,7 +43,7 @@ const defaultParamsTableViewColumn = {
   sort: 'DESC' as SORT_COLUMN,
   table_column_id: '',
   table_view_id: geoTableView.id,
-  style: {}
+  style: {},
 }
 
 const geoPointColumn: LckTableViewColumn = {
@@ -51,7 +51,7 @@ const geoPointColumn: LckTableViewColumn = {
   id: 'e065323c-1151-447f-be0f-6d2728117b40',
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
-  ...defaultParamsTableViewColumn
+  ...defaultParamsTableViewColumn,
 }
 
 const geoPolygonColumn: LckTableViewColumn = {
@@ -60,7 +60,7 @@ const geoPolygonColumn: LckTableViewColumn = {
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
   ...defaultParamsTableViewColumn,
-  editable: true
+  editable: true,
 }
 
 const geoLineStringColumn: LckTableViewColumn = {
@@ -68,7 +68,7 @@ const geoLineStringColumn: LckTableViewColumn = {
   id: 'e065323c-1151-447f-be0f-6d2728117b38',
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
-  ...defaultParamsTableViewColumn
+  ...defaultParamsTableViewColumn,
 }
 
 const stringColumn: LckTableViewColumn = {
@@ -76,7 +76,7 @@ const stringColumn: LckTableViewColumn = {
   id: 'e065323c-1151-447f-be0f-6d2728117b38',
   settings: {},
   column_type_id: COLUMN_TYPE.STRING,
-  ...defaultParamsTableViewColumn
+  ...defaultParamsTableViewColumn,
 }
 
 const singleSelectColumn: LckTableViewColumn = {
@@ -88,24 +88,24 @@ const singleSelectColumn: LckTableViewColumn = {
         backgroundColor: '#ddd',
         color: '#aaa',
         label: 'First option',
-        value: '1'
+        value: '1',
       },
       2: {
         backgroundColor: '#eee',
         color: '#bbb',
         label: 'Second option',
-        value: '2'
+        value: '2',
       },
       3: {
         backgroundColor: '#fff',
         color: '#ccc',
         label: 'Third option',
-        value: '3'
-      }
-    }
+        value: '3',
+      },
+    },
   },
   column_type_id: COLUMN_TYPE.SINGLE_SELECT,
-  ...defaultParamsTableViewColumn
+  ...defaultParamsTableViewColumn,
 }
 
 const booleanColumn: LckTableViewColumn = {
@@ -113,24 +113,24 @@ const booleanColumn: LckTableViewColumn = {
   id: 'e065323c-1151-447f-be0f-6d2728117b36',
   settings: {},
   column_type_id: COLUMN_TYPE.BOOLEAN,
-  ...defaultParamsTableViewColumn
+  ...defaultParamsTableViewColumn,
 }
 
 const geoColumns: LckTableViewColumn[] = [
   geoPointColumn,
-  geoPolygonColumn
+  geoPolygonColumn,
 ]
 
 const allColumns: LckTableViewColumn[] = [
   stringColumn,
   geoPointColumn,
-  geoPolygonColumn
+  geoPolygonColumn,
 ]
 
 const allColumnsObject: Record<string, LckTableViewColumn> = {
   [stringColumn.id]: stringColumn,
   [geoPointColumn.id]: geoPointColumn,
-  [geoPolygonColumn.id]: geoPolygonColumn
+  [geoPolygonColumn.id]: geoPolygonColumn,
 }
 
 geoTableView.columns = allColumns
@@ -142,36 +142,37 @@ const firstRow: LckTableRow = {
   data: {
     'e065323c-1151-447f-be0f-6d2728117b38': 'first',
     'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
-    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.4 45)'
+    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.4 45)',
   },
-  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d'
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
 }
 const secondRow: LckTableRow = {
   text: '',
   data: {
     'e065323c-1151-447f-be0f-6d2728117b38': 'second',
     'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.5 46.75,2.1 46.6,2.0 46.3,1.5 46.75))',
-    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.5 46)'
+    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.5 46)',
   },
-  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db3d'
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db3d',
 }
 const emptyRow: LckTableRow = {
   text: '',
   data: {},
-  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db4d'
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db4d',
 }
 
 const rows: LckTableRow[] = [
   firstRow,
   secondRow,
-  emptyRow
+  emptyRow,
 ]
 
 // Others
 const i18nOptions: LckPopupI18nOptions = {
   dateFormat: 'yyyy-mm-dd',
+  datetimeFormat: 'yyyy-mm-dd HH:MM',
   noData: 'No data',
-  noReference: 'No reference'
+  noReference: 'No reference',
 }
 
 describe('Transformations with OpenLayers', () => {
@@ -181,9 +182,9 @@ describe('Transformations with OpenLayers', () => {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [10, 20]
+          coordinates: [10, 20],
         },
-        properties: {}
+        properties: {},
       }
       expect(transformFeatureToWKT(geoJSONFeature))
         .toBe('SRID=4326;POINT(10 20)')
@@ -193,9 +194,9 @@ describe('Transformations with OpenLayers', () => {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [10, 20]
+          coordinates: [10, 20],
         },
-        properties: {}
+        properties: {},
       }
       expect(transformFeatureToWKT(geoJSONFeature, '3857'))
         .toMatch(/^SRID=3857;POINT\(1113194.9[0-9]* 2273030.9[0-9]*\)$/) // Regex to take into account the roundings
@@ -208,15 +209,15 @@ describe('Transformations with OpenLayers', () => {
           geometries: [
             {
               coordinates: [10, 20],
-              type: 'Point'
+              type: 'Point',
             },
             {
               coordinates: [30, 40],
-              type: 'Point'
-            }
-          ]
+              type: 'Point',
+            },
+          ],
         },
-        properties: {}
+        properties: {},
       }
       expect(transformFeatureToWKT(geoJSONFeature))
         .toBe('SRID=4326;GEOMETRYCOLLECTION(POINT(10 20),POINT(30 40))')
@@ -257,14 +258,14 @@ describe('Transformations with OpenLayers', () => {
   describe('getOnlyGeoColumns', () => {
     it('Returns all the geographic columns of the table view if no column id is specified in the map source settings', () => {
       const mapSourceSettings = {
-        id: '263c21e6-5339-4748-903f-8c77e21314cf'
+        id: '263c21e6-5339-4748-903f-8c77e21314cf',
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn, geoPolygonColumn])
     })
     it('Returns an empty array if no column id is specified in the map source settings and there is no geographic column', () => {
       const mapSourceSettings = {
-        id: '263c21e6-5339-4748-903f-8c77e21314cf'
+        id: '263c21e6-5339-4748-903f-8c77e21314cf',
       }
       const geoColumns = getOnlyGeoColumns([stringColumn], mapSourceSettings)
       expect(geoColumns).toEqual([])
@@ -272,7 +273,7 @@ describe('Transformations with OpenLayers', () => {
     it('Returns an array containing one geographic column if a column id is specified in the map source settings', () => {
       const mapSourceSettings = {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
-        field: 'e065323c-1151-447f-be0f-6d2728117b40'
+        field: 'e065323c-1151-447f-be0f-6d2728117b40',
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn])
@@ -280,7 +281,7 @@ describe('Transformations with OpenLayers', () => {
     it('Returns an empty array if the specified column id does not exist in the table view', () => {
       const mapSourceSettings = {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
-        field: 'e065323c-1151-447f-be0f-6d2728117b00'
+        field: 'e065323c-1151-447f-be0f-6d2728117b00',
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([])
@@ -288,7 +289,7 @@ describe('Transformations with OpenLayers', () => {
     it('Returns an empty array if the specified column id is not a geographic column', () => {
       const mapSourceSettings = {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
-        field: 'e065323c-1151-447f-be0f-6d2728117b38'
+        field: 'e065323c-1151-447f-be0f-6d2728117b38',
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([])
@@ -296,7 +297,7 @@ describe('Transformations with OpenLayers', () => {
   })
   describe('makeGeoJsonFeaturesCollection', () => {
     const mapSourceSettings = {
-      id: '263c21e6-5339-4748-903f-8c77e21314cf'
+      id: '263c21e6-5339-4748-903f-8c77e21314cf',
     }
     it('Returns an empty features array if there is no row', () => {
       const features = makeGeoJsonFeaturesCollection(
@@ -304,7 +305,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumnsObject,
         mapSourceSettings,
-        i18nOptions
+        i18nOptions,
       )
       expect(features.type).toBe('FeatureCollection')
       expect(features.features).toHaveLength(0)
@@ -315,7 +316,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumnsObject,
         mapSourceSettings,
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(0)
     })
@@ -325,7 +326,7 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumnsObject,
         mapSourceSettings,
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(0)
     })
@@ -335,18 +336,18 @@ describe('Transformations with OpenLayers', () => {
         geoColumns,
         allColumnsObject,
         mapSourceSettings,
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties).toMatchObject({
         rowId: firstRow.id,
         columnId: geoPointColumn.id,
-        id: `${firstRow.id}:${geoPointColumn.id}`
+        id: `${firstRow.id}:${geoPointColumn.id}`,
       })
       expect(features.features[1].properties).toMatchObject({
         rowId: firstRow.id,
         columnId: geoPolygonColumn.id,
-        id: `${firstRow.id}:${geoPolygonColumn.id}`
+        id: `${firstRow.id}:${geoPolygonColumn.id}`,
       })
     })
     it('If the pageDetailId option is configured, add a title property to each feature', () => {
@@ -358,10 +359,10 @@ describe('Transformations with OpenLayers', () => {
           id: geoTableView.id,
           popup: true,
           popupSettings: {
-            pageDetailId
-          }
+            pageDetailId,
+          },
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(4)
       // The first row has a reference -> we use it
@@ -379,10 +380,10 @@ describe('Transformations with OpenLayers', () => {
           popup: true,
           popupSettings: {
             title: stringColumn.id,
-            contentFields: []
-          }
+            contentFields: [],
+          },
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.title).toBe(firstRow.data[stringColumn.id])
@@ -399,21 +400,21 @@ describe('Transformations with OpenLayers', () => {
             contentFields: [
               {
                 field: stringColumn.id,
-                class: 'my-custom-css-class'
-              }
-            ]
-          }
+                class: 'my-custom-css-class',
+              },
+            ],
+          },
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.content).toHaveLength(1)
       expect(features.features[0].properties?.content[0]).toMatchObject({
         field: {
           label: stringColumn.text,
-          value: firstRow.data[stringColumn.id]
+          value: firstRow.data[stringColumn.id],
         },
-        class: 'my-custom-css-class'
+        class: 'my-custom-css-class',
       })
     })
     it('If the popup content is configured with an invalid column id, just pass this step', () => {
@@ -429,12 +430,12 @@ describe('Transformations with OpenLayers', () => {
             contentFields: [
               {
                 field: 'invalid-column-id',
-                class: 'my-custom-css-class'
-              }
-            ]
-          }
+                class: 'my-custom-css-class',
+              },
+            ],
+          },
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.content).toHaveLength(0)
@@ -454,10 +455,10 @@ describe('Transformations with OpenLayers', () => {
           { [geoTableView.id]: geoTableView },
           { [geoTableView.id]: rows },
           {
-            sources: []
+            sources: [],
           },
-          i18nOptions
-        )
+          i18nOptions,
+        ),
       ).toEqual([])
     })
     it('Return an empty array if the table view has no column', () => {
@@ -466,10 +467,10 @@ describe('Transformations with OpenLayers', () => {
           { [emptyTableView.id]: emptyTableView },
           { [emptyTableView.id]: [] },
           {
-            sources: []
+            sources: [],
           },
-          i18nOptions
-        )
+          i18nOptions,
+        ),
       ).toEqual([])
     })
     it('Return an empty array if the table view has no geographic column', () => {
@@ -478,10 +479,10 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: stringTableView },
           { [stringTableView.id]: [] },
           {
-            sources: []
+            sources: [],
           },
-          i18nOptions
-        )
+          i18nOptions,
+        ),
       ).toEqual([])
     })
     it('Return an empty array if the table view id specified in the map settings is invalid', () => {
@@ -491,11 +492,11 @@ describe('Transformations with OpenLayers', () => {
           { [stringTableView.id]: [] },
           {
             sources: [{
-              id: 'invalid-tableview-id'
-            }]
+              id: 'invalid-tableview-id',
+            }],
           },
-          i18nOptions
-        )
+          i18nOptions,
+        ),
       ).toEqual([])
     })
     it('Return the valid resources if only the table view id is specified in the map settings', () => {
@@ -504,10 +505,10 @@ describe('Transformations with OpenLayers', () => {
         { [geoTableView.id]: rows },
         {
           sources: [{
-            id: geoTableView.id
-          }]
+            id: geoTableView.id,
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].id).toBe('features-collection-source-0')
@@ -520,11 +521,11 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].selectable).toBe(false)
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Point,
-        id: `features-collection-source-0-${GEO_STYLE.Point.id}`
+        id: `features-collection-source-0-${GEO_STYLE.Point.id}`,
       })
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Polygon,
-        id: `features-collection-source-0-${GEO_STYLE.Polygon.id}`
+        id: `features-collection-source-0-${GEO_STYLE.Polygon.id}`,
       })
     })
     it('Returns that the resource is selectable if it is specified in the map settings', () => {
@@ -534,10 +535,10 @@ describe('Transformations with OpenLayers', () => {
         {
           sources: [{
             id: geoTableView.id,
-            selectable: true
-          }]
+            selectable: true,
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].selectable).toBe(true)
@@ -549,10 +550,10 @@ describe('Transformations with OpenLayers', () => {
         {
           sources: [{
             id: geoTableView.id,
-            popup: true
-          }]
+            popup: true,
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].popupMode).toBe('click')
@@ -566,11 +567,11 @@ describe('Transformations with OpenLayers', () => {
             id: geoTableView.id,
             popup: true,
             popupSettings: {
-              onHover: true
-            }
-          }]
+              onHover: true,
+            },
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].popupMode).toBe('hover')
@@ -584,11 +585,11 @@ describe('Transformations with OpenLayers', () => {
             id: geoTableView.id,
             popup: true,
             popupSettings: {
-              pageDetailId
-            }
-          }]
+              pageDetailId,
+            },
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].pageDetailId).toBe(pageDetailId)
@@ -605,16 +606,15 @@ describe('Transformations with OpenLayers', () => {
                 stroke: {
                   color: '#000',
                   width: 10,
-                  isDashed: true
                 },
                 fill: {
-                  color: '#FFF'
-                }
-              }
-            }
-          }]
+                  color: '#FFF',
+                },
+              },
+            },
+          }],
         },
-        i18nOptions
+        i18nOptions,
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].layers[0]).toEqual({
@@ -624,8 +624,8 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point.paint,
           'circle-color': '#FFF',
           'circle-stroke-color': '#000',
-          'circle-stroke-width': 10
-        }
+          'circle-stroke-width': 10,
+        },
       })
     })
   })
@@ -639,7 +639,7 @@ describe('Transformations with OpenLayers', () => {
       it('Return the correct default style', () => {
         const layers = getStyleLayers(
           'myResourceId',
-          [geoPointColumn]
+          [geoPointColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -649,8 +649,8 @@ describe('Transformations with OpenLayers', () => {
             ...GEO_STYLE.Point.paint,
             'circle-color': defaultFillColor,
             'circle-stroke-color': defaultStrokeColor,
-            'circle-stroke-width': defaultStrokeWidth
-          }
+            'circle-stroke-width': defaultStrokeWidth,
+          },
         })
       })
       it('Return the specified default style', () => {
@@ -660,14 +660,14 @@ describe('Transformations with OpenLayers', () => {
           {
             default: {
               fill: {
-                color: '#000'
+                color: '#000',
               },
               stroke: {
                 color: '#111',
-                width: 10
-              }
-            }
-          }
+                width: 10,
+              },
+            },
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -677,8 +677,8 @@ describe('Transformations with OpenLayers', () => {
             ...GEO_STYLE.Point.paint,
             'circle-color': '#000',
             'circle-stroke-color': '#111',
-            'circle-stroke-width': 10
-          }
+            'circle-stroke-width': 10,
+          },
         })
       })
       it('Return the style based on a single select column', () => {
@@ -686,9 +686,9 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            field: singleSelectColumn.id
+            field: singleSelectColumn.id,
           },
-          singleSelectColumn
+          singleSelectColumn,
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -705,7 +705,7 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#fff',
-              defaultFillColor
+              defaultFillColor,
             ],
             'circle-stroke-color': [
               'match',
@@ -716,9 +716,9 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#fff',
-              defaultStrokeColor
-            ]
-          }
+              defaultStrokeColor,
+            ],
+          },
         })
       })
       it('Return the style based on a single select column with some overrided settings', () => {
@@ -733,30 +733,30 @@ describe('Transformations with OpenLayers', () => {
                 style: {
                   stroke: {
                     color: '#111',
-                    width: 5
-                  }
-                }
+                    width: 5,
+                  },
+                },
               },
               {
                 value: '2',
                 style: {
                   fill: {
-                    color: '#222'
-                  }
-                }
+                    color: '#222',
+                  },
+                },
               },
               {
                 value: '3',
                 style: {
                   stroke: {
                     color: '#333',
-                    width: 10
-                  }
-                }
-              }
-            ]
+                    width: 10,
+                  },
+                },
+              },
+            ],
           },
-          singleSelectColumn
+          singleSelectColumn,
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -773,7 +773,7 @@ describe('Transformations with OpenLayers', () => {
               '#222',
               '3',
               '#fff',
-              defaultFillColor
+              defaultFillColor,
             ],
             'circle-stroke-color': [
               'match',
@@ -784,7 +784,7 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#333',
-              defaultStrokeColor
+              defaultStrokeColor,
             ],
             'circle-stroke-width': [
               'match',
@@ -793,9 +793,9 @@ describe('Transformations with OpenLayers', () => {
               5,
               '3',
               10,
-              defaultStrokeWidth
-            ]
-          }
+              defaultStrokeWidth,
+            ],
+          },
         })
       })
       it('Return the style based on explicit style settings', () => {
@@ -810,21 +810,21 @@ describe('Transformations with OpenLayers', () => {
                 style: {
                   stroke: {
                     color: '#111',
-                    width: 5
-                  }
-                }
+                    width: 5,
+                  },
+                },
               },
               {
                 value: true,
                 style: {
                   fill: {
-                    color: '#222'
-                  }
-                }
-              }
-            ]
+                    color: '#222',
+                  },
+                },
+              },
+            ],
           },
-          booleanColumn
+          booleanColumn,
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -837,23 +837,23 @@ describe('Transformations with OpenLayers', () => {
               ['get', 'styleField'],
               true,
               '#222',
-              defaultFillColor
+              defaultFillColor,
             ],
             'circle-stroke-color': [
               'match',
               ['get', 'styleField'],
               false,
               '#111',
-              defaultStrokeColor
+              defaultStrokeColor,
             ],
             'circle-stroke-width': [
               'match',
               ['get', 'styleField'],
               false,
               5,
-              defaultStrokeWidth
-            ]
-          }
+              defaultStrokeWidth,
+            ],
+          },
         })
       })
     })
@@ -861,7 +861,7 @@ describe('Transformations with OpenLayers', () => {
       it('Return the correct default style', () => {
         const layers = getStyleLayers(
           'myResourceId',
-          [geoPolygonColumn]
+          [geoPolygonColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -870,8 +870,8 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             ...GEO_STYLE.Polygon.paint,
             'fill-color': defaultFillColor,
-            'fill-outline-color': defaultStrokeColor
-          }
+            'fill-outline-color': defaultStrokeColor,
+          },
         })
       })
       it('Return the specified default style', () => {
@@ -881,14 +881,14 @@ describe('Transformations with OpenLayers', () => {
           {
             default: {
               fill: {
-                color: '#000'
+                color: '#000',
               },
               stroke: {
                 color: '#111',
-                width: 10
-              }
-            }
-          }
+                width: 10,
+              },
+            },
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -897,8 +897,8 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             ...GEO_STYLE.Polygon.paint,
             'fill-color': '#000',
-            'fill-outline-color': '#111'
-          }
+            'fill-outline-color': '#111',
+          },
         })
       })
     })
@@ -908,8 +908,8 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoLineStringColumn],
           {
-            default: {}
-          }
+            default: {},
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -918,8 +918,8 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             ...GEO_STYLE.Linestring.paint,
             'line-color': defaultFillColor,
-            'line-width': defaultStrokeWidth
-          }
+            'line-width': defaultStrokeWidth,
+          },
         })
       })
       it('Return the specified default style', () => {
@@ -929,14 +929,14 @@ describe('Transformations with OpenLayers', () => {
           {
             default: {
               fill: {
-                color: '#000'
+                color: '#000',
               },
               stroke: {
                 color: '#111',
-                width: 10
-              }
-            }
-          }
+                width: 10,
+              },
+            },
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -945,8 +945,8 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             ...GEO_STYLE.Linestring.paint,
             'line-color': '#000',
-            'line-width': 10
-          }
+            'line-width': 10,
+          },
         })
       })
     })

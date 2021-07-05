@@ -3,7 +3,7 @@ import ProcessListing from './ProcessListing'
 
 export default {
   title: 'views/routes/workspace/admin/ProcessListing',
-  component: ProcessListing
+  component: ProcessListing,
 }
 
 const mockProcessData = {
@@ -19,32 +19,32 @@ const mockProcessData = {
       column_id: 'uuid-v4-column',
       column: {
         text: 'This is the column target',
-        value: 'uuid-v4-column'
-      }
+        value: 'uuid-v4-column',
+      },
     },
     table_id: 'uuid-v4-table',
     table: {
       id: 'uuid-v4-table',
-      text: 'This is the table target'
+      text: 'This is the table target',
     },
     runs: [{
       createdAt: 'Time of run creation',
       status: 'SUCCESS',
       duration: '100',
-      log: 'This is the log'
-    }]
+      log: 'This is the log',
+    }],
   }, {
     text: 'Send an SMS when a new item is added (and I\'m a long trigger text)',
-    trigger: 'CREATE_ROW'
+    trigger: 'CREATE_ROW',
   }, {
     text: 'Generate a periodic report',
     trigger: 'CRON',
-    enabled: true
-  }]
+    enabled: true,
+  }],
 }
 export const defaultStory = () => ({
   components: { ProcessListing },
-  template: '<ProcessListing />'
+  template: '<ProcessListing />',
 })
 
 defaultStory.storyName = 'default'
@@ -56,7 +56,7 @@ export const withProcessesToDisplay = () => {
       <ProcessListing
         workspaceId="this-is-a-id"
       />
-    `
+    `,
   }
 }
 
@@ -68,9 +68,9 @@ withProcessesToDisplay.parameters = {
         return new Promise(resolve => {
           resolve(mockProcessData)
         })
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 export const withDetailProcessDisplayed = () => {
@@ -87,13 +87,13 @@ export const withDetailProcessDisplayed = () => {
         const processItem = this.$refs.pl.$el.querySelector('.lck-process-item')
         processItem.click()
       }, 100)
-    }
+    },
   }
 }
 
 withDetailProcessDisplayed.storyName = 'with detail process displayed'
 withDetailProcessDisplayed.args = {
-  waitForSelector: '.lck-process-detail'
+  waitForSelector: '.lck-process-detail',
 }
 withDetailProcessDisplayed.parameters = {
   lckServices: {
@@ -102,17 +102,17 @@ withDetailProcessDisplayed.parameters = {
         return new Promise(resolve => {
           resolve(mockProcessData)
         })
-      }
+      },
     },
     tableColumn: {
       get () {
         return new Promise(resolve => {
           resolve({
             text: 'This is the column target',
-            value: 'uuid-v4-column'
+            value: 'uuid-v4-column',
           })
         })
-      }
-    }
-  }
+      },
+    },
+  },
 }

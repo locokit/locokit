@@ -163,7 +163,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Dropdown from 'primevue/dropdown'
 
 import {
-  LckContainer
+  LckContainer,
 } from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
@@ -177,26 +177,26 @@ export default Vue.extend({
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-switch': Vue.extend(InputSwitch),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     container: {
       type: Object as PropType<LckContainer>,
-      required: true
+      required: true,
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
-    }
+      default: () => ([]),
+    },
   },
   data () {
     return {
       containerCopy: new LckContainer(),
-      NAMED_CLASSES
+      NAMED_CLASSES,
     }
   },
   methods: {
@@ -208,7 +208,7 @@ export default Vue.extend({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase
       const { anchor_label, ...data } = this.containerCopy
       return this.$emit('update-container', data)
-    }
+    },
   },
   watch: {
     container: {
@@ -220,13 +220,13 @@ export default Vue.extend({
           // eslint-disable-next-line @typescript-eslint/camelcase
           displayed_in_navbar: newValue.displayed_in_navbar || false,
           // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_icon_class: newValue.anchor_icon_class || 'primary'
+          anchor_icon_class: newValue.anchor_icon_class || 'primary',
         }
       },
       immediate: true,
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 })
 </script>
 

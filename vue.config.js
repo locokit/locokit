@@ -9,8 +9,8 @@ module.exports = {
       locale: 'en',
       fallbackLocale: 'en',
       localeDir: 'locales',
-      enableInSFC: false
-    }
+      enableInSFC: false,
+    },
   },
   pwa: {
     workboxOptions: {
@@ -19,20 +19,20 @@ module.exports = {
       exclude: [
         /index\.html$/,
         /config\.js$/,
-        /.*\.map$/
-      ]
-    }
+        /.*\.map$/,
+      ],
+    },
   },
   configureWebpack: {
     devtool: 'source-map',
     entry: {
       // Package each language's worker and give these filenames in `getWorkerUrl`
-      'editor.worker': 'monaco-editor-core/esm/vs/editor/editor.worker.js'
+      'editor.worker': 'monaco-editor-core/esm/vs/editor/editor.worker.js',
     },
     output: {
       filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist')
-    }
+      path: path.resolve(__dirname, 'dist'),
+    },
   },
   chainWebpack: config => {
     /**
@@ -45,5 +45,5 @@ module.exports = {
         /* new args to pass to html-webpack-plugin's constructor */
         return args
       })
-  }
+  },
 }

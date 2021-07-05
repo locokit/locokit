@@ -4,9 +4,9 @@ export default {
     docs: {
       description: `
         Some examples for headings with current theme.
-      `
-    }
-  }
+      `,
+    },
+  },
 }
 
 export const defaultStory = () => ({
@@ -22,6 +22,6 @@ export const defaultStory = () => ({
       This is a paragraph with some text inside.
     </p>
   </div>
-  `
+  `,
 })
 defaultStory.storyName = 'headings'

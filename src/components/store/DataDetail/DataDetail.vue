@@ -105,16 +105,16 @@
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar'"
             :id="column.id"
-            :dateFormat="$t('date.dateFormatPrime')"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'date')"
+            :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             appendTo="body"
           />
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
             v-model="row.data[column.id]"
-            @input="onDateEdit(row.id, column.id, $event, 'complete')"
             :dateFormat="$t('date.dateFormatPrime')"
+            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
             :showTime="true"
             appendTo="body"
           />
@@ -224,14 +224,13 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { formatISO } from 'date-fns'
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
 import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
 
 import {
-  COLUMN_TYPE
+  COLUMN_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
@@ -239,7 +238,7 @@ import {
   getComponentEditorDetailForColumnType,
   getComponentDisplayDetailForColumnType,
   isEditableColumn,
-  getColumnDisplayValue
+  getColumnDisplayValue,
 } from '@/services/lck-utils/columns'
 
 import { zipArrays } from '@/services/lck-utils/arrays'
@@ -248,7 +247,7 @@ import {
   getStyleLayers,
   LckGeoResource,
   geometryTypeFromColumnType,
-  transformFeatureToWKT
+  transformFeatureToWKT,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
   LckAttachment,
@@ -257,7 +256,7 @@ import {
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
   LckTableViewColumn,
-  SelectValue
+  SelectValue,
 } from '@/services/lck-api/definitions'
 
 import { getCellStateNotificationClass } from '@/services/lck-utils/notification'
@@ -289,7 +288,7 @@ export default {
     'lck-multi-autocomplete': MultiAutoComplete,
     'lck-filter-button': FilterButton,
     'lck-multiselect': MultiSelect,
-    'lck-input-url': URLInput,
+    'lck-url-input': URLInput,
     'lck-map': Map,
     'lck-badge': Badge,
     'lck-file-input': FileInput,
@@ -302,27 +301,27 @@ export default {
     'p-calendar': Vue.extend(Calendar),
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'p-checkbox': Vue.extend(Checkbox)
+    'p-checkbox': Vue.extend(Checkbox),
   },
   props: {
     autocompleteSuggestions: {
-      type: Array //  as { label: string; value: number }[]
+      type: Array, //  as { label: string; value: number }[]
     },
     row: {
       type: Object,
-      required: false
+      required: false,
     },
     definition: {
       type: Object as () => { columns: LckTableViewColumn[] },
       required: false,
-      default: () => ({ columns: [] })
+      default: () => ({ columns: [] }),
     },
     crudMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
-      type: String
+      type: String,
     },
     cellState: {
       type: Object,
@@ -331,16 +330,16 @@ export default {
           rowId: null,
           columnId: null,
           waiting: false,
-          isValid: null
+          isValid: null,
         }
-      }
+      },
     },
     /**
      * We need the workspace id for displaying images from attachments
      */
     workspaceId: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * DataDetail mode : creation, read
@@ -348,15 +347,15 @@ export default {
     mode: {
       type: String,
       required: false,
-      default: 'read'
-    }
+      default: 'read',
+    },
   },
   data () {
     return {
       COLUMN_TYPE,
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
-      multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>
+      multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>,
     }
   },
   computed: {
@@ -382,7 +381,7 @@ export default {
       this.definition.columns.forEach(currentColumn => {
         result[currentColumn.id] = {
           // eslint-disable-next-line @typescript-eslint/camelcase
-          column_type_id: currentColumn.column_type_id
+          column_type_id: currentColumn.column_type_id,
         }
         if (
           currentColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
@@ -394,13 +393,13 @@ export default {
               value: key,
               label: values[key].label,
               color: values[key].color,
-              backgroundColor: values[key].backgroundColor
+              backgroundColor: values[key].backgroundColor,
             }))
           }
         }
       })
       return result
-    }
+    },
   },
   methods: {
     getCellStateNotificationClass,
@@ -415,12 +414,12 @@ export default {
     },
     onComplete (
       { column_type_id: columnTypeId, settings }: LckTableViewColumn,
-      { query }: { query: string }
+      { query }: { query: string },
     ) {
       this.$emit(
         'update-suggestions', {
           columnTypeId,
-          settings
+          settings,
         }, { query })
     },
     async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
@@ -430,28 +429,28 @@ export default {
       await this.onEdit(
         rowId,
         columnId,
-        this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value)
+        this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value),
       )
     },
-    async onDateEdit (rowId: string, columnId: string, value: Date | null, representation: 'date' | 'complete') {
+    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
       await this.onEdit(
         rowId,
         columnId,
-        value ? formatISO(value, { representation }) : null
+        value,
       )
     },
     async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
       await this.onEdit(
         rowId,
         columnId,
-        transformFeatureToWKT(features[0])
+        transformFeatureToWKT(features[0]),
       )
     },
-    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | null) {
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
       this.$emit('update-row', {
         rowId,
         columnId,
-        newValue: value
+        newValue: value,
       })
     },
     /**
@@ -463,7 +462,7 @@ export default {
         columnId,
         newValue: this.row.data[columnId]
           .filter((a: LckAttachment) => a.id !== attachmentId)
-          .map((a: LckAttachment) => a.id)
+          .map((a: LckAttachment) => a.id),
       })
     },
     getLckGeoResources (column: LckTableViewColumn, data: string): LckGeoResource[] {
@@ -477,7 +476,7 @@ export default {
           currentFeature.setProperties({
             columnId: column.id,
             rowId: this.row.id,
-            id: `${this.row.id}-${column.id}`
+            id: `${this.row.id}-${column.id}`,
           })
           features.push(currentFeature)
         }
@@ -502,13 +501,13 @@ export default {
           ...features,
           editableGeometryTypes,
           popupMode: null,
-          selectable: false
-        }
+          selectable: false,
+        },
       ]
     },
     getSelectedValueDetails (columnId: string, value: string) {
       return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
-    }
+    },
   },
   watch: {
     'row.data': {
@@ -543,8 +542,8 @@ export default {
                         (newData[columnId] as LCKTableRowMultiDataComplex)?.reference as [],
                         (newData[columnId] as LCKTableRowMultiDataComplex)?.value as [],
                         'value',
-                        'label'
-                      )
+                        'label',
+                      ),
                     )
                     break
                 }
@@ -553,9 +552,9 @@ export default {
           }
         }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

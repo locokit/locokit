@@ -8,7 +8,7 @@ export function getAttachmentsToDisplay (attachments: LckAttachment[], workspace
       class: 'bi bi-file-earmark',
       element: 'span',
       url: `${LCK_SETTINGS.STORAGE_URL}/${workspaceId}/${a.filename}`,
-      thumbnailURL: `${LCK_SETTINGS.STORAGE_URL}/${workspaceId}/thumbnail_${a.filename}`
+      thumbnailURL: `${LCK_SETTINGS.STORAGE_URL}/${workspaceId}/thumbnail_${a.filename}`,
     }
     switch (a.mime) {
       case 'image/png':

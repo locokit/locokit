@@ -35,13 +35,13 @@ export default Vue.extend({
   name: 'LckPopupReload',
   components: {
     'p-button': Vue.extend(Button),
-    'p-dialog': Vue.extend(Dialog)
+    'p-dialog': Vue.extend(Dialog),
   },
   methods: {
     reload () {
       // Reload of the home app
       window.location.reload()
-    }
-  }
+    },
+  },
 })
 </script>

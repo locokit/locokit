@@ -487,9 +487,9 @@
           "pageDetailId": "Hidden Page name",
           "pageQueryFieldId": "Column name related to page",
           "helpPageQueryFieldId": "Specific case for moving to a page with MarkdownItemView's block",
-          "tableView": "View to display",
-          "displayFieldId": "Display the button according to this field",
-          "displayFieldConditionQuery": "Display the button if the value is equivalent to",
+          "tableView": "View used for enabling button",
+          "displayFieldId": "Enable the button according to this field",
+          "displayFieldConditionQuery": "Enable the button if the value is equivalent to",
           "notification": {
             "settings": "Notification settings",
             "explain": "A notification will be displayed when a user clicks on the button. You can change the content depending on whether the action worked or failed.",
@@ -592,6 +592,7 @@
       "password": "Password",
       "profile": "Profile",
       "selectProfile": "Choose a profile",
+      "createdAt": "Created date",
       "userDetails": "User Details",
       "createUserDetails": "Create User",
       "editUserDetails": "Edit User",
@@ -709,18 +710,6 @@
     "dateFormat": "MM/dd/yyyy",
     "dateFormatPrime": "mm/dd/yy",
     "datetimeFormat": "MM/dd/yyyy HH:mm",
-    "localePrime": {
-      "firstDayOfWeek": 0,
-      "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      "dayNamesMin": ["Su","Mo","Tu","We","Th","Fr","Sa"],
-      "monthNames": [ "January","February","March","April","May","June","July","August","September","October","November","December" ],
-      "monthNamesShort": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
-      "today": "Today",
-      "clear": "Clear",
-      "dateFormat": "mm/dd/yy",
-      "weekHeader": "Wk"
-    },
     "datetimeLogFormat": "MM/dd/yyyy HH:mm:ss"
   },
   "sw": {
@@ -746,5 +735,26 @@
       "center": "Center",
       "justify": "Justify"
     }
+  },
+  "localePrime": {
+    "accept": "Yes",
+    "reject": "No",
+    "choose": "Choose",
+    "upload": "Upload",
+    "cancel": "Cancel",
+    "firstDayOfWeek": 0,
+    "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "dayNamesMin": ["Su","Mo","Tu","We","Th","Fr","Sa"],
+    "monthNames": [ "January","February","March","April","May","June","July","August","September","October","November","December" ],
+    "monthNamesShort": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+    "today": "Today",
+    "clear": "Clear",
+    "dateFormat": "mm/dd/yy",
+    "weekHeader": "Wk",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "passwordPrompt": "Enter a password"
   }
 }

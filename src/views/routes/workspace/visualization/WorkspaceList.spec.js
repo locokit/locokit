@@ -19,8 +19,8 @@ jest.mock('@locokit/lck-glossary', () => ({
     ADMIN: 'ADMIN',
     SUPERADMIN: 'SUPERADMIN',
     CREATOR: 'CREATOR',
-    USER: 'USER'
-  }
+    USER: 'USER',
+  },
 }))
 
 // Mock variables
@@ -44,7 +44,7 @@ const mockWorkspaceContent = {
           updatedAt: '2020-11-02T16:11:03.109Z',
           chapter_id: '1',
           position: 0,
-          hidden: false
+          hidden: false,
         },
         {
           id: '12',
@@ -53,18 +53,18 @@ const mockWorkspaceContent = {
           updatedAt: '2020-11-02T16:11:03.109Z',
           chapter_id: '1',
           position: 1,
-          hidden: true
-        }
-      ]
+          hidden: true,
+        },
+      ],
     },
     {
       id: '2',
       text: 'Chapter 2',
       createdAt: '2020-11-02T16:11:03.109Z',
       updatedAt: '2020-12-23T10:56:11.789Z',
-      workspace_id: '0'
-    }
-  ]
+      workspace_id: '0',
+    },
+  ],
 }
 
 function mockDeepCloneObject (object) {
@@ -80,19 +80,19 @@ jest.mock('@/services/lck-api', () => ({
         ({ ...mockWorkspaceContent.chapters.find(c => c.id === id), ...data })),
       create: jest.fn(data =>
         ({ ...mockWorkspaceContent.chapters[0], ...data, id: '2' })),
-      remove: jest.fn()
+      remove: jest.fn(),
     },
     page: {
       patch: jest.fn((id, data) =>
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id })),
       create: jest.fn(data =>
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id: '13' })),
-      remove: jest.fn()
-    }
+      remove: jest.fn(),
+    },
   },
   lckHelpers: {
-    retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent)
-  }
+    retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent),
+  },
 }))
 
 jest.mock('@/store/auth', () => ({
@@ -102,27 +102,27 @@ jest.mock('@/store/auth', () => ({
       user: {
         profile: '',
         groups: [],
-        rules: []
-      }
-    }
-  }
+        rules: [],
+      },
+    },
+  },
 }))
 
 jest.mock('@/router/paths', () => ({
   ROUTES_PATH: {
     WORKSPACE: '/workspace',
-    VISUALIZATION: '/visualization'
+    VISUALIZATION: '/visualization',
   },
   ROUTES_NAMES: {
     VISUALIZATION: 'WorkspaceVisualization',
-    PAGE: 'Page'
-  }
+    PAGE: 'Page',
+  },
 }))
 
 // Mock Vue components
 jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
   name: 'Page',
-  render: h => h('section')
+  render: h => h('section'),
 }))
 
 // Mock routes
@@ -131,8 +131,8 @@ const mockRoutes = [
     path: ROUTES_PATH.WORKSPACE,
     name: ROUTES_NAMES.WORKSPACE,
     component: WorkspaceList,
-    props: true
-  }
+    props: true,
+  },
 ]
 // Tests
 
@@ -153,9 +153,9 @@ describe('Workspace', () => {
       t: key => key,
       $t: key => key,
       $toast: {
-        add: jest.fn()
-      }
-    }
+        add: jest.fn(),
+      },
+    },
   }
 
   describe('Create workspace button', () => {
@@ -171,7 +171,7 @@ describe('Workspace', () => {
       authState.data.user.profile = USER_PROFILE.CREATOR
       authState.data.user.rules = [{
         action: 'create',
-        subject: 'workspace'
+        subject: 'workspace',
       }]
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
@@ -184,7 +184,7 @@ describe('Workspace', () => {
       authState.data.user.profile = USER_PROFILE.ADMIN
       authState.data.user.rules = [{
         action: 'create',
-        subject: 'workspace'
+        subject: 'workspace',
       }]
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
@@ -197,7 +197,7 @@ describe('Workspace', () => {
       authState.data.user.profile = USER_PROFILE.SUPERADMIN
       authState.data.user.rules = [{
         action: 'create',
-        subject: 'workspace'
+        subject: 'workspace',
       }]
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
