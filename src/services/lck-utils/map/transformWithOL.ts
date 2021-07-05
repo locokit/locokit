@@ -13,6 +13,7 @@ import {
   FillLayer,
   LineLayer,
 } from 'mapbox-gl'
+import cloneDeep from 'lodash.clonedeep'
 
 import { TranslateResult } from 'vue-i18n'
 
@@ -20,6 +21,7 @@ import {
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
+  MapFeatureStyle,
   MapSettings,
   MapSourceSettings,
   MapSourceStyle,
@@ -134,6 +136,35 @@ export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '43
   })}`
 }
 
+export interface MapEditableStyleProperties {
+  fill: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  stroke: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  opacity: Expression;
+}
+
+export const mapDefaultStyle: MapEditableStyleProperties = {
+  fill: {
+    width: 10,
+    color: '#EA0E0E',
+  },
+  stroke: {
+    width: 2,
+    color: '#FFFFFF',
+  },
+  opacity: [
+    'case',
+    ['boolean', ['feature-state', 'selectable'], false],
+    1, // Feature opacity on selection
+    0.5, // Default feature opacity
+  ],
+}
+
 /**
  * Add style for a specific spatial geometry present in layer
  *
@@ -150,73 +181,76 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
 
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
 
-  const computedOpacity: Expression | number = [
-    'case',
-    ['boolean', ['feature-state', 'selectable'], false],
-    1, // Feature opacity on selection
-    0.5, // Default feature opacity
-  ]
-
   // Default style settings
-  let defaultFillColor = '#EA0E0E'
-  let defaultStrokeColor = '#FFFFFF'
-  let defaultStrokeWidth = 2
+  const { fill = {}, stroke = {} }: MapFeatureStyle = sourceStyle?.default || {}
 
-  // Specified default style settings
-  const defaultSourceStyle = sourceStyle?.default
-  if (defaultSourceStyle) {
-    if (defaultSourceStyle.fill?.color) defaultFillColor = defaultSourceStyle.fill.color
-    if (defaultSourceStyle.stroke?.color) defaultStrokeColor = defaultSourceStyle.stroke.color
-    if (defaultSourceStyle.stroke?.width) defaultStrokeWidth = defaultSourceStyle.stroke.width
+  const defaultStyle: MapEditableStyleProperties = {
+    fill: {
+      color: fill.color || mapDefaultStyle.fill.color,
+      width: fill.width || mapDefaultStyle.fill.width,
+    },
+    stroke: {
+      color: stroke.color || mapDefaultStyle.stroke.color,
+      width: stroke.width || mapDefaultStyle.stroke.width,
+    },
+    opacity: mapDefaultStyle.opacity,
   }
 
   // Change features styles depending of the values of one specified field
-  let computedFillColor: Expression | string = ['match', ['get', styleFieldName]]
-  let computedStrokeColor: Expression | string = ['match', ['get', styleFieldName]]
-  let computedStrokeWidth: Expression | number = ['match', ['get', styleFieldName]]
+  const computedStyle: MapEditableStyleProperties = cloneDeep(defaultStyle)
 
   if (sourceStyle && styleColumn) {
+    // We compare the value of one specified field
+    computedStyle.fill.color = ['match', ['get', styleFieldName]]
+    computedStyle.fill.width = ['match', ['get', styleFieldName]]
+    computedStyle.stroke.color = ['match', ['get', styleFieldName]]
+    computedStyle.stroke.width = ['match', ['get', styleFieldName]]
+
     if (styleColumn.settings.values) {
       // There are explicit values for this column so will use the associated colors
       // or override them if some similar settings are defined in the map source settings
       for (const value in styleColumn.settings.values) {
-        const fieldSettingsValue = styleColumn.settings.values[value]
-
-        const overridedStyle = sourceStyle.dataDriven?.find(data => data.value === value)
-        const overridedStrokeStyle = overridedStyle?.style.stroke
-
-        computedFillColor.push(value, overridedStyle?.style.fill?.color || fieldSettingsValue.backgroundColor)
-        computedStrokeColor.push(value, overridedStrokeStyle?.color || fieldSettingsValue.backgroundColor)
-
-        if (overridedStrokeStyle?.width != null) {
-          computedStrokeWidth.push(value, overridedStrokeStyle.width)
+        const { backgroundColor } = styleColumn.settings.values[value]
+        const overridedStyle = sourceStyle.dataDriven?.find(data => data.value === value)?.style
+        if (overridedStyle) {
+          // Custom fill properties
+          if (overridedStyle.fill?.width != null) {
+            computedStyle.fill.width.push(value, overridedStyle.fill.width)
+          }
+          // Custom stroke properties
+          if (overridedStyle.stroke?.width != null) {
+            computedStyle.stroke.width.push(value, overridedStyle.stroke.width)
+          }
         }
+        computedStyle.fill.color.push(value, overridedStyle?.fill?.color || backgroundColor)
+        computedStyle.stroke.color.push(value, overridedStyle?.stroke?.color || backgroundColor)
       }
     } else if (sourceStyle.dataDriven) {
       // There is no explicit value for this column so we only use the style defined in the map source settings
       for (const { value, style } of sourceStyle.dataDriven) {
-        if (style.fill?.color) {
-          computedFillColor.push(value, style.fill.color)
+        if (style.fill) {
+          if (style.fill.color) computedStyle.fill.color.push(value, style.fill.color)
+          if (style.fill.width != null) computedStyle.fill.width.push(value, style.fill.width)
         }
-        if (style.stroke?.color) {
-          computedStrokeColor.push(value, style.stroke.color)
-        }
-        if (style.stroke?.width) {
-          computedStrokeWidth.push(value, style.stroke.width)
+        if (style.stroke) {
+          if (style.stroke.color) computedStyle.stroke.color.push(value, style.stroke.color)
+          if (style.stroke.width != null) computedStyle.stroke.width.push(value, style.stroke.width)
         }
       }
     }
 
     // Default values
-    computedFillColor.push(defaultFillColor)
-    computedStrokeColor.push(defaultStrokeColor)
-    computedStrokeWidth.push(defaultStrokeWidth)
-  }
+    computedStyle.fill.color.push(defaultStyle.fill.color)
+    computedStyle.fill.width.push(defaultStyle.fill.width)
+    computedStyle.stroke.color.push(defaultStyle.stroke.color)
+    computedStyle.stroke.width.push(defaultStyle.stroke.width)
 
-  // We must have at least 4 values by Mapbox expression
-  if (computedFillColor.length < 4) computedFillColor = defaultFillColor
-  if (computedStrokeColor.length < 4) computedStrokeColor = defaultStrokeColor
-  if (computedStrokeWidth.length < 4) computedStrokeWidth = defaultStrokeWidth
+    // We must have at least 4 values by Mapbox expression
+    if (computedStyle.fill.color.length < 4) computedStyle.fill.color = defaultStyle.fill.color
+    if (computedStyle.fill.width.length < 4) computedStyle.fill.width = defaultStyle.fill.width
+    if (computedStyle.stroke.color.length < 4) computedStyle.stroke.color = defaultStyle.stroke.color
+    if (computedStyle.stroke.width.length < 4) computedStyle.stroke.width = defaultStyle.stroke.width
+  }
 
   // Get right style depending of the geometry type
   let geoStyle: (LckImplementedLayers | null)
@@ -229,10 +263,11 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         geoStyle = GEO_STYLE.Point
         geoStyle.paint = {
           ...GEO_STYLE.Point.paint,
-          'circle-opacity': computedOpacity,
-          'circle-color': computedFillColor,
-          'circle-stroke-color': computedStrokeColor,
-          'circle-stroke-width': computedStrokeWidth,
+          'circle-opacity': computedStyle.opacity,
+          'circle-color': computedStyle.fill.color,
+          'circle-radius': computedStyle.fill.width,
+          'circle-stroke-color': computedStyle.stroke.color,
+          'circle-stroke-width': computedStyle.stroke.width,
         }
         break
       case COLUMN_TYPE.GEOMETRY_LINESTRING:
@@ -240,9 +275,9 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         geoStyle = GEO_STYLE.Linestring
         geoStyle.paint = {
           ...GEO_STYLE.Linestring.paint,
-          'line-opacity': computedOpacity,
-          'line-color': computedFillColor,
-          'line-width': computedStrokeWidth,
+          'line-opacity': computedStyle.opacity,
+          'line-color': computedStyle.fill.color,
+          'line-width': computedStyle.fill.width,
         }
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
@@ -250,10 +285,9 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         geoStyle = GEO_STYLE.Polygon
         geoStyle.paint = {
           ...GEO_STYLE.Polygon.paint,
-          'fill-opacity': computedOpacity,
-          'fill-color': computedFillColor,
-          'fill-outline-color': computedStrokeColor,
-
+          'fill-opacity': computedStyle.opacity,
+          'fill-color': computedStyle.fill.color,
+          'fill-outline-color': computedStyle.stroke.color,
         }
         break
       default:
