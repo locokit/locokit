@@ -44,7 +44,7 @@ export async function defineAbilityFor (
   //     code: 'RECORDS_NOT_FILTERABLE',
   //   })
   // }
-  const groupId = query?.$lckGroupId
+  const groupId = query?.$lckGroupId || null
   const userId = user?.id
 
   // if (!query?.table_id) {
@@ -52,6 +52,7 @@ export async function defineAbilityFor (
   //     code: 'RECORDS_NOT_FILTERABLE',
   //   })
   // }
+
   // are we on a get ? => use the id to find the correlated table to filter for abilities
   // are we on a update / patch / delete => same thing
   // are we on a find ? => use the table_id
@@ -71,61 +72,19 @@ export async function defineAbilityFor (
       can('manage', 'row')
       break
     /**
-     * For a creator, we need to know if the records
-     * are from a workspace he manage
+     * For a CREATOR, there is no difference from a USER profile,
+     * acls are computed from the groups related to the current user.
+     * The CREATOR will have "all" powers on workspace he creates
+     *
+     * We need to know all acls for records, views and tables
+     * for this user, through its group
      */
     case USER_PROFILE.CREATOR:
-      /**
-       * TODO: check that the creator is a manager of the workspace through its group if set,
-       * or through a group having access to the workspace's table
-       */
-      /**
-       * We have a filter, like a table_id, table_view_id or id
-       * (if not, we need to throw an error)
-       */
-      /**
-        * The Creator is manager of this workspaces,
-        * so he have all permissions on rows from these workspaces
-        */
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      // const { table_id, table_view_id, id } = query as Query
-      // if (!table_id && !table_view_id && !id) {
-      //   throw new NotAcceptable('Missing filter table_id | table_view_id | id.', {
-      //     code: 'RECORDS_NOT_FILTERABLE',
-      //   })
-      // }
-      // if (table_id) {
-      //   const table = await services.table.get(table_id, {
-      //     $joinRelation: 'database.[workspace.[aclset.[groups.[users]]]]',
-      //     'database:workspace:aclset:groups:users.id': user.id,
-      //   })
-      //   if (table) can('manage', 'row', { table_id })
-      // } else if (table_view_id) {
-      //   const tableView = await services.view.get(table_view_id, {
-      //     $eager: 'table',
-      //     $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
-      //     'table:database:workspace:aclset:groups:users.id': user.id,
-      //   })
-      //   if (tableView) can('manage', 'row', { table_id: tableView.table?.id })
-      // } else if (id) {
-      //   const tableRow = await services.row.get(id, {
-      //     $eager: 'table',
-      //     $joinRelation: 'table.[database.[workspace.[aclset.[groups.[users]]]]]',
-      //     'table:database:workspace:aclset:groups:users.id': user.id,
-      //   })
-      //   if (tableRow) can('manage', 'row', { table_id: tableRow.table.id })
-      // }
-      break
-
     case USER_PROFILE.USER:
       /**
-       * We need to know all acls for records, views and tables
-       * for this user, through its group
+       * TODO: manage a user without the $lckGroupId
+       * and combine all read_filters
        */
-      /**
-        * TODO: manage a user without the $lckGroupId
-        * and combine all read_filters
-        */
 
       // find matching acl for the current user through aclset > group
       const aclsetsSimple = await services.aclset.find({
@@ -163,7 +122,7 @@ export async function defineAbilityFor (
             can('create', 'row', { table_id: currentAcltable.table_id })
           }
           if (currentAcltable.read_rows) {
-            if (!currentAcltable.read_filter) {
+            if (currentAcltable.read_filter) {
               const readFilterParsed = JSON.parse(
                 JSON.stringify(currentAcltable.read_filter)
                   .replace('{userId}', userId.toString())
@@ -178,7 +137,7 @@ export async function defineAbilityFor (
             }
           }
           if (currentAcltable.update_rows) {
-            if (!currentAcltable.update_filter) {
+            if (currentAcltable.update_filter) {
               const updateFilterParsed = JSON.parse(
                 JSON.stringify(currentAcltable.update_filter)
                   .replace('{userId}', userId.toString())
@@ -193,8 +152,7 @@ export async function defineAbilityFor (
             }
           }
           if (currentAcltable.delete_rows) {
-            console.log(currentAcltable.delete_filter)
-            if (!currentAcltable.delete_filter) {
+            if (currentAcltable.delete_filter) {
               const deleteFilterParsed = JSON.parse(
                 JSON.stringify(currentAcltable.delete_filter)
                   .replace('{userId}', userId.toString())
@@ -212,6 +170,8 @@ export async function defineAbilityFor (
       })
       break
   }
+
+  // rules.forEach(rule => console.log(JSON.stringify(rule)))
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }

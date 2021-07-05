@@ -126,12 +126,16 @@ export default {
 
   after: {
     all: [
+      // beware, the authorize hook don't really work for us
+      // we have filters based on nested props, it seems this is not working
+      // so we filter with shrinkRecordsData if needed
+      // authorize({
+      //   adapter: 'feathers-objection',
+      //   availableFields: ['id', 'text', 'data', 'createdAt', 'updatedAt'],
+      // }),
       // historizeDataEvents()
     ],
     find: [
-      authorize({
-        adapter: 'feathers-objection',
-      }),
       shrinkRecordsData(),
     ],
     get: [
