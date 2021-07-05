@@ -14,6 +14,7 @@ import {
   LineLayer,
   SymbolLayer,
 } from 'mapbox-gl'
+import cloneDeep from 'lodash.clonedeep'
 
 import { TranslateResult } from 'vue-i18n'
 
@@ -43,7 +44,6 @@ import {
   getDataFromTableViewColumn,
 } from '@/services/lck-utils/columns'
 import { objectFromArray } from '../arrays'
-import cloneDeep from 'lodash.clonedeep'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
@@ -308,6 +308,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
     geoStyle = null
     switch (geoType) {
       case COLUMN_TYPE.GEOMETRY_POINT:
+      case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
         if (displayMarkers) {
           geoStyle = GEO_STYLE.Marker
           geoStyle.paint = {
@@ -349,7 +350,6 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
           'fill-opacity': computedStyle.opacity,
           'fill-color': computedStyle.fill.color,
           'fill-outline-color': computedStyle.stroke.color,
-
         }
         break
       default:
