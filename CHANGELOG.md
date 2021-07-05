@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.2.9**
+
+**Feature**
+* add some map source settings to allow to customize the displayed features
+
 **v0.2.8**
 
 **Feature**

@@ -215,6 +215,27 @@ export interface BlockMedia extends Block {
 
 export type MapSourceTriggerEvents = TriggerBlockEvent<'selectRow'|'selectField'>[];
 
+export interface MapFeatureStyle {
+  fill?: {
+    color?: string;
+    width?: number;
+  };
+  stroke?: {
+    color?: string;
+    width?: number;
+  }
+  icon?: string; // used icon for the feature
+}
+
+export interface MapSourceStyle {
+  default?: MapFeatureStyle,
+  field?: string; // the field's UUID used to customize the features
+  dataDriven?: {
+    value: unknown; // the value to check
+    style: MapFeatureStyle; // the style to apply when the field has the specified value
+  }[]
+}
+
 export interface MapSourceSettings {
   id: string; // uuid of the table_view
   geometry?: GEOMETRY_TYPE; // geometry type
@@ -230,6 +251,7 @@ export interface MapSourceSettings {
     }[]
   }
   selectable?: boolean; // can we select a feature
+  style?: MapSourceStyle; // style of the source
   triggerEvents?: MapSourceTriggerEvents; // event to trigger
   caughtEvents?: string[] // ids of the caught events to capture for this source
 }
