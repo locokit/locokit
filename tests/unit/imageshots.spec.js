@@ -11,7 +11,7 @@ const getMatchOptions = () => {
     comparisonMethod: 'ssim',
     failureThreshold: process.env.CI ? 0.02 : 0.01,
     // failureThreshold: 0.001,
-    failureThresholdType: 'percent'
+    failureThresholdType: 'percent',
   }
 }
 
@@ -43,9 +43,9 @@ initStoryshots({
         await page.waitForTimeout(args.waitForTimeout || 500)
       }
     },
-    storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006'
+    storybookUrl: process.env.CI ? `file:///${path.resolve(__dirname, '../../storybook-static')}` : 'http://localhost:6006',
     // storybookUrl: `file:///${path.resolve(__dirname, '../../storybook-static')}`
-  })
+  }),
 })
 
 expect.extend({ toMatchImageSnapshot })

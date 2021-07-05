@@ -34,32 +34,32 @@ describe('Set utilities', () => {
       expect(
         setsAreEqual(
           new Set([1]),
-          new Set([2, 3])
-        )
+          new Set([2, 3]),
+        ),
       ).toBe(false)
     })
     it('Returns false if the two sets have not the same values but have some common ones', () => {
       expect(
         setsAreEqual(
           new Set([1, 4, 5]),
-          new Set([1, 2, 3])
-        )
+          new Set([1, 2, 3]),
+        ),
       ).toBe(false)
     })
     it('Returns false if the two sets have not some common values', () => {
       expect(
         setsAreEqual(
           new Set([1, 2]),
-          new Set([3, 4])
-        )
+          new Set([3, 4]),
+        ),
       ).toBe(false)
     })
     it('Returns true if the two sets contain the same values', () => {
       expect(
         setsAreEqual(
           new Set([3, 2, 1]),
-          new Set([1, 3, 2])
-        )
+          new Set([1, 3, 2]),
+        ),
       ).toBe(true)
     })
   })

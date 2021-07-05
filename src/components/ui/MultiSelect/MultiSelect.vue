@@ -15,14 +15,14 @@ import PrimeMultiSelect from 'primevue/multiselect'
 export default {
   name: 'LckMultiSelect',
   components: {
-    'p-multiselect': Vue.extend(PrimeMultiSelect)
+    'p-multiselect': Vue.extend(PrimeMultiSelect),
   },
   props: {
     appendTo: {
       type: String,
-      default: 'body'
-    }
-  }
+      default: 'body',
+    },
+  },
 }
 </script>
 

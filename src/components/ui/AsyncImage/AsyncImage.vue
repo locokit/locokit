@@ -21,23 +21,23 @@ import { getAttachmentBlob } from '@/services/lck-api/helpers'
 export default {
   name: 'LckAsyncImage',
   components: {
-    'p-spinner': Vue.extend(ProgressSpinner)
+    'p-spinner': Vue.extend(ProgressSpinner),
   },
   props: {
     src: {
       type: String,
-      required: false
+      required: false,
     },
     title: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
       loading: false,
       link: '',
-      error: false
+      error: false,
     }
   },
   methods: {
@@ -51,16 +51,16 @@ export default {
         this.error = true
       }
       this.loading = false
-    }
+    },
   },
   watch: {
     src: {
       handler () {
         this.getLink()
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

@@ -9,7 +9,7 @@ import {
   formulaColumnsNamesToIds,
   getMonacoSuggestions,
   FUNCTION_CATEGORY,
-  IFormula
+  IFormula,
 } from './formula'
 
 // Mock the monaco editor
@@ -17,17 +17,17 @@ jest.mock('monaco-editor-core/esm/vs/editor/editor.api', () => ({
   languages: {
     CompletionItemKind: {
       Class: 15,
-      Function: 1
+      Function: 1,
     },
     CompletionItemInsertTextRule: {
-      InsertAsSnippet: 1
-    }
-  }
+      InsertAsSnippet: 1,
+    },
+  },
 }))
 
 // Mock i18n
 jest.mock('@/plugins/i18n', () => ({
-  t: (key: string) => key
+  t: (key: string) => key,
 }))
 
 // Mock the glossary
@@ -35,8 +35,8 @@ jest.mock('@locokit/lck-glossary', () => ({
   COLUMN_TYPE: {
     BOOLEAN: 1,
     STRING: 2,
-    FLOAT: 4
-  }
+    FLOAT: 4,
+  },
 }))
 
 describe('formulas', () => {
@@ -44,13 +44,13 @@ describe('formulas', () => {
     DATE: {},
     LOGIC: {},
     NUMERIC: {},
-    TEXT: {}
+    TEXT: {},
   }
   const defaultRange = {
     startColumn: 1,
     endColumn: 1,
     startLineNumber: 1,
-    endLineNumber: 1
+    endLineNumber: 1,
   }
   const knownTables: LckTableColumn[] = [
     {
@@ -58,15 +58,15 @@ describe('formulas', () => {
       id: 'id-c1',
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.STRING,
-      settings: {}
+      settings: {},
     },
     {
       text: 'NAME_C2',
       id: 'id-c2',
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.BOOLEAN,
-      settings: {}
-    }
+      settings: {},
+    },
   ]
 
   describe('getDefaultRange', () => {
@@ -79,25 +79,25 @@ describe('formulas', () => {
     it('Return the input formula in which the known columns names are replaced by their ids', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{NAME_C2})'
       expect(
-        formulaColumnsNamesToIds(inputFormula, knownTables)
+        formulaColumnsNamesToIds(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{id-c2})'
+        'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{id-c2})',
       )
     })
     it('Return the input formula in which the known columns names are replaced by their ids with unknown columns', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{NAME_C3})'
       expect(
-        formulaColumnsNamesToIds(inputFormula, knownTables)
+        formulaColumnsNamesToIds(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{NAME_C3})'
+        'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{NAME_C3})',
       )
     })
     it('Return the input formula in which the known columns names are replaced by their ids with empty columns', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{})'
       expect(
-        formulaColumnsNamesToIds(inputFormula, knownTables)
+        formulaColumnsNamesToIds(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{})'
+        'TEXT.CONCAT(COLUMN.{})',
       )
     })
   })
@@ -105,25 +105,25 @@ describe('formulas', () => {
     it('Return the input formula in which the known columns ids are replaced by their names', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{id-c2})'
       expect(
-        formulaColumnsIdsToNames(inputFormula, knownTables)
+        formulaColumnsIdsToNames(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{NAME_C2})'
+        'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{NAME_C2})',
       )
     })
     it('Return the input formula in which the known columns ids are replaced by their names with unknown columns', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{id-c1}, COLUMN.{id-c3})'
       expect(
-        formulaColumnsIdsToNames(inputFormula, knownTables)
+        formulaColumnsIdsToNames(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{id-c3})'
+        'TEXT.CONCAT(COLUMN.{NAME_C1}, COLUMN.{id-c3})',
       )
     })
     it('Return the input formula in which the known columns names are replaced by their names with empty columns', () => {
       const inputFormula = 'TEXT.CONCAT(COLUMN.{})'
       expect(
-        formulaColumnsIdsToNames(inputFormula, knownTables)
+        formulaColumnsIdsToNames(inputFormula, knownTables),
       ).toBe(
-        'TEXT.CONCAT(COLUMN.{})'
+        'TEXT.CONCAT(COLUMN.{})',
       )
     })
   })
@@ -141,7 +141,7 @@ describe('formulas', () => {
         documentation: 'components.formulas.column',
         insertText: 'COLUMN',
         range: defaultRange,
-        kind: 15
+        kind: 15,
       })
 
       expect(monacoSuggestions.allSuggestions[1]).toEqual({
@@ -149,13 +149,13 @@ describe('formulas', () => {
         documentation: 'components.formulas.categories.DATE',
         insertText: 'DATE',
         range: defaultRange,
-        kind: 15
+        kind: 15,
       })
     })
     describe('Return the correct values for a function without any parameter', () => {
       beforeAll(() => {
         formulaFunctions.NUMERIC = {
-          PI: { returnType: COLUMN_TYPE.FLOAT }
+          PI: { returnType: COLUMN_TYPE.FLOAT },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -170,7 +170,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.PI()'
+          detail: 'NUMERIC.PI()',
         })
       })
       it('Return the correct signature', () => {
@@ -184,11 +184,11 @@ describe('formulas', () => {
             params: [
               {
                 name: 'number',
-                type: COLUMN_TYPE.FLOAT
-              }
+                type: COLUMN_TYPE.FLOAT,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -204,7 +204,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.ABS(number)'
+          detail: 'NUMERIC.ABS(number)',
         })
       })
       it('Return the correct signature', () => {
@@ -219,11 +219,11 @@ describe('formulas', () => {
               {
                 name: 'number',
                 type: COLUMN_TYPE.FLOAT,
-                required: false
-              }
+                required: false,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -239,7 +239,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.ABS([number])'
+          detail: 'NUMERIC.ABS([number])',
         })
       })
       it('Return the correct signature', () => {
@@ -254,11 +254,11 @@ describe('formulas', () => {
               {
                 name: 'number',
                 type: COLUMN_TYPE.FLOAT,
-                multiple: true
-              }
+                multiple: true,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -274,7 +274,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.PRODUCT(number1, [number2, ...])'
+          detail: 'NUMERIC.PRODUCT(number1, [number2, ...])',
         })
       })
       it('Return the correct signature', () => {
@@ -290,11 +290,11 @@ describe('formulas', () => {
                 name: 'number',
                 type: COLUMN_TYPE.FLOAT,
                 multiple: true,
-                required: false
-              }
+                required: false,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -310,7 +310,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.PRODUCT([number1, ...])'
+          detail: 'NUMERIC.PRODUCT([number1, ...])',
         })
       })
       it('Return the correct signature', () => {
@@ -325,16 +325,16 @@ describe('formulas', () => {
               [
                 {
                   name: 'condition',
-                  type: COLUMN_TYPE.BOOLEAN
+                  type: COLUMN_TYPE.BOOLEAN,
                 },
                 {
                   name: 'result',
-                  type: COLUMN_TYPE.STRING
-                }
-              ]
+                  type: COLUMN_TYPE.STRING,
+                },
+              ],
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -350,7 +350,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'LOGIC.IFS(condition1, result1, [condition2, result2, ...])'
+          detail: 'LOGIC.IFS(condition1, result1, [condition2, result2, ...])',
         })
       })
       it('Return the correct signature', () => {
@@ -364,15 +364,15 @@ describe('formulas', () => {
             params: [
               {
                 name: 'number1',
-                type: COLUMN_TYPE.FLOAT
+                type: COLUMN_TYPE.FLOAT,
               },
               {
                 name: 'number2',
-                type: COLUMN_TYPE.FLOAT
-              }
+                type: COLUMN_TYPE.FLOAT,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })
@@ -388,7 +388,7 @@ describe('formulas', () => {
           insertTextRules: 1,
           range: defaultRange,
           kind: 1,
-          detail: 'NUMERIC.PRODUCT(number1, number2)'
+          detail: 'NUMERIC.PRODUCT(number1, number2)',
         })
       })
       it('Return the correct signature', () => {
@@ -402,20 +402,20 @@ describe('formulas', () => {
             params: [
               {
                 name: 'number',
-                type: COLUMN_TYPE.FLOAT
-              }
+                type: COLUMN_TYPE.FLOAT,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
+            returnType: COLUMN_TYPE.FLOAT,
           },
           INT: {
             params: [
               {
                 name: 'number',
-                type: COLUMN_TYPE.FLOAT
-              }
+                type: COLUMN_TYPE.FLOAT,
+              },
             ],
-            returnType: COLUMN_TYPE.FLOAT
-          }
+            returnType: COLUMN_TYPE.FLOAT,
+          },
         }
         monacoSuggestions = getMonacoSuggestions(formulaFunctions)
       })

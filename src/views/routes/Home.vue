@@ -28,7 +28,7 @@ export default {
   name: 'Home',
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
-    'lck-login': Login
+    'lck-login': Login,
   },
   data () {
     return {
@@ -38,7 +38,7 @@ export default {
       // eslint-disable-next-line no-undef
       logoBgPrimaryURL: LCK_THEME.LOGO_BG_PRIMARY_URL,
       // eslint-disable-next-line no-undef
-      version: LCK_VERSION
+      version: LCK_VERSION,
     }
   },
   methods: {
@@ -52,8 +52,8 @@ export default {
           console.info(error.message)
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

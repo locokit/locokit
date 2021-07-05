@@ -2,19 +2,19 @@ import DialogForm from './DialogForm'
 
 export default {
   title: 'components/ui/DialogForm',
-  component: DialogForm
+  component: DialogForm,
 }
 
 export const defaultStory = () => (
   {
     components: { DialogForm },
-    template: '<DialogForm :visible="true" />'
+    template: '<DialogForm :visible="true" />',
   }
 )
 
 defaultStory.storyName = 'default'
 defaultStory.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 
 }
 
@@ -25,8 +25,8 @@ export const withHeaderAndContent = () => (
       return {
         currentData: {
           id: 1,
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -43,13 +43,13 @@ export const withHeaderAndContent = () => (
           />
         </div>
       </DialogForm>
-    `
+    `,
   }
 )
 
 withHeaderAndContent.storyName = 'with header and content'
 withHeaderAndContent.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 }
 
 export const withHeaderContentAndActions = () => (
@@ -59,8 +59,8 @@ export const withHeaderContentAndActions = () => (
       return {
         currentData: {
           id: 1,
-          text: 'Hello world'
-        }
+          text: 'Hello world',
+        },
       }
     },
     template: `
@@ -78,11 +78,11 @@ export const withHeaderContentAndActions = () => (
           />
         </div>
       </DialogForm>
-    `
+    `,
   }
 )
 
 withHeaderContentAndActions.storyName = 'with header, content and actions'
 withHeaderContentAndActions.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 }

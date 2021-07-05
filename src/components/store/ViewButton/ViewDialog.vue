@@ -44,32 +44,32 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText),
-    'p-toggle-button': Vue.extend(ToggleButton)
+    'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     value: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data () {
     return {
-      currentData: {}
+      currentData: {},
     }
   },
   watch: {
     value: {
       handler (newValue: {}) {
         this.currentData = {
-          ...newValue
+          ...newValue,
         }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>

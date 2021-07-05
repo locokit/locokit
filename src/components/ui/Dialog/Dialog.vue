@@ -23,23 +23,23 @@ import Dialog from 'primevue/dialog'
 export default {
   name: 'LckDialog',
   components: {
-    'p-dialog': Vue.extend(Dialog)
+    'p-dialog': Vue.extend(Dialog),
   },
   props: {
     header: {
-      type: String
+      type: String,
     },
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contentStyle: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 }
 </script>

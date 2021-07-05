@@ -21,8 +21,8 @@ jest.mock('@locokit/lck-glossary', () => ({
     LOOKED_UP_COLUMN: 9,
     SINGLE_SELECT: 10,
     MULTI_SELECT: 11,
-    TEXT: 16
-  }
+    TEXT: 16,
+  },
 }))
 
 jest.mock('../../../../../components/store/DataDetail/DataDetail.vue', () => () => '<div>DataDetail</div>')
@@ -33,19 +33,19 @@ jest.mock('file-saver')
 // Mock primevue component
 jest.mock('primevue/tabview', () => ({
   name: 'p-tab-view',
-  render: h => h('p-tab-view')
+  render: h => h('p-tab-view'),
 }))
 jest.mock('primevue/tabpanel', () => ({
   name: 'p-tab-panel',
-  render: h => h('p-tab-panel')
+  render: h => h('p-tab-panel'),
 }))
 jest.mock('primevue/button', () => ({
   name: 'p-button',
-  render: h => h('p-button')
+  render: h => h('p-button'),
 }))
 jest.mock('primevue/sidebar', () => ({
   name: 'p-sidebar',
-  render: h => h('p-sidebar')
+  render: h => h('p-sidebar'),
 }))
 
 // Mock error
@@ -74,27 +74,27 @@ jest.mock('@/services/lck-api', () => ({
         const [viewId, columnId] = id.split(',')
         const tableView = mockFirstTable.views.find(view => view.id === viewId)
         return mockDeepCloneObject({ ...tableView.columns.find(column => column.id === columnId), ...data })
-      })
+      }),
     },
     tableView: {},
     tableColumn: {
       patch: jest.fn((id, data) =>
-        (mockDeepCloneObject({ ...mockFirstTable.columns.find(column => column.id === id), ...data })))
+        (mockDeepCloneObject({ ...mockFirstTable.columns.find(column => column.id === id), ...data }))),
     },
     tableRow: {
       create: jest.fn(({ data, table_id }) => ({
-        id: 'TABLE_ROW_ID', ...data, table_id
-      }))
-    }
+        id: 'TABLE_ROW_ID', ...data, table_id,
+      })),
+    },
   },
   lckHelpers: {
     searchItems: jest.fn(() => ([
       { label: 'A', value: 1 },
       { label: 'B', value: 2 },
-      { label: 'C', value: 3 }
+      { label: 'C', value: 3 },
     ])),
-    exportTableRowData: jest.fn(() => 'CSV_EXPORT')
-  }
+    exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
+  },
 }))
 
 jest.mock('@/services/lck-helpers/database', () => {
@@ -138,9 +138,9 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: true,
                 style: {
-                  width: 128
+                  width: 128,
                 },
-                default: null
+                default: null,
               },
               {
                 id: 'C13',
@@ -159,9 +159,9 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: null,
                 style: {
-                  width: 352
+                  width: 352,
                 },
-                default: null
+                default: null,
               },
               {
                 id: 'C12',
@@ -180,11 +180,11 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: null,
                 style: {
-                  width: 153
+                  width: 153,
                 },
-                default: null
-              }
-            ]
+                default: null,
+              },
+            ],
           },
           {
             id: 'V12',
@@ -211,12 +211,12 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: true,
                 style: {
-                  width: 128
+                  width: 128,
                 },
-                default: null
-              }
-            ]
-          }
+                default: null,
+              },
+            ],
+          },
         ],
         columns: [
           {
@@ -230,7 +230,7 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: 0,
             table_id: 'T1',
             column_type_id: 2,
-            locked: false
+            locked: false,
           },
           {
             id: 'C12',
@@ -243,7 +243,7 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: 1,
             table_id: 'T1',
             column_type_id: 2,
-            locked: false
+            locked: false,
           },
           {
             id: 'C13',
@@ -256,7 +256,7 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: null,
             table_id: 'T1',
             column_type_id: 2,
-            locked: false
+            locked: false,
           },
           {
             id: 'C14',
@@ -269,7 +269,7 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: null,
             table_id: 'T1',
             column_type_id: 2,
-            locked: false
+            locked: false,
           },
           {
             id: 'C15',
@@ -282,9 +282,9 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: null,
             table_id: 'T1',
             column_type_id: 6,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: 'T2',
@@ -318,9 +318,9 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: true,
                 style: {
-                  width: 337
+                  width: 337,
                 },
-                default: null
+                default: null,
               },
               {
                 id: 'C22',
@@ -339,12 +339,12 @@ jest.mock('@/services/lck-helpers/database', () => {
                 transmitted: true,
                 editable: true,
                 style: {
-                  width: 164
+                  width: 164,
                 },
-                default: null
-              }
-            ]
-          }
+                default: null,
+              },
+            ],
+          },
         ],
         columns: [
           {
@@ -358,7 +358,7 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: null,
             table_id: 'T2',
             column_type_id: 2,
-            locked: false
+            locked: false,
           },
           {
             id: 'C22',
@@ -371,17 +371,17 @@ jest.mock('@/services/lck-helpers/database', () => {
             reference_position: null,
             table_id: 'T2',
             column_type_id: 6,
-            locked: false
-          }
-        ]
-      }
-    ]
+            locked: false,
+          },
+        ],
+      },
+    ],
   }
   return ({
     retrieveDatabaseTableAndViewsDefinitions: () => (mockDatabaseCopy),
     retrieveTableColumns: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).columns)),
     retrieveTableRowsWithSkipAndLimit: jest.fn(() => ({})),
-    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views))
+    retrieveTableViews: jest.fn((tableId) => mockDeepCloneObject(mockDatabase.tables.find(table => table.id === tableId).views)),
   })
 })
 
@@ -393,7 +393,7 @@ jest.mock('@/services/lck-helpers/database', () => {
 */
 
 jest.mock('@/services/lck-helpers/process', () => ({
-  retrieveManualProcessWithRuns: jest.fn(() => ([]))
+  retrieveManualProcessWithRuns: jest.fn(() => ([])),
 }))
 
 /*
@@ -401,11 +401,11 @@ getComponentEditableColumn
 isEditableColumn
 */
 jest.mock('@/services/lck-utils/columns', () => ({
-  isEditableColumn: jest.fn(() => false)
+  isEditableColumn: jest.fn(() => false),
 }))
 
 jest.mock('@/services/lck-utils/filter', () => ({
-  getCurrentFilters: () => ({})
+  getCurrentFilters: () => ({}),
 }))
 
 // Tests
@@ -419,9 +419,9 @@ describe('Database', () => {
         t: key => key,
         $t: key => key,
         $toast: {
-          add: jest.fn()
-        }
-      }
+          add: jest.fn(),
+        },
+      },
     }
   }
 
@@ -474,7 +474,7 @@ describe('Database', () => {
         // Send api request
         expect(lckServices.tableColumn.patch).toHaveBeenCalledWith(
           mockFirstTable.columns[0].id,
-          updatedColumnData
+          updatedColumnData,
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].text).toBe(updatedColumnData.text)
@@ -500,8 +500,8 @@ describe('Database', () => {
         expect(spyOnToast).toHaveBeenCalledWith(
           expect.objectContaining({
             summary: mockFirstTable.columns[0].text,
-            detail: 'error.basic'
-          })
+            detail: 'error.basic',
+          }),
         )
       })
 
@@ -517,8 +517,8 @@ describe('Database', () => {
         expect(spyOnToast).toHaveBeenCalledWith(
           expect.objectContaining({
             summary: mockFirstTable.columns[0].text,
-            detail: 'error.http.404'
-          })
+            detail: 'error.http.404',
+          }),
         )
       })
     })
@@ -539,7 +539,7 @@ describe('Database', () => {
         // Send api request
         expect(lckServices.tableViewColumn.patch).toHaveBeenCalledWith(
           `${mockFirstTableView.id},${mockFirstTableView.columns[0].id}`,
-          updatedTableColumnData
+          updatedTableColumnData,
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].displayed).toBe(updatedTableColumnData.displayed)
@@ -553,7 +553,7 @@ describe('Database', () => {
         // Send api request
         expect(lckServices.tableViewColumn.patch).toHaveBeenCalledWith(
           `${mockFirstTableView.id},${mockFirstTableView.columns[0].id}`,
-          updatedTableColumnData
+          updatedTableColumnData,
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].displayed).toBe(updatedTableColumnData.displayed)
@@ -576,8 +576,8 @@ describe('Database', () => {
         expect(spyOnToast).toHaveBeenCalledWith(
           expect.objectContaining({
             summary: mockFirstTable.columns[0].text,
-            detail: 'error.basic'
-          })
+            detail: 'error.basic',
+          }),
         )
       })
 
@@ -592,8 +592,8 @@ describe('Database', () => {
         expect(spyOnToast).toHaveBeenCalledWith(
           expect.objectContaining({
             summary: mockFirstTable.columns[0].text,
-            detail: 'error.http.404'
-          })
+            detail: 'error.http.404',
+          }),
         )
       })
     })

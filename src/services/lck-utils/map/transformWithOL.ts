@@ -2,16 +2,17 @@ import WKT from 'ol/format/WKT'
 import Feature from 'ol/Feature'
 import GeoJSON, {
   GeoJSONFeature,
-  GeoJSONFeatureCollection
+  GeoJSONFeatureCollection,
 } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
+import Geometry from 'ol/geom/Geometry'
 
-import mapboxgl, {
+import {
   CircleLayer,
   Expression,
   FillLayer,
   LineLayer,
-  SymbolLayer
+  SymbolLayer,
 } from 'mapbox-gl'
 
 import { TranslateResult } from 'vue-i18n'
@@ -24,7 +25,7 @@ import {
   MapSettings,
   MapSourceSettings,
   MapSourceStyle,
-  MapSourceTriggerEvents
+  MapSourceTriggerEvents,
 } from '@locokit/lck-glossary'
 
 import {
@@ -34,31 +35,31 @@ import {
   LckTableView,
   LckTableViewColumn,
   MapPopupMode,
-  SelectValue
+  SelectValue,
 } from '@/services/lck-api/definitions'
 import {
   getColumnDisplayValue,
   getColumnTypeId,
-  getDataFromTableViewColumn
+  getDataFromTableViewColumn,
 } from '@/services/lck-utils/columns'
 import { objectFromArray } from '../arrays'
 import cloneDeep from 'lodash.clonedeep'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
-  type: 'circle'
+  type: 'circle',
 }
 const LCK_GEO_STYLE_MARKER: SymbolLayer = {
   id: 'layer-type-symbol',
-  type: 'symbol'
+  type: 'symbol',
 }
 const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   id: 'layer-type-line',
-  type: 'line'
+  type: 'line',
 }
 const LCK_GEO_STYLE_POLYGON: FillLayer = {
   id: 'layer-type-fill',
-  type: 'fill'
+  type: 'fill',
 }
 
 const styleFieldName = 'styleField'
@@ -69,7 +70,7 @@ export const GEO_STYLE = {
   Point: LCK_GEO_STYLE_POINT,
   Marker: LCK_GEO_STYLE_MARKER,
   Linestring: LCK_GEO_STYLE_LINESTRING,
-  Polygon: LCK_GEO_STYLE_POLYGON
+  Polygon: LCK_GEO_STYLE_POLYGON,
 }
 
 export interface LckGeoResource {
@@ -89,7 +90,7 @@ export interface PopupContent {
   class?: string | null;
   field: {
     label: string | null;
-    value: string | number | null;
+    value: string | number | boolean | null;
     color?: string | null;
     backgroundColor?: string | null;
   };
@@ -110,12 +111,8 @@ export interface LckFeatureProperties {
 /**
  * Convert spatial geometry EWKT
  * Transform EWKT into OL Feature
- *
- * @param ewkt
- *
- * @return {Feature<Geometry>}
  */
-export const transformEWKTtoFeature = (ewkt: string) => {
+export const transformEWKTtoFeature = (ewkt: string): Feature<Geometry> => {
   // Split EWKT to get reference coordinate system and geometry object
   const formattedData = ewkt.split(';', 2)
   const srid = formattedData[0].substring(5)
@@ -125,18 +122,14 @@ export const transformEWKTtoFeature = (ewkt: string) => {
   const format = new WKT()
   return format.readFeature(wkt, {
     dataProjection: `EPSG:${srid}`,
-    featureProjection: 'EPSG:4326'
+    featureProjection: 'EPSG:4326',
   })
 }
 
 /**
  * Convert a Geojson OL feature into ewkt
- *
- * @param geoJSONFeature feature
- *
- * @return {string | null}
  */
-export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326') => {
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326'): string | null => {
   // Transform geoJSON to OL Feature
   const geoJSONformat = new GeoJSON()
   const feature = geoJSONformat.readFeature(geoJSONFeature)
@@ -145,7 +138,7 @@ export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '43
   const wktFormat = new WKT()
   return `SRID=${srid};${wktFormat.writeFeature(feature, {
     dataProjection: `EPSG:${srid}`,
-    featureProjection: 'EPSG:4326'
+    featureProjection: 'EPSG:4326',
   })}`
 }
 
@@ -168,22 +161,22 @@ export interface MapEditableStyleProperties {
 export const mapDefaultStyle: MapEditableStyleProperties = {
   fill: {
     width: 10,
-    color: '#EA0E0E'
+    color: '#EA0E0E',
   },
   stroke: {
     width: 2,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   icon: {
     url: '/img/marker-icon.png',
-    size: 1
+    size: 1,
   },
   opacity: [
     'case',
     ['boolean', ['feature-state', 'selectable'], false],
     1, // Feature opacity on selection
-    0.5 // Default feature opacity
-  ]
+    0.5, // Default feature opacity
+  ],
 }
 
 /**
@@ -212,17 +205,17 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
   const defaultStyle: MapEditableStyleProperties = {
     fill: {
       color: fill.color || mapDefaultStyle.fill.color,
-      width: fill.width || mapDefaultStyle.fill.width
+      width: fill.width || mapDefaultStyle.fill.width,
     },
     stroke: {
       color: stroke.color || mapDefaultStyle.stroke.color,
-      width: stroke.width || mapDefaultStyle.stroke.width
+      width: stroke.width || mapDefaultStyle.stroke.width,
     },
     icon: {
       url: icon || mapDefaultStyle.icon.url,
-      size: fill.width || mapDefaultStyle.icon.size
+      size: fill.width || mapDefaultStyle.icon.size,
     },
-    opacity: mapDefaultStyle.opacity
+    opacity: mapDefaultStyle.opacity,
   }
 
   if (sourceStyle?.default?.icon) displayMarkers = true
@@ -319,11 +312,11 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
           geoStyle = GEO_STYLE.Marker
           geoStyle.paint = {
             'icon-color': computedStyle.fill.color,
-            'icon-opacity': computedStyle.opacity
+            'icon-opacity': computedStyle.opacity,
           }
           geoStyle.layout = {
             'icon-image': computedStyle.icon.url,
-            'icon-size': computedStyle.icon.size
+            'icon-size': computedStyle.icon.size,
           }
           geoStyle.imagesToLoad = imagesToLoad
         } else {
@@ -334,26 +327,28 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
             'circle-color': computedStyle.fill.color,
             'circle-radius': computedStyle.fill.width,
             'circle-stroke-color': computedStyle.stroke.color,
-            'circle-stroke-width': computedStyle.stroke.width
+            'circle-stroke-width': computedStyle.stroke.width,
           }
         }
         break
       case COLUMN_TYPE.GEOMETRY_LINESTRING:
+      case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
         geoStyle = GEO_STYLE.Linestring
         geoStyle.paint = {
           ...GEO_STYLE.Linestring.paint,
           'line-opacity': computedStyle.opacity,
           'line-color': computedStyle.fill.color,
-          'line-width': computedStyle.fill.width
+          'line-width': computedStyle.fill.width,
         }
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
+      case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
         geoStyle = GEO_STYLE.Polygon
         geoStyle.paint = {
           ...GEO_STYLE.Polygon.paint,
           'fill-opacity': computedStyle.opacity,
           'fill-color': computedStyle.fill.color,
-          'fill-outline-color': computedStyle.stroke.color
+          'fill-outline-color': computedStyle.stroke.color,
 
         }
         break
@@ -364,7 +359,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
     if (geoStyle) {
       layers.push({
         ...geoStyle,
-        id: `${sourceId}-${geoStyle.id}`
+        id: `${sourceId}-${geoStyle.id}`,
       })
     }
   })
@@ -403,7 +398,7 @@ export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
  */
 export function getOnlyGeoColumns (
   columns: LckTableViewColumn[],
-  sourceSettings: MapSourceSettings
+  sourceSettings: MapSourceSettings,
 ): LckTableViewColumn[] {
   if (sourceSettings.field) {
     const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(column.column_type_id))
@@ -430,7 +425,7 @@ export function makeGeoJsonFeaturesCollection (
   definitionColumns: Record<string, LckTableViewColumn>,
   source: MapSourceSettings,
   i18nOptions: LckPopupI18nOptions,
-  colorColumn?: LckTableViewColumn
+  colorColumn?: LckTableViewColumn,
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
 
@@ -465,7 +460,7 @@ export function makeGeoJsonFeaturesCollection (
           const featureProperties: LckFeatureProperties = {
             id: `${row.id}:${geoColumn.id}`,
             columnId: geoColumn.id,
-            rowId: row.id
+            rowId: row.id,
           }
           /**
            * Manage popup information
@@ -489,11 +484,11 @@ export function makeGeoJsonFeaturesCollection (
                   const data = getDataFromTableViewColumn(
                     matchingColumnField,
                     row.data[contentField.field],
-                    i18nOptions
+                    i18nOptions,
                   )
                   allContent.push({
                     ...contentField,
-                    field: data
+                    field: data,
                   })
                 }
               })
@@ -524,7 +519,7 @@ export function makeGeoJsonFeaturesCollection (
                 featureProperties.displayedData![field] = getColumnDisplayValue(
                   definitionColumns[field],
                   row.data[field],
-                  true
+                  true,
                 )
               })
             }
@@ -547,10 +542,8 @@ export function makeGeoJsonFeaturesCollection (
 
 /**
  * Get the OL geometry types that can be editable from an array of columns
- * @param columns
- * @returns { Set<GeometryType> }
  */
-export function getEditableGeometryTypes (columns: LckTableViewColumn[]) {
+export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<GeometryType> {
   const editableGeometryTypes: Set<GeometryType> = new Set()
   columns.forEach(column => {
     if (column.editable) {
@@ -575,7 +568,7 @@ export function getLckGeoResources (
   tableViews: Record<string, LckTableView>,
   data: Record<string, LckTableRow[]>,
   settings: MapSettings,
-  i18nOptions: LckPopupI18nOptions
+  i18nOptions: LckPopupI18nOptions,
 ): LckGeoResource[] {
   const lckGeoResources: LckGeoResource[] = []
   settings.sources.forEach((source, index) => {
@@ -596,7 +589,7 @@ export function getLckGeoResources (
         columnsObject,
         source,
         i18nOptions,
-        styleColumn
+        styleColumn,
       )
 
       const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
@@ -623,7 +616,7 @@ export function getLckGeoResources (
         editableGeometryTypes,
         triggerEvents: source.triggerEvents,
         caughtEvents: source.caughtEvents,
-        selectable
+        selectable,
       })
     }
   })
@@ -634,4 +627,5 @@ export interface LckPopupI18nOptions {
   noReference: string | TranslateResult;
   noData: string | TranslateResult;
   dateFormat: string | TranslateResult;
+  datetimeFormat: string | TranslateResult;
 }

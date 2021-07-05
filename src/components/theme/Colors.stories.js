@@ -4,9 +4,9 @@ export default {
     docs: {
       description: `
         The current theme's colors.
-      `
-    }
-  }
+      `,
+    },
+  },
 
 }
 
@@ -28,7 +28,7 @@ export const defaultStory = () => ({
     secondary-color-darken
     <p style="background-color: var(--secondary-color-darken); color: var(--text-color-secondary); padding: 1rem;" />
   </div>
-  `
+  `,
 })
 defaultStory.storyName = 'main'
 
@@ -54,7 +54,7 @@ export const surfaces = () => ({
     surface-lck-2
     <p style="background-color: var(--surface-lck-2); color: var(--primary-color-text); padding: 1rem;" />
   </div>
-  `
+  `,
 })
 surfaces.storyName = 'surfaces'
 
@@ -74,6 +74,6 @@ export const semaphore = () => ({
     color-success-light
     <p style="background-color: var(--color-success-light); color: var(--primary-color-text); padding: 1rem;" />
   </div>
-  `
+  `,
 })
 semaphore.storyName = 'semaphore'

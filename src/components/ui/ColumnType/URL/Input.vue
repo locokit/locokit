@@ -28,21 +28,21 @@ import InputText from 'primevue/inputtext'
 export default {
   name: 'LckURLInput',
   components: {
-    'p-input-text': Vue.extend(InputText)
+    'p-input-text': Vue.extend(InputText),
   },
   props: {
     appendTo: {
       type: String,
-      default: 'body'
+      default: 'body',
     },
     value: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data () {
     return {
-      validURL: false
+      validURL: false,
     }
   },
   mounted () {
@@ -57,13 +57,13 @@ export default {
     },
     urlValidity () {
       return this.value && this.$refs?.URLInput?.$el.validity.valid
-    }
+    },
   },
   watch: {
     value () {
       this.validURL = this.urlValidity()
-    }
-  }
+    },
+  },
 }
 </script>
 

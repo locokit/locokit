@@ -4,7 +4,7 @@ import { shallowMount } from '@vue/test-utils'
 import GeometryType from 'ol/geom/GeometryType'
 
 import {
-  GEO_STYLE
+  GEO_STYLE,
 } from '@/services/lck-utils/map/transformWithOL'
 
 import Map from './Map.vue'
@@ -24,7 +24,7 @@ const mockResources = [
         type: 'Feature',
         geometry: {
           type: GeometryType.POINT,
-          coordinates: [10, 20]
+          coordinates: [10, 20],
         },
         id: 'f1',
         properties: {
@@ -35,26 +35,26 @@ const mockResources = [
             {
               field: {
                 label: 'First field',
-                value: 10
-              }
-            }
-          ])
-        }
+                value: 10,
+              },
+            },
+          ]),
+        },
       },
       {
         type: 'Feature',
         geometry: {
           type: GeometryType.POINT,
-          coordinates: [15, 30]
+          coordinates: [15, 30],
         },
         id: 'f2',
-        properties: {}
-      }
+        properties: {},
+      },
     ],
     layers: [GEO_STYLE.Point],
     popupMode: null,
     editableGeometryTypes: new Set([GeometryType.POINT]),
-    selectable: false
+    selectable: false,
   },
   {
     id: 'resource_2',
@@ -63,7 +63,7 @@ const mockResources = [
     layers: [GEO_STYLE.Point],
     popupMode: null,
     editableGeometryTypes: new Set([GeometryType.POLYGON]),
-    selectable: false
+    selectable: false,
   },
   {
     id: 'resource_3',
@@ -72,7 +72,7 @@ const mockResources = [
     layers: [GEO_STYLE.Point],
     popupMode: 'click',
     editableGeometryTypes: new Set(),
-    selectable: false
+    selectable: false,
   },
   {
     id: 'resource_4',
@@ -81,7 +81,7 @@ const mockResources = [
     layers: [GEO_STYLE.Point],
     popupMode: 'click',
     editableGeometryTypes: new Set(),
-    selectable: true
+    selectable: true,
   },
   {
     id: 'resource_5',
@@ -90,8 +90,8 @@ const mockResources = [
     layers: [GEO_STYLE.Point],
     popupMode: 'hover',
     editableGeometryTypes: new Set(),
-    selectable: false
-  }
+    selectable: false,
+  },
 ]
 
 const mockFirstFeature = mockResources[0].features[0]
@@ -103,10 +103,10 @@ jest.mock('@locokit/lck-glossary', () => ({
   BLOCK_TYPE: {
     PARAGRAPH: 'Paragraph',
     TABLE_VIEW: 'TableView',
-    MAPVIEW: 'MapView'
+    MAPVIEW: 'MapView',
   },
   COLUMN_TYPE: {
-  }
+  },
 }))
 
 jest.mock('vue-i18n')
@@ -114,10 +114,10 @@ jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({
     addControl: jest.fn(),
     dragRotate: {
-      disable: jest.fn()
+      disable: jest.fn(),
     },
     touchZoomRotate: {
-      disableRotation: jest.fn()
+      disableRotation: jest.fn(),
     },
     on: jest.fn((event, func) => {
       if (event === 'load') func()
@@ -130,7 +130,7 @@ jest.mock('mapbox-gl', () => ({
     removeLayer: jest.fn(),
     setPaintProperty: jest.fn(),
     getSource: jest.fn(() => ({
-      setData: jest.fn()
+      setData: jest.fn(),
     })),
     removeSource: jest.fn(),
     fitBounds: jest.fn(),
@@ -138,7 +138,7 @@ jest.mock('mapbox-gl', () => ({
     setFeatureState: jest.fn(),
     setStyle: jest.fn(),
     setCenter: jest.fn(),
-    setZoom: jest.fn()
+    setZoom: jest.fn(),
   })),
   NavigationControl: jest.fn(),
   ScaleControl: jest.fn(),
@@ -149,9 +149,9 @@ jest.mock('mapbox-gl', () => ({
     addTo: jest.fn(),
     setHTML: jest.fn(),
     getElement: jest.fn(() => ({
-      querySelectorAll: jest.fn(() => [])
-    }))
-  }))
+      querySelectorAll: jest.fn(() => []),
+    })),
+  })),
 }))
 
 // jest.mock('@mapbox/mapbox-gl-draw/')
@@ -159,20 +159,20 @@ jest.mock('@mapbox/mapbox-gl-draw', () =>
   jest.fn(() => ({
     getMode: jest.fn(() => 'simple_select'),
     getAll: jest.fn(() => ({
-      features: mockResources[0].features
+      features: mockResources[0].features,
     })),
     delete: jest.fn(),
     set: jest.fn(),
     getSelectedIds: jest.fn(() => [mockSecondFeature.id]),
-    MapboxDraw: jest.fn()
-  }))
+    MapboxDraw: jest.fn(),
+  })),
 )
 
 // Mock internal functions
 jest.mock('@/services/lck-utils/map/computeGeo', () => ({
   computeBoundingBox: () => ({
-    isEmpty: () => true
-  })
+    isEmpty: () => true,
+  }),
 }))
 
 // Tests
@@ -185,8 +185,8 @@ describe('Map component', () => {
         const wrapper = shallowMount(Map, {
           propsData: {
             singleEditMode: true,
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         // Choose the editable geometry types depending of the map mockResources
         expect(wrapper.vm.editableGeometryTypes.size).toBe(2)
@@ -199,8 +199,8 @@ describe('Map component', () => {
             point: true,
             line_string: false,
             polygon: true,
-            trash: true
-          }
+            trash: true,
+          },
         }))
       })
 
@@ -209,8 +209,8 @@ describe('Map component', () => {
         const wrapper = shallowMount(Map, {
           propsData: {
             singleEditMode: false,
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         // No control to add a new feature must be displayed
         expect(wrapper.vm.editableGeometryTypes.size).toBe(0)
@@ -221,8 +221,8 @@ describe('Map component', () => {
             point: false,
             line_string: false,
             polygon: false,
-            trash: true
-          }
+            trash: true,
+          },
         }))
       })
 
@@ -231,15 +231,15 @@ describe('Map component', () => {
         const wrapper = shallowMount(Map, {
           propsData: {
             singleEditMode: true,
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         // Initialize the draw controls
         wrapper.vm.map.addControl.mockClear()
         wrapper.vm.map.removeControl.mockClear()
         // Update the resources: mockResources
         await wrapper.setProps({
-          resources: []
+          resources: [],
         })
         // No controls must be displayed
         expect(wrapper.vm.editableGeometryTypes.size).toBe(0)
@@ -253,16 +253,16 @@ describe('Map component', () => {
         const wrapper = shallowMount(Map, {
           propsData: {
             singleEditMode: true,
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         wrapper.vm.map.removeControl.mockClear()
         wrapper.vm.map.addControl.mockClear()
         // Update the mockResources
         await wrapper.setProps({
           resources: [
-            mockResources[0]
-          ]
+            mockResources[0],
+          ],
         })
         // Choose the editable geometry types depending of the new mockResources
         expect(wrapper.vm.editableGeometryTypes.size).toBe(1)
@@ -276,8 +276,8 @@ describe('Map component', () => {
             point: true,
             line_string: false,
             polygon: false,
-            trash: true
-          }
+            trash: true,
+          },
         }))
       })
     })
@@ -289,21 +289,21 @@ describe('Map component', () => {
         // Initialize the component
         const wrapper = shallowMount(Map, {
           propsData: {
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         // Select a feature
         wrapper.vm.selectFeature(resourceId, mockFirstFeature.id)
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
-          [resourceId]: mockFirstFeature.id
+          [resourceId]: mockFirstFeature.id,
         })
         // Customize it
         expect(wrapper.vm.map.setFeatureState).toHaveBeenNthCalledWith(1, {
           source: resourceId,
-          id: mockFirstFeature.id
+          id: mockFirstFeature.id,
         }, {
-          selectable: true
+          selectable: true,
         })
       })
 
@@ -311,14 +311,14 @@ describe('Map component', () => {
         // Initialize the component
         const wrapper = shallowMount(Map, {
           propsData: {
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         // Select a feature
         wrapper.vm.selectFeature(resourceId, null)
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
-          [resourceId]: null
+          [resourceId]: null,
         })
         // Don't customize it
         expect(wrapper.vm.map.setFeatureState).not.toHaveBeenCalled()
@@ -330,45 +330,45 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
             defaultSelectedFeatureBySource: {
-              [resourceId]: mockFirstFeature.id
-            }
-          }
+              [resourceId]: mockFirstFeature.id,
+            },
+          },
         })
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
-          [resourceId]: mockFirstFeature.id
+          [resourceId]: mockFirstFeature.id,
         })
         // Select the new feature
         expect(wrapper.vm.map.setFeatureState).toHaveBeenCalledWith({
           source: resourceId,
-          id: mockFirstFeature.id
+          id: mockFirstFeature.id,
         }, {
-          selectable: true
+          selectable: true,
         })
         wrapper.vm.map.setFeatureState.mockClear()
         // Select the same feature
         await wrapper.setProps({
           defaultSelectedFeatureBySource: {
-            [resourceId]: mockFirstFeature.id
-          }
+            [resourceId]: mockFirstFeature.id,
+          },
         })
         expect(wrapper.vm.map.setFeatureState).not.toHaveBeenCalled()
         // Select another feature
         await wrapper.setProps({
           defaultSelectedFeatureBySource: {
-            [resourceId]: mockSecondFeature.id
-          }
+            [resourceId]: mockSecondFeature.id,
+          },
         })
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
-          [resourceId]: mockSecondFeature.id
+          [resourceId]: mockSecondFeature.id,
         })
         // Select the new feature
         expect(wrapper.vm.map.setFeatureState).toHaveBeenLastCalledWith({
           source: resourceId,
-          id: mockSecondFeature.id
+          id: mockSecondFeature.id,
         }, {
-          selectable: true
+          selectable: true,
         })
       })
 
@@ -378,29 +378,29 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
             defaultSelectedFeatureBySource: {
-              [resourceId]: mockFirstFeature.id
-            }
-          }
+              [resourceId]: mockFirstFeature.id,
+            },
+          },
         })
         // Select another feature in the same source
         wrapper.vm.selectFeature(resourceId, mockSecondFeature.id)
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
-          [resourceId]: mockSecondFeature.id
+          [resourceId]: mockSecondFeature.id,
         })
         // Unselect the previous one
         expect(wrapper.vm.map.setFeatureState).toHaveBeenNthCalledWith(2, {
           source: resourceId,
-          id: mockFirstFeature.id
+          id: mockFirstFeature.id,
         }, {
-          selectable: false
+          selectable: false,
         })
         // Select the new one
         expect(wrapper.vm.map.setFeatureState).toHaveBeenNthCalledWith(3, {
           source: resourceId,
-          id: mockSecondFeature.id
+          id: mockSecondFeature.id,
         }, {
-          selectable: true
+          selectable: true,
         })
       })
       describe('selectFeatureOnClick', () => {
@@ -409,8 +409,8 @@ describe('Map component', () => {
         beforeAll(() => {
           wrapper = shallowMount(Map, {
             propsData: {
-              resources: mockResources
-            }
+              resources: mockResources,
+            },
           })
           wrapper.vm.selectFeatureOnClick('customLayerId', 'resourceId')
           selectFeatureOnClickFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
@@ -424,7 +424,7 @@ describe('Map component', () => {
 
         it('Emit an event if the selected feature is not already selected', () => {
           selectFeatureOnClickFunction({
-            features: [mockFirstFeature]
+            features: [mockFirstFeature],
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
           expect(spyOnEmitEvent).toHaveBeenCalledWith('select-feature', mockFirstFeature)
@@ -434,17 +434,17 @@ describe('Map component', () => {
           const featureWithoutId = mockDeepCloneObject(mockFirstFeature)
           delete featureWithoutId.id
           selectFeatureOnClickFunction({
-            features: [featureWithoutId]
+            features: [featureWithoutId],
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
 
         it('Do not emit an event if the selected feature is already selected', () => {
           selectFeatureOnClickFunction({
-            features: [mockFirstFeature]
+            features: [mockFirstFeature],
           })
           selectFeatureOnClickFunction({
-            features: [mockFirstFeature]
+            features: [mockFirstFeature],
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
         })
@@ -459,12 +459,12 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
             hasPopup: true,
-            mode: 'Block'
+            mode: 'Block',
           },
           mocks: {
             t: key => key,
-            $t: key => key
-          }
+            $t: key => key,
+          },
         })
         wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
         addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
@@ -475,7 +475,7 @@ describe('Map component', () => {
         wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => false)
         addPopupOnFeatureFunction({
           features: [mockFirstFeature],
-          type: 'mousemove'
+          type: 'mousemove',
         })
         expect(wrapper.vm.popup.component.addTo).toHaveBeenCalledWith(wrapper.vm.map)
         expect(wrapper.vm.popup.featuresIds).toBe('f1')
@@ -485,7 +485,7 @@ describe('Map component', () => {
         wrapper.vm.popup.component.addTo.mockClear()
         wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => true)
         addPopupOnFeatureFunction({
-          features: [mockFirstFeature]
+          features: [mockFirstFeature],
         })
         expect(wrapper.vm.popup.component.addTo).not.toHaveBeenCalled()
       })
@@ -493,7 +493,7 @@ describe('Map component', () => {
       it('Do not move the popup if there is no features', () => {
         wrapper.vm.popup.component.setLngLat.mockClear()
         addPopupOnFeatureFunction({
-          features: []
+          features: [],
         })
         expect(wrapper.vm.popup.component.setLngLat).not.toHaveBeenCalled()
       })
@@ -503,14 +503,14 @@ describe('Map component', () => {
         // Display the popup the first time on one feature
         addPopupOnFeatureFunction({
           features: [mockFirstFeature],
-          type: 'mousemove'
+          type: 'mousemove',
         })
         expect(wrapper.vm.popup.component.setHTML).toHaveBeenCalledTimes(1)
         wrapper.vm.popup.component.setHTML.mockClear()
         // Display the popup the second time on the same feature
         addPopupOnFeatureFunction({
           features: [mockFirstFeature],
-          type: 'mousemove'
+          type: 'mousemove',
         })
         expect(wrapper.vm.popup.component.setHTML).not.toHaveBeenCalled()
       })
@@ -524,30 +524,30 @@ describe('Map component', () => {
           propsData: {
             resources: [mockResources[4]],
             hasPopup: true,
-            mode: 'Block'
+            mode: 'Block',
           },
           mocks: {
             t: key => key,
-            $t: key => key
-          }
+            $t: key => key,
+          },
         })
         wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
         addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId.find(listener =>
-          listener.type === 'touchstart'
+          listener.type === 'touchstart',
         ).func
         removePopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId.find(listener =>
-          listener.type === 'mouseleave'
+          listener.type === 'mouseleave',
         ).func
       })
 
       it('Remove the popup from the map', () => {
         addPopupOnFeatureFunction({
           features: [mockFirstFeature],
-          type: 'mousemove'
+          type: 'mousemove',
         })
         wrapper.vm.popup.component.remove.mockClear()
         removePopupOnFeatureFunction({
-          features: [mockResources[4]]
+          features: [mockResources[4]],
         })
         expect(wrapper.vm.popup.component.remove).toHaveBeenCalled()
         expect(wrapper.vm.popup.featuresIds).toBe('')
@@ -566,9 +566,9 @@ describe('Map component', () => {
             myFirstLayerId: [
               {
                 type: 'click',
-                func: myFunction
-              }
-            ]
+                func: myFunction,
+              },
+            ],
           })
         })
 
@@ -581,13 +581,13 @@ describe('Map component', () => {
             myFirstLayerId: [
               {
                 type: 'click',
-                func: myFunction
+                func: myFunction,
               },
               {
                 type: 'mousedown',
-                func: myFunction
-              }
-            ]
+                func: myFunction,
+              },
+            ],
           })
         })
       })
@@ -607,9 +607,9 @@ describe('Map component', () => {
             mySecondLayerId: [
               {
                 type: 'mousedown',
-                func: myFunction
-              }
-            ]
+                func: myFunction,
+              },
+            ],
           })
           // Check listeners are removed from the map
           expect(wrapper.vm.map.off).toHaveBeenCalledTimes(2)
@@ -629,9 +629,9 @@ describe('Map component', () => {
             myFirstLayerId: [
               {
                 type: 'click',
-                func: myFunction
-              }
-            ]
+                func: myFunction,
+              },
+            ],
           })
           expect(wrapper.vm.map.off).not.toHaveBeenCalled()
         })
@@ -640,17 +640,17 @@ describe('Map component', () => {
         it('if the features of the layer are selectable', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
-              resources: [mockResources[3]]
-            }
+              resources: [mockResources[3]],
+            },
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
           expect(listeners).toContainEqual({
             type: 'mouseenter',
-            func: wrapper.vm.setPointerCursor
+            func: wrapper.vm.setPointerCursor,
           }, {
             type: 'mouseleave',
-            func: wrapper.vm.resetCursor
+            func: wrapper.vm.resetCursor,
           })
         })
 
@@ -658,18 +658,18 @@ describe('Map component', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
               resources: [mockResources[2]],
-              hasPopup: true
-            }
+              hasPopup: true,
+            },
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
           expect(listeners).toContainEqual({
             type: 'mouseenter',
-            func: wrapper.vm.setPointerCursor
+            func: wrapper.vm.setPointerCursor,
           },
           {
             type: 'mouseleave',
-            func: wrapper.vm.resetCursor
+            func: wrapper.vm.resetCursor,
           })
         })
 
@@ -677,26 +677,26 @@ describe('Map component', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
               resources: [mockResources[4]],
-              hasPopup: true
-            }
+              hasPopup: true,
+            },
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
           expect(listeners).not.toContainEqual({
             type: 'mouseenter',
-            func: wrapper.vm.setPointerCursor
+            func: wrapper.vm.setPointerCursor,
           },
           {
             type: 'mouseleave',
-            func: wrapper.vm.resetCursor
+            func: wrapper.vm.resetCursor,
           })
         })
 
         it('if the features of the layer are editable', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
-              resources: [mockResources[0]]
-            }
+              resources: [mockResources[0]],
+            },
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(1)
@@ -711,8 +711,8 @@ describe('Map component', () => {
         wrapper = shallowMount(Map, {
           propsData: {
             singleEditMode: true,
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
       })
@@ -726,7 +726,7 @@ describe('Map component', () => {
         it('Emit a "remove-features" event with the specified features', () => {
           wrapper.vm.onDrawDelete({
             features: mockResources[0].features,
-            type: 'draw.delete'
+            type: 'draw.delete',
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
           expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', mockResources[0].features)
@@ -735,7 +735,7 @@ describe('Map component', () => {
         it('Do not emit a "remove-features" event if there are no feature', () => {
           wrapper.vm.onDrawDelete({
             features: [],
-            type: 'draw.delete'
+            type: 'draw.delete',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
@@ -745,7 +745,7 @@ describe('Map component', () => {
         it('Emit an "update-features" event with the specified features in "simple_select" mode', () => {
           wrapper.vm.onDrawModeChange({
             mode: 'simple_select',
-            type: 'draw.modechange'
+            type: 'draw.modechange',
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
           expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', mockResources[0].features)
@@ -753,11 +753,11 @@ describe('Map component', () => {
 
         it('Do not emit an "update-features" if there is no feature', () => {
           wrapper.vm.mapDraw.getAll.mockImplementationOnce(() => ({
-            features: []
+            features: [],
           }))
           wrapper.vm.onDrawModeChange({
             mode: 'simple_select',
-            type: 'draw.modechange'
+            type: 'draw.modechange',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
@@ -765,18 +765,18 @@ describe('Map component', () => {
         it('Remove all the features except the last one when entering a drawing mode', () => {
           wrapper.vm.onDrawModeChange({
             mode: 'draw_polygon',
-            type: 'draw.modechange'
+            type: 'draw.modechange',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
           expect(wrapper.vm.mapDraw.delete).toHaveBeenCalledWith([
-            mockFirstFeature.id
+            mockFirstFeature.id,
           ])
         })
 
         it('Do nothing if the current mode is not a simple select or a drawing one', () => {
           wrapper.vm.onDrawModeChange({
             mode: 'direct_select',
-            type: 'draw.modechange'
+            type: 'draw.modechange',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
           expect(wrapper.vm.mapDraw.delete).not.toHaveBeenCalled()
@@ -788,7 +788,7 @@ describe('Map component', () => {
           wrapper.vm.onDrawUpdate({
             features: mockResources[0].features,
             type: 'draw.update',
-            action: 'move'
+            action: 'move',
           })
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
           expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', mockResources[0].features)
@@ -798,7 +798,7 @@ describe('Map component', () => {
           wrapper.vm.onDrawUpdate({
             features: [],
             type: 'draw.update',
-            action: 'move'
+            action: 'move',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
@@ -807,7 +807,7 @@ describe('Map component', () => {
           wrapper.vm.onDrawUpdate({
             features: [],
             type: 'draw.update',
-            action: 'change_coordinates'
+            action: 'change_coordinates',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
@@ -817,7 +817,7 @@ describe('Map component', () => {
           wrapper.vm.onDrawUpdate({
             features: mockResources[0].features,
             type: 'draw.update',
-            action: 'move'
+            action: 'move',
           })
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
@@ -830,8 +830,8 @@ describe('Map component', () => {
       beforeAll(() => {
         wrapper = shallowMount(Map, {
           propsData: {
-            resources: mockResources
-          }
+            resources: mockResources,
+          },
         })
         wrapper.vm.setFeatureEditableOnMouseDown('customLayerId')
         setFeatureEditableFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
@@ -843,11 +843,11 @@ describe('Map component', () => {
 
       it('Add the clicked feature to the mapbox draw source to make it editable', () => {
         setFeatureEditableFunction({
-          features: [mockFirstFeature]
+          features: [mockFirstFeature],
         })
         expect(wrapper.vm.mapDraw.set).toHaveBeenLastCalledWith({
           type: 'FeatureCollection',
-          features: [mockFirstFeature]
+          features: [mockFirstFeature],
         })
       })
 
@@ -855,14 +855,14 @@ describe('Map component', () => {
         const featureWithoutId = mockDeepCloneObject(mockFirstFeature)
         delete featureWithoutId.id
         setFeatureEditableFunction({
-          features: [featureWithoutId]
+          features: [featureWithoutId],
         })
         expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
       })
 
       it('Do not make the selected feature editable if it is already editable', () => {
         setFeatureEditableFunction({
-          features: [mockSecondFeature]
+          features: [mockSecondFeature],
         })
         expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
       })
@@ -870,7 +870,7 @@ describe('Map component', () => {
       it('Do not make the selected feature editable if is not simple_select', () => {
         wrapper.vm.mapDraw.getMode.mockImplementationOnce(() => 'direct_mode')
         setFeatureEditableFunction({
-          features: [mockFirstFeature]
+          features: [mockFirstFeature],
         })
         expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
       })

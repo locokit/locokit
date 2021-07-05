@@ -2,6 +2,7 @@
   <form
     class="p-fluid"
     @submit.prevent="canSubmit && $emit('submit')"
+    ref="lck-form-record"
   >
     <slot />
 
@@ -42,26 +43,38 @@ import Button from 'primevue/button'
 export default {
   name: 'LckForm',
   components: {
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayCancelButton: {
       type: Boolean,
-      default: true
+      default: true,
     },
     canSubmit: {
       type: Boolean,
-      default: true
+      default: true,
     },
     fullWidthButton: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+    reset: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    reset (newValue: boolean) {
+      if (newValue) {
+        (this.$refs['lck-form-record'] as HTMLFormElement).reset()
+        this.$emit('reset-form')
+      }
+    },
+  },
 }
 </script>
 

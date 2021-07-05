@@ -89,28 +89,28 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
-    'delete-column-modal': DeleteColumnModal
+    'delete-column-modal': DeleteColumnModal,
   },
   props: {
     databaseId: String,
     currentTable: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     showUpdateTableSidebar: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
-    currentTableToUpdate: function () { return JSON.parse(JSON.stringify(this.currentTable)) }
+    currentTableToUpdate: function () { return JSON.parse(JSON.stringify(this.currentTable)) },
   },
   data () {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       showHandleColumnModal: false,
       showDeleteColumnModal: false,
-      columnToHandle: null
+      columnToHandle: null,
     }
   },
   methods: {
@@ -118,7 +118,7 @@ export default {
       try {
         await lckServices.table.patch(this.currentTable.id, {
           text: this.currentTableToUpdate.text,
-          documentation: this.currentTableToUpdate.documentation
+          documentation: this.currentTableToUpdate.documentation,
         })
         this.$emit('reload-tables')
       } catch (errorUpdateTable) {
@@ -152,8 +152,8 @@ export default {
     },
     getColumnType (columnTypeId) {
       return this.columnTypes.find((columnType) => columnType.id === columnTypeId).name
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

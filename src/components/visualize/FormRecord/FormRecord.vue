@@ -1,9 +1,11 @@
 <template>
   <lck-form
-    :displayCancelButton="false"
-    :submitting="submitting.inProgress"
-    :fullWidthButton="true"
     :canSubmit="completeForm"
+    :displayCancelButton="false"
+    :fullWidthButton="true"
+    :reset="resetForm"
+    :submitting="submitting.inProgress"
+    @reset-form="reset=false"
     @submit="onSubmitNewRow"
   >
     <lck-data-detail
@@ -16,7 +18,7 @@
       @update-row="onUpdateRow"
       @download-attachment="$listeners['download-attachment']"
       @update-suggestions="$listeners['update-suggestions']"
-      @upload-files="$listeners['upload-files']"
+      @upload-files="onUploadFiles"
     />
   </lck-form>
 </template>
@@ -39,35 +41,36 @@ export default Vue.extend({
   mixins: [CommunicatingBlock],
   components: {
     'lck-data-detail': DataDetail,
-    'lck-form': Form
+    'lck-form': Form,
   },
   props: {
     id: {
-      type: String
+      type: String,
     },
     settings: {
-      type: Object as Vue.PropType<FormRecordSettings>
+      type: Object as Vue.PropType<FormRecordSettings>,
     },
     definition: {
       type: Object as Vue.PropType<LckTableView>,
       default: () => ({
-        columns: []
-      })
+        columns: [],
+      }),
     },
     submitting: {
       type: Object as Vue.PropType<Submitting>,
       default: () => ({
-        inProgress: false
-      })
-    }
+        inProgress: false,
+      }),
+    },
   },
   data () {
     return {
       newRow: {
         id: '',
         text: '',
-        data: {}
-      } as LckTableRow
+        data: {},
+      } as LckTableRow,
+      resetForm: false,
     }
   },
   computed: {
@@ -89,12 +92,16 @@ export default Vue.extend({
     completeForm () {
       // Return true if all required fields are defined and not null
       for (const field of this.requiredColumnsIds) {
-        if (this.newRow.data[field] == null) {
+        if (
+          this.newRow.data[field] === null ||
+          this.newRow.data[field] === undefined ||
+          (typeof this.newRow.data[field] === 'string' && (this.newRow.data[field] as string).length === 0)
+        ) {
           return false
         }
       }
       return true
-    }
+    },
   },
   methods: {
     onUpdateRow ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData }) {
@@ -108,7 +115,7 @@ export default Vue.extend({
       if (triggerEvent) {
         eventHub.$emit(triggerEvent.name, {
           originalValue: newValue,
-          displayedValue: getColumnDisplayValue(this.columnsObject[columnId], newValue, true)
+          displayedValue: getColumnDisplayValue(this.columnsObject[columnId], newValue, true),
         } as EmittedBlockEvent)
       }
     },
@@ -119,8 +126,15 @@ export default Vue.extend({
       this.newRow = {
         id: '',
         text: '',
-        data: {}
+        data: {},
       }
+      this.resetForm = true
+    },
+    onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
+      this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow,
+      })
     },
     onSelectBlockEvent (columnId: string | undefined, { originalValue }: EmittedBlockEvent) {
       // Catch an event coming from another block to affect the value to a specific field
@@ -128,10 +142,10 @@ export default Vue.extend({
         const { data } = this.newRow
         data[columnId] = originalValue
         this.newRow.data = {
-          ...data
+          ...data,
         }
       }
-    }
+    },
   },
   watch: {
     submitting (submittingValue: Submitting) {
@@ -144,7 +158,7 @@ export default Vue.extend({
           eventHub.$emit(triggerEvent.name, {} as EmittedBlockEvent)
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>

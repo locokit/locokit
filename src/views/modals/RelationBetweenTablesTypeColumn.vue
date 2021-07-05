@@ -23,19 +23,19 @@ import Dropdown from 'primevue/dropdown'
 export default {
   name: 'RelationBetweenTablesTypeColumn',
   components: {
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     databaseId: String,
     columnToHandle: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
       relationTables: [],
-      relationTableId: null
+      relationTableId: null,
     }
   },
   methods: {
@@ -44,11 +44,11 @@ export default {
         query: {
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
-          $limit: 100
-        }
+          $limit: 100,
+        },
       })
       this.relationTables = relationTables?.data
-    }
+    },
   },
   mounted () {
     this.loadRelationTables()
@@ -59,7 +59,7 @@ export default {
   watch: {
     relationTableId () {
       this.$emit('relation-table-id-change', this.relationTableId)
-    }
-  }
+    },
+  },
 }
 </script>

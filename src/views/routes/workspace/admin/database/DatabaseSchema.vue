@@ -51,10 +51,10 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'create-table-modal': Vue.extend(CreateTableModal),
-    'update-table-sidebar': Vue.extend(UpdateTableSidebar)
+    'update-table-sidebar': Vue.extend(UpdateTableSidebar),
   },
   props: {
-    databaseId: String
+    databaseId: String,
   },
   data () {
     return {
@@ -64,7 +64,7 @@ export default {
       errorLoadTables: false,
       showCreateTableModal: false,
       showUpdateTableSidebar: false,
-      currentTable: null
+      currentTable: null,
     }
   },
   computed: {
@@ -75,7 +75,7 @@ export default {
         result[t.text] = t
       })
       return result
-    }
+    },
   },
   methods: {
     onClickCreateTableModalButton () {
@@ -105,7 +105,7 @@ export default {
         '#padding: 8',
         '#spacing: 50',
         '#ranker: longest-path',
-        '#title: ' + this.$t('pages.databaseSchema.title')
+        '#title: ' + this.$t('pages.databaseSchema.title'),
       ]
       const sourceTable = []
       const sourceRelation = []
@@ -140,8 +140,8 @@ export default {
             // eslint-disable-next-line @typescript-eslint/camelcase
             database_id: this.databaseId,
             $eager: '[columns]',
-            $limit: 100
-          }
+            $limit: 100,
+          },
         })
         this.tables = tablesWithColumns?.data
         if (this.currentTable) {
@@ -162,7 +162,7 @@ export default {
     reloadTables () {
       this.loadTables()
       this.resizenomnomlSVG()
-    }
+    },
   },
   mounted () {
     this.loadTables()
@@ -183,8 +183,8 @@ export default {
         const nomnomlSVG = nomnoml.renderSvg(nomnomlSource)
         this.nomnomlSVG = nomnomlSVG
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style>

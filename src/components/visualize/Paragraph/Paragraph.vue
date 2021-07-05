@@ -14,13 +14,13 @@ export default Vue.extend({
   name: 'Paragraph',
   props: {
     settings: {
-      type: Object as PropType<ParagraphSettings>
-    }
+      type: Object as PropType<ParagraphSettings>,
+    },
   },
   mixins: [CommunicatingBlock],
   data () {
     return {
-      content: ''
+      content: '',
     }
   },
   methods: {
@@ -29,16 +29,16 @@ export default Vue.extend({
     },
     onResetBlockEvent () {
       this.content = this.settings?.content
-    }
+    },
   },
   watch: {
     'settings.content': {
       immediate: true,
       handler (newContent: string) {
         this.content = newContent
-      }
-    }
-  }
+      },
+    },
+  },
 })
 </script>
 

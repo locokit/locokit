@@ -21,5 +21,5 @@ export function getCellStateNotificationClass (rowId: string, columnId: string, 
 }
 
 export default {
-  getCellStateNotificationClass
+  getCellStateNotificationClass,
 }

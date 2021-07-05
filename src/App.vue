@@ -34,7 +34,7 @@
 <script>
 import {
   authState,
-  logout
+  logout,
 } from '@/store/auth'
 import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
@@ -48,7 +48,7 @@ export default {
   components: {
     'lck-header': Header,
     'lck-popup-reload': PopupReload,
-    'p-toast': Toast
+    'p-toast': Toast,
   },
   data () {
     return {
@@ -60,7 +60,7 @@ export default {
       // keep it here in the data to make it reactive
       authState,
       displayPopupReload: false,
-      appState
+      appState,
     }
   },
   computed: {
@@ -73,7 +73,7 @@ export default {
     },
     isSuperAdmin () {
       return authState.data.user?.profile === USER_PROFILE.SUPERADMIN
-    }
+    },
   },
   methods: {
     toggleSidebar () {
@@ -82,14 +82,22 @@ export default {
     onLogoutClick () {
       logout()
       this.$router.push(ROUTES_PATH.HOME)
-    }
+    },
   },
   created () {
     // Listen for swUpdated event and display refresh modal.
     document.addEventListener('swUpdated', () => {
       this.displayPopupReload = true
     }, { once: true })
-  }
+  },
+  watch: {
+    '$i18n.locale': {
+      handler () {
+        this.$primevue.config.locale = this.$t('localePrime')
+      },
+      immediate: true,
+    },
+  },
 
 }
 </script>

@@ -15,16 +15,16 @@ import Markdown from '@/components/visualize/Markdown/Markdown.vue'
 export default Vue.extend({
   name: 'MarkdownField',
   components: {
-    'lck-markdown': Markdown
+    'lck-markdown': Markdown,
   },
   props: {
     content: {
-      type: Object as PropType<{ data: LckTableRow[] }>
+      type: Object as PropType<{ data: LckTableRow[] }>,
     },
     settings: {
       type: Object as PropType<MarkdownFieldSettings>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     textToDisplayed (): MarkdownSettings {
@@ -32,15 +32,15 @@ export default Vue.extend({
         return {
           textColor: this.settings?.textColor,
           textAlign: this.settings?.textAlign,
-          content: this.content.data[0].data[this.settings.displayFieldId] as string
+          content: this.content.data[0].data[this.settings.displayFieldId] as string,
         }
       }
       return {
         textColor: this.settings?.textColor,
         textAlign: this.settings?.textAlign,
-        content: ''
+        content: '',
       }
-    }
-  }
+    },
+  },
 })
 </script>

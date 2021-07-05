@@ -22,28 +22,28 @@ import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 export default {
   name: 'DeleteConfirmationDialog',
   components: {
-    'lck-dialog-form': DialogForm
+    'lck-dialog-form': DialogForm,
   },
   props: {
     itemCategory: {
       type: String,
-      default: ''
+      default: '',
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     value: {
-      type: Object
+      type: Object,
     },
     fieldToDisplay: {
       type: String,
-      default: 'text'
-    }
-  }
+      default: 'text',
+    },
+  },
 }
 </script>

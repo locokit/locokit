@@ -4,9 +4,9 @@ export default {
     docs: {
       description: `
         Some examples for input forms with current theme.
-      `
-    }
-  }
+      `,
+    },
+  },
 }
 
 export const defaultStory = () => ({
@@ -25,6 +25,6 @@ export const defaultStory = () => ({
       <textarea>This is an example of a textarea</textarea>
     </p>
   </div>
-  `
+  `,
 })
 defaultStory.storyName = 'headings'

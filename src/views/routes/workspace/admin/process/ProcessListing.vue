@@ -104,17 +104,17 @@ export default Vue.extend({
   components: {
     'layout-with-toolbar': WithToolbar,
     'p-button': Vue.extend(Button),
-    'lck-process': Process
+    'lck-process': Process,
   },
   props: {
     workspaceId: {
       type: String,
-      required: false
+      required: false,
     },
     tableId: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
@@ -124,7 +124,7 @@ export default Vue.extend({
       displayDetailProcess: false,
       currentProcess: new LckProcess() as LckProcess,
       suggestionsTable: [] as { text: string; value: string }[],
-      suggestionsColumn: [] as { text: string; value: string }[]
+      suggestionsColumn: [] as { text: string; value: string }[],
     }
   },
   methods: {
@@ -146,8 +146,8 @@ export default Vue.extend({
             trigger: data.trigger,
             maximumNumberSuccess: data.maximumNumberSuccess,
             settings: {
-              column_id: data.settings?.column_id
-            }
+              column_id: data.settings?.column_id,
+            },
           })
           /**
            * Update our current data
@@ -163,9 +163,9 @@ export default Vue.extend({
                 table: data.table,
                 settings: {
                   ...processPatched,
-                  column: data.settings?.column
-                }
-              }
+                  column: data.settings?.column,
+                },
+              },
             )
           }
         } else {
@@ -184,14 +184,14 @@ export default Vue.extend({
             trigger: data.trigger,
             maximumNumberSuccess: data.maximumNumberSuccess,
             settings: {
-              column_id: data.settings?.column_id
-            }
+              column_id: data.settings?.column_id,
+            },
           })
           this.currentProcess = process
           this.currentProcess.table = data.table
           this.currentProcess.settings = {
             ...this.currentProcess.settings,
-            column: data.settings?.column
+            column: data.settings?.column,
           }
           /**
            * Finally, add the currentProcess to the list of processes
@@ -203,7 +203,7 @@ export default Vue.extend({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000
+          life: 3000,
         })
       }
       this.submitting = false
@@ -224,9 +224,9 @@ export default Vue.extend({
               $eager: '[table, runs]',
               $joinRelation: 'table.[database]',
               $sort: {
-                createdAt: 1
-              }
-            }
+                createdAt: 1,
+              },
+            },
           }) as Paginated<LckProcess>
           this.processResult = processByWorkspace.data
         } else {
@@ -237,9 +237,9 @@ export default Vue.extend({
               table_id: this.tableId,
               $joinRelation: 'runs',
               $sort: {
-                createdAt: 1
-              }
-            }
+                createdAt: 1,
+              },
+            },
           }) as Paginated<LckProcess>
           this.processResult = processByWorkspaceAndTable.data
         }
@@ -272,13 +272,13 @@ export default Vue.extend({
           'database.workspace_id': this.workspaceId,
           $joinRelation: 'database',
           'table.text': {
-            $ilike: `%${query}%`
-          }
-        }
+            $ilike: `%${query}%`,
+          },
+        },
       }) as Paginated<LckTable>
       this.suggestionsTable = tableResult.data.map(tr => ({
         text: tr.text,
-        value: tr.id
+        value: tr.id,
       }))
     },
     async onSearchColumn ({ query, tableId }: { query: string; tableId: string }) {
@@ -286,13 +286,13 @@ export default Vue.extend({
         query: {
           table_id: tableId,
           text: {
-            $ilike: `%${query}%`
-          }
-        }
+            $ilike: `%${query}%`,
+          },
+        },
       }) as Paginated<LckTableColumn>
       this.suggestionsColumn = columnResult.data.map(tr => ({
         text: tr.text,
-        value: tr.id
+        value: tr.id,
       }))
     },
     async onRefreshRuns (process: LckProcess) {
@@ -301,12 +301,12 @@ export default Vue.extend({
           process_id: process.id,
           $limit: 50,
           $sort: {
-            createdAt: -1
-          }
-        }
+            createdAt: -1,
+          },
+        },
       }) as Paginated<LckProcessRun>
       process.runs = processRunResult.data
-    }
+    },
   },
   mounted () {
     this.loadProcesses()
@@ -317,8 +317,8 @@ export default Vue.extend({
     },
     workspaceId () {
       this.loadProcesses()
-    }
-  }
+    },
+  },
 })
 </script>
 

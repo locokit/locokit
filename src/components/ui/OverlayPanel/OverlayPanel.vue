@@ -31,31 +31,31 @@ export default {
   name: 'LckOverlayPanel',
   components: {
     'p-button': Vue.extend(Button),
-    'p-overlay-panel': Vue.extend(OverlayPanel)
+    'p-overlay-panel': Vue.extend(OverlayPanel),
   },
   props: {
     label: {
       type: String,
       default () {
         return this.$t('components.overlayPanel.defaultLabel')
-      }
+      },
     },
     icon: {
       type: String,
-      default: 'pi pi-list'
+      default: 'pi pi-list',
     },
     classButton: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     appendTo: {
       type: String,
-      default: 'body'
-    }
+      default: 'body',
+    },
   },
   methods: {
     toggleOverlayPanel (event) {
@@ -66,8 +66,8 @@ export default {
       if (event?.target?.className.indexOf('p-datepicker') > -1) {
         event.stopPropagation()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

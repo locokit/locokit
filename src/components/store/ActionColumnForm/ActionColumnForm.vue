@@ -154,7 +154,7 @@ import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary'
 
 import {
   ACTIONS_TYPE,
-  NAMED_CLASSES
+  NAMED_CLASSES,
 } from '@/services/lck-utils/prime'
 import { ROUTES_NAMES } from '@/router/paths'
 
@@ -170,17 +170,17 @@ export default {
     'lck-form': LckForm,
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     action: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     submitting: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
@@ -188,22 +188,22 @@ export default {
       NAMED_CLASSES,
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
-      actionCopy: null
+      actionCopy: null,
     }
   },
   methods: {
     submitActionColumnData () {
       this.$emit('action-column-edit', this.actionCopy)
-    }
+    },
   },
   watch: {
     action: {
       handler (newActionColumnValue) {
         this.actionCopy = { ...newActionColumnValue }
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 }
 </script>
 

@@ -23,7 +23,7 @@ export const ROUTES_PATH = {
    */
   ADMIN: '/admin',
   USERMANAGEMENT: '/usermanagement',
-  GROUPMANAGEMENT: '/groupmanagement'
+  GROUPMANAGEMENT: '/groupmanagement',
 }
 
 export const ROUTES_NAMES = {
@@ -58,5 +58,5 @@ export const ROUTES_NAMES = {
   /**
    * Other paths
    */
-  404: '404'
+  404: '404',
 }

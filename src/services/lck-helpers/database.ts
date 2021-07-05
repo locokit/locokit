@@ -6,8 +6,8 @@ import { Paginated } from '@feathersjs/feathers'
 export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: string) {
   const result = await lckServices.database.get(databaseId, {
     query: {
-      $eager: '[tables.[columns,views.[columns]]]'
-    }
+      $eager: '[tables.[columns,views.[columns]]]',
+    },
   })
   return result
 }
@@ -19,10 +19,10 @@ export async function retrieveTableColumns (tableId: string) {
       table_id: tableId,
       $limit: -1,
       $sort: {
-        position: 1
+        position: 1,
       },
-      $eager: 'parents.^'
-    }
+      $eager: 'parents.^',
+    },
   }) as LckTableColumn[]
 }
 
@@ -33,10 +33,10 @@ export async function retrieveTableRowsWithSkipAndLimit (
     skip = 0,
     limit = 20,
     sort = {
-      createdAt: 1
+      createdAt: 1,
     },
-    filters = {}
-  }
+    filters = {},
+  },
 ) {
   return await lckServices.tableRow.find({
     query: {
@@ -45,8 +45,8 @@ export async function retrieveTableRowsWithSkipAndLimit (
       $limit: limit,
       $skip: skip,
       $sort: sort,
-      ...filters
-    }
+      ...filters,
+    },
   })
 }
 
@@ -58,12 +58,12 @@ export async function retrieveTableViews (tableId: string) {
       $eager: '[columns.[parents.^], actions]',
       $limit: 50,
       $sort: {
-        position: 1
-      }
-    }
+        position: 1,
+      },
+    },
   }) as Paginated<LckTableView>
   return result.data.map(view => ({
     ...view,
-    columns: view.columns?.slice(0).sort((a, b) => a.position - b.position)
+    columns: view.columns?.slice(0).sort((a, b) => a.position - b.position),
   }))
 }

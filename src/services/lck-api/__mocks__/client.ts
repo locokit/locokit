@@ -4,24 +4,24 @@ export const lckClient = {
     accessToken: 'jeSuisUnToken',
     authentication: {
       strategy: 'jwt',
-      accessToken: 'jeSuisUnToken'
+      accessToken: 'jeSuisUnToken',
     },
     user: {
       name: 'FirstName LASTNAME',
       email: 'email@email.email',
-      profile: 'SUPERADMIN'
-    }
+      profile: 'SUPERADMIN',
+    },
   }),
   authenticate: () => ({
     accessToken: 'jeSuisUnToken',
     authentication: {
-      strategy: 'local'
+      strategy: 'local',
     },
     user: {
       name: 'FirstName LASTNAME',
       email: 'email@email.email',
-      profile: 'SUPERADMIN'
-    }
+      profile: 'SUPERADMIN',
+    },
   }),
-  service: () => ({})
+  service: () => ({}),
 }

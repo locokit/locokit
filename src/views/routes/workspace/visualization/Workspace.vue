@@ -87,13 +87,13 @@ export default {
     'lck-chapter-dialog': ChapterDialog,
     'lck-page-dialog': PageDialog,
     'lck-confirmation-dialog': DeleteConfirmationDialog,
-    'p-toggle-button': Vue.extend(ToggleButton)
+    'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {
     groupId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -104,11 +104,11 @@ export default {
         chapterEdit: false,
         chapterDelete: false,
         pageEdit: false,
-        pageDelete: false
+        pageDelete: false,
       },
       forceUpdateKey: true,
       submitting: false,
-      workspaceContent: null
+      workspaceContent: null,
     }
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
             label: text,
             to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
             hidden,
-            active: id === this.$route.params.pageId
+            active: id === this.$route.params.pageId,
           }
         ))
         return (
@@ -129,7 +129,7 @@ export default {
             id,
             label: text,
             subitems,
-            active: subitems.some(({ active }) => active)
+            active: subitems.some(({ active }) => active),
           }
         )
       })
@@ -140,7 +140,7 @@ export default {
     workspaceId () {
       if (!this.workspaceContent) return null
       return this.workspaceContent.id
-    }
+    },
   },
   methods: {
     async goToFirstPage () {
@@ -157,8 +157,8 @@ export default {
         name: ROUTES_NAMES.PAGE,
         params: {
           groupId: this.groupId,
-          pageId
-        }
+          pageId,
+        },
       }).catch(error => {
         if (error.from.path !== error.to.path) throw error
         else this.forceUpdateKey = !this.forceUpdateKey
@@ -167,7 +167,7 @@ export default {
     async goToDefaultRoute () {
       await this.$router.replace({
         name: ROUTES_NAMES.VISUALIZATION,
-        params: { groupId: this.groupId }
+        params: { groupId: this.groupId },
       }).catch(error => {
         if (error.from.path !== error.to.path) throw error
       })
@@ -196,7 +196,7 @@ export default {
         if (this.currentChapterToEdit.id) {
           // On update
           const updatedChapter = await lckServices.chapter.patch(this.currentChapterToEdit.id, {
-            text: chapterText
+            text: chapterText,
           })
           for (const key in updatedChapter) {
             this.currentChapterToEdit[key] = updatedChapter[key]
@@ -205,7 +205,7 @@ export default {
           // On create
           const newChapter = await lckServices.chapter.create({
             text: chapterText,
-            workspace_id: this.workspaceId // eslint-disable-line @typescript-eslint/camelcase
+            workspace_id: this.workspaceId, // eslint-disable-line @typescript-eslint/camelcase
           })
           this.workspaceContent.chapters.push(newChapter)
         }
@@ -265,7 +265,7 @@ export default {
           const updatedPage = await lckServices.page.patch(this.currentPageToEdit.id, {
             text,
             hidden,
-            layout
+            layout,
           })
           for (const key in updatedPage) {
             this.currentPageToEdit[key] = updatedPage[key]
@@ -276,7 +276,7 @@ export default {
             text,
             hidden,
             chapter_id: this.currentChapterToEdit.id, // eslint-disable-line @typescript-eslint/camelcase
-            layout
+            layout,
           })
           if (Array.isArray(this.currentChapterToEdit.pages)) {
             this.currentChapterToEdit.pages.push(this.currentPageToEdit)
@@ -323,7 +323,7 @@ export default {
             currentPage = this.currentChapterToEdit.pages[index]
             currentPage.position = index + 1
             updatedPagesPromises.push(lckServices.page.patch(currentPage.id, {
-              position: currentPage.position
+              position: currentPage.position,
             }))
           }
         } else {
@@ -332,7 +332,7 @@ export default {
             currentPage = this.currentChapterToEdit.pages[index]
             currentPage.position = index - 1
             updatedPagesPromises.push(lckServices.page.patch(currentPage.id, {
-              position: currentPage.position
+              position: currentPage.position,
             }))
           }
         }
@@ -351,14 +351,14 @@ export default {
         severity: 'error',
         summary,
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        life: 3000
+        life: 3000,
       })
-    }
+    },
   },
   async mounted () {
     this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.groupId)
     await this.goToFirstPage()
-  }
+  },
 }
 </script>
 

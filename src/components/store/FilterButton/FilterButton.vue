@@ -171,10 +171,10 @@ import { getComponentEditorCellForColumnType, getColumnTypeId } from '@/services
 // Available operators
 const OPERATORS = [{
   label: 'or',
-  value: '$or'
+  value: '$or',
 }, {
   label: 'and',
-  value: '$and'
+  value: '$and',
 }]
 
 // Available actions
@@ -183,72 +183,72 @@ const OPERATORS = [{
 const ACTIONS = {
   MATCH: {
     label: 'match',
-    value: '$ilike'
+    value: '$ilike',
   },
   NOT_MATCH: {
     label: 'doesNotMatch',
-    value: '$notILike'
+    value: '$notILike',
   },
   EQUAL: {
     label: 'isEqualTo',
-    value: '$eq'
+    value: '$eq',
   },
   NOT_EQUAL: {
     label: 'isDifferentFrom',
-    value: '$ne'
+    value: '$ne',
   },
   IN: {
     label: 'in',
-    value: '$in'
+    value: '$in',
   },
   NOT_IN: {
     label: 'notIn',
-    value: '$nin'
+    value: '$nin',
   },
   ALL: {
     label: 'all',
-    value: '$all'
+    value: '$all',
   },
   ANY: {
     label: 'any',
-    value: '$any'
+    value: '$any',
   },
   EMPTY: {
     label: 'isEmpty',
     value: '$null',
-    predefinedPattern: true
+    predefinedPattern: true,
   },
   NOT_EMPTY: {
     label: 'isNotEmpty',
     value: '$notNull',
-    predefinedPattern: true
+    predefinedPattern: true,
   },
   TRUE: {
     label: 'isTrue',
     value: '$eq',
-    predefinedPattern: true
+    predefinedPattern: true,
   },
   FALSE: {
     label: 'isFalse',
     value: '$eq',
-    predefinedPattern: false
+    predefinedPattern: false,
   },
   GREATER_THAN: {
     label: 'isGreaterThan',
-    value: '$gt'
+    value: '$gt',
   },
   LOWER_THAN: {
     label: 'isLowerThan',
-    value: '$lt'
+    value: '$lt',
   },
   GREATER_EQUAL_THAN: {
     label: 'isGreaterThanOrEqualTo',
-    value: '$gte'
+    value: '$gte',
   },
   LOWER_EQUAL_THAN: {
     label: 'isLowerThanOrEqualTo',
-    value: '$lte'
-  }
+    value: '$lte',
+  },
 }
 
 // Filterable types
@@ -261,8 +261,8 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.TRUE,
       ACTIONS.FALSE,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
-    ]
+      ACTIONS.NOT_EMPTY,
+    ],
   },
   [COLUMN_TYPE.STRING]: {
     actions: [
@@ -271,8 +271,8 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.MATCH,
       ACTIONS.NOT_MATCH,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
-    ]
+      ACTIONS.NOT_EMPTY,
+    ],
   },
   [COLUMN_TYPE.NUMBER]: {
     actions: [
@@ -283,8 +283,8 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.GREATER_THAN,
       ACTIONS.GREATER_EQUAL_THAN,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
-    ]
+      ACTIONS.NOT_EMPTY,
+    ],
   },
   [COLUMN_TYPE.FLOAT]: {
     actions: [
@@ -295,10 +295,10 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.GREATER_THAN,
       ACTIONS.GREATER_EQUAL_THAN,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
     patternComponent: 'p-input-number',
-    patternComponentOptions: { minFractionDigits: 2 }
+    patternComponentOptions: { minFractionDigits: 2 },
   },
   [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: {
     actions: [
@@ -307,36 +307,36 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.MATCH,
       ACTIONS.NOT_MATCH,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
-    patternComponent: 'p-input-text'
+    patternComponent: 'p-input-text',
   },
   [COLUMN_TYPE.SINGLE_SELECT]: {
     actions: [
       ACTIONS.IN,
       ACTIONS.NOT_IN,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
     patternComponentOptions: {
       optionLabel: 'label',
       optionValue: 'value',
-      appendTo: null
+      appendTo: null,
     },
-    patternComponent: 'lck-multiselect'
+    patternComponent: 'lck-multiselect',
   },
   [COLUMN_TYPE.MULTI_SELECT]: {
     actions: [
       ACTIONS.ALL,
       ACTIONS.ANY,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
     patternComponentOptions: {
       optionLabel: 'label',
       optionValue: 'value',
-      appendTo: null
-    }
+      appendTo: null,
+    },
   },
   [COLUMN_TYPE.LOOKED_UP_COLUMN]: {
     actions: [
@@ -345,9 +345,9 @@ const COLUMN_FILTERS_CONFIG = {
       ACTIONS.MATCH,
       ACTIONS.NOT_MATCH,
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
-    patternComponent: 'p-input-text'
+    patternComponent: 'p-input-text',
   },
   [COLUMN_TYPE.DATE]: {
     actions: [
@@ -358,12 +358,12 @@ const COLUMN_FILTERS_CONFIG = {
       { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
       { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
     patternComponentOptions: {
       dateFormat: i18n.t('date.dateFormatPrime'),
-      showTime: false
-    }
+      showTime: false,
+    },
   },
   [COLUMN_TYPE.DATETIME]: {
     actions: [
@@ -374,14 +374,14 @@ const COLUMN_FILTERS_CONFIG = {
       { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
       { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
       ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY
+      ACTIONS.NOT_EMPTY,
     ],
     patternComponent: 'p-calendar',
     patternComponentOptions: {
       dateFormat: i18n.t('date.dateFormatPrime'),
-      showTime: true
-    }
-  }
+      showTime: true,
+    },
+  },
 }
 
 export default {
@@ -393,36 +393,36 @@ export default {
     'p-calendar': Vue.extend(Calendar),
     'p-button': Vue.extend(Button),
     'lck-multiselect': MultiSelect,
-    'lck-overlaypanel': Vue.extend(OverlayPanel)
+    'lck-overlaypanel': Vue.extend(OverlayPanel),
   },
   props: {
     definition: {
       type: Object,
       required: false,
       default: () => ({
-        columns: []
-      })
+        columns: [],
+      }),
     },
     columnsDropdownOptions: {
       type: Object,
       required: false,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: Array,
       required: false,
-      default: () => ([])
+      default: () => ([]),
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
       columnFiltersConfig: COLUMN_FILTERS_CONFIG,
       operators: OPERATORS,
-      selectedOperator: OPERATORS[0].value
+      selectedOperator: OPERATORS[0].value,
     }
   },
   computed: {
@@ -437,14 +437,14 @@ export default {
             label: column.text,
             type: column.column_type_id,
             originalType,
-            dropdownOptions: this.columnsDropdownOptions[column.id]
+            dropdownOptions: this.columnsDropdownOptions[column.id],
           })
         } else if (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
           acc.push({
             value: column.id,
             label: column.text,
             type: COLUMN_TYPE.LOOKED_UP_COLUMN,
-            originalType: COLUMN_TYPE.LOOKED_UP_COLUMN
+            originalType: COLUMN_TYPE.LOOKED_UP_COLUMN,
           })
         }
         return acc
@@ -452,7 +452,7 @@ export default {
     },
     supportedTypes () {
       return Object.keys(this.columnFiltersConfig).map(action => parseInt(action))
-    }
+    },
   },
   methods: {
     getComponentEditorCellForColumnType,
@@ -472,7 +472,7 @@ export default {
         operator: this.selectedOperator,
         column: null,
         action: null,
-        pattern: null
+        pattern: null,
       })
     },
     onChangeOperator (event) {
@@ -497,8 +497,8 @@ export default {
       }
       // Set the action
       this.value[index].action = value
-    }
-  }
+    },
+  },
 }
 </script>
 

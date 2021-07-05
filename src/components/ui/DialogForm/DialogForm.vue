@@ -56,23 +56,23 @@ export default {
   name: 'LckDialog',
   components: {
     'p-dialog': Vue.extend(Dialog),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     header: {
-      type: String
+      type: String,
     },
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     contentStyle: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 }
 </script>

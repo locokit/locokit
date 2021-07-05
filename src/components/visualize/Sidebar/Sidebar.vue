@@ -87,29 +87,29 @@ export default {
       default () {
         return [{
           label: this.$t('pages.workspace.noChapter'),
-          subitems: []
+          subitems: [],
         }]
-      }
+      },
     },
     displayEditActions: {
       type: Boolean,
-      default: false
+      default: false,
     },
     createItemLabel: {
       type: String,
-      default () { return this.$t('pages.workspace.createElement') }
+      default () { return this.$t('pages.workspace.createElement') },
     },
     createSubItemLabel: {
       type: String,
-      default () { return this.$t('pages.workspace.createElement') }
-    }
+      default () { return this.$t('pages.workspace.createElement') },
+    },
   },
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
     'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable)
-  }
+    draggable: Vue.extend(draggable),
+  },
 }
 </script>
 

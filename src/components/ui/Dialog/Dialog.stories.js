@@ -2,19 +2,19 @@ import Dialog from './Dialog'
 
 export default {
   title: 'components/ui/Dialog',
-  component: Dialog
+  component: Dialog,
 }
 
 export const defaultStory = () => (
   {
     components: { Dialog },
-    template: '<Dialog :visible="true" />'
+    template: '<Dialog :visible="true" />',
   }
 )
 
 defaultStory.storyName = 'default'
 defaultStory.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 }
 
 export const withHeaderAndContent = () => (
@@ -27,13 +27,13 @@ export const withHeaderAndContent = () => (
       >
         This is the dialog content
       </Dialog>
-    `
+    `,
   }
 )
 
 withHeaderAndContent.storyName = 'with header and content'
 withHeaderAndContent.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 }
 
 export const withHeaderContentAndActions = () => (
@@ -47,11 +47,11 @@ export const withHeaderContentAndActions = () => (
       >
         This is the dialog content
       </Dialog>
-    `
+    `,
   }
 )
 
 withHeaderContentAndActions.storyName = 'with header, content and actions'
 withHeaderContentAndActions.args = {
-  waitForSelector: '.p-dialog.p-component'
+  waitForSelector: '.p-dialog.p-component',
 }

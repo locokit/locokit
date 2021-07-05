@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, {
   Route,
-  RouteConfig
+  RouteConfig,
 } from 'vue-router'
 
 import Home from '@/views/routes/Home.vue'
@@ -40,49 +40,49 @@ const routes: Array<RouteConfig> = [
     component: Home,
     meta: {
       needHeader: false,
-      needGuest: true
-    }
+      needGuest: true,
+    },
   }, {
     path: ROUTES_PATH.LOSTPASSWORD,
     name: 'LostPassword',
     component: LostPassword,
     meta: {
       needHeader: false,
-      needGuest: true
-    }
+      needGuest: true,
+    },
   }, {
     path: ROUTES_PATH.RESETPASSWORD,
     name: 'ResetPassword',
     component: ResetPassword,
     meta: {
       needHeader: false,
-      needGuest: true
-    }
+      needGuest: true,
+    },
   }, {
     path: ROUTES_PATH.VERIFYSIGNUP,
     name: 'VerifySignup',
     component: VerifySignup,
     meta: {
       needHeader: false,
-      needGuest: true
-    }
+      needGuest: true,
+    },
   }, {
     path: ROUTES_PATH.PROFILE,
     name: 'Profile',
     component: Profile,
     meta: {
-      needAuthentication: true
-    }
+      needAuthentication: true,
+    },
   }, {
     path: ROUTES_PATH.WORKSPACE,
     name: 'WorkspaceList',
     component: WorkspaceList,
     meta: {
-      needAuthentication: true
-    }
+      needAuthentication: true,
+    },
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId',
-    redirect: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION
+    redirect: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION,
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION,
     name: 'WorkspaceVisualization',
@@ -92,41 +92,41 @@ const routes: Array<RouteConfig> = [
       name: 'PageDetail',
       path: 'page/:pageId/detail/:pageDetailId',
       props: true,
-      component: Page
+      component: Page,
     }, {
       name: 'Page',
       path: 'page/:pageId',
       props: true,
-      component: Page
+      component: Page,
     }],
     meta: {
       needAuthentication: true,
-      hasBurgerMenu: true
-    }
+      hasBurgerMenu: true,
+    },
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId',
     name: 'WorkspaceDatabase',
     component: Database,
     props: true,
     meta: {
-      needAuthentication: true
-    }
+      needAuthentication: true,
+    },
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
     name: 'DatabaseSchema',
     component: DatabaseSchema,
     props: true,
     meta: {
-      needAuthentication: true
-    }
+      needAuthentication: true,
+    },
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.PROCESS,
     name: 'ProcessListing',
     component: ProcessListing,
     props: true,
     meta: {
-      needAuthentication: true
-    }
+      needAuthentication: true,
+    },
   }, {
     path: ROUTES_PATH.ADMIN,
     name: 'Administration',
@@ -137,26 +137,26 @@ const routes: Array<RouteConfig> = [
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
       component: UserManagement,
       meta: {
-        needAuthentication: true
-      }
+        needAuthentication: true,
+      },
     }, {
       name: 'GroupManagement',
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUPMANAGEMENT,
       component: GroupManagement,
       meta: {
-        needAuthentication: true
-      }
+        needAuthentication: true,
+      },
     }],
     meta: {
       needAuthentication: true,
-      hasBurgerMenu: true
-    }
+      hasBurgerMenu: true,
+    },
   },
   {
     path: '*',
     name: '404',
-    component: Page404
-  }
+    component: Page404,
+  },
 ]
 
 // Issue with compatibility with ts https://github.com/vuejs/vue-router/issues/2252
@@ -183,7 +183,7 @@ const scrollBehavior = (to: Route, from: Route, savedPosition: any) => {
 const router = new VueRouter({
   mode: 'history',
   routes,
-  scrollBehavior
+  scrollBehavior,
 })
 
 /**

@@ -91,7 +91,7 @@
             :header="$t('components.processPanel.when')"
           >
             <template #body="slotProps">
-              <span>{{ formatDate(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
+              <span>{{ formatDateString(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
               <span
                 v-if="slotProps.data.status !== PROCESS_TRIGGER.RUNNING && slotProps.data.duration"
               >
@@ -131,7 +131,7 @@ import PrimeDataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
 import { getDisabledProcessTrigger } from '@/services/lck-utils/process'
-import { formatDate } from '@/services/lck-utils/date'
+import { formatDateString } from '@/services/lck-utils/date'
 import { PROCESS_RUN_STATUS, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
 
 export default Vue.extend({
@@ -141,47 +141,47 @@ export default Vue.extend({
     'p-panel': Vue.extend(Panel),
     'p-datatable': Vue.extend(PrimeDataTable),
     'p-column': Vue.extend(Column),
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     processesByRow: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     rowId: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data () {
     return {
       PROCESS_RUN_STATUS,
       PROCESS_TRIGGER,
-      expandedRows: []
+      expandedRows: [],
     }
   },
   methods: {
-    formatDate,
+    formatDateString,
     getDisabledProcessTrigger,
     onProcessTrigger (rowId: string, process: {id: string; text: string }) {
       this.$emit('create-process-run', {
         rowId,
         processId: process.id,
-        name: process.text
+        name: process.text,
       })
     },
     onActivityProcess (processId: string, event: boolean) {
       this.$emit('toggle-process', {
         processId,
-        enabled: event
+        enabled: event,
       })
-    }
-  }
+    },
+  },
 })
 </script>
 
 <style scoped>
-/deep/ .p-panel-header {
+::v-deep .p-panel-header {
   flex-direction: row-reverse;
 }
 

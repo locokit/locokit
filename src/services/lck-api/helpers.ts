@@ -4,7 +4,7 @@ import saveAs from 'file-saver'
 import {
   WorkBook,
   WorkSheet,
-  XLSX$Utils
+  XLSX$Utils,
 } from 'xlsx'
 
 import {
@@ -16,14 +16,17 @@ import {
   LckUser,
   LckAttachment,
   LckTableView,
-  LckWorkspace
+  LckWorkspace,
+  LckTableColumn,
+  LckTableRowDataComplex,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { getColumnDisplayValue } from '../lck-utils/columns'
+import { getColumnDisplayValue, getColumnTypeId } from '../lck-utils/columns'
 import FileType from 'file-type/browser'
+import { parseISO } from 'date-fns'
 
 /**
  * Contact the API for searching items.
@@ -38,7 +41,7 @@ export async function searchItems ({
   columnTypeId,
   tableId,
   query,
-  groupId
+  groupId,
 }: { columnTypeId: number; tableId: string; query: object; groupId: string }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
@@ -46,25 +49,25 @@ export async function searchItems ({
       query: {
         blocked: false,
         name: {
-          $ilike: `%${query}%`
-        }
-      }
+          $ilike: `%${query}%`,
+        },
+      },
     }) as Paginated<LckUser>
     items = result.data.map(d => ({
       label: d.name,
-      value: d.id
+      value: d.id,
     }))
   } else if (columnTypeId === COLUMN_TYPE.GROUP) {
     const result = await lckServices.group.find({
       query: {
         name: {
-          $ilike: `%${query}%`
-        }
-      }
+          $ilike: `%${query}%`,
+        },
+      },
     }) as Paginated<LckGroup>
     items = result.data.map(d => ({
       label: d.name,
-      value: d.id
+      value: d.id,
     }))
     // eslint-disable-next-line @typescript-eslint/camelcase
   } else if (columnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
@@ -73,14 +76,14 @@ export async function searchItems ({
         // eslint-disable-next-line @typescript-eslint/camelcase
         table_id: tableId,
         text: {
-          $ilike: `%${query}%`
+          $ilike: `%${query}%`,
         },
-        $lckGroupId: groupId
-      }
+        $lckGroupId: groupId,
+      },
     }) as Paginated<LckTableRow>
     items = result.data.map(d => ({
       label: d.text,
-      value: d.id
+      value: d.id,
     }))
   }
   return items
@@ -100,24 +103,24 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
 }> {
   const currentView = await lckServices.tableView.get(tableViewId, {
     query: {
-      $eager: 'columns'
-    }
+      $eager: 'columns',
+    },
   })
   currentView.columns = currentView.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed) || []
   const query: Record<string, string | number | object> = {
     table_view_id: tableViewId,
     $limit: -1,
     $sort: {
-      createdAt: 1
+      createdAt: 1,
     },
     $lckGroupId: groupId,
-    ...filters
+    ...filters,
   }
   const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
 
   return {
     viewData,
-    viewColumns: currentView.columns
+    viewColumns: currentView.columns,
   }
 }
 
@@ -133,12 +136,12 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
     case COLUMN_TYPE.SINGLE_SELECT:
       return (getColumnDisplayValue(
         currentColumn,
-        currentRowValue
+        currentRowValue,
       ) as SelectValue)?.label
     case COLUMN_TYPE.FILE:
       const values = getColumnDisplayValue(
         currentColumn,
-        currentRowValue
+        currentRowValue,
       )
       if (Array.isArray(values) && values.length > 0) {
         return values.map(x => x.filename).join(', ')
@@ -147,7 +150,7 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
     default:
       return getColumnDisplayValue(
         currentColumn,
-        currentRowValue
+        currentRowValue,
       ) as string|undefined
   }
 }
@@ -200,14 +203,14 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
       const value = getValueExport(currentColumn, currentRow.data[currentColumn.id])
       const sanitizedValue = typeof value === 'string' ? value.replaceAll('\n', ' ') : value
       return '"' + sanitizedValue + '"'
-    }).join(',')
+    }).join(','),
   ).join('\n')
   saveAs(
     new Blob([exportCSV]),
     (fileName === undefined ? 'Export' : fileName) + '.csv',
     {
-      type: 'text/csv;charset=utf-8'
-    }
+      type: 'text/csv;charset=utf-8',
+    },
   )
 }
 
@@ -248,8 +251,8 @@ export async function downloadAttachment (url: string, filename: string, mime: s
     blob,
     filename,
     {
-      type: `${mime};`
-    }
+      type: `${mime};`,
+    },
   )
 }
 
@@ -274,13 +277,13 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
         lckServices.upload.create({
           uri: reader.result as string,
           fileName: file.name,
-          ...fileType
+          ...fileType,
         }, {
           query: {
             workspaceId,
             fileName: file.name,
-            ...fileType
-          }
+            ...fileType,
+          },
         })
           .then(resolve)
           .catch(reject)
@@ -293,43 +296,44 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
 export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   const group: LckGroup = await lckServices.group.get(groupId, {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    query: { $eager: 'aclset' }
+    query: { $eager: 'aclset' },
   })
   const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
-    query: { $eager: '[chapters.[pages]]' }
+    query: { $eager: '[chapters.[pages]]' },
   })
   return {
     ...workspace,
     chapters: workspace?.chapters?.map(c => ({
       ...c,
-      pages: c.pages?.sort((a, b) => a.position - b.position)
-    }))
+      pages: c.pages?.sort((a, b) => a.position - b.position),
+    })),
   }
 }
 
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    query: { $eager: 'containers.[blocks.[displayTableView, displayField]]' }
+    query: { $eager: 'containers.[blocks.[displayTableView, displayField]]' },
   })
 }
 
 export async function retrieveViewDefinition (ids: number[], skip = 0) {
+  if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
     // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
       $eager: '[columns.[column_type, parents.^], actions]',
       $modifyEager: {
         columns: {
-          transmitted: true
-        }
+          transmitted: true,
+        },
       },
       id: {
-        $in: ids
+        $in: ids,
       },
       $skip: skip,
-      $limit: 10
-    }
+      $limit: 10,
+    },
   }) as Paginated<LckTableView>
 
   // Reorder the columns of each view
@@ -353,9 +357,9 @@ export async function retrieveViewData (
   skip = 0,
   limit = 20,
   sort = {
-    createdAt: 1
+    createdAt: 1,
   },
-  filters = {}
+  filters = {},
 ) {
   return await lckServices.tableRow.find({
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -365,9 +369,53 @@ export async function retrieveViewData (
       $limit: limit,
       $skip: skip,
       $sort: sort,
-      ...filters
+      ...filters,
+    },
+  })
+}
+
+/**
+ * Convert every date field in a single data record in Date
+ */
+function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[]) {
+  dateFields.forEach(({ id, column_type_id }) => {
+    if (!record.data[id]) return
+    if (column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+      if (!(record.data[id] as LckTableRowDataComplex).value) return
+      (record.data[id] as LckTableRowDataComplex).value = parseISO((record.data[id] as LckTableRowDataComplex).value as string)
+    } else {
+      record.data[id] = parseISO(record.data[id] as string)
     }
   })
+}
+
+/**
+ * Convert every date field in data records (from the LCK API) in Date
+ * Match also formulas with
+ * This allow prime calendar to be displayed with the good data
+ */
+export function convertDateInRecords (records: LckTableRow | LckTableRow[], fieldDefinition: LckTableColumn[]): void {
+  const dateFields = fieldDefinition.filter(f => {
+    let keepField = false
+    switch (f.column_type_id) {
+      case COLUMN_TYPE.DATE:
+      case COLUMN_TYPE.DATETIME:
+        keepField = true
+        break
+      case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      case COLUMN_TYPE.FORMULA:
+        keepField = [
+          COLUMN_TYPE.DATE,
+          COLUMN_TYPE.DATETIME,
+        ].includes(getColumnTypeId(f))
+    }
+    return keepField
+  })
+  if (Array.isArray(records)) {
+    records.forEach(currentRecord => convertDateInRecord(currentRecord, dateFields))
+  } else {
+    convertDateInRecord(records, dateFields)
+  }
 }
 
 export default {
@@ -382,5 +430,6 @@ export default {
   retrieveTableViewData,
   retrieveViewData,
   retrieveViewDefinition,
-  retrievePageWithContainersAndBlocks
+  retrievePageWithContainersAndBlocks,
+  convertDateInRecords,
 }

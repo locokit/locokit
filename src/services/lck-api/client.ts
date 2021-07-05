@@ -10,11 +10,11 @@ const restClient = rest(LCK_SETTINGS.API_URL)
 // Configure an AJAX library (see below) with that client
 lckClient.configure(
   restClient.fetch(
-    process.env.NODE_ENV === 'test' ? {} : window.fetch
-  )
+    process.env.NODE_ENV === 'test' ? {} : window.fetch,
+  ),
 )
 lckClient.configure(auth({
-  storageKey: LCK_SETTINGS.LOCALSTORAGE_KEY
+  storageKey: LCK_SETTINGS.LOCALSTORAGE_KEY,
 }))
 // Connect to the `http://feathers-api.com/messages` service
 // const messages = lckClient.service('messages')

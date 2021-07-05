@@ -5,8 +5,8 @@ export default {
   title: 'components/visualize/Sidebar',
   component: Sidebar,
   decorators: [
-    StoryRouter()
-  ]
+    StoryRouter(),
+  ],
 }
 
 const items = [{
@@ -15,24 +15,24 @@ const items = [{
   subitems: [{
     id: 1,
     label: 'First subitem',
-    to: '/first-link'
+    to: '/first-link',
   }, {
     id: 2,
     label: 'Second subitem',
-    to: '/second-link'
-  }]
+    to: '/second-link',
+  }],
 }, {
   id: 2,
   label: 'Second item',
   subitems: [{
     id: 3,
     label: 'Third subitem',
-    to: '/third-link'
+    to: '/third-link',
   }, {
     id: 4,
     label: 'Fourth subitem',
-    to: '/fourth-link'
-  }]
+    to: '/fourth-link',
+  }],
 }]
 
 const items1 = [{
@@ -41,12 +41,12 @@ const items1 = [{
   subitems: [{
     id: 1,
     label: 'First subitem',
-    to: '/first-link'
+    to: '/first-link',
   }, {
     id: 2,
     label: 'Second subitem',
-    to: '/second-link'
-  }]
+    to: '/second-link',
+  }],
 }, {
   id: 2,
   label: 'Second item',
@@ -54,18 +54,18 @@ const items1 = [{
   subitems: [{
     id: 3,
     label: 'Third subitem',
-    to: '/third-link'
+    to: '/third-link',
   }, {
     id: 4,
     label: 'Fourth subitem',
     to: '/fourth-link',
-    active: true
-  }]
+    active: true,
+  }],
 }]
 
 export const defaultStory = () => ({
   components: { Sidebar },
-  template: '<Sidebar />'
+  template: '<Sidebar />',
 })
 
 defaultStory.storyName = 'default'
@@ -74,10 +74,10 @@ export const withPropsStory = () => ({
   components: { Sidebar },
   data () {
     return {
-      items
+      items,
     }
   },
-  template: '<Sidebar :items="items" />'
+  template: '<Sidebar :items="items" />',
 })
 
 withPropsStory.storyName = 'with props items'
@@ -86,10 +86,10 @@ export const withPropsAndSubItemActiveStory = () => ({
   components: { Sidebar },
   data () {
     return {
-      items: items1
+      items: items1,
     }
   },
-  template: '<Sidebar :items="items" />'
+  template: '<Sidebar :items="items" />',
 })
 
 withPropsAndSubItemActiveStory.storyName = 'with props items and active'
@@ -98,10 +98,10 @@ export const withEditionAndPropsStory = () => ({
   components: { Sidebar },
   data () {
     return {
-      items
+      items,
     }
   },
-  template: '<Sidebar :items="items" :displayEditActions="true" />'
+  template: '<Sidebar :items="items" :displayEditActions="true" />',
 })
 
 withEditionAndPropsStory.storyName = 'with edition and props items'

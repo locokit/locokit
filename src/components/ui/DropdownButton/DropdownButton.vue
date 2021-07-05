@@ -40,72 +40,72 @@ export default {
   name: 'LckDropdownButton',
   props: {
     label: {
-      type: String
+      type: String,
     },
     icon: {
       type: String,
-      default: null
+      default: null,
     },
     iconPos: {
       type: String,
-      default: 'left'
+      default: 'left',
     },
     buttonClass: {
-      type: String
+      type: String,
     },
     model: {
       type: Array,
       default: function () {
         return [{
           id: 0,
-          label: this.$t('components.dropdownButton.noOption')
+          label: this.$t('components.dropdownButton.noOption'),
         }]
-      }
+      },
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tabindex: {
       type: String,
-      default: null
+      default: null,
     },
     autoZIndex: {
       type: Boolean,
-      default: true
+      default: true,
     },
     baseZIndex: {
       type: Number,
-      default: 0
+      default: 0,
     },
     appendTo: {
       type: String,
-      default: null
+      default: null,
     },
     menuWidth: {
       type: String,
-      default: '100%'
-    }
+      default: '100%',
+    },
   },
   components: {
     'p-button': Vue.extend(Button),
-    'p-menu': Vue.extend(Menu)
+    'p-menu': Vue.extend(Menu),
   },
   methods: {
     onDropdownButtonClick () {
       this.$emit('click')
       this.$refs.menu.toggle({
         currentTarget: this.$el,
-        relativeAlign: this.appendTo == null
+        relativeAlign: this.appendTo == null,
       })
-    }
+    },
   },
   computed: {
     ariaId () {
       lastId++
       return `${prefix}${lastId}`
-    }
-  }
+    },
+  },
 }
 </script>
 

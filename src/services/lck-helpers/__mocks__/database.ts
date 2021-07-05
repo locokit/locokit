@@ -42,9 +42,9 @@ export const mockDatabase = {
               transmitted: true,
               editable: true,
               style: {
-                width: 128
+                width: 128,
               },
-              default: null
+              default: null,
             },
             {
               id: 'C13',
@@ -63,9 +63,9 @@ export const mockDatabase = {
               transmitted: true,
               editable: null,
               style: {
-                width: 352
+                width: 352,
               },
-              default: null
+              default: null,
             },
             {
               id: 'C12',
@@ -84,11 +84,11 @@ export const mockDatabase = {
               transmitted: true,
               editable: null,
               style: {
-                width: 153
+                width: 153,
               },
-              default: null
-            }
-          ]
+              default: null,
+            },
+          ],
         },
         {
           id: 'V12',
@@ -115,12 +115,12 @@ export const mockDatabase = {
               transmitted: true,
               editable: true,
               style: {
-                width: 128
+                width: 128,
               },
-              default: null
-            }
-          ]
-        }
+              default: null,
+            },
+          ],
+        },
       ],
       columns: [
         {
@@ -134,7 +134,7 @@ export const mockDatabase = {
           reference_position: 0,
           table_id: 'T1',
           column_type_id: 2,
-          locked: false
+          locked: false,
         },
         {
           id: 'C12',
@@ -147,7 +147,7 @@ export const mockDatabase = {
           reference_position: 1,
           table_id: 'T1',
           column_type_id: 2,
-          locked: false
+          locked: false,
         },
         {
           id: 'C13',
@@ -160,7 +160,7 @@ export const mockDatabase = {
           reference_position: null,
           table_id: 'T1',
           column_type_id: 2,
-          locked: false
+          locked: false,
         },
         {
           id: 'C14',
@@ -173,7 +173,7 @@ export const mockDatabase = {
           reference_position: null,
           table_id: 'T1',
           column_type_id: 2,
-          locked: false
+          locked: false,
         },
         {
           id: 'C15',
@@ -186,9 +186,9 @@ export const mockDatabase = {
           reference_position: null,
           table_id: 'T1',
           column_type_id: 6,
-          locked: false
-        }
-      ]
+          locked: false,
+        },
+      ],
     },
     {
       id: 'T2',
@@ -222,9 +222,9 @@ export const mockDatabase = {
               transmitted: true,
               editable: true,
               style: {
-                width: 337
+                width: 337,
               },
-              default: null
+              default: null,
             },
             {
               id: 'C22',
@@ -243,12 +243,12 @@ export const mockDatabase = {
               transmitted: true,
               editable: true,
               style: {
-                width: 164
+                width: 164,
               },
-              default: null
-            }
-          ]
-        }
+              default: null,
+            },
+          ],
+        },
       ],
       columns: [
         {
@@ -262,7 +262,7 @@ export const mockDatabase = {
           reference_position: null,
           table_id: 'T2',
           column_type_id: 2,
-          locked: false
+          locked: false,
         },
         {
           id: 'C22',
@@ -275,11 +275,11 @@ export const mockDatabase = {
           reference_position: null,
           table_id: 'T2',
           column_type_id: 6,
-          locked: false
-        }
-      ]
-    }
-  ]
+          locked: false,
+        },
+      ],
+    },
+  ],
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -289,7 +289,7 @@ export async function retrieveDatabaseTableAndViewsDefinitions (databaseId: stri
 
 export async function retrieveTableColumns (/* tableId: string */) {
   return [{
-    id: 'column-1'
+    id: 'column-1',
   }]
 }
 
@@ -300,10 +300,10 @@ export async function retrieveTableRowsWithSkipAndLimit (
     skip = 0,
     limit = 20,
     sort = {
-      createdAt: 1
+      createdAt: 1,
     },
-    filters = {}
-  }
+    filters = {},
+  },
 ) {
   return await lckServices.tableRow.find({
     query: {
@@ -312,8 +312,8 @@ export async function retrieveTableRowsWithSkipAndLimit (
       $limit: limit,
       $skip: skip,
       $sort: sort,
-      ...filters
-    }
+      ...filters,
+    },
   })
 }
 
@@ -325,12 +325,12 @@ export async function retrieveTableViews (tableId: string) {
       $eager: '[columns.[parents.^], actions]',
       $limit: 50,
       $sort: {
-        position: 1
-      }
-    }
+        position: 1,
+      },
+    },
   }) as Paginated<LckTableView>
   return result.data.map(view => ({
     ...view,
-    columns: view.columns?.slice(0).sort((a, b) => a.position - b.position)
+    columns: view.columns?.slice(0).sort((a, b) => a.position - b.position),
   }))
 }

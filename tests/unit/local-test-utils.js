@@ -12,7 +12,7 @@ export function shallowMount (component, options = {}) {
     mocks: {
       t: key => key,
       $t: key => key,
-      ...options.mocks
-    }
+      ...options.mocks,
+    },
   })
 }

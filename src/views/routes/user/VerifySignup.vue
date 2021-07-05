@@ -39,12 +39,12 @@ export default Vue.extend({
     return {
       loading: false,
       verifyOK: false,
-      error: null
+      error: null,
     }
   },
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
-    'reset-password': Vue.extend(ResetPassword)
+    'reset-password': Vue.extend(ResetPassword),
   },
   methods: {
     async verifySignupAndSetPassword (password: string) {
@@ -54,8 +54,8 @@ export default Vue.extend({
           action: 'verifySignupSetPasswordLong',
           value: {
             token: this.$route.query?.token,
-            password
-          }
+            password,
+          },
         })
         this.error = null
         this.verifyOK = true
@@ -63,8 +63,8 @@ export default Vue.extend({
         this.error = err
       }
       this.loading = false
-    }
-  }
+    },
+  },
 })
 
 </script>

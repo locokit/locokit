@@ -107,28 +107,28 @@ interface Containers {
 export default Vue.extend({
   name: 'NavAnchorLink',
   components: {
-    'p-button': Vue.extend(Button)
+    'p-button': Vue.extend(Button),
   },
   props: {
     containers: {
-      type: Array as PropType<Containers[]>
+      type: Array as PropType<Containers[]>,
     },
     editMode: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
-      anchorContainerActive: this.$route?.hash
+      anchorContainerActive: this.$route?.hash,
     }
   },
   computed: {
     containersToDisplayed (): Containers[] {
       // eslint-disable-next-line @typescript-eslint/camelcase
       return this.containers.filter(container => container.displayed_in_navbar)
-    }
-  }
+    },
+  },
 })
 </script>
 

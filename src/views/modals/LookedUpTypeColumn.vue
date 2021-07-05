@@ -43,15 +43,15 @@ import { LckTableColumn } from '@/services/lck-api/definitions'
 export default {
   name: 'LookedUpTypeColumn',
   components: {
-    'p-dropdown': Vue.extend(Dropdown)
+    'p-dropdown': Vue.extend(Dropdown),
   },
   props: {
     databaseId: String,
     tableId: String,
     columnToHandle: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   data () {
     return {
@@ -59,7 +59,7 @@ export default {
       localFields: [] as LckTableColumn[],
       localFieldId: null as string | null,
       foreignFields: [] as LckTableColumn[],
-      foreignFieldId: null as string | null
+      foreignFieldId: null as string | null,
     }
   },
   methods: {
@@ -70,8 +70,8 @@ export default {
           column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
           // eslint-disable-next-line @typescript-eslint/camelcase
           table_id: this.tableId,
-          $limit: 100
-        }
+          $limit: 100,
+        },
       }) as Paginated<LckTableColumn>
       this.localFields = localFields?.data
     },
@@ -81,8 +81,8 @@ export default {
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             table_id: this.relationTableId,
-            $limit: -1
-          }
+            $limit: -1,
+          },
         }) as LckTableColumn[]
         this.foreignFields = foreignFields
       }
@@ -90,7 +90,7 @@ export default {
     onLocalFieldChange (data: { value: string }) {
       this.relationTableId = this.localFields?.find(field => field.id === data.value)?.settings.tableId || null
       this.loadForeignFields()
-    }
+    },
   },
   mounted () {
     if (this.columnToHandle && this.columnToHandle.settings) {
@@ -110,7 +110,7 @@ export default {
     },
     relationTableId () {
       this.$emit('relation-table-id-change', this.relationTableId)
-    }
-  }
+    },
+  },
 }
 </script>

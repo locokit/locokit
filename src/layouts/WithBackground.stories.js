@@ -2,12 +2,12 @@ import WithBackground from './WithBackground'
 
 export default {
   title: 'layouts/background',
-  component: WithBackground
+  component: WithBackground,
 }
 
 export const defaultStory = () => ({
   components: { WithBackground },
-  template: '<WithBackground />'
+  template: '<WithBackground />',
 })
 
 defaultStory.storyName = 'default'
@@ -20,7 +20,7 @@ export const withSlotTitle = () => ({
         This is a title
       </template>
     </WithBackground>
-  `
+  `,
 })
 
 withSlotTitle.storyName = 'with slot title'
@@ -40,7 +40,7 @@ export const withAllSlots = () => ({
         This is a footer
       </template>
     </WithBackground>
-  `
+  `,
 })
 
 withAllSlots.storyName = 'with all slots'

@@ -77,22 +77,22 @@ export default Vue.extend({
     'p-button': Vue.extend(Button),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'p-switch': Vue.extend(InputSwitch)
+    'p-switch': Vue.extend(InputSwitch),
   },
   props: {
     containers: {
       type: Array,
-      required: true
+      required: true,
     },
     submitting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([])
-    }
-  }
+      default: () => ([]),
+    },
+  },
 })
 </script>
 
