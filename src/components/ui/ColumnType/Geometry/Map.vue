@@ -252,19 +252,15 @@ export default Vue.extend({
       })
       // Add the related layers
       for (const layer of resource.layers) {
-        if (!layer.imagesToLoad?.size) {
-          this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
-        } else {
-          // Load the images if needed
-          for (const image of layer.imagesToLoad) {
-            if (!this.map!.hasImage(image)) {
-              this.map!.loadImage(image, (error: Error, loadedImage: HTMLImageElement) => {
-                if (!error) {
-                  this.map!.addImage(image, loadedImage, { sdf: true })
-                }
-                this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
-              })
-            }
+        this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
+        // Load the images if needed
+        for (const image of layer.imagesToLoad || []) {
+          if (!this.map!.hasImage(image)) {
+            this.map!.loadImage(image, (error: Error, loadedImage: HTMLImageElement) => {
+              if (!error) {
+                this.map!.addImage(image, loadedImage)
+              }
+            })
           }
         }
       }
@@ -284,7 +280,9 @@ export default Vue.extend({
       )
       layersToUpdate.push(...resourceToUpdate.layers.filter(
         (resourceToUpdateLayer) => resourceToCompare.layers.find(
-          (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id
+          (resourceToCompareLayer) =>
+            resourceToCompareLayer.id === resourceToUpdateLayer.id &&
+            this.map?.getLayer(resourceToCompareLayer.id)
         )
       )
       )

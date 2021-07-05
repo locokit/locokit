@@ -6,7 +6,7 @@ import GeoJSON, {
 } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
 
-import {
+import mapboxgl, {
   CircleLayer,
   Expression,
   FillLayer,
@@ -20,6 +20,7 @@ import {
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
+  MapFeatureStyle,
   MapSettings,
   MapSourceSettings,
   MapSourceStyle,
@@ -41,18 +42,15 @@ import {
   getDataFromTableViewColumn
 } from '@/services/lck-utils/columns'
 import { objectFromArray } from '../arrays'
+import cloneDeep from 'lodash.clonedeep'
 
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
-  type: 'circle',
-  paint: {
-    'circle-radius': 10
-  }
+  type: 'circle'
 }
 const LCK_GEO_STYLE_MARKER: SymbolLayer = {
   id: 'layer-type-symbol',
-  type: 'symbol',
-  paint: {}
+  type: 'symbol'
 }
 const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   id: 'layer-type-line',
@@ -60,8 +58,7 @@ const LCK_GEO_STYLE_LINESTRING: LineLayer = {
 }
 const LCK_GEO_STYLE_POLYGON: FillLayer = {
   id: 'layer-type-fill',
-  type: 'fill',
-  paint: {}
+  type: 'fill'
 }
 
 const styleFieldName = 'styleField'
@@ -152,6 +149,43 @@ export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '43
   })}`
 }
 
+export interface MapEditableStyleProperties {
+  fill: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  stroke: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  icon: {
+    url: Expression | string;
+    size: Expression | number;
+  };
+  opacity: Expression;
+}
+
+export const mapDefaultStyle: MapEditableStyleProperties = {
+  fill: {
+    width: 10,
+    color: '#EA0E0E'
+  },
+  stroke: {
+    width: 2,
+    color: '#FFFFFF'
+  },
+  icon: {
+    url: '/img/marker-icon.png',
+    size: 1
+  },
+  opacity: [
+    'case',
+    ['boolean', ['feature-state', 'selectable'], false],
+    1, // Feature opacity on selection
+    0.5 // Default feature opacity
+  ]
+}
+
 /**
  * Add style for a specific spatial geometry present in layer
  *
@@ -169,95 +203,109 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
 
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
 
-  // Change feature style on selection
-  const computedOpacity: Expression | number = [
-    'case',
-    ['boolean', ['feature-state', 'selectable'], false],
-    1, // Feature opacity on selection
-    0.5 // Default feature opacity
-  ]
-
-  // Default style settings
-  let defaultFillColor = '#EA0E0E'
-  let defaultStrokeColor = '#FFFFFF'
-  let defaultStrokeWidth = 2
-  let defaultMarkerIcon = ''
-
+  // Used images as markers
   const imagesToLoad: Set<string> = new Set()
 
-  // Specified default style settings
-  const defaultSourceStyle = sourceStyle?.default
-  if (defaultSourceStyle) {
-    if (defaultSourceStyle.fill?.color) defaultFillColor = defaultSourceStyle.fill.color
-    if (defaultSourceStyle.stroke?.color) defaultStrokeColor = defaultSourceStyle.stroke.color
-    if (defaultSourceStyle.stroke?.width) defaultStrokeWidth = defaultSourceStyle.stroke.width
-    if (defaultSourceStyle.icon) {
-      defaultMarkerIcon = defaultSourceStyle.icon
-      displayMarkers = true
-    }
+  // Default style settings
+  const { fill = {}, stroke = {}, icon = '' }: MapFeatureStyle = sourceStyle?.default || {}
+
+  const defaultStyle: MapEditableStyleProperties = {
+    fill: {
+      color: fill.color || mapDefaultStyle.fill.color,
+      width: fill.width || mapDefaultStyle.fill.width
+    },
+    stroke: {
+      color: stroke.color || mapDefaultStyle.stroke.color,
+      width: stroke.width || mapDefaultStyle.stroke.width
+    },
+    icon: {
+      url: icon || mapDefaultStyle.icon.url,
+      size: fill.width || mapDefaultStyle.icon.size
+    },
+    opacity: mapDefaultStyle.opacity
   }
 
-  imagesToLoad.add(defaultMarkerIcon)
+  if (sourceStyle?.default?.icon) displayMarkers = true
+
+  imagesToLoad.add(defaultStyle.icon.url as string)
 
   // Change features styles depending of the values of one specified field
-  let computedFillColor: Expression | string = ['match', ['get', styleFieldName]]
-  let computedStrokeColor: Expression | string = ['match', ['get', styleFieldName]]
-  let computedStrokeWidth: Expression | number = ['match', ['get', styleFieldName]]
-  let computedMarkerIcon: Expression | string = ['match', ['get', styleFieldName]]
+  const computedStyle: MapEditableStyleProperties = cloneDeep(defaultStyle)
 
   if (sourceStyle && styleColumn) {
+    // We compare the value of one specified field
+    computedStyle.icon.url = ['match', ['get', styleFieldName]]
+    computedStyle.fill.color = ['match', ['get', styleFieldName]]
+    computedStyle.fill.width = ['match', ['get', styleFieldName]]
+    computedStyle.stroke.color = ['match', ['get', styleFieldName]]
+    computedStyle.stroke.width = ['match', ['get', styleFieldName]]
+
     if (styleColumn.settings.values) {
       // There are explicit values for this column so will use the associated colors
       // or override them if some similar settings are defined in the map source settings
       for (const value in styleColumn.settings.values) {
-        const fieldSettingsValue = styleColumn.settings.values[value]
-
-        const overridedStyle = sourceStyle.dataDriven?.find(data => data.value === value)
-        const overridedStrokeStyle = overridedStyle?.style.stroke
-
-        computedFillColor.push(value, overridedStyle?.style.fill?.color || fieldSettingsValue.backgroundColor)
-        computedStrokeColor.push(value, overridedStrokeStyle?.color || fieldSettingsValue.backgroundColor)
-
-        if (overridedStrokeStyle?.width != null) {
-          computedStrokeWidth.push(value, overridedStrokeStyle.width)
+        const { backgroundColor } = styleColumn.settings.values[value]
+        const overridedStyle = sourceStyle.dataDriven?.find(data => data.value === value)?.style
+        if (overridedStyle) {
+          // Custom icon
+          if (overridedStyle.icon) {
+            computedStyle.icon.url.push(value, overridedStyle.icon)
+            imagesToLoad.add(overridedStyle.icon)
+          }
+          // Custom fill properties
+          if (overridedStyle.fill?.width != null) {
+            computedStyle.fill.width.push(value, overridedStyle.fill.width)
+          }
+          // Custom stroke properties
+          if (overridedStyle.stroke?.width != null) {
+            computedStyle.stroke.width.push(value, overridedStyle.stroke.width)
+          }
         }
-        if (overridedStyle?.style.icon) {
-          computedMarkerIcon.push(value, overridedStyle.style.icon)
-          imagesToLoad.add(overridedStyle.style.icon)
-        }
+        computedStyle.fill.color.push(value, overridedStyle?.fill?.color || backgroundColor)
+        computedStyle.stroke.color.push(value, overridedStyle?.stroke?.color || backgroundColor)
       }
     } else if (sourceStyle.dataDriven) {
       // There is no explicit value for this column so we only use the style defined in the map source settings
       for (const { value, style } of sourceStyle.dataDriven) {
-        if (style.fill?.color) {
-          computedFillColor.push(value, style.fill.color)
+        if (style.fill) {
+          if (style.fill.color) computedStyle.fill.color.push(value, style.fill.color)
+          if (style.fill.width != null) computedStyle.fill.width.push(value, style.fill.width)
         }
         if (style.stroke) {
-          if (style.stroke.color) computedStrokeColor.push(value, style.stroke.color)
-          if (style.stroke.width) computedStrokeWidth.push(value, style.stroke.width)
+          if (style.stroke.color) computedStyle.stroke.color.push(value, style.stroke.color)
+          if (style.stroke.width != null) computedStyle.stroke.width.push(value, style.stroke.width)
         }
         if (style.icon) {
-          computedMarkerIcon.push(value, style.icon)
+          computedStyle.icon.url.push(value, style.icon)
           imagesToLoad.add(style.icon)
         }
       }
     }
 
-    // Default values
-    computedFillColor.push(defaultFillColor)
-    computedStrokeColor.push(defaultStrokeColor)
-    computedStrokeWidth.push(defaultStrokeWidth)
-    computedMarkerIcon.push(defaultMarkerIcon)
-  }
+    // The icon size is similar to the fill width except for the default value
+    computedStyle.icon.size = Array.from(computedStyle.fill.width) as Expression
 
-  // We must have at least 4 values by Mapbox expression
-  if (computedFillColor.length < 4) computedFillColor = defaultFillColor
-  if (computedStrokeColor.length < 4) computedStrokeColor = defaultStrokeColor
-  if (computedStrokeWidth.length < 4) computedStrokeWidth = defaultStrokeWidth
-  if (computedMarkerIcon.length < 4) {
-    computedMarkerIcon = defaultMarkerIcon
-  } else {
-    displayMarkers = true
+    // Default values
+    computedStyle.fill.color.push(defaultStyle.fill.color)
+    computedStyle.fill.width.push(defaultStyle.fill.width)
+    computedStyle.stroke.color.push(defaultStyle.stroke.color)
+    computedStyle.stroke.width.push(defaultStyle.stroke.width)
+    computedStyle.icon.url.push(defaultStyle.icon.url)
+    computedStyle.icon.size.push(defaultStyle.icon.size)
+
+    // We must have at least 4 values by Mapbox expression
+    if (computedStyle.fill.color.length < 4) computedStyle.fill.color = defaultStyle.fill.color
+    if (computedStyle.fill.width.length < 4) {
+      computedStyle.fill.width = defaultStyle.fill.width
+      computedStyle.icon.size = defaultStyle.icon.size
+    }
+    if (computedStyle.stroke.color.length < 4) computedStyle.stroke.color = defaultStyle.stroke.color
+    if (computedStyle.stroke.width.length < 4) computedStyle.stroke.width = defaultStyle.stroke.width
+    if (computedStyle.icon.url.length < 4) {
+      computedStyle.icon.url = defaultStyle.icon.url
+    } else {
+      displayMarkers = true
+    }
   }
 
   // Get right style depending of the geometry type
@@ -270,21 +318,23 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         if (displayMarkers) {
           geoStyle = GEO_STYLE.Marker
           geoStyle.paint = {
-            'icon-color': computedFillColor,
-            'icon-opacity': computedOpacity
+            'icon-color': computedStyle.fill.color,
+            'icon-opacity': computedStyle.opacity
           }
           geoStyle.layout = {
-            'icon-image': computedMarkerIcon
+            'icon-image': computedStyle.icon.url,
+            'icon-size': computedStyle.icon.size
           }
           geoStyle.imagesToLoad = imagesToLoad
         } else {
           geoStyle = GEO_STYLE.Point
           geoStyle.paint = {
             ...GEO_STYLE.Point.paint,
-            'circle-opacity': computedOpacity,
-            'circle-color': computedFillColor,
-            'circle-stroke-color': computedStrokeColor,
-            'circle-stroke-width': computedStrokeWidth
+            'circle-opacity': computedStyle.opacity,
+            'circle-color': computedStyle.fill.color,
+            'circle-radius': computedStyle.fill.width,
+            'circle-stroke-color': computedStyle.stroke.color,
+            'circle-stroke-width': computedStyle.stroke.width
           }
         }
         break
@@ -292,18 +342,18 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         geoStyle = GEO_STYLE.Linestring
         geoStyle.paint = {
           ...GEO_STYLE.Linestring.paint,
-          'line-opacity': computedOpacity,
-          'line-color': computedFillColor,
-          'line-width': computedStrokeWidth
+          'line-opacity': computedStyle.opacity,
+          'line-color': computedStyle.fill.color,
+          'line-width': computedStyle.fill.width
         }
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
         geoStyle = GEO_STYLE.Polygon
         geoStyle.paint = {
           ...GEO_STYLE.Polygon.paint,
-          'fill-opacity': computedOpacity,
-          'fill-color': computedFillColor,
-          'fill-outline-color': computedStrokeColor
+          'fill-opacity': computedStyle.opacity,
+          'fill-color': computedStyle.fill.color,
+          'fill-outline-color': computedStyle.stroke.color
 
         }
         break

@@ -5,7 +5,7 @@ import GeometryType from 'ol/geom/GeometryType'
 
 import { LckTableRow, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
 
-import { geometryTypeFromColumnType, GEO_STYLE, getEditableGeometryTypes, getLckGeoResources, getOnlyGeoColumns, getStyleLayers, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, transformFeatureToWKT } from './transformWithOL'
+import { geometryTypeFromColumnType, GEO_STYLE, getEditableGeometryTypes, getLckGeoResources, getOnlyGeoColumns, getStyleLayers, isGeoBlock, LckPopupI18nOptions, makeGeoJsonFeaturesCollection, mapDefaultStyle, MapEditableStyleProperties, transformFeatureToWKT } from './transformWithOL'
 
 // Visualization part
 // Page
@@ -604,11 +604,11 @@ describe('Transformations with OpenLayers', () => {
               default: {
                 stroke: {
                   color: '#000',
-                  width: 10,
-                  isDashed: true
+                  width: 10
                 },
                 fill: {
-                  color: '#FFF'
+                  color: '#FFF',
+                  width: 2
                 }
               }
             }
@@ -621,20 +621,16 @@ describe('Transformations with OpenLayers', () => {
         ...GEO_STYLE.Point,
         id: `features-collection-source-0-${GEO_STYLE.Point.id}`,
         paint: {
-          ...GEO_STYLE.Point.paint,
           'circle-color': '#FFF',
           'circle-stroke-color': '#000',
-          'circle-stroke-width': 10
+          'circle-stroke-width': 10,
+          'circle-radius': 2,
+          'circle-opacity': mapDefaultStyle.opacity
         }
       })
     })
   })
   describe('getStyleLayers', () => {
-    // Default configuration
-    const defaultStrokeWidth = 2
-    const defaultFillColor = '#EA0E0E'
-    const defaultStrokeColor = '#FFFFFF'
-
     describe('Geometry point', () => {
       it('Return the correct default style', () => {
         const layers = getStyleLayers(
@@ -646,10 +642,11 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point,
           id: `myResourceId-${GEO_STYLE.Point.id}`,
           paint: {
-            ...GEO_STYLE.Point.paint,
-            'circle-color': defaultFillColor,
-            'circle-stroke-color': defaultStrokeColor,
-            'circle-stroke-width': defaultStrokeWidth
+            'circle-opacity': mapDefaultStyle.opacity,
+            'circle-color': mapDefaultStyle.fill.color,
+            'circle-stroke-color': mapDefaultStyle.stroke.color,
+            'circle-stroke-width': mapDefaultStyle.stroke.width,
+            'circle-radius': mapDefaultStyle.fill.width
           }
         })
       })
@@ -660,7 +657,8 @@ describe('Transformations with OpenLayers', () => {
           {
             default: {
               fill: {
-                color: '#000'
+                color: '#000',
+                width: 2
               },
               stroke: {
                 color: '#111',
@@ -674,10 +672,11 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point,
           id: `myResourceId-${GEO_STYLE.Point.id}`,
           paint: {
-            ...GEO_STYLE.Point.paint,
+            'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': '#000',
             'circle-stroke-color': '#111',
-            'circle-stroke-width': 10
+            'circle-stroke-width': 10,
+            'circle-radius': 2
           }
         })
       })
@@ -689,7 +688,8 @@ describe('Transformations with OpenLayers', () => {
             default: {
               icon: 'myUrlIcon',
               fill: {
-                color: '#000'
+                color: '#000',
+                width: 2
               },
               stroke: {
                 color: '#111',
@@ -703,11 +703,12 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Marker,
           id: `myResourceId-${GEO_STYLE.Marker.id}`,
           paint: {
-            ...GEO_STYLE.Marker.paint,
+            'icon-opacity': mapDefaultStyle.opacity,
             'icon-color': '#000'
           },
           layout: {
-            'icon-image': 'myUrlIcon'
+            'icon-image': 'myUrlIcon',
+            'icon-size': 2
           },
           imagesToLoad: new Set(['myUrlIcon'])
         })
@@ -726,7 +727,7 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point,
           id: `myResourceId-${GEO_STYLE.Point.id}`,
           paint: {
-            ...GEO_STYLE.Point.paint,
+            'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
               'match',
               ['get', 'styleField'],
@@ -736,7 +737,7 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#fff',
-              defaultFillColor
+              mapDefaultStyle.fill.color
             ],
             'circle-stroke-color': [
               'match',
@@ -747,8 +748,10 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#fff',
-              defaultStrokeColor
-            ]
+              mapDefaultStyle.stroke.color
+            ],
+            'circle-radius': mapDefaultStyle.fill.width,
+            'circle-stroke-width': mapDefaultStyle.stroke.width
           }
         })
       })
@@ -772,7 +775,8 @@ describe('Transformations with OpenLayers', () => {
                 value: '2',
                 style: {
                   fill: {
-                    color: '#222'
+                    color: '#222',
+                    width: 3
                   }
                 }
               },
@@ -794,7 +798,7 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point,
           id: `myResourceId-${GEO_STYLE.Point.id}`,
           paint: {
-            ...GEO_STYLE.Point.paint,
+            'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
               'match',
               ['get', 'styleField'],
@@ -804,7 +808,7 @@ describe('Transformations with OpenLayers', () => {
               '#222',
               '3',
               '#fff',
-              defaultFillColor
+              mapDefaultStyle.fill.color
             ],
             'circle-stroke-color': [
               'match',
@@ -815,7 +819,7 @@ describe('Transformations with OpenLayers', () => {
               '#eee',
               '3',
               '#333',
-              defaultStrokeColor
+              mapDefaultStyle.stroke.color
             ],
             'circle-stroke-width': [
               'match',
@@ -824,9 +828,92 @@ describe('Transformations with OpenLayers', () => {
               5,
               '3',
               10,
-              defaultStrokeWidth
+              mapDefaultStyle.stroke.width
+            ],
+            'circle-radius': [
+              'match',
+              ['get', 'styleField'],
+              '2',
+              3,
+              mapDefaultStyle.fill.width
             ]
           }
+        })
+      })
+      it('Return the style based on a single select column with some overrided settings with markers', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            field: singleSelectColumn.id,
+            dataDriven: [
+              {
+                value: '1',
+                style: {
+                  stroke: {
+                    color: '#111',
+                    width: 5
+                  }
+                }
+              },
+              {
+                value: '2',
+                style: {
+                  fill: {
+                    color: '#222',
+                    width: 3
+                  },
+                  icon: 'myNewIconUrl'
+                }
+              },
+              {
+                value: '3',
+                style: {
+                  stroke: {
+                    color: '#333',
+                    width: 10
+                  }
+                }
+              }
+            ]
+          },
+          singleSelectColumn
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Marker,
+          id: `myResourceId-${GEO_STYLE.Marker.id}`,
+          paint: {
+            'icon-opacity': mapDefaultStyle.opacity,
+            'icon-color': [
+              'match',
+              ['get', 'styleField'],
+              '1',
+              '#ddd',
+              '2',
+              '#222',
+              '3',
+              '#fff',
+              mapDefaultStyle.fill.color
+            ]
+          },
+          layout: {
+            'icon-size': [
+              'match',
+              ['get', 'styleField'],
+              '2',
+              3,
+              mapDefaultStyle.icon.size
+            ],
+            'icon-image': [
+              'match',
+              ['get', 'styleField'],
+              '2',
+              'myNewIconUrl',
+              mapDefaultStyle.icon.url
+            ]
+          },
+          imagesToLoad: new Set([mapDefaultStyle.icon.url, 'myNewIconUrl'])
         })
       })
       it('Return the style based on explicit style settings', () => {
@@ -849,7 +936,8 @@ describe('Transformations with OpenLayers', () => {
                 value: true,
                 style: {
                   fill: {
-                    color: '#222'
+                    color: '#222',
+                    width: 3
                   }
                 }
               }
@@ -862,29 +950,86 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Point,
           id: `myResourceId-${GEO_STYLE.Point.id}`,
           paint: {
-            ...GEO_STYLE.Point.paint,
+            'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
               'match',
               ['get', 'styleField'],
               true,
               '#222',
-              defaultFillColor
+              mapDefaultStyle.fill.color
+            ],
+            'circle-radius': [
+              'match',
+              ['get', 'styleField'],
+              true,
+              3,
+              mapDefaultStyle.fill.width
             ],
             'circle-stroke-color': [
               'match',
               ['get', 'styleField'],
               false,
               '#111',
-              defaultStrokeColor
+              mapDefaultStyle.stroke.color
             ],
             'circle-stroke-width': [
               'match',
               ['get', 'styleField'],
               false,
               5,
-              defaultStrokeWidth
+              mapDefaultStyle.stroke.width
             ]
           }
+        })
+      })
+      it('Return the style based on explicit style settings with markers', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            field: booleanColumn.id,
+            dataDriven: [
+              {
+                value: false,
+                style: {
+                  icon: 'myNewIconUrl1'
+                }
+              },
+              {
+                value: true,
+                style: {
+                  icon: 'myNewIconUrl2'
+                }
+              }
+            ]
+          },
+          booleanColumn
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toStrictEqual({
+          ...GEO_STYLE.Marker,
+          id: `myResourceId-${GEO_STYLE.Marker.id}`,
+          paint: {
+            'icon-opacity': mapDefaultStyle.opacity,
+            'icon-color': mapDefaultStyle.fill.color
+          },
+          layout: {
+            'icon-size': mapDefaultStyle.icon.size,
+            'icon-image': [
+              'match',
+              ['get', 'styleField'],
+              false,
+              'myNewIconUrl1',
+              true,
+              'myNewIconUrl2',
+              mapDefaultStyle.icon.url
+            ]
+          },
+          imagesToLoad: new Set([
+            mapDefaultStyle.icon.url,
+            'myNewIconUrl1',
+            'myNewIconUrl2'
+          ])
         })
       })
     })
@@ -899,9 +1044,9 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Polygon,
           id: `myResourceId-${GEO_STYLE.Polygon.id}`,
           paint: {
-            ...GEO_STYLE.Polygon.paint,
-            'fill-color': defaultFillColor,
-            'fill-outline-color': defaultStrokeColor
+            'fill-opacity': mapDefaultStyle.opacity,
+            'fill-color': mapDefaultStyle.fill.color,
+            'fill-outline-color': mapDefaultStyle.stroke.color
           }
         })
       })
@@ -926,7 +1071,7 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Polygon,
           id: `myResourceId-${GEO_STYLE.Polygon.id}`,
           paint: {
-            ...GEO_STYLE.Polygon.paint,
+            'fill-opacity': mapDefaultStyle.opacity,
             'fill-color': '#000',
             'fill-outline-color': '#111'
           }
@@ -947,9 +1092,9 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Linestring,
           id: `myResourceId-${GEO_STYLE.Linestring.id}`,
           paint: {
-            ...GEO_STYLE.Linestring.paint,
-            'line-color': defaultFillColor,
-            'line-width': defaultStrokeWidth
+            'line-opacity': mapDefaultStyle.opacity,
+            'line-color': mapDefaultStyle.fill.color,
+            'line-width': mapDefaultStyle.fill.width
           }
         })
       })
@@ -960,11 +1105,11 @@ describe('Transformations with OpenLayers', () => {
           {
             default: {
               fill: {
-                color: '#000'
+                color: '#000',
+                width: 10
               },
               stroke: {
-                color: '#111',
-                width: 10
+                color: '#111'
               }
             }
           }
@@ -974,7 +1119,7 @@ describe('Transformations with OpenLayers', () => {
           ...GEO_STYLE.Linestring,
           id: `myResourceId-${GEO_STYLE.Linestring.id}`,
           paint: {
-            ...GEO_STYLE.Linestring.paint,
+            'line-opacity': mapDefaultStyle.opacity,
             'line-color': '#000',
             'line-width': 10
           }
