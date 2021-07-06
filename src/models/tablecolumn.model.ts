@@ -45,6 +45,8 @@ export class TableColumn extends BaseModel {
     default?: string
   }
 
+  validation?: object
+
   position!: number
   table_id!: string
   table?: LckTable
@@ -74,6 +76,7 @@ export class TableColumn extends BaseModel {
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },
         position: { type: 'number' },
+        validation: { type: 'number' },
       },
     }
   }
