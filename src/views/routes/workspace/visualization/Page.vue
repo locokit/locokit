@@ -714,7 +714,21 @@ export default {
         })
         this.$set(block, 'displayNewDialog', false)
         this.$set(block, 'submitting', { inProgress: false })
-        await this.loadSourceContent(block.settings.id)
+        /**
+         * if the block have a redirectPage option,
+         * we redirect the user to the redirectPage
+         */
+        if (block.settings?.redirectPageId) {
+          this.$router.push({
+            name: ROUTES_NAMES.PAGE,
+            params: {
+              ...this.$route.params,
+              pageId: block.settings.redirectPageId,
+            },
+          })
+        } else {
+          await this.loadSourceContent(block.settings.id)
+        }
       } catch (error) {
         this.$set(block, 'submitting', { inProgress: false, errors: [error] })
         this.$toast.add({
