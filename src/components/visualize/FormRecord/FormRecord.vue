@@ -158,6 +158,7 @@ export default Vue.extend({
         text: '',
         data: {},
       }
+      this.setnewRowDataDefaultValues()
       this.resetForm = true
     },
     onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
