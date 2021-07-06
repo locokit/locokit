@@ -95,7 +95,6 @@ export interface LckFeatureProperties {
   title?: LckTableRowData;
   content?: PopupContent[];
   sourceId?: string;
-  styleFields?: Record<string, LckTableRowData>;
   originalData?: Record<string, LckTableRowData>;
   displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
@@ -170,12 +169,11 @@ export const mapDefaultStyle: MapEditableStyleProperties = {
  *
  * @param sourceId
  * @param geoColumns
- * @param style
- * @param styleColumns
+ * @param sourceStyle
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle, styleColumns?: LckTableColumn[]): LckImplementedLayers[] {
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle): LckImplementedLayers[] {
   const geoTypes: Set<COLUMN_TYPE> = new Set()
   const layers: LckImplementedLayers[] = []
 
@@ -199,7 +197,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
   const computedStyle: MapEditableStyleProperties = cloneDeep(defaultStyle)
 
   // Change features styles depending of the values of the specified fields
-  if (sourceStyle?.dataDriven && styleColumns) {
+  if (sourceStyle?.dataDriven) {
     computedStyle.fill.color = ['case']
     computedStyle.fill.width = ['case']
     computedStyle.stroke.color = ['case']
@@ -345,7 +343,7 @@ export function makeGeoJsonFeaturesCollection (
   definitionColumns: Record<string, LckTableViewColumn>,
   source: MapSourceSettings,
   i18nOptions: LckPopupI18nOptions,
-  styleColumns?: LckTableViewColumn[],
+  styleColumns?: string[],
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
 
@@ -444,11 +442,10 @@ export function makeGeoJsonFeaturesCollection (
               })
             }
           }
-          // Add the field chosen to customize the layer
+          // Add the fields chosen to customize the layer
           if (styleColumns) {
             styleColumns.forEach(styleColumn => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              featureProperties[styleColumn.id] = row.data[styleColumn.id]
+              featureProperties[styleColumn] = row.data[styleColumn]
             })
           }
           feature.setProperties(featureProperties)
@@ -503,23 +500,18 @@ export function getLckGeoResources (
     const columnsObject = objectFromArray<LckTableViewColumn>(columns, 'id')
 
     if (geoColumns.length > 0) {
-      // Color field used to customize the source layers
-      const styleColumns = source.style?.fields
-        ? source.style.fields.map(fieldId => columnsObject[fieldId])
-        : undefined
-
       const features = makeGeoJsonFeaturesCollection(
         data[source.id],
         geoColumns,
         columnsObject,
         source,
         i18nOptions,
-        styleColumns,
+        source.style?.fields,
       )
 
       const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
 
-      const layers = getStyleLayers(resourceId, geoColumns, source.style, styleColumns)
+      const layers = getStyleLayers(resourceId, geoColumns, source.style)
 
       const selectable =
         source.selectable || (

@@ -729,7 +729,6 @@ describe('Transformations with OpenLayers', () => {
               },
             ],
           },
-          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -806,7 +805,6 @@ describe('Transformations with OpenLayers', () => {
               },
             ],
           },
-          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
