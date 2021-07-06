@@ -94,6 +94,7 @@ jest.mock('@/services/lck-api', () => ({
       { label: 'C', value: 3 },
     ])),
     exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
+    convertDateInRecords: jest.fn(() => []),
   },
 }))
 
