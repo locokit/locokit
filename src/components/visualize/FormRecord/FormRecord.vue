@@ -137,7 +137,7 @@ export default Vue.extend({
     onSubmitNewRow () {
       this.$emit('create-row', this.newRow)
     },
-    setnewRowDataDefaultValues () {
+    setNewRowDataDefaultValues () {
       this.fieldsWithDefaultValues.forEach(c => {
         if (!this.newRow.data[c.id] && c.default?.value !== undefined) {
           this.$set(this.newRow.data, c.id, c.default?.value as string | number | boolean)
@@ -158,7 +158,7 @@ export default Vue.extend({
         text: '',
         data: {},
       }
-      this.setnewRowDataDefaultValues()
+      this.setNewRowDataDefaultValues()
       this.resetForm = true
     },
     onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
@@ -192,7 +192,7 @@ export default Vue.extend({
     },
     'definition.columns': {
       handler () {
-        this.setnewRowDataDefaultValues()
+        this.setNewRowDataDefaultValues()
       },
       deep: true,
     },
