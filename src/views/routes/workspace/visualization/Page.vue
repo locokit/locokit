@@ -282,6 +282,7 @@ export default {
       editableAutocompleteSuggestions: null,
       blockDisplayTableViewSuggestions: null,
       blockDisplayFieldSuggestions: null,
+      geoSources: {},
     }
   },
   computed: {
@@ -337,6 +338,9 @@ export default {
     searchItems: lckHelpers.searchItems,
     resetSources () {
       this.sources = {}
+    },
+    resetGeoSources () {
+      this.geoSources = {}
     },
     createOrExtendSource (tableViewId, blockId, blockType) {
       /**
@@ -489,6 +493,7 @@ export default {
       this.inventorySources()
       await this.loadSourcesDefinitions()
       await this.loadSourcesContents()
+      this.resetGeoSources()
     },
     getBlockDefinition (block) {
       if (block.id === 'temp') return null
@@ -497,8 +502,12 @@ export default {
        * definition is a Record<tableViewId, LckTableView>
        */
       if (isGeoBlock(block.type)) {
-        const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
-        return objectFromArray(definitions, 'id')
+        if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
+        if (!this.geoSources[block.id].definition) {
+          const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
+          this.geoSources[block.id].definition = objectFromArray(definitions, 'id')
+        }
+        return this.geoSources[block.id].definition
       }
       if (!block.settings.id) return null
 
@@ -508,25 +517,29 @@ export default {
       switch (block.type) {
         case BLOCK_TYPE.MAP_SET:
           // The result in an object whose the keys are the views ids and the values are the corresponding rows
-          return block.settings.sources.reduce(
-            (allContents, mapSource) => {
-              /**
-               * To manage shared sources between a MapSet and a TableSet or other set,
-               * we need to check if the source content is an array (source is only used by MapSet)
-               * or an { total, limit, skip, data } object (shared source)
-               * If it's an object, we return data (paginated array), else only the content (already an array)
-               */
-              const sourceContent = this.sources[mapSource.id]?.content
-              let currentContent = []
-              if (Array.isArray(sourceContent)) {
-                currentContent = sourceContent
-              } else if (sourceContent?.data) {
-                currentContent = sourceContent.data
-              }
-              return Object.assign(allContents, { [mapSource.id]: currentContent })
-            },
-            {},
-          )
+          if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
+          if (!this.geoSources[block.id].content) {
+            this.geoSources[block.id].content = block.settings.sources.reduce(
+              (allContents, mapSource) => {
+                /**
+                 * To manage shared sources between a MapSet and a TableSet or other set,
+                 * we need to check if the source content is an array (source is only used by MapSet)
+                 * or an { total, limit, skip, data } object (shared source)
+                 * If it's an object, we return data (paginated array), else only the content (already an array)
+                 */
+                const sourceContent = this.sources[mapSource.id]?.content
+                let currentContent = []
+                if (Array.isArray(sourceContent)) {
+                  currentContent = sourceContent
+                } else if (sourceContent?.data) {
+                  currentContent = sourceContent.data
+                }
+                return Object.assign(allContents, { [mapSource.id]: currentContent })
+              },
+              {},
+            )
+          }
+          return this.geoSources[block.id].content
         case BLOCK_TYPE.MAP_FIELD:
           return {
             [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content],

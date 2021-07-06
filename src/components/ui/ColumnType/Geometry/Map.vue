@@ -648,8 +648,6 @@ export default Vue.extend({
         this.updateResource(resourceToUpdate, resourceToCompare)
       })
 
-      if (!this.singleEditMode) this.setFitBounds()
-
       // Reinitialize the draw controls depending of the new resources
       this.initDrawControls()
     },
