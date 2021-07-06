@@ -14,8 +14,24 @@
       v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
       :key="column.id"
     >
-      <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
-        <div class="p-d-flex">
+      <validation-provider
+        v-if="editableColumns.indexOf(column) > -1"
+        style="position: relative;"
+        :vid="column.id"
+        :rules="{
+          required: column.required,
+          minDate: column.id === '47e90490-573e-464f-9418-f92d1a5cd7c5' ? { fromDate: '@7de25c38-90c7-4565-a242-fa632e97b8b7' } : false
+        }"
+        :name="column.text"
+        v-slot="{
+          errors,
+          classes
+        }"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
           <p-checkbox
             v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             v-model="row.data[column.id]"
@@ -26,6 +42,7 @@
 
           <label
             class="lck-color-primary"
+            :class="classes"
             :for="column.id"
           >
             {{ column.text }}
@@ -36,10 +53,17 @@
           >
             *
           </span>
+          <span
+            v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+            class="cell-state"
+            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+          />
+
         </div>
 
         <div
           class="form-field-editable"
+          :class="classes"
         >
           <lck-autocomplete
             v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
@@ -156,12 +180,14 @@
             @blur="onEdit(row.id, column.id, row.data[column.id])"
             :rows="7"
           />
+          <span
+            v-if="getComponentEditorDetailForColumnType(column) !== 'p-checkbox'"
+            class="cell-state"
+            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+          />
         </div>
-        <span
-          class="cell-state"
-          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-        />
-      </div>
+        <span :class="classes">{{errors[0]}}</span>
+      </validation-provider>
 
       <div
         v-else-if="mode !== 'creation'"
@@ -228,6 +254,7 @@ import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
 import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
+import { ValidationProvider } from 'vee-validate'
 
 import {
   COLUMN_TYPE,
@@ -302,6 +329,7 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'p-checkbox': Vue.extend(Checkbox),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     autocompleteSuggestions: {
@@ -594,6 +622,12 @@ export default {
 }
 .form-field-editable {
   position: relative;
+}
+.form-field-editable.failed {
+  border-color: var(--color-error);
+}
+.failed {
+  color: var(--color-error);
 }
 
 .column-required {

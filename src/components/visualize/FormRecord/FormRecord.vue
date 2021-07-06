@@ -1,6 +1,5 @@
 <template>
   <lck-form
-    :canSubmit="completeForm"
     :displayCancelButton="false"
     :fullWidthButton="true"
     :reset="resetForm"
@@ -76,29 +75,6 @@ export default Vue.extend({
       // Get an object containing the columns as values and their ids as keys
       if (!this.definition || !this.definition.columns) return {}
       return objectFromArray<LckTableViewColumn>(this.definition.columns, 'id')
-    },
-    requiredColumnsIds (): Set<string> {
-      // Get the required columns ids
-      const requiredColumnsIds: Set<string> = new Set()
-      if (this.definition?.columns) {
-        this.definition.columns.forEach(column => {
-          if (column.required) requiredColumnsIds.add(column.id)
-        })
-      }
-      return requiredColumnsIds
-    },
-    completeForm () {
-      // Return true if all required fields are defined and not null
-      for (const field of this.requiredColumnsIds) {
-        if (
-          this.newRow.data[field] === null ||
-          this.newRow.data[field] === undefined ||
-          (typeof this.newRow.data[field] === 'string' && (this.newRow.data[field] as string).length === 0)
-        ) {
-          return false
-        }
-      }
-      return true
     },
     fieldsWithDefaultValues (): LckTableViewColumn[] {
       if (!this.definition) return []
