@@ -756,5 +756,11 @@
     "medium": "Medium",
     "strong": "Strong",
     "passwordPrompt": "Enter a password"
+  },
+  "validations": {
+    "messages": {
+      "required": "The '{_field_}' field is required",
+      "minDate": "The '{_field_}' field must be after {fromDate}"
+    }
   }
 }

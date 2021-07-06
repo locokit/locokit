@@ -756,5 +756,11 @@
     "medium": "Moyen",
     "strong": "Fort",
     "passwordPrompt": "Saisissez un mot de passe"
+  },
+  "validations": {
+    "messages": {
+      "required": "Le champ '{_field_}' est requis",
+      "minDate": "Le champ '{_field_}' doit être après {fromDate}"
+    }
   }
 }
