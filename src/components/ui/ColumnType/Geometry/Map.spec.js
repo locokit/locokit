@@ -122,6 +122,7 @@ jest.mock('mapbox-gl', () => ({
     on: jest.fn((event, func) => {
       if (event === 'load') func()
     }),
+    getLayer: jest.fn(),
     off: jest.fn(),
     resize: jest.fn(),
     removeControl: jest.fn(),

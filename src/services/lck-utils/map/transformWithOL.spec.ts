@@ -692,6 +692,39 @@ describe('Transformations with OpenLayers', () => {
           },
         })
       })
+      it('Return the specified default style with markers', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            default: {
+              icon: 'myUrlIcon',
+              fill: {
+                color: '#000',
+                width: 2,
+              },
+              stroke: {
+                color: '#111',
+                width: 10,
+              },
+            },
+          },
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Marker,
+          id: `myResourceId-${GEO_STYLE.Marker.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
+          paint: {
+            'icon-opacity': mapDefaultStyle.opacity,
+            'icon-color': '#000',
+          },
+          layout: {
+            'icon-image': 'myUrlIcon',
+            'icon-size': 2,
+          },
+          imagesToLoad: new Set(['myUrlIcon']),
+        })
+      })
       it('Return the style based on explicit style settings with one field', () => {
         const layers = getStyleLayers(
           'myResourceId',
@@ -846,6 +879,64 @@ describe('Transformations with OpenLayers', () => {
               mapDefaultStyle.stroke.width,
             ],
           },
+        })
+      })
+      it('Return the style based on explicit style settings with markers', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            fields: [booleanColumn.id],
+            dataDriven: [
+              {
+                values: [
+                  {
+                    value: false,
+                    field: booleanColumn.id,
+                  },
+                ],
+                style: {
+                  icon: 'myNewIconUrl1',
+                },
+              },
+              {
+                values: [
+                  {
+                    value: true,
+                    field: booleanColumn.id,
+                  },
+                ],
+                style: {
+                  icon: 'myNewIconUrl2',
+                },
+              },
+            ],
+          },
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toStrictEqual({
+          ...GEO_STYLE.Marker,
+          id: `myResourceId-${GEO_STYLE.Marker.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
+          paint: {
+            'icon-opacity': mapDefaultStyle.opacity,
+            'icon-color': mapDefaultStyle.fill.color,
+          },
+          layout: {
+            'icon-size': mapDefaultStyle.icon.size,
+            'icon-image': [
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], false]],
+              'myNewIconUrl1',
+              ['all', ['==', ['get', booleanColumn.id], true]],
+              'myNewIconUrl2',
+              mapDefaultStyle.icon.url,
+            ],
+          },
+          imagesToLoad: new Set([
+            mapDefaultStyle.icon.url,
+            'myNewIconUrl1',
+            'myNewIconUrl2',
+          ]),
         })
       })
     })
