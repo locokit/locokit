@@ -229,10 +229,13 @@ export interface MapFeatureStyle {
 
 export interface MapSourceStyle {
   default?: MapFeatureStyle,
-  field?: string; // the field's UUID used to customize the features
-  dataDriven?: {
-    value: unknown; // the value to check
-    style: MapFeatureStyle; // the style to apply when the field has the specified value
+  fields?: string[]; // the field UUIDs used to customize the features
+  dataDriven?: { // The style to apply to the features when the related fields have some specific values
+    values: {
+      field: string;
+      value: unknown;
+    }[]
+    style: MapFeatureStyle;
   }[]
 }
 
