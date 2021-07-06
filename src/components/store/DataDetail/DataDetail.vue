@@ -635,4 +635,8 @@ export default {
   color: var(--color-error);
 }
 
+textarea {
+  resize: none;
+}
+
 </style>
