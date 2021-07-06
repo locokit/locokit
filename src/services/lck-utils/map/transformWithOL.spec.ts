@@ -49,7 +49,6 @@ const defaultParamsTableViewColumn = {
   editable: false,
   position: 0,
   transmitted: false,
-  default: '',
   displayed: true,
   required: false,
   sort: 'DESC' as SORT_COLUMN,
@@ -533,11 +532,11 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].selectable).toBe(false)
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Point,
-        id: `features-collection-source-0-${GEO_STYLE.Point.id}`,
+        id: `features-collection-source-0-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
       })
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Polygon,
-        id: `features-collection-source-0-${GEO_STYLE.Polygon.id}`,
+        id: `features-collection-source-0-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
       })
     })
     it('Returns that the resource is selectable if it is specified in the map settings', () => {
@@ -632,7 +631,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources).toHaveLength(1)
       expect(resources[0].layers[0]).toEqual({
         ...GEO_STYLE.Point,
-        id: `features-collection-source-0-${GEO_STYLE.Point.id}`,
+        id: `features-collection-source-0-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
         paint: {
           'circle-color': '#FFF',
           'circle-stroke-color': '#000',
@@ -653,7 +652,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Point,
-          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          id: `myResourceId-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': mapDefaultStyle.fill.color,
@@ -683,7 +682,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Point,
-          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          id: `myResourceId-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': '#000',
@@ -763,12 +762,11 @@ describe('Transformations with OpenLayers', () => {
               },
             ],
           },
-          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Point,
-          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          id: `myResourceId-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
@@ -840,12 +838,11 @@ describe('Transformations with OpenLayers', () => {
               },
             ],
           },
-          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Point,
-          id: `myResourceId-${GEO_STYLE.Point.id}`,
+          id: `myResourceId-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
@@ -953,7 +950,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Polygon,
-          id: `myResourceId-${GEO_STYLE.Polygon.id}`,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
           paint: {
             'fill-opacity': mapDefaultStyle.opacity,
             'fill-color': mapDefaultStyle.fill.color,
@@ -980,7 +977,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Polygon,
-          id: `myResourceId-${GEO_STYLE.Polygon.id}`,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
           paint: {
             'fill-opacity': mapDefaultStyle.opacity,
             'fill-color': '#000',
@@ -1001,7 +998,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Linestring,
-          id: `myResourceId-${GEO_STYLE.Linestring.id}`,
+          id: `myResourceId-${GEO_STYLE.Linestring.id}-${COLUMN_TYPE.GEOMETRY_LINESTRING}`,
           paint: {
             'line-opacity': mapDefaultStyle.opacity,
             'line-color': mapDefaultStyle.fill.color,
@@ -1028,7 +1025,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Linestring,
-          id: `myResourceId-${GEO_STYLE.Linestring.id}`,
+          id: `myResourceId-${GEO_STYLE.Linestring.id}-${COLUMN_TYPE.GEOMETRY_LINESTRING}`,
           paint: {
             'line-opacity': mapDefaultStyle.opacity,
             'line-color': '#000',
