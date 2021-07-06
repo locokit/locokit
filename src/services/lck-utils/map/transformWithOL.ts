@@ -100,6 +100,8 @@ export interface LckFeatureProperties {
   displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
 
+export type LckFeaturePropertiesWithData = LckFeatureProperties & Record<string, LckTableRowData>
+
 /**
  * Convert spatial geometry EWKT
  * Transform EWKT into OL Feature
@@ -174,7 +176,7 @@ export const mapDefaultStyle: MapEditableStyleProperties = {
  * @return {LckImplementedLayers[]}
  */
 export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle, styleColumns?: LckTableColumn[]): LckImplementedLayers[] {
-  const geoTypes = new Set()
+  const geoTypes: Set<COLUMN_TYPE> = new Set()
   const layers: LckImplementedLayers[] = []
 
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
@@ -276,7 +278,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
     if (geoStyle) {
       layers.push({
         ...geoStyle,
-        id: `${sourceId}-${geoStyle.id}`,
+        id: `${sourceId}-${geoStyle.id}-${geoType}`,
       })
     }
   })
@@ -375,7 +377,7 @@ export function makeGeoJsonFeaturesCollection (
       if (data) {
         const feature = transformEWKTtoFeature(data)
         if (source) {
-          const featureProperties: LckFeatureProperties = {
+          const featureProperties: LckFeaturePropertiesWithData = {
             id: `${row.id}:${geoColumn.id}`,
             columnId: geoColumn.id,
             rowId: row.id,
