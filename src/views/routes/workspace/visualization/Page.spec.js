@@ -857,6 +857,7 @@ jest.mock('@/services/lck-api', () => ({
           }
       },
     ),
+    convertDateInRecords: jest.fn(),
   },
 }))
 

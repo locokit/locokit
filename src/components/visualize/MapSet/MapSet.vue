@@ -70,6 +70,7 @@ export default Vue.extend({
           noReference: this.$t('components.mapview.noReference'),
           noData: this.$t('components.mapview.noRowData'),
           dateFormat: this.$t('date.dateFormat'),
+          datetimeFormat: this.$t('date.datetimeFormat'),
         },
       )
     },

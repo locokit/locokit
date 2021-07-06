@@ -250,9 +250,20 @@ export default Vue.extend({
         },
         promoteId: 'id',
       })
-      resource.layers.forEach((layer) => {
+      // Add the related layers
+      for (const layer of resource.layers) {
         this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
-      })
+        // Load the images if needed
+        for (const image of layer.imagesToLoad || []) {
+          if (!this.map!.hasImage(image)) {
+            this.map!.loadImage(image, (error: Error, loadedImage: HTMLImageElement) => {
+              if (!error) {
+                this.map!.addImage(image, loadedImage)
+              }
+            })
+          }
+        }
+      }
     },
     updateResource (resourceToUpdate: LckGeoResource, resourceToCompare: LckGeoResource) {
       const layersToAdd: LckImplementedLayers[] = []
@@ -267,7 +278,8 @@ export default Vue.extend({
       )
       layersToUpdate.push(...resourceToUpdate.layers.filter(
         (resourceToUpdateLayer) => resourceToCompare.layers.find(
-          (resourceToCompareLayer) => resourceToCompareLayer.id === resourceToUpdateLayer.id,
+          (resourceToCompareLayer) =>
+            resourceToCompareLayer.id === resourceToUpdateLayer.id,
         ),
       ),
       )

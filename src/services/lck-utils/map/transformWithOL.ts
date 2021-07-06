@@ -12,7 +12,9 @@ import {
   Expression,
   FillLayer,
   LineLayer,
+  SymbolLayer,
 } from 'mapbox-gl'
+import cloneDeep from 'lodash.clonedeep'
 
 import { TranslateResult } from 'vue-i18n'
 
@@ -20,8 +22,10 @@ import {
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
+  MapFeatureStyle,
   MapSettings,
   MapSourceSettings,
+  MapSourceStyle,
   MapSourceTriggerEvents,
 } from '@locokit/lck-glossary'
 
@@ -41,46 +45,28 @@ import {
 } from '@/services/lck-utils/columns'
 import { objectFromArray } from '../arrays'
 
-const lckGeoColor: Expression = [
-  'case',
-  ['boolean', ['feature-state', 'selectable'], false],
-  // Feature color on selection
-  'rgb(158,25,25)',
-  // Default feature color
-  'rgba(234,14,14,0.6)',
-]
-
 const LCK_GEO_STYLE_POINT: CircleLayer = {
   id: 'layer-type-circle',
   type: 'circle',
-  paint: {
-    'circle-radius': 10,
-    'circle-color': lckGeoColor,
-    'circle-stroke-width': 2,
-    'circle-stroke-color': '#FFFFFF',
-  },
+}
+const LCK_GEO_STYLE_MARKER: SymbolLayer = {
+  id: 'layer-type-symbol',
+  type: 'symbol',
 }
 const LCK_GEO_STYLE_LINESTRING: LineLayer = {
   id: 'layer-type-line',
   type: 'line',
-  paint: {
-    'line-width': 10,
-    'line-color': lckGeoColor,
-  },
 }
 const LCK_GEO_STYLE_POLYGON: FillLayer = {
   id: 'layer-type-fill',
   type: 'fill',
-  paint: {
-    'fill-color': lckGeoColor,
-    'fill-outline-color': 'rgba(0,0,0,0)',
-  },
 }
 
-export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
+export type LckImplementedLayers = (CircleLayer | FillLayer | LineLayer | SymbolLayer) & { imagesToLoad?: Set<string> }
 
 export const GEO_STYLE = {
   Point: LCK_GEO_STYLE_POINT,
+  Marker: LCK_GEO_STYLE_MARKER,
   Linestring: LCK_GEO_STYLE_LINESTRING,
   Polygon: LCK_GEO_STYLE_POLYGON,
 }
@@ -115,10 +101,11 @@ export interface LckFeatureProperties {
   title?: LckTableRowData;
   content?: PopupContent[];
   sourceId?: string;
-  text?: string;
   originalData?: Record<string, LckTableRowData>;
   displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
+
+export type LckFeaturePropertiesWithData = LckFeatureProperties & Record<string, LckTableRowData>
 
 /**
  * Convert spatial geometry EWKT
@@ -154,34 +141,190 @@ export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '43
   })}`
 }
 
+export interface MapEditableStyleProperties {
+  fill: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  stroke: {
+    color: Expression | string;
+    width: Expression | number;
+  };
+  icon: {
+    url: Expression | string;
+    size: Expression | number;
+  };
+  opacity: Expression;
+}
+
+export const mapDefaultStyle: MapEditableStyleProperties = {
+  fill: {
+    width: 10,
+    color: '#EA0E0E',
+  },
+  stroke: {
+    width: 2,
+    color: '#FFFFFF',
+  },
+  icon: {
+    url: '/img/marker-icon.png',
+    size: 1,
+  },
+  opacity: [
+    'case',
+    ['boolean', ['feature-state', 'selectable'], false],
+    1, // Feature opacity on selection
+    0.5, // Default feature opacity
+  ],
+}
+
 /**
  * Add style for a specific spatial geometry present in layer
  *
  * @param sourceId
  * @param geoColumns
+ * @param sourceStyle
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[]): LckImplementedLayers[] {
-  const geoTypes = new Set()
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle): LckImplementedLayers[] {
+  const geoTypes: Set<COLUMN_TYPE> = new Set()
   const layers: LckImplementedLayers[] = []
+  let displayMarkers = false
 
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
+
+  // Used images as markers
+  const imagesToLoad: Set<string> = new Set()
+
+  // Default style settings
+  const { fill = {}, stroke = {}, icon = '' }: MapFeatureStyle = sourceStyle?.default || {}
+
+  const defaultStyle: MapEditableStyleProperties = {
+    fill: {
+      color: fill.color || mapDefaultStyle.fill.color,
+      width: fill.width || mapDefaultStyle.fill.width,
+    },
+    stroke: {
+      color: stroke.color || mapDefaultStyle.stroke.color,
+      width: stroke.width || mapDefaultStyle.stroke.width,
+    },
+    icon: {
+      url: icon || mapDefaultStyle.icon.url,
+      size: fill.width || mapDefaultStyle.icon.size,
+    },
+    opacity: mapDefaultStyle.opacity,
+  }
+
+  if (sourceStyle?.default?.icon) displayMarkers = true
+
+  imagesToLoad.add(defaultStyle.icon.url as string)
+
+  const computedStyle: MapEditableStyleProperties = cloneDeep(defaultStyle)
+
+  // Change features styles depending of the values of the specified fields
+  if (sourceStyle?.dataDriven) {
+    computedStyle.icon.url = ['case']
+    computedStyle.fill.color = ['case']
+    computedStyle.fill.width = ['case']
+    computedStyle.stroke.color = ['case']
+    computedStyle.stroke.width = ['case']
+
+    for (const { values, style } of sourceStyle.dataDriven) {
+      const condition: unknown[] = ['all']
+      values.forEach(({ field, value }) => {
+        condition.push(['==', ['get', field], value])
+      })
+      if (style.fill) {
+        if (style.fill.color) computedStyle.fill.color.push(condition, style.fill.color)
+        if (style.fill.width != null) computedStyle.fill.width.push(condition, style.fill.width)
+      }
+      if (style.stroke) {
+        if (style.stroke.color) computedStyle.stroke.color.push(condition, style.stroke.color)
+        if (style.stroke.width != null) computedStyle.stroke.width.push(condition, style.stroke.width)
+      }
+      if (style.icon) {
+        computedStyle.icon.url.push(condition, style.icon)
+        imagesToLoad.add(style.icon)
+      }
+    }
+
+    // The icon size is similar to the fill width except for the default value
+    computedStyle.icon.size = Array.from(computedStyle.fill.width) as Expression
+
+    // Add default values
+    computedStyle.fill.color.push(defaultStyle.fill.color)
+    computedStyle.fill.width.push(defaultStyle.fill.width)
+    computedStyle.stroke.color.push(defaultStyle.stroke.color)
+    computedStyle.stroke.width.push(defaultStyle.stroke.width)
+    computedStyle.icon.url.push(defaultStyle.icon.url)
+    computedStyle.icon.size.push(defaultStyle.icon.size)
+
+    // We must have at least 4 values by Mapbox expression
+    if (computedStyle.fill.color.length < 4) computedStyle.fill.color = defaultStyle.fill.color
+    if (computedStyle.fill.width.length < 4) {
+      computedStyle.fill.width = defaultStyle.fill.width
+      computedStyle.icon.size = defaultStyle.icon.size
+    }
+    if (computedStyle.stroke.color.length < 4) computedStyle.stroke.color = defaultStyle.stroke.color
+    if (computedStyle.stroke.width.length < 4) computedStyle.stroke.width = defaultStyle.stroke.width
+    if (computedStyle.icon.url.length < 4) {
+      computedStyle.icon.url = defaultStyle.icon.url
+    } else {
+      displayMarkers = true
+    }
+  }
+
+  // Get right style depending of the geometry type
   let geoStyle: (LckImplementedLayers | null)
+
   geoTypes.forEach(geoType => {
     geoStyle = null
     switch (geoType) {
       case COLUMN_TYPE.GEOMETRY_POINT:
       case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
-        geoStyle = GEO_STYLE.Point
+        if (displayMarkers) {
+          geoStyle = GEO_STYLE.Marker
+          geoStyle.paint = {
+            'icon-color': computedStyle.fill.color,
+            'icon-opacity': computedStyle.opacity,
+          }
+          geoStyle.layout = {
+            'icon-image': computedStyle.icon.url,
+            'icon-size': computedStyle.icon.size,
+          }
+          geoStyle.imagesToLoad = imagesToLoad
+        } else {
+          geoStyle = GEO_STYLE.Point
+          geoStyle.paint = {
+            ...GEO_STYLE.Point.paint,
+            'circle-opacity': computedStyle.opacity,
+            'circle-color': computedStyle.fill.color,
+            'circle-radius': computedStyle.fill.width,
+            'circle-stroke-color': computedStyle.stroke.color,
+            'circle-stroke-width': computedStyle.stroke.width,
+          }
+        }
         break
       case COLUMN_TYPE.GEOMETRY_LINESTRING:
       case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
         geoStyle = GEO_STYLE.Linestring
+        geoStyle.paint = {
+          ...GEO_STYLE.Linestring.paint,
+          'line-opacity': computedStyle.opacity,
+          'line-color': computedStyle.fill.color,
+          'line-width': computedStyle.fill.width,
+        }
         break
       case COLUMN_TYPE.GEOMETRY_POLYGON:
       case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
         geoStyle = GEO_STYLE.Polygon
+        geoStyle.paint = {
+          ...GEO_STYLE.Polygon.paint,
+          'fill-opacity': computedStyle.opacity,
+          'fill-color': computedStyle.fill.color,
+          'fill-outline-color': computedStyle.stroke.color,
+        }
         break
       default:
         // eslint-disable no-console
@@ -190,7 +333,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[]):
     if (geoStyle) {
       layers.push({
         ...geoStyle,
-        id: `${sourceId}-${geoStyle.id}`,
+        id: `${sourceId}-${geoStyle.id}-${geoType}`,
       })
     }
   })
@@ -247,19 +390,19 @@ export function getOnlyGeoColumns (
  * @param definitionColumns
  * @param settings
  * @param i18nOptions
+ * @param styleColumns
  *
  * @return {GeoJSONFeatureCollection}
  */
 export function makeGeoJsonFeaturesCollection (
   rows: LckTableRow[],
   geoColumns: LckTableViewColumn[],
-  definitionColumns: LckTableViewColumn[],
+  definitionColumns: Record<string, LckTableViewColumn>,
   source: MapSourceSettings,
   i18nOptions: LckPopupI18nOptions,
+  styleColumns?: string[],
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
-
-  const definitionColumnsObject = objectFromArray<LckTableViewColumn>(definitionColumns, 'id')
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
     switch (geoColumn.column_type_id) {
@@ -289,7 +432,7 @@ export function makeGeoJsonFeaturesCollection (
       if (data) {
         const feature = transformEWKTtoFeature(data)
         if (source) {
-          const featureProperties: LckFeatureProperties = {
+          const featureProperties: LckFeaturePropertiesWithData = {
             id: `${row.id}:${geoColumn.id}`,
             columnId: geoColumn.id,
             rowId: row.id,
@@ -310,7 +453,7 @@ export function makeGeoJsonFeaturesCollection (
               const allContent: PopupContent[] = []
               source.popupSettings.contentFields.forEach(contentField => {
                 // Get column's title
-                const matchingColumnField = definitionColumnsObject[contentField.field]
+                const matchingColumnField = definitionColumns[contentField.field]
                 if (matchingColumnField) {
                   // Get data from row
                   const data = getDataFromTableViewColumn(
@@ -349,12 +492,18 @@ export function makeGeoJsonFeaturesCollection (
                 featureProperties.originalData![field] = row.data[field]
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 featureProperties.displayedData![field] = getColumnDisplayValue(
-                  definitionColumnsObject[field],
+                  definitionColumns[field],
                   row.data[field],
                   true,
                 )
               })
             }
+          }
+          // Add the fields chosen to customize the layer
+          if (styleColumns) {
+            styleColumns.forEach(styleColumn => {
+              featureProperties[styleColumn] = row.data[styleColumn]
+            })
           }
           feature.setProperties(featureProperties)
         }
@@ -405,19 +554,21 @@ export function getLckGeoResources (
     const columns = tableViews[source.id]?.columns || []
     // Get the specified columns of the source and check that they are geographic ones
     const geoColumns = getOnlyGeoColumns(columns, source)
+    const columnsObject = objectFromArray<LckTableViewColumn>(columns, 'id')
 
     if (geoColumns.length > 0) {
       const features = makeGeoJsonFeaturesCollection(
         data[source.id],
         geoColumns,
-        columns,
+        columnsObject,
         source,
         i18nOptions,
+        source.style?.fields,
       )
 
       const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
 
-      const layers: LckImplementedLayers[] = getStyleLayers(resourceId, geoColumns)
+      const layers = getStyleLayers(resourceId, geoColumns, source.style)
 
       const selectable =
         source.selectable || (
