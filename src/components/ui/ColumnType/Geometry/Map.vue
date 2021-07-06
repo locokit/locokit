@@ -279,8 +279,7 @@ export default Vue.extend({
       layersToUpdate.push(...resourceToUpdate.layers.filter(
         (resourceToUpdateLayer) => resourceToCompare.layers.find(
           (resourceToCompareLayer) =>
-            resourceToCompareLayer.id === resourceToUpdateLayer.id &&
-            this.map?.getLayer(resourceToCompareLayer.id),
+            resourceToCompareLayer.id === resourceToUpdateLayer.id,
         ),
       ),
       )

@@ -713,7 +713,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
           ...GEO_STYLE.Marker,
-          id: `myResourceId-${GEO_STYLE.Marker.id}`,
+          id: `myResourceId-${GEO_STYLE.Marker.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'icon-opacity': mapDefaultStyle.opacity,
             'icon-color': '#000',
@@ -916,7 +916,7 @@ describe('Transformations with OpenLayers', () => {
         expect(layers.length).toBe(1)
         expect(layers[0]).toStrictEqual({
           ...GEO_STYLE.Marker,
-          id: `myResourceId-${GEO_STYLE.Marker.id}`,
+          id: `myResourceId-${GEO_STYLE.Marker.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
           paint: {
             'icon-opacity': mapDefaultStyle.opacity,
             'icon-color': mapDefaultStyle.fill.color,
