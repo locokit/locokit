@@ -57,8 +57,6 @@ const LCK_GEO_STYLE_POLYGON: FillLayer = {
   type: 'fill',
 }
 
-const styleFieldName = 'styleField'
-
 export type LckImplementedLayers = CircleLayer | FillLayer | LineLayer
 
 export const GEO_STYLE = {
@@ -97,7 +95,7 @@ export interface LckFeatureProperties {
   title?: LckTableRowData;
   content?: PopupContent[];
   sourceId?: string;
-  styleField?: string;
+  styleFields?: Record<string, LckTableRowData>;
   originalData?: Record<string, LckTableRowData>;
   displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
@@ -171,11 +169,11 @@ export const mapDefaultStyle: MapEditableStyleProperties = {
  * @param sourceId
  * @param geoColumns
  * @param style
- * @param styleColumn
+ * @param styleColumns
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle, styleColumn?: LckTableColumn): LckImplementedLayers[] {
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle, styleColumns?: LckTableColumn[]): LckImplementedLayers[] {
   const geoTypes = new Set()
   const layers: LckImplementedLayers[] = []
 
@@ -196,50 +194,31 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
     opacity: mapDefaultStyle.opacity,
   }
 
-  // Change features styles depending of the values of one specified field
   const computedStyle: MapEditableStyleProperties = cloneDeep(defaultStyle)
 
-  if (sourceStyle && styleColumn) {
-    // We compare the value of one specified field
-    computedStyle.fill.color = ['match', ['get', styleFieldName]]
-    computedStyle.fill.width = ['match', ['get', styleFieldName]]
-    computedStyle.stroke.color = ['match', ['get', styleFieldName]]
-    computedStyle.stroke.width = ['match', ['get', styleFieldName]]
+  // Change features styles depending of the values of the specified fields
+  if (sourceStyle?.dataDriven && styleColumns) {
+    computedStyle.fill.color = ['case']
+    computedStyle.fill.width = ['case']
+    computedStyle.stroke.color = ['case']
+    computedStyle.stroke.width = ['case']
 
-    if (styleColumn.settings.values) {
-      // There are explicit values for this column so will use the associated colors
-      // or override them if some similar settings are defined in the map source settings
-      for (const value in styleColumn.settings.values) {
-        const { backgroundColor } = styleColumn.settings.values[value]
-        const overridedStyle = sourceStyle.dataDriven?.find(data => data.value === value)?.style
-        if (overridedStyle) {
-          // Custom fill properties
-          if (overridedStyle.fill?.width != null) {
-            computedStyle.fill.width.push(value, overridedStyle.fill.width)
-          }
-          // Custom stroke properties
-          if (overridedStyle.stroke?.width != null) {
-            computedStyle.stroke.width.push(value, overridedStyle.stroke.width)
-          }
-        }
-        computedStyle.fill.color.push(value, overridedStyle?.fill?.color || backgroundColor)
-        computedStyle.stroke.color.push(value, overridedStyle?.stroke?.color || backgroundColor)
+    for (const { values, style } of sourceStyle.dataDriven) {
+      const condition: unknown[] = ['all']
+      values.forEach(({ field, value }) => {
+        condition.push(['==', ['get', field], value])
+      })
+      if (style.fill) {
+        if (style.fill.color) computedStyle.fill.color.push(condition, style.fill.color)
+        if (style.fill.width != null) computedStyle.fill.width.push(condition, style.fill.width)
       }
-    } else if (sourceStyle.dataDriven) {
-      // There is no explicit value for this column so we only use the style defined in the map source settings
-      for (const { value, style } of sourceStyle.dataDriven) {
-        if (style.fill) {
-          if (style.fill.color) computedStyle.fill.color.push(value, style.fill.color)
-          if (style.fill.width != null) computedStyle.fill.width.push(value, style.fill.width)
-        }
-        if (style.stroke) {
-          if (style.stroke.color) computedStyle.stroke.color.push(value, style.stroke.color)
-          if (style.stroke.width != null) computedStyle.stroke.width.push(value, style.stroke.width)
-        }
+      if (style.stroke) {
+        if (style.stroke.color) computedStyle.stroke.color.push(condition, style.stroke.color)
+        if (style.stroke.width != null) computedStyle.stroke.width.push(condition, style.stroke.width)
       }
     }
 
-    // Default values
+    // Add default values
     computedStyle.fill.color.push(defaultStyle.fill.color)
     computedStyle.fill.width.push(defaultStyle.fill.width)
     computedStyle.stroke.color.push(defaultStyle.stroke.color)
@@ -354,6 +333,7 @@ export function getOnlyGeoColumns (
  * @param definitionColumns
  * @param settings
  * @param i18nOptions
+ * @param styleColumns
  *
  * @return {GeoJSONFeatureCollection}
  */
@@ -363,7 +343,7 @@ export function makeGeoJsonFeaturesCollection (
   definitionColumns: Record<string, LckTableViewColumn>,
   source: MapSourceSettings,
   i18nOptions: LckPopupI18nOptions,
-  colorColumn?: LckTableViewColumn,
+  styleColumns?: LckTableViewColumn[],
 ): GeoJSONFeatureCollection {
   const features: Feature[] = []
 
@@ -463,8 +443,11 @@ export function makeGeoJsonFeaturesCollection (
             }
           }
           // Add the field chosen to customize the layer
-          if (colorColumn) {
-            featureProperties[styleFieldName] = (row.data[colorColumn.id] as string)
+          if (styleColumns) {
+            styleColumns.forEach(styleColumn => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              featureProperties[styleColumn.id] = row.data[styleColumn.id]
+            })
           }
           feature.setProperties(featureProperties)
         }
@@ -519,7 +502,9 @@ export function getLckGeoResources (
 
     if (geoColumns.length > 0) {
       // Color field used to customize the source layers
-      const styleColumn = source.style?.field ? columnsObject[source.style?.field] : undefined
+      const styleColumns = source.style?.fields
+        ? source.style.fields.map(fieldId => columnsObject[fieldId])
+        : undefined
 
       const features = makeGeoJsonFeaturesCollection(
         data[source.id],
@@ -527,12 +512,12 @@ export function getLckGeoResources (
         columnsObject,
         source,
         i18nOptions,
-        styleColumn,
+        styleColumns,
       )
 
       const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
 
-      const layers = getStyleLayers(resourceId, geoColumns, source.style, styleColumn)
+      const layers = getStyleLayers(resourceId, geoColumns, source.style, styleColumns)
 
       const selectable =
         source.selectable || (

@@ -693,57 +693,20 @@ describe('Transformations with OpenLayers', () => {
           },
         })
       })
-      it('Return the style based on a single select column', () => {
+      it('Return the style based on explicit style settings with one field', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPointColumn],
           {
-            field: singleSelectColumn.id,
-          },
-          singleSelectColumn,
-        )
-        expect(layers.length).toBe(1)
-        expect(layers[0]).toEqual({
-          ...GEO_STYLE.Point,
-          id: `myResourceId-${GEO_STYLE.Point.id}`,
-          paint: {
-            'circle-opacity': mapDefaultStyle.opacity,
-            'circle-color': [
-              'match',
-              ['get', 'styleField'],
-              '1',
-              '#ddd',
-              '2',
-              '#eee',
-              '3',
-              '#fff',
-              mapDefaultStyle.fill.color,
-            ],
-            'circle-stroke-color': [
-              'match',
-              ['get', 'styleField'],
-              '1',
-              '#ddd',
-              '2',
-              '#eee',
-              '3',
-              '#fff',
-              mapDefaultStyle.stroke.color,
-            ],
-            'circle-radius': mapDefaultStyle.fill.width,
-            'circle-stroke-width': mapDefaultStyle.stroke.width,
-          },
-        })
-      })
-      it('Return the style based on a single select column with some overrided settings', () => {
-        const layers = getStyleLayers(
-          'myResourceId',
-          [geoPointColumn],
-          {
-            field: singleSelectColumn.id,
+            fields: [booleanColumn.id],
             dataDriven: [
               {
-                value: '1',
+                values: [
+                  {
+                    value: false,
+                    field: booleanColumn.id,
+                  },
+                ],
                 style: {
                   stroke: {
                     color: '#111',
@@ -752,7 +715,12 @@ describe('Transformations with OpenLayers', () => {
                 },
               },
               {
-                value: '2',
+                values: [
+                  {
+                    value: true,
+                    field: booleanColumn.id,
+                  },
+                ],
                 style: {
                   fill: {
                     color: '#222',
@@ -760,18 +728,9 @@ describe('Transformations with OpenLayers', () => {
                   },
                 },
               },
-              {
-                value: '3',
-                style: {
-                  stroke: {
-                    color: '#333',
-                    width: 10,
-                  },
-                },
-              },
             ],
           },
-          singleSelectColumn,
+          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -780,55 +739,51 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
-              'match',
-              ['get', 'styleField'],
-              '1',
-              '#ddd',
-              '2',
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], true]],
               '#222',
-              '3',
-              '#fff',
               mapDefaultStyle.fill.color,
             ],
+            'circle-radius': [
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], true]],
+
+              3,
+              mapDefaultStyle.fill.width,
+            ],
             'circle-stroke-color': [
-              'match',
-              ['get', 'styleField'],
-              '1',
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], false]],
               '#111',
-              '2',
-              '#eee',
-              '3',
-              '#333',
               mapDefaultStyle.stroke.color,
             ],
             'circle-stroke-width': [
-              'match',
-              ['get', 'styleField'],
-              '1',
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], false]],
               5,
-              '3',
-              10,
               mapDefaultStyle.stroke.width,
             ],
-            'circle-radius': [
-              'match',
-              ['get', 'styleField'],
-              '2',
-              3,
-              mapDefaultStyle.fill.width,
-            ],
           },
         })
       })
-      it('Return the style based on explicit style settings', () => {
+      it('Return the style based on explicit style settings with several fields', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPointColumn],
           {
-            field: booleanColumn.id,
+            fields: [booleanColumn.id, singleSelectColumn.id],
             dataDriven: [
               {
-                value: false,
+                values: [
+                  {
+                    value: false,
+                    field: booleanColumn.id,
+                  },
+                  {
+                    value: '1',
+                    field: singleSelectColumn.id,
+                  },
+                ],
                 style: {
                   stroke: {
                     color: '#111',
@@ -837,7 +792,12 @@ describe('Transformations with OpenLayers', () => {
                 },
               },
               {
-                value: true,
+                values: [
+                  {
+                    value: true,
+                    field: booleanColumn.id,
+                  },
+                ],
                 style: {
                   fill: {
                     color: '#222',
@@ -847,7 +807,7 @@ describe('Transformations with OpenLayers', () => {
               },
             ],
           },
-          booleanColumn,
+          [booleanColumn],
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -856,30 +816,35 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             'circle-opacity': mapDefaultStyle.opacity,
             'circle-color': [
-              'match',
-              ['get', 'styleField'],
-              true,
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], true]],
               '#222',
               mapDefaultStyle.fill.color,
             ],
             'circle-radius': [
-              'match',
-              ['get', 'styleField'],
-              true,
+              'case',
+              ['all', ['==', ['get', booleanColumn.id], true]],
+
               3,
               mapDefaultStyle.fill.width,
             ],
             'circle-stroke-color': [
-              'match',
-              ['get', 'styleField'],
-              false,
+              'case',
+              [
+                'all',
+                ['==', ['get', booleanColumn.id], false],
+                ['==', ['get', singleSelectColumn.id], '1'],
+              ],
               '#111',
               mapDefaultStyle.stroke.color,
             ],
             'circle-stroke-width': [
-              'match',
-              ['get', 'styleField'],
-              false,
+              'case',
+              [
+                'all',
+                ['==', ['get', booleanColumn.id], false],
+                ['==', ['get', singleSelectColumn.id], '1'],
+              ],
               5,
               mapDefaultStyle.stroke.width,
             ],
