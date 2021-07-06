@@ -87,6 +87,12 @@ export class LckTableColumn extends LckBaseModel {
     width?: number;
     required?: boolean;
   };
+
+  validation?: {
+    minDate?: {
+      fromDate: string;
+    };
+  }
 }
 
 export class LckTableViewColumn extends LckTableColumn {

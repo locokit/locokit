@@ -20,7 +20,7 @@
         :vid="column.id"
         :rules="{
           required: column.required,
-          minDate: column.id === '47e90490-573e-464f-9418-f92d1a5cd7c5' ? { fromDate: '@7de25c38-90c7-4565-a242-fa632e97b8b7' } : false
+          minDate: column.validation && column.validation.minDate ? column.validation.minDate : false // '47e90490-573e-464f-9418-f92d1a5cd7c5' ? { fromDate: '@7de25c38-90c7-4565-a242-fa632e97b8b7' } : false
         }"
         :name="column.text"
         v-slot="{
