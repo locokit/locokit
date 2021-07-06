@@ -49,7 +49,6 @@ const defaultParamsTableViewColumn = {
   editable: false,
   position: 0,
   transmitted: false,
-  default: '',
   displayed: true,
   required: false,
   sort: 'DESC' as SORT_COLUMN,

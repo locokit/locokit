@@ -48,13 +48,11 @@ export default Vue.extend({
       type: String,
     },
     settings: {
-      type: Object as Vue.PropType<FormRecordSettings>,
+      type: Object as Vue.PropType<FormRecordSettings | null>,
     },
     definition: {
       type: Object as Vue.PropType<LckTableView>,
-      default: () => ({
-        columns: [],
-      }),
+      default: () => (new LckTableView()),
     },
     submitting: {
       type: Object as Vue.PropType<Submitting>,
@@ -102,13 +100,30 @@ export default Vue.extend({
       }
       return true
     },
+    fieldsWithDefaultValues (): LckTableViewColumn[] {
+      if (!this.definition) return []
+      return (this.definition.columns as LckTableViewColumn[]).filter(c => c.default !== null && c.default !== undefined)
+    },
+    fieldsWithDefaultValuesInteraction (): Record<string, string> {
+      return this.fieldsWithDefaultValues
+        .filter(c => c.default?.fieldId)
+        .map(c => ({
+          [c.default?.fieldId as string]: c.id,
+        }))
+        .reduce(Object.assign, {})
+    },
   },
   methods: {
     onUpdateRow ({ columnId, newValue }: { columnId: string; newValue: LckTableRowData }) {
       // Update the data
       this.$set(this.newRow.data, columnId, newValue)
+
+      if (this.fieldsWithDefaultValuesInteraction[columnId]) {
+        this.$set(this.newRow.data, this.fieldsWithDefaultValuesInteraction[columnId], newValue)
+      }
+
       // Throw updated events to other blocks if it's specified
-      const triggerEvent = this.settings.triggerEvents?.find(event =>
+      const triggerEvent = this.settings?.triggerEvents?.find(event =>
         event.type === 'update' &&
         event.field === columnId
       )
@@ -122,12 +137,28 @@ export default Vue.extend({
     onSubmitNewRow () {
       this.$emit('create-row', this.newRow)
     },
+    setNewRowDataDefaultValues () {
+      this.fieldsWithDefaultValues.forEach(c => {
+        if (!this.newRow.data[c.id] && c.default?.value !== undefined) {
+          this.$set(this.newRow.data, c.id, c.default?.value as string | number | boolean)
+        }
+      })
+      Object.keys(this.fieldsWithDefaultValuesInteraction).forEach(key => {
+        if (this.newRow.data[key] !== undefined &&
+          this.newRow.data[key] !== null &&
+          !this.newRow.data[this.fieldsWithDefaultValuesInteraction[key]]
+        ) {
+          this.$set(this.newRow.data, this.fieldsWithDefaultValuesInteraction[key], this.newRow.data[key])
+        }
+      })
+    },
     resetNewRow () {
       this.newRow = {
         id: '',
         text: '',
         data: {},
       }
+      this.setNewRowDataDefaultValues()
       this.resetForm = true
     },
     onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
@@ -153,11 +184,17 @@ export default Vue.extend({
         // When submitting without any error
         this.resetNewRow()
         // Throw an event saying that the form has been submitting
-        const triggerEvent = this.settings.triggerEvents?.find(event => event.type === 'submit')
+        const triggerEvent = this.settings?.triggerEvents?.find(event => event.type === 'submit')
         if (triggerEvent) {
           eventHub.$emit(triggerEvent.name, {} as EmittedBlockEvent)
         }
       }
+    },
+    'definition.columns': {
+      handler () {
+        this.setNewRowDataDefaultValues()
+      },
+      deep: true,
     },
   },
 })
