@@ -20,210 +20,212 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Global configuration
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnTextField"
+          <div
+            class="p-field"
           >
-            Column title
-          </label>
-           
-          <input
-            class="p-inputtext p-component p-filled"
-            id="columnTextField"
-            required="required"
-          />
-        </div>
-         
-        <div
-          class="p-mb-3"
-        >
-          <p>
-            Column values
-          </p>
-           
-          <div>
-            <div
-              class="p-d-flex"
+            <label
+              for="columnTextField"
             >
+              Column title
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="columnTextField"
+              required="required"
+            />
+          </div>
+           
+          <div
+            class="p-mb-3"
+          >
+            <p>
+              Column values
+            </p>
+             
+            <div>
               <div
-                class="p-ai-start p-mb-4 p-ml-auto"
+                class="p-d-flex"
               >
-                <button
-                  class="p-button-text p-button p-component"
-                  type="button"
+                <div
+                  class="p-ai-start p-mb-4 p-ml-auto"
                 >
-                  <span
-                    class="pi pi-plus p-button-icon p-button-icon-left"
-                  />
+                  <button
+                    class="p-button-text p-button p-component"
+                    type="button"
+                  >
+                    <span
+                      class="pi pi-plus p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Add value
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </div>
+               
+              <div
+                class="select-type-values-table p-datatable p-component"
+              >
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <div
+                  class="p-datatable-wrapper"
+                >
+                  <table
+                    role="grid"
+                  >
+                    <thead
+                      class="p-datatable-thead"
+                    >
+                      <tr />
+                       
+                      <!---->
+                    </thead>
+                     
+                    <tbody
+                      class="p-datatable-tbody"
+                    >
+                      <tr
+                        class="p-datatable-emptymessage"
+                      >
+                        <td
+                          colspan="0"
+                        >
+                          
+        No data
+    
+                           
+                          <!---->
+                        </td>
+                      </tr>
+                    </tbody>
+                     
+                    <!---->
+                  </table>
+                </div>
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <div
+                  class="p-column-resizer-helper"
+                  style="display: none;"
+                />
+                 
+                <!---->
+                 
+                <!---->
+              </div>
+               
+              <div
+                class="p-mt-2 p-fluid"
+              >
+                <label
+                  for="default-select-type-value-id"
+                >
+                  
+      Default value
+    
+                </label>
+                 
+                <div
+                  class="p-dropdown p-component p-inputwrapper"
+                  id="default-select-type-value-id"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      aria-haspopup="listbox"
+                      readonly="readonly"
+                      type="text"
+                    />
+                  </div>
+                   
+                  <!---->
                    
                   <span
-                    class="p-button-label"
+                    class="p-dropdown-label p-inputtext p-placeholder"
                   >
-                    Add value
+                    
+            Select default value
+        
                   </span>
                    
                   <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
-              </div>
-            </div>
-             
-            <div
-              class="select-type-values-table p-datatable p-component"
-            >
-               
-              <!---->
-               
-              <!---->
-               
-              <!---->
-               
-              <!---->
-               
-              <!---->
-               
-              <!---->
-               
-              <!---->
-               
-              <div
-                class="p-datatable-wrapper"
-              >
-                <table
-                  role="grid"
-                >
-                  <thead
-                    class="p-datatable-thead"
-                  >
-                    <tr />
-                     
-                    <!---->
-                  </thead>
                    
-                  <tbody
-                    class="p-datatable-tbody"
+                  <div
+                    aria-haspopup="listbox"
+                    class="p-dropdown-trigger"
+                    role="button"
                   >
-                    <tr
-                      class="p-datatable-emptymessage"
-                    >
-                      <td
-                        colspan="0"
-                      >
-                        
-        No data
-    
-                         
-                        <!---->
-                      </td>
-                    </tr>
-                  </tbody>
+                    <span
+                      class="p-dropdown-trigger-icon pi pi-chevron-down"
+                    />
+                  </div>
                    
                   <!---->
-                </table>
+                </div>
               </div>
                
               <!---->
-               
-              <!---->
-               
-              <div
-                class="p-column-resizer-helper"
-                style="display: none;"
+            </div>
+          </div>
+           
+          <div
+            class="lck-form-footer"
+          >
+            <!---->
+             
+            <button
+              class="p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-save p-button-icon p-button-icon-left"
               />
                
-              <!---->
+              <span
+                class="p-button-label"
+              >
+                Save
+              </span>
                
               <!---->
-            </div>
-             
-            <div
-              class="p-mt-2 p-fluid"
-            >
-              <label
-                for="default-select-type-value-id"
-              >
-                
-      Default value
-    
-              </label>
-               
-              <div
-                class="p-dropdown p-component p-inputwrapper"
-                id="default-select-type-value-id"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    aria-haspopup="listbox"
-                    readonly="readonly"
-                    type="text"
-                  />
-                </div>
-                 
-                <!---->
-                 
-                <span
-                  class="p-dropdown-label p-inputtext p-placeholder"
-                >
-                  
-            Select default value
-        
-                </span>
-                 
-                <!---->
-                 
-                <div
-                  aria-haspopup="listbox"
-                  class="p-dropdown-trigger"
-                  role="button"
-                >
-                  <span
-                    class="p-dropdown-trigger-icon pi pi-chevron-down"
-                  />
-                </div>
-                 
-                <!---->
-              </div>
-            </div>
-             
-            <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
           </div>
-        </div>
-         
-        <div
-          class="lck-form-footer"
-        >
-          <!---->
-           
-          <button
-            class="p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-save p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Save
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+        </form>
+      </span>
     </div>
      
     <div
@@ -235,123 +237,125 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnDisplayedField"
-          >
-            Displayed column
-          </label>
-           
           <div
-            class="p-inputswitch p-component p-inputswitch-checked"
-            id="columnDisplayedField"
-            required="required"
+            class="p-field"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnDisplayedField"
             >
-              <input
-                aria-checked="true"
-                role="switch"
-                type="checkbox"
+              Displayed column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component p-inputswitch-checked"
+              id="columnDisplayedField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  aria-checked="true"
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnEditableField"
-          >
-            Editable column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnEditableField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnEditableField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Editable column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnEditableField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnRequiredField"
-          >
-            Required column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnRequiredField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnRequiredField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Required column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnRequiredField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="lck-form-footer"
-        >
-          <!---->
            
-          <button
-            class="p-button p-component"
-            type="submit"
+          <div
+            class="lck-form-footer"
           >
-            <span
-              class="pi pi-save p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Save
-            </span>
-             
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+             
+            <button
+              class="p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-save p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Save
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </span>
     </div>
   </div>
 </div>
@@ -377,53 +381,55 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Global configuration
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnTextField"
+          <div
+            class="p-field"
           >
-            Column title
-          </label>
+            <label
+              for="columnTextField"
+            >
+              Column title
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="columnTextField"
+              required="required"
+            />
+          </div>
            
-          <input
-            class="p-inputtext p-component p-filled"
-            id="columnTextField"
-            required="required"
-          />
-        </div>
-         
-        <!---->
-         
-        <div
-          class="lck-form-footer"
-        >
           <!---->
            
-          <button
-            class="p-button p-component"
-            type="submit"
+          <div
+            class="lck-form-footer"
           >
-            <span
-              class="pi pi-save p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Save
-            </span>
-             
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+             
+            <button
+              class="p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-save p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Save
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </span>
     </div>
      
     <div
@@ -435,123 +441,125 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnDisplayedField"
-          >
-            Displayed column
-          </label>
-           
           <div
-            class="p-inputswitch p-component p-inputswitch-checked"
-            id="columnDisplayedField"
-            required="required"
+            class="p-field"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnDisplayedField"
             >
-              <input
-                aria-checked="true"
-                role="switch"
-                type="checkbox"
+              Displayed column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component p-inputswitch-checked"
+              id="columnDisplayedField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  aria-checked="true"
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnEditableField"
-          >
-            Editable column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnEditableField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnEditableField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Editable column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnEditableField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnRequiredField"
-          >
-            Required column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnRequiredField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnRequiredField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Required column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnRequiredField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="lck-form-footer"
-        >
-          <!---->
            
-          <button
-            class="p-button p-component"
-            type="submit"
+          <div
+            class="lck-form-footer"
           >
-            <span
-              class="pi pi-save p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Save
-            </span>
-             
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+             
+            <button
+              class="p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-save p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Save
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </span>
     </div>
   </div>
 </div>
@@ -577,54 +585,56 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Global configuration
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnTextField"
+          <div
+            class="p-field"
           >
-            Column title
-          </label>
+            <label
+              for="columnTextField"
+            >
+              Column title
+            </label>
+             
+            <input
+              class="p-inputtext p-component p-filled"
+              id="columnTextField"
+              required="required"
+            />
+          </div>
            
-          <input
-            class="p-inputtext p-component p-filled"
-            id="columnTextField"
-            required="required"
-          />
-        </div>
-         
-        <!---->
-         
-        <div
-          class="lck-form-footer"
-        >
           <!---->
            
-          <button
-            class="p-button p-component p-button-text"
-            disabled="disabled"
-            type="button"
+          <div
+            class="lck-form-footer"
           >
-            <span
-              class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Please wait
-            </span>
-             
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+             
+            <button
+              class="p-button p-component p-button-text"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Please wait
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </span>
     </div>
      
     <div
@@ -636,124 +646,126 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Configuration for the visualization part
       </h2>
        
-      <form
-        class="p-fluid"
-      >
-        <div
-          class="p-field"
+      <span>
+        <form
+          class="p-fluid"
         >
-          <label
-            for="columnDisplayedField"
-          >
-            Displayed column
-          </label>
-           
           <div
-            class="p-inputswitch p-component p-inputswitch-checked"
-            id="columnDisplayedField"
-            required="required"
+            class="p-field"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnDisplayedField"
             >
-              <input
-                aria-checked="true"
-                role="switch"
-                type="checkbox"
+              Displayed column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component p-inputswitch-checked"
+              id="columnDisplayedField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  aria-checked="true"
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnEditableField"
-          >
-            Editable column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnEditableField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnEditableField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Editable column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnEditableField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="p-field p-mb-2"
-        >
-          <label
-            for="columnRequiredField"
-          >
-            Required column
-          </label>
            
           <div
-            class="p-inputswitch p-component"
-            id="columnRequiredField"
-            required="required"
+            class="p-field p-mb-2"
           >
-            <div
-              class="p-hidden-accessible"
+            <label
+              for="columnRequiredField"
             >
-              <input
-                role="switch"
-                type="checkbox"
+              Required column
+            </label>
+             
+            <div
+              class="p-inputswitch p-component"
+              id="columnRequiredField"
+              required="required"
+            >
+              <div
+                class="p-hidden-accessible"
+              >
+                <input
+                  role="switch"
+                  type="checkbox"
+                />
+              </div>
+               
+              <span
+                class="p-inputswitch-slider"
               />
             </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
           </div>
-        </div>
-         
-        <div
-          class="lck-form-footer"
-        >
-          <!---->
            
-          <button
-            class="p-button p-component p-button-text"
-            disabled="disabled"
-            type="button"
+          <div
+            class="lck-form-footer"
           >
-            <span
-              class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Please wait
-            </span>
-             
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
-      </form>
+             
+            <button
+              class="p-button p-component p-button-text"
+              disabled="disabled"
+              type="button"
+            >
+              <span
+                class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Please wait
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+          </div>
+        </form>
+      </span>
     </div>
   </div>
 </div>
