@@ -1089,7 +1089,12 @@ export default {
       })
     },
     goToPage ({ pageDetailId, pageQueryFieldId, rowData = null }) {
-      const queryRowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData.id
+      const query = {}
+      if (rowData) {
+        query.rowId = pageQueryFieldId ? rowData[pageQueryFieldId]?.reference : rowData?.id
+      } else if (this.$route.query.rowId) {
+        query.rowId = this.$route.query.rowId
+      }
 
       this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
@@ -1097,9 +1102,7 @@ export default {
           ...this.$route.params,
           pageDetailId,
         },
-        query: {
-          rowId: queryRowId || this.$route.query.rowId,
-        },
+        query,
       })
     },
     async onTriggerProcess (

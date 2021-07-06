@@ -1,6 +1,6 @@
 <template>
   <p-button
-    class="p-button-sm action-button"
+    class="action-button"
     v-if="settings"
     :label="settings.label"
     :class="settings.classButton"
