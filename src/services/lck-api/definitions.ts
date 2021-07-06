@@ -114,7 +114,20 @@ export class LckTableViewColumn extends LckTableColumn {
   /**
    * Value which specify a data/template in order to parameterize a behaviour
    */
-  default!: string;
+  default?: {
+    /**
+     * The default value for the field, or magic strings
+     */
+    value?: string | number | boolean | '{rowId}' | '{userId}' | '{groupId}';
+    /**
+     * Id of the field this field will take the initial value.
+     * On the front side, as soon as the fieldId value is mutated,
+     * we set the value of the current field if unset.
+     * On the back side, the current field value is set to the field value with fieldId.
+     */
+    fieldId?: string;
+  } | Record<string, unknown>;
+
   /**
    * Style css rules
    */
