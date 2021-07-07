@@ -292,6 +292,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
           geoStyle.layout = {
             'icon-image': computedStyle.icon.url,
             'icon-size': computedStyle.icon.size,
+            'icon-allow-overlap': true,
           }
           geoStyle.imagesToLoad = imagesToLoad
         } else {

@@ -99,6 +99,18 @@ const mockSecondFeature = mockResources[0].features[1]
 
 // Mock external libraries
 
+class ResizeObserver {
+  observe () {
+    // do nothing
+  }
+
+  unobserve () {
+    // do nothing
+  }
+}
+
+window.ResizeObserver = ResizeObserver
+
 jest.mock('@locokit/lck-glossary', () => ({
   BLOCK_TYPE: {
     PARAGRAPH: 'Paragraph',

@@ -721,6 +721,7 @@ describe('Transformations with OpenLayers', () => {
           layout: {
             'icon-image': 'myUrlIcon',
             'icon-size': 2,
+            'icon-allow-overlap': true,
           },
           imagesToLoad: new Set(['myUrlIcon']),
         })
@@ -931,6 +932,7 @@ describe('Transformations with OpenLayers', () => {
               'myNewIconUrl2',
               mapDefaultStyle.icon.url,
             ],
+            'icon-allow-overlap': true,
           },
           imagesToLoad: new Set([
             mapDefaultStyle.icon.url,

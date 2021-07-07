@@ -488,6 +488,12 @@ export default {
         // we are on a paginated result
         lckHelpers.convertDateInRecords(currentSource.content.data, this.sources[tableViewId].definition.columns)
       }
+      // Reset the geo sources that use the same source
+      for (const blockId in this.geoSources) {
+        if (this.geoSources[blockId]?.definition?.[tableViewId]) {
+          this.geoSources[blockId] = {}
+        }
+      }
     },
     async refreshDefinitionAndContent () {
       this.inventorySources()
@@ -505,7 +511,7 @@ export default {
         if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
         if (!this.geoSources[block.id].definition) {
           const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
-          this.geoSources[block.id].definition = objectFromArray(definitions, 'id')
+          this.$set(this.geoSources[block.id], 'definition', objectFromArray(definitions, 'id'))
         }
         return this.geoSources[block.id].definition
       }
@@ -519,7 +525,7 @@ export default {
           // The result in an object whose the keys are the views ids and the values are the corresponding rows
           if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
           if (!this.geoSources[block.id].content) {
-            this.geoSources[block.id].content = block.settings.sources.reduce(
+            this.$set(this.geoSources[block.id], 'content', block.settings.sources.reduce(
               (allContents, mapSource) => {
                 /**
                  * To manage shared sources between a MapSet and a TableSet or other set,
@@ -537,7 +543,7 @@ export default {
                 return Object.assign(allContents, { [mapSource.id]: currentContent })
               },
               {},
-            )
+            ))
           }
           return this.geoSources[block.id].content
         case BLOCK_TYPE.MAP_FIELD:
@@ -600,7 +606,7 @@ export default {
         ? blockContent[tableViewId].find(({ id }) => id === rowId)
         : blockContent.data.find(({ id }) => id === rowId)
 
-      if (newValue.reference) newValue = newValue.reference
+      if (newValue?.reference) newValue = newValue.reference
 
       this.cellState = {
         rowId: currentRow.id,

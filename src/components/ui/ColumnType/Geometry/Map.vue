@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="map-container"
     :id="id"
     class="map-container"
   />
@@ -145,7 +146,7 @@ export default Vue.extend({
     // Force resize canvas map to avoid issue with dialog initialisation
     this.onResize()
 
-    window.addEventListener('resize', this.onResize)
+    new ResizeObserver(this.onResize).observe(this.$refs['map-container'] as HTMLElement)
 
     this.map.on('load', () => {
       this.mapIsLoaded = true

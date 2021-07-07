@@ -12,6 +12,18 @@ import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
 import DataRecord from '@/components/visualize/DataRecord/DataRecord.vue'
 import Paragraph from '@/components/visualize/Paragraph/Paragraph.vue'
 
+class ResizeObserver {
+  observe () {
+    // do nothing
+  }
+
+  unobserve () {
+    // do nothing
+  }
+}
+
+window.ResizeObserver = ResizeObserver
+
 jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({
     addControl: jest.fn(),
