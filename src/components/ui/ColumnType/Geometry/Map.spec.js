@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { shallowMount } from '@vue/test-utils'
 import GeometryType from 'ol/geom/GeometryType'
@@ -30,7 +32,7 @@ const mockResources = [
         properties: {
           title: 'First feature',
           rowId: 'row1',
-          columnId: 'row2',
+          columnId: 'column1',
           content: JSON.stringify([
             {
               field: {
@@ -50,10 +52,31 @@ const mockResources = [
         id: 'f2',
         properties: {},
       },
+      {
+        type: 'Feature',
+        geometry: {
+          type: GeometryType.POINT,
+          coordinates: [10, 20],
+        },
+        id: 'f3',
+        properties: {
+          title: 'Third feature',
+          rowId: 'row2',
+          columnId: 'column1',
+          content: JSON.stringify([
+            {
+              field: {
+                label: 'First field',
+                value: 100,
+              },
+            },
+          ]),
+        },
+      },
     ],
     layers: [GEO_STYLE.Point],
     popupMode: null,
-    editableGeometryTypes: new Set([GeometryType.POINT]),
+    editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POINT]),
     selectable: false,
   },
   {
@@ -62,7 +85,7 @@ const mockResources = [
     features: [],
     layers: [GEO_STYLE.Point],
     popupMode: null,
-    editableGeometryTypes: new Set([GeometryType.POLYGON]),
+    editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POLYGON]),
     selectable: false,
   },
   {
@@ -96,7 +119,28 @@ const mockResources = [
 
 const mockFirstFeature = mockResources[0].features[0]
 const mockSecondFeature = mockResources[0].features[1]
-
+const mockThirdFeature = mockResources[0].features[2]
+const mockOrphanFeature = {
+  type: 'Feature',
+  geometry: {
+    type: GeometryType.POINT,
+    coordinates: [10, 20],
+  },
+  id: 'f4',
+  properties: {
+    title: 'Orphan feature',
+    rowId: 'row1',
+    columnId: 'column1',
+    content: JSON.stringify([
+      {
+        field: {
+          label: 'First field',
+          value: 1200,
+        },
+      },
+    ]),
+  },
+}
 // Mock external libraries
 
 class ResizeObserver {
@@ -110,16 +154,6 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver
-
-jest.mock('@locokit/lck-glossary', () => ({
-  BLOCK_TYPE: {
-    PARAGRAPH: 'Paragraph',
-    TABLE_VIEW: 'TableView',
-    MAPVIEW: 'MapView',
-  },
-  COLUMN_TYPE: {
-  },
-}))
 
 jest.mock('vue-i18n')
 jest.mock('mapbox-gl', () => ({
@@ -167,17 +201,21 @@ jest.mock('mapbox-gl', () => ({
   })),
 }))
 
-// jest.mock('@mapbox/mapbox-gl-draw/')
 jest.mock('@mapbox/mapbox-gl-draw', () =>
   jest.fn(() => ({
     getMode: jest.fn(() => 'simple_select'),
     getAll: jest.fn(() => ({
-      features: mockResources[0].features,
+      features: [mockFirstFeature, mockSecondFeature],
+    })),
+    getSelected: jest.fn(() => ({
+      features: [mockFirstFeature],
     })),
     delete: jest.fn(),
     set: jest.fn(),
     getSelectedIds: jest.fn(() => [mockSecondFeature.id]),
     MapboxDraw: jest.fn(),
+    deleteAll: jest.fn(),
+    add: jest.fn(),
   })),
 )
 
@@ -202,19 +240,22 @@ describe('Map component', () => {
           },
         })
         // Choose the editable geometry types depending of the map mockResources
-        expect(wrapper.vm.editableGeometryTypes.size).toBe(2)
-        expect(wrapper.vm.editableGeometryTypes.has(GeometryType.POINT)).toBe(true)
-        expect(wrapper.vm.editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
+        // expect(wrapper.vm.editableGeometryTypes.size)
+        expect(wrapper.vm.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POINT)).toBe(true)
+        expect(wrapper.vm.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)).toBe(true)
         // Add the right controls
-        expect(MapboxDraw).toHaveBeenLastCalledWith(expect.objectContaining({
+        expect(MapboxDraw).toHaveBeenCalledWith(expect.objectContaining({
           displayControlsDefault: false,
           controls: {
             point: true,
             line_string: false,
             polygon: true,
             trash: true,
+            combine_features: false,
           },
         }))
+        expect(wrapper.vm.dataManageControl.visible).toBe(true)
+        expect(wrapper.vm.map.addControl).toHaveBeenCalledWith(wrapper.vm.dataManageControl.control)
       })
 
       it('Initialize the editable geometry types of the map in the multiple edit mode', () => {
@@ -226,17 +267,16 @@ describe('Map component', () => {
           },
         })
         // No control to add a new feature must be displayed
-        expect(wrapper.vm.editableGeometryTypes.size).toBe(0)
+        expect(wrapper.vm.editableGeometryTypes.size).toBe(2)
         // Add the right controls (trash button)
         expect(MapboxDraw).toHaveBeenLastCalledWith(expect.objectContaining({
           displayControlsDefault: false,
           controls: {
-            point: false,
-            line_string: false,
-            polygon: false,
             trash: true,
           },
         }))
+        expect(wrapper.vm.dataManageControl.visible).toBe(true)
+        expect(wrapper.vm.map.addControl).toHaveBeenCalledWith(wrapper.vm.dataManageControl.control)
       })
 
       it('Reset the controls if there is no more editable geometry types', async () => {
@@ -257,8 +297,10 @@ describe('Map component', () => {
         // No controls must be displayed
         expect(wrapper.vm.editableGeometryTypes.size).toBe(0)
         expect(wrapper.vm.map.addControl).not.toHaveBeenCalled()
+        expect(wrapper.vm.dataManageControl.visible).toBe(false)
         // Remove the old controls
-        expect(wrapper.vm.map.removeControl).toHaveBeenCalledTimes(1)
+        expect(wrapper.vm.map.removeControl).toHaveBeenNthCalledWith(1, wrapper.vm.mapDraw)
+        expect(wrapper.vm.map.removeControl).toHaveBeenNthCalledWith(2, wrapper.vm.dataManageControl.control)
       })
 
       it('Reset the controls if the editable geometry types have been changed', async () => {
@@ -279,7 +321,7 @@ describe('Map component', () => {
         })
         // Choose the editable geometry types depending of the new mockResources
         expect(wrapper.vm.editableGeometryTypes.size).toBe(1)
-        expect(wrapper.vm.editableGeometryTypes.has(GeometryType.POINT)).toBe(true)
+        expect(wrapper.vm.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POINT)).toBe(true)
         // Add the new controls
         expect(wrapper.vm.map.removeControl).toHaveBeenCalledTimes(1)
         expect(wrapper.vm.map.addControl).toHaveBeenCalledTimes(1)
@@ -290,6 +332,7 @@ describe('Map component', () => {
             line_string: false,
             polygon: false,
             trash: true,
+            combine_features: false,
           },
         }))
       })
@@ -726,6 +769,13 @@ describe('Map component', () => {
             singleEditMode: true,
             resources: mockResources,
           },
+          mocks: {
+            t: key => key,
+            $t: key => key,
+            $toast: {
+              add: jest.fn(),
+            },
+          },
         })
         spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
       })
@@ -735,103 +785,51 @@ describe('Map component', () => {
         wrapper.vm.mapDraw.delete.mockClear()
       })
 
-      describe('On draw delete', () => {
-        it('Emit a "remove-features" event with the specified features', () => {
-          wrapper.vm.onDrawDelete({
-            features: mockResources[0].features,
-            type: 'draw.delete',
-          })
+      describe('On remove features', () => {
+
+        it('Emit a "remove-features" event with the selected feature', () => {
+          wrapper.vm.removeEditingFeatures()
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', mockResources[0].features)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', [mockResources[0].features[0]])
         })
 
-        it('Do not emit a "remove-features" event if there are no feature', () => {
-          wrapper.vm.onDrawDelete({
-            features: [],
-            type: 'draw.delete',
-          })
-          expect(spyOnEmitEvent).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('On draw mode change', () => {
-        it('Emit an "update-features" event with the specified features in "simple_select" mode', () => {
-          wrapper.vm.onDrawModeChange({
-            mode: 'simple_select',
-            type: 'draw.modechange',
-          })
-          expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', mockResources[0].features)
-        })
-
-        it('Do not emit an "update-features" if there is no feature', () => {
-          wrapper.vm.mapDraw.getAll.mockImplementationOnce(() => ({
+        it('Do not emit a "remove-features" event if there is no selected feature', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
             features: [],
           }))
-          wrapper.vm.onDrawModeChange({
-            mode: 'simple_select',
-            type: 'draw.modechange',
-          })
+          wrapper.vm.removeEditingFeatures()
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
 
-        it('Remove all the features except the last one when entering a drawing mode', () => {
-          wrapper.vm.onDrawModeChange({
-            mode: 'draw_polygon',
-            type: 'draw.modechange',
-          })
+        it('Do not emit a "remove-features" event if there are more than two selected features', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
+            features: [mockFirstFeature, mockSecondFeature],
+          }))
+          wrapper.vm.removeEditingFeatures()
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
-          expect(wrapper.vm.mapDraw.delete).toHaveBeenCalledWith([
-            mockFirstFeature.id,
-          ])
-        })
-
-        it('Do nothing if the current mode is not a simple select or a drawing one', () => {
-          wrapper.vm.onDrawModeChange({
-            mode: 'direct_select',
-            type: 'draw.modechange',
-          })
-          expect(spyOnEmitEvent).not.toHaveBeenCalled()
-          expect(wrapper.vm.mapDraw.delete).not.toHaveBeenCalled()
         })
       })
 
-      describe('On draw update', () => {
-        it('Emit an "update-features" event with the specified features when moving in simple select mode', () => {
-          wrapper.vm.onDrawUpdate({
-            features: mockResources[0].features,
-            type: 'draw.update',
-            action: 'move',
-          })
+      describe('On update update', () => {
+        it('Emit an "update-features" event with the selected feature', () => {
+          wrapper.vm.saveEditingFeatures()
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', mockResources[0].features)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', [mockResources[0].features[0]])
         })
 
-        it('Do not emit an "update-features" event if there are no feature', () => {
-          wrapper.vm.onDrawUpdate({
+        it('Do not emit an "update-features" event if there is no selected feature', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
             features: [],
-            type: 'draw.update',
-            action: 'move',
-          })
+          }))
+          wrapper.vm.saveEditingFeatures()
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
 
-        it('Do not emit an "update-features" event when the action is not a moving', () => {
-          wrapper.vm.onDrawUpdate({
-            features: [],
-            type: 'draw.update',
-            action: 'change_coordinates',
-          })
-          expect(spyOnEmitEvent).not.toHaveBeenCalled()
-        })
-
-        it('Do not emit an "update-features" when moving in direct mode', () => {
-          wrapper.vm.mapDraw.getMode.mockImplementationOnce(() => 'direct_mode')
-          wrapper.vm.onDrawUpdate({
-            features: mockResources[0].features,
-            type: 'draw.update',
-            action: 'move',
-          })
+        it('Do not emit an "update-features" event if there are more than two selected features', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
+            features: [mockFirstFeature, mockSecondFeature],
+          }))
+          wrapper.vm.saveEditingFeatures()
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
       })
@@ -846,22 +844,19 @@ describe('Map component', () => {
             resources: mockResources,
           },
         })
-        wrapper.vm.setFeatureEditableOnMouseDown('customLayerId')
+        wrapper.vm.setFeatureEditableOnMouseDown('resource_1', 'customLayerId')
         setFeatureEditableFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
       })
 
       beforeEach(() => {
-        wrapper.vm.mapDraw.set.mockClear()
+        wrapper.vm.mapDraw.add.mockClear()
       })
 
       it('Add the clicked feature to the mapbox draw source to make it editable', () => {
         setFeatureEditableFunction({
-          features: [mockFirstFeature],
+          features: [mockThirdFeature],
         })
-        expect(wrapper.vm.mapDraw.set).toHaveBeenLastCalledWith({
-          type: 'FeatureCollection',
-          features: [mockFirstFeature],
-        })
+        expect(wrapper.vm.mapDraw.add).toHaveBeenLastCalledWith(mockThirdFeature)
       })
 
       it('Do not make the selected feature editable if it has not got id', () => {
@@ -870,14 +865,21 @@ describe('Map component', () => {
         setFeatureEditableFunction({
           features: [featureWithoutId],
         })
-        expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
+        expect(wrapper.vm.mapDraw.add).not.toHaveBeenCalled()
+      })
+
+      it('Do not make the selected feature editable if it does not belong to a resource', () => {
+        setFeatureEditableFunction({
+          features: [mockOrphanFeature],
+        })
+        expect(wrapper.vm.mapDraw.add).not.toHaveBeenCalled()
       })
 
       it('Do not make the selected feature editable if it is already editable', () => {
         setFeatureEditableFunction({
           features: [mockSecondFeature],
         })
-        expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
+        expect(wrapper.vm.mapDraw.add).not.toHaveBeenCalled()
       })
 
       it('Do not make the selected feature editable if is not simple_select', () => {
@@ -885,7 +887,7 @@ describe('Map component', () => {
         setFeatureEditableFunction({
           features: [mockFirstFeature],
         })
-        expect(wrapper.vm.mapDraw.set).not.toHaveBeenCalled()
+        expect(wrapper.vm.mapDraw.add).not.toHaveBeenCalled()
       })
     })
   })
