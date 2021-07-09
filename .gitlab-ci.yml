@@ -76,7 +76,7 @@ deploy-vlog-staging:
     url: http://lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
     on_stop: teardown-vlog-staging
 
-deploy-vlog-staging:
+deploy-capel-staging:
   tags: [shared-ci-docker]
   dependencies:
     - build
