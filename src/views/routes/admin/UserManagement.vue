@@ -362,7 +362,7 @@ export default {
           severity: 'success',
           summary: this.$t('pages.userManagement.notification.success.summary'),
           detail: this.$t('pages.userManagement.notification.success.detail'),
-          life: 3000,
+          life: 5000,
         })
       } catch (error) {
         this.resendVerifySignupUsers[user.id].error = error
@@ -370,7 +370,7 @@ export default {
           severity: 'error',
           summary: this.$t('pages.userManagement.notification.error.summary'),
           detail: this.$t('pages.userManagement.notification.error.detail'),
-          life: 3000,
+          life: 5000,
         })
       }
       this.resendVerifySignupUsers[user.id].loading = false

@@ -661,7 +661,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000,
+          life: 5000,
         })
       }
     },
@@ -768,7 +768,7 @@ export default {
             severity: 'error',
             summary: this.currentColumnToEdit.text,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000,
+            life: 5000,
           })
         } finally {
           this.submitting = false
@@ -800,7 +800,7 @@ export default {
             severity: 'error',
             summary: this.currentActionColumnToEdit.label,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000,
+            life: 5000,
           })
         } finally {
           this.submitting = false
@@ -842,7 +842,7 @@ export default {
             severity: 'error',
             summary: this.currentColumnToEdit.text,
             detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-            life: 3000,
+            life: 5000,
           })
         } finally {
           this.submitting = false
@@ -858,7 +858,7 @@ export default {
           severity: 'error',
           summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
           detail: this.$t('error.lck.ROW_DELETION'),
-          life: 3000,
+          life: 5000,
         })
       }
     },
@@ -935,14 +935,14 @@ export default {
           severity: 'error',
           summary: name || this.$t('components.processPanel.failedNewRun'),
           detail: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
-          life: 3000,
+          life: 5000,
         })
       } else {
         this.$toast.add({
           severity: 'success',
           summary: name,
           detail: this.$t('components.processPanel.successNewRun'),
-          life: 3000,
+          life: 5000,
         })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { process: useless, ...rest } = res
@@ -1009,7 +1009,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000,
+          life: 5000,
         })
       }
       this.cellState.waiting = false
@@ -1039,7 +1039,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000,
+          life: 5000,
         })
       }
       this.cellState.waiting = false

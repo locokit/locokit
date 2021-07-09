@@ -721,7 +721,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.basic'),
-          life: 3000,
+          life: 5000,
         })
       }
     },
@@ -787,7 +787,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000,
+          life: 5000,
         })
       }
       this.cellState.waiting = false
@@ -827,7 +827,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: error.message,
-          life: 3000,
+          life: 5000,
         })
       }
       this.cellState.waiting = false
@@ -1104,7 +1104,7 @@ export default {
         severity: 'error',
         summary,
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        life: 3000,
+        life: 5000,
       })
     },
     goToPage ({ pageDetailId, pageQueryFieldId, rowData = null }) {
@@ -1152,14 +1152,14 @@ export default {
             severity: 'error',
             summary: notificationErrorTitle || this.$t('components.processPanel.failedNewRun'),
             detail: notificationErrorDescription || (res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic')),
-            life: 3000,
+            life: 5000,
           })
         } else {
           this.$toast.add({
             severity: 'success',
             summary: notificationSuccessTitle || this.$t('components.processPanel.successNewRun'),
             detail: notificationSuccessDescription || this.$t('components.processPanel.successNewRun'),
-            life: 3000,
+            life: 5000,
           })
 
           /**

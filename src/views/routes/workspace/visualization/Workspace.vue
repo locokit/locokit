@@ -351,7 +351,7 @@ export default {
         severity: 'error',
         summary,
         detail: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-        life: 3000,
+        life: 5000,
       })
     },
   },
