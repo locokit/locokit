@@ -89,7 +89,7 @@ export async function authenticate (data: AuthDTO) {
       email: data.email,
       password: data.password,
     })
-    lckAbilities.update(result.user.rules)
+    if (result.user.rules) lckAbilities.update(result.user.rules)
     authState.data.isAuthenticated = true
     await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {

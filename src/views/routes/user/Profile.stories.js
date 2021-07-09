@@ -11,10 +11,16 @@ export default {
 }
 
 export const defaultStory = () => ({
+  data () {
+    return { authState }
+  },
   components: { Profile },
   template: '<Profile @submit="this.submit" />',
   methods: { submit: action('submit') },
-})
+  async mounted () {
+    this.authState.data.user = null
+    await Vue.nextTick()
+  },})
 
 defaultStory.storyName = 'default'
 // defaultStory.parameters = { storyshots: { disable: true } }

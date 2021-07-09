@@ -56,7 +56,7 @@ exports[`storyshots components/visualize/TableSet default 1`] = `
      
     <!---->
      
-    <!---->
+    <span />
   </div>
 </div>
 `;
@@ -211,7 +211,7 @@ exports[`storyshots components/visualize/TableSet with definition 1`] = `
       <!---->
     </div>
      
-    <!---->
+    <span />
   </div>
 </div>
 `;
@@ -495,7 +495,7 @@ exports[`storyshots components/visualize/TableSet with definition and content 1`
       </div>
     </div>
      
-    <!---->
+    <span />
   </div>
 </div>
 `;
@@ -823,7 +823,7 @@ exports[`storyshots components/visualize/TableSet with definition and content an
       </div>
     </div>
      
-    <!---->
+    <span />
   </div>
 </div>
 `;
@@ -1023,7 +1023,7 @@ exports[`storyshots components/visualize/TableSet with definition and toolbar bu
       <!---->
     </div>
      
-    <!---->
+    <span />
   </div>
 </div>
 `;

@@ -76,6 +76,26 @@ deploy-vlog-staging:
     url: http://lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
     on_stop: teardown-vlog-staging
 
+deploy-capel-staging:
+  tags: [shared-ci-docker]
+  dependencies:
+    - build
+  stage: deploy
+  variables:
+    VUE_APP_TITLE: 'Plate-forme CaPeL'
+    VUE_APP_THEME: 'locokit'
+  only:
+    - merge_requests
+  script:
+    - cp public/config-capel-staging.js.dist dist/config.js
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+    - npm run build:html
+    - npx surge dist lck-capel-staging-${CI_COMMIT_REF_SLUG}.surge.sh
+  environment:
+    name: review/lck-capel-staging-${CI_COMMIT_REF_SLUG}
+    url: http://lck-capel-staging-${CI_COMMIT_REF_SLUG}.surge.sh
+    on_stop: teardown-capel-staging
+
 deploy-storybook:
   tags: [shared-ci-docker]
   dependencies:
@@ -116,6 +136,21 @@ teardown-vlog-staging:
   environment:
     name: review/lck-vlog-staging-${CI_COMMIT_REF_SLUG}
     url: http://lck-vlog-staging-${CI_COMMIT_REF_SLUG}.surge.sh
+    action: stop
+
+teardown-capel-staging:
+  tags: [shared-ci-docker]
+  stage: deploy
+  only:
+    - merge_requests
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - npx surge teardown lck-capel-staging-${CI_COMMIT_REF_SLUG}.surge.sh
+  when: manual
+  environment:
+    name: review/lck-capel-staging-${CI_COMMIT_REF_SLUG}
+    url: http://lck-capel-staging-${CI_COMMIT_REF_SLUG}.surge.sh
     action: stop
 
 teardown-storybook:

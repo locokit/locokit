@@ -33,10 +33,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    submitting: {
-      type: Boolean,
-      default: false,
-    },
     contentStyle: {
       type: Object,
     },

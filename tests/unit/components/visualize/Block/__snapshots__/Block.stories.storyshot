@@ -460,7 +460,7 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
           </div>
         </div>
          
-        <!---->
+        <span />
       </div>
     </div>
   </div>
