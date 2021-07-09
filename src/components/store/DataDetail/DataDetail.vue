@@ -18,10 +18,7 @@
         v-if="editableColumns.indexOf(column) > -1"
         style="position: relative;"
         :vid="column.id"
-        :rules="{
-          required: column.validation && column.validation.required === true,
-          minDate: column.validation && column.validation.minDate ? column.validation.minDate : false
-        }"
+        :rules="column.validation"
         :name="column.text"
         v-slot="{
           errors,
@@ -48,7 +45,7 @@
             {{ column.text }}
           </label>
           <span
-            v-if="column.required"
+            v-if="column.validation && column.validation.required"
             class="column-required"
           >
             *
