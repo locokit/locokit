@@ -153,7 +153,7 @@
             :resources="getLckGeoResources(column, row.data[column.id])"
             :singleEditMode="true"
             @remove-features="onEdit(row.id, column.id, null)"
-            @update-features="onGeoDataEdit(row.id, column.id, $event)"
+            @update-features="onGeoDataEdit(row.id, column, $event)"
           />
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
@@ -249,7 +249,6 @@ import Vue from 'vue'
 
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
-import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
 import { ValidationProvider } from 'vee-validate'
 
@@ -270,7 +269,6 @@ import {
   transformEWKTtoFeature,
   getStyleLayers,
   LckGeoResource,
-  geometryTypeFromColumnType,
   transformFeatureToWKT,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
@@ -465,11 +463,11 @@ export default {
         value,
       )
     },
-    async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
+    async onGeoDataEdit (rowId: string, column: LckTableViewColumn, features: GeoJSONFeature[]) {
       await this.onEdit(
         rowId,
-        columnId,
-        transformFeatureToWKT(features[0]),
+        column.id,
+        transformFeatureToWKT(features[0], column.column_type_id),
       )
     },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
@@ -498,11 +496,13 @@ export default {
         // This is necessary when column's type is Multi...
         const features: Feature[] = []
         if (data) {
+          const featureId = `${this.row.id}:${column.id}`
           const currentFeature = transformEWKTtoFeature(data)
+          currentFeature.setId(featureId)
           currentFeature.setProperties({
             columnId: column.id,
             rowId: this.row.id,
-            id: `${this.row.id}-${column.id}`,
+            id: featureId,
           })
           features.push(currentFeature)
         }
@@ -513,11 +513,10 @@ export default {
 
       const features = createGeoJsonFeaturesCollection(data)
 
-      const editableGeometryTypes: Set<GeometryType> = new Set()
       // Only display edit options if the column is editable
+      const editableGeometryTypes: Set<COLUMN_TYPE> = new Set()
       if (isEditableColumn(this.crudMode, column)) {
-        const geometryType = geometryTypeFromColumnType(column.column_type_id)
-        if (geometryType) editableGeometryTypes.add(geometryType)
+        editableGeometryTypes.add(column.column_type_id)
       }
 
       return [

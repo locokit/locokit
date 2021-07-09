@@ -206,7 +206,9 @@
       "noGeoData": "Aucune donnée géométrique n'est disponible.",
       "textDetailPage": "Voir le détail",
       "noReference": "Référence inconnue",
-      "noRowData": "Information inconnue"
+      "noRowData": "Information inconnue",
+      "noSelectedFeature": "Merci de sélectionner un élément",
+      "onlyOneSelectedFeature": "Merci de ne sélectionner qu'un seul élément"
     },
     "formulas": {
       "formula": "Formule",
@@ -687,7 +689,8 @@
     "cms": {
       "blockMultiConflictSummary": "Conflit au niveau des sources partagées",
       "blockMultiConflictDetail": "Certaines sources partagées de blocs sont à la fois multi et mono donnée. Merci de vérifier la configuration de vos blocs."
-    }
+    },
+    "impossibleOperation": "Opération impossible"
   },
   "form": {
     "add": "Ajouter",

@@ -206,7 +206,9 @@
       "noGeoData": "No geometric data available.",
       "textDetailPage": "Details",
       "noReference": "Unknown reference",
-      "noRowData": "Data unknown"
+      "noRowData": "Data unknown",
+      "noSelectedFeature": "Thanks to select an element",
+      "onlyOneSelectedFeature": "Thanks to select only one element"
     },
     "formulas": {
       "formula": "Formula",
@@ -687,7 +689,8 @@
     "cms": {
       "blockMultiConflictSummary": "Conflict at shared sources level",
       "blockMultiConflictDetail": "Some shared blocks sources in your page are simultaneously multi and mono items. Please fix it."
-    }
+    },
+    "impossibleOperation": "Impossible operation"
   },
   "form" : {
     "add": "Add",

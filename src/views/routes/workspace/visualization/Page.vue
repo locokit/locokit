@@ -899,11 +899,12 @@ export default {
     },
     async onGeoDataEdit (block, features = []) {
       const { rowId, columnId, sourceId } = features[0]?.properties
-      if (rowId && columnId && sourceId) {
+      const column = this.getBlockDefinition(block)[sourceId].columns.find(c => c.id === columnId)
+      if (rowId && columnId && sourceId && column) {
         await this.onUpdateCell(block, {
           rowId,
           columnId,
-          newValue: transformFeatureToWKT(features[0]),
+          newValue: transformFeatureToWKT(features[0], column.column_type_id),
           tableViewId: sourceId,
         })
       }

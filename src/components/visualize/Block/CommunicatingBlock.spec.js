@@ -24,6 +24,18 @@ class ResizeObserver {
 
 window.ResizeObserver = ResizeObserver
 
+const defaultWrapperParams = {
+  mocks: {
+    t: key => key,
+    $t: key => key,
+    $toast: {
+      add: jest.fn(),
+    },
+  },
+}
+
+jest.mock('vue-i18n')
+
 jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({
     addControl: jest.fn(),
@@ -476,10 +488,8 @@ describe('Communicating block', () => {
           content: mockTable1GeoContent,
           id: 'b1',
         },
-        mocks: {
-          t: key => key,
-          $t: key => key,
-        },
+        ...defaultWrapperParams,
+        stubs: ['lck-map'],
       })
       spyOnEmitEventHub.mockClear()
     })
@@ -545,10 +555,7 @@ describe('Communicating block', () => {
             'update-suggestions': () => ({}),
             'upload-files': () => ({}),
           },
-          mocks: {
-            t: key => key,
-            $t: key => key,
-          },
+          ...defaultWrapperParams,
         })
       })
       it('Check that we can send the selected row from MapSet', () => {
@@ -802,12 +809,3 @@ describe('Communicating block', () => {
     })
   })
 })
-// Map to Form record
-
-// Form record to Map
-
-// Map to detail record
-
-// Detail record to map
-
-// Map to paragraph
