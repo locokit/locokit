@@ -171,6 +171,7 @@ export default Vue.extend({
         this.setNewRowDataDefaultValues()
       },
       deep: true,
+      immediate: true,
     },
   },
 })
