@@ -130,8 +130,8 @@ export interface CaughtBlockEvent {
   targetField?: string; // The target id
 }
 
-export interface CommunicatingBlockSettings<T extends string = string> {
-  caughtEvents?: Record<string, CaughtBlockEvent[]>; // The key is the trigger event name of the event triggered by another block
+export interface CommunicatingBlockSettings<T extends string = string, CustomCaughtEvent extends CaughtBlockEvent = CaughtBlockEvent> {
+  caughtEvents?: Record<string, CustomCaughtEvent[]>; // The key is the trigger event name of the event triggered by another block
   triggerEvents?: TriggerBlockEvent<T>[]; // Events to trigger for the block
 }
 
@@ -259,7 +259,12 @@ export interface MapSourceSettings {
   caughtEvents?: string[] // ids of the caught events to capture for this source
 }
 
-export interface MapSettings extends CommunicatingBlockSettings {
+export interface MapCaughtBlockEvent extends CaughtBlockEvent {
+  centerToFeature?: boolean;
+  zoomLevel?: number;
+}
+
+export interface MapSettings extends CommunicatingBlockSettings<'', MapCaughtBlockEvent> {
   sources: MapSourceSettings[];
 }
 

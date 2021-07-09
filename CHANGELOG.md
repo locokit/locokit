@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.3.0**
+
+**Feature**
+* add some settings to the caught events of the map to allow to focus on a specific feature
+
 **v0.2.9**
 
 **Feature**
