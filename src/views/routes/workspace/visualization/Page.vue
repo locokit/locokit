@@ -700,7 +700,7 @@ export default {
         this.$toast.add({
           severity: 'error',
           summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
-          detail: this.$t('error.lck.ROW_DUPILCATE'),
+          detail: this.$t('error.lck.ROW_DUPLICATE'),
           life: 3000,
         })
       }
