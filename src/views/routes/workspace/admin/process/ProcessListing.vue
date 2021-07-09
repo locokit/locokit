@@ -203,7 +203,7 @@ export default Vue.extend({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000,
+          life: 5000,
         })
       }
       this.submitting = false
@@ -328,13 +328,13 @@ export default Vue.extend({
   height: 100%;
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav {
   overflow: auto;
   border: unset;
   flex-wrap: unset;
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-panels {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-panels {
   padding: 0.25rem;
   flex: 1;
   display: flex;
@@ -342,18 +342,18 @@ export default Vue.extend({
   /* background-color: unset; */
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-panels .p-tabview-panel {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-panels .p-tabview-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav li {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.25rem;
   font-weight: normal;
   margin: 0.25rem;
@@ -361,7 +361,7 @@ export default Vue.extend({
   color: var(--primary-color);
 }
 
-/deep/ .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
   border-color: var(--primary-color-darken);
   color: var(--primary-color-darken);
 }
