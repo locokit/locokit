@@ -245,7 +245,6 @@ import {
   transformEWKTtoFeature,
   getStyleLayers,
   LckGeoResource,
-  geometryTypeFromColumnType,
   transformFeatureToWKT,
 } from '@/services/lck-utils/map/transformWithOL'
 import {

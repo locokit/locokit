@@ -837,13 +837,7 @@ export default {
     },
     async onGeoDataEdit (block, features = []) {
       const { rowId, columnId, sourceId } = features[0]?.properties
-      console.log(rowId, columnId, sourceId)
-      const blockDefinition = this.getBlockDefinition(block)
-      console.log('definition: ', blockDefinition)
-      const column = blockDefinition[sourceId].columns.find(c => c.id === columnId)
-      // const tableColumn = this.getBlockDefinition(block).columns.find(
-      //   c => c.id === columnId,
-      // )
+      const column = this.getBlockDefinition(block)[sourceId].columns.find(c => c.id === columnId)
       if (rowId && columnId && sourceId && column) {
         await this.onUpdateCell(block, {
           rowId,
