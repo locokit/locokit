@@ -433,6 +433,7 @@ export function makeGeoJsonFeaturesCollection (
       if (data) {
         const feature = transformEWKTtoFeature(data)
         if (source) {
+          feature.setId(`${row.id}:${geoColumn.id}`)
           const featureProperties: LckFeaturePropertiesWithData = {
             id: `${row.id}:${geoColumn.id}`,
             columnId: geoColumn.id,

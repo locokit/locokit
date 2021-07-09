@@ -183,8 +183,10 @@ jest.mock('@mapbox/mapbox-gl-draw', () =>
 
 // Mock internal functions
 jest.mock('@/services/lck-utils/map/computeGeo', () => ({
-  computeBoundingBox: () => ({
-    isEmpty: () => true,
+  computeBoundingBox: (resources) => ({
+    sw: resources[0]?.features[0]?.geometry.coordinates[0],
+    ne: resources[0]?.features[0]?.geometry.coordinates[1],
+    isEmpty: () => resources[0]?.features[0]?.geometry.coordinates[0] == null,
   }),
 }))
 
@@ -343,7 +345,11 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
             defaultSelectedFeatureBySource: {
-              [resourceId]: mockFirstFeature.id,
+              [resourceId]: {
+                feature: mockFirstFeature,
+                centerToFeature: true,
+                zoomLevel: 10,
+              },
             },
           },
         })
@@ -358,31 +364,76 @@ describe('Map component', () => {
         }, {
           selectable: true,
         })
+        // Fit to the bounds of the selected feature with the right zoom level
+        expect(wrapper.vm.map.fitBounds).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            sw: mockFirstFeature.geometry.coordinates[0],
+            ne: mockFirstFeature.geometry.coordinates[1],
+          }),
+          expect.objectContaining({
+            zoom: 10,
+          }),
+        )
         wrapper.vm.map.setFeatureState.mockClear()
+        wrapper.vm.map.fitBounds.mockClear()
         // Select the same feature
         await wrapper.setProps({
           defaultSelectedFeatureBySource: {
-            [resourceId]: mockFirstFeature.id,
+            [resourceId]: {
+              feature: mockFirstFeature,
+              centerToFeature: true,
+            },
           },
         })
         expect(wrapper.vm.map.setFeatureState).not.toHaveBeenCalled()
+        wrapper.vm.map.setFeatureState.mockClear()
         // Select another feature
         await wrapper.setProps({
           defaultSelectedFeatureBySource: {
-            [resourceId]: mockSecondFeature.id,
+            [resourceId]: {
+              feature: mockSecondFeature,
+              centerToFeature: false,
+            },
           },
         })
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
           [resourceId]: mockSecondFeature.id,
         })
+        expect(wrapper.vm.map.setFeatureState).toHaveBeenCalledTimes(2)
+        // Unselect the previous feature
+        expect(wrapper.vm.map.setFeatureState).toHaveBeenNthCalledWith(1, {
+          source: resourceId,
+          id: mockFirstFeature.id,
+        }, {
+          selectable: false,
+        })
         // Select the new feature
-        expect(wrapper.vm.map.setFeatureState).toHaveBeenLastCalledWith({
+        expect(wrapper.vm.map.setFeatureState).toHaveBeenNthCalledWith(2, {
           source: resourceId,
           id: mockSecondFeature.id,
         }, {
           selectable: true,
         })
+        // Don't fit to the bounds of the selected feature (as specified)
+        expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
+        wrapper.vm.map.setFeatureState.mockClear()
+        // Unselect the feature
+        await wrapper.setProps({
+          defaultSelectedFeatureBySource: {
+            [resourceId]: null,
+          },
+        })
+        // Unselect the previous feature
+        expect(wrapper.vm.map.setFeatureState).toHaveBeenCalledTimes(1)
+        expect(wrapper.vm.map.setFeatureState).toHaveBeenCalledWith({
+          source: resourceId,
+          id: mockSecondFeature.id,
+        }, {
+          selectable: false,
+        })
+        // Don't fit to the bounds of a feature
+        expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
       })
 
       it('Select another feature in one source', () => {
@@ -391,7 +442,9 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
             defaultSelectedFeatureBySource: {
-              [resourceId]: mockFirstFeature.id,
+              [resourceId]: {
+                feature: mockFirstFeature,
+              },
             },
           },
         })
