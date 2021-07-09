@@ -219,6 +219,16 @@ jest.mock('@mapbox/mapbox-gl-draw', () =>
   })),
 )
 
+const defaultWrapperParams = {
+  mocks: {
+    t: key => key,
+    $t: key => key,
+    $toast: {
+      add: jest.fn(),
+    },
+  },
+}
+
 // Mock internal functions
 jest.mock('@/services/lck-utils/map/computeGeo', () => ({
   computeBoundingBox: () => ({
@@ -238,6 +248,7 @@ describe('Map component', () => {
             singleEditMode: true,
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         // Choose the editable geometry types depending of the map mockResources
         // expect(wrapper.vm.editableGeometryTypes.size)
@@ -265,6 +276,7 @@ describe('Map component', () => {
             singleEditMode: false,
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         // No control to add a new feature must be displayed
         expect(wrapper.vm.editableGeometryTypes.size).toBe(2)
@@ -286,6 +298,7 @@ describe('Map component', () => {
             singleEditMode: true,
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         // Initialize the draw controls
         wrapper.vm.map.addControl.mockClear()
@@ -310,6 +323,7 @@ describe('Map component', () => {
             singleEditMode: true,
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         wrapper.vm.map.removeControl.mockClear()
         wrapper.vm.map.addControl.mockClear()
@@ -347,6 +361,7 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         // Select a feature
         wrapper.vm.selectFeature(resourceId, mockFirstFeature.id)
@@ -369,6 +384,7 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         // Select a feature
         wrapper.vm.selectFeature(resourceId, null)
@@ -389,6 +405,7 @@ describe('Map component', () => {
               [resourceId]: mockFirstFeature.id,
             },
           },
+          ...defaultWrapperParams,
         })
         // Save this information
         expect(wrapper.vm.selectedFeatureBySource).toStrictEqual({
@@ -437,6 +454,7 @@ describe('Map component', () => {
               [resourceId]: mockFirstFeature.id,
             },
           },
+          ...defaultWrapperParams,
         })
         // Select another feature in the same source
         wrapper.vm.selectFeature(resourceId, mockSecondFeature.id)
@@ -467,6 +485,7 @@ describe('Map component', () => {
             propsData: {
               resources: mockResources,
             },
+            ...defaultWrapperParams,
           })
           wrapper.vm.selectFeatureOnClick('customLayerId', 'resourceId')
           selectFeatureOnClickFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
@@ -517,10 +536,7 @@ describe('Map component', () => {
             hasPopup: true,
             mode: 'Block',
           },
-          mocks: {
-            t: key => key,
-            $t: key => key,
-          },
+          ...defaultWrapperParams,
         })
         wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
         addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
@@ -582,10 +598,7 @@ describe('Map component', () => {
             hasPopup: true,
             mode: 'Block',
           },
-          mocks: {
-            t: key => key,
-            $t: key => key,
-          },
+          ...defaultWrapperParams,
         })
         wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
         addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId.find(listener =>
@@ -616,7 +629,7 @@ describe('Map component', () => {
       describe('saveListenerByLayer', () => {
         it('Save a listener in a new layer', () => {
           // Initialize the component
-          const wrapper = shallowMount(Map)
+          const wrapper = shallowMount(Map, defaultWrapperParams)
           wrapper.vm.saveListenerByLayer('click', 'myFirstLayerId', myFunction)
           expect(wrapper.vm.listenersByLayer).toStrictEqual({
             myFirstLayerId: [
@@ -630,7 +643,7 @@ describe('Map component', () => {
 
         it('Save two listeners for the same layer', () => {
           // Initialize the component
-          const wrapper = shallowMount(Map)
+          const wrapper = shallowMount(Map, defaultWrapperParams)
           wrapper.vm.saveListenerByLayer('click', 'myFirstLayerId', myFunction)
           wrapper.vm.saveListenerByLayer('mousedown', 'myFirstLayerId', myFunction)
           expect(wrapper.vm.listenersByLayer).toStrictEqual({
@@ -651,7 +664,7 @@ describe('Map component', () => {
       describe('removeListenerByLayer', () => {
         it('Remove all listeners added for a specific layer', () => {
           // Initialize the component
-          const wrapper = shallowMount(Map)
+          const wrapper = shallowMount(Map, defaultWrapperParams)
           // Add some listeners
           wrapper.vm.saveListenerByLayer('click', 'myFirstLayerId', myFunction)
           wrapper.vm.saveListenerByLayer('mousedown', 'myFirstLayerId', myFunction)
@@ -675,7 +688,7 @@ describe('Map component', () => {
 
         it('Do nothing if the specified layer is unknown', () => {
           // Initialize the component
-          const wrapper = shallowMount(Map)
+          const wrapper = shallowMount(Map, defaultWrapperParams)
           // Add some listeners
           wrapper.vm.saveListenerByLayer('click', 'myFirstLayerId', myFunction)
           // Remove all listeners related to the first layer
@@ -698,6 +711,7 @@ describe('Map component', () => {
             propsData: {
               resources: [mockResources[3]],
             },
+            ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
@@ -716,6 +730,7 @@ describe('Map component', () => {
               resources: [mockResources[2]],
               hasPopup: true,
             },
+            ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
@@ -735,6 +750,7 @@ describe('Map component', () => {
               resources: [mockResources[4]],
               hasPopup: true,
             },
+            ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(3)
@@ -753,6 +769,7 @@ describe('Map component', () => {
             propsData: {
               resources: [mockResources[0]],
             },
+            ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
           expect(listeners.length).toBe(1)
@@ -769,13 +786,7 @@ describe('Map component', () => {
             singleEditMode: true,
             resources: mockResources,
           },
-          mocks: {
-            t: key => key,
-            $t: key => key,
-            $toast: {
-              add: jest.fn(),
-            },
-          },
+          ...defaultWrapperParams,
         })
         spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
       })
@@ -786,14 +797,25 @@ describe('Map component', () => {
       })
 
       describe('On remove features', () => {
-
         it('Emit a "remove-features" event with the selected feature', () => {
           wrapper.vm.removeEditingFeatures()
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', [mockResources[0].features[0]])
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', [mockFirstFeature])
         })
 
-        it('Do not emit a "remove-features" event if there is no selected feature', () => {
+        it('Emit a "remove-features" event with the selected feature if there is no selected feature but only one editable feature', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
+            features: [],
+          }))
+          wrapper.vm.mapDraw.getAll.mockImplementationOnce(() => ({
+            features: [mockFirstFeature],
+          }))
+          wrapper.vm.removeEditingFeatures()
+          expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', [mockFirstFeature])
+        })
+
+        it('Do not emit a "remove-features" event if there is no selected feature and not one editable feature', () => {
           wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
             features: [],
           }))
@@ -812,6 +834,18 @@ describe('Map component', () => {
 
       describe('On update update', () => {
         it('Emit an "update-features" event with the selected feature', () => {
+          wrapper.vm.saveEditingFeatures()
+          expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', [mockResources[0].features[0]])
+        })
+
+        it('Emit an "update-features" event with the selected feature if there is no selected feature but only one editable feature', () => {
+          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
+            features: [],
+          }))
+          wrapper.vm.mapDraw.getAll.mockImplementationOnce(() => ({
+            features: [mockFirstFeature],
+          }))
           wrapper.vm.saveEditingFeatures()
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
           expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', [mockResources[0].features[0]])
@@ -843,6 +877,7 @@ describe('Map component', () => {
           propsData: {
             resources: mockResources,
           },
+          ...defaultWrapperParams,
         })
         wrapper.vm.setFeatureEditableOnMouseDown('resource_1', 'customLayerId')
         setFeatureEditableFunction = wrapper.vm.listenersByLayer.customLayerId[0].func

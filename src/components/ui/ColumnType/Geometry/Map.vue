@@ -143,7 +143,7 @@ export default Vue.extend({
     this.map.addControl(new NavigationControl(), 'top-right')
     // Add scale control
     this.map.addControl(new ScaleControl(), 'bottom-left')
-    // Create manage data control
+    // Create data manage control
     this.dataManageControl.control = new MapboxCustomControls([
       {
         label: this.$t('form.save'),
@@ -179,7 +179,13 @@ export default Vue.extend({
   },
   methods: {
     manageEditingFeatures (type: 'save' | 'remove') {
-      const featuresToManage = this.mapDraw!.getSelected().features
+      // We manage the editable and selected feature if we only have one
+      let featuresToManage = this.mapDraw!.getSelected().features
+      // We manage the editable feature if there is only one which is not selected
+      if (featuresToManage.length === 0) {
+        featuresToManage = this.mapDraw!.getAll().features
+      }
+      // Display an error if we don't have one feature to manage
       if (featuresToManage.length !== 1) {
         this.$toast.add({
           severity: 'warn',
@@ -191,13 +197,16 @@ export default Vue.extend({
         })
         return
       }
+      // Throw the desired event with the feature
       this.$emit(type === 'save' ? 'update-features' : 'remove-features', featuresToManage)
       this.mapDraw!.deleteAll()
     },
     saveEditingFeatures () {
+      // Save the editable (and possibly selected) feature
       this.manageEditingFeatures('save')
     },
     removeEditingFeatures () {
+      // Remove the editable (and possibly selected) feature
       this.manageEditingFeatures('remove')
     },
     saveListenerByLayer (eventType: keyof MapLayerEventType, layerId: string, func: MapLayerMouseListenerFunction) {
