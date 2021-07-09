@@ -57,8 +57,13 @@ export default Vue.extend({
     },
   },
   computed: {
-    hasRightConfiguration () {
-      return this.definition && this.content && this.settings
+    mapSourcesIds (): string[] {
+      return this.settings.sources.map(source => source.id)
+    },
+    hasRightConfiguration (): boolean {
+      return this.mapSourcesIds.length > 0 && this.mapSourcesIds.every((sourceId: string) =>
+        this.definition[sourceId] && this.content[sourceId],
+      )
     },
     resources (): LckGeoResource[] {
       if (!this.hasRightConfiguration) return []

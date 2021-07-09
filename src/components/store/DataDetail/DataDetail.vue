@@ -375,7 +375,7 @@ export default {
         string,
         {
           column_type_id: COLUMN_TYPE;
-          dropdownOptions?: {value: string; label: string; color: string ; backgroundColor: string}[];
+          dropdownOptions?: {value: string; label: string; color: string ; backgroundColor: string; position: number}[];
         }
       > = {}
       this.definition.columns.forEach(currentColumn => {
@@ -394,7 +394,8 @@ export default {
               label: values[key].label,
               color: values[key].color,
               backgroundColor: values[key].backgroundColor,
-            }))
+              position: values[key].position || 0,
+            })).sort((firstValue, secondValue) => firstValue.position - secondValue.position)
           }
         }
       })
