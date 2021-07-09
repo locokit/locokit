@@ -91,6 +91,10 @@
                 :cellState="cellState"
                 :editMode="editMode"
                 v-on="$listeners"
+
+                @row-delete="onRowDelete(block, $event)"
+                @row-duplicate="onRowDuplicate(block, $event)"
+
                 @update-row="onUpdateCell(block, $event)"
                 @update-cell="onUpdateCell(block, $event)"
                 @update-content="onUpdateContentBlockTableView(block, $event)"
@@ -658,6 +662,50 @@ export default {
       }
       this.$set(block, 'loading', false)
     },
+    async onRowDelete (block, row) {
+      try {
+        await lckServices.tableRow.remove(row.id)
+        await this.loadSourceContent(block.settings.id)
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_DELETION'),
+          life: 3000,
+        })
+      }
+    },
+    async onRowDuplicate (block, { data, table_id }) {
+      try {
+        const duplicatedData = {}
+        const currentBlockDefinition = this.getBlockDefinition(block)
+        currentBlockDefinition.columns.forEach(c => {
+          if (
+            c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+          c.column_type_id !== COLUMN_TYPE.FORMULA
+          ) {
+            duplicatedData[c.id] = (
+            data[c.id]?.reference
+              ? data[c.id].reference
+              : data[c.id]
+            )
+          }
+        })
+        await lckServices.tableRow.create({
+          data: duplicatedData,
+          table_id,
+        })
+        await this.loadSourceContent(block.settings.id)
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_DUPLICATE'),
+          life: 3000,
+        })
+      }
+    },
+
     async onPageDetail (block, { rowId, pageDetailId }) {
       await this.$router.push({
         name: ROUTES_NAMES.PAGEDETAIL,
@@ -714,7 +762,21 @@ export default {
         })
         this.$set(block, 'displayNewDialog', false)
         this.$set(block, 'submitting', { inProgress: false })
-        await this.loadSourceContent(block.settings.id)
+        /**
+         * if the block have a redirectPage option,
+         * we redirect the user to the redirectPage
+         */
+        if (block.settings?.redirectPageId) {
+          this.$router.push({
+            name: ROUTES_NAMES.PAGE,
+            params: {
+              ...this.$route.params,
+              pageId: block.settings.redirectPageId,
+            },
+          })
+        } else {
+          await this.loadSourceContent(block.settings.id)
+        }
       } catch (error) {
         this.$set(block, 'submitting', { inProgress: false, errors: [error] })
         this.$toast.add({

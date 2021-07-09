@@ -194,16 +194,17 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="e065323c-1151-447f-be0f-6d2728117b38"
           >
             
@@ -212,36 +213,45 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <input
             class="p-inputtext p-component p-filled"
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
+           
+          <span
+            class="cell-state saved error"
+          />
         </div>
          
         <span
-          class="cell-state saved error"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
           >
             
@@ -250,10 +260,12 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <div
             class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
@@ -302,26 +314,33 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </div>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
           >
             
@@ -330,10 +349,12 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             aria-haspopup="listbox"
@@ -380,26 +401,33 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
           >
             
@@ -408,10 +436,12 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
@@ -427,26 +457,33 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
           >
             
@@ -455,22 +492,30 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
   </div>
 </div>
@@ -488,16 +533,17 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="e065323c-1151-447f-be0f-6d2728117b38"
           >
             
@@ -506,36 +552,45 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <input
             class="p-inputtext p-component p-filled"
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
+           
+          <span
+            class="cell-state saved valid"
+          />
         </div>
          
         <span
-          class="cell-state saved valid"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
           >
             
@@ -544,10 +599,12 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <div
             class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
@@ -596,26 +653,33 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </div>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
           >
             
@@ -624,10 +688,12 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             aria-haspopup="listbox"
@@ -674,26 +740,33 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
           >
             
@@ -702,10 +775,12 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
@@ -721,26 +796,33 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
           >
             
@@ -749,22 +831,30 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
   </div>
 </div>
@@ -782,16 +872,17 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="e065323c-1151-447f-be0f-6d2728117b38"
           >
             
@@ -800,36 +891,45 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <input
             class="p-inputtext p-component p-filled"
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
+           
+          <span
+            class="cell-state saving error"
+          />
         </div>
          
         <span
-          class="cell-state saving error"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
           >
             
@@ -838,10 +938,12 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <div
             class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
@@ -890,26 +992,33 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </div>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
           >
             
@@ -918,10 +1027,12 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             aria-haspopup="listbox"
@@ -968,26 +1079,33 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
           >
             
@@ -996,10 +1114,12 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
@@ -1015,26 +1135,33 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
           >
             
@@ -1043,22 +1170,30 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
   </div>
 </div>
@@ -1076,16 +1211,17 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="e065323c-1151-447f-be0f-6d2728117b38"
           >
             
@@ -1094,36 +1230,45 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <input
             class="p-inputtext p-component p-filled"
             id="e065323c-1151-447f-be0f-6d2728117b38"
             rows="7"
           />
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="3a659ea1-446f-4755-8db9-583a204279cc"
           >
             
@@ -1132,10 +1277,12 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <div
             class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
@@ -1184,26 +1331,33 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </div>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="bde4bbbd-2584-447f-acff-f434f53619da"
           >
             
@@ -1212,10 +1366,12 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             aria-haspopup="listbox"
@@ -1262,26 +1418,33 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="b9058b15-44b7-4cd9-a121-a942b69a0434"
           >
             
@@ -1290,10 +1453,12 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <span
             class="p-calendar p-component p-inputwrapper p-inputwrapper-filled"
@@ -1309,26 +1474,33 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
              
             <!---->
           </span>
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
     <div
       class="p-field"
     >
-      <div
+      <span
         style="position: relative;"
       >
         <div
           class="p-d-flex"
+          style="position: relative;"
         >
           <!---->
            
           <label
-            class="lck-color-primary"
+            class="lck-color-primary untouched pristine"
             for="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
           >
             
@@ -1337,22 +1509,30 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
+           
+          <!---->
         </div>
          
         <div
-          class="form-field-editable"
+          class="form-field-editable untouched pristine"
         >
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled"
             id="413bf240-b8fb-4a5b-87eb-074bef2ee21a"
             rows="7"
           />
+           
+          <span
+            class="cell-state"
+          />
         </div>
          
         <span
-          class="cell-state"
-        />
-      </div>
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
     </div>
   </div>
 </div>

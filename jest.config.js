@@ -1,4 +1,10 @@
-const esModules = ['@storybook', 'primevue', 'monaco-editor-core', 'ol'].join('|')
+const esModules = [
+  '@storybook',
+  'primevue',
+  'monaco-editor-core',
+  'ol',
+  'vee-validate',
+].join('|')
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
 
@@ -12,6 +18,7 @@ module.exports = {
   ],
 
   transform: {
+    '<rootDir>/node_modules/vee-validate/dist/rules': 'babel-jest',
     '^.+\\.vue$': 'vue-jest',
     // '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor'
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
@@ -19,7 +26,9 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
 
-  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
+  transformIgnorePatterns: [
+    `/node_modules/(?!${esModules})`,
+  ],
 
   collectCoverageFrom: [
     'src/**/*.{js,ts,vue}',

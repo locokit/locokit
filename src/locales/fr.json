@@ -679,6 +679,7 @@
       "500": "Une erreur a eu lieu…"
     },
     "lck": {
+      "ROW_DUPLICATE": "Une erreur est survenue lors la duplication de la ligne.",
       "ROW_DELETION": "Une erreur est survenue lors la suppression de la ligne.",
       "VIEW_LOCKED": "La vue est verrouillée.",
       "VIEW_USED_IN_BLOCK": "La vue est toujours utilisée dans un bloc. Merci de supprimer le bloc au préalable."
@@ -756,5 +757,11 @@
     "medium": "Moyen",
     "strong": "Fort",
     "passwordPrompt": "Saisissez un mot de passe"
+  },
+  "validations": {
+    "messages": {
+      "required": "Le champ '{_field_}' est requis",
+      "minDate": "Le champ '{_field_}' doit être après {fromDate}"
+    }
   }
 }

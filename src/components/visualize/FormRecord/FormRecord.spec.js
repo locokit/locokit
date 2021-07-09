@@ -1,8 +1,17 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { shallowMount } from '@vue/test-utils'
-
+import { shallowMount, mount } from '../../../../tests/unit/local-test-utils'
+import flushPromises from 'flush-promises'
 import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
+
+async function flushAll () {
+  // get rid of any pending validations on the leading edge
+  await flushPromises()
+  // any delayed or debounced state computations
+  jest.runAllTimers()
+  // get rid of the pending rendering tick
+  await flushPromises()
+}
 
 const mockDefinitionsWithRequiredColumns = {
   id: 'table_view_1',
@@ -18,7 +27,9 @@ const mockDefinitionsWithRequiredColumns = {
       transmitted: false,
       default: null,
       displayed: true,
-      required: true,
+      validation: {
+        required: true,
+      },
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
@@ -35,7 +46,9 @@ const mockDefinitionsWithRequiredColumns = {
       transmitted: false,
       default: null,
       displayed: true,
-      required: true,
+      validation: {
+        required: true,
+      },
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
@@ -52,7 +65,9 @@ const mockDefinitionsWithRequiredColumns = {
       transmitted: false,
       default: null,
       displayed: true,
-      required: true,
+      validation: {
+        required: true,
+      },
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_1',
@@ -75,7 +90,6 @@ const mockDefinitionsWithoutRequiredColumns = {
       transmitted: false,
       default: '',
       displayed: true,
-      required: false,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_2',
@@ -92,7 +106,6 @@ const mockDefinitionsWithoutRequiredColumns = {
       transmitted: false,
       default: '',
       displayed: true,
-      required: false,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_2',
@@ -117,7 +130,6 @@ const mockDefinitionsWithDefaultColumns = {
         value: 'Default string value',
       },
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -136,7 +148,6 @@ const mockDefinitionsWithDefaultColumns = {
         value: 0,
       },
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -155,7 +166,6 @@ const mockDefinitionsWithDefaultColumns = {
         value: true,
       },
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -174,7 +184,6 @@ const mockDefinitionsWithDefaultColumns = {
         fieldId: 'string_3_column',
       },
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -191,7 +200,6 @@ const mockDefinitionsWithDefaultColumns = {
       transmitted: false,
       default: null,
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -210,7 +218,6 @@ const mockDefinitionsWithDefaultColumns = {
         fieldId: 'string_5_column',
       },
       displayed: true,
-      required: true,
       sort: 'DESC',
       table_column_id: '',
       table_view_id: 'table_view_3',
@@ -220,127 +227,202 @@ const mockDefinitionsWithDefaultColumns = {
 }
 
 describe('FormRecord', () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = shallowMount(FormRecord, {
-      attrs: {
-        workspaceId: 'workspace_1',
-      },
-      listeners: {
-        'download-attachment': () => ({}),
-        'update-suggestions': () => ({}),
-        'upload-files': () => ({}),
-      },
-    })
-    expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
-  })
-
-  describe('Computed properties', () => {
-    describe('requiredColumnsIds', () => {
-      it('Returns a set of the required columns ids if there are several ones', async () => {
-        await wrapper.setProps({
+  jest.useFakeTimers()
+  describe('could have required columns', () => {
+    it('and disable the submit button if they are not set', async () => {
+      expect.assertions(6)
+      const wrapper = await mount(FormRecord, {
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        mocks: {
+          t: key => key,
+          $t: key => key,
+          $toast: {
+            add: jest.fn(),
+          },
+        },
+        propsData: {
           definition: mockDefinitionsWithRequiredColumns,
           settings: {
             id: mockDefinitionsWithRequiredColumns.id,
           },
-        })
-        expect(wrapper.vm.requiredColumnsIds.size).toBe(3)
-        expect(wrapper.vm.requiredColumnsIds.has('string_1_column')).toBe(true)
-        expect(wrapper.vm.requiredColumnsIds.has('boolean_1_column')).toBe(true)
-        expect(wrapper.vm.requiredColumnsIds.has('number_1_column')).toBe(true)
+          crudMode: true,
+        },
       })
-      it('Returns an empty set if there is no required column', async () => {
-        await wrapper.setProps({
+      await flushAll()
+      expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      const inputs = wrapper.findAll('input')
+      expect(inputs.length).toBe(3)
+      const submitButton = wrapper.find('.p-button[type=submit]')
+      expect(submitButton.attributes('disabled')).toBe('disabled')
+      expect(wrapper).toMatchSnapshot()
+    })
+    it('enable the submit button if all fields are set', async () => {
+      expect.assertions(10)
+      const wrapper = await mount(FormRecord, {
+        attachTo: document.body,
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        mocks: {
+          t: key => key,
+          $t: key => key,
+          $toast: {
+            add: jest.fn(),
+          },
+        },
+        propsData: {
+          definition: mockDefinitionsWithRequiredColumns,
+          settings: {
+            id: mockDefinitionsWithRequiredColumns.id,
+          },
+          crudMode: true,
+        },
+      })
+      expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      await wrapper.setData({
+        newRow: {
+          data: {
+            string_1_column: 'set',
+            boolean_1_column: true,
+            number_1_column: 1,
+          },
+        },
+      })
+      expect(wrapper.vm.newRow.data.string_1_column).toBe('set')
+      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
+      expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
+      await flushAll()
+      const submitButton = wrapper.find('.p-button[type=submit]')
+      expect(submitButton.attributes().disabled).toBeUndefined()
+      const spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
+      await submitButton.trigger('click')
+      await flushAll()
+      expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+      expect(spyOnEmitEvent).toHaveBeenCalledWith('create-row', {
+        id: '',
+        text: '',
+        data: {
+          string_1_column: 'set',
+          boolean_1_column: true,
+          number_1_column: 1,
+        },
+      })
+      expect(wrapper).toMatchSnapshot()
+      await spyOnEmitEvent.mockClear()
+      await wrapper.destroy()
+    })
+
+    it('enable the submit button if no required fields are defined', async () => {
+      expect.assertions(6)
+      const wrapper = await mount(FormRecord, {
+        attachTo: document.body,
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        mocks: {
+          t: key => key,
+          $t: key => key,
+          $toast: {
+            add: jest.fn(),
+          },
+        },
+        propsData: {
           definition: mockDefinitionsWithoutRequiredColumns,
           settings: {
             id: mockDefinitionsWithoutRequiredColumns.id,
           },
-        })
-        expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
+          crudMode: true,
+        },
       })
-      it('Returns an empty set if there is no definition', async () => {
-        await wrapper.setProps({
-          definition: null,
-        })
-        expect(wrapper.vm.requiredColumnsIds.size).toBe(0)
-      })
+      expect(wrapper.vm.newRow.data.string_2_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.number_2_column).toBe(undefined)
+      await flushAll()
+      const submitButton = wrapper.find('.p-button[type=submit]')
+      expect(submitButton.attributes().disabled).toBeUndefined()
+      const spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
+      await submitButton.trigger('click')
+      await flushAll()
+      // if no user interaction, submission is not trigerred
+      expect(spyOnEmitEvent).toHaveBeenCalledTimes(0)
+      wrapper.vm.newRow.data.string_2_column = 'pouet'
+      wrapper.vm.newRow.data.number_2_column = 1
+      await flushAll()
+
+      expect(wrapper.vm.newRow.data.string_2_column).toBe('pouet')
+      expect(wrapper.vm.newRow.data.number_2_column).toBe(1)
+      // const input = wrapper.find('#string_2_column')
+      // expect(input.attributes().value).toBe('pouet')
+      // await submitButton.trigger('click')
+      // await flushAll()
+      // expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+      // expect(spyOnEmitEvent).toHaveBeenCalledWith('create-row', {
+      //   id: '',
+      //   text: '',
+      //   data: {
+      //   },
+      // })
+      // expect(wrapper.html()).toMatchSnapshot()
+      spyOnEmitEvent.mockClear()
+      await wrapper.destroy()
     })
-    describe('completeForm', () => {
-      it('Return false if at least one required field is complete', async () => {
-        await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns,
-        })
-        await wrapper.setData({
-          newRow: {
-            data: {
-              string_1_column: 'Data',
-              number_1_column: 10,
-            },
-          },
-        })
-        expect(wrapper.vm.completeForm).toBe(false)
-      })
-
-      it('Return false if a previous string field was set but reset', async () => {
-        await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns,
-        })
-        await wrapper.setData({
-          newRow: {
-            data: {
-              string_1_column: '',
-              number_1_column: 10,
-              boolean_1_column: false,
-            },
-          },
-        })
-        expect(wrapper.vm.completeForm).toBe(false)
-      })
-
-      it('Return true if all required fields are complete', async () => {
-        await wrapper.setProps({
-          definition: mockDefinitionsWithRequiredColumns,
-        })
-        await wrapper.setData({
-          newRow: {
-            data: {
-              string_1_column: 'Data',
-              number_1_column: 10,
-              boolean_1_column: false,
-            },
-          },
-        })
-        expect(wrapper.vm.completeForm).toBe(true)
-      })
-    })
-
-    describe('default values', () => {
-      it('Set initial values with default ones', async () => {
-        await wrapper.setProps({
+  })
+  describe('default values', () => {
+    it('Set initial values with default ones', async () => {
+      const wrapper = await shallowMount(FormRecord, {
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        propsData: {
           definition: mockDefinitionsWithDefaultColumns,
-        })
-        expect(wrapper.vm.newRow).toMatchObject({
-          data: {
-            string_3_column: 'Default string value',
-            number_3_column: 0,
-            boolean_3_column: true,
-            string_4_column: 'Default string value',
-          },
-        })
-        await wrapper.vm.onUpdateRow({
-          columnId: 'string_5_column',
-          newValue: 'This is a test to be duplicated',
-        })
-        expect(wrapper.vm.newRow).toMatchObject({
-          data: {
-            string_3_column: 'Default string value',
-            number_3_column: 0,
-            boolean_3_column: true,
-            string_4_column: 'Default string value',
-            string_5_column: 'This is a test to be duplicated',
-            string_6_column: 'This is a test to be duplicated',
-          },
-        })
+        },
+      })
+      expect(wrapper.vm.newRow).toMatchObject({
+        data: {
+          string_3_column: 'Default string value',
+          number_3_column: 0,
+          boolean_3_column: true,
+          string_4_column: 'Default string value',
+        },
+      })
+      await wrapper.vm.onUpdateRow({
+        columnId: 'string_5_column',
+        newValue: 'This is a test to be duplicated',
+      })
+      expect(wrapper.vm.newRow).toMatchObject({
+        data: {
+          string_3_column: 'Default string value',
+          number_3_column: 0,
+          boolean_3_column: true,
+          string_4_column: 'Default string value',
+          string_5_column: 'This is a test to be duplicated',
+          string_6_column: 'This is a test to be duplicated',
+        },
       })
     })
   })

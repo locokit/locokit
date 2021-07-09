@@ -679,6 +679,7 @@
       "500": "An error occured…"
     },
     "lck": {
+      "ROW_DUPLICATE": "An error occured when duplicating the row.",
       "ROW_DELETION": "An error occured when deleting the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
@@ -756,5 +757,11 @@
     "medium": "Medium",
     "strong": "Strong",
     "passwordPrompt": "Enter a password"
+  },
+  "validations": {
+    "messages": {
+      "required": "The '{_field_}' field is required",
+      "minDate": "The '{_field_}' field must be after {fromDate}"
+    }
   }
 }
