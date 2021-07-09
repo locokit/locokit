@@ -86,6 +86,10 @@ export class LckTableColumn extends LckBaseModel {
     default?: string;
     width?: number;
     required?: boolean;
+    map_center?: {
+      center: [number, number]; // [lng, lat]
+      zoom: number;
+    };
   };
 }
 

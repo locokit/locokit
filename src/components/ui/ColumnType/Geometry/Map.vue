@@ -102,7 +102,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.map = new Map({
+    const mapOptions: MapboxOptions = {
       container: this.id,
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
       style: {
@@ -132,7 +132,15 @@ export default Vue.extend({
       minZoom: 1,
       maxZoom: 16,
       ...this.options,
-    })
+    }
+    // Directly focus on a specific area in dialog mode
+    if (this.mode === MODE.DIALOG) {
+      const computedBounds = computeBoundingBox(this.resources)
+      if (!computedBounds.isEmpty()) {
+        mapOptions.bounds = computedBounds
+      }
+    }
+    this.map = new Map(mapOptions)
 
     // Add navigation control (zoom + compass)
     this.map.addControl(new NavigationControl(), 'top-right')
@@ -151,7 +159,7 @@ export default Vue.extend({
     this.map.on('load', () => {
       this.mapIsLoaded = true
       this.loadResources()
-      this.setFitBounds()
+      if (this.mode === MODE.BLOCK) this.setFitBounds()
       this.initDrawControls()
       this.onDrawEvents()
       this.makeFeaturesInteractive()

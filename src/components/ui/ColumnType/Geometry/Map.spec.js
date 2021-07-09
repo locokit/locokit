@@ -183,14 +183,37 @@ jest.mock('@mapbox/mapbox-gl-draw', () =>
 
 // Mock internal functions
 jest.mock('@/services/lck-utils/map/computeGeo', () => ({
-  computeBoundingBox: () => ({
-    isEmpty: () => true,
+  computeBoundingBox: (resources) => ({
+    sw: resources[0]?.features[0]?.geometry.coordinates[0],
+    ne: resources[0]?.features[0]?.geometry.coordinates[1],
+    isEmpty: () => resources[0]?.features[0]?.geometry.coordinates[0] == null,
   }),
 }))
 
 // Tests
 
 describe('Map component', () => {
+  describe('Map initialization', () => {
+    it('Pass some default bounds in dialog mode so we do not need to fit bounds later', () => {
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: mockResources,
+          mode: 'Dialog',
+        },
+      })
+      expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
+    })
+    it('Do not pass some default bounds in block mode so we need to fit bounds later', () => {
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: mockResources,
+          mode: 'Block',
+        },
+      })
+      expect(wrapper.vm.map.fitBounds).toHaveBeenCalled()
+    })
+
+  })
   describe('Methods', () => {
     describe('initDrawControls', () => {
       it('Initialize the right edition controls of the map in the single edit mode', () => {
