@@ -208,7 +208,6 @@ export default {
           this.$set(this.newRow.data, c.id, c.settings.default)
         }
       })
-      this.autocompleteInput = {}
       this.displayNewDialog = true
     },
     async onUpdateRow ({ columnId, newValue }) {

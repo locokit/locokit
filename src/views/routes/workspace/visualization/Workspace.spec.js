@@ -150,7 +150,7 @@ jest.mock('@/router/paths', () => ({
 }))
 
 // Mock Vue components
-jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
+jest.mock('@/views/routes/workspace/visualization/Page/Page.vue', () => ({
   name: 'Page',
   render: h => h('section'),
 }))

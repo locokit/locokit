@@ -1751,4 +1751,22 @@ describe('Page', () => {
       spyOnToastAdd.mockClear()
     })
   })
+
+  describe('Create new records (blocks Set)', () => {
+    describe('by displaying a dialog with selected fields', async () => {
+
+    })
+    describe('by calling the API with structured data', async () => {
+
+    })
+    describe('hide automatically dialog after success', async () => {
+
+    })
+    describe('display a $toast if an error occured', async () => {
+
+    })
+    describe('even if block is a MapSet, with the right definition', async () => {
+
+    })
+  })
 })
