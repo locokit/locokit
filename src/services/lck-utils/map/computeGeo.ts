@@ -10,7 +10,7 @@ import {
 } from 'mapbox-gl'
 
 import { getArrayDepth } from '@/services/lck-utils/arrays'
-import { LckGeoResource } from '@/services/lck-utils/map/transformWithOL'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 export type LckImplementedPaintProperty = keyof (CirclePaint | FillPaint | LinePaint)
 export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | LineLayout)
@@ -20,12 +20,12 @@ export type LckImplementedLayoutProperty = keyof (CircleLayout | FillLayout | Li
  * @param resources
  * @return {mapboxgl.LngLatBounds}
  */
-export function computeBoundingBox (resources: LckGeoResource[]): LngLatBounds {
+export function computeBoundingBox (resources: { features: GeoJSONFeature[] }[]): LngLatBounds {
   const coordinates: LngLatLike[] = []
   /**
    * Collect all coordinates from all features of all resources
    */
-  resources.forEach((resource: LckGeoResource) => {
+  resources.forEach(resource => {
     resource.features.forEach(feature => {
       if (feature.geometry.type !== 'GeometryCollection') {
         // Get at least an Array of array hence the 2

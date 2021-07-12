@@ -14,8 +14,21 @@
       v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
       :key="column.id"
     >
-      <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
-        <div class="p-d-flex">
+      <validation-provider
+        v-if="editableColumns.indexOf(column) > -1"
+        style="position: relative;"
+        :vid="column.id"
+        :rules="column.validation"
+        :name="column.text"
+        v-slot="{
+          errors,
+          classes
+        }"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
           <p-checkbox
             v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             v-model="row.data[column.id]"
@@ -26,20 +39,28 @@
 
           <label
             class="lck-color-primary"
+            :class="classes"
             :for="column.id"
           >
             {{ column.text }}
           </label>
           <span
-            v-if="column.required"
+            v-if="column.validation && column.validation.required"
             class="column-required"
           >
             *
           </span>
+          <span
+            v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
+            class="cell-state"
+            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+          />
+
         </div>
 
         <div
           class="form-field-editable"
+          :class="classes"
         >
           <lck-autocomplete
             v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
@@ -135,7 +156,7 @@
             :resources="getLckGeoResources(column)"
             :singleEditMode="true"
             @remove-features="onEdit(row.id, column.id, null)"
-            @update-features="onGeoDataEdit(row.id, column.id, $event)"
+            @update-features="onGeoDataEdit(row.id, column, $event)"
           />
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
@@ -159,12 +180,14 @@
             @blur="onEdit(row.id, column.id, row.data[column.id])"
             :rows="7"
           />
+          <span
+            v-if="getComponentEditorDetailForColumnType(column) !== 'p-checkbox'"
+            class="cell-state"
+            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+          />
         </div>
-        <span
-          class="cell-state"
-          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-        />
-      </div>
+        <span :class="classes">{{errors[0]}}</span>
+      </validation-provider>
 
       <div
         v-else-if="mode !== 'creation'"
@@ -228,6 +251,7 @@
 import Vue, { PropType } from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
+import { ValidationProvider } from 'vee-validate'
 
 import {
   COLUMN_TYPE, MapSourceSettings,
@@ -303,6 +327,7 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'p-checkbox': Vue.extend(Checkbox),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     autocompleteSuggestions: {
@@ -449,11 +474,11 @@ export default {
         value,
       )
     },
-    async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
+    async onGeoDataEdit (rowId: string, column: LckTableViewColumn, features: GeoJSONFeature[]) {
       await this.onEdit(
         rowId,
-        columnId,
-        transformFeatureToWKT(features[0]),
+        column.id,
+        transformFeatureToWKT(features[0], column.column_type_id),
       )
     },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
@@ -486,10 +511,6 @@ export default {
     },
     getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] | null {
       const columnSourceId = `${this.definition.id}-${column.id}`
-
-      if (!this.definition || !this.row) {
-        return null
-      }
 
       // Initialize the geo sources definition with the current definition
       const definitionsToLoad: Record<string, LckTableView> = {
@@ -635,10 +656,20 @@ export default {
 .form-field-editable {
   position: relative;
 }
+.form-field-editable.failed {
+  border-color: var(--color-error);
+}
+.failed {
+  color: var(--color-error);
+}
 
 .column-required {
   font-size: 1.6rem;
   color: var(--color-error);
+}
+
+textarea {
+  resize: none;
 }
 
 </style>

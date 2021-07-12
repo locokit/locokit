@@ -161,164 +161,168 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
               style="display: none;"
             >
               <div>
-                <form
-                  class="p-fluid lck-color-content p-text-bold"
+                <span
+                  class="lck-color-content p-text-bold"
                 >
-                  <div
-                    class="p-field"
+                  <form
+                    class="p-fluid"
                   >
-                    <label
-                      for="container-name"
+                    <div
+                      class="p-field"
                     >
-                      
+                      <label
+                        for="container-name"
+                      >
+                        
         Container title
       
-                    </label>
+                      </label>
+                       
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="container-name"
+                        required="required"
+                        type="text"
+                      />
+                    </div>
                      
-                    <input
-                      class="p-inputtext p-component p-filled"
-                      id="container-name"
-                      required="required"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-display_title"
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-display_title"
+                      >
+                        
         Display title
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-display_title"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-display_title"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-elevation"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-elevation"
+                      >
+                        
         Elevation
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-elevation"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-elevation"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-displayed_in_navbar"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-displayed_in_navbar"
+                      >
+                        
         Navigation enabled
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-displayed_in_navbar"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-displayed_in_navbar"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <!---->
-                   
-                  <div
-                    class="lck-form-footer"
-                  >
-                    <button
-                      class="p-button-text p-button-secondary p-button p-component"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-times p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                        Cancel
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
                      
-                    <button
-                      class="p-button p-component"
-                      type="submit"
+                    <!---->
+                     
+                    <div
+                      class="lck-form-footer"
                     >
-                      <span
-                        class="pi pi-save p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
                       >
-                        Save
-                      </span>
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
                        
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                  </div>
-                </form>
+                      <button
+                        class="p-button p-component"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </span>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -441,298 +445,302 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
               class="p-tabview-panel"
               role="tabpanel"
             >
-              <form
-                class="p-fluid lck-update-block-form lck-color-content p-text-bold"
+              <span
+                class="lck-update-block-form lck-color-content p-text-bold"
               >
-                <div
-                  class="p-field "
+                <form
+                  class="p-fluid"
                 >
-                  <label
-                    for="blockTitleField"
+                  <div
+                    class="p-field "
                   >
-                    Block title
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component"
-                    id="blockTitleField"
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="blockTypeField"
-                  >
-                    Block type
-                  </label>
+                    <label
+                      for="blockTitleField"
+                    >
+                      Block title
+                    </label>
+                     
+                    <input
+                      class="p-inputtext p-component"
+                      id="blockTitleField"
+                    />
+                  </div>
                    
                   <div
-                    class="p-dropdown p-component p-inputwrapper"
-                    id="blockTypeField"
+                    class="p-field"
                   >
+                    <label
+                      for="blockTypeField"
+                    >
+                      Block type
+                    </label>
+                     
                     <div
-                      class="p-hidden-accessible"
+                      class="p-dropdown p-component p-inputwrapper"
+                      id="blockTypeField"
                     >
-                      <input
-                        aria-haspopup="listbox"
-                        readonly="readonly"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <span
-                      class="p-dropdown-label p-inputtext p-placeholder"
-                    >
-                      
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          aria-haspopup="listbox"
+                          readonly="readonly"
+                          type="text"
+                        />
+                      </div>
+                       
+                      <!---->
+                       
+                      <span
+                        class="p-dropdown-label p-inputtext p-placeholder"
+                      >
+                        
             Select an option
         
-                    </span>
-                     
-                    <!---->
-                     
-                    <div
-                      aria-haspopup="listbox"
-                      class="p-dropdown-trigger"
-                      role="button"
-                    >
-                      <span
-                        class="p-dropdown-trigger-icon pi pi-chevron-down"
-                      />
+                      </span>
+                       
+                      <!---->
+                       
+                      <div
+                        aria-haspopup="listbox"
+                        class="p-dropdown-trigger"
+                        role="button"
+                      >
+                        <span
+                          class="p-dropdown-trigger-icon pi pi-chevron-down"
+                        />
+                      </div>
+                       
+                      <!---->
                     </div>
-                     
-                    <!---->
                   </div>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockElevation"
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
                   >
-                    
+                    <label
+                      for="blockElevation"
+                    >
+                      
       Elevation
     
-                  </label>
-                   
-                  <div
-                    class="p-inputswitch p-component"
-                    id="blockElevation"
-                  >
+                    </label>
+                     
                     <div
-                      class="p-hidden-accessible"
+                      class="p-inputswitch p-component"
+                      id="blockElevation"
                     >
-                      <input
-                        role="switch"
-                        type="checkbox"
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
                       />
                     </div>
-                     
-                    <span
-                      class="p-inputswitch-slider"
-                    />
                   </div>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayTableViewId"
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
                   >
-                    
+                    <label
+                      for="blockConditionalDisplayTableViewId"
+                    >
+                      
       View to use for conditional display
     
-                  </label>
-                   
-                  <span
-                    aria-haspopup="listbox"
-                    aria-owns="pv_id_72_list"
-                    class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                    dropdown="true"
-                    id="blockSettingsTableView"
-                    suggestions=""
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      aria-controls="pv_id_72_list"
-                      autocomplete="off"
-                      class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                    </label>
+                     
+                    <span
+                      aria-haspopup="listbox"
+                      aria-owns="pv_id_72_list"
+                      class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                      dropdown="true"
                       id="blockSettingsTableView"
-                      placeholder="Start typing for suggestions"
-                      role="searchbox"
-                      type="text"
-                    />
-                     
-                    <!---->
-                     
-                    <!---->
-                     
-                    <button
-                      class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-chevron-down p-button-icon"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                         
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                     
-                    <!---->
-                  </span>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayFieldId"
-                  >
-                    
-      View's field for conditional display (only Boolean fields or Boolean formulas)
-    
-                  </label>
-                   
-                  <span
-                    aria-haspopup="listbox"
-                    aria-owns="pv_id_73_list"
-                    class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                    disabled="disabled"
-                    dropdown="true"
-                    id="blockConditionalDisplayFieldId"
-                    suggestions=""
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      aria-controls="pv_id_73_list"
-                      autocomplete="off"
-                      class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
-                      disabled="disabled"
-                      id="blockConditionalDisplayFieldId"
-                      placeholder="Start typing for suggestions"
-                      role="searchbox"
-                      type="text"
-                    />
-                     
-                    <!---->
-                     
-                    <!---->
-                     
-                    <button
-                      class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                      disabled="disabled"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-chevron-down p-button-icon"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                         
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                     
-                    <!---->
-                  </span>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayFieldValue"
-                  >
-                    
-      Field's value for conditional display (true / false)
-    
-                  </label>
-                   
-                  <div
-                    class="p-inputswitch p-component"
-                    id="blockConditionalDisplayFieldValue"
-                  >
-                    <div
-                      class="p-hidden-accessible"
+                      suggestions=""
                     >
                       <input
-                        role="switch"
-                        type="checkbox"
+                        aria-autocomplete="list"
+                        aria-controls="pv_id_72_list"
+                        autocomplete="off"
+                        class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                        id="blockSettingsTableView"
+                        placeholder="Start typing for suggestions"
+                        role="searchbox"
+                        type="text"
+                      />
+                       
+                      <!---->
+                       
+                      <!---->
+                       
+                      <button
+                        class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-chevron-down p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <!---->
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="blockConditionalDisplayFieldId"
+                    >
+                      
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+                    </label>
+                     
+                    <span
+                      aria-haspopup="listbox"
+                      aria-owns="pv_id_73_list"
+                      class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                      disabled="disabled"
+                      dropdown="true"
+                      id="blockConditionalDisplayFieldId"
+                      suggestions=""
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-controls="pv_id_73_list"
+                        autocomplete="off"
+                        class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+                        disabled="disabled"
+                        id="blockConditionalDisplayFieldId"
+                        placeholder="Start typing for suggestions"
+                        role="searchbox"
+                        type="text"
+                      />
+                       
+                      <!---->
+                       
+                      <!---->
+                       
+                      <button
+                        class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                        disabled="disabled"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-chevron-down p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <!---->
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="blockConditionalDisplayFieldValue"
+                    >
+                      
+      Field's value for conditional display (true / false)
+    
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="blockConditionalDisplayFieldValue"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
                       />
                     </div>
-                     
-                    <span
-                      class="p-inputswitch-slider"
-                    />
                   </div>
-                </div>
-                 
-                <!---->
-                 
-                <div
-                  class="lck-form-footer"
-                >
-                  <button
-                    class="p-button-text p-button-secondary p-button p-component"
-                    type="button"
-                  >
-                    <span
-                      class="pi pi-times p-button-icon p-button-icon-left"
-                    />
-                     
-                    <span
-                      class="p-button-label"
-                    >
-                      Cancel
-                    </span>
-                     
-                    <!---->
-                    <span
-                      class="p-ink"
-                    />
-                  </button>
                    
-                  <button
-                    class="p-button p-component"
-                    type="submit"
+                  <!---->
+                   
+                  <div
+                    class="lck-form-footer"
                   >
-                    <span
-                      class="pi pi-save p-button-icon p-button-icon-left"
-                    />
-                     
-                    <span
-                      class="p-button-label"
+                    <button
+                      class="p-button-text p-button-secondary p-button p-component"
+                      type="button"
                     >
-                      Save
-                    </span>
+                      <span
+                        class="pi pi-times p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Cancel
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
                      
-                    <!---->
-                    <span
-                      class="p-ink"
-                    />
-                  </button>
-                </div>
-              </form>
+                    <button
+                      class="p-button p-component"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </span>
             </div>
           </div>
         </div>
@@ -1071,165 +1079,169 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
               role="tabpanel"
             >
               <div>
-                <form
-                  class="p-fluid lck-color-content p-text-bold"
+                <span
+                  class="lck-color-content p-text-bold"
                 >
-                  <div
-                    class="p-field"
+                  <form
+                    class="p-fluid"
                   >
-                    <label
-                      for="container-name"
+                    <div
+                      class="p-field"
                     >
-                      
+                      <label
+                        for="container-name"
+                      >
+                        
         Container title
       
-                    </label>
+                      </label>
+                       
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="container-name"
+                        required="required"
+                        type="text"
+                      />
+                    </div>
                      
-                    <input
-                      class="p-inputtext p-component p-filled"
-                      id="container-name"
-                      required="required"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-display_title"
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-display_title"
+                      >
+                        
         Display title
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-display_title"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-display_title"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-elevation"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-elevation"
+                      >
+                        
         Elevation
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-elevation"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-elevation"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-displayed_in_navbar"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-displayed_in_navbar"
+                      >
+                        
         Navigation enabled
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-displayed_in_navbar"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-displayed_in_navbar"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <!---->
-                   
-                  <div
-                    class="lck-form-footer"
-                  >
-                    <button
-                      class="p-button-text p-button-secondary p-button p-component"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-times p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                        Cancel
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
                      
-                    <button
-                      class="p-button p-component p-button-text"
-                      disabled="disabled"
-                      type="button"
+                    <!---->
+                     
+                    <div
+                      class="lck-form-footer"
                     >
-                      <span
-                        class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
                       >
-                        Please wait
-                      </span>
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
                        
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                  </div>
-                </form>
+                      <button
+                        class="p-button p-component p-button-text"
+                        disabled="disabled"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Please wait
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </span>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -1504,164 +1516,168 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
               style="display: none;"
             >
               <div>
-                <form
-                  class="p-fluid lck-color-content p-text-bold"
+                <span
+                  class="lck-color-content p-text-bold"
                 >
-                  <div
-                    class="p-field"
+                  <form
+                    class="p-fluid"
                   >
-                    <label
-                      for="container-name"
+                    <div
+                      class="p-field"
                     >
-                      
+                      <label
+                        for="container-name"
+                      >
+                        
         Container title
       
-                    </label>
+                      </label>
+                       
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="container-name"
+                        required="required"
+                        type="text"
+                      />
+                    </div>
                      
-                    <input
-                      class="p-inputtext p-component p-filled"
-                      id="container-name"
-                      required="required"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-display_title"
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-display_title"
+                      >
+                        
         Display title
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-display_title"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-display_title"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-elevation"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-elevation"
+                      >
+                        
         Elevation
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-elevation"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-elevation"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-displayed_in_navbar"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-displayed_in_navbar"
+                      >
+                        
         Navigation enabled
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-displayed_in_navbar"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-displayed_in_navbar"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <!---->
-                   
-                  <div
-                    class="lck-form-footer"
-                  >
-                    <button
-                      class="p-button-text p-button-secondary p-button p-component"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-times p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                        Cancel
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
                      
-                    <button
-                      class="p-button p-component"
-                      type="submit"
+                    <!---->
+                     
+                    <div
+                      class="lck-form-footer"
                     >
-                      <span
-                        class="pi pi-save p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
                       >
-                        Save
-                      </span>
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
                        
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                  </div>
-                </form>
+                      <button
+                        class="p-button p-component"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </span>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -1784,298 +1800,302 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
               class="p-tabview-panel"
               role="tabpanel"
             >
-              <form
-                class="p-fluid lck-update-block-form lck-color-content p-text-bold"
+              <span
+                class="lck-update-block-form lck-color-content p-text-bold"
               >
-                <div
-                  class="p-field "
+                <form
+                  class="p-fluid"
                 >
-                  <label
-                    for="blockTitleField"
+                  <div
+                    class="p-field "
                   >
-                    Block title
-                  </label>
-                   
-                  <input
-                    class="p-inputtext p-component p-filled"
-                    id="blockTitleField"
-                  />
-                </div>
-                 
-                <div
-                  class="p-field"
-                >
-                  <label
-                    for="blockTypeField"
-                  >
-                    Block type
-                  </label>
+                    <label
+                      for="blockTitleField"
+                    >
+                      Block title
+                    </label>
+                     
+                    <input
+                      class="p-inputtext p-component p-filled"
+                      id="blockTitleField"
+                    />
+                  </div>
                    
                   <div
-                    class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
-                    id="blockTypeField"
+                    class="p-field"
                   >
+                    <label
+                      for="blockTypeField"
+                    >
+                      Block type
+                    </label>
+                     
                     <div
-                      class="p-hidden-accessible"
+                      class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+                      id="blockTypeField"
                     >
-                      <input
-                        aria-haspopup="listbox"
-                        readonly="readonly"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <span
-                      class="p-dropdown-label p-inputtext p-placeholder"
-                    >
-                      
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          aria-haspopup="listbox"
+                          readonly="readonly"
+                          type="text"
+                        />
+                      </div>
+                       
+                      <!---->
+                       
+                      <span
+                        class="p-dropdown-label p-inputtext p-placeholder"
+                      >
+                        
             Select an option
         
-                    </span>
-                     
-                    <!---->
-                     
-                    <div
-                      aria-haspopup="listbox"
-                      class="p-dropdown-trigger"
-                      role="button"
-                    >
-                      <span
-                        class="p-dropdown-trigger-icon pi pi-chevron-down"
-                      />
+                      </span>
+                       
+                      <!---->
+                       
+                      <div
+                        aria-haspopup="listbox"
+                        class="p-dropdown-trigger"
+                        role="button"
+                      >
+                        <span
+                          class="p-dropdown-trigger-icon pi pi-chevron-down"
+                        />
+                      </div>
+                       
+                      <!---->
                     </div>
-                     
-                    <!---->
                   </div>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockElevation"
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
                   >
-                    
+                    <label
+                      for="blockElevation"
+                    >
+                      
       Elevation
     
-                  </label>
-                   
-                  <div
-                    class="p-inputswitch p-component"
-                    id="blockElevation"
-                  >
+                    </label>
+                     
                     <div
-                      class="p-hidden-accessible"
+                      class="p-inputswitch p-component"
+                      id="blockElevation"
                     >
-                      <input
-                        role="switch"
-                        type="checkbox"
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
                       />
                     </div>
-                     
-                    <span
-                      class="p-inputswitch-slider"
-                    />
                   </div>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayTableViewId"
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
                   >
-                    
+                    <label
+                      for="blockConditionalDisplayTableViewId"
+                    >
+                      
       View to use for conditional display
     
-                  </label>
-                   
-                  <span
-                    aria-haspopup="listbox"
-                    aria-owns="pv_id_74_list"
-                    class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                    dropdown="true"
-                    id="blockSettingsTableView"
-                    suggestions=""
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      aria-controls="pv_id_74_list"
-                      autocomplete="off"
-                      class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                    </label>
+                     
+                    <span
+                      aria-haspopup="listbox"
+                      aria-owns="pv_id_74_list"
+                      class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                      dropdown="true"
                       id="blockSettingsTableView"
-                      placeholder="Start typing for suggestions"
-                      role="searchbox"
-                      type="text"
-                    />
-                     
-                    <!---->
-                     
-                    <!---->
-                     
-                    <button
-                      class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-chevron-down p-button-icon"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                         
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                     
-                    <!---->
-                  </span>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayFieldId"
-                  >
-                    
-      View's field for conditional display (only Boolean fields or Boolean formulas)
-    
-                  </label>
-                   
-                  <span
-                    aria-haspopup="listbox"
-                    aria-owns="pv_id_75_list"
-                    class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                    disabled="disabled"
-                    dropdown="true"
-                    id="blockConditionalDisplayFieldId"
-                    suggestions=""
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      aria-controls="pv_id_75_list"
-                      autocomplete="off"
-                      class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
-                      disabled="disabled"
-                      id="blockConditionalDisplayFieldId"
-                      placeholder="Start typing for suggestions"
-                      role="searchbox"
-                      type="text"
-                    />
-                     
-                    <!---->
-                     
-                    <!---->
-                     
-                    <button
-                      class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                      disabled="disabled"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-chevron-down p-button-icon"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                         
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                     
-                    <!---->
-                  </span>
-                </div>
-                 
-                <div
-                  class="p-field p-d-flex p-flex-column"
-                >
-                  <label
-                    for="blockConditionalDisplayFieldValue"
-                  >
-                    
-      Field's value for conditional display (true / false)
-    
-                  </label>
-                   
-                  <div
-                    class="p-inputswitch p-component"
-                    id="blockConditionalDisplayFieldValue"
-                  >
-                    <div
-                      class="p-hidden-accessible"
+                      suggestions=""
                     >
                       <input
-                        role="switch"
-                        type="checkbox"
+                        aria-autocomplete="list"
+                        aria-controls="pv_id_74_list"
+                        autocomplete="off"
+                        class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                        id="blockSettingsTableView"
+                        placeholder="Start typing for suggestions"
+                        role="searchbox"
+                        type="text"
+                      />
+                       
+                      <!---->
+                       
+                      <!---->
+                       
+                      <button
+                        class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-chevron-down p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <!---->
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="blockConditionalDisplayFieldId"
+                    >
+                      
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+                    </label>
+                     
+                    <span
+                      aria-haspopup="listbox"
+                      aria-owns="pv_id_75_list"
+                      class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                      disabled="disabled"
+                      dropdown="true"
+                      id="blockConditionalDisplayFieldId"
+                      suggestions=""
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-controls="pv_id_75_list"
+                        autocomplete="off"
+                        class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+                        disabled="disabled"
+                        id="blockConditionalDisplayFieldId"
+                        placeholder="Start typing for suggestions"
+                        role="searchbox"
+                        type="text"
+                      />
+                       
+                      <!---->
+                       
+                      <!---->
+                       
+                      <button
+                        class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                        disabled="disabled"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-chevron-down p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <!---->
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-d-flex p-flex-column"
+                  >
+                    <label
+                      for="blockConditionalDisplayFieldValue"
+                    >
+                      
+      Field's value for conditional display (true / false)
+    
+                    </label>
+                     
+                    <div
+                      class="p-inputswitch p-component"
+                      id="blockConditionalDisplayFieldValue"
+                    >
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
                       />
                     </div>
-                     
-                    <span
-                      class="p-inputswitch-slider"
-                    />
                   </div>
-                </div>
-                 
-                <!---->
-                 
-                <div
-                  class="lck-form-footer"
-                >
-                  <button
-                    class="p-button-text p-button-secondary p-button p-component"
-                    type="button"
-                  >
-                    <span
-                      class="pi pi-times p-button-icon p-button-icon-left"
-                    />
-                     
-                    <span
-                      class="p-button-label"
-                    >
-                      Cancel
-                    </span>
-                     
-                    <!---->
-                    <span
-                      class="p-ink"
-                    />
-                  </button>
                    
-                  <button
-                    class="p-button p-component"
-                    type="submit"
+                  <!---->
+                   
+                  <div
+                    class="lck-form-footer"
                   >
-                    <span
-                      class="pi pi-save p-button-icon p-button-icon-left"
-                    />
-                     
-                    <span
-                      class="p-button-label"
+                    <button
+                      class="p-button-text p-button-secondary p-button p-component"
+                      type="button"
                     >
-                      Save
-                    </span>
+                      <span
+                        class="pi pi-times p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Cancel
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
                      
-                    <!---->
-                    <span
-                      class="p-ink"
-                    />
-                  </button>
-                </div>
-              </form>
+                    <button
+                      class="p-button p-component"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </span>
             </div>
           </div>
         </div>
@@ -2245,164 +2265,168 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
               role="tabpanel"
             >
               <div>
-                <form
-                  class="p-fluid lck-color-content p-text-bold"
+                <span
+                  class="lck-color-content p-text-bold"
                 >
-                  <div
-                    class="p-field"
+                  <form
+                    class="p-fluid"
                   >
-                    <label
-                      for="container-name"
+                    <div
+                      class="p-field"
                     >
-                      
+                      <label
+                        for="container-name"
+                      >
+                        
         Container title
       
-                    </label>
+                      </label>
+                       
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="container-name"
+                        required="required"
+                        type="text"
+                      />
+                    </div>
                      
-                    <input
-                      class="p-inputtext p-component p-filled"
-                      id="container-name"
-                      required="required"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-display_title"
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-display_title"
+                      >
+                        
         Display title
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-display_title"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-display_title"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-elevation"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-elevation"
+                      >
+                        
         Elevation
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-elevation"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-elevation"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-displayed_in_navbar"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-displayed_in_navbar"
+                      >
+                        
         Navigation enabled
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-displayed_in_navbar"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-displayed_in_navbar"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <!---->
-                   
-                  <div
-                    class="lck-form-footer"
-                  >
-                    <button
-                      class="p-button-text p-button-secondary p-button p-component"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-times p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                        Cancel
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
                      
-                    <button
-                      class="p-button p-component"
-                      type="submit"
+                    <!---->
+                     
+                    <div
+                      class="lck-form-footer"
                     >
-                      <span
-                        class="pi pi-save p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
                       >
-                        Save
-                      </span>
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
                        
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                  </div>
-                </form>
+                      <button
+                        class="p-button p-component"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </span>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -2690,164 +2714,168 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
               role="tabpanel"
             >
               <div>
-                <form
-                  class="p-fluid lck-color-content p-text-bold"
+                <span
+                  class="lck-color-content p-text-bold"
                 >
-                  <div
-                    class="p-field"
+                  <form
+                    class="p-fluid"
                   >
-                    <label
-                      for="container-name"
+                    <div
+                      class="p-field"
                     >
-                      
+                      <label
+                        for="container-name"
+                      >
+                        
         Container title
       
-                    </label>
+                      </label>
+                       
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="container-name"
+                        required="required"
+                        type="text"
+                      />
+                    </div>
                      
-                    <input
-                      class="p-inputtext p-component p-filled"
-                      id="container-name"
-                      required="required"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-display_title"
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-display_title"
+                      >
+                        
         Display title
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-display_title"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-display_title"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-elevation"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-elevation"
+                      >
+                        
         Elevation
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-elevation"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-elevation"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <div
-                    class="p-field p-d-flex p-flex-column"
-                  >
-                    <label
-                      for="container-displayed_in_navbar"
+                     
+                    <div
+                      class="p-field p-d-flex p-flex-column"
                     >
-                      
+                      <label
+                        for="container-displayed_in_navbar"
+                      >
+                        
         Navigation enabled
       
-                    </label>
-                     
-                    <div
-                      class="p-inputswitch p-component"
-                      id="container-displayed_in_navbar"
-                    >
+                      </label>
+                       
                       <div
-                        class="p-hidden-accessible"
+                        class="p-inputswitch p-component"
+                        id="container-displayed_in_navbar"
                       >
-                        <input
-                          role="switch"
-                          type="checkbox"
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            role="switch"
+                            type="checkbox"
+                          />
+                        </div>
+                         
+                        <span
+                          class="p-inputswitch-slider"
                         />
                       </div>
-                       
-                      <span
-                        class="p-inputswitch-slider"
-                      />
                     </div>
-                  </div>
-                   
-                  <!---->
-                   
-                  <div
-                    class="lck-form-footer"
-                  >
-                    <button
-                      class="p-button-text p-button-secondary p-button p-component"
-                      type="button"
-                    >
-                      <span
-                        class="pi pi-times p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
-                      >
-                        Cancel
-                      </span>
-                       
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
                      
-                    <button
-                      class="p-button p-component"
-                      type="submit"
+                    <!---->
+                     
+                    <div
+                      class="lck-form-footer"
                     >
-                      <span
-                        class="pi pi-save p-button-icon p-button-icon-left"
-                      />
-                       
-                      <span
-                        class="p-button-label"
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
                       >
-                        Save
-                      </span>
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
                        
-                      <!---->
-                      <span
-                        class="p-ink"
-                      />
-                    </button>
-                  </div>
-                </form>
+                      <button
+                        class="p-button p-component"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </span>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"

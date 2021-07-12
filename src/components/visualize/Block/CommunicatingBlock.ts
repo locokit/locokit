@@ -25,14 +25,14 @@ export default Vue.extend({
     // Listen all the defined events
     for (const [triggerBlockId, caughtEvents] of Object.entries(this.settings.caughtEvents)) {
       const onEventFunction = (eventData: EmittedBlockEvent) => {
-        caughtEvents.map(event => {
+        caughtEvents.map((event, index) => {
           // Execute the right functions depending of the configuration
           switch (event.type) {
             case 'select':
-              this.onSelectBlockEvent(event.targetField, eventData, triggerBlockId)
+              this.onSelectBlockEvent(event.targetField, eventData, triggerBlockId, index)
               break
             case 'reset':
-              this.onResetBlockEvent(event.targetField, triggerBlockId)
+              this.onResetBlockEvent(event.targetField, triggerBlockId, index)
               break
           }
         })
@@ -56,10 +56,10 @@ export default Vue.extend({
     },
     // These methods must be defined in the sub classes if we want to use the related events
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string) {
+    onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string, catchEventIndex: number) {
       this.eventBlockNotImplemented()
     },
-    onResetBlockEvent (columnId: string | undefined, triggerBlockId: string) {
+    onResetBlockEvent (columnId: string | undefined, triggerBlockId: string, catchEventIndex: number) {
       this.eventBlockNotImplemented()
     },
     /* eslint-enable @typescript-eslint/no-unused-vars */

@@ -92,6 +92,12 @@ export class LckTableColumn extends LckBaseModel {
     };
     map_sources?: MapSourceSettings[];
   };
+
+  validation?: {
+    minDate?: {
+      fromDate: string;
+    };
+  }
 }
 
 export class LckTableViewColumn extends LckTableColumn {

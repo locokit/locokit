@@ -4,298 +4,300 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1031;"
-    >
+  <span>
+    <form>
       <div
-        aria-labelledby="pv_id_37_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1032;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1031;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_37_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1032;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_37_header"
+          <div
+            class="p-dialog-header"
           >
-            Create a new page
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_37_header"
+            >
+              Create a new page
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
+            <div
+              class="p-field"
+            >
+              <label
+                for="pageTextField"
+              >
+                Page Name
+              </label>
+               
+              <input
+                autofocus="autofocus"
+                class="p-inputtext p-component"
+                id="pageTextField"
+                required="required"
+              />
+            </div>
              
+            <fieldset
+              class="p-field"
+            >
+              <legend>
+                Layout
+              </legend>
+               
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="classic"
+                      name="classic"
+                      type="radio"
+                      value="classic"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="classic"
+                >
+                  Mise en page classique
+                </label>
+                 
+                <img
+                  alt=""
+                  src="classic-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="center"
+                      name="center"
+                      type="radio"
+                      value="center"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="center"
+                >
+                  Mise en page centrée
+                </label>
+                 
+                <img
+                  alt=""
+                  src="centered-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="flex"
+                      name="flex"
+                      type="radio"
+                      value="flex"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="flex"
+                >
+                  Mise en page flexible
+                </label>
+                 
+                <img
+                  alt=""
+                  src="flex-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="full"
+                      name="full"
+                      type="radio"
+                      value="full"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="full"
+                >
+                  Mise en page pleine
+                </label>
+                 
+                <img
+                  alt=""
+                  src="full-layout"
+                />
+              </div>
+            </fieldset>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="PageHiddenField"
+              >
+                Hide the page
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="PageHiddenField"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="pageTextField"
-            >
-              Page Name
-            </label>
-             
-            <input
-              autofocus="autofocus"
-              class="p-inputtext p-component"
-              id="pageTextField"
-              required="required"
-            />
-          </div>
-           
-          <fieldset
-            class="p-field"
-          >
-            <legend>
-              Layout
-            </legend>
-             
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="classic"
-                    name="classic"
-                    type="radio"
-                    value="classic"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="classic"
-              >
-                Mise en page classique
-              </label>
-               
-              <img
-                alt=""
-                src="classic-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="center"
-                    name="center"
-                    type="radio"
-                    value="center"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="center"
-              >
-                Mise en page centrée
-              </label>
-               
-              <img
-                alt=""
-                src="centered-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="flex"
-                    name="flex"
-                    type="radio"
-                    value="flex"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="flex"
-              >
-                Mise en page flexible
-              </label>
-               
-              <img
-                alt=""
-                src="flex-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="full"
-                    name="full"
-                    type="radio"
-                    value="full"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="full"
-              >
-                Mise en page pleine
-              </label>
-               
-              <img
-                alt=""
-                src="full-layout"
-              />
-            </div>
-          </fieldset>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="PageHiddenField"
-            >
-              Hide the page
-            </label>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="PageHiddenField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;
 
@@ -303,298 +305,300 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1032;"
-    >
+  <span>
+    <form>
       <div
-        aria-labelledby="pv_id_38_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1033;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1032;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_38_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1033;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_38_header"
+          <div
+            class="p-dialog-header"
           >
-            Edit a page
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_38_header"
+            >
+              Edit a page
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
+            <div
+              class="p-field"
+            >
+              <label
+                for="pageTextField"
+              >
+                Page Name
+              </label>
+               
+              <input
+                autofocus="autofocus"
+                class="p-inputtext p-component p-filled"
+                id="pageTextField"
+                required="required"
+              />
+            </div>
              
+            <fieldset
+              class="p-field"
+            >
+              <legend>
+                Layout
+              </legend>
+               
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="classic"
+                      name="classic"
+                      type="radio"
+                      value="classic"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="classic"
+                >
+                  Mise en page classique
+                </label>
+                 
+                <img
+                  alt=""
+                  src="classic-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="center"
+                      name="center"
+                      type="radio"
+                      value="center"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="center"
+                >
+                  Mise en page centrée
+                </label>
+                 
+                <img
+                  alt=""
+                  src="centered-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="flex"
+                      name="flex"
+                      type="radio"
+                      value="flex"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="flex"
+                >
+                  Mise en page flexible
+                </label>
+                 
+                <img
+                  alt=""
+                  src="flex-layout"
+                />
+              </div>
+              <div>
+                <div
+                  class="p-radiobutton p-component"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      id="full"
+                      name="full"
+                      type="radio"
+                      value="full"
+                    />
+                  </div>
+                   
+                  <div
+                    class="p-radiobutton-box"
+                    role="radio"
+                  >
+                    <div
+                      class="p-radiobutton-icon"
+                    />
+                  </div>
+                </div>
+                 
+                <label
+                  for="full"
+                >
+                  Mise en page pleine
+                </label>
+                 
+                <img
+                  alt=""
+                  src="full-layout"
+                />
+              </div>
+            </fieldset>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="PageHiddenField"
+              >
+                Hide the page
+              </label>
+               
+              <div
+                class="p-inputswitch p-component p-inputswitch-checked"
+                id="PageHiddenField"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    aria-checked="true"
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="pageTextField"
-            >
-              Page Name
-            </label>
-             
-            <input
-              autofocus="autofocus"
-              class="p-inputtext p-component p-filled"
-              id="pageTextField"
-              required="required"
-            />
-          </div>
-           
-          <fieldset
-            class="p-field"
-          >
-            <legend>
-              Layout
-            </legend>
-             
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="classic"
-                    name="classic"
-                    type="radio"
-                    value="classic"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="classic"
-              >
-                Mise en page classique
-              </label>
-               
-              <img
-                alt=""
-                src="classic-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="center"
-                    name="center"
-                    type="radio"
-                    value="center"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="center"
-              >
-                Mise en page centrée
-              </label>
-               
-              <img
-                alt=""
-                src="centered-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="flex"
-                    name="flex"
-                    type="radio"
-                    value="flex"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="flex"
-              >
-                Mise en page flexible
-              </label>
-               
-              <img
-                alt=""
-                src="flex-layout"
-              />
-            </div>
-            <div>
-              <div
-                class="p-radiobutton p-component"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    id="full"
-                    name="full"
-                    type="radio"
-                    value="full"
-                  />
-                </div>
-                 
-                <div
-                  class="p-radiobutton-box"
-                  role="radio"
-                >
-                  <div
-                    class="p-radiobutton-icon"
-                  />
-                </div>
-              </div>
-               
-              <label
-                for="full"
-              >
-                Mise en page pleine
-              </label>
-               
-              <img
-                alt=""
-                src="full-layout"
-              />
-            </div>
-          </fieldset>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="PageHiddenField"
-            >
-              Hide the page
-            </label>
-             
-            <div
-              class="p-inputswitch p-component p-inputswitch-checked"
-              id="PageHiddenField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  aria-checked="true"
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;

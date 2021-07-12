@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
-import GeometryType from 'ol/geom/GeometryType'
 
 import { LckTableRow, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
 
 import {
-  geometryTypeFromColumnType,
+  convertToValidGeometry,
   GEO_STYLE,
   getEditableGeometryTypes,
   getLckGeoResources,
@@ -18,6 +17,14 @@ import {
   mapDefaultStyle,
   transformFeatureToWKT,
 } from './transformWithOL'
+import Point from 'ol/geom/Point'
+import Feature from 'ol/Feature'
+import GeometryType from 'ol/geom/GeometryType'
+import MultiPoint from 'ol/geom/MultiPoint'
+import MultiPolygon from 'ol/geom/MultiPolygon'
+import Polygon from 'ol/geom/Polygon'
+import MultiLineString from 'ol/geom/MultiLineString'
+import LineString from 'ol/geom/LineString'
 
 // Visualization part
 // Page
@@ -209,8 +216,20 @@ describe('Transformations with OpenLayers', () => {
         },
         properties: {},
       }
-      expect(transformFeatureToWKT(geoJSONFeature, '3857'))
+      expect(transformFeatureToWKT(geoJSONFeature, undefined, '3857'))
         .toMatch(/^SRID=3857;POINT\(1113194.9[0-9]* 2273030.9[0-9]*\)$/) // Regex to take into account the roundings
+    })
+    it('returns the eWKT value related to a single GeoJSON feature with the specified srid and target column type id', () => {
+      const geoJSONFeature: GeoJSONFeature = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [10, 20],
+        },
+        properties: {},
+      }
+      expect(transformFeatureToWKT(geoJSONFeature, COLUMN_TYPE.GEOMETRY_MULTIPOINT, '3857'))
+        .toMatch(/^SRID=3857;MULTIPOINT\(\(1113194.9[0-9]* 2273030.9[0-9]*\)\)$/) // Regex to take into account the roundings
     })
     it('returns the eWKT value related to a GeoJSON features collection', () => {
       const geoJSONFeature: GeoJSONFeature = {
@@ -247,25 +266,62 @@ describe('Transformations with OpenLayers', () => {
     })
   })
 
-  describe('geometryTypeFromColumnType', () => {
-    it('Returns the geometry type point for a geometry point column', () => {
-      expect(geometryTypeFromColumnType(COLUMN_TYPE.GEOMETRY_POINT))
-        .toBe(GeometryType.POINT)
+  describe('convertToValidGeometry', () => {
+    it('Keep the same geometry if it is a point for a GEOMETRY_POINT column', () => {
+      const feature = new Feature<Point>(new Point([10, 20]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_POINT)
+      const newGeometry = feature.getGeometry() as Point
+      expect(newGeometry?.getType()).toEqual(GeometryType.POINT)
+      expect((newGeometry as Point).getCoordinates()).toEqual([10, 20])
     })
-    it('Returns the geometry type linestring for a geometry linestring column', () => {
-      expect(geometryTypeFromColumnType(COLUMN_TYPE.GEOMETRY_LINESTRING))
-        .toBe(GeometryType.LINE_STRING)
+    it('Keep the same geometry if it is a multi-point for a GEOMETRY_MULTIPOINT column', () => {
+      const feature = new Feature<MultiPoint>(new MultiPoint([[10, 20], [30, 40]]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTIPOINT)
+      const newGeometry = feature.getGeometry() as MultiPoint
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_POINT)
+      expect(newGeometry.getCoordinates()).toEqual([[10, 20], [30, 40]])
     })
-    it('Returns the geometry type polygon for a geometry polygon column', () => {
-      expect(geometryTypeFromColumnType(COLUMN_TYPE.GEOMETRY_POLYGON))
-        .toBe(GeometryType.POLYGON)
+    it('Change the geometry if it is a point for a GEOMETRY_MULTIPOINT column', () => {
+      const feature = new Feature<Point>(new Point([10, 20]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTIPOINT)
+      const newGeometry = feature.getGeometry() as unknown as MultiPoint
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_POINT)
+      expect(newGeometry.getCoordinates()).toEqual([[10, 20]])
     })
-    it('Returns null for a non geometry column', () => {
-      expect(geometryTypeFromColumnType(COLUMN_TYPE.STRING))
-        .toBeNull()
+    it('Keep the same geometry if it is a multi-polygon for a GEOMETRY_MULTIPOLYGON column', () => {
+      const feature = new Feature<MultiPolygon>(new MultiPolygon([[[[10, 20]], [[30, 40]]]]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON)
+      const newGeometry = feature.getGeometry() as MultiPolygon
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_POLYGON)
+      expect(newGeometry.getCoordinates()).toEqual([[[[10, 20]], [[30, 40]]]])
+    })
+    it('Change the geometry if it is a polygon for a GEOMETRY_MULTIPOLYGON column', () => {
+      const feature = new Feature<Polygon>(new Polygon([[[10, 20]], [[30, 40]]]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON)
+      const newGeometry = feature.getGeometry() as unknown as MultiPolygon
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_POLYGON)
+      expect(newGeometry.getCoordinates()).toEqual([[[[10, 20]], [[30, 40]]]])
+    })
+    it('Keep the same geometry if it is a multi-linestring for a GEOMETRY_MULTILINESTRING column', () => {
+      const feature = new Feature<MultiLineString>(new MultiLineString([[[10, 20], [30, 40]]]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTILINESTRING)
+      const newGeometry = feature.getGeometry() as MultiLineString
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_LINE_STRING)
+      expect(newGeometry.getCoordinates()).toEqual([[[10, 20], [30, 40]]])
+    })
+    it('Change the geometry if it is a linestring for a GEOMETRY_MULTILINESTRING column', () => {
+      const feature = new Feature<LineString>(new LineString([[10, 20], [30, 40]]))
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_MULTILINESTRING)
+      const newGeometry = feature.getGeometry() as unknown as MultiLineString
+      expect(newGeometry.getType()).toEqual(GeometryType.MULTI_LINE_STRING)
+      expect(newGeometry.getCoordinates()).toEqual([[[10, 20], [30, 40]]])
+    })
+    it('Do not change anything if the feature has no geometry', () => {
+      const feature = new Feature()
+      convertToValidGeometry(feature, COLUMN_TYPE.GEOMETRY_POINT)
+      expect(feature.getGeometry()).toBeUndefined()
     })
   })
-
   describe('getOnlyGeoColumns', () => {
     it('Returns all the geographic columns of the table view if no column id is specified in the map source settings', () => {
       const mapSourceSettings = {
@@ -456,7 +512,7 @@ describe('Transformations with OpenLayers', () => {
     it('Return the OL geometry types related to the geographic editable columns', () => {
       const editableGeometryTypes = getEditableGeometryTypes(allColumns)
       expect(editableGeometryTypes.size).toBe(1)
-      expect(editableGeometryTypes.has(GeometryType.POLYGON))
+      expect(editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON))
     })
   })
   describe('getLckGeoResources', () => {
@@ -528,7 +584,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].popupMode).toBeNull()
       expect(resources[0].pageDetailId).toBeFalsy()
       expect(resources[0].editableGeometryTypes.size).toBe(1)
-      expect(resources[0].editableGeometryTypes.has(GeometryType.POLYGON)).toBe(true)
+      expect(resources[0].editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)).toBe(true)
       expect(resources[0].selectable).toBe(false)
       expect(resources[0].layers).toContainEqual({
         ...GEO_STYLE.Point,

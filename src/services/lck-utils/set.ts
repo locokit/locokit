@@ -11,7 +11,16 @@ export const mergeSets = (setToAdd: Set<unknown>, destinationSet: Set<unknown>):
   return destinationSet
 }
 
+export const setHasValues = (set: Set<unknown>, values: unknown[]) => {
+  // Check that a set contains several values
+  for (const value of values) {
+    if (set.has(value)) return true
+  }
+  return false
+}
+
 export default {
   setsAreEqual,
   mergeSets,
+  setHasValues,
 }

@@ -24,6 +24,18 @@ class ResizeObserver {
 
 window.ResizeObserver = ResizeObserver
 
+const defaultWrapperParams = {
+  mocks: {
+    t: key => key,
+    $t: key => key,
+    $toast: {
+      add: jest.fn(),
+    },
+  },
+}
+
+jest.mock('vue-i18n')
+
 jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({
     addControl: jest.fn(),
@@ -122,6 +134,8 @@ const mockMapSetBlock = {
         {
           type: 'select',
           targetField: 'geo_column',
+          centerToFeature: true,
+          zoomLevel: 10,
         },
         {
           type: 'select',
@@ -476,10 +490,8 @@ describe('Communicating block', () => {
           content: mockTable1GeoContent,
           id: 'b1',
         },
-        mocks: {
-          t: key => key,
-          $t: key => key,
-        },
+        ...defaultWrapperParams,
+        stubs: ['lck-map'],
       })
       spyOnEmitEventHub.mockClear()
     })
@@ -545,10 +557,7 @@ describe('Communicating block', () => {
             'update-suggestions': () => ({}),
             'upload-files': () => ({}),
           },
-          mocks: {
-            t: key => key,
-            $t: key => key,
-          },
+          ...defaultWrapperParams,
         })
       })
       it('Check that we can send the selected row from MapSet', () => {
@@ -588,7 +597,11 @@ describe('Communicating block', () => {
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
-          .toBe('t1r1:geo_column')
+          .toEqual({
+            feature: mapSetWrapper.vm.resources[0].features[0],
+            centerToFeature: true,
+            zoomLevel: 10,
+          })
       })
       it('Check that we can reset the selected field if a null reference is specified', () => {
         formRecordWrapper.vm.onUpdateRow({
@@ -703,7 +716,11 @@ describe('Communicating block', () => {
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
-          .toBe('t1r1:geo_column')
+          .toEqual({
+            feature: mapSetWrapper.vm.resources[0].features[0],
+            centerToFeature: true,
+            zoomLevel: 10,
+          })
       })
       it('Check that we can send the updated field with only the reference to MapSet', () => {
         dataRecordWrapper.vm.onUpdateRow({
@@ -717,7 +734,11 @@ describe('Communicating block', () => {
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
-          .toBe('t1r1:geo_column')
+          .toEqual({
+            feature: mapSetWrapper.vm.resources[0].features[0],
+            centerToFeature: true,
+            zoomLevel: 10,
+          })
       })
       it('Check that we can send the updated field with only the reference to MapSet at loading', async () => {
         // Simulate that all the blocs are loaded in the page
@@ -734,7 +755,11 @@ describe('Communicating block', () => {
         })
         // Check that the event is received inside the MapSet block
         expect(mapSetWrapper.vm.selectedFeatureBySource[mapSetWrapper.vm.resources[0].id])
-          .toBe('t1r2:geo_column')
+          .toEqual({
+            feature: mapSetWrapper.vm.resources[0].features[1],
+            centerToFeature: true,
+            zoomLevel: 10,
+          })
       })
     })
     describe('With Paragraph', () => {
@@ -802,12 +827,3 @@ describe('Communicating block', () => {
     })
   })
 })
-// Map to Form record
-
-// Form record to Map
-
-// Map to detail record
-
-// Detail record to map
-
-// Map to paragraph

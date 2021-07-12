@@ -5,164 +5,168 @@ exports[`storyshots components/visualize/UpdateContainerForm New Block Story 1`]
   style="height: 100%;"
 >
   <div>
-    <form
-      class="p-fluid lck-color-content p-text-bold"
+    <span
+      class="lck-color-content p-text-bold"
     >
-      <div
-        class="p-field"
+      <form
+        class="p-fluid"
       >
-        <label
-          for="container-name"
+        <div
+          class="p-field"
         >
-          
+          <label
+            for="container-name"
+          >
+            
         Container title
       
-        </label>
+          </label>
+           
+          <input
+            class="p-inputtext p-component"
+            id="container-name"
+            required="required"
+            type="text"
+          />
+        </div>
          
-        <input
-          class="p-inputtext p-component"
-          id="container-name"
-          required="required"
-          type="text"
-        />
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="container-display_title"
+        <div
+          class="p-field p-d-flex p-flex-column"
         >
-          
+          <label
+            for="container-display_title"
+          >
+            
         Display title
       
-        </label>
-         
-        <div
-          class="p-inputswitch p-component"
-          id="container-display_title"
-        >
+          </label>
+           
           <div
-            class="p-hidden-accessible"
+            class="p-inputswitch p-component"
+            id="container-display_title"
           >
-            <input
-              role="switch"
-              type="checkbox"
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
             />
           </div>
-           
-          <span
-            class="p-inputswitch-slider"
-          />
         </div>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="container-elevation"
+         
+        <div
+          class="p-field p-d-flex p-flex-column"
         >
-          
+          <label
+            for="container-elevation"
+          >
+            
         Elevation
       
-        </label>
-         
-        <div
-          class="p-inputswitch p-component"
-          id="container-elevation"
-        >
+          </label>
+           
           <div
-            class="p-hidden-accessible"
+            class="p-inputswitch p-component"
+            id="container-elevation"
           >
-            <input
-              role="switch"
-              type="checkbox"
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
             />
           </div>
-           
-          <span
-            class="p-inputswitch-slider"
-          />
         </div>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="container-displayed_in_navbar"
+         
+        <div
+          class="p-field p-d-flex p-flex-column"
         >
-          
+          <label
+            for="container-displayed_in_navbar"
+          >
+            
         Navigation enabled
       
-        </label>
-         
-        <div
-          class="p-inputswitch p-component"
-          id="container-displayed_in_navbar"
-        >
+          </label>
+           
           <div
-            class="p-hidden-accessible"
+            class="p-inputswitch p-component"
+            id="container-displayed_in_navbar"
           >
-            <input
-              role="switch"
-              type="checkbox"
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
             />
           </div>
-           
-          <span
-            class="p-inputswitch-slider"
-          />
         </div>
-      </div>
-       
-      <!---->
-       
-      <div
-        class="lck-form-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
          
-        <button
-          class="p-button p-component"
-          type="submit"
+        <!---->
+         
+        <div
+          class="lck-form-footer"
         >
-          <span
-            class="pi pi-save p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
+          <button
+            class="p-button-text p-button-secondary p-button p-component"
+            type="button"
           >
-            Save
-          </span>
+            <span
+              class="pi pi-times p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Cancel
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
            
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
-    </form>
+          <button
+            class="p-button p-component"
+            type="submit"
+          >
+            <span
+              class="pi pi-save p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Save
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+      </form>
+    </span>
      
     <!---->
   </div>
