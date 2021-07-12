@@ -110,10 +110,10 @@ export default Vue.extend({
       return this.settings.addAllowed === true
     },
     addButtonTitle (): string {
-      return (this.settings as {addButtonTitle?: string}).addButtonTitle as string || this.$i18n.t('form.add') as string
+      return (this.settings as {addButtonTitle?: string}).addButtonTitle as string || this.$t('form.add') as string
     },
     addDialogHeader (): string {
-      return (this.settings as {addButtonTitle?: string}).addButtonTitle as string || this.$i18n.t('components.datatable.addNewRow') as string
+      return (this.settings as {addButtonTitle?: string}).addButtonTitle as string || this.$t('components.datatable.addNewRow') as string
     },
     mapSourcesIds (): string[] {
       return this.settings.sources.map(source => source.id)

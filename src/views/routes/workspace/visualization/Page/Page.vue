@@ -458,6 +458,7 @@ export default {
 
         lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
+        currentRow.text = res.text
       } catch (error) {
         this.cellState.isValid = false
       }

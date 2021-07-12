@@ -1752,7 +1752,7 @@ describe('Page', () => {
     })
   })
 
-  describe('Create new records (blocks Set)', () => {
+/*  describe('Create new records (blocks Set)', () => {
     describe('by displaying a dialog with selected fields', async () => {
 
     })
@@ -1768,5 +1768,5 @@ describe('Page', () => {
     describe('even if block is a MapSet, with the right definition', async () => {
 
     })
-  })
+  })*/
 })
