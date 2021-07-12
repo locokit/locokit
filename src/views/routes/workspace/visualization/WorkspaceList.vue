@@ -170,7 +170,7 @@ export default {
           severity: 'success',
           summary: this.$t('pages.workspace.form.createdSummary'),
           detail: this.$t('pages.workspace.form.createdDetail'),
-          life: 3000,
+          life: 5000,
         })
         this.newWorkspace = {
           text: '',
@@ -182,7 +182,7 @@ export default {
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
           detail: this.$t('error.lck.' + error.data.code),
-          life: 3000,
+          life: 5000,
         })
       }
     },

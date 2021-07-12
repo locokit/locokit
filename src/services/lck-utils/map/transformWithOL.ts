@@ -6,6 +6,12 @@ import GeoJSON, {
 } from 'ol/format/GeoJSON'
 import GeometryType from 'ol/geom/GeometryType'
 import Geometry from 'ol/geom/Geometry'
+import LineString from 'ol/geom/LineString'
+import MultiLineString from 'ol/geom/MultiLineString'
+import MultiPoint from 'ol/geom/MultiPoint'
+import MultiPolygon from 'ol/geom/MultiPolygon'
+import Point from 'ol/geom/Point'
+import Polygon from 'ol/geom/Polygon'
 
 import {
   CircleLayer,
@@ -76,7 +82,7 @@ export interface LckGeoResource {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
   layers: LckImplementedLayers[];
-  editableGeometryTypes: Set<GeometryType>;
+  editableGeometryTypes: Set<COLUMN_TYPE>;
   popupMode: MapPopupMode;
   triggerEvents?: MapSourceTriggerEvents;
   caughtEvents?: string[];
@@ -126,13 +132,47 @@ export const transformEWKTtoFeature = (ewkt: string): Feature<Geometry> => {
 }
 
 /**
+ * Convert a geometry of a feature to its right type if needed
+ * @param feature The original feature
+ * @param columnType The destination type
+ * @returns The original feature with this new geometry
+ */
+export const convertToValidGeometry = (feature: Feature<Geometry>, columnType: COLUMN_TYPE) => {
+  const geometry = feature.getGeometry()
+
+  if (!geometry) return feature
+
+  const geometryType = geometry.getType()
+
+  // Convert a simple geometry into a multiple one if necessary
+  switch (columnType) {
+    case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+      if (geometryType === GeometryType.POINT) {
+        feature.setGeometry(new MultiPoint([(geometry as Point).getCoordinates()]))
+      }
+      break
+    case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+      if (geometryType === GeometryType.LINE_STRING) {
+        feature.setGeometry(new MultiLineString([(geometry as LineString).getCoordinates()]))
+      }
+      break
+    case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
+      if (geometryType === GeometryType.POLYGON) {
+        feature.setGeometry(new MultiPolygon([(geometry as Polygon).getCoordinates()]))
+      }
+      break
+  }
+  return feature
+}
+
+/**
  * Convert a Geojson OL feature into ewkt
  */
-export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, srid = '4326'): string | null => {
+export const transformFeatureToWKT = (geoJSONFeature: GeoJSONFeature, columnType?: COLUMN_TYPE, srid = '4326'): string | null => {
   // Transform geoJSON to OL Feature
   const geoJSONformat = new GeoJSON()
   const feature = geoJSONformat.readFeature(geoJSONFeature)
-
+  if (columnType) convertToValidGeometry(feature, columnType)
   // Transform OL Feature to WKT
   const wktFormat = new WKT()
   return `SRID=${srid};${wktFormat.writeFeature(feature, {
@@ -349,18 +389,6 @@ export const isGeoBlock = (blockType: BLOCK_TYPE) => {
   return [BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockType)
 }
 
-export const geometryTypeFromColumnType = (columnTypeId: COLUMN_TYPE) => {
-  switch (columnTypeId) {
-    case COLUMN_TYPE.GEOMETRY_POINT:
-      return GeometryType.POINT
-    case COLUMN_TYPE.GEOMETRY_LINESTRING:
-      return GeometryType.LINE_STRING
-    case COLUMN_TYPE.GEOMETRY_POLYGON:
-      return GeometryType.POLYGON
-  }
-  return null
-}
-
 /**
  * Get geo columns
  *  Two possible scenarios:
@@ -433,9 +461,10 @@ export function makeGeoJsonFeaturesCollection (
       if (data) {
         const feature = transformEWKTtoFeature(data)
         if (source) {
-          feature.setId(`${row.id}:${geoColumn.id}`)
+          const featureId = `${row.id}:${geoColumn.id}`
+          feature.setId(featureId)
           const featureProperties: LckFeaturePropertiesWithData = {
-            id: `${row.id}:${geoColumn.id}`,
+            id: featureId,
             columnId: geoColumn.id,
             rowId: row.id,
           }
@@ -520,14 +549,13 @@ export function makeGeoJsonFeaturesCollection (
 }
 
 /**
- * Get the OL geometry types that can be editable from an array of columns
+ * Get the geometry types that can be editable from an array of columns
  */
-export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<GeometryType> {
-  const editableGeometryTypes: Set<GeometryType> = new Set()
+export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<COLUMN_TYPE> {
+  const editableGeometryTypes: Set<COLUMN_TYPE> = new Set()
   columns.forEach(column => {
     if (column.editable) {
-      const geometryType = geometryTypeFromColumnType(column.column_type_id)
-      if (geometryType) editableGeometryTypes.add(geometryType)
+      editableGeometryTypes.add(column.column_type_id)
     }
   })
   return editableGeometryTypes

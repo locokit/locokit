@@ -4,147 +4,149 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1008;"
-    >
+  <span>
+    <form>
       <div
-        aria-labelledby="pv_id_14_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1009;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1008;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_14_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1009;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_14_header"
+          <div
+            class="p-dialog-header"
           >
-            Create a new view
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_14_header"
+            >
+              Create a new view
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
+            <div
+              class="p-field"
+            >
+              <label
+                for="viewTextField"
+              >
+                
+      Name
+              </label>
+               
+              <input
+                class="p-inputtext p-component"
+                id="viewTextField"
+              />
+            </div>
              
+            <div
+              class="p-field"
+            >
+              <label
+                for="viewLockedField"
+              >
+                
+      Locked
+              </label>
+               
+              <div
+                class="p-button p-togglebutton p-component"
+                id="viewLockedField"
+                role="checkbox"
+                tabindex="0"
+              >
+                <span
+                  class="pi pi-unlock p-button-icon p-button-icon-right"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Unlocked
+                </span>
+                <span
+                  class="p-ink"
+                />
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="viewTextField"
-            >
-              
-      Name
-            </label>
-             
-            <input
-              class="p-inputtext p-component"
-              id="viewTextField"
-            />
-          </div>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="viewLockedField"
-            >
-              
-      Locked
-            </label>
-             
-            <div
-              class="p-button p-togglebutton p-component"
-              id="viewLockedField"
-              role="checkbox"
-              tabindex="0"
-            >
-              <span
-                class="pi pi-unlock p-button-icon p-button-icon-right"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Unlocked
-              </span>
-              <span
-                class="p-ink"
-              />
-            </div>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;
 
@@ -152,146 +154,148 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1009;"
-    >
+  <span>
+    <form>
       <div
-        aria-labelledby="pv_id_15_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1010;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1009;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_15_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1010;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_15_header"
+          <div
+            class="p-dialog-header"
           >
-            Edit the view
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_15_header"
+            >
+              Edit the view
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
+            <div
+              class="p-field"
+            >
+              <label
+                for="viewTextField"
+              >
+                
+      Name
+              </label>
+               
+              <input
+                class="p-inputtext p-component p-filled"
+                id="viewTextField"
+              />
+            </div>
              
+            <div
+              class="p-field"
+            >
+              <label
+                for="viewLockedField"
+              >
+                
+      Locked
+              </label>
+               
+              <div
+                class="p-button p-togglebutton p-component"
+                id="viewLockedField"
+                role="checkbox"
+                tabindex="0"
+              >
+                <span
+                  class="pi pi-unlock p-button-icon p-button-icon-right"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Unlocked
+                </span>
+                <span
+                  class="p-ink"
+                />
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="viewTextField"
-            >
-              
-      Name
-            </label>
-             
-            <input
-              class="p-inputtext p-component p-filled"
-              id="viewTextField"
-            />
-          </div>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="viewLockedField"
-            >
-              
-      Locked
-            </label>
-             
-            <div
-              class="p-button p-togglebutton p-component"
-              id="viewLockedField"
-              role="checkbox"
-              tabindex="0"
-            >
-              <span
-                class="pi pi-unlock p-button-icon p-button-icon-right"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Unlocked
-              </span>
-              <span
-                class="p-ink"
-              />
-            </div>
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;
