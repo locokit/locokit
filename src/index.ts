@@ -265,6 +265,8 @@ export interface MapCaughtBlockEvent extends CaughtBlockEvent {
 }
 
 export interface MapSettings extends CommunicatingBlockSettings<'', MapCaughtBlockEvent> {
+  addAllowed?: boolean;
+  addSourceId?: string; // uuid of the table view to use when creating new record
   sources: MapSourceSettings[];
 }
 
