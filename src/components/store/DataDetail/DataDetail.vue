@@ -20,6 +20,7 @@
         :vid="column.id"
         :rules="column.validation"
         :name="column.text"
+        :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
           errors,
           classes
@@ -303,6 +304,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
+import { ValidationResult } from 'vee-validate/dist/types/types'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
@@ -474,6 +476,13 @@ export default {
       )
     },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
+      const ref = `vp_${rowId}_${columnId}`
+      let provider = this.$refs[ref]
+      if (Array.isArray(provider)) {
+        provider = provider[0]
+      }
+      /* eslint-disable-next-line */
+      (provider as Vue & { validate: (...args: any[]) => Promise<ValidationResult> }).validate(value)
       this.$emit('update-row', {
         rowId,
         columnId,
