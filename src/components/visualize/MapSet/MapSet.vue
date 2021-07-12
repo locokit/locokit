@@ -26,6 +26,7 @@ import {
 import CommunicatingBlock from '../Block/CommunicatingBlock'
 import { MapboxGeoJSONFeature } from 'mapbox-gl'
 import eventHub from '@/services/lck-event-hub/eventHub'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 // Dynamic import
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
@@ -38,8 +39,11 @@ export default Vue.extend({
   mixins: [CommunicatingBlock],
   data () {
     return {
-      selectedFeatureBySource: {
-      } as Record<string, string>,
+      selectedFeatureBySource: {} as Record<string, {
+        feature: GeoJSONFeature;
+        centerToFeature?: boolean;
+        zoomLevel?: number;
+      } | null>,
     }
   },
   props: {
@@ -115,14 +119,19 @@ export default Vue.extend({
         })
       }
     },
-    onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string) {
+    onSelectBlockEvent (columnId: string | undefined, eventData: EmittedBlockEvent, triggerBlockId: string, catchEventIndex: number) {
       // Catch an event coming from another block : must receive a row reference to select the related feature
       if (columnId) {
         const reference: LckTableRowData | undefined = (eventData.originalValue as LckTableRowDataComplex)?.reference || eventData.originalValue
         if (!reference) return this.onResetBlockEvent(columnId, triggerBlockId)
         const geoResources = this.resources.filter(r => r.caughtEvents?.includes(triggerBlockId))
         geoResources.forEach(geoResource => {
-          this.$set(this.selectedFeatureBySource, geoResource.id, `${reference}:${columnId}`)
+          const feature = geoResource.features.find(feature => feature.id === `${reference}:${columnId}`)
+          this.$set(this.selectedFeatureBySource, geoResource.id, {
+            feature,
+            centerToFeature: this.settings.caughtEvents?.[triggerBlockId][catchEventIndex].centerToFeature,
+            zoomLevel: this.settings.caughtEvents?.[triggerBlockId][catchEventIndex].zoomLevel,
+          })
         })
       }
     },
