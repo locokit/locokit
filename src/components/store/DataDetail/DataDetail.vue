@@ -150,6 +150,9 @@
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'"
             :id="'map-edit-detail-' + column.id"
             mode="Dialog"
+            :options="column.settings && column.settings.map_center ? {
+              ...column.settings.map_center
+            } : {}"
             :resources="getLckGeoResources(column, row.data[column.id])"
             :singleEditMode="true"
             @remove-features="onEdit(row.id, column.id, null)"

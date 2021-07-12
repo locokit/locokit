@@ -241,6 +241,28 @@ jest.mock('@/services/lck-utils/map/computeGeo', () => ({
 // Tests
 
 describe('Map component', () => {
+  describe('Map initialization', () => {
+    it('Pass some default bounds in dialog mode so we do not need to fit bounds later', () => {
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: mockResources,
+          mode: 'Dialog',
+        },
+        ...defaultWrapperParams,
+      })
+      expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
+    })
+    it('Do not pass some default bounds in block mode so we need to fit bounds later', () => {
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: mockResources,
+          mode: 'Block',
+        },
+        ...defaultWrapperParams,
+      })
+      expect(wrapper.vm.map.fitBounds).toHaveBeenCalled()
+    })
+  })
   describe('Methods', () => {
     describe('initDrawControls', () => {
       it('Initialize the right edition controls of the map in the single edit mode', () => {
