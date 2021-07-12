@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.3.1**
+
+**Feature**
+* add new settings `addAllowed` / `addSourceId` on `MapSettings` for creating records
+
 **v0.3.0**
 
 **Feature**
