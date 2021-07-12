@@ -1,4 +1,191 @@
-<template src="./Page.html">
+<template>
+<div
+    v-if="page"
+    class="p-mx-2"
+    :class="layoutPage"
+  >
+    <div
+      class="lck-page-content"
+      :style="{ marginRight: showUpdateSidebar ? editableSidebarWidth : 0 }"
+    >
+      <div
+        v-if="page.hidden"
+        class="lck-color-primary p-mb-4"
+      >
+        <p-breadcrumb
+          :home="{ icon: 'pi pi-home', to: '/' }"
+          :model="breadcrumb"
+        />
+      </div>
+
+      <div class="lck-color-primary p-my-4">
+        <h1>{{ page.text }}</h1>
+      </div>
+
+      <lck-nav-anchor-link
+        v-if="isNavBarAnchorLinkDisplayed || editMode"
+        :containers="page.containers"
+        :editMode="editMode"
+        @edit-nav="onNavAnchorLinkEditClick"
+      />
+
+      <draggable
+        :key="page.id"
+        v-model="page.containers"
+        handle=".handle"
+        @change="onContainerReorderClick"
+      >
+        <div
+          v-for="container in page.containers"
+          :id="container.id"
+          :key="container.id"
+          class="lck-container"
+          :class="{
+            'editable-container': editMode,
+            'lck-elevation': container.elevation
+          }"
+        >
+          <h2 v-if="container.display_title && !editMode" class="lck-color-title">{{ container.text }}</h2>
+          <div v-if="editMode" class="edit-container-line">
+            <h2 class="lck-color-title">{{ container.text }}</h2>
+            <span class="p-buttonset">
+              <p-button
+                :title="$t('pages.workspace.container.drag')"
+                class="p-button-lg p-button-text handle "
+                icon="pi pi-ellipsis-v"
+              />
+              <p-button
+                :title="$t('pages.workspace.container.edit')"
+                class="p-button-lg p-button-text edit-container-button"
+                icon="pi pi-pencil"
+                @click="onContainerEditClick(container)"
+              />
+              <p-button
+                :title="$t('pages.workspace.container.delete')"
+                class="p-button-lg p-button-text remove-container-button"
+                icon="pi pi-trash"
+                @click="onContainerDeleteClick(container)"
+              />
+            </span>
+          </div>
+          <draggable
+            :key="container.id"
+            v-model="container.blocks"
+            @change="onBlockReorderClick(container, $event)"
+            handle=".handle-block"
+          >
+            <template v-for="block in container.blocks">
+              <Block
+                :key="block.id"
+                v-if="editMode || isBlockDisplayed(block)"
+                class="lck-block"
+                :class="{
+                  'p-mb-4': !editMode,
+                }"
+                :block="block"
+                :content="getBlockContent(block)"
+                :definition="getBlockDefinition(block)"
+                :workspaceId="workspaceId"
+                :autocompleteSuggestions="autocompleteSuggestions"
+                :exporting="exporting"
+                :cellState="cellState"
+                :editMode="editMode"
+                v-on="$listeners"
+
+                @row-delete="onRowDelete(block, $event)"
+                @row-duplicate="onRowDuplicate(block, $event)"
+
+                @update-row="onUpdateCell(block, $event)"
+                @update-cell="onUpdateCell(block, $event)"
+                @update-content="onUpdateContentBlockTableView(block, $event)"
+                @update-suggestions="onUpdateSuggestions"
+                @sort="onSort(block, $event)"
+                @open-detail="onPageDetail(block, $event)"
+                @create-row="onCreateRow(block, $event)"
+                @export-view-csv="onExportViewCSV(block)"
+                @export-view-xls="onExportViewXLS(block)"
+                @update-filters="onUpdateFilters(block, $event)"
+                @update-block="onBlockEditClick(container, block)"
+                @delete-block="onBlockDeleteClick(container, block)"
+
+                @download-attachment="onDownloadAttachment"
+                @upload-files="onUploadFiles(block, $event)"
+                @remove-attachment="onRemoveAttachment(block, $event)"
+
+                @go-to-page-detail="goToPage"
+                @create-process-run="onTriggerProcess(block, $event)"
+
+                @update-features="onGeoDataEdit(block, $event)"
+                @remove-features="onGeoDataRemove(block, $event)"
+              />
+            </template>
+          </draggable>
+          <p-button
+            v-if="editMode"
+            :title="$t('pages.workspace.block.create')"
+            icon="pi pi-plus"
+            class="new-block-button p-button-text"
+            @click="onBlockEditClick(container, { id: 'temp' })"
+          />
+        </div>
+      </draggable>
+      <p-button
+        v-if="editMode"
+        :title="$t('pages.workspace.container.create')"
+        icon="pi pi-plus"
+        class="new-container-button p-button-text"
+        @click="onContainerEditClick({ id: 'temp' })"
+      />
+    </div>
+    <update-sidebar
+      :submitting="submitting"
+      :showSidebar="showUpdateSidebar"
+      :container="currentContainerToEdit"
+      :block="currentBlockToEdit"
+      :page="page"
+      :width="editableSidebarWidth"
+      :autocompleteSuggestions="editableAutocompleteSuggestions"
+      :blockDisplayTableViewSuggestions="blockDisplayTableViewSuggestions"
+      :blockDisplayFieldSuggestions="blockDisplayFieldSuggestions"
+      :relatedChapterPages="relatedChapterPages"
+      @update-container="onContainerEditInput"
+      @update-block="onBlockEditInput"
+
+      @add-new-block="onBlockEditClickFromSidebar"
+      @edit-block="onBlockEditClickFromSidebar"
+      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
+
+      @add-new-container="onContainerEditClickFromSidebar"
+      @edit-container="onContainerEditClickFromSidebar"
+      @delete-container="onContainerDeleteClick($event)"
+
+      @reset-current-block="onBlockEditClickFromSidebar"
+      @reset-current-container="onContainerEditClickFromSidebar"
+      @close="onCloseUpdateContainerSidebar"
+      @search-table-view="onSearchTableView"
+
+      @search-block-display-table-view="onSearchBlockDisplayTableView"
+      @search-block-display-field="onSearchBlockDisplayField"
+    />
+    <delete-confirmation-dialog
+      :submitting="submitting"
+      :visible="dialogVisibility.containerDelete"
+      :value="currentContainerToDelete"
+      :itemCategory="$t('pages.workspace.container.title')"
+      @close="onContainerDeleteClose"
+      @input="onContainerDeleteInput"
+    />
+    <delete-confirmation-dialog
+      :submitting="submitting"
+      :visible="dialogVisibility.blockDelete"
+      :value="currentBlockToDelete"
+      :itemCategory="$t('pages.workspace.block.title')"
+      fieldToDisplay="title"
+      @close="onBlockDeleteClose"
+      @input="onBlockDeleteInput"
+    />
+  </div>
+
 </template>
 
 <script>
@@ -1133,5 +1320,151 @@ export default {
 }
 </script>
 
-<style scoped src="./Page.css">
+<style scoped>
+
+.lck-page-content {
+  min-width: 20rem;
+  transition-duration: 0.3s;
+}
+
+.editable-container {
+  margin-bottom: 1rem;
+  border: 2px solid var(--surface-lck-2);
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
+  overflow: hidden;
+}
+
+.edit-container-line {
+  padding-left: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.edit-container-line .p-button {
+  color: var(--primary-color);
+  height: 100%;
+}
+
+.edit-container-line .p-buttonset {
+  flex-shrink: 0;
+}
+
+.edit-container-line .handle {
+  cursor: move;
+}
+
+.p-button.new-block-button {
+  color: var(--primary-color-darken);
+  width: 100%;
+  height: 3rem;
+}
+
+.p-button.new-container-button {
+  color: var(--primary-color);
+  height: 3rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--primary-color) !important;
+}
+
+::v-deep .editable-block .block-content {
+  padding: 0.5rem;
+}
+
+::v-deep .edit-block-line {
+  padding-left: 0.5rem;
+}
+
+.lck-container {
+  border-radius: var(--border-radius);
+}
+
+.lck-container:target {
+  scroll-margin-top: 50px;
+}
+
+.lck-container.editable-container .edit-container-line {
+  flex-direction: row;
+}
+
+.lck-container.editable-container .edit-container-line .lck-color-title {
+  color: var(--primary-color)
+}
+
+::v-deep .p-breadcrumb {
+  background: unset;
+  border: unset;
+  padding-left: 0;
+}
+/* classic content */
+
+.lck-layout-classic .lck-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenu Centré */
+
+.lck-layout-centered .lck-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  justify-content: space-between;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.lck-layout-centered .lck-block {
+  display: flex;
+  flex: 0 1 100%;
+}
+
+.lck-layout-centered .lck-block.lck-media {
+  justify-content: center;
+}
+
+/* Contenu Flex (2/n colonnes) */
+
+.lck-layout-flex .lck-container div {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-basis: 0;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+}
+
+.lck-layout-flex .lck-container .lck-block.lck-media {
+  justify-content: center;
+}
+
+.lck-layout-flex .lck-container .edit-container-line {
+  align-self: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .lck-layout-flex .lck-container div {
+    flex-direction: column;
+    flex-wrap: unset;
+  }
+}
+
+/* Contenu Full */
+
+.lck-layout-full {
+  width: 100%;
+  height: 100%;
+}
+
+.lck-layout-full .lck-container div {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
 </style>

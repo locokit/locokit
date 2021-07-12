@@ -10,7 +10,7 @@ import { authState } from '@/store/auth'
 import { lckServices } from '@/services/lck-api'
 
 import Workspace from './Workspace.vue'
-import Page from '@/views/routes/workspace/visualization/Page/Page'
+import Page from '@/views/routes/workspace/visualization/Page'
 import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
@@ -150,7 +150,7 @@ jest.mock('@/router/paths', () => ({
 }))
 
 // Mock Vue components
-jest.mock('@/views/routes/workspace/visualization/Page/Page.vue', () => ({
+jest.mock('@/views/routes/workspace/visualization/Page.vue', () => ({
   name: 'Page',
   render: h => h('section'),
 }))

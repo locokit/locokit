@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Create new records (blocks Set) match snapshot 1`] = `
+<div class="p-mx-2 lck-layout-classic">
+  <div class="lck-page-content" style="margin-right: 0px;">
+    <!---->
+    <div class="lck-color-primary p-my-4">
+      <h1>Page 6</h1>
+    </div>
+    <!---->
+    <draggable-stub value="[object Object]" clone="function $default() {return mockConstructor.apply(this,arguments);}" element="div" handle=".handle">
+      <div id="16" class="lck-container">
+        <!---->
+        <!---->
+        <draggable-stub value="[object Object],[object Object]" clone="function $default() {return mockConstructor.apply(this,arguments);}" element="div" handle=".handle-block">
+          <block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" cellstate="[object Object]" class="lck-block p-mb-4"></block-stub>
+          <block-stub block="[object Object]" workspaceid="toto" cellstate="[object Object]" class="lck-block p-mb-4" definition="[object Object]"></block-stub>
+        </draggable-stub>
+        <!---->
+      </div>
+    </draggable-stub>
+    <!---->
+  </div>
+  <update-sidebar-stub container="[object Object]" block="[object Object]" page="[object Object]" width="30rem" relatedchapterpages=""></update-sidebar-stub>
+  <delete-confirmation-dialog-stub itemcategory="pages.workspace.container.title" value="[object Object]" fieldtodisplay="text"></delete-confirmation-dialog-stub>
+  <delete-confirmation-dialog-stub itemcategory="pages.workspace.block.title" value="[object Object]" fieldtodisplay="title"></delete-confirmation-dialog-stub>
+</div>
+`;

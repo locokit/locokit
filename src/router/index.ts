@@ -10,7 +10,7 @@ import Profile from '@/views/routes/user/Profile.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
 import WorkspaceList
   from '@/views/routes/workspace/visualization/WorkspaceList.vue'
-import Page from '@/views/routes/workspace/visualization/Page/Page.vue'
+import Page from '@/views/routes/workspace/visualization/Page.vue'
 import Database from '@/views/routes/workspace/admin/database/Database.vue'
 import DatabaseSchema
   from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'

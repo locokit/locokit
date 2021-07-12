@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-unused-vars */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { mount } from '@/../tests/unit/local-test-utils'
 import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
@@ -252,6 +253,65 @@ const mockPages = {
             type: BLOCK_TYPE.DATA_RECORD,
             position: 3,
             containerId: '15',
+          },
+        ],
+      },
+    ],
+  },
+  6: {
+    id: '6',
+    text: 'Page 6',
+    createdAt: '2021-06-25T18:40:03.109Z',
+    updatedAt: '2021-06-25T18:40:03.109Z',
+    chapter_id: 'C1',
+    position: 5,
+    containers: [
+      {
+        id: '16',
+        text: 'Main container',
+        createdAt: '2021-06-25T18:40:03.109Z',
+        updatedAt: '2021-06-25T18:40:03.109Z',
+        page_id: '1',
+        position: 2,
+        display_title: false,
+        displayed_in_navbar: false,
+        blocks: [
+          {
+            id: '160',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            containerId: '16',
+            addSourceId: '4',
+            addAllowed: true,
+            addButtonTitle: 'This is my add button, click here !',
+            settings: {
+              sources: [
+                {
+                  id: '1',
+                },
+                {
+                  id: '2',
+                },
+                {
+                  id: '3',
+                },
+              ],
+            },
+            title: 'My map block',
+            type: BLOCK_TYPE.MAP_SET,
+            position: 3,
+          },
+          {
+            id: '161',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '1',
+            },
+            title: 'My data record block',
+            type: BLOCK_TYPE.DATA_RECORD,
+            position: 3,
+            containerId: '16',
           },
         ],
       },
@@ -882,10 +942,10 @@ jest.mock('@/views/routes/workspace/visualization/Workspace.vue', () => ({
   },
 }))
 
-jest.mock('@/components/visualize/Block/Block', () => ({
+/*jest.mock('@/components/visualize/Block/Block', () => ({
   name: 'Block',
   render: h => h('block'),
-}))
+}))*/
 
 // Mock routes
 const mockRoutes = [
@@ -1752,21 +1812,47 @@ describe('Page', () => {
     })
   })
 
-/*  describe('Create new records (blocks Set)', () => {
-    describe('by displaying a dialog with selected fields', async () => {
+  describe('Create new records (blocks Set)', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = mount(Page, {
+        ...globalComponentParams(),
+        attachTo: document.body,
+        propsData: {
+          pageId: '6',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group',
+        },
+      })
+    })
+    it('match snapshot', async () => {
+      expect.assertions(1)
+      expect(wrapper.html()).toMatchSnapshot()
+    })
+    it('by displaying a button with correct title', async () => {
+      expect.assertions(1)
+      const pButton = wrapper.find('.p-button')
+      console.log(pButton)
+    })
+    it('by displaying a dialog with selected fields', async () => {
 
     })
-    describe('by calling the API with structured data', async () => {
+    it('by calling the API with structured data', async () => {
 
     })
-    describe('hide automatically dialog after success', async () => {
+    it('hide automatically dialog after success', async () => {
 
     })
-    describe('display a $toast if an error occured', async () => {
+    it('display a $toast if an error occured', async () => {
 
     })
-    describe('even if block is a MapSet, with the right definition', async () => {
+    it('even if block is a MapSet, with the right definition', async () => {
 
     })
-  })*/
+    afterEach(async () => {
+      await wrapper.destroy()
+    })
+  })
 })
