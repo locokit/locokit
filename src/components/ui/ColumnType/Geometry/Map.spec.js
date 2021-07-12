@@ -248,6 +248,7 @@ describe('Map component', () => {
           resources: mockResources,
           mode: 'Dialog',
         },
+        ...defaultWrapperParams,
       })
       expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
     })
@@ -257,10 +258,10 @@ describe('Map component', () => {
           resources: mockResources,
           mode: 'Block',
         },
+        ...defaultWrapperParams,
       })
       expect(wrapper.vm.map.fitBounds).toHaveBeenCalled()
     })
-
   })
   describe('Methods', () => {
     describe('initDrawControls', () => {
