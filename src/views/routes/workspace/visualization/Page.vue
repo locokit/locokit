@@ -85,6 +85,7 @@
                 :block="block"
                 :definition="getBlockDefinition(block)"
                 :content="getBlockContent(block)"
+                :secondarySources="secondarySourcesByBlock[block.id]"
                 :workspaceId="workspaceId"
                 :autocompleteSuggestions="autocompleteSuggestions"
                 :exporting="exporting"
@@ -264,6 +265,8 @@ export default {
     return {
       page: {},
       sources: {},
+      secondarySourcesByBlock: {},
+      secondarySources: {},
       blocksOptions: {},
       autocompleteSuggestions: null,
       exporting: false,
@@ -499,6 +502,8 @@ export default {
       this.inventorySources()
       await this.loadSourcesDefinitions()
       await this.loadSourcesContents()
+      this.initSecondarySources()
+      await this.loadSecondarySources()
       this.resetGeoSources()
     },
     getBlockDefinition (block) {
@@ -558,6 +563,41 @@ export default {
           if (!block.settings.id) return null
           return this.sources[block.settings.id]?.content
       }
+    },
+    initSecondarySources () {
+      this.secondarySourceByBlock = {}
+      this.secondarySource = {}
+      this.page.containers.forEach(container => {
+        container.blocks.forEach(block => {
+          const blockColumns = this.getBlockDefinition(block)?.columns || []
+          blockColumns.forEach(column => {
+            const blockSecondarySources = column.settings.map_sources
+            if (blockSecondarySources) {
+              this.secondarySourcesByBlock[block.id] = {}
+              for (const { id } of blockSecondarySources) {
+                if (!this.secondarySources[id]) this.secondarySources[id] = {}
+                this.secondarySourcesByBlock[block.id][id] = this.secondarySources[id]
+              }
+            }
+          })
+        })
+      })
+    },
+    async loadSecondarySources () {
+      const tableViewsToLoadIds = Object.keys(this.secondarySources)
+      // Load definitions
+      const tableViews = await lckHelpers.retrieveViewDefinition(tableViewsToLoadIds)
+      tableViews.forEach(tv => {
+        this.$set(this.secondarySources[tv.id], 'definition', tv)
+      })
+      // Load contents
+      await Promise.all(tableViewsToLoadIds.map(async tableViewId => {
+        this.$set(
+          this.secondarySources[tableViewId],
+          'content',
+          await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1),
+        )
+      }))
     },
     /**
      * Compute if the block need to be displayed,

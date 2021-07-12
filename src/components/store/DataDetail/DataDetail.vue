@@ -126,13 +126,13 @@
             :minFractionDigits="2"
           />
           <lck-map
-            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'"
+            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map' && canDisplayColumn(column)"
             :id="'map-edit-detail-' + column.id"
             mode="Dialog"
             :options="column.settings && column.settings.map_center ? {
               ...column.settings.map_center
             } : {}"
-            :resources="getLckGeoResources(column, row.data[column.id])"
+            :resources="getLckGeoResources(column)"
             :singleEditMode="true"
             @remove-features="onEdit(row.id, column.id, null)"
             @update-features="onGeoDataEdit(row.id, column.id, $event)"
@@ -192,10 +192,10 @@
         </div>
 
         <lck-map
-          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]"
+          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id] && canDisplayColumn(column)"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
-          :resources="getLckGeoResources(column, getColumnDisplayValue(column, row.data[column.id]))"
+          :resources="getLckGeoResources(column)"
           :options="{
             interactive: false
           }"
@@ -225,15 +225,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
-import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
-import Feature from 'ol/Feature'
-import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
 
 import {
-  COLUMN_TYPE,
+  COLUMN_TYPE, MapSourceSettings,
 } from '@locokit/lck-glossary'
 
 import {
@@ -247,17 +244,18 @@ import {
 import { zipArrays } from '@/services/lck-utils/arrays'
 import {
   transformEWKTtoFeature,
-  getStyleLayers,
   LckGeoResource,
-  geometryTypeFromColumnType,
   transformFeatureToWKT,
+  getLckGeoResources,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
   LckAttachment,
   LckTableColumn,
+  LckTableRow,
   LckTableRowData,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
+  LckTableView,
   LckTableViewColumn,
   SelectValue,
 } from '@/services/lck-api/definitions'
@@ -315,9 +313,10 @@ export default {
       required: false,
     },
     definition: {
-      type: Object as () => { columns: LckTableViewColumn[] },
+      type: Object as PropType<LckTableView>,
       required: false,
-      default: () => ({ columns: [] }),
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      default: () => ({ columns: [], text: '', table_id: '', id: '' }),
     },
     crudMode: {
       type: Boolean,
@@ -351,6 +350,13 @@ export default {
       type: String,
       required: false,
       default: 'read',
+    },
+    secondarySources: {
+      type: Object as () => Record<string, {
+        definition: LckTableView;
+        content: LckTableRow[];
+      }>,
+      default: () => ({}),
     },
   },
   data () {
@@ -469,45 +475,76 @@ export default {
           .map((a: LckAttachment) => a.id),
       })
     },
-    getLckGeoResources (column: LckTableViewColumn, data: string): LckGeoResource[] {
-      const resourceId = `features-collection-source-id-${column.id}`
-      const layers = getStyleLayers(resourceId, [column])
-      const createGeoJsonFeaturesCollection = (data: string): GeoJSONFeatureCollection => {
-        // This is necessary when column's type is Multi...
-        const features: Feature[] = []
-        if (data) {
-          const currentFeature = transformEWKTtoFeature(data)
-          currentFeature.setProperties({
-            columnId: column.id,
-            rowId: this.row.id,
-            id: `${this.row.id}-${column.id}`,
-          })
-          features.push(currentFeature)
+    canDisplayColumn (column: LckTableViewColumn) {
+      if (this.row) {
+        if (column.settings.map_sources) {
+          return column.settings.map_sources.every(source => this.secondarySources[source.id] != null)
         }
-        // Transform OL Feature in Geojson
-        const geojsonFormat = new GeoJSON()
-        return geojsonFormat.writeFeaturesObject(features)
+        return true
+      }
+      return false
+    },
+    getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] | null {
+      const columnSourceId = `${this.definition.id}-${column.id}`
+
+      if (!this.definition || !this.row) {
+        return null
       }
 
-      const features = createGeoJsonFeaturesCollection(data)
-
-      const editableGeometryTypes: Set<GeometryType> = new Set()
-      // Only display edit options if the column is editable
-      if (isEditableColumn(this.crudMode, column)) {
-        const geometryType = geometryTypeFromColumnType(column.column_type_id)
-        if (geometryType) editableGeometryTypes.add(geometryType)
+      // Initialize the geo sources definition with the current definition
+      const definitionsToLoad: Record<string, LckTableView> = {
+        [columnSourceId]: {
+          ...this.definition,
+          columns: [column],
+        },
       }
-
-      return [
+      // Initialize the geo sources content with the current row
+      const contentsToLoad: Record<string, LckTableRow[]> = {
+        [columnSourceId]: [
+          this.row,
+        ],
+      }
+      // Initialize the geo sources settings with the current column
+      const geoSourcesSettings: MapSourceSettings[] = [
         {
-          id: resourceId,
-          layers,
-          ...features,
-          editableGeometryTypes,
-          popupMode: null,
-          selectable: false,
+          id: columnSourceId,
+          field: column.id,
+          style: {
+            default: {
+              fill: {
+                color: '#00F',
+              },
+            },
+          },
         },
       ]
+      // Additional resources to load if specified
+      if (column.settings.map_sources && this.secondarySources) {
+        for (const mapSourceSettings of column.settings.map_sources) {
+          const { definition, content } = this.secondarySources[mapSourceSettings.id] || {}
+          if (definition && content) {
+            definitionsToLoad[mapSourceSettings.id] = definition
+            geoSourcesSettings.push(mapSourceSettings)
+            contentsToLoad[mapSourceSettings.id] = this.definition.table_id === definition.table_id
+              ? content.filter(r => r.id !== this.row.id)
+              : content
+          } else {
+            return null
+          }
+        }
+      }
+
+      return getLckGeoResources(
+        definitionsToLoad,
+        contentsToLoad,
+        { sources: geoSourcesSettings },
+        {
+          noReference: this.$t('components.mapview.noReference'),
+          noData: this.$t('components.mapview.noRowData'),
+          dateFormat: this.$t('date.dateFormat'),
+          datetimeFormat: this.$t('date.datetimeFormat'),
+        },
+      )
     },
     getSelectedValueDetails (columnId: string, value: string) {
       return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
