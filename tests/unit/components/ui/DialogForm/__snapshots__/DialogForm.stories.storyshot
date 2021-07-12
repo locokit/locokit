@@ -4,94 +4,96 @@ exports[`storyshots components/ui/DialogForm default 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1023;"
-    >
+  <span>
+    <form>
       <div
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1024;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1023;"
       >
         <div
-          class="p-dialog-header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1024;"
         >
-          <!---->
-           
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-header"
           >
             <!---->
              
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-content"
+            style="max-height: 70vh;"
+          />
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        />
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;
 
@@ -99,116 +101,118 @@ exports[`storyshots components/ui/DialogForm with header and content 1`] = `
 <div
   style="height: 100%;"
 >
-  <form>
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1024;"
-    >
+  <span>
+    <form>
       <div
-        aria-labelledby="pv_id_28_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1025;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1024;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_28_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1025;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_28_header"
+          <div
+            class="p-dialog-header"
           >
-            This is the header
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_28_header"
+            >
+              This is the header
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
-             
+            <div
+              class="p-field"
+            >
+              <label
+                for="example"
+              >
+                 Input Label
+              </label>
+               
+              <input
+                id="example"
+                name="example"
+                type="text"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="example"
-            >
-               Input Label
-            </label>
-             
-            <input
-              id="example"
-              name="example"
-              type="text"
-            />
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;
 
@@ -216,117 +220,119 @@ exports[`storyshots components/ui/DialogForm with header, content and actions 1`
 <div
   style="height: 100%;"
 >
-  <form
+  <span
     isactionform="true"
   >
-    <div
-      class="p-dialog-mask p-component-overlay "
-      style="z-index: 1025;"
-    >
+    <form>
       <div
-        aria-labelledby="pv_id_29_header"
-        aria-modal="true"
-        class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
-        role="dialog"
-        style="z-index: 1026;"
+        class="p-dialog-mask p-component-overlay "
+        style="z-index: 1025;"
       >
         <div
-          class="p-dialog-header"
+          aria-labelledby="pv_id_29_header"
+          aria-modal="true"
+          class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+          role="dialog"
+          style="z-index: 1026;"
         >
-          <span
-            class="p-dialog-title"
-            id="pv_id_29_header"
+          <div
+            class="p-dialog-header"
           >
-            This is the header
-          </span>
+            <span
+              class="p-dialog-title"
+              id="pv_id_29_header"
+            >
+              This is the header
+            </span>
+             
+            <div
+              class="p-dialog-header-icons"
+            >
+              <!---->
+               
+              <button
+                aria-label="close"
+                class="p-dialog-header-icon p-dialog-header-close p-link"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="p-dialog-header-close-icon pi pi-times"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
            
           <div
-            class="p-dialog-header-icons"
+            class="p-dialog-content"
+            style="max-height: 70vh;"
           >
-            <!---->
-             
+            <div
+              class="p-field"
+            >
+              <label
+                for="example"
+              >
+                 Input Label
+              </label>
+               
+              <input
+                id="example"
+                name="example"
+                type="text"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="p-dialog-footer"
+          >
             <button
-              aria-label="close"
-              class="p-dialog-header-icon p-dialog-header-close p-link"
-              tabindex="-1"
+              class="p-button-text p-button-secondary p-button p-component"
               type="button"
             >
               <span
-                class="p-dialog-header-close-icon pi pi-times"
+                class="pi pi-times p-button-icon p-button-icon-left"
               />
+               
+              <span
+                class="p-button-label"
+              >
+                Cancel
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <button
+              class="p-button-primary p-button p-component"
+              type="submit"
+            >
+              <span
+                class="pi pi-check p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Submit
+              </span>
+               
+              <!---->
               <span
                 class="p-ink"
               />
             </button>
           </div>
         </div>
-         
-        <div
-          class="p-dialog-content"
-          style="max-height: 70vh;"
-        >
-          <div
-            class="p-field"
-          >
-            <label
-              for="example"
-            >
-               Input Label
-            </label>
-             
-            <input
-              id="example"
-              name="example"
-              type="text"
-            />
-          </div>
-        </div>
-         
-        <div
-          class="p-dialog-footer"
-        >
-          <button
-            class="p-button-text p-button-secondary p-button p-component"
-            type="button"
-          >
-            <span
-              class="pi pi-times p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Cancel
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <button
-            class="p-button-primary p-button p-component"
-            type="submit"
-          >
-            <span
-              class="pi pi-check p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Submit
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </span>
 </div>
 `;

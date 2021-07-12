@@ -1,0 +1,12 @@
+/**
+ * These vars are available in the index.html, globally
+ * You could write a config.js defining these vars for your infra.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LCK_SETTINGS = {
+  API_URL: 'https://staging-capel.makina-corpus.net/api',
+  LOCALSTORAGE_KEY: 'lck-auth-capel-staging',
+  SENTRY_DSN: 'https://fed065de10e547cebe633568cc40b99e@sentry-nantes.makina-corpus.net/10',
+  SENTRY_ENV: 'staging',
+  STORAGE_URL: 'https://staging-capel.makina-corpus.net/storage'
+}

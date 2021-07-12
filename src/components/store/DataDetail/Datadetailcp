@@ -14,21 +14,8 @@
       v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
       :key="column.id"
     >
-      <validation-provider
-        v-if="editableColumns.indexOf(column) > -1"
-        style="position: relative;"
-        :vid="column.id"
-        :rules="column.validation"
-        :name="column.text"
-        v-slot="{
-          errors,
-          classes
-        }"
-      >
-        <div
-          class="p-d-flex"
-          style="position: relative;"
-        >
+      <div v-if="editableColumns.indexOf(column) > -1" style="position: relative;">
+        <div class="p-d-flex">
           <p-checkbox
             v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             v-model="row.data[column.id]"
@@ -39,28 +26,20 @@
 
           <label
             class="lck-color-primary"
-            :class="classes"
             :for="column.id"
           >
             {{ column.text }}
           </label>
           <span
-            v-if="column.validation && column.validation.required"
+            v-if="column.required"
             class="column-required"
           >
             *
           </span>
-          <span
-            v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
-            class="cell-state"
-            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-          />
-
         </div>
 
         <div
           class="form-field-editable"
-          :class="classes"
         >
           <lck-autocomplete
             v-if="getComponentEditorDetailForColumnType(column) === 'lck-autocomplete'"
@@ -156,7 +135,7 @@
             :resources="getLckGeoResources(column, row.data[column.id])"
             :singleEditMode="true"
             @remove-features="onEdit(row.id, column.id, null)"
-            @update-features="onGeoDataEdit(row.id, column, $event)"
+            @update-features="onGeoDataEdit(row.id, column.id, $event)"
           />
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
@@ -180,14 +159,12 @@
             @blur="onEdit(row.id, column.id, row.data[column.id])"
             :rows="7"
           />
-          <span
-            v-if="getComponentEditorDetailForColumnType(column) !== 'p-checkbox'"
-            class="cell-state"
-            :class="getCellStateNotificationClass(row.id, column.id, cellState)"
-          />
         </div>
-        <span :class="classes">{{errors[0]}}</span>
-      </validation-provider>
+        <span
+          class="cell-state"
+          :class="getCellStateNotificationClass(row.id, column.id, cellState)"
+        />
+      </div>
 
       <div
         v-else-if="mode !== 'creation'"
@@ -252,8 +229,8 @@ import Vue from 'vue'
 
 import GeoJSON, { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Feature from 'ol/Feature'
+import GeometryType from 'ol/geom/GeometryType'
 import { Feature as GeoJSONFeature } from 'geojson'
-import { ValidationProvider } from 'vee-validate'
 
 import {
   COLUMN_TYPE,
@@ -272,14 +249,17 @@ import {
   transformEWKTtoFeature,
   getStyleLayers,
   LckGeoResource,
+  geometryTypeFromColumnType,
   transformFeatureToWKT,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
   LckAttachment,
   LckTableColumn,
+  LckTableRow,
   LckTableRowData,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
+  LckTableView,
   LckTableViewColumn,
   SelectValue,
 } from '@/services/lck-api/definitions'
@@ -303,6 +283,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
+import { lckHelpers } from '@/services/lck-api'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
@@ -327,7 +308,6 @@ export default {
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'p-checkbox': Vue.extend(Checkbox),
-    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     autocompleteSuggestions: {
@@ -360,6 +340,9 @@ export default {
         }
       },
     },
+    groupId: {
+      type: String,
+    },
     /**
      * We need the workspace id for displaying images from attachments
      */
@@ -382,6 +365,7 @@ export default {
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>,
+      secondarySources: {} as Record<string, { definition: LckTableView; content: LckTableRow[] }>,
     }
   },
   computed: {
@@ -466,11 +450,11 @@ export default {
         value,
       )
     },
-    async onGeoDataEdit (rowId: string, column: LckTableViewColumn, features: GeoJSONFeature[]) {
+    async onGeoDataEdit (rowId: string, columnId: string, features: GeoJSONFeature[]) {
       await this.onEdit(
         rowId,
-        column.id,
-        transformFeatureToWKT(features[0], column.column_type_id),
+        columnId,
+        transformFeatureToWKT(features[0]),
       )
     },
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
@@ -499,13 +483,11 @@ export default {
         // This is necessary when column's type is Multi...
         const features: Feature[] = []
         if (data) {
-          const featureId = `${this.row.id}:${column.id}`
           const currentFeature = transformEWKTtoFeature(data)
-          currentFeature.setId(featureId)
           currentFeature.setProperties({
             columnId: column.id,
             rowId: this.row.id,
-            id: featureId,
+            id: `${this.row.id}-${column.id}`,
           })
           features.push(currentFeature)
         }
@@ -516,10 +498,11 @@ export default {
 
       const features = createGeoJsonFeaturesCollection(data)
 
+      const editableGeometryTypes: Set<GeometryType> = new Set()
       // Only display edit options if the column is editable
-      const editableGeometryTypes: Set<COLUMN_TYPE> = new Set()
       if (isEditableColumn(this.crudMode, column)) {
-        editableGeometryTypes.add(column.column_type_id)
+        const geometryType = geometryTypeFromColumnType(column.column_type_id)
+        if (geometryType) editableGeometryTypes.add(geometryType)
       }
 
       return [
@@ -582,6 +565,33 @@ export default {
       },
       immediate: true,
     },
+    definition: {
+      async handler (newDefinition: LckTableView) {
+        const definitionsIdsToKeep: string[] = []
+        if (newDefinition.columns) {
+          newDefinition.columns.forEach(newColumn => {
+            if (newColumn.settings.map_sources) {
+              newColumn.settings.map_sources.forEach(source => {
+                if (!this.secondarySources[source]) {
+                  definitionsIdsToKeep.push(source)
+                }
+              })
+            }
+          })
+        }
+        console.log('DEFINITION', newDefinition)
+        // Load the definition
+        const tableViews = await lckHelpers.retrieveViewDefinition(definitionsIdsToKeep)
+        tableViews.forEach(tv => {
+          this.$set(this.secondarySources[tv.id], 'definition', tv)
+        })
+        // Load the content
+        await Promise.all(definitionsIdsToKeep.map(async tableViewId => {
+          this.$set(this.secondarySources, 'content', await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1))
+        }))
+      },
+      immediate: true,
+    },
   },
 }
 </script>
@@ -622,20 +632,10 @@ export default {
 .form-field-editable {
   position: relative;
 }
-.form-field-editable.failed {
-  border-color: var(--color-error);
-}
-.failed {
-  color: var(--color-error);
-}
 
 .column-required {
   font-size: 1.6rem;
   color: var(--color-error);
-}
-
-textarea {
-  resize: none;
 }
 
 </style>

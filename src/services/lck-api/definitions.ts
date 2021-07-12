@@ -91,6 +91,12 @@ export class LckTableColumn extends LckBaseModel {
       zoom: number;
     };
   };
+
+  validation?: {
+    minDate?: {
+      fromDate: string;
+    };
+  }
 }
 
 export class LckTableViewColumn extends LckTableColumn {

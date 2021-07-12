@@ -6,7 +6,6 @@
       ? $t('pages.databaseSchema.handleColumnModal.updateColumn')
       : $t('pages.databaseSchema.handleColumnModal.createColumn')
     "
-    :contentStyle="{'overflow-y': 'visible'}"
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
   >

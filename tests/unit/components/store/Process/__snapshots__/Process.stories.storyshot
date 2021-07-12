@@ -57,130 +57,240 @@ exports[`storyshots components/store/process/Process default 1`] = `
           role="tabpanel"
           style="display: none;"
         >
-          <form
-            class="p-fluid"
-          >
-            <div
-              class="p-field"
+          <span>
+            <form
+              class="p-fluid"
             >
-              <label
-                for="text"
+              <div
+                class="p-field"
               >
-                
+                <label
+                  for="text"
+                >
+                  
       Name
     
-              </label>
-               
-              <input
-                class="p-inputtext p-component p-filled"
-                id="text"
-                placeholder="Enter a trigger name"
-                required="required"
-                type="text"
-              />
-            </div>
-             
-            <div
-              class="p-field"
-            >
-              <label
-                for="url"
-              >
-                
-      URL
-    
-              </label>
-               
-              <input
-                class="p-inputtext p-component p-filled"
-                id="url"
-                placeholder="URL"
-                required="required"
-                type="text"
-              />
-            </div>
-             
-            <div
-              class="p-field"
-            >
-              <label
-                for="enabled"
-              >
-                
-      Enabled
-    
-              </label>
-               
-              <br />
-               
-              <div
-                class="p-inputswitch p-component"
-                id="enabled"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    role="switch"
-                    type="checkbox"
-                  />
-                </div>
+                </label>
                  
-                <span
-                  class="p-inputswitch-slider"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field"
-            >
-              <label
-                for="table"
-              >
-                
-      Table
-    
-              </label>
-               
-              <span
-                aria-haspopup="listbox"
-                aria-owns="pv_id_5_list"
-                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                dropdown="true"
-                id="table"
-                placeholder="Choose a table"
-                required="required"
-                suggestions=""
-              >
                 <input
-                  aria-autocomplete="list"
-                  aria-controls="pv_id_5_list"
-                  autocomplete="off"
-                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                  id="table"
-                  placeholder="Start typing for suggestions"
+                  class="p-inputtext p-component p-filled"
+                  id="text"
+                  placeholder="Enter a trigger name"
                   required="required"
-                  role="searchbox"
                   type="text"
                 />
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="url"
+                >
+                  
+      URL
+    
+                </label>
                  
-                <!---->
+                <input
+                  class="p-inputtext p-component p-filled"
+                  id="url"
+                  placeholder="URL"
+                  required="required"
+                  type="text"
+                />
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="enabled"
+                >
+                  
+      Enabled
+    
+                </label>
                  
-                <!---->
+                <br />
                  
+                <div
+                  class="p-inputswitch p-component"
+                  id="enabled"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      role="switch"
+                      type="checkbox"
+                    />
+                  </div>
+                   
+                  <span
+                    class="p-inputswitch-slider"
+                  />
+                </div>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="table"
+                >
+                  
+      Table
+    
+                </label>
+                 
+                <span
+                  aria-haspopup="listbox"
+                  aria-owns="pv_id_5_list"
+                  class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                  dropdown="true"
+                  id="table"
+                  placeholder="Choose a table"
+                  required="required"
+                  suggestions=""
+                >
+                  <input
+                    aria-autocomplete="list"
+                    aria-controls="pv_id_5_list"
+                    autocomplete="off"
+                    class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                    id="table"
+                    placeholder="Start typing for suggestions"
+                    required="required"
+                    role="searchbox"
+                    type="text"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <button
+                    class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                    type="button"
+                  >
+                    <span
+                      class="pi pi-chevron-down p-button-icon"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                       
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                   
+                  <!---->
+                </span>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="trigger"
+                >
+                  
+      Trigger
+    
+                </label>
+                 
+                <div
+                  class="p-dropdown p-component p-inputwrapper"
+                  dropdown="true"
+                  id="trigger"
+                  required="required"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      aria-haspopup="listbox"
+                      readonly="readonly"
+                      type="text"
+                    />
+                  </div>
+                   
+                  <!---->
+                   
+                  <span
+                    class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+                  >
+                    
+            p-emptylabel
+        
+                  </span>
+                   
+                  <!---->
+                   
+                  <div
+                    aria-haspopup="listbox"
+                    class="p-dropdown-trigger"
+                    role="button"
+                  >
+                    <span
+                      class="p-dropdown-trigger-icon pi pi-chevron-down"
+                    />
+                  </div>
+                   
+                  <!---->
+                </div>
+              </div>
+               
+              <!---->
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="maximumNumberSuccess"
+                >
+                  
+      Maximum number of success (0 if no limit)
+    
+                </label>
+                 
+                <span
+                  class="p-inputnumber p-component"
+                >
+                  <input
+                    class="p-inputtext p-component p-inputnumber-input"
+                    id="maximumNumberSuccess"
+                  />
+                   
+                  <!---->
+                   
+                  <!---->
+                   
+                  <!---->
+                </span>
+              </div>
+               
+              <div
+                class="lck-form-footer"
+              >
                 <button
-                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  class="p-button-text p-button-secondary p-button p-component"
                   type="button"
                 >
                   <span
-                    class="pi pi-chevron-down p-button-icon"
+                    class="pi pi-times p-button-icon p-button-icon-left"
                   />
                    
                   <span
                     class="p-button-label"
                   >
-                     
+                    Cancel
                   </span>
                    
                   <!---->
@@ -189,136 +299,28 @@ exports[`storyshots components/store/process/Process default 1`] = `
                   />
                 </button>
                  
-                <!---->
-              </span>
-            </div>
-             
-            <div
-              class="p-field"
-            >
-              <label
-                for="trigger"
-              >
-                
-      Trigger
-    
-              </label>
-               
-              <div
-                class="p-dropdown p-component p-inputwrapper"
-                dropdown="true"
-                id="trigger"
-                required="required"
-              >
-                <div
-                  class="p-hidden-accessible"
-                >
-                  <input
-                    aria-haspopup="listbox"
-                    readonly="readonly"
-                    type="text"
-                  />
-                </div>
-                 
-                <!---->
-                 
-                <span
-                  class="p-dropdown-label p-inputtext p-dropdown-label-empty"
-                >
-                  
-            p-emptylabel
-        
-                </span>
-                 
-                <!---->
-                 
-                <div
-                  aria-haspopup="listbox"
-                  class="p-dropdown-trigger"
-                  role="button"
+                <button
+                  class="p-button p-component"
+                  type="submit"
                 >
                   <span
-                    class="p-dropdown-trigger-icon pi pi-chevron-down"
+                    class="pi pi-save p-button-icon p-button-icon-left"
                   />
-                </div>
-                 
-                <!---->
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                    Save
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
               </div>
-            </div>
-             
-            <!---->
-             
-            <div
-              class="p-field"
-            >
-              <label
-                for="maximumNumberSuccess"
-              >
-                
-      Maximum number of success (0 if no limit)
-    
-              </label>
-               
-              <span
-                class="p-inputnumber p-component"
-              >
-                <input
-                  class="p-inputtext p-component p-inputnumber-input"
-                  id="maximumNumberSuccess"
-                />
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <!---->
-              </span>
-            </div>
-             
-            <div
-              class="lck-form-footer"
-            >
-              <button
-                class="p-button-text p-button-secondary p-button p-component"
-                type="button"
-              >
-                <span
-                  class="pi pi-times p-button-icon p-button-icon-left"
-                />
-                 
-                <span
-                  class="p-button-label"
-                >
-                  Cancel
-                </span>
-                 
-                <!---->
-                <span
-                  class="p-ink"
-                />
-              </button>
-               
-              <button
-                class="p-button p-component"
-                type="submit"
-              >
-                <span
-                  class="pi pi-save p-button-icon p-button-icon-left"
-                />
-                 
-                <span
-                  class="p-button-label"
-                >
-                  Save
-                </span>
-                 
-                <!---->
-                <span
-                  class="p-ink"
-                />
-              </button>
-            </div>
-          </form>
+            </form>
+          </span>
         </div>
          
         <div

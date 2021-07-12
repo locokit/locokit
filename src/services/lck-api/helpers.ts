@@ -147,6 +147,9 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
         return values.map(x => x.filename).join(', ')
       }
       return ''
+    case COLUMN_TYPE.DATE:
+    case COLUMN_TYPE.DATETIME:
+      return currentRowValue as string
     default:
       return getColumnDisplayValue(
         currentColumn,

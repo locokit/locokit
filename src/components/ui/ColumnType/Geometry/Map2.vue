@@ -47,6 +47,7 @@ import {
 } from '@/services/lck-utils/map/transformWithOL'
 
 import MapboxCustomControls from './MapboxCustomControl'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -84,7 +85,11 @@ export default Vue.extend({
       default: false,
     },
     defaultSelectedFeatureBySource: {
-      type: Object as PropType<Record<string, string | number | null>>,
+      type: Object as PropType<Record<string, {
+        center?: boolean;
+        zoomLevel?: number;
+        featureId: string | number | null;
+      } | null>>,
       default: () => ({}),
     },
   },
@@ -107,7 +112,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    const mapOptions: MapboxOptions = {
+    this.map = new Map({
       container: this.id,
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
       style: {
@@ -137,21 +142,13 @@ export default Vue.extend({
       minZoom: 1,
       maxZoom: 16,
       ...this.options,
-    }
-    // Directly focus on a specific area in dialog mode
-    if (this.mode === MODE.DIALOG) {
-      const computedBounds = computeBoundingBox(this.resources)
-      if (!computedBounds.isEmpty()) {
-        mapOptions.bounds = computedBounds
-      }
-    }
-    this.map = new Map(mapOptions)
+    })
 
     // Add navigation control (zoom + compass)
     this.map.addControl(new NavigationControl(), 'top-right')
     // Add scale control
     this.map.addControl(new ScaleControl(), 'bottom-left')
-    // Create data manage control
+    // Create manage data control
     this.dataManageControl.control = new MapboxCustomControls([
       {
         label: this.$t('form.save'),
@@ -180,7 +177,7 @@ export default Vue.extend({
       this.mapIsLoaded = true
       this.loadResources()
       this.initDrawControls()
-      if (this.mode === MODE.BLOCK) this.setFitBounds()
+      this.setFitBounds(this.resources)
       this.makeFeaturesInteractive()
       this.selectDefaultFeatures()
     })
@@ -281,6 +278,7 @@ export default Vue.extend({
           this.map!.addControl(this.mapDraw)
 
           if (!this.dataManageControl.visible) {
+            console.log('display control', allEditableGeometryTypes)
             this.map!.addControl(this.dataManageControl.control!)
             this.dataManageControl.visible = true
           }
@@ -443,13 +441,21 @@ export default Vue.extend({
         this.map && this.map.resize()
       }, 300)
     },
-    setFitBounds (resources?: LckGeoResource[]) {
-      const bounds = computeBoundingBox(resources || this.resources)
+    setFitBounds (resources: { features: GeoJSONFeature[] }[], levelZoom?: number) {
+      const bounds = computeBoundingBox(resources)
       if (!bounds.isEmpty()) {
-        this.map!.fitBounds(bounds, {
-          padding: 40,
-          animate: this.mode === MODE.BLOCK,
-        })
+        if (levelZoom != null) {
+          this.map!.fitBounds(bounds, {
+            padding: 40,
+            animate: this.mode === MODE.BLOCK,
+            zoom: levelZoom,
+          })
+        } else {
+          this.map!.fitBounds(bounds, {
+            padding: 40,
+            animate: this.mode === MODE.BLOCK,
+          })
+        }
       }
     },
     sendIdToDetail (rowId: string, pageDetailId?: string) {
@@ -527,10 +533,26 @@ export default Vue.extend({
     },
     selectDefaultFeatures () {
       // Highlight some features specified in the props. Note that the map must be loaded to make it.
+      const resourcesToZoom: GeoJSONFeature[] = []
+      let finalZoomLevel: number | undefined
       for (const sourceId in this.defaultSelectedFeatureBySource) {
-        if (this.defaultSelectedFeatureBySource[sourceId] !== this.selectedFeatureBySource[sourceId]) {
-          this.selectFeature(sourceId, this.defaultSelectedFeatureBySource[sourceId])
+        const { featureId = null, center, zoomLevel } = this.defaultSelectedFeatureBySource[sourceId] || {}
+        if (featureId !== this.selectedFeatureBySource[sourceId]) {
+          this.selectFeature(sourceId, featureId)
+          // Fit to the bounds of this feature
+          if (featureId && center) {
+            if (zoomLevel) {
+              finalZoomLevel = finalZoomLevel ? Math.min(finalZoomLevel, zoomLevel) : zoomLevel
+            }
+            const originalFeature = this.resources.find(r => r.id === sourceId)?.features.find(f => f.id === featureId)
+            if (originalFeature) resourcesToZoom.push(originalFeature)
+          }
         }
+      }
+      if (resourcesToZoom.length) {
+        console.log(resourcesToZoom)
+        // Fit to the bounds of all resources
+        this.setFitBounds([{ features: resourcesToZoom }], finalZoomLevel)
       }
     },
     addPopupOnFeature (layerId: string, popupMode: MapPopupMode, pageDetailId?: string) {

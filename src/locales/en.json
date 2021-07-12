@@ -206,7 +206,9 @@
       "noGeoData": "No geometric data available.",
       "textDetailPage": "Details",
       "noReference": "Unknown reference",
-      "noRowData": "Data unknown"
+      "noRowData": "Data unknown",
+      "noSelectedFeature": "Thanks to select an element",
+      "onlyOneSelectedFeature": "Thanks to select only one element"
     },
     "formulas": {
       "formula": "Formula",
@@ -679,6 +681,7 @@
       "500": "An error occured…"
     },
     "lck": {
+      "ROW_DUPLICATE": "An error occured when duplicating the row.",
       "ROW_DELETION": "An error occured when deleting the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
@@ -686,7 +689,8 @@
     "cms": {
       "blockMultiConflictSummary": "Conflict at shared sources level",
       "blockMultiConflictDetail": "Some shared blocks sources in your page are simultaneously multi and mono items. Please fix it."
-    }
+    },
+    "impossibleOperation": "Impossible operation"
   },
   "form" : {
     "add": "Add",
@@ -756,5 +760,11 @@
     "medium": "Medium",
     "strong": "Strong",
     "passwordPrompt": "Enter a password"
+  },
+  "validations": {
+    "messages": {
+      "required": "The '{_field_}' field is required",
+      "minDate": "The '{_field_}' field must be after {fromDate}"
+    }
   }
 }
