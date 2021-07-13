@@ -159,10 +159,12 @@
           mode="creation"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
+          :secondarySources="secondarySources"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles($event, newRow)"
+          @get-secondary-sources='getSecondarySources'
         />
       </lck-dialog-form>
 
@@ -178,10 +180,12 @@
           :cellState="cellState"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
+          :secondarySources="secondarySources"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles"
+          @get-secondary-sources='getSecondarySources'
         />
 
         <lck-process-panel
@@ -344,6 +348,7 @@ export default {
           data: null,
         },
         definition: {
+          table_id: '',
           columns: [],
         },
       },
@@ -377,6 +382,7 @@ export default {
       displayRowDialog: false,
       row: {},
       displayPanel: false,
+      secondarySources: {},
       // Column part
       currentColumnToEdit: null,
       currentActionColumnToEdit: null,
@@ -446,6 +452,19 @@ export default {
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
+    async getSecondarySources (tableViewIds) {
+      // Load the definitions
+      const newSecondarySources = {}
+      const tableViews = await lckHelpers.retrieveViewDefinition(tableViewIds)
+      tableViews.forEach(tv => {
+        newSecondarySources[tv.id] = { definition: tv }
+      })
+      // Load the contents
+      await Promise.all(tableViewIds.map(async tableViewId => {
+        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+      }))
+      this.secondarySources = newSecondarySources
+    },
     resetToDefault () {
       this.block = {
         loading: false,
@@ -485,6 +504,7 @@ export default {
         total: 0,
         data: null,
       }
+      this.block.definition.table_id = this.currentTableId
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
       this.views = await retrieveTableViews(this.currentTableId)
       this.views.length > 0 && (this.selectedViewId = this.views[0].id)

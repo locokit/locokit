@@ -64,8 +64,10 @@
         :row="newRow"
         mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
+        :secondarySources="$attrs['secondarySources']"
         :workspaceId="workspaceId"
         @update-suggestions="$listeners['update-suggestions']"
+        @get-secondary-sources="$listeners['get-secondary-sources']"
         @update-row="onUpdateRow"
       />
     </lck-dialog-form>

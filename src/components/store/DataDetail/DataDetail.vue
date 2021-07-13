@@ -250,7 +250,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
 import { ValidationProvider } from 'vee-validate'
@@ -258,10 +258,6 @@ import { ValidationProvider } from 'vee-validate'
 import {
   COLUMN_TYPE, MapSourceSettings,
 } from '@locokit/lck-glossary'
-
-import {
-  lckHelpers,
-} from '@/services/lck-api'
 
 import {
   getColumnTypeId,
@@ -381,6 +377,10 @@ export default {
       required: false,
       default: 'read',
     },
+    secondarySources: {
+      type: Object as PropType<Record<string, { definition: LckTableView; content: LckTableRow[] }>>,
+      default: () => ({}),
+    },
   },
   data () {
     return {
@@ -388,7 +388,6 @@ export default {
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>,
-      secondarySources: {} as Record<string, { definition: LckTableView; content: LckTableRow[] }>,
     }
   },
   computed: {
@@ -635,18 +634,7 @@ export default {
               }
             }
           })
-          const newSecondarySources: Record<string, { definition: LckTableView; content: LckTableRow[] }> = {}
-          const tableViewsToLoadIds = Array.from(uniqueTableViewsToLoadIds)
-          // Load the definitions
-          const tableViews = await lckHelpers.retrieveViewDefinition(tableViewsToLoadIds)
-          tableViews.forEach(tv => {
-            newSecondarySources[tv.id] = { definition: tv }
-          })
-          // Load the contents
-          await Promise.all(tableViewsToLoadIds.map(async tableViewId => {
-            newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
-          }))
-          this.secondarySources = newSecondarySources
+          this.$emit('get-secondary-sources', Array.from(uniqueTableViewsToLoadIds))
         }
       },
       immediate: true,

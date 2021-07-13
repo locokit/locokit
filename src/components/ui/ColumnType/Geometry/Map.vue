@@ -674,6 +674,7 @@ export default Vue.extend({
           resource.layers.forEach(layer => {
             if (hasEditableFeatures) {
               // Make the current feature editable
+              this.changeCursorOnLayerHover(layer.id)
               this.setFeatureEditableOnMouseDown(resource.id, layer.id)
             } else {
               if (resource.selectable || resourceHasPopup === 'click') {

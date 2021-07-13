@@ -90,6 +90,7 @@
                 :exporting="exporting"
                 :cellState="cellState"
                 :editMode="editMode"
+                :secondarySources="secondarySources[block.id]"
                 v-on="$listeners"
 
                 @row-delete="onRowDelete(block, $event)"
@@ -107,6 +108,7 @@
                 @update-filters="onUpdateFilters(block, $event)"
                 @update-block="onBlockEditClick(container, block)"
                 @delete-block="onBlockDeleteClick(container, block)"
+                @get-secondary-sources="getSecondarySources(block, $event)"
 
                 @download-attachment="onDownloadAttachment"
                 @upload-files="onUploadFiles(block, $event)"
@@ -287,6 +289,7 @@ export default {
       blockDisplayTableViewSuggestions: null,
       blockDisplayFieldSuggestions: null,
       geoSources: {},
+      secondarySources: {},
     }
   },
   computed: {
@@ -345,6 +348,19 @@ export default {
     },
     resetGeoSources () {
       this.geoSources = {}
+    },
+    async getSecondarySources (block, tableViewIds) {
+      // Load the definitions
+      const newSecondarySources = {}
+      const tableViews = await lckHelpers.retrieveViewDefinition(tableViewIds)
+      tableViews.forEach(tv => {
+        newSecondarySources[tv.id] = { definition: tv }
+      })
+      // Load the contents
+      await Promise.all(tableViewIds.map(async tableViewId => {
+        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+      }))
+      this.$set(this.secondarySources, block.id, newSecondarySources)
     },
     createOrExtendSource (tableViewId, blockId, blockType) {
       /**
@@ -1281,6 +1297,7 @@ export default {
       this.page.containers.forEach(container => {
         container.blocks.forEach(block => {
           this.$set(block, 'pageLoaded', true)
+          this.$set(this.secondarySources, block.id, {})
         })
       })
     },

@@ -847,7 +847,15 @@ describe('Map component', () => {
             ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
-          expect(listeners.length).toBe(1)
+          expect(listeners.length).toBe(3)
+          expect(listeners).toContainEqual({
+            type: 'mouseenter',
+            func: wrapper.vm.setPointerCursor,
+          },
+          {
+            type: 'mouseleave',
+            func: wrapper.vm.resetCursor,
+          })
         })
       })
     })
