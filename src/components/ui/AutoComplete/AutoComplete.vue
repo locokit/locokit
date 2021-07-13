@@ -48,7 +48,7 @@ export default {
   border-radius: 0;
 }
 
-/deep/ .p-button {
+::v-deep .p-button {
   background-color: transparent;
   color: #6c757d;
   width: 2.357rem;
@@ -58,7 +58,7 @@ export default {
   margin-left: -2.357rem;
 }
 
-/deep/ .p-button:enabled:hover {
+::v-deep .p-button:enabled:hover {
   background-color: transparent;
   color: #6c757d;
   width: 2.357rem;
@@ -67,7 +67,7 @@ export default {
   border: none;
 }
 
-/deep/ .p-autocomplete-input {
+::v-deep .p-autocomplete-input {
   padding-right: 2.357rem;
 }
 </style>

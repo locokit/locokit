@@ -489,6 +489,7 @@ describe('Communicating block', () => {
           definition: mockDefinitions,
           content: mockTable1GeoContent,
           id: 'b1',
+          workspaceId: 'toto',
         },
         ...defaultWrapperParams,
         stubs: ['lck-map'],

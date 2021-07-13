@@ -24,9 +24,7 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
        
       <!---->
        
-      <div
-        class="lck-container-parent"
-      />
+      <div />
        
       <!---->
     </div>
@@ -63,9 +61,7 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
        
       <!---->
        
-      <div
-        class="lck-container-parent"
-      />
+      <div />
        
       <button
         class="new-container-button p-button-text p-button p-component p-button-icon-only"
@@ -122,9 +118,7 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
        
       <!---->
        
-      <div
-        class="lck-container-parent"
-      />
+      <div />
        
       <!---->
     </div>

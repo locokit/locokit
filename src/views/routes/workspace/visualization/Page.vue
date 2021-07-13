@@ -2,7 +2,7 @@
   <div
     v-if="page"
     class="p-mx-2"
-    :class="setLayoutPage"
+    :class="layoutPage"
   >
     <div
       class="lck-page-content"
@@ -34,6 +34,7 @@
         v-model="page.containers"
         handle=".handle"
         @change="onContainerReorderClick"
+        class="lck-container-parent"
       >
         <div
           v-for="container in page.containers"
@@ -73,6 +74,7 @@
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
             handle=".handle-block"
+            class="lck-block-parent"
           >
             <template v-for="block in container.blocks">
               <Block
@@ -80,11 +82,11 @@
                 v-if="editMode || isBlockDisplayed(block)"
                 class="lck-block"
                 :class="{
-                  'p-mb-4': !editMode,
+                  'p-pb-4': !editMode
                 }"
                 :block="block"
-                :definition="getBlockDefinition(block)"
                 :content="getBlockContent(block)"
+                :definition="getBlockDefinition(block)"
                 :workspaceId="workspaceId"
                 :autocompleteSuggestions="autocompleteSuggestions"
                 :exporting="exporting"
@@ -187,6 +189,7 @@
       @input="onBlockDeleteInput"
     />
   </div>
+
 </template>
 
 <script>
@@ -284,7 +287,7 @@ export default {
         containerDelete: false,
         blockDelete: false,
       },
-      editableSidebarWidth: '40rem',
+      editableSidebarWidth: '30rem',
       editableAutocompleteSuggestions: null,
       blockDisplayTableViewSuggestions: null,
       blockDisplayFieldSuggestions: null,
@@ -325,7 +328,7 @@ export default {
       }
       return relatedChapterPages || []
     },
-    setLayoutPage () {
+    layoutPage () {
       if (this.page) {
         switch (this.page.layout) {
           case 'center':
@@ -451,6 +454,8 @@ export default {
           if (isGeoBlock(block.type)) {
             // For a geo column, we get the definition of all specified views
             block.settings.sources.forEach(mapSource => this.createOrExtendSource(mapSource.id, block.id, block.type))
+            // we could handle also a record creation
+            if (block.settings.addSourceId) this.createOrExtendSource(block.settings.addSourceId, block.id, block.type)
           }
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type)
@@ -463,6 +468,11 @@ export default {
       tableViews.forEach(tv => {
         this.$set(this.sources[tv.id], 'definition', tv)
       })
+    },
+    getSourcesByTableId (tableId) {
+      return Object.keys(this.sources).filter(tableViewId => {
+        return this.sources[tableViewId].definition?.table_id === tableId
+      }).map(tableViewId => (this.sources[tableViewId]))
     },
     /**
      * Load all content sources
@@ -482,7 +492,7 @@ export default {
         currentSource.options.filters.rowId = this.$route.query.rowId
       }
       if (!currentSource.multi && this.$route.query.rowId) {
-        currentSource.content = {
+        this.$set(currentSource, 'content', {
           data: [
             await lckServices.tableRow.get(this.$route.query.rowId, {
               query: {
@@ -490,16 +500,16 @@ export default {
               },
             }),
           ],
-        }
+        })
       } else {
-        currentSource.content = await lckHelpers.retrieveViewData(
+        this.$set(currentSource, 'content', await lckHelpers.retrieveViewData(
           tableViewId,
           this.groupId,
           currentSource.options.page * currentSource.options.itemsPerPage,
           currentSource.options.itemsPerPage,
           currentSource.options.sort,
           currentSource.options.filters,
-        )
+        ))
       }
       // if the source is a multi one with $limit = -1,
       if (Array.isArray(currentSource.content)) {
@@ -529,8 +539,14 @@ export default {
        */
       if (isGeoBlock(block.type)) {
         if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
-        if (!this.geoSources[block.id].definition) {
+        if (
+          !this.geoSources[block.id].definition ||
+          Object.keys(this.geoSources[block.id].definition).length === 0
+        ) {
           const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
+          if (block.settings.addSourceId) {
+            definitions.push(this.sources[block.settings.addSourceId]?.definition)
+          }
           this.$set(this.geoSources[block.id], 'definition', objectFromArray(definitions, 'id'))
         }
         return this.geoSources[block.id].definition
@@ -542,30 +558,25 @@ export default {
     getBlockContent (block) {
       switch (block.type) {
         case BLOCK_TYPE.MAP_SET:
-          // The result in an object whose the keys are the views ids and the values are the corresponding rows
-          if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
-          if (!this.geoSources[block.id].content) {
-            this.$set(this.geoSources[block.id], 'content', block.settings.sources.reduce(
-              (allContents, mapSource) => {
-                /**
-                 * To manage shared sources between a MapSet and a TableSet or other set,
-                 * we need to check if the source content is an array (source is only used by MapSet)
-                 * or an { total, limit, skip, data } object (shared source)
-                 * If it's an object, we return data (paginated array), else only the content (already an array)
-                 */
-                const sourceContent = this.sources[mapSource.id]?.content
-                let currentContent = []
-                if (Array.isArray(sourceContent)) {
-                  currentContent = sourceContent
-                } else if (sourceContent?.data) {
-                  currentContent = sourceContent.data
-                }
-                return Object.assign(allContents, { [mapSource.id]: currentContent })
-              },
-              {},
-            ))
-          }
-          return this.geoSources[block.id].content
+          return block.settings.sources.reduce(
+            (allContents, mapSource) => {
+              /**
+               * To manage shared sources between a MapSet and a TableSet or other set,
+               * we need to check if the source content is an array (source is only used by MapSet)
+               * or an { total, limit, skip, data } object (shared source)
+               * If it's an object, we return data (paginated array), else only the content (already an array)
+               */
+              const sourceContent = this.sources[mapSource.id]?.content
+              let currentContent = []
+              if (Array.isArray(sourceContent)) {
+                currentContent = sourceContent
+              } else if (sourceContent?.data) {
+                currentContent = sourceContent.data
+              }
+              return Object.assign(allContents, { [mapSource.id]: currentContent })
+            },
+            {},
+          )
         case BLOCK_TYPE.MAP_FIELD:
           return {
             [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content],
@@ -649,6 +660,7 @@ export default {
 
         lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
+        currentRow.text = res.text
       } catch (error) {
         this.cellState.isValid = false
       }
@@ -734,7 +746,15 @@ export default {
     },
     async onCreateRow (block, newRow) {
       const data = { ...newRow.data }
-      const currentBlockDefinition = this.getBlockDefinition(block)
+      const blockDefinition = this.getBlockDefinition(block)
+
+      let currentBlockDefinition = blockDefinition
+      if (isGeoBlock(block.type)) {
+        if (block.settings.addSourceId) {
+          currentBlockDefinition = blockDefinition[block.settings.addSourceId]
+        }
+      }
+
       if (this.$route.query.rowId) {
         const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
@@ -791,7 +811,18 @@ export default {
             },
           })
         } else {
-          await this.loadSourceContent(block.settings.id)
+          await this.loadSourceContent(currentBlockDefinition.id)
+          /**
+           * Here we need to load all impacted sources,
+           * so every multi source that share the same table_id
+           * than the view that is at the origin of the record creation
+           */
+          const sourcesToRefresh = this.getSourcesByTableId(currentBlockDefinition.table_id)
+          await Promise.all(sourcesToRefresh.map(source => {
+            if (source.definition.id !== currentBlockDefinition.id && source.multi === true) {
+              return this.loadSourceContent(source.definition.id)
+            }
+          }))
         }
       } catch (error) {
         this.$set(block, 'submitting', { inProgress: false, errors: [error] })
@@ -806,13 +837,23 @@ export default {
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
+      await lckHelpers.exportTableRowDataCSV(
+        block.settings?.id,
+        this.blocksOptions[block.id]?.filters,
+        this.fileName = block.title,
+        this.groupId,
+      )
       this.exporting = false
     },
     async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
+      await lckHelpers.exportTableRowDataXLS(
+        block.settings?.id,
+        this.blocksOptions[block.id]?.filters,
+        this.fileName = block.title,
+        this.groupId,
+      )
       this.exporting = false
     },
     async onUploadFiles ({
@@ -1294,6 +1335,7 @@ export default {
       // Hide the updated container sidebar
       this.onCloseUpdateContainerSidebar()
       await this.refreshDefinitionAndContent()
+      if (!this.page.containers) return
       this.page.containers.forEach(container => {
         container.blocks.forEach(block => {
           this.$set(block, 'pageLoaded', true)
@@ -1413,32 +1455,60 @@ export default {
 }
 
 /* Contenu Flex (2/n colonnes) */
+@media (min-width: 900px) {
+  .lck-layout-flex,
+  .lck-layout-flex .lck-page-content {
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .lck-layout-flex .lck-page-content .lck-container-parent {
+    height: calc(100% - 5rem);
+    max-height: calc(100% - 5rem);
+    overflow: hidden;
+  }
+  .lck-layout-flex .lck-block-parent {
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .lck-layout-flex .lck-block {
+    flex: 1 0 0%;
+    display: flex;
+  }
+  .lck-layout-flex .lck-page-content .lck-container-parent {
+    display: flex;
+  }
 
-.lck-layout-flex .lck-container div {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  flex-basis: 0;
-  flex-wrap: wrap;
-  column-gap: 1rem;
+  .lck-layout-flex .lck-container {
+    flex: 1 1 0;
+    min-width: 50%;
+    width: 50%;
+    max-width: 50%;
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+
+  .lck-layout-flex .lck-container .lck-block.lck-media {
+    justify-content: center;
+  }
+
+  .lck-layout-flex .lck-container .edit-container-line {
+    align-self: flex-start;
+    width: 100%;
+  }
 }
-
-.lck-layout-flex .lck-container .lck-block.lck-media {
-  justify-content: center;
-}
-
-.lck-layout-flex .lck-container .edit-container-line {
-  align-self: flex-start;
-  width: 100%;
-}
-
+/*
 @media (max-width: 900px) {
   .lck-layout-flex .lck-container div {
     flex-direction: column;
     flex-wrap: unset;
   }
 }
-
+*/
 /* Contenu Full */
 
 .lck-layout-full {
