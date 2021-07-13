@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-unused-vars */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { flushAll } from '@/../tests//unit/local-test-utils'
 import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
 import Toast from 'primevue/toast'
-import flushPromises from 'flush-promises'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { lckServices } from '@/services/lck-api'
@@ -1004,7 +1002,6 @@ const mockRoutes = [
 // Tests
 
 describe('Page', () => {
-
   // Default workspace component configuration
   function globalComponentParams (pageId = '1', workspaceId = '17', groupId = 'this-is-a-group') {
     const localVue = createLocalVue()

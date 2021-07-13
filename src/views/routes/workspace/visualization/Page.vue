@@ -827,13 +827,23 @@ export default {
     async onExportViewCSV (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataCSV(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
+      await lckHelpers.exportTableRowDataCSV(
+        block.settings?.id,
+        this.blocksOptions[block.id]?.filters,
+        this.fileName = block.title,
+        this.groupId,
+      )
       this.exporting = false
     },
     async onExportViewXLS (block) {
       if (!block.settings?.id) return
       this.exporting = true
-      await lckHelpers.exportTableRowDataXLS(block.settings?.id, this.blocksOptions[block.id]?.filters, this.fileName = block.title, this.groupId)
+      await lckHelpers.exportTableRowDataXLS(
+        block.settings?.id,
+        this.blocksOptions[block.id]?.filters,
+        this.fileName = block.title,
+        this.groupId,
+      )
       this.exporting = false
     },
     async onUploadFiles ({
