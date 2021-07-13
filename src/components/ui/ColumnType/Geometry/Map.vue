@@ -146,7 +146,7 @@ export default Vue.extend({
     }
     // Directly focus on a specific area in dialog mode
     if (this.mode === MODE.DIALOG) {
-      const computedBounds = computeBoundingBox(this.resources.filter(r => !r.excludeFromBounds)
+      const computedBounds = computeBoundingBox(this.resources.filter(r => !r.excludeFromBounds))
       if (!computedBounds.isEmpty()) {
         mapOptions.bounds = computedBounds
         mapOptions.fitBoundsOptions = {
