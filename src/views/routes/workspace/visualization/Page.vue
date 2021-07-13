@@ -1430,58 +1430,60 @@ export default {
 }
 
 /* Contenu Flex (2/n colonnes) */
-.lck-layout-flex,
-.lck-layout-flex .lck-page-content {
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-}
-.lck-layout-flex .lck-page-content .lck-container-parent {
-  height: calc(100% - 5rem);
-  max-height: calc(100% - 5rem);
-  overflow: hidden;
-}
-.lck-layout-flex .lck-block-parent {
-  min-height: 100%;
-  height: 100%;
-  max-height: 100%;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-.lck-layout-flex .lck-block {
-  flex: 1 0 0%;
-  display: flex;
-}
-.lck-layout-flex .lck-page-content .lck-container-parent {
-  display: flex;
-}
+@media (min-width: 900px) {
+  .lck-layout-flex,
+  .lck-layout-flex .lck-page-content {
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .lck-layout-flex .lck-page-content .lck-container-parent {
+    height: calc(100% - 5rem);
+    max-height: calc(100% - 5rem);
+    overflow: hidden;
+  }
+  .lck-layout-flex .lck-block-parent {
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .lck-layout-flex .lck-block {
+    flex: 1 0 0%;
+    display: flex;
+  }
+  .lck-layout-flex .lck-page-content .lck-container-parent {
+    display: flex;
+  }
 
-.lck-layout-flex .lck-container {
-  flex: 1 1 0;
-  min-width: 50%;
-  width: 50%;
-  max-width: 50%;
-  padding: 0.5rem;
-  overflow: hidden;
-}
+  .lck-layout-flex .lck-container {
+    flex: 1 1 0;
+    min-width: 50%;
+    width: 50%;
+    max-width: 50%;
+    padding: 0.5rem;
+    overflow: hidden;
+  }
 
-.lck-layout-flex .lck-container .lck-block.lck-media {
-  justify-content: center;
-}
+  .lck-layout-flex .lck-container .lck-block.lck-media {
+    justify-content: center;
+  }
 
-.lck-layout-flex .lck-container .edit-container-line {
-  align-self: flex-start;
-  width: 100%;
+  .lck-layout-flex .lck-container .edit-container-line {
+    align-self: flex-start;
+    width: 100%;
+  }
 }
-
+/*
 @media (max-width: 900px) {
   .lck-layout-flex .lck-container div {
     flex-direction: column;
     flex-wrap: unset;
   }
 }
-
+*/
 /* Contenu Full */
 
 .lck-layout-full {
