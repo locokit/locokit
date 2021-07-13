@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/ButtonConfirmation With Class Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-button p-component p-button-icon-only p-button-rounded p-button-danger p-button-text"
+    type="button"
+  >
+    <span
+      class="pi pi-trash p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;
+
+exports[`storyshots components/ui/ButtonConfirmation with icon + class + tooltip 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-button p-component p-button-icon-only p-button-rounded p-button-warning"
+    type="button"
+  >
+    <span
+      class="pi pi-check p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;

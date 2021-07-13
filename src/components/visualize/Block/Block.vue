@@ -39,6 +39,8 @@
         :display-detail-button="displayDetailButton"
         :add-allowed="addAllowed"
         :export-allowed="exportAllowed"
+        :delete-allowed="deleteAllowed"
+        :duplicate-allowed="duplicateAllowed"
         class="block-content"
       />
       <span class="lck-color-content" v-else-if="block.type">
@@ -117,6 +119,14 @@ export default Vue.extend({
     exportAllowed () {
       if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
       return (this.block as BlockTableSet).settings?.exportAllowed
+    },
+    deleteAllowed () {
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
+      return (this.block as BlockTableSet).settings?.deleteAllowed
+    },
+    duplicateAllowed () {
+      if (this.block.type !== BLOCK_TYPE.TABLE_SET) return false
+      return (this.block as BlockTableSet).settings?.duplicateAllowed
     },
     getBlockTypeClassname () {
       let className = (this.block?.elevation as boolean) ? 'lck-elevation ' : ''
