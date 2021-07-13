@@ -215,16 +215,17 @@
             *
           </span>
         </div>
-
-        <lck-map
-          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id] && availableColumnsIds.includes(column.id)"
-          mode="Dialog"
-          :id="'map-display-detail-' + column.id"
-          :resources="getLckGeoResources(column)"
-          :options="{
-            interactive: false
-          }"
-        />
+        <template v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]">
+          <lck-map
+            v-if="availableColumnsIds.includes(column.id)"
+            mode="Dialog"
+            :id="'map-display-detail-' + column.id"
+            :resources="getLckGeoResources(column)"
+            :options="{
+              interactive: false
+            }"
+          />
+        </template>
         <lck-badge
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
           v-bind="getColumnDisplayValue(column, row.data[column.id])"
