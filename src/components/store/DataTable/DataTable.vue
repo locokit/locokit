@@ -59,9 +59,24 @@
         @row-contextmenu="onRowContextMenu"
       >
         <p-column
-          v-if="(displayDetailButton && definition.columns && definition.columns.length > 0) || deleteAllowed || duplicateAllowed"
-          headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
-          bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
+          v-if="
+            (displayDetailButton && definition.columns && definition.columns.length > 0)
+            || deleteAllowed
+            || duplicateAllowed
+          "
+          :headerStyle="{
+            width: crudMode ? '6rem': (displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '4rem'),
+            padding: '0 0.1rem',
+            margin: 'unset'
+          }"
+          :bodyStyle="{
+            width: crudMode ? '6rem': (displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '4rem'),
+            padding: '0 0.1rem',
+            margin: 'unset',
+            'text-align': 'center',
+            'box-shadow': '1px 0 0 0 #eee',
+            overflow: 'hidden'
+          }"
           headerClass="sticky-column-cells"
           bodyClass="sticky-column-cells"
           columnKey="detail-column"
@@ -74,13 +89,20 @@
                 class="p-button-sm p-button-text p-button-rounded"
                 icon="pi pi-window-maximize"
                 @click="$emit('open-detail', { rowId: slotProps.data.id })"
+                v-tooltip="$t('components.datatable.openDetail')"
               />
-              <p-button
+              <lck-button-confirmation
                 v-if="duplicateAllowed"
-                class="p-button-sm p-button-text p-button-rounded"
-                icon="pi pi-clone"
-                aria-label="pouet"
-                @click="$emit('duplicate', slotProps.data)"
+                first-level-icon="pi pi-clone"
+                second-level-icon="pi pi-exclamation-circle"
+
+                first-level-class="p-button-rounded p-button-text"
+                second-level-class="p-button-rounded p-button-text"
+
+                :first-level-tooltip="$t('components.datatable.contextmenu.duplicate')"
+                :second-level-tooltip="$t('components.datatable.contextmenu.duplicateConfirm')"
+
+                @confirm="$emit('row-duplicate', slotProps.data)"
               />
               <lck-button-confirmation
                 v-if="deleteAllowed"
