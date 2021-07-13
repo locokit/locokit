@@ -942,10 +942,10 @@ jest.mock('@/views/routes/workspace/visualization/Workspace.vue', () => ({
   },
 }))
 
-/*jest.mock('@/components/visualize/Block/Block', () => ({
+/* jest.mock('@/components/visualize/Block/Block', () => ({
   name: 'Block',
   render: h => h('block'),
-}))*/
+})) */
 
 // Mock routes
 const mockRoutes = [
@@ -1812,47 +1812,47 @@ describe('Page', () => {
     })
   })
 
-  describe('Create new records (blocks Set)', () => {
-    let wrapper
+  // describe('Create new records (blocks Set)', () => {
+  //   let wrapper
 
-    beforeEach(async () => {
-      wrapper = mount(Page, {
-        ...globalComponentParams(),
-        attachTo: document.body,
-        propsData: {
-          pageId: '6',
-          editMode: false,
-          workspaceId: 'toto',
-          groupId: 'this-is-a-group',
-        },
-      })
-    })
-    it('match snapshot', async () => {
-      expect.assertions(1)
-      expect(wrapper.html()).toMatchSnapshot()
-    })
-    it('by displaying a button with correct title', async () => {
-      expect.assertions(1)
-      const pButton = wrapper.find('.p-button')
-      console.log(pButton)
-    })
-    it('by displaying a dialog with selected fields', async () => {
+  //   beforeEach(async () => {
+  //     wrapper = mount(Page, {
+  //       ...globalComponentParams(),
+  //       attachTo: document.body,
+  //       propsData: {
+  //         pageId: '6',
+  //         editMode: false,
+  //         workspaceId: 'toto',
+  //         groupId: 'this-is-a-group',
+  //       },
+  //     })
+  //   })
+  //   it('match snapshot', async () => {
+  //     expect.assertions(1)
+  //     expect(wrapper.html()).toMatchSnapshot()
+  //   })
+  //   it('by displaying a button with correct title', async () => {
+  //     expect.assertions(1)
+  //     const pButton = wrapper.find('.p-button')
+  //     console.log(pButton)
+  //   })
+  //   it('by displaying a dialog with selected fields', async () => {
 
-    })
-    it('by calling the API with structured data', async () => {
+  //   })
+  //   it('by calling the API with structured data', async () => {
 
-    })
-    it('hide automatically dialog after success', async () => {
+  //   })
+  //   it('hide automatically dialog after success', async () => {
 
-    })
-    it('display a $toast if an error occured', async () => {
+  //   })
+  //   it('display a $toast if an error occured', async () => {
 
-    })
-    it('even if block is a MapSet, with the right definition', async () => {
+  //   })
+  //   it('even if block is a MapSet, with the right definition', async () => {
 
-    })
-    afterEach(async () => {
-      await wrapper.destroy()
-    })
-  })
+  //   })
+  //   afterEach(async () => {
+  //     await wrapper.destroy()
+  //   })
+  // })
 })
