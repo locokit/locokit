@@ -537,20 +537,20 @@ export default {
           this.row,
         ],
       }
-      // Initialize the geo sources settings with the current column
-      const geoSourcesSettings: MapSourceSettings[] = [
-        {
-          id: columnSourceId,
-          field: column.id,
-          style: {
-            default: {
-              fill: {
-                color: '#00F',
-              },
+      // Initialize the geo sources settings of the current column
+      const currentGeoSourceSettings: MapSourceSettings = {
+        id: columnSourceId,
+        field: column.id,
+        style: {
+          default: {
+            fill: {
+              color: '#02629E',
             },
           },
         },
-      ]
+      }
+      const geoSourcesSettings: MapSourceSettings[] = []
+
       // Load additional resources if specified
       if (column.settings.map_sources && this.secondarySources) {
         for (const mapSourceSettings of column.settings.map_sources) {
@@ -570,6 +570,9 @@ export default {
           }
         }
       }
+
+      // Add the current column source at the end to display it over the other sources
+      geoSourcesSettings.push(currentGeoSourceSettings)
 
       return getLckGeoResources(
         definitionsToLoad,
