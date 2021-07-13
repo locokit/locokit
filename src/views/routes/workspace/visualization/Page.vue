@@ -523,7 +523,10 @@ export default {
        */
       if (isGeoBlock(block.type)) {
         if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
-        if (!this.geoSources[block.id].definition) {
+        if (
+          !this.geoSources[block.id].definition ||
+          Object.keys(this.geoSources[block.id].definition).length === 0
+        ) {
           const definitions = block.settings.sources?.map(mapSource => this.sources[mapSource.id]?.definition) || []
           if (block.settings.addSourceId) {
             definitions.push(this.sources[block.settings.addSourceId]?.definition)
@@ -1312,6 +1315,7 @@ export default {
       // Hide the updated container sidebar
       this.onCloseUpdateContainerSidebar()
       await this.refreshDefinitionAndContent()
+      if (!this.page.containers) return
       this.page.containers.forEach(container => {
         container.blocks.forEach(block => {
           this.$set(block, 'pageLoaded', true)

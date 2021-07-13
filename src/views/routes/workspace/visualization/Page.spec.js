@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-unused-vars */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { mount } from '@/../tests/unit/local-test-utils'
+import { flushAll } from '@/../tests//unit/local-test-utils'
 import { BLOCK_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
 import Toast from 'primevue/toast'
+import flushPromises from 'flush-promises'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { lckServices } from '@/services/lck-api'
@@ -21,7 +22,10 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 
 jest.mock('date-fns')
 jest.mock('file-saver')
-jest.mock('vuedraggable')
+jest.mock('vuedraggable', () => ({
+  name: 'draggable',
+  render: h => h('draggable'),
+}))
 
 // Mock primevue component
 jest.mock('primevue/button', () => ({
@@ -281,10 +285,10 @@ const mockPages = {
             createdAt: '2021-06-25T18:40:03.109Z',
             updatedAt: '2021-06-25T18:40:03.109Z',
             containerId: '16',
-            addSourceId: '4',
-            addAllowed: true,
-            addButtonTitle: 'This is my add button, click here !',
             settings: {
+              addSourceId: '4',
+              addAllowed: true,
+              addButtonTitle: 'This is my add button, click here !',
               sources: [
                 {
                   id: '1',
@@ -336,14 +340,22 @@ const mockTableViewDefinitions = {
   1: {
     id: '1',
     columns: [],
+    table_id: 'table1',
   },
   2: {
     id: '2',
     columns: [],
+    table_id: 'table2',
   },
   3: {
     id: '3',
     columns: [],
+    table_id: 'table3',
+  },
+  4: {
+    id: '4',
+    columns: [],
+    table_id: 'table3',
   },
 }
 
@@ -834,6 +846,28 @@ const mockTableViewContents = () => ({
       },
     ],
   },
+  4: {
+    data: [
+      {
+        id: 'tv4r1',
+        text: 'TableView 4 - Row 1',
+        table_id: 't1',
+        data: {
+          c4: 'third content',
+          displayField: false,
+        },
+      },
+      {
+        id: 'tv4r1',
+        text: 'TableView 4 - Row 1',
+        table_id: 't1',
+        data: {
+          c4: 'third content',
+          displayField: false,
+        },
+      },
+    ],
+  },
 })
 
 const unknownTypeBlock = {
@@ -891,6 +925,10 @@ jest.mock('@/services/lck-api', () => ({
       create: jest.fn(data =>
         ({ ...mockPages['1'].containers[0].blocks[0], ...data, id: '22' })),
       remove: jest.fn(),
+    },
+    tableRow: {
+      create: jest.fn(data =>
+        ({ ...data, id: '66' })),
     },
   },
   lckHelpers: {
@@ -966,13 +1004,12 @@ const mockRoutes = [
 // Tests
 
 describe('Page', () => {
-  // For vue router
-  const localVue = createLocalVue()
-  localVue.use(VueRouter)
-  const router = new VueRouter({ routes: mockRoutes })
 
   // Default workspace component configuration
   function globalComponentParams (pageId = '1', workspaceId = '17', groupId = 'this-is-a-group') {
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const router = new VueRouter({ routes: mockRoutes })
     return {
       localVue,
       router,
@@ -1812,47 +1849,84 @@ describe('Page', () => {
     })
   })
 
-  // describe('Create new records (blocks Set)', () => {
-  //   let wrapper
+  describe('Create new records (blocks Set)', () => {
+    let wrapper
+    beforeEach(async () => {
+      wrapper = await shallowMount(Page, {
+        ...globalComponentParams(),
+        attachTo: document.body,
+        propsData: {
+          pageId: '6',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group',
+        },
+      })
+    })
+    it('match snapshot and display all blocks', async () => {
+      expect.assertions(2)
+      expect(wrapper.html()).toMatchSnapshot()
+      const blocks = wrapper.findAllComponents(Block)
+      expect(blocks.length).toBe(2)
+    })
+    it('by calling the API with structured data', async () => {
+      expect.assertions(2)
+      const blocks = wrapper.findAllComponents(Block)
+      const spyOnTableRowCreation = jest.spyOn(lckServices.tableRow, 'create')
+      blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      expect(spyOnTableRowCreation).toHaveBeenCalledTimes(1)
+      expect(spyOnTableRowCreation).toHaveBeenNthCalledWith(1, {
+        data: { yolo: 'yes' },
+        table_view_id: '4',
+        $lckGroupId: 'this-is-a-group',
+      })
+      spyOnTableRowCreation.mockClear()
+    })
+    it('by refreshing all sources linked to the same table_id if succeed', async () => {
+      expect.assertions(3)
+      const blocks = wrapper.findAllComponents(Block)
+      const spyOnLoadSourceContent = jest.spyOn(wrapper.vm, 'loadSourceContent')
+      await blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
+      expect(spyOnLoadSourceContent).toHaveBeenCalledTimes(2)
+      expect(spyOnLoadSourceContent).toHaveBeenNthCalledWith(1, '4')
+      expect(spyOnLoadSourceContent).toHaveBeenNthCalledWith(2, '3')
+      // spyOnLoadSourceContent.mockClear()
+    })
+    it('display a $toast if an error occured', async () => {
+      expect.assertions(3)
+      const blocks = wrapper.findAllComponents(Block)
+      const initialCreate = lckServices.tableRow.create
+      lckServices.tableRow.create = jest.fn(() => { throw new Error('you loose') })
+      const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
+      blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      /**
+       * Here we have two toaster that have been displayed
+       * because we mix a DATA_RECORD and a MAP_SET on the same tableViewId
+       * so we have a warn toast + error toast
+       */
+      expect(spyOnToast).toHaveBeenCalledTimes(2)
+      expect(spyOnToast).toHaveBeenNthCalledWith(1, {
+        detail: 'error.cms.blockMultiConflictDetail',
+        severity: 'warn',
+        summary: 'error.cms.blockMultiConflictSummary',
+      })
+      expect(spyOnToast).toHaveBeenNthCalledWith(2, {
+        severity: 'error',
+        detail: 'error.basic',
+        life: 5000,
+        summary: 'error.http.undefined',
+      })
+      lckServices.tableRow.create = initialCreate
+    })
+    afterEach(async () => {
+      await wrapper.destroy()
+    })
+  })
 
-  //   beforeEach(async () => {
-  //     wrapper = mount(Page, {
-  //       ...globalComponentParams(),
-  //       attachTo: document.body,
-  //       propsData: {
-  //         pageId: '6',
-  //         editMode: false,
-  //         workspaceId: 'toto',
-  //         groupId: 'this-is-a-group',
-  //       },
-  //     })
-  //   })
-  //   it('match snapshot', async () => {
-  //     expect.assertions(1)
-  //     expect(wrapper.html()).toMatchSnapshot()
-  //   })
-  //   it('by displaying a button with correct title', async () => {
-  //     expect.assertions(1)
-  //     const pButton = wrapper.find('.p-button')
-  //     console.log(pButton)
-  //   })
-  //   it('by displaying a dialog with selected fields', async () => {
-
-  //   })
-  //   it('by calling the API with structured data', async () => {
-
-  //   })
-  //   it('hide automatically dialog after success', async () => {
-
-  //   })
-  //   it('display a $toast if an error occured', async () => {
-
-  //   })
-  //   it('even if block is a MapSet, with the right definition', async () => {
-
-  //   })
-  //   afterEach(async () => {
-  //     await wrapper.destroy()
-  //   })
+  // describe('Export data through CSV or XLS', () => {
   // })
 })

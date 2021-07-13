@@ -23,10 +23,11 @@
     <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
 
     <lck-dialog-form
-      :visible.sync="displayNewDialog"
+      v-if="displayDialog"
+      :visible.sync="displayDialog"
       :header="addDialogHeader"
       :submitting="submitting.inProgress"
-      @close="displayNewDialog = false"
+      @close="displayDialog = false"
       @input="handleSubmitCreateRow"
     >
       <lck-data-detail
@@ -96,7 +97,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      displayNewDialog: false,
+      displayDialog: false,
       newRow: {} as Partial<LckTableRow>,
       selectedFeatureBySource: {} as Record<string, {
         feature: GeoJSONFeature;
@@ -222,10 +223,17 @@ export default Vue.extend({
           this.$set(this.newRow.data as LckTableRow['data'], c.id, c.settings.default)
         }
       })
-      this.displayNewDialog = true
+      this.displayDialog = true
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
+    },
+  },
+  watch: {
+    submitting (submittingValue) {
+      if (!submittingValue.inProgress && !submittingValue.errors) {
+        this.displayDialog = false
+      }
     },
   },
 })
