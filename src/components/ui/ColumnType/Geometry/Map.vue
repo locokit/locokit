@@ -150,7 +150,7 @@ export default Vue.extend({
       if (!computedBounds.isEmpty()) {
         mapOptions.bounds = computedBounds
         mapOptions.fitBoundsOptions = {
-          padding: 10,
+          padding: 20,
         }
       }
     }

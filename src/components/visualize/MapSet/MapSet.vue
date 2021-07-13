@@ -36,7 +36,9 @@
         :row="newRow"
         mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
+        :secondarySources="$attrs['secondarySources']"
         :workspaceId="workspaceId"
+        @get-secondary-sources="$listeners['get-secondary-sources']"
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
       />
