@@ -267,6 +267,7 @@ export interface MapCaughtBlockEvent extends CaughtBlockEvent {
 export interface MapSettings extends CommunicatingBlockSettings<'', MapCaughtBlockEvent> {
   addAllowed?: boolean;
   addSourceId?: string; // uuid of the table view to use when creating new record
+  addButtonTitle?: string; // title of the "add button" and the matching dialog
   sources: MapSourceSettings[];
 }
 
