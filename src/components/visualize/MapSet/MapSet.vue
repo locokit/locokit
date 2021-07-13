@@ -1,21 +1,53 @@
 <template>
-  <lck-map
-    v-if="this.hasRightConfiguration && resources"
-    :defaultSelectedFeatureBySource="selectedFeatureBySource"
-    :hasPopup="hasPopup"
-    :id="`block-map-view-${id}`"
-    :resources="resources"
-    style="min-height: 50vh"
-    @select-feature="onSelectFeature"
-    v-on="$listeners"
-  />
-  <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
+  <div class="h-full p-d-flex p-flex-column">
+    <div style="text-align:center">
+      <p-button
+        v-if="addAllowed"
+        :label="addButtonTitle"
+        icon="pi pi-plus-circle"
+        class="p-m-2"
+        @click="onClickAddButton"
+      />
+    </div>
+
+    <lck-map
+      v-if="this.hasRightConfiguration && resources"
+      :defaultSelectedFeatureBySource="selectedFeatureBySource"
+      :hasPopup="hasPopup"
+      :id="`block-map-view-${id}`"
+      :resources="resources"
+      style="min-height: 50vh"
+      @select-feature="onSelectFeature"
+      v-on="$listeners"
+    />
+    <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
+
+    <lck-dialog-form
+      v-if="displayDialog"
+      :visible.sync="displayDialog"
+      :header="addDialogHeader"
+      :submitting="submitting.inProgress"
+      @close="displayDialog = false"
+      @input="handleSubmitCreateRow"
+    >
+      <lck-data-detail
+        :crudMode="false"
+        :definition="filteredDefinitionColumns"
+        :row="newRow"
+        mode="creation"
+        :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
+        :workspaceId="workspaceId"
+        @update-suggestions="$listeners['update-suggestions']"
+        @update-row="onUpdateRow"
+      />
+    </lck-dialog-form>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import { MapSettings } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, MapSettings } from '@locokit/lck-glossary'
 
 import { EmittedBlockEvent, LckTableRow, LckTableRowData, LckTableRowDataComplex, LckTableView } from '@/services/lck-api/definitions'
 import {
@@ -23,29 +55,24 @@ import {
   LckGeoResource,
 } from '@/services/lck-utils/map/transformWithOL'
 
-import CommunicatingBlock from '../Block/CommunicatingBlock'
-import { MapboxGeoJSONFeature } from 'mapbox-gl'
+import CommunicatingBlock from '@/components/visualize/Block/CommunicatingBlock'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import eventHub from '@/services/lck-event-hub/eventHub'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
-// Dynamic import
-const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
+import { MapboxGeoJSONFeature } from 'mapbox-gl'
+import Button from 'primevue/button'
 
 export default Vue.extend({
   name: 'MapSet',
   components: {
-    'lck-map': Map,
+    'lck-map': () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue'),
+    'lck-data-detail': DataDetail,
+    'lck-dialog-form': DialogForm,
+    'p-button': Vue.extend(Button),
   },
   mixins: [CommunicatingBlock],
-  data () {
-    return {
-      selectedFeatureBySource: {} as Record<string, {
-        feature: GeoJSONFeature;
-        centerToFeature?: boolean;
-        zoomLevel?: number;
-      } | null>,
-    }
-  },
   props: {
     id: {
       type: String,
@@ -59,8 +86,36 @@ export default Vue.extend({
     settings: {
       type: Object as PropType<MapSettings>,
     },
+    submitting: {
+      type: Object, // Submitting type : { inProgress: boolean, errors?: Errors[] }
+      default: () => ({ inProgress: false }),
+    },
+    workspaceId: {
+      type: String,
+      required: true,
+    },
+  },
+  data () {
+    return {
+      displayDialog: false,
+      newRow: {} as Partial<LckTableRow>,
+      selectedFeatureBySource: {} as Record<string, {
+        feature: GeoJSONFeature;
+        centerToFeature?: boolean;
+        zoomLevel?: number;
+      } | null>,
+    }
   },
   computed: {
+    addAllowed (): boolean {
+      return this.settings.addAllowed === true
+    },
+    addButtonTitle (): string {
+      return this.settings.addButtonTitle || this.$t('form.add') as string
+    },
+    addDialogHeader (): string {
+      return this.settings.addButtonTitle || this.$t('components.datatable.addNewRow') as string
+    },
     mapSourcesIds (): string[] {
       return this.settings.sources.map(source => source.id)
     },
@@ -87,6 +142,16 @@ export default Vue.extend({
       return (
         this.resources.some(resource => resource.popupMode)
       )
+    },
+    filteredDefinitionColumns (): Partial<LckTableView> {
+      if (!this.settings.addSourceId) return { columns: [] }
+      const currentDefinition = this.definition[this.settings.addSourceId]
+      return {
+        columns: currentDefinition?.columns?.filter((column) =>
+          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+          column.column_type_id !== COLUMN_TYPE.FORMULA
+        ) || [],
+      }
     },
   },
   methods: {
@@ -141,6 +206,34 @@ export default Vue.extend({
       geoResources.forEach(geoResource => {
         this.$set(this.selectedFeatureBySource, geoResource.id, null)
       })
+    },
+    async onUpdateRow ({ columnId, newValue }: { columnId: string; newValue: unknown}) {
+      this.$set(this.newRow.data as LckTableRow['data'], columnId, newValue)
+    },
+    onClickAddButton () {
+      this.newRow = {
+        data: {},
+      }
+      // eslint-disable-next-line no-unused-expressions
+      this.filteredDefinitionColumns.columns?.forEach(c => {
+        if (
+          c.column_type_id === COLUMN_TYPE.SINGLE_SELECT &&
+          c.settings?.default
+        ) {
+          this.$set(this.newRow.data as LckTableRow['data'], c.id, c.settings.default)
+        }
+      })
+      this.displayDialog = true
+    },
+    handleSubmitCreateRow () {
+      this.$emit('create-row', this.newRow)
+    },
+  },
+  watch: {
+    submitting (submittingValue) {
+      if (!submittingValue.inProgress && !submittingValue.errors) {
+        this.displayDialog = false
+      }
     },
   },
 })

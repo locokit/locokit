@@ -1,5 +1,5 @@
 <template>
-  <validation-observer v-slot="{ invalid, handleSubmit, reset }">
+  <validation-observer v-slot="{ valid, handleSubmit, reset }">
     <form
       @submit.prevent="handleSubmit(() => $emit('input'))"
       @reset.prevent="reset"
@@ -39,7 +39,7 @@
             <p-button
               v-else
               :label="$t('form.submit')"
-              :disabled="invalid"
+              :disabled="!valid"
               type="submit"
               icon="pi pi-check"
               class="p-button-primary"

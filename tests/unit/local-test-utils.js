@@ -6,6 +6,7 @@ import {
 
 import VueI18n from 'vue-i18n'
 import '../../src/plugins/vee-validate'
+import flushPromises from 'flush-promises'
 
 const localVue = createLocalVue()
 localVue.use(VueI18n)
@@ -32,4 +33,13 @@ export function mount (component, options = {}) {
       ...options.mocks,
     },
   })
+}
+
+export async function flushAll () {
+  // get rid of any pending validations on the leading edge
+  await flushPromises()
+  // any delayed or debounced state computations
+  jest.runAllTimers()
+  // get rid of the pending rendering tick
+  await flushPromises()
 }
