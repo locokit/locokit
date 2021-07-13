@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.3.2**
+
+**Feature**
+* add new setting `addButtonTitle` on `MapSettings`
+
 **v0.3.1**
 
 **Feature**
