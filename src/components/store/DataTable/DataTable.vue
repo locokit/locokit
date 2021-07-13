@@ -65,12 +65,12 @@
             || duplicateAllowed
           "
           :headerStyle="{
-            width: crudMode ? '6rem': (displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '4rem'),
+            width: displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '6rem',
             padding: '0 0.1rem',
             margin: 'unset'
           }"
           :bodyStyle="{
-            width: crudMode ? '6rem': (displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '4rem'),
+            width: displayDetailButton && duplicateAllowed && deleteAllowed ? '8rem' : '6rem',
             padding: '0 0.1rem',
             margin: 'unset',
             'text-align': 'center',
