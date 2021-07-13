@@ -47,6 +47,7 @@ describe('MapSet', () => {
       },
       listeners: {
         'update-suggestions': jest.fn(),
+        'get-secondary-sources': jest.fn(),
       },
     })
   })
