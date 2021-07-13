@@ -561,12 +561,6 @@ export default {
             },
             {},
           )
-          // The result in an object whose the keys are the views ids and the values are the corresponding rows
-          // if (!this.geoSources[block.id]) this.geoSources[block.id] = {}
-          // if (!this.geoSources[block.id].content) {
-          //   this.computeGeoBlockContent(block)
-          // }
-          // return this.geoSources[block.id].content
         case BLOCK_TYPE.MAP_FIELD:
           return {
             [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content],
