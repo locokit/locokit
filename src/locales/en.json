@@ -106,7 +106,8 @@
       },
       "contextmenu": {
         "duplicate": "Duplicate",
-        "delete": "Remove"
+        "delete": "Remove a record",
+        "deleteConfirm": "Please confirm removal (click again)"
       },
       "actionColumn": {
         "title": "Action",

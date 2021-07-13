@@ -106,7 +106,8 @@
       },
       "contextmenu": {
         "duplicate": "Dupliquer",
-        "delete": "Supprimer"
+        "delete": "Supprimer un enregistrement",
+        "deleteConfirm": "Confirmez la suppression (cliquez encore)"
       },
       "actionColumn": {
         "title": "Action",

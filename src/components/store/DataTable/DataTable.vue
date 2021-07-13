@@ -59,7 +59,7 @@
         @row-contextmenu="onRowContextMenu"
       >
         <p-column
-          v-if="displayDetailButton && definition.columns && definition.columns.length > 0"
+          v-if="(displayDetailButton && definition.columns && definition.columns.length > 0) || deleteAllowed || duplicateAllowed"
           headerStyle="width: 6rem; padding: 0 0.1rem; margin: unset;"
           bodyStyle="width: 6rem; padding: 0 0.1rem; margin: unset; text-align: center; box-shadow: 1px 0 0 0 #eee; overflow: hidden;"
           headerClass="sticky-column-cells"
@@ -70,9 +70,30 @@
           <template #body="slotProps">
             <span class="button-group">
               <p-button
+                v-if="displayDetailButton && definition.columns && definition.columns.length > 0"
                 class="p-button-sm p-button-text p-button-rounded"
                 icon="pi pi-window-maximize"
                 @click="$emit('open-detail', { rowId: slotProps.data.id })"
+              />
+              <p-button
+                v-if="duplicateAllowed"
+                class="p-button-sm p-button-text p-button-rounded"
+                icon="pi pi-clone"
+                aria-label="pouet"
+                @click="$emit('duplicate', slotProps.data)"
+              />
+              <lck-button-confirmation
+                v-if="deleteAllowed"
+                first-level-icon="pi pi-trash"
+                second-level-icon="pi pi-exclamation-circle"
+
+                first-level-class="p-button-rounded p-button-danger p-button-text"
+                second-level-class="p-button-rounded p-button-danger p-button-text"
+
+                :first-level-tooltip="$t('components.datatable.contextmenu.delete')"
+                :second-level-tooltip="$t('components.datatable.contextmenu.deleteConfirm')"
+
+                @confirm="$emit('row-delete', slotProps.data)"
               />
               <lck-dropdown-button
                 v-if="crudMode"
@@ -373,6 +394,7 @@ import LckCellAction from '@/components/ui/ColumnType/Action/ActionCell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
+import LckButtonConfirmation from '@/components/ui/ButtonConfirmation/ButtonConfirmation'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
@@ -402,6 +424,7 @@ export default {
     'lck-badge': Badge,
     'lck-cell-file': LckCellFile,
     'lck-cell-action': LckCellAction,
+    'lck-button-confirmation': LckButtonConfirmation,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-split-button': Vue.extend(SplitButton),
@@ -478,6 +501,14 @@ export default {
       type: String,
       default: '',
     },
+    duplicateAllowed: {
+      type: Boolean,
+      default: false,
+    },
+    deleteAllowed: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
@@ -490,11 +521,11 @@ export default {
       selectedColumn: null,
       menuModel: [{
         label: this.$t('components.datatable.contextmenu.duplicate'),
-        icon: 'pi pi-fw pi-search',
+        icon: 'pi pi-fw pi-clone',
         command: () => this.$emit('row-duplicate', this.selectedRow),
       }, {
         label: this.$t('components.datatable.contextmenu.delete'),
-        icon: 'pi pi-fw pi-times',
+        icon: 'pi pi-fw pi-trash',
         command: () => this.$emit('row-delete', this.selectedRow),
       },
       ],

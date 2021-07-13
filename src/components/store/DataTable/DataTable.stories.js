@@ -255,6 +255,20 @@ export const withExpectedPropsWithDetailButtons = () => (
 
 withExpectedPropsWithDetailButtons.storyName = 'Expected props with the detail buttons column'
 
+export const withExpectedPropsAndDeleteDuplicateButtons = () => (
+  {
+    components: { 'lck-datatable': DataTable },
+    data () {
+      return {
+        block: tableViewData,
+      }
+    },
+    template: '<lck-datatable :content="block.content" :definition="block.definition" :deleteAllowed="true" :duplicateAllowed="true" />',
+  }
+)
+
+withExpectedPropsWithDetailButtons.storyName = 'Expected props with the detail buttons column'
+
 export const withExpectedPropsWithDetailProcessButtons = () => (
   {
     components: { 'lck-datatable': DataTable },
