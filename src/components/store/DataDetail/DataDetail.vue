@@ -538,7 +538,7 @@ export default {
         ],
       }
       // Initialize the geo sources settings of the current column
-      const currentGeoSourceSettings: MapSourceSettings = {
+      const currentGeoSourceSettings: MapSourceSettings & { excludeFromBounds: boolean } = {
         id: columnSourceId,
         field: column.id,
         style: {
@@ -566,6 +566,7 @@ export default {
               ? content.filter(r => r.id !== this.row.id)
               : content
             // Add the geo sources settings
+            mapSourceSettings.excludeFromBounds = true
             geoSourcesSettings.push(mapSourceSettings)
           }
         }

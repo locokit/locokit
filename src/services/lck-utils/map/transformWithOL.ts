@@ -29,7 +29,6 @@ import {
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
   MapFeatureStyle,
-  MapSettings,
   MapSourceSettings,
   MapSourceStyle,
   MapSourceTriggerEvents,
@@ -88,6 +87,7 @@ export interface LckGeoResource {
   caughtEvents?: string[];
   pageDetailId?: string;
   selectable?: boolean;
+  excludeFromBounds?: boolean;
 }
 
 export interface PopupContent {
@@ -574,7 +574,7 @@ export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<CO
 export function getLckGeoResources (
   tableViews: Record<string, LckTableView>,
   data: Record<string, LckTableRow[]>,
-  settings: MapSettings,
+  settings: { sources: (MapSourceSettings & { excludeFromBounds?: boolean })[] },
   i18nOptions: LckPopupI18nOptions,
 ): LckGeoResource[] {
   const lckGeoResources: LckGeoResource[] = []
@@ -621,6 +621,7 @@ export function getLckGeoResources (
         triggerEvents: source.triggerEvents,
         caughtEvents: source.caughtEvents,
         selectable,
+        excludeFromBounds: source.excludeFromBounds === true,
       })
     }
   })
