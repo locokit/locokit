@@ -149,6 +149,9 @@ export default Vue.extend({
       const computedBounds = computeBoundingBox(this.resources)
       if (!computedBounds.isEmpty()) {
         mapOptions.bounds = computedBounds
+        mapOptions.fitBoundsOptions = {
+          padding: 10,
+        }
       }
     }
     this.map = new Map(mapOptions)

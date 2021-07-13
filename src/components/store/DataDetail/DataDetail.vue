@@ -146,18 +146,20 @@
             mode="decimal"
             :minFractionDigits="2"
           />
-          <lck-map
-            v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map' && canDisplayColumn(column)"
-            :id="'map-edit-detail-' + column.id"
-            mode="Dialog"
-            :options="column.settings && column.settings.map_center ? {
-              ...column.settings.map_center
-            } : {}"
-            :resources="getLckGeoResources(column)"
-            :singleEditMode="true"
-            @remove-features="onEdit(row.id, column.id, null)"
-            @update-features="onGeoDataEdit(row.id, column, $event)"
-          />
+          <template v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'">
+            <lck-map
+              v-if="availableColumnsIds.includes(column.id)"
+              :id="'map-edit-detail-' + column.id"
+              mode="Dialog"
+              :options="column.settings && column.settings.map_center ? {
+                ...column.settings.map_center
+              } : {}"
+              :resources="getLckGeoResources(column)"
+              :singleEditMode="true"
+              @remove-features="onEdit(row.id, column.id, null)"
+              @update-features="onGeoDataEdit(row.id, column, $event)"
+            />
+          </template>
           <lck-file-input
             v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-file-input'"
             :attachments="row.data[column.id]"
@@ -215,7 +217,7 @@
         </div>
 
         <lck-map
-          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id] && canDisplayColumn(column)"
+          v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id] && availableColumnsIds.includes(column.id)"
           mode="Dialog"
           :id="'map-display-detail-' + column.id"
           :resources="getLckGeoResources(column)"
@@ -248,7 +250,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
 import { ValidationProvider } from 'vee-validate'
@@ -256,6 +258,10 @@ import { ValidationProvider } from 'vee-validate'
 import {
   COLUMN_TYPE, MapSourceSettings,
 } from '@locokit/lck-glossary'
+
+import {
+  lckHelpers,
+} from '@/services/lck-api'
 
 import {
   getColumnTypeId,
@@ -338,10 +344,9 @@ export default {
       required: false,
     },
     definition: {
-      type: Object as PropType<LckTableView>,
+      type: Object as () => { columns: LckTableViewColumn[]; table_id?: string },
       required: false,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      default: () => ({ columns: [], text: '', table_id: '', id: '' }),
+      default: () => ({ columns: [] }),
     },
     crudMode: {
       type: Boolean,
@@ -376,13 +381,6 @@ export default {
       required: false,
       default: 'read',
     },
-    secondarySources: {
-      type: Object as () => Record<string, {
-        definition: LckTableView;
-        content: LckTableRow[];
-      }>,
-      default: () => ({}),
-    },
   },
   data () {
     return {
@@ -390,6 +388,7 @@ export default {
       autocompleteInput: {} as Record<string, string>,
       // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>,
+      secondarySources: {} as Record<string, { definition: LckTableView; content: LckTableRow[] }>,
     }
   },
   computed: {
@@ -434,6 +433,17 @@ export default {
         }
       })
       return result
+    },
+    availableColumnsIds (): string[] {
+      if (!this.definition.columns || !this.row?.data) return []
+      const availableColumnsIds: string[] = []
+      for (const column of this.definition.columns) {
+        // The additional resources must be loaded
+        if (!column.settings.map_sources || column.settings.map_sources.every(source => this.secondarySources[source.id] != null)) {
+          availableColumnsIds.push(column.id)
+        }
+      }
+      return availableColumnsIds
     },
   },
   methods: {
@@ -500,23 +510,16 @@ export default {
           .map((a: LckAttachment) => a.id),
       })
     },
-    canDisplayColumn (column: LckTableViewColumn) {
-      if (this.row) {
-        if (column.settings.map_sources) {
-          return column.settings.map_sources.every(source => this.secondarySources[source.id] != null)
-        }
-        return true
-      }
-      return false
-    },
-    getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] | null {
-      const columnSourceId = `${this.definition.id}-${column.id}`
+    getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] {
+      const columnSourceId = `current-${column.id}`
 
       // Initialize the geo sources definition with the current definition
       const definitionsToLoad: Record<string, LckTableView> = {
         [columnSourceId]: {
-          ...this.definition,
-          columns: [column],
+          columns: [{
+            ...column,
+            editable: isEditableColumn(this.crudMode, column),
+          }],
         },
       }
       // Initialize the geo sources content with the current row
@@ -539,18 +542,22 @@ export default {
           },
         },
       ]
-      // Additional resources to load if specified
+      // Load additional resources if specified
       if (column.settings.map_sources && this.secondarySources) {
         for (const mapSourceSettings of column.settings.map_sources) {
           const { definition, content } = this.secondarySources[mapSourceSettings.id] || {}
           if (definition && content) {
+            // Add the definition in read only mode
             definitionsToLoad[mapSourceSettings.id] = definition
-            geoSourcesSettings.push(mapSourceSettings)
+            for (const column of (definitionsToLoad[mapSourceSettings.id].columns || [])) {
+              column.editable = false
+            }
+            // Add the content
             contentsToLoad[mapSourceSettings.id] = this.definition.table_id === definition.table_id
               ? content.filter(r => r.id !== this.row.id)
               : content
-          } else {
-            return null
+            // Add the geo sources settings
+            geoSourcesSettings.push(mapSourceSettings)
           }
         }
       }
@@ -612,6 +619,34 @@ export default {
               }
             })
           }
+        }
+      },
+      immediate: true,
+    },
+    definition: {
+      async handler (newDefinition) {
+        if (newDefinition.columns?.length) {
+          // Get the list of the secondary sources to load
+          const uniqueTableViewsToLoadIds: Set<string> = new Set()
+          newDefinition.columns.forEach(column => {
+            if (column.settings.map_sources) {
+              for (const { id } of column.settings.map_sources) {
+                uniqueTableViewsToLoadIds.add(id)
+              }
+            }
+          })
+          const newSecondarySources: Record<string, { definition: LckTableView; content: LckTableRow[] }> = {}
+          const tableViewsToLoadIds = Array.from(uniqueTableViewsToLoadIds)
+          // Load the definitions
+          const tableViews = await lckHelpers.retrieveViewDefinition(tableViewsToLoadIds)
+          tableViews.forEach(tv => {
+            newSecondarySources[tv.id] = { definition: tv }
+          })
+          // Load the contents
+          await Promise.all(tableViewsToLoadIds.map(async tableViewId => {
+            newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+          }))
+          this.secondarySources = newSecondarySources
         }
       },
       immediate: true,

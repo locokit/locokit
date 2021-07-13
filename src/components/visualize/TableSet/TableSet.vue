@@ -62,7 +62,6 @@
         :crudMode="false"
         :definition="filteredDefinitionColumns"
         :row="newRow"
-        :secondarySources="secondarySources"
         mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
         :workspaceId="workspaceId"
@@ -134,10 +133,6 @@ export default {
     workspaceId: {
       type: String,
       required: true,
-    },
-    secondarySources: {
-      type: Object,
-      default: () => ({}),
     },
   },
   data () {
