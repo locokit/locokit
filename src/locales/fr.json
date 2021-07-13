@@ -41,6 +41,7 @@
         "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
         "summary": "Impossible d'effectuer cette action"
       },
+      "openDetail": "Ouvrir le détail",
       "toolbar": {
         "export": {
           "label": "Exporter",
@@ -106,7 +107,9 @@
       },
       "contextmenu": {
         "duplicate": "Dupliquer",
-        "delete": "Supprimer"
+        "duplicateConfirm": "Confirmez la duplication (cliquez encore)",
+        "delete": "Supprimer",
+        "deleteConfirm": "Confirmez la suppression (cliquez encore)"
       },
       "actionColumn": {
         "title": "Action",

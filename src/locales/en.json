@@ -41,6 +41,7 @@
         "detail": "This redirection type action can only be done from visualisation.",
         "summary": "Unable to perform this action"
       },
+      "openDetail": "Open record detail",
       "toolbar": {
         "export": {
           "label": "Export as",
@@ -106,7 +107,9 @@
       },
       "contextmenu": {
         "duplicate": "Duplicate",
-        "delete": "Remove"
+        "duplicateConfirm": "Please confirm duplication (click again)",
+        "delete": "Remove",
+        "deleteConfirm": "Please confirm removal (click again)"
       },
       "actionColumn": {
         "title": "Action",

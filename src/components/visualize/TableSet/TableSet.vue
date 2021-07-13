@@ -47,6 +47,8 @@
       :content="content"
       :workspaceId="workspaceId"
       :crud-mode="false"
+      :delete-allowed="deleteAllowed"
+      :duplicate-allowed="duplicateAllowed"
       v-bind="$attrs"
       v-on="$listeners"
     />
@@ -103,6 +105,14 @@ export default {
   },
   props: {
     addAllowed: {
+      type: Boolean,
+      default: false,
+    },
+    deleteAllowed: {
+      type: Boolean,
+      default: false,
+    },
+    duplicateAllowed: {
       type: Boolean,
       default: false,
     },
