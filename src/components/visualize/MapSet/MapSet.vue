@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full p-d-flex p-flex-column">
     <div style="text-align:center">
       <p-button
         v-if="addAllowed"

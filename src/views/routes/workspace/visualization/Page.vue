@@ -1,5 +1,5 @@
 <template>
-<div
+  <div
     v-if="page"
     class="p-mx-2"
     :class="layoutPage"
@@ -34,6 +34,7 @@
         v-model="page.containers"
         handle=".handle"
         @change="onContainerReorderClick"
+        class="lck-container-parent"
       >
         <div
           v-for="container in page.containers"
@@ -73,6 +74,7 @@
             v-model="container.blocks"
             @change="onBlockReorderClick(container, $event)"
             handle=".handle-block"
+            class="lck-block-parent"
           >
             <template v-for="block in container.blocks">
               <Block
@@ -80,7 +82,7 @@
                 v-if="editMode || isBlockDisplayed(block)"
                 class="lck-block"
                 :class="{
-                  'p-mb-4': !editMode,
+                  'p-pb-4': !editMode
                 }"
                 :block="block"
                 :content="getBlockContent(block)"
@@ -1428,14 +1430,40 @@ export default {
 }
 
 /* Contenu Flex (2/n colonnes) */
-
-.lck-layout-flex .lck-container div {
+.lck-layout-flex,
+.lck-layout-flex .lck-page-content {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+.lck-layout-flex .lck-page-content .lck-container-parent {
+  height: calc(100% - 5rem);
+  max-height: calc(100% - 5rem);
+  overflow: hidden;
+}
+.lck-layout-flex .lck-block-parent {
+  min-height: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
   display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  flex-basis: 0;
-  flex-wrap: wrap;
-  column-gap: 1rem;
+  flex-direction: column;
+}
+.lck-layout-flex .lck-block {
+  flex: 1 0 0%;
+  display: flex;
+}
+.lck-layout-flex .lck-page-content .lck-container-parent {
+  display: flex;
+}
+
+.lck-layout-flex .lck-container {
+  flex: 1 1 0;
+  min-width: 50%;
+  width: 50%;
+  max-width: 50%;
+  padding: 0.5rem;
+  overflow: hidden;
 }
 
 .lck-layout-flex .lck-container .lck-block.lck-media {
