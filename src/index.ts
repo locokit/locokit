@@ -169,6 +169,8 @@ export interface TableSetSettings {
   pageDetailId?: string; // uuid of page, allow to redirect to a detail page (display only a record)
   addAllowed?: boolean; // option to allow creation of record
   exportAllowed?: boolean; // option to allow data export
+  deleteAllowed?: boolean; // option to allow record deletion
+  duplicateAllowed?: boolean; // option to allow record duplication
 }
 
 export interface BlockTableSet extends Block {

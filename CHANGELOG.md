@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.3.3**
+
+**Feature**
+* add new settings `deleteAllowed` and `duplicateAllowed` in `TableSetSettings`
+
 **v0.3.2**
 
 **Feature**
