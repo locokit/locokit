@@ -263,7 +263,7 @@ describe('DataDetail', () => {
         // Customize it
         expect(columnResource.layers[0]).toMatchObject({
           paint: {
-            'fill-color': '#02629E',
+            'fill-color': '#01426B',
           },
         })
         // Check secondary resources
@@ -295,7 +295,7 @@ describe('DataDetail', () => {
         // Customize it
         expect(columnResource.layers[0]).toMatchObject({
           paint: {
-            'fill-color': '#02629E',
+            'fill-color': '#01426B',
           },
         })
       })
@@ -316,7 +316,7 @@ describe('DataDetail', () => {
         // Customize it
         expect(columnResource.layers[0]).toMatchObject({
           paint: {
-            'circle-color': '#02629E',
+            'circle-color': '#01426B',
           },
         })
       })
