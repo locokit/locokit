@@ -185,7 +185,7 @@ export default Vue.extend({
       this.mapIsLoaded = true
       this.loadResources()
       this.initDrawControls()
-      if (this.mode === MODE.BLOCK) this.setFitBounds(this.resources)
+      if (this.mode === MODE.BLOCK) this.setFitBounds(this.resources.filter(r => !r.excludeFromBounds))
       this.makeFeaturesInteractive()
       this.selectDefaultFeatures()
     })

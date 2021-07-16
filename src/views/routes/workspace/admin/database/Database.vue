@@ -468,10 +468,10 @@ export default {
       tableViewIds.forEach(id => {
         newSecondarySources[id] = {}
         if (this.secondarySources[id]?.definition) {
-          // Keep the previous source definitions
+          // Keep the previous source definition
           newSecondarySources[id].definition = this.secondarySources[id].definition
         } else {
-          // Get a list of the new necessary definitions
+          // Need to get this new definition from the API
           tableViewDefinitionsToGet.push(id)
         }
       })

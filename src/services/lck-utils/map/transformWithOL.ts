@@ -38,7 +38,6 @@ import {
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
-  LckTableView,
   LckTableViewColumn,
   MapPopupMode,
   SelectValue,
@@ -404,7 +403,7 @@ export function getOnlyGeoColumns (
   sourceSettings: MapSourceSettings,
 ): LckTableViewColumn[] {
   if (sourceSettings.field) {
-    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(column.column_type_id))
+    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(getColumnTypeId(column)))
     return sourceGeoColumn ? [sourceGeoColumn] : []
   }
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))

@@ -149,7 +149,7 @@
           />
           <template v-else-if="getComponentEditorDetailForColumnType(column) === 'lck-map'">
             <lck-map
-              v-if="availableColumnsIds.includes(column.id)"
+              v-if="availableColumnsIds.has(column.id)"
               :id="'map-edit-detail-' + column.id"
               mode="Dialog"
               :options="column.settings && column.settings.map_center ? {
@@ -218,7 +218,7 @@
         </div>
         <template v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]">
           <lck-map
-            v-if="availableColumnsIds.includes(column.id)"
+            v-if="availableColumnsIds.has(column.id)"
             mode="Dialog"
             :id="'map-display-detail-' + column.id"
             :resources="getLckGeoResources(column)"
@@ -435,13 +435,16 @@ export default {
       })
       return result
     },
-    availableColumnsIds (): string[] {
-      if (!this.definition.columns || !this.row?.data) return []
-      const availableColumnsIds: string[] = []
+    availableColumnsIds (): Set<string> {
+      const availableColumnsIds: Set<string> = new Set()
+      if (!this.definition.columns || !this.row?.data) return availableColumnsIds
       for (const column of this.definition.columns) {
         // The additional resources must be loaded
-        if (!column.settings?.map_sources || column.settings.map_sources.every(source => this.secondarySources[source.id] != null)) {
-          availableColumnsIds.push(column.id)
+        if (
+          !column.settings?.map_sources ||
+          column.settings.map_sources.every(source => this.secondarySources?.[source.id] != null)
+        ) {
+          availableColumnsIds.add(column.id)
         }
       }
       return availableColumnsIds
@@ -543,7 +546,7 @@ export default {
         style: {
           default: {
             fill: {
-              color: '#02629E',
+              color: '#01426B',
             },
           },
         },
