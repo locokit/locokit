@@ -5,9 +5,17 @@ import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Knex from 'knex'
 import validator from 'validator'
 import { LckAttachment } from '../../models/attachment.model'
+
+dayjs.extend(customParseFormat)
+
+const DATE_FORMAT = {
+  [COLUMN_TYPE.DATE]: 'YYYY-MM-DD',
+  [COLUMN_TYPE.DATETIME]: 'YYYY-MM-DDTHH:mm:ss',
+}
 
 class CheckError {
   columnName!: string
@@ -144,7 +152,7 @@ export function checkColumnDefinitionMatching (): Hook {
                 columnName: currentColumn.text,
                 columnError: `The current value need to be sent as a string (received: ${currentColumnValue as string})`,
               })
-            } else if (!dayjs(currentColumnValue).isValid()) {
+            } else if (!dayjs(currentColumnValue, DATE_FORMAT[currentColumn.column_type_id], true).isValid()) {
               /**
                * Check that the date is in a ISO 8601 format
                */
