@@ -90,7 +90,7 @@ export class LckTableColumn extends LckBaseModel {
       center: [number, number]; // [lng, lat]
       zoom: number;
     };
-    map_sources?: (MapSourceSettings & { exludeFromBounds: boolean })[];
+    map_sources?: (MapSourceSettings & { excludeFromBounds: boolean })[];
   };
 
   validation?: {

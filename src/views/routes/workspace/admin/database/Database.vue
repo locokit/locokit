@@ -452,13 +452,36 @@ export default {
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
+    resetSecondarySources (tableViewId = null) {
+      if (tableViewId) {
+        if (this.secondarySources[tableViewId]) {
+          this.secondarySources[tableViewId] = {}
+        }
+      } else {
+        this.secondarySources = {}
+      }
+    },
     async getSecondarySources (tableViewIds) {
-      // Load the definitions
       const newSecondarySources = {}
-      const tableViews = await lckHelpers.retrieveViewDefinition(tableViewIds)
-      tableViews.forEach(tv => {
-        newSecondarySources[tv.id] = { definition: tv }
+      const tableViewDefinitionsToGet = []
+      // Loop on the secondary sources
+      tableViewIds.forEach(id => {
+        newSecondarySources[id] = {}
+        if (this.secondarySources[id]?.definition) {
+          // Keep the previous source definitions
+          newSecondarySources[id].definition = this.secondarySources[id].definition
+        } else {
+          // Get a list of the new necessary definitions
+          tableViewDefinitionsToGet.push(id)
+        }
       })
+      if (tableViewDefinitionsToGet.length) {
+        // Load the new definitions
+        const tableViewDefinitions = await lckHelpers.retrieveViewDefinition(tableViewDefinitionsToGet)
+        tableViewDefinitions.forEach(tableViewDefinition => {
+          newSecondarySources[tableViewDefinition.id].definition = tableViewDefinition
+        })
+      }
       // Load the contents
       await Promise.all(tableViewIds.map(async tableViewId => {
         newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
@@ -488,6 +511,7 @@ export default {
       }
       this.currentDatatableFilters = []
       this.resetColumnEdit()
+      this.resetSecondarySources()
     },
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
@@ -656,6 +680,7 @@ export default {
         this.views.findIndex(({ id }) => this.selectedViewId === id),
         newViewDefinition,
       )
+      this.resetSecondarySources(this.selectedViewId)
     },
     async onCreateView () {
       this.viewDialogData = {}
@@ -676,6 +701,7 @@ export default {
           this.selectedViewId = this.views[0].id
           this.resetColumnEdit()
         }
+        this.resetSecondarySources(viewToRemove.id)
       } catch (error) {
         this.$toast.add({
           severity: 'error',
@@ -701,6 +727,7 @@ export default {
           locked: view.locked,
         })
         this.views = await retrieveTableViews(this.currentTableId)
+        this.resetSecondarySources(view.id)
       } else {
         const newView = await lckServices.tableView.create({
           table_id: this.currentTableId,
@@ -783,6 +810,7 @@ export default {
               else currentTableViewColumn[key] = updatedColumn[key]
             }
           })
+          this.resetSecondarySources()
         } catch (error) {
           this.$toast.add({
             severity: 'error',
@@ -857,6 +885,7 @@ export default {
             if (this.currentColumnToEdit[key] == null && updatedColumn[key] != null) this.$set(this.currentColumnToEdit, key, updatedColumn[key])
             else this.currentColumnToEdit[key] = updatedColumn[key]
           }
+          this.resetSecondarySources(this.selectedViewId)
         } catch (error) {
           this.$toast.add({
             severity: 'error',

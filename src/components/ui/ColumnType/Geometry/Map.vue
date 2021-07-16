@@ -77,10 +77,6 @@ export default Vue.extend({
       type: String as PropType<MODE>,
       default: MODE.BLOCK,
     },
-    hasPopup: {
-      type: Boolean,
-      default: false,
-    },
     singleEditMode: {
       type: Boolean,
       default: false,
@@ -663,7 +659,7 @@ export default Vue.extend({
       }
     },
     makeFeaturesInteractive () {
-      this.popup.component = new Popup({ offset: 10, closeOnClick: false })
+      if (!this.popup.component) this.popup.component = new Popup({ offset: 10, closeOnClick: false })
       this.resources.forEach(resource => {
         const hasEditableFeatures = resource.editableGeometryTypes.size > 0
         if (resource.popupMode || hasEditableFeatures || resource.selectable) {

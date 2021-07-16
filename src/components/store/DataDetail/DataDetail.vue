@@ -283,7 +283,6 @@ import {
   LckTableRowData,
   LckTableRowDataComplex,
   LCKTableRowMultiDataComplex,
-  LckTableView,
   LckTableViewColumn,
   SelectValue,
 } from '@/services/lck-api/definitions'
@@ -343,10 +342,10 @@ export default {
       required: false,
     },
     definition: {
-      type: Object as () => { columns: LckTableViewColumn[]; table_id?: string },
+      type: Object,
       required: false,
       default: () => ({ columns: [] }),
-    },
+    } as Vue.PropOptions<{ columns: LckTableViewColumn[]; table_id?: string }>,
     crudMode: {
       type: Boolean,
       default: false,
@@ -381,7 +380,7 @@ export default {
       default: 'read',
     },
     secondarySources: {
-      type: Object as PropType<Record<string, { definition: LckTableView; content: LckTableRow[] }>>,
+      type: Object as PropType<Record<string, { definition: { columns: LckTableViewColumn[]; table_id?: string }; content: LckTableRow[] }>>,
       default: () => ({}),
     },
   },
@@ -441,7 +440,7 @@ export default {
       const availableColumnsIds: string[] = []
       for (const column of this.definition.columns) {
         // The additional resources must be loaded
-        if (!column.settings.map_sources || column.settings.map_sources.every(source => this.secondarySources[source.id] != null)) {
+        if (!column.settings?.map_sources || column.settings.map_sources.every(source => this.secondarySources[source.id] != null)) {
           availableColumnsIds.push(column.id)
         }
       }
@@ -523,7 +522,7 @@ export default {
       const columnSourceId = `current-${column.id}`
 
       // Initialize the geo sources definition with the current definition
-      const definitionsToLoad: Record<string, LckTableView> = {
+      const definitionsToLoad: Record<string, { columns: LckTableViewColumn[]; table_id?: string }> = {
         [columnSourceId]: {
           columns: [{
             ...column,
@@ -538,7 +537,7 @@ export default {
         ],
       }
       // Initialize the geo sources settings of the current column
-      const currentGeoSourceSettings: MapSourceSettings & { excludeFromBounds: boolean } = {
+      const currentGeoSourceSettings: MapSourceSettings = {
         id: columnSourceId,
         field: column.id,
         style: {
@@ -549,10 +548,10 @@ export default {
           },
         },
       }
-      const geoSourcesSettings: MapSourceSettings[] = []
+      const geoSourcesSettings: (MapSourceSettings & { excludeFromBounds?: boolean })[] = []
 
       // Load additional resources if specified
-      if (column.settings.map_sources && this.secondarySources) {
+      if (column.settings?.map_sources && this.secondarySources) {
         for (const mapSourceSettings of column.settings.map_sources) {
           const { definition, content } = this.secondarySources[mapSourceSettings.id] || {}
           if (definition && content) {
@@ -637,18 +636,20 @@ export default {
       immediate: true,
     },
     definition: {
-      async handler (newDefinition) {
+      handler (newDefinition: { columns: LckTableViewColumn[]; table_id?: string }) {
         if (newDefinition.columns?.length) {
           // Get the list of the secondary sources to load
           const uniqueTableViewsToLoadIds: Set<string> = new Set()
           newDefinition.columns.forEach(column => {
-            if (column.settings.map_sources) {
+            if (column.settings?.map_sources) {
               for (const { id } of column.settings.map_sources) {
                 uniqueTableViewsToLoadIds.add(id)
               }
             }
           })
-          this.$emit('get-secondary-sources', Array.from(uniqueTableViewsToLoadIds))
+          if (uniqueTableViewsToLoadIds.size) {
+            this.$emit('get-secondary-sources', Array.from(uniqueTableViewsToLoadIds))
+          }
         }
       },
       immediate: true,

@@ -7,7 +7,7 @@ import draggable from 'vuedraggable'
 import Toast from 'primevue/toast'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
-import { lckServices } from '@/services/lck-api'
+import { lckServices, lckHelpers } from '@/services/lck-api'
 
 import Page from './Page.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
@@ -867,6 +867,8 @@ const mockTableViewContents = () => ({
     ],
   },
 })
+
+const mockBlocksOfFirstPage = mockPages['1'].containers.map(c => c.blocks).flat()
 
 const unknownTypeBlock = {
   id: 'temp',
@@ -1921,6 +1923,71 @@ describe('Page', () => {
     })
     afterEach(async () => {
       await wrapper.destroy()
+    })
+  })
+
+  describe('Manage the secondary sources', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = await shallowMount(Page, {
+        ...globalComponentParams(),
+        propsData: {
+          pageId: '1',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group',
+        },
+      })
+    })
+    const loadedContent = mockTableViewContents()
+
+    it('load the specified secondary sources', async () => {
+      // Initialization
+      expect(wrapper.vm.secondarySources).toEqual({
+        [mockBlocksOfFirstPage[0].id]: {},
+        [mockBlocksOfFirstPage[1].id]: {},
+        [mockBlocksOfFirstPage[2].id]: {},
+      })
+      lckHelpers.retrieveViewDefinition.mockClear()
+      // Get the secondary sources the first time
+      await wrapper.vm.getSecondarySources(mockBlocksOfFirstPage[0], [
+        mockTableViewDefinitions['1'].id,
+      ])
+      // Database calls
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledTimes(1)
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledWith([
+        mockTableViewDefinitions['1'].id,
+      ])
+      // Result
+      expect(wrapper.vm.secondarySources[mockBlocksOfFirstPage[0].id]).toEqual({
+        1: {
+          definition: mockTableViewDefinitions['1'],
+          content: loadedContent['1'].data,
+        },
+      })
+      lckHelpers.retrieveViewDefinition.mockClear()
+      // Get the secondary sources the second time
+      await wrapper.vm.getSecondarySources(mockBlocksOfFirstPage[0], [
+        mockTableViewDefinitions['1'].id,
+        mockTableViewDefinitions['2'].id,
+      ])
+      // Database calls
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledTimes(1)
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledWith([
+        mockTableViewDefinitions['2'].id,
+      ])
+      // Result
+      expect(wrapper.vm.secondarySources[mockBlocksOfFirstPage[0].id]).toEqual({
+        1: {
+          definition: mockTableViewDefinitions['1'],
+          content: loadedContent['1'].data,
+        },
+        2: {
+          definition: mockTableViewDefinitions['2'],
+          content: loadedContent['2'].data,
+        },
+      })
     })
   })
 

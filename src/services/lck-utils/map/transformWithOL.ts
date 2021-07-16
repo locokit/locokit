@@ -572,7 +572,7 @@ export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<CO
  * @return {{features: Array<Feature<Geometry, GeoJsonProperties>>, layers: LckImplementedLayers[], id: string, type: "FeatureCollection"}[]}
  */
 export function getLckGeoResources (
-  tableViews: Record<string, LckTableView>,
+  tableViews: Record<string, { columns?: LckTableViewColumn[] }>,
   data: Record<string, LckTableRow[]>,
   settings: { sources: (MapSourceSettings & { excludeFromBounds?: boolean })[] },
   i18nOptions: LckPopupI18nOptions,

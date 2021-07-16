@@ -348,17 +348,36 @@ export default {
     searchItems: lckHelpers.searchItems,
     resetSources () {
       this.sources = {}
+      this.secondarySources = {}
     },
     resetGeoSources () {
       this.geoSources = {}
     },
+    resetSecondarySources (block) {
+      this.$set(this.secondarySources, block.id, {})
+    },
     async getSecondarySources (block, tableViewIds) {
-      // Load the definitions
+      const oldSecondarySources = this.secondarySources[block.id] || {}
       const newSecondarySources = {}
-      const tableViews = await lckHelpers.retrieveViewDefinition(tableViewIds)
-      tableViews.forEach(tv => {
-        newSecondarySources[tv.id] = { definition: tv }
+      const tableViewDefinitionsToGet = []
+      // Loop on the secondary sources
+      tableViewIds.forEach(id => {
+        newSecondarySources[id] = {}
+        if (oldSecondarySources[id]?.definition) {
+          // Keep the previous source definitions
+          newSecondarySources[id].definition = oldSecondarySources[id].definition
+        } else {
+          // Get a list of the new necessary definitions
+          tableViewDefinitionsToGet.push(id)
+        }
       })
+      if (tableViewDefinitionsToGet.length) {
+        // Load the new definitions
+        const tableViewDefinitions = await lckHelpers.retrieveViewDefinition(tableViewDefinitionsToGet)
+        tableViewDefinitions.forEach(tableViewDefinition => {
+          newSecondarySources[tableViewDefinition.id].definition = tableViewDefinition
+        })
+      }
       // Load the contents
       await Promise.all(tableViewIds.map(async tableViewId => {
         newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
@@ -460,6 +479,7 @@ export default {
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type)
           }
+          this.resetSecondarySources(block)
         })
       })
     },
@@ -1339,7 +1359,6 @@ export default {
       this.page.containers.forEach(container => {
         container.blocks.forEach(block => {
           this.$set(block, 'pageLoaded', true)
-          this.$set(this.secondarySources, block.id, {})
         })
       })
     },
