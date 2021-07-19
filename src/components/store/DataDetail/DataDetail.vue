@@ -187,7 +187,7 @@
             :class="getCellStateNotificationClass(row.id, column.id, cellState)"
           />
         </div>
-        <span :class="classes">{{errors[0]}}</span>
+        <span :class="classes">{{ errors[0] }}</span>
       </validation-provider>
 
       <div

@@ -1,5 +1,5 @@
 <template>
-  <validation-observer v-slot="{ valid, handleSubmit, reset }">
+  <validation-observer v-slot="{ valid, handleSubmit, reset, pristine }">
     <form
       @submit.prevent="handleSubmit(() => $emit('input'))"
       @reset.prevent="reset"
@@ -39,7 +39,7 @@
             <p-button
               v-else
               :label="$t('form.submit')"
-              :disabled="!valid"
+              :disabled="!valid || pristine"
               type="submit"
               icon="pi pi-check"
               class="p-button-primary"
@@ -58,7 +58,7 @@ import Button from 'primevue/button'
 import { ValidationObserver } from 'vee-validate'
 
 export default {
-  name: 'LckDialog',
+  name: 'LckDialogForm',
   components: {
     'p-dialog': Vue.extend(Dialog),
     'p-button': Vue.extend(Button),
