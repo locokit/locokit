@@ -84,6 +84,7 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog default 1`] = 
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -311,6 +312,7 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name 1`
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -428,6 +430,7 @@ exports[`storyshots components/visualize/DeleteConfirmationDialog with a name an
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
