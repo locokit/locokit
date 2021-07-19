@@ -31,6 +31,7 @@ describe('computeLookedUpColumns hook', () => {
   let columnTable3LookedUpColumnTable2Ref: TableColumn
   let columnTable3LookedUpColumnTable2User: TableColumn
   let columnTable3LookedUpColumnTable2MultiUser: TableColumn
+  let columnTable3LookedUpColumnTable2RelationBetweenTable: TableColumn
   let columnTable3FormulaUser: TableColumn
   let columnTable3FormulaUserString: TableColumn
   let columnTable4RelationBetweenTable1: TableColumn
@@ -211,6 +212,16 @@ describe('computeLookedUpColumns hook', () => {
         foreignField: columnTable2LookedUpColumnTable1MultiUser.id,
       },
     })
+    columnTable3LookedUpColumnTable2RelationBetweenTable = await app.service('column').create({
+      text: 'T3-LUC-T2-RELATION_BETWEEN_TABLE',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table3.id,
+      settings: {
+        tableId: table2.id,
+        localField: columnTable3RelationBetweenTable2.id,
+        foreignField: columnTable2RelationBetweenTable1.id,
+      },
+    })
     columnTable3FormulaUser = await app.service('column').create({
       text: 'T3-FORMULA_USER',
       column_type_id: COLUMN_TYPE.FORMULA,
@@ -365,7 +376,7 @@ describe('computeLookedUpColumns hook', () => {
     })
     describe('in direct children rows', () => {
       it('of the looked-up columns', async () => {
-        expect.assertions(16)
+        expect.assertions(18)
 
         // Table 2 - row 1
         const currentColumnTable2Row1Ref = row1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
@@ -396,6 +407,14 @@ describe('computeLookedUpColumns hook', () => {
         expect(currentColumnTable2Row2MultiUser.value).toBe(user1.name)
         expect(currentColumnTable2Row2FormulaUser.reference).toBe(rowTable1.id)
         expect(currentColumnTable2Row2FormulaUser.value).toBe(`TEXT:${refString}`)
+
+        // Table 3 - row 1 (RELATION_BETWEEN_TABLE)
+        const currentColumnTable3Row1RBT = row1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row1RBT).toStrictEqual(row1Table2.data[columnTable2RelationBetweenTable1.id])
+
+        // Table 3 - row 2 (RELATION_BETWEEN_TABLE)
+        const currentColumnTable3Row2RBT = row2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row2RBT).toStrictEqual(row2Table2.data[columnTable2RelationBetweenTable1.id])
       })
 
       it('of the formula columns', async () => {
@@ -588,14 +607,18 @@ describe('computeLookedUpColumns hook', () => {
     describe('in direct children rows', () => {
       let newRow1Table2: TableRow
       let newRow2Table2: TableRow
+      let newRow1Table3: TableRow
+      let newRow2Table3: TableRow
 
       beforeAll(async () => {
         newRow1Table2 = await app.service('row').get(row1Table2.id)
         newRow2Table2 = await app.service('row').get(row2Table2.id)
+        newRow1Table3 = await app.service('row').get(row1Table3.id)
+        newRow2Table3 = await app.service('row').get(row2Table3.id)
       })
 
       it('of the looked-up columns', async () => {
-        expect.assertions(16)
+        expect.assertions(18)
 
         // Table 2 - row 1
         const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
@@ -626,6 +649,15 @@ describe('computeLookedUpColumns hook', () => {
         expect(newColumnTable2Row2MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
         expect(newColumnTable2Row2FormulaUser.reference).toBe(newRowTable1.id)
         expect(newColumnTable2Row2FormulaUser.value).toBe(`TEXT:${updatedFirstString}`)
+
+        // Check the updates of a looked-up column of a relation between tables
+        // Table 3 - row 1
+        const currentColumnTable3Row1RBT = newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row1RBT).toStrictEqual(newRow1Table2.data[columnTable2RelationBetweenTable1.id])
+
+        // Table 3 - row 2
+        const currentColumnTable3Row2RBT = newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row2RBT).toStrictEqual(newRow2Table2.data[columnTable2RelationBetweenTable1.id])
       })
       it('of the formula columns', async () => {
         expect.assertions(4)

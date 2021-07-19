@@ -45,6 +45,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
   let columnTable2LookedUpColumnTable1MultiSelect: TableColumn
   let columnTable3RelationBetweenTable2: TableColumn
   let columnTable3LookedUpColumnTable2LookUpColumn: TableColumn
+  let columnTable3LookedUpColumnTable2RelationBetweenTable: TableColumn
   let user1: User
   let user2: User
   let group1: Group
@@ -662,6 +663,59 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     expect(newRow3Table2.data[columnTable2LookedUpColumnTable1MultiSelect.id]).toBe(null)
 
     await app.service('column').remove(columnTable2LookedUpColumnTable1MultiSelect.id)
+  })
+
+  it('fill all rows with the matching data from the foreign column of the matching rows (relation between tables)', async () => {
+    // Create table 3 rows
+    row1Table3 = await app.service('row').create({
+      table_id: table3.id,
+      text: 'table 3 ref 1',
+      data: {
+        [columnTable3RelationBetweenTable2.id]: row1Table2.id,
+      },
+    })
+    row2Table3 = await app.service('row').create({
+      table_id: table3.id,
+      text: 'table 3 ref 2',
+      data: {
+        [columnTable3RelationBetweenTable2.id]: row2Table2.id,
+      },
+    })
+    row3Table3 = await app.service('row').create({
+      table_id: table3.id,
+      text: 'table 3 ref 3',
+      data: {
+        [columnTable3RelationBetweenTable2.id]: null,
+      },
+    })
+
+    // Create the column
+    columnTable3LookedUpColumnTable2RelationBetweenTable = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table3.id,
+      settings: {
+        tableId: table2.id,
+        localField: columnTable3RelationBetweenTable2.id,
+        foreignField: columnTable2RelationBetweenTable1.id,
+      },
+    })
+
+    // Check that the values of the table rows for this new column are well initialized
+    const newRow1Table3 = await app.services.row.get(row1Table3.id)
+    const newRow2Table3 = await app.services.row.get(row2Table3.id)
+    const newRow3Table3 = await app.services.row.get(row3Table3.id)
+
+    expect.assertions(3)
+    expect(newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row1Table2.data[columnTable2RelationBetweenTable1.id])
+    expect(newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row2Table2.data[columnTable2RelationBetweenTable1.id])
+    expect(newRow3Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row3Table2.data[columnTable2RelationBetweenTable1.id])
+
+    // Clean database
+    await app.service('column').remove(columnTable3LookedUpColumnTable2RelationBetweenTable.id)
+    await app.services.row.remove(row3Table3.id)
+    await app.services.row.remove(row2Table3.id)
+    await app.services.row.remove(row1Table3.id)
   })
 
   describe('Fill all rows with the matching data from the foreign column of the matching rows (looked up column)', () => {

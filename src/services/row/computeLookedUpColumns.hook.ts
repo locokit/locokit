@@ -121,6 +121,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
       const currentValue = currentRow.data[c.columnIdOfUpdatedRow]
       switch (c.columnTypeIdOfUpdatedRow) {
         case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           newData['data:' + c.columnIdOfChildRow] = {
             ...currentValue as { reference: string, value: string },
           }
