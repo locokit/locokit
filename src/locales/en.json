@@ -766,8 +766,9 @@
   },
   "validations": {
     "messages": {
-      "required": "The '{_field_}' field is required",
-      "minDate": "The '{_field_}' field must be after {fromDate}"
+      "required": "The '{_field_}' field is required.",
+      "minDate": "The '{_field_}' field must be after {fromDate}.",
+      "dateValid": "The '{_field_}' field does not match expected format."
     }
   }
 }
