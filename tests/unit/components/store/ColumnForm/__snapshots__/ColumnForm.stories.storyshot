@@ -118,7 +118,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                           colspan="0"
                         >
                           
-        No data
+      No data
     
                            
                           <!---->

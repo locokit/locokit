@@ -559,7 +559,7 @@ export default {
       }
       this.block.definition.columns.forEach(c => {
         if (
-          c.column_type_id === COLUMN_TYPE.SINGLE_SELECT &&
+          [COLUMN_TYPE.SINGLE_SELECT, COLUMN_TYPE.BOOLEAN].includes(c.column_type_id) &&
           c.settings?.default
         ) {
           this.$set(this.newRow.data, c.id, c.settings.default)
