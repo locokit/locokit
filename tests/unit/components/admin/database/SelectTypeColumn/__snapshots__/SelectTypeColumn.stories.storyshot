@@ -75,7 +75,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
                 colspan="0"
               >
                 
-        No data
+      No data
     
                  
                 <!---->
@@ -232,7 +232,7 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
                 colspan="0"
               >
                 
-        No data
+      No data
     
                  
                 <!---->

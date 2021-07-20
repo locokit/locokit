@@ -9,7 +9,10 @@
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
   >
-    <div v-if="columnToHandle" class="p-mb-3">
+    <div
+      v-if="columnToHandle"
+      class="p-mb-3"
+    >
       <label>
         {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ columnToHandle.id }}
       </label>
@@ -39,8 +42,19 @@
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
-      <p-input-switch class="p-mr-2" v-model="referenceToHandle.isActive" :disabled="isFormulaType" />
-      <p-input-number class="input-number-reference" v-model="referenceToHandle.position" :showButtons="true" :min="0" :maxFractionDigits="0" :disabled="!referenceToHandle.isActive" />
+      <p-input-switch
+        class="p-mr-2"
+        v-model="referenceToHandle.isActive"
+        :disabled="isFormulaType"
+      />
+      <p-input-number
+        class="input-number-reference"
+        v-model="referenceToHandle.position"
+        :showButtons="true"
+        :min="0"
+        :maxFractionDigits="0"
+        :disabled="!referenceToHandle.isActive"
+      />
     </div>
     <div class="p-field">
       <label for="column-type">
@@ -66,6 +80,26 @@
       :columnToHandle="columnToHandle"
       class="p-mt-4"
     />
+    <div
+      class="p-field"
+      v-if="selectedColumnTypeIdToHandle && isBooleanType"
+    >
+      <label>
+        {{ $t('pages.databaseSchema.selectType.defaultValue') }}
+      </label>
+      <p-checkbox
+        v-if="columnToHandle && columnToHandle.settings"
+        class="p-field-checkbox"
+        v-model="columnToHandle.settings.default"
+        :binary="true"
+      />
+      <p-checkbox
+        v-else
+        class="p-field-checkbox"
+        v-model="settings.default"
+        :binary="true"
+      />
+    </div>
     <lck-relation-between-tables-type-column
       v-if="selectedColumnTypeIdToHandle && isRelationBetweenTablesType"
       @relation-table-id-change="tableIdChange"
@@ -93,8 +127,14 @@
         @change="formulaChange"
       />
     </div>
-    <div v-if="errorHandleColumn" class="p-invalid">
-      <small id="error-column-to-handle" class="p-invalid">
+    <div
+      v-if="errorHandleColumn"
+      class="p-invalid"
+    >
+      <small
+        id="error-column-to-handle"
+        class="p-invalid"
+      >
         {{ errorHandleColumn }}
       </small>
     </div>
@@ -114,6 +154,7 @@ import Dropdown from 'primevue/dropdown'
 import InputSwitch from 'primevue/inputswitch'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
+import Checkbox from 'primevue/checkbox'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
@@ -130,6 +171,7 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-dropdown': Vue.extend(Dropdown),
+    'p-checkbox': Vue.extend(Checkbox),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-input-number': Vue.extend(InputNumber),
   },
@@ -226,7 +268,7 @@ export default {
       }
     },
     getSettings () {
-      if (this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType) {
+      if (this.isSelectColumnType || this.isRelationBetweenTablesType || this.isLookedUpType || this.isBooleanType) {
         return this.settings
       }
       if (this.isFormulaType) {

@@ -16,7 +16,7 @@
       @row-reorder="onRowReorder"
     >
       <template #empty>
-          {{ $t('pages.databaseSchema.selectType.noData') }}
+        {{ $t('pages.databaseSchema.selectType.noData') }}
       </template>
       <p-column
         :rowReorder="true"
@@ -24,7 +24,6 @@
         headerClass="p-col-1"
         bodyClass="p-col-1"
         bodyStyle="text-align: center"
-
       />
       <p-column
         field="label"
@@ -33,7 +32,10 @@
         :header="$t('pages.databaseSchema.selectType.label')"
       >
         <template #body="props">
-          <p-input-text v-model="props.data.label" type="text" />
+          <p-input-text
+            v-model="props.data.label"
+            type="text"
+          />
         </template>
       </p-column>
       <p-column
@@ -250,7 +252,8 @@ export default {
   display: block;
 }
 
-::v-deep .select-type-values-table tr, .select-type-values-table thead {
+::v-deep .select-type-values-table tr,
+.select-type-values-table thead {
   display: table;
   width: 100%;
   table-layout: fixed;
@@ -260,7 +263,11 @@ export default {
   cursor: move;
 }
 
-::v-deep .select-type-values-table .p-datatable-tbody > tr > td:not(:first-child) {
+::v-deep
+  .select-type-values-table
+  .p-datatable-tbody
+  > tr
+  > td:not(:first-child) {
   padding: 0.5rem !important;
 }
 
