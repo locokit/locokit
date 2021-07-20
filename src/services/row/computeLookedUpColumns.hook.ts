@@ -121,7 +121,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
       const currentValue = currentRow.data[c.columnIdOfUpdatedRow]
       switch (c.columnTypeIdOfUpdatedRow) {
         case COLUMN_TYPE.USER:
-        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.GROUP:
           newData['data:' + c.columnIdOfChildRow] = {
             ...currentValue as { reference: string, value: string },
           }
@@ -132,6 +132,13 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
             value: (currentValue as unknown as { reference: string, value: string[] }).value.join(', '),
           }
           break
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+          newData['data:' + c.columnIdOfChildRow] = {
+            reference: currentRow.id,
+            value: (currentValue as { reference: string, value: string }).value,
+          }
+          break
+
         default:
           newData['data:' + c.columnIdOfChildRow] = {
             reference: currentRow.id,

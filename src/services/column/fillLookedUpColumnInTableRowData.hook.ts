@@ -31,12 +31,12 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         let newDataForCurrentColumn = '{ [context.result.id]: null }'
         switch (foreignColumn.column_type_id) {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
             const originalTypeId = foreignColumn.originalTypeId()
             switch (originalTypeId) {
               case COLUMN_TYPE.MULTI_USER:
               case COLUMN_TYPE.USER:
               case COLUMN_TYPE.GROUP:
-              case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                 // Keep the same reference and the same value that the related looked-up column
                 newDataForCurrentColumn = `
                 ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
@@ -56,7 +56,6 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             break
           case COLUMN_TYPE.USER:
           case COLUMN_TYPE.GROUP:
-          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
             newDataForCurrentColumn = `
             ('{ "${context.result.id}":' || cast(foreignTableRow.data->>'${context.result.settings.foreignField}' as text) || ' }')::jsonb
             `

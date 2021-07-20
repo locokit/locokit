@@ -31,10 +31,11 @@ export function computeRowLookedUpColumns (): Hook {
               reference: foreignRowId.reference,
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
             }
-            /**
-             * If the value is an object, we retrieve the sub property of value
-             */
-            if (typeof currentColumnData.value === 'object') {
+            if (foreignColumnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+              // For a RELATION_BETWEEN_TABLES column, we retrieve the sub property of value for the value
+              currentColumnData.value = (currentColumnData.value as { reference: string, value: string })?.value
+            } else if (typeof currentColumnData.value === 'object') {
+              // If the value is an object, we retrieve the sub property of value
               currentColumnData.reference = currentColumnData.value?.reference
               if (
                 foreignColumnTypeId === COLUMN_TYPE.MULTI_USER &&

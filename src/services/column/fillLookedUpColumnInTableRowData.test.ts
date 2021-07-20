@@ -707,9 +707,15 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     const newRow3Table3 = await app.services.row.get(row3Table3.id)
 
     expect.assertions(3)
-    expect(newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row1Table2.data[columnTable2RelationBetweenTable1.id])
-    expect(newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row2Table2.data[columnTable2RelationBetweenTable1.id])
-    expect(newRow3Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual(row3Table2.data[columnTable2RelationBetweenTable1.id])
+    expect(newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual({
+      reference: row1Table2.id,
+      value: (row1Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+    })
+    expect(newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toStrictEqual({
+      reference: row2Table2.id,
+      value: (row2Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+    })
+    expect(newRow3Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id]).toBe(null)
 
     // Clean database
     await app.service('column').remove(columnTable3LookedUpColumnTable2RelationBetweenTable.id)
