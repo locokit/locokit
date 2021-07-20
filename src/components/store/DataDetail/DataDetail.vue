@@ -546,7 +546,7 @@ export default {
       return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
     },
     rulesExtended (column: LckTableColumn) {
-      if (column.column_type_id === COLUMN_TYPE.DATE) {
+      if ([COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(column.column_type_id)) {
         return { ...column.validation, dateValid: true }
       }
       return column.validation

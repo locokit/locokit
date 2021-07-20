@@ -226,7 +226,6 @@ import Vue from 'vue'
 import {
   formatISO,
   isValid,
-  parseISO,
 } from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -514,10 +513,10 @@ export default {
        * For date columns, we format the date to ISO, date only
        */
       this.block.definition.columns
-        .filter(c => c.column_type_id === COLUMN_TYPE.DATE)
+        .filter(c => [COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(c.column_type_id))
         .forEach(c => {
-          if (isValid(parseISO(this.newRow.data[c.id]))) {
-            data[c.id] = formatISO(new Date(this.newRow.data[c.id]), { representation: 'date' })
+          if (isValid(this.newRow.data[c.id])) {
+            data[c.id] = formatISO(new Date(this.newRow.data[c.id]))
           } else {
             data[c.id] = null
           }
