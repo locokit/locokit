@@ -22,7 +22,8 @@
     "resetpassword": {
       "password": "Password",
       "passwordCheck": "Password (check)",
-      "submit": "Reset the password",
+      "resetSubmit": "Reset the password",
+      "setSubmit": "Set the password",
       "passwordMismatch": "Passwords mismatch"
     },
     "paginator": {
@@ -315,6 +316,11 @@
       "subtitle": "You can reset your password.",
       "resetOK": "Password reset. You can use this new password.",
       "homelink": "Return to home page"
+    },
+    "setpassword": {
+      "title": "Password set",
+      "subtitle": "You can set your password.",
+      "setOK": "Password set. You can use this password."
     },
     "verifysignup": {
       "title": "Email verification and password update",

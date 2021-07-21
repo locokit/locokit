@@ -27,7 +27,7 @@ import VerifySignup from '../views/routes/user/VerifySignup.vue'
 
 import Page404 from '@/views/routes/404.vue'
 
-import { ROUTES_PATH } from './paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 import { appState } from '@/store/app'
 
@@ -57,6 +57,18 @@ const routes: Array<RouteConfig> = [
     meta: {
       needHeader: false,
       needGuest: true,
+    },
+  },
+  {
+    path: ROUTES_PATH.SETPASSWORD,
+    name: ROUTES_NAMES.SETPASSWORD,
+    component: ResetPassword,
+    meta: {
+      needHeader: false,
+      needGuest: true,
+    },
+    props: {
+      reset: false,
     },
   }, {
     path: ROUTES_PATH.VERIFYSIGNUP,

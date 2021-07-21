@@ -65,7 +65,7 @@
       <p-button
         type="submit"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-        :label="$t('components.resetpassword.submit')"
+        :label="reset ? $t('components.resetpassword.resetSubmit') : $t('components.resetpassword.setSubmit')"
         :disabled="loading || displayErrorMismatch"
         class="p-mb-2"
       />
@@ -90,6 +90,10 @@ export default Vue.extend({
     error: {
       type: Error,
       default: null,
+    },
+    reset: {
+      type: Boolean,
+      default: true,
     },
   },
   data () {

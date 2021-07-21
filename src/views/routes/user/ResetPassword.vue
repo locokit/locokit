@@ -1,21 +1,22 @@
 <template>
   <layout-with-background class="p-text-left">
     <template slot="title">
-      {{ $t('pages.resetpassword.title') }}
+      {{ reset ? $t('pages.resetpassword.title') : $t('pages.setpassword.title') }}
     </template>
 
     <div v-if="!resetOK">
-      {{ $t('pages.resetpassword.subtitle') }}
+      {{ reset ? $t('pages.resetpassword.subtitle') : $t('pages.setpassword.subtitle') }}
       <reset-password
         class="p-mt-4"
         @submit="resetPassword"
         :loading="loading"
         :error="error"
+        :reset="reset"
       />
     </div>
     <div v-else>
       <p>
-        {{ $t('pages.resetpassword.resetOK') }}
+        {{ reset ? $t('pages.resetpassword.resetOK') : $t('pages.setpassword.setOK') }}
       </p>
 
       <router-link to="/">
@@ -42,6 +43,12 @@ export default Vue.extend({
       resetOK: false,
       error: null,
     }
+  },
+  props: {
+    reset: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),

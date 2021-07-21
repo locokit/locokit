@@ -22,7 +22,8 @@
     "resetpassword": {
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",
-      "submit": "Réinitialiser le mot de passe",
+      "resetSubmit": "Réinitialiser le mot de passe",
+      "setSubmit": "Définir le mot de passe",
       "passwordMismatch": "Les mots de passe ne sont pas identiques."
     },
     "paginator": {
@@ -315,6 +316,11 @@
       "subtitle": "Vous pouvez réinitialiser votre mot de passe.",
       "resetOK": "Mot de passe réinitialisé. Vous pouvez vous connecter avec ce nouveau mot de passe.",
       "homelink": "Retour à la page d'accueil"
+    },
+    "setpassword": {
+      "title": "Définition du mot de passe",
+      "subtitle": "Vous pouvez définir votre mot de passe.",
+      "setOK": "Mot de passe défini. Vous pouvez vous connecter avec ce mot de passe."
     },
     "verifysignup": {
       "title": "Vérification de votre email et enregistrement du mot de passe",
