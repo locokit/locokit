@@ -276,7 +276,6 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
@@ -579,7 +578,6 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span

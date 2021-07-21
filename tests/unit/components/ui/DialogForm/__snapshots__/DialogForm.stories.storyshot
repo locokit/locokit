@@ -72,7 +72,6 @@ exports[`storyshots components/ui/DialogForm default 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
@@ -192,7 +191,6 @@ exports[`storyshots components/ui/DialogForm with header and content 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
@@ -314,7 +312,6 @@ exports[`storyshots components/ui/DialogForm with header, content and actions 1`
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span

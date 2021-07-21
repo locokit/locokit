@@ -95,7 +95,6 @@ exports[`storyshots components/visualize/ChapterDialog chapter create 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
@@ -216,7 +215,6 @@ exports[`storyshots components/visualize/ChapterDialog chapter edit 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span

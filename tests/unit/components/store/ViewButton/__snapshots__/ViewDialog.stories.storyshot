@@ -125,7 +125,6 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
@@ -276,7 +275,6 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
-              disabled="disabled"
               type="submit"
             >
               <span
