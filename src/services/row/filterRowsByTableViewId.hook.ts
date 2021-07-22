@@ -2,6 +2,7 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { LckColumnFilter, TableColumnDTO } from '../../models/tablecolumn.model'
+import { TableView } from '../../models/tableview.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
@@ -13,13 +14,14 @@ export default function filterRowsByTableViewId (): Hook {
     if (context.params.query?.table_view_id) {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const { table_view_id } = context.params.query
-      const tableView = await context.app.services.view.get(table_view_id, {
+      const tableView: TableView = await context.app.services.view.get(table_view_id, {
         query: {
           $eager: 'columns',
         },
         paginate: false,
       })
       const filtersToAdd: { [key: string]: Object } = {};
+      // Add filters coming from table view columns settings
       (tableView.columns as TableColumnDTO[])
         .filter((c: TableColumnDTO) => c.filter)
         .forEach((c: TableColumnDTO) => {
@@ -78,6 +80,52 @@ export default function filterRowsByTableViewId (): Hook {
             }
           })
         })
+      // Add default filters coming from table view settings
+      if (tableView.filters) {
+        const { operator, values } = tableView.filters
+        if (values.length > 0) {
+          // List that will contain all the filters
+          const defaultFilters: Array<{
+            data: Record<string, Record<string, string | number | boolean>>
+          }> = []
+          values.forEach(({ column, dbAction, dbPattern }) => {
+            const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
+            if (currentColumn) {
+              switch (currentColumn?.column_type_id) {
+                case COLUMN_TYPE.GROUP:
+                case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                case COLUMN_TYPE.USER:
+                  defaultFilters.push({
+                    data: {
+                      [`${column}.value`]: { [dbAction]: dbPattern },
+                    },
+                  })
+                  break
+                default:
+                  defaultFilters.push({
+                    data: {
+                      [column]: { [dbAction]: dbPattern },
+                    },
+                  })
+                  break
+              }
+            }
+          })
+          // Add default filters to the query
+          const allFilters = [defaultFilters]
+          if (context.params.query.$or) allFilters.push(context.params.query.$or)
+          if (context.params.query.$and) allFilters.push(context.params.query.$and)
+          if (allFilters.length > 1) {
+            // If a filter operator is already specified -> make a conjonction of the specified and the default filters
+            context.params.query.$and = allFilters
+          } else {
+            // If there is no filter operator -> simply add the default filters
+            context.params.query[operator] = defaultFilters
+          }
+        }
+      }
+
       context.params.query = {
         ...context.params.query,
         table_id: tableView.table_id,
