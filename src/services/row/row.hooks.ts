@@ -133,6 +133,10 @@ export default {
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
       removeRelatedRows(),
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
   },
 

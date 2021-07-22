@@ -18,16 +18,19 @@ export interface SetupData {
   columnTable1GroupId: string
   columnTable1UserId: string
   columnTable1BooleanId: string
+  columnTable1FormulaId: string
   columnTable2LkdUpGroupId: string
   columnTable2LkdUpUserId: string
   user1: User
   user2: User
   user3: User
   user4: User
+  user5: User
   user1Authentication: AuthenticationResult
   user2Authentication: AuthenticationResult
   user3Authentication: AuthenticationResult
   user4Authentication: AuthenticationResult
+  user5Authentication: AuthenticationResult
   group1: Group
   group2: Group
   group3: Group
@@ -41,6 +44,7 @@ export interface SetupData {
   row1Table1: TableRow
   row2Table1: TableRow
   row3Table1: TableRow
+  row4Table1: TableRow
   row1Table2: TableRow
   row2Table2: TableRow
   row3Table2: TableRow
@@ -71,10 +75,12 @@ export function builderTestEnvironment () {
   let user2: User
   let user3: User
   let user4: User
+  let user5: User
   let user1Authentication: AuthenticationResult
   let user2Authentication: AuthenticationResult
   let user3Authentication: AuthenticationResult
   let user4Authentication: AuthenticationResult
+  let user5Authentication: AuthenticationResult
 
   let table1: Table
   let table2: Table
@@ -105,6 +111,7 @@ export function builderTestEnvironment () {
   let row1Table1: TableRow
   let row2Table1: TableRow
   let row3Table1: TableRow
+  let row4Table1: TableRow
   let row1Table2: TableRow
   let row2Table2: TableRow
   let row3Table2: TableRow
@@ -169,6 +176,12 @@ export function builderTestEnvironment () {
       isVerified: true,
       password: passwordHashed,
     }, {})
+    user5 = await app.services.user._create({
+      name: 'User 5',
+      email: 'record-abilities-user5@locokit.io',
+      isVerified: true,
+      password: passwordHashed,
+    }, {})
 
     user1Authentication = await app.service('authentication').create({
       strategy: 'local',
@@ -190,6 +203,11 @@ export function builderTestEnvironment () {
       email: 'record-abilities-user4@locokit.io',
       password: userPassword,
     }, {})
+    user5Authentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: 'record-abilities-user5@locokit.io',
+      password: userPassword,
+    }, {})
 
     group1 = await app.services.group.create({
       name: '[record-abilities] Group 1',
@@ -199,7 +217,7 @@ export function builderTestEnvironment () {
     group2 = await app.services.group.create({
       name: '[record-abilities] Group 2',
       aclset_id: aclset2.id,
-      users: [user2, user3],
+      users: [user2, user3, user5],
     })
     group3 = await app.services.group.create({
       name: '[record-abilities] Group 3',
@@ -209,7 +227,7 @@ export function builderTestEnvironment () {
     group4 = await app.services.group.create({
       name: '[record-abilities] Group 4',
       aclset_id: aclset4.id,
-      users: [user1],
+      users: [user1, user5],
     })
 
     // let user1: User
@@ -425,6 +443,18 @@ export function builderTestEnvironment () {
       },
     })
 
+    row4Table1 = await app.service('row').create({
+      table_id: table1.id,
+      text: 'Row 4 Table 1',
+      data: {
+        [columnTable1Boolean.id]: true,
+        [columnTable1DateTime.id]: '2021-07-05T14:00:00Z',
+        [columnTable1String.id]: 'this is a string',
+        [columnTable1User.id]: user4.id,
+        [columnTable1Group.id]: group4.id,
+      },
+    })
+
     row1Table2 = await app.service('row').create({
       table_id: table2.id,
       text: 'Row 1 Table 2',
@@ -461,16 +491,19 @@ export function builderTestEnvironment () {
       columnTable1GroupId: columnTable1Group.id,
       columnTable1UserId: columnTable1User.id,
       columnTable1BooleanId: columnTable1Boolean.id,
+      columnTable1FormulaId: columnTable1Formula.id,
       columnTable2LkdUpUserId: columnTable2LkdUpUser.id,
       columnTable2LkdUpGroupId: columnTable2LkdUpGroup.id,
       user1,
       user2,
       user3,
       user4,
+      user5,
       user1Authentication,
       user2Authentication,
       user3Authentication,
       user4Authentication,
+      user5Authentication,
       group1,
       group2,
       group3,
@@ -482,6 +515,7 @@ export function builderTestEnvironment () {
       row1Table1,
       row2Table1,
       row3Table1,
+      row4Table1,
       row1Table2,
       row2Table2,
       row3Table2,
@@ -489,12 +523,14 @@ export function builderTestEnvironment () {
   }
 
   async function teardownWorkspace (): Promise<void> {
-    await app.service('row').remove(row1Table1.id)
-    await app.service('row').remove(row2Table1.id)
-    await app.service('row').remove(row3Table1.id)
     await app.service('row').remove(row1Table2.id)
     await app.service('row').remove(row2Table2.id)
     await app.service('row').remove(row3Table2.id)
+
+    await app.service('row').remove(row1Table1.id)
+    await app.service('row').remove(row2Table1.id)
+    await app.service('row').remove(row3Table1.id)
+    await app.service('row').remove(row4Table1.id)
 
     await app.service('column').remove(columnTable2RelationBetweenTables.id)
     await app.service('column').remove(columnTable2LkdUpGroup.id)
@@ -523,6 +559,8 @@ export function builderTestEnvironment () {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
 
+    await app.services.usergroup.remove(`${user5.id},${group2.id}`)
+    await app.services.usergroup.remove(`${user5.id},${group4.id}`)
     await app.services.usergroup.remove(`${user4.id},${group1.id}`)
     await app.services.usergroup.remove(`${user1.id},${group1.id}`)
     await app.services.usergroup.remove(`${user3.id},${group1.id}`)
@@ -531,6 +569,7 @@ export function builderTestEnvironment () {
     await app.services.usergroup.remove(`${user2.id},${group3.id}`)
     await app.services.usergroup.remove(`${user1.id},${group4.id}`)
 
+    await app.services.user.remove(user5.id)
     await app.services.user.remove(user4.id)
     await app.services.user.remove(user3.id)
     await app.services.user.remove(user2.id)

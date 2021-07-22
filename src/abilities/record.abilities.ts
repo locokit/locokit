@@ -26,7 +26,7 @@ function replacePlaceholderInACLFilter (
   userId: number,
   groupId: string | null | string[],
 ): string {
-  let filterEnhance = filter.replace('{userId}', userId.toString())
+  let filterEnhance = filter.replace('"{userId}"', userId.toString())
   if (filterEnhance.includes('{groupId}')) {
     if (!groupId) {
       throw new NotAcceptable('Missing filter $lckGroupId.', {
@@ -134,11 +134,6 @@ export async function defineAbilityFor (
         query: {
           $joinRelation: 'groupsacl.[users]',
           $eager: '[acltables, workspace.[databases.[tables]]]',
-          $modifyEager: {
-            acltables: {
-              table_id: query?.table_id,
-            },
-          },
           'groupsacl:users.id': user.id,
         },
         paginate: false,
@@ -213,8 +208,6 @@ export async function defineAbilityFor (
       })
       break
   }
-
-  // rules.forEach(rule => console.log(JSON.stringify(rule)))
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
