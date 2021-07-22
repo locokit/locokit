@@ -51,6 +51,9 @@ export async function searchItems ({
         name: {
           $ilike: `%${query}%`,
         },
+        $sort: {
+          name: 1,
+        },
       },
     }) as Paginated<LckUser>
     items = result.data.map(d => ({
@@ -62,6 +65,9 @@ export async function searchItems ({
       query: {
         name: {
           $ilike: `%${query}%`,
+        },
+        $sort: {
+          name: 1,
         },
       },
     }) as Paginated<LckGroup>
@@ -79,6 +85,9 @@ export async function searchItems ({
           $ilike: `%${query}%`,
         },
         $lckGroupId: groupId,
+        $sort: {
+          text: 1,
+        },
       },
     }) as Paginated<LckTableRow>
     items = result.data.map(d => ({
