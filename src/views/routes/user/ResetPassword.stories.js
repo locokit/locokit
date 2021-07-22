@@ -14,11 +14,3 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
-
-export const setPasswordStory = () => ({
-  components: { ResetPassword },
-  template: '<ResetPassword :reset="false" @submit="this.submit" />',
-  methods: { submit: action('submit') },
-})
-
-setPasswordStory.storyName = 'set a password'
