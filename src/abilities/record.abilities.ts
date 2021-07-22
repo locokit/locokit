@@ -99,6 +99,7 @@ export async function defineAbilityFor (
        */
       let groupId: string | null | string[] = null
       if (!query?.$lckGroupId) {
+        // manage a user without the $lckGroupId
         // we search all user's groups
         const groups = await services.usergroup.find({
           query: {
@@ -111,11 +112,6 @@ export async function defineAbilityFor (
       } else {
         groupId = query?.$lckGroupId || null
       }
-
-      /**
-       * TODO: manage a user without the $lckGroupId
-       * and combine all read_filters
-       */
 
       // find matching acl for the current user through aclset > group
       const aclsetsSimple = await services.aclset.find({

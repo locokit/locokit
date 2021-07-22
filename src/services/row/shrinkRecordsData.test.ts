@@ -146,10 +146,6 @@ describe('shrinkRecordsData hook', () => {
     await app.service('view').remove(tableView.id)
   })
 
-  it('restrict data to the data that need to be transmitted', async () => {
-
-  })
-
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
     await app.service('user').remove(user1.id)
