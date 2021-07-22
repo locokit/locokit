@@ -75,6 +75,8 @@
             "addFilter": "Add a filter",
             "close": "Close"
           },
+          "updateSuccess": "The filters have been saved.",
+          "updateError": "An error occured when saving the filters.",
           "select": {
             "operator": {
               "$or": "OR",
@@ -671,7 +673,8 @@
     "close": "Close this window"
   },
   "success": {
-    "basic": "Your request has been registered."
+    "basic": "Your request has been registered.",
+    "save": "Successful registration"
   },
   "error": {
     "basic": "An error has occurred.",

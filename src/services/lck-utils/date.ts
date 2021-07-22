@@ -16,3 +16,12 @@ export function formatDateISO (date: Date) {
 export function formatDateTimeISO (date: Date) {
   return formatISO(date, { representation: 'complete' })
 }
+
+export function getDateFromString (date: unknown) {
+  try {
+    if (typeof date === 'string') {
+      return parseISO(date)
+    }
+  } catch (RangeError) {}
+  return null
+}
