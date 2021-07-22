@@ -150,11 +150,10 @@ export default {
       if (
         !this.$route.path.includes('page') &&
         this.workspaceContent.chapters.length > 0 &&
-        this.workspaceContent.chapters[0].pages.length > 0 &&
-        this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
+        this.workspaceContent.chapters[0].pages.length > 0
       ) {
-        const pageNonHidden = this.workspaceContent.chapters[0].pages.findIndex(page => page.hidden !== true)
-        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[pageNonHidden].id}`)
+        const pageNonHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
+        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${pageNonHidden.id}`)
       }
     },
     async goToSpecificPage (pageId) {
