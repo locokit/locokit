@@ -198,7 +198,6 @@ import draggable from 'vuedraggable'
 import {
   formatISO,
   isValid,
-  parseISO,
 } from 'date-fns'
 
 import {
@@ -752,8 +751,9 @@ export default {
         .forEach(c => {
           switch (c.column_type_id) {
             case COLUMN_TYPE.DATE:
-              if (isValid(parseISO(newRow.data[c.id]))) {
-                data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
+            case COLUMN_TYPE.DATETIME:
+              if (isValid(newRow.data[c.id])) {
+                data[c.id] = formatISO(new Date(newRow.data[c.id]))
               } else {
                 data[c.id] = null
               }

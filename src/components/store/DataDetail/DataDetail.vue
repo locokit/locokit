@@ -18,7 +18,7 @@
         v-if="editableColumns.indexOf(column) > -1"
         style="position: relative;"
         :vid="column.id"
-        :rules="column.validation"
+        :rules="rulesExtended(column)"
         :name="column.text"
         :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
@@ -187,7 +187,7 @@
             :class="getCellStateNotificationClass(row.id, column.id, cellState)"
           />
         </div>
-        <span :class="classes">{{errors[0]}}</span>
+        <span :class="classes">{{ errors[0] }}</span>
       </validation-provider>
 
       <div
@@ -544,6 +544,12 @@ export default {
     },
     getSelectedValueDetails (columnId: string, value: string) {
       return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
+    },
+    rulesExtended (column: LckTableColumn) {
+      if ([COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(column.column_type_id)) {
+        return { ...column.validation, dateValid: true }
+      }
+      return column.validation
     },
   },
   watch: {

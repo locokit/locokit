@@ -58,7 +58,7 @@ import Button from 'primevue/button'
 import { ValidationObserver } from 'vee-validate'
 
 export default {
-  name: 'LckDialog',
+  name: 'LckDialogForm',
   components: {
     'p-dialog': Vue.extend(Dialog),
     'p-button': Vue.extend(Button),

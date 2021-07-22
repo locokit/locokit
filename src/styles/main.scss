@@ -93,27 +93,35 @@ html, body, #app {
 .p-text-error {
   color: var(--color-error);
 }
+
 .p-text-warning {
   color: var(--color-warning);
 }
+
 .p-text-success {
   color: var(--color-success);
 }
+
 .p-border-error {
   border: 1px solid var(--color-error);
 }
+
 .p-border-warning {
   border: 1px solid var(--color-warning);
 }
+
 .p-border-success {
   border: 1px solid var(--color-success);
 }
+
 .p-bg-error {
   background-color: var(--color-error-light);
 }
+
 .p-bg-warning {
   background-color: var(--color-warning-light);
 }
+
 .p-bg-success {
   background-color: var(--color-success-light);
 }
@@ -129,7 +137,6 @@ html, body, #app {
 /*
  * Custom icon
  */
-
 .specific-icon {
   width: 1.2em;
   height: 1.2em;

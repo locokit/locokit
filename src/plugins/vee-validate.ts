@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAfter } from 'date-fns'
+import { isAfter, isValid } from 'date-fns'
 import { extend, configure } from 'vee-validate'
 import { required } from 'vee-validate/dist/rules'
 import i18n from './i18n'
@@ -11,6 +11,12 @@ extend('minDate', {
   params: ['fromDate'],
   validate (value: Date, { fromDate }: Record<string, any>) {
     return isAfter(value, fromDate)
+  },
+})
+
+extend('dateValid', {
+  validate (value: Date) {
+    return isValid(value)
   },
 })
 
