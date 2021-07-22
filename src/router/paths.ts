@@ -7,7 +7,6 @@ export const ROUTES_PATH = {
   LOSTPASSWORD: '/lost-password',
   VERIFYSIGNUP: '/verify-signup',
   RESETPASSWORD: '/reset-password',
-  SETPASSWORD: '/set-password',
   PROFILE: '/profile',
 
   /**
@@ -36,7 +35,6 @@ export const ROUTES_NAMES = {
   LOSTPASSWORD: 'LostPassword',
   VERIFYSIGNUP: 'VerifySignup',
   RESETPASSWORD: 'ResetPassword',
-  SETPASSWORD: 'SetPassword',
   PROFILE: 'Profile',
 
   /**

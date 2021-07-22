@@ -317,11 +317,6 @@
       "resetOK": "Password reset. You can use this new password.",
       "homelink": "Return to home page"
     },
-    "setpassword": {
-      "title": "Password set",
-      "subtitle": "You can set your password.",
-      "setOK": "Password set. You can use this password."
-    },
     "verifysignup": {
       "title": "Email verification and password update",
       "subtitle": "Please update your password before we authorize you to connect.",

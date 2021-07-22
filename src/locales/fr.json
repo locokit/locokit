@@ -317,11 +317,6 @@
       "resetOK": "Mot de passe réinitialisé. Vous pouvez vous connecter avec ce nouveau mot de passe.",
       "homelink": "Retour à la page d'accueil"
     },
-    "setpassword": {
-      "title": "Définition du mot de passe",
-      "subtitle": "Vous pouvez définir votre mot de passe.",
-      "setOK": "Mot de passe défini. Vous pouvez vous connecter avec ce mot de passe."
-    },
     "verifysignup": {
       "title": "Vérification de votre email et enregistrement du mot de passe",
       "subtitle": "Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.",
