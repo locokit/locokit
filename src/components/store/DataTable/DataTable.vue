@@ -353,10 +353,7 @@
               @input="onInputFile(slotProps.data.id, column.id, $event)"
               @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
             />
-            <span
-              v-else
-              class="default-display-cell"
-            >
+            <span v-else>
               {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
 
@@ -1087,11 +1084,4 @@ tr.p-datatable-emptymessage {
   max-height: 2.5rem;
 }
 
-.default-display-cell{
-  display: block;
-  width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 </style>
