@@ -17,6 +17,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 export interface SetupData {
   columnTable1GroupId: string
   columnTable1UserId: string
+  columnTable1BooleanId: string
   columnTable2LkdUpGroupId: string
   columnTable2LkdUpUserId: string
   user1: User
@@ -37,6 +38,12 @@ export interface SetupData {
   aclset4: LckAclSet
   table1Id: string
   table2Id: string
+  row1Table1: TableRow
+  row2Table1: TableRow
+  row3Table1: TableRow
+  row1Table2: TableRow
+  row2Table2: TableRow
+  row3Table2: TableRow
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -453,6 +460,7 @@ export function builderTestEnvironment () {
       table2Id: table2.id,
       columnTable1GroupId: columnTable1Group.id,
       columnTable1UserId: columnTable1User.id,
+      columnTable1BooleanId: columnTable1Boolean.id,
       columnTable2LkdUpUserId: columnTable2LkdUpUser.id,
       columnTable2LkdUpGroupId: columnTable2LkdUpGroup.id,
       user1,
@@ -471,6 +479,12 @@ export function builderTestEnvironment () {
       aclset2,
       aclset3,
       aclset4,
+      row1Table1,
+      row2Table1,
+      row3Table1,
+      row1Table2,
+      row2Table2,
+      row3Table2,
     }
   }
 

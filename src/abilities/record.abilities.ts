@@ -9,7 +9,41 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
+import { NotAcceptable } from '@feathersjs/errors'
+import { Usergroup } from '../models/usergroup.model'
 // import { Table } from '../models/table.model'
+
+/**
+ * Replace placeholder in an ACL filter (read, update or delete ones)
+ * * {userId} is replaced with the current user id
+ * * {groupId} is replaced with the groupId var
+ *   depending it's an array or a string, will spread it or replace simply
+ *
+ * @return the filter with all palceholder replaced
+ */
+function replacePlaceholderInACLFilter (
+  filter: string,
+  userId: number,
+  groupId: string | null | string[],
+): string {
+  let filterEnhance = filter.replace('{userId}', userId.toString())
+  if (filterEnhance.includes('{groupId}')) {
+    if (!groupId) {
+      throw new NotAcceptable('Missing filter $lckGroupId.', {
+        code: 'RECORDS_NOT_FILTERABLE',
+      })
+    } else if (Array.isArray(groupId)) {
+      filterEnhance = filterEnhance.replace('"{groupId}"', `{
+        "$in": [
+          "${groupId.join('", "')}"
+        ]
+      }`)
+    } else {
+      filterEnhance = filterEnhance.replace('{groupId}', groupId)
+    }
+  }
+  return filterEnhance
+}
 
 /**
  * Define abilities for records
@@ -34,18 +68,6 @@ export async function defineAbilityFor (
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
-
-  /**
-   * If no groupId is given,
-   * we need to fetch all groups available for the user ?
-   */
-  // if (!query?.$lckGroupId) {
-  //   throw new NotAcceptable('Missing filter $lckGroupId.', {
-  //     code: 'RECORDS_NOT_FILTERABLE',
-  //   })
-  // }
-  const groupId = query?.$lckGroupId || null
-  const userId = user?.id
 
   // if (!query?.table_id) {
   //   throw new NotAcceptable('Missing table_id.', {
@@ -81,6 +103,27 @@ export async function defineAbilityFor (
      */
     case USER_PROFILE.CREATOR:
     case USER_PROFILE.USER:
+      const userId = user?.id
+
+      /**
+       * If no groupId is given,
+       * we need to fetch all groups available for the user ?
+       */
+      let groupId: string | null | string[] = null
+      if (!query?.$lckGroupId) {
+        // we search all user's groups
+        const groups = await services.usergroup.find({
+          query: {
+            user_id: userId,
+          },
+          paginate: false,
+        }) as Usergroup[]
+        groupId = []
+        groups.forEach(g => (groupId as string[]).push(g.group_id))
+      } else {
+        groupId = query?.$lckGroupId || null
+      }
+
       /**
        * TODO: manage a user without the $lckGroupId
        * and combine all read_filters
@@ -123,13 +166,13 @@ export async function defineAbilityFor (
           }
           if (currentAcltable.read_rows) {
             if (currentAcltable.read_filter) {
-              const readFilterParsed = JSON.parse(
-                JSON.stringify(currentAcltable.read_filter)
-                  .replace('{userId}', userId.toString())
-                  .replace('{groupId}', groupId),
+              const readFilter = replacePlaceholderInACLFilter(
+                JSON.stringify(currentAcltable.read_filter),
+                userId,
+                groupId,
               )
               can('read', 'row', {
-                ...readFilterParsed,
+                ...JSON.parse(readFilter),
                 table_id: currentAcltable.table_id,
               })
             } else {
@@ -138,13 +181,13 @@ export async function defineAbilityFor (
           }
           if (currentAcltable.update_rows) {
             if (currentAcltable.update_filter) {
-              const updateFilterParsed = JSON.parse(
-                JSON.stringify(currentAcltable.update_filter)
-                  .replace('{userId}', userId.toString())
-                  .replace('{groupId}', groupId),
+              const updateFilter = replacePlaceholderInACLFilter(
+                JSON.stringify(currentAcltable.update_filter),
+                userId,
+                groupId,
               )
               can('update', 'row', {
-                ...updateFilterParsed,
+                ...JSON.parse(updateFilter),
                 table_id: currentAcltable.table_id,
               })
             } else {
@@ -153,13 +196,13 @@ export async function defineAbilityFor (
           }
           if (currentAcltable.delete_rows) {
             if (currentAcltable.delete_filter) {
-              const deleteFilterParsed = JSON.parse(
-                JSON.stringify(currentAcltable.delete_filter)
-                  .replace('{userId}', userId.toString())
-                  .replace('{groupId}', groupId),
+              const deleteFilter = replacePlaceholderInACLFilter(
+                JSON.stringify(currentAcltable.delete_filter),
+                userId,
+                groupId,
               )
               can('delete', 'row', {
-                ...deleteFilterParsed,
+                ...JSON.parse(deleteFilter),
                 table_id: currentAcltable.table_id,
               })
             } else {

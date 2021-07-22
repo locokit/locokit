@@ -71,7 +71,11 @@ export default {
       computeRowLookedUpColumns(),
       computeTextProperty(),
       commonHooks.discard('table_view_id'),
+      defineAbilitiesIffHook(),
       commonHooks.discard('$lckGroupId'),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     update: [
       getCurrentItem(),
@@ -83,7 +87,11 @@ export default {
       completeDefaultValues(),
       computeTextProperty(),
       commonHooks.discard('table_view_id'),
+      defineAbilitiesIffHook(),
       commonHooks.discard('$lckGroupId'),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     patch: [
       commonHooks.iffElse(
@@ -113,7 +121,11 @@ export default {
           computeRowLookedUpColumns(),
           computeTextProperty(),
           commonHooks.discard('table_view_id'),
+          defineAbilitiesIffHook(),
           commonHooks.discard('$lckGroupId'),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ],
       ),
     ],
