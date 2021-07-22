@@ -4,14 +4,12 @@ import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
 import { AppAbility, resolveAction } from './definitions'
 import { HookContext, Query } from '@feathersjs/feathers'
-// import { NotAcceptable } from '@feathersjs/errors'
 import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
 import { NotAcceptable } from '@feathersjs/errors'
 import { Usergroup } from '../models/usergroup.model'
-// import { Table } from '../models/table.model'
 
 /**
  * Replace placeholder in an ACL filter (read, update or delete ones)
