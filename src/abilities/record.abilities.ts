@@ -67,16 +67,6 @@ export async function defineAbilityFor (
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
 
-  // if (!query?.table_id) {
-  //   throw new NotAcceptable('Missing table_id.', {
-  //     code: 'RECORDS_NOT_FILTERABLE',
-  //   })
-  // }
-
-  // are we on a get ? => use the id to find the correlated table to filter for abilities
-  // are we on a update / patch / delete => same thing
-  // are we on a find ? => use the table_id
-
   /**
    * User is anonymous, no permission granted
    * TODO: add public rules for workspace (e.g., read public workspaces ?)
