@@ -230,7 +230,7 @@ td.sticky-column-cells {
 
   .p-datatable-tbody > tr > td {
     overflow: hidden;
-    overflow-y: visible;
+    // overflow-y: visible; // Commented to prevent the datatable scrollbar being too large (https://gitlab.makina-corpus.net/lck/lck-front/-/issues/351)
     white-space: nowrap;
     text-overflow: ellipsis;
   }
