@@ -153,7 +153,7 @@ export default {
         this.workspaceContent.chapters[0].pages.length > 0
       ) {
         const pageNotHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
-        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
+        pageNotHidden && await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
       }
     },
     async goToSpecificPage (pageId) {
