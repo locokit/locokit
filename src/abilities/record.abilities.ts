@@ -134,7 +134,7 @@ export async function defineAbilityFor (
            */
           const workspaceTableIds = currentAclset?.workspace?.databases?.reduce((acc, currentDB) => {
             if (!currentDB.tables) return acc
-            const tableIds = currentDB.tables?.map(t => t.id)
+            const tableIds = currentDB.tables.map(t => t.id)
             return acc.concat(tableIds)
           }, [] as string[])
           can('manage', 'row', { table_id: { $in: workspaceTableIds } })
