@@ -42,7 +42,7 @@ export class TableColumn extends BaseModel {
     values?: Record<string, SelectValue>
     width?: number
     required?: boolean
-    default?: string
+    default?: string | boolean
   }
 
   validation?: object
