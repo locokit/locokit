@@ -559,9 +559,10 @@ export default {
     async onSaveFilter () {
       if (!this.currentView) return
       try {
-        await lckServices.tableView.patch(this.currentView.id, {
-          filters: convertFiltersToDatatabase(this.currentDatatableFilters),
+        const updatedView = await lckServices.tableView.patch(this.currentView.id, {
+          filter: convertFiltersToDatatabase(this.currentDatatableFilters),
         })
+        this.currentView.filter = updatedView.filter
         this.$toast.add({
           severity: 'success',
           summary: this.$t('success.save'),
@@ -661,16 +662,12 @@ export default {
         newViewDefinition,
       )
     },
-    async onSelectView (tableViewId) {
-      if (this.selectedViewId !== tableViewId) {
-        // this.selectedViewId = tableViewId
-        this.resetColumnEdit()
-        // Update the data with the table view filters
-        const selectedView = this.views.find(({ id }) => tableViewId === id)
-        if (selectedView) {
-          this.currentDatatableFilters = convertFiltersFromDatabase(selectedView)
-          await this.loadCurrentTableData()
-        }
+    async onSelectView () {
+      this.resetColumnEdit()
+      // Update the data with the table view filters only if necessary
+      if (this.currentView && (this.currentView.filter || this.currentDatatableFilters.length > 0)) {
+        this.currentDatatableFilters = convertFiltersFromDatabase(this.currentView)
+        await this.loadCurrentTableData()
       }
     },
     async onCreateView () {

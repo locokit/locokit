@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import i18n from '@/plugins/i18n'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { parseISO } from 'date-fns'
 
-import { LckTableViewColumn, LckTableViewFilters, LckTableViewFiltersValue } from '../lck-api/definitions'
+import { LckTableViewColumn, LckTableViewFilter, LckTableViewFilterValue } from '../lck-api/definitions'
 import { getColumnTypeId } from './columns'
 import { formatDateISO, getDateFromString } from './date'
 
@@ -300,12 +299,12 @@ export function getCurrentFilters (filters: Filter[]) {
  * @param filters The filters specified in the FilterButton component
  * @returns The corresponding filters that will be returned to the API
  */
-export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilters | null {
+export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilter | null {
   if (filters.length === 0) return null
-  const tableViewFiltersToSave: LckTableViewFiltersValue[] = []
+  const tableViewFilterToSave: LckTableViewFilterValue[] = []
   filters.forEach(filter => {
     if (filter.action != null && filter.column != null && filter.pattern != null) {
-      tableViewFiltersToSave.push({
+      tableViewFilterToSave.push({
         action: filter.action.label,
         column: filter.column.value,
         dbAction: filter.action.value,
@@ -316,33 +315,24 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
   })
   return {
     operator: filters[0].operator,
-    values: tableViewFiltersToSave,
+    values: tableViewFilterToSave,
   }
 }
 
 /**
  * Convert the filters retrieved from the API a another format that can be used in the FilterButton component
- * @param filters The filters retrieved from the API
+ * @param filter The filters retrieved from the API
  * @returns The corresponding filters that can be used in the FilterButton component
  */
-export function convertFiltersFromDatabase ({ columns, filters }: {
+export function convertFiltersFromDatabase ({ columns, filter }: {
   columns: LckTableViewColumn[];
-  filters: {
-    operator: string;
-    values: {
-      column: string;
-      action: string;
-      dbAction: string;
-      dbPattern: boolean | number | string;
-      pattern: boolean | number | string;
-    }[];
-  } | null;
+  filter: LckTableViewFilter | null;
 }): Filter[] {
   // Filters that we can use in the FilterButton component and as input of the getCurrentFilters method
   const allFilters: Filter[] = []
-  if (filters && columns.length > 0) {
+  if (filter && columns.length > 0) {
     // Loop on saved in database filters
-    filters.values.forEach(({ column, action, pattern }) => {
+    filter.values.forEach(({ column, action, pattern }) => {
       // Get the column used in the current filter
       const tableViewColumn = columns.find(c => c.id === column)
 
@@ -364,7 +354,7 @@ export function convertFiltersFromDatabase ({ columns, filters }: {
 
           // Add the filter
           allFilters.push({
-            operator: filters.operator,
+            operator: filter.operator,
             column: {
               label: tableViewColumn.text,
               originalType: columnType,

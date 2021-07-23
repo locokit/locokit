@@ -158,7 +158,7 @@ export enum SORT_COLUMN {
   DESC = 'DESC'
 }
 
-export interface LckTableViewFiltersValue {
+export interface LckTableViewFilterValue {
   action: string;
   column: string;
   dbAction: string;
@@ -166,9 +166,9 @@ export interface LckTableViewFiltersValue {
   pattern: boolean | number | string;
 }
 
-export interface LckTableViewFilters {
+export interface LckTableViewFilter {
   operator: string;
-  values: LckTableViewFiltersValue[];
+  values: LckTableViewFilterValue[];
 }
 
 export class LckTableView extends LckBaseModel {
@@ -178,7 +178,7 @@ export class LckTableView extends LckBaseModel {
    */
   table_id!: string;
   columns?: LckTableViewColumn[]
-  filters?: LckTableViewFilters | null
+  filter?: LckTableViewFilter | null
 }
 
 export class LckTableAction extends LckBaseModel {
