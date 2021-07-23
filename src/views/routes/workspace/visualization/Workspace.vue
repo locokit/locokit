@@ -1,5 +1,8 @@
 <template>
-  <div class="p-grid h-full" v-if="workspaceContent">
+  <div
+    class="p-grid h-full"
+    v-if="workspaceContent"
+  >
     <div class="sidebar-menu-container lck-bg-sidebar o-auto h-max-full">
       <lck-sidebar
         :items="sidebarItems"
@@ -149,7 +152,8 @@ export default {
         this.workspaceContent.chapters.length > 0 &&
         this.workspaceContent.chapters[0].pages.length > 0
       ) {
-        await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${this.workspaceContent.chapters[0].pages[0].id}`)
+        const pageNotHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
+        pageNotHidden && await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
       }
     },
     async goToSpecificPage (pageId) {
@@ -364,10 +368,14 @@ export default {
 
 <style>
 .p-grid .main-container .responsive-table-wrapper {
-  background: rgb(237,237,237) !important;
-  background: linear-gradient(180deg, rgba(237,237,237,1) 2.5rem, rgba(255,255,255,1) 2.3rem, rgba(255,255,255,1) 100%) !important;
+  background: rgb(237, 237, 237) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(237, 237, 237, 1) 2.5rem,
+    rgba(255, 255, 255, 1) 2.3rem,
+    rgba(255, 255, 255, 1) 100%
+  ) !important;
 }
-
 </style>
 
 <style scoped>
