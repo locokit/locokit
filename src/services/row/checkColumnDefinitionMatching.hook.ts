@@ -14,7 +14,7 @@ dayjs.extend(customParseFormat)
 
 const DATE_FORMAT = {
   [COLUMN_TYPE.DATE]: 'YYYY-MM-DD',
-  [COLUMN_TYPE.DATETIME]: 'YYYY-MM-DDTHH:mm:ss',
+  [COLUMN_TYPE.DATETIME]: ['YYYY-MM-DDTHH:mm:ssZ', 'YYYY-MM-DDTHH:mm:ss'],
 }
 
 class CheckError {
