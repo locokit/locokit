@@ -2,7 +2,7 @@
 
 import { shallowMount } from '@vue/test-utils'
 
-import { lckServices } from '@/services/lck-api'
+import { lckServices, lckHelpers } from '@/services/lck-api'
 
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
@@ -24,8 +24,6 @@ jest.mock('@locokit/lck-glossary', () => ({
     TEXT: 16,
   },
 }))
-
-jest.mock('../../../../../components/store/DataDetail/DataDetail.vue', () => () => '<div>DataDetail</div>')
 
 jest.mock('date-fns')
 jest.mock('file-saver')
@@ -60,6 +58,7 @@ class MockError extends Error {
 // Shortcuts
 const mockFirstTable = mockDatabase.tables[0]
 const mockFirstTableView = mockFirstTable.views[0]
+const mockSecondTableView = mockFirstTable.views[1]
 
 // Method to make an object deep copy
 function mockDeepCloneObject (object) {
@@ -95,6 +94,8 @@ jest.mock('@/services/lck-api', () => ({
     ])),
     exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
     convertDateInRecords: jest.fn(() => []),
+    retrieveViewDefinition: jest.fn((mockTableViewIds) => mockFirstTable.views.filter(view => mockTableViewIds.includes(view.id))),
+    retrieveViewData: jest.fn(() => []),
   },
 }))
 
@@ -596,6 +597,100 @@ describe('Database', () => {
             detail: 'error.http.404',
           }),
         )
+      })
+    })
+  })
+
+  describe('Manage secondary sources', () => {
+    let wrapper
+    beforeEach(async () => {
+      wrapper = await shallowMount(Database, {
+        ...globalComponentParams(),
+        data: () => ({
+          displayNewDialog: true,
+        }),
+      })
+      await Vue.nextTick()
+    })
+    it('load the specified secondary sources', async () => {
+      // Initialization
+      expect(wrapper.vm.secondarySources).toEqual({})
+      lckHelpers.retrieveViewDefinition.mockClear()
+      // Get the secondary sources the first time
+      await wrapper.vm.getSecondarySources([
+        mockFirstTableView.id,
+      ])
+      // Database calls
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledTimes(1)
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledWith([
+        mockFirstTableView.id,
+      ])
+      // Result
+      expect(wrapper.vm.secondarySources).toEqual({
+        [mockFirstTableView.id]: {
+          definition: mockFirstTableView,
+          content: [],
+        },
+      })
+      lckHelpers.retrieveViewDefinition.mockClear()
+      // Get the secondary sources the second time
+      await wrapper.vm.getSecondarySources([
+        mockFirstTableView.id,
+        mockSecondTableView.id,
+      ])
+      // Database calls
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledTimes(1)
+      expect(lckHelpers.retrieveViewDefinition).toHaveBeenCalledWith([
+        mockSecondTableView.id,
+      ])
+      // Result
+      expect(wrapper.vm.secondarySources).toEqual({
+        [mockFirstTableView.id]: {
+          definition: mockFirstTableView,
+          content: [],
+        },
+        [mockSecondTableView.id]: {
+          definition: mockSecondTableView,
+          content: [],
+        },
+      })
+    })
+    describe('reset the secondary sources', () => {
+      it('reset all if no table view id is specified', async () => {
+        // Get the secondary sources the second time
+        await wrapper.vm.getSecondarySources([
+          mockFirstTableView.id,
+          mockSecondTableView.id,
+        ])
+        wrapper.vm.resetSecondarySources()
+        expect(wrapper.vm.secondarySources).toEqual({})
+      })
+      it('only reset the ones linked to the specified table view id', async () => {
+        // Get the secondary sources the second time
+        await wrapper.vm.getSecondarySources([
+          mockFirstTableView.id,
+          mockSecondTableView.id,
+        ])
+        wrapper.vm.resetSecondarySources(mockFirstTableView.id)
+        expect(wrapper.vm.secondarySources).toEqual(expect.not.objectContaining({
+          [mockFirstTableView.id]: {
+            definition: mockFirstTableView,
+            content: [],
+          },
+        }))
+      })
+      it('do nothing id the specified table view id was not load', async () => {
+        // Get the secondary sources the second time
+        await wrapper.vm.getSecondarySources([
+          mockFirstTableView.id,
+        ])
+        wrapper.vm.resetSecondarySources(mockSecondTableView.id)
+        expect(wrapper.vm.secondarySources).toEqual({
+          [mockFirstTableView.id]: {
+            definition: mockFirstTableView,
+            content: [],
+          },
+        })
       })
     })
   })

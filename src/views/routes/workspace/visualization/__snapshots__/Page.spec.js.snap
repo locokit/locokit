@@ -13,8 +13,8 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
         <!---->
         <!---->
         <draggable-stub handle=".handle-block" value="[object Object],[object Object]" class="lck-block-parent">
-          <block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" cellstate="[object Object]" class="lck-block p-pb-4"></block-stub>
-          <block-stub block="[object Object]" workspaceid="toto" cellstate="[object Object]" class="lck-block p-pb-4" definition="[object Object]" content="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"></block-stub>
+          <block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block p-pb-4"></block-stub>
+          <block-stub block="[object Object]" workspaceid="toto" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block p-pb-4" definition="[object Object]" content="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"></block-stub>
         </draggable-stub>
         <!---->
       </div>

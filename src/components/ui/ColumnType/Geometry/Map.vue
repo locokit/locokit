@@ -77,10 +77,6 @@ export default Vue.extend({
       type: String as PropType<MODE>,
       default: MODE.BLOCK,
     },
-    hasPopup: {
-      type: Boolean,
-      default: false,
-    },
     singleEditMode: {
       type: Boolean,
       default: false,
@@ -146,9 +142,12 @@ export default Vue.extend({
     }
     // Directly focus on a specific area in dialog mode
     if (this.mode === MODE.DIALOG) {
-      const computedBounds = computeBoundingBox(this.resources)
+      const computedBounds = computeBoundingBox(this.resources.filter(r => !r.excludeFromBounds))
       if (!computedBounds.isEmpty()) {
         mapOptions.bounds = computedBounds
+        mapOptions.fitBoundsOptions = {
+          padding: 20,
+        }
       }
     }
     this.map = new Map(mapOptions)
@@ -186,7 +185,7 @@ export default Vue.extend({
       this.mapIsLoaded = true
       this.loadResources()
       this.initDrawControls()
-      if (this.mode === MODE.BLOCK) this.setFitBounds(this.resources)
+      if (this.mode === MODE.BLOCK) this.setFitBounds(this.resources.filter(r => !r.excludeFromBounds))
       this.makeFeaturesInteractive()
       this.selectDefaultFeatures()
     })
@@ -660,20 +659,17 @@ export default Vue.extend({
       }
     },
     makeFeaturesInteractive () {
-      const mapHasPopup = this.mode === MODE.BLOCK && this.hasPopup
-      if (mapHasPopup) {
-        this.popup.component = new Popup({ offset: 10, closeOnClick: false })
-      }
+      if (!this.popup.component) this.popup.component = new Popup({ offset: 10, closeOnClick: false })
       this.resources.forEach(resource => {
-        const resourceHasPopup = mapHasPopup && resource.popupMode
         const hasEditableFeatures = resource.editableGeometryTypes.size > 0
-        if (resourceHasPopup || hasEditableFeatures || resource.selectable) {
+        if (resource.popupMode || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             if (hasEditableFeatures) {
               // Make the current feature editable
+              this.changeCursorOnLayerHover(layer.id)
               this.setFeatureEditableOnMouseDown(resource.id, layer.id)
             } else {
-              if (resource.selectable || resourceHasPopup === 'click') {
+              if (resource.selectable || resource.popupMode === 'click') {
                 // Change cursor
                 this.changeCursorOnLayerHover(layer.id)
               }
@@ -681,7 +677,7 @@ export default Vue.extend({
                 // Make the current feature selectable
                 this.selectFeatureOnClick(layer.id, resource.id)
               }
-              if (resourceHasPopup) {
+              if (resource.popupMode) {
                 // Display a pop up on click on the current feature
                 this.addPopupOnFeature(layer.id, resource.popupMode, resource.pageDetailId)
               }

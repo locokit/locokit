@@ -159,10 +159,12 @@
           mode="creation"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
+          :secondarySources="secondarySources"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateRow"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles($event, newRow)"
+          @get-secondary-sources='getSecondarySources'
         />
       </lck-dialog-form>
 
@@ -178,10 +180,12 @@
           :cellState="cellState"
           :workspaceId="workspaceId"
           :autocompleteSuggestions="autocompleteSuggestions"
+          :secondarySources="secondarySources"
           @update-suggestions="updateLocalAutocompleteSuggestions"
           @update-row="onUpdateCell"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles"
+          @get-secondary-sources='getSecondarySources'
         />
 
         <lck-process-panel
@@ -343,6 +347,7 @@ export default {
           data: null,
         },
         definition: {
+          table_id: '',
           columns: [],
         },
       },
@@ -376,6 +381,7 @@ export default {
       displayRowDialog: false,
       row: {},
       displayPanel: false,
+      secondarySources: {},
       // Column part
       currentColumnToEdit: null,
       currentActionColumnToEdit: null,
@@ -445,6 +451,42 @@ export default {
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
+    resetSecondarySources (tableViewId = null) {
+      if (tableViewId) {
+        if (this.secondarySources[tableViewId]) {
+          this.secondarySources[tableViewId] = {}
+        }
+      } else {
+        this.secondarySources = {}
+      }
+    },
+    async getSecondarySources (tableViewIds) {
+      const newSecondarySources = {}
+      const tableViewDefinitionsToGet = []
+      // Loop on the secondary sources
+      tableViewIds.forEach(id => {
+        newSecondarySources[id] = {}
+        if (this.secondarySources[id]?.definition) {
+          // Keep the previous source definition
+          newSecondarySources[id].definition = this.secondarySources[id].definition
+        } else {
+          // Need to get this new definition from the API
+          tableViewDefinitionsToGet.push(id)
+        }
+      })
+      if (tableViewDefinitionsToGet.length) {
+        // Load the new definitions
+        const tableViewDefinitions = await lckHelpers.retrieveViewDefinition(tableViewDefinitionsToGet)
+        tableViewDefinitions.forEach(tableViewDefinition => {
+          newSecondarySources[tableViewDefinition.id].definition = tableViewDefinition
+        })
+      }
+      // Load the contents
+      await Promise.all(tableViewIds.map(async tableViewId => {
+        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+      }))
+      this.secondarySources = newSecondarySources
+    },
     resetToDefault () {
       this.block = {
         loading: false,
@@ -468,6 +510,7 @@ export default {
       }
       this.currentDatatableFilters = []
       this.resetColumnEdit()
+      this.resetSecondarySources()
     },
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
@@ -484,6 +527,7 @@ export default {
         total: 0,
         data: null,
       }
+      this.block.definition.table_id = this.currentTableId
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
       this.views = await retrieveTableViews(this.currentTableId)
       this.views.length > 0 && (this.selectedViewId = this.views[0].id)
@@ -635,6 +679,7 @@ export default {
         this.views.findIndex(({ id }) => this.selectedViewId === id),
         newViewDefinition,
       )
+      this.resetSecondarySources(this.selectedViewId)
     },
     async onCreateView () {
       this.viewDialogData = {}
@@ -655,6 +700,7 @@ export default {
           this.selectedViewId = this.views[0].id
           this.resetColumnEdit()
         }
+        this.resetSecondarySources(viewToRemove.id)
       } catch (error) {
         this.$toast.add({
           severity: 'error',
@@ -680,6 +726,7 @@ export default {
           locked: view.locked,
         })
         this.views = await retrieveTableViews(this.currentTableId)
+        this.resetSecondarySources(view.id)
       } else {
         const newView = await lckServices.tableView.create({
           table_id: this.currentTableId,
@@ -762,6 +809,7 @@ export default {
               else currentTableViewColumn[key] = updatedColumn[key]
             }
           })
+          this.resetSecondarySources()
         } catch (error) {
           this.$toast.add({
             severity: 'error',
@@ -836,6 +884,7 @@ export default {
             if (this.currentColumnToEdit[key] == null && updatedColumn[key] != null) this.$set(this.currentColumnToEdit, key, updatedColumn[key])
             else this.currentColumnToEdit[key] = updatedColumn[key]
           }
+          this.resetSecondarySources(this.selectedViewId)
         } catch (error) {
           this.$toast.add({
             severity: 'error',

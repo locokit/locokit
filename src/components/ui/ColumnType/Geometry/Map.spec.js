@@ -2,6 +2,7 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import mapboxgl from 'mapbox-gl'
 import { shallowMount } from '@vue/test-utils'
 import GeometryType from 'ol/geom/GeometryType'
 
@@ -10,6 +11,8 @@ import {
 } from '@/services/lck-utils/map/transformWithOL'
 
 import Map from './Map.vue'
+
+const { LngLatBounds: MockLngLatBounds } = jest.requireActual('mapbox-gl')
 
 // Method to make an object deep copy
 function mockDeepCloneObject (object) {
@@ -82,7 +85,30 @@ const mockResources = [
   {
     id: 'resource_2',
     type: 'FeatureCollection',
-    features: [],
+    excludeFromBounds: true,
+    features: [
+      {
+        type: 'Feature',
+        geometry: {
+          type: GeometryType.POINT,
+          coordinates: [0, 5],
+        },
+        id: 'f1bis',
+        properties: {
+          title: 'First feature bis',
+          rowId: 'row1bis',
+          columnId: 'column1',
+          content: JSON.stringify([
+            {
+              field: {
+                label: 'First field',
+                value: 10,
+              },
+            },
+          ]),
+        },
+      },
+    ],
     layers: [GEO_STYLE.Point],
     popupMode: null,
     editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POLYGON]),
@@ -102,7 +128,7 @@ const mockResources = [
     type: 'FeatureCollection',
     features: [],
     layers: [GEO_STYLE.Point],
-    popupMode: 'click',
+    popupMode: null,
     editableGeometryTypes: new Set(),
     selectable: true,
   },
@@ -126,6 +152,7 @@ const mockOrphanFeature = {
     type: GeometryType.POINT,
     coordinates: [10, 20],
   },
+  features: [],
   id: 'f4',
   properties: {
     title: 'Orphan feature',
@@ -199,6 +226,7 @@ jest.mock('mapbox-gl', () => ({
       querySelectorAll: jest.fn(() => []),
     })),
   })),
+  LngLatBounds: jest.fn((...params) => new MockLngLatBounds(...params)),
 }))
 
 jest.mock('@mapbox/mapbox-gl-draw', () =>
@@ -229,20 +257,12 @@ const defaultWrapperParams = {
   },
 }
 
-// Mock internal functions
-jest.mock('@/services/lck-utils/map/computeGeo', () => ({
-  computeBoundingBox: (resources) => ({
-    sw: resources[0]?.features[0]?.geometry.coordinates[0],
-    ne: resources[0]?.features[0]?.geometry.coordinates[1],
-    isEmpty: () => resources[0]?.features[0]?.geometry.coordinates[0] == null,
-  }),
-}))
-
 // Tests
 
 describe('Map component', () => {
   describe('Map initialization', () => {
     it('Pass some default bounds in dialog mode so we do not need to fit bounds later', () => {
+      mapboxgl.Map.mockClear()
       const wrapper = shallowMount(Map, {
         propsData: {
           resources: mockResources,
@@ -250,9 +270,54 @@ describe('Map component', () => {
         },
         ...defaultWrapperParams,
       })
+      expect(mapboxgl.Map).toHaveBeenCalledTimes(1)
+      expect(mapboxgl.Map).toHaveBeenCalledWith(expect.objectContaining({
+        bounds: {
+          _ne: {
+            lat: 30,
+            lng: 15,
+          },
+          _sw: {
+            lat: 20,
+            lng: 10,
+          },
+        },
+        fitBoundsOptions: {
+          padding: 20,
+        },
+      }))
       expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
     })
+    it('Do not pass some default bounds in dialog mode if there is no feature that must to be included in the bounds', () => {
+      mapboxgl.Map.mockClear()
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: [mockResources[1]],
+          mode: 'Dialog',
+        },
+        ...defaultWrapperParams,
+      })
+      expect(mapboxgl.Map).toHaveBeenCalledTimes(1)
+      expect(mapboxgl.Map).toHaveBeenCalledWith(expect.not.objectContaining({
+        bounds: {
+          _ne: {
+            lat: 30,
+            lng: 15,
+          },
+          _sw: {
+            lat: 20,
+            lng: 10,
+          },
+        },
+        fitBoundsOptions: {
+          padding: 20,
+        },
+      }))
+      expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
+    })
+
     it('Do not pass some default bounds in block mode so we need to fit bounds later', () => {
+      mapboxgl.Map.mockClear()
       const wrapper = shallowMount(Map, {
         propsData: {
           resources: mockResources,
@@ -260,6 +325,23 @@ describe('Map component', () => {
         },
         ...defaultWrapperParams,
       })
+      expect(mapboxgl.Map).toHaveBeenCalledTimes(1)
+      expect(mapboxgl.Map).toHaveBeenCalledWith(expect.not.objectContaining({
+        bounds: {
+          _ne: {
+            lat: 30,
+            lng: 15,
+          },
+          _sw: {
+            lat: 20,
+            lng: 10,
+          },
+        },
+        fitBoundsOptions: {
+          padding: 20,
+        },
+      }))
+
       expect(wrapper.vm.map.fitBounds).toHaveBeenCalled()
     })
   })
@@ -448,10 +530,16 @@ describe('Map component', () => {
         })
         // Fit to the bounds of the selected feature with the right zoom level
         expect(wrapper.vm.map.fitBounds).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            sw: mockFirstFeature.geometry.coordinates[0],
-            ne: mockFirstFeature.geometry.coordinates[1],
-          }),
+          {
+            _sw: {
+              lng: mockFirstFeature.geometry.coordinates[0],
+              lat: mockFirstFeature.geometry.coordinates[1],
+            },
+            _ne: {
+              lng: mockFirstFeature.geometry.coordinates[0],
+              lat: mockFirstFeature.geometry.coordinates[1],
+            },
+          },
           expect.objectContaining({
             zoom: 10,
           }),
@@ -608,7 +696,6 @@ describe('Map component', () => {
         wrapper = shallowMount(Map, {
           propsData: {
             resources: mockResources,
-            hasPopup: true,
             mode: 'Block',
           },
           ...defaultWrapperParams,
@@ -670,7 +757,6 @@ describe('Map component', () => {
         wrapper = shallowMount(Map, {
           propsData: {
             resources: [mockResources[4]],
-            hasPopup: true,
             mode: 'Block',
           },
           ...defaultWrapperParams,
@@ -803,7 +889,6 @@ describe('Map component', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
               resources: [mockResources[2]],
-              hasPopup: true,
             },
             ...defaultWrapperParams,
           })
@@ -823,7 +908,6 @@ describe('Map component', () => {
           const wrapper = shallowMount(Map, {
             propsData: {
               resources: [mockResources[4]],
-              hasPopup: true,
             },
             ...defaultWrapperParams,
           })
@@ -847,7 +931,15 @@ describe('Map component', () => {
             ...defaultWrapperParams,
           })
           const listeners = wrapper.vm.listenersByLayer[GEO_STYLE.Point.id]
-          expect(listeners.length).toBe(1)
+          expect(listeners.length).toBe(3)
+          expect(listeners).toContainEqual({
+            type: 'mouseenter',
+            func: wrapper.vm.setPointerCursor,
+          },
+          {
+            type: 'mouseleave',
+            func: wrapper.vm.resetCursor,
+          })
         })
       })
     })

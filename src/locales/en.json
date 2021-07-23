@@ -428,7 +428,7 @@
         }
       },
       "block": {
-        "block": "Block",
+        "title": "Block",
         "name": "Block title",
         "type": "Block type",
         "content": "Content",
