@@ -19,6 +19,7 @@ describe('filterRowsByTableViewId hook', () => {
   let columnTable1FirstName: TableColumn
   let columnTable1LastName: TableColumn
   let columnTable1Geom: TableColumn
+  let columnTable1Number: TableColumn
   let user1: User
   let rowTable1: TableRow
   let rowTable2: TableRow
@@ -68,6 +69,13 @@ describe('filterRowsByTableViewId hook', () => {
       reference: true,
       reference_position: 2,
     })
+    columnTable1Number = await app.service('column').create({
+      text: 'Number',
+      column_type_id: COLUMN_TYPE.NUMBER,
+      table_id: table1.id,
+      reference: true,
+      reference_position: 2,
+    })
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-table-view@locokit.io',
@@ -82,6 +90,7 @@ describe('filterRowsByTableViewId hook', () => {
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: user1.id,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
+        [columnTable1Number.id]: 2,
       },
     })
     rowTable2 = await app.service('row').create({
@@ -93,6 +102,7 @@ describe('filterRowsByTableViewId hook', () => {
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: user1.id,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
+        [columnTable1Number.id]: 17,
       },
     })
     rowTable3 = await app.service('row').create({
@@ -104,6 +114,7 @@ describe('filterRowsByTableViewId hook', () => {
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: null,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
+        [columnTable1Number.id]: 42,
       },
     })
   })
@@ -167,6 +178,42 @@ describe('filterRowsByTableViewId hook', () => {
       expect(rows.data[0].id).toBe(rowTable2.id)
       expect(rows.data[1].id).toBe(rowTable3.id)
     }
+    await app.service('view').remove(tableView.id)
+  })
+
+  it('restrict view rows to the filter $gte', async () => {
+    const tableView = await app.service('view').create({
+      text: 'My view',
+      table_id: table1.id,
+    }) as TableView
+    await app.service('table-view-has-table-column').create({
+      table_view_id: tableView.id,
+      table_column_id: columnTable1Number.id,
+      filter: {
+        $gte: 17,
+      },
+    })
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } }) as Paginated<TableRow>
+    expect.assertions(1)
+    expect(rows.total).toBe(2)
+    await app.service('view').remove(tableView.id)
+  })
+
+  it('restrict view rows to the filter $lt', async () => {
+    const tableView = await app.service('view').create({
+      text: 'My view',
+      table_id: table1.id,
+    }) as TableView
+    await app.service('table-view-has-table-column').create({
+      table_view_id: tableView.id,
+      table_column_id: columnTable1Number.id,
+      filter: {
+        $lt: 17,
+      },
+    })
+    const rows = await app.service('row').find({ query: { table_view_id: tableView.id } }) as Paginated<TableRow>
+    expect.assertions(1)
+    expect(rows.total).toBe(1)
     await app.service('view').remove(tableView.id)
   })
 
