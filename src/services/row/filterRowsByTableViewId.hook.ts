@@ -6,6 +6,10 @@ import { TableView } from '../../models/tableview.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
+interface QueryFilter {
+  data: Record<string, Record<string, string | number | boolean>>
+}
+
 /**
  * Add filters depending on the table view wished
  */
@@ -81,8 +85,8 @@ export default function filterRowsByTableViewId (): Hook {
           })
         })
       // Add default filters coming from table view settings
-      if (tableView.filters) {
-        const { operator, values } = tableView.filters
+      if (tableView.filter) {
+        const { operator, values } = tableView.filter
         if (values.length > 0) {
           // List that will contain all the filters
           const defaultFilters: Array<{
@@ -91,36 +95,32 @@ export default function filterRowsByTableViewId (): Hook {
           values.forEach(({ column, dbAction, dbPattern }) => {
             const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
             if (currentColumn) {
-              switch (currentColumn?.column_type_id) {
-                case COLUMN_TYPE.GROUP:
-                case COLUMN_TYPE.LOOKED_UP_COLUMN:
-                case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                case COLUMN_TYPE.USER:
-                  defaultFilters.push({
-                    data: {
-                      [`${column}.value`]: { [dbAction]: dbPattern },
-                    },
-                  })
-                  break
-                default:
-                  defaultFilters.push({
-                    data: {
-                      [column]: { [dbAction]: dbPattern },
-                    },
-                  })
-                  break
-              }
+              const columnKey = [
+                COLUMN_TYPE.GROUP,
+                COLUMN_TYPE.LOOKED_UP_COLUMN,
+                COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+                COLUMN_TYPE.USER,
+              ].includes(currentColumn.column_type_id)
+                ? `${column}.value`
+                : column
+              // Add the FeatherJS query filter
+              defaultFilters.push({
+                data: {
+                  [columnKey]: { [dbAction]: dbPattern },
+                },
+              })
             }
           })
           // Add default filters to the query
-          const allFilters = [defaultFilters]
-          if (context.params.query.$or) allFilters.push(context.params.query.$or)
+          const allFilters: Array<QueryFilter[] | { $or: QueryFilter[] }> = [defaultFilters]
+          if (context.params.query.$or) allFilters.push({ $or: context.params.query.$or })
           if (context.params.query.$and) allFilters.push(context.params.query.$and)
           if (allFilters.length > 1) {
             // If a filter operator is already specified -> make a conjonction of the specified and the default filters
             context.params.query.$and = allFilters
+            delete context.params.query.$or
           } else {
-            // If there is no filter operator -> simply add the default filters
+            // If there is no specified filter operator -> simply add the default filters
             context.params.query[operator] = defaultFilters
           }
         }

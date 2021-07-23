@@ -9,7 +9,7 @@ import { BaseModel } from './base.model'
 import { Table } from './table.model'
 import { TableAction } from './tableaction.model'
 
-export interface TableViewFilters {
+export interface TableViewFilter {
   operator: string
   values: Array<{
     column: string
@@ -28,7 +28,7 @@ export class TableView extends BaseModel {
   position?: number
   table_id!: string
   table?: Table
-  filters?: TableViewFilters
+  filter?: TableViewFilter
 
   static get tableName (): string {
     return 'table_view'
@@ -44,7 +44,7 @@ export class TableView extends BaseModel {
         documentation: { type: 'string' },
         locked: { type: 'boolean' },
         position: { type: ['number', 'null'] },
-        filters: { type: ['object', 'null'] },
+        filter: { type: ['object', 'null'] },
       },
     }
   }
