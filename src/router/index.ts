@@ -58,7 +58,8 @@ const routes: Array<RouteConfig> = [
       needHeader: false,
       needGuest: true,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.VERIFYSIGNUP,
     name: 'VerifySignup',
     component: VerifySignup,

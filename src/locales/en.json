@@ -22,7 +22,8 @@
     "resetpassword": {
       "password": "Password",
       "passwordCheck": "Password (check)",
-      "submit": "Reset the password",
+      "resetSubmit": "Reset the password",
+      "setSubmit": "Set the password",
       "passwordMismatch": "Passwords mismatch"
     },
     "paginator": {
