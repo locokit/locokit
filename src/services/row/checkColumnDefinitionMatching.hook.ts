@@ -482,7 +482,6 @@ export function checkColumnDefinitionMatching (): Hook {
     )
 
     if (checkErrors.length > 0) {
-      console.log(checkErrors[0])
       throw new NotAcceptable('Several values sent are incorrect', checkErrors)
     }
     return context
