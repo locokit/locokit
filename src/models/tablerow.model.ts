@@ -17,7 +17,9 @@ export class TableRow extends BaseModel {
   parents?: TableRow[]
   children?: TableRow[]
 
-  static modelName: 'row'
+  static get modelName (): string {
+    return 'row'
+  }
 
   static get tableName (): string {
     return 'table_row'

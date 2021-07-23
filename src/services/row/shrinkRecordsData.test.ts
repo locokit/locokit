@@ -9,7 +9,7 @@ import { workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableView } from '../../models/tableview.model'
 
-describe('selectColumnsOfTableOrTableView hook', () => {
+describe('shrinkRecordsData hook', () => {
   let workspace: workspace
   let database: database
   let table1: Table

@@ -23,10 +23,9 @@ import { upsertRowRelation } from './upsertRowRelation.hook'
 import { checkColumnDefinitionMatching } from './checkColumnDefinitionMatching.hook'
 import { triggerProcess } from './triggerProcess.hook'
 import { isBulkPatch, isValidBulkPatch, onlyUpdateFormulaColumns } from './isBulkPatch'
-import {
-  selectColumnsOfTableOrTableView,
-  rebuildData,
-} from './selectColumnsOfTableOrView.hook'
+import { shrinkRecordsData } from './shrinkRecordsData.hook'
+import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 
 const { authenticate } = authentication.hooks
 
@@ -44,13 +43,22 @@ export default {
           filterRowsByTableViewId(),
           commonHooks.discardQuery('table_view_id'),
           commonHooks.discardQuery('rowId'),
-          selectColumnsOfTableOrTableView(),
+          // selectColumnsOfTableOrTableView(),
+          defineAbilitiesIffHook(),
           commonHooks.discardQuery('$lckGroupId'),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ],
         commonHooks.disallow(),
       ),
     ],
     get: [
+      /**
+       * TODO: permissions,
+       * load the current row,
+       * filter permissions for a table
+       */
       commonHooks.discardQuery('$lckGroupId'), // remove the $lckGroupId (used to compute abilities)
     ],
     create: [
@@ -63,7 +71,11 @@ export default {
       computeRowLookedUpColumns(),
       computeTextProperty(),
       commonHooks.discard('table_view_id'),
+      defineAbilitiesIffHook(),
       commonHooks.discard('$lckGroupId'),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     update: [
       getCurrentItem(),
@@ -75,7 +87,11 @@ export default {
       completeDefaultValues(),
       computeTextProperty(),
       commonHooks.discard('table_view_id'),
+      defineAbilitiesIffHook(),
       commonHooks.discard('$lckGroupId'),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     patch: [
       commonHooks.iffElse(
@@ -105,7 +121,11 @@ export default {
           computeRowLookedUpColumns(),
           computeTextProperty(),
           commonHooks.discard('table_view_id'),
+          defineAbilitiesIffHook(),
           commonHooks.discard('$lckGroupId'),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ],
       ),
     ],
@@ -113,15 +133,26 @@ export default {
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
       removeRelatedRows(),
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
   },
 
   after: {
     all: [
+      // beware, the authorize hook don't really work for us
+      // we have filters based on nested props, it seems this is not working
+      // so we filter with shrinkRecordsData if needed
+      // authorize({
+      //   adapter: 'feathers-objection',
+      //   availableFields: ['id', 'text', 'data', 'createdAt', 'updatedAt'],
+      // }),
       // historizeDataEvents()
     ],
     find: [
-      rebuildData(),
+      shrinkRecordsData(),
     ],
     get: [
     ],
