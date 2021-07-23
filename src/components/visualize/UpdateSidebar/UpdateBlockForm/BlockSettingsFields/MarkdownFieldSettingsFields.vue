@@ -1,7 +1,18 @@
 <template>
   <div>
-    <div class="p-field">
+    <validation-provider
+      vid="blockSettingsTableView"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.workspace.block.tableView')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+      <span class="field-required">*</span>
       <lck-autocomplete
         id="blockSettingsTableView"
         field="text"
@@ -11,16 +22,33 @@
         @item-select="onChangeTableView"
         @search="$emit('search-table-view', $event)"
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="displayFieldId"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.workspace.block.markdownField.displayField')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="displayFieldId">{{ $t('pages.workspace.block.markdownField.displayField') }}</label>
+      <span class="field-required">*</span>
       <p-input-text
         id="displayFieldId"
         :value="displayFieldId"
         @input="$emit('update:displayFieldId', $event)"
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="textColor"
+      tag="div"
+      class="p-field"
+    >
       <label for="textColor">{{ $t('pages.workspace.block.markdownField.textColor') }}</label>
       <p-dropdown
         id="textColor"
@@ -45,8 +73,12 @@
           {{ $t(`common.colorClass.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="textAlign"
+      tag="div"
+      class="p-field"
+    >
       <label for="textAlign">{{ $t('pages.workspace.block.markdownField.textAlign') }}</label>
       <p-dropdown
         id="textAlign"
@@ -71,12 +103,14 @@
           {{ $t(`common.alignClass.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
-    </div>
+    </validation-provider>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
 
 import {
   EXTENDED_NAMED_CLASSES,
@@ -95,6 +129,7 @@ export default {
     'lck-autocomplete': AutoComplete,
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     displayFieldId: {
@@ -118,7 +153,7 @@ export default {
     return {
       EXTENDED_NAMED_CLASSES,
       TEXT_ALIGN_CLASS,
-      tableView: { text: '', value: '' },
+      tableView: null,
     }
   },
   methods: {

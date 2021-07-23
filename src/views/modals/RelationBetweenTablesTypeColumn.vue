@@ -1,8 +1,19 @@
 <template>
-  <div class="p-my-4">
+  <validation-provider
+    vid="relation-between-tables-id"
+    tag="div"
+    :name="$t('pages.databaseSchema.relationBetweenTablesType.relationTable')"
+    class="p-field"
+    rules="required"
+    v-slot="{
+        errors,
+        classes
+      }"
+  >
     <label for="relation-between-tables-id">
       {{ $t('pages.databaseSchema.relationBetweenTablesType.relationTable') }}
     </label>
+    <span class="field-required">*</span>
     <p-dropdown
       id="relation-between-tables-id"
       appendTo="body"
@@ -13,17 +24,21 @@
       optionLabel="text"
       :placeholder="$t('pages.databaseSchema.relationBetweenTablesType.relationTablePlaceholder')"
     />
-  </div>
-</template>
+    <span :class="classes">{{ errors[0] }}</span>
+  </validation-provider></template>
 <script>
 import Vue from 'vue'
+import { ValidationProvider } from 'vee-validate'
+
 import { lckServices } from '@/services/lck-api'
+
 import Dropdown from 'primevue/dropdown'
 
 export default {
   name: 'RelationBetweenTablesTypeColumn',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     databaseId: String,

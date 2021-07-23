@@ -1,6 +1,17 @@
 <template>
-  <div class="p-field">
+  <validation-provider
+    vid="label"
+    tag="div"
+    class="p-field"
+    :name="$t('components.process.form.text.label')"
+    rules="required"
+    v-slot="{
+        errors,
+        classes
+      }"
+  >
     <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+    <span class="field-required">*</span>
     <lck-autocomplete
       id="blockSettingsTableView"
       field="text"
@@ -10,17 +21,24 @@
       @item-select="onChangeTableView"
       @search="$emit('search-table-view', $event)"
     />
-  </div>
+    <span :class="classes">{{ errors[0] }}</span>
+  </validation-provider>
 </template>
 
 <script lang="ts">
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
+
 import { LckTableView } from '@/services/lck-api/definitions'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
 export default {
   name: 'DataRecordSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete,
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     id: {
@@ -35,13 +53,10 @@ export default {
     },
   },
   data (): {
-    tableView: { text: string; value: string };
+    tableView: { text: string; value: string } | null;
     } {
     return {
-      tableView: {
-        text: '',
-        value: '',
-      },
+      tableView: null,
     }
   },
   watch: {

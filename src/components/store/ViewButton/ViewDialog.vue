@@ -9,15 +9,32 @@
     @input="$emit('input', currentData)"
     @close="$emit('close')"
   >
-    <div class="p-field">
+    <validation-provider
+      vid="viewTextField"
+      tag="div"
+      class="p-field"
+      :name="$t('components.datatable.toolbar.views.viewTextLabel')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="viewTextField">
-        {{ $t('components.datatable.toolbar.views.viewTextLabel') }}</label>
+        {{ $t('components.datatable.toolbar.views.viewTextLabel') }}
+      </label>
+      <span class="field-required">*</span>
       <p-input-text
         id="viewTextField"
         v-model="currentData.text"
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="viewLockedField"
+      tag="div"
+      class="p-field"
+    >
       <label for="viewLockedField">
         {{ $t('components.datatable.toolbar.views.viewLockedLabel') }}</label>
       <p-toggle-button
@@ -27,12 +44,14 @@
         :offLabel="$t('components.datatable.toolbar.views.viewLockedLabelOff')" offIcon="pi pi-unlock"
         iconPos="right"
       />
-    </div>
+    </validation-provider>
   </lck-dialog-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
 
 import InputText from 'primevue/inputtext'
 import ToggleButton from 'primevue/togglebutton'
@@ -45,6 +64,7 @@ export default {
     'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText),
     'p-toggle-button': Vue.extend(ToggleButton),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {

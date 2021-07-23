@@ -1,7 +1,7 @@
 <template>
-  <validation-observer v-slot="{ valid, handleSubmit, reset }">
+  <validation-observer v-slot="{ valid, reset, pristine }">
     <form
-      @submit.prevent="handleSubmit(() => $emit('input'))"
+      @submit.prevent="$emit('input')"
       @reset.prevent="reset"
       v-if="visible"
     >
@@ -39,7 +39,7 @@
             <p-button
               v-else
               :label="$t('form.submit')"
-              :disabled="!valid"
+              :disabled="confirmationDialog ? !valid : !valid || pristine"
               type="submit"
               icon="pi pi-check"
               class="p-button-primary"
@@ -78,6 +78,10 @@ export default {
     },
     contentStyle: {
       type: Object,
+    },
+    confirmationDialog: {
+      type: Boolean,
+      default: false,
     },
   },
 }

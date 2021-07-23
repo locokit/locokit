@@ -17,18 +17,34 @@
         {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ columnToHandle.id }}
       </label>
     </div>
-    <div class="p-field">
+    <validation-provider
+      vid="column-name"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.databaseSchema.handleColumnModal.columnName')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="column-name">
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
       </label>
+      <span class="field-required">*</span>
       <p-input-text
         v-model="columnNameToHandle"
         id="column-name"
         type="text"
         autofocus
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="column-doc"
+      tag="div"
+      class="p-field"
+    >
       <label for="column-doc">
         {{ $t('pages.databaseSchema.handleColumnModal.columnDoc') }}
       </label>
@@ -37,29 +53,52 @@
         id="column-doc"
         :autoResize="true"
       />
-    </div>
+    </validation-provider>
     <div class="p-d-flex p-ai-center p-field">
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
-      <p-input-switch
+      <validation-provider
+        vid="referenceToHandle-isActive"
+        tag="div"
         class="p-mr-2"
-        v-model="referenceToHandle.isActive"
-        :disabled="isFormulaType"
-      />
-      <p-input-number
-        class="input-number-reference"
-        v-model="referenceToHandle.position"
-        :showButtons="true"
-        :min="0"
-        :maxFractionDigits="0"
-        :disabled="!referenceToHandle.isActive"
-      />
+      >
+        <p-input-switch
+          id="referenceToHandle-isActive"
+          v-model="referenceToHandle.isActive"
+          :disabled="isFormulaType"
+        />
+      </validation-provider>
+      <validation-provider
+          vid="referenceToHandle-position"
+          tag="div"
+          class="input-number-reference"
+        >
+        <p-input-number
+          id="referenceToHandle-position"
+          v-model="referenceToHandle.position"
+          :showButtons="true"
+          :min="0"
+          :maxFractionDigits="0"
+          :disabled="!referenceToHandle.isActive"
+        />
+      </validation-provider>
     </div>
-    <div class="p-field">
+    <validation-provider
+      vid="column-type"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.databaseSchema.handleColumnModal.columnType')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="column-type">
         {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
       </label>
+      <span class="field-required">*</span>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
         id="column-type"
@@ -72,7 +111,8 @@
         :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')"
         :disabled="columnToHandle != null && columnToHandle.id != null"
       />
-    </div>
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
     <lck-select-type-column
       v-if="selectedColumnTypeIdToHandle && isSelectColumnType"
       @select-type-values-change="selectTypeValuesChange"
@@ -113,28 +153,34 @@
       :columnToHandle="columnToHandle"
       :tableId="tableId"
     />
-    <div
-      class="p-field"
+    <validation-provider
       v-if="selectedColumnTypeIdToHandle && isFormulaType"
+      vid="column-formula-content"
+      tag="div"
+      class="p-field"
+      :name="$t('components.formulas.formula')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes,
+        validate
+      }"
     >
-      <label>{{ $t('components.formulas.formula') }}</label>
+      <label for="column-formula-content" >{{ $t('components.formulas.formula') }}</label>
+      <span class="field-required">*</span>
       <lck-monaco-editor
+        id="column-formula-content"
         :handledError="errorHandleColumn"
         language="locokitLanguage"
         :tableColumns="tableColumns"
         theme="locokitTheme"
         :value="settings && settings.formula"
-        @change="formulaChange"
+        @change="formulaChange($event, validate)"
       />
-    </div>
-    <div
-      v-if="errorHandleColumn"
-      class="p-invalid"
-    >
-      <small
-        id="error-column-to-handle"
-        class="p-invalid"
-      >
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <div v-if="errorHandleColumn" class="p-invalid">
+      <small id="error-column-to-handle" class="p-invalid">
         {{ errorHandleColumn }}
       </small>
     </div>
@@ -144,11 +190,12 @@
 <script>
 import Vue from 'vue'
 
+import { ValidationProvider } from 'vee-validate'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
 import { lckServices } from '@/services/lck-api'
 import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula'
 
-import LookedUpTypeColumn from './LookedUpTypeColumn'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import InputSwitch from 'primevue/inputswitch'
@@ -159,6 +206,7 @@ import Checkbox from 'primevue/checkbox'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
+import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn'
 
 export default {
   name: 'HandleColumnModal',
@@ -174,6 +222,7 @@ export default {
     'p-checkbox': Vue.extend(Checkbox),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-input-number': Vue.extend(InputNumber),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {
@@ -223,6 +272,7 @@ export default {
   methods: {
     closeHandleColumnModal () {
       this.columnNameToHandle = null
+      this.columnDocumentation = null
       this.selectedColumnTypeIdToHandle = null
       this.$emit('close', false)
     },
@@ -303,7 +353,8 @@ export default {
     foreignFieldIdChange (data) {
       this.settings.foreignField = data
     },
-    formulaChange (data) {
+    formulaChange (data, validate) {
+      validate(data)
       this.settings.formula = data
     },
     formulaSettings () {

@@ -3,16 +3,18 @@
     :visible="visible"
     :header="$t('form.delete')"
     :submitting="submitting"
+    :confirmationDialog="true"
     @input="$emit('input', value)"
     @close="$emit('close')"
   >
-      <template v-if="value && value[fieldToDisplay]">
-        <p class="lck-color-content">{{ $t('form.specificDeleteConfirmation') }}</p>
-        <p class="lck-color-content"><strong>{{ itemCategory && `${itemCategory} / ` }}{{ value[fieldToDisplay] }}</strong></p>
-      </template>
-      <template v-else>
-        <p class="lck-color-content">{{$t('form.deleteConfirmation')}}</p>
-      </template>
+    <template v-if="value && value[fieldToDisplay]">
+      <p class="lck-color-content">{{ $t('form.specificDeleteConfirmation') }}</p>
+      <p class="lck-color-content">
+        <strong>{{ itemCategory && `${itemCategory} / ` }}{{ value[fieldToDisplay] }}</strong></p>
+    </template>
+    <template v-else>
+      <p class="lck-color-content">{{ $t('form.deleteConfirmation') }}</p>
+    </template>
   </lck-dialog-form>
 </template>
 

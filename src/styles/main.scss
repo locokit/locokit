@@ -149,3 +149,16 @@ html, body, #app {
     background-color: var(--primary-color);
   }
 }
+
+/*
+  Field required
+*/
+.field-required {
+  font-size: 1.6rem;
+  color: var(--color-error);
+}
+
+span .failed {
+  color: var(--color-error);
+  font-weight: 500;
+}

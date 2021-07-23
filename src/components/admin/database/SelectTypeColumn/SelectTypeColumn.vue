@@ -103,6 +103,7 @@
     <lck-dialog-form
       :visible="showDeleteColumnModal"
       :header="$t('pages.databaseSchema.selectType.deleteValue')"
+      :confirmationDialog="true"
       @close="handleDeleteColumnModalVisibility(false, null)"
       @input="deleteSelectTypeValue"
     >

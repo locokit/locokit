@@ -5,27 +5,43 @@
     @input="confirmCreateTableModal"
     @close="closeCreateTableModal"
   >
-    <div class="p-field p-mt-4">
+    <validation-provider
+      vid="table-name"
+      tag="div"
+      class="p-field p-mt-4"
+      :name="$t('pages.databaseSchema.createTableModal.tableName')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="table-name">
-        {{ $t('pages.databaseSchema.createTableModal.tableName') }}
+        {{ $t('pages.databaseSchema.createTableModal.tableDoc') }}
       </label>
+      <span class="field-required">*</span>
       <p-input-text
         id="table-name"
         :class="{ 'p-invalid': errorTableNameToCreate }"
         type="text"
         v-model="tableNameToCreate" autofocus
       />
-    </div>
-    <div class="p-field p-mt-4">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="table-documentatio"
+      tag="div"
+      class="p-field p-mt-4"
+    >
       <label for="table-documentation">
-        {{ $t('pages.databaseSchema.createTableModal.documentation') }}
+        {{ $t('pages.databaseSchema.createTableModal.tableDoc') }}
       </label>
       <p-input-text
         id="table-documentation"
         type="text"
         v-model="tableDocumentation"
       />
-    </div>
+    </validation-provider>
     <div v-if="errorTableNameToCreate" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">
         {{ errorTableNameToCreate }}
@@ -36,6 +52,8 @@
 
 <script>
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
 
 import { lckServices } from '@/services/lck-api'
 
@@ -48,6 +66,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {
@@ -67,6 +86,7 @@ export default {
     closeCreateTableModal () {
       this.tableNameToCreate = null
       this.tableDocumentation = null
+      this.errorTableNameToCreate = null
       this.$emit('close', false)
     },
     async confirmCreateTableModal () {

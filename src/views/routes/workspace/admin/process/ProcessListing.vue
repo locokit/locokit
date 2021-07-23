@@ -4,7 +4,7 @@
   >
     <template #toolbar>
       <span class="p-pl-1">
-        <span class="pi pi-th-large" />
+        <span class="pi pi-th-large"/>
         {{ $t('pages.process.titleButton') }}
       </span>
 
@@ -35,7 +35,7 @@
             >
                 ({{ process.runs.length }})
               </span>
-            <br />
+            <br/>
             <span
               class="p-tag"
             >
@@ -198,6 +198,8 @@ export default Vue.extend({
            */
           this.processResult.push(this.currentProcess)
         }
+        // Go back to display processes list
+        this.displayDetailProcess = false
       } catch (error) {
         this.$toast.add({
           severity: 'error',

@@ -2,6 +2,7 @@
   <lck-dialog-form
     :visible.sync="visible"
     :header="$t('pages.databaseSchema.deleteColumnModal.deleteColumn')"
+    :confirmationDialog="true"
     @input="confirmDeleteColumnModal"
     @close="closeDeleteColumnModal"
   >

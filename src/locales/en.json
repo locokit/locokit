@@ -391,7 +391,13 @@
         "edit": "Edit a page",
         "pageName": "Page Name",
         "pageHidden": "Hide the page",
-        "layout": "Layout",
+        "layout": {
+          "title": "Layout",
+          "classic": "Classic layout",
+          "center": "Centered layout",
+          "flex": "Flex layout",
+          "full": "Full layout"
+        },
         "pagePosition": "Page position",
         "pageConfiguration": "Page configuration",
         "list": "Containers list",
@@ -526,6 +532,7 @@
       "createTableModal": {
         "createTable": "Create table",
         "tableName": "Table name",
+        "tableDoc": "Table documentation",
         "cancel": "Cancel",
         "create": "Create"
       },

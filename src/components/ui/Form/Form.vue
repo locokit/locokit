@@ -1,8 +1,8 @@
 <template>
-  <validation-observer v-slot="{ valid, handleSubmit, reset }">
+  <validation-observer v-slot="{ valid, reset, pristine }">
     <form
       class="p-fluid"
-      @submit.prevent="handleSubmit(() => $emit('submit'))"
+      @submit.prevent="$emit('submit')"
       @reset.prevent="reset"
       ref="lck-form-record"
     >
@@ -27,7 +27,7 @@
         <p-button
           v-else
           :class="{ 'full-width-button': fullWidthButton }"
-          :disabled="!valid"
+          :disabled="!valid || pristine"
           :label="$t('form.save')"
           icon="pi pi-save"
           type="submit"
