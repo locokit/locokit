@@ -225,20 +225,102 @@ describe('formulaColumn hooks', () => {
     })
 
     it('don\'t update the rows if the formula is the same as before', async () => {
-      expect.assertions(1)
+      expect.assertions(3)
       const spyOnPatchRow = jest.spyOn(app.service('row'), 'patch')
       spyOnPatchRow.mockClear()
-      await app.service('column').patch(formulaColumn1.id, {
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
         settings: {
           formula: '""',
         },
       })
       expect(spyOnPatchRow).not.toHaveBeenCalled()
+      expect(updatedFormulaColumn.settings.formula).toBe('""')
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
+    })
+
+    it('correctly update the rows after column update without formula change', async () => {
+      expect.assertions(4)
+      // Update the column a first time
+      await app.service('column').patch(formulaColumn1.id, {
+        settings: {
+          formula: `COLUMN.{${stringColumn1.id}}`,
+        },
+      })
+      // Update the column a second time
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
+        settings: {
+          formula: `COLUMN.{${stringColumn1.id}}`,
+        },
+      })
+      // The column is correctly saved
+      expect(updatedFormulaColumn.settings.formula).toBe(`COLUMN.{${stringColumn1.id}}`)
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
+      // The row is correctly initialized
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstRow')
+      // Row update
+      row1Table1 = await app.service('row').patch(row1Table1.id, {
+        ...row1Table1,
+        data: {
+          ...row1Table1.data,
+          [stringColumn1.id]: 'myFirstUpdatedRow',
+        },
+      })
+      // The row is correctly updated
+      expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstUpdatedRow')
+      // Reset row data
+      row1Table1 = await app.service('row').patch(row1Table1.id, {
+        ...row1Table1,
+        data: {
+          ...row1Table1.data,
+          [stringColumn1.id]: 'myFirstRow',
+        },
+      })
+    })
+
+    it('correctly update the rows after column update with formula change', async () => {
+      expect.assertions(4)
+      // Update the column a first time
+      await app.service('column').patch(formulaColumn1.id, {
+        settings: {
+          formula: '""',
+        },
+      })
+      // Update the column a second time
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
+        settings: {
+          formula: `COLUMN.{${stringColumn1.id}}`,
+        },
+      })
+      // The column is correctly saved
+      expect(updatedFormulaColumn.settings.formula).toBe(`COLUMN.{${stringColumn1.id}}`)
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
+      // The row is correctly initialized
+      row1Table1 = await app.service('row').get(row1Table1.id)
+      expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstRow')
+      // Row update
+      row1Table1 = await app.service('row').patch(row1Table1.id, {
+        ...row1Table1,
+        data: {
+          ...row1Table1.data,
+          [stringColumn1.id]: 'myFirstUpdatedRow',
+        },
+      })
+      // The row is correctly updated
+      expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstUpdatedRow')
+      // Reset row data
+      row1Table1 = await app.service('row').patch(row1Table1.id, {
+        ...row1Table1,
+        data: {
+          ...row1Table1.data,
+          [stringColumn1.id]: 'myFirstRow',
+        },
+      })
     })
 
     it('update the rows if the formula, without any specified column, has been changed', async () => {
-      expect.assertions(2)
-      await app.service('column').patch(formulaColumn1.id, {
+      expect.assertions(4)
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
         settings: {
           formula: '"My new formula"',
         },
@@ -247,11 +329,13 @@ describe('formulaColumn hooks', () => {
       row2Table1 = await app.service('row').get(row2Table1.id)
       expect(row1Table1.data[formulaColumn1.id]).toBe('My new formula')
       expect(row2Table1.data[formulaColumn1.id]).toBe('My new formula')
+      expect(updatedFormulaColumn.settings.formula).toBe('"My new formula"')
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
     })
 
     it('update the rows if the formula, with one specified column, has been changed', async () => {
-      expect.assertions(2)
-      await app.service('column').patch(formulaColumn1.id, {
+      expect.assertions(4)
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
         settings: {
           formula: `COLUMN.{${stringColumn1.id}}`,
         },
@@ -260,11 +344,13 @@ describe('formulaColumn hooks', () => {
       row2Table1 = await app.service('row').get(row2Table1.id)
       expect(row1Table1.data[formulaColumn1.id]).toBe('myFirstRow')
       expect(row2Table1.data[formulaColumn1.id]).toBe('mySecondRow')
+      expect(updatedFormulaColumn.settings.formula).toBe(`COLUMN.{${stringColumn1.id}}`)
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
     })
 
     it('update the rows if the formula, with one specified single select column, has been changed', async () => {
-      expect.assertions(2)
-      await app.service('column').patch(formulaColumn1.id, {
+      expect.assertions(4)
+      const updatedFormulaColumn: TableColumn = await app.service('column').patch(formulaColumn1.id, {
         settings: {
           formula: `COLUMN.{${singleSelectColumn1.id}}`,
         },
@@ -273,6 +359,8 @@ describe('formulaColumn hooks', () => {
       row2Table1 = await app.service('row').get(row2Table1.id)
       expect(row1Table1.data[formulaColumn1.id]).toBe('option 1')
       expect(row2Table1.data[formulaColumn1.id]).toBe('option 2')
+      expect(updatedFormulaColumn.settings.formula).toBe(`COLUMN.{${singleSelectColumn1.id}}`)
+      expect(updatedFormulaColumn.settings.formula_type_id).toBe(COLUMN_TYPE.STRING)
     })
   })
 
