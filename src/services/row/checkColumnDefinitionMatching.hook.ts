@@ -173,7 +173,7 @@ export function checkColumnDefinitionMatching (): Hook {
                */
               checkErrors.push({
                 columnName: currentColumn.text,
-                columnError: `The current value is not a ISO8601 date (received: ${currentColumnValue})`,
+                columnError: `The current value is not a ISO8601 datetime (received: ${currentColumnValue})`,
               })
             }
             break
