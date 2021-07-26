@@ -8,7 +8,7 @@ exports[`storyshots views/modals/RelationBetweenTablesTypeColumn default 1`] = `
     class="p-fluid"
   >
     <div
-      class="p-my-4"
+      class="p-field"
     >
       <label
         for="relation-between-tables-id"
@@ -17,6 +17,12 @@ exports[`storyshots views/modals/RelationBetweenTablesTypeColumn default 1`] = `
     Relation table
   
       </label>
+       
+      <span
+        class="field-required"
+      >
+        *
+      </span>
        
       <div
         class="p-dropdown p-component p-inputwrapper"
@@ -56,6 +62,12 @@ exports[`storyshots views/modals/RelationBetweenTablesTypeColumn default 1`] = `
          
         <!---->
       </div>
+       
+      <span
+        class="untouched pristine"
+      >
+        
+      </span>
     </div>
   </div>
 </div>

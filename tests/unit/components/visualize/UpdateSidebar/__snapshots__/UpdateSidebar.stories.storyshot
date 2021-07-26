@@ -178,12 +178,23 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
       
                       </label>
                        
+                      <span
+                        class="field-required"
+                      >
+                        *
+                      </span>
+                       
                       <input
                         class="p-inputtext p-component p-filled"
                         id="container-name"
-                        required="required"
                         type="text"
                       />
+                       
+                      <span
+                        class="untouched pristine"
+                      >
+                        
+                      </span>
                     </div>
                      
                     <div
@@ -303,6 +314,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                        
                       <button
                         class="p-button p-component"
+                        disabled="disabled"
                         type="submit"
                       >
                         <span
@@ -452,7 +464,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                   class="p-fluid"
                 >
                   <div
-                    class="p-field "
+                    class="p-field"
                   >
                     <label
                       for="blockTitleField"
@@ -474,6 +486,12 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     >
                       Block type
                     </label>
+                     
+                    <span
+                      class="field-required"
+                    >
+                      *
+                    </span>
                      
                     <div
                       class="p-dropdown p-component p-inputwrapper"
@@ -513,6 +531,12 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                        
                       <!---->
                     </div>
+                     
+                    <span
+                      class="untouched pristine"
+                    >
+                      
+                    </span>
                   </div>
                    
                   <div
@@ -561,7 +585,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                       aria-owns="pv_id_72_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
-                      id="blockSettingsTableView"
+                      id="blockConditionalDisplayTableViewId"
                       suggestions=""
                     >
                       <input
@@ -569,7 +593,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         aria-controls="pv_id_72_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                        id="blockSettingsTableView"
+                        id="blockConditionalDisplayTableViewId"
                         placeholder="Start typing for suggestions"
                         role="searchbox"
                         type="text"
@@ -584,7 +608,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         type="button"
                       >
                         <span
-                          class="pi pi-chevron-down p-button-icon"
+                          class="pi pi-search p-button-icon"
                         />
                          
                         <span
@@ -645,7 +669,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         type="button"
                       >
                         <span
-                          class="pi pi-chevron-down p-button-icon"
+                          class="pi pi-search p-button-icon"
                         />
                          
                         <span
@@ -721,6 +745,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                      
                     <button
                       class="p-button p-component"
+                      disabled="disabled"
                       type="submit"
                     >
                       <span
@@ -1096,12 +1121,23 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
       
                       </label>
                        
+                      <span
+                        class="field-required"
+                      >
+                        *
+                      </span>
+                       
                       <input
                         class="p-inputtext p-component p-filled"
                         id="container-name"
-                        required="required"
                         type="text"
                       />
+                       
+                      <span
+                        class="untouched pristine"
+                      >
+                        
+                      </span>
                     </div>
                      
                     <div
@@ -1533,12 +1569,23 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
       
                       </label>
                        
+                      <span
+                        class="field-required"
+                      >
+                        *
+                      </span>
+                       
                       <input
                         class="p-inputtext p-component p-filled"
                         id="container-name"
-                        required="required"
                         type="text"
                       />
+                       
+                      <span
+                        class="untouched pristine"
+                      >
+                        
+                      </span>
                     </div>
                      
                     <div
@@ -1658,6 +1705,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                        
                       <button
                         class="p-button p-component"
+                        disabled="disabled"
                         type="submit"
                       >
                         <span
@@ -1807,7 +1855,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                   class="p-fluid"
                 >
                   <div
-                    class="p-field "
+                    class="p-field"
                   >
                     <label
                       for="blockTitleField"
@@ -1829,6 +1877,12 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     >
                       Block type
                     </label>
+                     
+                    <span
+                      class="field-required"
+                    >
+                      *
+                    </span>
                      
                     <div
                       class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -1868,6 +1922,12 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                        
                       <!---->
                     </div>
+                     
+                    <span
+                      class="untouched pristine"
+                    >
+                      
+                    </span>
                   </div>
                    
                   <div
@@ -1916,7 +1976,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                       aria-owns="pv_id_74_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
-                      id="blockSettingsTableView"
+                      id="blockConditionalDisplayTableViewId"
                       suggestions=""
                     >
                       <input
@@ -1924,7 +1984,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         aria-controls="pv_id_74_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                        id="blockSettingsTableView"
+                        id="blockConditionalDisplayTableViewId"
                         placeholder="Start typing for suggestions"
                         role="searchbox"
                         type="text"
@@ -1939,7 +1999,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         type="button"
                       >
                         <span
-                          class="pi pi-chevron-down p-button-icon"
+                          class="pi pi-search p-button-icon"
                         />
                          
                         <span
@@ -2000,7 +2060,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         type="button"
                       >
                         <span
-                          class="pi pi-chevron-down p-button-icon"
+                          class="pi pi-search p-button-icon"
                         />
                          
                         <span
@@ -2076,6 +2136,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                      
                     <button
                       class="p-button p-component"
+                      disabled="disabled"
                       type="submit"
                     >
                       <span
@@ -2282,12 +2343,23 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
       
                       </label>
                        
+                      <span
+                        class="field-required"
+                      >
+                        *
+                      </span>
+                       
                       <input
                         class="p-inputtext p-component p-filled"
                         id="container-name"
-                        required="required"
                         type="text"
                       />
+                       
+                      <span
+                        class="untouched pristine"
+                      >
+                        
+                      </span>
                     </div>
                      
                     <div
@@ -2407,6 +2479,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
                        
                       <button
                         class="p-button p-component"
+                        disabled="disabled"
                         type="submit"
                       >
                         <span
@@ -2731,12 +2804,23 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
       
                       </label>
                        
+                      <span
+                        class="field-required"
+                      >
+                        *
+                      </span>
+                       
                       <input
                         class="p-inputtext p-component p-filled"
                         id="container-name"
-                        required="required"
                         type="text"
                       />
+                       
+                      <span
+                        class="untouched pristine"
+                      >
+                        
+                      </span>
                     </div>
                      
                     <div
@@ -2856,6 +2940,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
                        
                       <button
                         class="p-button p-component"
+                        disabled="disabled"
                         type="submit"
                       >
                         <span

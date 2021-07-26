@@ -60,12 +60,25 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
               >
                 
       Name
+    
               </label>
+               
+              <span
+                class="field-required"
+              >
+                *
+              </span>
                
               <input
                 class="p-inputtext p-component"
                 id="viewTextField"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -125,6 +138,7 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -210,12 +224,25 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
               >
                 
       Name
+    
               </label>
+               
+              <span
+                class="field-required"
+              >
+                *
+              </span>
                
               <input
                 class="p-inputtext p-component p-filled"
                 id="viewTextField"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -275,6 +302,7 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span

@@ -28,7 +28,7 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
       type="button"
     >
       <span
-        class="pi pi-chevron-down p-button-icon"
+        class="pi pi-search p-button-icon"
       />
        
       <span
@@ -77,7 +77,7 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
       type="button"
     >
       <span
-        class="pi pi-chevron-down p-button-icon"
+        class="pi pi-search p-button-icon"
       />
        
       <span
