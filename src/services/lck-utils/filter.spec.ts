@@ -253,18 +253,6 @@ describe('Filter utils', () => {
           action: ACTIONS.EQUAL,
           pattern: parseISO('2021-07-14'),
         },
-        // Valid value (datetime column)
-        {
-          operator: '$and',
-          column: {
-            label: mockColumns.datetime.text,
-            originalType: mockColumns.datetime.column_type_id,
-            type: mockColumns.datetime.column_type_id,
-            value: mockColumns.datetime.id,
-          },
-          action: ACTIONS.EQUAL,
-          pattern: parseISO('2021-07-14T10:00:00+02:00'),
-        },
         // Invalid value (column is null)
         {
           operator: '$and',
@@ -312,12 +300,6 @@ describe('Filter utils', () => {
             column: mockColumns.date.id,
             dbAction: ACTIONS.EQUAL.value,
             pattern: '2021-07-14',
-          },
-          {
-            action: ACTIONS.EQUAL.label,
-            column: mockColumns.datetime.id,
-            dbAction: ACTIONS.EQUAL.value,
-            pattern: '2021-07-14T10:00:00+02:00',
           },
         ],
       })
