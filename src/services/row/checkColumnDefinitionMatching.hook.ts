@@ -146,15 +146,30 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
           case COLUMN_TYPE.DATE:
+            if (!(typeof currentColumnValue === 'string')) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: `The current value need to be sent as a string (received: ${currentColumnValue as string})`,
+              })
+            } else if (!dayjs(currentColumnValue, DATE_FORMAT[COLUMN_TYPE.DATE], true).isValid()) {
+              /**
+               * Check that the date is in a ISO 8601 format
+               */
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: `The current value is not a ISO8601 date (received: ${currentColumnValue})`,
+              })
+            }
+            break
           case COLUMN_TYPE.DATETIME:
             if (!(typeof currentColumnValue === 'string')) {
               checkErrors.push({
                 columnName: currentColumn.text,
                 columnError: `The current value need to be sent as a string (received: ${currentColumnValue as string})`,
               })
-            } else if (!dayjs(currentColumnValue, DATE_FORMAT[currentColumn.column_type_id], true).isValid()) {
+            } else if (!dayjs(currentColumnValue, DATE_FORMAT[COLUMN_TYPE.DATETIME]).isValid()) {
               /**
-               * Check that the date is in a ISO 8601 format
+               * Check that the datetime is in a ISO 8601 format
                */
               checkErrors.push({
                 columnName: currentColumn.text,
