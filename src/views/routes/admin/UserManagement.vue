@@ -177,20 +177,42 @@
       @input="saveUser"
     >
       <template>
-        <div class="p-field">
+        <validation-provider
+          vid="name"
+          tag="div"
+          :name="$t('pages.userManagement.name')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="name">{{ $t("pages.userManagement.name") }}</label>
+          <span class="field-required">*</span>
           <p-input-text
             id="name"
             v-model.trim="user.name"
-            requiredolumn
             autofocus
             :class="{ 'p-invalid': submitting && !user.name }"
           />
-        </div>
-        <div class="p-field">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="email"
+          tag="div"
+          :name="$t('pages.userManagement.email')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="email">
             {{ $t("pages.userManagement.email") }}
           </label>
+          <span class="field-required">*</span>
           <p-input-text
             id="email"
             type="email"
@@ -198,29 +220,35 @@
             v-model="user.email"
             :disabled="editingUser"
           />
-        </div>
-
-        <div
-          class="p-field"
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
           v-if="editingUser"
+          vid="isVerified"
+          tag="div"
+          class="p-field"
         >
           <label for="isVerified">
             {{ $t("pages.userManagement.isVerified") }}
           </label>
           <p-checkbox
             class="p-field-checkbox"
-            :id="isVerified"
+            id="isVerified"
             :binary="true"
             v-model="user.isVerified"
             :disabled="true"
           />
-        </div>
+        </validation-provider>
 
-        <p class="p-field">
+        <validation-provider
+          vid="isVerified"
+          tag="div"
+          class="p-field"
+        >
           <label for="profile">{{ $t("pages.userManagement.profile") }}</label>
           <p-dropdown
             id="profile"
-            v-model.trim="user.profile"
+            v-model="user.profile"
             :options="profiles"
             optionLabel="label"
             optionValue="value"
@@ -231,7 +259,7 @@
               <span>{{ slotProps.option.label }}</span>
             </template>
           </p-dropdown>
-        </p>
+        </validation-provider>
       </template>
     </lck-dialog-form>
   </div>
@@ -240,6 +268,7 @@
 <script>
 import Vue from 'vue'
 
+import { ValidationProvider } from 'vee-validate'
 import { USER_PROFILE, COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import { lckClient, lckServices } from '@/services/lck-api'
@@ -268,6 +297,7 @@ export default {
     'p-checkbox': Vue.extend(Checkbox),
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   data: function () {
     return {

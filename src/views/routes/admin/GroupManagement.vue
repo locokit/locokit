@@ -70,28 +70,33 @@
       </p-datatable>
     </div>
 
-    <p-dialog
+    <lck-dialog-form
       :visible.sync="openDialog"
-      :contentStyle="{overflow: 'visible'}"
-      :style="{width: '450px'}"
-      :modal="true"
+      :header="isEditingUser ? $t('pages.groupManagement.form.text.editUserInGroup', {groupName: usergroup.groupName, userName: usergroup.userName }) : $t('pages.groupManagement.form.text.addNewUserInGroup', {groupName: usergroup.groupName })
+    "
+      @close="hideDialog"
+      :submitting="submitting"
+      :contentStyle="{ 'overflow-y': 'visible' }"
+      @input="submitUser"
       class="p-fluid"
     >
-      <template #header v-if="!isEditingUser">
-        <h3>{{ $t('pages.groupManagement.form.text.addNewUserInGroup', {groupName: usergroup.groupName }) }}</h3>
-      </template>
-      <template #header v-else>
-        <h3>{{ $t('pages.groupManagement.form.text.editUserInGroup', {groupName: usergroup.groupName, userName: usergroup.userName }) }}</h3>
-      </template>
-
-      <template v-if="submitted">
-        <p>{{ $t('success.basic') }}</p>
-      </template>
-      <template v-else>
-        <div class="p-field" v-if="!isEditingUser">
+      <template>
+        <validation-provider
+          v-if="!isEditingUser"
+          vid="userName"
+          tag="div"
+          :name="$t('pages.groupManagement.form.input.user')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="userName">
             {{ $t('pages.groupManagement.form.input.user') }}
           </label>
+          <span class="field-required">*</span>
           <lck-autocomplete
             id="userName"
             :dropdown="true"
@@ -103,9 +108,13 @@
             @item-select="usergroup.userId = $event.value.value"
             @clear="usergroup.userId = null"
           />
-        </div>
-
-        <div class="p-field">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="role"
+          tag="div"
+          class="p-field"
+        >
           <label for="role">
             {{ $t('pages.groupManagement.form.input.role') }}
           </label>
@@ -115,7 +124,6 @@
             :options="allRoles"
             optionLabel="label"
             optionValue="value"
-            required="true"
             :class="{'p-invalid': submitting && !usergroup.role}"
             :placeholder="$t('pages.groupManagement.form.text.selectUser')"
           >
@@ -123,44 +131,12 @@
               <span>{{slotProps.option.label}}</span>
             </template>
           </p-dropdown>
-        </div>
-      </template>
-
-      <template #footer v-if="submitted">
-        <p-button
-          :label="$t('dialog.close')"
-          icon="pi pi-check-circle"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-      </template>
-      <template #footer v-else>
+        </validation-provider>
         <div v-if="hasSubmitError">
           <p class="p-invalid">{{ $t('error.basic') }}</p>
         </div>
-
-        <p-button
-          :label="$t('dialog.close')"
-          icon="pi pi-check-circle"
-          class="p-button-text"
-          @click="hideDialog"
-        />
-        <p-button
-          v-if="(!submitting || hasSubmitError)"
-          :label="$t('form.submit')"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="submitUser"
-        />
-        <p-button
-          disabled
-          v-if="submitting && !hasSubmitError"
-          :label="$t('form.submitting')"
-          icon="pi pi-spin pi-spinner"
-          class="p-button-text"
-        />
       </template>
-    </p-dialog>
+    </lck-dialog-form>
 
     <p-dialog
       :header="$t('form.confirmation')"
@@ -196,8 +172,12 @@
 
 <script>
 /* eslint-disable @typescript-eslint/camelcase */
-
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
+import { GROUP_ROLE } from '@locokit/lck-glossary'
+
+import { lckClient } from '@/services/lck-api'
 
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -205,26 +185,28 @@ import Toolbar from 'primevue/toolbar'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import { GROUP_ROLE } from '@locokit/lck-glossary'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete'
-import { lckClient } from '@/services/lck-api'
+
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 const defaultUsergroup = {
   userId: null,
   groupId: null,
-  role: null,
+  role: GROUP_ROLE.MEMBER,
 }
 
 export default {
   name: 'GroupManagement',
   components: {
+    'lck-autocomplete': AutoComplete,
+    'lck-dialog-form': DialogForm,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
     'p-dropdown': Vue.extend(Dropdown),
     'p-dialog': Vue.extend(Dialog),
-    'lck-autocomplete': Vue.extend(AutoComplete),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   data: function () {
     return {
@@ -238,7 +220,6 @@ export default {
       allRoles: Object.keys(GROUP_ROLE).map(key => ({ label: key, value: key })),
       allUsers: [],
       submitting: false,
-      submitted: false,
       hasSubmitError: false,
       autocompleteUserSuggestions: [],
     }
@@ -247,7 +228,6 @@ export default {
     hideDialog () {
       this.openDialog = false
       this.submitting = false
-      this.submitted = false
       this.hasSubmitError = false
     },
     hideConfirmation () {
@@ -262,7 +242,6 @@ export default {
         groupId,
         groupName,
       }
-      this.submitted = false
     },
     editUserInGroup (data, group) {
       this.isEditingUser = true
@@ -275,7 +254,6 @@ export default {
         groupName: group.name,
         role: data.uhg_role,
       }
-      this.submitted = false
     },
     deleteUserInGroup (data, group) {
       this.openConfirmation = true
@@ -290,15 +268,15 @@ export default {
     },
     async confirmDeleteUserInGroup () {
       try {
-        return await lckClient.service('usergroup').remove(
+        await lckClient.service('usergroup').remove(
           `${this.usergroup.userId},${this.usergroup.groupId}`,
         )
       } catch ({ code, name }) {
         this.hasSubmitError = true
+        return { code, name }
       }
+      this.hideConfirmation()
       await this.loadCurrentGroupsWithUser()
-      this.openConfirmation = false
-      this.hasSubmitError = false
     },
     async submitUser () {
       this.submitting = true
@@ -319,9 +297,7 @@ export default {
         this.hasSubmitError = true
         return { code, name }
       }
-      this.submitted = true
-      this.submitting = false
-      this.hasSubmitError = false
+      this.hideDialog()
       await this.loadCurrentGroupsWithUser()
     },
     async loadCurrentGroupsWithUser () {
