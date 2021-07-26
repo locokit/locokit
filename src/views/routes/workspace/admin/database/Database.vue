@@ -489,8 +489,10 @@ export default {
       }
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
       this.views = await retrieveTableViews(this.currentTableId)
-      this.views.length > 0 && (this.selectedViewId = this.views[0].id)
-      this.currentDatatableFilters = convertFiltersFromDatabase(this.currentView)
+      if (this.views.length > 0) {
+        this.selectedViewId = this.views[0].id
+        this.currentDatatableFilters = convertFiltersFromDatabase(this.views[0])
+      }
       this.block.loading = false
       await this.loadCurrentTableData()
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
@@ -566,7 +568,9 @@ export default {
         this.$toast.add({
           severity: 'success',
           summary: this.$t('success.save'),
-          detail: this.$t('components.datatable.toolbar.filters.updateSuccess'),
+          detail: this.currentView.filter
+            ? this.$t('components.datatable.toolbar.filters.updateSuccess')
+            : this.$t('components.datatable.toolbar.filters.resetSuccess'),
           life: 5000,
         })
       } catch (res) {

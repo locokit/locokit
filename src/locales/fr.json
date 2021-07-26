@@ -76,6 +76,7 @@
             "close": "Fermer"
           },
           "updateSuccess": "Les filtres ont bien été enregistrés.",
+          "resetSuccess": "Les filtres ont bien été réinitialisés.",
           "updateError": "Une erreur est survenue lors de l'enregistrement des filtres.",
           "select": {
             "operator": {

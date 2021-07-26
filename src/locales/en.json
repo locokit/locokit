@@ -76,6 +76,7 @@
             "close": "Close"
           },
           "updateSuccess": "The filters have been saved.",
+          "resetSuccess": "The filters have been reset.",
           "updateError": "An error occured when saving the filters.",
           "select": {
             "operator": {

@@ -146,7 +146,7 @@
           <p-button
             v-if="crudMode"
             class="p-button-primary p-mr-2"
-            :disabled="value.length > 0 && invalidFilters"
+            :disabled="invalidFilters"
             icon="pi pi-save"
             :label="$t('form.save')"
             type="button"

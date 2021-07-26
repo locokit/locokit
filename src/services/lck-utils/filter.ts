@@ -2,9 +2,9 @@
 import i18n from '@/plugins/i18n'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { LckTableViewColumn, LckTableViewFilter, LckTableViewFilterPattern, LckTableViewFilterValue } from '../lck-api/definitions'
+import { LckTableColumn, LckTableViewFilter, LckTableViewFilterPattern, LckTableViewFilterValue } from '../lck-api/definitions'
 import { getColumnTypeId } from './columns'
-import { formatDateISO, getDateFromString } from './date'
+import { formatDateISO, formatDateTimeISO, getDateFromISOString } from './date'
 
 // Interfaces
 type inputPatternType = LckTableViewFilterPattern | Date | null
@@ -275,9 +275,12 @@ export function getCurrentFilters (filters: Filter[]) {
         (columnType => {
           switch (columnType) {
             case COLUMN_TYPE.DATE:
+            case COLUMN_TYPE.DATETIME:
               if (filter.pattern instanceof Date) {
                 try {
-                  return formatDateISO(filter.pattern)
+                  return columnType === COLUMN_TYPE.DATE
+                    ? formatDateISO(filter.pattern)
+                    : formatDateTimeISO(filter.pattern)
                 } catch (RangeError) {
                 }
               }
@@ -304,7 +307,11 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
         action: filter.action.label,
         column: filter.column.value,
         dbAction: filter.action.value,
-        pattern: filter.pattern instanceof Date ? formatDateISO(filter.pattern) : filter.pattern,
+        pattern: filter.pattern instanceof Date
+          ? filter.column.originalType === COLUMN_TYPE.DATE
+            ? formatDateISO(filter.pattern)
+            : formatDateTimeISO(filter.pattern)
+          : filter.pattern,
       })
     }
   })
@@ -315,12 +322,12 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
 }
 
 /**
- * Convert the filters retrieved from the API a another format that can be used in the FilterButton component
+ * Convert the filters retrieved from the API into a another format that can be used in the FilterButton component
  * @param filter The filters retrieved from the API
  * @returns The corresponding filters that can be used in the FilterButton component
  */
 export function convertFiltersFromDatabase ({ columns, filter }: {
-  columns: LckTableViewColumn[];
+  columns: LckTableColumn[];
   filter: LckTableViewFilter | null;
 }): Filter[] {
   // Filters that we can use in the FilterButton component and as input of the getCurrentFilters method
@@ -329,15 +336,15 @@ export function convertFiltersFromDatabase ({ columns, filter }: {
     // Loop on saved in database filters
     filter.values.forEach(({ column, action, pattern }) => {
       // Get the column used in the current filter
-      const tableViewColumn = columns.find(c => c.id === column)
+      const tableColumn = columns.find(c => c.id === column)
 
-      if (tableViewColumn) {
-        const columnType = getColumnTypeId(tableViewColumn)
+      if (tableColumn) {
+        const columnType = getColumnTypeId(tableColumn)
         // Get the action used in the current filter
         let originalAction = COLUMN_FILTERS_CONFIG[columnType]?.actions.find(a => a.label === action)
 
         // A looked-up column has specific filters if the original type is not supported
-        if (!originalAction && tableViewColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+        if (!originalAction && tableColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
           originalAction = COLUMN_FILTERS_CONFIG[COLUMN_TYPE.LOOKED_UP_COLUMN].actions.find(a => a.label === action)
         }
 
@@ -345,15 +352,17 @@ export function convertFiltersFromDatabase ({ columns, filter }: {
           // Get the pattern used in the current filter
           const originalPattern = originalAction.predefinedPattern !== undefined
             ? originalAction.predefinedPattern
-            : columnType === COLUMN_TYPE.DATE ? getDateFromString(pattern) || pattern : pattern
+            : [COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(columnType)
+              ? getDateFromISOString(pattern) || pattern
+              : pattern
 
           // Add the filter
           allFilters.push({
             operator: filter.operator,
             column: {
-              label: tableViewColumn.text,
+              label: tableColumn.text,
               originalType: columnType,
-              type: tableViewColumn.column_type_id,
+              type: tableColumn.column_type_id,
               value: column,
             },
             action: originalAction,

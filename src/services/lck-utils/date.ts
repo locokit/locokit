@@ -17,7 +17,7 @@ export function formatDateTimeISO (date: Date) {
   return formatISO(date, { representation: 'complete' })
 }
 
-export function getDateFromString (date: unknown) {
+export function getDateFromISOString (date: unknown) {
   try {
     if (typeof date === 'string') {
       return parseISO(date)
