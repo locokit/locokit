@@ -7,7 +7,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
 interface QueryFilter {
-  data: Record<string, Record<string, string | number | boolean>>
+  data: Record<string, Record<string, string | number | boolean | string[]>>
 }
 
 /**
@@ -90,9 +90,9 @@ export default function filterRowsByTableViewId (): Hook {
         if (values.length > 0) {
           // List that will contain all the filters
           const defaultFilters: Array<{
-            data: Record<string, Record<string, string | number | boolean>>
+            data: Record<string, Record<string, string | number | boolean | string[]>>
           }> = []
-          values.forEach(({ column, dbAction, dbPattern }) => {
+          values.forEach(({ column, dbAction, pattern }) => {
             const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
             if (currentColumn) {
               const columnKey = [
@@ -106,15 +106,17 @@ export default function filterRowsByTableViewId (): Hook {
               // Add the FeatherJS query filter
               defaultFilters.push({
                 data: {
-                  [columnKey]: { [dbAction]: dbPattern },
+                  [columnKey]: {
+                    [dbAction]: ['$ilike', '$notILike'].includes(dbAction) ? `%${pattern as string | number}%` : pattern,
+                  },
                 },
               })
             }
           })
           // Add default filters to the query
-          const allFilters: Array<QueryFilter[] | { $or: QueryFilter[] }> = [defaultFilters]
+          const allFilters: Array<Record<string, QueryFilter[]>> = [{ [operator]: defaultFilters }]
           if (context.params.query.$or) allFilters.push({ $or: context.params.query.$or })
-          if (context.params.query.$and) allFilters.push(context.params.query.$and)
+          if (context.params.query.$and) allFilters.push({ $and: context.params.query.$and })
           if (allFilters.length > 1) {
             // If a filter operator is already specified -> make a conjonction of the specified and the default filters
             context.params.query.$and = allFilters

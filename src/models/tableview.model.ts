@@ -12,11 +12,10 @@ import { TableAction } from './tableaction.model'
 export interface TableViewFilter {
   operator: string
   values: Array<{
-    column: string
     action: string
+    column: string
     dbAction: string
-    dbPattern: boolean | number | string
-    pattern: boolean | number | string
+    pattern: boolean | number | string | string[]
   }>
 }
 
