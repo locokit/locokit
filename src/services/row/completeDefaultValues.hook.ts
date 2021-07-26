@@ -63,6 +63,11 @@ export function completeDefaultValues (): Hook {
                     throw new NotAcceptable('Too much or none matching results for default value on column ' + currentColumnDefinition.text)
                   }
                 }
+                break
+              case COLUMN_TYPE.BOOLEAN:
+                // A boolean value is false by default except if we specified a default value in the settings column
+                context.data.data[currentColumnDefinition.id] = currentColumnDefinition.settings?.default === true
+                break
             }
           }
         }))

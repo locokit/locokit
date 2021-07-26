@@ -1,14 +1,14 @@
 // Initializes the `acl` service on path `/acl`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { Acl } from './aclset.class'
-import createModel from '../../models/aclset.model'
-import hooks from './aclset.hooks'
+import { ServiceAclTable } from './acltable.class'
+import createModel from '../../models/acltable.model'
+import hooks from './acltable.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'aclset': Acl & ServiceAddons<any>
+    'acltable': ServiceAclTable & ServiceAddons<any>
   }
 }
 
@@ -37,15 +37,15 @@ export default function (app: Application): void {
       '$joinRelation',
       '$modifyEager',
     ],
-    allowedEager: '[groups.[users], groupsacl.[users], acltables, workspace.[databases.[tables]]]',
+    allowedEager: '[aclset]',
     paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires
-  app.use('/aclset', new Acl(options, app))
+  app.use('/acltable', new ServiceAclTable(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('aclset')
+  const service = app.service('acltable')
 
   service.hooks(hooks)
 }

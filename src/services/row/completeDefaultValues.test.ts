@@ -16,7 +16,8 @@ describe('completeDefaultValues hook', () => {
   let table2: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
-  let columnTable1Boolean: TableColumn
+  let columnTable1BooleanWithDefault: TableColumn
+  let columnTable1BooleanWithoutDefault: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
@@ -53,10 +54,18 @@ describe('completeDefaultValues hook', () => {
       column_type_id: COLUMN_TYPE.USER,
       table_id: table1.id,
     })
-    columnTable1Boolean = await app.service('column').create({
+    columnTable1BooleanWithoutDefault = await app.service('column').create({
       text: 'Boolean',
       column_type_id: COLUMN_TYPE.BOOLEAN,
       table_id: table1.id,
+    })
+    columnTable1BooleanWithDefault = await app.service('column').create({
+      text: 'Boolean',
+      column_type_id: COLUMN_TYPE.BOOLEAN,
+      table_id: table1.id,
+      settings: {
+        default: true,
+      },
     })
     columnTable1FirstName = await app.service('column').create({
       text: 'FirstName',
@@ -120,11 +129,12 @@ describe('completeDefaultValues hook', () => {
       text: 'table 1 ref',
       data: {},
     })
-    expect.assertions(6)
+    expect.assertions(7)
     const targetKeys = [
       columnTable1Ref.id,
       columnTable1User.id,
-      columnTable1Boolean.id,
+      columnTable1BooleanWithoutDefault.id,
+      columnTable1BooleanWithDefault.id,
       columnTable1FirstName.id,
       columnTable1LastName.id,
       columnTable1Type.id,
@@ -141,11 +151,35 @@ describe('completeDefaultValues hook', () => {
       table_id: table1.id,
       text: 'table 1 ref',
       data: {
-        [columnTable1Boolean.id]: false,
+        [columnTable1BooleanWithoutDefault.id]: false,
       },
     })
     expect.assertions(1)
-    expect(rowTable1.data[columnTable1Boolean.id]).toBe(false)
+    expect(rowTable1.data[columnTable1BooleanWithoutDefault.id]).toBe(false)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('set a boolean default value to false if not sent', async () => {
+    const service = app.service('row')
+    const rowTable1 = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref',
+      data: {},
+    })
+    expect.assertions(1)
+    expect(rowTable1.data[columnTable1BooleanWithoutDefault.id]).toBe(false)
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('set a boolean default value if specified in the column settings', async () => {
+    const service = app.service('row')
+    const rowTable1 = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref',
+      data: {},
+    })
+    expect.assertions(1)
+    expect(rowTable1.data[columnTable1BooleanWithDefault.id]).toBe(true)
     await app.service('row').remove(rowTable1.id)
   })
 
@@ -313,7 +347,8 @@ describe('completeDefaultValues hook', () => {
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
     await app.service('column').remove(columnTable1Type.id)
-    await app.service('column').remove(columnTable1Boolean.id)
+    await app.service('column').remove(columnTable1BooleanWithoutDefault.id)
+    await app.service('column').remove(columnTable1BooleanWithDefault.id)
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('column').remove(columnTable2Ref.id)

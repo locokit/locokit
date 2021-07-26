@@ -1,7 +1,7 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { NotAcceptable } from '@feathersjs/errors'
+import { NotAcceptable, NotFound } from '@feathersjs/errors'
 
 /**
  * Create / Update the table_row_relation if needed
@@ -20,6 +20,23 @@ export function upsertRowRelation (): Hook {
           return currentColumnDefinition?.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES
         })
         .map(async currentColumnId => {
+          const tableRowFromId = context.result.data[currentColumnId]?.reference
+
+          // if there is no reference -> clean the previous trr if any exist
+          if (!tableRowFromId) {
+            try {
+              await context.app.services.trr.remove(null, {
+                query: {
+                  table_row_to_id: context.result.id,
+                  table_column_to_id: currentColumnId,
+                },
+              })
+            } catch (e) {
+              if (!(e instanceof NotFound)) throw e
+            }
+            return
+          }
+
           // check if there is already a trr for the current row id + currentColumnId
           const matchingRows = await context.app.services.trr.find({
             query: {
@@ -27,11 +44,6 @@ export function upsertRowRelation (): Hook {
               table_column_to_id: currentColumnId,
             },
           })
-          const tableRowFromId = context.result.data[currentColumnId]?.reference
-          /**
-           * if no tableRowFromId, we don't have to create a table_row_relation
-           */
-          if (!tableRowFromId) return
           // if the trr doesn't exist, create it
           if (matchingRows.total === 0) {
             await context.app.services.trr.create({
