@@ -13,6 +13,30 @@ async function flushAll () {
   await flushPromises()
 }
 
+const mockDefinitionsWithRequiredColumnsOnlyOneInput = {
+  id: 'table_view_1',
+  columns: [
+    {
+      text: 'Description',
+      id: 'string_1_column',
+      settings: {},
+      table_id: 'table_1',
+      column_type_id: COLUMN_TYPE.STRING,
+      editable: true,
+      position: 1,
+      transmitted: true,
+      default: null,
+      displayed: true,
+      validation: {
+        required: true,
+      },
+      sort: 'DESC',
+      table_view_id: 'table_view_1',
+      style: {},
+    },
+  ],
+}
+
 const mockDefinitionsWithRequiredColumns = {
   id: 'table_view_1',
   columns: [
@@ -22,16 +46,15 @@ const mockDefinitionsWithRequiredColumns = {
       settings: {},
       table_id: 'table_1',
       column_type_id: COLUMN_TYPE.STRING,
-      editable: false,
+      editable: true,
       position: 1,
-      transmitted: false,
+      transmitted: true,
       default: null,
       displayed: true,
       validation: {
         required: true,
       },
       sort: 'DESC',
-      table_column_id: '',
       table_view_id: 'table_view_1',
       style: {},
     },
@@ -41,16 +64,13 @@ const mockDefinitionsWithRequiredColumns = {
       settings: {},
       table_id: 'table_1',
       column_type_id: COLUMN_TYPE.NUMBER,
-      editable: false,
-      position: 1,
-      transmitted: false,
+      editable: true,
+      position: 2,
+      transmitted: true,
       default: null,
       displayed: true,
-      validation: {
-        required: true,
-      },
+      validation: null,
       sort: 'DESC',
-      table_column_id: '',
       table_view_id: 'table_view_1',
       style: {},
     },
@@ -60,16 +80,13 @@ const mockDefinitionsWithRequiredColumns = {
       settings: {},
       table_id: 'table_1',
       column_type_id: COLUMN_TYPE.BOOLEAN,
-      editable: false,
-      position: 1,
-      transmitted: false,
+      editable: true,
+      position: 3,
+      transmitted: true,
       default: null,
       displayed: true,
-      validation: {
-        required: true,
-      },
+      validation: null,
       sort: 'DESC',
-      table_column_id: '',
       table_view_id: 'table_view_1',
       style: {},
     },
@@ -85,22 +102,6 @@ const mockDefinitionsWithoutRequiredColumns = {
       settings: {},
       table_id: 'table_1',
       column_type_id: COLUMN_TYPE.STRING,
-      editable: false,
-      position: 1,
-      transmitted: false,
-      default: '',
-      displayed: true,
-      sort: 'DESC',
-      table_column_id: '',
-      table_view_id: 'table_view_2',
-      style: {},
-    },
-    {
-      text: 'Number',
-      id: 'number_2_column',
-      settings: {},
-      table_id: 'table_1',
-      column_type_id: COLUMN_TYPE.NUMBER,
       editable: false,
       position: 1,
       transmitted: false,
@@ -229,8 +230,7 @@ const mockDefinitionsWithDefaultColumns = {
 describe('FormRecord', () => {
   jest.useFakeTimers()
   describe('could have required columns', () => {
-    it('and disable the submit button if they are not set', async () => {
-      expect.assertions(6)
+    it('disable the submit button if they are not valid', async () => {
       const wrapper = await mount(FormRecord, {
         attrs: {
           workspaceId: 'workspace_1',
@@ -265,10 +265,8 @@ describe('FormRecord', () => {
       expect(submitButton.attributes('disabled')).toBe('disabled')
       expect(wrapper).toMatchSnapshot()
     })
-    it('enable the submit button if all fields are set', async () => {
-      expect.assertions(10)
+    it('disable the submit button if they are not set', async () => {
       const wrapper = await mount(FormRecord, {
-        attachTo: document.body,
         attrs: {
           workspaceId: 'workspace_1',
         },
@@ -292,21 +290,69 @@ describe('FormRecord', () => {
           crudMode: true,
         },
       })
-      expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
-      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
-      expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      await flushAll()
+      // Add default data without trigger input event
       await wrapper.setData({
         newRow: {
           data: {
-            string_1_column: 'set',
+            string_1_column: 'Test',
             boolean_1_column: true,
             number_1_column: 1,
           },
         },
       })
-      expect(wrapper.vm.newRow.data.string_1_column).toBe('set')
+      expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
+      const inputs = wrapper.findAll('input')
+      expect(inputs.length).toBe(3)
+      const submitButton = wrapper.find('.p-button[type=submit]')
+      expect(submitButton.attributes('disabled')).toBe('disabled')
+      expect(wrapper).toMatchSnapshot()
+    })
+    it('enable the submit button if all fields are valid and at least one field is updated', async () => {
+      const wrapper = await mount(FormRecord, {
+        attachTo: document.body,
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        mocks: {
+          t: key => key,
+          $t: key => key,
+          $toast: {
+            add: jest.fn(),
+          },
+        },
+        propsData: {
+          definition: mockDefinitionsWithRequiredColumnsOnlyOneInput,
+          settings: {
+            id: mockDefinitionsWithRequiredColumnsOnlyOneInput.id,
+          },
+          crudMode: true,
+        },
+      })
+      await flushAll()
+      expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
+      // expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
+      // expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      const string_1_column = wrapper.find('input[id="string_1_column"]')
+      // const boolean_1_column = wrapper.find('input[id="boolean_1_column"]')
+      // const number_1_column = wrapper.find('input[id="number_1_column"]')
+      string_1_column.setValue('Test')
+      // Todo: Having trouble updating inputs/fields with setValue (to modify and trigger). Only work with one field for now.
+      // boolean_1_column.setChecked()
+      // number_1_column.setValue(17)
+      await flushAll()
+      // console.log(wrapper.html())
+      // console.log(wrapper.vm.newRow.data)
+
+      expect(string_1_column.element.value).toBe('Test')
+      expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
       await flushAll()
       const submitButton = wrapper.find('.p-button[type=submit]')
       expect(submitButton.attributes().disabled).toBeUndefined()
@@ -314,13 +360,15 @@ describe('FormRecord', () => {
       await submitButton.trigger('click')
       await flushAll()
       expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+      expect(wrapper).toMatchSnapshot()
+
       expect(spyOnEmitEvent).toHaveBeenCalledWith('create-row', {
         id: '',
         text: '',
         data: {
-          string_1_column: 'set',
-          boolean_1_column: true,
-          number_1_column: 1,
+          string_1_column: 'Test',
+          // boolean_1_column: true,
+          // number_1_column: 1,
         },
       })
       expect(wrapper).toMatchSnapshot()
@@ -328,8 +376,7 @@ describe('FormRecord', () => {
       await wrapper.destroy()
     })
 
-    it('enable the submit button if no required fields are defined', async () => {
-      expect.assertions(6)
+    it('enable the submit button if no required fields are defined and at least one field is updated', async () => {
       const wrapper = await mount(FormRecord, {
         attachTo: document.body,
         attrs: {
@@ -358,31 +405,19 @@ describe('FormRecord', () => {
       expect(wrapper.vm.newRow.data.string_2_column).toBe(undefined)
       expect(wrapper.vm.newRow.data.number_2_column).toBe(undefined)
       await flushAll()
+      const string_2_column = wrapper.find('input[id="string_2_column"]')
+      string_2_column.setValue('Test')
+      await flushAll()
+
       const submitButton = wrapper.find('.p-button[type=submit]')
       expect(submitButton.attributes().disabled).toBeUndefined()
       const spyOnEmitEvent = jest.spyOn(wrapper.vm, '$emit')
       await submitButton.trigger('click')
       await flushAll()
-      // if no user interaction, submission is not trigerred
-      expect(spyOnEmitEvent).toHaveBeenCalledTimes(0)
-      wrapper.vm.newRow.data.string_2_column = 'pouet'
-      wrapper.vm.newRow.data.number_2_column = 1
-      await flushAll()
 
-      expect(wrapper.vm.newRow.data.string_2_column).toBe('pouet')
-      expect(wrapper.vm.newRow.data.number_2_column).toBe(1)
-      // const input = wrapper.find('#string_2_column')
-      // expect(input.attributes().value).toBe('pouet')
-      // await submitButton.trigger('click')
-      // await flushAll()
-      // expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-      // expect(spyOnEmitEvent).toHaveBeenCalledWith('create-row', {
-      //   id: '',
-      //   text: '',
-      //   data: {
-      //   },
-      // })
-      // expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.vm.newRow.data.string_2_column).toBe('Test')
+
+      expect(wrapper.html()).toMatchSnapshot()
       spyOnEmitEvent.mockClear()
       await wrapper.destroy()
     })
