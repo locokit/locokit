@@ -108,7 +108,7 @@
                 columnFiltersConfig[filter.column.originalType].patternComponent ||
                 getComponentEditorCellForColumnType(filter.column.originalType)
               "
-              :options="filter.column.dropdownOptions"
+              :options="columnsDropdownOptions[filter.column.value]"
               v-bind="columnFiltersConfig[filter.column.originalType].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
@@ -243,7 +243,6 @@ export default {
             label: column.text,
             type: column.column_type_id,
             originalType,
-            dropdownOptions: this.columnsDropdownOptions[column.id],
           })
         } else if (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
           acc.push({
@@ -259,10 +258,6 @@ export default {
         label: string;
         type: COLUMN_TYPE;
         originalType: COLUMN_TYPE;
-        dropdownOptions?: {
-          value: string;
-          label: string;
-        };
       }[])
     },
     supportedTypes (): COLUMN_TYPE[] {

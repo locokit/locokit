@@ -2,11 +2,13 @@
 import i18n from '@/plugins/i18n'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { LckTableViewColumn, LckTableViewFilter, LckTableViewFilterValue } from '../lck-api/definitions'
+import { LckTableViewColumn, LckTableViewFilter, LckTableViewFilterPattern, LckTableViewFilterValue } from '../lck-api/definitions'
 import { getColumnTypeId } from './columns'
 import { formatDateISO, getDateFromString } from './date'
 
 // Interfaces
+type inputPatternType = LckTableViewFilterPattern | Date | null
+
 export interface Filter {
   operator: string;
   column: null | {
@@ -14,10 +16,9 @@ export interface Filter {
     value: string;
     originalType: COLUMN_TYPE;
     type: COLUMN_TYPE;
-    dropdownOptions?: object;
   };
   action: FilterAction | null;
-  pattern: number | boolean | string | Date | null;
+  pattern: inputPatternType;
 }
 
 export interface FilterAction {
@@ -247,31 +248,12 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
   }
 
 /**
- * Get the formatted pattern from a filter
- * @param filter The filter
- * @returns The pattern of the filter that can be used in FeathersJS queries
- */
-function getFormattedPattern (filter: Filter) {
-  switch (filter.column!.originalType) {
-    case COLUMN_TYPE.DATE:
-      if (filter.pattern instanceof Date) {
-        try {
-          return formatDateISO(filter.pattern)
-        } catch (RangeError) {}
-      }
-  }
-  return filter.action && ['$ilike', '$notILike'].includes(filter.action.value)
-    ? `%${filter.pattern}%`
-    : (filter.pattern as number | boolean | string | null)
-}
-
-/**
  * Convert filters used in the FilterButton component to FeathersJS filters
  * @param filters The filters specified in the FilterButton component
  * @returns The corresponding FeathersJS filters
  */
 export function getCurrentFilters (filters: Filter[]) {
-  const formattedFilters: Record<string, number | boolean | string | null> = {}
+  const formattedFilters: Record<string, LckTableViewFilterPattern | null> = {}
   filters
     .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
     .forEach((filter, index) => {
@@ -288,8 +270,22 @@ export function getCurrentFilters (filters: Filter[]) {
             return `[data][${filter.column!.value}]`
         }
       })(filter.column!.type) +
-      // Action and the corresponding pattern
-      `[${filter.action!.value}]`] = getFormattedPattern(filter)
+      // Action
+      `[${filter.action!.value}]`] =
+        (columnType => {
+          switch (columnType) {
+            case COLUMN_TYPE.DATE:
+              if (filter.pattern instanceof Date) {
+                try {
+                  return formatDateISO(filter.pattern)
+                } catch (RangeError) {
+                }
+              }
+          }
+          return ['$ilike', '$notILike'].includes(filter.action!.value)
+            ? `%${filter.pattern as LckTableViewFilterPattern}%`
+            : filter.pattern as LckTableViewFilterPattern
+        })(filter.column!.originalType)
     })
   return formattedFilters
 }
@@ -308,7 +304,6 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
         action: filter.action.label,
         column: filter.column.value,
         dbAction: filter.action.value,
-        dbPattern: getFormattedPattern(filter)!,
         pattern: filter.pattern instanceof Date ? formatDateISO(filter.pattern) : filter.pattern,
       })
     }
@@ -350,7 +345,7 @@ export function convertFiltersFromDatabase ({ columns, filter }: {
           // Get the pattern used in the current filter
           const originalPattern = originalAction.predefinedPattern !== undefined
             ? originalAction.predefinedPattern
-            : columnType === COLUMN_TYPE.DATE ? getDateFromString(pattern) : pattern
+            : columnType === COLUMN_TYPE.DATE ? getDateFromString(pattern) || pattern : pattern
 
           // Add the filter
           allFilters.push({

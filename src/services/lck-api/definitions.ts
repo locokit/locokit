@@ -158,12 +158,13 @@ export enum SORT_COLUMN {
   DESC = 'DESC'
 }
 
+export type LckTableViewFilterPattern = boolean | number | string | string[]
+
 export interface LckTableViewFilterValue {
   action: string;
   column: string;
   dbAction: string;
-  dbPattern: boolean | number | string;
-  pattern: boolean | number | string;
+  pattern: LckTableViewFilterPattern;
 }
 
 export interface LckTableViewFilter {
