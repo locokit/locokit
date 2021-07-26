@@ -92,6 +92,7 @@
                 :exporting="exporting"
                 :cellState="cellState"
                 :editMode="editMode"
+                :secondarySources="secondarySources[block.id]"
                 v-on="$listeners"
 
                 @row-delete="onRowDelete(block, $event)"
@@ -109,6 +110,7 @@
                 @update-filters="onUpdateFilters(block, $event)"
                 @update-block="onBlockEditClick(container, block)"
                 @delete-block="onBlockDeleteClick(container, block)"
+                @get-secondary-sources="getSecondarySources(block, $event)"
 
                 @download-attachment="onDownloadAttachment"
                 @upload-files="onUploadFiles(block, $event)"
@@ -198,7 +200,6 @@ import draggable from 'vuedraggable'
 import {
   formatISO,
   isValid,
-  parseISO,
 } from 'date-fns'
 
 import {
@@ -290,6 +291,7 @@ export default {
       blockDisplayTableViewSuggestions: null,
       blockDisplayFieldSuggestions: null,
       geoSources: {},
+      secondarySources: {},
     }
   },
   computed: {
@@ -345,9 +347,41 @@ export default {
     searchItems: lckHelpers.searchItems,
     resetSources () {
       this.sources = {}
+      this.secondarySources = {}
     },
     resetGeoSources () {
       this.geoSources = {}
+    },
+    resetSecondarySources (block) {
+      this.$set(this.secondarySources, block.id, {})
+    },
+    async getSecondarySources (block, tableViewIds) {
+      const oldSecondarySources = this.secondarySources[block.id] || {}
+      const newSecondarySources = {}
+      const tableViewDefinitionsToGet = []
+      // Loop on the secondary sources
+      tableViewIds.forEach(id => {
+        newSecondarySources[id] = {}
+        if (oldSecondarySources[id]?.definition) {
+          // Keep the previous source definition
+          newSecondarySources[id].definition = oldSecondarySources[id].definition
+        } else {
+          // Need to get this new definition from the API
+          tableViewDefinitionsToGet.push(id)
+        }
+      })
+      if (tableViewDefinitionsToGet.length) {
+        // Load the new definitions
+        const tableViewDefinitions = await lckHelpers.retrieveViewDefinition(tableViewDefinitionsToGet)
+        tableViewDefinitions.forEach(tableViewDefinition => {
+          newSecondarySources[tableViewDefinition.id].definition = tableViewDefinition
+        })
+      }
+      // Load the contents
+      await Promise.all(tableViewIds.map(async tableViewId => {
+        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+      }))
+      this.$set(this.secondarySources, block.id, newSecondarySources)
     },
     createOrExtendSource (tableViewId, blockId, blockType) {
       /**
@@ -444,6 +478,7 @@ export default {
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type)
           }
+          this.resetSecondarySources(block)
         })
       })
     },
@@ -752,8 +787,9 @@ export default {
         .forEach(c => {
           switch (c.column_type_id) {
             case COLUMN_TYPE.DATE:
-              if (isValid(parseISO(newRow.data[c.id]))) {
-                data[c.id] = formatISO(new Date(newRow.data[c.id]), { representation: 'date' })
+            case COLUMN_TYPE.DATETIME:
+              if (isValid(newRow.data[c.id])) {
+                data[c.id] = formatISO(new Date(newRow.data[c.id]))
               } else {
                 data[c.id] = null
               }

@@ -1083,4 +1083,5 @@ tr.p-datatable-emptymessage {
   text-overflow: ellipsis;
   max-height: 2.5rem;
 }
+
 </style>

@@ -11,6 +11,7 @@
         @submit="verifySignupAndSetPassword"
         :loading="loading"
         :error="error"
+        :reset="false"
       />
 
     </div>

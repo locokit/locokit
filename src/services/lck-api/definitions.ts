@@ -1,4 +1,4 @@
-import { COLUMN_TYPE, GROUP_ROLE, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -90,6 +90,7 @@ export class LckTableColumn extends LckBaseModel {
       center: [number, number]; // [lng, lat]
       zoom: number;
     };
+    map_sources?: (MapSourceSettings & { excludeFromBounds: boolean })[];
   };
 
   validation?: {

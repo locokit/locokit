@@ -29,7 +29,6 @@ import {
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
   MapFeatureStyle,
-  MapSettings,
   MapSourceSettings,
   MapSourceStyle,
   MapSourceTriggerEvents,
@@ -39,7 +38,6 @@ import {
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
-  LckTableView,
   LckTableViewColumn,
   MapPopupMode,
   SelectValue,
@@ -88,6 +86,7 @@ export interface LckGeoResource {
   caughtEvents?: string[];
   pageDetailId?: string;
   selectable?: boolean;
+  excludeFromBounds?: boolean;
 }
 
 export interface PopupContent {
@@ -404,7 +403,7 @@ export function getOnlyGeoColumns (
   sourceSettings: MapSourceSettings,
 ): LckTableViewColumn[] {
   if (sourceSettings.field) {
-    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(column.column_type_id))
+    const sourceGeoColumn = columns.find(column => column.id === sourceSettings.field && isGEOColumn(getColumnTypeId(column)))
     return sourceGeoColumn ? [sourceGeoColumn] : []
   }
   return columns.filter(column => isGEOColumn(getColumnTypeId(column)))
@@ -572,9 +571,9 @@ export function getEditableGeometryTypes (columns: LckTableViewColumn[]): Set<CO
  * @return {{features: Array<Feature<Geometry, GeoJsonProperties>>, layers: LckImplementedLayers[], id: string, type: "FeatureCollection"}[]}
  */
 export function getLckGeoResources (
-  tableViews: Record<string, LckTableView>,
+  tableViews: Record<string, { columns?: LckTableViewColumn[] }>,
   data: Record<string, LckTableRow[]>,
-  settings: MapSettings,
+  settings: { sources: (MapSourceSettings & { excludeFromBounds?: boolean })[] },
   i18nOptions: LckPopupI18nOptions,
 ): LckGeoResource[] {
   const lckGeoResources: LckGeoResource[] = []
@@ -621,6 +620,7 @@ export function getLckGeoResources (
         triggerEvents: source.triggerEvents,
         caughtEvents: source.caughtEvents,
         selectable,
+        excludeFromBounds: source.excludeFromBounds === true,
       })
     }
   })

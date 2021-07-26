@@ -22,7 +22,8 @@
     "resetpassword": {
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",
-      "submit": "Réinitialiser le mot de passe",
+      "resetSubmit": "Réinitialiser le mot de passe",
+      "setSubmit": "Définir le mot de passe",
       "passwordMismatch": "Les mots de passe ne sont pas identiques."
     },
     "paginator": {
@@ -770,8 +771,9 @@
   },
   "validations": {
     "messages": {
-      "required": "Le champ '{_field_}' est requis",
-      "minDate": "Le champ '{_field_}' doit être après {fromDate}"
+      "required": "Le champ '{_field_}' est requis.",
+      "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
+      "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu."
     }
   }
 }

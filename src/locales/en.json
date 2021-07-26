@@ -22,7 +22,8 @@
     "resetpassword": {
       "password": "Password",
       "passwordCheck": "Password (check)",
-      "submit": "Reset the password",
+      "resetSubmit": "Reset the password",
+      "setSubmit": "Set the password",
       "passwordMismatch": "Passwords mismatch"
     },
     "paginator": {
@@ -430,7 +431,7 @@
         }
       },
       "block": {
-        "block": "Block",
+        "title": "Block",
         "name": "Block title",
         "type": "Block type",
         "content": "Content",
@@ -770,8 +771,9 @@
   },
   "validations": {
     "messages": {
-      "required": "The '{_field_}' field is required",
-      "minDate": "The '{_field_}' field must be after {fromDate}"
+      "required": "The '{_field_}' field is required.",
+      "minDate": "The '{_field_}' field must be after {fromDate}.",
+      "dateValid": "The '{_field_}' field does not match expected format."
     }
   }
 }

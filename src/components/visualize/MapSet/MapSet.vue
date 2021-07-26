@@ -13,7 +13,6 @@
     <lck-map
       v-if="this.hasRightConfiguration && resources"
       :defaultSelectedFeatureBySource="selectedFeatureBySource"
-      :hasPopup="hasPopup"
       :id="`block-map-view-${id}`"
       :resources="resources"
       style="min-height: 50vh"
@@ -36,7 +35,9 @@
         :row="newRow"
         mode="creation"
         :autocompleteSuggestions="$attrs['autocompleteSuggestions']"
+        :secondarySources="$attrs['secondarySources']"
         :workspaceId="workspaceId"
+        @get-secondary-sources="$listeners['get-secondary-sources']"
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
       />
@@ -136,11 +137,6 @@ export default Vue.extend({
           dateFormat: this.$t('date.dateFormat'),
           datetimeFormat: this.$t('date.datetimeFormat'),
         },
-      )
-    },
-    hasPopup (): boolean {
-      return (
-        this.resources.some(resource => resource.popupMode)
       )
     },
     filteredDefinitionColumns (): Partial<LckTableView> {

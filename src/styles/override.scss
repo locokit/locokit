@@ -54,7 +54,7 @@ ul, ol, li, p {
   font-size: 1rem;
 }
 
-/* default links */
+/* Default links */
 
 a:link {
   color: var(--primary-color);
@@ -160,7 +160,7 @@ a.no-decoration-link {
   border-radius: var(--border-radius);
 }
 
-// adjust bootstrap icons font-size
+// Adjust bootstrap icons font-size
 
 .p-button.p-button-sm .p-button-icon.bi {
   font-size: 1.0rem;
@@ -170,7 +170,14 @@ a.no-decoration-link {
   font-weight: normal;
 }
 
+// Cursor disabled on button
+
+.p-button:disabled {
+  cursor: not-allowed;
+}
+
 // Toast
+
 .p-toast {
   z-index: 1101 !important;
 }
