@@ -5,8 +5,19 @@
       :key="`source-${index}`"
       class="source-configuration"
     >
-      <div class="p-field">
+      <validation-provider
+        :vid="`blockSettingsMap-${index}`"
+        tag="div"
+        class="p-field"
+        :name="$t('pages.workspace.block.tableView')"
+        rules="required"
+        v-slot="{
+          errors,
+          classes
+        }"
+      >
         <label :for="`blockSettingsMap-${index}`">{{ $t('pages.workspace.block.tableView') }}</label>
+        <span class="field-required">*</span>
         <lck-autocomplete
           :id="`blockSettingsMap-${index}`"
           field="text"
@@ -16,8 +27,14 @@
           @item-select="onChangeTableView(source, $event)"
           @search="$emit('search-table-view', $event)"
         />
-      </div>
-      <div class="p-field">
+        <span :class="classes">{{ errors[0] }}</span>
+      </validation-provider>
+      <validation-provider
+        :vid="`blockSettingsDetailPage-${index}`"
+        tag="div"
+        class="p-field"
+        :name="$t('pages.workspace.block.detailPage')"
+      >
         <label :for="`blockSettingsDetailPage-${index}`">{{ $t('pages.workspace.block.detailPage') }}</label>
         <p-dropdown
           :id="`blockSettingsDetailPage-${index}`"
@@ -30,7 +47,7 @@
           :placeholder="$t('components.datatable.placeholder')"
           @input="onChangePageDetailId(source, $event)"
         />
-      </div>
+      </validation-provider>
       <p-button
         icon="pi pi-trash"
         class="p-button-text p-button-lg delete-source-button"
@@ -53,20 +70,23 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
+import { LckTableView } from '@/services/lck-api/definitions'
+import { MapSourceSettings } from '@locokit/lck-glossary'
+
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-import { LckTableView } from '@/services/lck-api/definitions'
-import { MapSourceSettings } from '@locokit/lck-glossary'
-
 export default Vue.extend({
   name: 'MapSettingsFields',
   components: {
+    'lck-autocomplete': AutoComplete,
     'p-button': Vue.extend(Button),
     'p-dropdown': Vue.extend(Dropdown),
-    'lck-autocomplete': AutoComplete,
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     sources: {

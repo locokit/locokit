@@ -6,50 +6,74 @@
     @close="$emit('close')"
     @input="$emit('input', { text: pageTextCopy, hidden: pageHiddenCopy, layout: selectedLayout })"
   >
-    <div class="p-field">
+    <validation-provider
+      vid="pageTextField"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.workspace.page.pageName')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="pageTextField">{{ $t('pages.workspace.page.pageName') }}</label>
+      <span class="field-required">*</span>
       <p-input-text
         id="pageTextField"
         v-model="pageTextCopy"
-        required
         autofocus
       />
-    </div>
-    <fieldset class="p-field">
-      <legend>{{ $t('pages.workspace.page.layout') }}</legend>
-      <div v-for="layoutType in layoutTypes" :key="layoutType.name">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="layoutType"
+      tag="fieldset"
+      class="p-field"
+    >
+      <legend>{{ $t('pages.workspace.page.layout.title') }}</legend>
+      <div v-for="layoutType in layoutTypes" :key="layoutType">
         <p-radio-button
-          :id="layoutType.name"
-          :name="layoutType.name"
-          :value="layoutType.name"
+          :id="layoutType"
+          :name="layoutType"
+          :value="layoutType"
           v-model="selectedLayout"
         />
-        <label :for="layoutType.name">{{ layoutType.label }}</label>
-        <img :src="layoutType.img" alt=""/>
+        <label :for="layoutType">
+          {{ $t(`pages.workspace.page.layout.${layoutType}`) }}
+        </label>
       </div>
-    </fieldset>
-    <div class="p-field">
-      <label for="PageHiddenField">{{ $t('pages.workspace.page.pageHidden') }}</label>
+    </validation-provider>
+    <validation-provider
+      vid="pageHiddenField"
+      tag="div"
+      class="p-field"
+    >
+      <label for="pageHiddenField">{{ $t('pages.workspace.page.pageHidden') }}</label>
       <p-input-switch
-        id="PageHiddenField"
+        id="pageHiddenField"
         v-model="pageHiddenCopy"
       />
-    </div>
+    </validation-provider>
   </lck-dialog-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+
+import { ValidationProvider } from 'vee-validate'
+
 import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 import RadioButton from 'primevue/radiobutton'
 
+import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+
 const layoutTypes = [
-  { name: 'classic', label: 'Mise en page classique', img: 'classic-layout' },
-  { name: 'center', label: 'Mise en page centrée', img: 'centered-layout' },
-  { name: 'flex', label: 'Mise en page flexible', img: 'flex-layout' },
-  { name: 'full', label: 'Mise en page pleine', img: 'full-layout' },
+  'classic',
+  'center',
+  'flex',
+  'full',
 ]
 
 export default {
@@ -59,6 +83,7 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-radio-button': Vue.extend(RadioButton),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {
@@ -84,10 +109,10 @@ export default {
   },
   watch: {
     page: {
-      handler ({ text, hidden, layout }) {
+      handler ({ text, hidden, layout }: { text: string; hidden: boolean; layout: string }) {
         this.pageTextCopy = text
         this.pageHiddenCopy = hidden
-        this.selectedLayout = layout
+        this.selectedLayout = layout || this.layoutTypes[0]
       },
       immediate: true,
     },

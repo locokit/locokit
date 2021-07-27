@@ -1,15 +1,31 @@
 <template>
   <div>
-    <div class="p-field">
+    <validation-provider
+      vid="blockSettingsContent"
+      tag="div"
+      :name="$t('pages.workspace.block.content')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="blockSettingsContent">{{ $t('pages.workspace.block.content') }}</label>
+      <span class="field-required">*</span>
       <p-textarea
         id="blockSettingsContent"
         :value="content"
         :autoResize="true"
         @input="$emit('update:content', $event)"
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="textColor"
+      tag="div"
+      class="p-field"
+    >
       <label for="textColor">{{ $t('pages.workspace.block.markdownField.textColor') }}</label>
       <p-dropdown
         id="textColor"
@@ -34,8 +50,12 @@
           {{ $t(`common.colorClass.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="textAlign"
+      tag="div"
+      class="p-field"
+    >
       <label for="textAlign">{{ $t('pages.workspace.block.markdownField.textAlign') }}</label>
       <p-dropdown
         id="textAlign"
@@ -60,12 +80,14 @@
           {{ $t(`common.alignClass.${slotProps.option.value}`) }}
         </template>
       </p-dropdown>
-    </div>
+    </validation-provider>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
 
 import { EXTENDED_NAMED_CLASSES, TEXT_ALIGN_CLASS } from '@/services/lck-utils/prime'
 
@@ -77,6 +99,7 @@ export default {
   components: {
     'p-textarea': Vue.extend(Textarea),
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     content: {

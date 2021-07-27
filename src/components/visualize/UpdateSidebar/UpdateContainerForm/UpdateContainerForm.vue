@@ -6,18 +6,33 @@
       @cancel="$emit('close')"
       class="lck-color-content p-text-bold"
     >
-      <div class="p-field">
+      <validation-provider
+        vid="container-name"
+        tag="div"
+        class="p-field"
+        :name="$t('pages.workspace.container.name')"
+        rules="required"
+        v-slot="{
+        errors,
+        classes
+      }"
+      >
         <label for="container-name">
           {{ $t('pages.workspace.container.name') }}
         </label>
+        <span class="field-required">*</span>
         <p-input-text
           id="container-name"
           type="text"
           v-model="containerCopy.text"
-          required
         />
-      </div>
-      <div class="p-field p-d-flex p-flex-column">
+        <span :class="classes">{{ errors[0] }}</span>
+      </validation-provider>
+      <validation-provider
+        vid="container-display_title"
+        tag="div"
+        class="p-field p-d-flex p-flex-column"
+      >
         <label for="container-display_title">
           {{ $t('pages.workspace.container.displayTitle') }}
         </label>
@@ -25,8 +40,12 @@
           id="container-display_title"
           v-model="containerCopy.display_title"
         />
-      </div>
-      <div class="p-field p-d-flex p-flex-column">
+      </validation-provider>
+      <validation-provider
+        vid="container-elevation"
+        tag="div"
+        class="p-field p-d-flex p-flex-column"
+      >
         <label for="container-elevation">
           {{ $t('pages.workspace.container.elevation') }}
         </label>
@@ -34,8 +53,12 @@
           id="container-elevation"
           v-model="containerCopy.elevation"
         />
-      </div>
-      <div class="p-field p-d-flex p-flex-column">
+      </validation-provider>
+      <validation-provider
+        vid="container-displayed_in_navbar"
+        tag="div"
+        class="p-field p-d-flex p-flex-column"
+      >
         <label for="container-displayed_in_navbar">
           {{ $t('pages.workspace.container.displayedInNavbar') }}
         </label>
@@ -43,24 +66,39 @@
           id="container-displayed_in_navbar"
           v-model="containerCopy.displayed_in_navbar"
         />
-      </div>
+      </validation-provider>
       <div v-if="containerCopy.displayed_in_navbar">
         <span>
           {{ $t('pages.workspace.container.navigationExplain') }}
         </span>
         <div class="p-mt-2 p-ml-2">
-          <div class="p-field">
+          <validation-provider
+            vid="container-anchor_label"
+            tag="div"
+            class="p-field"
+            :name="$t('pages.workspace.container.anchor.label')"
+            rules="required"
+            v-slot="{
+              errors,
+              classes
+            }"
+          >
             <label for="container-anchor_label">
               {{ $t('pages.workspace.container.anchor.label') }}
             </label>
+            <span class="field-required">*</span>
             <p-input-text
               id="container-anchor_label"
               type="text"
               v-model="containerCopy.anchor_label"
-              required
             />
-          </div>
-          <div class="p-field">
+            <span :class="classes">{{ errors[0] }}</span>
+          </validation-provider>
+          <validation-provider
+            vid="container-anchor_icon"
+            tag="div"
+            class="p-field"
+          >
             <label for="container-anchor_icon">
               {{ $t('pages.workspace.container.anchor.icon') }}
             </label>
@@ -69,8 +107,12 @@
               type="text"
               v-model="containerCopy.anchor_icon"
             />
-          </div>
-          <div class="p-field">
+          </validation-provider>
+          <validation-provider
+            vid="container-anchor_icon_class"
+            tag="div"
+            class="p-field"
+          >
             <label for="container-anchor_icon_class">
               {{ $t('pages.workspace.container.anchor.class.title') }}
             </label>
@@ -81,7 +123,6 @@
               optionValue="value"
               dataKey="value"
               :options="NAMED_CLASSES"
-              required
             >
               <template #value="slotProps">
                 {{ $t(`pages.workspace.container.anchor.class.${slotProps.value}`) }}
@@ -90,7 +131,7 @@
                 {{ $t(`pages.workspace.container.anchor.class.${slotProps.option.value}`) }}
               </template>
             </p-dropdown>
-          </div>
+          </validation-provider>
         </div>
       </div>
     </lck-form>
@@ -153,7 +194,12 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
+import { ValidationProvider } from 'vee-validate'
+
 import { NAMED_CLASSES } from '@/services/lck-utils/prime'
+import {
+  LckContainer,
+} from '@/services/lck-api/definitions'
 
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -161,10 +207,6 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
 import Dropdown from 'primevue/dropdown'
-
-import {
-  LckContainer,
-} from '@/services/lck-api/definitions'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 
@@ -178,6 +220,7 @@ export default Vue.extend({
     'p-column': Vue.extend(Column),
     'p-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     container: {

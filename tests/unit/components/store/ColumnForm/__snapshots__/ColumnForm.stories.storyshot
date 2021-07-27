@@ -33,11 +33,22 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               Column title
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
-              required="required"
             />
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -206,6 +217,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
              
             <button
               class="p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -242,7 +254,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
           class="p-fluid"
         >
           <div
-            class="p-field"
+            class="p-field p-mb-2"
           >
             <label
               for="columnDisplayedField"
@@ -250,10 +262,15 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               Displayed column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -269,6 +286,12 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -280,10 +303,15 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               Editable column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -298,6 +326,12 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -309,10 +343,15 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               Required column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnRequiredField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -327,6 +366,12 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -336,6 +381,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
              
             <button
               class="p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -394,11 +440,22 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               Column title
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
-              required="required"
             />
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <!---->
@@ -410,6 +467,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
              
             <button
               class="p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -446,7 +504,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
           class="p-fluid"
         >
           <div
-            class="p-field"
+            class="p-field p-mb-2"
           >
             <label
               for="columnDisplayedField"
@@ -454,10 +512,15 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               Displayed column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -473,6 +536,12 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -484,10 +553,15 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               Editable column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -502,6 +576,12 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -513,10 +593,15 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               Required column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnRequiredField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -531,6 +616,12 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -540,6 +631,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
              
             <button
               class="p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -598,11 +690,22 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               Column title
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
-              required="required"
             />
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <!---->
@@ -651,7 +754,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           class="p-fluid"
         >
           <div
-            class="p-field"
+            class="p-field p-mb-2"
           >
             <label
               for="columnDisplayedField"
@@ -659,10 +762,15 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               Displayed column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -678,6 +786,12 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -689,10 +803,15 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               Editable column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -707,6 +826,12 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div
@@ -718,10 +843,15 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               Required column
             </label>
              
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
             <div
               class="p-inputswitch p-component"
               id="columnRequiredField"
-              required="required"
             >
               <div
                 class="p-hidden-accessible"
@@ -736,6 +866,12 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                 class="p-inputswitch-slider"
               />
             </div>
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
           </div>
            
           <div

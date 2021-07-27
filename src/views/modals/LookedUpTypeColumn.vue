@@ -1,49 +1,82 @@
 <template>
   <div>
-    <label for="local-field-id" class="p-mt-4 p-d-block">
-      {{ $t('pages.databaseSchema.lookedUpType.localField') }}
-    </label>
-    <p-dropdown
-      id="local-field-id"
-      :disabled="!Boolean(this.localFields.length)"
-      appendTo="body"
-      v-model="localFieldId"
-      @change="onLocalFieldChange"
-      :options="localFields"
-      dataKey="id"
-      optionValue="id"
-      optionLabel="text"
-      :placeholder="$t('pages.databaseSchema.lookedUpType.localFieldPlaceholder')"
-    />
-    <label for="foreign-field-id" class="p-mt-4 p-d-block">
-      {{ $t('pages.databaseSchema.lookedUpType.foreignField') }}
-    </label>
-    <p-dropdown
-      id="foreign-field-id"
-      :disabled="!Boolean(this.foreignFields.length)"
-      appendTo="body"
-      v-model="foreignFieldId"
-      :options="foreignFields"
-      dataKey="id"
-      optionValue="id"
-      optionLabel="text"
-      :placeholder="$t('pages.databaseSchema.lookedUpType.foreignFieldPlaceholder')"
-    />
+    <validation-provider
+      vid="local-field-id"
+      tag="div"
+      :name="$t('pages.databaseSchema.lookedUpType.localField')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <label for="local-field-id">
+        {{ $t('pages.databaseSchema.lookedUpType.localField') }}
+      </label>
+      <span class="field-required">*</span>
+      <p-dropdown
+        id="local-field-id"
+        :disabled="!Boolean(localFields.length)"
+        appendTo="body"
+        v-model="localFieldId"
+        @change="onLocalFieldChange"
+        :options="localFields"
+        dataKey="id"
+        optionValue="id"
+        optionLabel="text"
+        :placeholder="$t('pages.databaseSchema.lookedUpType.localFieldPlaceholder')"
+      />
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="foreign-field-id"
+      tag="div"
+      :name="$t('pages.databaseSchema.lookedUpType.foreignField')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <label for="foreign-field-id">
+        {{ $t('pages.databaseSchema.lookedUpType.foreignField') }}
+      </label>
+      <span class="field-required">*</span>
+      <p-dropdown
+        id="foreign-field-id"
+        :disabled="!Boolean(foreignFields.length)"
+        appendTo="body"
+        v-model="foreignFieldId"
+        :options="foreignFields"
+        dataKey="id"
+        optionValue="id"
+        optionLabel="text"
+        :placeholder="$t('pages.databaseSchema.lookedUpType.foreignFieldPlaceholder')"
+      />
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { lckServices } from '@/services/lck-api'
-import Dropdown from 'primevue/dropdown'
 import { Paginated } from '@feathersjs/feathers'
+
+import { lckServices } from '@/services/lck-api'
 import { LckTableColumn } from '@/services/lck-api/definitions'
+
+import Dropdown from 'primevue/dropdown'
 
 export default {
   name: 'LookedUpTypeColumn',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     databaseId: String,

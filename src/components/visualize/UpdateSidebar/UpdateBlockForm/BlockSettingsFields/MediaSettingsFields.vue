@@ -1,7 +1,18 @@
 <template>
   <div class="blockSettings">
-    <div class="p-field">
+    <validation-provider
+      vid="blockSettingsDisplayMode"
+      tag="div"
+      :name="$t('pages.workspace.block.displayMode')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="blockSettingsDisplayMode">{{ $t('pages.workspace.block.displayMode') }}</label>
+      <span class="field-required">*</span>
       <p-dropdown
         id="blockSettingsDisplayMode"
         :options="mediaTypes"
@@ -12,7 +23,8 @@
         optionLabel="label"
         optionKey="value"
       />
-    </div>
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
     <div v-if="displayMode">
       <div
         v-for="(media, index) in medias"
@@ -20,24 +32,59 @@
         class="mediaConfiguration"
         :class="{ multiMediaConfiguration: !isBasicMedia }"
       >
-        <div class="p-field">
+        <validation-provider
+          :vid="`blockSettingsMediaName${index}`"
+          tag="div"
+          :name="$t('pages.workspace.block.mediaName')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label :for="`blockSettingsMediaName${index}`">{{ $t('pages.workspace.block.mediaName') }}</label>
+          <span class="field-required">*</span>
           <p-input-text
             :id="`blockSettingsMediaName${index}`"
             :value="media.name"
             @input="$emit('update-media-name', { media, name: $event })"
           />
-        </div>
-        <div class="p-field">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          :vid="`blockSettingsMediaSrcURL${index}`"
+          tag="div"
+          :name="$t('pages.workspace.block.mediaSrcURL')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label :for="`blockSettingsMediaSrcURL${index}`">{{ $t('pages.workspace.block.mediaSrcURL') }}</label>
+          <span class="field-required">*</span>
           <p-input-text
             :id="`blockSettingsMediaSrcURL${index}`"
             :value="media.srcURL"
             @input="$emit('update-media-srcURL', { media, srcURL: $event })"
           />
-        </div>
-        <div class="p-field">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          :vid="`blockSettingsMediaName${index}`"
+          tag="div"
+          :name="$t('pages.workspace.block.mediaType')"
+          class="p-field"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label :for="`blockSettingsMediaName${index}`">{{ $t('pages.workspace.block.mediaType') }}</label>
+          <span class="field-required">*</span>
           <p-dropdown
             :id="`blockSettingsMediaName${index}`"
             :options="basicMediaTypes"
@@ -48,7 +95,8 @@
             optionLabel="label"
             optionKey="value"
           />
-        </div>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
         <p-button
           icon="pi pi-trash"
           class="p-button-text p-button-lg deleteMediaButton"
@@ -71,6 +119,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
+
 import { MEDIA_TYPE } from '@locokit/lck-glossary'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
@@ -83,6 +134,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-button': Vue.extend(Button),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     displayMode: {

@@ -6,28 +6,45 @@
     @close="$emit('close')"
     @input="$emit('input', chapterTextCopy)"
   >
-    <div class="p-field">
+    <validation-provider
+      vid="chapterTextField"
+      tag="div"
+      :name="$t('pages.workspace.chapterName')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
+      <span class="field-required">*</span>
       <p-input-text
         id="chapterTextField"
         v-model="chapterTextCopy"
         required
         autofocus
       />
-    </div>
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
   </lck-dialog-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+
+import { ValidationProvider } from 'vee-validate'
+
 import InputText from 'primevue/inputtext'
+
+import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
 export default {
   name: 'ChapterDialog',
   components: {
     'lck-dialog-form': LckDialogForm,
     'p-input-text': Vue.extend(InputText),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {
@@ -50,7 +67,7 @@ export default {
   },
   watch: {
     chapter: {
-      handler ({ text }) {
+      handler ({ text }: { text: string }) {
         this.chapterTextCopy = text
       },
       immediate: true,

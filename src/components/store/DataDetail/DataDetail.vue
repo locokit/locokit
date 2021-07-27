@@ -47,7 +47,7 @@
           </label>
           <span
             v-if="column.validation && column.validation.required"
-            class="column-required"
+            class="field-required"
           >
             *
           </span>
@@ -211,7 +211,7 @@
           </label>
           <span
             v-if="column.required"
-            class="column-required"
+            class="field-required"
           >
             *
           </span>
@@ -705,14 +705,6 @@ export default {
 }
 .form-field-editable.failed {
   border-color: var(--color-error);
-}
-.failed {
-  color: var(--color-error);
-}
-
-.column-required {
-  font-size: 1.6rem;
-  color: var(--color-error);
 }
 
 textarea {

@@ -8,102 +8,132 @@ exports[`storyshots views/modals/LookedUpTypeColumn Create 1`] = `
     class="p-fluid"
   >
     <div>
-      <label
-        class="p-mt-4 p-d-block"
-        for="local-field-id"
-      >
-        
-    Local field
-  
-      </label>
-       
       <div
-        class="p-dropdown p-component p-inputwrapper p-disabled"
-        id="local-field-id"
+        class="p-field"
       >
-        <div
-          class="p-hidden-accessible"
-        >
-          <input
-            aria-haspopup="listbox"
-            disabled="disabled"
-            readonly="readonly"
-            type="text"
-          />
-        </div>
-         
-        <!---->
-         
-        <span
-          class="p-dropdown-label p-inputtext p-placeholder"
+        <label
+          for="local-field-id"
         >
           
-            Select field
-        
+      Local field
+    
+        </label>
+         
+        <span
+          class="field-required"
+        >
+          *
         </span>
          
-        <!---->
-         
         <div
-          aria-haspopup="listbox"
-          class="p-dropdown-trigger"
-          role="button"
+          class="p-dropdown p-component p-inputwrapper p-disabled"
+          id="local-field-id"
         >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              disabled="disabled"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
           <span
-            class="p-dropdown-trigger-icon pi pi-chevron-down"
-          />
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            
+            Select field
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
         </div>
          
-        <!---->
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
-      <label
-        class="p-mt-4 p-d-block"
-        for="foreign-field-id"
-      >
-        
-    Foreign field
-  
-      </label>
-       
       <div
-        class="p-dropdown p-component p-inputwrapper p-disabled"
-        id="foreign-field-id"
+        class="p-field"
       >
-        <div
-          class="p-hidden-accessible"
-        >
-          <input
-            aria-haspopup="listbox"
-            disabled="disabled"
-            readonly="readonly"
-            type="text"
-          />
-        </div>
-         
-        <!---->
-         
-        <span
-          class="p-dropdown-label p-inputtext p-placeholder"
+        <label
+          for="foreign-field-id"
         >
           
-            Select field
-        
+      Foreign field
+    
+        </label>
+         
+        <span
+          class="field-required"
+        >
+          *
         </span>
          
-        <!---->
-         
         <div
-          aria-haspopup="listbox"
-          class="p-dropdown-trigger"
-          role="button"
+          class="p-dropdown p-component p-inputwrapper p-disabled"
+          id="foreign-field-id"
         >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              disabled="disabled"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
           <span
-            class="p-dropdown-trigger-icon pi pi-chevron-down"
-          />
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            
+            Select field
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
         </div>
          
-        <!---->
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
     </div>
   </div>

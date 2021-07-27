@@ -4,31 +4,57 @@
     @submit="$emit('input', processCloned)"
     :submitting="submitting"
   >
-    <div class="p-field">
-      <label for="text">
+    <validation-provider
+      vid="label"
+      tag="div"
+      class="p-field"
+      :name="$t('components.process.form.text.label')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <label for="label">
         {{ $t('components.process.form.text.label') }}
       </label>
+      <span class="field-required">*</span>
       <p-input-text
-        id="text"
+        id="label"
         type="text"
         v-model="processCloned.text"
         :placeholder="$t('components.process.form.text.placeholder')"
-        required
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="url"
+      tag="div"
+      class="p-field"
+      :name="$t('components.process.form.url')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="url">
         {{ $t('components.process.form.url') }}
       </label>
+      <span class="field-required">*</span>
       <p-input-text
         id="url"
         type="text"
         v-model="processCloned.url"
         :placeholder="$t('components.process.form.url')"
-        required
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="enabled"
+      tag="div"
+      class="p-field"
+    >
       <label for="enabled">
         {{ $t('components.process.form.enabled') }}
       </label>
@@ -37,11 +63,22 @@
         id="enabled"
         v-model="processCloned.enabled"
       />
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="table"
+      tag="div"
+      :name="$t('components.process.form.table.label')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="table">
         {{ $t('components.process.form.table.label') }}
       </label>
+      <span class="field-required">*</span>
       <lck-autocomplete
         id="table"
         :dropdown="true"
@@ -52,13 +89,24 @@
         v-model="processCloned.table"
         @item-select="processCloned.table_id = processCloned.table.value"
         @clear="processCloned.table_id = null"
-        required
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="trigger"
+      tag="div"
+      :name="$t('components.process.form.trigger')"
+      class="p-field"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="trigger">
         {{ $t('components.process.form.trigger') }}
       </label>
+      <span class="field-required">*</span>
       <p-dropdown
         id="trigger"
         :dropdown="true"
@@ -67,12 +115,14 @@
         optionValue="value"
         appendTo="body"
         :options="triggerOptions"
-        required
       />
-    </div>
-    <div
-      class="p-field"
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
       v-if="triggerWithSettings"
+      vid="column_id"
+      tag="div"
+      class="p-field"
     >
       <label for="column_id">
         {{ $t('components.process.form.column.label') }}
@@ -92,8 +142,12 @@
         @item-select="processCloned.settings.column_id = processCloned.settings.column.value"
         @clear="processCloned.settings.column_id = null"
       />
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="maximumNumberSuccess"
+      tag="div"
+      class="p-field"
+    >
       <label for="maximumNumberSuccess">
         {{ $t('components.process.form.maximumNumberSuccessLabel') }}
       </label>
@@ -101,7 +155,7 @@
         id="maximumNumberSuccess"
         v-model="processCloned.maximumNumberSuccess"
       />
-    </div>
+    </validation-provider>
   </lck-form>
 </template>
 
@@ -109,27 +163,32 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue, { PropOptions } from 'vue'
-import InputText from 'primevue/inputtext'
-import Dropdown from 'primevue/dropdown'
-import InputSwitch from 'primevue/inputswitch'
-import InputNumber from 'primevue/inputnumber'
-import Form from '@/components/ui/Form/Form.vue'
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+
+import { ValidationProvider } from 'vee-validate'
 
 import {
   LckProcess,
   PROCESS_TRIGGER,
 } from '@/services/lck-api/definitions'
 
+import InputText from 'primevue/inputtext'
+import Dropdown from 'primevue/dropdown'
+import InputSwitch from 'primevue/inputswitch'
+import InputNumber from 'primevue/inputnumber'
+
+import Form from '@/components/ui/Form/Form.vue'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+
 export default {
   name: 'LckProcessForm',
   components: {
+    'lck-autocomplete': AutoComplete,
+    'lck-form': Form,
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-number': Vue.extend(InputNumber),
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
-    'lck-autocomplete': AutoComplete,
-    'lck-form': Form,
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     process: {
@@ -179,10 +238,10 @@ export default {
   },
   watch: {
     process: {
-      handler (newValue) {
+      handler (newValue: LckProcess) {
         if (!newValue) return
         const { id, text, trigger, settings, enabled, url, table_id, table, maximumNumberSuccess } = newValue
-        this.processCloned = { id, text, trigger, enabled, url, table_id, settings, table, maximumNumberSuccess }
+        this.processCloned = { id, text, trigger, enabled: !!enabled, url, table_id, settings, table, maximumNumberSuccess: maximumNumberSuccess || 0 }
         if (settings?.columns) {
           this.processCloned.settings = {
             ...settings,

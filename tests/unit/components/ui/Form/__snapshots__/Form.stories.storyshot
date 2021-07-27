@@ -57,6 +57,7 @@ exports[`storyshots components/ui/Form default 1`] = `
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -137,6 +138,7 @@ exports[`storyshots components/ui/Form non-submissible form 1`] = `
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -298,6 +300,7 @@ exports[`storyshots components/ui/Form with large buttons 1`] = `
          
         <button
           class="p-button p-component full-width-button"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -360,6 +363,7 @@ exports[`storyshots components/ui/Form without the cancel button 1`] = `
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span

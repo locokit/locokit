@@ -65,20 +65,31 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-field"
               >
                 <label
-                  for="text"
+                  for="label"
                 >
                   
       Name
     
                 </label>
                  
+                <span
+                  class="field-required"
+                >
+                  *
+                </span>
+                 
                 <input
                   class="p-inputtext p-component p-filled"
-                  id="text"
+                  id="label"
                   placeholder="Enter a trigger name"
-                  required="required"
                   type="text"
                 />
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <div
@@ -92,13 +103,24 @@ exports[`storyshots components/store/process/Process default 1`] = `
     
                 </label>
                  
+                <span
+                  class="field-required"
+                >
+                  *
+                </span>
+                 
                 <input
                   class="p-inputtext p-component p-filled"
                   id="url"
                   placeholder="URL"
-                  required="required"
                   type="text"
                 />
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <div
@@ -145,13 +167,18 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </label>
                  
                 <span
+                  class="field-required"
+                >
+                  *
+                </span>
+                 
+                <span
                   aria-haspopup="listbox"
                   aria-owns="pv_id_5_list"
                   class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                   dropdown="true"
                   id="table"
                   placeholder="Choose a table"
-                  required="required"
                   suggestions=""
                 >
                   <input
@@ -161,7 +188,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
                     class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                     id="table"
                     placeholder="Start typing for suggestions"
-                    required="required"
                     role="searchbox"
                     type="text"
                   />
@@ -192,6 +218,12 @@ exports[`storyshots components/store/process/Process default 1`] = `
                    
                   <!---->
                 </span>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <div
@@ -205,11 +237,16 @@ exports[`storyshots components/store/process/Process default 1`] = `
     
                 </label>
                  
+                <span
+                  class="field-required"
+                >
+                  *
+                </span>
+                 
                 <div
                   class="p-dropdown p-component p-inputwrapper"
                   dropdown="true"
                   id="trigger"
-                  required="required"
                 >
                   <div
                     class="p-hidden-accessible"
@@ -245,6 +282,12 @@ exports[`storyshots components/store/process/Process default 1`] = `
                    
                   <!---->
                 </div>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <!---->
@@ -261,10 +304,10 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </label>
                  
                 <span
-                  class="p-inputnumber p-component"
+                  class="p-inputnumber p-component p-inputwrapper-filled"
                 >
                   <input
-                    class="p-inputtext p-component p-inputnumber-input"
+                    class="p-inputtext p-component p-filled p-inputnumber-input"
                     id="maximumNumberSuccess"
                   />
                    
@@ -301,6 +344,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                  
                 <button
                   class="p-button p-component"
+                  disabled="disabled"
                   type="submit"
                 >
                   <span

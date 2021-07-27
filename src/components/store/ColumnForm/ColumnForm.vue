@@ -8,14 +8,25 @@
         :submitting="submitting"
         @submit="submitColumnData"
       >
-        <div class="p-field">
+        <validation-provider
+          vid="columnTextField"
+          tag="div"
+          class="p-field"
+          :name="$t('components.datatable.column.title')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="columnTextField">{{ $t('components.datatable.column.title') }}</label>
+          <span class="field-required">*</span>
           <p-input-text
             id="columnTextField"
             v-model="columnCopy.text"
-            required
           />
-        </div>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
         <div class="p-mb-3" v-if="isSelectColumnType">
           <p>{{ $t('components.datatable.column.values') }}</p>
           <lck-select-type-column
@@ -33,30 +44,63 @@
         :submitting="submitting"
         @submit="submitTableViewColumnData"
       >
-        <div class="p-field">
+        <validation-provider
+          vid="columnDisplayedField"
+          tag="div"
+          class="p-field p-mb-2"
+          :name="$t('components.datatable.column.displayed')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
+          <span class="field-required">*</span>
           <p-input-switch
             id="columnDisplayedField"
             v-model="columnCopy.displayed"
-            required
           />
-        </div>
-        <div class="p-field p-mb-2">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="columnEditableField"
+          tag="div"
+          class="p-field p-mb-2"
+          :name="$t('components.datatable.column.editable')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
+          <span class="field-required">*</span>
           <p-input-switch
             id="columnEditableField"
             v-model="columnCopy.editable"
-            required
           />
-        </div>
-        <div class="p-field p-mb-2">
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="columnRequiredField"
+          tag="div"
+          class="p-field p-mb-2"
+          :name="$t('components.datatable.column.required')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="columnRequiredField">{{ $t('components.datatable.column.required') }}</label>
+          <span class="field-required">*</span>
           <p-input-switch
             id="columnRequiredField"
             v-model="columnCopy.required"
-            required
           />
-        </div>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
       </lck-form>
     </div>
   </div>
@@ -64,16 +108,20 @@
 
 <script lang='ts'>
 import Vue from 'vue'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import { ValidationProvider } from 'vee-validate'
 import cloneDeep from 'lodash/cloneDeep'
-import InputText from 'primevue/inputtext'
-import InputSwitch from 'primevue/inputswitch'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   LckTableViewColumn,
   SelectValue,
   SelectValueWithId,
 } from '@/services/lck-api/definitions'
+
+import InputText from 'primevue/inputtext'
+import InputSwitch from 'primevue/inputswitch'
+
 import LckForm from '@/components/ui/Form/Form.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 
@@ -84,6 +132,7 @@ export default {
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     column: {

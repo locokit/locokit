@@ -5,15 +5,30 @@
     @cancel="$emit('close')"
     class="lck-update-block-form lck-color-content p-text-bold"
   >
-    <div class="p-field ">
+    <validation-provider
+      vid="blockTitleField"
+      tag="div"
+      class="p-field"
+    >
       <label for="blockTitleField">{{ $t('pages.workspace.block.name') }}</label>
       <p-input-text
         id="blockTitleField"
         v-model="blockCopy.title"
       />
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="blockTypeField"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.workspace.block.type')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="blockTypeField">{{ $t('pages.workspace.block.type') }}</label>
+      <span class="field-required">*</span>
       <p-dropdown
         id="blockTypeField"
         v-model="blockCopy.type"
@@ -21,9 +36,14 @@
         :options="blockTypesValues"
         @input="resetBlockSettings"
       />
-    </div>
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
 
-    <div class="p-field p-d-flex p-flex-column">
+    <validation-provider
+      vid="blockElevation"
+      tag="div"
+      class="p-field p-d-flex p-flex-column"
+    >
       <label for="blockElevation">
         {{ $t('pages.workspace.block.elevation') }}
       </label>
@@ -31,14 +51,18 @@
         id="blockElevation"
         v-model="blockCopy.elevation"
       />
-    </div>
+    </validation-provider>
 
-    <div class="p-field p-d-flex p-flex-column">
+    <validation-provider
+      vid="blockConditionalDisplayTableViewId"
+      tag="div"
+      class="p-field p-d-flex p-flex-column"
+    >
       <label for="blockConditionalDisplayTableViewId">
         {{ $t('pages.workspace.block.conditionalDisplayTableView') }}
       </label>
       <lck-autocomplete
-        id="blockSettingsTableView"
+        id="blockConditionalDisplayTableViewId"
         field="text"
         v-model="blockDisplayTableView"
         :dropdown="true"
@@ -46,9 +70,13 @@
         @item-select="blockCopy.conditionalDisplayTableViewId = blockDisplayTableView.value"
         @search="$emit('search-block-display-table-view', $event)"
       />
-    </div>
+    </validation-provider>
 
-    <div class="p-field p-d-flex p-flex-column">
+    <validation-provider
+      vid="blockConditionalDisplayFieldId"
+      tag="div"
+      class="p-field p-d-flex p-flex-column"
+    >
       <label for="blockConditionalDisplayFieldId">
         {{ $t('pages.workspace.block.conditionalDisplayField') }}
       </label>
@@ -65,9 +93,13 @@
           tableViewId: blockCopy.conditionalDisplayTableViewId
         })"
       />
-    </div>
+    </validation-provider>
 
-    <div class="p-field p-d-flex p-flex-column">
+    <validation-provider
+      vid="blockConditionalDisplayFieldValue"
+      tag="div"
+      class="p-field p-d-flex p-flex-column"
+    >
       <label for="blockConditionalDisplayFieldValue">
         {{ $t('pages.workspace.block.conditionalDisplayFieldValue') }}
       </label>
@@ -75,7 +107,7 @@
         id="blockConditionalDisplayFieldValue"
         v-model="blockCopy.conditionalDisplayFieldValue"
       />
-    </div>
+    </validation-provider>
 
     <!-- Custom settings -->
     <paragraph-settings-fields
@@ -169,6 +201,8 @@
 <script lang="ts">
 import Vue from 'vue'
 
+import { ValidationProvider } from 'vee-validate'
+
 import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 import { LckBlockExtended, LckTableView, MediaConfiguration } from '@/services/lck-api/definitions'
 
@@ -203,6 +237,7 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-switch': Vue.extend(InputSwitch),
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     block: {

@@ -1,7 +1,18 @@
 <template>
   <div>
-    <div class="p-field">
+    <validation-provider
+      vid="blockSettingsTableView"
+      tag="div"
+      class="p-field"
+      :name="$t('pages.workspace.block.tableView')"
+      rules="required"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
       <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
+      <span class="field-required">*</span>
       <lck-autocomplete
         id="blockSettingsTableView"
         field="text"
@@ -11,24 +22,37 @@
         @item-select="onChangeTableView"
         @search="$emit('search-table-view', $event)"
       />
-    </div>
-    <div class="p-field">
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+    <validation-provider
+      vid="blockSettingsAddAllowed"
+      tag="div"
+      class="p-field"
+    >
       <label for="blockSettingsAddAllowed">{{ $t('pages.workspace.block.addAllowed') }}</label>
       <p-input-switch
         :value="addAllowed"
         @input="$emit('update:addAllowed', $event)"
         id="blockSettingsAddAllowed"
       />
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="blockSettingsExportAllowed"
+      tag="div"
+      class="p-field"
+    >
       <label for="blockSettingsExportAllowed">{{ $t('pages.workspace.block.exportAllowed') }}</label>
       <p-input-switch
         :value="exportAllowed"
         @input="$emit('update:exportAllowed', $event)"
         id="blockSettingsExportAllowed"
       />
-    </div>
-    <div class="p-field">
+    </validation-provider>
+    <validation-provider
+      vid="blockSettingsDetailPage"
+      tag="div"
+      class="p-field"
+    >
       <label for="blockSettingsDetailPage">{{ $t('pages.workspace.block.detailPage') }}</label>
       <p-dropdown
         id="blockSettingsDetailPage"
@@ -41,25 +65,29 @@
         :placeholder="$t('components.datatable.placeholder')"
         @input="$emit('update:pageDetailId', $event)"
       />
-    </div>
+    </validation-provider>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ValidationProvider } from 'vee-validate'
+
+import { LckTableView } from '@/services/lck-api/definitions'
+
 import InputSwitch from 'primevue/inputswitch'
 import Dropdown from 'primevue/dropdown'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-import { LckTableView } from '@/services/lck-api/definitions'
-
 export default {
   name: 'TableSetSettingsFields',
   components: {
-    'p-input-switch': Vue.extend(InputSwitch),
-    'p-dropdown': Vue.extend(Dropdown),
     'lck-autocomplete': AutoComplete,
+    'p-dropdown': Vue.extend(Dropdown),
+    'p-input-switch': Vue.extend(InputSwitch),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     addAllowed: {
@@ -87,13 +115,10 @@ export default {
     },
   },
   data (): {
-    tableView: { text: string; value: string };
+    tableView: { text: string; value: string } | null;
     } {
     return {
-      tableView: {
-        text: '',
-        value: '',
-      },
+      tableView: null,
     }
   },
   watch: {

@@ -394,7 +394,13 @@
         "edit": "Modifier une page",
         "pageName": "Nom de la page",
         "pageHidden": "Cacher la page",
-        "layout": "Disposition",
+        "layout": {
+          "title": "Disposition",
+          "classic": "Mise en page classique",
+          "center": "Mise en page centrée",
+          "flex": "Mise en page flexible",
+          "full": "Mise en page pleine"
+        },
         "pagePosition": "Position de la page",
         "pageConfiguration": "Configuration de la page",
         "list": "Liste des conteneurs",
@@ -529,6 +535,7 @@
       "createTableModal": {
         "createTable": "Créer une table",
         "tableName": "Nom de la table",
+        "tableDoc": "Documentation de la table",
         "cancel": "Annuler",
         "create": "Créer"
       },

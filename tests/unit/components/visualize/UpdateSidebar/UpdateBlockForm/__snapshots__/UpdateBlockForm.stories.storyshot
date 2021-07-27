@@ -11,7 +11,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -33,6 +33,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -72,6 +78,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -120,7 +132,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           aria-owns="pv_id_68_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -128,7 +140,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             aria-controls="pv_id_68_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -281,7 +293,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           <div
             class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             id="classButton"
-            required="required"
           >
             <div
               class="p-hidden-accessible"
@@ -300,8 +311,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             >
               <div>
                 
-           Primary Color
-         
+          Primary Color
+        
               </div>
             </span>
              
@@ -325,7 +336,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           class="p-field"
         >
           <label
-            for="icon"
+            for=""
           >
             Button Icon
           </label>
@@ -345,10 +356,15 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             Button action
           </label>
            
+          <span
+            class="field-required"
+          >
+            *
+          </span>
+           
           <div
             class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             id="action"
-            required="required"
           >
             <div
               class="p-hidden-accessible"
@@ -367,8 +383,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             >
               <div>
                 
-           Trigger an action/process
-         
+          Trigger an action/process
+        
               </div>
             </span>
              
@@ -386,28 +402,53 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
              
             <!---->
           </div>
+           
+          <span
+            class="untouched pristine"
+          >
+            
+          </span>
         </div>
          
         <div
-          class="p-field action-trigger"
+          class="p-field"
         >
-          <label
-            for="processId"
+          <div
+            class="p-field"
           >
-            Action/Process name
-          </label>
+            <label
+              for="processId"
+            >
+              Action/Process name
+            </label>
+             
+            <span
+              class="field-required"
+            >
+              *
+            </span>
+             
+            <input
+              class="p-inputtext p-component"
+              id="processId"
+            />
+             
+            <span
+              class="untouched pristine"
+            >
+              
+            </span>
+          </div>
            
-          <input
-            class="p-inputtext p-component"
-            id="processId"
-            required="required"
-          />
-           
-          <span>
-            Redirection to page
-          </span>
-           
-          <div>
+          <div
+            class="p-field"
+          >
+            <span
+              class="p-d-flex p-mb-2"
+            >
+              Redirection to page
+            </span>
+             
             <div
               class="p-field-radiobutton"
             >
@@ -478,16 +519,20 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             </div>
           </div>
            
-          <label
-            for="pageRedirectId"
+          <div
+            class="p-field"
           >
-            Page name
-          </label>
-           
-          <input
-            class="p-inputtext p-component"
-            id="pageRedirectId"
-          />
+            <label
+              for="pageRedirectId"
+            >
+              Page name
+            </label>
+             
+            <input
+              class="p-inputtext p-component"
+              id="pageRedirectId"
+            />
+          </div>
         </div>
          
         <div
@@ -685,7 +730,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                 </div>
                  
                 <div
-                  class="p-field "
+                  class="p-field"
                 >
                   <label
                     for="notificationErrorDescription"
@@ -729,6 +774,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -763,7 +809,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -785,6 +831,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -824,6 +876,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -872,7 +930,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
           aria-owns="pv_id_61_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -880,7 +938,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
             aria-controls="pv_id_61_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -1015,6 +1073,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         </label>
          
         <span
+          class="field-required"
+        >
+          *
+        </span>
+         
+        <span
           aria-haspopup="listbox"
           aria-owns="pv_id_63_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
@@ -1060,6 +1124,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
            
           <!---->
         </span>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -1087,6 +1157,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -1121,7 +1192,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -1143,6 +1214,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -1182,6 +1259,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -1230,7 +1313,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
           aria-owns="pv_id_56_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -1238,7 +1321,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
             aria-controls="pv_id_56_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -1390,6 +1473,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -1424,7 +1508,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -1446,6 +1530,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -1485,6 +1575,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -1533,7 +1629,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
           aria-owns="pv_id_64_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -1541,7 +1637,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
             aria-controls="pv_id_64_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -1680,6 +1776,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
             </label>
              
             <span
+              class="field-required"
+            >
+              *
+            </span>
+             
+            <span
               aria-haspopup="listbox"
               aria-owns="pv_id_66_list"
               class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
@@ -1723,6 +1825,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               </button>
                
               <!---->
+            </span>
+             
+            <span
+              class="untouched pristine"
+            >
+              
             </span>
           </div>
            
@@ -1810,6 +1918,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
             </label>
              
             <span
+              class="field-required"
+            >
+              *
+            </span>
+             
+            <span
               aria-haspopup="listbox"
               aria-owns="pv_id_67_list"
               class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
@@ -1853,6 +1967,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               </button>
                
               <!---->
+            </span>
+             
+            <span
+              class="untouched pristine"
+            >
+              
             </span>
           </div>
            
@@ -1977,6 +2097,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -2011,7 +2132,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -2033,6 +2154,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2072,6 +2199,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -2120,7 +2253,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
           aria-owns="pv_id_54_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -2128,7 +2261,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
             aria-controls="pv_id_54_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -2263,10 +2396,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
             Content
           </label>
            
+          <span
+            class="field-required"
+          >
+            *
+          </span>
+           
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
             id="blockSettingsContent"
           />
+           
+          <span
+            class="untouched pristine"
+          >
+            
+          </span>
         </div>
          
         <div
@@ -2397,6 +2542,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -2431,7 +2577,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -2453,6 +2599,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2492,6 +2644,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -2540,7 +2698,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
           aria-owns="pv_id_52_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -2548,7 +2706,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
             aria-controls="pv_id_52_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -2685,6 +2843,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
             Display mode
           </label>
            
+          <span
+            class="field-required"
+          >
+            *
+          </span>
+           
           <div
             class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             id="blockSettingsDisplayMode"
@@ -2724,6 +2888,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
              
             <!---->
           </div>
+           
+          <span
+            class="untouched pristine"
+          >
+            
+          </span>
         </div>
          
         <div>
@@ -2739,10 +2909,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                 Media name
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 class="p-inputtext p-component p-filled"
                 id="blockSettingsMediaName0"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -2754,10 +2936,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                 Media URL
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 class="p-inputtext p-component p-filled"
                 id="blockSettingsMediaSrcURL0"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -2768,6 +2962,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               >
                 Media type
               </label>
+               
+              <span
+                class="field-required"
+              >
+                *
+              </span>
                
               <div
                 class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2808,6 +3008,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                  
                 <!---->
               </div>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <button
@@ -2842,10 +3048,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                 Media name
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 class="p-inputtext p-component p-filled"
                 id="blockSettingsMediaName1"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -2857,10 +3075,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                 Media URL
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 class="p-inputtext p-component p-filled"
                 id="blockSettingsMediaSrcURL1"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <div
@@ -2871,6 +3101,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               >
                 Media type
               </label>
+               
+              <span
+                class="field-required"
+              >
+                *
+              </span>
                
               <div
                 class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2911,6 +3147,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
                  
                 <!---->
               </div>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <button
@@ -2985,6 +3227,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -3019,7 +3262,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -3041,6 +3284,12 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper"
@@ -3080,6 +3329,12 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -3128,7 +3383,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
           aria-owns="pv_id_46_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -3136,7 +3391,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
             aria-controls="pv_id_46_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -3288,6 +3543,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -3322,7 +3578,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -3344,6 +3600,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3383,6 +3645,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -3431,7 +3699,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
           aria-owns="pv_id_50_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -3439,7 +3707,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
             aria-controls="pv_id_50_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -3573,10 +3841,22 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
           Content
         </label>
          
+        <span
+          class="field-required"
+        >
+          *
+        </span>
+         
         <textarea
           class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
           id="blockSettingsContent"
         />
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -3604,6 +3884,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -3638,7 +3919,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -3660,6 +3941,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3699,6 +3986,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -3747,7 +4040,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
           aria-owns="pv_id_58_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -3755,7 +4048,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
             aria-controls="pv_id_58_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -3891,6 +4184,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
           </label>
            
           <span
+            class="field-required"
+          >
+            *
+          </span>
+           
+          <span
             aria-haspopup="listbox"
             aria-owns="pv_id_60_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
@@ -3935,6 +4234,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
             </button>
              
             <!---->
+          </span>
+           
+          <span
+            class="untouched pristine"
+          >
+            
           </span>
         </div>
          
@@ -4072,6 +4377,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span
@@ -4106,7 +4412,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
       class="p-fluid"
     >
       <div
-        class="p-field "
+        class="p-field"
       >
         <label
           for="blockTitleField"
@@ -4128,6 +4434,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         >
           Block type
         </label>
+         
+        <span
+          class="field-required"
+        >
+          *
+        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -4167,6 +4479,12 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
            
           <!---->
         </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
       </div>
        
       <div
@@ -4215,7 +4533,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
           aria-owns="pv_id_48_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
-          id="blockSettingsTableView"
+          id="blockConditionalDisplayTableViewId"
           suggestions=""
         >
           <input
@@ -4223,7 +4541,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
             aria-controls="pv_id_48_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockSettingsTableView"
+            id="blockConditionalDisplayTableViewId"
             placeholder="Start typing for suggestions"
             role="searchbox"
             type="text"
@@ -4375,6 +4693,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
          
         <button
           class="p-button p-component"
+          disabled="disabled"
           type="submit"
         >
           <span

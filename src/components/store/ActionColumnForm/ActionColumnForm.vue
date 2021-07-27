@@ -7,14 +7,22 @@
         :submitting="submitting"
         @submit="submitActionColumnData"
       >
-        <div class="p-field">
+        <validation-provider
+          vid="labelButton"
+          tag="div"
+          class="p-field"
+        >
           <label for="labelButton">{{ $t('pages.workspace.block.labelButton') }}</label>
           <p-input-text
             id="labelButton"
             v-model="actionCopy.label"
           />
-        </div>
-        <div class="p-field">
+        </validation-provider>
+        <validation-provider
+          vid="classButton"
+          tag="div"
+          class="p-field"
+        >
           <label for="classButton">{{ $t('pages.workspace.block.classButton.title') }}</label>
           <p-dropdown
             id="classButton"
@@ -24,30 +32,44 @@
             dataKey="value"
             :options="NAMED_CLASSES"
             :placeholder="$t('components.datatable.placeholder')"
-            required
           >
             <template #value="slotProps">
               <div v-if="slotProps.value">
                 {{ $t(`pages.workspace.block.classButton.${slotProps.value}`) }}
               </div>
               <span v-else>
-            {{ slotProps.placeholder }}
-          </span>
+                {{ slotProps.placeholder }}
+              </span>
             </template>
             <template #option="slotProps">
               {{ $t(`pages.workspace.block.classButton.${slotProps.option.value}`) }}
             </template>
           </p-dropdown>
-        </div>
-        <div class="p-field">
-          <label for="icon">{{ $t('pages.workspace.block.icon') }}</label>
+        </validation-provider>
+        <validation-provider
+          vid="icon"
+          tag="div"
+          class="p-field"
+        >
+          <label for="icon">{{ $t('pages.workspace.block.actionButton.icon') }}</label>
           <p-input-text
             id="icon"
             v-model="actionCopy.icon"
           />
-        </div>
-        <div class="p-field">
-          <label for="action">{{ $t('pages.workspace.block.action.title') }}</label>
+        </validation-provider>
+        <validation-provider
+          vid="action"
+          tag="div"
+          class="p-field"
+          :name="$t('pages.workspace.block.actionButton.trigger.type')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
+          <label for="action">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
+          <span class="field-required">*</span>
           <p-dropdown
             id="action"
             v-model="actionCopy.action"
@@ -56,92 +78,142 @@
             dataKey="value"
             :options="ACTIONS_TYPE"
             :placeholder="$t('components.datatable.placeholder')"
-            required
           >
             <template #value="slotProps">
               <div v-if="slotProps.value">
-                {{ $t(`pages.workspace.block.action.${slotProps.value}`) }}
+                {{ $t(`pages.workspace.block.actionButton.trigger.${slotProps.value}`) }}
               </div>
               <span v-else>
-            {{ slotProps.placeholder }}
-          </span>
+                {{ slotProps.placeholder }}
+              </span>
             </template>
             <template #option="slotProps">
-              {{ $t(`pages.workspace.block.action.${slotProps.option.value}`) }}
+              {{ $t(`pages.workspace.block.actionButton.trigger.${slotProps.option.value}`) }}
             </template>
           </p-dropdown>
-        </div>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
         <div
-          class="p-field action-trigger"
+          class="p-field"
           v-if="actionCopy.action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
         >
-          <label for="processId">{{ $t('pages.workspace.block.processId') }}</label>
-          <p-input-text
-            id="processId"
-            v-model="actionCopy.processId"
-            required
-          />
-          <span>{{ $t('pages.workspace.block.typePageTo') }}</span>
-          <div>
-            <div class="p-field-radiobutton">
+          <validation-provider
+            vid="processId"
+            class="p-field"
+            tag="div"
+            :name="$t('pages.workspace.block.actionButton.processId')"
+            rules="required"
+            v-slot="{
+              errors,
+              classes
+            }"
+          >
+            <label for="processId">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
+            <span class="field-required">*</span>
+            <p-input-text
+              id="processId"
+              v-model="actionCopy.processId"
+            />
+            <span :class="classes">{{ errors[0] }}</span>
+          </validation-provider>
+          <div class="p-field">
+            <span class="p-d-flex p-mb-2">{{ $t('pages.workspace.block.actionButton.typePageTo') }}</span>
+            <validation-provider
+              :vid="ROUTES_NAMES.PAGE"
+              tag="div"
+              class="p-field-radiobutton"
+            >
               <p-radio-button
                 :id="ROUTES_NAMES.PAGE"
                 :name="ROUTES_NAMES.PAGE"
                 :value="ROUTES_NAMES.PAGE"
                 v-model="actionCopy.typePageTo"
               />
-              <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.page')  }}</label>
-            </div>
-            <div class="p-field-radiobutton">
+              <label :for="ROUTES_NAMES.PAGE">{{ $t('pages.workspace.block.actionButton.page') }}</label>
+            </validation-provider>
+            <validation-provider
+              :vid="ROUTES_NAMES.PAGEDETAIL"
+              tag="div"
+              class="p-field-radiobutton"
+            >
               <p-radio-button
                 :id="ROUTES_NAMES.PAGEDETAIL"
                 :name="ROUTES_NAMES.PAGEDETAIL"
                 :value="ROUTES_NAMES.PAGEDETAIL"
                 v-model="actionCopy.typePageTo"
               />
-              <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.pageDetail')  }}</label>
-            </div>
+              <label :for="ROUTES_NAMES.PAGEDETAIL">{{ $t('pages.workspace.block.actionButton.pageDetail') }}</label>
+            </validation-provider>
           </div>
-          <label for="pageRedirectId">{{ $t('pages.workspace.block.pageId') }}</label>
-          <p-input-text
-            id="pageRedirectId"
-            v-model="actionCopy.pageRedirectId"
-          />
+          <validation-provider
+            vid="pageRedirectId"
+            tag="div"
+            class="p-field"
+          >
+            <label for="pageRedirectId">{{ $t('pages.workspace.block.actionButton.pageId') }}</label>
+            <p-input-text
+              id="pageRedirectId"
+              v-model="actionCopy.pageRedirectId"
+            />
+          </validation-provider>
         </div>
         <div v-else>
-          <div class="p-field">
-            <label for="pageDetailId">{{ $t('pages.workspace.block.pageDetailId') }}</label>
+          <validation-provider
+            vid="pageDetailId"
+            tag="div"
+            class="p-field"
+            :name="$t('pages.workspace.block.actionButton.pageDetailId')"
+            rules="required"
+            v-slot="{
+              errors,
+              classes
+            }"
+          >
+            <label for="pageDetailId">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
+            <span class="field-required">*</span>
             <p-input-text
               id="pageDetailId"
               v-model="actionCopy.pageDetailId"
-              required
             />
-          </div>
-          <div class="p-field">
-            <label for="pageQueryFieldId">{{ $t('pages.workspace.block.pageQueryFieldId') }}</label>
+            <span :class="classes">{{ errors[0] }}</span>
+          </validation-provider>
+          <validation-provider
+            vid="pageQueryFieldId"
+            tag="div"
+            class="p-field"
+          >
+            <label for="pageQueryFieldId">{{ $t('pages.workspace.block.actionButton.pageQueryFieldId') }}</label>
             <p-input-text
               id="pageQueryFieldId"
               v-model="actionCopy.pageQueryFieldId"
             />
-            <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.helpPageQueryFieldId') }}</small>
-          </div>
+            <small id="pageQueryFieldId-help">{{ $t('pages.workspace.block.actionButton.helpPageQueryFieldId') }}</small>
+          </validation-provider>
         </div>
-        <div class="p-field">
-          <label for="displayFieldId">{{ $t('pages.workspace.block.options.displayFieldId') }}</label>
+        <validation-provider
+          vid="displayFieldId"
+          tag="div"
+          class="p-field"
+        >
+          <label for="displayFieldId">{{ $t('pages.workspace.block.actionButton.displayFieldId') }}</label>
           <p-input-text
             id="displayFieldId"
             v-model="actionCopy.displayFieldId"
           />
-        </div>
-        <div class="p-field">
+        </validation-provider>
+        <validation-provider
+          vid="displayFieldConditionQuery"
+          tag="div"
+          class="p-field"
+        >
           <label for="displayFieldConditionQuery">
-            {{ $t('pages.workspace.block.options.displayFieldConditionQuery') }}
+            {{ $t('pages.workspace.block.actionButton.displayFieldConditionQuery') }}
           </label>
           <p-input-text
             id="displayFieldConditionQuery"
             v-model="actionCopy.displayFieldConditionQuery"
           />
-        </div>
+        </validation-provider>
       </lck-form>
     </div>
   </div>
@@ -151,6 +223,7 @@
 import Vue from 'vue'
 
 import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary'
+import { ValidationProvider } from 'vee-validate'
 
 import {
   ACTIONS_TYPE,
@@ -171,6 +244,7 @@ export default {
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
     'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     action: {

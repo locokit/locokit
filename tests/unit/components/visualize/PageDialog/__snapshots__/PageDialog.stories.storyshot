@@ -61,12 +61,23 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                 Page Name
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 autofocus="autofocus"
                 class="p-inputtext p-component"
                 id="pageTextField"
-                required="required"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <fieldset
@@ -78,7 +89,7 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                
               <div>
                 <div
-                  class="p-radiobutton p-component"
+                  class="p-radiobutton p-component p-radiobutton-checked"
                 >
                   <div
                     class="p-hidden-accessible"
@@ -92,7 +103,8 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                   </div>
                    
                   <div
-                    class="p-radiobutton-box"
+                    aria-checked="true"
+                    class="p-radiobutton-box p-highlight"
                     role="radio"
                   >
                     <div
@@ -104,13 +116,10 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                 <label
                   for="classic"
                 >
-                  Mise en page classique
+                  
+        Classic layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="classic-layout"
-                />
               </div>
               <div>
                 <div
@@ -140,13 +149,10 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                 <label
                   for="center"
                 >
-                  Mise en page centrée
+                  
+        Centered layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="centered-layout"
-                />
               </div>
               <div>
                 <div
@@ -176,13 +182,10 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                 <label
                   for="flex"
                 >
-                  Mise en page flexible
+                  
+        Flex layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="flex-layout"
-                />
               </div>
               <div>
                 <div
@@ -212,13 +215,10 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
                 <label
                   for="full"
                 >
-                  Mise en page pleine
+                  
+        Full layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="full-layout"
-                />
               </div>
             </fieldset>
              
@@ -226,14 +226,14 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
               class="p-field"
             >
               <label
-                for="PageHiddenField"
+                for="pageHiddenField"
               >
                 Hide the page
               </label>
                
               <div
                 class="p-inputswitch p-component"
-                id="PageHiddenField"
+                id="pageHiddenField"
               >
                 <div
                   class="p-hidden-accessible"
@@ -276,6 +276,7 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
@@ -362,12 +363,23 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                 Page Name
               </label>
                
+              <span
+                class="field-required"
+              >
+                *
+              </span>
+               
               <input
                 autofocus="autofocus"
                 class="p-inputtext p-component p-filled"
                 id="pageTextField"
-                required="required"
               />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
             </div>
              
             <fieldset
@@ -379,7 +391,7 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                
               <div>
                 <div
-                  class="p-radiobutton p-component"
+                  class="p-radiobutton p-component p-radiobutton-checked"
                 >
                   <div
                     class="p-hidden-accessible"
@@ -393,7 +405,8 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                   </div>
                    
                   <div
-                    class="p-radiobutton-box"
+                    aria-checked="true"
+                    class="p-radiobutton-box p-highlight"
                     role="radio"
                   >
                     <div
@@ -405,13 +418,10 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                 <label
                   for="classic"
                 >
-                  Mise en page classique
+                  
+        Classic layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="classic-layout"
-                />
               </div>
               <div>
                 <div
@@ -441,13 +451,10 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                 <label
                   for="center"
                 >
-                  Mise en page centrée
+                  
+        Centered layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="centered-layout"
-                />
               </div>
               <div>
                 <div
@@ -477,13 +484,10 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                 <label
                   for="flex"
                 >
-                  Mise en page flexible
+                  
+        Flex layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="flex-layout"
-                />
               </div>
               <div>
                 <div
@@ -513,13 +517,10 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
                 <label
                   for="full"
                 >
-                  Mise en page pleine
+                  
+        Full layout
+      
                 </label>
-                 
-                <img
-                  alt=""
-                  src="full-layout"
-                />
               </div>
             </fieldset>
              
@@ -527,14 +528,14 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
               class="p-field"
             >
               <label
-                for="PageHiddenField"
+                for="pageHiddenField"
               >
                 Hide the page
               </label>
                
               <div
                 class="p-inputswitch p-component p-inputswitch-checked"
-                id="PageHiddenField"
+                id="pageHiddenField"
               >
                 <div
                   class="p-hidden-accessible"
@@ -578,6 +579,7 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
              
             <button
               class="p-button-primary p-button p-component"
+              disabled="disabled"
               type="submit"
             >
               <span
