@@ -12,31 +12,6 @@ async function flushAll () {
   // get rid of the pending rendering tick
   await flushPromises()
 }
-
-const mockDefinitionsWithRequiredColumnsOnlyOneInput = {
-  id: 'table_view_1',
-  columns: [
-    {
-      text: 'Description',
-      id: 'string_1_column',
-      settings: {},
-      table_id: 'table_1',
-      column_type_id: COLUMN_TYPE.STRING,
-      editable: true,
-      position: 1,
-      transmitted: true,
-      default: null,
-      displayed: true,
-      validation: {
-        required: true,
-      },
-      sort: 'DESC',
-      table_view_id: 'table_view_1',
-      style: {},
-    },
-  ],
-}
-
 const mockDefinitionsWithRequiredColumns = {
   id: 'table_view_1',
   columns: [
@@ -69,7 +44,9 @@ const mockDefinitionsWithRequiredColumns = {
       transmitted: true,
       default: null,
       displayed: true,
-      validation: null,
+      validation: {
+        required: true,
+      },
       sort: 'DESC',
       table_view_id: 'table_view_1',
       style: {},
@@ -85,7 +62,9 @@ const mockDefinitionsWithRequiredColumns = {
       transmitted: true,
       default: null,
       displayed: true,
-      validation: null,
+      validation: {
+        required: true,
+      },
       sort: 'DESC',
       table_view_id: 'table_view_1',
       style: {},
@@ -102,6 +81,22 @@ const mockDefinitionsWithoutRequiredColumns = {
       settings: {},
       table_id: 'table_1',
       column_type_id: COLUMN_TYPE.STRING,
+      editable: false,
+      position: 1,
+      transmitted: false,
+      default: '',
+      displayed: true,
+      sort: 'DESC',
+      table_column_id: '',
+      table_view_id: 'table_view_2',
+      style: {},
+    },
+    {
+      text: 'Number',
+      id: 'number_2_column',
+      settings: {},
+      table_id: 'table_1',
+      column_type_id: COLUMN_TYPE.NUMBER,
       editable: false,
       position: 1,
       transmitted: false,
@@ -329,30 +324,40 @@ describe('FormRecord', () => {
           },
         },
         propsData: {
-          definition: mockDefinitionsWithRequiredColumnsOnlyOneInput,
+          definition: mockDefinitionsWithRequiredColumns,
           settings: {
-            id: mockDefinitionsWithRequiredColumnsOnlyOneInput.id,
+            id: mockDefinitionsWithRequiredColumns.id,
           },
           crudMode: true,
         },
       })
       await flushAll()
       expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
-      // expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
-      // expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
       const string_1_column = wrapper.find('input[id="string_1_column"]')
-      // const boolean_1_column = wrapper.find('input[id="boolean_1_column"]')
-      // const number_1_column = wrapper.find('input[id="number_1_column"]')
-      string_1_column.setValue('Test')
-      // Todo: Having trouble updating inputs/fields with setValue (to modify and trigger). Only work with one field for now.
-      // boolean_1_column.setChecked()
-      // number_1_column.setValue(17)
+      const boolean_1_column = wrapper.find('input[id="boolean_1_column"]')
+      const number_1_column = wrapper.find('input[id="number_1_column"]')
+      // Force parents's input to be dirty and touched to enabled form and validation
+      string_1_column.element.value = 'Test'
+      string_1_column.trigger('blur')
+      string_1_column.trigger('input')
+
+      boolean_1_column.element.checked = true
+      boolean_1_column.trigger('click')
+      boolean_1_column.trigger('blur')
+      boolean_1_column.trigger('input')
+
+      number_1_column.element.value = 1
+      number_1_column.trigger('blur')
+      number_1_column.trigger('input')
+
       await flushAll()
       // console.log(wrapper.html())
       // console.log(wrapper.vm.newRow.data)
-
-      expect(string_1_column.element.value).toBe('Test')
       expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
+      expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
+      expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
       await flushAll()
       const submitButton = wrapper.find('.p-button[type=submit]')
       expect(submitButton.attributes().disabled).toBeUndefined()
@@ -367,8 +372,8 @@ describe('FormRecord', () => {
         text: '',
         data: {
           string_1_column: 'Test',
-          // boolean_1_column: true,
-          // number_1_column: 1,
+          boolean_1_column: true,
+          number_1_column: 1,
         },
       })
       expect(wrapper).toMatchSnapshot()
