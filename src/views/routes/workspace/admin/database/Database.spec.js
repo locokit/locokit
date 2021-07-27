@@ -2,11 +2,16 @@
 
 import { shallowMount } from '@vue/test-utils'
 
+import {
+  retrieveTableRowsWithSkipAndLimit,
+} from '@/services/lck-helpers/database'
+import { ACTIONS } from '@/services/lck-utils/filter'
 import { lckServices, lckHelpers } from '@/services/lck-api'
 
 import Database from './Database.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
+
 import Vue from 'vue'
 
 import { mockDatabase } from '@/services/lck-helpers/__mocks__/database'
@@ -60,6 +65,32 @@ const mockFirstTable = mockDatabase.tables[0]
 const mockFirstTableView = mockFirstTable.views[0]
 const mockSecondTableView = mockFirstTable.views[1]
 
+// Table view filters
+const mockFilters = [
+  {
+    operator: '$or',
+    column: {
+      label: mockFirstTable.columns[0].text,
+      originalType: mockFirstTable.columns[0].column_type_id,
+      type: mockFirstTable.columns[0].column_type_id,
+      value: mockFirstTable.columns[0].id,
+    },
+    action: ACTIONS.EQUAL,
+    pattern: 'John',
+  },
+  {
+    operator: '$or',
+    column: {
+      label: mockFirstTable.columns[0].text,
+      originalType: mockFirstTable.columns[0].column_type_id,
+      type: mockFirstTable.columns[0].column_type_id,
+      value: mockFirstTable.columns[0].id,
+    },
+    action: ACTIONS.EMPTY,
+    pattern: true,
+  },
+]
+
 // Method to make an object deep copy
 function mockDeepCloneObject (object) {
   return object ? JSON.parse(JSON.stringify(object)) : {}
@@ -75,7 +106,12 @@ jest.mock('@/services/lck-api', () => ({
         return mockDeepCloneObject({ ...tableView.columns.find(column => column.id === columnId), ...data })
       }),
     },
-    tableView: {},
+    tableView: {
+      patch: jest.fn((id, data) => {
+        const tableView = mockFirstTable.views.find(view => view.id === id)
+        return mockDeepCloneObject({ ...tableView.columns, ...data })
+      }),
+    },
     tableColumn: {
       patch: jest.fn((id, data) =>
         (mockDeepCloneObject({ ...mockFirstTable.columns.find(column => column.id === id), ...data }))),
@@ -404,10 +440,7 @@ isEditableColumn
 */
 jest.mock('@/services/lck-utils/columns', () => ({
   isEditableColumn: jest.fn(() => false),
-}))
-
-jest.mock('@/services/lck-utils/filter', () => ({
-  getCurrentFilters: () => ({}),
+  getColumnTypeId: jest.fn(c => c.original_type_id),
 }))
 
 // Tests
@@ -490,7 +523,7 @@ describe('Database', () => {
         expect(columnFormWrapper).not.toBe(undefined)
       })
 
-      it('Display a toast if an error is occured', async () => {
+      it('Display a toast if an error is occurred', async () => {
         const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
         lckServices.tableColumn.patch.mockImplementationOnce(() => { throw new Error() })
         // Select a column
@@ -507,7 +540,7 @@ describe('Database', () => {
         )
       })
 
-      it('Display a toast with a specific message if a known error is occured', async () => {
+      it('Display a toast with a specific message if a known error is occurred', async () => {
         const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
         lckServices.tableColumn.patch.mockImplementationOnce(() => { throw new MockError(404) })
         // Select a column
@@ -567,7 +600,7 @@ describe('Database', () => {
         expect(columnFormWrapper).not.toBe(undefined)
       })
 
-      it('Display a toast with a generic message if an unknown error is occured', async () => {
+      it('Display a toast with a generic message if an unknown error is occurred', async () => {
         const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
         lckServices.tableViewColumn.patch.mockImplementationOnce(() => { throw new Error() })
         // Select a column
@@ -583,7 +616,7 @@ describe('Database', () => {
         )
       })
 
-      it('Display a toast with a specific message if a known error is occured', async () => {
+      it('Display a toast with a specific message if a known error is occurred', async () => {
         const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
         lckServices.tableViewColumn.patch.mockImplementationOnce(() => { throw new MockError(404) })
         // Select a column
@@ -601,6 +634,172 @@ describe('Database', () => {
     })
   })
 
+  describe('Manage the table view filters', () => {
+    let wrapper
+
+    describe('Filters the rows', () => {
+      it('If some filters are specified on loading', async () => {
+        retrieveTableRowsWithSkipAndLimit.mockClear()
+        // Load the component
+        wrapper = await shallowMount(Database, {
+          ...globalComponentParams(),
+        })
+        await Vue.nextTick()
+        await Vue.nextTick()
+        // Check that we use the table view filters
+        expect(retrieveTableRowsWithSkipAndLimit).toHaveBeenCalledWith('T1', 'G1', expect.objectContaining(
+          {
+            filters: {
+              '$and[0][data][C11][$eq]': 'John',
+            },
+          },
+        ))
+      })
+      it('If some filters are specified in the current view', async () => {
+        retrieveTableRowsWithSkipAndLimit.mockClear()
+        // Load the component
+        wrapper = await shallowMount(Database, {
+          ...globalComponentParams(),
+        })
+        await Vue.nextTick()
+        await Vue.nextTick()
+        wrapper.vm.onSelectView()
+        // Check that we use the table view filters
+        expect(retrieveTableRowsWithSkipAndLimit).toHaveBeenCalledWith('T1', 'G1', expect.objectContaining(
+          {
+            filters: {
+              '$and[0][data][C11][$eq]': 'John',
+            },
+          },
+        ))
+      })
+    })
+
+    it('Get all rows from the API if the previous selected table view has filter and the current one has not got any one', async () => {
+      retrieveTableRowsWithSkipAndLimit.mockClear()
+      // Load the component
+      wrapper = await shallowMount(Database, {
+        ...globalComponentParams(),
+      })
+      await Vue.nextTick()
+      await Vue.nextTick()
+      // Simulate a table view selection
+      await wrapper.setData({
+        selectedViewId: wrapper.vm.views[1].id,
+      })
+      wrapper.vm.onSelectView()
+      // Check that we get all rows
+      expect(retrieveTableRowsWithSkipAndLimit).toHaveBeenCalledWith('T1', 'G1', expect.objectContaining(
+        {
+          filters: {},
+        },
+      ))
+    })
+
+    it('Do not get rows from the API if the current table view has not got any filter and we do not have it before', async () => {
+      // Load the component
+      wrapper = await shallowMount(Database, {
+        ...globalComponentParams(),
+      })
+      await Vue.nextTick()
+      await Vue.nextTick()
+      // Reset the filters
+      await wrapper.setData({
+        currentDatatableFilters: [],
+      })
+      retrieveTableRowsWithSkipAndLimit.mockClear()
+      // Simulate a table view selection
+      await wrapper.setData({
+        selectedViewId: wrapper.vm.views[1].id,
+      })
+      wrapper.vm.onSelectView()
+      // Check that we do not get the rows
+      expect(retrieveTableRowsWithSkipAndLimit).not.toHaveBeenCalled()
+    })
+
+    describe('Save the filters', () => {
+      let spyOnToast
+      beforeAll(async () => {
+        wrapper = await shallowMount(Database, {
+          ...globalComponentParams(),
+        })
+        await Vue.nextTick()
+        await Vue.nextTick()
+        spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
+      })
+
+      beforeEach(() => {
+        spyOnToast.mockClear()
+      })
+
+      it('Update the table view filter if some filters are specified', async () => {
+        // Set the filters
+        await wrapper.setData({
+          currentDatatableFilters: mockFilters,
+        })
+        // Save the filters
+        await wrapper.vm.onSaveFilter()
+        expect(wrapper.vm.currentView.filter).toEqual({
+          operator: '$or',
+          values: [
+            {
+              action: 'isEqualTo',
+              column: 'C11',
+              dbAction: '$eq',
+              pattern: 'John',
+            },
+            {
+              action: 'isEmpty',
+              column: 'C11',
+              dbAction: '$null',
+              pattern: true,
+            },
+          ],
+        })
+        // Display a sucessful message
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+        expect(spyOnToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            summary: 'success.save',
+            detail: 'components.datatable.toolbar.filters.updateSuccess',
+          }),
+        )
+      })
+
+      it('Reset the table view filter if no filter is specified', async () => {
+        // Reset the filters
+        await wrapper.setData({
+          currentDatatableFilters: [],
+        })
+        // Save the filters
+        await wrapper.vm.onSaveFilter()
+        expect(wrapper.vm.currentView.filter).toBeNull()
+        // Display a sucessful message
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+        expect(spyOnToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            summary: 'success.save',
+            detail: 'components.datatable.toolbar.filters.resetSuccess',
+          }),
+        )
+      })
+
+      it('Display an error message if an API error is encountered', async () => {
+        // Simulate an API error
+        lckServices.tableView.patch.mockImplementationOnce(() => { throw new Error() })
+        // Save the filters
+        await wrapper.vm.onSaveFilter()
+        // Display an error message
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+        expect(spyOnToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            summary: 'error.basic',
+            detail: 'components.datatable.toolbar.filters.updateError',
+          }),
+        )
+      })
+    })
+  })
   describe('Manage secondary sources', () => {
     let wrapper
     beforeEach(async () => {

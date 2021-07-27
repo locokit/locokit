@@ -24,6 +24,17 @@ export const mockDatabase = {
           updatedAt: '2021-02-08T10:42:32.622Z',
           table_id: 'T1',
           locked: false,
+          filter: {
+            operator: '$and',
+            values: [
+              {
+                column: 'C11',
+                action: 'isEqualTo',
+                dbAction: '$eq',
+                pattern: 'John',
+              },
+            ],
+          },
           columns: [
             {
               id: 'C11',

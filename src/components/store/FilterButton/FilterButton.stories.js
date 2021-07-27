@@ -15,6 +15,15 @@ export const defaultStory = () => (
 
 defaultStory.storyName = 'default'
 
+export const crudModeStory = () => (
+  {
+    components: { FilterButton },
+    template: '<FilterButton :crudMode="true" />',
+  }
+)
+
+crudModeStory.storyName = 'crud mode'
+
 /* eslint-disable @typescript-eslint/camelcase */
 const definitionColumn = {
   columns: [

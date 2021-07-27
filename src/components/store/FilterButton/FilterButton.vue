@@ -60,6 +60,7 @@
             <p-dropdown
               id="column"
               :options="columnsDisplayable"
+              dataKey="value"
               optionLabel="label"
               :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="onChangeColumn(index)"
@@ -107,7 +108,7 @@
                 columnFiltersConfig[filter.column.originalType].patternComponent ||
                 getComponentEditorCellForColumnType(filter.column.originalType)
               "
-              :options="filter.column.dropdownOptions"
+              :options="columnsDropdownOptions[filter.column.value]"
               v-bind="columnFiltersConfig[filter.column.originalType].patternComponentOptions || {}"
               v-model="filter.pattern"
               style="width: 100%"
@@ -141,248 +142,44 @@
           :label="$t('form.reset')"
           @click="resetFilters(overlaySlotProps)"
         />
-        <p-button
-          class="p-button-primary p-ml-auto"
-          type="button"
-          icon="pi pi-check-circle"
-          :label="$t('form.submit')"
-          @click="submitFilters(overlaySlotProps)"
-          :disabled="value.length === 0 || value.some(({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null))"
-        />
+        <span class="p-ml-auto">
+          <p-button
+            v-if="crudMode"
+            class="p-button-primary p-mr-2"
+            :disabled="invalidFilters"
+            icon="pi pi-save"
+            :label="$t('form.save')"
+            type="button"
+            @click="saveFilters()"
+          />
+          <p-button
+            class="p-button-primary"
+            type="button"
+            icon="pi pi-check-circle"
+            :label="$t('form.submit')"
+            @click="submitFilters(overlaySlotProps)"
+            :disabled="value.length === 0 || invalidFilters"
+          />
+        </span>
       </div>
     </template>
   </lck-overlaypanel>
 </template>
 
-<script>
-import Vue from 'vue'
-import i18n from '@/plugins/i18n'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
 import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
-import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel'
+import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel.vue'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getComponentEditorCellForColumnType, getColumnTypeId } from '@/services/lck-utils/columns'
-
-// Available operators
-const OPERATORS = [{
-  label: 'or',
-  value: '$or',
-}, {
-  label: 'and',
-  value: '$and',
-}]
-
-// Available actions
-// Each one must have a "label" used for translation and a "value" corresponding to the FeatherJS Query Operators.
-// The "predefinedPattern" attribute is used to give a value to an implicit pattern.
-const ACTIONS = {
-  MATCH: {
-    label: 'match',
-    value: '$ilike',
-  },
-  NOT_MATCH: {
-    label: 'doesNotMatch',
-    value: '$notILike',
-  },
-  EQUAL: {
-    label: 'isEqualTo',
-    value: '$eq',
-  },
-  NOT_EQUAL: {
-    label: 'isDifferentFrom',
-    value: '$ne',
-  },
-  IN: {
-    label: 'in',
-    value: '$in',
-  },
-  NOT_IN: {
-    label: 'notIn',
-    value: '$nin',
-  },
-  ALL: {
-    label: 'all',
-    value: '$all',
-  },
-  ANY: {
-    label: 'any',
-    value: '$any',
-  },
-  EMPTY: {
-    label: 'isEmpty',
-    value: '$null',
-    predefinedPattern: true,
-  },
-  NOT_EMPTY: {
-    label: 'isNotEmpty',
-    value: '$notNull',
-    predefinedPattern: true,
-  },
-  TRUE: {
-    label: 'isTrue',
-    value: '$eq',
-    predefinedPattern: true,
-  },
-  FALSE: {
-    label: 'isFalse',
-    value: '$eq',
-    predefinedPattern: false,
-  },
-  GREATER_THAN: {
-    label: 'isGreaterThan',
-    value: '$gt',
-  },
-  LOWER_THAN: {
-    label: 'isLowerThan',
-    value: '$lt',
-  },
-  GREATER_EQUAL_THAN: {
-    label: 'isGreaterThanOrEqualTo',
-    value: '$gte',
-  },
-  LOWER_EQUAL_THAN: {
-    label: 'isLowerThanOrEqualTo',
-    value: '$lte',
-  },
-}
-
-// Filterable types
-// Each one must have an "actions" array.
-// A "patternComponent" attribute (string) can be added to replace the default pattern component (coming from "getComponentEditorCellForColumnType")
-// A "patternComponentOptions" attribute (object) can be added to customize the pattern component
-const COLUMN_FILTERS_CONFIG = {
-  [COLUMN_TYPE.BOOLEAN]: {
-    actions: [
-      ACTIONS.TRUE,
-      ACTIONS.FALSE,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-  },
-  [COLUMN_TYPE.STRING]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-  },
-  [COLUMN_TYPE.NUMBER]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.LOWER_THAN,
-      ACTIONS.LOWER_EQUAL_THAN,
-      ACTIONS.GREATER_THAN,
-      ACTIONS.GREATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-  },
-  [COLUMN_TYPE.FLOAT]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.LOWER_THAN,
-      ACTIONS.LOWER_EQUAL_THAN,
-      ACTIONS.GREATER_THAN,
-      ACTIONS.GREATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponent: 'p-input-number',
-    patternComponentOptions: { minFractionDigits: 2 },
-  },
-  [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponent: 'p-input-text',
-  },
-  [COLUMN_TYPE.SINGLE_SELECT]: {
-    actions: [
-      ACTIONS.IN,
-      ACTIONS.NOT_IN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponentOptions: {
-      optionLabel: 'label',
-      optionValue: 'value',
-      appendTo: null,
-    },
-    patternComponent: 'lck-multiselect',
-  },
-  [COLUMN_TYPE.MULTI_SELECT]: {
-    actions: [
-      ACTIONS.ALL,
-      ACTIONS.ANY,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponentOptions: {
-      optionLabel: 'label',
-      optionValue: 'value',
-      appendTo: null,
-    },
-  },
-  [COLUMN_TYPE.LOOKED_UP_COLUMN]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponent: 'p-input-text',
-  },
-  [COLUMN_TYPE.DATE]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
-      { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
-      { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
-      { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponentOptions: {
-      dateFormat: i18n.t('date.dateFormatPrime'),
-      showTime: false,
-    },
-  },
-  [COLUMN_TYPE.DATETIME]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
-      { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
-      { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
-      { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-    ],
-    patternComponent: 'p-calendar',
-    patternComponentOptions: {
-      dateFormat: i18n.t('date.dateFormatPrime'),
-      showTime: true,
-    },
-  },
-}
+import { LckTableViewColumn } from '@/services/lck-api/definitions'
+import { Filter, FilterAction, OPERATORS, COLUMN_FILTERS_CONFIG } from '@/services/lck-utils/filter'
 
 export default {
   name: 'LckFilterButton',
@@ -402,18 +199,27 @@ export default {
       default: () => ({
         columns: [],
       }),
-    },
+    } as PropOptions<{
+      columns: LckTableViewColumn[];
+    }>,
     columnsDropdownOptions: {
       type: Object,
       required: false,
       default: () => ({}),
-    },
+    } as PropOptions<Record<string, {
+        value: string;
+        label: string;
+      }>>,
     value: {
       type: Array,
       required: false,
       default: () => ([]),
-    },
+    } as PropOptions<Filter[]>,
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    crudMode: {
       type: Boolean,
       default: false,
     },
@@ -437,7 +243,6 @@ export default {
             label: column.text,
             type: column.column_type_id,
             originalType,
-            dropdownOptions: this.columnsDropdownOptions[column.id],
           })
         } else if (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
           acc.push({
@@ -448,24 +253,36 @@ export default {
           })
         }
         return acc
-      }, [])
+      }, [] as {
+        value: string;
+        label: string;
+        type: COLUMN_TYPE;
+        originalType: COLUMN_TYPE;
+      }[])
     },
-    supportedTypes () {
+    supportedTypes (): COLUMN_TYPE[] {
       return Object.keys(this.columnFiltersConfig).map(action => parseInt(action))
+    },
+    invalidFilters (): boolean {
+      return this.value.some(
+        ({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null),
+      )
     },
   },
   methods: {
     getComponentEditorCellForColumnType,
-    removeFilter (filterToRemove) {
+    removeFilter (filterToRemove: Filter) {
       this.$emit('input', this.value.filter(f => (f !== filterToRemove)))
     },
-    resetFilters (overlaySlotProps) {
+    resetFilters () {
       this.$emit('reset')
-      overlaySlotProps.toggleOverlayPanel()
     },
-    submitFilters (overlaySlotProps) {
+    submitFilters (overlaySlotProps: { toggleOverlayPanel: Function }) {
       this.$emit('submit')
       overlaySlotProps.toggleOverlayPanel()
+    },
+    saveFilters () {
+      this.$emit('save-filter')
     },
     addFilter () {
       this.value.push({
@@ -475,17 +292,17 @@ export default {
         pattern: null,
       })
     },
-    onChangeOperator (event) {
+    onChangeOperator (event: { value: string }) {
       this.selectedOperator = event.value
       if (this.value.length > 1) {
         this.value.forEach(filter => (filter.operator = this.selectedOperator))
       }
     },
-    onChangeColumn (index) {
+    onChangeColumn (index: number) {
       this.value[index].action = null
       this.value[index].pattern = null
     },
-    actionControlPattern (index, { value }) {
+    actionControlPattern (index: number, { value }: { value: FilterAction }) {
       if (value?.predefinedPattern !== undefined) {
         // Set the pattern if the selected action has a predefined one
         this.value[index].pattern = value.predefinedPattern
@@ -521,11 +338,11 @@ label {
   line-height: normal;
 }
 
-/deep/ .p-dropdown-label.p-inputtext {
+::v-deep .p-dropdown-label.p-inputtext {
   line-height: normal;
 }
 
-/deep/ .p-button {
+::v-deep .p-button {
   width: auto;
 }
 

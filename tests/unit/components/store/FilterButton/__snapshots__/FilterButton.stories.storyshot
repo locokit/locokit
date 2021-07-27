@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`storyshots components/store/FilterButton crud mode 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-overlay-panel"
+  >
+    <button
+      class="p-button p-component p-button-outlined p-button-secondary"
+      type="button"
+    >
+      <span
+        class="pi pi-filter p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        no filter
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
+
 exports[`storyshots components/store/FilterButton default 1`] = `
 <div
   style="height: 100%;"

@@ -76,6 +76,9 @@
             "addFilter": "Ajouter un filtre",
             "close": "Fermer"
           },
+          "updateSuccess": "Les filtres ont bien été enregistrés.",
+          "resetSuccess": "Les filtres ont bien été réinitialisés.",
+          "updateError": "Une erreur est survenue lors de l'enregistrement des filtres.",
           "select": {
             "operator": {
               "$or": "OU",
@@ -672,7 +675,8 @@
     "close": "Fermez cette fenêtre"
   },
   "success": {
-    "basic": "Votre demande à bien été enregistrée."
+    "basic": "Votre demande à bien été enregistrée.",
+    "save": "Enregistrement réussi"
   },
   "error": {
     "basic": "Une erreur est survenue.",

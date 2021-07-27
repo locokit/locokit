@@ -48,7 +48,7 @@
                 @update="onUpdateView"
                 @delete="onDeleteView"
                 @reorder="onReorderView"
-                @input="resetColumnEdit"
+                @input="onSelectView"
               />
 
               <lck-view-dialog
@@ -69,10 +69,12 @@
                 class="p-ml-2"
                 :definition="displayColumnsView"
                 :columnsDropdownOptions="currentBlockDropdownOptions"
+                :crudMode="crudMode"
                 v-model="currentDatatableFilters"
                 :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
                 @submit="onSubmitFilter"
                 @reset="onResetFilter"
+                @save-filter="onSaveFilter"
               />
 
             </div>
@@ -254,7 +256,7 @@ import {
   lckServices,
 } from '@/services/lck-api'
 
-import { getCurrentFilters } from '@/services/lck-utils/filter'
+import { getCurrentFilters, convertFiltersFromDatabase, convertFiltersToDatatabase } from '@/services/lck-utils/filter'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 import TabView from 'primevue/tabview'
@@ -530,7 +532,10 @@ export default {
       this.block.definition.table_id = this.currentTableId
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
       this.views = await retrieveTableViews(this.currentTableId)
-      this.views.length > 0 && (this.selectedViewId = this.views[0].id)
+      if (this.views.length > 0) {
+        this.selectedViewId = this.views[0].id
+        this.currentDatatableFilters = convertFiltersFromDatabase(this.views[0])
+      }
       this.block.loading = false
       await this.loadCurrentTableData()
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
@@ -595,6 +600,30 @@ export default {
     onResetFilter () {
       this.currentDatatableFilters = []
       this.loadCurrentTableData()
+    },
+    async onSaveFilter () {
+      if (!this.currentView) return
+      try {
+        const updatedView = await lckServices.tableView.patch(this.currentView.id, {
+          filter: convertFiltersToDatatabase(this.currentDatatableFilters),
+        })
+        this.currentView.filter = updatedView.filter
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('success.save'),
+          detail: this.currentView.filter
+            ? this.$t('components.datatable.toolbar.filters.updateSuccess')
+            : this.$t('components.datatable.toolbar.filters.resetSuccess'),
+          life: 5000,
+        })
+      } catch (res) {
+        this.$toast.add({
+          severity: 'error',
+          summary: res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic'),
+          detail: this.$t('components.datatable.toolbar.filters.updateError'),
+          life: 5000,
+        })
+      }
     },
     onClickAddButton () {
       this.newRow = {
@@ -681,6 +710,14 @@ export default {
       )
       this.resetSecondarySources(this.selectedViewId)
     },
+    async onSelectView () {
+      this.resetColumnEdit()
+      // Update the data with the table view filters only if necessary
+      if (this.currentView && (this.currentView.filter || this.currentDatatableFilters.length > 0)) {
+        this.currentDatatableFilters = convertFiltersFromDatabase(this.currentView)
+        await this.loadCurrentTableData()
+      }
+    },
     async onCreateView () {
       this.viewDialogData = {}
       this.displayViewDialog = true
@@ -705,7 +742,7 @@ export default {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
-          detail: this.$t('error.lck.' + error.data.code),
+          detail: this.$t('error.lck.' + error.data?.code),
           life: 5000,
         })
       }
