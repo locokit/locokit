@@ -3,7 +3,7 @@ import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
 import Profile from './Profile'
 
-import { authState } from '../../../store/auth'
+import { authState } from '@/store/auth'
 
 export default {
   title: 'views/routes/user/Profile',
@@ -20,7 +20,8 @@ export const defaultStory = () => ({
   async mounted () {
     this.authState.data.user = null
     await Vue.nextTick()
-  },})
+  },
+})
 
 defaultStory.storyName = 'default'
 // defaultStory.parameters = { storyshots: { disable: true } }

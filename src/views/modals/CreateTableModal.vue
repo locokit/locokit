@@ -17,7 +17,7 @@
       }"
     >
       <label for="table-name">
-        {{ $t('pages.databaseSchema.createTableModal.tableDoc') }}
+        {{ $t('pages.databaseSchema.createTableModal.tableName') }}
       </label>
       <span class="field-required">*</span>
       <p-input-text

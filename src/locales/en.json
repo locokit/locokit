@@ -326,7 +326,7 @@
     "account": {
       "title": "My account",
       "view": {
-        "email:": "E-mail:",
+        "email": "E-mail:",
         "role": "Role:",
         "profile": "My profile",
         "groups": "My groups",
@@ -584,7 +584,7 @@
         "deleteConfirmation": "Are you sure you want to delete column \"{columnName}\" ?"
       },
       "displayUuid": {
-        "uuid": "UUID: "
+        "uuid": "UUID:"
       }
     },
     "admin": {

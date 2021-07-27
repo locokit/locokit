@@ -584,7 +584,7 @@
         "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer la colonne \"{columnName}\" ?"
       },
       "displayUuid": {
-        "uuid": "UUID : "
+        "uuid": "UUID :"
       }
     },
     "admin": {
