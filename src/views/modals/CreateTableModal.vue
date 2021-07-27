@@ -29,7 +29,7 @@
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
     <validation-provider
-      vid="table-documentatio"
+      vid="table-documentation"
       tag="div"
       class="p-field p-mt-4"
     >

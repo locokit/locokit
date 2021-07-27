@@ -52,7 +52,7 @@
       </p-dropdown>
     </validation-provider>
     <validation-provider
-      vid="textColor"
+      vid="textAlign"
       tag="div"
       class="p-field"
     >

@@ -241,7 +241,7 @@
         </validation-provider>
 
         <validation-provider
-          vid="isVerified"
+          vid="profile"
           tag="div"
           class="p-field"
         >

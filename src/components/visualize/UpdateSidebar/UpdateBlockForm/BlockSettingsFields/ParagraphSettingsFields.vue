@@ -1,6 +1,6 @@
 <template>
   <validation-provider
-    vid="trigger"
+    vid="blockSettingsContent"
     tag="div"
     :name="$t('components.process.form.trigger')"
     class="p-field"
