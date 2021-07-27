@@ -201,7 +201,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                     type="button"
                   >
                     <span
-                      class="pi pi-search p-button-icon"
+                      class="pi pi-chevron-down p-button-icon"
                     />
                      
                     <span

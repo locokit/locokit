@@ -155,7 +155,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -216,7 +216,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -573,7 +573,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
               type="button"
             >
               <span
-                class="pi pi-search p-button-icon"
+                class="pi pi-chevron-down p-button-icon"
               />
                
               <span
@@ -953,7 +953,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1014,7 +1014,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1107,7 +1107,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1336,7 +1336,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1397,7 +1397,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1652,7 +1652,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1713,7 +1713,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -1809,7 +1809,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 type="button"
               >
                 <span
-                  class="pi pi-search p-button-icon"
+                  class="pi pi-chevron-down p-button-icon"
                 />
                  
                 <span
@@ -1951,7 +1951,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 type="button"
               >
                 <span
-                  class="pi pi-search p-button-icon"
+                  class="pi pi-chevron-down p-button-icon"
                 />
                  
                 <span
@@ -2276,7 +2276,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -2337,7 +2337,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -2721,7 +2721,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -2782,7 +2782,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -3406,7 +3406,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -3467,7 +3467,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -3722,7 +3722,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -3783,7 +3783,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -4063,7 +4063,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -4124,7 +4124,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -4218,7 +4218,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
               type="button"
             >
               <span
-                class="pi pi-search p-button-icon"
+                class="pi pi-chevron-down p-button-icon"
               />
                
               <span
@@ -4556,7 +4556,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -4617,7 +4617,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span

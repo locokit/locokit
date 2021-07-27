@@ -608,7 +608,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         type="button"
                       >
                         <span
-                          class="pi pi-search p-button-icon"
+                          class="pi pi-chevron-down p-button-icon"
                         />
                          
                         <span
@@ -669,7 +669,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         type="button"
                       >
                         <span
-                          class="pi pi-search p-button-icon"
+                          class="pi pi-chevron-down p-button-icon"
                         />
                          
                         <span
@@ -1999,7 +1999,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         type="button"
                       >
                         <span
-                          class="pi pi-search p-button-icon"
+                          class="pi pi-chevron-down p-button-icon"
                         />
                          
                         <span
@@ -2060,7 +2060,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         type="button"
                       >
                         <span
-                          class="pi pi-search p-button-icon"
+                          class="pi pi-chevron-down p-button-icon"
                         />
                          
                         <span

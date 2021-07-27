@@ -150,7 +150,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
@@ -466,7 +466,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
             type="button"
           >
             <span
-              class="pi pi-search p-button-icon"
+              class="pi pi-chevron-down p-button-icon"
             />
              
             <span
