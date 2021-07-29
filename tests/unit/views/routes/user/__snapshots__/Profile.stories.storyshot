@@ -326,7 +326,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
             </h4>
              
             <strong>
-              pages.account.view.email 
+              E-mail: 
             </strong>
             mathieu.dartigues@makina-corpus.com
         

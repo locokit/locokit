@@ -9,26 +9,40 @@
   >
     <div v-if="currentTableToUpdate">
       <h2 class="lck-color-page-title">{{ $t('pages.databaseSchema.updateTableSidebar.updateTable') }}</h2>
-      <div class="p-fluid">
-        <div class="p-mb-3">
+      <lck-form
+        :displayCancelButton="false"
+        @submit="updateTableName"
+      >
+        <div class="p-field p-mb-3">
           <label>
-            {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ currentTable.id }}
+            {{ $t('pages.databaseSchema.displayUuid.uuid') }} {{ currentTable.id }}
           </label>
         </div>
-        <div class="p-field">
+        <validation-provider
+          vid="table-name"
+          tag="div"
+          class="p-field"
+          :name="$t('pages.databaseSchema.updateTableSidebar.tableName')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
           <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
+          <span class="field-required">*</span>
           <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
-        </div>
-        <div class="p-field">
-          <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableDoc') }}</label>
-          <p-textarea id="table-name" type="text" v-model="currentTableToUpdate.documentation" />
-        </div>
-        <p-button
-          @click="updateTableName"
-          :label="$t('pages.databaseSchema.updateTableSidebar.updateColumn')"
-          icon="pi pi-check"
-        />
-      </div>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="table-doc"
+          tag="div"
+          class="p-field"
+        >
+          <label for="table-doc">{{ $t('pages.databaseSchema.updateTableSidebar.tableDoc') }}</label>
+          <p-textarea id="table-doc" type="text" v-model="currentTableToUpdate.documentation" />
+        </validation-provider>
+      </lck-form>
 
       <div class="p-d-flex p-my-4">
         <div class="p-ai-start">
@@ -68,8 +82,13 @@
 </template>
 <script>
 import Vue from 'vue'
-import { lckServices } from '@/services/lck-api'
+
+import { ValidationProvider } from 'vee-validate'
+
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import { lckServices } from '@/services/lck-api'
+
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 import InputText from 'primevue/inputtext'
@@ -78,18 +97,22 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
 import DeleteColumnModal from '@/views/modals/DeleteColumnModal'
+import LckForm from '@/components/ui/Form/Form.vue'
 
 export default {
   name: 'UpdateTableSidebar',
   components: {
+    'lck-form': LckForm,
+    'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
+    'delete-column-modal': DeleteColumnModal,
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
-    'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
-    'delete-column-modal': DeleteColumnModal,
+    'validation-provider': Vue.extend(ValidationProvider),
+
   },
   props: {
     databaseId: String,
