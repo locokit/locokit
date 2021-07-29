@@ -809,6 +809,14 @@ export default {
             currentMultiSelectPanelElement?.contains(event.originalEvent.target)
           ) event.preventDefault()
           return
+        case COLUMN_TYPE.TEXT:
+          // On this case, we'll need to preventDefault the cell-edit-complete event
+          // to avoid the hiding of the text component when the enter key is pressed.
+          if (event.type === 'enter') {
+            event.preventDefault()
+            return
+          }
+          break
         case COLUMN_TYPE.SINGLE_SELECT:
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
         case COLUMN_TYPE.USER:
