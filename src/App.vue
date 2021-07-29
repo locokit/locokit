@@ -28,10 +28,7 @@
     </main>
 
     <p-toast position="top-right" />
-    <p-confirm-dialog
-      :closeOnEscape="false"
-      :closable="false"
-    />
+    <p-confirm-dialog />
   </div>
 </template>
 
