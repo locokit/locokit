@@ -834,12 +834,15 @@ export default {
           /**
            * For the date, and the Calendar component,
            * we need to check if the user has really click outside the calendar,
-           * or if he's just switching between months.
+           * or if he's just switching between months and for a DATETIME field, if he selects a day and a time.
            * For that, we'll check in the DOM directly with the event target.
            */
-          if (event.originalEvent.target.closest('.p-datepicker') !== null) {
-            event.preventDefault()
-            return
+          const target = event.originalEvent.target
+          if (target.closest('.p-datepicker, .p-datepicker-header') !== null) {
+            if (currentColumn.column_type_id === COLUMN_TYPE.DATETIME || !target.className.includes('p-highlight')) {
+              event.preventDefault()
+              return
+            }
           }
           /**
            * in case of a Date, value is stored in the currentDateToEdit data
