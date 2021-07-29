@@ -705,7 +705,13 @@
       "blockMultiConflictSummary": "Conflit au niveau des sources partagées",
       "blockMultiConflictDetail": "Certaines sources partagées de blocs sont à la fois multi et mono donnée. Merci de vérifier la configuration de vos blocs."
     },
-    "impossibleOperation": "Opération impossible"
+    "impossibleOperation": "Opération impossible",
+    "expiredToken": {
+      "header": "Votre session a expiré",
+      "message": "Merci de vous reconnecter pour lire ou modifier vos données.",
+      "accept": "Se reconnecter",
+      "reject": "Poursuivre malgré tout"
+    }
   },
   "form": {
     "add": "Ajouter",

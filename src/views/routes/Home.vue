@@ -46,9 +46,13 @@ export default {
       await authenticate(data)
 
       if (authState.data.isAuthenticated) {
+        // Go to the WORKSPACE page or to the specified one
+        const targetPath = typeof this.$route.query.redirectTo === 'string'
+          ? this.$route.query.redirectTo
+          : ROUTES_PATH.WORKSPACE
         // We catch the error of Vue router redirect (double redirect)
         // cf: https://stackoverflow.com/a/65326844
-        this.$router.push(ROUTES_PATH.WORKSPACE).catch((error: Error) => {
+        this.$router.push(targetPath).catch((error: Error) => {
           console.info(error.message)
         })
       }

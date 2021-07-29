@@ -12,12 +12,14 @@ import { reAuthenticate } from './store/auth'
 
 Vue.config.productionTip = false
 
+export let vueInstance: Vue | null = null
+
 async function boot () {
   // first, try to reauthent the user,
   // this allow the app to keep the actual route if authenticated
   await reAuthenticate()
 
-  new Vue({
+  vueInstance = new Vue({
     router,
     i18n,
     render: h => h(App),

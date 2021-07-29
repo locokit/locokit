@@ -9,8 +9,10 @@ import '@/styles/override.scss'
 
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice' // theme
+import ConfirmationService from 'primevue/confirmationservice'
 
 Vue.use(PrimeVue, { ripple: true })
 Vue.use(ToastService)
+Vue.use(ConfirmationService)
 
 Vue.directive('tooltip', Tooltip)

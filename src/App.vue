@@ -28,6 +28,10 @@
     </main>
 
     <p-toast position="top-right" />
+    <p-confirm-dialog
+      :closeOnEscape="false"
+      :closable="false"
+    />
   </div>
 </template>
 
@@ -41,6 +45,7 @@ import { ROUTES_PATH } from '@/router/paths'
 import Header from '@/components/ui/Header/Header'
 import PopupReload from '@/components/ui/PopupReload/PopupReload'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import ConfirmDialog from 'primevue/confirmdialog'
 import Toast from 'primevue/toast'
 
 export default {
@@ -48,6 +53,7 @@ export default {
   components: {
     'lck-header': Header,
     'lck-popup-reload': PopupReload,
+    'p-confirm-dialog': ConfirmDialog,
     'p-toast': Toast,
   },
   data () {
