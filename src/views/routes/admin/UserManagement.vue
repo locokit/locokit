@@ -29,6 +29,7 @@
         v-if="usersWithPagination && usersWithPagination.data.length > 0"
         :value="usersWithPagination.data"
         :paginator="true"
+        :first="usersWithPagination.skip"
         :lazy="true"
         :rows="usersWithPagination.limit"
         :totalRecords="usersWithPagination.total"
@@ -445,10 +446,12 @@ export default {
       this.retrieveUsersData()
     },
     onResetFilter () {
+      this.currentPage = 0
       this.currentDatatableFilters = []
       this.retrieveUsersData()
     },
     onSubmitFilter () {
+      this.currentPage = 0
       this.retrieveUsersData()
     },
   },
