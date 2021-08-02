@@ -215,6 +215,8 @@
           :action="currentActionColumnToEdit"
           :submitting="submitting"
           @action-column-edit="onActionColumnEdit"
+          :autocompleteSuggestions="autocompleteSuggestions"
+          @search-columns-from-table-view="updateTableViewSuggestions"
         />
       </p-sidebar>
     </div>
@@ -450,6 +452,7 @@ export default {
     isEditableColumn,
     getCurrentFilters,
     searchItems: lckHelpers.searchItems,
+    searchColumnsFromTableView: lckHelpers.searchColumnsFromTableView,
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
@@ -961,6 +964,9 @@ export default {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
+    },
+    async updateTableViewSuggestions ({ query }) {
+      this.autocompleteSuggestions = await this.searchColumnsFromTableView(query, this.selectedViewId)
     },
     async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({

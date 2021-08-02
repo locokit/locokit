@@ -1174,49 +1174,10 @@ export default {
       }
     },
     async searchTableView (query, workspaceId) {
-      const tableViewResult = await lckServices.tableView.find({
-        query: {
-          'table:database.workspace_id': workspaceId,
-          $joinRelation: 'table.[database]',
-          $sort: {
-            text: 1,
-          },
-          $select: ['table_view.text'],
-          'table_view.text': {
-            $ilike: `%${query}%`,
-          },
-        },
-      })
-      return tableViewResult.data.map(tr => ({
-        text: tr.text,
-        value: tr.id,
-      }))
+      return await lckHelpers.searchTableView(query, workspaceId)
     },
     async searchField (query, tableViewId) {
-      const tableColumnResult = await lckServices.tableColumn.find({
-        query: {
-          'views.id': tableViewId,
-          $joinRelation: 'views',
-          $sort: {
-            text: 1,
-          },
-          $select: ['table_column.text'],
-          'table_column.text': {
-            $ilike: `%${query}%`,
-          },
-          $or: [{
-            column_type_id: COLUMN_TYPE.BOOLEAN,
-          }, {
-            settings: {
-              formula_type_id: COLUMN_TYPE.BOOLEAN,
-            },
-          }],
-        },
-      })
-      return tableColumnResult.data.map(tc => ({
-        text: tc.text,
-        value: tc.id,
-      }))
+      return await lckHelpers.searchColumnsFromTableView(query, tableViewId)
     },
     async onSearchTableView ({ query }) {
       try {

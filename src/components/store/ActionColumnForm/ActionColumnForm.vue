@@ -196,9 +196,14 @@
           class="p-field"
         >
           <label for="displayFieldId">{{ $t('pages.workspace.block.actionButton.displayFieldId') }}</label>
-          <p-input-text
+          <lck-autocomplete
             id="displayFieldId"
-            v-model="actionCopy.displayFieldId"
+            v-model="columnActionCondition"
+            field="text"
+            :dropdown="true"
+            :suggestions="autocompleteSuggestions"
+            @item-select="actionCopy.displayFieldId = $event.value.value"
+            @search="$emit('search-columns-from-table-view', { query: $event.query })"
           />
         </validation-provider>
         <validation-provider
@@ -214,13 +219,76 @@
             v-model="actionCopy.displayFieldConditionQuery"
           />
         </validation-provider>
+        <p-panel
+          v-if="actionCopy.action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER"
+          :header="$t('pages.workspace.block.actionButton.notification.settings')"
+          :toggleable="true"
+          :collapsed="true"
+          class="p-mb-4"
+        >
+          <p>{{ $t('pages.workspace.block.actionButton.notification.explain') }}</p>
+          <div
+            class="lck-color-content p-text-bold"
+          >
+            <p class="lck-separator">{{ $t('pages.workspace.block.actionButton.notification.success.info') }}</p>
+            <validation-provider
+              vid="notificationSuccessTitle"
+              tag="div"
+              class="p-field"
+            >
+              <label for="notificationSuccessTitle">{{ $t('pages.workspace.block.actionButton.notification.success.title') }}</label>
+              <p-input-text
+                id="notificationSuccessTitle"
+                v-model="actionCopy.notificationSuccessTitle"
+              />
+            </validation-provider>
+            <validation-provider
+              vid="notificationSuccessDescription"
+              tag="div"
+              class="p-field"
+            >
+              <label for="notificationSuccessDescription">{{
+                  $t('pages.workspace.block.actionButton.notification.success.description')
+                }}</label>
+              <p-input-text
+                id="notificationSuccessDescription"
+                v-model="actionCopy.notificationSuccessDescription"
+              />
+            </validation-provider>
+            <p class="lck-separator">{{ $t('pages.workspace.block.actionButton.notification.error.info') }}</p>
+            <validation-provider
+              vid="notificationErrorTitle"
+              tag="div"
+              class="p-field"
+            >
+              <label for="notificationErrorTitle">{{ $t('pages.workspace.block.actionButton.notification.error.title') }}</label>
+              <p-input-text
+                id="notificationErrorTitle"
+                v-model="actionCopy.notificationErrorTitle"
+              />
+            </validation-provider>
+            <validation-provider
+              vid="notificationErrorDescription"
+              tag="div"
+              class="p-field"
+            >
+              <label for="notificationErrorDescription">{{
+                  $t('pages.workspace.block.actionButton.notification.error.description')
+                }}</label>
+              <p-input-text
+                id="notificationErrorDescription"
+                v-model="actionCopy.notificationErrorDescription"
+              />
+            </validation-provider>
+          </div>
+        </p-panel>
       </lck-form>
     </div>
   </div>
 </template>
 
 <script lang='ts'>
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
 
 import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary'
 import { ValidationProvider } from 'vee-validate'
@@ -229,20 +297,26 @@ import {
   ACTIONS_TYPE,
   NAMED_CLASSES,
 } from '@/services/lck-utils/prime'
+import { LckTableAction } from '@/services/lck-api/definitions'
 import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+import Panel from 'primevue/panel'
 import RadioButton from 'primevue/radiobutton'
 
 import LckForm from '@/components/ui/Form/Form.vue'
+import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+import { lckServices } from '@/services/lck-api'
 
 export default {
   name: 'ActionColumnForm',
   components: {
     'lck-form': LckForm,
+    'lck-autocomplete': AutoComplete,
     'p-input-text': Vue.extend(InputText),
     'p-radio-button': Vue.extend(RadioButton),
+    'p-panel': Vue.extend(Panel),
     'p-dropdown': Vue.extend(Dropdown),
     'validation-provider': Vue.extend(ValidationProvider),
   },
@@ -255,6 +329,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    autocompleteSuggestions: {
+      type: Array,
+      default: () => ([]),
+    } as PropOptions<{ label: string; value: string }[]>,
   },
   data () {
     return {
@@ -263,17 +341,22 @@ export default {
       ACTIONS_TYPE,
       ACTION_BUTTON_TYPE,
       actionCopy: null,
+      columnActionCondition: null,
     }
   },
   methods: {
     submitActionColumnData () {
       this.$emit('action-column-edit', this.actionCopy)
     },
+    getColumnForAction (columnId) {
+      return lckServices.tableColumn.get(columnId)
+    },
   },
   watch: {
     action: {
-      handler (newActionColumnValue) {
+      async handler (newActionColumnValue: LckTableAction) {
         this.actionCopy = { ...newActionColumnValue }
+        this.columnActionCondition = newActionColumnValue.displayFieldId && await this.getColumnForAction(newActionColumnValue.displayFieldId)
       },
       immediate: true,
     },

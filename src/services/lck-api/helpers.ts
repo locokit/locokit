@@ -98,6 +98,53 @@ export async function searchItems ({
   return items
 }
 
+export async function searchTableView (query: object, workspaceId: string) {
+  const tableViewResult = await lckServices.tableView.find({
+    query: {
+      'table:database.workspace_id': workspaceId,
+      $joinRelation: 'table.[database]',
+      $sort: {
+        text: 1,
+      },
+      $select: ['table_view.text'],
+      'table_view.text': {
+        $ilike: `%${query}%`,
+      },
+    },
+  }) as Paginated<LckTableView>
+  return tableViewResult?.data.map(tr => ({
+    text: tr.text,
+    value: tr.id,
+  }))
+}
+
+export async function searchColumnsFromTableView (query: object, tableViewId: string) {
+  const tableColumnResult = await lckServices.tableColumn.find({
+    query: {
+      'views.id': tableViewId,
+      $joinRelation: 'views',
+      $sort: {
+        text: 1,
+      },
+      $select: ['table_column.text'],
+      'table_column.text': {
+        $ilike: `%${query}%`,
+      },
+      $or: [{
+        column_type_id: COLUMN_TYPE.BOOLEAN,
+      }, {
+        settings: {
+          formula_type_id: COLUMN_TYPE.BOOLEAN,
+        },
+      }],
+    },
+  }) as Paginated<LckTableColumn>
+  return tableColumnResult.data.map(tc => ({
+    text: tc.text,
+    value: tc.id,
+  }))
+}
+
 /**
  * Get the columns and rows from the current TableView
  *
@@ -432,6 +479,8 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
 
 export default {
   searchItems,
+  searchTableView,
+  searchColumnsFromTableView,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
   getColumnDisplayValue,

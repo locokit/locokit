@@ -189,13 +189,17 @@ export class LckTableAction extends LckBaseModel {
   icon?: string|null
   action!: string
   page_redirect_id?: string
+  view_id?: string
   display_field_id?: string
   display_field_condition_query?: object|null
-  /**
-   * Reference to the LckTable
-   */
   table_id!: string
   process_id?: string
+  page_detail_Id?: string;
+  type_page_to?: string;
+  notification_success_title?: string;
+  notification_success_description?: string;
+  notification_error_title?: string;
+  notification_error_description?: string;
 }
 
 export class LckTableRowDataComplex {
