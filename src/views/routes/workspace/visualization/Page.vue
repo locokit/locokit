@@ -417,9 +417,8 @@ export default {
         if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
       } else {
         /**
-         * For the mapview block, we don't limit the result
+         * For the MapSet block, we don't limit the result
          * And for data records (or action button), we limit to 1
-         * TODO: we must optimize the way we manage data...
          */
         let itemsPerPage = 20
         if (isGeoBlock(blockType)) itemsPerPage = -1
@@ -1100,7 +1099,6 @@ export default {
         const { id, ...data } = blockToEdit
         if (id !== 'temp') {
           // On update
-          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
           // Update the existing block in page>container>block with its new properties
           const currentBlock = this.page.containers.find(c => c.id === updatedBlock.containerId).blocks.find(b => b.id === updatedBlock.id)
