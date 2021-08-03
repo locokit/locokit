@@ -59,7 +59,7 @@
             </label>
             <p-dropdown
               id="column"
-              :options="columnsDisplayable"
+              :options="supportedColumns"
               dataKey="value"
               optionLabel="label"
               :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
@@ -232,11 +232,10 @@ export default {
     }
   },
   computed: {
-    columnsDisplayable () {
+    supportedColumns () {
       if (this.definition.columns?.length < 1) return []
       return this.definition.columns.reduce((acc, column) => {
         const originalType = getColumnTypeId(column)
-        // Todo : In fine this condition will be remove. When all type will be filterable.
         if (this.supportedTypes.includes(originalType)) {
           acc.push({
             value: column.id,
@@ -244,6 +243,11 @@ export default {
             type: column.column_type_id,
             originalType,
           })
+          /**
+           * So, the user could filter unsupported types if the user create a LUC on a unsupported field.
+           * That's a nice feature :-) (joke !)
+           * TODO https://gitlab.makina-corpus.net/lck/lck-front/-/issues/406
+           */
         } else if (column.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
           acc.push({
             value: column.id,
