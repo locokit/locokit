@@ -110,8 +110,13 @@
           >
             <label for="processId">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
             <span class="field-required">*</span>
-            <p-input-text
+            <p-dropdown
               id="processId"
+              :options="transformProcesses"
+              optionValue="value"
+              optionLabel="text"
+              dataKey="value"
+              :placeholder="$t('components.datatable.placeholder')"
               v-model="actionCopy.processId"
             />
             <span :class="classes">{{ errors[0] }}</span>
@@ -151,9 +156,14 @@
             class="p-field"
           >
             <label for="pageRedirectId">{{ $t('pages.workspace.block.actionButton.pageId') }}</label>
-            <p-input-text
+            <lck-autocomplete
               id="pageRedirectId"
-              v-model="actionCopy.pageRedirectId"
+              v-model="page"
+              field="text"
+              :dropdown="true"
+              :suggestions="autocompleteSuggestions"
+              @item-select="actionCopy.pageRedirectId = $event.value.value"
+              @search="getSuggestionPage($event.query)"
             />
           </validation-provider>
         </div>
@@ -171,9 +181,14 @@
           >
             <label for="pageDetailId">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
             <span class="field-required">*</span>
-            <p-input-text
+            <lck-autocomplete
               id="pageDetailId"
-              v-model="actionCopy.pageDetailId"
+              v-model="page"
+              field="text"
+              :dropdown="true"
+              :suggestions="autocompleteSuggestions"
+              @item-select="actionCopy.pageDetailId = $event.value.value"
+              @search="getSuggestionPage($event.query)"
             />
             <span :class="classes">{{ errors[0] }}</span>
           </validation-provider>
@@ -308,6 +323,7 @@ import RadioButton from 'primevue/radiobutton'
 import LckForm from '@/components/ui/Form/Form.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import { lckServices } from '@/services/lck-api'
+import { getPageWithChapters } from '@/services/lck-api/helpers'
 
 export default {
   name: 'ActionColumnForm',
@@ -329,6 +345,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    manualProcesses: {
+      type: Array,
+      default: () => ([]),
+    },
     autocompleteSuggestions: {
       type: Array,
       default: () => ([]),
@@ -342,21 +362,51 @@ export default {
       ACTION_BUTTON_TYPE,
       actionCopy: null,
       columnActionCondition: null,
+      page: null,
+      processes: [],
     }
+  },
+  computed: {
+    transformProcesses () {
+      return this.manualProcesses.map(process => ({
+        text: process.text,
+        value: process.id,
+      }))
+    },
   },
   methods: {
     submitActionColumnData () {
       this.$emit('action-column-edit', this.actionCopy)
     },
-    getColumnForAction (columnId) {
+    getColumns (columnId: string) {
       return lckServices.tableColumn.get(columnId)
+    },
+    getSuggestionPage (query) {
+      if (this.actionCopy.typePageTo === ROUTES_NAMES.PAGEDETAIL || this.actionCopy.action === ACTION_BUTTON_TYPE.PAGE_DETAIL_TO) {
+        this.$emit('search-page', { query: query, filters: { hidden: true } })
+      } else {
+        this.$emit('search-page', { query: query })
+      }
     },
   },
   watch: {
     action: {
       async handler (newActionColumnValue: LckTableAction) {
         this.actionCopy = { ...newActionColumnValue }
-        this.columnActionCondition = newActionColumnValue.displayFieldId && await this.getColumnForAction(newActionColumnValue.displayFieldId)
+        if (newActionColumnValue.action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER) {
+          const res = await getPageWithChapters(newActionColumnValue.pageRedirectId)
+          this.page = {
+            text: `[${res?.chapter?.text}] ${res.text}`,
+            value: res.id,
+          }
+        } else {
+          const res = await getPageWithChapters(newActionColumnValue.pageDetailId)
+          this.page = {
+            text: `[${res?.chapter?.text}] ${res.text}`,
+            value: res.id,
+          }
+        }
+        this.columnActionCondition = newActionColumnValue.displayFieldId && await this.getColumns(newActionColumnValue.displayFieldId)
       },
       immediate: true,
     },

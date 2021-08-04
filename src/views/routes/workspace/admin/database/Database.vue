@@ -214,9 +214,11 @@
           v-else-if="currentActionColumnToEdit"
           :action="currentActionColumnToEdit"
           :submitting="submitting"
+          :manualProcesses="manualProcesses"
           @action-column-edit="onActionColumnEdit"
           :autocompleteSuggestions="autocompleteSuggestions"
           @search-columns-from-table-view="updateTableViewSuggestions"
+          @search-page="updatePageSuggestions"
         />
       </p-sidebar>
     </div>
@@ -453,6 +455,7 @@ export default {
     getCurrentFilters,
     searchItems: lckHelpers.searchItems,
     searchColumnsFromTableView: lckHelpers.searchColumnsFromTableView,
+    searchPageWithChapter: lckHelpers.searchPageWithChapter,
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
@@ -967,6 +970,9 @@ export default {
     },
     async updateTableViewSuggestions ({ query }) {
       this.autocompleteSuggestions = await this.searchColumnsFromTableView(query, this.selectedViewId)
+    },
+    async updatePageSuggestions ({ query, filters }) {
+      this.autocompleteSuggestions = await this.searchPageWithChapter(query, filters)
     },
     async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({

@@ -189,7 +189,6 @@ export class LckTableAction extends LckBaseModel {
   icon?: string|null
   action!: string
   page_redirect_id?: string
-  view_id?: string
   display_field_id?: string
   display_field_condition_query?: object|null
   table_id!: string
@@ -238,6 +237,8 @@ export class LckPage extends LckBaseModel {
   text!: string;
   hidden?: boolean;
   position!: number;
+  layout!: string;
+  chapter?: LckChapter;
 }
 
 export enum AnchorClass {

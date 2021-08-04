@@ -19,6 +19,7 @@ import {
   LckWorkspace,
   LckTableColumn,
   LckTableRowDataComplex,
+  LckPage,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -98,6 +99,13 @@ export async function searchItems ({
   return items
 }
 
+/**
+ * Search TableView
+ * Find all tableviews matching a pattern
+ *
+ * @param query
+ * @param workspaceId
+ */
 export async function searchTableView (query: object, workspaceId: string) {
   const tableViewResult = await lckServices.tableView.find({
     query: {
@@ -118,6 +126,43 @@ export async function searchTableView (query: object, workspaceId: string) {
   }))
 }
 
+/**
+ * Search Page
+ * Find all pages matching a pattern
+ * with possible additional filters
+ * Also contains information on its chapter
+ *
+ * @param query
+ * @param filters
+ */
+export async function searchPageWithChapter (query: object, filters: object = {}) {
+  const pagesResult = await lckServices.page.find({
+    query: {
+      $joinRelation: 'chapter',
+      $eager: 'chapter',
+      $sort: {
+        text: 1,
+      },
+      $select: ['page.text'],
+      'page.text': {
+        $ilike: `%${query}%`,
+      },
+      ...filters,
+    },
+  }) as Paginated<LckPage>
+  return pagesResult?.data.map(page => ({
+    text: `[${page?.chapter?.text}] ${page.text}`,
+    value: page.id,
+  }))
+}
+
+/**
+ * Search Columns
+ * Find all columns belonging to a table view and matching a pattern
+ *
+ * @param query
+ * @param tableViewId
+ */
 export async function searchColumnsFromTableView (query: object, tableViewId: string) {
   const tableColumnResult = await lckServices.tableColumn.find({
     query: {
@@ -146,7 +191,7 @@ export async function searchColumnsFromTableView (query: object, tableViewId: st
 }
 
 /**
- * Get the columns and rows from the current TableView
+ * Get columns and rows from the current TableView
  *
  * @param tableViewId
  * @param filters
@@ -317,6 +362,9 @@ export async function downloadAttachment (url: string, filename: string, mime: s
 
 /**
  * Upload several files and returns all attachment ids
+ *
+ * @param fileList
+ * @param workspaceId
  */
 export async function uploadMultipleFiles (fileList: FileList, workspaceId: string) {
   const uploadPromises: Promise<LckAttachment>[] = []
@@ -352,6 +400,28 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
   return await Promise.all(uploadPromises)
 }
 
+/**
+ * Get page with related chapter
+ *
+ * @param id
+ */
+export async function getPageWithChapters (id: string) {
+  return await lckServices.page.get(id, {
+    query: {
+      $joinRelation: 'chapter',
+      $eager: 'chapter',
+      $sort: {
+        text: 1,
+      },
+    },
+  }) as LckPage
+}
+
+/**
+ * Get workspace with all chapters and pages
+ *
+ * @param groupId
+ */
 export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   const group: LckGroup = await lckServices.group.get(groupId, {
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -369,6 +439,11 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   }
 }
 
+/**
+ * Get page with all containers and blocks
+ *
+ * @param id
+ */
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -376,6 +451,12 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
   })
 }
 
+/**
+ * Find specific view with columns, column's parents and action
+ *
+ * @param ids
+ * @param skip
+ */
 export async function retrieveViewDefinition (ids: number[], skip = 0) {
   if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
@@ -410,6 +491,16 @@ export async function retrieveViewDefinition (ids: number[], skip = 0) {
   return result.data
 }
 
+/**
+ * Get records according to table view
+ *
+ * @param table_view_id
+ * @param group_id
+ * @param skip
+ * @param limit
+ * @param sort
+ * @param filters
+ */
 export async function retrieveViewData (
   table_view_id: string,
   group_id: string,
@@ -435,6 +526,9 @@ export async function retrieveViewData (
 
 /**
  * Convert every date field in a single data record in Date
+ *
+ * @param record
+ * @param dateFields
  */
 function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[]) {
   dateFields.forEach(({ id, column_type_id }) => {
@@ -452,6 +546,9 @@ function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[])
  * Convert every date field in data records (from the LCK API) in Date
  * Match also formulas with
  * This allow prime calendar to be displayed with the good data
+ *
+ * @param records
+ * @param fieldDefinition
  */
 export function convertDateInRecords (records: LckTableRow | LckTableRow[], fieldDefinition: LckTableColumn[]): void {
   const dateFields = fieldDefinition.filter(f => {
@@ -479,6 +576,7 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
 
 export default {
   searchItems,
+  searchPageWithChapter,
   searchTableView,
   searchColumnsFromTableView,
   exportTableRowDataXLS,
@@ -486,6 +584,7 @@ export default {
   getColumnDisplayValue,
   downloadAttachment,
   getAttachmentBlob,
+  getPageWithChapters,
   uploadMultipleFiles,
   retrieveWorkspaceWithChaptersAndPages,
   retrieveTableViewData,
