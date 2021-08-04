@@ -5,6 +5,7 @@ import { Model, RelationMappings, JSONSchema } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { container as LckContainer } from './container.model'
+import { Chapter } from './chapter.model'
 
 export class page extends BaseModel {
   id!: string
@@ -46,6 +47,14 @@ export class page extends BaseModel {
         join: {
           from: 'page.id',
           to: 'container.page_id',
+        },
+      },
+      chapter: {
+        relation: Model.HasOneRelation,
+        modelClass: Chapter,
+        join: {
+          from: 'page.chapter_id',
+          to: 'chapter.id',
         },
       },
     }

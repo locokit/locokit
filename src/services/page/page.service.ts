@@ -34,8 +34,9 @@ export default function (app: Application): void {
       '$sort',
       '$any',
       '$eager',
+      '$joinRelation',
     ],
-    allowedEager: '[containers.[blocks.[displayTableView, displayField]]]',
+    allowedEager: '[containers.[blocks.[displayTableView, displayField]], chapter]',
     paginate: app.get('paginate'),
   }
 

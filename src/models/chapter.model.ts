@@ -6,7 +6,7 @@ import { workspace as LckWorkspace } from './workspace.model'
 import { page as LckPage } from './page.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
-export class chapter extends BaseModel {
+export class Chapter extends BaseModel {
   title!: string
   position!: number
   settings!: object
@@ -55,6 +55,6 @@ export class chapter extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof chapter {
-  return chapter
+export default function (app: Application): typeof Chapter {
+  return Chapter
 }

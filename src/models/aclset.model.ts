@@ -4,7 +4,7 @@ import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 import { workspace as LckWorkspace } from './workspace.model'
-import { chapter as LckChapter } from './chapter.model'
+import { Chapter as LckChapter } from './chapter.model'
 import { Group } from './group.model'
 import { LckAclTable } from './acltable.model'
 

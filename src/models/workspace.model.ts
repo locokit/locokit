@@ -3,7 +3,7 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { chapter as LckChapter } from './chapter.model'
+import { Chapter as LckChapter } from './chapter.model'
 import { database as LckDatabase } from './database.model'
 import { LckAttachment } from './attachment.model'
 import { Process } from './process.model'

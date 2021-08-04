@@ -4,7 +4,7 @@
 import { workspace } from '../models/workspace.model'
 import { LckAttachment } from '../models/attachment.model'
 import { block } from '../models/block.model'
-import { chapter } from '../models/chapter.model'
+import { Chapter } from '../models/chapter.model'
 import { container } from '../models/container.model'
 import { database } from '../models/database.model'
 import { Group } from '../models/group.model'
@@ -29,7 +29,7 @@ export type Subjects = InferSubjects<
    typeof workspace |
    typeof LckAttachment |
    typeof block |
-   typeof chapter |
+   typeof Chapter |
    typeof container |
    typeof database |
    typeof Group |
