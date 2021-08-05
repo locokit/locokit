@@ -93,24 +93,27 @@ export default function filterRowsByTableViewId (): Hook {
           }> = []
           values.forEach(({ column, dbAction, pattern }) => {
             const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
-            if (currentColumn) {
-              const columnKey = [
-                COLUMN_TYPE.GROUP,
-                COLUMN_TYPE.LOOKED_UP_COLUMN,
-                COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-                COLUMN_TYPE.USER,
-              ].includes(currentColumn.column_type_id)
-                ? `${column}.value`
-                : column
-              // Add the FeatherJS query filter
-              defaultFilters.push({
-                data: {
-                  [columnKey]: {
-                    [dbAction]: ['$ilike', '$notILike'].includes(dbAction) ? `%${pattern as string | number}%` : pattern,
-                  },
-                },
-              })
+
+            if (!currentColumn) {
+              throw new NotAcceptable('Invalid column: the specified column is unknown.')
             }
+
+            const columnKey = [
+              COLUMN_TYPE.GROUP,
+              COLUMN_TYPE.LOOKED_UP_COLUMN,
+              COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+              COLUMN_TYPE.USER,
+            ].includes(currentColumn.column_type_id)
+              ? `${column}.value`
+              : column
+            // Add the FeatherJS query filter
+            defaultFilters.push({
+              data: {
+                [columnKey]: {
+                  [dbAction]: ['$ilike', '$notILike'].includes(dbAction) ? `%${pattern as string | number}%` : pattern,
+                },
+              },
+            })
           })
           // Add default filters to the query
           const allFilters: Array<Record<string, QueryFilter[]>> = [{ [operator]: defaultFilters }]

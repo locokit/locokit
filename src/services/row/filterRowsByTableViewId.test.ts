@@ -330,7 +330,7 @@ describe('filterRowsByTableViewId hook', () => {
       await app.service('view').remove(tableView.id)
     })
 
-    it('return all the rows if the specified column is not in the table view', async () => {
+    it('throw an exception if the specified column is not in the table view', async () => {
       // Create the table view with default filter
       const tableView = await app.service('view').create({
         text: 'My view',
@@ -352,20 +352,18 @@ describe('filterRowsByTableViewId hook', () => {
         table_view_id: tableView.id,
         table_column_id: columnTable1Ref.id,
       })
-      // Get rows from this table view
-      const rows = await app.service('row').find({
+      // Check that an exception is thrown
+      expect.assertions(1)
+      await expect(app.service('row').find({
         query: {
           table_view_id: tableView.id,
         },
-      }) as Paginated<TableRow>
-      // Check that we only retrieve the specified rows
-      expect.assertions(1)
-      expect(rows.total).toBe(3)
+      })).rejects.toThrow(NotAcceptable)
       // Clean database
       await app.service('view').remove(tableView.id)
     })
 
-    it('return all the rows if the table view has no column', async () => {
+    it('throw an exception if the table view has no column', async () => {
       // Create the table view with default filter
       const tableView = await app.service('view').create({
         text: 'My view',
@@ -382,15 +380,13 @@ describe('filterRowsByTableViewId hook', () => {
           ],
         },
       }) as TableView
-      // Get rows from this table view
-      const rows = await app.service('row').find({
+      // Check that an exception is thrown
+      expect.assertions(1)
+      await expect(app.service('row').find({
         query: {
           table_view_id: tableView.id,
         },
-      }) as Paginated<TableRow>
-      // Check that we only retrieve the specified rows
-      expect.assertions(1)
-      expect(rows.total).toBe(3)
+      })).rejects.toThrow(NotAcceptable)
       // Clean database
       await app.service('view').remove(tableView.id)
     })
