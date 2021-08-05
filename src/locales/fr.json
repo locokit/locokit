@@ -521,7 +521,29 @@
           }
         },
         "detailPage": "Page de détail",
-        "addGeoDataSrc": "Ajouter une nouvelle source de données géographiques"
+        "map": {
+          "addButtonTitle": "Label du bouton de création",
+          "addGeoSource": "Ajouter une nouvelle source de données géographiques",
+          "addSourceId": "Vue à utiliser dans le formulaire de création",
+          "deletePopupField": "Retirer le champ de la pop-up",
+          "deleteSource": "Supprimer la source",
+          "field": "Champ géographique à afficher",
+          "noConfiguredSource": "Aucune source configurée",
+          "noSelectedView": "Aucune vue sélectionnée pour cette source",
+          "popup": "Afficher une pop-up",
+          "popupAddField": "Ajouter un champ",
+          "popupDetailPage": "Page de détails vers laquelle rediriger l'utilisateur",
+          "popupField": "Champ",
+          "popupFields": "Champs à afficher dans la pop-up",
+          "popupFieldStyle": "Style à appliquer",
+          "popupHover": "Afficher la pop-up au survol",
+          "popupTitle": "Champ qui sera affiché comme titre de la pop-up",
+          "selectable": "Rendre la source sélectionnable",
+          "selectOneSource": "Sélectionnez une des sources",
+          "source": "Source",
+          "sources": "Sources",
+          "tableView": "Vue à afficher"
+        }
       }
     },
     "database": {

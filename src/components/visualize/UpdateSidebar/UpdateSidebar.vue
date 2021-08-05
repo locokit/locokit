@@ -50,6 +50,7 @@
             @input="$emit('update-block', $event)"
             @close="resetSidebar"
             @search-table-view="$emit('search-table-view', $event)"
+            @search-field="$emit('search-field', $event)"
             @search-block-display-table-view="$emit('search-block-display-table-view', $event)"
             @search-block-display-field="$emit('search-block-display-field', $event)"
           />
@@ -165,5 +166,10 @@ export default {
 ::v-deep .p-tabview > .p-tabview-nav > li.p-highlight > .p-tabview-nav-link {
   color: var(--primary-color);
   border-color: var(--primary-color);
+}
+
+::v-deep .p-tabview > .p-tabview-panels {
+  padding-left: 0;
+  padding-right: 0;
 }
 </style>

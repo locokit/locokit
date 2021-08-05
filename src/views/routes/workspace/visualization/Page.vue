@@ -167,6 +167,7 @@
       @reset-current-container="onContainerEditClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
+      @search-field="onSearchField"
 
       @search-block-display-table-view="onSearchBlockDisplayTableView"
       @search-block-display-field="onSearchBlockDisplayField"
@@ -532,10 +533,10 @@ export default {
       }
       // if the source is a multi one with $limit = -1,
       if (Array.isArray(currentSource.content)) {
-        lckHelpers.convertDateInRecords(currentSource.content, this.sources[tableViewId].definition.columns)
+        lckHelpers.convertDateInRecords(currentSource.content, currentSource.definition.columns)
       } else {
         // we are on a paginated result
-        lckHelpers.convertDateInRecords(currentSource.content.data, this.sources[tableViewId].definition.columns)
+        lckHelpers.convertDateInRecords(currentSource.content.data, currentSource.definition.columns)
       }
       // Reset the geo sources that use the same source
       for (const blockId in this.geoSources) {
@@ -1192,7 +1193,7 @@ export default {
         value: tr.id,
       }))
     },
-    async searchField (query, tableViewId) {
+    async searchField (textQuery, tableViewId, filters) {
       const tableColumnResult = await lckServices.tableColumn.find({
         query: {
           'views.id': tableViewId,
@@ -1202,15 +1203,9 @@ export default {
           },
           $select: ['table_column.text'],
           'table_column.text': {
-            $ilike: `%${query}%`,
+            $ilike: `%${textQuery}%`,
           },
-          $or: [{
-            column_type_id: COLUMN_TYPE.BOOLEAN,
-          }, {
-            settings: {
-              formula_type_id: COLUMN_TYPE.BOOLEAN,
-            },
-          }],
+          ...filters,
         },
       })
       return tableColumnResult.data.map(tc => ({
@@ -1225,6 +1220,18 @@ export default {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
     },
+    async onSearchField ({ query, tableViewId, columnTypes }) {
+      try {
+        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, Array.isArray(columnTypes)
+          ? {
+            $or: columnTypes.map(columnTypeId => ({ column_type_id: columnTypeId })),
+          }
+          : {},
+        )
+      } catch (error) {
+        this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
+      }
+    },
     async onSearchBlockDisplayTableView ({ query }) {
       try {
         this.blockDisplayTableViewSuggestions = await this.searchTableView(query, this.workspaceId)
@@ -1234,7 +1241,18 @@ export default {
     },
     async onSearchBlockDisplayField ({ query, tableViewId }) {
       try {
-        this.blockDisplayFieldSuggestions = await this.searchField(query, tableViewId)
+        this.blockDisplayFieldSuggestions = await this.searchField(query, tableViewId, {
+          $or: [
+            {
+              column_type_id: COLUMN_TYPE.BOOLEAN,
+            },
+            {
+              settings: {
+                formula_type_id: COLUMN_TYPE.BOOLEAN,
+              },
+            },
+          ],
+        })
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }

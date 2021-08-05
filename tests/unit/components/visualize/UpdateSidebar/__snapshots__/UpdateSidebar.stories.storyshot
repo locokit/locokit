@@ -582,7 +582,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_72_list"
+                      aria-owns="pv_id_74_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
                       id="blockConditionalDisplayTableViewId"
@@ -590,7 +590,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_72_list"
+                        aria-controls="pv_id_74_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                         id="blockConditionalDisplayTableViewId"
@@ -640,7 +640,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_73_list"
+                      aria-owns="pv_id_75_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       disabled="disabled"
                       dropdown="true"
@@ -649,7 +649,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_73_list"
+                        aria-controls="pv_id_75_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                         disabled="disabled"
@@ -1973,7 +1973,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_74_list"
+                      aria-owns="pv_id_76_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
                       id="blockConditionalDisplayTableViewId"
@@ -1981,7 +1981,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_74_list"
+                        aria-controls="pv_id_76_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                         id="blockConditionalDisplayTableViewId"
@@ -2031,7 +2031,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_75_list"
+                      aria-owns="pv_id_77_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       disabled="disabled"
                       dropdown="true"
@@ -2040,7 +2040,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_75_list"
+                        aria-controls="pv_id_77_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                         disabled="disabled"

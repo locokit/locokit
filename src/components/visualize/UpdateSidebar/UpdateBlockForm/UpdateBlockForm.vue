@@ -162,16 +162,24 @@
     />
     <map-settings-fields
       v-else-if="[BLOCK_TYPE.MAP_SET, BLOCK_TYPE.MAP_FIELD].includes(blockCopy.type)"
+      :addAllowed.sync="blockCopy.settings.addAllowed"
+      :addButtonTitle.sync="blockCopy.settings.addButtonTitle"
+      :addSourceId.sync="blockCopy.settings.addSourceId"
       :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :sources="blockCopy.settings.sources"
       :autocompleteSuggestions="autocompleteSuggestions"
       :singleSource="blockCopy.type === BLOCK_TYPE.MAP_FIELD"
-      @update-page-detail-id="onUpdateMapSourcePageDetailId"
-      @update-id="onUpdateMapSourceId"
+      @update-map-source-id="onUpdateMapSourceId"
+      @update-map-source-property="onUpdateMapSourceProperty"
+      @update-map-source-popup-property="onUpdateMapSourcePopupProperty"
+      @update-map-source-popup-content-property="onUpdateMapSourcePopupContentProperty"
+      @add-map-source-popup-content="onAddMapSourcePopupContent"
+      @delete-map-source-popup-content="onDeleteMapSourcePopupContent"
       @add-source="onAddMapSource"
       @delete-source="onDeleteMapSource"
       @search-table-view="$emit('search-table-view', $event)"
+      @search-field="$emit('search-field', $event)"
       @component-refresh-required="onComponentRefreshRequired"
     />
     <action-button-settings-fields
@@ -220,6 +228,11 @@ import DataRecordSettingsFields from '@/components/visualize/UpdateSidebar/Updat
 import MapSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/MapSettingsFields.vue'
 import ActionButtonSettingsFields from '@/components/visualize/UpdateSidebar/UpdateBlockForm/BlockSettingsFields/ActionButtonSettingsFields.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
+
+interface PopupContentField {
+  field: string;
+  class?: string;
+}
 
 export default {
   name: 'UpdateBlockForm',
@@ -330,12 +343,6 @@ export default {
       (this.blockCopy.settings as MediaSettings).medias.splice(index, 1)
     },
     // Manage the map block
-    onUpdateMapSourcePageDetailId ({ source, pageDetailId }: { source: MapSourceSettings; pageDetailId: string }) {
-      this.$set(source, 'pageDetailId', pageDetailId)
-    },
-    onUpdateMapSourceId ({ source, id }: { source: MapSourceSettings; id: string }) {
-      source.id = id
-    },
     onAddMapSource () {
       (this.blockCopy.settings as MapSettings).sources.push({
         id: '',
@@ -343,6 +350,50 @@ export default {
     },
     onDeleteMapSource (index: number) {
       (this.blockCopy.settings as MapSettings).sources.splice(index, 1)
+    },
+    onUpdateMapSourceId ({ index, id }: { index: number; id: string | null }) {
+      (this.blockCopy.settings as MapSettings).sources.splice(index, 1, {
+        id: id || '',
+      })
+    },
+    onUpdateMapSourceProperty ({ source, propertyName, propertyValue }: {
+      source: MapSourceSettings;
+      propertyName: string;
+      propertyValue: string | boolean;
+    }) {
+      this.$set(source, propertyName, propertyValue)
+    },
+    onUpdateMapSourcePopupProperty ({ source, propertyName, propertyValue }: {
+      source: MapSourceSettings;
+      propertyName: string;
+      propertyValue: string | boolean;
+    }) {
+      if (source.popupSettings) {
+        this.$set(source.popupSettings, propertyName, propertyValue)
+      } else {
+        this.$set(source, 'popupSettings', { [propertyName]: propertyValue })
+      }
+    },
+    onAddMapSourcePopupContent (popupSettings: { contentFields?: PopupContentField[]}) {
+      if (!popupSettings.contentFields) {
+        this.$set(popupSettings, 'contentFields', [{
+          field: '',
+        }])
+      } else {
+        popupSettings.contentFields.push({
+          field: '',
+        })
+      }
+    },
+    onDeleteMapSourcePopupContent ({ contentFields, index }: { contentFields: PopupContentField[]; index: number }) {
+      contentFields.splice(index, 1)
+    },
+    onUpdateMapSourcePopupContentProperty ({ content, propertyName, propertyValue }: {
+      content: PopupContentField;
+      propertyName: string;
+      propertyValue: string | null;
+    }) {
+      this.$set(content, propertyName, propertyValue)
     },
   },
   watch: {

@@ -129,7 +129,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_68_list"
+          aria-owns="pv_id_70_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -137,7 +137,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_68_list"
+            aria-controls="pv_id_70_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -187,7 +187,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_69_list"
+          aria-owns="pv_id_71_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -196,7 +196,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_69_list"
+            aria-controls="pv_id_71_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -546,7 +546,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_70_list"
+            aria-owns="pv_id_72_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             dropdown="true"
             id="blockSettingsTableView"
@@ -555,7 +555,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_70_list"
+              aria-controls="pv_id_72_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsTableView"
@@ -630,7 +630,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <span
               class="p-panel-title"
-              id="pv_id_71_header"
+              id="pv_id_73_header"
             >
               Notification settings
             </span>
@@ -640,9 +640,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             >
                
               <button
-                aria-controls="pv_id_71_content"
+                aria-controls="pv_id_73_content"
                 class="p-panel-header-icon p-panel-toggler p-link"
-                id="pv_id_71_header"
+                id="pv_id_73_header"
                 type="button"
               >
                 <span
@@ -656,9 +656,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           </div>
            
           <div
-            aria-labelledby="pv_id_71_header"
+            aria-labelledby="pv_id_73_header"
             class="p-toggleable-content"
-            id="pv_id_71_content"
+            id="pv_id_73_content"
             role="region"
             style="display: none;"
           >
@@ -1764,194 +1764,58 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
        
       <div>
         <div
-          class="source-configuration"
+          class="p-field"
         >
-          <div
-            class="p-field"
+          <label
+            for="add-allowed"
           >
-            <label
-              for="blockSettingsMap-0"
-            >
-              View to display
-            </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
-             
-            <span
-              aria-haspopup="listbox"
-              aria-owns="pv_id_66_list"
-              class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-              dropdown="true"
-              id="blockSettingsMap-0"
-              suggestions=""
+            
+      Allow adding data
+    
+          </label>
+           
+          <div
+            class="p-inputswitch p-component"
+            id="add-allowed"
+          >
+            <div
+              class="p-hidden-accessible"
             >
               <input
-                aria-autocomplete="list"
-                aria-controls="pv_id_66_list"
-                autocomplete="off"
-                class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                id="blockSettingsMap-0"
-                placeholder="Start typing for suggestions"
-                role="searchbox"
-                type="text"
+                role="switch"
+                type="checkbox"
               />
-               
-              <!---->
-               
-              <!---->
-               
-              <button
-                class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                type="button"
-              >
-                <span
-                  class="pi pi-chevron-down p-button-icon"
-                />
-                 
-                <span
-                  class="p-button-label"
-                >
-                   
-                </span>
-                 
-                <!---->
-                <span
-                  class="p-ink"
-                />
-              </button>
-               
-              <!---->
-            </span>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="blockSettingsDetailPage-0"
-            >
-              Detail page
-            </label>
-             
-            <div
-              class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
-              id="blockSettingsDetailPage-0"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  aria-haspopup="listbox"
-                  readonly="readonly"
-                  type="text"
-                />
-              </div>
-               
-              <!---->
-               
-              <span
-                class="p-dropdown-label p-inputtext"
-              >
-                
-            Page 1
-        
-              </span>
-               
-              <i
-                class="p-dropdown-clear-icon pi pi-times"
-              />
-               
-              <div
-                aria-haspopup="listbox"
-                class="p-dropdown-trigger"
-                role="button"
-              >
-                <span
-                  class="p-dropdown-trigger-icon pi pi-chevron-down"
-                />
-              </div>
-               
-              <!---->
             </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
           </div>
-           
-          <button
-            class="p-button-text p-button-lg delete-source-button p-button p-component p-button-icon-only"
-            type="button"
-          >
-            <span
-              class="pi pi-trash p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
         </div>
-        <div
-          class="source-configuration"
-        >
-          <div
-            class="p-field"
+         
+        <!---->
+         
+        <!---->
+         
+        <div>
+          <p>
+            Sources
+          </p>
+           
+          <details
+            class="source-configuration p-mb-3 p-p-3"
           >
-            <label
-              for="blockSettingsMap-1"
-            >
-              View to display
-            </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
-             
-            <span
-              aria-haspopup="listbox"
-              aria-owns="pv_id_67_list"
-              class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-              dropdown="true"
-              id="blockSettingsMap-1"
-              suggestions=""
-            >
-              <input
-                aria-autocomplete="list"
-                aria-controls="pv_id_67_list"
-                autocomplete="off"
-                class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                id="blockSettingsMap-1"
-                placeholder="Start typing for suggestions"
-                role="searchbox"
-                type="text"
-              />
-               
-              <!---->
-               
-              <!---->
-               
+            <summary>
+              
+        Source 1
+        
               <button
-                class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                class="p-button-text delete-button p-button p-component p-button-icon-only"
+                title="Delete the source"
                 type="button"
               >
                 <span
-                  class="pi pi-chevron-down p-button-icon"
+                  class="pi pi-trash p-button-icon"
                 />
                  
                 <span
@@ -1965,89 +1829,417 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                   class="p-ink"
                 />
               </button>
-               
-              <!---->
-            </span>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
-            class="p-field"
-          >
-            <label
-              for="blockSettingsDetailPage-1"
-            >
-              Detail page
-            </label>
+            </summary>
              
             <div
-              class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
-              id="blockSettingsDetailPage-1"
+              class="p-field p-mt-3"
             >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  aria-haspopup="listbox"
-                  readonly="readonly"
-                  type="text"
-                />
-              </div>
-               
-              <!---->
-               
-              <span
-                class="p-dropdown-label p-inputtext p-placeholder"
+              <label
+                class="label-field-required"
+                for="source-id-0"
               >
                 
-            Select an option
+          View to display
         
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_66_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+                dropdown="true"
+                id="source-id-0"
+                suggestions=""
+                value="[object Object]"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_66_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="source-id-0"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
               </span>
                
-              <!---->
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-field-0"
+              >
+                
+          Geographic field to display
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_67_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="source-field-0"
+                placeholder="Start typing for suggestions"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_67_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="source-field-0"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-selectable-0"
+              >
+                
+          Make the source selectable
+        
+              </label>
                
               <div
-                aria-haspopup="listbox"
-                class="p-dropdown-trigger"
-                role="button"
+                class="p-inputswitch p-component"
+                id="source-selectable-0"
               >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
                 <span
-                  class="p-dropdown-trigger-icon pi pi-chevron-down"
+                  class="p-inputswitch-slider"
                 />
               </div>
-               
-              <!---->
             </div>
-          </div>
-           
-          <button
-            class="p-button-text p-button-lg delete-source-button p-button p-component p-button-icon-only"
-            type="button"
-          >
-            <span
-              class="pi pi-trash p-button-icon"
-            />
              
-            <span
-              class="p-button-label"
+            <div
+              class="p-field"
             >
-               
-            </span>
+              <label
+                for="source-popup-0"
+              >
+                
+          Display a pop-up
+        
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="source-popup-0"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
              
             <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
+          </details>
+          <details
+            class="source-configuration p-mb-3 p-p-3"
+          >
+            <summary>
+              
+        Source 2
+        
+              <button
+                class="p-button-text delete-button p-button p-component p-button-icon-only"
+                title="Delete the source"
+                type="button"
+              >
+                <span
+                  class="pi pi-trash p-button-icon"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                   
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </summary>
+             
+            <div
+              class="p-field p-mt-3"
+            >
+              <label
+                class="label-field-required"
+                for="source-id-1"
+              >
+                
+          View to display
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_68_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="source-id-1"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_68_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="source-id-1"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-field-1"
+              >
+                
+          Geographic field to display
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_69_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                disabled="disabled"
+                dropdown="true"
+                id="source-field-1"
+                placeholder="No view has been selected"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_69_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+                  disabled="disabled"
+                  id="source-field-1"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  disabled="disabled"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-selectable-1"
+              >
+                
+          Make the source selectable
+        
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="source-selectable-1"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-popup-1"
+              >
+                
+          Display a pop-up
+        
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="source-popup-1"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+             
+            <!---->
+          </details>
         </div>
          
         <div
-          class="add-source-div"
+          class="add-source p-mb-3"
         >
           <button
             class="p-button-text p-button-lg add-source-button p-button p-component p-button-icon-only"
