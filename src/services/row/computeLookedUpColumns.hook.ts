@@ -135,7 +135,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
         case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           newData['data:' + c.columnIdOfChildRow] = {
             reference: currentRow.id,
-            value: (currentValue as { reference: string, value: string }).value,
+            value: (currentValue as { reference: string, value: string })?.value,
           }
           break
 
