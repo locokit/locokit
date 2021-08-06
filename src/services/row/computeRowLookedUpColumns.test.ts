@@ -142,10 +142,11 @@ describe('computeRowLookedUpColumns hook', () => {
   })
 
   it('compute the lookedup column of the currentRow', async () => {
-    expect.assertions(8)
+    expect.assertions(11)
     const spyOnGetForeignColumn = jest.spyOn(app.service('column'), 'get').mockClear()
     expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
-    const newRowTable2 = await app.service('row').patch(rowTable2.id, {
+    // Update the relation between tables value
+    let newRowTable2 = await app.service('row').patch(rowTable2.id, {
       data: {
         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
       },
@@ -157,6 +158,16 @@ describe('computeRowLookedUpColumns hook', () => {
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].reference).toBe(user1.id)
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].value).toBe('User 1')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].reference).toEqual([user1.id])
+
+    // Reset the relation between tables value
+    newRowTable2 = await app.service('row').patch(rowTable2.id, {
+      data: {
+        [columnTable2RelationBetweenTable1.id]: null,
+      },
+    })
+    expect(newRowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id]).toBeNull()
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id]).toBeNull()
   })
 
   it('do not compute the lookedup columns of the current row which are not related to the updated data', async () => {
