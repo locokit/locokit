@@ -1,10 +1,10 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 
 const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
@@ -12,8 +12,8 @@ const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
 const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 
 describe('upsertColumnRelation hook', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let table2: Table
   let columnTable1Ref: TableColumn
@@ -35,7 +35,7 @@ describe('upsertColumnRelation hook', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',

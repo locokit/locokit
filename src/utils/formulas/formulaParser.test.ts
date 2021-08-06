@@ -1,8 +1,8 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import app from '../../app'
 import { parse } from './formulaParser'
 import { Paginated } from '@feathersjs/feathers'
@@ -122,8 +122,8 @@ describe('Formula parser', () => {
     })
   })
   describe('column values', () => {
-    let workspace: workspace
-    let database: database
+    let workspace: Workspace
+    let database: Database
     let table: Table
     let stringColumn: TableColumn
     let singleSelectColumn: TableColumn
@@ -138,7 +138,7 @@ describe('Formula parser', () => {
           workspace_id: workspace.id,
           $limit: 1,
         },
-      }) as Paginated<database>
+      }) as Paginated<Database>
       database = workspaceDatabases.data[0]
       // Create tables
       table = await app.service('table').create({

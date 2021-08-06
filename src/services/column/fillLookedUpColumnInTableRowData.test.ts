@@ -1,11 +1,11 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { LckAclSet } from '../../models/aclset.model'
 import { Group } from '../../models/group.model'
@@ -15,9 +15,9 @@ const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
 const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 
 describe('fillLookedUpColumnInTableRowData hook', () => {
-  let workspace: workspace
+  let workspace: Workspace
   let acl: LckAclSet
-  let database: database
+  let database: Database
   let table1: Table
   let table2: Table
   let table3: Table
@@ -65,7 +65,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     acl = await app.service('aclset').create({
       workspace_id: workspace.id,
       label: 'ACL Workspace pouet',

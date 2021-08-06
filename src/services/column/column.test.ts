@@ -2,9 +2,9 @@ import { Paginated } from '@feathersjs/feathers'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { Columnrelation } from '../columnrelation/columnrelation.class'
 import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
 
@@ -23,7 +23,7 @@ describe('\'column\' service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const database = workspaceDatabases.data[0]
     const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const tableColumn = await service.create({
@@ -36,8 +36,8 @@ describe('\'column\' service', () => {
   })
 
   describe('get the original type of a column', () => {
-    let workspace: workspace
-    let database: database
+    let workspace: Workspace
+    let database: Database
     let table1: Table
     let table2: Table
     let stringColumn: TableColumn
@@ -56,7 +56,7 @@ describe('\'column\' service', () => {
           workspace_id: workspace.id,
           $limit: 1,
         },
-      }) as Paginated<database>
+      }) as Paginated<Database>
       database = workspaceDatabases.data[0]
       // Create tables
       table1 = await app.service('table').create({
@@ -196,7 +196,7 @@ describe('\'column\' service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const database = workspaceDatabases.data[0]
     const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
     const column1 = await service.create({
@@ -230,8 +230,8 @@ describe('\'column\' service', () => {
 })
 
 describe('hooks for column service', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let table2: Table
 
@@ -242,7 +242,7 @@ describe('hooks for column service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
