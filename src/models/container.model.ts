@@ -2,10 +2,10 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { block as LckBlock } from './block.model'
+import { Block } from './block.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
-export class container extends BaseModel {
+export class Container extends BaseModel {
   position?: number
   displayed_in_navbar?: boolean
   anchor_label?: string
@@ -39,7 +39,7 @@ export class container extends BaseModel {
     return {
       blocks: {
         relation: Model.HasManyRelation,
-        modelClass: LckBlock,
+        modelClass: Block,
         join: {
           from: 'container.id',
           to: 'block.container_id',
@@ -49,6 +49,6 @@ export class container extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof container {
-  return container
+export default function (app: Application): typeof Container {
+  return Container
 }

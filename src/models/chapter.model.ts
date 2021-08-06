@@ -2,8 +2,8 @@
 // for more of what you can do here.
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { workspace as LckWorkspace } from './workspace.model'
-import { page as LckPage } from './page.model'
+import { Workspace } from './workspace.model'
+import { Page } from './page.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class Chapter extends BaseModel {
@@ -37,7 +37,7 @@ export class Chapter extends BaseModel {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckWorkspace,
+        modelClass: Workspace,
         join: {
           from: 'chapter.workspaceId',
           to: 'workspace.id',
@@ -45,7 +45,7 @@ export class Chapter extends BaseModel {
       },
       pages: {
         relation: Model.HasManyRelation,
-        modelClass: LckPage,
+        modelClass: Page,
         join: {
           from: 'chapter.id',
           to: 'page.chapter_id',

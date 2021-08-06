@@ -4,10 +4,10 @@
 import { Model, RelationMappings, JSONSchema } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { container as LckContainer } from './container.model'
+import { Container } from './container.model'
 import { Chapter } from './chapter.model'
 
-export class page extends BaseModel {
+export class Page extends BaseModel {
   id!: string
   text!: string
   chapter_id!: string
@@ -43,7 +43,7 @@ export class page extends BaseModel {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckContainer,
+        modelClass: Container,
         join: {
           from: 'page.id',
           to: 'container.page_id',
@@ -61,6 +61,6 @@ export class page extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof page {
-  return page
+export default function (app: Application): typeof Page {
+  return Page
 }
