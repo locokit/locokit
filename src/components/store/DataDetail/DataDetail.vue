@@ -19,6 +19,7 @@
         style="position: relative;"
         :vid="column.id"
         :rules="rulesExtended(column)"
+        mode="eager"
         :name="column.text"
         :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
@@ -252,7 +253,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropOptions, PropType } from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
 import { ValidationProvider } from 'vee-validate'
@@ -309,6 +310,9 @@ import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 import { ValidationResult } from 'vee-validate/dist/types/types'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ValidationProviderType = Vue & { validate: (...args: any[]) => Promise<ValidationResult> }
 
 export default {
   name: 'LckDataDetail',
@@ -379,10 +383,20 @@ export default {
       required: false,
       default: 'read',
     },
+    /*
+     * Additional sources displayed in addition to the editable data in geographic inputs
+     */
     secondarySources: {
       type: Object as PropType<Record<string, { definition: { columns: LckTableViewColumn[]; table_id?: string }; content: LckTableRow[] }>>,
       default: () => ({}),
     },
+    /*
+     * Fields ids which have been programmatically updated from another field value
+     */
+    currentFieldsWithDefaultValuesInteraction: {
+      type: Object,
+      default: () => ({}),
+    } as PropOptions<Record<string, LckTableRowData>>,
   },
   data () {
     return {
@@ -501,8 +515,7 @@ export default {
       if (Array.isArray(provider)) {
         provider = provider[0]
       }
-      /* eslint-disable-next-line */
-      (provider as Vue & { validate: (...args: any[]) => Promise<ValidationResult> }).validate(value)
+      (provider as ValidationProviderType).validate(value)
       this.$emit('update-row', {
         rowId,
         columnId,
@@ -662,6 +675,19 @@ export default {
         }
       },
       immediate: true,
+    },
+    currentFieldsWithDefaultValuesInteraction (fieldsToValidate: Record<string, LckTableRowData>) {
+      // Loop on fields with default values interaction which are programmatically updated to validate them
+      for (const fieldId in fieldsToValidate) {
+        const ref = `vp_${this.row.id}_${fieldId}`
+        let provider = this.$refs[ref]
+        if (provider) {
+          if (Array.isArray(provider)) {
+            provider = provider[0]
+          }
+          (provider as ValidationProviderType).validate(fieldsToValidate[fieldId])
+        }
+      }
     },
   },
 }

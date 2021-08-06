@@ -13,6 +13,7 @@
       :definition="definition"
       mode="creation"
       :row="newRow"
+      :currentFieldsWithDefaultValuesInteraction="currentFieldsWithDefaultValuesInteraction"
       title=""
       @update-row="onUpdateRow"
       @download-attachment="$listeners['download-attachment']"
@@ -68,6 +69,7 @@ export default Vue.extend({
         data: {},
       } as LckTableRow,
       resetForm: false,
+      currentFieldsWithDefaultValuesInteraction: {} as Record<string, LckTableRowData>,
     }
   },
   computed: {
@@ -94,8 +96,15 @@ export default Vue.extend({
       // Update the data
       this.$set(this.newRow.data, columnId, newValue)
 
-      if (this.fieldsWithDefaultValuesInteraction[columnId]) {
-        this.$set(this.newRow.data, this.fieldsWithDefaultValuesInteraction[columnId], newValue)
+      // Get the fields that are based on the updated data
+      const fieldWithDefaultValuesInteraction = this.fieldsWithDefaultValuesInteraction[columnId]
+      if (fieldWithDefaultValuesInteraction) {
+        // Update them
+        this.$set(this.newRow.data, fieldWithDefaultValuesInteraction, newValue)
+        // Save them for validation
+        this.currentFieldsWithDefaultValuesInteraction = {
+          [fieldWithDefaultValuesInteraction]: newValue,
+        }
       }
 
       // Throw updated events to other blocks if it's specified
