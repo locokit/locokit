@@ -32,18 +32,13 @@ import { parseISO } from 'date-fns'
 /**
  * Contact the API for searching items.
  * Useful for autocomplete fields.
- *
- * @param columnTypeId
- * @param tableId
- * @param query
- * @param groupId
  */
 export async function searchItems ({
   columnTypeId,
   tableId,
   query,
   groupId,
-}: { columnTypeId: number; tableId: string; query: object; groupId: string }) {
+}: { columnTypeId: number; tableId: string; query: string; groupId: string }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
@@ -103,10 +98,8 @@ export async function searchItems ({
  * Search TableView
  * Find all tableviews matching a pattern
  *
- * @param query
- * @param workspaceId
  */
-export async function searchTableView (query: object, workspaceId: string) {
+export async function searchTableView (query: string, workspaceId: string) {
   const tableViewResult = await lckServices.tableView.find({
     query: {
       'table:database.workspace_id': workspaceId,
@@ -131,14 +124,10 @@ export async function searchTableView (query: object, workspaceId: string) {
  * Find all pages matching a pattern
  * with possible additional filters
  * Also contains information on its chapter
- *
- * @param query
- * @param filters
  */
-export async function searchPageWithChapter (query: object, filters: object = {}) {
+export async function searchPageWithChapter (query: string, filters: object = {}) {
   const pagesResult = await lckServices.page.find({
     query: {
-      $joinRelation: 'chapter',
       $eager: 'chapter',
       $sort: {
         text: 1,
@@ -159,11 +148,8 @@ export async function searchPageWithChapter (query: object, filters: object = {}
 /**
  * Search Columns
  * Find all columns belonging to a table view and matching a pattern
- *
- * @param query
- * @param tableViewId
  */
-export async function searchColumnsFromTableView (query: object, tableViewId: string) {
+export async function searchColumnsFromTableView (query: string, tableViewId: string) {
   const tableColumnResult = await lckServices.tableColumn.find({
     query: {
       'views.id': tableViewId,
@@ -192,11 +178,6 @@ export async function searchColumnsFromTableView (query: object, tableViewId: st
 
 /**
  * Get columns and rows from the current TableView
- *
- * @param tableViewId
- * @param filters
- * @param groupId
- * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
  */
 async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
   viewData: LckTableRow[];
@@ -227,10 +208,6 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
 
 /**
  * Get value for data export
- *
- * @param currentColumn
- * @param currentRowValue
- * @returns string|undefined
  */
 function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
   switch (currentColumn.column_type_id) {
@@ -261,11 +238,6 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
 
 /**
  * Export data in xls
- *
- * @param tableViewId
- * @param filters
- * @param fileName
- * @param groupId
  */
 export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
@@ -293,11 +265,6 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
 
 /**
  * Export data in csv
- *
- * @param tableViewId
- * @param filters
- * @param fileName
- * @param groupId
  */
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
@@ -322,9 +289,6 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
  * Get the Blob data of an attachment.
  * Use a fetch request to inject Authorization header in HTTP Request.
  * It allows to retrieve protected files.
- *
- * @param url URL of the attachment
- * @returns Blob
  */
 export async function getAttachmentBlob (url: string) {
   const jwtToken = await lckClient.authentication.getAccessToken()
@@ -338,16 +302,9 @@ export async function getAttachmentBlob (url: string) {
 }
 
 /**
- * Download an attachment
- * by retrieving the blob
- * then saving it to the user file sytem.
+ * Download an attachment by retrieving the blob then saving it to the user file sytem.
  *
- * Need to be improved with a signed request
- * instead of a download by the web browser.
- *
- * @param url URL of the attachment
- * @param filename Filename of the attachment
- * @param mime Mime Type of the attachment
+ * Todo: Need to be improved with a signed request instead of a download by the web browser.
  */
 export async function downloadAttachment (url: string, filename: string, mime: string) {
   const blob = await getAttachmentBlob(url)
@@ -362,9 +319,6 @@ export async function downloadAttachment (url: string, filename: string, mime: s
 
 /**
  * Upload several files and returns all attachment ids
- *
- * @param fileList
- * @param workspaceId
  */
 export async function uploadMultipleFiles (fileList: FileList, workspaceId: string) {
   const uploadPromises: Promise<LckAttachment>[] = []
@@ -402,13 +356,10 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
 
 /**
  * Get page with related chapter
- *
- * @param id
  */
 export async function getPageWithChapters (id: string) {
   return await lckServices.page.get(id, {
     query: {
-      $joinRelation: 'chapter',
       $eager: 'chapter',
       $sort: {
         text: 1,
@@ -419,12 +370,9 @@ export async function getPageWithChapters (id: string) {
 
 /**
  * Get workspace with all chapters and pages
- *
- * @param groupId
  */
 export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   const group: LckGroup = await lckServices.group.get(groupId, {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: { $eager: 'aclset' },
   })
   const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
@@ -441,26 +389,19 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
 
 /**
  * Get page with all containers and blocks
- *
- * @param id
  */
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: { $eager: 'containers.[blocks.[displayTableView, displayField]]' },
   })
 }
 
 /**
  * Find specific view with columns, column's parents and action
- *
- * @param ids
- * @param skip
  */
 export async function retrieveViewDefinition (ids: number[], skip = 0) {
   if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
       $eager: '[columns.[column_type, parents.^], actions]',
       $modifyEager: {
@@ -493,13 +434,6 @@ export async function retrieveViewDefinition (ids: number[], skip = 0) {
 
 /**
  * Get records according to table view
- *
- * @param table_view_id
- * @param group_id
- * @param skip
- * @param limit
- * @param sort
- * @param filters
  */
 export async function retrieveViewData (
   table_view_id: string,
@@ -512,7 +446,6 @@ export async function retrieveViewData (
   filters = {},
 ) {
   return await lckServices.tableRow.find({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
       table_view_id,
       $lckGroupId: group_id,
@@ -546,9 +479,6 @@ function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[])
  * Convert every date field in data records (from the LCK API) in Date
  * Match also formulas with
  * This allow prime calendar to be displayed with the good data
- *
- * @param records
- * @param fieldDefinition
  */
 export function convertDateInRecords (records: LckTableRow | LckTableRow[], fieldDefinition: LckTableColumn[]): void {
   const dateFields = fieldDefinition.filter(f => {
