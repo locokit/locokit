@@ -181,20 +181,3 @@ a.no-decoration-link {
 .p-toast {
   z-index: 1101 !important;
 }
-
-// Confirmation dialog
-.p-confirm-dialog {
-  max-width: 600px;
-  margin: 0.5em;
-}
-
-.p-confirm-dialog .p-dialog-header-icons {
-  // Hide the close button because clicking on it will prevent the dialog from being displayed another time
-  display: none;
-}
-
-@media (max-width: 900px) {
-  .p-confirm-dialog .p-dialog-footer button {
-    width: 100%;
-  }
-}

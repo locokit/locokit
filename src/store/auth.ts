@@ -40,6 +40,7 @@ class AuthData {
   isAuthenticated = false
   user: User | null = null
   currentGroupId: string | null = null
+  expiredToken = false
 }
 
 export class AuthDTO {
@@ -56,6 +57,7 @@ export const authState: AuthState = {
     isAuthenticated: false,
     user: null,
     currentGroupId: null,
+    expiredToken: false,
   },
 }
 
@@ -69,6 +71,7 @@ export async function retrieveUserGroupsAndWorkspacesAndDatabases (id: string) {
 
 export async function reAuthenticate () {
   authState.loading = true
+  authState.data.expiredToken = false
   try {
     const result = await lckClient.reAuthenticate()
     lckAbilities.update(result.user.rules)
@@ -83,6 +86,7 @@ export async function reAuthenticate () {
 export async function authenticate (data: AuthDTO) {
   authState.loading = true
   authState.error = null
+  authState.data.expiredToken = false
   try {
     const result = await lckClient.authenticate({
       strategy: 'local',
@@ -104,6 +108,7 @@ export function logout () {
     isAuthenticated: false,
     user: null,
     currentGroupId: null,
+    expiredToken: false,
   }
   lckAbilities.update([])
   return lckClient.logout()

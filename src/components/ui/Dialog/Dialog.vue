@@ -1,11 +1,14 @@
 <template>
   <p-dialog
+    :class="'expired-token-dialog'"
     :visible="visible"
     :style="{width: '600px'}"
     :header="header"
     :modal="true"
+    :baseZIndex="baseZIndex"
     :contentStyle="{ ...contentStyle, 'max-height': '70vh'}"
-    :closeOnEscape="true"
+    :closeOnEscape="closeOnEscape"
+    :closable="closable"
     class="p-fluid"
     @hide="$emit('close')"
     @update:visible="$emit('close')"
@@ -35,6 +38,18 @@ export default {
     },
     contentStyle: {
       type: Object,
+    },
+    baseZIndex: {
+      type: Number,
+      default: 0,
+    },
+    closable: {
+      type: Boolean,
+      default: true,
+    },
+    closeOnEscape: {
+      type: Boolean,
+      default: true,
     },
   },
 }

@@ -4,10 +4,9 @@ import VueRouter from 'vue-router'
 import feathers, { Service } from '@feathersjs/feathers'
 import { NotAuthenticated } from '@feathersjs/errors'
 
-import { logOutAndRedirect, manageExpiredToken } from './hooks'
-import { vueInstance } from '@/main'
+import { manageExpiredToken } from './hooks'
 import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
-import { authState, logout } from '@/store/auth'
+import { authState } from '@/store/auth'
 
 // Mock internal functions
 
@@ -88,10 +87,10 @@ describe('Hooks', () => {
   describe('Manage the token expiration', () => {
     beforeEach(() => {
       mockConfirmDialogRequire.mockClear()
-      authState.data.isAuthenticated = false
+      authState.data.expiredToken = false
     })
 
-    it('display a confirmation dialog if the token has expired for an authenticated user', async () => {
+    it('update the authentication state if the token has expired', async () => {
       // Simulate an expired token error
       mockServiceFind.mockRejectedValue(new NotAuthenticated(
         'expired token',
@@ -99,44 +98,17 @@ describe('Hooks', () => {
           name: 'TokenExpiredError',
         },
       ))
-      // User is authentified
-      authState.data.isAuthenticated = true
       try {
         // API call
         expect(await myService.find()).rejects.toThrow()
         fail()
       } catch (_) {
-        // Display a confirmation dialog
-        expect(mockConfirmDialogRequire).toHaveBeenCalledTimes(1)
-        expect(mockConfirmDialogRequire).toHaveBeenCalledWith(expect.objectContaining({
-          header: 'error.expiredToken.header',
-          message: 'error.expiredToken.message',
-          acceptLabel: 'error.expiredToken.accept',
-          rejectLabel: 'error.expiredToken.reject',
-          icon: 'pi pi-exclamation-triangle',
-        }))
+        // Update the authentification state
+        expect(authState.data.expiredToken).toBe(true)
       }
     })
 
-    it('do not display the confirmation dialog if the token has expired for a non authenticated user', async () => {
-      // Simulate an expired token error
-      mockServiceFind.mockRejectedValue(new NotAuthenticated(
-        'expired token',
-        {
-          name: 'TokenExpiredError',
-        },
-      ))
-      try {
-        // API call
-        await myService.find()
-        fail()
-      } catch (e) {
-        // Do not display a confirmation dialog
-        expect(mockConfirmDialogRequire).not.toHaveBeenCalled()
-      }
-    })
-
-    it('do not display the confirmation dialog if a not authenticated error throws but the token has not expired for an authenticated user', async () => {
+    it('do not update the authentication state if a not authenticated error throws but the token has not expired', async () => {
       // Simulate an expired token error
       mockServiceFind.mockRejectedValue(new NotAuthenticated(
         'need authentication',
@@ -148,20 +120,9 @@ describe('Hooks', () => {
         await myService.find()
         fail()
       } catch (e) {
-        // Do not display a confirmation dialog
-        expect(mockConfirmDialogRequire).not.toHaveBeenCalled()
+        // Don't update the authentification state
+        expect(authState.data.expiredToken).toBe(false)
       }
-    })
-
-    it('log out the authenticated user with the original path in query parameter', async () => {
-      // Go to the ADMIN page
-      if (vueInstance) vueInstance.$router.push(ROUTES_PATH.ADMIN)
-      // Log out the user
-      await logOutAndRedirect()
-      expect(logout).toHaveBeenCalledTimes(1)
-      // Redirect the user to the HOME page and save the ADMIN page path as route query
-      expect(vueInstance?.$route.path).toBe(ROUTES_PATH.HOME)
-      expect(vueInstance?.$route.query.redirectTo).toBe(ROUTES_PATH.ADMIN)
     })
   })
 })

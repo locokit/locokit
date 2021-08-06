@@ -8,6 +8,7 @@
       "email": "E-mail",
       "password": "Mot de passe",
       "signin": "Se connecter",
+      "signinAgain": "Se reconnecter",
       "passwordHelper": "Renseignez votre mot de passe",
       "lostpassword": "Mot de passe perdu ?"
     },
@@ -708,9 +709,7 @@
     "impossibleOperation": "Opération impossible",
     "expiredToken": {
       "header": "Votre session a expiré",
-      "message": "Merci de vous reconnecter pour lire ou modifier vos données.",
-      "accept": "Se reconnecter",
-      "reject": "Poursuivre malgré tout"
+      "message": "Merci de vous reconnecter pour poursuivre votre navigation sur le site."
     }
   },
   "form": {

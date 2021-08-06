@@ -8,6 +8,24 @@
       v-if="displayPopupReload"
       @cancel="displayPopupReload = false"
     />
+
+    <lck-dialog
+      :baseZIndex="1101"
+      :closable="false"
+      :closeOnEscape="false"
+      :header="$t('error.expiredToken.header')"
+      :visible="authState.data.expiredToken && authState.data.isAuthenticated"
+    >
+      <p>{{ $t('error.expiredToken.message') }}</p>
+      <lck-login
+        :error="authState.error"
+        :loading="authState.loading"
+        :logInAgain="true"
+        style="border: 1px solid var(--primary-color); padding: 1em;"
+        @submit="authenticate"
+      />
+    </lck-dialog>
+
     <div
       class="layout-sidebar"
       :class="sidebarActive ? 'active' : 'hidden'"
@@ -28,29 +46,31 @@
     </main>
 
     <p-toast position="top-right" />
-    <p-confirm-dialog />
   </div>
 </template>
 
 <script>
 import {
   authState,
+  authenticate,
   logout,
 } from '@/store/auth'
 import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
+import Login from '@/components/auth/Login/Login.vue'
+import Dialog from './components/ui/Dialog/Dialog.vue'
 import Header from '@/components/ui/Header/Header'
 import PopupReload from '@/components/ui/PopupReload/PopupReload'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import ConfirmDialog from 'primevue/confirmdialog'
 import Toast from 'primevue/toast'
 
 export default {
   name: 'app',
   components: {
     'lck-header': Header,
+    'lck-dialog': Dialog,
+    'lck-login': Login,
     'lck-popup-reload': PopupReload,
-    'p-confirm-dialog': ConfirmDialog,
     'p-toast': Toast,
   },
   data () {
@@ -79,6 +99,9 @@ export default {
     },
   },
   methods: {
+    async authenticate (data) {
+      await authenticate(data)
+    },
     toggleSidebar () {
       this.sidebarActive = !this.sidebarActive
     },

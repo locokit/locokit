@@ -35,7 +35,6 @@
     "lodash.clonedeep": "^4.5.0",
     "mapbox-gl": "^1.13.0",
     "marked": "^1.2.5",
-    "mitt": "^3.0.0",
     "monaco-editor-core": "^0.22.3",
     "nomnoml": "^1.1.0",
     "ol": "^6.5.0",
