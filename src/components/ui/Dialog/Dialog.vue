@@ -1,6 +1,5 @@
 <template>
   <p-dialog
-    :class="'expired-token-dialog'"
     :visible="visible"
     :style="{width: '600px'}"
     :header="header"
