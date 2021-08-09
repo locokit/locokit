@@ -82,7 +82,7 @@ export default Vue.extend({
       type: Object as PropType<Record<string, LckTableView>>,
     },
     content: {
-      type: Object as PropType<Record<string, LckTableRow[]>>,
+      type: Object as PropType<Record<string, LckTableRow[] | null>>,
     },
     settings: {
       type: Object as PropType<MapSettings>,
@@ -129,7 +129,7 @@ export default Vue.extend({
       if (!this.hasRightConfiguration) return []
       return getLckGeoResources(
         this.definition,
-        this.content,
+        this.content as Record<string, LckTableRow[]>,
         this.settings,
         {
           noReference: this.$t('components.mapview.noReference'),
