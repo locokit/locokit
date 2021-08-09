@@ -19,7 +19,6 @@
         style="position: relative;"
         :vid="column.id"
         :rules="rulesExtended(column)"
-        mode="eager"
         :name="column.text"
         :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
@@ -393,7 +392,7 @@ export default {
     /*
      * Fields ids which have been programmatically updated from another field value
      */
-    currentFieldsWithDefaultValuesInteraction: {
+    fieldsToValidate: {
       type: Object,
       default: () => ({}),
     } as PropOptions<Record<string, LckTableRowData>>,
@@ -676,16 +675,16 @@ export default {
       },
       immediate: true,
     },
-    currentFieldsWithDefaultValuesInteraction (fieldsToValidate: Record<string, LckTableRowData>) {
+    fieldsToValidate (newFieldsToValidate: Record<string, LckTableRowData>) {
       // Loop on fields with default values interaction which are programmatically updated to validate them
-      for (const fieldId in fieldsToValidate) {
+      for (const fieldId in newFieldsToValidate) {
         const ref = `vp_${this.row.id}_${fieldId}`
         let provider = this.$refs[ref]
         if (provider) {
           if (Array.isArray(provider)) {
             provider = provider[0]
           }
-          (provider as ValidationProviderType).validate(fieldsToValidate[fieldId])
+          (provider as ValidationProviderType).validate(newFieldsToValidate[fieldId])
         }
       }
     },

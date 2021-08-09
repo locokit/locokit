@@ -13,7 +13,7 @@
       :definition="definition"
       mode="creation"
       :row="newRow"
-      :currentFieldsWithDefaultValuesInteraction="currentFieldsWithDefaultValuesInteraction"
+      :fieldsToValidate="fieldsToValidate"
       title=""
       @update-row="onUpdateRow"
       @download-attachment="$listeners['download-attachment']"
@@ -69,7 +69,7 @@ export default Vue.extend({
         data: {},
       } as LckTableRow,
       resetForm: false,
-      currentFieldsWithDefaultValuesInteraction: {} as Record<string, LckTableRowData>,
+      fieldsToValidate: {} as Record<string, LckTableRowData>,
     }
   },
   computed: {
@@ -102,7 +102,7 @@ export default Vue.extend({
         // Update them
         this.$set(this.newRow.data, fieldWithDefaultValuesInteraction, newValue)
         // Save them for validation
-        this.currentFieldsWithDefaultValuesInteraction = {
+        this.fieldsToValidate = {
           [fieldWithDefaultValuesInteraction]: newValue,
         }
       }
