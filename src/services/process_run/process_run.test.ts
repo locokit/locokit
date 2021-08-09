@@ -1,13 +1,13 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Process, ProcessTrigger } from '../../models/process.model'
 import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 
 import { Table } from '../../models/table.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { TableRow } from '../../models/tablerow.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 
 import axios, { AxiosRequestConfig } from 'axios'
 import { User } from '../../models/user.model'
@@ -26,8 +26,8 @@ describe('\'process_run\' service', () => {
   })
 
   describe('add some rules', () => {
-    let workspace: workspace
-    let database: database
+    let workspace: Workspace
+    let database: Database
     let table1: Table
     let tableColumn: TableColumn
     let tableRow: TableRow
@@ -76,7 +76,7 @@ describe('\'process_run\' service', () => {
           workspace_id: workspace.id,
           $limit: 1,
         },
-      }) as Paginated<database>
+      }) as Paginated<Database>
       database = workspaceDatabases.data[0]
       table1 = await app.service('table').create({
         text: 'table1',

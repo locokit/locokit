@@ -1,6 +1,6 @@
 import { Ability } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import { workspace } from '../models/workspace.model'
+import { Workspace } from '../models/workspace.model'
 import { defineAbilityFor } from './workspace.abilities'
 import app from '../app'
 import { LckAclSet } from '../models/aclset.model'
@@ -18,8 +18,8 @@ describe('Workspace abilities', () => {
    * * several groups
    * * several users
    */
-  let workspace1: workspace
-  let workspace2: workspace
+  let workspace1: Workspace
+  let workspace2: Workspace
   let aclset1: LckAclSet
   let aclset2: LckAclSet
   let aclset3: LckAclSet

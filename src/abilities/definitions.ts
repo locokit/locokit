@@ -1,15 +1,15 @@
 /**
  * Load of all ressources we want to manage with CASL
  */
-import { workspace } from '../models/workspace.model'
+import { Workspace } from '../models/workspace.model'
 import { LckAttachment } from '../models/attachment.model'
-import { block } from '../models/block.model'
-import { chapter } from '../models/chapter.model'
-import { container } from '../models/container.model'
-import { database } from '../models/database.model'
+import { Block } from '../models/block.model'
+import { Chapter } from '../models/chapter.model'
+import { Container } from '../models/container.model'
+import { Database } from '../models/database.model'
 import { Group } from '../models/group.model'
 import { User } from '../models/user.model'
-import { page } from '../models/page.model'
+import { Page } from '../models/page.model'
 import { Table } from '../models/table.model'
 import { TableColumn } from '../models/tablecolumn.model'
 import { TableRow } from '../models/tablerow.model'
@@ -26,15 +26,15 @@ import { Ability, AbilityClass, createAliasResolver, InferSubjects } from '@casl
  */
 export type Actions = 'find' | 'get' | 'create' | 'update' | 'patch' | 'remove' | 'manage' | 'read' | 'delete'
 export type Subjects = InferSubjects<
-   typeof workspace |
+   typeof Workspace |
    typeof LckAttachment |
-   typeof block |
-   typeof chapter |
-   typeof container |
-   typeof database |
+   typeof Block |
+   typeof Chapter |
+   typeof Container |
+   typeof Database |
    typeof Group |
    typeof User |
-   typeof page |
+   typeof Page |
    typeof ProcessRun |
    typeof Process |
    typeof Table |

@@ -1,7 +1,7 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { Application } from '@feathersjs/express'
-import { Group as LckGroup } from './group.model'
+import { Group } from './group.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export type UserProfile = 'USER' | 'ADMIN' | 'SUPERADMIN' | 'CREATOR'
@@ -109,7 +109,7 @@ export class User extends Model {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckGroup,
+        modelClass: Group,
         join: {
           from: 'group.id',
           through: {
@@ -132,7 +132,7 @@ export class User extends Model {
         // subclass constructor or an absolute file path
         // to a module that exports one. We use a model
         // subclass constructor `Animal` here.
-        modelClass: LckGroup,
+        modelClass: Group,
         join: {
           from: 'group.id',
           through: {

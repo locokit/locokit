@@ -10,7 +10,7 @@ import { TableRow } from '../models/tablerow.model'
 import { Paginated } from '@feathersjs/feathers'
 import { Forbidden, NotFound } from '@feathersjs/errors'
 
-const builder = builderTestEnvironment()
+const builder = builderTestEnvironment('record-abilities')
 
 describe('Records abilities', () => {
   let ability: Ability

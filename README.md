@@ -42,12 +42,12 @@ This is made with [Redoc UI](https://redocly.github.io/redoc/).
 You can restore any staging / production dump you have access to by putting them
 in the `dumps` folder.
 
-This folder is shared with the postgres dockers. (`lck-api-db` and `lck-api-db-test`)
+This folder is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
 
 For restoring a dump :
 
 ```sh
-docker exec -it lck-api-db bash
+docker exec -it lck-db bash
 pg_restore --no-owner --clean -d postgres -U postgres -W /dumps/your_dump # you'll have to enter the password pouicpouic
 ```
 

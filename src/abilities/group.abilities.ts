@@ -44,12 +44,12 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         paginate: false,
       }) as Usergroup[]
       can('read', 'group', {
-        id: {
+        'group.id': {
           $in: usergroupsDefault.map(ug => ug.group_id),
         },
       })
       can('manage', 'group', {
-        id: {
+        'group.id': {
           $in: usergroupsDefault
             .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
             .map(ug => ug.group_id),

@@ -3,17 +3,17 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
-import { chapter as LckChapter } from './chapter.model'
-import { database as LckDatabase } from './database.model'
+import { Chapter } from './chapter.model'
+import { Database } from './database.model'
 import { LckAttachment } from './attachment.model'
 import { Process } from './process.model'
 import { LckAclSet } from './aclset.model'
 
-export class workspace extends BaseModel {
+export class Workspace extends BaseModel {
   text!: string
   documentation?: string
-  chapters?: LckChapter[]
-  databases?: LckDatabase[]
+  chapters?: Chapter[]
+  databases?: Database[]
   attachments?: LckAttachment[]
   aclsets?: LckAclSet[]
 
@@ -47,7 +47,7 @@ export class workspace extends BaseModel {
       },
       chapters: {
         relation: Model.HasManyRelation,
-        modelClass: LckChapter,
+        modelClass: Chapter,
         join: {
           from: 'workspace.id',
           to: 'chapter.workspace_id',
@@ -55,7 +55,7 @@ export class workspace extends BaseModel {
       },
       databases: {
         relation: Model.HasManyRelation,
-        modelClass: LckDatabase,
+        modelClass: Database,
         join: {
           from: 'workspace.id',
           to: 'database.workspace_id',
@@ -81,6 +81,6 @@ export class workspace extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof workspace {
-  return workspace
+export default function (app: Application): typeof Workspace {
+  return Workspace
 }
