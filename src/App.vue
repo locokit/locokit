@@ -8,6 +8,24 @@
       v-if="displayPopupReload"
       @cancel="displayPopupReload = false"
     />
+
+    <lck-dialog
+      :baseZIndex="1101"
+      :closable="false"
+      :closeOnEscape="false"
+      :header="$t('error.expiredToken.header')"
+      :visible="authState.data.expiredToken && authState.data.isAuthenticated"
+    >
+      <p>{{ $t('error.expiredToken.message') }}</p>
+      <lck-login
+        class="bordered-login"
+        :error="authState.error"
+        :loading="authState.loading"
+        :logInAgain="true"
+        @submit="authenticate"
+      />
+    </lck-dialog>
+
     <div
       class="layout-sidebar"
       :class="sidebarActive ? 'active' : 'hidden'"
@@ -34,10 +52,13 @@
 <script>
 import {
   authState,
+  authenticate,
   logout,
 } from '@/store/auth'
 import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
+import Login from '@/components/auth/Login/Login.vue'
+import Dialog from './components/ui/Dialog/Dialog.vue'
 import Header from '@/components/ui/Header/Header'
 import PopupReload from '@/components/ui/PopupReload/PopupReload'
 import { USER_PROFILE } from '@locokit/lck-glossary'
@@ -47,6 +68,8 @@ export default {
   name: 'app',
   components: {
     'lck-header': Header,
+    'lck-dialog': Dialog,
+    'lck-login': Login,
     'lck-popup-reload': PopupReload,
     'p-toast': Toast,
   },
@@ -76,6 +99,9 @@ export default {
     },
   },
   methods: {
+    async authenticate (data) {
+      await authenticate(data)
+    },
     toggleSidebar () {
       this.sidebarActive = !this.sidebarActive
     },
@@ -107,5 +133,10 @@ export default {
 <style lang="scss" scoped>
 header {
   height: 4rem;
+}
+
+.bordered-login {
+  border: 1px solid var(--primary-color);
+  padding: 1em;
 }
 </style>
