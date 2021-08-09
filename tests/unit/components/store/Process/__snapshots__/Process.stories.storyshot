@@ -55,7 +55,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
         <div
           class="p-tabview-panel"
           role="tabpanel"
-          style="display: none;"
         >
           <span>
             <form

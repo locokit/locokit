@@ -10,11 +10,11 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
     style="width: 40rem; z-index: 1038;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -24,7 +24,11 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
@@ -785,11 +789,11 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
     style="width: 40rem; z-index: 1034;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -799,7 +803,11 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
@@ -954,11 +962,11 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
     style="width: 40rem; z-index: 1036;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -968,7 +976,11 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
@@ -1401,11 +1413,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
     style="width: 40rem; z-index: 1039;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -1415,7 +1427,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
@@ -2176,11 +2192,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
     style="width: 40rem; z-index: 1037;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -2190,7 +2206,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
@@ -2637,11 +2657,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
     style="width: 40rem; z-index: 1035;"
   >
     <div
-      class="p-sidebar-content"
+      class="p-sidebar-header"
     >
       <button
         aria-label="close"
-        class="p-sidebar-close p-link"
+        class="p-sidebar-close p-sidebar-icon p-link"
         type="button"
       >
         <span
@@ -2651,7 +2671,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
           class="p-ink"
         />
       </button>
-       
+    </div>
+     
+    <div
+      class="p-sidebar-content"
+    >
       <div
         class="sidebar-content lck-color-content"
       >
