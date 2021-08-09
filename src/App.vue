@@ -18,10 +18,10 @@
     >
       <p>{{ $t('error.expiredToken.message') }}</p>
       <lck-login
+        class="bordered-login"
         :error="authState.error"
         :loading="authState.loading"
         :logInAgain="true"
-        style="border: 1px solid var(--primary-color); padding: 1em;"
         @submit="authenticate"
       />
     </lck-dialog>
@@ -133,5 +133,10 @@ export default {
 <style lang="scss" scoped>
 header {
   height: 4rem;
+}
+
+.bordered-login {
+  border: 1px solid var(--primary-color);
+  padding: 1em;
 }
 </style>
