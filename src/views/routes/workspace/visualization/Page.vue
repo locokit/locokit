@@ -569,7 +569,7 @@ export default {
         }
         return this.geoSources[block.id].definition
       }
-      if (!block.settings.id) return null
+      if (!block?.settings?.id) return null
 
       return this.sources[block.settings.id]?.definition
     },
