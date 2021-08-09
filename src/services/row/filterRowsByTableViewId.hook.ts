@@ -2,8 +2,13 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { LckColumnFilter, TableColumnDTO } from '../../models/tablecolumn.model'
+import { TableView } from '../../models/tableview.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
+
+interface QueryFilter {
+  data: Record<string, Record<string, string | number | boolean | string[]>>
+}
 
 /**
  * Add filters depending on the table view wished
@@ -13,13 +18,14 @@ export default function filterRowsByTableViewId (): Hook {
     if (context.params.query?.table_view_id) {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const { table_view_id } = context.params.query
-      const tableView = await context.app.services.view.get(table_view_id, {
+      const tableView: TableView = await context.app.services.view.get(table_view_id, {
         query: {
           $eager: 'columns',
         },
         paginate: false,
       })
       const filtersToAdd: { [key: string]: Object } = {};
+      // Add filters coming from table view columns settings
       (tableView.columns as TableColumnDTO[])
         .filter((c: TableColumnDTO) => c.filter)
         .forEach((c: TableColumnDTO) => {
@@ -77,6 +83,53 @@ export default function filterRowsByTableViewId (): Hook {
             }
           })
         })
+      // Add default filters coming from table view settings
+      if (tableView.filter) {
+        const { operator, values } = tableView.filter
+        if (values.length > 0) {
+          // List that will contain all the filters
+          const defaultFilters: Array<{
+            data: Record<string, Record<string, string | number | boolean | string[]>>
+          }> = []
+          values.forEach(({ column, dbAction, pattern }) => {
+            const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
+
+            if (!currentColumn) {
+              throw new NotAcceptable('Invalid column: the specified column is unknown.')
+            }
+
+            const columnKey = [
+              COLUMN_TYPE.GROUP,
+              COLUMN_TYPE.LOOKED_UP_COLUMN,
+              COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+              COLUMN_TYPE.USER,
+            ].includes(currentColumn.column_type_id)
+              ? `${column}.value`
+              : column
+            // Add the FeatherJS query filter
+            defaultFilters.push({
+              data: {
+                [columnKey]: {
+                  [dbAction]: ['$ilike', '$notILike'].includes(dbAction) ? `%${pattern as string | number}%` : pattern,
+                },
+              },
+            })
+          })
+          // Add default filters to the query
+          const allFilters: Array<Record<string, QueryFilter[]>> = [{ [operator]: defaultFilters }]
+          if (context.params.query.$or) allFilters.push({ $or: context.params.query.$or })
+          if (context.params.query.$and) allFilters.push({ $and: context.params.query.$and })
+          if (allFilters.length > 1) {
+            // If a filter operator is already specified -> make a conjonction of the specified and the default filters
+            context.params.query.$and = allFilters
+            delete context.params.query.$or
+          } else {
+            // If there is no specified filter operator -> simply add the default filters
+            context.params.query[operator] = defaultFilters
+          }
+        }
+      }
+
       context.params.query = {
         ...context.params.query,
         table_id: tableView.table_id,

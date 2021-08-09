@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-array-sort-compare */
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -600,14 +601,14 @@ describe('computeLookedUpColumns hook', () => {
       expect.assertions(6)
       const newColumnTable1Ref = newRow1Table1.data[columnTable1Ref.id] as string
       const newColumnTable1User = newRow1Table1.data[columnTable1User.id] as { reference: string, value: string }
-      const newColumnTable1MultiUser = newRow1Table1.data[columnTable1MultiUser.id] as { reference: string, value: string }
+      const newColumnTable1MultiUser = newRow1Table1.data[columnTable1MultiUser.id] as unknown as { reference: string[], value: string[] }
       const newcolumnTable1FormulaRef = newRow1Table1.data[columnTable1FormulaRef.id] as string
 
       expect(newColumnTable1Ref).toBe(updatedFirstString)
       expect(newColumnTable1User.reference).toBe(user2.id)
       expect(newColumnTable1User.value).toBe(user2.name)
-      expect(newColumnTable1MultiUser.reference).toStrictEqual([user1.id, user2.id])
-      expect(newColumnTable1MultiUser.value).toStrictEqual([user1.name, user2.name])
+      expect(newColumnTable1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
+      expect(newColumnTable1MultiUser.value.sort()).toStrictEqual([user1.name, user2.name].sort())
       expect(newcolumnTable1FormulaRef).toBe(`TEXT:${updatedFirstString}`)
     })
 
@@ -630,14 +631,14 @@ describe('computeLookedUpColumns hook', () => {
         // Table 2 - row 1
         const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
         const newColumnTable2Row1User = newRow1Table2.data[columnTable2LookedUpColumnTable1User.id] as { reference: string, value: string }
-        const newColumnTable2Row1MultiUser = newRow1Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
+        const newColumnTable2Row1MultiUser = newRow1Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as unknown as { reference: string[], value: string }
         const newColumnTable2Row1FormulaUser = newRow1Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
         expect(newColumnTable2Row1Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row1Ref.value).toBe(updatedFirstString)
         expect(newColumnTable2Row1User.reference).toBe(user2.id)
         expect(newColumnTable2Row1User.value).toBe(user2.name)
-        expect(newColumnTable2Row1MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable2Row1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable2Row1MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
         expect(newColumnTable2Row1FormulaUser.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row1FormulaUser.value).toBe(`TEXT:${updatedFirstString}`)
@@ -645,14 +646,14 @@ describe('computeLookedUpColumns hook', () => {
         // Table 2 - row 2
         const newColumnTable2Row2Ref = newRow2Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
         const newColumnTable2Row2User = newRow2Table2.data[columnTable2LookedUpColumnTable1User.id] as { reference: string, value: string }
-        const newColumnTable2Row2MultiUser = newRow2Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
+        const newColumnTable2Row2MultiUser = newRow2Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as unknown as { reference: string[], value: string }
         const newColumnTable2Row2FormulaUser = newRow2Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
         expect(newColumnTable2Row2Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row2Ref.value).toBe(updatedFirstString)
         expect(newColumnTable2Row2User.reference).toBe(user2.id)
         expect(newColumnTable2Row2User.value).toBe(user2.name)
-        expect(newColumnTable2Row2MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable2Row2MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable2Row2MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
         expect(newColumnTable2Row2FormulaUser.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row2FormulaUser.value).toBe(`TEXT:${updatedFirstString}`)
@@ -711,25 +712,25 @@ describe('computeLookedUpColumns hook', () => {
         // Table 3 - row 1
         const newColumnTable3Row1Ref = newRow1Table3.data[columnTable3LookedUpColumnTable2Ref.id] as { reference: string, value: string }
         const newColumnTable3Row1User = newRow1Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
-        const newColumnTable3Row1MultiUser = newRow1Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
+        const newColumnTable3Row1MultiUser = newRow1Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as unknown as { reference: string[], value: string }
 
         expect(newColumnTable3Row1Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable3Row1Ref.value).toBe(updatedFirstString)
         expect(newColumnTable3Row1User.reference).toBe(user2.id)
         expect(newColumnTable3Row1User.value).toBe(user2.name)
-        expect(newColumnTable3Row1MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable3Row1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable3Row1MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
 
         // Table 3 - row 2
         const newColumnTable3Row2Ref = newRow2Table3.data[columnTable3LookedUpColumnTable2Ref.id] as { reference: string, value: string }
         const newColumnTable3Row2User = newRow2Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
-        const newColumnTable3Row2MultiUser = newRow2Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
+        const newColumnTable3Row2MultiUser = newRow2Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as unknown as { reference: string[], value: string }
 
         expect(newColumnTable3Row2Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable3Row2Ref.value).toBe(updatedFirstString)
         expect(newColumnTable3Row2User.reference).toBe(user2.id)
         expect(newColumnTable3Row2User.value).toBe(user2.name)
-        expect(newColumnTable3Row2MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable3Row2MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable3Row2MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
 
         // Table 4 - row 1

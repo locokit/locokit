@@ -83,10 +83,10 @@ describe('filterRowsByTableViewId hook', () => {
     })
     rowTable1 = await app.service('row').create({
       table_id: table1.id,
-      text: 'table 1 ref',
+      text: 'table 1 ref 1',
       data: {
         [columnTable1Ref.id]: 'this is a ref',
-        [columnTable1FirstName.id]: 'first name',
+        [columnTable1FirstName.id]: 'first name 1',
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: user1.id,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
@@ -95,10 +95,10 @@ describe('filterRowsByTableViewId hook', () => {
     })
     rowTable2 = await app.service('row').create({
       table_id: table1.id,
-      text: 'table 1 ref',
+      text: 'table 1 ref 2',
       data: {
         [columnTable1Ref.id]: 'no way table 2',
-        [columnTable1FirstName.id]: 'first name',
+        [columnTable1FirstName.id]: 'first name 1',
         [columnTable1LastName.id]: 'last name',
         [columnTable1User.id]: user1.id,
         [columnTable1Geom.id]: 'SRID=4326;POINT (29.00390625 54.546579538405)',
@@ -107,7 +107,7 @@ describe('filterRowsByTableViewId hook', () => {
     })
     rowTable3 = await app.service('row').create({
       table_id: table1.id,
-      text: 'table 1 ref',
+      text: 'table 1 ref 3',
       data: {
         [columnTable1Ref.id]: 'lucky table 3',
         [columnTable1FirstName.id]: 'first name',
@@ -234,6 +234,388 @@ describe('filterRowsByTableViewId hook', () => {
     await app.service('view').remove(tableView.id)
   })
 
+  describe('restrict view rows to the table view filter', () => {
+    it('return the specific rows if there is one default filter', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$or',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1Ref.id,
+              dbAction: '$eq',
+              pattern: 'this is a ref',
+            },
+            {
+              action: 'ilike',
+              column: columnTable1Ref.id,
+              dbAction: '$ilike',
+              pattern: 'table 2',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+          $sort: {
+            text: 1,
+          },
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(3)
+      expect(rows.total).toBe(2)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      expect(rows.data[1].id).toBe(rowTable2.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return the specific rows if there is one default filter and one column filter', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$or',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1Ref.id,
+              dbAction: '$eq',
+              pattern: 'this is a ref',
+            },
+            {
+              action: 'ilike',
+              column: columnTable1Ref.id,
+              dbAction: '$ilike',
+              pattern: 'lucky',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1User.id,
+        filter: {
+          $eq: user1.id,
+        },
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(2)
+      expect(rows.total).toBe(1)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('throw an exception if the specified column is not in the table view', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [
+            {
+              action: 'equal',
+              column: 'unknown',
+              dbAction: '$eq',
+              pattern: 'this is a ref',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Check that an exception is thrown
+      expect.assertions(1)
+      await expect(app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+        },
+      })).rejects.toThrow(NotAcceptable)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('throw an exception if the table view has no column', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1Ref.id,
+              dbAction: '$eq',
+              pattern: 'this is a ref',
+            },
+          ],
+        },
+      }) as TableView
+      // Check that an exception is thrown
+      expect.assertions(1)
+      await expect(app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+        },
+      })).rejects.toThrow(NotAcceptable)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return all the rows if the default filter has no value', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(1)
+      expect(rows.total).toBe(3)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return the specific rows if there is one default filter ($and operator) and another one which is specified in the request ($and operator)', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1FirstName.id,
+              dbAction: '$eq',
+              pattern: 'first name 1',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1FirstName.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+          $and: [
+            { data: { [columnTable1Ref.id]: 'this is a ref' } },
+          ],
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(2)
+      expect(rows.total).toBe(1)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return the specific rows if there is one default filter ($and operator) and another one which is specified in the request ($or operator)', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1FirstName.id,
+              dbAction: '$eq',
+              pattern: 'first name 1',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1FirstName.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+          $or: [
+            {
+              data: { [columnTable1Ref.id]: 'this is a ref' },
+            },
+          ],
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(2)
+      expect(rows.total).toBe(1)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return the specific rows if there is one default filter ($or operator) and another one which is specified in the request ($or operator)', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$or',
+          values: [
+            {
+              action: 'equal',
+              column: columnTable1FirstName.id,
+              dbAction: '$eq',
+              pattern: 'first name 1',
+            },
+            {
+              action: 'equal',
+              column: columnTable1FirstName.id,
+              dbAction: '$eq',
+              pattern: 'first name',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1FirstName.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+          $or: [
+            { data: { [columnTable1Ref.id]: 'this is a ref' } },
+            { data: { [columnTable1Ref.id]: 'lucky table 3' } },
+          ],
+          $sort: {
+            text: 1,
+          },
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(3)
+      expect(rows.total).toBe(2)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      expect(rows.data[1].id).toBe(rowTable3.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+
+    it('return the specific rows if there is one default filter ($or operator) and another one which is specified in the request ($and operator)', async () => {
+      // Create the table view with default filter
+      const tableView = await app.service('view').create({
+        text: 'My view',
+        table_id: table1.id,
+        filter: {
+          operator: '$and',
+          values: [
+            {
+              action: 'ilike',
+              column: columnTable1FirstName.id,
+              dbAction: '$ilike',
+              pattern: '%first name 1%',
+            },
+            {
+              action: 'equal',
+              column: columnTable1Ref.id,
+              dbAction: '$ne',
+              pattern: 'elt',
+            },
+          ],
+        },
+      }) as TableView
+      // Add the column to the table view
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1FirstName.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1Ref.id,
+      })
+      await app.service('table-view-has-table-column').create({
+        table_view_id: tableView.id,
+        table_column_id: columnTable1LastName.id,
+      })
+      // Get rows from this table view
+      const rows = await app.service('row').find({
+        query: {
+          table_view_id: tableView.id,
+          $and: [
+            { data: { [columnTable1LastName.id]: { $ilike: '%last%' } } },
+            { data: { [columnTable1Ref.id]: 'this is a ref' } },
+          ],
+        },
+      }) as Paginated<TableRow>
+      // Check that we only retrieve the specified rows
+      expect.assertions(2)
+      expect(rows.total).toBe(1)
+      expect(rows.data[0].id).toBe(rowTable1.id)
+      // Clean database
+      await app.service('view').remove(tableView.id)
+    })
+  })
+
   afterAll(async () => {
     await app.service('row').remove(rowTable3.id)
     await app.service('row').remove(rowTable2.id)
@@ -241,6 +623,9 @@ describe('filterRowsByTableViewId hook', () => {
     await app.service('user').remove(user1.id)
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1Ref.id)
+    await app.service('column').remove(columnTable1FirstName.id)
+    await app.service('column').remove(columnTable1LastName.id)
+    await app.service('column').remove(columnTable1Geom.id)
     await app.service('table').remove(table1.id)
     await app.service('database').remove(database.id)
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
