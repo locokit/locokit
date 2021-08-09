@@ -1,16 +1,16 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import { Paginated } from '@feathersjs/feathers'
 
 describe('formulaColumn hooks', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let table2: Table
   let stringColumn1: TableColumn
@@ -29,7 +29,7 @@ describe('formulaColumn hooks', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({

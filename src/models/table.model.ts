@@ -7,7 +7,7 @@ import { TableView } from './tableview.model'
 import { TableColumn, TableColumnDTO } from './tablecolumn.model'
 import { Process } from './process.model'
 import { BaseModel } from './base.model'
-import { database } from './database.model'
+import { Database } from './database.model'
 
 export class Table extends BaseModel {
   columns?: TableColumnDTO[]
@@ -72,7 +72,7 @@ export class Table extends BaseModel {
       },
       database: {
         relation: Model.HasOneRelation,
-        modelClass: database,
+        modelClass: Database,
         join: {
           from: 'table.database_id',
           to: 'database.id',

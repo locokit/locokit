@@ -1,11 +1,11 @@
 import app from '../app'
 import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
-import { workspace } from '../models/workspace.model'
+import { Workspace } from '../models/workspace.model'
 
 import { LckAclSet } from '../models/aclset.model'
 import { Group } from '../models/group.model'
 import { User } from '../models/user.model'
-import { database } from '../models/database.model'
+import { Database } from '../models/database.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableColumn } from '../models/tablecolumn.model'
 import { Table } from '../models/table.model'
@@ -64,9 +64,9 @@ export function builderTestEnvironment (prefix: string) {
    * it won't setup data again, just return already injected.
    */
   let _data: SetupData
-  let workspace1: workspace
-  let workspace2: workspace
-  let database1: database
+  let workspace1: Workspace
+  let workspace2: Workspace
+  let database1: Database
   let aclset1: LckAclSet
   // let acltable1: LckAclTable
   let aclset2: LckAclSet
@@ -139,7 +139,7 @@ export function builderTestEnvironment (prefix: string) {
         workspace_id: workspace1.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database1 = workspaceDatabases.data[0]
     aclset1 = await app.services.aclset.create({
       label: `[${prefix} abilities] Acl Set 1`,

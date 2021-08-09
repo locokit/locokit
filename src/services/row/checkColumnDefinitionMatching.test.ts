@@ -2,9 +2,9 @@ import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
 import { User } from '../../models/user.model'
@@ -139,8 +139,8 @@ const ewktMultiPoint = 'SRID=4326;MULTIPOINT ((3.5 5.6),(4.8 10.5))'
 const ewktMultiLinestring = 'SRID=4326;MULTILINESTRING ((3 4,10 50,20 25),(-5 -8,-10 -8,-15 -4))'
 
 describe('checkColumnDefinitionMatching hook', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let table2: Table
   let columnTable1Boolean: TableColumn
@@ -182,7 +182,7 @@ describe('checkColumnDefinitionMatching hook', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
@@ -1100,7 +1100,7 @@ describe('checkColumnDefinitionMatching hook', () => {
       query: {
         $eager: 'aclsets',
       },
-    }) as workspace
+    }) as Workspace
     const group: Group = await app.service('group').create({
       name: 'Group manager',
       aclset_id: currentWorkspace.aclsets?.[0].id,
