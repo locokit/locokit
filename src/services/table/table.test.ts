@@ -1,6 +1,6 @@
 import { Paginated } from '@feathersjs/feathers'
 import app from '../../app'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 
 describe('\'table\' service', () => {
   it('registered the service', () => {
@@ -17,7 +17,7 @@ describe('\'table\' service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const db = workspaceDatabases.data[0]
     const table = await app.services.table.create({
       text: 'myTable',
@@ -40,7 +40,7 @@ describe('\'table\' service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const db = workspaceDatabases.data[0]
     const table = await app.services.table.create({
       text: 'myTable',

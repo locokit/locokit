@@ -1,14 +1,14 @@
-// Initializes the `page` service on path `/page`
+// Initializes the `acl` service on path `/acl`
 import { ServiceAddons } from '@feathersjs/feathers'
 import { Application } from '../../declarations'
-import { Page } from './page.class'
-import createModel from '../../models/page.model'
-import hooks from './page.hooks'
+import { ServiceAclTable } from './acltable.class'
+import createModel from '../../models/acltable.model'
+import hooks from './acltable.hooks'
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'page': Page & ServiceAddons<any>
+    'acltable': ServiceAclTable & ServiceAddons<any>
   }
 }
 
@@ -35,16 +35,17 @@ export default function (app: Application): void {
       '$any',
       '$eager',
       '$joinRelation',
+      '$modifyEager',
     ],
-    allowedEager: '[containers.[blocks.[displayTableView, displayField]], chapter]',
+    allowedEager: '[aclset]',
     paginate: app.get('paginate'),
   }
 
   // Initialize our service with any options it requires
-  app.use('/page', new Page(options, app))
+  app.use('/acltable', new ServiceAclTable(options, app))
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('page')
+  const service = app.service('acltable')
 
   service.hooks(hooks)
 }

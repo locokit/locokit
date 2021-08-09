@@ -7,6 +7,7 @@ import { parseFormula, isFormulaColumn, updatedRelatedRowsFormula } from './form
 import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
 import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
+import { fillDefaultValueOnColumnCreation } from './fillDefaultValueOnColumnCreation'
 const { authenticate } = authentication.hooks
 
 export default {
@@ -48,6 +49,7 @@ export default {
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
       iff(isFormulaColumn, updatedRelatedRowsFormula()),
+      fillDefaultValueOnColumnCreation(),
     ],
     update: [],
     patch: [

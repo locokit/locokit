@@ -5,7 +5,7 @@ import { Model, RelationMappings, JSONSchema } from 'objection'
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
-import { ColumnType as LckColumnType } from './columnType.model'
+import { ColumnType } from './columnType.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableView } from './tableview.model'
 
@@ -42,7 +42,7 @@ export class TableColumn extends BaseModel {
     values?: Record<string, SelectValue>
     width?: number
     required?: boolean
-    default?: string
+    default?: string | boolean
   }
 
   validation?: object
@@ -51,7 +51,7 @@ export class TableColumn extends BaseModel {
   table_id!: string
   table?: LckTable
   column_type_id!: number
-  column_type?: LckColumnType
+  column_type?: ColumnType
   originalColumn?: TableColumn
   parents?: TableColumn[]
   children?: TableColumn[]
@@ -105,7 +105,7 @@ export class TableColumn extends BaseModel {
       },
       column_type: {
         relation: Model.BelongsToOneRelation,
-        modelClass: LckColumnType,
+        modelClass: ColumnType,
         join: {
           from: 'table_column.column_type_id',
           to: 'column_type.id',

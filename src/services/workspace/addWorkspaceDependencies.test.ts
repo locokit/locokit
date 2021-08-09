@@ -3,7 +3,7 @@ import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { Group } from '../../models/group.model'
 import { User } from '../../models/user.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 
 describe('addWorkspaceDependencies hook', () => {
   it('configure the workspace with a db, aclset, without default group and a user if internal call (and so no user is authenticated)', async () => {
@@ -51,7 +51,7 @@ describe('addWorkspaceDependencies hook', () => {
       authenticated: true,
     }
     expect.assertions(11)
-    const workspaceCreated: workspace = await app.service('workspace').create({
+    const workspaceCreated: Workspace = await app.service('workspace').create({
       text: 'New workspace !',
     }, params)
     expect(workspaceCreated).toBeDefined()

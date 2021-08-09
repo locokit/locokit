@@ -51,10 +51,6 @@ export default function filterRowsByTableViewId (): Hook {
                     break
                 }
                 break
-              case '$in':
-              case '$nin':
-                filtersToAdd[c.id] = { [filterKey]: currentFilterKeyValue }
-                break
               case '$contains':
                 currentFilterKeyValue = (currentFilterKeyValue as []).map(item => {
                   switch (item) {
@@ -74,6 +70,9 @@ export default function filterRowsByTableViewId (): Hook {
                 } else {
                   filtersToAdd[c.id + '.reference'] = { [filterKey]: currentFilterKeyValue }
                 }
+                break
+              default:
+                filtersToAdd[c.id] = { [filterKey]: currentFilterKeyValue }
                 break
             }
           })

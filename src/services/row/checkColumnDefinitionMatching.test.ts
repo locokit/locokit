@@ -2,9 +2,9 @@ import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { NotAcceptable } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
 import { User } from '../../models/user.model'
@@ -139,13 +139,14 @@ const ewktMultiPoint = 'SRID=4326;MULTIPOINT ((3.5 5.6),(4.8 10.5))'
 const ewktMultiLinestring = 'SRID=4326;MULTILINESTRING ((3 4,10 50,20 25),(-5 -8,-10 -8,-15 -4))'
 
 describe('checkColumnDefinitionMatching hook', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let table2: Table
   let columnTable1Boolean: TableColumn
   let columnTable1Number: TableColumn
   let columnTable1Date: TableColumn
+  let columnTable1DateTime: TableColumn
   let columnTable1String: TableColumn
   let columnTable1Float: TableColumn
   let columnTable1User: TableColumn
@@ -181,7 +182,7 @@ describe('checkColumnDefinitionMatching hook', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     const database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',
@@ -214,6 +215,11 @@ describe('checkColumnDefinitionMatching hook', () => {
     columnTable1Date = await app.service('column').create({
       text: 'Date',
       column_type_id: COLUMN_TYPE.DATE,
+      table_id: table1.id,
+    })
+    columnTable1DateTime = await app.service('column').create({
+      text: 'Datetime',
+      column_type_id: COLUMN_TYPE.DATETIME,
       table_id: table1.id,
     })
     columnTable1String = await app.service('column').create({
@@ -525,17 +531,29 @@ describe('checkColumnDefinitionMatching hook', () => {
       .rejects.toThrow(NotAcceptable)
   })
 
-  // it('throw an error if a date column receive a non ISO8601 string', async () => {
-  //   expect.assertions(1)
-  //   await expect(app.service('row')
-  //     .create({
-  //       data: {
-  //         [columnTable1Date.id]: '2020-10-291',
-  //       },
-  //       table_id: table1.id,
-  //     }))
-  //     .rejects.toThrow(NotAcceptable)
-  // })
+  it('throw an error if a date column receive an non ISO8601 string that looks like a date', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1Date.id]: '2020-10-291',
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
+
+  it('throw an error if a date column receive an ISO8601 string but of invalid day', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1Date.id]: '2020-02-30',
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
+  })
 
   it('accept an ISO8601 string value for a date column type', async () => {
     expect.assertions(3)
@@ -557,13 +575,63 @@ describe('checkColumnDefinitionMatching hook', () => {
     const rowTable1 = await app.service('row')
       .create({
         data: {
-          [columnTable1Date.id]: '2020-10-29T12:09:12',
+          [columnTable1DateTime.id]: '2020-10-29T12:09:12',
         },
         table_id: table1.id,
       })
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept an ISO8601 string value with a timezone for a datetime column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1DateTime.id]: '2021-07-14T12:05:12+02:00',
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  // it('throw an error if a datetime column receive an ISO8601 string but of invalid day', async () => {
+  //   expect.assertions(1)
+  //   await expect(app.service('row')
+  //     .create({
+  //       data: {
+  //         [columnTable1DateTime.id]: '2020-10-31T12:09:12+02:00',
+  //       },
+  //       table_id: table1.id,
+  //     }))
+  //     .rejects.toThrow(NotAcceptable)
+  // })
+
+  // it('throw an error if a datetime column receive an ISO8601 string but of invalid time', async () => {
+  //   expect.assertions(1)
+  //   await expect(app.service('row')
+  //     .create({
+  //       data: {
+  //         [columnTable1DateTime.id]: '2020-10-30T25:09:12+02:00',
+  //       },
+  //       table_id: table1.id,
+  //     }))
+  //     .rejects.toThrow(NotAcceptable)
+  // })
+
+  it('throw an error if a datetime column receive an ISO8601 string but without a time', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1DateTime.id]: '2020-10-30',
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
   })
 
   it('throw an error if a SINGLE_SELECT column receive a number value', async () => {
@@ -1032,7 +1100,7 @@ describe('checkColumnDefinitionMatching hook', () => {
       query: {
         $eager: 'aclsets',
       },
-    }) as workspace
+    }) as Workspace
     const group: Group = await app.service('group').create({
       name: 'Group manager',
       aclset_id: currentWorkspace.aclsets?.[0].id,
@@ -1786,6 +1854,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1Boolean.id)
     await app.service('column').remove(columnTable1Number.id)
     await app.service('column').remove(columnTable1Date.id)
+    await app.service('column').remove(columnTable1DateTime.id)
     await app.service('column').remove(columnTable1String.id)
     await app.service('column').remove(columnTable1Float.id)
     await app.service('column').remove(columnTable1User.id)

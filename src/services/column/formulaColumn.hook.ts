@@ -114,6 +114,9 @@ export function parseFormula (): Hook {
             location: error.location,
           })
         }
+      } else {
+        // Keep the previous formula type id as the formula has not been changed
+        context.data.settings.formula_type_id = updatedColumn?.settings?.formula_type_id
       }
     } else {
       throw new NotAcceptable('Invalid formula: must be defined', {

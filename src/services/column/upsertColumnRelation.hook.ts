@@ -48,7 +48,7 @@ export function upsertColumnRelation (): Hook {
           })),
           { query: { $noSelect: true } },
         )
-      } else if (['patch', 'update'].includes(context.method)) {
+      } else if (['patch', 'update'].includes(context.method) && context.params._meta?.newParsedFormula) {
         // On update
         const notUsedColumnsFromId: string[] = []
 

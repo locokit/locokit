@@ -7,7 +7,7 @@ import { BaseModel } from './base.model'
 import { TableColumn } from './tablecolumn.model'
 import { TableView } from './tableview.model'
 
-export class block extends BaseModel {
+export class Block extends BaseModel {
   title?: string
   container_id!: string
   type!: string
@@ -111,6 +111,6 @@ export class block extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof block {
-  return block
+export default function (app: Application): typeof Block {
+  return Block
 }

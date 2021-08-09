@@ -1,16 +1,16 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 
 describe('computeTextProperty hook', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
@@ -26,7 +26,7 @@ describe('computeTextProperty hook', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     table1 = await app.service('table').create({
       text: 'table1',

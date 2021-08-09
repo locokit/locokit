@@ -4,13 +4,13 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
-import { workspace } from './workspace.model'
+import { Workspace } from './workspace.model'
 
-export class database extends BaseModel {
+export class Database extends BaseModel {
   text!: string
   documentation?: string
   workspace_id!: string
-  workspace?: workspace
+  workspace?: Workspace
   tables?: LckTable[]
 
   static get tableName (): string {
@@ -41,7 +41,7 @@ export class database extends BaseModel {
       },
       workspace: {
         relation: Model.HasOneRelation,
-        modelClass: workspace,
+        modelClass: Workspace,
         join: {
           from: 'database.workspace_id',
           to: 'workspace.id',
@@ -51,6 +51,6 @@ export class database extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof database {
-  return database
+export default function (app: Application): typeof Database {
+  return Database
 }

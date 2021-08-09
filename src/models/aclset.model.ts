@@ -3,18 +3,20 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
-import { workspace as LckWorkspace } from './workspace.model'
-import { chapter as LckChapter } from './chapter.model'
+import { Workspace } from './workspace.model'
+import { Chapter } from './chapter.model'
 import { Group } from './group.model'
+import { LckAclTable } from './acltable.model'
 
 export class LckAclSet extends BaseModel {
   label!: string
   workspace_id!: string
-  workspace?: LckWorkspace
+  workspace?: Workspace
   chapter_id?: string
-  chapter?: LckChapter
+  chapter?: Chapter
   manager!: boolean
   groups?: Group[]
+  acltables?: LckAclTable[]
 
   static get tableName (): string {
     return 'acl_set'
@@ -48,7 +50,7 @@ export class LckAclSet extends BaseModel {
     return {
       workspace: {
         relation: Model.HasOneRelation,
-        modelClass: LckWorkspace,
+        modelClass: Workspace,
         join: {
           from: 'acl_set.workspace_id',
           to: 'workspace.id',
@@ -56,7 +58,7 @@ export class LckAclSet extends BaseModel {
       },
       chapter: {
         relation: Model.HasOneRelation,
-        modelClass: LckChapter,
+        modelClass: Chapter,
         join: {
           from: 'acl_set.chapter_id',
           to: 'chapter.id',
@@ -82,6 +84,14 @@ export class LckAclSet extends BaseModel {
         join: {
           from: 'acl_set.id',
           to: 'group.aclset_id',
+        },
+      },
+      acltables: {
+        relation: Model.HasManyRelation,
+        modelClass: LckAclTable,
+        join: {
+          from: 'acl_set.id',
+          to: 'acl_table.aclset_id',
         },
       },
     }
