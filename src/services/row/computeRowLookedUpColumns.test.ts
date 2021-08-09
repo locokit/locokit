@@ -13,6 +13,7 @@ describe('computeRowLookedUpColumns hook', () => {
   let database: Database
   let table1: Table
   let table2: Table
+  let table3: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable1MultiUser: TableColumn
@@ -22,10 +23,13 @@ describe('computeRowLookedUpColumns hook', () => {
   let columnTable2LookedUpColumnTable1User: TableColumn
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
   let columnTable2LookedUpColumnTable1UserBis: TableColumn
+  let columnTable3LookedUpColumnTable1RBT2: TableColumn
+  let columnTable3RelationBetweenTable2: TableColumn
   let user1: User
   let rowTable1: TableRow
   let rowTable1Bis: TableRow
   let rowTable2: TableRow
+  let rowTable3: TableRow
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -42,6 +46,10 @@ describe('computeRowLookedUpColumns hook', () => {
     })
     table2 = await app.service('table').create({
       text: 'table2',
+      database_id: database.id,
+    })
+    table3 = await app.service('table').create({
+      text: 'table3',
       database_id: database.id,
     })
     columnTable1Ref = await app.service('column').create({
@@ -110,6 +118,25 @@ describe('computeRowLookedUpColumns hook', () => {
         foreignField: columnTable1User.id,
       },
     })
+    columnTable3RelationBetweenTable2 = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+      table_id: table3.id,
+      settings: {
+        tableId: table2.id,
+      },
+    })
+    columnTable3LookedUpColumnTable1RBT2 = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table3.id,
+      settings: {
+        tableId: table2.id,
+        localField: columnTable3RelationBetweenTable2.id,
+        foreignField: columnTable2RelationBetweenTable1.id,
+      },
+    })
+
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-row-lkdpup@locokit.io',
@@ -138,6 +165,10 @@ describe('computeRowLookedUpColumns hook', () => {
     rowTable2 = await service.create({
       table_id: table2.id,
       text: 'table 2 ref',
+    })
+    rowTable3 = await service.create({
+      table_id: table3.id,
+      text: 'table 3 ref',
     })
   })
 
@@ -168,6 +199,20 @@ describe('computeRowLookedUpColumns hook', () => {
     expect(newRowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id]).toBeNull()
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id]).toBeNull()
+
+    // Check the update of a LOOKED_UP_COLUMN linked to a RELATION_BETWEEN_TABLES column
+    spyOnGetForeignColumn.mockClear()
+    const newRowTable3 = await app.service('row').patch(rowTable3.id, {
+      data: {
+        [columnTable3RelationBetweenTable2.id]: newRowTable2.id,
+      },
+    })
+    expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(1)
+    expect(newRowTable3.data[columnTable3LookedUpColumnTable1RBT2.id].reference).toBe(newRowTable2.id)
+    expect(newRowTable3.data[columnTable3LookedUpColumnTable1RBT2.id].value).toBe('table 1 ref')
+
+    // Clean DB
+    await app.service('row').remove(newRowTable3.id)
   })
 
   it('do not compute the lookedup columns of the current row which are not related to the updated data', async () => {
@@ -203,8 +248,11 @@ describe('computeRowLookedUpColumns hook', () => {
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1UserBis.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1Bis.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable1RBT2.id)
+    await app.service('column').remove(columnTable3RelationBetweenTable2.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
+    await app.service('table').remove(table3.id)
     await app.service('database').remove(database.id)
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     await app.service('aclset').remove(workspace.aclsets?.[0].id as string)

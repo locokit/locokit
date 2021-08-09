@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-array-sort-compare */
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
@@ -31,6 +32,7 @@ describe('computeLookedUpColumns hook', () => {
   let columnTable3LookedUpColumnTable2Ref: TableColumn
   let columnTable3LookedUpColumnTable2User: TableColumn
   let columnTable3LookedUpColumnTable2MultiUser: TableColumn
+  let columnTable3LookedUpColumnTable2RelationBetweenTable: TableColumn
   let columnTable3FormulaUser: TableColumn
   let columnTable3FormulaUserString: TableColumn
   let columnTable4RelationBetweenTable1: TableColumn
@@ -41,14 +43,16 @@ describe('computeLookedUpColumns hook', () => {
   let columnTable4FormulaUserT1T3: TableColumn
 
   let user1: User
-  let rowTable1: TableRow
+  let row1Table1: TableRow
+  let row2Table1: TableRow
   let row1Table2: TableRow
   let row2Table2: TableRow
   let row1Table3: TableRow
   let row2Table3: TableRow
   let row1Table4: TableRow
   let user2: User
-  const refString = 'myFirstString'
+  const refString1 = 'myFirstString1'
+  const refString2 = 'myFirstString2'
 
   beforeAll(async () => {
     // Create workspace
@@ -211,6 +215,16 @@ describe('computeLookedUpColumns hook', () => {
         foreignField: columnTable2LookedUpColumnTable1MultiUser.id,
       },
     })
+    columnTable3LookedUpColumnTable2RelationBetweenTable = await app.service('column').create({
+      text: 'T3-LUC-T2-RELATION_BETWEEN_TABLE',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table3.id,
+      settings: {
+        tableId: table2.id,
+        localField: columnTable3RelationBetweenTable2.id,
+        foreignField: columnTable2RelationBetweenTable1.id,
+      },
+    })
     columnTable3FormulaUser = await app.service('column').create({
       text: 'T3-FORMULA_USER',
       column_type_id: COLUMN_TYPE.FORMULA,
@@ -282,60 +296,65 @@ describe('computeLookedUpColumns hook', () => {
         formula: `TEXT.CONCAT(COLUMN.{${columnTable4LookedUpColumnTable1User.id}}, "-", COLUMN.{${columnTable4LookedUpColumnTable3User.id}})`,
       },
     })
-    // Create user
+    // Create users
     user1 = await app.service('user').create({
       name: 'User 1',
       email: 'user1-lkdpup@locokit.io',
+      password: 'locokit',
+    })
+    user2 = await app.service('user').create({
+      name: 'User 2',
+      email: 'user2-lkdupcolumn@locokit.io',
       password: 'locokit',
     })
   })
 
   describe('correctly initialize the values', () => {
     beforeAll(async () => {
-      rowTable1 = await app.service('row').create({
+      row1Table1 = await app.service('row').create({
         table_id: table1.id,
-        text: 'table 1 ref',
+        text: 'table 1 ref 1',
         data: {
-          [columnTable1Ref.id]: refString,
+          [columnTable1Ref.id]: refString1,
           [columnTable1User.id]: user1.id,
           [columnTable1MultiUser.id]: [user1.id],
         },
       })
       row1Table2 = await app.service('row').create({
         table_id: table2.id,
-        text: 'table 2 ref',
+        text: 'table 2 ref 1',
         data: {
           [columnTable2Ref.id]: 'mySecondString1',
-          [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
         },
       })
       row2Table2 = await app.service('row').create({
         table_id: table2.id,
-        text: 'table 2 ref',
+        text: 'table 2 ref 2',
         data: {
           [columnTable2Ref.id]: 'mySecondString2',
-          [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
         },
       })
       row1Table3 = await app.service('row').create({
         table_id: table3.id,
-        text: 'table 3 ref',
+        text: 'table 3 ref 1',
         data: {
           [columnTable3RelationBetweenTable2.id]: row1Table2.id,
         },
       })
       row2Table3 = await app.service('row').create({
         table_id: table3.id,
-        text: 'table 3 ref',
+        text: 'table 3 ref 2',
         data: {
           [columnTable3RelationBetweenTable2.id]: row2Table2.id,
         },
       })
       row1Table4 = await app.service('row').create({
         table_id: table4.id,
-        text: 'table 4 ref',
+        text: 'table 4 ref 1',
         data: {
-          [columnTable4RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable4RelationBetweenTable1.id]: row1Table1.id,
           [columnTable4RelationBetweenTable3.id]: row1Table3.id,
         },
       })
@@ -346,26 +365,26 @@ describe('computeLookedUpColumns hook', () => {
       await app.service('row').remove(row2Table3.id)
       await app.service('row').remove(row1Table2.id)
       await app.service('row').remove(row2Table2.id)
-      await app.service('row').remove(rowTable1.id)
+      await app.service('row').remove(row1Table1.id)
     })
     it('in the original table', async () => {
       expect.assertions(6)
 
-      const currentColumnTable1Ref = rowTable1.data[columnTable1Ref.id] as string
-      const currentColumnTable1User = rowTable1.data[columnTable1User.id] as { reference: string, value: string }
-      const currentColumnTable1MultiUser = rowTable1.data[columnTable1MultiUser.id] as { reference: string, value: string }
-      const currentcolumnTable1FormulaRef = rowTable1.data[columnTable1FormulaRef.id] as string
+      const currentColumnTable1Ref = row1Table1.data[columnTable1Ref.id] as string
+      const currentColumnTable1User = row1Table1.data[columnTable1User.id] as { reference: string, value: string }
+      const currentColumnTable1MultiUser = row1Table1.data[columnTable1MultiUser.id] as { reference: string, value: string }
+      const currentcolumnTable1FormulaRef = row1Table1.data[columnTable1FormulaRef.id] as string
 
-      expect(currentColumnTable1Ref).toBe(refString)
+      expect(currentColumnTable1Ref).toBe(refString1)
       expect(currentColumnTable1User.reference).toBe(user1.id)
       expect(currentColumnTable1User.value).toBe(user1.name)
       expect(currentColumnTable1MultiUser.reference).toStrictEqual([user1.id])
       expect(currentColumnTable1MultiUser.value).toStrictEqual([user1.name])
-      expect(currentcolumnTable1FormulaRef).toBe(`TEXT:${refString}`)
+      expect(currentcolumnTable1FormulaRef).toBe(`TEXT:${refString1}`)
     })
     describe('in direct children rows', () => {
       it('of the looked-up columns', async () => {
-        expect.assertions(16)
+        expect.assertions(18)
 
         // Table 2 - row 1
         const currentColumnTable2Row1Ref = row1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
@@ -373,14 +392,14 @@ describe('computeLookedUpColumns hook', () => {
         const currentColumnTable2Row1MultiUser = row1Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
         const currentColumnTable2Row1FormulaUser = row1Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
-        expect(currentColumnTable2Row1Ref.reference).toBe(rowTable1.id)
-        expect(currentColumnTable2Row1Ref.value).toBe(refString)
+        expect(currentColumnTable2Row1Ref.reference).toBe(row1Table1.id)
+        expect(currentColumnTable2Row1Ref.value).toBe(refString1)
         expect(currentColumnTable2Row1User.reference).toBe(user1.id)
         expect(currentColumnTable2Row1User.value).toBe(user1.name)
         expect(currentColumnTable2Row1MultiUser.reference).toStrictEqual([user1.id])
         expect(currentColumnTable2Row1MultiUser.value).toBe(user1.name)
-        expect(currentColumnTable2Row1FormulaUser.reference).toBe(rowTable1.id)
-        expect(currentColumnTable2Row1FormulaUser.value).toBe(`TEXT:${refString}`)
+        expect(currentColumnTable2Row1FormulaUser.reference).toBe(row1Table1.id)
+        expect(currentColumnTable2Row1FormulaUser.value).toBe(`TEXT:${refString1}`)
 
         // Table 2 - row 2
         const currentColumnTable2Row2Ref = row2Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
@@ -388,14 +407,28 @@ describe('computeLookedUpColumns hook', () => {
         const currentColumnTable2Row2MultiUser = row2Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
         const currentColumnTable2Row2FormulaUser = row2Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
-        expect(currentColumnTable2Row2Ref.reference).toBe(rowTable1.id)
-        expect(currentColumnTable2Row2Ref.value).toBe(refString)
+        expect(currentColumnTable2Row2Ref.reference).toBe(row1Table1.id)
+        expect(currentColumnTable2Row2Ref.value).toBe(refString1)
         expect(currentColumnTable2Row2User.reference).toBe(user1.id)
         expect(currentColumnTable2Row2User.value).toBe(user1.name)
         expect(currentColumnTable2Row2MultiUser.reference).toStrictEqual([user1.id])
         expect(currentColumnTable2Row2MultiUser.value).toBe(user1.name)
-        expect(currentColumnTable2Row2FormulaUser.reference).toBe(rowTable1.id)
-        expect(currentColumnTable2Row2FormulaUser.value).toBe(`TEXT:${refString}`)
+        expect(currentColumnTable2Row2FormulaUser.reference).toBe(row1Table1.id)
+        expect(currentColumnTable2Row2FormulaUser.value).toBe(`TEXT:${refString1}`)
+
+        // Table 3 - row 1 (RELATION_BETWEEN_TABLES)
+        const currentColumnTable3Row1RBT = row1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row1RBT).toStrictEqual({
+          reference: row1Table2.id,
+          value: (row1Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        })
+
+        // Table 3 - row 2 (RELATION_BETWEEN_TABLES)
+        const currentColumnTable3Row2RBT = row2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row2RBT).toStrictEqual({
+          reference: row2Table2.id,
+          value: (row2Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        })
       })
 
       it('of the formula columns', async () => {
@@ -430,8 +463,8 @@ describe('computeLookedUpColumns hook', () => {
         const currentColumnTable3Row1User = row1Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
         const currentColumnTable3Row1MultiUser = row1Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
 
-        expect(currentColumnTable3Row1Ref.reference).toBe(rowTable1.id)
-        expect(currentColumnTable3Row1Ref.value).toBe(refString)
+        expect(currentColumnTable3Row1Ref.reference).toBe(row1Table1.id)
+        expect(currentColumnTable3Row1Ref.value).toBe(refString1)
         expect(currentColumnTable3Row1User.reference).toBe(user1.id)
         expect(currentColumnTable3Row1User.value).toBe(user1.name)
         expect(currentColumnTable3Row1MultiUser.reference).toStrictEqual([user1.id])
@@ -442,8 +475,8 @@ describe('computeLookedUpColumns hook', () => {
         const currentColumnTable3Row2User = row2Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
         const currentColumnTable3Row2MultiUser = row2Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
 
-        expect(currentColumnTable3Row2Ref.reference).toBe(rowTable1.id)
-        expect(currentColumnTable3Row2Ref.value).toBe(refString)
+        expect(currentColumnTable3Row2Ref.reference).toBe(row1Table1.id)
+        expect(currentColumnTable3Row2Ref.value).toBe(refString1)
         expect(currentColumnTable3Row2User.reference).toBe(user1.id)
         expect(currentColumnTable3Row2User.value).toBe(user1.name)
         expect(currentColumnTable3Row2MultiUser.reference).toStrictEqual([user1.id])
@@ -494,65 +527,60 @@ describe('computeLookedUpColumns hook', () => {
   })
 
   describe('correctly update the values', () => {
-    let newRowTable1: TableRow
+    let newRow1Table1: TableRow
     const updatedFirstString = 'myFirstUpdatedString'
 
     beforeAll(async () => {
       const service = app.service('row')
-      rowTable1 = await service.create({
+      row1Table1 = await service.create({
         table_id: table1.id,
-        text: 'table 1 ref',
+        text: 'table 1 ref 1',
         data: {
-          [columnTable1Ref.id]: refString,
+          [columnTable1Ref.id]: refString1,
           [columnTable1User.id]: user1.id,
           [columnTable1MultiUser.id]: [user1.id],
         },
       })
       row1Table2 = await service.create({
         table_id: table2.id,
-        text: 'table 2 ref',
+        text: 'table 2 ref 1',
         data: {
           [columnTable2Ref.id]: 'mySecondString1',
-          [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
         },
       })
       row2Table2 = await service.create({
         table_id: table2.id,
-        text: 'table 2 ref',
+        text: 'table 2 ref 2',
         data: {
           [columnTable2Ref.id]: 'mySecondString2',
-          [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
         },
       })
       row1Table3 = await service.create({
         table_id: table3.id,
-        text: 'table 3 ref',
+        text: 'table 3 ref 1',
         data: {
           [columnTable3RelationBetweenTable2.id]: row1Table2.id,
         },
       })
       row2Table3 = await service.create({
         table_id: table3.id,
-        text: 'table 3 ref',
+        text: 'table 3 ref 2',
         data: {
           [columnTable3RelationBetweenTable2.id]: row2Table2.id,
         },
       })
       row1Table4 = await app.service('row').create({
         table_id: table4.id,
-        text: 'table 4 ref',
+        text: 'table 4 ref 1',
         data: {
-          [columnTable4RelationBetweenTable1.id]: rowTable1.id,
+          [columnTable4RelationBetweenTable1.id]: row1Table1.id,
           [columnTable4RelationBetweenTable3.id]: row1Table3.id,
         },
       })
-      user2 = await app.service('user').create({
-        name: 'User 2',
-        email: 'user2-lkdupcolumn@locokit.io',
-        password: 'locokit',
-      })
       // Update the original table
-      newRowTable1 = await app.service('row').patch(rowTable1.id, {
+      newRow1Table1 = await app.service('row').patch(row1Table1.id, {
         data: {
           [columnTable1Ref.id]: updatedFirstString,
           [columnTable1User.id]: user2.id,
@@ -562,70 +590,88 @@ describe('computeLookedUpColumns hook', () => {
     })
 
     afterAll(async () => {
-      await app.service('user').remove(user2.id)
       await app.service('row').remove(row1Table3.id)
       await app.service('row').remove(row2Table3.id)
       await app.service('row').remove(row1Table2.id)
       await app.service('row').remove(row2Table2.id)
-      await app.service('row').remove(rowTable1.id)
+      await app.service('row').remove(row1Table1.id)
     })
 
     it('in the original table', async () => {
       expect.assertions(6)
-      const newColumnTable1Ref = newRowTable1.data[columnTable1Ref.id] as string
-      const newColumnTable1User = newRowTable1.data[columnTable1User.id] as { reference: string, value: string }
-      const newColumnTable1MultiUser = newRowTable1.data[columnTable1MultiUser.id] as { reference: string, value: string }
-      const newcolumnTable1FormulaRef = newRowTable1.data[columnTable1FormulaRef.id] as string
+      const newColumnTable1Ref = newRow1Table1.data[columnTable1Ref.id] as string
+      const newColumnTable1User = newRow1Table1.data[columnTable1User.id] as { reference: string, value: string }
+      const newColumnTable1MultiUser = newRow1Table1.data[columnTable1MultiUser.id] as unknown as { reference: string[], value: string[] }
+      const newcolumnTable1FormulaRef = newRow1Table1.data[columnTable1FormulaRef.id] as string
 
       expect(newColumnTable1Ref).toBe(updatedFirstString)
       expect(newColumnTable1User.reference).toBe(user2.id)
       expect(newColumnTable1User.value).toBe(user2.name)
-      expect(newColumnTable1MultiUser.reference).toStrictEqual([user1.id, user2.id])
-      expect(newColumnTable1MultiUser.value).toStrictEqual([user1.name, user2.name])
+      expect(newColumnTable1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
+      expect(newColumnTable1MultiUser.value.sort()).toStrictEqual([user1.name, user2.name].sort())
       expect(newcolumnTable1FormulaRef).toBe(`TEXT:${updatedFirstString}`)
     })
 
     describe('in direct children rows', () => {
       let newRow1Table2: TableRow
       let newRow2Table2: TableRow
+      let newRow1Table3: TableRow
+      let newRow2Table3: TableRow
 
       beforeAll(async () => {
         newRow1Table2 = await app.service('row').get(row1Table2.id)
         newRow2Table2 = await app.service('row').get(row2Table2.id)
+        newRow1Table3 = await app.service('row').get(row1Table3.id)
+        newRow2Table3 = await app.service('row').get(row2Table3.id)
       })
 
       it('of the looked-up columns', async () => {
-        expect.assertions(16)
+        expect.assertions(20)
 
         // Table 2 - row 1
         const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
         const newColumnTable2Row1User = newRow1Table2.data[columnTable2LookedUpColumnTable1User.id] as { reference: string, value: string }
-        const newColumnTable2Row1MultiUser = newRow1Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
+        const newColumnTable2Row1MultiUser = newRow1Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as unknown as { reference: string[], value: string }
         const newColumnTable2Row1FormulaUser = newRow1Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
-        expect(newColumnTable2Row1Ref.reference).toBe(newRowTable1.id)
+        expect(newColumnTable2Row1Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row1Ref.value).toBe(updatedFirstString)
         expect(newColumnTable2Row1User.reference).toBe(user2.id)
         expect(newColumnTable2Row1User.value).toBe(user2.name)
-        expect(newColumnTable2Row1MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable2Row1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable2Row1MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
-        expect(newColumnTable2Row1FormulaUser.reference).toBe(newRowTable1.id)
+        expect(newColumnTable2Row1FormulaUser.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row1FormulaUser.value).toBe(`TEXT:${updatedFirstString}`)
 
         // Table 2 - row 2
         const newColumnTable2Row2Ref = newRow2Table2.data[columnTable2LookedUpColumnTable1Ref.id] as { reference: string, value: string }
         const newColumnTable2Row2User = newRow2Table2.data[columnTable2LookedUpColumnTable1User.id] as { reference: string, value: string }
-        const newColumnTable2Row2MultiUser = newRow2Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as { reference: string, value: string }
+        const newColumnTable2Row2MultiUser = newRow2Table2.data[columnTable2LookedUpColumnTable1MultiUser.id] as unknown as { reference: string[], value: string }
         const newColumnTable2Row2FormulaUser = newRow2Table2.data[columnTable2LookedUpcolumnTable1FormulaRef.id] as { reference: string, value: string }
 
-        expect(newColumnTable2Row2Ref.reference).toBe(newRowTable1.id)
+        expect(newColumnTable2Row2Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row2Ref.value).toBe(updatedFirstString)
         expect(newColumnTable2Row2User.reference).toBe(user2.id)
         expect(newColumnTable2Row2User.value).toBe(user2.name)
-        expect(newColumnTable2Row2MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable2Row2MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable2Row2MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
-        expect(newColumnTable2Row2FormulaUser.reference).toBe(newRowTable1.id)
+        expect(newColumnTable2Row2FormulaUser.reference).toBe(newRow1Table1.id)
         expect(newColumnTable2Row2FormulaUser.value).toBe(`TEXT:${updatedFirstString}`)
+
+        // Check the updates of a looked-up column of a relation between tables
+        // Table 3 - row 1
+        const currentColumnTable3Row1RBT = newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row1RBT.reference).toBe(newRow1Table2.id)
+        expect(currentColumnTable3Row1RBT.value).toBe(
+          (newRow1Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        )
+
+        // Table 3 - row 2
+        const currentColumnTable3Row2RBT = newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row2RBT.reference).toBe(newRow2Table2.id)
+        expect(currentColumnTable3Row2RBT.value).toBe(
+          (newRow2Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        )
       })
       it('of the formula columns', async () => {
         expect.assertions(4)
@@ -666,25 +712,25 @@ describe('computeLookedUpColumns hook', () => {
         // Table 3 - row 1
         const newColumnTable3Row1Ref = newRow1Table3.data[columnTable3LookedUpColumnTable2Ref.id] as { reference: string, value: string }
         const newColumnTable3Row1User = newRow1Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
-        const newColumnTable3Row1MultiUser = newRow1Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
+        const newColumnTable3Row1MultiUser = newRow1Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as unknown as { reference: string[], value: string }
 
-        expect(newColumnTable3Row1Ref.reference).toBe(newRowTable1.id)
+        expect(newColumnTable3Row1Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable3Row1Ref.value).toBe(updatedFirstString)
         expect(newColumnTable3Row1User.reference).toBe(user2.id)
         expect(newColumnTable3Row1User.value).toBe(user2.name)
-        expect(newColumnTable3Row1MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable3Row1MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable3Row1MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
 
         // Table 3 - row 2
         const newColumnTable3Row2Ref = newRow2Table3.data[columnTable3LookedUpColumnTable2Ref.id] as { reference: string, value: string }
         const newColumnTable3Row2User = newRow2Table3.data[columnTable3LookedUpColumnTable2User.id] as { reference: string, value: string }
-        const newColumnTable3Row2MultiUser = newRow2Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as { reference: string, value: string }
+        const newColumnTable3Row2MultiUser = newRow2Table3.data[columnTable3LookedUpColumnTable2MultiUser.id] as unknown as { reference: string[], value: string }
 
-        expect(newColumnTable3Row2Ref.reference).toBe(newRowTable1.id)
+        expect(newColumnTable3Row2Ref.reference).toBe(newRow1Table1.id)
         expect(newColumnTable3Row2Ref.value).toBe(updatedFirstString)
         expect(newColumnTable3Row2User.reference).toBe(user2.id)
         expect(newColumnTable3Row2User.value).toBe(user2.name)
-        expect(newColumnTable3Row2MultiUser.reference).toStrictEqual([user1.id, user2.id])
+        expect(newColumnTable3Row2MultiUser.reference.sort()).toStrictEqual([user1.id, user2.id].sort())
         expect(newColumnTable3Row2MultiUser.value).toBe(`${user1.name}, ${user2.name}`)
 
         // Table 4 - row 1
@@ -730,6 +776,101 @@ describe('computeLookedUpColumns hook', () => {
     })
   })
 
+  describe('correctly update a LOOKED_UP_COLUMN of a RELATION_BETWEEN_TABLES', () => {
+    let newRow1Table2: TableRow
+
+    beforeAll(async () => {
+      const service = app.service('row')
+      row1Table1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref 1',
+        data: {
+          [columnTable1Ref.id]: refString1,
+          [columnTable1User.id]: user1.id,
+          [columnTable1MultiUser.id]: [user1.id],
+        },
+      })
+      row2Table1 = await service.create({
+        table_id: table1.id,
+        text: 'table 1 ref 2',
+        data: {
+          [columnTable1Ref.id]: refString2,
+          [columnTable1User.id]: user2.id,
+          [columnTable1MultiUser.id]: [user2.id],
+        },
+      })
+      row1Table2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref 1',
+        data: {
+          [columnTable2Ref.id]: 'mySecondString1',
+          [columnTable2RelationBetweenTable1.id]: row1Table1.id,
+        },
+      })
+      row2Table2 = await service.create({
+        table_id: table2.id,
+        text: 'table 2 ref 2',
+        data: {
+          [columnTable2Ref.id]: 'mySecondString2',
+          [columnTable2RelationBetweenTable1.id]: row2Table1.id,
+        },
+      })
+      row1Table3 = await service.create({
+        table_id: table3.id,
+        text: 'table 3 ref 1',
+        data: {
+          [columnTable3RelationBetweenTable2.id]: row1Table2.id,
+        },
+      })
+      row2Table3 = await service.create({
+        table_id: table3.id,
+        text: 'table 3 ref 2',
+        data: {
+          [columnTable3RelationBetweenTable2.id]: row1Table2.id,
+        },
+      })
+      // Update the RELATION_BETWEEN_TABLE in the table 2
+      newRow1Table2 = await app.service('row').patch(row1Table2.id, {
+        data: {
+          [columnTable2RelationBetweenTable1.id]: row2Table1.id,
+        },
+      })
+    })
+
+    afterAll(async () => {
+      await app.service('row').remove(row1Table3.id)
+      await app.service('row').remove(row2Table3.id)
+      await app.service('row').remove(row1Table2.id)
+      await app.service('row').remove(row2Table2.id)
+      await app.service('row').remove(row1Table1.id)
+      await app.service('row').remove(row2Table1.id)
+    })
+
+    describe('in direct children rows', () => {
+      it('of the looked-up columns', async () => {
+        expect.assertions(4)
+
+        const newRow1Table3: TableRow = await app.service('row').get(row1Table3.id)
+        const newRow2Table3: TableRow = await app.service('row').get(row2Table3.id)
+
+        // Check the updates of a looked-up column of a relation between tables
+        // Table 3 - row 1
+        const currentColumnTable3Row1RBT = newRow1Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row1RBT.reference).toBe(newRow1Table2.id)
+        expect(currentColumnTable3Row1RBT.value).toBe(
+          (newRow1Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        )
+
+        // Table 3 - row 2
+        const currentColumnTable3Row2RBT = newRow2Table3.data[columnTable3LookedUpColumnTable2RelationBetweenTable.id] as { reference: string, value: string }
+        expect(currentColumnTable3Row2RBT.reference).toBe(newRow1Table2.id)
+        expect(currentColumnTable3Row2RBT.value).toBe(
+          (newRow1Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
+        )
+      })
+    })
+  })
+
   // describe('error cases', () => {
   //   let columnTable1RelationBetweenTable2: TableColumn
   //   let columnTable1LookedUpColumnTable2Ref: TableColumn
@@ -754,11 +895,11 @@ describe('computeLookedUpColumns hook', () => {
   //         foreignField: columnTable2LookedUpColumnTable1Ref.id,
   //       },
   //     })
-  //     rowTable1 = await app.service('row').create({
+  //     row1Table1 = await app.service('row').create({
   //       table_id: table1.id,
   //       text: 'table 1 ref',
   //       data: {
-  //         [columnTable1Ref.id]: refString,
+  //         [columnTable1Ref.id]: refString1,
   //         [columnTable1User.id]: user1.id,
   //         [columnTable1MultiUser.id]: [user1.id],
   //       },
@@ -768,7 +909,7 @@ describe('computeLookedUpColumns hook', () => {
   //       text: 'table 2 ref',
   //       data: {
   //         [columnTable2Ref.id]: 'mySecondString1',
-  //         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+  //         [columnTable2RelationBetweenTable1.id]: row1Table1.id,
   //       },
   //     })
   //     row2Table2 = await app.service('row').create({
@@ -776,7 +917,7 @@ describe('computeLookedUpColumns hook', () => {
   //       text: 'table 2 ref',
   //       data: {
   //         [columnTable2Ref.id]: 'mySecondString2',
-  //         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
+  //         [columnTable2RelationBetweenTable1.id]: row1Table1.id,
   //       },
   //     })
   //     row1Table3 = await app.service('row').create({
@@ -799,13 +940,13 @@ describe('computeLookedUpColumns hook', () => {
   //     await app.service('row').remove(row2Table3.id)
   //     await app.service('row').remove(row1Table2.id)
   //     await app.service('row').remove(row2Table2.id)
-  //     await app.service('row').remove(rowTable1.id)
+  //     await app.service('row').remove(row1Table1.id)
   //     await app.service('column').remove(columnTable1RelationBetweenTable2.id)
   //     await app.service('column').remove(columnTable1LookedUpColumnTable2Ref.id)
   //   })
   //   it('throw an error if a loop is encountered', async () => {
   //     expect.assertions(1)
-  //     rowTable1 = await app.service('row').patch(rowTable1.id, {
+  //     row1Table1 = await app.service('row').patch(row1Table1.id, {
   //       data: {
   //         [columnTable1RelationBetweenTable2.id]: row1Table2.id,
   //       },
@@ -815,6 +956,7 @@ describe('computeLookedUpColumns hook', () => {
 
   afterAll(async () => {
     await app.service('user').remove(user1.id)
+    await app.service('user').remove(user2.id)
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1MultiUser.id)
     await app.service('column').remove(columnTable1FormulaRef.id)
