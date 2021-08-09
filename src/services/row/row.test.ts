@@ -1,9 +1,9 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
 
@@ -14,8 +14,8 @@ describe('\'row\' service', () => {
     expect(service).toBeTruthy()
   })
 
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table: Table
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -24,7 +24,7 @@ describe('\'row\' service', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     table = await app.service('table').create({ text: 'pouet', database_id: database.id })
   })

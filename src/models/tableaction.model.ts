@@ -7,6 +7,8 @@ import {
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 
+// In the case of table action, an action is limited to the related table_view. So we don't need to add an attribute `view_id`.
+
 export class TableAction extends BaseModel {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static get columnNameMappers () {
@@ -22,9 +24,13 @@ export class TableAction extends BaseModel {
   page_query_field_id?: string|null
   display_field_id?: string|null
   display_field_condition_query?: object|null
-
   table_id!: string
   process_id?: string|null
+  type_page_to?: string|null
+  notification_success_title?: string|null
+  notification_success_description?: string|null
+  notification_error_title?: string|null
+  notification_error_description?: string|null
 
   static get tableName (): string {
     return 'table_action'
@@ -46,6 +52,12 @@ export class TableAction extends BaseModel {
         display_field_condition_query: { type: ['object', 'null'] },
         table_row_id: { type: 'string' },
         process_id: { type: ['object', 'null'] },
+        type_page_to: { type: ['string', 'null'] },
+        notification_success_title: { type: ['string', 'null'] },
+        notification_success_description: { type: ['string', 'null'] },
+        notification_error_title: { type: ['string', 'null'] },
+        notification_error_description: { type: ['string', 'null'] },
+
       },
     }
   }

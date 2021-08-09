@@ -4,8 +4,6 @@
 import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { User } from './user.model'
-// import { workspace as LckWorkspace } from './workspace.model'
-// import { chapter as LckChapter } from './chapter.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 import { Usergroup } from './usergroup.model'
 import { LckAclSet } from './aclset.model'

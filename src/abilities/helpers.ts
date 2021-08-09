@@ -1,11 +1,11 @@
 import app from '../app'
 import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
-import { workspace } from '../models/workspace.model'
+import { Workspace } from '../models/workspace.model'
 
 import { LckAclSet } from '../models/aclset.model'
 import { Group } from '../models/group.model'
 import { User } from '../models/user.model'
-import { database } from '../models/database.model'
+import { Database } from '../models/database.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableColumn } from '../models/tablecolumn.model'
 import { Table } from '../models/table.model'
@@ -51,17 +51,22 @@ export interface SetupData {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function builderTestEnvironment () {
+export function builderTestEnvironment (prefix: string) {
   /**
    * Create all necessary resources for testing use case
    * * several workspaces
    * * several aclset
    * * several groups
    * * several users
+   *
+   * This builder is a singleton.
+   * Use it once, and after reuse it,
+   * it won't setup data again, just return already injected.
    */
-  let workspace1: workspace
-  let workspace2: workspace
-  let database1: database
+  let _data: SetupData
+  let workspace1: Workspace
+  let workspace2: Workspace
+  let database1: Database
   let aclset1: LckAclSet
   // let acltable1: LckAclTable
   let aclset2: LckAclSet
@@ -117,35 +122,41 @@ export function builderTestEnvironment () {
   let row3Table2: TableRow
 
   async function setupWorkspace (): Promise<SetupData> {
+    /**
+     * If _data already exist, we don't want to reinject setup data.
+     * We just return it.
+     */
+    if (_data) return _data
+
     workspace1 = await app.services.workspace.create({
-      text: '[record-abilities] Workspace 1',
+      text: `[${prefix} abilities] Workspace 1`,
     })
     workspace2 = await app.services.workspace.create({
-      text: '[record-abilities] Workspace 1',
+      text: `[${prefix} abilities] Workspace 1`,
     })
     const workspaceDatabases = await app.service('database').find({
       query: {
         workspace_id: workspace1.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database1 = workspaceDatabases.data[0]
     aclset1 = await app.services.aclset.create({
-      label: '[record-abilities] Acl Set 1',
+      label: `[${prefix} abilities] Acl Set 1`,
       workspace_id: workspace1.id,
       manager: true,
     })
     aclset2 = await app.services.aclset.create({
-      label: '[record-abilities] Acl Set 2',
+      label: `[${prefix} abilities] Acl Set 2`,
       workspace_id: workspace1.id,
     })
     aclset3 = await app.services.aclset.create({
-      label: '[record-abilities] Acl Set 3',
+      label: `[${prefix} abilities] Acl Set 3`,
       workspace_id: workspace2.id,
       manager: true,
     })
     aclset4 = await app.services.aclset.create({
-      label: '[record-abilities] Acl Set 4',
+      label: `[${prefix} abilities] Acl Set 4`,
       workspace_id: workspace2.id,
     })
     const userPassword = 'locokit'
@@ -153,79 +164,79 @@ export function builderTestEnvironment () {
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
     user1 = await app.services.user._create({
       name: 'User 1',
-      email: 'record-abilities-user1@locokit.io',
+      email: `${prefix}abilities-user1@locokit.io`,
       isVerified: true,
       password: passwordHashed,
       profile: USER_PROFILE.CREATOR,
     }, {})
     user2 = await app.services.user._create({
       name: 'User 2',
-      email: 'record-abilities-user2@locokit.io',
+      email: `${prefix}abilities-user2@locokit.io`,
       isVerified: true,
       password: passwordHashed,
     }, {})
     user3 = await app.services.user._create({
       name: 'User 3',
-      email: 'record-abilities-user3@locokit.io',
+      email: `${prefix}abilities-user3@locokit.io`,
       isVerified: true,
       password: passwordHashed,
     }, {})
     user4 = await app.services.user._create({
       name: 'User 4',
-      email: 'record-abilities-user4@locokit.io',
+      email: `${prefix}abilities-user4@locokit.io`,
       isVerified: true,
       password: passwordHashed,
     }, {})
     user5 = await app.services.user._create({
       name: 'User 5',
-      email: 'record-abilities-user5@locokit.io',
+      email: `${prefix}abilities-user5@locokit.io`,
       isVerified: true,
       password: passwordHashed,
     }, {})
 
     user1Authentication = await app.service('authentication').create({
       strategy: 'local',
-      email: 'record-abilities-user1@locokit.io',
+      email: `${prefix}abilities-user1@locokit.io`,
       password: userPassword,
     }, {})
     user2Authentication = await app.service('authentication').create({
       strategy: 'local',
-      email: 'record-abilities-user2@locokit.io',
+      email: `${prefix}abilities-user2@locokit.io`,
       password: userPassword,
     }, {})
     user3Authentication = await app.service('authentication').create({
       strategy: 'local',
-      email: 'record-abilities-user3@locokit.io',
+      email: `${prefix}abilities-user3@locokit.io`,
       password: userPassword,
     }, {})
     user4Authentication = await app.service('authentication').create({
       strategy: 'local',
-      email: 'record-abilities-user4@locokit.io',
+      email: `${prefix}abilities-user4@locokit.io`,
       password: userPassword,
     }, {})
     user5Authentication = await app.service('authentication').create({
       strategy: 'local',
-      email: 'record-abilities-user5@locokit.io',
+      email: `${prefix}abilities-user5@locokit.io`,
       password: userPassword,
     }, {})
 
     group1 = await app.services.group.create({
-      name: '[record-abilities] Group 1',
+      name: `[${prefix} abilities] Group 1`,
       aclset_id: aclset1.id,
       users: [user1, user4],
     })
     group2 = await app.services.group.create({
-      name: '[record-abilities] Group 2',
+      name: `[${prefix} abilities] Group 2`,
       aclset_id: aclset2.id,
       users: [user2, user3, user5],
     })
     group3 = await app.services.group.create({
-      name: '[record-abilities] Group 3',
+      name: `[${prefix} abilities] Group 3`,
       aclset_id: aclset3.id,
       users: [user2],
     })
     group4 = await app.services.group.create({
-      name: '[record-abilities] Group 4',
+      name: `[${prefix} abilities] Group 4`,
       aclset_id: aclset4.id,
       users: [user1, user5],
     })
@@ -485,7 +496,7 @@ export function builderTestEnvironment () {
       },
     })
 
-    return {
+    _data = {
       table1Id: table1.id,
       table2Id: table2.id,
       columnTable1GroupId: columnTable1Group.id,
@@ -520,6 +531,7 @@ export function builderTestEnvironment () {
       row2Table2,
       row3Table2,
     }
+    return _data
   }
 
   async function teardownWorkspace (): Promise<void> {

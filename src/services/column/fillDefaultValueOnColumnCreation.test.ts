@@ -3,14 +3,14 @@ import { Paginated } from '@feathersjs/feathers'
 
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { database } from '../../models/database.model'
+import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
-import { workspace } from '../../models/workspace.model'
+import { Workspace } from '../../models/workspace.model'
 import { TableRow } from '../../models/tablerow.model'
 
 describe('fillDefaultValueOnColumnCreation hooks', () => {
-  let workspace: workspace
-  let database: database
+  let workspace: Workspace
+  let database: Database
   let table1: Table
   let stringColumn1: TableColumn
   let row1Table1: TableRow
@@ -24,7 +24,7 @@ describe('fillDefaultValueOnColumnCreation hooks', () => {
         workspace_id: workspace.id,
         $limit: 1,
       },
-    }) as Paginated<database>
+    }) as Paginated<Database>
     database = workspaceDatabases.data[0]
     // Create tables
     table1 = await app.service('table').create({
