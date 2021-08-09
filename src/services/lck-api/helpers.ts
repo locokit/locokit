@@ -19,6 +19,7 @@ import {
   LckWorkspace,
   LckTableColumn,
   LckTableRowDataComplex,
+  LckPage,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -31,18 +32,13 @@ import { parseISO } from 'date-fns'
 /**
  * Contact the API for searching items.
  * Useful for autocomplete fields.
- *
- * @param columnTypeId
- * @param tableId
- * @param query
- * @param groupId
  */
 export async function searchItems ({
   columnTypeId,
   tableId,
   query,
   groupId,
-}: { columnTypeId: number; tableId: string; query: object; groupId: string }) {
+}: { columnTypeId: number; tableId: string; query: string; groupId: string }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
@@ -99,12 +95,99 @@ export async function searchItems ({
 }
 
 /**
- * Get the columns and rows from the current TableView
+ * Search TableView
+ * Find all tableviews matching a pattern
  *
- * @param tableViewId
- * @param filters
- * @param groupId
- * @return {Promise<{viewData: LckTableRow[], viewColumns: LckTableViewColumn[]}>}
+ */
+export async function searchTableView (query: string, workspaceId: string) {
+  const tableViewResult = await lckServices.tableView.find({
+    query: {
+      'table:database.workspace_id': workspaceId,
+      $joinRelation: 'table.[database]',
+      $sort: {
+        text: 1,
+      },
+      $select: ['table_view.text'],
+      'table_view.text': {
+        $ilike: `%${query}%`,
+      },
+    },
+  }) as Paginated<LckTableView>
+  return tableViewResult?.data.map(tr => ({
+    text: tr.text,
+    value: tr.id,
+  }))
+}
+
+/**
+ * Search Page
+ * Find all pages matching a pattern
+ * with possible additional filters
+ * Also contains information on its chapter
+ */
+export async function searchPageWithChapter (query: string, filters: object = {}) {
+  const pagesResult = await lckServices.page.find({
+    query: {
+      $eager: 'chapter',
+      $sort: {
+        text: 1,
+      },
+      $select: ['page.text'],
+      'page.text': {
+        $ilike: `%${query}%`,
+      },
+      ...filters,
+    },
+  }) as Paginated<LckPage>
+  return pagesResult?.data.map(page => ({
+    text: `[${page?.chapter?.text}] ${page.text}`,
+    value: page.id,
+  }))
+}
+
+/**
+ * Search Columns
+ * Find all columns belonging to a table view and matching a pattern
+ */
+export async function searchColumnsFromTableView (query: string, tableViewId: string, filters: object = {}) {
+  const tableColumnResult = await lckServices.tableColumn.find({
+    query: {
+      'views.id': tableViewId,
+      $joinRelation: 'views',
+      $sort: {
+        text: 1,
+      },
+      $select: ['table_column.text'],
+      'table_column.text': {
+        $ilike: `%${query}%`,
+      },
+      ...filters,
+    },
+  }) as Paginated<LckTableColumn>
+  return tableColumnResult.data.map(tc => ({
+    text: tc.text,
+    value: tc.id,
+  }))
+}
+
+/**
+ * Search boolean columns
+ * Find all boolean and boolean formula columns belonging to a table view and matching a pattern
+ */
+export async function searchBooleanColumnsFromTableView (query: string, tableViewId: string) {
+  return searchColumnsFromTableView(query, tableViewId, {
+    $or: [{
+      column_type_id: COLUMN_TYPE.BOOLEAN,
+    }, {
+      settings: {
+        formula_type_id: COLUMN_TYPE.BOOLEAN,
+      },
+    }],
+  })
+}
+
+/**
+ * Get columns and rows from the current TableView
  */
 async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
   viewData: LckTableRow[];
@@ -135,10 +218,6 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
 
 /**
  * Get value for data export
- *
- * @param currentColumn
- * @param currentRowValue
- * @returns string|undefined
  */
 function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
   switch (currentColumn.column_type_id) {
@@ -169,11 +248,6 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
 
 /**
  * Export data in xls
- *
- * @param tableViewId
- * @param filters
- * @param fileName
- * @param groupId
  */
 export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
@@ -201,11 +275,6 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
 
 /**
  * Export data in csv
- *
- * @param tableViewId
- * @param filters
- * @param fileName
- * @param groupId
  */
 export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
@@ -230,9 +299,6 @@ export async function exportTableRowDataCSV (tableViewId: string, filters: objec
  * Get the Blob data of an attachment.
  * Use a fetch request to inject Authorization header in HTTP Request.
  * It allows to retrieve protected files.
- *
- * @param url URL of the attachment
- * @returns Blob
  */
 export async function getAttachmentBlob (url: string) {
   const jwtToken = await lckClient.authentication.getAccessToken()
@@ -246,16 +312,9 @@ export async function getAttachmentBlob (url: string) {
 }
 
 /**
- * Download an attachment
- * by retrieving the blob
- * then saving it to the user file sytem.
+ * Download an attachment by retrieving the blob then saving it to the user file sytem.
  *
- * Need to be improved with a signed request
- * instead of a download by the web browser.
- *
- * @param url URL of the attachment
- * @param filename Filename of the attachment
- * @param mime Mime Type of the attachment
+ * Todo: Need to be improved with a signed request instead of a download by the web browser.
  */
 export async function downloadAttachment (url: string, filename: string, mime: string) {
   const blob = await getAttachmentBlob(url)
@@ -305,9 +364,25 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
   return await Promise.all(uploadPromises)
 }
 
+/**
+ * Get page with related chapter
+ */
+export async function getPageWithChapters (id: string) {
+  return await lckServices.page.get(id, {
+    query: {
+      $eager: 'chapter',
+      $sort: {
+        text: 1,
+      },
+    },
+  }) as LckPage
+}
+
+/**
+ * Get workspace with all chapters and pages
+ */
 export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   const group: LckGroup = await lckServices.group.get(groupId, {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: { $eager: 'aclset' },
   })
   const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
@@ -322,17 +397,21 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
   }
 }
 
+/**
+ * Get page with all containers and blocks
+ */
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: { $eager: 'containers.[blocks.[displayTableView, displayField]]' },
   })
 }
 
+/**
+ * Find specific view with columns, column's parents and action
+ */
 export async function retrieveViewDefinition (ids: number[], skip = 0) {
   if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
       $eager: '[columns.[column_type, parents.^], actions]',
       $modifyEager: {
@@ -363,6 +442,9 @@ export async function retrieveViewDefinition (ids: number[], skip = 0) {
   return result.data
 }
 
+/**
+ * Get records according to table view
+ */
 export async function retrieveViewData (
   table_view_id: string,
   group_id: string,
@@ -374,7 +456,6 @@ export async function retrieveViewData (
   filters = {},
 ) {
   return await lckServices.tableRow.find({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     query: {
       table_view_id,
       $lckGroupId: group_id,
@@ -388,6 +469,9 @@ export async function retrieveViewData (
 
 /**
  * Convert every date field in a single data record in Date
+ *
+ * @param record
+ * @param dateFields
  */
 function convertDateInRecord (record: LckTableRow, dateFields: LckTableColumn[]) {
   dateFields.forEach(({ id, column_type_id }) => {
@@ -432,11 +516,16 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
 
 export default {
   searchItems,
+  searchPageWithChapter,
+  searchTableView,
+  searchColumnsFromTableView,
+  searchBooleanColumnsFromTableView,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
   getColumnDisplayValue,
   downloadAttachment,
   getAttachmentBlob,
+  getPageWithChapters,
   uploadMultipleFiles,
   retrieveWorkspaceWithChaptersAndPages,
   retrieveTableViewData,

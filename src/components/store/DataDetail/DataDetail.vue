@@ -388,7 +388,6 @@ export default {
     return {
       COLUMN_TYPE,
       autocompleteInput: {} as Record<string, string>,
-      // TODO: review with @alc why this type {value: number, label: string} (and why not value could not be a string)
       multipleAutocompleteInput: {} as Record<string, { value: number; label: string }[]>,
     }
   },

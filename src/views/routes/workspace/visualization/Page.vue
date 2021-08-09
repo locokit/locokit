@@ -167,7 +167,7 @@
       @reset-current-container="onContainerEditClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
-      @search-field="onSearchField"
+      @search-field="onSearchFieldByColumnType"
 
       @search-block-display-table-view="onSearchBlockDisplayTableView"
       @search-block-display-field="onSearchBlockDisplayField"
@@ -418,9 +418,8 @@ export default {
         if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
       } else {
         /**
-         * For the mapview block, we don't limit the result
+         * For the MapSet block, we don't limit the result
          * And for data records (or action button), we limit to 1
-         * TODO: we must optimize the way we manage data...
          */
         let itemsPerPage = 20
         if (isGeoBlock(blockType)) itemsPerPage = -1
@@ -1101,7 +1100,6 @@ export default {
         const { id, ...data } = blockToEdit
         if (id !== 'temp') {
           // On update
-          // Todo: Impossible to use data directly, sometimes we have definition and loading keys
           const updatedBlock = await lckServices.block.patch(id, data)
           // Update the existing block in page>container>block with its new properties
           const currentBlock = this.page.containers.find(c => c.id === updatedBlock.containerId).blocks.find(b => b.id === updatedBlock.id)
@@ -1175,43 +1173,10 @@ export default {
       }
     },
     async searchTableView (query, workspaceId) {
-      const tableViewResult = await lckServices.tableView.find({
-        query: {
-          'table:database.workspace_id': workspaceId,
-          $joinRelation: 'table.[database]',
-          $sort: {
-            text: 1,
-          },
-          $select: ['table_view.text'],
-          'table_view.text': {
-            $ilike: `%${query}%`,
-          },
-        },
-      })
-      return tableViewResult.data.map(tr => ({
-        text: tr.text,
-        value: tr.id,
-      }))
+      return await lckHelpers.searchTableView(query, workspaceId)
     },
-    async searchField (textQuery, tableViewId, filters) {
-      const tableColumnResult = await lckServices.tableColumn.find({
-        query: {
-          'views.id': tableViewId,
-          $joinRelation: 'views',
-          $sort: {
-            text: 1,
-          },
-          $select: ['table_column.text'],
-          'table_column.text': {
-            $ilike: `%${textQuery}%`,
-          },
-          ...filters,
-        },
-      })
-      return tableColumnResult.data.map(tc => ({
-        text: tc.text,
-        value: tc.id,
-      }))
+    async searchField (query, tableViewId, filters = {}) {
+      return await lckHelpers.searchColumnsFromTableView(query, tableViewId, filters)
     },
     async onSearchTableView ({ query }) {
       try {
@@ -1220,7 +1185,7 @@ export default {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
     },
-    async onSearchField ({ query, tableViewId, columnTypes }) {
+    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes }) {
       try {
         this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, Array.isArray(columnTypes)
           ? {
@@ -1241,18 +1206,7 @@ export default {
     },
     async onSearchBlockDisplayField ({ query, tableViewId }) {
       try {
-        this.blockDisplayFieldSuggestions = await this.searchField(query, tableViewId, {
-          $or: [
-            {
-              column_type_id: COLUMN_TYPE.BOOLEAN,
-            },
-            {
-              settings: {
-                formula_type_id: COLUMN_TYPE.BOOLEAN,
-              },
-            },
-          ],
-        })
+        this.blockDisplayFieldSuggestions = await lckHelpers.searchBooleanColumnsFromTableView(query, tableViewId)
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }

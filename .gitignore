@@ -4,11 +4,19 @@ node_modules
 
 # Config
 /public/config.js
-.env
+
+# Theme
+/public/themes/*
+!/public/themes/locokit
+!/public/themes/makina-green
+!/public/themes/makina-klein
 
 # Test
 /tests/e2e/videos/
 /tests/e2e/screenshots/
+/coverage
+/storybook-static
+junit.xml
 
 # local env files
 .env
@@ -30,6 +38,3 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-/coverage
-/storybook-static
-junit.xml

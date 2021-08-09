@@ -419,7 +419,6 @@ import Badge from '@/components/ui/Badge/Badge'
 import LckButtonConfirmation from '@/components/ui/ButtonConfirmation/ButtonConfirmation'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { parseISO } from 'date-fns'
 
 import {
   getComponentDisplayCellForColumnType,
@@ -690,26 +689,6 @@ export default {
           return false
         default:
           return true
-      }
-    },
-    onShowCalendar ({ column_type_id: columnTypeId }, value) {
-      /**
-       * TODO: the event "show" is trigerred right after a calendar is closed... strange.
-       * so, from time to time, the currentDateToEdit is scratched with the previous date edited...
-       */
-      switch (columnTypeId) {
-        case COLUMN_TYPE.DATE:
-        case COLUMN_TYPE.DATETIME:
-          this.currentDateToEdit = null
-          try {
-            if (value) {
-              this.currentDateToEdit = parseISO(value)
-            }
-          } catch (error) {
-            // eslint-disable no-console
-            console.error(error)
-          }
-          break
       }
     },
     async onComplete ({ column_type_id: columnTypeId, settings }, { query }) {
