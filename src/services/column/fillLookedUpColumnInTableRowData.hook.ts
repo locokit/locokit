@@ -31,6 +31,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
         let newDataForCurrentColumn = '{ [context.result.id]: null }'
         switch (foreignColumn.column_type_id) {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
             const originalTypeId = foreignColumn.originalTypeId()
             switch (originalTypeId) {
               case COLUMN_TYPE.MULTI_USER:
