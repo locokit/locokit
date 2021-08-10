@@ -585,7 +585,7 @@ export default {
                * If it's an object, we return data (paginated array), else only the content (already an array)
                */
               const sourceContent = this.sources[mapSource.id]?.content
-              let currentContent = []
+              let currentContent = null
               if (Array.isArray(sourceContent)) {
                 currentContent = sourceContent
               } else if (sourceContent?.data) {
