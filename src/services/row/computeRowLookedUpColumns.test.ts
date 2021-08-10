@@ -173,10 +173,11 @@ describe('computeRowLookedUpColumns hook', () => {
   })
 
   it('compute the lookedup column of the currentRow', async () => {
-    expect.assertions(11)
+    expect.assertions(14)
     const spyOnGetForeignColumn = jest.spyOn(app.service('column'), 'get').mockClear()
     expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
-    const newRowTable2 = await app.service('row').patch(rowTable2.id, {
+    // Update the relation between tables value
+    let newRowTable2 = await app.service('row').patch(rowTable2.id, {
       data: {
         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
       },
@@ -188,6 +189,7 @@ describe('computeRowLookedUpColumns hook', () => {
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].reference).toBe(user1.id)
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].value).toBe('User 1')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].reference).toEqual([user1.id])
+
     // Check the update of a LOOKED_UP_COLUMN linked to a RELATION_BETWEEN_TABLES column
     spyOnGetForeignColumn.mockClear()
     const newRowTable3 = await app.service('row').patch(rowTable3.id, {
@@ -198,7 +200,16 @@ describe('computeRowLookedUpColumns hook', () => {
     expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(1)
     expect(newRowTable3.data[columnTable3LookedUpColumnTable1RBT2.id].reference).toBe(newRowTable2.id)
     expect(newRowTable3.data[columnTable3LookedUpColumnTable1RBT2.id].value).toBe('table 1 ref')
-    await app.service('row').remove(newRowTable3.id)
+
+    // Reset the relation between tables value
+    newRowTable2 = await app.service('row').patch(rowTable2.id, {
+      data: {
+        [columnTable2RelationBetweenTable1.id]: null,
+      },
+    })
+    expect(newRowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id]).toBeNull()
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id]).toBeNull()
   })
 
   it('do not compute the lookedup columns of the current row which are not related to the updated data', async () => {
@@ -218,6 +229,7 @@ describe('computeRowLookedUpColumns hook', () => {
   })
 
   afterEach(async () => {
+    await app.service('row').remove(rowTable3.id)
     await app.service('row').remove(rowTable2.id)
     await app.service('row').remove(rowTable1.id)
     await app.service('row').remove(rowTable1Bis.id)

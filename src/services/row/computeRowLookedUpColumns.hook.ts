@@ -22,12 +22,15 @@ export function computeRowLookedUpColumns (): Hook {
           context.params._meta.columnsIdsTransmitted.includes(c.settings.localField),
         )
         .map(async currentColumnDefinition => {
-          const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
-          const foreignColumnTypeId = foreignColumn.column_type_id
+          // Value of the current looked-up column
+          let currentColumnData: RowData | null = null
+          // Value of the relation between tables column linked to the current looked-up column
           const foreignRowId: { reference: string, value: string } = context.data.data?.[currentColumnDefinition.settings.localField as string]
           if (foreignRowId?.reference) {
+            const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
+            const foreignColumnTypeId = foreignColumn.column_type_id
             const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
-            const currentColumnData: RowData = {
+            currentColumnData = {
               reference: foreignRowId.reference,
               value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
             }
@@ -46,9 +49,9 @@ export function computeRowLookedUpColumns (): Hook {
                 currentColumnData.value = currentColumnData.value?.value
               }
             }
-            context.data.data[currentColumnDefinition.id] = currentColumnData
-            context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
           }
+          context.data.data[currentColumnDefinition.id] = currentColumnData
+          context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
         }),
     )
     return context
