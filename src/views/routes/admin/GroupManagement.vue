@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="p-mx-auto p-px-2"
-  >
+  <div class="p-mx-auto p-px-2">
     <div class="lck-color-primary p-my-4">
       <h1>{{ $t('pages.groupManagement.title') }}</h1>
     </div>
@@ -16,10 +14,10 @@
           <h2>{{ group.name }}</h2>
           <span class="p-pl-1">
             (
-              {{ $t('pages.groupManagement.form.text.workspace') }}<strong>{{ group.aclset.workspace.text }}</strong>,
-              <span v-if="group.aclset.chapter">
-                chapitre <strong>{{ group.aclset.chapter.text }}</strong>
-              </span>
+            {{ $t('pages.groupManagement.form.text.workspace') }}<strong>{{ group.aclset.workspace.text }}</strong>,
+            <span v-if="group.aclset.chapter">
+              chapitre <strong>{{ group.aclset.chapter.text }}</strong>
+            </span>
             )
           </span>
         </template>
@@ -49,7 +47,24 @@
           field="uhg_role"
           :header="$t('pages.groupManagement.form.input.role')"
         />
-        <p-column headerClass="p-col-1" bodyClass="p-text-center">
+        <p-column
+          field="isVerified"
+          :header="$t('pages.userManagement.isVerified')"
+          sortField="isVerified"
+          sortable
+        >
+          <template #body="slotProps">
+            <p-checkbox
+              :binary="true"
+              :modelValue="slotProps.data.isVerified"
+              :disabled="true"
+            />
+          </template>
+        </p-column>
+        <p-column
+          headerClass="p-col-1"
+          bodyClass="p-text-center"
+        >
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
@@ -101,7 +116,7 @@
             id="userName"
             :dropdown="true"
             :placeholder="$t('pages.groupManagement.form.text.selectUser')"
-            v-model="usergroup.user"
+            v-model="usergroup.userName"
             field="label"
             :suggestions="autocompleteUserSuggestions"
             @complete="updateUserSuggestions"
@@ -132,6 +147,23 @@
             </template>
           </p-dropdown>
         </validation-provider>
+        <validation-provider
+          v-if="editingUser"
+          vid="isVerified"
+          tag="div"
+          class="p-field"
+        >
+          <label for="isVerified">
+            {{ $t("pages.userManagement.isVerified") }}
+          </label>
+          <p-checkbox
+            class="p-field-checkbox"
+            id="isVerified"
+            :binary="true"
+            v-model="user.isVerified"
+            :disabled="true"
+          />
+        </validation-provider>
         <div v-if="hasSubmitError">
           <p class="p-invalid">{{ $t('error.basic') }}</p>
         </div>
@@ -145,7 +177,10 @@
       :modal="true"
     >
       <div class="confirmation-content">
-        <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
+        <i
+          class="pi pi-exclamation-triangle p-mr-3"
+          style="font-size: 2rem"
+        />
         <span>{{ $t('pages.groupManagement.form.text.confirmationDeleteUser', { userName: usergroup.userName, groupName: usergroup.groupName }) }}</span>
       </div>
       <template #footer>
@@ -185,6 +220,7 @@ import Toolbar from 'primevue/toolbar'
 import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
+import Checkbox from 'primevue/checkbox'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
@@ -204,6 +240,7 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
+    'p-checkbox': Vue.extend(Checkbox),
     'p-dropdown': Vue.extend(Dropdown),
     'p-dialog': Vue.extend(Dialog),
     'validation-provider': Vue.extend(ValidationProvider),
