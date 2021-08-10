@@ -310,9 +310,6 @@ import { ValidationResult } from 'vee-validate/dist/types/types'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ValidationProviderType = Vue & { validate: (...args: any[]) => Promise<ValidationResult> }
-
 export default {
   name: 'LckDataDetail',
   components: {
@@ -514,7 +511,7 @@ export default {
       if (Array.isArray(provider)) {
         provider = provider[0]
       }
-      (provider as ValidationProviderType).validate(value)
+      (provider as InstanceType<typeof ValidationProvider>).validate(value)
       this.$emit('update-row', {
         rowId,
         columnId,
@@ -684,7 +681,7 @@ export default {
           if (Array.isArray(provider)) {
             provider = provider[0]
           }
-          (provider as ValidationProviderType).validate(newFieldsToValidate[fieldId])
+          (provider as InstanceType<typeof ValidationProvider>).validate(newFieldsToValidate[fieldId])
         }
       }
     },
