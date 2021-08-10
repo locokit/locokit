@@ -11,6 +11,10 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
       Edit the column
     </h1>
      
+    <p>
+      
+    </p>
+     
     <div
       class="column-form-container lck-color-content"
     >
@@ -418,6 +422,10 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
       Edit the column
     </h1>
      
+    <p>
+      
+    </p>
+     
     <div
       class="column-form-container lck-color-content"
     >
@@ -667,6 +675,10 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
     >
       Edit the column
     </h1>
+     
+    <p>
+      
+    </p>
      
     <div
       class="column-form-container lck-color-content"
