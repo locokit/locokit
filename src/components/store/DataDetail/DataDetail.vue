@@ -252,7 +252,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropOptions, PropType } from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
 import { ValidationProvider } from 'vee-validate'
@@ -379,10 +379,20 @@ export default {
       required: false,
       default: 'read',
     },
+    /*
+     * Additional sources displayed in addition to the editable data in geographic inputs
+     */
     secondarySources: {
       type: Object as PropType<Record<string, { definition: { columns: LckTableViewColumn[]; table_id?: string }; content: LckTableRow[] }>>,
       default: () => ({}),
     },
+    /*
+     * Fields ids which have been programmatically updated from another field value
+     */
+    fieldsToValidate: {
+      type: Object,
+      default: () => ({}),
+    } as PropOptions<Record<string, LckTableRowData>>,
   },
   data () {
     return {
@@ -500,8 +510,7 @@ export default {
       if (Array.isArray(provider)) {
         provider = provider[0]
       }
-      /* eslint-disable-next-line */
-      (provider as Vue & { validate: (...args: any[]) => Promise<ValidationResult> }).validate(value)
+      (provider as InstanceType<typeof ValidationProvider>).validate(value)
       this.$emit('update-row', {
         rowId,
         columnId,
@@ -661,6 +670,19 @@ export default {
         }
       },
       immediate: true,
+    },
+    fieldsToValidate (newFieldsToValidate: Record<string, LckTableRowData>) {
+      // Loop on fields with default values interaction which are programmatically updated to validate them
+      for (const fieldId in newFieldsToValidate) {
+        const ref = `vp_${this.row.id}_${fieldId}`
+        let provider = this.$refs[ref]
+        if (provider) {
+          if (Array.isArray(provider)) {
+            provider = provider[0]
+          }
+          (provider as InstanceType<typeof ValidationProvider>).validate(newFieldsToValidate[fieldId])
+        }
+      }
     },
   },
 }
