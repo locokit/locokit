@@ -5,6 +5,7 @@
     :dropdown="true"
     :placeholder="$t('components.datatable.autoCompletePlaceholder')"
     :field="field"
+    :forceSelection="true"
     :appendTo="appendTo"
     v-on="$listeners"
     v-bind="$attrs"
