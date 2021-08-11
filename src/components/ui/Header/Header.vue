@@ -132,7 +132,7 @@ export default {
   height: var(--header-height) !important;
   border-bottom: 1px solid var(--header-border-bottom-color);
   background-color: var(--header-background-color);
-  z-index: 1050;
+  z-index: 1000;
 }
 
 .menu-button {
