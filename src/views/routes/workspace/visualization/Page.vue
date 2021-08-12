@@ -570,7 +570,7 @@ export default {
         }
         return this.geoSources[block.id].definition
       }
-      if (!block.settings.id) return null
+      if (!block?.settings?.id) return null
 
       return this.sources[block.settings.id]?.definition
     },
@@ -586,7 +586,7 @@ export default {
                * If it's an object, we return data (paginated array), else only the content (already an array)
                */
               const sourceContent = this.sources[mapSource.id]?.content
-              let currentContent = []
+              let currentContent = null
               if (Array.isArray(sourceContent)) {
                 currentContent = sourceContent
               } else if (sourceContent?.data) {

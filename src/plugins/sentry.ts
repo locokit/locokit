@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'production') {
         },
       }),
     ],
+    ignoreErrors: ['/^jwt expired$/'],
     tracesSampleRate: 1.0, // Be sure to lower this in production
   })
 }

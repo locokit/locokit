@@ -219,6 +219,44 @@ const mockDefinitionsWithDefaultColumns = {
       table_view_id: 'table_view_3',
       style: {},
     },
+    {
+      text: 'Date',
+      id: 'date_1_column',
+      settings: {},
+      table_id: 'table_3',
+      column_type_id: COLUMN_TYPE.DATE,
+      editable: false,
+      position: 7,
+      transmitted: false,
+      displayed: true,
+      sort: 'ASC',
+      table_column_id: '',
+      table_view_id: 'table_view_3',
+      style: {},
+    },
+    {
+      text: 'Date related 1',
+      id: 'date_2_column',
+      settings: {},
+      table_id: 'table_3',
+      column_type_id: COLUMN_TYPE.DATE,
+      editable: false,
+      default: {
+        fieldId: 'date_1_column',
+      },
+      position: 7,
+      transmitted: false,
+      displayed: true,
+      sort: 'ASC',
+      table_column_id: '',
+      table_view_id: 'table_view_3',
+      style: {},
+      validation: {
+        minDate: {
+          fromDate: '@date_1_column',
+        },
+      },
+    },
   ],
 }
 
@@ -464,6 +502,44 @@ describe('FormRecord', () => {
           string_6_column: 'This is a test to be duplicated',
         },
       })
+    })
+    it('Validate the fields whose the values are based on another fields', async () => {
+      const wrapper = await mount(FormRecord, {
+        attrs: {
+          workspaceId: 'workspace_1',
+        },
+        listeners: {
+          'download-attachment': () => ({}),
+          'update-suggestions': () => ({}),
+          'upload-files': () => ({}),
+        },
+        mocks: {
+          t: key => key,
+          $t: key => key,
+          $toast: {
+            add: jest.fn(),
+          },
+        },
+        propsData: {
+          definition: mockDefinitionsWithDefaultColumns,
+          settings: {
+            id: mockDefinitionsWithDefaultColumns.id,
+          },
+          crudMode: true,
+        },
+      })
+      const newDate = new Date('2021-07-14')
+      await wrapper.vm.onUpdateRow({
+        columnId: 'date_1_column',
+        newValue: newDate,
+      })
+      await flushAll()
+      // Check that the fields are correctly initialized
+      expect(wrapper.vm.newRow.data.date_1_column).toEqual(newDate)
+      expect(wrapper.vm.newRow.data.date_2_column).toEqual(newDate)
+      // Check that the second field has been checked for validation
+      const lastFieldValidation = wrapper.findAll('.p-field:last-child .validated.failed')
+      expect(lastFieldValidation.length).toBeGreaterThan(0)
     })
   })
 })

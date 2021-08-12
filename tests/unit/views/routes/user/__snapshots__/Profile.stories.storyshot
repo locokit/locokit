@@ -455,12 +455,22 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                 <div
                   class="p-col p-md-3"
                 >
-                  <input
+                  <div
                     aria-describedby="password-rules"
-                    class="p-inputtext p-component"
+                    class="p-password p-component p-inputwrapper"
                     id="password"
-                    type="password"
-                  />
+                  >
+                    <input
+                      aria-describedby="password-rules"
+                      class="p-inputtext p-component p-password-input"
+                      id="password"
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                  </div>
                 </div>
               </div>
                

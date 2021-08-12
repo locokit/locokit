@@ -526,7 +526,7 @@ export default {
     },
     handleTabChange (event) {
       this.resetToDefault()
-      this.currentTableId = event.tab.$el.dataset?.tableId
+      this.currentTableId = (this.database.tables[event.index]).id
       this.loadTableAndProcess()
     },
     async loadTableAndProcess () {

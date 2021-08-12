@@ -8,10 +8,12 @@
     @update:visible="$emit('close')"
   >
     <div class="sidebar-content lck-color-content">
-      <p-tab-view @tab-change="onTabChange">
+      <p-tab-view
+        :activeIndex="activePanel.indexOf(true)"
+        @tab-change="onTabChange"
+      >
         <p-tab-panel
           :header="$t('pages.workspace.page.pageConfiguration')"
-          :active.sync="activePanel[0]"
         >
           <update-page-form
             :containers="page.containers"
@@ -23,8 +25,6 @@
         <p-tab-panel
           v-if="activePanel[1] || activePanel[2]"
           :header="$t(`pages.workspace.container.${container.createdAt ? 'edit' : 'create'}`)"
-
-          :active.sync="activePanel[1]"
         >
           <update-container-form
             :container="container"
@@ -38,7 +38,6 @@
         <p-tab-panel
           v-if="activePanel[2]"
           :header="$t(`pages.workspace.block.${block.createdAt ? 'edit' : 'create'}`)"
-          :active.sync="activePanel[2]"
         >
           <update-block-form
             :block="block"
@@ -130,6 +129,7 @@ export default {
   },
   computed: {
     activePanel (): boolean[] {
+      // [Page, Container, Block]
       if (this.block.id) {
         return [false, false, true]
       } else {
@@ -139,11 +139,11 @@ export default {
     },
   },
   methods: {
-    onTabChange () {
-      if (this.activePanel[1]) {
+    onTabChange (event) {
+      if (event.index === 1) {
         this.$emit('reset-current-block', {})
       }
-      if (this.activePanel[0]) {
+      if (event.index === 0) {
         this.$emit('reset-current-block', {})
         this.$emit('reset-current-container', {})
       }
@@ -166,10 +166,5 @@ export default {
 ::v-deep .p-tabview > .p-tabview-nav > li.p-highlight > .p-tabview-nav-link {
   color: var(--primary-color);
   border-color: var(--primary-color);
-}
-
-::v-deep .p-tabview > .p-tabview-panels {
-  padding-left: 0;
-  padding-right: 0;
 }
 </style>

@@ -8,6 +8,7 @@
       "email": "E-mail",
       "password": "Mot de passe",
       "signin": "Se connecter",
+      "signinAgain": "Se reconnecter",
       "passwordHelper": "Renseignez votre mot de passe",
       "lostpassword": "Mot de passe perdu ?"
     },
@@ -727,7 +728,11 @@
       "blockMultiConflictSummary": "Conflit au niveau des sources partagées",
       "blockMultiConflictDetail": "Certaines sources partagées de blocs sont à la fois multi et mono donnée. Merci de vérifier la configuration de vos blocs."
     },
-    "impossibleOperation": "Opération impossible"
+    "impossibleOperation": "Opération impossible",
+    "expiredToken": {
+      "header": "Votre session a expiré",
+      "message": "Merci de vous reconnecter pour poursuivre votre navigation sur le site."
+    }
   },
   "form": {
     "add": "Ajouter",

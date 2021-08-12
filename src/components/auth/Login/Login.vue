@@ -33,11 +33,12 @@
       <p-button
         type="submit"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-        :label="$t('components.login.signin')"
+        :label="logInAgain ? $t('components.login.signinAgain') : $t('components.login.signin')"
         :disabled="loading"
         class="p-mb-4"
       />
       <router-link
+        v-if="!logInAgain"
         to="/lost-password"
         class="p-d-block p-text-center"
       >
@@ -62,6 +63,10 @@ export default Vue.extend({
     error: {
       type: Error,
       default: null,
+    },
+    logInAgain: {
+      type: Boolean,
+      default: false,
     },
   },
   data () {
