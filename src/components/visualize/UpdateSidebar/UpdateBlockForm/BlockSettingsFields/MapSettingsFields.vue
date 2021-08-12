@@ -16,54 +16,54 @@
       />
     </validation-provider>
 
-    <validation-provider
-      v-if="addAllowed"
-      class="p-field"
-      tag="div"
-      vid="add-button-title"
-    >
-      <label for="add-button-title">
-        {{ $t('pages.workspace.block.map.addButtonTitle') }}
-      </label>
-      <p-input-text
-        id="add-button-title"
-        :value="addButtonTitle"
-        @input="$emit('update:addButtonTitle', $event)"
-      />
-    </validation-provider>
+    <div v-if="addAllowed">
+      <validation-provider
+        class="p-field"
+        tag="div"
+        vid="add-button-title"
+      >
+        <label for="add-button-title">
+          {{ $t('pages.workspace.block.map.addButtonTitle') }}
+        </label>
+        <p-input-text
+          id="add-button-title"
+          :value="addButtonTitle"
+          @input="$emit('update:addButtonTitle', $event)"
+        />
+      </validation-provider>
 
-    <validation-provider
-      v-if="addAllowed"
-      class="p-field"
-      :name="$t('pages.workspace.block.map.addSourceId')"
-      rules="required"
-      tag="div"
-      vid="add-source-id"
-      v-slot="{
-        errors,
-        classes
-      }"
-    >
-      <label class="label-field-required" for="add-source-id">
-        {{ $t('pages.workspace.block.map.addSourceId') }}
-      </label>
-      <p-dropdown
-        dataKey="value"
-        :disabled="!tableViewUniqueOptions.length"
-        id="add-source-id"
-        optionLabel="text"
-        :options="tableViewUniqueOptions"
-        optionValue="value"
-        :placeholder="tableViewUniqueOptions.length
-          ? $t('pages.workspace.block.map.selectOneSource')
-          : $t('pages.workspace.block.map.noConfiguredSource')
-        "
-        :showClear="true"
-        :value="addSourceId"
-        @input="$emit('update:addSourceId', $event || undefined)"
-      />
-      <span :class="classes">{{ errors[0] }}</span>
-    </validation-provider>
+      <validation-provider
+        class="p-field"
+        :name="$t('pages.workspace.block.map.addSourceId')"
+        rules="required"
+        tag="div"
+        vid="add-source-id"
+        v-slot="{
+          errors,
+          classes
+        }"
+      >
+        <label class="label-field-required" for="add-source-id">
+          {{ $t('pages.workspace.block.map.addSourceId') }}
+        </label>
+        <p-dropdown
+          dataKey="value"
+          :disabled="!tableViewUniqueOptions.length"
+          id="add-source-id"
+          optionLabel="text"
+          :options="tableViewUniqueOptions"
+          optionValue="value"
+          :placeholder="tableViewUniqueOptions.length
+            ? $t('pages.workspace.block.map.selectOneSource')
+            : $t('pages.workspace.block.map.noConfiguredSource')
+          "
+          :showClear="true"
+          :value="addSourceId"
+          @input="$emit('update:addSourceId', $event || undefined)"
+        />
+        <span :class="classes">{{ errors[0] }}</span>
+      </validation-provider>
+    </div>
 
     <!-- Source configurations -->
     <div v-if="sources.length === sourcesOptions.length">
@@ -131,7 +131,7 @@
             v-model="sourcesOptions[index].field"
             @clear="onSourcePropertyChange(source, 'field', null)"
             @item-select="onFieldChange(source, $event)"
-            @search="$emit('search-field', { ...$event, tableViewId: source.id, columnTypes: GEOGRAPHIC_COLUMN_TYPES })"
+            @search="$emit('search-field', { query: $event.query, tableViewId: source.id, columnTypes: GEOGRAPHIC_COLUMN_TYPES })"
           />
         </validation-provider>
 
@@ -193,7 +193,7 @@
                 saveFieldItem(source, $event);
                 onSourcePopupPropertyChange(source, 'title', $event.value.value);
               "
-              @search="$emit('search-field', { ...$event, tableViewId: source.id })"
+              @search="$emit('search-field', { query: $event.query, tableViewId: source.id })"
             />
           </validation-provider>
 
@@ -274,7 +274,7 @@
                   saveFieldItem(source, $event);
                   onPopupFieldChange(contentField, 'field', $event.value.value);
                 "
-                @search="$emit('search-field', { ...$event, tableViewId: source.id })"
+                @search="$emit('search-field', { query: $event.query, tableViewId: source.id })"
               />
               <span :class="classes">{{ errors[0] }}</span>
             </validation-provider>
@@ -536,7 +536,7 @@ export default Vue.extend({
       const alreadySourceViewIds: Set<string> = new Set()
       let addSourceIdExist = false
 
-      sources.forEach(({ id: tableViewId, field, popupSettings }) => {
+      sources.forEach(({ id: tableViewId, field, popupSettings }, index) => {
         const currentSourceOptions: SourceOptions = {}
         // Input related to the source view
         if (tableViewId) {
@@ -549,7 +549,7 @@ export default Vue.extend({
           if (!alreadySourceViewIds.has(tableViewId)) {
             tableViewOptions.push({
               value: tableViewId,
-              text: this.tableViewIdsNamesAssociation[tableViewId] || 'Unknown', // TODO TRANSLATION
+              text: this.tableViewIdsNamesAssociation[tableViewId] || `${this.$t('components.mapview.noReference')} (${index + 1})`,
             })
             alreadySourceViewIds.add(tableViewId)
           }
