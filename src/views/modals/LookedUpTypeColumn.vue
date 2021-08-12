@@ -85,6 +85,10 @@ export default {
       type: Object,
       required: false,
     },
+    columnType: {
+      type: Number,
+      required: false,
+    },
   },
   data () {
     return {
@@ -129,7 +133,7 @@ export default {
   computed: {
     foreignFieldsFilters () {
       // Prevent to have a LOOKED_UP_COLUMN linked to a VIRTUAL_LOOKED_UP_COLUMN
-      return this.columnToHandle.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN
+      return this.columnType === COLUMN_TYPE.LOOKED_UP_COLUMN
         ? {
           // eslint-disable-next-line @typescript-eslint/camelcase
           column_type_id: {
