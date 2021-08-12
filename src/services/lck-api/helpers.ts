@@ -489,6 +489,7 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
         keepField = true
         break
       case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
       case COLUMN_TYPE.FORMULA:
         keepField = [
           COLUMN_TYPE.DATE,

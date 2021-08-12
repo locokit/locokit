@@ -155,15 +155,6 @@ jest.mock('@/services/lck-helpers/process', () => ({
   retrieveManualProcessWithRuns: jest.fn(() => ([])),
 }))
 
-/*
-getComponentEditableColumn
-isEditableColumn
-*/
-jest.mock('@/services/lck-utils/columns', () => ({
-  isEditableColumn: jest.fn(() => false),
-  getColumnTypeId: jest.fn(c => c.original_type_id),
-}))
-
 // Tests
 
 describe('Database', () => {

@@ -230,6 +230,7 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
+import { READ_ONLY_COLUMNS_TYPES } from '@/services/lck-utils/columns'
 
 export default {
   name: 'Page',
@@ -726,10 +727,7 @@ export default {
         const duplicatedData = {}
         const currentBlockDefinition = this.getBlockDefinition(block)
         currentBlockDefinition.columns.forEach(c => {
-          if (
-            c.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
-          c.column_type_id !== COLUMN_TYPE.FORMULA
-          ) {
+          if (!READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
             duplicatedData[c.id] = (
             data[c.id]?.reference
               ? data[c.id].reference

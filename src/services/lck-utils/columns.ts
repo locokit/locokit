@@ -150,20 +150,20 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
   }
 }
 
+export const READ_ONLY_COLUMNS_TYPES = new Set([
+  COLUMN_TYPE.LOOKED_UP_COLUMN,
+  COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+  COLUMN_TYPE.FORMULA,
+])
+
 export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn) {
-  switch (column.column_type_id) {
-    case COLUMN_TYPE.LOOKED_UP_COLUMN:
-    case COLUMN_TYPE.FORMULA:
-      return false
-    default:
-      return crudMode || column.editable
-  }
+  return !READ_ONLY_COLUMNS_TYPES.has(column.column_type_id) && (crudMode || column.editable)
 }
 
 export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
   if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
-  if (
-    column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN ||
+  if ((column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+      column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) ||
     (column.parents && column.parents.length === 0) ||
     !column.parents
   ) {
@@ -173,75 +173,14 @@ export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
 }
 
 export function getOriginalColumn (column: LckTableColumn): LckTableColumn {
-  if (
-    column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN ||
+  if ((column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+    column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) ||
     (column.parents && column.parents.length === 0) ||
     !column.parents
   ) {
     return column
   }
   return getOriginalColumn(column.parents[0])
-}
-
-export function getDataFromTableViewColumn (
-  column: LckTableViewColumn,
-  data: LckTableRowData,
-  options: {
-    dateFormat: string | TranslateResult;
-    datetimeFormat: string | TranslateResult;
-    noData: string | TranslateResult;
-    noReference: string | TranslateResult;
-  }): PopupContent['field'] {
-  switch (column.column_type_id) {
-    case COLUMN_TYPE.USER:
-    case COLUMN_TYPE.GROUP:
-    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-    case COLUMN_TYPE.LOOKED_UP_COLUMN:
-      return {
-        label: column.text,
-        value: (data as LckTableRowDataComplex).value as string || options.noData as string,
-      }
-    case COLUMN_TYPE.MULTI_USER:
-      return {
-        label: column.text,
-        value: (data as LCKTableRowMultiDataComplex).value.join(', ') || options.noData as string,
-      }
-    case COLUMN_TYPE.SINGLE_SELECT:
-      return {
-        label: column.text,
-        value: (column.settings?.values as Record<string, SelectValue>)[data as string]?.label || options.noData as string,
-        color: (column.settings?.values as Record<string, SelectValue>)[data as string]?.color,
-        backgroundColor: (column.settings?.values as Record<string, SelectValue>)[data as string]?.backgroundColor,
-      }
-    case COLUMN_TYPE.MULTI_SELECT:
-      return {
-        label: column.text,
-        value: (data as string[]).length > 0 ? (data as string[]).map(d => (column.settings?.values as Record<string, SelectValue>)[d]?.label).join(', ') : options.noData as string,
-      }
-    case COLUMN_TYPE.FORMULA:
-      const value = getColumnTypeId(column) === COLUMN_TYPE.DATE
-        ? formatDate(data as Date, options.dateFormat)
-        : data
-
-      return {
-        label: column.text,
-        value: (value || options.noData) as string,
-      }
-    case COLUMN_TYPE.DATE:
-      // eslint-disable-next-line no-case-declarations
-      return {
-        label: column.text,
-        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string,
-      }
-    case COLUMN_TYPE.DATETIME:
-      // eslint-disable-next-line no-case-declarations
-      return {
-        label: column.text,
-        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string,
-      }
-    default:
-      return { label: column.text, value: (data || options.noData) as string }
-  }
 }
 
 export function getColumnClass (column: LckTableViewColumn): string {
@@ -333,6 +272,12 @@ export function getColumnDisplayValue (
         } else {
           return (data as LckTableRowDataComplex).value as string
         }
+      case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+        const virtualOriginalColumn = getOriginalColumn(column)
+        if (virtualOriginalColumn.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) {
+          return getColumnDisplayValue(virtualOriginalColumn, data, onlyBaseValue)
+        }
+        return data as string
       case COLUMN_TYPE.MULTI_USER:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
@@ -373,6 +318,72 @@ export function getColumnDisplayValue (
   }
 }
 
+export function getDataFromTableViewColumn (
+  column: LckTableViewColumn,
+  data: LckTableRowData,
+  options: {
+    dateFormat: string | TranslateResult;
+    datetimeFormat: string | TranslateResult;
+    noData: string | TranslateResult;
+    noReference: string | TranslateResult;
+  }): PopupContent['field'] {
+  switch (column.column_type_id) {
+    case COLUMN_TYPE.USER:
+    case COLUMN_TYPE.GROUP:
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      return {
+        label: column.text,
+        value: (data as LckTableRowDataComplex).value as string || options.noData as string,
+      }
+    case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+      return {
+        label: column.text,
+        value: getColumnDisplayValue(column, data, true) as string | number | boolean | undefined || options.noData as string,
+      }
+    case COLUMN_TYPE.MULTI_USER:
+      return {
+        label: column.text,
+        value: (data as LCKTableRowMultiDataComplex).value.join(', ') || options.noData as string,
+      }
+    case COLUMN_TYPE.SINGLE_SELECT:
+      return {
+        label: column.text,
+        value: (column.settings?.values as Record<string, SelectValue>)[data as string]?.label || options.noData as string,
+        color: (column.settings?.values as Record<string, SelectValue>)[data as string]?.color,
+        backgroundColor: (column.settings?.values as Record<string, SelectValue>)[data as string]?.backgroundColor,
+      }
+    case COLUMN_TYPE.MULTI_SELECT:
+      return {
+        label: column.text,
+        value: (data as string[]).length > 0 ? (data as string[]).map(d => (column.settings?.values as Record<string, SelectValue>)[d]?.label).join(', ') : options.noData as string,
+      }
+    case COLUMN_TYPE.FORMULA:
+      const value = getColumnTypeId(column) === COLUMN_TYPE.DATE
+        ? formatDate(data as Date, options.dateFormat)
+        : data
+
+      return {
+        label: column.text,
+        value: (value || options.noData) as string,
+      }
+    case COLUMN_TYPE.DATE:
+      // eslint-disable-next-line no-case-declarations
+      return {
+        label: column.text,
+        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string,
+      }
+    case COLUMN_TYPE.DATETIME:
+      // eslint-disable-next-line no-case-declarations
+      return {
+        label: column.text,
+        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string,
+      }
+    default:
+      return { label: column.text, value: (data || options.noData) as string }
+  }
+}
+
 export default {
   getComponentDisplayCellForColumnType,
   getComponentEditorCellForColumnType,
@@ -384,4 +395,5 @@ export default {
   getDataFromTableViewColumn,
   getColumnClass,
   getColumnDisplayValue,
+  READ_ONLY_COLUMNS_TYPES,
 }

@@ -206,7 +206,7 @@ import Checkbox from 'primevue/checkbox'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
-import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn'
+import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
 
 export default {
   name: 'HandleColumnModal',
@@ -260,7 +260,7 @@ export default {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
     },
     isLookedUpType () {
-      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
     },
     isFormulaType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA

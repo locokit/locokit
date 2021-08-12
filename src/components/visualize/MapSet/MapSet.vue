@@ -64,6 +64,7 @@ import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 import { MapboxGeoJSONFeature } from 'mapbox-gl'
 import Button from 'primevue/button'
+import { READ_ONLY_COLUMNS_TYPES } from '@/services/lck-utils/columns'
 
 export default Vue.extend({
   name: 'MapSet',
@@ -144,8 +145,7 @@ export default Vue.extend({
       const currentDefinition = this.definition[this.settings.addSourceId]
       return {
         columns: currentDefinition?.columns?.filter((column) =>
-          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
-          column.column_type_id !== COLUMN_TYPE.FORMULA
+          !READ_ONLY_COLUMNS_TYPES.has(column.column_type_id)
         ) || [],
       }
     },

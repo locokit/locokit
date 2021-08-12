@@ -114,6 +114,7 @@ export default {
           query: {
             // eslint-disable-next-line @typescript-eslint/camelcase
             table_id: this.relationTableId,
+            ...this.foreignFieldsFilters,
             $limit: -1,
           },
         }) as LckTableColumn[]
@@ -123,6 +124,19 @@ export default {
     onLocalFieldChange (data: { value: string }) {
       this.relationTableId = this.localFields?.find(field => field.id === data.value)?.settings.tableId || null
       this.loadForeignFields()
+    },
+  },
+  computed: {
+    foreignFieldsFilters () {
+      // Prevent to have a LOOKED_UP_COLUMN linked to a VIRTUAL_LOOKED_UP_COLUMN
+      return this.columnToHandle.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN
+        ? {
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          column_type_id: {
+            $ne: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+          },
+        }
+        : {}
     },
   },
   mounted () {

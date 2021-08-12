@@ -678,15 +678,7 @@ export default {
     isSortableColumn (column) {
       switch (column.column_type_id) {
         case COLUMN_TYPE.SINGLE_SELECT:
-          return false
-        default:
-          return true
-      }
-    },
-    isSingleSelect (column) {
-      const originalColumnTypeId = getColumnTypeId(column)
-      switch (originalColumnTypeId) {
-        case COLUMN_TYPE.SINGLE_SELECT:
+        case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
           return false
         default:
           return true

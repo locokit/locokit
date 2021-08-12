@@ -236,7 +236,7 @@ export default {
       if (this.definition.columns?.length < 1) return []
       return this.definition.columns.reduce((acc, column) => {
         const originalType = getColumnTypeId(column)
-        if (this.supportedTypes.includes(originalType)) {
+        if (column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN && COLUMN_FILTERS_CONFIG[originalType]) {
           acc.push({
             value: column.id,
             label: column.text,
@@ -263,9 +263,6 @@ export default {
         type: COLUMN_TYPE;
         originalType: COLUMN_TYPE;
       }[])
-    },
-    supportedTypes (): COLUMN_TYPE[] {
-      return Object.keys(this.columnFiltersConfig).map(action => parseInt(action))
     },
     invalidFilters (): boolean {
       return this.value.some(
