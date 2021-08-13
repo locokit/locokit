@@ -522,7 +522,29 @@
           }
         },
         "detailPage": "Detail page",
-        "addGeoDataSrc": "Add a new geographic data source"
+        "map": {
+          "addButtonTitle": "Creation button label",
+          "addGeoSource": "Add a new geographic data source",
+          "addSourceId": "View to use in the creation form",
+          "deletePopupField": "Remove the field from the pop-up",
+          "deleteSource": "Delete the source",
+          "field": "Geographic field to display",
+          "noConfiguredSource": "No source has been configured",
+          "noSelectedView": "No view has been selected",
+          "popup": "Display a pop-up",
+          "popupAddField": "Add a field",
+          "popupDetailPage": "Details page to redirect the user to",
+          "popupField": "Field",
+          "popupFields": "Fields to display in the pop-up",
+          "popupFieldStyle": "Style to apply",
+          "popupHover": "Show the pop-up on hover",
+          "popupTitle": "Field to use as pop-up title",
+          "selectable": "Make the source selectable",
+          "selectOneSource": "Select one of the sources",
+          "source": "Source",
+          "sources": "Sources",
+          "tableView": "View to display"
+        }
       }
     },
     "database": {

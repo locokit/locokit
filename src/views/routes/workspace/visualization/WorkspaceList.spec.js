@@ -89,6 +89,9 @@ jest.mock('@/services/lck-api', () => ({
         ({ ...mockWorkspaceContent.chapters[0].pages[0], ...data, id: '13' })),
       remove: jest.fn(),
     },
+    group: {
+      find: jest.fn(() => []),
+    },
   },
   lckHelpers: {
     retrieveWorkspaceWithChaptersAndPages: () => mockDeepCloneObject(mockWorkspaceContent),

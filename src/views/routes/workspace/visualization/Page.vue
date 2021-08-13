@@ -167,6 +167,7 @@
       @reset-current-container="onContainerEditClickFromSidebar"
       @close="onCloseUpdateContainerSidebar"
       @search-table-view="onSearchTableView"
+      @search-field="onSearchFieldByColumnType"
 
       @search-block-display-table-view="onSearchBlockDisplayTableView"
       @search-block-display-field="onSearchBlockDisplayField"
@@ -531,10 +532,10 @@ export default {
       }
       // if the source is a multi one with $limit = -1,
       if (Array.isArray(currentSource.content)) {
-        lckHelpers.convertDateInRecords(currentSource.content, this.sources[tableViewId].definition.columns)
+        lckHelpers.convertDateInRecords(currentSource.content, currentSource.definition.columns)
       } else {
         // we are on a paginated result
-        lckHelpers.convertDateInRecords(currentSource.content.data, this.sources[tableViewId].definition.columns)
+        lckHelpers.convertDateInRecords(currentSource.content.data, currentSource.definition.columns)
       }
       // Reset the geo sources that use the same source
       for (const blockId in this.geoSources) {
@@ -1174,12 +1175,24 @@ export default {
     async searchTableView (query, workspaceId) {
       return await lckHelpers.searchTableView(query, workspaceId)
     },
-    async searchField (query, tableViewId) {
-      return await lckHelpers.searchColumnsFromTableView(query, tableViewId)
+    async searchField (query, tableViewId, filters = {}) {
+      return await lckHelpers.searchColumnsFromTableView(query, tableViewId, filters)
     },
     async onSearchTableView ({ query }) {
       try {
         this.editableAutocompleteSuggestions = await this.searchTableView(query, this.workspaceId)
+      } catch (error) {
+        this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
+      }
+    },
+    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes }) {
+      try {
+        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, Array.isArray(columnTypes)
+          ? {
+            $or: columnTypes.map(columnTypeId => ({ column_type_id: columnTypeId })),
+          }
+          : {},
+        )
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
@@ -1193,7 +1206,7 @@ export default {
     },
     async onSearchBlockDisplayField ({ query, tableViewId }) {
       try {
-        this.blockDisplayFieldSuggestions = await this.searchField(query, tableViewId)
+        this.blockDisplayFieldSuggestions = await lckHelpers.searchBooleanColumnsFromTableView(query, tableViewId)
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }

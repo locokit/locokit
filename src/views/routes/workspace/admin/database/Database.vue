@@ -454,7 +454,7 @@ export default {
     isEditableColumn,
     getCurrentFilters,
     searchItems: lckHelpers.searchItems,
-    searchColumnsFromTableView: lckHelpers.searchColumnsFromTableView,
+    searchBooleanColumnsFromTableView: lckHelpers.searchBooleanColumnsFromTableView,
     searchPageWithChapter: lckHelpers.searchPageWithChapter,
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
@@ -969,7 +969,7 @@ export default {
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
     async updateTableViewSuggestions ({ query }) {
-      this.autocompleteSuggestions = await this.searchColumnsFromTableView(query, this.selectedViewId)
+      this.autocompleteSuggestions = await this.searchBooleanColumnsFromTableView(query, this.selectedViewId)
     },
     async updatePageSuggestions ({ query, filters }) {
       this.autocompleteSuggestions = await this.searchPageWithChapter(query, filters)

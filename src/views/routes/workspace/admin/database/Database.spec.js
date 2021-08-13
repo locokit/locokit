@@ -132,6 +132,8 @@ jest.mock('@/services/lck-api', () => ({
     convertDateInRecords: jest.fn(() => []),
     retrieveViewDefinition: jest.fn((mockTableViewIds) => mockFirstTable.views.filter(view => mockTableViewIds.includes(view.id))),
     retrieveViewData: jest.fn(() => []),
+    searchBooleanColumnsFromTableView: jest.fn(),
+    searchPageWithChapter: jest.fn(),
   },
 }))
 
