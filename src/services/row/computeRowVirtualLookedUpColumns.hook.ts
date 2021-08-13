@@ -16,7 +16,6 @@ export function computeRowVirtualLookedUpColumns (): Hook {
     }
     // Save data to prevent redundant DB requests
     const foreignRows: Record<string, TableRow> = {}
-    const foreignColumns: Record<string, TableColumn> = {}
     // First, encapsulate the row(s) in an array to harmonize the computation
     let resultRows: TableRow[] = []
     if (Array.isArray(context.result)) {
@@ -42,10 +41,6 @@ export function computeRowVirtualLookedUpColumns (): Hook {
           // Valid configuration
           if (foreignRowId && foreignColumnId) {
             try {
-              // Get the foreign column
-              if (!foreignColumns[foreignColumnId]) {
-                foreignColumns[foreignColumnId] = await context.app.service('column').get(foreignColumnId)
-              }
               // Get the foreign row
               if (!foreignRows[foreignRowId]) {
                 foreignRows[foreignRowId] = await context.service.get(foreignRowId, {
@@ -55,7 +50,7 @@ export function computeRowVirtualLookedUpColumns (): Hook {
                 })
               }
               // Include the value of the VIRTUAL_LOOKED_UP_COLUMN into the row data
-              resultRow.data[column.id] = foreignRows[foreignRowId].data[foreignColumns[foreignColumnId].id]
+              resultRow.data[column.id] = foreignRows[foreignRowId].data[foreignColumnId]
             } catch (e) {
               if (e instanceof Error) {
                 e.message = `Impossible to retrieve the data from the column '${column.id}'. ${e.message}`
