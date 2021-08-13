@@ -1,7 +1,7 @@
 import { TranslateResult } from 'vue-i18n'
 import i18n from '@/plugins/i18n'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_GEO_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   LckTableColumn,
@@ -232,6 +232,15 @@ export function getColumnClass (column: LckTableViewColumn): string {
 }
 
 /**
+ * Return a list of the geographic column types
+ */
+export const GEOGRAPHIC_COLUMN_TYPES = Object.keys(COLUMN_GEO_TYPE).reduce((acc: number[], item: string) => {
+  const columnTypeId = parseInt(item)
+  if (!isNaN(columnTypeId)) acc.push(columnTypeId)
+  return acc
+}, [] as number[])
+
+/**
  * Return the display value for a column.
  * By taking the backend data column value,
  * retrieve the good part of the data to be displayed.
@@ -334,7 +343,7 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
       return {
         label: column.text,
-        value: (data as LckTableRowDataComplex).value as string || options.noData as string,
+        value: (data as LckTableRowDataComplex | null)?.value as string || options.noData as string,
       }
     case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
       return {
@@ -344,7 +353,7 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.MULTI_USER:
       return {
         label: column.text,
-        value: (data as LCKTableRowMultiDataComplex).value.join(', ') || options.noData as string,
+        value: (data as LCKTableRowMultiDataComplex | null)?.value.join(', ') || options.noData as string,
       }
     case COLUMN_TYPE.SINGLE_SELECT:
       return {
@@ -395,5 +404,6 @@ export default {
   getDataFromTableViewColumn,
   getColumnClass,
   getColumnDisplayValue,
+  GEOGRAPHIC_COLUMN_TYPES,
   READ_ONLY_COLUMNS_TYPES,
 }

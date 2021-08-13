@@ -419,7 +419,6 @@ import Badge from '@/components/ui/Badge/Badge'
 import LckButtonConfirmation from '@/components/ui/ButtonConfirmation/ButtonConfirmation'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
-import { parseISO } from 'date-fns'
 
 import {
   getComponentDisplayCellForColumnType,

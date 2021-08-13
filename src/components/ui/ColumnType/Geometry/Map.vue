@@ -791,6 +791,30 @@ export default Vue.extend({
   margin: auto;
 }
 
+::v-deep .mapboxgl-popup-content .popup-row-content > p.primary {
+  color: var(--primary-color);
+}
+
+::v-deep .mapboxgl-popup-content .popup-row-content > p.secondary {
+  color: var(--secondary-color);
+}
+
+::v-deep .mapboxgl-popup-content .popup-row-content > p.success {
+  color: var(--color-success);
+}
+
+::v-deep .mapboxgl-popup-content .popup-row-content > p.warning {
+  color: var(--color-warning);
+}
+
+::v-deep .mapboxgl-popup-content .popup-row-content > p.danger {
+  color: var(--color-error);
+}
+
+::v-deep .mapboxgl-popup-content .popup-row-content > p.black {
+  color: black;
+}
+
 ::v-deep .mapboxgl-popup-close-button {
   color: var(--primary-color);
 }

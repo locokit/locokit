@@ -49,6 +49,7 @@
             @input="$emit('update-block', $event)"
             @close="resetSidebar"
             @search-table-view="$emit('search-table-view', $event)"
+            @search-field="$emit('search-field', $event)"
             @search-block-display-table-view="$emit('search-block-display-table-view', $event)"
             @search-block-display-field="$emit('search-block-display-field', $event)"
           />

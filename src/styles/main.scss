@@ -158,6 +158,12 @@ html, body, #app {
   color: var(--color-error);
 }
 
+.label-field-required:after {
+  content: "*";
+  color: var(--color-error);
+  font-size: 1.6rem;
+}
+
 span .failed {
   color: var(--color-error);
   font-weight: 500;

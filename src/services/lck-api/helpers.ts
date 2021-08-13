@@ -149,7 +149,7 @@ export async function searchPageWithChapter (query: string, filters: object = {}
  * Search Columns
  * Find all columns belonging to a table view and matching a pattern
  */
-export async function searchColumnsFromTableView (query: string, tableViewId: string) {
+export async function searchColumnsFromTableView (query: string, tableViewId: string, filters: object = {}) {
   const tableColumnResult = await lckServices.tableColumn.find({
     query: {
       'views.id': tableViewId,
@@ -161,19 +161,29 @@ export async function searchColumnsFromTableView (query: string, tableViewId: st
       'table_column.text': {
         $ilike: `%${query}%`,
       },
-      $or: [{
-        column_type_id: COLUMN_TYPE.BOOLEAN,
-      }, {
-        settings: {
-          formula_type_id: COLUMN_TYPE.BOOLEAN,
-        },
-      }],
+      ...filters,
     },
   }) as Paginated<LckTableColumn>
   return tableColumnResult.data.map(tc => ({
     text: tc.text,
     value: tc.id,
   }))
+}
+
+/**
+ * Search boolean columns
+ * Find all boolean and boolean formula columns belonging to a table view and matching a pattern
+ */
+export async function searchBooleanColumnsFromTableView (query: string, tableViewId: string) {
+  return searchColumnsFromTableView(query, tableViewId, {
+    $or: [{
+      column_type_id: COLUMN_TYPE.BOOLEAN,
+    }, {
+      settings: {
+        formula_type_id: COLUMN_TYPE.BOOLEAN,
+      },
+    }],
+  })
 }
 
 /**
@@ -510,6 +520,7 @@ export default {
   searchPageWithChapter,
   searchTableView,
   searchColumnsFromTableView,
+  searchBooleanColumnsFromTableView,
   exportTableRowDataXLS,
   exportTableRowDataCSV,
   getColumnDisplayValue,
