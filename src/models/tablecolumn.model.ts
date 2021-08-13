@@ -159,7 +159,10 @@ export class TableColumn extends BaseModel {
    * @returns The original column related to the current one.
    */
   getOriginalColumn (): TableColumn {
-    if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
+    if ((
+      this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+      this.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
+    ) || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
       return this
     }
     return this.parents[0].getOriginalColumn()

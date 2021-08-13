@@ -14,7 +14,10 @@ export function completeDefaultValues (): Hook {
       context.data.data = context.data.data || {}
       await Promise.all((context.params._meta.columns as Array<TableColumn & TableViewColumn>).map(
         async currentColumnDefinition => {
-          if (typeof context.data.data[currentColumnDefinition.id] === 'undefined') {
+          if (
+            typeof context.data.data[currentColumnDefinition.id] === 'undefined' &&
+            currentColumnDefinition.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
+          ) {
             context.data.data[currentColumnDefinition.id] = null
             switch (currentColumnDefinition.column_type_id) {
               case COLUMN_TYPE.SINGLE_SELECT:

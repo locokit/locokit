@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { Database } from '../../models/database.model'
@@ -6,6 +6,8 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { User } from '../../models/user.model'
+import { AuthenticationResult } from '@feathersjs/authentication/lib'
 
 const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
 const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
@@ -14,6 +16,8 @@ const singleSelectOption3UUID = '4b50ce84-2450-47d7-9409-2f319b547efd'
 describe('upsertColumnRelation hook', () => {
   let workspace: Workspace
   let database: Database
+  let user: User
+  let authentication: AuthenticationResult
   let table1: Table
   let table2: Table
   let columnTable1Ref: TableColumn
@@ -22,13 +26,42 @@ describe('upsertColumnRelation hook', () => {
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1: TableColumn
+  let columnTable2VirtualLookedUpColumnTable1: TableColumn
   let rowTable1: TableRow
   let rowTable2: TableRow
   let rowTable3: TableRow
   let rowTable4: TableRow
   let rowTable5: TableRow
+  let outsideCallParams: object = {}
 
   beforeAll(async () => {
+    // Create a fake user
+    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
+    const passwordHashed = await localStrategy.hashPassword('hello-virtual@locokit.io', {})
+    user = await app.service('user')._create({
+      name: 'John',
+      email: 'hello-virtual@locokit.io',
+      isVerified: true,
+      password: passwordHashed,
+      profile: USER_PROFILE.SUPERADMIN,
+    }, {})
+
+    // // Simulate the authentication
+    authentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: 'hello-virtual@locokit.io',
+      password: 'hello-virtual@locokit.io',
+    }, {})
+
+    // Simulate an outside call
+    outsideCallParams = {
+      provider: 'external',
+      authenticated: true,
+      user,
+      accessToken: authentication.accessToken,
+    }
+
+    // Create workspace
     workspace = await app.service('workspace').create({ text: 'pouet' })
     const workspaceDatabases = await app.service('database').find({
       query: {
@@ -36,7 +69,9 @@ describe('upsertColumnRelation hook', () => {
         $limit: 1,
       },
     }) as Paginated<Database>
+    // Create database
     database = workspaceDatabases.data[0]
+    // Create tables
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,
@@ -45,6 +80,8 @@ describe('upsertColumnRelation hook', () => {
       text: 'table2',
       database_id: database.id,
     })
+    // Create columns
+    // Columns - Table 1
     columnTable1Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
@@ -86,6 +123,7 @@ describe('upsertColumnRelation hook', () => {
         },
       },
     })
+    // Columns - Table 2
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
@@ -181,6 +219,9 @@ describe('upsertColumnRelation hook', () => {
     })
 
     expect(currentRowTable5.data[columnTable2LookedUpColumnTable1.id]).toBeNull()
+
+    // Clean database
+    await app.service('column').remove(columnTable2LookedUpColumnTable1.id)
   })
   it('update a column relation if a foreign field of a lkdp up column is updated', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
@@ -241,6 +282,106 @@ describe('upsertColumnRelation hook', () => {
       value: singleSelectOption2UUID,
     })
     expect(currentRowTable5.data[columnTable2LookedUpColumnTable1.id]).toBeNull()
+
+    // Clean database
+    await app.service('column').remove(columnTable2LookedUpColumnTable1.id)
+  })
+
+  it('create a column relation between a virtual lkdp up column and its foreign field', async () => {
+    columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
+      // create the virtual looked up column
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1MultiSelect.id,
+      },
+    })
+    // check the original type of the virtual lkdp up column
+    const currentVirtualLkdUpColumn = await app.service('column').get(columnTable2VirtualLookedUpColumnTable1.id, {
+      query: {
+        $eager: 'parents.^',
+      },
+    })
+    expect(currentVirtualLkdUpColumn).toBeDefined()
+    expect(currentVirtualLkdUpColumn.parents).toBeDefined()
+    expect(currentVirtualLkdUpColumn.parents.length).toBe(1)
+    expect(currentVirtualLkdUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.MULTI_SELECT)
+    // retrieve rows related to see if data is well filled
+    const currentRowTable3 = await app.service('row').get(rowTable3.id, outsideCallParams)
+    const currentRowTable4 = await app.service('row').get(rowTable4.id, outsideCallParams)
+    const currentRowTable5 = await app.service('row').get(rowTable5.id, outsideCallParams)
+    expect(currentRowTable3).toBeDefined()
+    expect(currentRowTable4).toBeDefined()
+    expect(currentRowTable5).toBeDefined()
+    expect(currentRowTable3.data[columnTable2VirtualLookedUpColumnTable1.id]).toStrictEqual(
+      [singleSelectOption1UUID, singleSelectOption3UUID],
+    )
+    expect(currentRowTable4.data[columnTable2VirtualLookedUpColumnTable1.id]).toStrictEqual(
+      [singleSelectOption3UUID, singleSelectOption2UUID],
+    )
+    expect(currentRowTable5.data[columnTable2VirtualLookedUpColumnTable1.id]).toBeUndefined()
+
+    // Clean database
+    await app.service('column').remove(columnTable2VirtualLookedUpColumnTable1.id)
+  })
+
+  it('update a column relation if a foreign field of a virtual lkdp up column is updated', async () => {
+    columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
+      // create the looked up column
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1MultiSelect.id,
+      },
+    })
+    // check the original type of the virtual lkdp up column
+    const currentLkdUpColumn = await app.service('column').get(columnTable2VirtualLookedUpColumnTable1.id, {
+      query: {
+        $eager: 'parents.^',
+      },
+    })
+    expect(currentLkdUpColumn).toBeDefined()
+    expect(currentLkdUpColumn.parents).toBeDefined()
+    expect(currentLkdUpColumn.parents.length).toBe(1)
+    expect(currentLkdUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.MULTI_SELECT)
+
+    // patch virtual lkdp up column
+    await app.service('column').patch(columnTable2VirtualLookedUpColumnTable1.id, {
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1SingleSelect.id,
+      },
+    })
+
+    // check the original type of the virtual lkdp up column
+    const newLkdpUpColumn = await app.service('column').get(columnTable2VirtualLookedUpColumnTable1.id, {
+      query: {
+        $eager: 'parents.^',
+      },
+    })
+    expect(newLkdpUpColumn).toBeDefined()
+    expect(newLkdpUpColumn.parents).toBeDefined()
+    expect(newLkdpUpColumn.parents.length).toBe(1)
+    expect(newLkdpUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
+
+    // retrieve rows related to see if data is well filled
+    const currentRowTable3 = await app.service('row').get(rowTable3.id, outsideCallParams)
+    const currentRowTable4 = await app.service('row').get(rowTable4.id, outsideCallParams)
+    const currentRowTable5 = await app.service('row').get(rowTable5.id, outsideCallParams)
+    expect(currentRowTable3).toBeDefined()
+    expect(currentRowTable4).toBeDefined()
+    expect(currentRowTable5).toBeDefined()
+    expect(currentRowTable3.data[columnTable2VirtualLookedUpColumnTable1.id]).toBe(singleSelectOption1UUID)
+    expect(currentRowTable4.data[columnTable2VirtualLookedUpColumnTable1.id]).toBe(singleSelectOption2UUID)
+    expect(currentRowTable5.data[columnTable2VirtualLookedUpColumnTable1.id]).toBeUndefined()
+
+    // Clean database
+    await app.service('column').remove(columnTable2VirtualLookedUpColumnTable1.id)
   })
 
   afterEach(async () => {
@@ -252,7 +393,6 @@ describe('upsertColumnRelation hook', () => {
   })
 
   afterAll(async () => {
-    await app.service('column').remove(columnTable2LookedUpColumnTable1.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable1MultiSelect.id)
@@ -264,5 +404,7 @@ describe('upsertColumnRelation hook', () => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
     await app.service('workspace').remove(workspace.id)
+    await app.service('authentication').remove(authentication.id, {})
+    await app.service('user').remove(user.id)
   })
 })
