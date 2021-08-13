@@ -8,9 +8,22 @@
 
 <script lang='ts'>
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Vue, { PropType } from 'vue'
-
-import { TranslateResult } from 'vue-i18n'
+import { MapPopupMode } from '@/services/lck-api/definitions'
+import {
+  computeBoundingBox,
+  LckImplementedLayoutProperty,
+  LckImplementedPaintProperty,
+} from '@/services/lck-utils/map/computeGeo'
+import {
+  LckGeoResource,
+  LckImplementedLayers,
+  PopupContent,
+} from '@/services/lck-utils/map/transformWithOL'
+import { mergeSets, setHasValues, setsAreEqual } from '@/services/lck-utils/set'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import centroid from '@turf/centroid'
 import {
   AnyLayer,
   EventData,
@@ -26,28 +39,9 @@ import {
   ScaleControl,
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import MapboxDraw from '@mapbox/mapbox-gl-draw'
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
-import centroid from '@turf/centroid'
-
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-
-import { MapPopupMode } from '@/services/lck-api/definitions'
-
-import { setsAreEqual, mergeSets, setHasValues } from '@/services/lck-utils/set'
-
-import {
-  computeBoundingBox,
-  LckImplementedLayoutProperty,
-  LckImplementedPaintProperty,
-} from '@/services/lck-utils/map/computeGeo'
-import {
-  LckGeoResource,
-  LckImplementedLayers,
-  PopupContent,
-} from '@/services/lck-utils/map/transformWithOL'
-
+import Vue, { PropType } from 'vue'
+import { TranslateResult } from 'vue-i18n'
 import MapboxCustomControls from './MapboxCustomControl'
 
 export enum MODE {
@@ -166,14 +160,8 @@ export default Vue.extend({
       {
         label: this.$t('form.save'),
         event: 'click',
-        listener: this.saveEditingFeatures,
+        listener: this.saveFeatures,
         classes: ['pi', 'pi-save'],
-      },
-      {
-        label: this.$t('form.reset'),
-        event: 'click',
-        listener: this.removeEditingFeatures,
-        classes: ['pi', 'pi-refresh'],
       },
     ])
 
@@ -196,18 +184,19 @@ export default Vue.extend({
     })
   },
   methods: {
-    manageEditingFeatures (type: 'save' | 'remove') {
-      // We manage the editable and selected feature if we only have one
-      let featuresToManage = this.mapDraw!.getSelected().features
-      // We manage the editable feature if there is only one which is not selected
-      if (featuresToManage.length === 0) {
-        featuresToManage = this.mapDraw!.getAll().features
-      }
+    saveFeatures () {
+      const featuresToManage = this.mapDraw!.getAll().features
+      // Select all features to combine to throw only one feature
+      const featureIds: string[] = featuresToManage!.map(feature => feature.id as string)
+      this.mapDraw!.changeMode('simple_select', { featureIds })
+      this.mapDraw!.combineFeatures()
+      const singleFeatures = this.mapDraw!.getSelected().features
+
       // Display an error if we don't have one feature to manage
-      if (featuresToManage.length !== 1) {
+      if (singleFeatures.length !== 1) {
         this.$toast.add({
           severity: 'warn',
-          detail: featuresToManage.length === 0
+          detail: singleFeatures.length === 0
             ? this.$t('components.mapview.noSelectedFeature')
             : this.$t('components.mapview.onlyOneSelectedFeature'),
           summary: this.$t('error.impossibleOperation'),
@@ -215,17 +204,13 @@ export default Vue.extend({
         })
         return
       }
+
       // Throw the desired event with the feature
-      this.$emit(type === 'save' ? 'update-features' : 'remove-features', featuresToManage)
-      this.mapDraw!.deleteAll()
-    },
-    saveEditingFeatures () {
-      // Save the editable (and possibly selected) feature
-      this.manageEditingFeatures('save')
-    },
-    removeEditingFeatures () {
-      // Remove the editable (and possibly selected) feature
-      this.manageEditingFeatures('remove')
+      this.$emit('update-features', singleFeatures)
+
+      // Then uncombine and unselect all features
+      this.mapDraw!.uncombineFeatures()
+      this.mapDraw!.changeMode('simple_select', { featureIds: [] })
     },
     saveListenerByLayer (eventType: keyof MapLayerEventType, layerId: string, func: MapLayerMouseListenerFunction) {
       // Save a listener to unregister it later
@@ -252,7 +237,7 @@ export default Vue.extend({
         mergeSets(resource.editableGeometryTypes, allEditableGeometryTypes)
       })
 
-      // Create or update the draw controls if the editable geometry types have been changed
+      // Create or update the draw controls if the editable geometry types has been changed
       if (!setsAreEqual(allEditableGeometryTypes, this.editableGeometryTypes)) {
         this.editableGeometryTypes = allEditableGeometryTypes
 
@@ -261,11 +246,6 @@ export default Vue.extend({
 
         // Define the new draw controls and add them to the map if necessary
         if (allEditableGeometryTypes.size > 0) {
-          const hasEditableMultiGeometry = setHasValues(
-            this.editableGeometryTypes,
-            [COLUMN_TYPE.GEOMETRY_MULTIPOINT, COLUMN_TYPE.GEOMETRY_MULTILINESTRING, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON],
-          )
-
           // For now, we can only add a feature in the single edit mode
           if (this.singleEditMode) {
             /* eslint-disable @typescript-eslint/camelcase */
@@ -276,7 +256,7 @@ export default Vue.extend({
                 line_string: setHasValues(this.editableGeometryTypes, [COLUMN_TYPE.GEOMETRY_LINESTRING, COLUMN_TYPE.GEOMETRY_MULTILINESTRING]),
                 polygon: setHasValues(this.editableGeometryTypes, [COLUMN_TYPE.GEOMETRY_POLYGON, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON]),
                 trash: true,
-                combine_features: hasEditableMultiGeometry,
+                combine_features: false,
               },
             })
             /* eslint-enable @typescript-eslint/camelcase */
@@ -481,23 +461,16 @@ export default Vue.extend({
       this.map!.on('mouseleave', layerId, this.resetCursor)
       this.saveListenerByLayer('mouseleave', layerId, this.resetCursor)
     },
-    setFeatureEditableOnMouseDown (resourceId: string, layerId: string) {
-      // Add the clicked feature to the MapboxDraw source
-      const wrapperFunction = (e: MapLayerMouseEvent) => {
-        const currentFeature = e.features?.[0]
-        if (this.mapDraw!.getMode() === 'simple_select' && currentFeature?.id &&
-          !this.mapDraw!.getAll().features.some(f => f.id === currentFeature.id)
-        ) {
-          // We get the original feature because the clicked feature has not the right coordinates
-          // if some of them are outside the current screen
-          const featureToAdd = this.resources.find(resource => resource.id === resourceId)?.features.find(
-            feature => feature.id === currentFeature.id
-          )
-          if (featureToAdd) this.mapDraw!.add(featureToAdd)
-        }
-      }
-      this.map!.on('mousedown', layerId, wrapperFunction)
-      this.saveListenerByLayer('mousedown', layerId, wrapperFunction)
+    setFeaturesEditable (features: GeoJSONFeature[]) {
+      features.forEach(feature => {
+        this.mapDraw!.add(feature)
+      })
+
+      // Select all features to uncombine, then unselect it
+      const featureIds: string[] = features!.map(feature => feature.id as string)
+      this.mapDraw!.changeMode('simple_select', { featureIds })
+      this.mapDraw!.uncombineFeatures()
+      this.mapDraw!.changeMode('simple_select', { featureIds: [] })
     },
     selectFeature (resourceId: string, featureId: string | number | null) {
       // Select a specified feature belonging to a resource
@@ -679,9 +652,13 @@ export default Vue.extend({
         if (resource.popupMode || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             if (hasEditableFeatures) {
-              // Make the current feature editable
+              // Make features editable
               this.changeCursorOnLayerHover(layer.id)
-              this.setFeatureEditableOnMouseDown(resource.id, layer.id)
+
+              const features = this.resources.find(r => r.id === resource.id)?.features
+              if (features) {
+                this.setFeaturesEditable(features)
+              }
             } else {
               if (resource.selectable || resource.popupMode === 'click') {
                 // Change cursor
