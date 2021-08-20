@@ -976,7 +976,8 @@ export default {
     async onRowDuplicate ({ data }) {
       const duplicatedData = {}
       this.block.definition.columns.forEach(c => {
-        if (!READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
+        // Formula column are not duplicated because they depend on a user action or they can be linked to a process
+        if ((c.column_type_id === COLUMN_TYPE.FORMULA && c.reference) || !READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
           duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
         }
       })

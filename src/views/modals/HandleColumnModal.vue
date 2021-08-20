@@ -66,7 +66,6 @@
         <p-input-switch
           id="referenceToHandle-isActive"
           v-model="referenceToHandle.isActive"
-          :disabled="cannotBeUsedAsReference"
         />
       </validation-provider>
       <validation-provider
@@ -339,8 +338,6 @@ export default {
     },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
-      // Some column types can't be used as reference
-      if (this.cannotBeUsedAsReference) this.referenceToHandle.isActive = false
     },
     selectTypeValuesChange (data) {
       let settings = {}
