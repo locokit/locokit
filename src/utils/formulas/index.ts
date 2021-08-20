@@ -65,6 +65,7 @@ export const implementedInFormulaColumnTypes = [
   ...TEXT_TYPES,
   ...NUMERIC_TYPES,
   COLUMN_TYPE.DATE,
+  COLUMN_TYPE.DATETIME,
   COLUMN_TYPE.BOOLEAN,
 ]
 
@@ -88,7 +89,7 @@ function getFormattedColumn (column: TableColumn): ReferenceBuilder {
 /**
  * Cast the column reference depending of the original column type (text by default).
  * @param columnReference The column reference.
- * @param columnType The original column type.
+ * @param originalColumnType The original column type.
  * @returns The SQL reference with the correct type.
  */
 function castColumnReference (columnReference: ReferenceBuilder, originalColumnType: COLUMN_TYPE): ReferenceBuilder {
@@ -96,6 +97,7 @@ function castColumnReference (columnReference: ReferenceBuilder, originalColumnT
     case COLUMN_TYPE.BOOLEAN:
       return columnReference.castBool()
     case COLUMN_TYPE.DATE:
+    case COLUMN_TYPE.DATETIME:
       return columnReference.castTo('timestamp')
     case COLUMN_TYPE.FLOAT:
       return columnReference.castDecimal()
@@ -144,6 +146,9 @@ export function getSQLRequestFromFormula (formula: IParsedFormula, columnsRefere
   } else if (formula.type === COLUMN_TYPE.DATE) {
     // Cast the result if it is a date
     castResult = '::date'
+  } else if (formula.type === COLUMN_TYPE.DATETIME) {
+    // Cast the result if it is a datetime
+    castResult = '::timestamp'
   }
   // Add the string values to the columns references to use placeholders in both cases
   Object.assign(columnsReferences, formula.stringValues ?? {})
