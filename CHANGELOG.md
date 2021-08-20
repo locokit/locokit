@@ -1,5 +1,10 @@
 # CHANGELOG
 
+**v0.3.4**
+
+**Feature**
+* add new COLUMN_TYPE : VIRTUAL_LOOKED_UP_COLUMN
+
 **v0.3.3**
 
 **Feature**
