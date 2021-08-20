@@ -1029,6 +1029,7 @@ export default {
         })
         this.cellState.isValid = true
         lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+        currentRow.text = res.text
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false
