@@ -149,15 +149,15 @@ describe('formulaColumn hooks', () => {
         },
       })).rejects.toThrow(NotAcceptable)
     })
-    it('throw an exception if a formula is used as reference', async () => {
-      expect.assertions(1)
-      await expect(app.service('column').patch(formulaColumn1.id, {
-        reference: true,
-        settings: {
-          formula: '"string"',
-        },
-      })).rejects.toThrow(NotAcceptable)
-    })
+    // it('throw an exception if a formula is used as reference', async () => {
+    //   expect.assertions(1)
+    //   await expect(app.service('column').patch(formulaColumn1.id, {
+    //     reference: true,
+    //     settings: {
+    //       formula: '"string"',
+    //     },
+    //   })).rejects.toThrow(NotAcceptable)
+    // })
     it('throw an exception if the formula column is specified in its formula', async () => {
       expect.assertions(1)
       await expect(app.service('column').patch(formulaColumn1.id, {

@@ -552,7 +552,7 @@ describe('computeTextProperty hook', () => {
       // Tests
       expect.assertions(3)
       // Updated by hook computeRowFormulaColumns when we create the row
-      expect(rowTable3.text).toBe('29/10/2020, 01:00:00 29/10/2020')
+      expect(rowTable3.text).toBe('10/29/2020, 12:00:00 AM 10/29/2020')
       expect(rowTable3.data[columnTable3Date.id]).toBe('2020-10-29')
       expect(rowTable3.data[columnTable3DateTime.id]).toBe('2020-10-29T12:09:12')
       // Clean database

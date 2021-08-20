@@ -41,7 +41,7 @@ export function computeTextProperty (): Hook {
                 text = (context.data.data[firstColumn.id]?.value || noReference) as string
                 break
               default:
-                text = (context.data.data[firstColumn.id]?.toString() || noReference) as string
+                text = context.data.data?.[firstColumn.id]?.toString() || noReference
             }
           } else {
             text = noReference
