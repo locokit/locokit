@@ -24,6 +24,7 @@ export function memorizeColumnsIds (): Hook {
     context.params._meta = {
       ...context.params._meta,
       columnsIdsTransmitted,
+      originalColumnsIdsTransmitted: [...columnsIdsTransmitted],
     }
     return context
   }

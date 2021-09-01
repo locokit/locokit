@@ -26,6 +26,7 @@ import permission from './permission/permission.service'
 import action from './action/action.service'
 import aclset from './aclset/aclset.service'
 import acltable from './acltable/acltable.service'
+import log from './log/log.service'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export default function (app: Application): void {
@@ -57,4 +58,5 @@ export default function (app: Application): void {
   app.configure(mailer)
   app.configure(process)
   app.configure(processRun)
+  app.configure(log)
 }

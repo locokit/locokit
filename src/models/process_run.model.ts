@@ -4,6 +4,7 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { BaseModel } from './base.model'
+import { Log } from './log.model'
 import { Process as ProcessModel } from './process.model'
 import { TableRow } from './tablerow.model'
 
@@ -22,6 +23,8 @@ export class ProcessRun extends BaseModel {
   process?: ProcessModel
   table_row_id?: string
   table_row?: TableRow
+  data_log_id?: number
+  data_log?: Log
 
   static get tableName (): string {
     return 'process_run'
@@ -43,6 +46,7 @@ export class ProcessRun extends BaseModel {
         settings: { type: 'object' },
         process_id: { type: 'string' },
         table_row_id: { type: 'string' },
+        data_log_id: { type: 'number' },
       },
     }
   }
@@ -73,6 +77,15 @@ export class ProcessRun extends BaseModel {
           to: 'table_row.id',
         },
       },
+      data_log: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Log,
+        join: {
+          from: 'process_run.data_log_id',
+          to: 'log.id',
+        },
+      },
+
     }
   }
 
