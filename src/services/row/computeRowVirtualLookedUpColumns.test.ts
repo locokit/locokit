@@ -11,7 +11,6 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { User } from '../../models/user.model'
-// import { defineAbilityFor } from '../../abilities/record.abilities'
 
 describe('computeRowVirtualLookedUpColumns hook', () => {
   let workspace: Workspace

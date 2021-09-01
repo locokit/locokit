@@ -147,7 +147,10 @@ export class TableColumn extends BaseModel {
    */
   originalTypeId (): COLUMN_TYPE {
     if (this.column_type_id === COLUMN_TYPE.FORMULA) return this.settings.formula_type_id as COLUMN_TYPE
-    if (this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
+    if ((
+      this.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
+      this.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
+    ) || (Array.isArray(this.parents) && this.parents.length === 0) || !this.parents) {
       return this.column_type_id
     }
     return this.parents[0].originalTypeId()
