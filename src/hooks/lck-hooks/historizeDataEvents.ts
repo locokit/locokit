@@ -14,7 +14,10 @@ import { getSubObject } from '../../utils'
  */
 export function historizeDataEvents (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.params.provider !== undefined) { // External calls
+    if (
+      context.params.provider !== undefined && // External calls
+      context.result.id // Single operation
+    ) {
       // The log depends on the context method
       const log: Partial<Log> | undefined = ((method: string) => {
         switch (method) {
@@ -58,7 +61,12 @@ export function historizeDataEvents (): Hook {
       })(context.method)
 
       // Save the specified log
-      if (log) context.params._meta.log = await context.app.service('log').create(log)
+      if (log) {
+        if (!context.params._meta) {
+          context.params._meta = {}
+        }
+        context.params._meta.log = await context.app.service('log').create(log)
+      }
     }
     return context
   }

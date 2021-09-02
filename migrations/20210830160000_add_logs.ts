@@ -57,6 +57,7 @@ export async function up (knex: Knex): Promise<any> {
         .foreign('data_log_id')
         .references('id')
         .inTable('log')
+        .onDelete('SET NULL')
     })
 }
 
