@@ -43,7 +43,7 @@ function getColumnsToUpdate (
   }> = []
   // Loop over the columns
   columns.forEach(currentColumn => {
-    // Get the columns that reference the current one, except the formula columns which are not computed yet and VLUC
+    // Get the columns that reference the current one, except the virtual & formula columns which are not computed yet
     if (columnsIdsTransmitted.includes(currentColumn.id) ||
       (
         currentColumn.column_type_id !== COLUMN_TYPE.FORMULA &&

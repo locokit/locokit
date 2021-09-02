@@ -82,6 +82,7 @@ export function parseFormula (): Hook {
           columnsUsedInFormula.forEach(column => {
             if (
               column.column_type_id !== COLUMN_TYPE.FORMULA &&
+              column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN &&
               implementedInFormulaColumnTypes.includes(column.originalTypeId())
             ) {
               columnsUsedInFormulaObject[column.id] = column

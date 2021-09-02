@@ -696,6 +696,17 @@ describe('computeLookedUpColumns hook', () => {
           (newRow2Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
         )
       })
+      it('of the virtual looked-up columns (undefined)', async () => {
+        expect.assertions(2)
+
+        // Table 2 - row 1
+        const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(newColumnTable2Row1Ref).toBeUndefined()
+
+        // Table 2 - row 2
+        const newColumnTable2Row2Ref = newRow2Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(newColumnTable2Row2Ref).toBeUndefined()
+      })
       it('of the formula columns', async () => {
         expect.assertions(4)
 
