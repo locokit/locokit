@@ -64,7 +64,96 @@
     <section class="p-mb-4">
       <p-card>
         <template slot="title">
-          <span class="icon-rounded"><i class="pi pi-user-edit"></i></span> {{ $t('pages.account.edit.title') }}
+          <span class="icon-rounded"><i class="pi pi-envelope"></i></span> {{ $t('pages.account.edit.email.title') }}
+        </template>
+
+        <template
+          slot="content"
+          v-if="authState.data.user && authState.data.user.email"
+        >
+          <lck-form
+            :displayCancelButton="false"
+            :submitting="loading"
+            @submit="submitEmail"
+          >
+            <validation-provider
+              vid="newEmail"
+              tag="div"
+              :name="$t('pages.account.edit.email.new')"
+              class="p-field p-grid"
+              rules="required|email"
+              v-slot="{
+                errors,
+                classes
+              }"
+            >
+              <label
+                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                for="newEmail"
+              >
+                {{ $t("pages.account.edit.email.new") }}
+              </label>
+              <div class="p-col-12 p-md-8">
+                <p-input-text
+                  id="newEmail"
+                  :placeholder="authState.data.user.email"
+                  type="email"
+                  v-model="emailEdit.newEmail"
+                />
+              </div>
+              <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+            </validation-provider>
+            <validation-provider
+              vid="password"
+              tag="div"
+              :name="$t('pages.account.edit.email.currentPassword')"
+              class="p-field p-grid p-mb-4 p-mt-2"
+              rules="required"
+              v-slot="{
+                errors,
+                classes
+              }"
+            >
+              <label
+                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                for="password"
+              >
+                {{ $t("pages.account.edit.email.currentPassword") }}
+              </label>
+              <div class="p-col-12 p-md-8">
+                <p-password
+                  :feedback="false"
+                  id="password"
+                  v-model="emailEdit.password"
+                />
+              </div>
+              <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+            </validation-provider>
+            <div
+              class="p-text-error"
+            >
+              <p
+                class="p-invalid"
+                v-if="emailEdit.error"
+              >
+                {{ emailEdit.error }}
+              </p>
+            </div>
+          </lck-form>
+        </template>
+        <template
+          slot="content"
+          v-else
+        >
+          {{ $t('pages.account.view.nodata') }}
+        </template>
+      </p-card>
+    </section>
+
+    <section class="p-mb-4">
+      <p-card>
+        <template slot="title">
+          <span class="icon-rounded"><i class="pi pi-lock"></i></span> {{ $t('pages.account.edit.title') }}
         </template>
 
         <template
@@ -176,16 +265,14 @@
           v-if="authState.data.user && authState.data.user.email"
         >
           <div class="p-field p-grid p-jc-end">
-            <div class="p-col p-md-3">
-              <p-button
-                class="p-button-primary"
-                type="button"
-                :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"
-                :label="loading ? $t('form.submitting') : $t('form.submit')"
-                :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || loading || displayErrorMismatch"
-                @click="submitPassword"
-              />
-            </div>
+            <p-button
+              :class="{ 'p-button-text': loading }"
+              type="button"
+              :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-save'"
+              :label="loading ? $t('form.waiting') : $t('form.save')"
+              :disabled="(!password.oldPassword || !password.password || !password.passwordCheck ) || loading || displayErrorMismatch"
+              @click="submitPassword"
+            />
           </div>
         </template>
       </p-card>
@@ -200,6 +287,9 @@ import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import { ValidationProvider } from 'vee-validate'
+
+import LckForm from '@/components/ui/Form/Form.vue'
 
 import { lckClient } from '@/services/lck-api'
 import {
@@ -220,6 +310,10 @@ export default {
         password: null,
         passwordCheck: null,
       },
+      emailEdit: {
+        newEmail: null,
+        password: null,
+      } as { newEmail: null | string; password: null | string },
       displayErrorMismatch: false,
       incorrectPassword: false,
       errorPasswordRules: null,
@@ -227,10 +321,12 @@ export default {
     }
   },
   components: {
+    'lck-form': LckForm,
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
     'p-password': Vue.extend(Password),
     'p-input-text': Vue.extend(InputText),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   methods: {
     async submitPassword () {
@@ -259,6 +355,39 @@ export default {
         if (error.errors && error.errors.oldPassword) {
           this.incorrectPassword = true
         }
+      }
+      this.loading = false
+    },
+    async submitEmail () {
+      // The user and the new email address must be defined
+      if (!authState.data.user || !this.emailEdit.newEmail) return
+      try {
+        // API call
+        this.loading = true
+        await lckClient.service('authManagement').create({
+          action: 'identityChange',
+          value: {
+            user: { email: authState.data.user.email },
+            password: this.emailEdit.password,
+            changes: { email: this.emailEdit.newEmail },
+          },
+        })
+        // Display pop-up
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('success.save'),
+          detail: this.$t('pages.account.edit.email.success'),
+          life: 5000,
+        })
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.impossibleOperation'),
+          detail: error.errors?.password
+            ? this.$t('pages.account.edit.passwordIncorrect')
+            : this.$t('error.basic'),
+          life: 5000,
+        })
       }
       this.loading = false
     },

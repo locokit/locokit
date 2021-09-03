@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { isAfter, isValid } from 'date-fns'
 import { extend, configure } from 'vee-validate'
-import { required } from 'vee-validate/dist/rules'
+import { email, required } from 'vee-validate/dist/rules'
 import i18n from './i18n'
 
+extend('email', email)
 extend('required', required)
 
 extend('minDate', {

@@ -113,7 +113,47 @@ exports[`storyshots views/routes/user/Profile default 1`] = `
               class="icon-rounded"
             >
               <i
-                class="pi pi-user-edit"
+                class="pi pi-envelope"
+              />
+            </span>
+             Update my email address
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        No data to display
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-lock"
               />
             </span>
              Update my password
@@ -251,7 +291,47 @@ exports[`storyshots views/routes/user/Profile with auth user 1`] = `
               class="icon-rounded"
             >
               <i
-                class="pi pi-user-edit"
+                class="pi pi-envelope"
+              />
+            </span>
+             Update my email address
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+        No data to display
+      
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-lock"
               />
             </span>
              Update my password
@@ -402,7 +482,150 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
               class="icon-rounded"
             >
               <i
-                class="pi pi-user-edit"
+                class="pi pi-envelope"
+              />
+            </span>
+             Update my email address
+      
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            <span>
+              <form
+                class="p-fluid"
+              >
+                <div
+                  class="p-field p-grid"
+                >
+                  <label
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="newEmail"
+                  >
+                    
+              New email address
+            
+                  </label>
+                   
+                  <div
+                    class="p-col-12 p-md-8"
+                  >
+                    <input
+                      class="p-inputtext p-component"
+                      id="newEmail"
+                      placeholder="mathieu.dartigues@makina-corpus.com"
+                      type="email"
+                    />
+                  </div>
+                   
+                  <span
+                    class="p-my-2 untouched pristine"
+                  >
+                    
+                  </span>
+                </div>
+                 
+                <div
+                  class="p-field p-grid p-mb-4 p-mt-2"
+                >
+                  <label
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="password"
+                  >
+                    
+              Current password
+            
+                  </label>
+                   
+                  <div
+                    class="p-col-12 p-md-8"
+                  >
+                    <div
+                      class="p-password p-component p-inputwrapper"
+                      id="password"
+                    >
+                      <input
+                        class="p-inputtext p-component p-password-input"
+                        id="password"
+                        type="password"
+                      />
+                       
+                      <!---->
+                       
+                      <!---->
+                    </div>
+                  </div>
+                   
+                  <span
+                    class="p-my-2 untouched pristine"
+                  >
+                    
+                  </span>
+                </div>
+                 
+                <div
+                  class="p-text-error"
+                >
+                  <!---->
+                </div>
+                 
+                <div
+                  class="lck-form-footer"
+                >
+                  <!---->
+                   
+                  <button
+                    class="p-button p-component"
+                    disabled="disabled"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-save p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Save
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+            </span>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </section>
+     
+    <section
+      class="p-mb-4"
+    >
+      <div
+        class="p-card p-component"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <span
+              class="icon-rounded"
+            >
+              <i
+                class="pi pi-lock"
               />
             </span>
              Update my password
@@ -524,30 +747,26 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
             <div
               class="p-field p-grid p-jc-end"
             >
-              <div
-                class="p-col p-md-3"
+              <button
+                class="p-button p-component"
+                disabled="disabled"
+                type="button"
               >
-                <button
-                  class="p-button-primary p-button p-component"
-                  disabled="disabled"
-                  type="button"
+                <span
+                  class="pi pi-save p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
                 >
-                  <span
-                    class="pi pi-check-circle p-button-icon p-button-icon-left"
-                  />
-                   
-                  <span
-                    class="p-button-label"
-                  >
-                    Submit
-                  </span>
-                   
-                  <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
-              </div>
+                  Save
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
             </div>
           </div>
         </div>

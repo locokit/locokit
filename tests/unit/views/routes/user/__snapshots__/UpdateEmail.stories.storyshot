@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/user/UpdateEmail on success 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="
+    layout-with-background
+    p-grid
+    p-jc-center
+    p-ai-center
+  "
+    style="background-image: url(); position: relative;"
+  >
+    <div
+      class="p-col"
+      style="max-width: 600px;"
+    >
+      <a
+        class="mock-link p-d-block p-text-center"
+      >
+        <img
+          alt="logo"
+          class="p-mb-4 p-mx-auto"
+          src="./themes/locokit/img/logo-white.svg"
+        />
+      </a>
+       
+      <div
+        class="p-card p-component p-col"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            <h1>
+              Email address update
+            </h1>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+             
+            <div
+              class="p-px-5"
+            >
+              <div
+                class="p-d-flex p-ai-center update-email-result"
+              >
+                <span
+                  class="pi pi-times-circle p-text-error"
+                />
+                 
+                <p>
+                  Unfortunately, the process could not be completed. If the problem persists, contact the administrator.
+                </p>
+              </div>
+               
+              <p
+                class="p-text-center"
+              >
+                <a
+                  class="mock-link"
+                >
+                  
+        Return to home page
+      
+                </a>
+              </p>
+            </div>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="version-block p-p-2"
+    >
+      
+    0.0.4
+  
+    </div>
+  </div>
+</div>
+`;
