@@ -181,6 +181,7 @@ export default Vue.extend({
       if (this.mode === MODE.BLOCK) this.setFitBounds(this.resources.filter(r => !r.excludeFromBounds))
       this.makeFeaturesInteractive()
       this.selectDefaultFeatures()
+      this.setControlStatus()
     })
   },
   methods: {
@@ -229,6 +230,23 @@ export default Vue.extend({
       }
       delete this.listenersByLayer[layerId]
     },
+    setControlStatus () {
+      // Enable or disable draw controls relative to editableGeometryTypes
+      const features = this.mapDraw!.getAll().features
+
+      // Check if geometry type is a single element (not multi)
+      if (this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POINT) ||
+      this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_LINESTRING) ||
+      this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)) {
+        if (features.length >= 1) {
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_ctrl-draw-btn')?.setAttribute('disabled', 'true')
+        } else {
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_ctrl-draw-btn')?.removeAttribute('disabled')
+        }
+      }
+    },
     initDrawControls () {
       const allEditableGeometryTypes: Set<COLUMN_TYPE> = new Set()
 
@@ -269,6 +287,13 @@ export default Vue.extend({
             })
           }
           this.map!.addControl(this.mapDraw)
+
+          this.map!.on('draw.create', () => {
+            this.setControlStatus()
+          })
+          this.map!.on('draw.delete', () => {
+            this.setControlStatus()
+          })
 
           if (!this.dataManageControl.visible) {
             this.map!.addControl(this.dataManageControl.control!)
@@ -809,4 +834,9 @@ export default Vue.extend({
 ::v-deep .mapboxgl-popup-close-button {
   color: var(--primary-color);
 }
+
+::v-deep .mapboxgl-ctrl-group button:disabled {
+  opacity: .25;
+}
+
 </style>
