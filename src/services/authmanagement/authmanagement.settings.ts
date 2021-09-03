@@ -89,6 +89,7 @@ export function authManagementSettings (app: Application) {
         user: LckUser
         verifySignupLink?: string
         resetPasswordLink?: string
+        identityChangeLink?: string
       } = {
         portalLink: app.get('publicUrl'),
         user,
@@ -100,6 +101,9 @@ export function authManagementSettings (app: Application) {
           break
         case AuthenticationManagementAction.sendResetPwd:
           currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken as string)
+          break
+        case AuthenticationManagementAction.identityChange:
+          currentTemplateVars.identityChangeLink = getLink('update-email', user.verifyToken as string)
           break
       }
 

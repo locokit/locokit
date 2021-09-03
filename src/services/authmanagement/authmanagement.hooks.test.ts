@@ -101,6 +101,97 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
   })
 })
 
+describe('\'authManagement\' hooks for identityChange action', () => {
+  const userInfo = {
+    email: 'locokit-authmngt@locokit.io',
+    name: 'Someone !',
+  }
+  const newEmailAddress = 'locokit-v2-authmngt@locokit.io'
+
+  let user: User
+  beforeEach(async () => {
+    user = await app.services.user.create({
+      ...userInfo,
+    })
+  })
+
+  it('throw a BadRequest error when an identityChange action is created with an incorrect password', async () => {
+    expect.assertions(3)
+    try {
+      await app.service('authManagement').create({
+        action: 'identityChange',
+        value: {
+          user: {
+            email: 'locokit-authmngt@locokit.io',
+          },
+          password: 'pouetpouet',
+          changes: {
+            email: 'locokit-v2-authmngt@locokit.io',
+          },
+        },
+      })
+    } catch (error) {
+      expect(error instanceof BadRequest).toBe(true)
+      expect((error as BadRequest).errors.password).toBeDefined()
+      expect((error as BadRequest).errors.password).toBe('Password is incorrect.')
+    }
+  })
+
+  it('throw a BadRequest error when an identityChange action is created with an incorrect user', async () => {
+    expect.assertions(3)
+    try {
+      await app.service('authManagement').create({
+        action: 'identityChange',
+        value: {
+          user: {
+            email: 'locokit-authmngt-unknown@locokit.io',
+          },
+          password: 'pouetpouet',
+          changes: {
+            email: 'locokit-v2-authmngt@locokit.io',
+          },
+        },
+      })
+    } catch (error) {
+      expect(error instanceof BadRequest).toBe(true)
+      expect((error as BadRequest).message).toBeDefined()
+      expect((error as BadRequest).message).toBe('User not found.')
+    }
+  })
+
+  it('accept the request when an identityChange action is created with correct user and password ', async () => {
+    expect.assertions(4)
+    const resIdentityChange = await app.service('authManagement').create({
+      action: 'identityChange',
+      value: {
+        user: {
+          email: userInfo.email,
+        },
+        password: 'pouetP@0',
+        changes: {
+          email: newEmailAddress,
+        },
+      },
+    })
+    // The result is defined but the email address is not updated yet (need token verification)
+    expect(resIdentityChange).toBeDefined()
+    const user: User = await app.service('user').get(resIdentityChange.id)
+    expect(user.email).toBe(userInfo.email)
+
+    // Token verification
+    const resVerifySignupLong: User = await app.service('authManagement').create({
+      action: 'verifySignupLong',
+      value: user.verifyToken,
+    })
+    expect(resVerifySignupLong).toBeDefined()
+    expect(resVerifySignupLong.email).toBe(newEmailAddress)
+  })
+
+  afterEach(async () => {
+    await app.services.user.remove(user.id)
+  })
+})
+
 describe('\'authManagement\' hooks for verifySignup / resetPwd actions', () => {
   const userInfo = {
     email: 'locokit-authmngt@locokit.io',
