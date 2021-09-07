@@ -8,20 +8,19 @@ import { RowData, TableRow } from './tablerow.model'
 import { TableColumn } from './tablecolumn.model'
 
 export enum LOG_EVENT {
-  ROW_CREATE = 'ROW_CREATE',
-  ROW_PATCH = 'ROW_PATCH',
-  ROW_REMOVE = 'ROW_REMOVE',
-  ROW_UPDATE = 'ROW_UPDATE',
+  RECORD_CREATE = 'RECORD_CREATE',
+  RECORD_PATCH = 'RECORD_PATCH',
+  RECORD_REMOVE = 'RECORD_REMOVE',
+  RECORD_UPDATE = 'RECORD_UPDATE',
 }
 
 export class Log extends Model {
   createdAt!: string
-  deleted_references?: object
+  deleted_user?: string
   event!: LOG_EVENT
   field?: TableColumn
   field_id?: string
-  from?: RowData
-  id!: number
+  id!: string // "bigint data is returned as a string in queries" (Knex documentation)
   record?: TableRow
   record_id?: string
   to?: RowData
@@ -42,10 +41,9 @@ export class Log extends Model {
       ],
 
       properties: {
-        deleted_references: { type: 'object' },
+        deleted_user: { type: 'string' },
         event: { type: 'string' },
         field_id: { type: 'string' },
-        from: { type: 'object' },
         record_id: { type: 'string' },
         to: { type: 'object' },
         user_id: { type: 'number' },

@@ -4,14 +4,14 @@ export async function up (knex: Knex): Promise<any> {
   await knex.schema
     .createTable('log', table => {
       table
-        .increments('id')
+        .bigIncrements('id')
         .primary()
       table
         .enum('event', [
-          'ROW_CREATE',
-          'ROW_PATCH',
-          'ROW_REMOVE',
-          'ROW_UPDATE',
+          'RECORD_CREATE',
+          'RECORD_PATCH',
+          'RECORD_REMOVE',
+          'RECORD_UPDATE',
         ])
         .notNullable()
       table
@@ -32,7 +32,7 @@ export async function up (knex: Knex): Promise<any> {
         .foreign('record_id', 'FK_record_id')
         .references('id')
         .inTable('table_row')
-        .onDelete('SET NULL')
+        .onDelete('CASCADE')
       table
         .uuid('field_id')
         .unsigned()
@@ -40,18 +40,16 @@ export async function up (knex: Knex): Promise<any> {
         .foreign('field_id', 'FK_field_id')
         .references('id')
         .inTable('table_column')
-        .onDelete('SET NULL')
-      table
-        .jsonb('from')
+        .onDelete('CASCADE')
       table
         .jsonb('to')
       table
-        .jsonb('deleted_references')
+        .string('deleted_user', 255)
     })
 
     .alterTable('process_run', table => {
       table
-        .integer('data_log_id')
+        .bigInteger('data_log_id')
         .unsigned()
       table
         .foreign('data_log_id')

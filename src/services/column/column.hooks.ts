@@ -9,7 +9,6 @@ import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRow
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 import { fillDefaultValueOnColumnCreation } from './fillDefaultValueOnColumnCreation'
 import { checkColumnDefinition } from './checkColumnDefinition.hook'
-import { updateLogsOnRemoving } from '../../hooks/lck-hooks/historizeDataEvents'
 const { authenticate } = authentication.hooks
 
 export default {
@@ -37,7 +36,6 @@ export default {
     ],
     remove: [
       removeTableColumnRelationTo(),
-      updateLogsOnRemoving('field_id'),
       // disallow('external')
     ],
   },

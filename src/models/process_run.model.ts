@@ -23,7 +23,7 @@ export class ProcessRun extends BaseModel {
   process?: ProcessModel
   table_row_id?: string
   table_row?: TableRow
-  data_log_id?: number
+  data_log_id?: string // "bigint data is returned as a string in queries" (Knex documentation)
   data_log?: Log
 
   static get tableName (): string {
@@ -46,7 +46,7 @@ export class ProcessRun extends BaseModel {
         settings: { type: 'object' },
         process_id: { type: 'string' },
         table_row_id: { type: 'string' },
-        data_log_id: { type: 'number' },
+        data_log_id: { type: 'string' },
       },
     }
   }

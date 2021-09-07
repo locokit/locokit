@@ -40,6 +40,7 @@ export default function (app: Application): void {
       '$joinRelation',
       '$joinEager',
       '$modifyEager',
+      '$noSelect',
     ],
   }
 

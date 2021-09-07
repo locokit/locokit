@@ -2,6 +2,7 @@ import { NotFound } from '@feathersjs/errors'
 import { Hook, HookContext } from '@feathersjs/feathers'
 
 import { Log, LOG_EVENT } from '../../models/log.model'
+import { User } from '../../models/user.model'
 import { getSubObject } from '../../utils'
 
 /**
@@ -19,43 +20,31 @@ export function historizeDataEvents (): Hook {
       context.result.id // Single operation
     ) {
       // The log depends on the context method
+
+      // We keep a subset of the saved data (transmitted column(s))
       const log: Partial<Log> | undefined = ((method: string) => {
         switch (method) {
           case 'create':
             return {
-              deleted_references: {},
-              event: LOG_EVENT.ROW_CREATE,
+              event: LOG_EVENT.RECORD_CREATE,
               record_id: context.result.id,
               to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'update':
             return {
-              deleted_references: {},
-              event: LOG_EVENT.ROW_UPDATE,
-              from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
+              event: LOG_EVENT.RECORD_UPDATE,
               record_id: context.result.id,
               to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'patch':
             return {
-              deleted_references: {},
-              event: LOG_EVENT.ROW_PATCH,
+              event: LOG_EVENT.RECORD_PATCH,
               field_id: context.params._meta.originalColumnsIdsTransmitted[0],
-              from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
               record_id: context.result.id,
               to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
-            }
-          case 'remove':
-            return {
-              deleted_references: {
-                record_id: context.result.id,
-              },
-              event: LOG_EVENT.ROW_REMOVE,
-              user_id: context.params.user?.id,
-              from: context.result.data,
             }
         }
       })(context.method)
@@ -73,9 +62,9 @@ export function historizeDataEvents (): Hook {
 }
 
 /**
- * Update existing logs when removing data (field / record).
+ * Update existing logs when removing the related user.
  */
-export function updateLogsOnRemoving (dataKey: 'field_id' | 'record_id'): Hook {
+export function updateLogsOnUserRemoving (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     if (
       context.params.provider !== undefined && // External calls
@@ -83,14 +72,18 @@ export function updateLogsOnRemoving (dataKey: 'field_id' | 'record_id'): Hook {
       context.id
     ) {
       try {
-        await context.app.service('log').patch(null, {
-          [`deleted_references:${dataKey}`]: context.id,
-        }, {
-          query: {
-            [dataKey]: context.id,
+        await context.app.service('log').patch(null,
+          {
+            deleted_user: (context.result as User).email,
           },
-          paginate: false,
-        })
+          {
+            query: {
+              user_id: context.id,
+              $noSelect: true,
+            },
+            paginate: false,
+          },
+        )
       } catch (error) {
         if (!(error instanceof NotFound)) throw error
       }

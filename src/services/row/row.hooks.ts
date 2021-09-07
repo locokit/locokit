@@ -27,7 +27,7 @@ import { shrinkRecordsData } from './shrinkRecordsData.hook'
 import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
 import { authorize } from 'feathers-casl/dist/hooks'
 import { computeRowVirtualLookedUpColumns, needToComputeVirtualLookedUpColumns } from './computeRowVirtualLookedUpColumns.hook'
-import { historizeDataEvents, updateLogsOnRemoving } from '../../hooks/lck-hooks/historizeDataEvents'
+import { historizeDataEvents } from '../../hooks/lck-hooks/historizeDataEvents'
 
 const { authenticate } = authentication.hooks
 
@@ -135,7 +135,6 @@ export default {
       restrictRemoveIfRelatedRows(),
       removeRelatedExecutions(),
       removeRelatedRows(),
-      updateLogsOnRemoving('record_id'),
       defineAbilitiesIffHook(),
       authorize({
         adapter: 'feathers-objection',
@@ -191,7 +190,6 @@ export default {
       computeRowVirtualLookedUpColumns(),
     ],
     remove: [
-      historizeDataEvents(),
       triggerProcess,
     ],
   },
