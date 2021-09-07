@@ -4,10 +4,12 @@ import { authManagementSettings, AuthenticationManagementAction } from '../authm
 import * as feathersAuthenticationManagement from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import commonHooks, { lowerCase } from 'feathers-hooks-common'
+import commonHooks, { isNot, lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
+import { notifyUserOnUpdate } from './notifyUserOnUpdate.hooks'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -52,7 +54,6 @@ export default {
         commonHooks.isProvider('external'),
         commonHooks.preventChanges(
           true,
-          'email',
           'isVerified',
           'verifyToken',
           'verifyShortToken',
@@ -62,7 +63,13 @@ export default {
           'resetShortToken',
           'resetExpires',
         ),
+        commonHooks.iff(
+          isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
+          commonHooks.preventChanges(true, 'email'),
+        ),
+        lowerCase('email'),
         hashPassword('password'),
+        getCurrentItem(),
       ),
     ],
     remove: [],
@@ -92,7 +99,9 @@ export default {
       feathersAuthenticationManagement.hooks.removeVerification(),
     ],
     update: [],
-    patch: [],
+    patch: [
+      notifyUserOnUpdate,
+    ],
     remove: [],
   },
 

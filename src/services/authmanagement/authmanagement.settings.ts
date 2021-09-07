@@ -21,6 +21,12 @@ export enum AuthenticationManagementAction {
    * telling him/her to verify email + set password
    */
   sendVerifySignup = 'sendVerifySignup',
+  /**
+   * This value is not in the official documentation.
+   * We use it when the superadmin updates user email address
+   * to send him/her the new configured email address.
+   */
+  sendUpdatedEmailAddress = 'sendUpdatedEmailAddress',
 }
 
 const templateFolder = '/templates/mails'
@@ -74,6 +80,10 @@ export function authManagementSettings (app: Application) {
       templateFile: path.join(process.cwd(), templateFolder, '/identityChange/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs'),
     },
+    [AuthenticationManagementAction.sendUpdatedEmailAddress]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/title.ejs'),
+    },
   }
 
   return {
@@ -81,6 +91,9 @@ export function authManagementSettings (app: Application) {
     async notifier (
       type: AuthenticationManagementAction,
       user: LckUser,
+      notifierOptions?: {
+        emailAddress?: string
+      },
     ) {
       debug('notifier', type, user)
       const currentActionOption = actionOptions[type]
@@ -116,7 +129,7 @@ export function authManagementSettings (app: Application) {
         })
 
       return await app.service('mailer').create({
-        to: user.email,
+        to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
         text: emailText,
       })
