@@ -106,7 +106,7 @@ describe('\'authManagement\' hooks for identityChange action', () => {
     email: 'locokit-authmngt@locokit.io',
     name: 'Someone !',
   }
-  const newEmailAddress = 'locokit-v2-authmngt@locokit.io'
+  const newEmailAddress = 'locokit-V2-authmngt@locokit.io'
 
   let user: User
   beforeEach(async () => {
@@ -122,11 +122,11 @@ describe('\'authManagement\' hooks for identityChange action', () => {
         action: 'identityChange',
         value: {
           user: {
-            email: 'locokit-authmngt@locokit.io',
+            email: userInfo.email,
           },
           password: 'pouetpouet',
           changes: {
-            email: 'locokit-v2-authmngt@locokit.io',
+            email: newEmailAddress,
           },
         },
       })
@@ -148,7 +148,7 @@ describe('\'authManagement\' hooks for identityChange action', () => {
           },
           password: 'pouetpouet',
           changes: {
-            email: 'locokit-v2-authmngt@locokit.io',
+            email: newEmailAddress,
           },
         },
       })
@@ -184,7 +184,7 @@ describe('\'authManagement\' hooks for identityChange action', () => {
       value: user.verifyToken,
     })
     expect(resVerifySignupLong).toBeDefined()
-    expect(resVerifySignupLong.email).toBe(newEmailAddress)
+    expect(resVerifySignupLong.email).toBe(newEmailAddress.toLowerCase())
   })
 
   afterEach(async () => {
