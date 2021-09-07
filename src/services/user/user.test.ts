@@ -110,7 +110,7 @@ describe('\'user\' service', () => {
         email: 'originalUser@locokit.io',
         name: 'testing patch email address',
       }) as User
-      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear()
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
       // Check that the update succeeds
       updatedUser = await app.service('user').patch(updatedUser.id,
         {
@@ -141,7 +141,7 @@ describe('\'user\' service', () => {
         email: 'originalUser@locokit.io',
         name: 'testing patch email address',
       }) as User
-      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear()
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
       // Check that the update succeeds
       updatedUser = await app.service('user').patch(updatedUser.id,
         {
