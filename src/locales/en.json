@@ -346,9 +346,9 @@
       "edit": {
         "email": {
           "currentPassword": "Current password",
-          "new": "New email address",
-          "success": "You will receive an email to confirm the use of this new email address.",
-          "title": "Update my email address"
+          "new": "New email",
+          "success": "You will receive an email to confirm this new email.",
+          "title": "Update email"
         },
         "title": "Update my password",
         "oldPassword": "Old password",
