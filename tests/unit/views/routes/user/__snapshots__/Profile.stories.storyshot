@@ -514,7 +514,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-col-12 p-md-8"
                   >
                     <input
-                      class="p-inputtext p-component p-filled"
+                      class="p-inputtext p-component"
                       id="newEmail"
                       placeholder="Email"
                       type="email"

@@ -311,7 +311,7 @@ export default {
         passwordCheck: null,
       },
       emailEdit: {
-        newEmail: authState.data.user?.email,
+        newEmail: null,
         password: null,
       } as { newEmail: null | string; password: null | string },
       displayErrorMismatch: false,
