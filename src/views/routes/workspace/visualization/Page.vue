@@ -1266,6 +1266,8 @@ export default {
             detail: notificationErrorDescription || (res.code ? this.$t('error.http.' + res.code) : this.$t('error.basic')),
             life: 5000,
           })
+          // Reset source when a workflow possibly updates data and failed
+          await this.refreshDefinitionAndContent()
         } else {
           this.$toast.add({
             severity: 'success',
@@ -1289,6 +1291,9 @@ export default {
                 },
               })
             }
+          } else {
+            // Reset source when a workflow possibly updates data and when user stay in the same page
+            await this.refreshDefinitionAndContent()
           }
         }
       }

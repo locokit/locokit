@@ -122,10 +122,11 @@
     />
     <markdown-field-settings-fields
       v-else-if="blockCopy.type === BLOCK_TYPE.MARKDOWN_FIELD"
+      :id.sync="blockCopy.settings.id"
       :displayFieldId.sync="blockCopy.settings.displayFieldId"
       :textColor.sync="blockCopy.settings.textColor"
       :textAlign.sync="blockCopy.settings.textAlign"
-      :tableViewDefinition="blockCopy.definition"
+      :tableViewDefinition="tableViewDefinition"
       :autocompleteSuggestions="autocompleteSuggestions"
       @search-table-view="$emit('search-table-view', $event)"
     />

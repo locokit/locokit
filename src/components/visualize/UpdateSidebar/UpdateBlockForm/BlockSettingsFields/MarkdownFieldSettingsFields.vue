@@ -132,6 +132,9 @@ export default {
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
+    id: {
+      type: String,
+    },
     displayFieldId: {
       type: String,
     },
