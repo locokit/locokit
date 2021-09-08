@@ -93,7 +93,7 @@ build-docker:
   when: manual
   variables:
     <<: *build_variables
-    IMAGE_VERSION: "${CI_COMMIT_REF_NAME}"
+    IMAGE_VERSION: "latest"
   script:
     - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
     - docker push $IMAGE_NAME:$IMAGE_VERSION
