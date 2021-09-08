@@ -42,7 +42,7 @@ export async function up (knex: Knex): Promise<any> {
         .inTable('table_column')
         .onDelete('CASCADE')
       table
-        .jsonb('to')
+        .jsonb('from')
       table
         .string('deleted_user', 255)
     })

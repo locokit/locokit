@@ -21,29 +21,28 @@ export function historizeDataEvents (): Hook {
     ) {
       // The log depends on the context method
 
-      // We keep a subset of the saved data (transmitted column(s))
+      // We keep a subset of the previous data (transmitted column(s))
       const log: Partial<Log> | undefined = ((method: string) => {
         switch (method) {
           case 'create':
             return {
               event: LOG_EVENT.RECORD_CREATE,
               record_id: context.result.id,
-              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'update':
             return {
               event: LOG_EVENT.RECORD_UPDATE,
+              from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
               record_id: context.result.id,
-              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'patch':
             return {
               event: LOG_EVENT.RECORD_PATCH,
               field_id: context.params._meta.originalColumnsIdsTransmitted[0],
+              from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
               record_id: context.result.id,
-              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
         }

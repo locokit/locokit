@@ -228,12 +228,7 @@ describe('historizeDataEvents hook', () => {
       expect(createLog.field_id).toBeNull()
       expect(createLog.record_id).toBe(table2Row1.id)
       expect(createLog.user_id).toBe(user.id)
-      expect(createLog.to).toStrictEqual({
-        [table2ColumnRelationBetweenTable1.id]: {
-          reference: table1Row1.id,
-          value: table1Row1.text,
-        },
-      })
+      expect(createLog.from).toBeNull()
     })
 
     it('don\'t keep logs on internal updating (e.g. when computing a formula)', async () => {
@@ -317,9 +312,7 @@ describe('historizeDataEvents hook', () => {
       expect(createLog.event).toBe(LOG_EVENT.RECORD_CREATE)
       expect(createLog.field_id).toBeNull()
       expect(createLog.record_id).toBe(table1Row1.id)
-      expect(createLog.to).toStrictEqual({
-        [table1ColumnText.id]: firstText,
-      })
+      expect(createLog.from).toBeNull()
       expect(createLog.user_id).toBe(user.id)
     })
 
@@ -360,8 +353,8 @@ describe('historizeDataEvents hook', () => {
       expect(updateLog.user_id).toBe(user.id)
       expect(updateLog.record_id).toBe(table1Row1.id)
       expect(updateLog.field_id).toBeNull()
-      expect(updateLog.to).toStrictEqual({
-        [table1ColumnText.id]: secondText,
+      expect(updateLog.from).toStrictEqual({
+        [table1ColumnText.id]: firstText,
       })
     })
 
@@ -401,8 +394,8 @@ describe('historizeDataEvents hook', () => {
       expect(updateLog.user_id).toBe(user.id)
       expect(updateLog.record_id).toBe(table1Row1.id)
       expect(updateLog.field_id).toBe(table1ColumnText.id)
-      expect(updateLog.to).toStrictEqual({
-        [table1ColumnText.id]: secondText,
+      expect(updateLog.from).toStrictEqual({
+        [table1ColumnText.id]: firstText,
       })
     })
 
