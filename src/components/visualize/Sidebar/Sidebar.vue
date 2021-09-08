@@ -2,11 +2,11 @@
   <p-accordion
     :multiple="true"
     class="lck-bg-sidebar lck-sidebar"
+    :activeIndex="[0]"
   >
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
-      :active="item.active"
     >
       <template #header>
         {{item.label}}
