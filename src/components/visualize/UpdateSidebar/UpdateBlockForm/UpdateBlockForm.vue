@@ -93,6 +93,12 @@
           tableViewId: blockCopy.conditionalDisplayTableViewId
         })"
       />
+      <small
+        id="blockConditionalDisplayFieldId-help"
+        v-if="!blockDisplayTableView"
+      >
+        {{ $t('pages.workspace.block.conditionalDisplayFieldHelp') }}
+      </small>
     </validation-provider>
 
     <validation-provider
