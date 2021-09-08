@@ -31,9 +31,7 @@
       </div>
 
       <div class="p-d-flex d-flex-1 o-auto">
-        <layout-with-toolbar
-          class="p-d-flex p-flex-column d-flex-1 o-auto"
-        >
+        <layout-with-toolbar class="p-d-flex p-flex-column d-flex-1 o-auto">
           <div
             class="lck-database-background"
             :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
@@ -46,9 +44,16 @@
                 v-model="selectedViewId"
                 @create="onCreateView"
                 @update="onUpdateView"
-                @delete="onDeleteView"
+                @confirm="onConfirmationView"
                 @reorder="onReorderView"
                 @input="onSelectView"
+              />
+
+              <confirm-dialog
+                @click="confirm1()"
+                icon="pi pi-check"
+                label="Confirm"
+                class="p-mr-2"
               />
 
               <lck-view-dialog
@@ -111,7 +116,6 @@
             :cellState="cellState"
             :columnsSetPrefix="currentView && currentView.id"
             :workspaceId="workspaceId"
-
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
             @update-cell="onUpdateCell"
@@ -127,9 +131,7 @@
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
             @go-to-page-detail="goToPage"
-
             @download-attachment="onDownloadAttachment"
-
             @upload-files="onUploadFiles"
             @remove-attachment="onRemoveAttachment"
           />
@@ -235,6 +237,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -295,6 +298,7 @@ const defaultDatatableSort = {
 export default {
   name: 'Database',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'lck-datatable': DataTable,
     'lck-filter-button': FilterButton,
     'lck-view-button': ViewButton,
@@ -743,26 +747,37 @@ export default {
       this.viewDialogData = viewToUpdate
       this.displayViewDialog = true
     },
-    async onDeleteView (viewToRemove) {
-      try {
-        await lckServices.tableView.remove(viewToRemove.id)
-        this.views = await retrieveTableViews(this.currentTableId)
-        /**
-         * We change the view if the previous one is the one that has been removed
-         */
-        if (viewToRemove.id === this.selectedViewId) {
-          this.selectedViewId = this.views[0].id
-          this.resetColumnEdit()
-        }
-        this.resetSecondarySources(viewToRemove.id)
-      } catch (error) {
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: this.$t('error.lck.' + error.data?.code),
-          life: 5000,
-        })
-      }
+    async onConfirmationView () {
+      // try {
+      //   await lckServices.tableView.remove(viewToRemove.id)
+      //   this.views = await retrieveTableViews(this.currentTableId)
+      //   /**
+      //    * We change the view if the previous one is the one that has been removed
+      //    */
+      //   if (viewToRemove.id === this.selectedViewId) {
+      //     this.selectedViewId = this.views[0].id
+      //     this.resetColumnEdit()
+      //   }
+      //   this.resetSecondarySources(viewToRemove.id)
+      // } catch (error) {
+      //   this.$toast.add({
+      //     severity: 'error',
+      //     summary: this.$t('error.http.' + error.code),
+      //     detail: this.$t('error.lck.' + error.data?.code),
+      //     life: 5000,
+      //   })
+      // }
+      this.$confirm.require({
+        message: 'Are you sure you want to proceed?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 })
+        },
+        reject: () => {
+          this.$toast.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 })
+        },
+      })
     },
     async onReorderView ({ value: views }) {
       this.views = views
@@ -798,11 +813,11 @@ export default {
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
-          style: {
-            ...currentColumn.style,
-            width: newWidth,
-          },
-        })
+        style: {
+          ...currentColumn.style,
+          width: newWidth,
+        },
+      })
       // replace existing definition with new column
       currentColumn.style = newColumn.style
     },
@@ -1234,13 +1249,23 @@ export default {
   margin: 0 0.25rem;
 }
 
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+::v-deep
+  .lck-database-nav
+  .p-tabview
+  .p-tabview-nav
+  li
+  .p-tabview-nav-link:hover {
   color: var(--primary-color-darken);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
 }
 
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+::v-deep
+  .lck-database-nav
+  .p-tabview
+  .p-tabview-nav
+  li.p-highlight
+  .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
