@@ -346,6 +346,7 @@
       "edit": {
         "email": {
           "currentPassword": "Mot de passe actuel",
+          "email": "Adresse électronique",
           "new": "Nouvelle adresse électronique",
           "success": "Vous allez recevoir un message électronique pour confirmer l'utilisation de cette nouvelle adresse électronique.",
           "title": "Mettre à jour mon adresse électronique"

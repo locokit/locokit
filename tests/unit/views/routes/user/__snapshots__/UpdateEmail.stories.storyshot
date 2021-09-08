@@ -39,7 +39,7 @@ exports[`storyshots views/routes/user/UpdateEmail on success 1`] = `
             class="p-card-title"
           >
             <h1>
-              Email address update
+              Email update
             </h1>
           </div>
            

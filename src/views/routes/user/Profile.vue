@@ -96,7 +96,7 @@
               <div class="p-col-12 p-md-8">
                 <p-input-text
                   id="newEmail"
-                  :placeholder="authState.data.user.email"
+                  :placeholder="$t('pages.account.edit.email.email')"
                   type="email"
                   v-model="emailEdit.newEmail"
                 />
@@ -311,7 +311,7 @@ export default {
         passwordCheck: null,
       },
       emailEdit: {
-        newEmail: null,
+        newEmail: authState.data.user?.email,
         password: null,
       } as { newEmail: null | string; password: null | string },
       displayErrorMismatch: false,
