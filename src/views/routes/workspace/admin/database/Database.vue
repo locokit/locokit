@@ -49,13 +49,6 @@
                 @input="onSelectView"
               />
 
-              <confirm-dialog
-                @click="confirm1()"
-                icon="pi pi-check"
-                label="Confirm"
-                class="p-mr-2"
-              />
-
               <lck-view-dialog
                 :visible="displayViewDialog"
                 :value="viewDialogData"
@@ -226,6 +219,8 @@
           @search-page="updatePageSuggestions"
         />
       </p-sidebar>
+
+      <confirm-dialog/>
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -813,11 +808,12 @@ export default {
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
-        style: {
-          ...currentColumn.style,
-          width: newWidth,
+          style: {
+            ...currentColumn.style,
+            width: newWidth,
+          },
         },
-      })
+      )
       // replace existing definition with new column
       currentColumn.style = newColumn.style
     },
