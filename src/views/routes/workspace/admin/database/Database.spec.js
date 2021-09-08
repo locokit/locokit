@@ -105,11 +105,17 @@ jest.mock('@/services/lck-api', () => ({
         const tableView = mockFirstTable.views.find(view => view.id === viewId)
         return mockDeepCloneObject({ ...tableView.columns.find(column => column.id === columnId), ...data })
       }),
+      create: jest.fn(),
+      remove: jest.fn(),
     },
     tableView: {
       patch: jest.fn((id, data) => {
         const tableView = mockFirstTable.views.find(view => view.id === id)
         return mockDeepCloneObject({ ...tableView.columns, ...data })
+      }),
+      get: jest.fn(id => {
+        const tableView = mockFirstTable.views.find(view => view.id === id)
+        return mockDeepCloneObject(tableView)
       }),
     },
     tableColumn: {
@@ -523,6 +529,7 @@ describe('Database', () => {
       })
     })
   })
+
   describe('Manage secondary sources', () => {
     let wrapper
     beforeEach(async () => {
@@ -612,6 +619,47 @@ describe('Database', () => {
             definition: mockFirstTableView,
             content: [],
           },
+        })
+      })
+    })
+  })
+
+  describe('Table view editing', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = await shallowMount(Database, globalComponentParams())
+      await Vue.nextTick()
+      lckServices.tableViewColumn.patch.mockClear()
+    })
+
+    describe('Manage the columns', () => {
+      it('onChangeViewColumns', async () => {
+        // Initially, we have the following columns
+        // in the table : [ 'C11', 'C12', 'C13', 'C14', 'C15' ]
+        // in the table view : [ 'C11', 'C13', 'C12' ]
+        await wrapper.vm.onChangeViewColumns({ value: ['C15', 'C13', 'C14'] })
+        // Send api requests
+        // To remove some columns from the view ([ 'C11', 'C12 ])
+        expect(lckServices.tableViewColumn.remove).toHaveBeenCalledTimes(2)
+        expect(lckServices.tableViewColumn.remove).toHaveBeenCalledWith(`${mockFirstTableView.id},C11`)
+        expect(lckServices.tableViewColumn.remove).toHaveBeenCalledWith(`${mockFirstTableView.id},C12`)
+        // To add the new columns to the view ([ 'C15', 'C14 ])
+        expect(lckServices.tableViewColumn.create).toHaveBeenCalledTimes(2)
+        expect(lckServices.tableViewColumn.create).toHaveBeenCalledWith(expect.objectContaining({
+          table_column_id: 'C15',
+          table_view_id: mockFirstTableView.id,
+          position: 1,
+        }))
+        expect(lckServices.tableViewColumn.create).toHaveBeenCalledWith(expect.objectContaining({
+          table_column_id: 'C14',
+          table_view_id: mockFirstTableView.id,
+          position: 2,
+        }))
+        // To update the positions of the columns which are already used before
+        expect(lckServices.tableViewColumn.patch).toHaveBeenCalledTimes(1)
+        expect(lckServices.tableViewColumn.patch).toHaveBeenCalledWith(`${mockFirstTableView.id},C13`, {
+          position: 0,
         })
       })
     })

@@ -674,32 +674,45 @@ export default {
      * we update accordingly the view on the backend side (add/remove column in the view)
      */
     async onChangeViewColumns ({ value }) {
-      // if (this.selectedViewId === 'complete') return
       /**
        * Compute the diff between the new value and the existing columns
        * if we aren't on the complete selectedView
        */
-      const columnsIdsToAdd = value.filter(v => this.viewColumnsIds.indexOf(v) === -1)
-      const columnsIdsToRemove = this.viewColumnsIds.filter(v => value.indexOf(v) === -1)
       const updatePromises = []
+      // Get the columns to create
+      const columnsIdsToAdd = value.filter(v => this.viewColumnsIds.indexOf(v) === -1)
+      const keptColumnsNumber = value.length - columnsIdsToAdd.length
       if (columnsIdsToAdd.length > 0) {
         columnsIdsToAdd.forEach((id, index) => updatePromises.push(
           lckServices.tableViewColumn.create({
             table_column_id: id,
             table_view_id: this.selectedViewId,
-            position: value.length + index,
+            position: keptColumnsNumber + index,
             displayed: true,
           }),
         ))
       }
-      if (columnsIdsToRemove.length > 0) {
-        columnsIdsToRemove.forEach(id => {
+
+      // Get the columns to remove / update
+      let columnsToRemoveNumber = 0
+      this.viewColumnsIds.forEach((columnId, index) => {
+        if (value.indexOf(columnId) === -1) {
+          // Columns to remove
+          columnsToRemoveNumber += 1
           updatePromises.push(
-            lckServices.tableViewColumn.remove(`${this.selectedViewId},${id}`),
+            lckServices.tableViewColumn.remove(`${this.selectedViewId},${columnId}`),
           )
-          if (this.currentColumnToEdit?.id === id) this.resetColumnEdit()
-        })
-      }
+          if (this.currentColumnToEdit?.id === columnId) this.resetColumnEdit()
+        } else if (columnsToRemoveNumber > 0) {
+          // Columns whose the position must be updated (at right of the first deleted column)
+          updatePromises.push(
+            lckServices.tableViewColumn.patch(`${this.selectedViewId},${columnId}`, {
+              position: index - columnsToRemoveNumber,
+            }),
+          )
+        }
+      })
+
       await Promise.all(updatePromises)
       /**
        * Update the view definition
@@ -799,32 +812,37 @@ export default {
       fromIndex,
       toIndex,
     }) {
+      const updatePromises = []
       // if from & to indexes are equal, nothing to do => exit
       if (fromIndex === toIndex) return
-      // first, find the column related
-      await lckServices.tableViewColumn.patch(
+      // first, patch the moved column
+      updatePromises.push(lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${this.viewColumnsIds[fromIndex]}`, {
           position: toIndex,
-        })
+        }),
+      )
       if (fromIndex > toIndex) {
         // if the fromIndex is after the toIndex
         // we need to update all columns after the toIndex, included, fromIndex excluded
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
-          await lckServices.tableViewColumn.patch(
+          updatePromises.push(lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i1]}`, {
               position: i1 + 1,
-            })
+            }),
+          )
         }
       } else {
         // if not,
         // we need to update all columns between fromIndex and toIndex, fromIndex excluded
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
-          await lckServices.tableViewColumn.patch(
+          updatePromises.push(lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i2]}`, {
               position: i2 - 1,
-            })
+            }),
+          )
         }
       }
+      await Promise.all(updatePromises)
       this.views = await retrieveTableViews(this.currentTableId)
     },
     async onColumnEdit (editedColumnData) {
