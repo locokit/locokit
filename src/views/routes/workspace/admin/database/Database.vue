@@ -743,40 +743,40 @@ export default {
       this.displayViewDialog = true
     },
     async onConfirmationView (viewToRemove) {
-      try {
-        await lckServices.tableView.remove(viewToRemove.id)
-        this.views = await retrieveTableViews(this.currentTableId)
-
-        /**
-         * We change the view if the previous one is the one that has been removed
-         */
-        if (viewToRemove.id === this.selectedViewId) {
-          this.selectedViewId = this.views[0].id
-          this.resetColumnEdit()
-        }
-        this.resetSecondarySources(viewToRemove.id)
-        this.$confirm.require({
-          message: this.$t('form.specificDeleteConfirmation'),
-          header: this.$t('form.confirmation'),
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.tableView.remove(viewToRemove.id)
+            this.views = await retrieveTableViews(this.currentTableId)
+            /**
+        * We change the view if the previous one is the one that has been removed
+        */
+            if (viewToRemove.id === this.selectedViewId) {
+              this.selectedViewId = this.views[0].id
+              this.resetColumnEdit()
+            }
+            this.resetSecondarySources(viewToRemove.id)
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
               detail: this.$t('components.processPanel.successNewRun'),
               life: 5000,
             })
-          },
-        })
-      } catch (error) {
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('components.processPanel.ERROR'),
-          detail: this.$t('components.processPanel.failedNewRun'),
-          life: 5000,
-        })
-      }
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
+
     async onReorderView ({ value: views }) {
       this.views = views
       await Promise.all(
