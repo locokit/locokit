@@ -220,7 +220,7 @@
         />
       </p-sidebar>
 
-      <confirm-dialog/>
+      <confirm-dialog />
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -742,37 +742,41 @@ export default {
       this.viewDialogData = viewToUpdate
       this.displayViewDialog = true
     },
-    async onConfirmationView () {
-      // try {
-      //   await lckServices.tableView.remove(viewToRemove.id)
-      //   this.views = await retrieveTableViews(this.currentTableId)
-      //   /**
-      //    * We change the view if the previous one is the one that has been removed
-      //    */
-      //   if (viewToRemove.id === this.selectedViewId) {
-      //     this.selectedViewId = this.views[0].id
-      //     this.resetColumnEdit()
-      //   }
-      //   this.resetSecondarySources(viewToRemove.id)
-      // } catch (error) {
-      //   this.$toast.add({
-      //     severity: 'error',
-      //     summary: this.$t('error.http.' + error.code),
-      //     detail: this.$t('error.lck.' + error.data?.code),
-      //     life: 5000,
-      //   })
-      // }
-      this.$confirm.require({
-        message: 'Are you sure you want to proceed?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 })
-        },
-        reject: () => {
-          this.$toast.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 })
-        },
-      })
+    async onConfirmationView (viewToRemove) {
+      try {
+        await lckServices.tableView.remove(viewToRemove.id)
+        this.views = await retrieveTableViews(this.currentTableId)
+        /**
+         * We change the view if the previous one is the one that has been removed
+         */
+        if (viewToRemove.id === this.selectedViewId) {
+          this.selectedViewId = this.views[0].id
+          this.resetColumnEdit()
+        }
+        this.resetSecondarySources(viewToRemove.id)
+      } catch (error) {
+        this.$confirm.require({
+          message: this.$t('form.specificDeleteConfirmation'),
+          header: this.$t('form.confirmation'),
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          },
+          reject: () => {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          },
+        })
+      }
     },
     async onReorderView ({ value: views }) {
       this.views = views
