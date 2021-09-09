@@ -746,6 +746,7 @@ export default {
       try {
         await lckServices.tableView.remove(viewToRemove.id)
         this.views = await retrieveTableViews(this.currentTableId)
+
         /**
          * We change the view if the previous one is the one that has been removed
          */
@@ -754,7 +755,6 @@ export default {
           this.resetColumnEdit()
         }
         this.resetSecondarySources(viewToRemove.id)
-      } catch (error) {
         this.$confirm.require({
           message: this.$t('form.specificDeleteConfirmation'),
           header: this.$t('form.confirmation'),
@@ -767,14 +767,13 @@ export default {
               life: 5000,
             })
           },
-          reject: () => {
-            this.$toast.add({
-              severity: 'error',
-              summary: this.$t('components.processPanel.ERROR'),
-              detail: this.$t('components.processPanel.failedNewRun'),
-              life: 5000,
-            })
-          },
+        })
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('components.processPanel.ERROR'),
+          detail: this.$t('components.processPanel.failedNewRun'),
+          life: 5000,
         })
       }
     },
