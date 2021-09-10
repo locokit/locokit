@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/StateButton during loading 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-button p-component p-button-icon-only"
+    disabled="disabled"
+    title="loading"
+    type="button"
+  >
+    <span
+      class="pi pi-spin pi-spinner p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;
+
+exports[`storyshots components/ui/StateButton when disabled 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-button p-component p-button-icon-only p-button-outlined p-disabled"
+    disabled="disabled"
+    title="Send an email"
+    type="button"
+  >
+    <span
+      class="pi pi-envelope p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;
+
+exports[`storyshots components/ui/StateButton with an error 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-invalid p-button p-component p-button-icon-only p-button-outlined p-button-danger"
+    title="Error: An error to display"
+    type="button"
+  >
+    <span
+      class="pi pi-exclamation-circle p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;
+
+exports[`storyshots components/ui/StateButton with classes, icon and title 1`] = `
+<div
+  style="height: 100%;"
+>
+  <button
+    class="p-button p-component p-button-icon-only p-border-success p-bg-success"
+    title="Send an email"
+    type="button"
+  >
+    <span
+      class="pi pi-envelope p-button-icon"
+    />
+     
+    <span
+      class="p-button-label"
+    >
+       
+    </span>
+     
+    <!---->
+    <span
+      class="p-ink"
+    />
+  </button>
+</div>
+`;

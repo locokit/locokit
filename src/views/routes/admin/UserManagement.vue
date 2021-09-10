@@ -105,41 +105,23 @@
                 @click="editUser(slotProps.data)"
                 :title="$t('pages.userManagement.editUser')"
               />
-              <p-button
-                :icon="
-                  resendVerifySignupUsers[slotProps.data.id] &&
-                  resendVerifySignupUsers[slotProps.data.id].loading
-                    ? 'pi pi-spin pi-spinner'
-                    : resendVerifySignupUsers[slotProps.data.id] &&
-                      resendVerifySignupUsers[slotProps.data.id].error
-                    ? 'pi pi-exclamation-circle'
-                    : 'pi pi-envelope'
-                "
-                :class="
-                  resendVerifySignupUsers[slotProps.data.id] &&
-                  resendVerifySignupUsers[slotProps.data.id].error
-                    ? 'p-button-danger'
-                    : slotProps.data.isVerified
-                    ? 'p-button-outlined p-disabled'
-                    : ''
-                "
+              <lck-state-button
+                :disabled="slotProps.data.isVerified"
+                :error="resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error"
+                icon="pi pi-envelope"
+                :loading="resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading"
+                :title="$t('pages.userManagement.resendVerifySignup')"
                 @click="resendVerifySignup(slotProps.data)"
-                :disabled="
-                  slotProps.data.isVerified ||
-                    (resendVerifySignupUsers[slotProps.data.id] &&
-                      resendVerifySignupUsers[slotProps.data.id].loading)
-                "
-                :title="
-                  resendVerifySignupUsers[slotProps.data.id] &&
-                  resendVerifySignupUsers[slotProps.data.id].error
-                    ? resendVerifySignupUsers[slotProps.data.id].error
-                    : $t('pages.userManagement.resendVerifySignup')
-                "
               />
-              <p-button
-                icon="pi pi-eye"
-                class="p-button-outlined p-disabled"
-                :title="$t('pages.userManagement.disableUser')"
+              <lck-state-button
+                :error="disableUsers[slotProps.data.id] && disableUsers[slotProps.data.id].error"
+                :icon="slotProps.data.blocked ? 'pi pi-ban' : 'pi pi-eye'"
+                :loading="disableUsers[slotProps.data.id] && disableUsers[slotProps.data.id].loading"
+                :title="slotProps.data.blocked
+                  ? $t('pages.userManagement.enableUser.enable')
+                  : $t('pages.userManagement.disableUser.disable')
+                "
+                @click="updateUserBlockingStatus(slotProps.data, slotProps.index)"
               />
             </span>
           </template>
@@ -284,6 +266,7 @@ import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import StateButton from '@/components/ui/StateButton/StateButton.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 
 export default {
@@ -291,6 +274,7 @@ export default {
   components: {
     'lck-dialog-form': DialogForm,
     'lck-filter-button': FilterButton,
+    'lck-state-button': StateButton,
     'p-toolbar': Vue.extend(Toolbar),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
@@ -314,6 +298,7 @@ export default {
       })),
       currentPage: 0,
       resendVerifySignupUsers: {},
+      disableUsers: {},
     }
   },
   computed: {
@@ -336,6 +321,12 @@ export default {
           {
             id: 'isVerified',
             text: this.$t('pages.userManagement.isVerified'),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            column_type_id: COLUMN_TYPE.BOOLEAN,
+          },
+          {
+            id: 'blocked',
+            text: this.$t('pages.userManagement.disableUser.disabled'),
             // eslint-disable-next-line @typescript-eslint/camelcase
             column_type_id: COLUMN_TYPE.BOOLEAN,
           },
@@ -420,6 +411,40 @@ export default {
       this.submitting = false
       this.openDialog = false
       this.retrieveUsersData()
+    },
+    /**
+     * Enable the user if its account is blocked or disable it otherwise.
+     * @param user The user to update
+     */
+    async updateUserBlockingStatus (user) {
+      this.$set(this.disableUsers, user.id, {
+        loading: true,
+        error: null,
+      })
+      try {
+        const updatedUser = await lckClient.service('user').patch(user.id, {
+          blocked: !user.blocked,
+        })
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('success.save'),
+          detail: updatedUser.blocked
+            ? this.$t('pages.userManagement.disableUser.success')
+            : this.$t('pages.userManagement.enableUser.success'),
+          life: 5000,
+        })
+        this.onSubmitFilter()
+      } catch (error) {
+        this.disableUsers[user.id].error = error
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('pages.userManagement.notification.error.summary'),
+          detail: this.$t('pages.userManagement.notification.error.detail'),
+          life: 5000,
+        })
+      } finally {
+        this.disableUsers[user.id].loading = false
+      }
     },
     inactiveUser (user) {
       this.user = { ...user }

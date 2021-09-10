@@ -637,7 +637,15 @@
       "editUserDetails": "Edit User",
       "isRequired": "The field is required",
       "editUser": "Edit User",
-      "disableUser": "Disable User",
+      "enableUser": {
+        "enable": "Enable the user account",
+        "success": "The user account has been enabled."
+      },
+      "disableUser": {
+        "disable": "Disable the user account",
+        "disabled": "Disabled",
+        "success": "The user account has been disabled."
+      },
       "resendVerifySignup": "Resend verify link",
       "notification": {
         "success": {
