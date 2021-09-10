@@ -1,4 +1,5 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
+import { Forbidden } from '@feathersjs/errors'
 import app from '../../app'
 import { User } from '../../models/user.model'
 jest.mock('../mailer/mailer.class.ts')
@@ -59,6 +60,26 @@ describe('authentication', () => {
 
       expect(accessToken).toBeTruthy()
       expect(newUser2).toBeTruthy()
+    })
+
+    it('fail on authent if user is blocked', async () => {
+      expect.assertions(1)
+
+      // Disable the user account
+      await app.service('user')._patch(user.id, {
+        blocked: true,
+      }, {})
+
+      await expect(app.service('authentication').create({
+        strategy: 'local',
+        email: userInfo.email,
+        password,
+      }, {})).rejects.toThrowError(Forbidden)
+
+      // Enable the user account
+      await app.service('user')._patch(user.id, {
+        blocked: false,
+      }, {})
     })
 
     afterAll(async () => {

@@ -8,6 +8,8 @@ import commonHooks, { lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
+import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
+import { notifyUserOfUpdates } from './notifyUserOfUpdates'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -62,7 +64,12 @@ export default {
           'resetShortToken',
           'resetExpires',
         ),
+        commonHooks.iff(
+          commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
+          commonHooks.preventChanges(true, 'blocked'),
+        ),
         hashPassword('password'),
+        getCurrentItem(),
       ),
     ],
     remove: [],
@@ -92,7 +99,9 @@ export default {
       feathersAuthenticationManagement.hooks.removeVerification(),
     ],
     update: [],
-    patch: [],
+    patch: [
+      notifyUserOfUpdates(),
+    ],
     remove: [],
   },
 

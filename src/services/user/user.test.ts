@@ -1,7 +1,67 @@
-import { NotAuthenticated } from '@feathersjs/errors'
+import { LocalStrategy } from '@feathersjs/authentication-local/lib'
+import { BadRequest, NotAuthenticated } from '@feathersjs/errors'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
+import { User } from '../../models/user.model'
 
 describe('\'user\' service', () => {
+  let creatorUser: User
+  let adminUser: User
+  let creatorParams: object
+  let adminParams: object
+
+  beforeAll(async () => {
+    // User password
+    const userPassword = 'add-wd-dependencies@locokit.io0'
+    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
+    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
+
+    // Creator user
+    const creatorEmail = 'creator@locokit.io'
+    creatorUser = await app.service('user')._create({
+      name: 'Jack',
+      email: creatorEmail,
+      isVerified: true,
+      password: passwordHashed,
+      profile: USER_PROFILE.CREATOR,
+    }, {})
+    // Simulate the authentication
+    const creatorAuthentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: creatorEmail,
+      password: userPassword,
+    }, {})
+    creatorParams = {
+      provider: 'external',
+      user: creatorUser,
+      accessToken: creatorAuthentication.accessToken,
+      authenticated: true,
+    }
+
+    // Admin user
+    const adminEmail = 'admin@locokit.io'
+    adminUser = await app.service('user')._create({
+      name: 'Jack',
+      email: adminEmail,
+      isVerified: true,
+      password: passwordHashed,
+      profile: USER_PROFILE.SUPERADMIN,
+    }, {})
+
+    // Simulate the authentication
+    const adminAuthentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: adminEmail,
+      password: userPassword,
+    }, {})
+    // Params to simulate an outside call
+    adminParams = {
+      provider: 'external',
+      user: adminUser,
+      accessToken: adminAuthentication.accessToken,
+      authenticated: true,
+    }
+  })
   it('registered the service', () => {
     const service = app.service('user')
     expect(service).toBeTruthy()
@@ -19,5 +79,98 @@ describe('\'user\' service', () => {
       name: 'testing lower case',
     })
     expect(user.email).toBe('test-azapoi@locokit.io')
+    if (user) await app.service('user').remove(user.id)
+  })
+
+  it('prevent a non SUPERADMIN user to patch the blocked property', async () => {
+    expect.assertions(1)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch the blocked property',
+      }) as User
+      await expect(
+        app.service('user').patch(updatedUser.id, {
+          blocked: true,
+        }, creatorParams),
+      ).rejects.toThrowError(BadRequest)
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('only allow SUPERADMIN user to patch the blocked attribute', async () => {
+    expect.assertions(5)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Disable the account
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: true,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(true)
+      // Enable the account
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: false,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(false)
+      // Check that an email is sent to the user to inform that is account has been disabled
+      expect(spyOnCreateMail).toHaveBeenCalledTimes(2)
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'originaluser@locokit.io',
+        subject: '[LCK_PUBLIC_PORTAL_NAME] Your account has been disabled',
+      }))
+      // Check that an email is sent to the user to inform that is account has been enabled
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'originaluser@locokit.io',
+        subject: '[LCK_PUBLIC_PORTAL_NAME] Your account has been enabled',
+      }))
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('do not send an email if the SUPERADMIN user updates the blocked attribute by keeping the same value', async () => {
+    expect.assertions(2)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+        blocked: false,
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Check that the update succeeds
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: false,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(false)
+      // No email must be sent
+      expect(spyOnCreateMail).not.toHaveBeenCalled()
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  afterAll(async () => {
+    await app.service('user').remove(creatorUser.id)
+    await app.service('user').remove(adminUser.id)
   })
 })

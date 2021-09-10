@@ -21,6 +21,12 @@ export enum AuthenticationManagementAction {
    * telling him/her to verify email + set password
    */
   sendVerifySignup = 'sendVerifySignup',
+  /**
+   * This values are not in the official documentation.
+   * We use them when a user is enabled / disabled to inform him/her with an email.
+   */
+  enableUser = 'enableUser',
+  disableUser = 'disableUser',
 }
 
 const templateFolder = '/templates/mails'
@@ -73,6 +79,14 @@ export function authManagementSettings (app: Application) {
     [AuthenticationManagementAction.identityChange]: {
       templateFile: path.join(process.cwd(), templateFolder, '/identityChange/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs'),
+    },
+    [AuthenticationManagementAction.enableUser]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/enableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/enableUser/title.ejs'),
+    },
+    [AuthenticationManagementAction.disableUser]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/disableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/disableUser/title.ejs'),
     },
   }
 
