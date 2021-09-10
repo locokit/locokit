@@ -1,7 +1,7 @@
 version: '3'
 services:
   lck-db:
-    image: postgis/postgis:latest
+    image: postgis/postgis:12-3.0
     ports:
       - "5432:5432"
     environment:
@@ -15,7 +15,7 @@ services:
     container_name: lck-db
 
   lck-db-test:
-    image: postgis/postgis:latest
+    image: postgis/postgis:12-3.0
     ports:
       - "5433:5432"
     environment:
@@ -47,8 +47,8 @@ services:
     ports:
       - "9000:9000"
     environment:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: notsecret
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: notsecret
     command: server /data
     volumes:
       - s3-data:/data

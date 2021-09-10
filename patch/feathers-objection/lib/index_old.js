@@ -1,5 +1,11 @@
 'use strict'
 
+/*
+* Patch of feathers-objection
+* Add/Improve filtering with operator `in` in JSON sub property
+* Add new method `whereNotNull` to handle not null data
+* */
+
 Object.defineProperty(exports, '__esModule', {
   value: true,
 })
@@ -26,7 +32,6 @@ const METHODS = {
   $in: 'whereIn',
   $nin: 'whereNotIn',
   $null: 'whereNull',
-  $not: 'whereNot',
   $notNull: 'whereNotNull',
 }
 const OPERATORS = {
@@ -44,7 +49,6 @@ const OPERATORS = {
   notILike: '$notILike',
   or: '$or',
   and: '$and',
-  whereNot: '$not',
 }
 const OPERATORS_MAP = {
   $lt: '<',
@@ -69,6 +73,8 @@ const OPERATORS_MAP = {
 }
 const DESERIALIZED_ARRAY_OPERATORS = ['between', 'not between', '?|', '?&']
 const NON_COMPARISON_OPERATORS = ['@>', '?', '<@', '?|', '?&']
+const NUMERIC_COMPARISON_OPERATORS = ['<', '<=', '>', '>=']
+
 /**
  * Class representing an feathers adapter for Objection.js ORM.
  * @param {object} options
@@ -161,6 +167,7 @@ class Service extends _adapterCommons.AdapterService {
 
     return query
   }
+
   /**
    * Maps a feathers query to the Objection/Knex schema builder functions.
    * @param query - a query object. i.e. { type: 'fish', age: { $lte: 5 }
@@ -168,9 +175,10 @@ class Service extends _adapterCommons.AdapterService {
    * @param parentKey
    * @param methodKey
    * @param allowRefs
+   * @param hierarchy
    */
-
   objectify (query, params, parentKey, methodKey, allowRefs, hierarchy = []) {
+    // console.log('objectify', query, params, parentKey, methodKey, allowRefs, hierarchy)
     if (params.$eager) {
       delete params.$eager
     }
@@ -204,27 +212,9 @@ class Service extends _adapterCommons.AdapterService {
     }
 
     Object.keys(params || {}).forEach(key => {
-      console.log('current key', key)
       let value = params[key]
 
-      if (key === '$not') {
-        const self = this
-
-        if (Array.isArray(value)) {
-          // Array = $and operator
-          value = {
-            $and: value,
-          }
-        }
-
-        return query.whereNot(function () {
-          // continue with all queries inverted
-          self.objectify(this, value, parentKey, methodKey, allowRefs)
-        })
-      }
-
       if (_utils.default.isPlainObject(value)) {
-        console.log('hierarchy here')
         hierarchy.push(key)
         return this.objectify(query, value, key, parentKey, allowRefs, hierarchy)
       }
@@ -232,14 +222,8 @@ class Service extends _adapterCommons.AdapterService {
       const column = parentKey && parentKey[0] !== '$' ? parentKey : key
       const method = METHODS[methodKey] || METHODS[parentKey] || METHODS[key]
       const operator = OPERATORS_MAP[key] || '='
-      console.log('method / hierarchy', method, hierarchy.length)
 
-      /**
-       *
-       */
-      console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
-      if (method && (hierarchy.length <= 1 || ['$or', '$and'].includes(key))) {
-        console.log('passing test')
+      if (method && hierarchy.length <= 1) {
         if (key === '$or') {
           const self = this
           return query.where(function () {
@@ -268,16 +252,10 @@ class Service extends _adapterCommons.AdapterService {
 
         return query[method].call(query, column, value) // eslint-disable-line no-useless-call
       }
-      console.log('not passing')
 
-      const property = this.jsonSchema && this.jsonSchema.properties && (
-        this.jsonSchema.properties[column] ||
-        hierarchy.length > 0 && this.jsonSchema.properties[hierarchy[0]] ||
-        methodKey && this.jsonSchema.properties[methodKey]
-      )
-      console.log('property', property)
+      const property = this.jsonSchema && (this.jsonSchema.properties[column] || hierarchy.length > 0 && this.jsonSchema.properties[hierarchy[0]] || methodKey && this.jsonSchema.properties[methodKey])
       let columnType = property && property.type
-      console.log('columnType', columnType)
+
       if (columnType) {
         if (Array.isArray(columnType)) {
           columnType = columnType[0]
@@ -292,7 +270,6 @@ class Service extends _adapterCommons.AdapterService {
             const prop = (methodKey ? column : key).replace(/\(/g, '[').replace(/\)/g, ']')
             refColumn = (0, _objection.ref)(`${this.Model.tableName}.${methodKey || column}:${prop}`)
           }
-          console.log('refColumn', refColumn)
 
           if (operator === '@>') {
             if (Array.isArray(value)) {
@@ -303,36 +280,31 @@ class Service extends _adapterCommons.AdapterService {
               value = JSON.parse(value)
             }
           }
-          console.log('value', value)
 
-          console.log('method / Key', method, key)
-          if (method) {
-            // if (key === '$or') {
-            //   const self = this;
-            //   return query.where(function () {
-            //     return value.forEach(condition => {
-            //       this.orWhere(function () {
-            //         self.objectify(this, condition, null, null, allowRefs, hierarchy);
-            //       });
-            //     });
-            //   });
-            // }
+          let refColumnParse = 'text'
 
-            // if (key === '$and') {
-            //   const self = this;
-            //   return query.where(function () {
-            //     return value.forEach(condition => {
-            //       this.andWhere(function () {
-            //         self.objectify(this, condition, null, null, allowRefs, hierarchy);
-            //       });
-            //     });
-            //   });
-            // }
-
-            return query[method].call(query, NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), value)
+          if (NUMERIC_COMPARISON_OPERATORS.includes(operator)) {
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g
+            if (regex.test(value)) {
+              refColumnParse = 'text'
+            } else {
+              refColumnParse = 'decimal'
+            }
           }
 
-          return query.where(NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), operator, value)
+          if (method) {
+            return query[method].call(
+              query,
+              NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse),
+              value,
+            )
+          }
+
+          return query.where(
+            NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse),
+            operator,
+            value,
+          )
         }
       }
 
@@ -365,30 +337,14 @@ class Service extends _adapterCommons.AdapterService {
   }
 
   modifyQuery (query, modify) {
-    let modifiers = null
-
     if (typeof modify === 'string') {
       if (modify[0] === '[' && modify[modify.length - 1] === ']') {
         query.modify(...JSON.parse(modify))
-      } else if (modify[0] === '{' && modify[modify.length - 1] === '}') {
-        modifiers = JSON.parse(modify)
       } else {
         query.modify(modify.split(','))
       }
-    } else if (Array.isArray(modify)) {
-      query.modify(...modify)
     } else {
-      modifiers = modify
-    }
-
-    if (modifiers) {
-      for (const [modifier, args] of Object.entries(modifiers)) {
-        if (args === true) {
-          query.modify(modifier)
-        } else {
-          query.modify(modifier, ...args)
-        }
-      }
+      query.modify(...modify)
     }
   }
 
@@ -403,131 +359,11 @@ class Service extends _adapterCommons.AdapterService {
     return null
   }
 
-  async _createTransaction (params) {
-    if (!params.transaction && params.atomic) {
-      delete params.atomic
-      params.transaction = params.transaction || {}
-      params.transaction.trx = await this.Model.startTransaction()
-      return params.transaction
-    }
-
-    return null
-  }
-
-  _commitTransaction (transaction) {
-    return async data => {
-      if (transaction) {
-        await transaction.trx.commit()
-      }
-
-      return data
-    }
-  }
-
-  _rollbackTransaction (transaction) {
-    return async err => {
-      if (transaction) {
-        await transaction.trx.rollback()
-      }
-
-      throw err
-    }
-  }
-
   _createQuery (params = {}) {
     const trx = params.transaction ? params.transaction.trx : null
     const schema = params.schema || this.schema
     const query = this.Model.query(trx)
-
-    if (schema) {
-      query.context({
-        onBuild (builder) {
-          builder.withSchema(schema)
-        },
-
-      })
-    }
-
-    return query
-  }
-
-  _selectQuery (q, $select) {
-    if ($select && Array.isArray($select)) {
-      const items = $select.concat(Array.isArray(this.id)
-        ? this.id.map(el => {
-          return `${this.Model.tableName}.${el}`
-        })
-        : `${this.Model.tableName}.${this.id}`)
-
-      for (const [key, item] of Object.entries(items)) {
-        const matches = item.match(/^ref\((.+)\)( as (.+))?$/)
-
-        if (matches) {
-          items[key] = (0, _objection.ref)(matches[1]).as(matches[3] || matches[1])
-        }
-      }
-
-      q.select(...items)
-    }
-
-    return q
-  } // Analyse $select and get an object map with fields -> alias
-
-  _selectAliases ($select) {
-    if (!Array.isArray($select)) {
-      return {}
-    }
-
-    return $select.reduce((result, item) => {
-      const matches = item.match(/^(?:ref\((\S+)\)|(\S+))(?: as (.+))?$/)
-
-      if (matches) {
-        const tableField = matches[1] || matches[2]
-        const field = tableField.startsWith(`${this.Model.tableName}.`) ? tableField.substr(this.Model.tableName.length + 1) : tableField
-        const alias = matches[3] || field
-        result[field] = alias
-      } else {
-        // Can't parse $select !
-        throw new _errors.default.BadRequest(`${item} is not a valid select statement`)
-      }
-
-      return result
-    }, {})
-  }
-
-  _selectFields (params, originalData = {}) {
-    return newObject => {
-      if (params.query && params.query.$noSelect) {
-        return originalData
-      } // Remove not selected fields
-
-      if (params.query && params.query.$select && !params.query.$select.find(field => field === '*' || field === `${this.Model.tableName}.*`)) {
-        const $fieldsOrAliases = this._selectAliases(params.query.$select)
-
-        for (const key of Object.keys(newObject)) {
-          if (!$fieldsOrAliases[key]) {
-            delete newObject[key]
-          } else if ($fieldsOrAliases[key] !== key) {
-            // Aliased field
-            newObject[$fieldsOrAliases[key]] = newObject[key]
-            delete newObject[key]
-          }
-        }
-      }
-
-      return newObject
-    }
-  }
-
-  _checkUpsertId (id, newObject) {
-    const updateId = this.getIdsQuery(id, undefined, false)
-    Object.keys(updateId).forEach(key => {
-      if (!Object.prototype.hasOwnProperty.call(newObject, key)) {
-        newObject[key] = updateId[key] // id is missing in data, we add it
-      } else if (newObject[key] !== updateId[key]) {
-        throw new _errors.default.BadRequest(`Id '${key}': values mismatch between data '${newObject[key]}' and request '${updateId[key]}'`)
-      }
-    })
+    return schema ? query.withSchema(schema) : query
   }
 
   createQuery (params = {}) {
@@ -551,16 +387,27 @@ class Service extends _adapterCommons.AdapterService {
       q.allowGraph(params.mergeAllowEager)
     } // $select uses a specific find syntax, so it has to come first.
 
-    this._selectQuery(q, filters.$select) // $eager for Objection eager queries
+    if (filters.$select) {
+      const items = filters.$select.concat(`${this.Model.tableName}.${this.id}`)
+
+      for (const [key, item] of Object.entries(items)) {
+        if (typeof item === 'string') {
+          const matches = item.match(/^ref\((.+)\)( as (.+))?$/)
+
+          if (matches) {
+            items[key] = (0, _objection.ref)(matches[1]).as(matches[3] || matches[1])
+          }
+        }
+      }
+      q.select(...items)
+    } // $eager for Objection eager queries
 
     if (query && query.$eager) {
       q.withGraphFetched(query.$eager, eagerOptions)
       delete query.$eager
     }
 
-    const joinEager = query && query.$joinEager
-
-    if (joinEager) {
+    if (query && query.$joinEager) {
       q.withGraphJoined(query.$joinEager, eagerOptions)
       delete query.$joinEager
     }
@@ -573,7 +420,7 @@ class Service extends _adapterCommons.AdapterService {
     }
 
     if (query && query.$mergeEager) {
-      q[joinEager ? 'withGraphJoined' : 'withGraphFetched'](query.$mergeEager, eagerOptions)
+      q[query.$joinEager ? 'withGraphJoined' : 'withGraphFetched'](query.$mergeEager, eagerOptions)
       delete query.$mergeEager
     }
 
@@ -626,7 +473,7 @@ class Service extends _adapterCommons.AdapterService {
    * @param params
    */
 
-  _find (params = {}) {
+  _find (params) {
     const find = (params, count, filters, query) => {
       const q = params.objection || this.createQuery(params)
       const groupByColumns = this.getGroupByColumns(q) // Handle $limit
@@ -670,10 +517,6 @@ class Service extends _adapterCommons.AdapterService {
           countQuery.joinRelated(query.$joinRelation).countDistinct({
             total: countColumns,
           })
-        } else if (query.$joinEager) {
-          countQuery.joinRelated(query.$joinEager).countDistinct({
-            total: countColumns,
-          })
         } else if (countColumns.length > 1) {
           countQuery.countDistinct({
             total: countColumns,
@@ -684,7 +527,7 @@ class Service extends _adapterCommons.AdapterService {
           })
         }
 
-        if (query && query.$modify && params.modifierFiltersResults !== false) {
+        if (query && query.$modify) {
           this.modifyQuery(countQuery, query.$modify)
         }
 
@@ -709,16 +552,11 @@ class Service extends _adapterCommons.AdapterService {
     return result
   }
 
-  _get (id, params = {}) {
-    // merge user query with the 'id' to get
-    const findQuery = _extends({}, {
-      $and: [],
-    }, params.query)
-
-    findQuery.$and.push(this.getIdsQuery(id)) // BUG will fail with composite primary key because table name will be missing
+  _get (id, params) {
+    const query = _extends({}, params.query, this.getIdsQuery(id))
 
     return this._find(_extends({}, params, {
-      query: findQuery,
+      query,
     })).then(page => {
       const data = page.data || page
 
@@ -729,132 +567,62 @@ class Service extends _adapterCommons.AdapterService {
       return data[0]
     })
   }
-
-  _getCreatedRecords (insertResults, inputData, params) {
-    if (params.query && params.query.$noSelect) {
-      return inputData
-    }
-
-    if (!Array.isArray(insertResults)) {
-      insertResults = [insertResults]
-    }
-
-    const findQuery = _extends({
-      $and: [],
-    }, params.query)
-
-    const idsQueries = []
-
-    if (Array.isArray(this.id)) {
-      for (const insertResult of insertResults) {
-        const ids = []
-
-        for (const idKey of this.id) {
-          if (idKey in insertResult) {
-            ids.push(insertResult[idKey])
-          } else {
-            return inputData
-          }
-        }
-
-        idsQueries.push(this.getIdsQuery(ids))
-      }
-    } else {
-      const ids = []
-
-      for (const insertResult of insertResults) {
-        if (this.id in insertResult) {
-          ids.push(insertResult[this.id])
-        } else {
-          return inputData
-        }
-      }
-
-      idsQueries.push(this.getIdsQuery(null, ids))
-    }
-
-    if (idsQueries.length > 1) {
-      findQuery.$and.push({
-        $or: idsQueries,
-      })
-    } else {
-      findQuery.$and = findQuery.$and.concat(idsQueries)
-    }
-
-    return this._find(_extends({}, params, {
-      query: findQuery,
-    })).then(page => {
-      const records = page.data || page
-
-      if (Array.isArray(inputData)) {
-        return records
-      }
-
-      return records[0]
-    })
-  }
-  /**
-   * @param data
-   * @param params
-   * @returns {Promise<Object|Object[]>}
-   * @private
-   */
-
-  _batchInsert (data, params) {
-    const {
-      dialect,
-    } = this.Model.knex().client // batch insert only works with Postgresql and SQL Server
-
-    if (dialect === 'postgresql' || dialect === 'mssql') {
-      return this._createQuery(params).insert(data).returning(this.id)
-    }
-
-    if (!Array.isArray(data)) {
-      return this._createQuery(params).insert(data)
-    }
-
-    const promises = data.map(dataItem => {
-      return this._createQuery(params).insert(dataItem)
-    })
-    return Promise.all(promises)
-  }
   /**
    * `create` service function for Objection.
    * @param {object} data
    * @param {object} params
    */
 
-  async _create (data, params = {}) {
-    const transaction = await this._createTransaction(params)
+  _create (data, params) {
+    const create = (data, params) => {
+      const q = this._createQuery(params)
 
-    const q = this._createQuery(params)
+      const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
+      const allowedInsert = this.mergeRelations(this.allowedInsert, params.mergeAllowInsert)
 
-    let promise = q
-    const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
-    const allowedInsert = this.mergeRelations(this.allowedInsert, params.mergeAllowInsert)
-    const upsertGraphOptions = {
-      ...this.upsertGraphOptions,
-      ...params.mergeUpsertGraphOptions,
-    }
-    const insertGraphOptions = {
-      ...this.insertGraphOptions,
-      ...params.mergeInsertGraphOptions,
-    }
+      if (this.createUseUpsertGraph) {
+        if (allowedUpsert) {
+          q.allowGraph(allowedUpsert)
+        }
 
-    if (this.createUseUpsertGraph) {
-      if (allowedUpsert) {
-        q.allowGraph(allowedUpsert)
+        q.upsertGraphAndFetch(data, this.upsertGraphOptions)
+      } else if (allowedInsert) {
+        q.allowGraph(allowedInsert)
+        q.insertGraph(data, this.insertGraphOptions)
+      } else {
+        q.insert(data, this.id)
       }
 
-      q.upsertGraph(data, upsertGraphOptions)
-    } else if (allowedInsert) {
-      q.allowGraph(allowedInsert)
-      q.insertGraph(data, insertGraphOptions)
-    } else {
-      promise = this._batchInsert(data, params)
+      return q.then(row => {
+        if (params.query && params.query.$noSelect) {
+          return data
+        }
+
+        let id
+
+        if (Array.isArray(this.id)) {
+          id = []
+
+          for (const idKey of this.id) {
+            id.push(row && row[idKey] ? row[idKey] : data[idKey])
+          }
+        } else {
+          id = row && row[this.id] ? row[this.id] : data[this.id]
+        }
+
+        if (!id || Array.isArray(id) && !id.length) {
+          return data
+        }
+
+        return this._get(id, params)
+      }).catch(_errorHandler.default)
     }
 
-    return promise.then(insertResults => this._getCreatedRecords(insertResults, data, params)).then(this._commitTransaction(transaction), this._rollbackTransaction(transaction)).catch(_errorHandler.default)
+    if (Array.isArray(data)) {
+      return Promise.all(data.map(current => create(current, params)))
+    }
+
+    return create(data, params)
   }
   /**
    * `update` service function for Objection.
@@ -863,59 +631,45 @@ class Service extends _adapterCommons.AdapterService {
    * @param params
    */
 
-  _update (id, data, params = {}) {
-    // NOTE : First fetch the item to update to account for user query
-    return this._get(id, params).then(() => {
-      // NOTE: Next, fetch table metadata so
-      // that we can fill any existing keys that the
-      // client isn't updating with null;
-      return this.Model.fetchTableMetadata().then(async meta => {
-        let newObject = _extends({}, data)
+  _update (id, data, params) {
+    // NOTE (EK): First fetch the old record so
+    // that we can fill any existing keys that the
+    // client isn't updating with null;
+    return this._get(id, params).then(oldData => {
+      let newObject = {}
 
-        let transaction = null
-        const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
-
-        if (allowedUpsert) {
-          // Ensure the object we fetched is the one we update
-          this._checkUpsertId(id, newObject) // Create transaction if needed
-
-          transaction = await this._createTransaction(params)
-        }
-
-        for (const key of meta.columns) {
-          if (newObject[key] === undefined) {
-            newObject[key] = null
-          }
-        }
-
-        if (allowedUpsert) {
-          const upsertGraphOptions = {
-            ...this.upsertGraphOptions,
-            ...params.mergeUpsertGraphOptions,
-          }
-          return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(newObject, upsertGraphOptions).then(this._commitTransaction(transaction), this._rollbackTransaction(transaction))
-        } // NOTE (EK): Delete id field so we don't update it
-
-        if (Array.isArray(this.id)) {
-          for (const idKey of this.id) {
-            delete newObject[idKey]
-          }
+      for (const key of Object.keys(oldData)) {
+        if (data[key] === undefined) {
+          newObject[key] = null
         } else {
-          delete newObject[this.id]
+          newObject[key] = data[key]
+        }
+      }
+
+      const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
+
+      if (allowedUpsert) {
+        return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(newObject, this.upsertGraphOptions)
+      } // NOTE (EK): Delete id field so we don't update it
+
+      if (Array.isArray(this.id)) {
+        for (const idKey of this.id) {
+          delete newObject[idKey]
+        }
+      } else {
+        delete newObject[this.id]
+      }
+
+      return this._createQuery(params).where(this.getIdsQuery(id)).update(newObject).then(() => {
+        // NOTE (EK): Restore the id field so we can return it to the client
+        if (Array.isArray(this.id)) {
+          newObject = _extends({}, newObject, this.getIdsQuery(id))
+        } else {
+          newObject[this.id] = id
         }
 
-        return this._createQuery(params).where(this.getIdsQuery(id)).update(newObject).then(() => {
-          // BUG if nothing updated, throw a NotFound
-          // NOTE (EK): Restore the id field so we can return it to the client
-          if (Array.isArray(this.id)) {
-            newObject = _extends({}, newObject, this.getIdsQuery(id))
-          } else {
-            newObject[this.id] = id
-          }
-
-          return newObject
-        })
-      }).then(this._selectFields(params, data))
+        return newObject
+      })
     }).catch(_errorHandler.default)
   }
   /**
@@ -925,27 +679,17 @@ class Service extends _adapterCommons.AdapterService {
    * @param params
    */
 
-  _patch (id, data, params = {}) {
+  _patch (id, data, params) {
     let {
       filters,
       query,
     } = this.filterQuery(params)
     const allowedUpsert = this.mergeRelations(this.allowedUpsert, params.mergeAllowUpsert)
-    const upsertGraphOptions = {
-      ...this.upsertGraphOptions,
-      ...params.mergeUpsertGraphOptions,
-    }
 
     if (allowedUpsert && id !== null) {
-      const dataCopy = _extends({}, data)
+      const dataCopy = _extends({}, data, this.getIdsQuery(id, null, false))
 
-      this._checkUpsertId(id, dataCopy) // Get object first to ensure it satisfy user query
-
-      return this._get(id, params).then(async () => {
-        // Create transaction if needed
-        const transaction = await this._createTransaction(params)
-        return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(dataCopy, upsertGraphOptions).then(this._selectFields(params, data)).then(this._commitTransaction(transaction), this._rollbackTransaction(transaction))
-      })
+      return this._createQuery(params).allowGraph(allowedUpsert).upsertGraphAndFetch(dataCopy, this.upsertGraphOptions)
     }
 
     const dataCopy = _extends({}, data)
@@ -987,24 +731,17 @@ class Service extends _adapterCommons.AdapterService {
 
       const findParams = _extends({}, params, {
         query: _extends({}, params.query, this.getIdsQuery(id, idList), selectParam),
-      }) // Update find query if needed with patched values
+      })
 
-      const updateKeys = obj => {
-        for (const key of Object.keys(obj)) {
-          if (key in dataCopy) {
-            obj[key] = dataCopy[key]
-          } else {
-            if (Array.isArray(obj[key])) {
-              obj[key].forEach(obj => updateKeys(obj))
-            }
-          }
+      for (const key of Object.keys(dataCopy)) {
+        if (findParams.query[key]) {
+          findParams.query[key] = dataCopy[key]
         }
       }
 
-      updateKeys(findParams.query)
       return q.patch(dataCopy).then(() => {
         return params.query && params.query.$noSelect
-          ? dataCopy
+          ? {}
           : this._find(findParams).then(page => {
             const items = page.data || page
 
@@ -1023,13 +760,14 @@ class Service extends _adapterCommons.AdapterService {
       })
     }).catch(_errorHandler.default)
   }
+
   /**
    * `remove` service function for Objection.
    * @param id
    * @param params
    */
 
-  _remove (id, params = {}) {
+  _remove (id, params) {
     params.query = _extends({}, params.query) // NOTE (EK): First fetch the record so that we can return
     // it when we delete it.
 

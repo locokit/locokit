@@ -51,12 +51,12 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       cannot('manage', 'workspace')
       can('create', 'workspace')
       can('manage', 'workspace', {
-        id: {
+        'workspace.id': {
           $in: aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id),
         },
       })
       can('read', 'workspace', {
-        id: {
+        'workspace.id': {
           $in: aclsetsCREATOR.map(aclset => aclset.workspace_id),
         },
       })
@@ -78,7 +78,7 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       }) as LckAclSet[]
       cannot('manage', 'workspace')
       can('read', 'workspace', {
-        id: {
+        'workspace.id': {
           $in: aclsetsUSER.map(aclset => aclset.workspace_id),
         },
       })
