@@ -1,5 +1,12 @@
 'use strict'
 
+/*
+* Patch of feathers-objection
+* Add/Improve filtering with operator `in` in JSON sub property
+* Add new method `whereNotNull` to handle not null data
+* Add improvements for $lt/$gt numeric operators
+* */
+
 Object.defineProperty(exports, '__esModule', {
   value: true,
 })
@@ -69,6 +76,8 @@ const OPERATORS_MAP = {
 }
 const DESERIALIZED_ARRAY_OPERATORS = ['between', 'not between', '?|', '?&']
 const NON_COMPARISON_OPERATORS = ['@>', '?', '<@', '?|', '?&']
+const NUMERIC_COMPARISON_OPERATORS = ['<', '<=', '>', '>=']
+
 /**
  * Class representing an feathers adapter for Objection.js ORM.
  * @param {object} options
@@ -306,6 +315,18 @@ class Service extends _adapterCommons.AdapterService {
           }
           // console.log('value', value)
 
+          /**
+           * PATCH for numeric comparison operators
+           */
+          let refColumnParse = 'text'
+          if (NUMERIC_COMPARISON_OPERATORS.includes(operator)) {
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g
+            if (regex.test(value)) {
+              refColumnParse = 'text'
+            } else {
+              refColumnParse = 'decimal'
+            }
+          }
           // console.log('method / Key', method, key)
           if (method) {
             // if (key === '$or') {
@@ -330,10 +351,12 @@ class Service extends _adapterCommons.AdapterService {
             //   });
             // }
 
-            return query[method].call(query, NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), value)
+            return query[method].call(
+              query,
+              NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse), value)
           }
 
-          return query.where(NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castText(), operator, value)
+          return query.where(NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse), operator, value)
         }
       }
 
