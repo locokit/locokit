@@ -7,7 +7,7 @@ exports[`storyshots components/ui/StateButton during loading 1`] = `
   <button
     class="p-button p-component p-button-icon-only"
     disabled="disabled"
-    title="loading"
+    title="Loading…"
     type="button"
   >
     <span
