@@ -153,7 +153,7 @@ describe('Workspace abilities', () => {
       ability = await defineAbilityFor(user2, app.services)
     })
 
-    it('can not manage a single workspace (USER)', () => {
+    it('cannot manage workspace (USER)', () => {
       expect(ability.cannot('manage', 'workspace')).toBe(true)
     })
     it('can read workspace', () => {
@@ -167,10 +167,10 @@ describe('Workspace abilities', () => {
       expect(ability.can('read', workspace1)).toBe(true)
       expect(ability.can('read', workspace2)).toBe(true)
     })
-    it('cannot manage workspace2 neither workspace1 because it is a USER', () => {
+    it('cannot update workspace1 but workspace2 because it is a USER', () => {
       expect.assertions(2)
-      expect(ability.cannot('manage', workspace2)).toBe(true)
-      expect(ability.cannot('manage', workspace1)).toBe(true)
+      expect(ability.can('update', workspace2)).toBe(true)
+      expect(ability.cannot('update', workspace1)).toBe(true)
     })
   })
   describe('when user (user3) is a simple USER with 2 groups for the same workspace', () => {
@@ -178,8 +178,8 @@ describe('Workspace abilities', () => {
       ability = await defineAbilityFor(user3, app.services)
     })
 
-    it('can not manage a single workspace (USER)', () => {
-      expect(ability.cannot('manage', 'all')).toBe(true)
+    it('cannot manage workspace (USER)', () => {
+      expect(ability.cannot('manage', 'workspace')).toBe(true)
     })
     it('can read workspace', () => {
       expect(ability.can('read', 'workspace')).toBe(true)
@@ -192,10 +192,10 @@ describe('Workspace abilities', () => {
       expect(ability.can('read', workspace1)).toBe(true)
       expect(ability.cannot('read', workspace2)).toBe(true)
     })
-    it('cannot manage workspace1 neither workspace2 because it is a USER', () => {
+    it('can update workspace1 but not workspace2 because it is a USER', () => {
       expect.assertions(2)
-      expect(ability.cannot('manage', workspace1)).toBe(true)
-      expect(ability.cannot('manage', workspace2)).toBe(true)
+      expect(ability.can('update', workspace1)).toBe(true)
+      expect(ability.cannot('update', workspace2)).toBe(true)
     })
   })
 

@@ -50,14 +50,26 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       }) as LckAclSet[]
       cannot('manage', 'workspace')
       can('create', 'workspace')
+      const workspaceIdsManagerCREATOR = aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
+      const workspaceIdsCREATOR = aclsetsCREATOR.map(aclset => aclset.workspace_id)
       can('manage', 'workspace', {
         'workspace.id': {
-          $in: aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id),
+          $in: workspaceIdsManagerCREATOR,
+        },
+      })
+      can('manage', 'workspace', {
+        id: {
+          $in: workspaceIdsManagerCREATOR,
         },
       })
       can('read', 'workspace', {
         'workspace.id': {
-          $in: aclsetsCREATOR.map(aclset => aclset.workspace_id),
+          $in: workspaceIdsCREATOR,
+        },
+      })
+      can('read', 'workspace', {
+        id: {
+          $in: workspaceIdsCREATOR,
         },
       })
       break
@@ -77,13 +89,30 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         paginate: false,
       }) as LckAclSet[]
       cannot('manage', 'workspace')
+      cannot('create', 'workspace')
+      const workspaceIdsManagerUSER = aclsetsUSER.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
+      const workspaceIdsUSER = aclsetsUSER.map(aclset => aclset.workspace_id)
+      can(['read', 'update', 'delete'], 'workspace', {
+        'workspace.id': {
+          $in: workspaceIdsManagerUSER,
+        },
+      })
+      can(['read', 'update', 'delete'], 'workspace', {
+        id: {
+          $in: workspaceIdsManagerUSER,
+        },
+      })
       can('read', 'workspace', {
         'workspace.id': {
-          $in: aclsetsUSER.map(aclset => aclset.workspace_id),
+          $in: workspaceIdsUSER,
+        },
+      })
+      can('read', 'workspace', {
+        id: {
+          $in: workspaceIdsUSER,
         },
       })
   }
-
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
 
