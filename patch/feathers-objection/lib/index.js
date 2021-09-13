@@ -204,8 +204,9 @@ class Service extends _adapterCommons.AdapterService {
     }
 
     Object.keys(params || {}).forEach(key => {
-      console.log('current key', key)
+      // console.log('current key', key)
       let value = params[key]
+      const localHierarchy = [...hierarchy]
 
       if (key === '$not') {
         const self = this
@@ -224,22 +225,22 @@ class Service extends _adapterCommons.AdapterService {
       }
 
       if (_utils.default.isPlainObject(value)) {
-        console.log('hierarchy here')
-        hierarchy.push(key)
-        return this.objectify(query, value, key, parentKey, allowRefs, hierarchy)
+        // console.log('hierarchy here')
+        localHierarchy.push(key)
+        return this.objectify(query, value, key, parentKey, allowRefs, localHierarchy)
       }
 
       const column = parentKey && parentKey[0] !== '$' ? parentKey : key
       const method = METHODS[methodKey] || METHODS[parentKey] || METHODS[key]
       const operator = OPERATORS_MAP[key] || '='
-      console.log('method / hierarchy', method, hierarchy.length)
+      // console.log('method / hierarchy', method, hierarchy.length)
 
       /**
        *
        */
-      console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
-      if (method && (hierarchy.length <= 1 || ['$or', '$and'].includes(key))) {
-        console.log('passing test')
+      // console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
+      if (method && (localHierarchy.length <= 1 || ['$or', '$and'].includes(key))) {
+        // console.log('passing test')
         if (key === '$or') {
           const self = this
           return query.where(function () {
@@ -268,16 +269,16 @@ class Service extends _adapterCommons.AdapterService {
 
         return query[method].call(query, column, value) // eslint-disable-line no-useless-call
       }
-      console.log('not passing')
+      // console.log('not passing')
 
       const property = this.jsonSchema && this.jsonSchema.properties && (
         this.jsonSchema.properties[column] ||
-        hierarchy.length > 0 && this.jsonSchema.properties[hierarchy[0]] ||
+        localHierarchy.length > 0 && this.jsonSchema.properties[localHierarchy[0]] ||
         methodKey && this.jsonSchema.properties[methodKey]
       )
-      console.log('property', property)
+      // console.log('property', property)
       let columnType = property && property.type
-      console.log('columnType', columnType)
+      // console.log('columnType', columnType)
       if (columnType) {
         if (Array.isArray(columnType)) {
           columnType = columnType[0]
@@ -292,7 +293,7 @@ class Service extends _adapterCommons.AdapterService {
             const prop = (methodKey ? column : key).replace(/\(/g, '[').replace(/\)/g, ']')
             refColumn = (0, _objection.ref)(`${this.Model.tableName}.${methodKey || column}:${prop}`)
           }
-          console.log('refColumn', refColumn)
+          // console.log('refColumn', refColumn)
 
           if (operator === '@>') {
             if (Array.isArray(value)) {
@@ -303,9 +304,9 @@ class Service extends _adapterCommons.AdapterService {
               value = JSON.parse(value)
             }
           }
-          console.log('value', value)
+          // console.log('value', value)
 
-          console.log('method / Key', method, key)
+          // console.log('method / Key', method, key)
           if (method) {
             // if (key === '$or') {
             //   const self = this;
@@ -1001,7 +1002,8 @@ class Service extends _adapterCommons.AdapterService {
         }
       }
 
-      updateKeys(findParams.query)
+      // PATCH: We don't update keys as with ACLs it breaks when patching data with the `data` property mixed to `data` ACLs (update/delete filter)
+      // updateKeys(findParams.query)
       return q.patch(dataCopy).then(() => {
         return params.query && params.query.$noSelect
           ? dataCopy
