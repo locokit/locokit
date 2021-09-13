@@ -136,9 +136,10 @@ export function getColumnsReferences (columns: Record<string, TableColumn> = {})
  * Get a SQL request to compute the input formula or to return the json null value if the formula result is the SQL NULL value.
  * @param formula The parsed formula.
  * @param columnsReferences An object containing the columns ids as keys and the corresponding references (objection.js format).
+ * @param formatJson Allow to parse data in jsonb
  * @returns A SQL request (FunctionBuilder format).
  */
-export function getSQLRequestFromFormula (formula: IParsedFormula, columnsReferences: ColumnsReferences): FunctionBuilder {
+export function getSQLRequestFromFormula (formula: IParsedFormula, columnsReferences: ColumnsReferences, formatJson = true): FunctionBuilder {
   let castResult = ''
   // Cast the result if it is a text
   if (TEXT_TYPES.includes(formula.type)) {
@@ -153,10 +154,15 @@ export function getSQLRequestFromFormula (formula: IParsedFormula, columnsRefere
   // Add the string values to the columns references to use placeholders in both cases
   Object.assign(columnsReferences, formula.stringValues ?? {})
   // Return the sql request
-  return fn.coalesce(
-    raw(`to_jsonb(${formula.value}${castResult})`, columnsReferences),
-    raw("jsonb 'null'"),
-  )
+  return formatJson
+    ? fn.coalesce(
+      raw(`to_jsonb(${formula.value}${castResult})`, columnsReferences),
+      raw("jsonb 'null'"),
+    )
+    : fn.coalesce(
+      raw(`(${formula.value}${castResult})`, columnsReferences),
+      raw('null'),
+    )
 }
 
 // Fonctions

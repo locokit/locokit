@@ -435,6 +435,140 @@ describe('computeTextProperty hook', () => {
       await app.service('row').remove(row2Table3.id)
       await app.service('column').remove(columnTable3FormulaColumn.id)
     })
+    it('If it is a formula column with complex data', async () => {
+      // Create column
+      const columnTable3RBT: TableColumn = await app.service('column').create({
+        text: 'RBT',
+        column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+        table_id: table3.id,
+        reference: false,
+        reference_position: 2,
+        settings: {
+          tableId: table1.id,
+        },
+      })
+      const columnTable3LUC: TableColumn = await app.service('column').create({
+        text: 'LUC',
+        column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+        table_id: table3.id,
+        reference: false,
+        reference_position: 3,
+        settings: {
+          tableId: table1.id,
+          localField: columnTable3RBT.id,
+          foreignField: columnTable1FirstName.id,
+        },
+      })
+      const columnTable3FormulaColumn: TableColumn = await app.service('column').create({
+        text: 'Ref',
+        column_type_id: COLUMN_TYPE.FORMULA,
+        reference: true,
+        reference_position: 0,
+        table_id: table3.id,
+        settings: {
+          formula: `TEXT.CONCAT(COLUMN.{${columnTable3LUC.id}})`,
+        },
+      })
+
+      // Create row
+      const rowTable1 = await app.service('row').create({
+        table_id: table1.id,
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name',
+        },
+      })
+      const rowTable3: TableRow = await app.service('row').create({
+        table_id: table3.id,
+        data: {
+          [columnTable3RBT.id]: rowTable1.id,
+        },
+      })
+      // Tests
+      expect.assertions(2)
+      // Updated by hook computeRowFormulaColumns when we create the row
+      expect(rowTable3.text).toBe('first name')
+      expect(rowTable3.data[columnTable3FormulaColumn.id]).toBe('first name')
+      // Clean database
+      await app.service('row').remove(rowTable3.id)
+      await app.service('row').remove(rowTable1.id)
+      await app.service('column').remove(columnTable3FormulaColumn.id)
+      await app.service('column').remove(columnTable3LUC.id)
+      await app.service('column').remove(columnTable3RBT.id)
+    })
+    it('If it is a formula column with complex data and when update origin data', async () => {
+      // Create column
+      const columnTable3RBT: TableColumn = await app.service('column').create({
+        text: 'RBT',
+        column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+        table_id: table3.id,
+        reference: false,
+        reference_position: 2,
+        settings: {
+          tableId: table1.id,
+        },
+      })
+      const columnTable3LUC: TableColumn = await app.service('column').create({
+        text: 'LUC',
+        column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+        table_id: table3.id,
+        reference: false,
+        reference_position: 3,
+        settings: {
+          tableId: table1.id,
+          localField: columnTable3RBT.id,
+          foreignField: columnTable1FirstName.id,
+        },
+      })
+      const columnTable3FormulaColumn: TableColumn = await app.service('column').create({
+        text: 'Ref',
+        column_type_id: COLUMN_TYPE.FORMULA,
+        reference: true,
+        reference_position: 0,
+        table_id: table3.id,
+        settings: {
+          formula: `TEXT.CONCAT(COLUMN.{${columnTable3LUC.id}})`,
+        },
+      })
+
+      // Create row
+      const rowTable1 = await app.service('row').create({
+        table_id: table1.id,
+        data: {
+          [columnTable1FirstName.id]: 'first name',
+          [columnTable1LastName.id]: 'last name',
+        },
+      })
+      const rowTable3: TableRow = await app.service('row').create({
+        table_id: table3.id,
+        data: {
+          [columnTable3RBT.id]: rowTable1.id,
+        },
+      })
+      // Tests
+      // Updated by hook computeRowFormulaColumns when we create the row
+      expect(rowTable3.text).toBe('first name')
+      expect(rowTable3.data[columnTable3FormulaColumn.id]).toBe('first name')
+      // Update origin column used in luc
+      const rowTablePatched = await app.service('row').patch(rowTable1.id, {
+        data: {
+          [columnTable1FirstName.id]: 'new firstname',
+        },
+      })
+      // Get data after hook
+      const rowTable3Patched = await app.service('row').get(rowTable3.id)
+      await app.service('row').get(rowTable1.id)
+      // Updated by hook computeRowFormulaColumns when we create the row
+      expect(rowTablePatched.data[columnTable1FirstName.id]).toBe('new firstname')
+      expect(rowTable3Patched.text).toBe('new firstname')
+      expect(rowTable3Patched.data[columnTable3FormulaColumn.id]).toBe('new firstname')
+      // Clean database
+      await app.service('row').remove(rowTable3.id)
+      await app.service('row').remove(rowTable1.id)
+      await app.service('column').remove(columnTable3FormulaColumn.id)
+      await app.service('column').remove(columnTable3LUC.id)
+      await app.service('column').remove(columnTable3RBT.id)
+    })
     it('Use the value of a relation between table if in the references', async () => {
       const columnTable3Ref = await app.service('column').create({
         text: 'Ref',
@@ -525,7 +659,7 @@ describe('computeTextProperty hook', () => {
       await app.service('column').remove(columnTable3RBT.id)
       await app.service('column').remove(columnTable3Ref.id)
     })
-    it('If it is a formula column', async () => {
+    it('If it is a date and datetime column', async () => {
       // Create column
       const columnTable3Date: TableColumn = await app.service('column').create({
         text: 'Ref Date',
