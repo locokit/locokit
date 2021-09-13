@@ -1,3 +1,4 @@
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Map from './Map'
 
 const optionsWithoutBackgroundTiles = {
@@ -116,6 +117,27 @@ const resourcesExamples = {
       },
     ],
   },
+  editablePolygon: {
+    id: 'features-type-polygon-source-id',
+    editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POLYGON]),
+    features: [
+      {
+        type: 'feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]],
+        },
+        properties: {},
+      },
+    ],
+    layers: [
+      {
+        id: 'features-type-fill-layer-id',
+        type: 'fill',
+        paint: { 'fill-color': '#53ACB4' },
+      },
+    ],
+  },
 }
 
 export default {
@@ -206,6 +228,26 @@ withPolygonLayerStory.args = {
 }
 withPolygonLayerStory.argTypes = defaultArgTypes
 withPolygonLayerStory.parameters = {
+  storyshots: false,
+}
+
+export const withEditablePolygonLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
+  }
+}
+
+withEditablePolygonLayerStory.storyName = 'with editable Polygon layer'
+withEditablePolygonLayerStory.args = {
+  resources: [
+    resourcesExamples.editablePolygon,
+  ],
+  singleEditMode: true,
+}
+withEditablePolygonLayerStory.argTypes = defaultArgTypes
+withEditablePolygonLayerStory.parameters = {
   storyshots: false,
 }
 

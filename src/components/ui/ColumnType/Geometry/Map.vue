@@ -187,24 +187,34 @@ export default Vue.extend({
   methods: {
     saveFeatures () {
       const featuresToManage = this.mapDraw!.getAll().features
+
+      console.log(featuresToManage)
+
       // Select all features to combine to throw only one feature
       const featureIds: string[] = featuresToManage!.map(feature => feature.id as string)
       this.mapDraw!.changeMode('simple_select', { featureIds })
-      this.mapDraw!.combineFeatures()
+
+      // Check if geometry type is a single element (not multi)
+      if (this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTIPOINT) ||
+      this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTILINESTRING) ||
+      this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTIPOLYGON)) {
+        this.mapDraw!.combineFeatures()
+      }
       const singleFeatures = this.mapDraw!.getSelected().features
 
       // Display an error if we don't have one feature to manage
-      if (singleFeatures.length !== 1) {
-        this.$toast.add({
-          severity: 'warn',
-          detail: singleFeatures.length === 0
-            ? this.$t('components.mapview.noSelectedFeature')
-            : this.$t('components.mapview.onlyOneSelectedFeature'),
-          summary: this.$t('error.impossibleOperation'),
-          life: 3000,
-        })
-        return
-      }
+      // if (singleFeatures.length !== 1) {
+      //   this.$toast.add({
+      //     severity: 'warn',
+      //     detail: singleFeatures.length === 0
+      //       ? this.$t('components.mapview.noSelectedFeature')
+      //       : this.$t('components.mapview.onlyOneSelectedFeature'),
+      //     summary: this.$t('error.impossibleOperation'),
+      //     life: 3000,
+      //   })
+      //   return
+      // }
+      console.log(singleFeatures)
 
       // Throw the desired event with the feature
       this.$emit('update-features', singleFeatures)
@@ -238,7 +248,7 @@ export default Vue.extend({
       if (this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POINT) ||
       this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_LINESTRING) ||
       this.editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)) {
-        if (features.length >= 1) {
+        if (features.length < 1) {
           // eslint-disable-next-line no-unused-expressions
           document.body.querySelector('.mapbox-gl-draw_ctrl-draw-btn')?.setAttribute('disabled', 'true')
         } else {
