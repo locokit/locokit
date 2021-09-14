@@ -45,9 +45,9 @@ export function parseFormula (): Hook {
     const newFormula = context.data.settings?.formula
 
     // Prevent the formula column to be used as reference
-    if (context.data.reference) {
-      throw new NotAcceptable('Invalid column: a formula column can not be used as reference.')
-    }
+    // if (context.data.reference) {
+    //   throw new NotAcceptable('Invalid column: a formula column can not be used as reference.')
+    // }
 
     if (newFormula) {
       // Get the existing column if it is an update

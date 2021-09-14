@@ -4,7 +4,11 @@ import { TableRow } from '../../models/tablerow.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { FunctionBuilder } from 'objection'
 import { mergeSets } from '../../utils'
-import { functions, getColumnsReferences, getSQLRequestFromFormula } from '../../utils/formulas'
+import {
+  functions,
+  getColumnsReferences,
+  getSQLRequestFromFormula,
+} from '../../utils/formulas'
 import { GeneralError } from '@feathersjs/errors'
 import { parse } from '../../utils/formulas/formulaParser'
 
@@ -282,6 +286,7 @@ export function computeLookedUpColumns (): Hook {
             try {
               const formulaResult = parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
               formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
+              if (formulaColumn.reference) formulaColumnsToUpdateData.text = getSQLRequestFromFormula(formulaResult, columnsReferences, false)
             } catch (error) {
               throw new GeneralError('Invalid formula: ' + (error.message as string), {
                 code: 'INVALID_FORMULA_SYNTAX',

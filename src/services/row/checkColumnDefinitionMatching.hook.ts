@@ -316,11 +316,14 @@ export function checkColumnDefinitionMatching (): Hook {
             break
           case COLUMN_TYPE.FORMULA:
             // The formula value is automatically computed so it's forbidden to update it from outside the server
+            // Except when it's a reference for a column (Duplicate Action)
             if (context.params.provider) {
-              checkErrors.push({
-                columnName: currentColumn.text,
-                columnError: 'This type of column can\'t be set. It\'s automagically computed.',
-              })
+              if (!currentColumn.reference) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  columnError: 'This type of column can\'t be set. It\'s automagically computed.',
+                })
+              }
             }
             break
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
