@@ -286,7 +286,7 @@ export function computeLookedUpColumns (): Hook {
             try {
               const formulaResult = parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
               formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
-              formulaColumnsToUpdateData.text = getSQLRequestFromFormula(formulaResult, columnsReferences, false)
+              if (formulaColumn.reference) formulaColumnsToUpdateData.text = getSQLRequestFromFormula(formulaResult, columnsReferences, false)
             } catch (error) {
               throw new GeneralError('Invalid formula: ' + (error.message as string), {
                 code: 'INVALID_FORMULA_SYNTAX',
