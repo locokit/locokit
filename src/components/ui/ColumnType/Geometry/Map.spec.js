@@ -7,7 +7,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { shallowMount } from '@vue/test-utils'
 import mapboxgl from 'mapbox-gl'
 import Map from './Map.vue'
-import { mockFirstFeature, mockResources, mockSecondFeature, mockThirdFeature } from './__mocks__/data'
+import { mockFirstFeature, mockResources, mockSecondFeature } from './__mocks__/data'
 
 const {
   LngLatBounds: MockLngLatBounds,
@@ -225,8 +225,6 @@ describe('Map component', () => {
             combine_features: false,
           },
         }))
-        expect(wrapper.vm.dataManageControl.visible).toBe(true)
-        expect(wrapper.vm.map.addControl).toHaveBeenCalledWith(wrapper.vm.dataManageControl.control)
       })
 
       it('Initialize the editable geometry types of the map in the multiple edit mode', () => {
@@ -247,8 +245,6 @@ describe('Map component', () => {
             trash: true,
           },
         }))
-        expect(wrapper.vm.dataManageControl.visible).toBe(true)
-        expect(wrapper.vm.map.addControl).toHaveBeenCalledWith(wrapper.vm.dataManageControl.control)
       })
 
       it('Reset the controls if there is no more editable geometry types', async () => {
@@ -270,10 +266,8 @@ describe('Map component', () => {
         // No controls must be displayed
         expect(wrapper.vm.editableGeometryTypes.size).toBe(0)
         expect(wrapper.vm.map.addControl).not.toHaveBeenCalled()
-        expect(wrapper.vm.dataManageControl.visible).toBe(false)
         // Remove the old controls
         expect(wrapper.vm.map.removeControl).toHaveBeenNthCalledWith(1, wrapper.vm.mapDraw)
-        expect(wrapper.vm.map.removeControl).toHaveBeenNthCalledWith(2, wrapper.vm.dataManageControl.control)
       })
 
       it('Reset the controls if the editable geometry types have been changed', async () => {
@@ -846,13 +840,14 @@ describe('Map component', () => {
       beforeEach(() => {
         spyOnEmitEvent.mockClear()
         wrapper.vm.mapDraw.delete.mockClear()
+        wrapper.vm.pending = false
       })
 
       describe('On update update', () => {
-        it('Emit an "update-features" event with feature', () => {
+        it('Emit an "update-features" event with all editabled features', () => {
           wrapper.vm.saveFeatures()
           expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
-          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', [mockResources[0].features[0]])
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('update-features', [mockResources[0].features[0], mockResources[0].features[1]])
         })
 
         it('Do not emit an "update-features" event if there is no feature', () => {
@@ -865,13 +860,16 @@ describe('Map component', () => {
           wrapper.vm.saveFeatures()
           expect(spyOnEmitEvent).not.toHaveBeenCalled()
         })
+      })
 
-        it('Do not emit an "update-features" event if there is no selected feature', () => {
-          wrapper.vm.mapDraw.getSelected.mockImplementationOnce(() => ({
+      describe('On remove feature', () => {
+        it('Emit an "remove-features" event with feature', () => {
+          wrapper.vm.deleteFeature({ features: [mockResources[0].features[0]] })
+          wrapper.vm.mapDraw.getAll.mockImplementationOnce(() => ({
             features: [],
           }))
-          wrapper.vm.saveFeatures()
-          expect(spyOnEmitEvent).not.toHaveBeenCalled()
+          expect(spyOnEmitEvent).toHaveBeenCalledTimes(1)
+          expect(spyOnEmitEvent).toHaveBeenCalledWith('remove-features', [mockResources[0].features[0]])
         })
       })
     })
@@ -898,7 +896,29 @@ describe('Map component', () => {
       })
 
       it('Should called uncombine for popupMode, editabled or selectable resources', () => {
-        expect(wrapper.vm.mapDraw.uncombineFeatures).toHaveBeenCalledTimes(3)
+        expect(wrapper.vm.mapDraw.uncombineFeatures).toHaveBeenCalledTimes(2)
+      })
+    })
+
+    describe('shouldBeEditabled', () => {
+      let wrapper
+
+      beforeAll(() => {
+        wrapper = shallowMount(Map, {
+          propsData: {
+            resources: mockResources,
+          },
+          ...defaultWrapperParams,
+        })
+      })
+
+      beforeEach(() => {
+        wrapper.vm.mapDraw.add.mockClear()
+      })
+
+      it('should return true if features are consistents with editableGeometryTypes', () => {
+        expect(wrapper.vm.shouldBeEditabled(mockResources[0])).toBeFalsy()
+        expect(wrapper.vm.shouldBeEditabled(mockResources[1])).toBeTruthy()
       })
     })
   })

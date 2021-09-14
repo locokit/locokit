@@ -1,5 +1,8 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { action } from '@storybook/addon-actions'
+import GeometryType from 'ol/geom/GeometryType'
 import Map from './Map'
+import { mockResources } from './__mocks__/data'
 
 const optionsWithoutBackgroundTiles = {
   style: {
@@ -117,27 +120,6 @@ const resourcesExamples = {
       },
     ],
   },
-  editablePolygon: {
-    id: 'features-type-polygon-source-id',
-    editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POLYGON]),
-    features: [
-      {
-        type: 'feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]],
-        },
-        properties: {},
-      },
-    ],
-    layers: [
-      {
-        id: 'features-type-fill-layer-id',
-        type: 'fill',
-        paint: { 'fill-color': '#53ACB4' },
-      },
-    ],
-  },
 }
 
 export default {
@@ -231,26 +213,6 @@ withPolygonLayerStory.parameters = {
   storyshots: false,
 }
 
-export const withEditablePolygonLayerStory = (args, { argTypes }) => {
-  return {
-    components: { Map },
-    props: Object.keys(argTypes),
-    template: '<Map :options="JSON.parse(options)" :resources="resources" />',
-  }
-}
-
-withEditablePolygonLayerStory.storyName = 'with editable Polygon layer'
-withEditablePolygonLayerStory.args = {
-  resources: [
-    resourcesExamples.editablePolygon,
-  ],
-  singleEditMode: true,
-}
-withEditablePolygonLayerStory.argTypes = defaultArgTypes
-withEditablePolygonLayerStory.parameters = {
-  storyshots: false,
-}
-
 export const withMultipleSourcesAndLayersStory = (args, { argTypes }) => {
   return {
     components: { Map },
@@ -297,9 +259,412 @@ withCustomOptionsStory.argTypes = {
         }),
       ],
     },
-    defaultValue: JSON.stringify({ ...optionsWithoutBackgroundTiles, center: [2, 46], zoom: 8 }),
+    defaultValue: JSON.stringify({ ...optionsWithBackgroundTiles, center: [2, 46], zoom: 8 }),
   },
 }
 withCustomOptionsStory.parameters = {
+  storyshots: false,
+}
+
+// EDITABLE POINT
+export const withEditablePointLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditablePointLayerStory.storyName = 'with editable GEOMETRY_POINT'
+withEditablePointLayerStory.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POINT]),
+      selectable: true,
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: GeometryType.POINT,
+            coordinates: [-40, 40],
+          },
+          properties: {},
+        },
+      ],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withEditablePointLayerStory.argTypes = defaultArgTypes
+withEditablePointLayerStory.parameters = {
+  storyshots: false,
+}
+
+// EDITABLE LINESTRING
+export const withEditableLinestringLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditableLinestringLayerStory.storyName = 'with editable GEOMETRY_LINESTRING'
+withEditableLinestringLayerStory.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_LINESTRING]),
+      selectable: true,
+      features: [],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withEditableLinestringLayerStory.argTypes = defaultArgTypes
+withEditableLinestringLayerStory.parameters = {
+  storyshots: false,
+}
+
+// EDITABLE LINESTRING
+export const withEditablePolygonLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditablePolygonLayerStory.storyName = 'with editable GEOMETRY_POLYGON'
+withEditablePolygonLayerStory.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POLYGON]),
+      selectable: true,
+      features: [],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withEditablePolygonLayerStory.argTypes = defaultArgTypes
+withEditablePolygonLayerStory.parameters = {
+  storyshots: false,
+}
+
+// EDITABLE MULTIPOINT
+export const withEditableMultiPointLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditableMultiPointLayerStory.storyName = 'with editable GEOMETRY_MULTIPOINT'
+withEditableMultiPointLayerStory.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_MULTIPOINT]),
+      selectable: true,
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: GeometryType.MULTI_POINT,
+            coordinates: [[-20, 20], [-40, 40]],
+          },
+          properties: {},
+        },
+      ],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withEditableMultiPointLayerStory.argTypes = defaultArgTypes
+withEditableMultiPointLayerStory.parameters = {
+  storyshots: false,
+}
+
+// EDITABLE MULTYPOLYGON
+export const withEditableMultiPolygonLayerStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditableMultiPolygonLayerStory.storyName = 'with editable GEOMETRY_MULTIPOLYGON'
+withEditableMultiPolygonLayerStory.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_MULTIPOLYGON]),
+      selectable: true,
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: GeometryType.MULTI_POLYGON,
+            coordinates: [[[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]]],
+          },
+          properties: {},
+        },
+      ],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withEditableMultiPolygonLayerStory.argTypes = defaultArgTypes
+withEditableMultiPolygonLayerStory.parameters = {
+  storyshots: false,
+}
+
+// EMPTY EDITABLE
+export const withEditableEmptyStory = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withEditableEmptyStory.storyName = 'with editable empty set'
+withEditableEmptyStory.args = {
+  resources: [mockResources[4]],
+}
+withEditableEmptyStory.argTypes = defaultArgTypes
+withEditableEmptyStory.parameters = {
+  storyshots: false,
+}
+
+// MULTIPLE RESOURCES
+// TODO: this case is not correctly render
+// because controls status is set globally and should not allowed multiple points
+export const withMultipleResources = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withMultipleResources.storyName = 'with multiple resources'
+withMultipleResources.args = {
+  resources: [
+    {
+      id: 'features-type-point-source-id',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_POINT]),
+      selectable: true,
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: GeometryType.POINT,
+            coordinates: [-40, 40],
+          },
+          properties: {},
+        },
+      ],
+      layers: [
+        {
+          id: 'features-type-fill-layer-id',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+    {
+      id: 'multipolygon',
+      editableGeometryTypes: new Set([COLUMN_TYPE.GEOMETRY_MULTIPOLYGON]),
+      selectable: true,
+      popupMode: 'hover',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: GeometryType.MULTI_POLYGON,
+            coordinates: [[[[-40, 40], [-50, 48], [-50, 34], [-40, 40]]]],
+          },
+          properties: {
+            title: 'Polygon',
+          },
+        },
+      ],
+      layers: [
+        {
+          id: 'multipolygon',
+          type: 'fill',
+          paint: { 'fill-color': 'transparent' },
+        },
+      ],
+    },
+  ],
+}
+withMultipleResources.argTypes = defaultArgTypes
+withMultipleResources.parameters = {
+  storyshots: false,
+}
+
+// MULTIPLE SINGLE POINTS
+export const withMultiplePointResources = (args, { argTypes }) => {
+  return {
+    components: { Map },
+    props: Object.keys(argTypes),
+    methods: {
+      update: action('update'),
+      remove: action('remove'),
+      select: action('select'),
+    },
+    template: `
+    <Map
+      :options="JSON.parse(options)"
+      :resources="resources"
+      :singleEditMode="true"
+      @update-features="this.update"
+      @remove-features="this.remove"
+      @select-feature="this.select"
+    />
+    `,
+  }
+}
+
+withMultiplePointResources.storyName = 'with multiple GEOMETRY_POINT'
+withMultiplePointResources.args = {
+  resources: [mockResources[5]],
+}
+withMultiplePointResources.argTypes = defaultArgTypes
+withMultiplePointResources.parameters = {
   storyshots: false,
 }
