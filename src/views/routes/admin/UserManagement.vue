@@ -224,23 +224,6 @@
           />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
-        <validation-provider
-          v-if="editingUser"
-          vid="isVerified"
-          tag="div"
-          class="p-field"
-        >
-          <label for="isVerified">
-            {{ $t("pages.userManagement.isVerified") }}
-          </label>
-          <p-checkbox
-            class="p-field-checkbox"
-            id="isVerified"
-            :binary="true"
-            v-model="user.isVerified"
-            :disabled="true"
-          />
-        </validation-provider>
 
         <validation-provider
           vid="profile"
@@ -378,7 +361,6 @@ export default {
         name: user.name,
         profile: user.profile,
         email: user.email,
-        isVerified: user.isVerified,
       }
       this.editingUser = true
       this.openDialog = true
