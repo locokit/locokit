@@ -118,13 +118,14 @@ export async function defineAbilityFor (
       // maybe filter by table ?
       const aclsetParams: Params & { query: Query } = {
         query: {
-          $joinRelation: '[groupsacl.[users], acltables]',
+          $joinRelation: '[groupsacl.[users]]',
           $eager: '[acltables, workspace.[databases.[tables]]]',
           'groupsacl:users.id': user.id,
         },
         paginate: false,
       }
       if (tableId) {
+        aclsetParams.query.$joinRelation = '[groupsacl.[users], acltables]'
         aclsetParams.query.$modifyEager = {
           acltables: {
             table_id: tableId,

@@ -16,7 +16,11 @@ import { iff, IffHook, isProvider } from 'feathers-hooks-common'
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
-export async function defineAbilityFor (user: User, services: ServiceTypes): Promise<AppAbility> {
+export async function createAbility (
+  user: User,
+  services: ServiceTypes,
+  withJoin: boolean = false,
+): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, cannot, rules } = new AbilityBuilder(AppAbility)
 
@@ -53,22 +57,12 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       const workspaceIdsManagerCREATOR = aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
       const workspaceIdsCREATOR = aclsetsCREATOR.map(aclset => aclset.workspace_id)
       can('manage', 'workspace', {
-        'workspace.id': {
-          $in: workspaceIdsManagerCREATOR,
-        },
-      })
-      can('manage', 'workspace', {
-        id: {
+        [withJoin ? 'workspace.id' : 'id']: {
           $in: workspaceIdsManagerCREATOR,
         },
       })
       can('read', 'workspace', {
-        'workspace.id': {
-          $in: workspaceIdsCREATOR,
-        },
-      })
-      can('read', 'workspace', {
-        id: {
+        [withJoin ? 'workspace.id' : 'id']: {
           $in: workspaceIdsCREATOR,
         },
       })
@@ -93,22 +87,12 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       const workspaceIdsManagerUSER = aclsetsUSER.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
       const workspaceIdsUSER = aclsetsUSER.map(aclset => aclset.workspace_id)
       can(['read', 'update', 'delete'], 'workspace', {
-        'workspace.id': {
-          $in: workspaceIdsManagerUSER,
-        },
-      })
-      can(['read', 'update', 'delete'], 'workspace', {
-        id: {
+        [withJoin ? 'workspace.id' : 'id']: {
           $in: workspaceIdsManagerUSER,
         },
       })
       can('read', 'workspace', {
-        'workspace.id': {
-          $in: workspaceIdsUSER,
-        },
-      })
-      can('read', 'workspace', {
-        id: {
+        [withJoin ? 'workspace.id' : 'id']: {
           $in: workspaceIdsUSER,
         },
       })
@@ -123,7 +107,11 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
  * @returns Promise<HookContext>
  */
 export async function defineAbilities (context: HookContext): Promise<HookContext> {
-  const ability: AppAbility = await defineAbilityFor(context.params.user as User, context.app.services)
+  const ability: AppAbility = await createAbility(
+    context.params.user as User,
+    context.app.services,
+    context.params.query?.$eager || context.params.query?.$joinRelation,
+  )
   context.params.ability = ability
   context.params.rules = ability.rules
 

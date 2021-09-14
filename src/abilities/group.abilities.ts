@@ -16,7 +16,11 @@ import { Usergroup } from '../models/usergroup.model'
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
-export async function defineAbilityFor (user: User, services: ServiceTypes): Promise<AppAbility> {
+export async function createAbility (
+  user: User,
+  services: ServiceTypes,
+  withJoin: boolean = false,
+): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
 
@@ -43,16 +47,19 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         },
         paginate: false,
       }) as Usergroup[]
+      const userGroupsIds = usergroupsDefault.map(ug => ug.group_id)
+      const userGroupsIdsOwner = usergroupsDefault
+        .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
+        .map(ug => ug.group_id)
+
       can('read', 'group', {
-        'group.id': {
-          $in: usergroupsDefault.map(ug => ug.group_id),
+        [withJoin ? 'group.id' : 'id']: {
+          $in: userGroupsIds,
         },
       })
       can('manage', 'group', {
-        'group.id': {
-          $in: usergroupsDefault
-            .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
-            .map(ug => ug.group_id),
+        [withJoin ? 'group.id' : 'id']: {
+          $in: userGroupsIdsOwner,
         },
       })
   }
@@ -67,7 +74,11 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
  * @returns Promise<HookContext>
  */
 async function defineAbilities (context: HookContext): Promise<HookContext> {
-  const ability: AppAbility = await defineAbilityFor(context.params.user as User, context.app.services)
+  const ability: AppAbility = await createAbility(
+    context.params.user as User,
+    context.app.services,
+    context.params.query?.$eager || context.params.query?.$joinRelation,
+  )
   context.params.ability = ability
   context.params.rules = ability.rules
 

@@ -1,7 +1,7 @@
 import { Ability } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { Workspace } from '../models/workspace.model'
-import { defineAbilityFor } from './workspace.abilities'
+import { createAbility } from './workspace.abilities'
 import app from '../app'
 import { LckAclSet } from '../models/aclset.model'
 import { Group } from '../models/group.model'
@@ -97,7 +97,7 @@ describe('Workspace abilities', () => {
   describe('when user is a SUPERADMIN', () => {
     beforeEach(async () => {
       user = { profile: USER_PROFILE.SUPERADMIN }
-      ability = await defineAbilityFor(user as User, app.services)
+      ability = await createAbility(user as User, app.services)
     })
 
     it('can manage all workspaces', () => {
@@ -111,7 +111,7 @@ describe('Workspace abilities', () => {
   describe('when user is an ADMIN', () => {
     beforeEach(async () => {
       user = { profile: USER_PROFILE.ADMIN }
-      ability = await defineAbilityFor(user as User, app.services)
+      ability = await createAbility(user as User, app.services)
     })
 
     it('can manage all workspaces - but not all resources', () => {
@@ -124,7 +124,7 @@ describe('Workspace abilities', () => {
 
   describe('when user (user1) is a CREATOR', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user1, app.services)
+      ability = await createAbility(user1, app.services)
     })
 
     it('can manage workspace (not all, but at least one)', () => {
@@ -150,7 +150,7 @@ describe('Workspace abilities', () => {
 
   describe('when user (user2) is a simple USER with 2 groups for 2 workspaces', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user2, app.services)
+      ability = await createAbility(user2, app.services)
     })
 
     it('cannot manage workspace (USER)', () => {
@@ -175,7 +175,7 @@ describe('Workspace abilities', () => {
   })
   describe('when user (user3) is a simple USER with 2 groups for the same workspace', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user3, app.services)
+      ability = await createAbility(user3, app.services)
     })
 
     it('cannot manage workspace (USER)', () => {
