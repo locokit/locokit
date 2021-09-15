@@ -80,7 +80,7 @@
           <p-button
             icon="pi pi-trash"
             class="p-button-rounded lck-color-content p-column-button-color"
-            @click="handleDeleteColumnModalVisibility(true, props.data)"
+            @click="$emit('confirm', props.data)"
           />
         </template>
       </p-column>
@@ -100,23 +100,13 @@
         :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
       />
     </div>
-    <lck-dialog-form
-      :visible="showDeleteColumnModal"
-      :header="$t('pages.databaseSchema.selectType.deleteValue')"
-      :confirmationDialog="true"
-      @close="handleDeleteColumnModalVisibility(false, null)"
-      @input="deleteSelectTypeValue"
-    >
-      {{
-        currentSelectTypeValue
-        && $t('pages.databaseSchema.selectType.deleteConfirmation', { label: currentSelectTypeValue.label })
-      }}
-    </lck-dialog-form>
+    <confirm-dialog />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -127,19 +117,17 @@ import Dropdown from 'primevue/dropdown'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
-
-import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import Badge from '@/components/ui/Badge/Badge'
 
 export default {
   name: 'SelectTypeColumn',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'lck-dialog-form': DialogForm,
     'lck-badge': Badge,
   },
   props: {
@@ -172,10 +160,6 @@ export default {
       lastTr.scrollIntoView({ behavior: 'smooth' })
       // Add focus on first input in the row
       lastTr.querySelector('td input').focus()
-    },
-    handleDeleteColumnModalVisibility (visibility, data) {
-      this.currentSelectTypeValue = data
-      this.showDeleteColumnModal = visibility
     },
     deleteSelectTypeValue () {
       const selectTypeValueIndex = this.selectTypeValues.findIndex(

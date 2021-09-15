@@ -2,7 +2,7 @@
   <div class="container">
     <p-toolbar class="p-d-flex p-flex-wrap">
       <template slot="left">
-          {{ $t('pages.databaseSchema.title') }}
+        {{ $t('pages.databaseSchema.title') }}
       </template>
       <template slot="right">
         <p-button
@@ -12,6 +12,7 @@
         />
       </template>
     </p-toolbar>
+
     <div
       v-if="!errorLoadTables"
       id="svg-container"
@@ -31,11 +32,15 @@
       :currentTable="currentTable"
       @reload-tables="reloadTables"
       @close="onCloseUpdateTableSidebar"
+      @confirm="onConfirmationDeleteColumn($event)"
     />
+    <confirm-dialog />
   </div>
+
 </template>
 <script>
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 import { lckServices } from '@/services/lck-api'
 import nomnoml from 'nomnoml'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -48,6 +53,7 @@ import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar'
 export default {
   name: 'DatabaseSchema',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
     'create-table-modal': Vue.extend(CreateTableModal),
@@ -97,6 +103,34 @@ export default {
     onCloseUpdateTableSidebar () {
       this.currentTable = null
       this.showUpdateTableSidebar = false
+    },
+
+    onConfirmationDeleteColumn (column) {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            console.log(column)
+            await lckServices.tableColumn.remove(column.id)
+            this.reloadTables()
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
     createSource (tables) {
       const sourceStyle = [
@@ -209,7 +243,8 @@ rect[data-name]:hover {
   fill: #e5e5e5 !important;
   cursor: pointer;
 }
-text[data-name], path {
+text[data-name],
+path {
   pointer-events: none;
 }
 </style>

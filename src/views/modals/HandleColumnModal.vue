@@ -71,10 +71,10 @@
         />
       </validation-provider>
       <validation-provider
-          vid="referenceToHandle-position"
-          tag="div"
-          class="input-number-reference"
-        >
+        vid="referenceToHandle-position"
+        tag="div"
+        class="input-number-reference"
+      >
         <p-input-number
           id="referenceToHandle-position"
           v-model="referenceToHandle.position"
@@ -84,6 +84,7 @@
           :disabled="!referenceToHandle.isActive"
         />
       </validation-provider>
+      <confirm-dialog />
     </div>
     <validation-provider
       vid="column-type"
@@ -120,6 +121,7 @@
       @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
       :columnToHandle="columnToHandle"
       class="p-mt-4"
+      @confirm="onConfirmationDeleteSelectTypeValue"
     />
     <div
       class="p-field"
@@ -170,7 +172,7 @@
         validate,
       }"
     >
-      <label for="column-formula-content" >{{ $t('components.formulas.formula') }}</label>
+      <label for="column-formula-content">{{ $t('components.formulas.formula') }}</label>
       <span class="field-required">*</span>
       <lck-monaco-editor
         id="column-formula-content"
@@ -183,8 +185,14 @@
       />
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
-    <div v-if="errorHandleColumn" class="p-invalid">
-      <small id="error-column-to-handle" class="p-invalid">
+    <div
+      v-if="errorHandleColumn"
+      class="p-invalid"
+    >
+      <small
+        id="error-column-to-handle"
+        class="p-invalid"
+      >
         {{ errorHandleColumn }}
       </small>
     </div>
@@ -193,6 +201,7 @@
 
 <script>
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { ValidationProvider } from 'vee-validate'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -215,6 +224,7 @@ import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
 export default {
   name: 'HandleColumnModal',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
     'lck-monaco-editor': () => import(/* webpackChunkName: "lck-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
@@ -355,6 +365,23 @@ export default {
     },
     defaultSelectTypeValueIdChange (data) {
       this.settings.default = data
+    },
+    onConfirmationDeleteSelectTypeValue () {
+      const selectTypeValueIndex = this.selectTypeValues.findIndex(
+        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
+      )
+      if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
+        this.defaultSelectTypeValueId = null
+      }
+      this.selectTypeValues.splice(selectTypeValueIndex, 1)
+
+      this.handleDeleteColumnModalVisibility(false, null)
+
+      // Keep position with continuous numbering
+      for (let index = 0; index <= this.selectTypeValues.length; index++) {
+        const currentRow = this.selectTypeValues[index]
+        currentRow.position = index + 1
+      }
     },
     tableIdChange (data) {
       this.settings.tableId = data

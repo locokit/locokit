@@ -32,7 +32,11 @@
         >
           <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
           <span class="field-required">*</span>
-          <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
+          <p-input-text
+            id="table-name"
+            type="text"
+            v-model="currentTableToUpdate.text"
+          />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
         <validation-provider
@@ -41,17 +45,29 @@
           class="p-field"
         >
           <label for="table-doc">{{ $t('pages.databaseSchema.updateTableSidebar.tableDoc') }}</label>
-          <p-textarea id="table-doc" type="text" v-model="currentTableToUpdate.documentation" />
+          <p-textarea
+            id="table-doc"
+            type="text"
+            v-model="currentTableToUpdate.documentation"
+          />
         </validation-provider>
       </lck-form>
 
       <div class="p-d-flex p-my-4">
         <div class="p-ai-start">
-          <p-button @click="createColumn" :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')" icon="pi pi-plus" class="p-button-text" />
+          <p-button
+            @click="createColumn"
+            :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')"
+            icon="pi pi-plus"
+            class="p-button-text"
+          />
         </div>
       </div>
       <p-datatable :value="currentTableToUpdate.columns">
-        <p-column field="text" :header="$t('pages.databaseSchema.updateTableSidebar.columnName')"></p-column>
+        <p-column
+          field="text"
+          :header="$t('pages.databaseSchema.updateTableSidebar.columnName')"
+        ></p-column>
         <p-column :header="$t('pages.databaseSchema.updateTableSidebar.columnType')">
           <template #body="props">
             {{ getColumnType(props.data.column_type_id) }}
@@ -59,8 +75,16 @@
         </p-column>
         <p-column>
           <template #body="props">
-            <p-button icon="pi pi-pencil" class="p-button-rounded lck-color-content p-column-button-color p-mr-2" @click="updateColumn(props.data)" />
-            <p-button icon="pi pi-trash" class="p-button-rounded lck-color-content p-column-button-color" @click="deleteColumn(props.data)" />
+            <p-button
+              icon="pi pi-pencil"
+              class="p-button-rounded lck-color-content p-column-button-color p-mr-2"
+              @click="updateColumn(props.data)"
+            />
+            <p-button
+              icon="pi pi-trash"
+              class="p-button-rounded lck-color-content p-column-button-color"
+              @click="$emit('confirm', props.data)"
+            />
           </template>
         </p-column>
       </p-datatable>
@@ -72,12 +96,7 @@
         :columnToHandle="columnToHandle"
         @close="onCloseHandleColumnModal"
       />
-      <delete-column-modal
-        :visible="showDeleteColumnModal"
-        :tableId="currentTable.id"
-        :columnToHandle="columnToHandle"
-        @close="onCloseDeleteColumnModal"
-      />
+
     </div>
   </p-sidebar>
 </template>
@@ -97,7 +116,6 @@ import Textarea from 'primevue/textarea'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
-import DeleteColumnModal from '@/views/modals/DeleteColumnModal'
 import LckForm from '@/components/ui/Form/Form.vue'
 
 export default {
@@ -105,7 +123,7 @@ export default {
   components: {
     'lck-form': LckForm,
     'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
-    'delete-column-modal': DeleteColumnModal,
+
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
     'p-input-text': Vue.extend(InputText),
@@ -133,7 +151,6 @@ export default {
     return {
       columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       showHandleColumnModal: false,
-      showDeleteColumnModal: false,
       columnToHandle: null,
     }
   },
@@ -162,10 +179,6 @@ export default {
       }
       this.columnToHandle = null
       this.showHandleColumnModal = false
-    },
-    async deleteColumn (column) {
-      this.columnToHandle = column
-      this.showDeleteColumnModal = true
     },
     onCloseDeleteColumnModal (shouldReloadTable) {
       if (shouldReloadTable) {
