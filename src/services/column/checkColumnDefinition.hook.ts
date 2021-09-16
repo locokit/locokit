@@ -34,7 +34,6 @@ export function checkColumnDefinition (): Hook {
         }
         break
       case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
-      case COLUMN_TYPE.FORMULA:
         // Prevent the column to be used as reference
         if (context.data.reference) {
           throw new NotAcceptable('Invalid column: it can not be used as row reference.')
