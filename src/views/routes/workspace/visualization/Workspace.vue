@@ -17,6 +17,8 @@
         @delete-subitem="onPageDeleteClick"
         @reorder-subitem="onPageReorderClick"
         v-on="$listeners"
+        @confirm="onConfirmationDeletePage($event)"
+        @confirm-subitem="onConfirmationDeleteChapter($event)"
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
@@ -66,11 +68,13 @@
         @input="onPageDeleteInput"
       />
     </div>
+    <confirm-dialog />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 import { authState } from '@/store/auth'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 
@@ -86,6 +90,7 @@ import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 export default {
   name: 'Workspace',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
     'lck-page-dialog': PageDialog,
@@ -218,21 +223,53 @@ export default {
         this.submitting = false
       }
     },
-    async onChapterDeleteInput (chapter = {}) {
-      try {
-        this.submitting = true
-        if (chapter.id) {
-          await lckServices.chapter.remove(chapter.id)
-          const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-          if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
-        }
-        this.onChapterDeleteReset()
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
-      } finally {
-        this.submitting = false
-      }
+
+    onConfirmationDeleteChapter (chapter = {}) {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            this.submitting = true
+            if (chapter.id) {
+              await lckServices.chapter.remove(chapter.id)
+              const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
+              if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
+            }
+            this.onChapterDeleteReset()
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
+    // async onChapterDeleteInput (chapter = {}) {
+    //   try {
+    //     this.submitting = true
+    //     if (chapter.id) {
+    //       await lckServices.chapter.remove(chapter.id)
+    //       const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
+    //       if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
+    //     }
+    //     this.onChapterDeleteReset()
+    //   } catch (error) {
+    //     this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
+    //   } finally {
+    //     this.submitting = false
+    //   }
+    // },
     onPageEditClick (data) {
       if (data.item) {
         this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
@@ -294,22 +331,55 @@ export default {
         this.submitting = false
       }
     },
-    async onPageDeleteInput (page = {}) {
-      try {
-        this.submitting = true
-        if (page.id) {
-          await lckServices.page.remove(page.id)
-          const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
-          if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-          if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
-        }
-        this.onPageDeleteReset()
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
-      } finally {
-        this.submitting = false
-      }
+
+    onConfirmationDeletePage (page = {}) {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            this.submitting = true
+            if (page.id) {
+              await lckServices.page.remove(page.id)
+              const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
+              if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
+              if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
+            }
+            this.onPageDeleteReset()
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
+    // async onPageDeleteInput (page = {}) {
+    //   try {
+    //     this.submitting = true
+    //     if (page.id) {
+    //       await lckServices.page.remove(page.id)
+    //       const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
+    //       if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
+    //       if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
+    //     }
+    //     this.onPageDeleteReset()
+    //   } catch (error) {
+    //     this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
+    //   } finally {
+    //     this.submitting = false
+    //   }
+    // },
     async onPageReorderClick (chapterId, { moved }) {
       if (chapterId && moved) {
         this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)

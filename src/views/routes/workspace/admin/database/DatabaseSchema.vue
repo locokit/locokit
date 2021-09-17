@@ -112,7 +112,6 @@ export default {
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
           try {
-            console.log(column)
             await lckServices.tableColumn.remove(column.id)
             this.reloadTables()
             this.$toast.add({

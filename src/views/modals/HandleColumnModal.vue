@@ -1,4 +1,5 @@
 <template>
+
   <lck-dialog-form
     :visible.sync="visible"
     :header="
@@ -84,7 +85,6 @@
           :disabled="!referenceToHandle.isActive"
         />
       </validation-provider>
-      <confirm-dialog />
     </div>
     <validation-provider
       vid="column-type"
@@ -121,7 +121,7 @@
       @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
       :columnToHandle="columnToHandle"
       class="p-mt-4"
-      @confirm="onConfirmationDeleteSelectTypeValue"
+      @confirm="onConfirmationDeleteSelectTypeValue($event)"
     />
     <div
       class="p-field"
@@ -196,11 +196,14 @@
         {{ errorHandleColumn }}
       </small>
     </div>
+    <confirm-dialog />
   </lck-dialog-form>
+
 </template>
 
 <script>
 import Vue from 'vue'
+
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import { ValidationProvider } from 'vee-validate'
@@ -350,6 +353,56 @@ export default {
       }
       return {}
     },
+
+    onConfirmationDeleteSelectTypeValue (selectTypeValue) {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            if (selectTypeValue.id) {
+              await lckServices.tableColumn.remove(selectTypeValue.id)
+              const currentRow = this.selectTypeValues[index]
+              currentRow.position = index + 1
+              if (selectTypeValueIndex >= 0) this.selectTypeValues.splice(selectTypeValueIndex, 1)
+            }
+
+            console.log(selectTypeValue.id, this.columnToHandle)
+            // const selectTypeValueIndex = this.selectTypeValues.findIndex(
+            //   (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
+            // )
+            // if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
+            //   this.defaultSelectTypeValueId = null
+            // }
+            // this.selectTypeValues.splice(selectTypeValueIndex, 1)
+
+            // this.handleDeleteColumnModalVisibility(false, null)
+
+            // Keep position with continuous numbering
+            // for (let index = 0; index <= this.selectTypeValues.length; index++) {
+            //   const currentRow = this.selectTypeValues[index]
+            //   currentRow.position = index + 1
+            // }
+            // await lckServices.tableColumn.remove(column_type_id.id)
+
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
+    },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
     },
@@ -365,23 +418,6 @@ export default {
     },
     defaultSelectTypeValueIdChange (data) {
       this.settings.default = data
-    },
-    onConfirmationDeleteSelectTypeValue () {
-      const selectTypeValueIndex = this.selectTypeValues.findIndex(
-        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
-      )
-      if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
-        this.defaultSelectTypeValueId = null
-      }
-      this.selectTypeValues.splice(selectTypeValueIndex, 1)
-
-      this.handleDeleteColumnModalVisibility(false, null)
-
-      // Keep position with continuous numbering
-      for (let index = 0; index <= this.selectTypeValues.length; index++) {
-        const currentRow = this.selectTypeValues[index]
-        currentRow.position = index + 1
-      }
     },
     tableIdChange (data) {
       this.settings.tableId = data
