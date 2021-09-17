@@ -44,11 +44,6 @@ export function parseFormula (): Hook {
     // Get the input formula
     const newFormula = context.data.settings?.formula
 
-    // Prevent the formula column to be used as reference
-    // if (context.data.reference) {
-    //   throw new NotAcceptable('Invalid column: a formula column can not be used as reference.')
-    // }
-
     if (newFormula) {
       // Get the existing column if it is an update
       const updatedColumn = context.id ? context.params._meta?.item : new TableColumn()
@@ -87,6 +82,7 @@ export function parseFormula (): Hook {
           columnsUsedInFormula.forEach(column => {
             if (
               column.column_type_id !== COLUMN_TYPE.FORMULA &&
+              column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN &&
               implementedInFormulaColumnTypes.includes(column.originalTypeId())
             ) {
               columnsUsedInFormulaObject[column.id] = column

@@ -47,8 +47,13 @@ function getColumnsToUpdate (
   }> = []
   // Loop over the columns
   columns.forEach(currentColumn => {
-    // Get the columns that reference the current one, except for the formula columns which are not computed yet
-    if (columnsIdsTransmitted.includes(currentColumn.id) || currentColumn.column_type_id !== COLUMN_TYPE.FORMULA) {
+    // Get the columns that reference the current one, except the virtual & formula columns which are not computed yet
+    if (columnsIdsTransmitted.includes(currentColumn.id) ||
+      (
+        currentColumn.column_type_id !== COLUMN_TYPE.FORMULA &&
+        currentColumn.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
+      )
+    ) {
       // Get the columns that reference the current one in the specified table
       if (currentColumn.table_id === tableId) {
         result.push({

@@ -26,6 +26,7 @@ import { isBulkPatch, isValidBulkPatch, onlyUpdateFormulaColumns } from './isBul
 import { shrinkRecordsData } from './shrinkRecordsData.hook'
 import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
 import { authorize } from 'feathers-casl/dist/hooks'
+import { computeRowVirtualLookedUpColumns, needToComputeVirtualLookedUpColumns } from './computeRowVirtualLookedUpColumns.hook'
 
 const { authenticate } = authentication.hooks
 
@@ -153,26 +154,37 @@ export default {
     ],
     find: [
       shrinkRecordsData(),
+      computeRowVirtualLookedUpColumns(),
     ],
     get: [
+      commonHooks.iffElse(needToComputeVirtualLookedUpColumns,
+        [
+          loadColumnsDefinition(),
+          computeRowVirtualLookedUpColumns(),
+        ],
+        [],
+      ),
     ],
     create: [
       upsertRowRelation(),
       computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess,
+      computeRowVirtualLookedUpColumns(),
     ],
     update: [
       upsertRowRelation(),
       computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess,
+      computeRowVirtualLookedUpColumns(),
     ],
     patch: [
       upsertRowRelation(),
       computeRowFormulaColumns(),
       computeLookedUpColumns(),
       triggerProcess,
+      computeRowVirtualLookedUpColumns(),
     ],
     remove: [
       triggerProcess,

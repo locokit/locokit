@@ -17,12 +17,15 @@ export function loadColumnsDefinition (): Hook {
 
     switch (context.method) {
       case 'find':
-      case 'get':
         /**
          * if we are on a table id, we select all columns of the table
          */
         tableId = context.params?.query?.table_id
         tableViewId = context.params?.query?.table_view_id
+        break
+      case 'get':
+        // We just need it in 'after' hooks so we get the table id from the kept row
+        tableId = context.result?.table_id
         break
       case 'create':
       case 'update':

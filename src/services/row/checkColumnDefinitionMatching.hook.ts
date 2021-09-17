@@ -327,6 +327,7 @@ export function checkColumnDefinitionMatching (): Hook {
             }
             break
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
             checkErrors.push({
               columnName: currentColumn.text,
               columnError: 'This type of column can\'t be set. It\'s automagically computed.',
