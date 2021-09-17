@@ -8,6 +8,7 @@ export const ROUTES_PATH = {
   VERIFYSIGNUP: '/verify-signup',
   RESETPASSWORD: '/reset-password',
   PROFILE: '/profile',
+  UPDATEEMAIL: '/update-email',
 
   /**
    * Workspace paths
@@ -36,6 +37,7 @@ export const ROUTES_NAMES = {
   VERIFYSIGNUP: 'VerifySignup',
   RESETPASSWORD: 'ResetPassword',
   PROFILE: 'Profile',
+  UPDATEEMAIL: 'UpdateEmail',
 
   /**
    * Workspace paths

@@ -327,6 +327,12 @@
       "verifyOK": "Vérification de votre mail et enregistrement de votre mot de passe OK ! Vous pouvez dès à présent vous connecter sur la plateforme.",
       "homelink": "Retour à la page d'accueil"
     },
+    "updateEmail": {
+      "title": "Mise à jour de votre adresse électronique",
+      "loading": "L'opération est actuellement en cours...",
+      "updateOK": "L'opération s'est bien déroulée. Vous pouvez maintenant vous connecter avec la nouvelle adresse électronique.",
+      "updateKO": "Malheureusement, l'opération n'a pas pu aboutir. Si le problème persiste, contactez l'administrateur du site."
+    },
     "account": {
       "title": "Mon compte",
       "view": {
@@ -338,6 +344,13 @@
         "nodata": "Aucune donnée à afficher"
       },
       "edit": {
+        "email": {
+          "currentPassword": "Mot de passe actuel",
+          "email": "Adresse électronique",
+          "new": "Nouvelle adresse électronique",
+          "success": "Vous allez recevoir un message électronique pour confirmer l'utilisation de cette nouvelle adresse électronique.",
+          "title": "Mettre à jour mon adresse électronique"
+        },
         "title": "Mettre à jour mon mot de passe",
         "oldPassword": "Ancien mot de passe",
         "newPassword": "Nouveau mot de passe",
@@ -347,7 +360,7 @@
         "passwordRules": {
           "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
           "error": "Le mot de passe ne respecte pas les règles suivantes :",
-          "min": "Minimun 8 caractères",
+          "min": "Minimum 8 caractères",
           "uppercase": "Une majuscule",
           "lowercase": "Une minuscule",
           "digits": "Un chiffre",
@@ -639,6 +652,7 @@
       "editUser": "Modifier l'utilisateur",
       "disableUser": "Désactiver l'utilisateur",
       "resendVerifySignup": "Renvoyer le lien de vérification de compte",
+      "editOwnEmailAddress": "Merci de passer par votre profil pour modifier votre adresse électronique personnelle.",
       "notification": {
         "success": {
           "summary": "E-mail envoyé !",
@@ -806,6 +820,7 @@
   "validations": {
     "messages": {
       "required": "Le champ '{_field_}' est requis.",
+      "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
       "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu."
     }

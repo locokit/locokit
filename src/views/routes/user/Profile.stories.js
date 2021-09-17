@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Profile from './Profile'
 
 import { authState } from '@/store/auth'
+import '@/plugins/vee-validate'
 
 export default {
   title: 'views/routes/user/Profile',

@@ -24,10 +24,11 @@ import GroupManagement from '@/views/routes/admin/GroupManagement.vue'
 import LostPassword from '../views/routes/user/LostPassword.vue'
 import ResetPassword from '../views/routes/user/ResetPassword.vue'
 import VerifySignup from '../views/routes/user/VerifySignup.vue'
+import UpdateEmail from '../views/routes/user/UpdateEmail.vue'
 
 import Page404 from '@/views/routes/404.vue'
 
-import { ROUTES_PATH } from './paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 import { appState } from '@/store/app'
 
@@ -66,6 +67,13 @@ const routes: Array<RouteConfig> = [
     meta: {
       needHeader: false,
       needGuest: true,
+    },
+  }, {
+    path: ROUTES_PATH.UPDATEEMAIL,
+    name: ROUTES_NAMES.UPDATEEMAIL,
+    component: UpdateEmail,
+    meta: {
+      needHeader: false,
     },
   }, {
     path: ROUTES_PATH.PROFILE,

@@ -327,6 +327,12 @@
       "verifyOK": "Email verification and password update OK ! You can now log in on the portal.",
       "homelink": "Return to home page"
     },
+    "updateEmail": {
+      "title": "Email update",
+      "loading": "The process is currently in progress...",
+      "updateOK": "The process has been successfully completed. You can now log in with the new email.",
+      "updateKO": "Unfortunately, the process could not be completed. If the problem persists, contact the administrator."
+    },
     "account": {
       "title": "My account",
       "view": {
@@ -338,12 +344,19 @@
         "nodata": "No data to display"
       },
       "edit": {
+        "email": {
+          "currentPassword": "Current password",
+          "email": "Email",
+          "new": "New email",
+          "success": "You will receive an email message to confirm this new email.",
+          "title": "Update email"
+        },
         "title": "Update my password",
         "oldPassword": "Old password",
         "newPassword": "New password",
         "passwordCheck": "Password (check)",
         "passwordMismatch": "Passwords mismatch",
-        "passwordIncorrect": "Le mot de passe actuel est incorrect.",
+        "passwordIncorrect": "The current password is incorrect.",
         "passwordRules": {
           "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
           "error": "The password does not respect the following rules:",
@@ -639,6 +652,7 @@
       "editUser": "Edit User",
       "disableUser": "Disable User",
       "resendVerifySignup": "Resend verify link",
+      "editOwnEmailAddress": "Please go to your profile to change your personal email address.",
       "notification": {
         "success": {
           "summary": "Email sent !",
@@ -806,8 +820,9 @@
   "validations": {
     "messages": {
       "required": "The '{_field_}' field is required.",
+      "email": "The '{_field_}' field does not match the expected format (email).",
       "minDate": "The '{_field_}' field must be after {fromDate}.",
-      "dateValid": "The '{_field_}' field does not match expected format."
+      "dateValid": "The '{_field_}' field does not match the expected format."
     }
   }
 }
