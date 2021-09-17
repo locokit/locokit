@@ -62,6 +62,7 @@ export async function triggerProcess (context: HookContext): Promise<HookContext
             text: 'Triggering process ' + Date.now(),
             process_id: currentTrigger.id,
             table_row_id: updatedRow.id,
+            data_log_id: context.params._meta.log?.id,
           }),
         )
       })
