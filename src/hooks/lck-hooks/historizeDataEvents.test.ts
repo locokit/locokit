@@ -258,7 +258,6 @@ describe('historizeDataEvents hook', () => {
       expect(logs[0].event).toBe(LOG_EVENT.RECORD_CREATE)
 
       // Check the child row is correctly updated
-      console.log(table2Row1.data[table2ColumnRelationBetweenTable1.id], table1Row1.text)
       expect(table2Row1.data[table2ColumnLookedUpColumnTable1Text.id]).toStrictEqual({
         reference: table1Row1.id,
         value: secondText,
