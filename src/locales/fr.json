@@ -650,7 +650,15 @@
       "editUserDetails": "Éditer un utilisateur",
       "isRequired": "Ce champ est requis",
       "editUser": "Modifier l'utilisateur",
-      "disableUser": "Désactiver l'utilisateur",
+      "enableUser": {
+        "enable": "Activer le compte utilisateur",
+        "success": "Le compte utilisateur a bien été activé."
+      },
+      "disableUser": {
+        "disable": "Désactiver le compte utilisateur",
+        "disabled": "Bloqué",
+        "success": "Le compte utilisateur a bien été désactivé."
+      },
       "resendVerifySignup": "Renvoyer le lien de vérification de compte",
       "editOwnEmailAddress": "Merci de passer par votre profil pour modifier votre adresse électronique personnelle.",
       "notification": {

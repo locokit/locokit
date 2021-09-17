@@ -77,7 +77,7 @@
                 icon="pi pi-trash"
                 class="p-button-rounded p-button-danger p-button-outlined p-button-icon"
                 @click="deleteUserInGroup(slotProps.data, group)"
-                :title="$t('pages.userManagement.disableUser')"
+                :title="$t('pages.userManagement.disableUser.disable')"
               />
             </span>
           </template>
@@ -148,7 +148,7 @@
           </p-dropdown>
         </validation-provider>
         <validation-provider
-          v-if="editingUser"
+          v-if="isEditingUser"
           vid="isVerified"
           tag="div"
           class="p-field"
@@ -160,7 +160,7 @@
             class="p-field-checkbox"
             id="isVerified"
             :binary="true"
-            v-model="user.isVerified"
+            v-model="usergroup.userIsVerified"
             :disabled="true"
           />
         </validation-provider>
@@ -287,6 +287,7 @@ export default {
         ...defaultUsergroup,
         userId: data.id,
         userName: data.name,
+        userIsVerified: data.isVerified,
         groupId: group.id,
         groupName: group.name,
         role: data.uhg_role,
