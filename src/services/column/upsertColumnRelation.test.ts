@@ -290,6 +290,7 @@ describe('upsertColumnRelation hook', () => {
   })
 
   it('create a column relation between a virtual lkdp up column and its foreign field', async () => {
+    expect.assertions(12)
     columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
       // create the virtual looked up column
       text: 'Ref',
@@ -310,6 +311,8 @@ describe('upsertColumnRelation hook', () => {
     expect(currentVirtualLkdUpColumn.parents).toBeDefined()
     expect(currentVirtualLkdUpColumn.parents.length).toBe(1)
     expect(currentVirtualLkdUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.MULTI_SELECT)
+    expect(currentVirtualLkdUpColumn.originalTypeId()).toBe(COLUMN_TYPE.MULTI_SELECT)
+    expect(currentVirtualLkdUpColumn.getOriginalColumn().id).toBe(columnTable1MultiSelect.id)
     // retrieve rows related to see if data is well filled
     const currentRowTable3 = await app.service('row').get(rowTable3.id, outsideCallParams)
     const currentRowTable4 = await app.service('row').get(rowTable4.id, outsideCallParams)
@@ -330,6 +333,7 @@ describe('upsertColumnRelation hook', () => {
   })
 
   it('update a column relation if a foreign field of a virtual lkdp up column is updated', async () => {
+    expect.assertions(18)
     columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
       // create the looked up column
       text: 'Ref',
@@ -350,6 +354,8 @@ describe('upsertColumnRelation hook', () => {
     expect(currentLkdUpColumn.parents).toBeDefined()
     expect(currentLkdUpColumn.parents.length).toBe(1)
     expect(currentLkdUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.MULTI_SELECT)
+    expect(currentLkdUpColumn.originalTypeId()).toBe(COLUMN_TYPE.MULTI_SELECT)
+    expect(currentLkdUpColumn.getOriginalColumn().id).toBe(columnTable1MultiSelect.id)
 
     // patch virtual lkdp up column
     await app.service('column').patch(columnTable2VirtualLookedUpColumnTable1.id, {
@@ -370,6 +376,8 @@ describe('upsertColumnRelation hook', () => {
     expect(newLkdpUpColumn.parents).toBeDefined()
     expect(newLkdpUpColumn.parents.length).toBe(1)
     expect(newLkdpUpColumn.parents[0].column_type_id).toBe(COLUMN_TYPE.SINGLE_SELECT)
+    expect(newLkdpUpColumn.originalTypeId()).toBe(COLUMN_TYPE.SINGLE_SELECT)
+    expect(newLkdpUpColumn.getOriginalColumn().id).toBe(columnTable1SingleSelect.id)
 
     // retrieve rows related to see if data is well filled
     const currentRowTable3 = await app.service('row').get(rowTable3.id, outsideCallParams)

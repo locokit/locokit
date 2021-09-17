@@ -25,6 +25,7 @@ describe('computeLookedUpColumns hook', () => {
   let columnTable2FormulaUserString: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1Ref: TableColumn
+  let columnTable2VirtualLookedUpColumnTable1Ref: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
   let columnTable2LookedUpcolumnTable1FormulaRef: TableColumn
@@ -123,6 +124,16 @@ describe('computeLookedUpColumns hook', () => {
     columnTable2LookedUpColumnTable1Ref = await app.service('column').create({
       text: 'T2-LUC-T1-STRING',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1Ref.id,
+      },
+    })
+    columnTable2VirtualLookedUpColumnTable1Ref = await app.service('column').create({
+      text: 'T2-VLUC-T1-STRING',
+      column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
         tableId: table1.id,
@@ -452,6 +463,18 @@ describe('computeLookedUpColumns hook', () => {
         expect(currentColumnTable2Row2FormulaUser).toBe(currentColumnTable2Row2User.value.toUpperCase())
         expect(currentColumnTable2Row2FormulaUserString).toBe(`${currentColumnTable2Row2User.value}-${currentColumnTable2Row2String.value}`)
       })
+
+      it('of the virtual looked-up columns (undefined)', async () => {
+        expect.assertions(2)
+
+        // Table 2 - row 1
+        const currentColumnTable2Row1Ref = row1Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(currentColumnTable2Row1Ref).toBeUndefined()
+
+        // Table 2 - row 2
+        const currentColumnTable2Row2Ref = row2Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(currentColumnTable2Row2Ref).toBeUndefined()
+      })
     })
 
     describe('in grandchildren rows', () => {
@@ -672,6 +695,17 @@ describe('computeLookedUpColumns hook', () => {
         expect(currentColumnTable3Row2RBT.value).toBe(
           (newRow2Table2.data[columnTable2RelationBetweenTable1.id] as { reference: string, value: string }).value,
         )
+      })
+      it('of the virtual looked-up columns (undefined)', async () => {
+        expect.assertions(2)
+
+        // Table 2 - row 1
+        const newColumnTable2Row1Ref = newRow1Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(newColumnTable2Row1Ref).toBeUndefined()
+
+        // Table 2 - row 2
+        const newColumnTable2Row2Ref = newRow2Table2.data[columnTable2VirtualLookedUpColumnTable1Ref.id] as string
+        expect(newColumnTable2Row2Ref).toBeUndefined()
       })
       it('of the formula columns', async () => {
         expect.assertions(4)

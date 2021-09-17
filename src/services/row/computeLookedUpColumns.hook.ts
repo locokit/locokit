@@ -4,7 +4,11 @@ import { TableRow } from '../../models/tablerow.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { FunctionBuilder } from 'objection'
 import { mergeSets } from '../../utils'
-import { functions, getColumnsReferences, getSQLRequestFromFormula } from '../../utils/formulas'
+import {
+  functions,
+  getColumnsReferences,
+  getSQLRequestFromFormula,
+} from '../../utils/formulas'
 import { GeneralError } from '@feathersjs/errors'
 import { parse } from '../../utils/formulas/formulaParser'
 
@@ -43,8 +47,13 @@ function getColumnsToUpdate (
   }> = []
   // Loop over the columns
   columns.forEach(currentColumn => {
-    // Get the columns that reference the current one, except for the formula columns which are not computed yet
-    if (columnsIdsTransmitted.includes(currentColumn.id) || currentColumn.column_type_id !== COLUMN_TYPE.FORMULA) {
+    // Get the columns that reference the current one, except the virtual & formula columns which are not computed yet
+    if (columnsIdsTransmitted.includes(currentColumn.id) ||
+      (
+        currentColumn.column_type_id !== COLUMN_TYPE.FORMULA &&
+        currentColumn.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
+      )
+    ) {
       // Get the columns that reference the current one in the specified table
       if (currentColumn.table_id === tableId) {
         result.push({
@@ -282,6 +291,7 @@ export function computeLookedUpColumns (): Hook {
             try {
               const formulaResult = parse(formula, { functions, columns: usedColumnsInFormula, columnsTypes: COLUMN_TYPE })
               formulaColumnsToUpdateData[`data:${formulaColumn.id}`] = getSQLRequestFromFormula(formulaResult, columnsReferences)
+              if (formulaColumn.reference) formulaColumnsToUpdateData.text = getSQLRequestFromFormula(formulaResult, columnsReferences, false)
             } catch (error) {
               throw new GeneralError('Invalid formula: ' + (error.message as string), {
                 code: 'INVALID_FORMULA_SYNTAX',

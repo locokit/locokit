@@ -14,7 +14,6 @@ describe('checkColumnDefinition hook', () => {
   let table2: Table
   let table3: Table
   let table1StringColumn: TableColumn
-  let table1FormulaColumn: TableColumn
   let table2RelationBetweenTable1Column: TableColumn
   let table2VirtualLookedUpColumnTable1Column: TableColumn
   let table3RelationBetweenTable2Column: TableColumn
@@ -50,14 +49,6 @@ describe('checkColumnDefinition hook', () => {
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1.id,
     })
-    table1FormulaColumn = await app.service('column').create({
-      text: 'T1 - Formula',
-      column_type_id: COLUMN_TYPE.FORMULA,
-      settings: {
-        formula: '10',
-      },
-      table_id: table1.id,
-    })
 
     // Columns - Table 2
     table2RelationBetweenTable1Column = await app.service('column').create({
@@ -91,23 +82,13 @@ describe('checkColumnDefinition hook', () => {
 
   it('throw an error if a looked-up column targets a virtual looked-up column', async () => {
     await expect(app.service('column').create({
-      text: 'T2 - LUC > T2',
+      text: 'T3 - LUC > T2',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table3.id,
       settings: {
         localField: table3RelationBetweenTable2Column.id,
         foreignField: table2VirtualLookedUpColumnTable1Column.id,
       },
-    })).rejects.toThrowError(NotAcceptable)
-  })
-
-  it('throw an error if a formula is used as row reference', async () => {
-    await expect(app.service('column').patch(table1FormulaColumn.id, {
-      text: 'T1 - Formula',
-      settings: {
-        formula: '10',
-      },
-      reference: true,
     })).rejects.toThrowError(NotAcceptable)
   })
 
@@ -127,7 +108,6 @@ describe('checkColumnDefinition hook', () => {
     await app.service('column').remove(table2VirtualLookedUpColumnTable1Column.id)
     await app.service('column').remove(table2RelationBetweenTable1Column.id)
     await app.service('column').remove(table1StringColumn.id)
-    await app.service('column').remove(table1FormulaColumn.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('table').remove(table3.id)

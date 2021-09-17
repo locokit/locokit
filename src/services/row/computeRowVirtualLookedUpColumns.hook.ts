@@ -2,30 +2,28 @@ import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableRow } from '../../models/tablerow.model'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { Unprocessable } from '@feathersjs/errors'
+import { getItems } from 'feathers-hooks-common'
 
 /**
  * Compute all the VIRTUAL_LOOKED_UP_COLUMN columns of the result rows.
  */
 export function computeRowVirtualLookedUpColumns (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
-    if (
-      !needToComputeVirtualLookedUpColumns(context) ||
-      !Array.isArray(context.params._meta?.columns) // The table / tableview columns must be loaded
-    ) {
+    // Internal calls if it's not explicitly asked to compute the virtual columns
+    if (!needToComputeVirtualLookedUpColumns(context)) {
       return context
     }
-    // First, encapsulate the row(s) in an array to harmonize the computation
-    let resultRows: TableRow[] = []
-    if (Array.isArray(context.result)) {
-      // Non paginated rows
-      resultRows = context.result
-    } else if (context.result.total != null) {
-      // Paginated rows
-      resultRows = context.result.data
-    } else {
-      // Single row
-      resultRows = [context.result]
+
+    // The table / tableview columns must be loaded
+    if (!Array.isArray(context.params._meta?.columns)) {
+      throw new Error('Table / Table view columns must be loaded to compute the virtual ones')
     }
+
+    // First, encapsulate the row(s) in an array to harmonize the computation
+    const result = getItems(context)
+    const resultRows: TableRow[] = Array.isArray(result) ? result : [result]
+
     // Store the rows with VIRTUAL_LOOKED_UP_COLUMN columns and the configuration of these specific columns
     const resultRowsWithVLUC: Record<string, {
       row: TableRow
@@ -36,7 +34,10 @@ export function computeRowVirtualLookedUpColumns (): Hook {
       }>
     }> = {}
     const foreignRowsIdsByTable: Record<string, string[]> = {}
-    // Loop on result rows
+
+    // Loop over the table columns and the result rows to have :
+    // 1- a list of the foreign rows to load from the database (foreignRowsIdsByTable)
+    // 2- all the virtual columns configurations for each row to return (resultRowsWithVLUC)
     for (const column of context.params._meta.columns as TableColumn[]) {
       // Get the VIRTUAL_LOOKED_UP_COLUMN columns which are well configured
       if (
@@ -49,7 +50,9 @@ export function computeRowVirtualLookedUpColumns (): Hook {
           .find(c => c.id === column.settings.localField)
           ?.settings.tableId
 
-        if (!foreignTableId) continue
+        if (!foreignTableId) {
+          throw new Unprocessable(`Impossible to found the foreign table id linked to the ${column.id}.`)
+        }
 
         for (const resultRow of resultRows) {
           // Id of the linked row (through the RELATION_BETWEEN_TABLES column linked to the current one)
@@ -97,7 +100,9 @@ export function computeRowVirtualLookedUpColumns (): Hook {
             },
           }) as TableRow[]),
         )).reduce((rowsByTable: Record<string, Record<string, TableRow>>, tableRows, currentIndex) => {
+          // Aggregate the rows by table
           rowsByTable[tablesToLoadIds[currentIndex]] = tableRows.reduce((rows: Record<string, TableRow>, row) => {
+            // Convert the array of rows into an object whose the keys are the row ids
             rows[row.id] = row
             return rows
           }, {})

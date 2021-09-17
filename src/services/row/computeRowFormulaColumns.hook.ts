@@ -129,6 +129,15 @@ export function computeRowFormulaColumns (): Hook {
           {},
         )
       }
+
+      // Update text (reference) for the current row. Only one formula is used and must be a text/string
+      const ref: TableColumn = context.params._meta.columns.find((c: TableColumn) => c.reference)
+      if (ref?.settings.formula_type_id && ([COLUMN_TYPE.TEXT, COLUMN_TYPE.STRING].includes(ref.settings.formula_type_id) && context.result.data[ref.id])) {
+        context.result = await context.service._patch(context.result.id,
+          { text: context.result.data[ref.id] },
+          {},
+        )
+      }
     } catch (err) {
       if (err.code !== 404) {
         throw new GeneralError('An error has been encountered when the formulas have been computed')
