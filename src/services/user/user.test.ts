@@ -83,6 +83,93 @@ describe('\'user\' service', () => {
     if (user) await app.service('user').remove(user.id)
   })
 
+  it('prevent a non SUPERADMIN user to patch the blocked property', async () => {
+    expect.assertions(1)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch the blocked property',
+      }) as User
+      await expect(
+        app.service('user').patch(updatedUser.id, {
+          blocked: true,
+        }, creatorParams),
+      ).rejects.toThrowError(BadRequest)
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('only allow SUPERADMIN user to patch the blocked attribute', async () => {
+    expect.assertions(5)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Disable the account
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: true,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(true)
+      // Enable the account
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: false,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(false)
+      // Check that an email is sent to the user to inform that is account has been disabled
+      expect(spyOnCreateMail).toHaveBeenCalledTimes(2)
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'originaluser@locokit.io',
+        subject: '[LCK_PUBLIC_PORTAL_NAME] Your account has been disabled',
+      }))
+      // Check that an email is sent to the user to inform that is account has been enabled
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'originaluser@locokit.io',
+        subject: '[LCK_PUBLIC_PORTAL_NAME] Your account has been enabled',
+      }))
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('do not send an email if the SUPERADMIN user updates the blocked attribute by keeping the same value', async () => {
+    expect.assertions(2)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+        blocked: false,
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Check that the update succeeds
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          blocked: false,
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.blocked).toBe(false)
+      // No email must be sent
+      expect(spyOnCreateMail).not.toHaveBeenCalled()
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
   it('prevent a non superadmin user to patch the user email address', async () => {
     expect.assertions(1)
     let updatedUser: User | null = null

@@ -15,18 +15,22 @@ export enum AuthenticationManagementAction {
   resetPwd = 'resetPwd',
   passwordChange = 'passwordChange',
   identityChange = 'identityChange',
+  // The following values are not in the official documentation
   /**
-   * This value is not in the official documentation.
    * We use it when a user is created to send him/her the welcome email
    * telling him/her to verify email + set password
    */
   sendVerifySignup = 'sendVerifySignup',
   /**
-   * This value is not in the official documentation.
    * We use it when the superadmin updates user email address
    * to send him/her the new configured email address.
    */
   sendUpdatedEmailAddress = 'sendUpdatedEmailAddress',
+  /**
+   * We use them when a user is enabled / disabled to inform him/her with an email.
+   */
+  enableUser = 'enableUser',
+  disableUser = 'disableUser',
 }
 
 const templateFolder = '/templates/mails'
@@ -83,6 +87,14 @@ export function authManagementSettings (app: Application) {
     [AuthenticationManagementAction.sendUpdatedEmailAddress]: {
       templateFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/title.ejs'),
+    },
+    [AuthenticationManagementAction.enableUser]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/enableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/enableUser/title.ejs'),
+    },
+    [AuthenticationManagementAction.disableUser]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/disableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/disableUser/title.ejs'),
     },
   }
 

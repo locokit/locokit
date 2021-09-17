@@ -11,15 +11,17 @@ import { AuthenticationManagementAction, authManagementSettings } from '../authm
 export async function notifyUserOnUpdate (context: HookContext): Promise<HookContext> {
   // Check we are on an external user patch after hook and that the previous data have been loaded from the database
   if (
-    context.params.provider &&
+    context.params.provider && // External call
     context.method === 'patch' &&
-    context.type === 'after' &&
-    context.params._meta?.item
+    context.result && // Saved data
+    context.params._meta?.item // Previous data have been loaded
   ) {
-    // When updating the email address
+    const notificationPromises: Array<Promise<any>> = []
+
+    // The email address has been updated
     if ((context.params._meta.item as User).email !== context.result.email) {
-      await Promise.all([
-        // Notify the old email address
+      // Notify the old email address
+      notificationPromises.push(
         authManagementSettings(context.app as Application).notifier(
           AuthenticationManagementAction.sendUpdatedEmailAddress,
           context.result,
@@ -27,13 +29,30 @@ export async function notifyUserOnUpdate (context: HookContext): Promise<HookCon
             emailAddress: context.params._meta.item.email,
           },
         ),
-        // Notify the new email address
+      )
+      // Notify the new email address
+      notificationPromises.push(
         authManagementSettings(context.app as Application).notifier(
           AuthenticationManagementAction.sendUpdatedEmailAddress,
           context.result,
         ),
-      ])
+      )
     }
+
+    // The account status (blocked) has been updated
+    if ((context.result as User).blocked !== (context.params._meta.item as User).blocked) {
+      notificationPromises.push(
+        authManagementSettings(context.app as Application).notifier(
+          context.result.blocked
+            ? AuthenticationManagementAction.disableUser
+            : AuthenticationManagementAction.enableUser,
+          context.result,
+        ),
+      )
+    }
+
+    // Notify the user
+    if (notificationPromises.length > 0) await Promise.all(notificationPromises)
   }
   return context
 }

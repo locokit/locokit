@@ -24,6 +24,9 @@ export default {
         if (!context.result.user.isVerified) {
           throw new Forbidden('User email is not verified. You can\'t login.')
         }
+        if (context.result.user.blocked === true) {
+          throw new Forbidden('The account is blocked. You can\'t login.')
+        }
         return context
       },
       alterItems(rec => {

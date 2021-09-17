@@ -4,7 +4,7 @@ import { authManagementSettings, AuthenticationManagementAction } from '../authm
 import * as feathersAuthenticationManagement from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import commonHooks, { isNot, lowerCase } from 'feathers-hooks-common'
+import commonHooks, { lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
@@ -64,8 +64,9 @@ export default {
           'resetExpires',
         ),
         commonHooks.iff(
-          isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
+          commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
           commonHooks.preventChanges(true, 'email'),
+          commonHooks.preventChanges(true, 'blocked'),
         ),
         lowerCase('email'),
         hashPassword('password'),
