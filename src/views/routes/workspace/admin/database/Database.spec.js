@@ -18,18 +18,6 @@ import { mockDatabase } from '@/services/lck-helpers/__mocks__/database'
 
 // Mock external libraries
 
-jest.mock('@locokit/lck-glossary', () => ({
-  COLUMN_TYPE: {
-    STRING: 2,
-    DATE: 5,
-    USER: 6,
-    LOOKED_UP_COLUMN: 9,
-    SINGLE_SELECT: 10,
-    MULTI_SELECT: 11,
-    TEXT: 16,
-  },
-}))
-
 jest.mock('date-fns')
 jest.mock('file-saver')
 
@@ -161,15 +149,6 @@ jest.mock('@/services/lck-helpers/database', () => {
 
 jest.mock('@/services/lck-helpers/process', () => ({
   retrieveManualProcessWithRuns: jest.fn(() => ([])),
-}))
-
-/*
-getComponentEditableColumn
-isEditableColumn
-*/
-jest.mock('@/services/lck-utils/columns', () => ({
-  isEditableColumn: jest.fn(() => false),
-  getColumnTypeId: jest.fn(c => c.original_type_id),
 }))
 
 // Tests

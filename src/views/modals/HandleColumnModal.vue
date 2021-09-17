@@ -66,7 +66,7 @@
         <p-input-switch
           id="referenceToHandle-isActive"
           v-model="referenceToHandle.isActive"
-          :disabled="isFormulaType"
+          :disabled="cannotBeUsedAsReference"
         />
       </validation-provider>
       <validation-provider
@@ -147,10 +147,12 @@
     />
     <lck-looked-up-type-column
       v-if="selectedColumnTypeIdToHandle && isLookedUpType"
+      :key="selectedColumnTypeIdToHandle"
       @local-field-id-change="localFieldIdChange"
       @foreign-field-id-change="foreignFieldIdChange"
       @relation-table-id-change="tableIdChange"
       :columnToHandle="columnToHandle"
+      :columnType="selectedColumnTypeIdToHandle"
       :tableId="tableId"
     />
     <validation-provider
@@ -206,7 +208,7 @@ import Checkbox from 'primevue/checkbox'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
-import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn'
+import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
 
 export default {
   name: 'HandleColumnModal',
@@ -260,13 +262,22 @@ export default {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
     },
     isLookedUpType () {
-      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN
+      return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN ||
+        this.selectedColumnTypeIdToHandle === COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
     },
     isFormulaType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA
     },
     isBooleanType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.BOOLEAN
+    },
+    cannotBeUsedAsReference () {
+      switch (this.selectedColumnTypeIdToHandle) {
+        case COLUMN_TYPE.FORMULA:
+        case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+          return true
+      }
+      return false
     },
   },
   methods: {
@@ -328,8 +339,8 @@ export default {
     },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
-      // A formula column can't be used as reference
-      if (this.isFormulaType) this.referenceToHandle.isActive = false
+      // Some column types can't be used as reference
+      if (this.cannotBeUsedAsReference) this.referenceToHandle.isActive = false
     },
     selectTypeValuesChange (data) {
       let settings = {}

@@ -82,7 +82,7 @@ import Vue from 'vue'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 import {
-  getOriginalColumn,
+  getOriginalColumn, READ_ONLY_COLUMNS_TYPES,
 } from '@/services/lck-utils/columns'
 
 import Button from 'primevue/button'
@@ -181,7 +181,8 @@ export default {
       if (!this.hasColumns) return []
       return {
         columns: this.definition.columns.filter((column) =>
-          column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN && column.column_type_id !== COLUMN_TYPE.FORMULA),
+          !READ_ONLY_COLUMNS_TYPES.has(column.column_type_id),
+        ),
       }
     },
     columnsDropdownOptions () {
