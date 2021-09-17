@@ -44,6 +44,8 @@ export async function up (knex: Knex): Promise<any> {
       table
         .jsonb('from')
       table
+        .jsonb('to')
+      table
         .string('deleted_user', 255)
     })
 

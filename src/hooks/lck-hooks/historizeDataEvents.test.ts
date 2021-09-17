@@ -151,9 +151,7 @@ describe('historizeDataEvents hook', () => {
       // Clean DB
       try {
         await app.service('log').remove(null, {
-          $or: [
-            { record_id: table1Row1.id },
-          ],
+          record_id: table1Row1.id,
         })
       } catch (error) {
         if (!(error instanceof NotFound)) throw error
@@ -181,9 +179,7 @@ describe('historizeDataEvents hook', () => {
       // Clean DB
       try {
         await app.service('log').remove(null, {
-          $or: [
-            { record_id: table2Row1.id },
-          ],
+          record_id: table2Row1.id,
         })
       } catch (error) {
         if (!(error instanceof NotFound)) throw error
@@ -197,7 +193,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('at creation', async () => {
-      expect.assertions(8)
+      expect.assertions(9)
 
       // Check that the data is correctly initialized
       expect(table2Row1.data).toStrictEqual({
@@ -226,13 +222,19 @@ describe('historizeDataEvents hook', () => {
       expect(createLog.createdAt).toBeDefined()
       expect(createLog.event).toBe(LOG_EVENT.RECORD_CREATE)
       expect(createLog.field_id).toBeNull()
-      expect(createLog.record_id).toBe(table2Row1.id)
-      expect(createLog.user_id).toBe(user.id)
       expect(createLog.from).toBeNull()
+      expect(createLog.record_id).toBe(table2Row1.id)
+      expect(createLog.to).toStrictEqual({
+        [table2ColumnRelationBetweenTable1.id]: {
+          reference: table1Row1.id,
+          value: table1Row1.text,
+        },
+      })
+      expect(createLog.user_id).toBe(user.id)
     })
 
     it('don\'t keep logs on internal updating (e.g. when computing a formula)', async () => {
-      expect.assertions(2)
+      expect.assertions(3)
 
       // Update the linked row
       table1Row1 = await app.service('row').patch(table1Row1.id, {
@@ -253,6 +255,13 @@ describe('historizeDataEvents hook', () => {
       // We just have the create log, not an update one
       expect(logs).toHaveLength(1)
       expect(logs[0].event).toBe(LOG_EVENT.RECORD_CREATE)
+
+      // Check the child row is correctly updated
+      console.log(table2Row1.data[table2ColumnRelationBetweenTable1.id], table1Row1.text)
+      expect(table2Row1.data[table2ColumnLookedUpColumnTable1Text.id]).toStrictEqual({
+        reference: table1Row1.id,
+        value: secondText,
+      })
     })
   })
 
@@ -272,9 +281,7 @@ describe('historizeDataEvents hook', () => {
       // Clean DB
       try {
         await app.service('log').remove(null, {
-          $or: [
-            { record_id: table1Row1.id },
-          ],
+          record_id: table1Row1.id,
         })
       } catch (error) {
         if (!(error instanceof NotFound)) throw error
@@ -288,7 +295,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('at creation', async () => {
-      expect.assertions(8)
+      expect.assertions(9)
 
       // Check that the data is correctly initialized
       expect(table1Row1.data).toStrictEqual({
@@ -311,13 +318,16 @@ describe('historizeDataEvents hook', () => {
       expect(createLog.createdAt).toBeDefined()
       expect(createLog.event).toBe(LOG_EVENT.RECORD_CREATE)
       expect(createLog.field_id).toBeNull()
-      expect(createLog.record_id).toBe(table1Row1.id)
       expect(createLog.from).toBeNull()
+      expect(createLog.record_id).toBe(table1Row1.id)
+      expect(createLog.to).toStrictEqual({
+        [table1ColumnText.id]: firstText,
+      })
       expect(createLog.user_id).toBe(user.id)
     })
 
     it('when updating', async () => {
-      expect.assertions(8)
+      expect.assertions(9)
 
       // Update the row
       table1Row1 = await app.service('row').update(table1Row1.id, {
@@ -348,18 +358,21 @@ describe('historizeDataEvents hook', () => {
 
       const updateLog = logs[1]
 
-      expect(updateLog.event).toBe(LOG_EVENT.RECORD_UPDATE)
       expect(updateLog.createdAt).toBeDefined()
-      expect(updateLog.user_id).toBe(user.id)
-      expect(updateLog.record_id).toBe(table1Row1.id)
+      expect(updateLog.event).toBe(LOG_EVENT.RECORD_UPDATE)
       expect(updateLog.field_id).toBeNull()
       expect(updateLog.from).toStrictEqual({
         [table1ColumnText.id]: firstText,
       })
+      expect(updateLog.record_id).toBe(table1Row1.id)
+      expect(updateLog.to).toStrictEqual({
+        [table1ColumnText.id]: secondText,
+      })
+      expect(updateLog.user_id).toBe(user.id)
     })
 
     it('when patching', async () => {
-      expect.assertions(8)
+      expect.assertions(9)
 
       // Patch the row
       table1Row1 = await app.service('row').patch(table1Row1.id, {
@@ -389,14 +402,17 @@ describe('historizeDataEvents hook', () => {
 
       const updateLog = logs[1]
 
-      expect(updateLog.event).toBe(LOG_EVENT.RECORD_PATCH)
       expect(updateLog.createdAt).toBeDefined()
-      expect(updateLog.user_id).toBe(user.id)
-      expect(updateLog.record_id).toBe(table1Row1.id)
+      expect(updateLog.event).toBe(LOG_EVENT.RECORD_PATCH)
       expect(updateLog.field_id).toBe(table1ColumnText.id)
       expect(updateLog.from).toStrictEqual({
         [table1ColumnText.id]: firstText,
       })
+      expect(updateLog.record_id).toBe(table1Row1.id)
+      expect(updateLog.to).toStrictEqual({
+        [table1ColumnText.id]: secondText,
+      })
+      expect(updateLog.user_id).toBe(user.id)
     })
 
     it('when using a process linked to this table', async () => {
@@ -449,7 +465,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('when removing the column', async () => {
-      expect.assertions(2)
+      expect.assertions(9)
 
       // Create a temporary column
       const tempColumn = await app.service('column').create({
@@ -465,27 +481,39 @@ describe('historizeDataEvents hook', () => {
         },
       }, outsideCallParams)
 
-      let logs = await app.service('log').find({
+      const logs = await app.service('log').find({
         query: {
           field_id: tempColumn.id,
-          $limit: 0,
         },
-      }) as Paginated<Log>
+        paginate: false,
+      }) as Log[]
 
-      expect(logs.total).toBe(1)
+      expect(logs).toHaveLength(1)
+
+      const updateLog = logs[0]
+
+      expect(updateLog.createdAt).toBeDefined()
+      expect(updateLog.event).toBe(LOG_EVENT.RECORD_PATCH)
+      expect(updateLog.field_id).toBe(tempColumn.id)
+      expect(updateLog.from).toStrictEqual({})
+      expect(updateLog.record_id).toBe(table1Row1.id)
+      expect(updateLog.to).toStrictEqual({
+        [tempColumn.id]: 10,
+      })
+      expect(updateLog.user_id).toBe(user.id)
 
       // Remove the column
       await app.service('column').remove(tempColumn.id, { ...outsideCallParams })
 
-      // Check that the logs are correct
-      logs = await app.service('log').find({
+      // Check that logs are removed
+      const newLogs = await app.service('log').find({
         query: {
           field_id: tempColumn.id,
           $limit: 0,
         },
       }) as Paginated<Log>
 
-      expect(logs.total).toBe(0)
+      expect(newLogs.total).toBe(0)
     })
 
     it('when removing the row', async () => {
@@ -510,7 +538,7 @@ describe('historizeDataEvents hook', () => {
       // Remove the row
       await app.service('row').remove(table1Row1.id, { ...outsideCallParams })
 
-      // Check that the logs are correct
+      // Check that logs are removed
       logs = await app.service('log').find({
         query: {
           record_id: table1Row1.id,

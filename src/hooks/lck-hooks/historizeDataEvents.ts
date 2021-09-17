@@ -28,6 +28,7 @@ export function historizeDataEvents (): Hook {
             return {
               event: LOG_EVENT.RECORD_CREATE,
               record_id: context.result.id,
+              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'update':
@@ -35,6 +36,7 @@ export function historizeDataEvents (): Hook {
               event: LOG_EVENT.RECORD_UPDATE,
               from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
               record_id: context.result.id,
+              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
           case 'patch':
@@ -43,6 +45,7 @@ export function historizeDataEvents (): Hook {
               field_id: context.params._meta.originalColumnsIdsTransmitted[0],
               from: getSubObject(context.params._meta.item.data, context.params._meta.originalColumnsIdsTransmitted),
               record_id: context.result.id,
+              to: getSubObject(context.result.data, context.params._meta.originalColumnsIdsTransmitted),
               user_id: context.params.user?.id,
             }
         }

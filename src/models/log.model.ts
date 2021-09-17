@@ -21,6 +21,7 @@ export class Log extends Model {
   field?: TableColumn
   field_id?: string
   from?: RowData
+  to?: RowData
   id!: string // "bigint data is returned as a string in queries" (Knex documentation)
   record?: TableRow
   record_id?: string
@@ -45,6 +46,7 @@ export class Log extends Model {
         event: { type: 'string' },
         field_id: { type: 'string' },
         from: { type: 'object' },
+        to: { type: 'object' },
         record_id: { type: 'string' },
         user_id: { type: 'number' },
       },
