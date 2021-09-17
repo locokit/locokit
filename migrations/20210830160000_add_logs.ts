@@ -18,6 +18,9 @@ export async function up (knex: Knex): Promise<any> {
         .timestamp('createdAt')
         .defaultTo('now()')
       table
+        .timestamp('updatedAt')
+        .defaultTo('now()')
+      table
         .integer('user_id')
         .unsigned()
       table

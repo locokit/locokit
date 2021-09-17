@@ -193,7 +193,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('at creation', async () => {
-      expect.assertions(9)
+      expect.assertions(10)
 
       // Check that the data is correctly initialized
       expect(table2Row1.data).toStrictEqual({
@@ -230,6 +230,7 @@ describe('historizeDataEvents hook', () => {
           value: table1Row1.text,
         },
       })
+      expect(createLog.updatedAt).toBeDefined()
       expect(createLog.user_id).toBe(user.id)
     })
 
@@ -295,7 +296,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('at creation', async () => {
-      expect.assertions(9)
+      expect.assertions(10)
 
       // Check that the data is correctly initialized
       expect(table1Row1.data).toStrictEqual({
@@ -323,11 +324,12 @@ describe('historizeDataEvents hook', () => {
       expect(createLog.to).toStrictEqual({
         [table1ColumnText.id]: firstText,
       })
+      expect(createLog.updatedAt).toBeDefined()
       expect(createLog.user_id).toBe(user.id)
     })
 
     it('when updating', async () => {
-      expect.assertions(9)
+      expect.assertions(10)
 
       // Update the row
       table1Row1 = await app.service('row').update(table1Row1.id, {
@@ -368,11 +370,12 @@ describe('historizeDataEvents hook', () => {
       expect(updateLog.to).toStrictEqual({
         [table1ColumnText.id]: secondText,
       })
+      expect(updateLog.updatedAt).toBeDefined()
       expect(updateLog.user_id).toBe(user.id)
     })
 
     it('when patching', async () => {
-      expect.assertions(9)
+      expect.assertions(10)
 
       // Patch the row
       table1Row1 = await app.service('row').patch(table1Row1.id, {
@@ -412,6 +415,7 @@ describe('historizeDataEvents hook', () => {
       expect(updateLog.to).toStrictEqual({
         [table1ColumnText.id]: secondText,
       })
+      expect(updateLog.updatedAt).toBeDefined()
       expect(updateLog.user_id).toBe(user.id)
     })
 
@@ -465,7 +469,7 @@ describe('historizeDataEvents hook', () => {
     })
 
     it('when removing the column', async () => {
-      expect.assertions(9)
+      expect.assertions(10)
 
       // Create a temporary column
       const tempColumn = await app.service('column').create({
@@ -500,6 +504,7 @@ describe('historizeDataEvents hook', () => {
       expect(updateLog.to).toStrictEqual({
         [tempColumn.id]: 10,
       })
+      expect(updateLog.updatedAt).toBeDefined()
       expect(updateLog.user_id).toBe(user.id)
 
       // Remove the column

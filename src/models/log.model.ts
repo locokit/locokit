@@ -6,6 +6,7 @@ import { User } from './user.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 import { RowData, TableRow } from './tablerow.model'
 import { TableColumn } from './tablecolumn.model'
+import { BaseModel } from './base.model'
 
 export enum LOG_EVENT {
   RECORD_CREATE = 'RECORD_CREATE',
@@ -14,15 +15,13 @@ export enum LOG_EVENT {
   RECORD_UPDATE = 'RECORD_UPDATE',
 }
 
-export class Log extends Model {
-  createdAt!: string
+export class Log extends BaseModel {
   deleted_user?: string
   event!: LOG_EVENT
   field?: TableColumn
   field_id?: string
   from?: RowData
   to?: RowData
-  id!: string // "bigint data is returned as a string in queries" (Knex documentation)
   record?: TableRow
   record_id?: string
   user?: User
@@ -51,10 +50,6 @@ export class Log extends Model {
         user_id: { type: 'number' },
       },
     }
-  }
-
-  $beforeInsert (): void {
-    this.createdAt = new Date().toISOString()
   }
 
   static get relationMappings (): RelationMappings {
