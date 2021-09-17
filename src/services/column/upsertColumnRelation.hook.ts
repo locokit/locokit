@@ -11,7 +11,8 @@ import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
 export function upsertColumnRelation (): Hook {
   return async (context: HookContext): Promise<HookContext> => {
     // LOOKED_UP_COLUMN
-    if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+    if (context.result.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN ||
+      context.result.column_type_id === COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) {
       if (!['create', 'patch'].includes(context.method)) {
         // console.log('Hook only for create or patch method.')
         return context

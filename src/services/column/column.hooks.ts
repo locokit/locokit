@@ -8,6 +8,7 @@ import { removeTableColumnRelationTo } from './removeTableColumnRelationTo.hook'
 import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRowData.hook'
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 import { fillDefaultValueOnColumnCreation } from './fillDefaultValueOnColumnCreation'
+import { checkColumnDefinition } from './checkColumnDefinition.hook'
 const { authenticate } = authentication.hooks
 
 export default {
@@ -21,6 +22,7 @@ export default {
     ],
     get: [],
     create: [
+      checkColumnDefinition(),
       iff(isFormulaColumn, parseFormula()),
     ],
     update: [
@@ -29,6 +31,7 @@ export default {
     patch: [
       preventChanges(true, 'column_type_id'),
       getCurrentItem(),
+      checkColumnDefinition(),
       iff(isFormulaColumn, parseFormula()),
     ],
     remove: [

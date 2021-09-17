@@ -46,6 +46,7 @@ describe('\'column\' service', () => {
     let lookedUpColumn1FromStringColumn: TableColumn
     let lookedUpColumn2FromStringColumn: TableColumn
     let lookedUpColumn3FromLookedUpColumn1: TableColumn
+    let virtualLookedUpColumn1FromStringColumn: TableColumn
     let formulaColumn: TableColumn
 
     beforeAll(async () => {
@@ -127,6 +128,16 @@ describe('\'column\' service', () => {
           foreignField: lookedUpColumn1FromStringColumn.id,
         },
       })
+      virtualLookedUpColumn1FromStringColumn = await app.service('column').create({
+        text: 'virtual_looked_up_column_1',
+        column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+        table_id: table2.id,
+        settings: {
+          tableId: table1.id,
+          localField: relationBetweenTableColumn2.id,
+          foreignField: stringColumn.id,
+        },
+      })
       // Get parents columns
       lookedUpColumn2FromStringColumn = await app.service('column').get(lookedUpColumn2FromStringColumn.id,
         {
@@ -140,6 +151,11 @@ describe('\'column\' service', () => {
             $eager: 'parents.^',
           },
         })
+      virtualLookedUpColumn1FromStringColumn = await app.service('column').get(virtualLookedUpColumn1FromStringColumn.id, {
+        query: {
+          $eager: 'parents.^',
+        },
+      })
     })
 
     it('returns the column type id for a string column', async () => {
@@ -162,6 +178,10 @@ describe('\'column\' service', () => {
       expect(lookedUpColumn3FromLookedUpColumn1.originalTypeId()).toBe(COLUMN_TYPE.STRING)
     })
 
+    it('returns the ancestor column type (1-level) for a virtual looked-up-column with one computed parent', async () => {
+      expect(virtualLookedUpColumn1FromStringColumn.originalTypeId()).toBe(COLUMN_TYPE.STRING)
+    })
+
     afterAll(async () => {
       await app.service('table').remove(table1.id)
       await app.service('table').remove(table2.id)
@@ -175,6 +195,7 @@ describe('\'column\' service', () => {
       await app.service('column').remove(lookedUpColumn1FromStringColumn.id)
       await app.service('column').remove(lookedUpColumn2FromStringColumn.id)
       await app.service('column').remove(lookedUpColumn3FromLookedUpColumn1.id)
+      await app.service('column').remove(virtualLookedUpColumn1FromStringColumn.id)
       await app.service('column').remove(formulaColumn.id)
     })
   })

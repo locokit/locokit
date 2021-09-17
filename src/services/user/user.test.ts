@@ -1,8 +1,9 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib'
-import { BadRequest, NotAuthenticated } from '@feathersjs/errors'
+import { BadRequest, NotAuthenticated, NotFound } from '@feathersjs/errors'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { User } from '../../models/user.model'
+import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
 describe('\'user\' service', () => {
   let creatorUser: User
@@ -161,6 +162,81 @@ describe('\'user\' service', () => {
         adminParams,
       ) as User
       expect(updatedUser.blocked).toBe(false)
+      // No email must be sent
+      expect(spyOnCreateMail).not.toHaveBeenCalled()
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('prevent a non superadmin user to patch the user email address', async () => {
+    expect.assertions(1)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+      }) as User
+      await expect(
+        app.service('user').patch(updatedUser.id, {
+          email: 'updatedUser@locokit.io',
+        }, creatorParams),
+      ).rejects.toThrowError(BadRequest)
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('only allow admin user to patch the user email address', async () => {
+    expect.assertions(4)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Check that the update succeeds
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          email: 'updatedUser@locokit.io',
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.email).toBe('updateduser@locokit.io')
+      // Check that two emails are sent to the old and the new email addresses
+      expect(spyOnCreateMail).toHaveBeenCalledTimes(2)
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'originaluser@locokit.io',
+      }))
+      expect(spyOnCreateMail).toHaveBeenCalledWith(expect.objectContaining({
+        to: 'updateduser@locokit.io',
+      }))
+    } finally {
+      // Clean the database whether the test succeeds or not
+      if (updatedUser) await app.service('user').remove(updatedUser.id)
+    }
+  })
+
+  it('do not send emails if the admin user updated the user email address by keeping the old one', async () => {
+    expect.assertions(2)
+    let updatedUser: User | null = null
+    try {
+      updatedUser = await app.service('user').create({
+        email: 'originalUser@locokit.io',
+        name: 'testing patch email address',
+      }) as User
+      const spyOnCreateMail = jest.spyOn(app.service('mailer'), 'create').mockClear().mockResolvedValue(1)
+      // Check that the update succeeds
+      updatedUser = await app.service('user').patch(updatedUser.id,
+        {
+          email: 'originalUser@locokit.io',
+        },
+        adminParams,
+      ) as User
+      expect(updatedUser.email).toBe('originaluser@locokit.io')
       // No email must be sent
       expect(spyOnCreateMail).not.toHaveBeenCalled()
     } finally {

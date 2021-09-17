@@ -6,10 +6,10 @@ import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import commonHooks, { lowerCase } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
-import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
-import { notifyUserOfUpdates } from './notifyUserOfUpdates'
+import { notifyUserOnUpdate } from './notifyUserOnUpdate.hooks'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -54,7 +54,6 @@ export default {
         commonHooks.isProvider('external'),
         commonHooks.preventChanges(
           true,
-          'email',
           'isVerified',
           'verifyToken',
           'verifyShortToken',
@@ -66,8 +65,10 @@ export default {
         ),
         commonHooks.iff(
           commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
+          commonHooks.preventChanges(true, 'email'),
           commonHooks.preventChanges(true, 'blocked'),
         ),
+        lowerCase('email'),
         hashPassword('password'),
         getCurrentItem(),
       ),
@@ -100,7 +101,7 @@ export default {
     ],
     update: [],
     patch: [
-      notifyUserOfUpdates(),
+      notifyUserOnUpdate,
     ],
     remove: [],
   },

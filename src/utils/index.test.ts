@@ -1,10 +1,37 @@
-import { mergeSets } from '.'
+import {
+  getSubObject,
+  mergeSets,
+} from '.'
 
 function compareNumbers (a: number, b: number): number {
   return a - b
 }
 
 describe('utility functions', () => {
+  describe('getSubObject', () => {
+    it('return the desired properties of an object is some are unknown', () => {
+      const object = {
+        a: 0,
+        b: 1,
+        c: 2,
+      }
+      expect(getSubObject(object, ['a', 'd'])).toStrictEqual({
+        a: 0,
+      })
+    })
+    it('return an empty object if no property is specified', () => {
+      const object = {
+        a: 0,
+        b: 1,
+        c: 2,
+      }
+      expect(getSubObject(object, [])).toStrictEqual({})
+    })
+    it('return an empty object if the original one is empty', () => {
+      const object = {}
+      expect(getSubObject(object, ['a', 'd'])).toStrictEqual({})
+    })
+  })
   describe('mergeSets', () => {
     it('add the content of one set into another one if the sets are not empty and have common values', () => {
       expect.assertions(1)

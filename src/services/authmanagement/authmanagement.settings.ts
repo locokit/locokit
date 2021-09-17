@@ -15,14 +15,18 @@ export enum AuthenticationManagementAction {
   resetPwd = 'resetPwd',
   passwordChange = 'passwordChange',
   identityChange = 'identityChange',
+  // The following values are not in the official documentation
   /**
-   * This value is not in the official documentation.
    * We use it when a user is created to send him/her the welcome email
    * telling him/her to verify email + set password
    */
   sendVerifySignup = 'sendVerifySignup',
   /**
-   * This values are not in the official documentation.
+   * We use it when the superadmin updates user email address
+   * to send him/her the new configured email address.
+   */
+  sendUpdatedEmailAddress = 'sendUpdatedEmailAddress',
+  /**
    * We use them when a user is enabled / disabled to inform him/her with an email.
    */
   enableUser = 'enableUser',
@@ -80,6 +84,10 @@ export function authManagementSettings (app: Application) {
       templateFile: path.join(process.cwd(), templateFolder, '/identityChange/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs'),
     },
+    [AuthenticationManagementAction.sendUpdatedEmailAddress]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/title.ejs'),
+    },
     [AuthenticationManagementAction.enableUser]: {
       templateFile: path.join(process.cwd(), templateFolder, '/enableUser/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/enableUser/title.ejs'),
@@ -95,6 +103,9 @@ export function authManagementSettings (app: Application) {
     async notifier (
       type: AuthenticationManagementAction,
       user: LckUser,
+      notifierOptions?: {
+        emailAddress?: string
+      },
     ) {
       debug('notifier', type, user)
       const currentActionOption = actionOptions[type]
@@ -103,6 +114,7 @@ export function authManagementSettings (app: Application) {
         user: LckUser
         verifySignupLink?: string
         resetPasswordLink?: string
+        identityChangeLink?: string
       } = {
         portalLink: app.get('publicUrl'),
         user,
@@ -115,6 +127,9 @@ export function authManagementSettings (app: Application) {
         case AuthenticationManagementAction.sendResetPwd:
           currentTemplateVars.resetPasswordLink = getLink('reset-password', user.resetToken as string)
           break
+        case AuthenticationManagementAction.identityChange:
+          currentTemplateVars.identityChangeLink = getLink('update-email', user.verifyToken as string)
+          break
       }
 
       const emailText = await ejs.renderFile(currentActionOption.templateFile, currentTemplateVars)
@@ -126,7 +141,7 @@ export function authManagementSettings (app: Application) {
         })
 
       return await app.service('mailer').create({
-        to: user.email,
+        to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
         text: emailText,
       })
