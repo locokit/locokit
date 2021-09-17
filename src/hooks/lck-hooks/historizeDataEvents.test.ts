@@ -105,6 +105,7 @@ describe('historizeDataEvents hook', () => {
       table_id: table1.id,
       reference: true,
       reference_position: 0,
+      settings: {},
     })
     table1ColumnFormula = await app.service('column').create({
       text: 'Formula',
@@ -475,6 +476,7 @@ describe('historizeDataEvents hook', () => {
         text: 'Temp',
         column_type_id: COLUMN_TYPE.NUMBER,
         table_id: table1.id,
+        settings: {},
       })
 
       // Patch the row
