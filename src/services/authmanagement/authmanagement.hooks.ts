@@ -24,6 +24,10 @@ export default {
           isAction('passwordChange'),
           enforcePasswordPolicy(getPassword),
         ),
+        hooks.iff(
+          isAction('identityChange'),
+          hooks.lowerCase('value.changes.email'),
+        ),
       ).else(
         hooks.iff(
           isAction(
