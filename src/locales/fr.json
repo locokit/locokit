@@ -652,6 +652,7 @@
       "editUser": "Modifier l'utilisateur",
       "disableUser": "Désactiver l'utilisateur",
       "resendVerifySignup": "Renvoyer le lien de vérification de compte",
+      "editOwnEmailAddress": "Merci de passer par votre profil pour modifier votre adresse électronique personnelle.",
       "notification": {
         "success": {
           "summary": "E-mail envoyé !",

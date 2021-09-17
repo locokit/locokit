@@ -652,6 +652,7 @@
       "editUser": "Edit User",
       "disableUser": "Disable User",
       "resendVerifySignup": "Resend verify link",
+      "editOwnEmailAddress": "Please go to your profile to change your personal email address.",
       "notification": {
         "success": {
           "summary": "Email sent !",

@@ -204,7 +204,7 @@
           tag="div"
           :name="$t('pages.userManagement.email')"
           class="p-field"
-          rules="required"
+          rules="required|email"
           v-slot="{
             errors,
             classes
@@ -219,26 +219,10 @@
             type="email"
             required
             v-model="user.email"
-            :disabled="editingUser"
+            :title="selfEditing && $t('pages.userManagement.editOwnEmailAddress')"
+            :disabled="selfEditing"
           />
           <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
-        <validation-provider
-          v-if="editingUser"
-          vid="isVerified"
-          tag="div"
-          class="p-field"
-        >
-          <label for="isVerified">
-            {{ $t("pages.userManagement.isVerified") }}
-          </label>
-          <p-checkbox
-            class="p-field-checkbox"
-            id="isVerified"
-            :binary="true"
-            v-model="user.isVerified"
-            :disabled="true"
-          />
         </validation-provider>
 
         <validation-provider
@@ -285,6 +269,7 @@ import Checkbox from 'primevue/checkbox'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
+import { authState } from '@/store/auth'
 
 export default {
   name: 'UserManagement',
@@ -317,6 +302,9 @@ export default {
     }
   },
   computed: {
+    selfEditing () {
+      return this.user.id === authState.data.user?.id
+    },
     filterDefinition () {
       return {
         columns: [
@@ -410,10 +398,22 @@ export default {
       this.submitting = true
       if (this.editingUser) {
         const userId = this.user.id
-        await lckClient.service('user').patch(userId, {
-          name: this.user.name,
-          profile: this.user.profile,
-        })
+        try {
+          await lckClient.service('user').patch(userId, {
+            name: this.user.name,
+            profile: this.user.profile,
+            email: this.user.email,
+          })
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.basic'),
+            detail: this.$t(`error.http.${error.code}`),
+            life: 5000,
+          })
+          this.submitting = false
+          return
+        }
       } else {
         await lckClient.service('user').create(this.user)
       }
