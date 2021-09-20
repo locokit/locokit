@@ -38,6 +38,7 @@ import {
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
+  LckTableRowDataComplex,
   LckTableViewColumn,
   MapPopupMode,
   SelectValue,
@@ -110,7 +111,7 @@ export interface LckFeatureProperties {
   displayedData?: Record<string, string | number | undefined | SelectValue >;
 }
 
-export type LckFeaturePropertiesWithData = LckFeatureProperties & Record<string, LckTableRowData>
+export type LckFeaturePropertiesWithData = LckFeatureProperties & Record<string, LckTableRowData | undefined>
 
 /**
  * Convert spatial geometry EWKT
@@ -529,10 +530,17 @@ export function makeGeoJsonFeaturesCollection (
               })
             }
           }
+
           // Add the fields chosen to customize the layer
           if (styleColumns) {
             styleColumns.forEach(styleColumn => {
-              featureProperties[styleColumn] = row.data[styleColumn]
+              switch (definitionColumns[styleColumn]?.column_type_id) {
+                case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                  featureProperties[styleColumn] = (row.data[styleColumn] as LckTableRowDataComplex | undefined | null)?.value
+                  break
+                default:
+                  featureProperties[styleColumn] = row.data[styleColumn]
+              }
             })
           }
           feature.setProperties(featureProperties)

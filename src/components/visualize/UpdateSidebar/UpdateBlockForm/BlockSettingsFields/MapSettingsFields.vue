@@ -131,7 +131,7 @@
             v-model="sourcesOptions[index].field"
             @clear="onSourcePropertyChange(source, 'field', null)"
             @item-select="onFieldChange(source, $event)"
-            @search="$emit('search-field', { query: $event.query, tableViewId: source.id, columnTypes: GEOGRAPHIC_COLUMN_TYPES })"
+            @search="$emit('search-field', { query: $event.query, tableViewId: source.id, columnTypes: DISPLAYABLE_COLUMN_TYPES })"
           />
         </validation-provider>
 
@@ -410,7 +410,7 @@ export default Vue.extend({
   },
   data (): {
     EXTENDED_NAMED_CLASSES: { label: string; value: string }[];
-    GEOGRAPHIC_COLUMN_TYPES: COLUMN_TYPE[];
+    DISPLAYABLE_COLUMN_TYPES: COLUMN_TYPE[];
     sourcesOptions: SourceOptions[];
     tableViewIdsNamesAssociation: Record<string, string>;
     fieldIdsNamesAssociationByTableView: Record<string, Record<string, string>>;
@@ -422,7 +422,11 @@ export default Vue.extend({
       tableViewIdsNamesAssociation: {},
       fieldIdsNamesAssociationByTableView: {},
       tableViewUniqueOptions: [],
-      GEOGRAPHIC_COLUMN_TYPES,
+      DISPLAYABLE_COLUMN_TYPES: [
+        ...GEOGRAPHIC_COLUMN_TYPES,
+        COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+        COLUMN_TYPE.LOOKED_UP_COLUMN,
+      ],
     }
   },
   watch: {

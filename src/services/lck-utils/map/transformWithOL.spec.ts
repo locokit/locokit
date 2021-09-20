@@ -2,7 +2,7 @@
 import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
-import { LckTableRow, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
+import { LckTableRow, LckTableRowDataComplex, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'
 
 import {
   convertToValidGeometry,
@@ -91,15 +91,25 @@ const geoLineStringColumn: LckTableViewColumn = {
 
 const stringColumn: LckTableViewColumn = {
   text: 'Name',
-  id: 'e065323c-1151-447f-be0f-6d2728117b38',
+  id: 'e065323c-1151-447f-be0f-6d2728117b37',
   settings: {},
   column_type_id: COLUMN_TYPE.STRING,
   ...defaultParamsTableViewColumn,
 }
 
+const booleanLookedUpColumn: LckTableViewColumn = {
+  text: 'Boolean LUC',
+  id: 'e065323c-1151-447f-be0f-6d2728117b36',
+  settings: {
+    // Implicit here as we just use the local data
+  },
+  column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+  ...defaultParamsTableViewColumn,
+}
+
 const singleSelectColumn: LckTableViewColumn = {
   text: 'Selection',
-  id: 'e065323c-1151-447f-be0f-6d2728117b37',
+  id: 'e065323c-1151-447f-be0f-6d2728117b35',
   settings: {
     values: {
       1: {
@@ -128,7 +138,7 @@ const singleSelectColumn: LckTableViewColumn = {
 
 const booleanColumn: LckTableViewColumn = {
   text: 'Checkbox',
-  id: 'e065323c-1151-447f-be0f-6d2728117b36',
+  id: 'e065323c-1151-447f-be0f-6d2728117b34',
   settings: {},
   column_type_id: COLUMN_TYPE.BOOLEAN,
   ...defaultParamsTableViewColumn,
@@ -147,6 +157,7 @@ const allColumns: LckTableViewColumn[] = [
 
 const allColumnsObject: Record<string, LckTableViewColumn> = {
   [stringColumn.id]: stringColumn,
+  [booleanLookedUpColumn.id]: booleanLookedUpColumn,
   [geoPointColumn.id]: geoPointColumn,
   [geoPolygonColumn.id]: geoPolygonColumn,
 }
@@ -158,18 +169,26 @@ stringTableView.columns = [stringColumn]
 const firstRow: LckTableRow = {
   text: 'First row',
   data: {
-    'e065323c-1151-447f-be0f-6d2728117b38': 'first',
-    'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
-    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.4 45)',
+    [stringColumn.id]: 'first',
+    [booleanLookedUpColumn.id]: {
+      reference: 'unknown',
+      value: true,
+    },
+    [geoPolygonColumn.id]: 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
+    [geoPointColumn.id]: 'SRID=4326;POINT(1.4 45)',
   },
   id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
 }
 const secondRow: LckTableRow = {
   text: '',
   data: {
-    'e065323c-1151-447f-be0f-6d2728117b38': 'second',
-    'e065323c-1151-447f-be0f-6d2728117b39': 'SRID=4326;POLYGON((1.5 46.75,2.1 46.6,2.0 46.3,1.5 46.75))',
-    'e065323c-1151-447f-be0f-6d2728117b40': 'SRID=4326;POINT(1.5 46)',
+    [booleanLookedUpColumn.id]: {
+      reference: 'unknown',
+      value: false,
+    },
+    [stringColumn.id]: 'second',
+    [geoPolygonColumn.id]: 'SRID=4326;POLYGON((1.5 46.75,2.1 46.6,2.0 46.3,1.5 46.75))',
+    [geoPointColumn.id]: 'SRID=4326;POINT(1.5 46)',
   },
   id: '38ed19db-588d-4ca1-8ab3-c8b17d60db3d',
 }
@@ -340,7 +359,7 @@ describe('Transformations with OpenLayers', () => {
     it('Returns an array containing one geographic column if a column id is specified in the map source settings', () => {
       const mapSourceSettings = {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
-        field: 'e065323c-1151-447f-be0f-6d2728117b40',
+        field: geoPointColumn.id,
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([geoPointColumn])
@@ -356,7 +375,7 @@ describe('Transformations with OpenLayers', () => {
     it('Returns an empty array if the specified column id is not a geographic column', () => {
       const mapSourceSettings = {
         id: '263c21e6-5339-4748-903f-8c77e21314cf',
-        field: 'e065323c-1151-447f-be0f-6d2728117b38',
+        field: geoLineStringColumn.id,
       }
       const geoColumns = getOnlyGeoColumns(allColumns, mapSourceSettings)
       expect(geoColumns).toEqual([])
@@ -506,6 +525,42 @@ describe('Transformations with OpenLayers', () => {
       )
       expect(features.features).toHaveLength(2)
       expect(features.features[0].properties?.content).toHaveLength(0)
+    })
+    it('If some columns are used to define the style source, add the related values', () => {
+      const features = makeGeoJsonFeaturesCollection(
+        [firstRow, secondRow],
+        [geoPointColumn],
+        allColumnsObject,
+        {
+          id: geoTableView.id,
+          popup: false,
+        },
+        i18nOptions,
+        [
+          stringColumn.id,
+        ],
+      )
+      expect(features.features).toHaveLength(2)
+      expect(features.features[0].properties?.[stringColumn.id]).toBe(firstRow.data[stringColumn.id])
+      expect(features.features[1].properties?.[stringColumn.id]).toBe(secondRow.data[stringColumn.id])
+    })
+    it('If some VLUC columns are used to define the style source, add the related values', () => {
+      const features = makeGeoJsonFeaturesCollection(
+        [firstRow, secondRow],
+        [geoPointColumn],
+        allColumnsObject,
+        {
+          id: geoTableView.id,
+          popup: false,
+        },
+        i18nOptions,
+        [
+          booleanLookedUpColumn.id,
+        ],
+      )
+      expect(features.features).toHaveLength(2)
+      expect(features.features[0].properties?.[booleanLookedUpColumn.id]).toBe((firstRow.data[booleanLookedUpColumn.id] as LckTableRowDataComplex).value)
+      expect(features.features[1].properties?.[booleanLookedUpColumn.id]).toBe((secondRow.data[booleanLookedUpColumn.id] as LckTableRowDataComplex).value)
     })
   })
   describe('getEditableGeometryTypes', () => {
