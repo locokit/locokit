@@ -31,6 +31,7 @@ export class TableRow extends BaseModel {
       required: ['table_id'],
 
       properties: {
+        id: { type: 'string' },
         text: { type: 'string' },
         data: { type: 'object' },
         table_id: { type: 'string' },

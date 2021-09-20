@@ -68,8 +68,10 @@ describe('Records abilities', () => {
   })
 
   describe('when user (user4) is a USER in a manager group', () => {
-    it('can manage rows by default', async () => {
+    beforeEach(async () => {
       ability = await defineAbilityFor(setupData.user4, {}, app.services)
+    })
+    it('can manage rows by default', async () => {
       expect.assertions(4)
       expect(ability.can('create', 'row')).toBe(true)
       expect(ability.can('read', 'row')).toBe(true)
@@ -77,13 +79,11 @@ describe('Records abilities', () => {
       expect(ability.can('delete', 'row')).toBe(true)
     })
     it('can manage table rows of the workspace', async () => {
-      ability = await defineAbilityFor(setupData.user4, {}, app.services)
       expect.assertions(2)
       expect(ability.can('manage', subject('row', { table_id: setupData.table1Id }))).toBe(true)
       expect(ability.can('manage', subject('row', { table_id: setupData.table2Id }))).toBe(true)
     })
     it('can not manage other table rows', async () => {
-      ability = await defineAbilityFor(setupData.user4, {}, app.services)
       expect.assertions(2)
       expect(ability.can('manage', subject('row', { table_id: 'pouet' }))).toBe(false)
       expect(ability.can('manage', subject('row', { table_id: 'pouic' }))).toBe(false)
@@ -91,9 +91,6 @@ describe('Records abilities', () => {
   })
   describe('when user (user3, aclset2) is a simple USER (without manager acl)', () => {
     let acltable: LckAclTable | null = null
-    beforeEach(async () => {
-    })
-
     it('can not crud rows by default', async () => {
       ability = await defineAbilityFor(setupData.user3, {}, app.services)
       expect.assertions(4)
@@ -288,23 +285,21 @@ describe('Records abilities', () => {
     })
 
     it('can patch data on which he has authorization', async () => {
-      expect.assertions(8)
+      expect.assertions(5)
       acltable = await app.service('acltable').create({
         aclset_id: setupData.aclset2.id,
         table_id: setupData.table1Id,
         update_rows: true,
         update_filter: {
-          ['data.' + setupData.columnTable1UserId + '.reference']: '{userId}',
+          data: {
+            [`${setupData.columnTable1UserId}.reference`]: '{userId}',
+          },
         },
       })
       ability = await defineAbilityFor(setupData.user3, {}, app.services)
       expect(ability.can('read', 'row')).toBe(false)
       expect(ability.can('update', 'row')).toBe(true)
       expect(ability.can('delete', 'row')).toBe(false)
-
-      expect(ability.can('update', subject('row', setupData.row1Table1))).toBe(false)
-      expect(ability.can('update', subject('row', setupData.row2Table1))).toBe(true)
-      expect(ability.can('update', subject('row', setupData.row3Table1))).toBe(false)
 
       const row = await app.service('row').patch(setupData.row2Table1.id, {
         data: {
@@ -321,23 +316,21 @@ describe('Records abilities', () => {
     })
 
     it('can not patch data on which he can not access', async () => {
-      expect.assertions(7)
+      expect.assertions(4)
       acltable = await app.service('acltable').create({
         aclset_id: setupData.aclset2.id,
         table_id: setupData.table1Id,
         update_rows: true,
         update_filter: {
-          ['data.' + setupData.columnTable1UserId + '.reference']: '{userId}',
+          data: {
+            [`${setupData.columnTable1UserId}.reference`]: '{userId}',
+          },
         },
       })
       ability = await defineAbilityFor(setupData.user3, {}, app.services)
       expect(ability.can('read', 'row')).toBe(false)
       expect(ability.can('update', 'row')).toBe(true)
       expect(ability.can('delete', 'row')).toBe(false)
-
-      expect(ability.can('update', subject('row', setupData.row1Table1))).toBe(false)
-      expect(ability.can('update', subject('row', setupData.row2Table1))).toBe(true)
-      expect(ability.can('update', subject('row', setupData.row3Table1))).toBe(false)
 
       await expect(app.service('row').patch(setupData.row3Table1.id, {
         data: {
@@ -348,27 +341,25 @@ describe('Records abilities', () => {
         user: setupData.user3,
         accessToken: setupData.user3Authentication.accessToken,
         authenticated: true,
-      })).rejects.toThrow(Forbidden)
+      })).rejects.toThrow(NotFound)
     })
 
     it('can delete data on which he has authorization', async () => {
-      expect.assertions(8)
+      expect.assertions(5)
       acltable = await app.service('acltable').create({
         aclset_id: setupData.aclset2.id,
         table_id: setupData.table1Id,
         delete_rows: true,
         delete_filter: {
-          ['data.' + setupData.columnTable1UserId + '.reference']: '{userId}',
+          data: {
+            [setupData.columnTable1UserId + '.reference']: '{userId}',
+          },
         },
       })
       ability = await defineAbilityFor(setupData.user3, {}, app.services)
       expect(ability.can('read', 'row')).toBe(false)
       expect(ability.can('delete', 'row')).toBe(true)
       expect(ability.can('update', 'row')).toBe(false)
-
-      expect(ability.can('delete', subject('row', setupData.row1Table1))).toBe(false)
-      expect(ability.can('delete', subject('row', setupData.row2Table1))).toBe(true)
-      expect(ability.can('delete', subject('row', setupData.row3Table1))).toBe(false)
 
       // explicitly remove row2Table2 before, because they are linked
       await app.service('row').remove(setupData.row2Table2.id)
@@ -389,23 +380,21 @@ describe('Records abilities', () => {
     })
 
     it('can not delete data on which he can not access', async () => {
-      expect.assertions(7)
+      expect.assertions(4)
       acltable = await app.service('acltable').create({
         aclset_id: setupData.aclset2.id,
         table_id: setupData.table1Id,
         delete_rows: true,
         delete_filter: {
-          ['data.' + setupData.columnTable1UserId + '.reference']: '{userId}',
+          data: {
+            [setupData.columnTable1UserId + '.reference']: '{userId}',
+          },
         },
       })
       ability = await defineAbilityFor(setupData.user3, {}, app.services)
       expect(ability.can('read', 'row')).toBe(false)
       expect(ability.can('delete', 'row')).toBe(true)
       expect(ability.can('update', 'row')).toBe(false)
-
-      expect(ability.can('delete', subject('row', setupData.row1Table1))).toBe(false)
-      expect(ability.can('delete', subject('row', setupData.row2Table1))).toBe(true)
-      expect(ability.can('delete', subject('row', setupData.row3Table1))).toBe(false)
 
       // explicitly remove row2Table2 before, because they are linked
       await app.service('row').remove(setupData.row3Table2.id)
@@ -415,7 +404,7 @@ describe('Records abilities', () => {
         user: setupData.user3,
         accessToken: setupData.user3Authentication.accessToken,
         authenticated: true,
-      })).rejects.toThrow(Forbidden)
+      })).rejects.toThrow(NotFound)
     })
 
     afterEach(async () => {

@@ -3,7 +3,7 @@ import { USER_PROFILE } from '@locokit/lck-glossary'
 import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
 import { AppAbility, resolveAction } from './definitions'
-import { HookContext, Query } from '@feathersjs/feathers'
+import { HookContext, Params, Query } from '@feathersjs/feathers'
 import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
@@ -63,6 +63,7 @@ export async function defineAbilityFor (
   user: User,
   query: Query,
   services: ServiceTypes,
+  tableId?: string,
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
@@ -114,17 +115,27 @@ export async function defineAbilityFor (
       }
 
       // find matching acl for the current user through aclset > group
-      const aclsetsSimple = await services.aclset.find({
+      // maybe filter by table ?
+      const aclsetParams: Params & { query: Query } = {
         query: {
-          $joinRelation: 'groupsacl.[users]',
+          $joinRelation: '[groupsacl.[users]]',
           $eager: '[acltables, workspace.[databases.[tables]]]',
           'groupsacl:users.id': user.id,
         },
         paginate: false,
-      }) as LckAclSet[] || []
+      }
+      if (tableId) {
+        aclsetParams.query.$joinRelation = '[groupsacl.[users], acltables]'
+        aclsetParams.query.$modifyEager = {
+          acltables: {
+            table_id: tableId,
+          },
+        }
+      }
+      const aclsetsSimple = await services.aclset.find(aclsetParams) as LckAclSet[] || []
       aclsetsSimple.forEach(currentAclset => {
         /**
-         * if the user is a member of a group managing the workspace,
+         * if the user is a member of a gr oup managing the workspace,
          * he has access to all the workspace, so to all of the workspace > database > tables
          */
         if (currentAclset.manager) {
@@ -203,7 +214,12 @@ export async function defineAbilityFor (
  * @returns Promise<HookContext>
  */
 export async function defineAbilities (context: HookContext): Promise<HookContext> {
-  const ability: AppAbility = await defineAbilityFor(context.params.user as User, context.params.query as Query, context.app.services)
+  const ability: AppAbility = await defineAbilityFor(
+    context.params.user as User,
+    context.params.query as Query,
+    context.app.services,
+    (context as any).params?._meta?.item?.table_id,
+  )
   context.params.ability = ability
   context.params.rules = ability.rules
 

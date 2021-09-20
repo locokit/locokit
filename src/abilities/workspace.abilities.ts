@@ -10,13 +10,18 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 
 /**
- * Define abilities for workspace
- * regarding the current hook context.
+ * Create abilities for workspace
+ * in a feathers-casl way,
+ * regarding several params : user, withJoin
+ * and by accessing services when needed.
  *
- * @param context Hook context, provided by FeathersJS
- * @returns Promise<HookContext>
+ * @returns Promise<AppAbility>
  */
-export async function defineAbilityFor (user: User, services: ServiceTypes): Promise<AppAbility> {
+export async function createAbility (
+  user: User,
+  services: ServiceTypes,
+  withJoin: boolean = false,
+): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, cannot, rules } = new AbilityBuilder(AppAbility)
 
@@ -50,14 +55,16 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
       }) as LckAclSet[]
       cannot('manage', 'workspace')
       can('create', 'workspace')
+      const workspaceIdsManagerCREATOR = aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
+      const workspaceIdsCREATOR = aclsetsCREATOR.map(aclset => aclset.workspace_id)
       can('manage', 'workspace', {
-        id: {
-          $in: aclsetsCREATOR.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id),
+        [withJoin ? 'workspace.id' : 'id']: {
+          $in: workspaceIdsManagerCREATOR,
         },
       })
       can('read', 'workspace', {
-        id: {
-          $in: aclsetsCREATOR.map(aclset => aclset.workspace_id),
+        [withJoin ? 'workspace.id' : 'id']: {
+          $in: workspaceIdsCREATOR,
         },
       })
       break
@@ -77,24 +84,36 @@ export async function defineAbilityFor (user: User, services: ServiceTypes): Pro
         paginate: false,
       }) as LckAclSet[]
       cannot('manage', 'workspace')
+      cannot('create', 'workspace')
+      const workspaceIdsManagerUSER = aclsetsUSER.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
+      const workspaceIdsUSER = aclsetsUSER.map(aclset => aclset.workspace_id)
+      can(['read', 'update', 'delete'], 'workspace', {
+        [withJoin ? 'workspace.id' : 'id']: {
+          $in: workspaceIdsManagerUSER,
+        },
+      })
       can('read', 'workspace', {
-        id: {
-          $in: aclsetsUSER.map(aclset => aclset.workspace_id),
+        [withJoin ? 'workspace.id' : 'id']: {
+          $in: workspaceIdsUSER,
         },
       })
   }
-
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
 
 /**
  * Define abilities for workspaces
+ * and add them to the feathers context.
  *
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
 export async function defineAbilities (context: HookContext): Promise<HookContext> {
-  const ability: AppAbility = await defineAbilityFor(context.params.user as User, context.app.services)
+  const ability: AppAbility = await createAbility(
+    context.params.user as User,
+    context.app.services,
+    context.params.query?.$eager || context.params.query?.$joinRelation,
+  )
   context.params.ability = ability
   context.params.rules = ability.rules
 

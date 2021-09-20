@@ -1,7 +1,7 @@
 import { Ability } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { Workspace } from '../models/workspace.model'
-import { defineAbilityFor } from './workspace.abilities'
+import { createAbility } from './workspace.abilities'
 import app from '../app'
 import { LckAclSet } from '../models/aclset.model'
 import { Group } from '../models/group.model'
@@ -97,7 +97,7 @@ describe('Workspace abilities', () => {
   describe('when user is a SUPERADMIN', () => {
     beforeEach(async () => {
       user = { profile: USER_PROFILE.SUPERADMIN }
-      ability = await defineAbilityFor(user as User, app.services)
+      ability = await createAbility(user as User, app.services)
     })
 
     it('can manage all workspaces', () => {
@@ -111,7 +111,7 @@ describe('Workspace abilities', () => {
   describe('when user is an ADMIN', () => {
     beforeEach(async () => {
       user = { profile: USER_PROFILE.ADMIN }
-      ability = await defineAbilityFor(user as User, app.services)
+      ability = await createAbility(user as User, app.services)
     })
 
     it('can manage all workspaces - but not all resources', () => {
@@ -124,7 +124,7 @@ describe('Workspace abilities', () => {
 
   describe('when user (user1) is a CREATOR', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user1, app.services)
+      ability = await createAbility(user1, app.services)
     })
 
     it('can manage workspace (not all, but at least one)', () => {
@@ -150,10 +150,10 @@ describe('Workspace abilities', () => {
 
   describe('when user (user2) is a simple USER with 2 groups for 2 workspaces', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user2, app.services)
+      ability = await createAbility(user2, app.services)
     })
 
-    it('can not manage a single workspace (USER)', () => {
+    it('cannot manage workspace (USER)', () => {
       expect(ability.cannot('manage', 'workspace')).toBe(true)
     })
     it('can read workspace', () => {
@@ -167,19 +167,19 @@ describe('Workspace abilities', () => {
       expect(ability.can('read', workspace1)).toBe(true)
       expect(ability.can('read', workspace2)).toBe(true)
     })
-    it('cannot manage workspace2 neither workspace1 because it is a USER', () => {
+    it('cannot update workspace1 but workspace2 because it is a USER', () => {
       expect.assertions(2)
-      expect(ability.cannot('manage', workspace2)).toBe(true)
-      expect(ability.cannot('manage', workspace1)).toBe(true)
+      expect(ability.can('update', workspace2)).toBe(true)
+      expect(ability.cannot('update', workspace1)).toBe(true)
     })
   })
   describe('when user (user3) is a simple USER with 2 groups for the same workspace', () => {
     beforeEach(async () => {
-      ability = await defineAbilityFor(user3, app.services)
+      ability = await createAbility(user3, app.services)
     })
 
-    it('can not manage a single workspace (USER)', () => {
-      expect(ability.cannot('manage', 'all')).toBe(true)
+    it('cannot manage workspace (USER)', () => {
+      expect(ability.cannot('manage', 'workspace')).toBe(true)
     })
     it('can read workspace', () => {
       expect(ability.can('read', 'workspace')).toBe(true)
@@ -192,10 +192,10 @@ describe('Workspace abilities', () => {
       expect(ability.can('read', workspace1)).toBe(true)
       expect(ability.cannot('read', workspace2)).toBe(true)
     })
-    it('cannot manage workspace1 neither workspace2 because it is a USER', () => {
+    it('can update workspace1 but not workspace2 because it is a USER', () => {
       expect.assertions(2)
-      expect(ability.cannot('manage', workspace1)).toBe(true)
-      expect(ability.cannot('manage', workspace2)).toBe(true)
+      expect(ability.can('update', workspace1)).toBe(true)
+      expect(ability.cannot('update', workspace2)).toBe(true)
     })
   })
 
