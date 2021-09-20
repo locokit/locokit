@@ -340,15 +340,18 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-    case COLUMN_TYPE.LOOKED_UP_COLUMN:
       return {
         label: column.text,
         value: (data as LckTableRowDataComplex | null)?.value as string || options.noData as string,
       }
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+      const lookedUpColumnValue = getColumnDisplayValue(column, data, true) as string | number | boolean | undefined
       return {
         label: column.text,
-        value: getColumnDisplayValue(column, data, true) as string | number | boolean | undefined || options.noData as string,
+        value: lookedUpColumnValue != null && lookedUpColumnValue !== ''
+          ? lookedUpColumnValue
+          : options.noData as string,
       }
     case COLUMN_TYPE.MULTI_USER:
       return {
@@ -380,16 +383,16 @@ export function getDataFromTableViewColumn (
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string,
+        value: (data != null ? formatDate(data as Date, options.dateFormat) : options.noData) as string,
       }
     case COLUMN_TYPE.DATETIME:
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string,
+        value: (data != null ? formatDate(data as Date, options.datetimeFormat) : options.noData) as string,
       }
     default:
-      return { label: column.text, value: (data || options.noData) as string }
+      return { label: column.text, value: (data != null && data !== '' ? data : options.noData) as string }
   }
 }
 

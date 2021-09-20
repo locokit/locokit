@@ -29,6 +29,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
+import centroid from '@turf/centroid'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -41,7 +42,6 @@ import {
   LckImplementedLayoutProperty,
   LckImplementedPaintProperty,
 } from '@/services/lck-utils/map/computeGeo'
-
 import {
   LckGeoResource,
   LckImplementedLayers,
@@ -57,6 +57,11 @@ export enum MODE {
 
 type MapLayerListenerFunction = (ev: (MapLayerMouseEvent | MapLayerTouchEvent) & EventData) => void;
 type MapLayerMouseListenerFunction = (ev: (MapLayerMouseEvent) & EventData) => void;
+
+type SingleGeoJSONGeometry =
+  GeoJSON.Point | GeoJSON.MultiPoint |
+  GeoJSON.LineString | GeoJSON.MultiLineString |
+  GeoJSON.Polygon | GeoJSON.MultiPolygon
 
 export default Vue.extend({
   name: 'Map',
@@ -125,7 +130,7 @@ export default Vue.extend({
             tileSize: 256,
           },
         },
-        glyphs: '/assets/map/font/{fontstack}/{range}.pbf',
+        glyphs: '/fonts/{fontstack}/{range}.pbf',
         layers: [
           {
             id: 'tiles-background',
@@ -566,9 +571,6 @@ export default Vue.extend({
             this.popup.component.addTo(this.map!)
           }
 
-          // Display the popup at the cursor position
-          this.popup.component.setLngLat(e.lngLat)
-
           if (e.type === 'mousemove') {
             // Update the popup content only if the current features are different
             const hoveredFeatures = e.features.map(feature => feature.id).join('-')
@@ -577,6 +579,18 @@ export default Vue.extend({
             } else {
               return
             }
+          }
+
+          if (popupMode === 'hover') {
+            // Display the popup at the feature(s) centroid position
+            const currentCentroid = centroid({
+              type: 'FeatureCollection',
+              features: e.features as GeoJSON.Feature<SingleGeoJSONGeometry>[],
+            })
+            this.popup.component.setLngLat(currentCentroid.geometry.coordinates as [number, number])
+          } else {
+            // Display the popup at the cursor position
+            this.popup.component.setLngLat(e.lngLat)
           }
 
           let html = ''
@@ -659,7 +673,7 @@ export default Vue.extend({
       }
     },
     makeFeaturesInteractive () {
-      if (!this.popup.component) this.popup.component = new Popup({ offset: 10, closeOnClick: false })
+      if (!this.popup.component) this.popup.component = new Popup({ offset: 10, closeOnClick: false, focusAfterOpen: false })
       this.resources.forEach(resource => {
         const hasEditableFeatures = resource.editableGeometryTypes.size > 0
         if (resource.popupMode || hasEditableFeatures || resource.selectable) {

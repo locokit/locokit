@@ -12,7 +12,10 @@ import {
 
 import Map from './Map.vue'
 
-const { LngLatBounds: MockLngLatBounds } = jest.requireActual('mapbox-gl')
+const {
+  LngLatBounds: MockLngLatBounds,
+  LngLat: MockLngLat,
+} = jest.requireActual('mapbox-gl')
 
 // Method to make an object deep copy
 function mockDeepCloneObject (object) {
@@ -227,6 +230,7 @@ jest.mock('mapbox-gl', () => ({
     })),
   })),
   LngLatBounds: jest.fn((...params) => new MockLngLatBounds(...params)),
+  LngLat: jest.fn((...params) => new MockLngLat(...params)),
 }))
 
 jest.mock('@mapbox/mapbox-gl-draw', () =>
@@ -691,62 +695,93 @@ describe('Map component', () => {
 
     describe('addPopupOnFeature', () => {
       let wrapper, addPopupOnFeatureFunction
+      const cursorPosition = new mapboxgl.LngLat(50, 50)
 
-      beforeEach(() => {
-        wrapper = shallowMount(Map, {
-          propsData: {
-            resources: mockResources,
-            mode: 'Block',
-          },
-          ...defaultWrapperParams,
+      describe('on hover', () => {
+        beforeEach(() => {
+          wrapper = shallowMount(Map, {
+            propsData: {
+              resources: mockResources,
+              mode: 'Block',
+            },
+            ...defaultWrapperParams,
+          })
+          wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
+          addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
         })
-        wrapper.vm.addPopupOnFeature('customLayerId', 'hover', 'pageDetailId')
-        addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
+
+        it('Add the popup to the map at the feature position only if it is not displayed yet', () => {
+          wrapper.vm.popup.component.addTo.mockClear()
+          wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => false)
+          addPopupOnFeatureFunction({
+            features: [mockFirstFeature],
+            type: 'mousemove',
+            lngLat: cursorPosition,
+          })
+          expect(wrapper.vm.popup.component.addTo).toHaveBeenCalledWith(wrapper.vm.map)
+          expect(wrapper.vm.popup.featuresIds).toBe('f1')
+          expect(wrapper.vm.popup.component.setLngLat).toHaveBeenCalledWith(mockFirstFeature.geometry.coordinates)
+        })
+
+        it('Do not add the popup to the map if it is already displayed', () => {
+          wrapper.vm.popup.component.addTo.mockClear()
+          wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => true)
+          addPopupOnFeatureFunction({
+            features: [mockFirstFeature],
+          })
+          expect(wrapper.vm.popup.component.addTo).not.toHaveBeenCalled()
+        })
+
+        it('Do not move the popup if there is no features', () => {
+          wrapper.vm.popup.component.setLngLat.mockClear()
+          addPopupOnFeatureFunction({
+            features: [],
+          })
+          expect(wrapper.vm.popup.component.setLngLat).not.toHaveBeenCalled()
+        })
+
+        it('Only update the popup content if the selected features are different', () => {
+          wrapper.vm.popup.component.setHTML.mockClear()
+          // Display the popup the first time on one feature
+          addPopupOnFeatureFunction({
+            features: [mockFirstFeature],
+            type: 'mousemove',
+          })
+          expect(wrapper.vm.popup.component.setHTML).toHaveBeenCalledTimes(1)
+          wrapper.vm.popup.component.setHTML.mockClear()
+          // Display the popup the second time on the same feature
+          addPopupOnFeatureFunction({
+            features: [mockFirstFeature],
+            type: 'mousemove',
+          })
+          expect(wrapper.vm.popup.component.setHTML).not.toHaveBeenCalled()
+        })
       })
 
-      it('Add the popup to the map only if it is not displayed yet', () => {
-        wrapper.vm.popup.component.addTo.mockClear()
-        wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => false)
-        addPopupOnFeatureFunction({
-          features: [mockFirstFeature],
-          type: 'mousemove',
+      describe('on click', () => {
+        beforeEach(() => {
+          wrapper = shallowMount(Map, {
+            propsData: {
+              resources: mockResources,
+              mode: 'Block',
+            },
+            ...defaultWrapperParams,
+          })
+          wrapper.vm.addPopupOnFeature('customLayerId', 'click', 'pageDetailId')
+          addPopupOnFeatureFunction = wrapper.vm.listenersByLayer.customLayerId[0].func
         })
-        expect(wrapper.vm.popup.component.addTo).toHaveBeenCalledWith(wrapper.vm.map)
-        expect(wrapper.vm.popup.featuresIds).toBe('f1')
-      })
 
-      it('Do not add the popup to the map if it is already displayed', () => {
-        wrapper.vm.popup.component.addTo.mockClear()
-        wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => true)
-        addPopupOnFeatureFunction({
-          features: [mockFirstFeature],
+        it('Add the popup to the map at the cursor position only if it is not displayed yet', () => {
+          wrapper.vm.popup.component.addTo.mockClear()
+          wrapper.vm.popup.component.isOpen.mockImplementationOnce(() => false)
+          addPopupOnFeatureFunction({
+            features: [mockFirstFeature],
+            type: 'click',
+            lngLat: cursorPosition,
+          })
+          expect(wrapper.vm.popup.component.addTo).toHaveBeenCalledWith(wrapper.vm.map)
+          expect(wrapper.vm.popup.component.setLngLat).toHaveBeenCalledWith(cursorPosition)
         })
-        expect(wrapper.vm.popup.component.addTo).not.toHaveBeenCalled()
-      })
-
-      it('Do not move the popup if there is no features', () => {
-        wrapper.vm.popup.component.setLngLat.mockClear()
-        addPopupOnFeatureFunction({
-          features: [],
-        })
-        expect(wrapper.vm.popup.component.setLngLat).not.toHaveBeenCalled()
-      })
-
-      it('Only update the popup content if the selected features are different', () => {
-        wrapper.vm.popup.component.setHTML.mockClear()
-        // Display the popup the first time on one feature
-        addPopupOnFeatureFunction({
-          features: [mockFirstFeature],
-          type: 'mousemove',
-        })
-        expect(wrapper.vm.popup.component.setHTML).toHaveBeenCalledTimes(1)
-        wrapper.vm.popup.component.setHTML.mockClear()
-        // Display the popup the second time on the same feature
-        addPopupOnFeatureFunction({
-          features: [mockFirstFeature],
-          type: 'mousemove',
-        })
-        expect(wrapper.vm.popup.component.setHTML).not.toHaveBeenCalled()
       })
     })
 

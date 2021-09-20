@@ -233,7 +233,7 @@ export default {
   },
   computed: {
     supportedColumns () {
-      if (this.definition.columns?.length < 1) return []
+      if (!this.definition?.columns?.length) return []
       return this.definition.columns.reduce((acc, column) => {
         const originalType = getColumnTypeId(column)
         if (column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN && COLUMN_FILTERS_CONFIG[originalType]) {

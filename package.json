@@ -27,6 +27,7 @@
     "@sentry/browser": "^5.26.0",
     "@sentry/integrations": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
+    "@turf/centroid": "^6.5.0",
     "bootstrap-icons": "^1.4.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",

@@ -238,7 +238,7 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
   const imagesToLoad: Set<string> = new Set()
 
   // Default style settings
-  const { fill = {}, stroke = {}, icon = '' }: MapFeatureStyle = sourceStyle?.default || {}
+  const { fill = {}, stroke = {}, icon = '', layout = {}, paint = {} }: MapFeatureStyle = sourceStyle?.default || {}
 
   const defaultStyle: MapEditableStyleProperties = {
     fill: {
@@ -315,6 +315,11 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
     }
   }
 
+  // if (sourceStyle?.cluster) {
+  //   computedStyle.fill.width = ['+', computedStyle.fill.width, ['*', ['get', 'point_count'], 0.5]]
+  //   computedStyle.icon.size = ['+', computedStyle.icon.size, ['*', ['get', 'point_count'], 0.05]]
+  // }
+
   // Get right style depending of the geometry type
   let geoStyle: (LckImplementedLayers | null)
 
@@ -330,9 +335,10 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
             'icon-opacity': computedStyle.opacity,
           }
           geoStyle.layout = {
+            'icon-allow-overlap': true,
             'icon-image': computedStyle.icon.url,
             'icon-size': computedStyle.icon.size,
-            'icon-allow-overlap': true,
+            'text-font': ['Open Sans Regular'],
           }
           geoStyle.imagesToLoad = imagesToLoad
         } else {
@@ -372,6 +378,8 @@ export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], 
         console.error('Column type unknown')
     }
     if (geoStyle) {
+      geoStyle.layout = Object.assign(geoStyle.layout || {}, layout)
+      geoStyle.paint = Object.assign(geoStyle.paint, paint)
       layers.push({
         ...geoStyle,
         id: `${sourceId}-${geoStyle.id}-${geoType}`,
@@ -455,100 +463,246 @@ export function makeGeoJsonFeaturesCollection (
     })
   }
 
-  rows.forEach(row => {
-    geoColumns.forEach(geoColumn => {
-      const data = getEWKTFromGeoColumn(geoColumn, row.data)
-      if (data) {
-        const feature = transformEWKTtoFeature(data)
-        if (source) {
-          const featureId = `${row.id}:${geoColumn.id}`
-          feature.setId(featureId)
-          const featureProperties: LckFeaturePropertiesWithData = {
-            id: featureId,
-            columnId: geoColumn.id,
-            rowId: row.id,
-          }
-          /**
-           * Manage popup information
-           */
-          if (source.popup && source.popupSettings) {
-            // Define the title
-            if (source.popupSettings.title) {
-              // From the specified value
-              featureProperties.title = row.data[source.popupSettings.title] || ''
-            } else if (source.popupSettings.pageDetailId) {
-              // From the row reference if the page detail is specified
-              featureProperties.title = row.text || i18nOptions.noReference.toString()
+  // If the source features must be aggregated
+  if (source.aggregationField) {
+    const aggregatedColumn: LckTableViewColumn | undefined = definitionColumns[source.aggregationField]
+
+    if (!aggregatedColumn || aggregatedColumn.column_type_id !== COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+      throw new Error('Only a RBT column can be used as an aggregation field')
+    }
+
+    const aggregatedFeatures: Record<string, {
+      features: Feature[];
+      count: number;
+    }> = {}
+
+    for (const row of rows) {
+      const aggregatedValue = row.data[aggregatedColumn.id] as { reference: string; value: string } | null
+
+      // Pass if there is not related row
+      if (!aggregatedValue) continue
+
+      const currentAggregation = aggregatedFeatures[aggregatedValue.reference]
+
+      // We already aggregate a row with this value
+      if (currentAggregation) {
+        // Increment the counter
+        currentAggregation.count += 1
+        continue
+      }
+
+      // We don't already aggregate a row with this value so we get the necessary feature properties based on this first row
+      const commonFeatureProperties: LckFeaturePropertiesWithData = {
+        id: '',
+        columnId: '',
+        rowId: aggregatedValue.reference,
+      }
+
+      aggregatedFeatures[aggregatedValue.reference] = {
+        count: 1,
+        features: [],
+      }
+
+      // Manage popup information
+      if (source.popup) {
+        // Define the title
+        commonFeatureProperties.title = (
+          source.popupSettings?.title
+            ? row.data[source.popupSettings.title] // Based on an explicit field
+            : aggregatedValue.value // Based on the aggregation value
+        ) || i18nOptions.noReference.toString() // Default value
+
+        // Define the content
+        if (source.popupSettings && Array.isArray(source.popupSettings.contentFields)) {
+          const allContent: PopupContent[] = []
+          source.popupSettings.contentFields.forEach(contentField => {
+            // Get column's title
+            const matchingColumnField = definitionColumns[contentField.field]
+            if (matchingColumnField?.settings.localField === source.aggregationField) {
+              // Get data from row
+              const data = getDataFromTableViewColumn(
+                matchingColumnField,
+                row.data[contentField.field],
+                i18nOptions,
+              )
+              allContent.push({
+                ...contentField,
+                field: data,
+              })
             }
-            if (Array.isArray(source.popupSettings.contentFields)) {
-              const allContent: PopupContent[] = []
-              source.popupSettings.contentFields.forEach(contentField => {
-                // Get column's title
-                const matchingColumnField = definitionColumns[contentField.field]
-                if (matchingColumnField) {
-                  // Get data from row
-                  const data = getDataFromTableViewColumn(
-                    matchingColumnField,
-                    row.data[contentField.field],
-                    i18nOptions,
+          })
+          // Set data in Feature properties
+          commonFeatureProperties.content = allContent
+        }
+      }
+
+      // Add information for events
+      if (hasSelectRowEvent || fieldsToSelectOnEvent.length > 0) {
+        commonFeatureProperties.originalData = {}
+        commonFeatureProperties.displayedData = {}
+        if (hasSelectRowEvent) {
+          // Add the text value to have text related to the row
+          commonFeatureProperties.originalData.text = aggregatedValue.value
+          commonFeatureProperties.displayedData.text = aggregatedValue.value
+        }
+        if (fieldsToSelectOnEvent.length > 0) {
+          // Add the desired fields
+          fieldsToSelectOnEvent.forEach(field => {
+            const matchingColumn = definitionColumns[field]
+            if (matchingColumn?.settings.localField === source.aggregationField) {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              commonFeatureProperties.originalData![field] = row.data[field]
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              commonFeatureProperties.displayedData![field] = getColumnDisplayValue(
+                matchingColumn,
+                row.data[field],
+                true,
+              )
+            }
+          })
+        }
+      }
+
+      // Add the fields chosen to customize the layer
+      if (styleColumns) {
+        styleColumns.forEach(styleColumn => {
+          const matchingColumn = definitionColumns[styleColumn]
+          if (matchingColumn?.settings.localField === source.aggregationField) {
+            if (matchingColumn.column_type_id === COLUMN_TYPE.LOOKED_UP_COLUMN) {
+              commonFeatureProperties[styleColumn] = (row.data[styleColumn] as LckTableRowDataComplex | undefined | null)?.value
+            } else {
+              commonFeatureProperties[styleColumn] = row.data[styleColumn]
+            }
+          }
+        })
+      }
+
+      // Add a geographic feature for each geographic column of the row
+      geoColumns.forEach(geoColumn => {
+        if (geoColumn.settings.localField === source.aggregationField && geoColumn.settings.foreignField) {
+          const data = getEWKTFromGeoColumn(geoColumn, row.data)
+          if (data) {
+            const feature = transformEWKTtoFeature(data)
+            // Specific properties
+            const featureId = `${aggregatedValue.reference}:${geoColumn.settings.foreignField}`
+            feature.setId(featureId)
+            commonFeatureProperties.id = featureId
+            commonFeatureProperties.columnId = geoColumn.settings.foreignField
+            // Add common and specific properties
+            feature.setProperties(commonFeatureProperties)
+            // Add the geographic feature
+            aggregatedFeatures[aggregatedValue.reference].features.push(feature)
+          }
+        }
+      })
+    }
+    // Add the features with the aggregation values
+    for (const aggregatedValue in aggregatedFeatures) {
+      const currentAggregation = aggregatedFeatures[aggregatedValue]
+      currentAggregation.features.forEach(feature => {
+        feature.setProperties({
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          point_count: currentAggregation.count,
+        })
+        features.push(feature)
+      })
+    }
+  } else {
+    rows.forEach(row => {
+      geoColumns.forEach(geoColumn => {
+        const data = getEWKTFromGeoColumn(geoColumn, row.data)
+        if (data) {
+          const feature = transformEWKTtoFeature(data)
+          if (source) {
+            const featureId = `${row.id}:${geoColumn.id}`
+            feature.setId(featureId)
+            const featureProperties: LckFeaturePropertiesWithData = {
+              id: featureId,
+              columnId: geoColumn.id,
+              rowId: row.id,
+            }
+            /**
+             * Manage popup information
+             */
+            if (source.popup && source.popupSettings) {
+              // Define the title
+              if (source.popupSettings.title) {
+                // From the specified value
+                featureProperties.title = row.data[source.popupSettings.title] || ''
+              } else if (source.popupSettings.pageDetailId) {
+                // From the row reference if the page detail is specified
+                featureProperties.title = row.text || i18nOptions.noReference.toString()
+              }
+              if (Array.isArray(source.popupSettings.contentFields)) {
+                const allContent: PopupContent[] = []
+                source.popupSettings.contentFields.forEach(contentField => {
+                  // Get column's title
+                  const matchingColumnField = definitionColumns[contentField.field]
+                  if (matchingColumnField) {
+                    // Get data from row
+                    const data = getDataFromTableViewColumn(
+                      matchingColumnField,
+                      row.data[contentField.field],
+                      i18nOptions,
+                    )
+                    allContent.push({
+                      ...contentField,
+                      field: data,
+                    })
+                  }
+                })
+                // Set data in Feature properties
+                featureProperties.content = allContent
+              }
+            }
+            // Add the source id to the feature
+            if (geoColumn.editable) {
+              featureProperties.sourceId = source.id
+            }
+
+            // Add information for events
+            if (hasSelectRowEvent || fieldsToSelectOnEvent.length > 0) {
+              featureProperties.originalData = {}
+              featureProperties.displayedData = {}
+              if (hasSelectRowEvent) {
+                // Add the text value to have text related to the row
+                featureProperties.originalData.text = row.text
+                featureProperties.displayedData.text = row.text
+              }
+              if (fieldsToSelectOnEvent.length > 0) {
+                // Add the desired fields
+                fieldsToSelectOnEvent.forEach(field => {
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  featureProperties.originalData![field] = row.data[field]
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  featureProperties.displayedData![field] = getColumnDisplayValue(
+                    definitionColumns[field],
+                    row.data[field],
+                    true,
                   )
-                  allContent.push({
-                    ...contentField,
-                    field: data,
-                  })
+                })
+              }
+            }
+
+            // Add the fields chosen to customize the layer
+            if (styleColumns) {
+              styleColumns.forEach(styleColumn => {
+                switch (definitionColumns[styleColumn]?.column_type_id) {
+                  case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                    featureProperties[styleColumn] = (row.data[styleColumn] as LckTableRowDataComplex | undefined | null)?.value
+                    break
+                  default:
+                    featureProperties[styleColumn] = row.data[styleColumn]
                 }
               })
-              // Set data in Feature properties
-              featureProperties.content = allContent
             }
+            feature.setProperties(featureProperties)
           }
-          // Add the source id to the feature
-          if (geoColumn.editable) {
-            featureProperties.sourceId = source.id
-          }
-
-          // Add information for events
-          if (hasSelectRowEvent || fieldsToSelectOnEvent.length > 0) {
-            featureProperties.originalData = {}
-            featureProperties.displayedData = {}
-            if (hasSelectRowEvent) {
-              // Add the text value to have text related to the row
-              featureProperties.originalData.text = row.text
-              featureProperties.displayedData.text = row.text
-            }
-            if (fieldsToSelectOnEvent.length > 0) {
-              // Add the desired fields
-              fieldsToSelectOnEvent.forEach(field => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                featureProperties.originalData![field] = row.data[field]
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                featureProperties.displayedData![field] = getColumnDisplayValue(
-                  definitionColumns[field],
-                  row.data[field],
-                  true,
-                )
-              })
-            }
-          }
-
-          // Add the fields chosen to customize the layer
-          if (styleColumns) {
-            styleColumns.forEach(styleColumn => {
-              switch (definitionColumns[styleColumn]?.column_type_id) {
-                case COLUMN_TYPE.LOOKED_UP_COLUMN:
-                  featureProperties[styleColumn] = (row.data[styleColumn] as LckTableRowDataComplex | undefined | null)?.value
-                  break
-                default:
-                  featureProperties[styleColumn] = row.data[styleColumn]
-              }
-            })
-          }
-          feature.setProperties(featureProperties)
+          features.push(feature)
         }
-        features.push(feature)
-      }
+      })
     })
-  })
+  }
 
   // Transform OL Feature in Geojson
   const geojsonFormat = new GeoJSON()

@@ -467,6 +467,7 @@
         "mediaSrcURL": "URL de la source du média",
         "mediaType": "Type du média",
         "addAllowed": "Autoriser l'ajout de données",
+        "pagination": "Nombre maximum autorisé d'éléments par page",
         "exportAllowed": "Autoriser l'exportation des données",
         "tableView": "Vue à afficher",
         "elevation": "Élévation",
