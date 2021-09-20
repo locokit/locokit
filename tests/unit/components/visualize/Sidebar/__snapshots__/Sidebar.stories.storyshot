@@ -8,20 +8,21 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
     class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
-      class="p-accordion-tab"
+      class="p-accordion-tab p-accordion-tab-active"
     >
       <div
-        class="p-accordion-header"
+        class="p-accordion-header p-highlight"
       >
         <a
           aria-controls="pv_id_39_content"
+          aria-expanded="true"
           class="p-accordion-header-link"
           id="pv_id_39_header"
           role="tab"
           tabindex="0"
         >
           <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
+            class="p-accordion-toggle-icon pi pi-chevron-down"
           />
            
           <!---->
@@ -37,7 +38,6 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
         class="p-toggleable-content"
         id="pv_id_39_content"
         role="region"
-        style="display: none;"
       >
         <div
           class="p-accordion-content"
@@ -63,20 +63,21 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
     class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
-      class="p-accordion-tab"
+      class="p-accordion-tab p-accordion-tab-active"
     >
       <div
-        class="p-accordion-header"
+        class="p-accordion-header p-highlight"
       >
         <a
           aria-controls="pv_id_44_content"
+          aria-expanded="true"
           class="p-accordion-header-link"
           id="pv_id_44_header"
           role="tab"
           tabindex="0"
         >
           <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
+            class="p-accordion-toggle-icon pi pi-chevron-down"
           />
            
           <!---->
@@ -102,7 +103,6 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
         class="p-toggleable-content"
         id="pv_id_44_content"
         role="region"
-        style="display: none;"
       >
         <div
           class="p-accordion-content"
@@ -320,20 +320,21 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
     class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
-      class="p-accordion-tab"
+      class="p-accordion-tab p-accordion-tab-active"
     >
       <div
-        class="p-accordion-header"
+        class="p-accordion-header p-highlight"
       >
         <a
           aria-controls="pv_id_40_content"
+          aria-expanded="true"
           class="p-accordion-header-link"
           id="pv_id_40_header"
           role="tab"
           tabindex="0"
         >
           <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
+            class="p-accordion-toggle-icon pi pi-chevron-down"
           />
            
           <!---->
@@ -349,7 +350,6 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
         class="p-toggleable-content"
         id="pv_id_40_content"
         role="region"
-        style="display: none;"
       >
         <div
           class="p-accordion-content"
@@ -455,20 +455,21 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
     class="p-accordion p-component lck-bg-sidebar lck-sidebar"
   >
     <div
-      class="p-accordion-tab"
+      class="p-accordion-tab p-accordion-tab-active"
     >
       <div
-        class="p-accordion-header"
+        class="p-accordion-header p-highlight"
       >
         <a
           aria-controls="pv_id_42_content"
+          aria-expanded="true"
           class="p-accordion-header-link"
           id="pv_id_42_header"
           role="tab"
           tabindex="0"
         >
           <span
-            class="p-accordion-toggle-icon pi pi-chevron-right"
+            class="p-accordion-toggle-icon pi pi-chevron-down"
           />
            
           <!---->
@@ -484,7 +485,6 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
         class="p-toggleable-content"
         id="pv_id_42_content"
         role="region"
-        style="display: none;"
       >
         <div
           class="p-accordion-content"
@@ -516,7 +516,6 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
     </div>
     <div
-      active="true"
       class="p-accordion-tab"
     >
       <div
@@ -563,7 +562,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
             </a>
             <a
-              class="mock-link router-link-exact-active"
+              class="mock-link"
             >
               <!---->
               

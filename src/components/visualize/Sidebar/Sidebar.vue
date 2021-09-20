@@ -2,11 +2,11 @@
   <p-accordion
     :multiple="true"
     class="lck-bg-sidebar lck-sidebar"
+    :activeIndex="[0]"
   >
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
-      :active="item.active"
     >
       <template #header>
         {{item.label}}
@@ -31,7 +31,6 @@
             v-for="subitem in item.subitems"
             :key="subitem.id"
             :to="subitem.to"
-            :class="{ 'router-link-exact-active': subitem.active }"
             @click.native="$emit('click-sidebar-item')"
             v-show="displayEditActions || subitem.hidden !== true"
           >

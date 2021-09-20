@@ -478,6 +478,7 @@
         "conditionalDisplayTableView": "View to use for conditional display",
         "conditionalDisplayField": "View's field for conditional display (only Boolean fields or Boolean formulas)",
         "conditionalDisplayFieldValue": "Field's value for conditional display (true / false)",
+        "conditionalDisplayFieldHelp": "It is necessary to select a view before you can enter this field.",
         "labelButton": "Button label",
         "classButton": {
           "title": "Button style",
