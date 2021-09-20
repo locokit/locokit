@@ -562,7 +562,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
             </a>
             <a
-              class="mock-link router-link-exact-active"
+              class="mock-link"
             >
               <!---->
               

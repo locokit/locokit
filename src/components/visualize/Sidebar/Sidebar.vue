@@ -31,7 +31,6 @@
             v-for="subitem in item.subitems"
             :key="subitem.id"
             :to="subitem.to"
-            :class="{ 'router-link-exact-active': subitem.active }"
             @click.native="$emit('click-sidebar-item')"
             v-show="displayEditActions || subitem.hidden !== true"
           >
