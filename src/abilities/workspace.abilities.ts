@@ -10,11 +10,12 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 
 /**
- * Define abilities for workspace
- * regarding the current hook context.
+ * Create abilities for workspace
+ * in a feathers-casl way,
+ * regarding several params : user, withJoin
+ * and by accessing services when needed.
  *
- * @param context Hook context, provided by FeathersJS
- * @returns Promise<HookContext>
+ * @returns Promise<AppAbility>
  */
 export async function createAbility (
   user: User,
@@ -102,6 +103,7 @@ export async function createAbility (
 
 /**
  * Define abilities for workspaces
+ * and add them to the feathers context.
  *
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
