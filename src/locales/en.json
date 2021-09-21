@@ -540,6 +540,7 @@
           "addButtonTitle": "Creation button label",
           "addGeoSource": "Add a new geographic data source",
           "addSourceId": "View to use in the creation form",
+          "aggregationField": "Optional aggregation field",
           "deletePopupField": "Remove the field from the pop-up",
           "deleteSource": "Delete the source",
           "field": "Geographic field to display",

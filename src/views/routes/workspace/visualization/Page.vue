@@ -603,7 +603,7 @@ export default {
           }
         case BLOCK_TYPE.TABLE_SET:
           /**
-           * A TableSet block uses paginated result but can receive unpaginated result
+           * A TableSet block uses paginated result but we can receive unpaginated result
            * so we encapsulate the received one if necessary.
            */
           if (!block.settings.id) return null
@@ -1198,14 +1198,16 @@ export default {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
     },
-    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes }) {
+    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes, settings }) {
+      const additionalFilters = []
+      if (settings) additionalFilters.push({ settings })
+      if (columnTypes) {
+        additionalFilters.push({
+          column_type_id: { $in: columnTypes },
+        })
+      }
       try {
-        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, Array.isArray(columnTypes)
-          ? {
-            $or: columnTypes.map(columnTypeId => ({ column_type_id: columnTypeId })),
-          }
-          : {},
-        )
+        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, { $and: additionalFilters })
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
