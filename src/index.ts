@@ -172,6 +172,7 @@ export interface TableSetSettings {
   exportAllowed?: boolean; // option to allow data export
   deleteAllowed?: boolean; // option to allow record deletion
   duplicateAllowed?: boolean; // option to allow record duplication
+  pagination?: number; // maximum allowed number of items per page
 }
 
 export interface BlockTableSet extends Block {
@@ -231,7 +232,10 @@ export interface MapFeatureStyle {
 }
 
 export interface MapSourceStyle {
-  default?: MapFeatureStyle,
+  default?: MapFeatureStyle & {
+    layout?: object; // Mapbox layout properties
+    paint?: object; // Mapbox paint properties
+  },
   fields?: string[]; // the field UUIDs used to customize the features
   dataDriven?: { // The style to apply to the features when the related fields have some specific values
     values: {
@@ -246,6 +250,7 @@ export interface MapSourceSettings {
   id: string; // uuid of the table_view
   geometry?: GEOMETRY_TYPE; // geometry type
   field?: string; // column / field 's UUID
+  aggregationField?: string; // aggregation column / field 's UUID
   popup?: boolean; // do we display a popup
   popupSettings?: { // a popup is like a card
     title?: string; // column / field 's UUID
