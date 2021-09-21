@@ -233,8 +233,8 @@ export interface MapFeatureStyle {
 
 export interface MapSourceStyle {
   default?: MapFeatureStyle & {
-    layout?: object; // Mapbox layout properties
-    paint?: object; // Mapbox paint properties
+    layout?: Record<string, unknown>; // Mapbox layout properties
+    paint?: Record<string, unknown>; // Mapbox paint properties
   },
   fields?: string[]; // the field UUIDs used to customize the features
   dataDriven?: { // The style to apply to the features when the related fields have some specific values
