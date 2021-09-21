@@ -280,11 +280,6 @@ describe('Workspace', () => {
         expect(wrapper.vm.sidebarItems[0].label).toBe(firstChapter.text)
       })
 
-      it('Indicate that the right chapter is active', () => {
-        expect(wrapper.vm.sidebarItems[0].active).toBe(true)
-        expect(wrapper.vm.sidebarItems[1].active).toBe(false)
-      })
-
       it('Return an empty array as subitems if the chapter pages are not defined', () => {
         expect(wrapper.vm.sidebarItems[1].subitems).toStrictEqual([])
       })
@@ -308,11 +303,6 @@ describe('Workspace', () => {
               },
             }).route.path,
           )
-        })
-
-        it('Indicate that the right page is active', () => {
-          expect(wrapper.vm.sidebarItems[0].subitems[0].active).toBe(true)
-          expect(wrapper.vm.sidebarItems[0].subitems[1].active).toBe(false)
         })
 
         it('Indicate if the page are hidden', () => {

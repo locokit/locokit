@@ -233,6 +233,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -1031,6 +1039,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -1414,6 +1430,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -1730,6 +1754,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -2665,6 +2697,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -3110,6 +3150,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -3795,6 +3843,14 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -4111,6 +4167,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -4452,6 +4516,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div
@@ -4994,6 +5066,14 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
            
           <!---->
         </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
       </div>
        
       <div

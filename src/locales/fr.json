@@ -479,6 +479,7 @@
         "conditionalDisplayTableView": "Vue à utiliser pour conditionner l'affichage",
         "conditionalDisplayField": "Champ de la vue à utiliser (uniquement des Booléens ou des formules Booléennes)",
         "conditionalDisplayFieldValue": "Valeur de champ (true / false)",
+        "conditionalDisplayFieldHelp": "Il est nécessaire de sélectionner une vue avant de pouvoir saisir ce champ.",
         "labelButton": "Libellé du bouton",
         "classButton": {
           "title": "Style du bouton",

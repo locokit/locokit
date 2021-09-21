@@ -690,6 +690,14 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                        
                       <!---->
                     </span>
+                     
+                    <small
+                      id="blockConditionalDisplayFieldId-help"
+                    >
+                      
+      It is necessary to select a view before you can enter this field.
+    
+                    </small>
                   </div>
                    
                   <div
@@ -2093,6 +2101,14 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                        
                       <!---->
                     </span>
+                     
+                    <small
+                      id="blockConditionalDisplayFieldId-help"
+                    >
+                      
+      It is necessary to select a view before you can enter this field.
+    
+                    </small>
                   </div>
                    
                   <div

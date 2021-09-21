@@ -23,17 +23,14 @@ export default {
       return [{
         id: 0,
         label: this.$t('pages.admin.sidebar.usersAndGroups'),
-        active: true,
         subitems: [{
           id: 0,
           label: this.$t('pages.userManagement.title'),
           to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
-          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
         }, {
           id: 1,
           label: this.$t('pages.groupManagement.title'),
           to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
-          active: this.$route.path === `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
         }],
       }]
     },

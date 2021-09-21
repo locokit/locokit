@@ -124,7 +124,6 @@ export default {
             label: text,
             to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
             hidden,
-            active: id === this.$route.params.pageId,
           }
         ))
         return (
@@ -132,7 +131,6 @@ export default {
             id,
             label: text,
             subitems,
-            active: subitems.some(({ active }) => active),
           }
         )
       })
