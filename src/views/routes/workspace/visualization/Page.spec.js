@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-unused-vars */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { BLOCK_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
 import Toast from 'primevue/toast'
@@ -334,6 +334,29 @@ const mockChapters = [
   },
 ]
 
+// Table columns
+const defaultParamsTableViewColumn = {
+  table_id: 'table-1',
+  editable: false,
+  reference: false,
+  position: 0,
+  transmitted: false,
+  displayed: true,
+  required: false,
+  sort: 'DESC',
+  table_column_id: '',
+  table_view_id: '4',
+  style: {},
+}
+
+const stringColumn = {
+  text: 'Name',
+  id: 'strColumn',
+  settings: {},
+  column_type_id: COLUMN_TYPE.STRING,
+  ...defaultParamsTableViewColumn,
+}
+
 const mockTableViewDefinitions = {
   1: {
     id: '1',
@@ -352,7 +375,9 @@ const mockTableViewDefinitions = {
   },
   4: {
     id: '4',
-    columns: [],
+    columns: [
+      stringColumn,
+    ],
     table_id: 'table3',
   },
 }
@@ -910,6 +935,8 @@ function mockDeepCloneObject (object) {
 
 // Mock lck functions
 
+const { lckHelpers: { formatRowData: mockFormatRowData } } = jest.requireActual('@/services/lck-api')
+
 jest.mock('@/services/lck-api', () => ({
   lckServices: {
     container: {
@@ -937,6 +964,7 @@ jest.mock('@/services/lck-api', () => ({
       { label: 'B', value: 2 },
       { label: 'C', value: 3 },
     ])),
+    formatRowData: jest.fn((...params) => mockFormatRowData(...params)),
     exportTableRowData: jest.fn(() => 'CSV_EXPORT'),
     retrievePageWithContainersAndBlocks: jest.fn(pageId => mockDeepCloneObject(mockPages[pageId])),
     retrieveViewDefinition: jest.fn(
@@ -1872,10 +1900,10 @@ describe('Page', () => {
       expect.assertions(2)
       const blocks = wrapper.findAllComponents(Block)
       const spyOnTableRowCreation = jest.spyOn(lckServices.tableRow, 'create')
-      blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      blocks.at(0).vm.$emit('create-row', { data: { strColumn: 'yes' } })
       expect(spyOnTableRowCreation).toHaveBeenCalledTimes(1)
       expect(spyOnTableRowCreation).toHaveBeenNthCalledWith(1, {
-        data: { yolo: 'yes' },
+        data: { strColumn: 'yes' },
         table_view_id: '4',
         $lckGroupId: 'this-is-a-group',
       })
@@ -1885,7 +1913,7 @@ describe('Page', () => {
       expect.assertions(3)
       const blocks = wrapper.findAllComponents(Block)
       const spyOnLoadSourceContent = jest.spyOn(wrapper.vm, 'loadSourceContent')
-      await blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      await blocks.at(0).vm.$emit('create-row', { data: { strColumn: 'yes' } })
       await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
@@ -1901,7 +1929,7 @@ describe('Page', () => {
       const initialCreate = lckServices.tableRow.create
       lckServices.tableRow.create = jest.fn(() => { throw new Error('you loose') })
       const spyOnToast = jest.spyOn(wrapper.vm.$toast, 'add')
-      blocks.at(0).vm.$emit('create-row', { data: { yolo: 'yes' } })
+      blocks.at(0).vm.$emit('create-row', { data: { strColumn: 'yes' } })
       /**
        * Here we have two toaster that have been displayed
        * because we mix a DATA_RECORD and a MAP_SET on the same tableViewId

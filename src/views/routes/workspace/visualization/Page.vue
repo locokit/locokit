@@ -198,14 +198,9 @@
 import Vue from 'vue'
 
 import draggable from 'vuedraggable'
-import {
-  formatISO,
-  isValid,
-} from 'date-fns'
 
 import {
   BLOCK_TYPE,
-  COLUMN_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
@@ -231,7 +226,6 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
-import { READ_ONLY_COLUMNS_TYPES } from '@/services/lck-utils/columns'
 
 export default {
   name: 'Page',
@@ -657,7 +651,16 @@ export default {
         ? blockContent[tableViewId].find(({ id }) => id === rowId)
         : blockContent.data.find(({ id }) => id === rowId)
 
-      if (newValue?.reference) newValue = newValue.reference
+      const blockDefinition = this.getBlockDefinition(block)
+      const currentDefinition = isGeoBlock(currentBlock.type)
+        ? blockDefinition[tableViewId]
+        : blockDefinition
+
+      const updatedColumn = currentDefinition.columns.find(c => c.id === columnId)
+      const formattedData = lckHelpers.formatRowData(
+        { [columnId]: newValue },
+        { [columnId]: updatedColumn },
+      )
 
       this.cellState = {
         rowId: currentRow.id,
@@ -667,16 +670,10 @@ export default {
       }
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newValue,
-          },
+          data: formattedData,
           $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
-        const blockDefinition = this.getBlockDefinition(block)
-        const currentDefinition = isGeoBlock(currentBlock.type)
-          ? blockDefinition[tableViewId]
-          : blockDefinition
 
         lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
@@ -725,19 +722,11 @@ export default {
     },
     async onRowDuplicate (block, { data, table_id }) {
       try {
-        const duplicatedData = {}
         const currentBlockDefinition = this.getBlockDefinition(block)
-        currentBlockDefinition.columns.forEach(c => {
-          if ((c.column_type_id === COLUMN_TYPE.FORMULA && c.reference) || !READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
-            duplicatedData[c.id] = (
-            data[c.id]?.reference
-              ? data[c.id].reference
-              : data[c.id]
-            )
-          }
-        })
+        const columnsObject = objectFromArray(currentBlockDefinition.columns, 'id')
+        const formattedData = lckHelpers.formatRowData(data, columnsObject)
         await lckServices.tableRow.create({
-          data: duplicatedData,
+          data: formattedData,
           table_id,
         })
         await this.loadSourceContent(block.settings.id)
@@ -778,39 +767,12 @@ export default {
       }
       this.$set(block, 'submitting', { inProgress: true })
 
-      /**
-       * For date columns, we format the date to ISO, date only
-       */
-      currentBlockDefinition.columns
-        .forEach(c => {
-          switch (c.column_type_id) {
-            case COLUMN_TYPE.DATE:
-            case COLUMN_TYPE.DATETIME:
-              if (isValid(newRow.data[c.id])) {
-                data[c.id] = formatISO(new Date(newRow.data[c.id]))
-              } else {
-                data[c.id] = null
-              }
-              break
-            case COLUMN_TYPE.FILE:
-              if (Array.isArray(newRow.data[c.id])) {
-                data[c.id] = newRow.data[c.id].map(a => a.id)
-              }
-              break
-            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            case COLUMN_TYPE.USER:
-            case COLUMN_TYPE.GROUP:
-            case COLUMN_TYPE.MULTI_USER:
-              if (data[c.id]?.reference) {
-                data[c.id] = data[c.id].reference
-              }
-              break
-          }
-        })
+      const columnsObject = objectFromArray(currentBlockDefinition.columns, 'id')
+      const formattedData = lckHelpers.formatRowData(data, columnsObject)
+
       try {
         await lckServices.tableRow.create({
-          data,
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          data: formattedData,
           table_view_id: currentBlockDefinition.id,
           $lckGroupId: this.groupId,
         })
@@ -915,6 +877,10 @@ export default {
               [columnId]: newDataFiles,
             },
           })
+
+          const blockDefinition = this.getBlockDefinition(currentBlock)
+          lckHelpers.convertDateInRecords(res, blockDefinition.columns)
+
           currentRow.data = res.data
         }
         this.cellState.isValid = true
@@ -957,6 +923,10 @@ export default {
           },
         })
         this.cellState.isValid = true
+
+        const blockDefinition = this.getBlockDefinition(currentBlock)
+        lckHelpers.convertDateInRecords(res, blockDefinition.columns)
+
         currentRow.data = res.data
       } catch (error) {
         this.cellState.isValid = false

@@ -762,7 +762,7 @@ export default {
      */
     async onCellEditComplete (event) {
       // we init the value to the current value
-      let value = event.data.data[event.field]
+      const value = event.data.data[event.field]
       const currentColumn = this.definition.columns.find(c => c.id === event.field)
       // then we update it
       switch (currentColumn.column_type_id) {
@@ -814,20 +814,6 @@ export default {
               event.preventDefault()
               return
             }
-          }
-          /**
-           * in case of a Date, value is stored in the currentDateToEdit data
-           * we format it in the date representation,
-           * we just want to store the date
-           */
-          if (event.data.data[event.field] instanceof Date) {
-            value = currentColumn.column_type_id === COLUMN_TYPE.DATETIME
-              ? formatDateTimeISO(event.data.data[event.field])
-              : formatDateISO(event.data.data[event.field])
-          } else if (event.data.data[event.field] === '') {
-            value = null
-          } else {
-            return
           }
           break
       }

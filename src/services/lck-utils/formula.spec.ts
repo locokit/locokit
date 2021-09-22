@@ -59,6 +59,7 @@ describe('formulas', () => {
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.STRING,
       settings: {},
+      reference: false,
     },
     {
       text: 'NAME_C2',
@@ -66,6 +67,7 @@ describe('formulas', () => {
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.BOOLEAN,
       settings: {},
+      reference: false,
     },
   ]
 

@@ -54,6 +54,7 @@ const emptyTableView: LckTableView = {
 const defaultParamsTableViewColumn = {
   table_id: geoTableView.table_id,
   editable: false,
+  reference: false,
   position: 0,
   transmitted: false,
   displayed: true,

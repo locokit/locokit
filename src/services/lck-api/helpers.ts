@@ -20,14 +20,16 @@ import {
   LckTableColumn,
   LckTableRowDataComplex,
   LckPage,
+  LCKTableRowMultiDataComplex,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
-import { getColumnDisplayValue, getColumnTypeId } from '../lck-utils/columns'
+import { getColumnDisplayValue, getColumnTypeId, READ_ONLY_COLUMNS_TYPES } from '../lck-utils/columns'
 import FileType from 'file-type/browser'
-import { parseISO } from 'date-fns'
+import { isValid, parseISO } from 'date-fns'
+import { formatDateISO, formatDateTimeISO } from '../lck-utils/date'
 
 /**
  * Contact the API for searching items.
@@ -515,6 +517,66 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
   }
 }
 
+/**
+ * Format the row data to sent it to the LCK API.
+ */
+export function formatRowData (data: Record<string, LckTableRowData>, columnsObject: Record<string, LckTableViewColumn>, duplication = false) {
+  const formattedData: Record<string, LckTableRowData> = {}
+  // Loop over data properties to format values if necessary
+  for (const columnId in data) {
+    if (Object.hasOwnProperty.call(data, columnId)) {
+      const value = data[columnId]
+      const matchingColumn = columnsObject[columnId]
+      if (!matchingColumn) continue
+      // Format the value according to the type of the related column
+      switch (matchingColumn.column_type_id) {
+        case COLUMN_TYPE.DATE:
+          /**
+           * For date columns, we format the date to ISO, date only
+           */
+          formattedData[columnId] = value && isValid(value)
+            ? formatDateISO(value as Date)
+            : null
+          break
+        case COLUMN_TYPE.DATETIME:
+          /**
+           * For datetime columns, we format the datetime to ISO
+           */
+          formattedData[columnId] = value && isValid(value)
+            ? formatDateTimeISO(value as Date)
+            : null
+          break
+        case COLUMN_TYPE.FILE:
+          /**
+           * For file columns, we only keep the attachments ids
+           */
+          formattedData[columnId] = Array.isArray(value)
+            ? (value as unknown as LckAttachment[]).map(a => a.id as unknown as string)
+            : []
+          break
+        case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+        case COLUMN_TYPE.USER:
+        case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.MULTI_USER:
+        case COLUMN_TYPE.MULTI_GROUP:
+          formattedData[columnId] = value && Object.hasOwnProperty.call(value, 'reference')
+            ? (value as LckTableRowDataComplex | LCKTableRowMultiDataComplex).reference
+            : value
+          break
+
+        default:
+          if (!duplication ||
+            (matchingColumn.column_type_id === COLUMN_TYPE.FORMULA && matchingColumn.reference) ||
+            !READ_ONLY_COLUMNS_TYPES.has(matchingColumn.column_type_id)
+          ) {
+            formattedData[columnId] = value
+          }
+      }
+    }
+  }
+  return formattedData
+}
+
 export default {
   searchItems,
   searchPageWithChapter,
@@ -534,4 +596,5 @@ export default {
   retrieveViewDefinition,
   retrievePageWithContainersAndBlocks,
   convertDateInRecords,
+  formatRowData,
 }

@@ -744,6 +744,7 @@
     "lck": {
       "ROW_DUPLICATE": "An error occured when duplicating the row.",
       "ROW_DELETION": "An error occured when deleting the row.",
+      "ROW_SAVE": "An error occured when saving the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
     },
