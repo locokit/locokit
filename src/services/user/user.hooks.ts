@@ -4,7 +4,7 @@ import { authManagementSettings, AuthenticationManagementAction } from '../authm
 import * as feathersAuthenticationManagement from 'feathers-authentication-management'
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
-import commonHooks, { lowerCase } from 'feathers-hooks-common'
+import commonHooks, { lowerCase, disablePagination } from 'feathers-hooks-common'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
@@ -23,7 +23,9 @@ const getPassword = (hook: HookContext): string => hook.data.password
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [],
+    find: [
+      disablePagination(),
+    ],
     get: [],
     create: [
       lowerCase('email'),
