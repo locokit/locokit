@@ -724,7 +724,7 @@ export default {
       try {
         const currentBlockDefinition = this.getBlockDefinition(block)
         const columnsObject = objectFromArray(currentBlockDefinition.columns, 'id')
-        const formattedData = lckHelpers.formatRowData(data, columnsObject)
+        const formattedData = lckHelpers.formatRowData(data, columnsObject, true)
         await lckServices.tableRow.create({
           data: formattedData,
           table_id,
