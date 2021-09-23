@@ -49,6 +49,7 @@
       :crud-mode="false"
       :delete-allowed="deleteAllowed"
       :duplicate-allowed="duplicateAllowed"
+      :rowsNumber="rowsNumber"
       v-bind="$attrs"
       v-on="$listeners"
     />
@@ -207,6 +208,9 @@ export default {
     },
     hasDataToDisplay () {
       return this.hasColumns && this.content?.total > 0
+    },
+    rowsNumber () {
+      return this.content?.limit
     },
   },
   methods: {

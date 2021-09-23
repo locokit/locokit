@@ -467,6 +467,7 @@
         "mediaSrcURL": "Media URL",
         "mediaType": "Media type",
         "addAllowed": "Allow adding data",
+        "pagination": "Maximum allowed number of items per page",
         "exportAllowed": "Allow exporting data",
         "tableView": "View to display",
         "elevation": "Elevation",
@@ -540,6 +541,7 @@
           "addButtonTitle": "Creation button label",
           "addGeoSource": "Add a new geographic data source",
           "addSourceId": "View to use in the creation form",
+          "aggregationField": "Optional aggregation field",
           "deletePopupField": "Remove the field from the pop-up",
           "deleteSource": "Delete the source",
           "field": "Geographic field to display",
@@ -694,6 +696,7 @@
           "role": "Role"
         },
         "text" : {
+          "chapter": "chapter",
           "selectUser": "Select an user",
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",

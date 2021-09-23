@@ -379,7 +379,7 @@ export default {
       }))
       this.$set(this.secondarySources, block.id, newSecondarySources)
     },
-    createOrExtendSource (tableViewId, blockId, blockType) {
+    createOrExtendSource (tableViewId, blockId, blockType, pagination = 20) {
       /**
        * is the block type a multi-line one,
        * all _SET blocks
@@ -402,7 +402,7 @@ export default {
         /**
          * If the source already exist,
          * and if the block is not a geo one,
-         * we set the itemsPerPage to the default (20).
+         * we set the itemsPerPage to the value coming from the block settings or to the default value : 20.
          * This means that, if a source is shared between a Table / Card / ... Set
          * AND a MapSet,
          * the pagination is enabled.
@@ -410,13 +410,13 @@ export default {
          * If we need to have "more" results in the Map (all for examples),
          * the map need to have its own source, so not the same TableView
          */
-        if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = 20
+        if (!isGeoBlock(blockType) && multi) this.sources[tableViewId].options.itemsPerPage = pagination
       } else {
         /**
          * For the MapSet block, we don't limit the result
          * And for data records (or action button), we limit to 1
          */
-        let itemsPerPage = 20
+        let itemsPerPage = pagination
         if (isGeoBlock(blockType)) itemsPerPage = -1
         if (!multi) itemsPerPage = 1
 
@@ -471,7 +471,7 @@ export default {
             if (block.settings.addSourceId) this.createOrExtendSource(block.settings.addSourceId, block.id, block.type)
           }
           if (block.settings.id) {
-            this.createOrExtendSource(block.settings.id, block.id, block.type)
+            this.createOrExtendSource(block.settings.id, block.id, block.type, block.settings.pagination)
           }
           this.resetSecondarySources(block)
         })
@@ -596,6 +596,21 @@ export default {
             [block.settings.sources[0].id]: [this.sources[block.settings.sources[0].id]?.content],
           }
         case BLOCK_TYPE.TABLE_SET:
+          /**
+           * A TableSet block uses paginated result but we can receive unpaginated result
+           * so we encapsulate the received one if necessary.
+           */
+          if (!block.settings.id) return null
+          const sourceContent = this.sources[block.settings.id]?.content
+          return Array.isArray(sourceContent)
+            ? {
+              data: sourceContent,
+              total: sourceContent.length,
+              skip: 0,
+              limit: sourceContent.length,
+            }
+            : sourceContent
+
         case BLOCK_TYPE.DATA_RECORD:
         case BLOCK_TYPE.ACTION_BUTTON:
         case BLOCK_TYPE.MARKDOWN_FIELD:
@@ -1169,14 +1184,16 @@ export default {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }
     },
-    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes }) {
+    async onSearchFieldByColumnType ({ query, tableViewId, columnTypes, settings }) {
+      const additionalFilters = []
+      if (settings) additionalFilters.push({ settings })
+      if (columnTypes) {
+        additionalFilters.push({
+          column_type_id: { $in: columnTypes },
+        })
+      }
       try {
-        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, Array.isArray(columnTypes)
-          ? {
-            $or: columnTypes.map(columnTypeId => ({ column_type_id: columnTypeId })),
-          }
-          : {},
-        )
+        this.editableAutocompleteSuggestions = await this.searchField(query, tableViewId, { $and: additionalFilters })
       } catch (error) {
         this.displayToastOnError(this.$t('components.multiAutocomplete.error'), error)
       }

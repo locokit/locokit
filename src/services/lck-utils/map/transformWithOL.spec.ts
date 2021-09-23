@@ -98,11 +98,33 @@ const stringColumn: LckTableViewColumn = {
   ...defaultParamsTableViewColumn,
 }
 
-const booleanLookedUpColumn: LckTableViewColumn = {
-  text: 'Boolean LUC',
+const relationBetweenTablesColumn: LckTableViewColumn = {
+  text: 'RBT',
   id: 'e065323c-1151-447f-be0f-6d2728117b36',
   settings: {
-    // Implicit here as we just use the local data
+    tableId: 't065323c-1151-447f-be0f-6d2728117b35',
+  },
+  column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
+  ...defaultParamsTableViewColumn,
+}
+
+const booleanLookedUpColumn: LckTableViewColumn = {
+  text: 'Boolean LUC',
+  id: 'e065323c-1151-447f-be0f-6d2728117b35',
+  settings: {
+    localField: relationBetweenTablesColumn.id,
+    foreignField: 'f065323c-1151-447f-be0f-6d2728117b35',
+  },
+  column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+  ...defaultParamsTableViewColumn,
+}
+
+const geoPointLookedUpColumn: LckTableViewColumn = {
+  text: 'Geo Point LUC',
+  id: 'e065323c-1151-447f-be0f-6d2728117b34',
+  settings: {
+    localField: relationBetweenTablesColumn.id,
+    foreignField: 'f065323c-1151-447f-be0f-6d2728117b34',
   },
   column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
   ...defaultParamsTableViewColumn,
@@ -161,6 +183,7 @@ const allColumnsObject: Record<string, LckTableViewColumn> = {
   [booleanLookedUpColumn.id]: booleanLookedUpColumn,
   [geoPointColumn.id]: geoPointColumn,
   [geoPolygonColumn.id]: geoPolygonColumn,
+  [relationBetweenTablesColumn.id]: relationBetweenTablesColumn,
 }
 
 geoTableView.columns = allColumns
@@ -175,8 +198,13 @@ const firstRow: LckTableRow = {
       reference: 'unknown',
       value: true,
     },
+    [relationBetweenTablesColumn.id]: {
+      reference: 'foreign-row-1',
+      value: 'foreign row 1',
+    },
     [geoPolygonColumn.id]: 'SRID=4326;POLYGON((1.4 45.75,2 45.6,1.9 45.3,1.4 45.75))',
     [geoPointColumn.id]: 'SRID=4326;POINT(1.4 45)',
+    [geoPointLookedUpColumn.id]: { value: 'SRID=4326;POINT(1.4 40)', reference: 'unknown' },
   },
   id: '38ed19db-588d-4ca1-8ab3-c8b17d60db2d',
 }
@@ -187,16 +215,39 @@ const secondRow: LckTableRow = {
       reference: 'unknown',
       value: false,
     },
+    [relationBetweenTablesColumn.id]: {
+      reference: 'foreign-row-2',
+      value: 'foreign row 2',
+    },
     [stringColumn.id]: 'second',
     [geoPolygonColumn.id]: 'SRID=4326;POLYGON((1.5 46.75,2.1 46.6,2.0 46.3,1.5 46.75))',
     [geoPointColumn.id]: 'SRID=4326;POINT(1.5 46)',
+    [geoPointLookedUpColumn.id]: { value: 'SRID=4326;POINT(1.5 41)', reference: 'unknown' },
   },
   id: '38ed19db-588d-4ca1-8ab3-c8b17d60db3d',
+}
+const thirdRow: LckTableRow = {
+  text: 'third row',
+  data: {
+    [booleanLookedUpColumn.id]: {
+      reference: 'unknown',
+      value: false,
+    },
+    [relationBetweenTablesColumn.id]: {
+      reference: 'foreign-row-2',
+      value: 'foreign row 2',
+    },
+    [stringColumn.id]: 'third',
+    [geoPolygonColumn.id]: 'SRID=4326;POLYGON((1.5 46.75,2.1 46.6,2.0 46.3,1.5 47.75))',
+    [geoPointColumn.id]: 'SRID=4326;POINT(1.6 47)',
+    [geoPointLookedUpColumn.id]: { value: 'SRID=4326;POINT(1.5 41)', reference: 'unknown' },
+  },
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db4d',
 }
 const emptyRow: LckTableRow = {
   text: '',
   data: {},
-  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db4d',
+  id: '38ed19db-588d-4ca1-8ab3-c8b17d60db5d',
 }
 
 const rows: LckTableRow[] = [
@@ -386,6 +437,253 @@ describe('Transformations with OpenLayers', () => {
     const mapSourceSettings = {
       id: '263c21e6-5339-4748-903f-8c77e21314cf',
     }
+    describe('with aggregation', () => {
+      it('Throw an error if the aggregated column is unknown', () => {
+        expect(() =>
+          makeGeoJsonFeaturesCollection(
+            [firstRow],
+            geoColumns,
+            allColumnsObject,
+            {
+              id: '263c21e6-5339-4748-903f-8c77e21314cf',
+              aggregationField: 'unknown-field',
+            },
+            i18nOptions,
+          ),
+        ).toThrowError(TypeError)
+      })
+      it('Throw an error if the aggregated column is not a relation between tables column', () => {
+        expect(() =>
+          makeGeoJsonFeaturesCollection(
+            [firstRow],
+            geoColumns,
+            allColumnsObject,
+            {
+              id: '263c21e6-5339-4748-903f-8c77e21314cf',
+              aggregationField: stringColumn.id,
+            },
+            i18nOptions,
+          ),
+        ).toThrowError(TypeError)
+      })
+      it('Return an empty features array if there is no row', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [],
+          geoColumns,
+          allColumnsObject,
+          {
+            id: '263c21e6-5339-4748-903f-8c77e21314cf',
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.type).toBe('FeatureCollection')
+        expect(features.features).toHaveLength(0)
+      })
+      it('Return an empty features array and an empty editable geometry types set if there is no geographic columns', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [firstRow],
+          [],
+          allColumnsObject,
+          {
+            id: '263c21e6-5339-4748-903f-8c77e21314cf',
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.type).toBe('FeatureCollection')
+        expect(features.features).toHaveLength(0)
+      })
+      it('Return the aggregated features', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [
+            firstRow, // Linked to foreign-row-1
+            secondRow, // Linked to foreign-row-2
+            thirdRow, // Linked to foreign-row-2
+            emptyRow, // Must not be kept as there is no aggregation value
+          ],
+          [
+            geoPointColumn, // Must not be used as it is not linked to the aggregation field
+            geoPointLookedUpColumn, // Must be used as it is linked to the aggregation field
+          ],
+          allColumnsObject,
+          {
+            id: '263c21e6-5339-4748-903f-8c77e21314cf',
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.type).toBe('FeatureCollection')
+        expect(features.features).toHaveLength(2)
+        // Aggregation of the first row
+        expect(features.features).toContainEqual({
+          id: 'foreign-row-1:f065323c-1151-447f-be0f-6d2728117b34',
+          geometry: {
+            type: 'Point',
+            coordinates: [1.4, 40],
+          },
+          properties: {
+            columnId: 'f065323c-1151-447f-be0f-6d2728117b34',
+            id: 'foreign-row-1:f065323c-1151-447f-be0f-6d2728117b34',
+            point_count: 1,
+            rowId: 'foreign-row-1',
+          },
+          type: 'Feature',
+        })
+        // Aggregation of the second and the third rows
+        expect(features.features).toContainEqual({
+          id: 'foreign-row-2:f065323c-1151-447f-be0f-6d2728117b34',
+          geometry: {
+            type: 'Point',
+            coordinates: [1.5, 41],
+          },
+          properties: {
+            columnId: 'f065323c-1151-447f-be0f-6d2728117b34',
+            id: 'foreign-row-2:f065323c-1151-447f-be0f-6d2728117b34',
+            point_count: 2,
+            rowId: 'foreign-row-2',
+          },
+          type: 'Feature',
+        })
+      })
+      it('If the popup is desired but no title has been configured, return the text of the aggregation row', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [firstRow],
+          [geoPointLookedUpColumn],
+          allColumnsObject,
+          {
+            id: geoTableView.id,
+            popup: true,
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.features).toHaveLength(1)
+        expect(features.features[0].properties?.title).toBe('foreign row 1')
+      })
+      it('If the popup title is configured to display the values of a column which is not linked to the aggregated field, throw an error', () => {
+        expect(() =>
+          makeGeoJsonFeaturesCollection(
+            [firstRow],
+            [geoPointLookedUpColumn],
+            allColumnsObject,
+            {
+              id: geoTableView.id,
+              popup: true,
+              popupSettings: {
+                title: stringColumn.id,
+                contentFields: [],
+              },
+              aggregationField: relationBetweenTablesColumn.id,
+            },
+            i18nOptions,
+          ),
+        ).toThrowError(TypeError)
+      })
+      it('If the popup title is configured as an id of a column which is linked to the aggregated field, return the column value', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [firstRow],
+          [geoPointLookedUpColumn],
+          allColumnsObject,
+          {
+            id: geoTableView.id,
+            popup: true,
+            popupSettings: {
+              title: booleanLookedUpColumn.id,
+              contentFields: [],
+            },
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.features).toHaveLength(1)
+        expect(features.features[0].properties?.title).toBe(true)
+      })
+      it('If the popup content is configured with a valid column id, display the value of the corresponding field with the specified css class', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [firstRow],
+          [geoPointLookedUpColumn],
+          allColumnsObject,
+          {
+            id: geoTableView.id,
+            popup: true,
+            popupSettings: {
+              contentFields: [
+                {
+                  field: booleanLookedUpColumn.id,
+                  class: 'my-custom-css-class',
+                },
+              ],
+            },
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+        )
+        expect(features.features).toHaveLength(1)
+        expect(features.features[0].properties?.content).toHaveLength(1)
+        expect(features.features[0].properties?.content[0]).toMatchObject({
+          field: {
+            label: 'Boolean LUC',
+            value: true,
+          },
+          class: 'my-custom-css-class',
+        })
+      })
+      it('If the popup content is configured with a valid column id, display the value of the corresponding field with the specified css class', () => {
+        expect(() =>
+          makeGeoJsonFeaturesCollection(
+            [firstRow],
+            [geoPointLookedUpColumn],
+            allColumnsObject,
+            {
+              id: geoTableView.id,
+              popup: true,
+              popupSettings: {
+                contentFields: [
+                  {
+                    field: stringColumn.id,
+                    class: 'my-custom-css-class',
+                  },
+                ],
+              },
+              aggregationField: relationBetweenTablesColumn.id,
+            },
+            i18nOptions,
+          ),
+        ).toThrowError(TypeError)
+      })
+      it('If some columns which are linked to the aggregation field are used to define the style source, add the related values', () => {
+        const features = makeGeoJsonFeaturesCollection(
+          [firstRow, secondRow, thirdRow],
+          [geoPointLookedUpColumn],
+          allColumnsObject,
+          {
+            id: geoTableView.id,
+            aggregationField: relationBetweenTablesColumn.id,
+          },
+          i18nOptions,
+          [booleanLookedUpColumn.id],
+        )
+        expect(features.features).toHaveLength(2)
+        expect(features.features[0].properties?.[booleanLookedUpColumn.id]).toBe(true)
+        expect(features.features[1].properties?.[booleanLookedUpColumn.id]).toBe(false)
+      })
+      it('If some columns which are not linked to the aggregation field are used to define the style source, throw an error', () => {
+        expect(() =>
+          makeGeoJsonFeaturesCollection(
+            [firstRow, secondRow, thirdRow],
+            [geoPointLookedUpColumn],
+            allColumnsObject,
+            {
+              id: geoTableView.id,
+              aggregationField: relationBetweenTablesColumn.id,
+            },
+            i18nOptions,
+            [booleanLookedUpColumn.id, stringColumn.id],
+          ),
+        ).toThrowError(TypeError)
+      })
+    })
     it('Returns an empty features array if there is no row', () => {
       const features = makeGeoJsonFeaturesCollection(
         [],
@@ -397,10 +695,10 @@ describe('Transformations with OpenLayers', () => {
       expect(features.type).toBe('FeatureCollection')
       expect(features.features).toHaveLength(0)
     })
-    it('Returns an empty features array and an empty editable geometry types set if there is no geographic columns', () => {
+    it('Returns an empty features array if there is no geographic columns', () => {
       const features = makeGeoJsonFeaturesCollection(
+        [firstRow],
         [],
-        geoColumns,
         allColumnsObject,
         mapSourceSettings,
         i18nOptions,
@@ -545,7 +843,7 @@ describe('Transformations with OpenLayers', () => {
       expect(features.features[0].properties?.[stringColumn.id]).toBe(firstRow.data[stringColumn.id])
       expect(features.features[1].properties?.[stringColumn.id]).toBe(secondRow.data[stringColumn.id])
     })
-    it('If some VLUC columns are used to define the style source, add the related values', () => {
+    it('If some LUC columns are used to define the style source, add the related values', () => {
       const features = makeGeoJsonFeaturesCollection(
         [firstRow, secondRow],
         [geoPointColumn],
@@ -642,14 +940,14 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].editableGeometryTypes.size).toBe(1)
       expect(resources[0].editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)).toBe(true)
       expect(resources[0].selectable).toBe(false)
-      expect(resources[0].layers).toContainEqual({
+      expect(resources[0].layers).toContainEqual(expect.objectContaining({
         ...GEO_STYLE.Point,
         id: `features-collection-source-0-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
-      })
-      expect(resources[0].layers).toContainEqual({
+      }))
+      expect(resources[0].layers).toContainEqual(expect.objectContaining({
         ...GEO_STYLE.Polygon,
         id: `features-collection-source-0-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
-      })
+      }))
     })
     it('Returns that the resource is selectable if it is specified in the map settings', () => {
       const resources = getLckGeoResources(
@@ -751,6 +1049,7 @@ describe('Transformations with OpenLayers', () => {
           'circle-radius': 2,
           'circle-opacity': mapDefaultStyle.opacity,
         },
+        layout: {},
       })
     })
   })
@@ -772,6 +1071,7 @@ describe('Transformations with OpenLayers', () => {
             'circle-stroke-width': mapDefaultStyle.stroke.width,
             'circle-radius': mapDefaultStyle.fill.width,
           },
+          layout: {},
         })
       })
       it('Return the specified default style', () => {
@@ -788,6 +1088,13 @@ describe('Transformations with OpenLayers', () => {
                 color: '#111',
                 width: 10,
               },
+              paint: {
+                'circle-blur': 1,
+                'circle-radius': 3,
+              },
+              layout: {
+                visibility: 'none',
+              },
             },
           },
         )
@@ -800,7 +1107,11 @@ describe('Transformations with OpenLayers', () => {
             'circle-color': '#000',
             'circle-stroke-color': '#111',
             'circle-stroke-width': 10,
-            'circle-radius': 2,
+            'circle-radius': 3,
+            'circle-blur': 1,
+          },
+          layout: {
+            visibility: 'none',
           },
         })
       })
@@ -819,6 +1130,10 @@ describe('Transformations with OpenLayers', () => {
                 color: '#111',
                 width: 10,
               },
+              paint: {
+                'text-halo-width': 1,
+                'text-halo-color': '#fff',
+              },
             },
           },
         )
@@ -829,11 +1144,16 @@ describe('Transformations with OpenLayers', () => {
           paint: {
             'icon-opacity': mapDefaultStyle.opacity,
             'icon-color': '#000',
+            'text-halo-width': 1,
+            'text-halo-color': '#fff',
           },
           layout: {
             'icon-image': 'myUrlIcon',
             'icon-size': 2,
             'icon-allow-overlap': true,
+            'text-font': [
+              'Open Sans Regular',
+            ],
           },
           imagesToLoad: new Set(['myUrlIcon']),
         })
@@ -908,6 +1228,7 @@ describe('Transformations with OpenLayers', () => {
               mapDefaultStyle.stroke.width,
             ],
           },
+          layout: {},
         })
       })
       it('Return the style based on explicit style settings with several fields', () => {
@@ -992,6 +1313,7 @@ describe('Transformations with OpenLayers', () => {
               mapDefaultStyle.stroke.width,
             ],
           },
+          layout: {},
         })
       })
       it('Return the style based on explicit style settings with markers', () => {
@@ -1045,6 +1367,9 @@ describe('Transformations with OpenLayers', () => {
               mapDefaultStyle.icon.url,
             ],
             'icon-allow-overlap': true,
+            'text-font': [
+              'Open Sans Regular',
+            ],
           },
           imagesToLoad: new Set([
             mapDefaultStyle.icon.url,
@@ -1069,6 +1394,7 @@ describe('Transformations with OpenLayers', () => {
             'fill-color': mapDefaultStyle.fill.color,
             'fill-outline-color': mapDefaultStyle.stroke.color,
           },
+          layout: {},
         })
       })
       it('Return the specified default style', () => {
@@ -1096,6 +1422,7 @@ describe('Transformations with OpenLayers', () => {
             'fill-color': '#000',
             'fill-outline-color': '#111',
           },
+          layout: {},
         })
       })
     })
@@ -1117,6 +1444,7 @@ describe('Transformations with OpenLayers', () => {
             'line-color': mapDefaultStyle.fill.color,
             'line-width': mapDefaultStyle.fill.width,
           },
+          layout: {},
         })
       })
       it('Return the specified default style', () => {
@@ -1144,6 +1472,7 @@ describe('Transformations with OpenLayers', () => {
             'line-color': '#000',
             'line-width': 10,
           },
+          layout: {},
         })
       })
     })

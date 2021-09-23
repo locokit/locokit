@@ -255,6 +255,10 @@ export function getColumnDisplayValue (
   column: LckTableColumn,
   data: LckTableRowData = '',
   onlyBaseValue = false,
+  i18nOptions?: {
+    dateFormat: string | TranslateResult;
+    datetimeFormat: string | TranslateResult;
+  },
 ): string | undefined | SelectValue {
   if (
     data === '' ||
@@ -275,16 +279,16 @@ export function getColumnDisplayValue (
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT,
         ].includes(originalColumn.column_type_id)) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue, i18nOptions)
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue, i18nOptions)
         } else {
           return (data as LckTableRowDataComplex).value as string
         }
       case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
         const virtualOriginalColumn = getOriginalColumn(column)
         if (virtualOriginalColumn.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) {
-          return getColumnDisplayValue(virtualOriginalColumn, data, onlyBaseValue)
+          return getColumnDisplayValue(virtualOriginalColumn, data, onlyBaseValue, i18nOptions)
         }
         return data as string
       case COLUMN_TYPE.MULTI_USER:
@@ -309,14 +313,23 @@ export function getColumnDisplayValue (
 
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-          return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
+          return formatDate(
+            (data as Date),
+            i18nOptions ? i18nOptions.dateFormat : i18n.t('date.dateFormat'),
+          ) || ''
         } else {
           return data as string
         }
       case COLUMN_TYPE.DATE:
-        return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
+        return formatDate(
+          (data as Date),
+          i18nOptions ? i18nOptions.dateFormat : i18n.t('date.dateFormat'),
+        ) || ''
       case COLUMN_TYPE.DATETIME:
-        return formatDate((data as Date), i18n.t('date.datetimeFormat')) || ''
+        return formatDate(
+          (data as Date),
+          i18nOptions ? i18nOptions.datetimeFormat : i18n.t('date.datetimeFormat'),
+        ) || ''
       default:
         return data as string
     }
@@ -340,15 +353,23 @@ export function getDataFromTableViewColumn (
     case COLUMN_TYPE.USER:
     case COLUMN_TYPE.GROUP:
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-    case COLUMN_TYPE.LOOKED_UP_COLUMN:
       return {
         label: column.text,
         value: (data as LckTableRowDataComplex | null)?.value as string || options.noData as string,
       }
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+      const lookedUpColumnValue = getColumnDisplayValue(
+        column,
+        data,
+        true,
+        { dateFormat: options.dateFormat, datetimeFormat: options.datetimeFormat },
+      ) as string | number | boolean | undefined
       return {
         label: column.text,
-        value: getColumnDisplayValue(column, data, true) as string | number | boolean | undefined || options.noData as string,
+        value: lookedUpColumnValue != null && lookedUpColumnValue !== ''
+          ? lookedUpColumnValue
+          : options.noData as string,
       }
     case COLUMN_TYPE.MULTI_USER:
       return {
@@ -380,16 +401,16 @@ export function getDataFromTableViewColumn (
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as Date, options.dateFormat) || options.noData) as string,
+        value: (data != null ? formatDate(data as Date, options.dateFormat) : options.noData) as string,
       }
     case COLUMN_TYPE.DATETIME:
       // eslint-disable-next-line no-case-declarations
       return {
         label: column.text,
-        value: (formatDate(data as Date, options.datetimeFormat) || options.noData) as string,
+        value: (data != null ? formatDate(data as Date, options.datetimeFormat) : options.noData) as string,
       }
     default:
-      return { label: column.text, value: (data || options.noData) as string }
+      return { label: column.text, value: (data != null && data !== '' ? data : options.noData) as string }
   }
 }
 

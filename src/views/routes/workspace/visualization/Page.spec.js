@@ -319,6 +319,73 @@ const mockPages = {
       },
     ],
   },
+  7: {
+    id: '7',
+    text: 'Page 6',
+    createdAt: '2021-06-25T18:40:03.109Z',
+    updatedAt: '2021-06-25T18:40:03.109Z',
+    chapter_id: 'C1',
+    position: 5,
+    containers: [
+      {
+        id: '17',
+        text: 'Main container',
+        createdAt: '2021-06-25T18:40:03.109Z',
+        updatedAt: '2021-06-25T18:40:03.109Z',
+        page_id: '1',
+        position: 2,
+        display_title: false,
+        displayed_in_navbar: false,
+        blocks: [
+          {
+            id: '160',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '1',
+              pagination: 5,
+            },
+            title: 'My TableSet block',
+            type: BLOCK_TYPE.TABLE_SET,
+            position: 1,
+            containerId: '16',
+          },
+          {
+            id: '161',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            settings: {
+              id: '2',
+              pagination: -1,
+            },
+            title: 'My TableSet block',
+            type: BLOCK_TYPE.TABLE_SET,
+            position: 1,
+            containerId: '16',
+          },
+          {
+            id: '162',
+            createdAt: '2021-06-25T18:40:03.109Z',
+            updatedAt: '2021-06-25T18:40:03.109Z',
+            containerId: '16',
+            settings: {
+              sources: [
+                {
+                  id: '1',
+                },
+                {
+                  id: '2',
+                },
+              ],
+            },
+            title: 'My map block',
+            type: BLOCK_TYPE.MAP_SET,
+            position: 3,
+          },
+        ],
+      },
+    ],
+  },
 }
 
 const mockChapters = [
@@ -1873,6 +1940,39 @@ describe('Page', () => {
       )
 
       spyOnToastAdd.mockClear()
+    })
+  })
+
+  describe('Mutualisation sources with custom table set pagination', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      wrapper = shallowMount(Page, {
+        ...globalComponentParams(),
+        propsData: {
+          pageId: '7',
+          editMode: false,
+          workspaceId: 'toto',
+          groupId: 'this-is-a-group',
+        },
+      })
+    })
+
+    it('mutualize 2 sources', () => {
+      expect.assertions(3)
+      expect(Object.keys(wrapper.vm.sources)).toHaveLength(2)
+      expect(wrapper.vm.sources['1']).toBeDefined()
+      expect(wrapper.vm.sources['2']).toBeDefined()
+    })
+    it('provide paginated data to MapSet if mutualized with a TableSet', () => {
+      expect.assertions(4)
+      const limitedTableSetContent = wrapper.vm.getBlockContent(mockPages['7'].containers[0].blocks[0])
+      const unlimitedTableSetContent = wrapper.vm.getBlockContent(mockPages['7'].containers[0].blocks[1])
+      const mapSetContent = wrapper.vm.getBlockContent(mockPages['7'].containers[0].blocks[2])
+      expect(limitedTableSetContent.data).toBe(mapSetContent['1'])
+      expect(limitedTableSetContent.data.length).toBe(5)
+      expect(unlimitedTableSetContent.data).toBe(mapSetContent['2'])
+      expect(unlimitedTableSetContent.data.length).toBe(28)
     })
   })
 
