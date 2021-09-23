@@ -112,6 +112,33 @@
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
 
+        <!-- Source view aggregation field -->
+        <validation-provider
+          :vid="`source-aggregation-field-${index}`"
+          tag="div"
+          class="p-field"
+        >
+          <label :for="`source-aggregation-field-${index}`">
+            {{ $t('pages.workspace.block.map.aggregationField') }}
+          </label>
+          <lck-autocomplete
+            :disabled="!source.id"
+            :dropdown="true"
+            field="text"
+            :id="`source-aggregation-field-${index}`"
+            :placeholder="needRelatedSourcePlaceholder[index]"
+            :suggestions="autocompleteSuggestions"
+            v-model="sourcesOptions[index].aggregationField"
+            @clear="onSourcePropertyChange(source, 'aggregationField', null)"
+            @item-select="onAggregationFieldChange(source, $event)"
+            @search="$emit('search-field', {
+              query: $event.query,
+              tableViewId: source.id,
+              columnTypes: [COLUMN_TYPE.RELATION_BETWEEN_TABLES]
+            })"
+          />
+        </validation-provider>
+
         <!-- Source view field -->
         <validation-provider
           :vid="`source-field-${index}`"
@@ -131,7 +158,12 @@
             v-model="sourcesOptions[index].field"
             @clear="onSourcePropertyChange(source, 'field', null)"
             @item-select="onFieldChange(source, $event)"
-            @search="$emit('search-field', { query: $event.query, tableViewId: source.id, columnTypes: DISPLAYABLE_COLUMN_TYPES })"
+            @search="$emit('search-field', {
+              query: $event.query,
+              tableViewId: source.id,
+              columnTypes: DISPLAYABLE_COLUMN_TYPES,
+              ...queryParametersOnAggregation[index]
+            })"
           />
         </validation-provider>
 
@@ -193,7 +225,11 @@
                 saveFieldItem(source, $event);
                 onSourcePopupPropertyChange(source, 'title', $event.value.value);
               "
-              @search="$emit('search-field', { query: $event.query, tableViewId: source.id })"
+              @search="$emit('search-field', {
+                query: $event.query,
+                tableViewId: source.id,
+                ...queryParametersOnAggregation[index]
+              })"
             />
           </validation-provider>
 
@@ -274,7 +310,11 @@
                   saveFieldItem(source, $event);
                   onPopupFieldChange(contentField, 'field', $event.value.value);
                 "
-                @search="$emit('search-field', { query: $event.query, tableViewId: source.id })"
+                @search="$emit('search-field', {
+                  query: $event.query,
+                  tableViewId: source.id,
+                  ...queryParametersOnAggregation[index]
+                })"
               />
               <span :class="classes">{{ errors[0] }}</span>
             </validation-provider>
@@ -362,10 +402,11 @@ interface Item {
 }
 
 interface SourceOptions {
-  tableView?: Item;
+  aggregationField?: Item;
   field?: Item;
-  popupTitle?: Item;
   popupFields?: Item[];
+  popupTitle?: Item;
+  tableView?: Item;
 }
 
 export default Vue.extend({
@@ -411,6 +452,7 @@ export default Vue.extend({
   data (): {
     EXTENDED_NAMED_CLASSES: { label: string; value: string }[];
     DISPLAYABLE_COLUMN_TYPES: COLUMN_TYPE[];
+    COLUMN_TYPE: typeof COLUMN_TYPE;
     sourcesOptions: SourceOptions[];
     tableViewIdsNamesAssociation: Record<string, string>;
     fieldIdsNamesAssociationByTableView: Record<string, Record<string, string>>;
@@ -422,6 +464,7 @@ export default Vue.extend({
       tableViewIdsNamesAssociation: {},
       fieldIdsNamesAssociationByTableView: {},
       tableViewUniqueOptions: [],
+      COLUMN_TYPE,
       DISPLAYABLE_COLUMN_TYPES: [
         ...GEOGRAPHIC_COLUMN_TYPES,
         COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
@@ -451,6 +494,19 @@ export default Vue.extend({
         return source.id
           ? this.$t('components.datatable.autoCompletePlaceholder')
           : this.$t('pages.workspace.block.map.noSelectedView')
+      })
+    },
+    queryParametersOnAggregation () {
+      // If the source data is aggregated, only the columns related to the aggregation field should be used
+      // (in the popup, to customise the layers...) because their values are similar in the aggregated rows.
+      return this.sources.map(source => {
+        return source.aggregationField
+          ? {
+            settings: {
+              localField: source.aggregationField,
+            },
+          }
+          : {}
       })
     },
   },
@@ -485,6 +541,13 @@ export default Vue.extend({
       this.saveFieldItem(source, { value })
       // Update the settings and ask new data
       this.onSourcePropertyChange(source, 'field', value.value)
+      this.$emit('component-refresh-required', true)
+    },
+    onAggregationFieldChange (source: MapSourceSettings, { value }: { value: { value: string; text: string }}) {
+      // Save the id and the name of the selected aggregation field
+      this.saveFieldItem(source, { value })
+      // Update the settings and ask new data
+      this.onSourcePropertyChange(source, 'aggregationField', value.value)
       this.$emit('component-refresh-required', true)
     },
     onSourcePropertyChange (
@@ -540,7 +603,7 @@ export default Vue.extend({
       const alreadySourceViewIds: Set<string> = new Set()
       let addSourceIdExist = false
 
-      sources.forEach(({ id: tableViewId, field, popupSettings }, index) => {
+      sources.forEach(({ id: tableViewId, field, aggregationField, popupSettings }, index) => {
         const currentSourceOptions: SourceOptions = {}
         // Input related to the source view
         if (tableViewId) {
@@ -556,6 +619,13 @@ export default Vue.extend({
               text: this.tableViewIdsNamesAssociation[tableViewId] || `${this.$t('components.mapview.noReference')} (${index + 1})`,
             })
             alreadySourceViewIds.add(tableViewId)
+          }
+        }
+        // Input related to the source aggregation field
+        if (aggregationField) {
+          currentSourceOptions.aggregationField = {
+            value: aggregationField,
+            text: this.fieldIdsNamesAssociationByTableView[tableViewId]?.[aggregationField],
           }
         }
         // Input related to the source field

@@ -153,6 +153,7 @@
       :exportAllowed.sync="blockCopy.settings.exportAllowed"
       :id.sync="blockCopy.settings.id"
       :pageDetailId.sync="blockCopy.settings.pageDetailId"
+      :pagination.sync="blockCopy.settings.pagination"
       :tableViewDefinition="tableViewDefinition"
       :relatedChapterPages="relatedChapterPages"
       :autocompleteSuggestions="autocompleteSuggestions"

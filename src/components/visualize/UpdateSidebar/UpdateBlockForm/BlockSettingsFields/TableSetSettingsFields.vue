@@ -25,6 +25,23 @@
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
     <validation-provider
+      vid="blockSettingsPagination"
+      tag="div"
+      class="p-field"
+    >
+      <label for="blockSettingsPagination">{{ $t('pages.workspace.block.pagination') }}</label>
+      <p-dropdown
+        id="blockSettingsPagination"
+        :options="availablePaginationValues"
+        optionLabel="label"
+        optionValue="value"
+        :value="pagination"
+        :showClear="true"
+        :placeholder="$t('components.datatable.placeholder')"
+        @input="onChangePagination"
+      />
+    </validation-provider>
+    <validation-provider
       vid="blockSettingsAddAllowed"
       tag="div"
       class="p-field"
@@ -102,6 +119,9 @@ export default {
     pageDetailId: {
       type: String,
     },
+    pagination: {
+      type: Number,
+    },
     autocompleteSuggestions: {
       type: Array,
       default: () => ([]),
@@ -121,6 +141,14 @@ export default {
       tableView: null,
     }
   },
+  computed: {
+    availablePaginationValues (): { value: number; label: string }[] {
+      return [20, 50, 100, -1].map(value => ({
+        value: value,
+        label: (value !== -1 ? value : Infinity).toLocaleString(),
+      }))
+    },
+  },
   watch: {
     tableViewDefinition: {
       handler (view: LckTableView | null) {
@@ -137,6 +165,10 @@ export default {
   methods: {
     onChangeTableView () {
       this.$emit('update:id', this.tableView.value)
+      this.$emit('component-refresh-required', true)
+    },
+    onChangePagination (pagination: number) {
+      this.$emit('update:pagination', pagination)
       this.$emit('component-refresh-required', true)
     },
   },

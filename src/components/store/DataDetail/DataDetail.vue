@@ -306,7 +306,6 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
-import { ValidationResult } from 'vee-validate/dist/types/types'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 

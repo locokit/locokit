@@ -129,7 +129,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_70_list"
+          aria-owns="pv_id_72_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -137,7 +137,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_70_list"
+            aria-controls="pv_id_72_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -187,7 +187,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_71_list"
+          aria-owns="pv_id_73_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -196,7 +196,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_71_list"
+            aria-controls="pv_id_73_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -554,7 +554,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_72_list"
+            aria-owns="pv_id_74_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             dropdown="true"
             id="blockSettingsTableView"
@@ -563,7 +563,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_72_list"
+              aria-controls="pv_id_74_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsTableView"
@@ -638,7 +638,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <span
               class="p-panel-title"
-              id="pv_id_73_header"
+              id="pv_id_75_header"
             >
               Notification settings
             </span>
@@ -648,9 +648,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             >
                
               <button
-                aria-controls="pv_id_73_content"
+                aria-controls="pv_id_75_content"
                 class="p-panel-header-icon p-panel-toggler p-link"
-                id="pv_id_73_header"
+                id="pv_id_75_header"
                 type="button"
               >
                 <span
@@ -664,9 +664,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           </div>
            
           <div
-            aria-labelledby="pv_id_73_header"
+            aria-labelledby="pv_id_75_header"
             class="p-toggleable-content"
-            id="pv_id_73_content"
+            id="pv_id_75_content"
             role="region"
             style="display: none;"
           >
@@ -1931,6 +1931,65 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               class="p-field"
             >
               <label
+                for="source-aggregation-field-0"
+              >
+                
+          Optional aggregation field
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_67_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="source-aggregation-field-0"
+                placeholder="Start typing for suggestions"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_67_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="source-aggregation-field-0"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
                 for="source-field-0"
               >
                 
@@ -1940,7 +1999,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_67_list"
+                aria-owns="pv_id_68_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-field-0"
@@ -1949,7 +2008,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_67_list"
+                  aria-controls="pv_id_68_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-field-0"
@@ -2091,7 +2150,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_68_list"
+                aria-owns="pv_id_69_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-id-1"
@@ -2099,7 +2158,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_68_list"
+                  aria-controls="pv_id_69_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-id-1"
@@ -2146,6 +2205,68 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               class="p-field"
             >
               <label
+                for="source-aggregation-field-1"
+              >
+                
+          Optional aggregation field
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_70_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                disabled="disabled"
+                dropdown="true"
+                id="source-aggregation-field-1"
+                placeholder="No view has been selected"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_70_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+                  disabled="disabled"
+                  id="source-aggregation-field-1"
+                  placeholder="Start typing for suggestions"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  disabled="disabled"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
                 for="source-field-1"
               >
                 
@@ -2155,7 +2276,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_69_list"
+                aria-owns="pv_id_71_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 disabled="disabled"
                 dropdown="true"
@@ -2165,7 +2286,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_69_list"
+                  aria-controls="pv_id_71_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                   disabled="disabled"
@@ -4503,6 +4624,55 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
           >
             
           </span>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsPagination"
+          >
+            Maximum allowed number of items per page
+          </label>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+            id="blockSettingsPagination"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext p-placeholder"
+            >
+              
+            Select an option
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
         </div>
          
         <div
