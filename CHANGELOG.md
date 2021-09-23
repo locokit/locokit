@@ -1,5 +1,12 @@
 # CHANGELOG
 
+**v0.3.5**
+
+**Feature**
+* add new setting `pagination` in `TableSetSettings`
+* add new setting `aggregationField` in `MapSourceSettings`
+* add new settings `layout` and `paint` in the default style of a Map (`MapSourceStyle`)
+
 **v0.3.4**
 
 **Feature**
