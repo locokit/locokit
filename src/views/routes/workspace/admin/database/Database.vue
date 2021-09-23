@@ -166,6 +166,7 @@
           @update-row="onUpdateRow"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles($event, newRow)"
+          @remove-attachment="onRemoveAttachment($event, newRow)"
           @get-secondary-sources='getSecondarySources'
         />
       </lck-dialog-form>
@@ -187,6 +188,7 @@
           @update-row="onUpdateCell"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles"
+          @remove-attachment="onRemoveAttachment"
           @get-secondary-sources='getSecondarySources'
         />
 
@@ -1108,6 +1110,7 @@ export default {
         if (newRow) {
           if (!currentRow.data[columnId]) this.$set(currentRow.data, columnId, [])
           currentRow.data[columnId].push(...newUploadedFiles)
+          this.cellState.isValid = true
         } else {
           const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
           newDataFiles.push(...newUploadedFiles.map(u => u.id))
@@ -1135,8 +1138,7 @@ export default {
       }
       this.cellState.waiting = false
     },
-    async onRemoveAttachment ({ rowId, columnId, attachmentId }) {
-      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+    async onRemoveAttachment ({ rowId, columnId, attachmentId }, newRow) {
       this.cellState = {
         rowId,
         columnId,
@@ -1144,24 +1146,38 @@ export default {
         isValid: false, // don't know if we have to set to false or null
       }
 
-      try {
-        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newDataFiles,
-          },
-        })
+      // Here we need to know if we are in a creation or in a row update
+      if (newRow) {
+        // Row creation -> only update local data
+        if (!Array.isArray(newRow.data[columnId])) {
+          this.$set(newRow.data, columnId, [])
+        } else {
+          const deletedAttachmentIndex = newRow.data[columnId].findIndex(a => a.id === attachmentId)
+          if (deletedAttachmentIndex >= 0) newRow.data[columnId].splice(deletedAttachmentIndex, 1)
+        }
         this.cellState.isValid = true
-        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
-        currentRow.data = res.data
-      } catch (error) {
-        this.cellState.isValid = false
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: error.message,
-          life: 5000,
-        })
+      } else {
+        // Row update -> update database and local data
+        try {
+          const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+          const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+          const res = await lckServices.tableRow.patch(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles,
+            },
+          })
+          this.cellState.isValid = true
+          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+          currentRow.data = res.data
+        } catch (error) {
+          this.cellState.isValid = false
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.http.' + error.code),
+            detail: error.message,
+            life: 5000,
+          })
+        }
       }
       this.cellState.waiting = false
     },

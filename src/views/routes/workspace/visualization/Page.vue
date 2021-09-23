@@ -901,41 +901,57 @@ export default {
       rowId,
       columnId,
       attachmentId,
+      newRow,
     }) {
-      let currentBlock = null
-      this.page.containers.forEach(container => {
-        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
-        blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
-      })
-      const currentRow = this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
-      this.cellState = {
-        rowId: currentRow.id,
-        columnId,
-        waiting: true,
-        isValid: false, // don't know if we have to set to false or null
-      }
-
-      try {
-        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newDataFiles,
-          },
-        })
+      /**
+       * Here we need to know if we are in a creation or in a row update
+       */
+      if (newRow) {
+        // Row creation -> only update local data
+        if (!Array.isArray(newRow.data[columnId])) {
+          this.$set(newRow.data, columnId, [])
+        } else {
+          const deletedAttachmentIndex = newRow.data[columnId].findIndex(a => a.id === attachmentId)
+          if (deletedAttachmentIndex >= 0) newRow.data[columnId].splice(deletedAttachmentIndex, 1)
+        }
         this.cellState.isValid = true
-
-        const blockDefinition = this.getBlockDefinition(currentBlock)
-        lckHelpers.convertDateInRecords(res, blockDefinition.columns)
-
-        currentRow.data = res.data
-      } catch (error) {
-        this.cellState.isValid = false
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: error.message,
-          life: 5000,
+      } else {
+        // Row update -> update database and local data
+        let currentBlock = null
+        this.page.containers.forEach(container => {
+          const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+          blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
         })
+        const currentRow = this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
+        this.cellState = {
+          rowId: currentRow.id,
+          columnId,
+          waiting: true,
+          isValid: false, // don't know if we have to set to false or null
+        }
+
+        try {
+          const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+          const res = await lckServices.tableRow.patch(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles,
+            },
+          })
+          this.cellState.isValid = true
+
+          const blockDefinition = this.getBlockDefinition(currentBlock)
+          lckHelpers.convertDateInRecords(res, blockDefinition.columns)
+
+          currentRow.data = res.data
+        } catch (error) {
+          this.cellState.isValid = false
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.http.' + error.code),
+            detail: error.message,
+            life: 5000,
+          })
+        }
       }
       this.cellState.waiting = false
     },

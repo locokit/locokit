@@ -38,8 +38,10 @@
         :secondarySources="$attrs['secondarySources']"
         :workspaceId="workspaceId"
         @get-secondary-sources="$listeners['get-secondary-sources']"
+        @remove-attachment="onRemoveAttachment"
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
+        @upload-files="onUploadFiles"
       />
     </lck-dialog-form>
   </div>
@@ -223,6 +225,18 @@ export default Vue.extend({
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
+    },
+    onUploadFiles (event: object) {
+      this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow,
+      })
+    },
+    onRemoveAttachment (event: object) {
+      this.$emit('remove-attachment', {
+        ...event,
+        newRow: this.newRow,
+      })
     },
   },
   watch: {

@@ -23,7 +23,8 @@
         :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
           errors,
-          classes
+          classes,
+          validate,
         }"
       >
         <div
@@ -173,6 +174,7 @@
           })"
             @download="$emit('download-attachment', $event)"
             @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+            @updated-attachments="validate($event)"
           />
 
           <component
@@ -520,12 +522,10 @@ export default {
      * Remove an attachment for the column's attachments
      */
     async onRemoveAttachment (rowId: string, columnId: string, attachmentId: number) {
-      this.$emit('update-row', {
+      this.$emit('remove-attachment', {
         rowId,
         columnId,
-        newValue: this.row.data[columnId]
-          .filter((a: LckAttachment) => a.id !== attachmentId)
-          .map((a: LckAttachment) => a.id),
+        attachmentId,
       })
     },
     getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] {

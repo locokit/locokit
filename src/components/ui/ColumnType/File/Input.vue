@@ -108,6 +108,11 @@ export default {
       this.$emit('input', (this.$refs['input-file'] as HTMLInputElement).files)
     },
   },
+  watch: {
+    attachments (newAttachments: LckAttachment) {
+      this.$emit('updated-attachments', newAttachments)
+    },
+  },
 }
 </script>
 
