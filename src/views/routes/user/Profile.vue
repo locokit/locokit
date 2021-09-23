@@ -44,7 +44,7 @@
             <template slot="content">
               <router-link
                 class="no-decoration-link"
-                :to="'/workspace/' + group.aclset.workspace.id"
+                :to="`${ROUTES_PATH.WORKSPACE}/${group.id}`"
               >
                 {{ group.aclset.workspace.text }}
               </router-link>
@@ -318,6 +318,7 @@ export default {
       incorrectPassword: false,
       errorPasswordRules: null,
       regexPasswordRules,
+      ROUTES_PATH,
     }
   },
   components: {
