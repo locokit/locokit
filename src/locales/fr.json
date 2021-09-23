@@ -694,6 +694,7 @@
           "role": "Rôle"
         },
         "text" : {
+          "chapter": "chapitre",
           "selectUser": "Sélectionnez un utilisateur",
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
