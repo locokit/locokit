@@ -266,10 +266,6 @@ export function getColumnDisplayValue (
     data === null
   ) return ''
   try {
-    const {
-      dateFormat = i18n.t('date.dateFormat'),
-      datetimeFormat = i18n.t('date.datetimeFormat'),
-    } = i18nOptions || {}
     switch (column.column_type_id) {
       case COLUMN_TYPE.USER:
       case COLUMN_TYPE.GROUP:
@@ -283,16 +279,16 @@ export function getColumnDisplayValue (
           COLUMN_TYPE.SINGLE_SELECT,
           COLUMN_TYPE.MULTI_SELECT,
         ].includes(originalColumn.column_type_id)) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue, i18nOptions)
         } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue)
+          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue, i18nOptions)
         } else {
           return (data as LckTableRowDataComplex).value as string
         }
       case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
         const virtualOriginalColumn = getOriginalColumn(column)
         if (virtualOriginalColumn.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) {
-          return getColumnDisplayValue(virtualOriginalColumn, data, onlyBaseValue)
+          return getColumnDisplayValue(virtualOriginalColumn, data, onlyBaseValue, i18nOptions)
         }
         return data as string
       case COLUMN_TYPE.MULTI_USER:
@@ -317,14 +313,23 @@ export function getColumnDisplayValue (
 
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-          return formatDate((data as Date), dateFormat) || ''
+          return formatDate(
+            (data as Date),
+            i18nOptions ? i18nOptions.dateFormat : i18n.t('date.dateFormat'),
+          ) || ''
         } else {
           return data as string
         }
       case COLUMN_TYPE.DATE:
-        return formatDate((data as Date), dateFormat) || ''
+        return formatDate(
+          (data as Date),
+          i18nOptions ? i18nOptions.dateFormat : i18n.t('date.dateFormat'),
+        ) || ''
       case COLUMN_TYPE.DATETIME:
-        return formatDate((data as Date), datetimeFormat) || ''
+        return formatDate(
+          (data as Date),
+          i18nOptions ? i18nOptions.datetimeFormat : i18n.t('date.datetimeFormat'),
+        ) || ''
       default:
         return data as string
     }
