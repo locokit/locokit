@@ -28,7 +28,6 @@ import {
   BLOCK_TYPE,
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
-  MapFeatureStyle,
   MapSourceSettings,
   MapSourceStyle,
   MapSourceTriggerEvents,

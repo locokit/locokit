@@ -22,7 +22,7 @@
     "@feathersjs/authentication-client": "^4.5.4",
     "@feathersjs/feathers": "^4.5.3",
     "@feathersjs/rest-client": "^4.5.4",
-    "@locokit/lck-glossary": "^0.3.4",
+    "@locokit/lck-glossary": "^0.3.5",
     "@mapbox/mapbox-gl-draw": "^1.3.0",
     "@sentry/browser": "^5.26.0",
     "@sentry/integrations": "^5.26.0",

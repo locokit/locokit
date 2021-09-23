@@ -255,6 +255,10 @@ export function getColumnDisplayValue (
   column: LckTableColumn,
   data: LckTableRowData = '',
   onlyBaseValue = false,
+  i18nOptions?: {
+    dateFormat: string | TranslateResult;
+    datetimeFormat: string | TranslateResult;
+  },
 ): string | undefined | SelectValue {
   if (
     data === '' ||
@@ -262,6 +266,10 @@ export function getColumnDisplayValue (
     data === null
   ) return ''
   try {
+    const {
+      dateFormat = i18n.t('date.dateFormat'),
+      datetimeFormat = i18n.t('date.datetimeFormat'),
+    } = i18nOptions || {}
     switch (column.column_type_id) {
       case COLUMN_TYPE.USER:
       case COLUMN_TYPE.GROUP:
@@ -309,14 +317,14 @@ export function getColumnDisplayValue (
 
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
-          return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
+          return formatDate((data as Date), dateFormat) || ''
         } else {
           return data as string
         }
       case COLUMN_TYPE.DATE:
-        return formatDate((data as Date), i18n.t('date.dateFormat')) || ''
+        return formatDate((data as Date), dateFormat) || ''
       case COLUMN_TYPE.DATETIME:
-        return formatDate((data as Date), i18n.t('date.datetimeFormat')) || ''
+        return formatDate((data as Date), datetimeFormat) || ''
       default:
         return data as string
     }
@@ -346,7 +354,12 @@ export function getDataFromTableViewColumn (
       }
     case COLUMN_TYPE.LOOKED_UP_COLUMN:
     case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
-      const lookedUpColumnValue = getColumnDisplayValue(column, data, true) as string | number | boolean | undefined
+      const lookedUpColumnValue = getColumnDisplayValue(
+        column,
+        data,
+        true,
+        { dateFormat: options.dateFormat, datetimeFormat: options.datetimeFormat },
+      ) as string | number | boolean | undefined
       return {
         label: column.text,
         value: lookedUpColumnValue != null && lookedUpColumnValue !== ''
