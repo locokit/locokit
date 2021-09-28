@@ -400,15 +400,8 @@ export default {
   width: 100px;
 }
 
-/** Need these two rules to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
-::v-deep .monaco-editor .overflow-guard {
-  position: static;
-}
-
-::v-deep .monaco-editor .suggest-details-container {
-  position: absolute !important;
-  left: -1px !important;
-  top: -1px !important;
-  transform: translateX(-100%);
+/** Need thIS rule to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
+::v-deep .p-dialog-content {
+  overflow: unset;
 }
 </style>
