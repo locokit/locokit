@@ -361,7 +361,7 @@ export default {
 <style scoped>
 .monacoEditor {
   position: relative;
-  height: 5em;
+  height: 10em;
   max-width: 100%;
   width: 550px;
   box-sizing: content-box;
