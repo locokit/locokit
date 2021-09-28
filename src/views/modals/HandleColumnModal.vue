@@ -158,6 +158,7 @@
     <validation-provider
       v-if="selectedColumnTypeIdToHandle && isFormulaType"
       vid="column-formula-content"
+      ref="vp-column-formula-content"
       tag="div"
       class="p-field"
       :name="$t('components.formulas.formula')"
@@ -165,7 +166,7 @@
       v-slot="{
         errors,
         classes,
-        validate
+        validate,
       }"
     >
       <label for="column-formula-content" >{{ $t('components.formulas.formula') }}</label>
@@ -364,6 +365,7 @@ export default {
     },
     formulaChange (data, validate) {
       validate(data)
+      this.$refs['vp-column-formula-content'].setFlags({ pristine: false, dirty: true, touched: true, untouched: false })
       this.settings.formula = data
     },
     formulaSettings () {
