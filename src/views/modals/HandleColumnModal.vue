@@ -14,7 +14,8 @@
       class="p-mb-3"
     >
       <label>
-        {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ columnToHandle.id }}
+        <span>{{ $t('pages.databaseSchema.displayUuid.uuid') }} </span>
+        <span>{{ columnToHandle.id }}</span>
       </label>
     </div>
     <validation-provider
