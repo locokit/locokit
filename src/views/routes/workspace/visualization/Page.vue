@@ -35,6 +35,9 @@
         handle=".handle"
         @change="onContainerReorderClick"
         class="lck-container-parent"
+        :class="{
+          'editable-container-parent': editMode,
+        }"
       >
         <div
           v-for="container in page.containers"
@@ -1478,6 +1481,10 @@ export default {
     max-height: calc(100% - 5rem);
     overflow: hidden;
   }
+  .lck-layout-flex .lck-page-content .editable-container-parent {
+    height: calc(100% - 12rem);
+    max-height: calc(100% - 12rem);
+  }
   .lck-layout-flex .lck-block-parent {
     min-height: 100%;
     height: 100%;
@@ -1500,7 +1507,7 @@ export default {
     width: 50%;
     max-width: 50%;
     padding: 0.5rem;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {
