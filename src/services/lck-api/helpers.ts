@@ -520,7 +520,7 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
 /**
  * Format the row data to sent it to the LCK API.
  */
-export function formatRowData (data: Record<string, LckTableRowData>, columnsObject: Record<string, LckTableViewColumn>, duplication = false) {
+export function formatRowData (data: Record<string, LckTableRowData | LckAttachment[]>, columnsObject: Record<string, LckTableViewColumn>, duplication = false) {
   const formattedData: Record<string, LckTableRowData> = {}
   // Loop over data properties to format values if necessary
   for (const [columnId, value] of Object.entries(data)) {
@@ -549,8 +549,11 @@ export function formatRowData (data: Record<string, LckTableRowData>, columnsObj
          * For file columns, we only keep the attachments ids
          */
         formattedData[columnId] = Array.isArray(value)
-          ? (value as unknown as LckAttachment[]).map(a => a.id as unknown as string)
+          ? (value as LckAttachment[]).map(a => a.id as unknown as string)
           : []
+        break
+      case COLUMN_TYPE.URL:
+        formattedData[columnId] = value as string || null
         break
       case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       case COLUMN_TYPE.USER:
@@ -559,7 +562,7 @@ export function formatRowData (data: Record<string, LckTableRowData>, columnsObj
       case COLUMN_TYPE.MULTI_GROUP:
         formattedData[columnId] = value && Object.hasOwnProperty.call(value, 'reference')
           ? (value as LckTableRowDataComplex | LCKTableRowMultiDataComplex).reference
-          : value
+          : value as LckTableRowData
         break
 
       default:
@@ -567,7 +570,7 @@ export function formatRowData (data: Record<string, LckTableRowData>, columnsObj
           (matchingColumn.column_type_id === COLUMN_TYPE.FORMULA && matchingColumn.reference) ||
           !READ_ONLY_COLUMNS_TYPES.has(matchingColumn.column_type_id)
         ) {
-          formattedData[columnId] = value
+          formattedData[columnId] = value as LckTableRowData
         }
     }
   }

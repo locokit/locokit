@@ -8,11 +8,11 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
       <h1>Page 6</h1>
     </div>
     <!---->
-    <draggable-stub handle=".handle" value="[object Object]" class="lck-container-parent">
+    <draggable-stub value="[object Object]" clone="function(t){return t}" element="div" handle=".handle" class="lck-container-parent">
       <div id="16" class="lck-container">
         <!---->
         <!---->
-        <draggable-stub handle=".handle-block" value="[object Object],[object Object]" class="lck-block-parent">
+        <draggable-stub value="[object Object],[object Object]" clone="function(t){return t}" element="div" handle=".handle-block" class="lck-block-parent">
           <block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block p-pb-4"></block-stub>
           <block-stub block="[object Object]" workspaceid="toto" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block p-pb-4" definition="[object Object]" content="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"></block-stub>
         </draggable-stub>

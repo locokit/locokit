@@ -149,6 +149,7 @@
 
       <lck-dialog-form
         :visible.sync="displayNewDialog"
+        class="newRowDialogForm"
         :header="$t('pages.database.addNewRow')"
         @close="displayNewDialog = false"
         :submitting="submitting"

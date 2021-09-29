@@ -21,6 +21,8 @@ function getDefaultColumnParameters (columnId: string, columnType: COLUMN_TYPE):
     text: columnId,
     transmitted: true,
     reference: false,
+    reference_position: 0,
+    locked: false,
   }
 }
 

@@ -15,6 +15,9 @@ const mockColumns: Record<string, LckTableColumn> = {
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.STRING,
     reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   lastName: {
     id: 'C12',
@@ -25,6 +28,9 @@ const mockColumns: Record<string, LckTableColumn> = {
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.STRING,
     reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   date: {
     id: 'C13',
@@ -35,6 +41,9 @@ const mockColumns: Record<string, LckTableColumn> = {
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.DATE,
     reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   datetime: {
     id: 'C14',
@@ -45,6 +54,9 @@ const mockColumns: Record<string, LckTableColumn> = {
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.DATETIME,
     reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   luc: {
     id: 'C15',
@@ -55,6 +67,9 @@ const mockColumns: Record<string, LckTableColumn> = {
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
     parents: [
       {
         id: 'C21',
@@ -65,6 +80,9 @@ const mockColumns: Record<string, LckTableColumn> = {
         table_id: 'T2',
         column_type_id: -1,
         reference: false,
+        position: 0,
+        reference_position: 0,
+        locked: false,
       },
     ],
   },

@@ -391,8 +391,6 @@ describe('FormRecord', () => {
       number_1_column.trigger('input')
 
       await flushAll()
-      // console.log(wrapper.html())
-      // console.log(wrapper.vm.newRow.data)
       expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
