@@ -16,6 +16,7 @@ import {
   EventData,
   FitBoundsOptions,
   GeoJSONSource,
+  LngLatLike,
   Map,
   MapboxOptions,
   MapLayerEventType,
@@ -572,6 +573,19 @@ export default Vue.extend({
           }
 
           if (e.type === 'mousemove') {
+            // On hover, by default, display the popup at the cursor position
+            let popupCoordinates: LngLatLike = e.lngLat
+
+            if (e.features[0].geometry.type === 'Point') {
+              // Display the popup at the feature(s) centroid position if the hovered features are points
+              popupCoordinates = centroid({
+                type: 'FeatureCollection',
+                features: e.features as GeoJSON.Feature<SingleGeoJSONGeometry>[],
+              }).geometry.coordinates as [number, number]
+            }
+
+            this.popup.component.setLngLat(popupCoordinates)
+
             // Update the popup content only if the current features are different
             const hoveredFeatures = e.features.map(feature => feature.id).join('-')
             if (this.popup.featuresIds !== hoveredFeatures) {
@@ -579,17 +593,8 @@ export default Vue.extend({
             } else {
               return
             }
-          }
-
-          if (popupMode === 'hover') {
-            // Display the popup at the feature(s) centroid position
-            const currentCentroid = centroid({
-              type: 'FeatureCollection',
-              features: e.features as GeoJSON.Feature<SingleGeoJSONGeometry>[],
-            })
-            this.popup.component.setLngLat(currentCentroid.geometry.coordinates as [number, number])
           } else {
-            // Display the popup at the cursor position
+            // On click, display the popup at the cursor position
             this.popup.component.setLngLat(e.lngLat)
           }
 
