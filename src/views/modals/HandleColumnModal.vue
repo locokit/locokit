@@ -402,7 +402,7 @@ export default {
   width: 100px;
 }
 
-/** Need thIS rule to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
+/** Need this rule to display the monaco editor suggestion + definition/documentation on tootlip */
 ::v-deep .p-dialog-content {
   overflow: unset;
 }
