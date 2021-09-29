@@ -228,7 +228,8 @@ export type LckTableRowData = Date
   | LckTableRowDataComplex
   | LCKTableRowMultiDataComplex
   | null
-  | boolean;
+  | boolean
+  | LckAttachment[];
 
 export class LckTableRow extends LckBaseModel {
   text!: string;

@@ -520,7 +520,7 @@ export function convertDateInRecords (records: LckTableRow | LckTableRow[], fiel
 /**
  * Format the row data to sent it to the LCK API.
  */
-export function formatRowData (data: Record<string, LckTableRowData | LckAttachment[]>, columnsObject: Record<string, LckTableViewColumn>, duplication = false) {
+export function formatRowData (data: Record<string, LckTableRowData>, columnsObject: Record<string, LckTableViewColumn>, duplication = false) {
   const formattedData: Record<string, LckTableRowData> = {}
   // Loop over data properties to format values if necessary
   for (const [columnId, value] of Object.entries(data)) {
