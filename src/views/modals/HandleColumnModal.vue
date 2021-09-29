@@ -402,6 +402,19 @@ export default {
   width: 100px;
 }
 
+/** Need these two rules to display the monaco editor definition/documentation on screen next to the input area*/
+::v-deep .monaco-editor .overflow-guard {
+  position: static;
+}
+
+::v-deep .monaco-editor .suggest-details-container {
+  position: absolute !important;
+  left: -1px !important;
+  top: -1px !important;
+  transform: translateX(-100%);
+  width: 4rem;
+}
+
 /** Need this rule to display the monaco editor suggestion + definition/documentation on tootlip */
 ::v-deep .p-dialog-content {
   overflow: unset;
