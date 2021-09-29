@@ -105,7 +105,9 @@
               "isLaterThan": "is later than",
               "isEarlierThan": "is earlier than",
               "isEarlierThanOrEqualTo": "is earlier than or equal to",
-              "isLaterThanOrEqualTo": "is later than or equal to"
+              "isLaterThanOrEqualTo": "is later than or equal to",
+              "startWith": "start with",
+              "endWith": "end with"
             }
           }
         }
