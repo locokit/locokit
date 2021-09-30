@@ -41,6 +41,7 @@
           $t('components.paginator.currentPageReportTemplate')
         "
         @page="onPage($event)"
+        @sort="onSort($event)"
       >
         <p-column
           field="id"
@@ -282,6 +283,8 @@ export default {
         value: key,
       })),
       currentPage: 0,
+      sortField: 'id',
+      sortOrder: 1,
       resendVerifySignupUsers: {},
       disableUsers: {},
     }
@@ -458,7 +461,7 @@ export default {
           query: {
             $limit: ITEMS_PER_PAGE,
             $skip: this.currentPage * ITEMS_PER_PAGE,
-            $sort: { id: 1 },
+            $sort: { [this.sortField]: this.sortOrder },
             ...this.getCurrentFilters(this.currentDatatableFilters),
           },
         })
@@ -468,6 +471,11 @@ export default {
     },
     async onPage (event) {
       this.currentPage = event.page
+      this.retrieveUsersData()
+    },
+    async onSort (event) {
+      this.sortField = event.sortField
+      this.sortOrder = event.sortOrder
       this.retrieveUsersData()
     },
     onResetFilter () {
