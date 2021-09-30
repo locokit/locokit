@@ -204,6 +204,7 @@ import draggable from 'vuedraggable'
 
 import {
   BLOCK_TYPE,
+  EXTERNAL_APP_URL_PART_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
@@ -476,6 +477,11 @@ export default {
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type, block.settings.pagination)
           }
+          if (block.settings.parts) {
+            block.settings.parts.filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE).forEach(s => {
+              this.createOrExtendSource(s.id, block.id, block.type)
+            })
+          }
           this.resetSecondarySources(block)
         })
       })
@@ -613,7 +619,17 @@ export default {
               limit: sourceContent.length,
             }
             : sourceContent
-
+        case BLOCK_TYPE.EXTERNAL_APP:
+          /**
+           * For the external app,
+           * we build an object with key = source id
+           * and value = content of the source (only one element)
+           */
+          const result = {}
+          block.settings.parts.filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE).forEach(s => {
+            result[s.id] = this.sources[s.id]
+          })
+          return result
         case BLOCK_TYPE.DATA_RECORD:
         case BLOCK_TYPE.ACTION_BUTTON:
         case BLOCK_TYPE.MARKDOWN_FIELD:
