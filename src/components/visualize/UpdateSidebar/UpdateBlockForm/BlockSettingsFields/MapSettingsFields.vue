@@ -220,21 +220,6 @@
           </small>
         </validation-provider>
 
-        <validation-provider
-          :vid="`source-selectable-${index}`"
-          tag="div"
-          class="p-field"
-        >
-          <label :for="`source-selectable-${index}`">
-            {{ $t('pages.workspace.block.map.selectable') }}
-          </label>
-          <p-input-switch
-            :id="`source-selectable-${index}`"
-            :value="source.selectable"
-            @input="onSourcePropertyChange(source, 'selectable', $event)"
-          />
-        </validation-provider>
-
         <!-- Display a pop-up -->
         <validation-provider
           :vid="`source-popup-${index}`"

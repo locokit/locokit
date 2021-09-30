@@ -6,7 +6,7 @@
     "postinstall": "cp -r patch/** node_modules",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && mv dist/index.html dist/index-generic.html",
-    "test:unit": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit",
+    "test:unit": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 TZ=UTC vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "storybook:build": "build-storybook -s ./public",
