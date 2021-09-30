@@ -197,7 +197,7 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
 }> {
   const currentView = await lckServices.tableView.get(tableViewId, {
     query: {
-      $eager: 'columns',
+      $eager: 'columns.[parents.^]',
     },
   })
   currentView.columns = currentView.columns?.sort((a, b) => a.position - b.position).filter(c => c.displayed) || []
@@ -223,11 +223,6 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
  */
 function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
   switch (currentColumn.column_type_id) {
-    case COLUMN_TYPE.SINGLE_SELECT:
-      return (getColumnDisplayValue(
-        currentColumn,
-        currentRowValue,
-      ) as SelectValue)?.label
     case COLUMN_TYPE.FILE:
       const values = getColumnDisplayValue(
         currentColumn,
@@ -244,6 +239,7 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
       return getColumnDisplayValue(
         currentColumn,
         currentRowValue,
+        true,
       ) as string|undefined
   }
 }
