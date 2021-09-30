@@ -23,7 +23,7 @@
         :ref="`vp_${row.id}_${column.id}`"
         v-slot="{
           errors,
-          classes
+          classes,
         }"
       >
         <div
@@ -173,6 +173,7 @@
           })"
             @download="$emit('download-attachment', $event)"
             @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
+            @updated-attachments="validateFile(row.id, column.id, $event)"
           />
 
           <component
@@ -277,7 +278,6 @@ import {
   getLckGeoResources,
 } from '@/services/lck-utils/map/transformWithOL'
 import {
-  LckAttachment,
   LckTableColumn,
   LckTableRow,
   LckTableRowData,
@@ -520,13 +520,27 @@ export default {
      * Remove an attachment for the column's attachments
      */
     async onRemoveAttachment (rowId: string, columnId: string, attachmentId: number) {
-      this.$emit('update-row', {
+      this.$emit('remove-attachment', {
         rowId,
         columnId,
-        newValue: this.row.data[columnId]
-          .filter((a: LckAttachment) => a.id !== attachmentId)
-          .map((a: LckAttachment) => a.id),
+        attachmentId,
       })
+    },
+    validateFile (rowId: string, columnId: string, event: object) {
+      const ref = `vp_${rowId}_${columnId}`
+      let provider = this.$refs[ref]
+      if (provider) {
+        if (Array.isArray(provider)) {
+          provider = provider[0]
+        }
+        (provider as InstanceType<typeof ValidationProvider>).validate(event);
+        (provider as InstanceType<typeof ValidationProvider>).setFlags({
+          pristine: false,
+          dirty: true,
+          touched: true,
+          untouched: false,
+        })
+      }
     },
     getLckGeoResources (column: LckTableViewColumn): LckGeoResource[] {
       const columnSourceId = `current-${column.id}`

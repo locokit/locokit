@@ -11,7 +11,7 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "storybook:build": "build-storybook -s ./public",
     "storybook:serve": "start-storybook -p 6006 watch-css -s ./public --no-manager-cache",
-    "test:unit-src": "vue-cli-service test:unit --config=jest.src.config.js",
+    "test:unit-src": "TZ=UTC vue-cli-service test:unit --config=jest.src.config.js",
     "test:unit-stories": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit --config=jest.stories.config.js",
     "test:update-imageshot": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 vue-cli-service test:unit -- --u tests/unit/imageshots.spec.js",
     "build:html": "node scripts/compileTemplate.js"

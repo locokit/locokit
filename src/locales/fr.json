@@ -134,7 +134,7 @@
         "values": "Valeurs de la colonne",
         "displayed": "Colonne affichée",
         "editable": "Colonne éditable",
-        "required": "Colonne requis"
+        "required": "Colonne requise"
       }
     },
     "overlayPanel": {
@@ -749,6 +749,7 @@
     "lck": {
       "ROW_DUPLICATE": "Une erreur est survenue lors la duplication de la ligne.",
       "ROW_DELETION": "Une erreur est survenue lors la suppression de la ligne.",
+      "ROW_SAVE": "Une erreur est survenue lors de l'enregistrement de la ligne.",
       "VIEW_LOCKED": "La vue est verrouillée.",
       "VIEW_USED_IN_BLOCK": "La vue est toujours utilisée dans un bloc. Merci de supprimer le bloc au préalable."
     },

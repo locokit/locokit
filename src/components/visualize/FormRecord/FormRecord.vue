@@ -19,6 +19,7 @@
       @download-attachment="$listeners['download-attachment']"
       @update-suggestions="$listeners['update-suggestions']"
       @upload-files="onUploadFiles"
+      @remove-attachment="onRemoveAttachment"
     />
   </lck-form>
 </template>
@@ -148,6 +149,12 @@ export default Vue.extend({
     },
     onUploadFiles (event: { rowId: string; columnId: string; fileList: File[]}) {
       this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow,
+      })
+    },
+    onRemoveAttachment (event: object) {
+      this.$emit('remove-attachment', {
         ...event,
         newRow: this.newRow,
       })

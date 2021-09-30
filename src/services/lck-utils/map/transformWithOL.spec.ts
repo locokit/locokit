@@ -36,24 +36,28 @@ const geoTableView: LckTableView = {
   id: '263c21e6-5339-4748-903f-8c77e21314cf',
   text: 'Table view with geographic data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 const stringTableView: LckTableView = {
   id: '363c21e6-5339-4748-903f-8c77e21314cg',
   text: 'Table view without geographic data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 const emptyTableView: LckTableView = {
   id: '463c21e6-5339-4748-903f-8c77e21314ch',
   text: 'Table view without any data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 // Table columns
 const defaultParamsTableViewColumn = {
   table_id: geoTableView.table_id,
   editable: false,
+  reference: false,
   position: 0,
   transmitted: false,
   displayed: true,
@@ -62,6 +66,8 @@ const defaultParamsTableViewColumn = {
   table_column_id: '',
   table_view_id: geoTableView.id,
   style: {},
+  reference_position: 0,
+  locked: false,
 }
 
 const geoPointColumn: LckTableViewColumn = {

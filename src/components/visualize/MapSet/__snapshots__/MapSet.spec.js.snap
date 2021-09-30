@@ -16,7 +16,9 @@ exports[`MapSet hide automatically dialog after success 1`] = `
   <div style="text-align: center;">
     <p-button-stub label="This is my add button, click here !" icon="pi pi-plus-circle" class="p-m-2"></p-button-stub>
   </div> <span>components.mapview.noGeoData</span>
-  <!---->
+  <lck-dialog-form-stub header="This is my add button, click here !" visible="true">
+    <lck-data-detail-stub row="[object Object]" definition="[object Object]" cellstate="[object Object]" workspaceid="toto" mode="creation" secondarysources="[object Object]" fieldstovalidate="[object Object]"></lck-data-detail-stub>
+  </lck-dialog-form-stub>
 </div>
 `;
 
