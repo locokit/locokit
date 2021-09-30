@@ -1,5 +1,11 @@
 # CHANGELOG
 
+**v0.3.6**
+
+**Feature**
+* add new setting `forbidden` on `MapSourceSettings` to forbid the user interactions on the source features
+* add new setting `radius` on `MapSourceSettings` corresponding to the radius of the forbidden area around the source features
+
 **v0.3.5**
 
 **Feature**
