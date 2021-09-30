@@ -8,35 +8,7 @@
 
 <script lang='ts'>
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Vue, { PropType } from 'vue'
-
-import { TranslateResult } from 'vue-i18n'
-import {
-  AnyLayer,
-  EventData,
-  FitBoundsOptions,
-  GeoJSONSource,
-  Map,
-  MapboxOptions,
-  MapLayerEventType,
-  MapLayerMouseEvent,
-  MapLayerTouchEvent,
-  NavigationControl,
-  Popup,
-  ScaleControl,
-} from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import MapboxDraw from '@mapbox/mapbox-gl-draw'
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import { GeoJSONFeature } from 'ol/format/GeoJSON'
-import centroid from '@turf/centroid'
-
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
-
 import { MapPopupMode } from '@/services/lck-api/definitions'
-
-import { setsAreEqual, mergeSets, setHasValues } from '@/services/lck-utils/set'
-
 import {
   computeBoundingBox,
   LckImplementedLayoutProperty,
@@ -47,8 +19,29 @@ import {
   LckImplementedLayers,
   PopupContent,
 } from '@/services/lck-utils/map/transformWithOL'
-
-import MapboxCustomControls from './MapboxCustomControl'
+import { mergeSets, setHasValues, setsAreEqual } from '@/services/lck-utils/set'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import centroid from '@turf/centroid'
+import {
+  AnyLayer,
+  EventData,
+  FitBoundsOptions,
+  GeoJSONSource,
+  Map,
+  MapboxOptions,
+  MapLayerEventType,
+  MapLayerMouseEvent,
+  MapLayerTouchEvent, NavigationControl,
+  Popup,
+  ScaleControl,
+} from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import Feature from 'ol/Feature'
+import { GeoJSONFeature } from 'ol/format/GeoJSON'
+import Vue, { PropType } from 'vue'
+import { TranslateResult } from 'vue-i18n'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -62,6 +55,10 @@ type SingleGeoJSONGeometry =
   GeoJSON.Point | GeoJSON.MultiPoint |
   GeoJSON.LineString | GeoJSON.MultiLineString |
   GeoJSON.Polygon | GeoJSON.MultiPolygon
+
+export interface MapboxDrawEvent {
+  features: Array<Feature>; // Array of features that are selected after the change
+}
 
 export default Vue.extend({
   name: 'Map',
@@ -99,7 +96,6 @@ export default Vue.extend({
     return {
       map: null as Map | null,
       mapDraw: null as MapboxDraw | null,
-      dataManageControl: { visible: false, control: null } as { visible: boolean; control: MapboxCustomControls | null },
       editableGeometryTypes: new Set() as Set<COLUMN_TYPE>,
       selectedFeatureBySource: {} as Record<string, string | number | null>,
       listenersByLayer: {} as Record<string, {
@@ -111,6 +107,7 @@ export default Vue.extend({
         featuresIds: '',
       },
       mapIsLoaded: false,
+      pending: false,
     }
   },
   mounted () {
@@ -161,21 +158,6 @@ export default Vue.extend({
     this.map.addControl(new NavigationControl(), 'top-right')
     // Add scale control
     this.map.addControl(new ScaleControl(), 'bottom-left')
-    // Create data manage control
-    this.dataManageControl.control = new MapboxCustomControls([
-      {
-        label: this.$t('form.save'),
-        event: 'click',
-        listener: this.saveEditingFeatures,
-        classes: ['pi', 'pi-save'],
-      },
-      {
-        label: this.$t('form.reset'),
-        event: 'click',
-        listener: this.removeEditingFeatures,
-        classes: ['pi', 'pi-refresh'],
-      },
-    ])
 
     // Disable map rotation
     this.map.dragRotate.disable()
@@ -196,36 +178,68 @@ export default Vue.extend({
     })
   },
   methods: {
-    manageEditingFeatures (type: 'save' | 'remove') {
-      // We manage the editable and selected feature if we only have one
-      let featuresToManage = this.mapDraw!.getSelected().features
-      // We manage the editable feature if there is only one which is not selected
-      if (featuresToManage.length === 0) {
-        featuresToManage = this.mapDraw!.getAll().features
-      }
-      // Display an error if we don't have one feature to manage
-      if (featuresToManage.length !== 1) {
-        this.$toast.add({
-          severity: 'warn',
-          detail: featuresToManage.length === 0
-            ? this.$t('components.mapview.noSelectedFeature')
-            : this.$t('components.mapview.onlyOneSelectedFeature'),
-          summary: this.$t('error.impossibleOperation'),
-          life: 3000,
-        })
-        return
-      }
-      // Throw the desired event with the feature
-      this.$emit(type === 'save' ? 'update-features' : 'remove-features', featuresToManage)
-      this.mapDraw!.deleteAll()
+    hasMultiGeometry (editableGeometryTypes: Set<COLUMN_TYPE>): boolean {
+      return editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTIPOINT) ||
+        editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTILINESTRING) ||
+        editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTIPOLYGON)
     },
-    saveEditingFeatures () {
-      // Save the editable (and possibly selected) feature
-      this.manageEditingFeatures('save')
+    // Check if a resource should be editabled
+    // A resource of a single geometry types should not have more then 1 feaure
+    // If it's the case, the resource will not be editabled
+    shouldBeEditabled (resource: LckGeoResource) {
+      const hasMultiGeometry = this.hasMultiGeometry(resource.editableGeometryTypes)
+      const features = this.resources.find(r => r.id === resource.id)?.features
+      return (!hasMultiGeometry && features?.length === 1) || (hasMultiGeometry && features)
     },
-    removeEditingFeatures () {
-      // Remove the editable (and possibly selected) feature
-      this.manageEditingFeatures('remove')
+    saveFeatures () {
+      if (!this.pending) {
+        this.pending = true
+        let featuresToManage = this.mapDraw!.getAll().features
+        if (!featuresToManage.length) {
+          return
+        }
+
+        // Check if geometry type is a single element (not multi)
+        if (this.hasMultiGeometry(this.editableGeometryTypes)) {
+          console.log('combine')
+          // Select all features to combine to throw only one feature
+          const featureIds: string[] = featuresToManage!.map(feature => feature.id as string)
+          this.mapDraw!.changeMode('simple_select', { featureIds })
+          featuresToManage = this.mapDraw!.combineFeatures().getAll().features
+        }
+
+        // Throw the desired event with the feature
+        this.$emit('update-features', featuresToManage)
+
+        // Then uncombine and unselect all features
+        if (this.hasMultiGeometry(this.editableGeometryTypes)) {
+          this.mapDraw!.uncombineFeatures()
+        }
+        this.mapDraw!.changeMode('simple_select', { featureIds: [] })
+
+        this.pending = false
+      }
+    },
+    deleteFeature (e: MapboxDrawEvent) {
+      if (!this.pending) {
+        // Check if geometry type is a single element (not multi)
+        if (this.hasMultiGeometry(this.editableGeometryTypes)) {
+          const featuresToManage = this.mapDraw!.getAll().features
+          // If there are no more item, just remove it
+          if (featuresToManage.length === 0) {
+            this.$emit('remove-features', e.features)
+            // But if there are one or more items remaining
+            // we need to combine it
+          } else {
+            // setTimeout is usefull to be sure that item is completely deleted
+            setTimeout(() => {
+              this.saveFeatures()
+            }, 300)
+          }
+        } else {
+          this.$emit('remove-features', e.features)
+        }
+      }
     },
     saveListenerByLayer (eventType: keyof MapLayerEventType, layerId: string, func: MapLayerMouseListenerFunction) {
       // Save a listener to unregister it later
@@ -244,15 +258,44 @@ export default Vue.extend({
       }
       delete this.listenersByLayer[layerId]
     },
+    setControlStatus () {
+      if (!this.mapDraw) {
+        return
+      }
+
+      // Enable or disable draw controls relative to editableGeometryTypes
+      const features = this.mapDraw!.getAll().features
+
+      // Check if geometry type is a single element (not multi)
+      // TODO: manage multi geometry types and disabled only necessary controls
+      if (!this.hasMultiGeometry(this.editableGeometryTypes)) {
+        if (features.length >= 1) {
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_point')?.setAttribute('disabled', 'true')
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_polygon')?.setAttribute('disabled', 'true')
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_line')?.setAttribute('disabled', 'true')
+        } else {
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_point')?.removeAttribute('disabled')
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_polygon')?.removeAttribute('disabled')
+          // eslint-disable-next-line no-unused-expressions
+          document.body.querySelector('.mapbox-gl-draw_line')?.removeAttribute('disabled')
+        }
+      }
+    },
     initDrawControls () {
       const allEditableGeometryTypes: Set<COLUMN_TYPE> = new Set()
-
       // Get all editable geographic types
-      this.resources.forEach(resource => {
-        mergeSets(resource.editableGeometryTypes, allEditableGeometryTypes)
+      this.resources!.forEach(resource => {
+        if (resource.editableGeometryTypes) {
+          mergeSets(resource.editableGeometryTypes, allEditableGeometryTypes)
+        }
       })
 
-      // Create or update the draw controls if the editable geometry types have been changed
+      // Create or update the draw controls if the editable geometry types has been changed
       if (!setsAreEqual(allEditableGeometryTypes, this.editableGeometryTypes)) {
         this.editableGeometryTypes = allEditableGeometryTypes
 
@@ -260,12 +303,7 @@ export default Vue.extend({
         if (this.mapDraw) this.map!.removeControl(this.mapDraw)
 
         // Define the new draw controls and add them to the map if necessary
-        if (allEditableGeometryTypes.size > 0) {
-          const hasEditableMultiGeometry = setHasValues(
-            this.editableGeometryTypes,
-            [COLUMN_TYPE.GEOMETRY_MULTIPOINT, COLUMN_TYPE.GEOMETRY_MULTILINESTRING, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON],
-          )
-
+        if (allEditableGeometryTypes?.size > 0) {
           // For now, we can only add a feature in the single edit mode
           if (this.singleEditMode) {
             /* eslint-disable @typescript-eslint/camelcase */
@@ -276,7 +314,7 @@ export default Vue.extend({
                 line_string: setHasValues(this.editableGeometryTypes, [COLUMN_TYPE.GEOMETRY_LINESTRING, COLUMN_TYPE.GEOMETRY_MULTILINESTRING]),
                 polygon: setHasValues(this.editableGeometryTypes, [COLUMN_TYPE.GEOMETRY_POLYGON, COLUMN_TYPE.GEOMETRY_MULTIPOLYGON]),
                 trash: true,
-                combine_features: hasEditableMultiGeometry,
+                combine_features: false,
               },
             })
             /* eslint-enable @typescript-eslint/camelcase */
@@ -290,15 +328,20 @@ export default Vue.extend({
           }
           this.map!.addControl(this.mapDraw)
 
-          if (!this.dataManageControl.visible) {
-            this.map!.addControl(this.dataManageControl.control!)
-            this.dataManageControl.visible = true
-          }
-        } else {
-          if (this.dataManageControl.visible) {
-            this.map!.removeControl(this.dataManageControl.control!)
-            this.dataManageControl.visible = false
-          }
+          this.map!.on('draw.create', () => {
+            this.saveFeatures()
+            this.setControlStatus()
+          })
+
+          this.map!.on('draw.update', () => {
+            this.saveFeatures()
+            this.setControlStatus()
+          })
+
+          this.map!.on('draw.delete', (e) => {
+            this.deleteFeature(e)
+            this.setControlStatus()
+          })
         }
       }
     },
@@ -313,7 +356,7 @@ export default Vue.extend({
       })
       // Add the related layers
       for (const layer of resource.layers) {
-        this.map!.addLayer({ source: resource.id, ...layer } as AnyLayer)
+        this.map!.addLayer({ source: resource.id, ...layer, id: layer.id } as AnyLayer)
         // Load the images if needed
         for (const image of layer.imagesToLoad || []) {
           if (!this.map!.hasImage(image)) {
@@ -358,6 +401,7 @@ export default Vue.extend({
         this.map!.addLayer({
           source: resourceToUpdate.id,
           ...layerToAdd,
+          id: layerToAdd.id,
         } as AnyLayer)
       })
       layersToUpdate.forEach(layerToUpdate => {
@@ -481,23 +525,16 @@ export default Vue.extend({
       this.map!.on('mouseleave', layerId, this.resetCursor)
       this.saveListenerByLayer('mouseleave', layerId, this.resetCursor)
     },
-    setFeatureEditableOnMouseDown (resourceId: string, layerId: string) {
-      // Add the clicked feature to the MapboxDraw source
-      const wrapperFunction = (e: MapLayerMouseEvent) => {
-        const currentFeature = e.features?.[0]
-        if (this.mapDraw!.getMode() === 'simple_select' && currentFeature?.id &&
-          !this.mapDraw!.getAll().features.some(f => f.id === currentFeature.id)
-        ) {
-          // We get the original feature because the clicked feature has not the right coordinates
-          // if some of them are outside the current screen
-          const featureToAdd = this.resources.find(resource => resource.id === resourceId)?.features.find(
-            feature => feature.id === currentFeature.id
-          )
-          if (featureToAdd) this.mapDraw!.add(featureToAdd)
-        }
-      }
-      this.map!.on('mousedown', layerId, wrapperFunction)
-      this.saveListenerByLayer('mousedown', layerId, wrapperFunction)
+    setFeaturesEditable (features: GeoJSONFeature[]) {
+      features.forEach(feature => {
+        this.mapDraw!.add(feature)
+      })
+
+      // Select all features to uncombine, then unselect it
+      const featureIds: string[] = this.mapDraw!.getAll().features!.map(feature => feature.id as string)
+      this.mapDraw!.changeMode('simple_select', { featureIds })
+      this.mapDraw!.uncombineFeatures()
+      this.mapDraw!.changeMode('simple_select', { featureIds: [] })
     },
     selectFeature (resourceId: string, featureId: string | number | null) {
       // Select a specified feature belonging to a resource
@@ -675,13 +712,22 @@ export default Vue.extend({
     makeFeaturesInteractive () {
       if (!this.popup.component) this.popup.component = new Popup({ offset: 10, closeOnClick: false, focusAfterOpen: false })
       this.resources.forEach(resource => {
-        const hasEditableFeatures = resource.editableGeometryTypes.size > 0
+        const hasEditableFeatures = resource.editableGeometryTypes?.size > 0
+        let totalFeatures = 0
+        let totalEditableFeatures = 0
         if (resource.popupMode || hasEditableFeatures || resource.selectable) {
           resource.layers.forEach(layer => {
             if (hasEditableFeatures) {
-              // Make the current feature editable
+              // Make features editable
               this.changeCursorOnLayerHover(layer.id)
-              this.setFeatureEditableOnMouseDown(resource.id, layer.id)
+
+              const features = resource.features
+              totalFeatures += features?.length || 0
+
+              if (features && this.shouldBeEditabled(resource)) {
+                this.setFeaturesEditable(features)
+                totalEditableFeatures += features.length
+              }
             } else {
               if (resource.selectable || resource.popupMode === 'click') {
                 // Change cursor
@@ -697,6 +743,15 @@ export default Vue.extend({
               }
             }
           })
+
+          // If there's some features on map but not editabled,
+          // remove draw controls
+          if (totalEditableFeatures === 0 && totalFeatures > 0) {
+            if (this.mapDraw) this.map!.removeControl(this.mapDraw)
+          } else {
+            // else, if we are in edit mode, set controls status
+            this.setControlStatus()
+          }
         }
       })
     },
@@ -832,4 +887,9 @@ export default Vue.extend({
 ::v-deep .mapboxgl-popup-close-button {
   color: var(--primary-color);
 }
+
+::v-deep .mapboxgl-ctrl-group button:disabled {
+  opacity: .25;
+}
+
 </style>
