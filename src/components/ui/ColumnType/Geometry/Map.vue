@@ -622,7 +622,7 @@ export default Vue.extend({
 
                 html += `
                 <div class="popup-row-toolbox">
-                  <button class="row-detail-page" class="p-button p-button-sm">${textDetailPage}</button>
+                  <button class="row-detail-page p-button p-button-sm">${textDetailPage}</button>
                 </div>
               `
               }
