@@ -12,7 +12,6 @@ import {
   LckTableRow,
   LckTableRowData,
   LckTableViewColumn,
-  SelectValue,
   LckUser,
   LckAttachment,
   LckTableView,
