@@ -261,6 +261,8 @@ export interface MapSourceSettings {
       class?: string; // css class to apply on this field
     }[]
   }
+  forbidden?: boolean; // forbid the user interactions on the source features
+  radius?: number; // radius of the forbidden area around the source features (unit: kilometer)
   selectable?: boolean; // can we select a feature
   style?: MapSourceStyle; // style of the source
   triggerEvents?: MapSourceTriggerEvents; // event to trigger
