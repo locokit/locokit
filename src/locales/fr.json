@@ -596,7 +596,8 @@
         "reference": "Référence",
         "columnType": "Type de colonne",
         "selectColumnType": "Sélectionner un type de colonne",
-        "errorNoData": "Veuillez renseigner les champs"
+        "errorNoData": "Veuillez renseigner les champs",
+        "validation": "Critères de validation"
       },
       "selectType": {
         "addValue": "Ajouter une valeur",
@@ -610,6 +611,9 @@
         "position": "Position",
         "defaultValue": "Valeur par défaut",
         "defaultValuePlaceholder": "Choisir une valeur par défaut"
+      },
+      "validation": {
+        "required":"Colonne requise"
       },
       "relationBetweenTablesType": {
         "relationTable": "En relation avec la table",

@@ -83,25 +83,6 @@
           />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
-        <validation-provider
-          vid="columnRequiredField"
-          tag="div"
-          class="p-field p-mb-2"
-          :name="$t('components.datatable.column.required')"
-          rules="required"
-          v-slot="{
-            errors,
-            classes
-          }"
-        >
-          <label for="columnRequiredField">{{ $t('components.datatable.column.required') }}</label>
-          <span class="field-required">*</span>
-          <p-input-switch
-            id="columnRequiredField"
-            v-model="columnCopy.required"
-          />
-          <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
       </lck-form>
     </div>
   </div>
@@ -196,7 +177,6 @@ export default {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
         editable: this.columnCopy.editable,
-        required: this.columnCopy.required,
       })
     },
   },

@@ -596,7 +596,8 @@
         "reference": "Reference",
         "columnType": "Column type",
         "selectColumnType": "Select column type",
-        "errorNoData": "Please fill in the fields"
+        "errorNoData": "Please fill in the fields",
+        "validation": "Validation criteria"
       },
       "selectType": {
         "addValue": "Add value",
@@ -610,6 +611,9 @@
         "position": "Position",
         "defaultValue": "Default value",
         "defaultValuePlaceholder": "Select default value"
+      },
+      "validation": {
+        "required":"Required column"
       },
       "relationBetweenTablesType": {
         "relationTable": "Relation table",
