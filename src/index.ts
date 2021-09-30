@@ -94,6 +94,7 @@ export enum BLOCK_TYPE {
   ACTION_BUTTON = 'ActionButton',
   MARKDOWN_FIELD = 'MarkdownField',
   FORM_RECORD = 'FormRecord',
+  EXTERNAL_APP = 'ExternalApp',
 }
 
 export enum MEDIA_TYPE {
@@ -359,4 +360,38 @@ export interface FormRecordSettings extends CommunicatingBlockSettings<'update'|
 export interface BlockFormRecord extends Block {
   type: BLOCK_TYPE.FORM_RECORD;
   settings: FormRecordSettings;
+}
+
+export enum EXTERNAL_APP_URL_PART_TYPE {
+  STRING = 'String',
+  SOURCE = 'Source',
+}
+
+/**
+ * Setting for a "part" of the url
+ * we give to the external app.
+ *
+ * Could be a `String` or a `Source`.
+ *
+ * If `String`, only the prop string need to be set.
+ * If `Source`, we define a table_view and a table_column to retrieve
+ * in "mono".
+ */
+export interface ExternalAppURLPart {
+  type: EXTERNAL_APP_URL_PART_TYPE;
+  string?: string;
+  id?: string; // uuid of table_view
+  fieldId?: string; // uuid of table_column (field) to use
+}
+
+/**
+ * Used for displaying an iframe.
+ *
+ * Need parts of an URL as settings.
+ */
+export interface BlockExternalApp extends Block {
+  type: BLOCK_TYPE.EXTERNAL_APP;
+  settings: {
+    parts: ExternalAppURLPart[];
+  }
 }

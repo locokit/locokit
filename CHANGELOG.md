@@ -1,5 +1,9 @@
 # CHANGELOG
 
+**v0.3.7**
+* add new block: `ExternalApp`
+* add new `BlockExternalApp` definition for block `ExternalApp`
+
 **v0.3.6**
 
 **Feature**
