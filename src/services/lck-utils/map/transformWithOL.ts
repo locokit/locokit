@@ -87,6 +87,7 @@ export interface LckGeoResource {
   pageDetailId?: string;
   selectable?: boolean;
   excludeFromBounds?: boolean;
+  forbiddenAreaRadius?: number;
 }
 
 export interface PopupContent {
@@ -796,6 +797,7 @@ export function getLckGeoResources (
           caughtEvents: source.caughtEvents,
           selectable,
           excludeFromBounds: source.excludeFromBounds === true,
+          forbiddenAreaRadius: source.forbidden ? source.radius : undefined,
         })
       } catch (error) {
         console.error(error)

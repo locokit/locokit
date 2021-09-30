@@ -183,6 +183,58 @@
           />
         </validation-provider>
 
+        <validation-provider
+          :vid="`source-forbidden-${index}`"
+          tag="div"
+          class="p-field"
+        >
+          <label :for="`source-forbidden-${index}`">
+            {{ $t('pages.workspace.block.map.forbidden') }}
+          </label>
+          <p-input-switch
+            :id="`source-forbidden-${index}`"
+            :value="source.forbidden"
+            @input="onSourcePropertyChange(source, 'forbidden', $event)"
+          />
+          <small>
+            {{ $t('pages.workspace.block.map.forbiddenHelp') }}
+          </small>
+        </validation-provider>
+
+        <validation-provider
+          :vid="`source-forbidden-radius-${index}`"
+          tag="div"
+          class="p-field"
+        >
+          <label :for="`source-forbidden-radius-${index}`">
+            {{ $t('pages.workspace.block.map.radius') }}
+          </label>
+          <p-input-number
+            :disabled="source.forbidden !== true"
+            :id="`source-forbidden-radius-${index}`"
+            :value="source.radius"
+            @input="onSourcePropertyChange(source, 'radius', $event)"
+          />
+          <small>
+            {{ $t('pages.workspace.block.map.radiusHelp') }}
+          </small>
+        </validation-provider>
+
+        <validation-provider
+          :vid="`source-selectable-${index}`"
+          tag="div"
+          class="p-field"
+        >
+          <label :for="`source-selectable-${index}`">
+            {{ $t('pages.workspace.block.map.selectable') }}
+          </label>
+          <p-input-switch
+            :id="`source-selectable-${index}`"
+            :value="source.selectable"
+            @input="onSourcePropertyChange(source, 'selectable', $event)"
+          />
+        </validation-provider>
+
         <!-- Display a pop-up -->
         <validation-provider
           :vid="`source-popup-${index}`"
@@ -387,6 +439,7 @@ import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
 import InputSwitch from 'primevue/inputswitch'
 import InputText from 'primevue/inputtext'
+import InputNumber from 'primevue/inputnumber'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import {
@@ -417,6 +470,7 @@ export default Vue.extend({
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-switch': Vue.extend(InputSwitch),
     'p-input-text': Vue.extend(InputText),
+    'p-input-number': Vue.extend(InputNumber),
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
