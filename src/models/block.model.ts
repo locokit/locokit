@@ -52,6 +52,7 @@ export class Block extends BaseModel {
             'CardSet',
             'MarkdownField',
             'FormRecord',
+            'ExternalApp',
             'Default',
           ],
           description: `
@@ -68,6 +69,7 @@ export class Block extends BaseModel {
 - __CardSet__: Collection of card from a set of record
 - __MarkdownField__: Text related on a field in a record with markdown style
 - __FormRecord__: Same as DataRecord with at least submission button
+- __ExternalApp__: External application embed in a iframe, use a URL divided in several part
 - __Default__: Safe-keeper (migration backwards compatibility)
           `,
         },
