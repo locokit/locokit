@@ -6,6 +6,14 @@
       {{ $t('pages.workspace.title') }}
     </header>
 
+    <p-card v-if="loading">
+      <template slot="content">
+        <p-skeleton width="10rem" class="p-mb-2"></p-skeleton>
+        <p-skeleton class="p-mb-2"></p-skeleton>
+        <p-skeleton width="10rem" height="2rem"></p-skeleton>
+      </template>
+    </p-card>
+
     <p-card
       class="p-mb-4 p-col"
       v-for="group in groups"
@@ -123,6 +131,7 @@ import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
+import Skeleton from 'primevue/skeleton'
 
 import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import { lckServices } from '@/services/lck-api'
@@ -140,6 +149,7 @@ export default {
     'p-button': Vue.extend(Button),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
+    'p-skeleton': Vue.extend(Skeleton),
     'lck-dropdown-button': Vue.extend(DropdownButton),
   },
   data () {
