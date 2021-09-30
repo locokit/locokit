@@ -64,7 +64,7 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
       <!---->
        
       <div
-        class="lck-container-parent"
+        class="lck-container-parent editable-container-parent"
       />
        
       <button
