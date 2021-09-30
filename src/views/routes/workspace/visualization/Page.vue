@@ -626,9 +626,17 @@ export default {
            * and value = content of the source (only one element)
            */
           const result = {}
-          block.settings.parts.filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE).forEach(s => {
-            result[s.id] = this.sources[s.id]
-          })
+          block.settings.parts
+            .filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE)
+            .forEach(s => {
+              const sourceContent = this.sources[s.id]?.content
+              if (!sourceContent) return
+              if (Array.isArray(sourceContent)) {
+                result[s.id] = sourceContent[0]
+              } else {
+                result[s.id] = sourceContent.data[0]
+              }
+            })
           return result
         case BLOCK_TYPE.DATA_RECORD:
         case BLOCK_TYPE.ACTION_BUTTON:
@@ -1531,7 +1539,7 @@ export default {
 */
 /* Contenu Full */
 
-.lck-layout-full {
+/* .lck-layout-full {
   width: 100%;
   height: 100%;
 }
@@ -1540,6 +1548,22 @@ export default {
   height: 100%;
   width: 100%;
   overflow: scroll;
-}
+} */
 
+@media (min-width: 900px) {
+  .lck-layout-full,
+  .lck-layout-full .lck-page-content {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+  .lck-layout-full .lck-page-content .lck-container-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
+    height: 100%;
+    min-height: 100%;
+    overflow: auto;
+  }
+}
 </style>

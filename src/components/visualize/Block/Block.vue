@@ -180,6 +180,11 @@ export default Vue.extend({
   flex-direction: column;
 }
 
+.lck-layout-full .block-container {
+  height: 100%;
+  min-height: 100%;
+}
+
 .lck-layout-flex .block-content {
   flex-grow: 2;
   max-width: initial;

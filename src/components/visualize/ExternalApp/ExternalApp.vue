@@ -1,7 +1,5 @@
 <template>
-  <iframe
-    :src="src"
-  />
+  <iframe v-if="src" :src="src" />
 </template>
 
 <script lang="ts">
@@ -12,9 +10,6 @@ import { ExternalAppURLPart, EXTERNAL_APP_URL_PART_TYPE } from '@locokit/lck-glo
 export default Vue.extend({
   name: 'ExternalApp',
   props: {
-    id: {
-      type: String,
-    },
     content: {
       type: Object as PropType<Record<string, LckTableRow | null>>,
     },
@@ -29,10 +24,12 @@ export default Vue.extend({
           case EXTERNAL_APP_URL_PART_TYPE.STRING:
             return currentPart.string
           case EXTERNAL_APP_URL_PART_TYPE.SOURCE:
+            const currentSource = (((this.content) as Record<string, LckTableRow>)[currentPart.id as string] as LckTableRow)
+            if (!currentSource) return null // then the join will be null, and we don't display the iframe before the url is complete
             if (currentPart.fieldId === 'id') {
-              return (((this.content) as Record<string, LckTableRow>)[currentPart.id as string] as LckTableRow).id
+              return currentSource.id
             } else {
-              return (((this.content) as Record<string, LckTableRow>)[currentPart.id as string] as LckTableRow).data[currentPart.fieldId as string]
+              return currentSource.data[currentPart.fieldId as string]
             }
         }
       }).join('')
@@ -45,6 +42,7 @@ export default Vue.extend({
 iframe {
   border: unset;
   width: 100%;
+  min-height: 500px;
   height: 100%;
 }
 </style>
