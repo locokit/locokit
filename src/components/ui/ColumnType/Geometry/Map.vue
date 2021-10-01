@@ -389,6 +389,7 @@ export default Vue.extend({
     removeForbiddenControl (resource: LckGeoResource) {
       if (this.forbiddenAreaControls[resource.id]) {
         this.map!.removeControl(this.forbiddenAreaControls[resource.id])
+        delete this.forbiddenAreaControls[resource.id]
       }
     },
     addResource (resource: LckGeoResource) {
