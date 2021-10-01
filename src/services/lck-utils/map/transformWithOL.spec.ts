@@ -1064,6 +1064,9 @@ describe('Transformations with OpenLayers', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPointColumn],
+          {
+            id: '1',
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -1084,21 +1087,24 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-                width: 2,
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
-              },
-              paint: {
-                'circle-blur': 1,
-                'circle-radius': 3,
-              },
-              layout: {
-                visibility: 'none',
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                  width: 2,
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
+                paint: {
+                  'circle-blur': 1,
+                  'circle-radius': 3,
+                },
+                layout: {
+                  visibility: 'none',
+                },
               },
             },
           },
@@ -1125,19 +1131,22 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            default: {
-              icon: 'myUrlIcon',
-              fill: {
-                color: '#000',
-                width: 2,
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
-              },
-              paint: {
-                'text-halo-width': 1,
-                'text-halo-color': '#fff',
+            id: '1',
+            style: {
+              default: {
+                icon: 'myUrlIcon',
+                fill: {
+                  color: '#000',
+                  width: 2,
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
+                paint: {
+                  'text-halo-width': 1,
+                  'text-halo-color': '#fff',
+                },
               },
             },
           },
@@ -1168,37 +1177,40 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  stroke: {
-                    color: '#111',
-                    width: 5,
-                  },
-                },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  fill: {
-                    color: '#222',
-                    width: 3,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    stroke: {
+                      color: '#111',
+                      width: 5,
+                    },
                   },
                 },
-              },
-            ],
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    fill: {
+                      color: '#222',
+                      width: 3,
+                    },
+                  },
+                },
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1241,41 +1253,44 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id, singleSelectColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
-                  },
-                  {
-                    value: '1',
-                    field: singleSelectColumn.id,
-                  },
-                ],
-                style: {
-                  stroke: {
-                    color: '#111',
-                    width: 5,
-                  },
-                },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  fill: {
-                    color: '#222',
-                    width: 3,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id, singleSelectColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                    {
+                      value: '1',
+                      field: singleSelectColumn.id,
+                    },
+                  ],
+                  style: {
+                    stroke: {
+                      color: '#111',
+                      width: 5,
+                    },
                   },
                 },
-              },
-            ],
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    fill: {
+                      color: '#222',
+                      width: 3,
+                    },
+                  },
+                },
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1326,31 +1341,34 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    icon: 'myNewIconUrl1',
                   },
-                ],
-                style: {
-                  icon: 'myNewIconUrl1',
                 },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    icon: 'myNewIconUrl2',
                   },
-                ],
-                style: {
-                  icon: 'myNewIconUrl2',
                 },
-              },
-            ],
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1389,6 +1407,9 @@ describe('Transformations with OpenLayers', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPolygonColumn],
+          {
+            id: '1',
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -1407,13 +1428,16 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPolygonColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
               },
             },
           },
@@ -1437,7 +1461,10 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoLineStringColumn],
           {
-            default: {},
+            id: '1',
+            style: {
+              default: {},
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1457,13 +1484,16 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoLineStringColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-                width: 10,
-              },
-              stroke: {
-                color: '#111',
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                  width: 10,
+                },
+                stroke: {
+                  color: '#111',
+                },
               },
             },
           },

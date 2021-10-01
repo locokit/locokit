@@ -76,6 +76,7 @@ export default class MapboxForbiddenAreaControl implements IControl {
     this.map!.addSource(this.forbiddenAreaConfiguration.sourceId, {
       type: 'geojson',
       data: buffer,
+      promoteId: 'id',
     })
     this.map!.addLayer({
       id: this.forbiddenAreaConfiguration.layerId,
