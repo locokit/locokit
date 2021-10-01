@@ -255,6 +255,13 @@ export default {
       })
     },
   },
+  watch: {
+    submitting (submittingValue) {
+      if (!submittingValue.inProgress && !submittingValue.errors) {
+        this.displayNewDialog = false
+      }
+    },
+  },
 }
 </script>
 
