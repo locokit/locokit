@@ -51,7 +51,6 @@
           field="isVerified"
           :header="$t('pages.userManagement.isVerified')"
           sortField="isVerified"
-          sortable
         >
           <template #body="slotProps">
             <p-checkbox
