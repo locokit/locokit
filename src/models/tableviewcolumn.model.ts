@@ -72,7 +72,7 @@ export class TableViewColumn extends BaseModel {
         default: { type: ['object', 'null'] },
         required: { type: 'boolean', default: false },
         display_conditions: {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             type: 'object',
             properties: {
