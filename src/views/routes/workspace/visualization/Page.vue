@@ -1529,26 +1529,6 @@ export default {
     width: 100%;
   }
 }
-/*
-@media (max-width: 900px) {
-  .lck-layout-flex .lck-container div {
-    flex-direction: column;
-    flex-wrap: unset;
-  }
-}
-*/
-/* Contenu Full */
-
-/* .lck-layout-full {
-  width: 100%;
-  height: 100%;
-}
-
-.lck-layout-full .lck-container div {
-  height: 100%;
-  width: 100%;
-  overflow: scroll;
-} */
 
 @media (min-width: 900px) {
   .lck-layout-full,
@@ -1563,6 +1543,12 @@ export default {
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
     height: 100%;
     min-height: 100%;
+    overflow: auto;
+  }
+  .lck-layout-full .lck-page-content .editable-container-parent {
+    height: calc(100% - 12rem);
+    min-height: unset;
+    max-height: calc(100% - 12rem);
     overflow: auto;
   }
 }
