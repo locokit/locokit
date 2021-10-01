@@ -204,6 +204,7 @@ import draggable from 'vuedraggable'
 
 import {
   BLOCK_TYPE,
+  EXTERNAL_APP_URL_PART_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
@@ -476,6 +477,11 @@ export default {
           if (block.settings.id) {
             this.createOrExtendSource(block.settings.id, block.id, block.type, block.settings.pagination)
           }
+          if (block.settings.parts) {
+            block.settings.parts.filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE).forEach(s => {
+              this.createOrExtendSource(s.id, block.id, block.type)
+            })
+          }
           this.resetSecondarySources(block)
         })
       })
@@ -613,7 +619,25 @@ export default {
               limit: sourceContent.length,
             }
             : sourceContent
-
+        case BLOCK_TYPE.EXTERNAL_APP:
+          /**
+           * For the external app,
+           * we build an object with key = source id
+           * and value = content of the source (only one element)
+           */
+          const result = {}
+          block.settings.parts
+            .filter(p => p.type === EXTERNAL_APP_URL_PART_TYPE.SOURCE)
+            .forEach(s => {
+              const sourceContent = this.sources[s.id]?.content
+              if (!sourceContent) return
+              if (Array.isArray(sourceContent)) {
+                result[s.id] = sourceContent[0]
+              } else {
+                result[s.id] = sourceContent.data[0]
+              }
+            })
+          return result
         case BLOCK_TYPE.DATA_RECORD:
         case BLOCK_TYPE.ACTION_BUTTON:
         case BLOCK_TYPE.MARKDOWN_FIELD:
@@ -1505,25 +1529,27 @@ export default {
     width: 100%;
   }
 }
-/*
-@media (max-width: 900px) {
-  .lck-layout-flex .lck-container div {
-    flex-direction: column;
-    flex-wrap: unset;
+
+@media (min-width: 900px) {
+  .lck-layout-full,
+  .lck-layout-full .lck-page-content {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+  .lck-layout-full .lck-page-content .lck-container-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
+    height: 100%;
+    min-height: 100%;
+    overflow: auto;
+  }
+  .lck-layout-full .lck-page-content .editable-container-parent {
+    height: calc(100% - 12rem);
+    min-height: unset;
+    max-height: calc(100% - 12rem);
+    overflow: auto;
   }
 }
-*/
-/* Contenu Full */
-
-.lck-layout-full {
-  width: 100%;
-  height: 100%;
-}
-
-.lck-layout-full .lck-container div {
-  height: 100%;
-  width: 100%;
-  overflow: scroll;
-}
-
 </style>

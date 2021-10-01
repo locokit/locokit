@@ -68,6 +68,7 @@ import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
 import DataRecord from '@/components/visualize/DataRecord/DataRecord.vue'
 import ActionButton from '@/components/visualize/ActionButton/ActionButton.vue'
 import MarkdownField from '@/components/visualize/MarkdownField/MarkdownField.vue'
+import ExternalApp from '@/components/visualize/ExternalApp/ExternalApp.vue'
 import Error from '@/components/ui/Error/Error.vue'
 
 export default Vue.extend({
@@ -86,6 +87,7 @@ export default Vue.extend({
     FormRecord,
     MarkdownField,
     Error,
+    ExternalApp,
   },
   props: {
     block: {
@@ -176,6 +178,11 @@ export default Vue.extend({
 .lck-layout-flex .block-container {
   display: flex;
   flex-direction: column;
+}
+
+.lck-layout-full .block-container {
+  height: 100%;
+  min-height: 100%;
 }
 
 .lck-layout-flex .block-content {
