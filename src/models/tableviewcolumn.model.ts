@@ -14,6 +14,10 @@ export class TableViewColumn extends BaseModel {
   position?: number
   /* filter according to Default Query Operators of Feathersjs (e.g `{"$eq": "{userId}"}`) */
   filter?: object
+  /* filter from data contained in the foreign table (for user, group, or relation between tables columns...)
+   * according to Default Query Operators of Feathersjs (e.g `{"data": { "p1" : "2" }}`)
+   */
+  foreign_filter?: object
   /* inject style css rules to the column (e.g `{"width": 583}`) */
   style?: object
   /* whether the column has to be displayed */
@@ -49,6 +53,7 @@ export class TableViewColumn extends BaseModel {
         position: { type: ['number', 'null'] },
         sort: { type: ['string', 'null'] },
         filter: { type: ['object', 'null'] },
+        foreign_filter: { type: ['object', 'null'] },
         style: { type: ['object', 'null'] },
         displayed: { type: ['boolean', 'null'], default: true },
         transmitted: { type: ['boolean', 'null'] },
