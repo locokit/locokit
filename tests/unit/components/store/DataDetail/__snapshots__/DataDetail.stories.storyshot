@@ -213,8 +213,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -258,8 +256,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           État du vélo
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -347,8 +343,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           Fournisseur
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -436,8 +430,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -490,8 +482,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
           Textarea
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -552,8 +542,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -597,8 +585,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           État du vélo
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -686,8 +672,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           Fournisseur
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -775,8 +759,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -829,8 +811,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
           Textarea
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -891,8 +871,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -936,8 +914,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           État du vélo
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -1025,8 +1001,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           Fournisseur
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -1114,8 +1088,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -1168,8 +1140,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
           Textarea
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -1230,8 +1200,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -1275,8 +1243,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           État du vélo
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
@@ -1366,8 +1332,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -1453,8 +1417,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           </label>
            
           <!---->
-           
-          <!---->
         </div>
          
         <div
@@ -1507,8 +1469,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
           Textarea
         
           </label>
-           
-          <!---->
            
           <!---->
         </div>
