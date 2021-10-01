@@ -22,11 +22,11 @@
     <span v-else>{{ $t('components.mapview.noGeoData') }}</span>
 
     <lck-dialog-form
-      v-if="displayDialog"
-      :visible.sync="displayDialog"
+      v-if="displayNewDialog"
+      :visible.sync="displayNewDialog"
       :header="addDialogHeader"
       :submitting="submitting.inProgress"
-      @close="displayDialog = false"
+      @close="displayNewDialog = false"
       @input="handleSubmitCreateRow"
     >
       <lck-data-detail
@@ -38,8 +38,10 @@
         :secondarySources="$attrs['secondarySources']"
         :workspaceId="workspaceId"
         @get-secondary-sources="$listeners['get-secondary-sources']"
+        @remove-attachment="onRemoveAttachment"
         @update-suggestions="$listeners['update-suggestions']"
         @update-row="onUpdateRow"
+        @upload-files="onUploadFiles"
       />
     </lck-dialog-form>
   </div>
@@ -99,7 +101,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      displayDialog: false,
+      displayNewDialog: false,
       newRow: {} as Partial<LckTableRow>,
       selectedFeatureBySource: {} as Record<string, {
         feature: GeoJSONFeature;
@@ -219,18 +221,31 @@ export default Vue.extend({
           this.$set(this.newRow.data as LckTableRow['data'], c.id, c.settings.default)
         }
       })
-      this.displayDialog = true
+      this.displayNewDialog = true
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
+    },
+    onUploadFiles (event: object) {
+      this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow,
+      })
+    },
+    onRemoveAttachment (event: object) {
+      this.$emit('remove-attachment', {
+        ...event,
+        newRow: this.newRow,
+      })
     },
   },
   watch: {
     submitting (submittingValue) {
       if (!submittingValue.inProgress && !submittingValue.errors) {
-        this.displayDialog = false
+        this.displayNewDialog = false
       }
     },
   },
+
 })
 </script>

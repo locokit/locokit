@@ -149,6 +149,7 @@
 
       <lck-dialog-form
         :visible.sync="displayNewDialog"
+        class="newRowDialogForm"
         :header="$t('pages.database.addNewRow')"
         @close="displayNewDialog = false"
         :submitting="submitting"
@@ -166,6 +167,7 @@
           @update-row="onUpdateRow"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles($event, newRow)"
+          @remove-attachment="onRemoveAttachment($event, newRow)"
           @get-secondary-sources='getSecondarySources'
         />
       </lck-dialog-form>
@@ -187,6 +189,7 @@
           @update-row="onUpdateCell"
           @download-attachment="onDownloadAttachment"
           @upload-files="onUploadFiles"
+          @remove-attachment="onRemoveAttachment"
           @get-secondary-sources='getSecondarySources'
         />
 
@@ -233,10 +236,6 @@
 
 import Vue from 'vue'
 
-import {
-  formatISO,
-  isValid,
-} from 'date-fns'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
@@ -251,6 +250,9 @@ import {
   retrieveManualProcessWithRuns,
   retrieveProcessesByRow,
 } from '@/services/lck-helpers/process'
+import {
+  objectFromArray,
+} from '@/services/lck-utils/arrays'
 import {
   isEditableColumn,
   getOriginalColumn,
@@ -451,6 +453,12 @@ export default {
       if (!this.database) return null
       return this.database.workspace_id
     },
+    columnsObject () {
+      // Get an object containing the columns as values and their ids as keys
+      if (!this.block.definition.columns) return {}
+      return objectFromArray(this.block.definition.columns, 'id')
+    },
+
   },
   methods: {
     isEditableColumn,
@@ -565,36 +573,24 @@ export default {
     },
     async saveRow () {
       this.submitting = true
-      const data = { ...this.newRow.data }
-      /**
-       * For date columns, we format the date to ISO, date only
-       */
-      this.block.definition.columns
-        .filter(c => [COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(c.column_type_id))
-        .forEach(c => {
-          if (isValid(this.newRow.data[c.id])) {
-            data[c.id] = formatISO(new Date(this.newRow.data[c.id]))
-          } else {
-            data[c.id] = null
-          }
+      const data = lckHelpers.formatRowData(this.newRow.data, this.columnsObject)
+      try {
+        await lckServices.tableRow.create({
+          data,
+          table_id: this.currentTableId,
         })
-      /**
-       * For file columns, we keep only the attachments ids
-       */
-      this.block.definition.columns
-        .filter(c => c.column_type_id === COLUMN_TYPE.FILE)
-        .forEach(c => {
-          if (!this.newRow.data[c.id]) return
-          data[c.id] = this.newRow.data[c.id].map(a => a.id)
+        this.displayNewDialog = false
+        this.loadCurrentTableData()
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_SAVE'),
+          life: 5000,
         })
-      await lckServices.tableRow.create({
-        data,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        table_id: this.currentTableId,
-      })
-      this.submitting = false
-      this.displayNewDialog = false
-      this.loadCurrentTableData()
+      } finally {
+        this.submitting = false
+      }
     },
     onSort ({ field, order }) {
       this.currentDatatableSort = {
@@ -974,14 +970,17 @@ export default {
       }
     },
     async onRowDuplicate ({ data }) {
-      const duplicatedData = {}
-      this.block.definition.columns.forEach(c => {
-        // Formula column are not duplicated because they depend on a user action or they can be linked to a process
-        if ((c.column_type_id === COLUMN_TYPE.FORMULA && c.reference) || !READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
-          duplicatedData[c.id] = (data[c.id]?.reference ? data[c.id].reference : data[c.id])
-        }
-      })
-      await lckServices.tableRow.create({ data: duplicatedData, table_id: this.currentTableId })
+      const duplicatedData = lckHelpers.formatRowData(data, this.columnsObject, true)
+      try {
+        await lckServices.tableRow.create({ data: duplicatedData, table_id: this.currentTableId })
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_DUPLICATE'),
+          life: 5000,
+        })
+      }
       this.loadCurrentTableData()
     },
     async onOpenDetail ({ rowId }) {
@@ -1020,11 +1019,11 @@ export default {
         isValid: false, // don't know if we have to set to false or null
       }
 
+      const data = lckHelpers.formatRowData({ [columnId]: newValue }, this.columnsObject)
+
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newValue,
-          },
+          data,
           $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
@@ -1032,6 +1031,12 @@ export default {
         currentRow.text = res.text
         currentRow.data = res.data
       } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: error.code ? this.$t('error.http.' + error.code) : this.$t('error.basic'),
+          detail: this.$t('error.lck.ROW_SAVE'),
+          life: 5000,
+        })
         this.cellState.isValid = false
       }
       this.cellState.waiting = false
@@ -1106,6 +1111,7 @@ export default {
         if (newRow) {
           if (!currentRow.data[columnId]) this.$set(currentRow.data, columnId, [])
           currentRow.data[columnId].push(...newUploadedFiles)
+          this.cellState.isValid = true
         } else {
           const newDataFiles = currentRow.data[columnId]?.map(a => a.id) || []
           newDataFiles.push(...newUploadedFiles.map(u => u.id))
@@ -1133,8 +1139,7 @@ export default {
       }
       this.cellState.waiting = false
     },
-    async onRemoveAttachment ({ rowId, columnId, attachmentId }) {
-      const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+    async onRemoveAttachment ({ rowId, columnId, attachmentId }, newRow) {
       this.cellState = {
         rowId,
         columnId,
@@ -1142,24 +1147,38 @@ export default {
         isValid: false, // don't know if we have to set to false or null
       }
 
-      try {
-        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newDataFiles,
-          },
-        })
+      // Here we need to know if we are in a creation or in a row update
+      if (newRow) {
+        // Row creation -> only update local data
+        if (!Array.isArray(newRow.data[columnId])) {
+          this.$set(newRow.data, columnId, [])
+        } else {
+          const deletedAttachmentIndex = newRow.data[columnId].findIndex(a => a.id === attachmentId)
+          if (deletedAttachmentIndex >= 0) newRow.data[columnId].splice(deletedAttachmentIndex, 1)
+        }
         this.cellState.isValid = true
-        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
-        currentRow.data = res.data
-      } catch (error) {
-        this.cellState.isValid = false
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: error.message,
-          life: 5000,
-        })
+      } else {
+        // Row update -> update database and local data
+        try {
+          const currentRow = this.block.content.data.find(({ id }) => id === rowId)
+          const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+          const res = await lckServices.tableRow.patch(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles,
+            },
+          })
+          this.cellState.isValid = true
+          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+          currentRow.data = res.data
+        } catch (error) {
+          this.cellState.isValid = false
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.http.' + error.code),
+            detail: error.message,
+            life: 5000,
+          })
+        }
       }
       this.cellState.waiting = false
     },

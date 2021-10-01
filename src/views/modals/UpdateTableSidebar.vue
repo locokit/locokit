@@ -15,7 +15,8 @@
       >
         <div class="p-field p-mb-3">
           <label>
-            {{ $t('pages.databaseSchema.displayUuid.uuid') }} {{ currentTable.id }}
+            <span>{{ $t('pages.databaseSchema.displayUuid.uuid') }} </span>
+            <span>{{ currentTable.id }}</span>
           </label>
         </div>
         <validation-provider

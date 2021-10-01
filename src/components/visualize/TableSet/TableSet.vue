@@ -71,7 +71,9 @@
         :workspaceId="workspaceId"
         @update-suggestions="$listeners['update-suggestions']"
         @get-secondary-sources="$listeners['get-secondary-sources']"
+        @remove-attachment="onRemoveAttachment"
         @update-row="onUpdateRow"
+        @upload-files="onUploadFiles"
       />
     </lck-dialog-form>
   </div>
@@ -239,6 +241,18 @@ export default {
     },
     handleSubmitCreateRow () {
       this.$emit('create-row', this.newRow)
+    },
+    onUploadFiles (event) {
+      this.$emit('upload-files', {
+        ...event,
+        newRow: this.newRow,
+      })
+    },
+    onRemoveAttachment (event) {
+      this.$emit('remove-attachment', {
+        ...event,
+        newRow: this.newRow,
+      })
     },
   },
   watch: {

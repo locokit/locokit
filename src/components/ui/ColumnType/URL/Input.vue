@@ -56,7 +56,7 @@ export default {
       } catch (error) {}
     },
     urlValidity () {
-      return this.value && this.$refs?.URLInput?.$el.validity.valid
+      return this.value && this.$refs?.URLInput?.$el.validity?.valid
     },
   },
   watch: {

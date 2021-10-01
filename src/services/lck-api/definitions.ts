@@ -44,11 +44,15 @@ export type LckTableColumnValidation = {
  */
 export class LckDatabase extends LckBaseModel {
   text!: string;
+  workspace_id!: string
   tables: LckTable[] = []
 }
 
 export class LckTable extends LckBaseModel {
   text!: string;
+  database_id!: string;
+  columns?: LckTableColumn[]
+  views?: LckTableView[]
 }
 
 export interface SelectValue {
@@ -72,6 +76,11 @@ export class LckTableColumn extends LckBaseModel {
   column_type_id!: COLUMN_TYPE;
   parents?: LckTableColumn[]|null;
   children?: LckTableColumn[]|null;
+  documentation?: string
+  position!: number;
+  reference!: boolean;
+  reference_position!: number;
+  locked!: boolean
   settings!: {
     formula?: string;
     formula_type_id?: COLUMN_TYPE;
@@ -113,7 +122,7 @@ export class LckTableViewColumn extends LckTableColumn {
   /**
    * Filters
    */
-  filters?: object[]
+  filter?: object[]
   /**
    * Whether editable
    */
@@ -184,6 +193,7 @@ export class LckTableView extends LckBaseModel {
   table_id!: string;
   columns?: LckTableViewColumn[]
   filter?: LckTableViewFilter | null
+  locked!: boolean
 }
 
 export class LckTableAction extends LckBaseModel {
@@ -221,7 +231,8 @@ export type LckTableRowData = Date
   | LckTableRowDataComplex
   | LCKTableRowMultiDataComplex
   | null
-  | boolean;
+  | boolean
+  | LckAttachment[];
 
 export class LckTableRow extends LckBaseModel {
   text!: string;

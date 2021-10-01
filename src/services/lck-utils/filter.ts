@@ -108,6 +108,14 @@ export const ACTIONS: Record<string, FilterAction> = {
     label: 'isLowerThanOrEqualTo',
     value: '$lte',
   },
+  START_WITH: {
+    label: 'startWith',
+    value: '$ilike',
+  },
+  END_WITH: {
+    label: 'endWith',
+    value: '$ilike',
+  },
 }
 
 // Filterable types
@@ -135,6 +143,8 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
         ACTIONS.NOT_MATCH,
         ACTIONS.EMPTY,
         ACTIONS.NOT_EMPTY,
+        ACTIONS.START_WITH,
+        ACTIONS.END_WITH,
       ],
     },
     [COLUMN_TYPE.NUMBER]: {
@@ -171,6 +181,8 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
         ACTIONS.NOT_MATCH,
         ACTIONS.EMPTY,
         ACTIONS.NOT_EMPTY,
+        ACTIONS.START_WITH,
+        ACTIONS.END_WITH,
       ],
       patternComponent: 'p-input-text',
     },
@@ -209,6 +221,8 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
         ACTIONS.NOT_MATCH,
         ACTIONS.EMPTY,
         ACTIONS.NOT_EMPTY,
+        ACTIONS.START_WITH,
+        ACTIONS.END_WITH,
       ],
       patternComponent: 'p-input-text',
     },
@@ -285,9 +299,17 @@ export function getCurrentFilters (filters: Filter[]) {
                 }
               }
           }
-          return ['$ilike', '$notILike'].includes(filter.action!.value)
-            ? `%${filter.pattern as LckTableViewFilterPattern}%`
-            : filter.pattern as LckTableViewFilterPattern
+          switch (filter.action!.label) {
+            case 'match':
+            case 'doesNotMatch':
+              return `%${filter.pattern as LckTableViewFilterPattern}%`
+            case 'startWith':
+              return `${filter.pattern as LckTableViewFilterPattern}%`
+            case 'endWith':
+              return `%${filter.pattern as LckTableViewFilterPattern}`
+            default:
+              return filter.pattern as LckTableViewFilterPattern
+          }
         })(filter.column!.originalType)
     })
   return formattedFilters

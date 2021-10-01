@@ -8,13 +8,15 @@
     "
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
+    :class="{ 'no-overflow-formula': selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA }"
   >
     <div
       v-if="columnToHandle"
       class="p-mb-3"
     >
       <label>
-        {{ $t('pages.databaseSchema.displayUuid.uuid') }}{{ columnToHandle.id }}
+        <span>{{ $t('pages.databaseSchema.displayUuid.uuid') }} </span>
+        <span>{{ columnToHandle.id }}</span>
       </label>
     </div>
     <validation-provider
@@ -167,6 +169,7 @@
     <validation-provider
       v-if="selectedColumnTypeIdToHandle && isFormulaType"
       vid="column-formula-content"
+      ref="vp-column-formula-content"
       tag="div"
       class="p-field"
       :name="$t('components.formulas.formula')"
@@ -174,7 +177,7 @@
       v-slot="{
         errors,
         classes,
-        validate
+        validate,
       }"
     >
       <label for="column-formula-content" >{{ $t('components.formulas.formula') }}</label>
@@ -256,6 +259,7 @@ export default {
   },
   data () {
     return {
+      COLUMN_TYPE,
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
       columnDocumentation: null,
@@ -387,6 +391,7 @@ export default {
     },
     formulaChange (data, validate) {
       validate(data)
+      this.$refs['vp-column-formula-content'].setFlags({ pristine: false, dirty: true, touched: true, untouched: false })
       this.settings.formula = data
     },
     formulaSettings () {
@@ -424,7 +429,7 @@ export default {
   width: 100px;
 }
 
-/** Need these two rules to display the monaco editor suggestion details on screen next to the input (pop-up problem) */
+/** Need these two rules to display the monaco editor definition/documentation on screen next to the input area*/
 ::v-deep .monaco-editor .overflow-guard {
   position: static;
 }
@@ -434,5 +439,11 @@ export default {
   left: -1px !important;
   top: -1px !important;
   transform: translateX(-100%);
+  width: 4rem;
+}
+
+/** Need this rule to display the monaco editor suggestion + definition/documentation on tootlip */
+.no-overflow-formula ::v-deep .p-dialog-content {
+  overflow: unset;
 }
 </style>

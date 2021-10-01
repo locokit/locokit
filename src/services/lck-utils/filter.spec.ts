@@ -2,7 +2,7 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { parseISO } from 'date-fns'
 import { LckTableColumn } from '../lck-api/definitions'
-import { ACTIONS, convertFiltersFromDatabase, convertFiltersToDatatabase } from './filter'
+import { ACTIONS, convertFiltersFromDatabase, convertFiltersToDatatabase, getCurrentFilters } from './filter'
 
 // Mock variables
 const mockColumns: Record<string, LckTableColumn> = {
@@ -14,6 +14,10 @@ const mockColumns: Record<string, LckTableColumn> = {
     settings: {},
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.STRING,
+    reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   lastName: {
     id: 'C12',
@@ -23,6 +27,10 @@ const mockColumns: Record<string, LckTableColumn> = {
     settings: {},
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.STRING,
+    reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   date: {
     id: 'C13',
@@ -32,6 +40,10 @@ const mockColumns: Record<string, LckTableColumn> = {
     settings: {},
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.DATE,
+    reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   datetime: {
     id: 'C14',
@@ -41,6 +53,10 @@ const mockColumns: Record<string, LckTableColumn> = {
     settings: {},
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.DATETIME,
+    reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
   },
   luc: {
     id: 'C15',
@@ -50,6 +66,10 @@ const mockColumns: Record<string, LckTableColumn> = {
     settings: {},
     table_id: 'T1',
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+    reference: false,
+    position: 0,
+    reference_position: 0,
+    locked: false,
     parents: [
       {
         id: 'C21',
@@ -59,6 +79,10 @@ const mockColumns: Record<string, LckTableColumn> = {
         settings: {},
         table_id: 'T2',
         column_type_id: -1,
+        reference: false,
+        position: 0,
+        reference_position: 0,
+        locked: false,
       },
     ],
   },
@@ -303,6 +327,120 @@ describe('Filter utils', () => {
           },
         ],
       })
+    })
+  })
+
+  describe('getCurrentFilters', () => {
+    const column = {
+      operator: '$and',
+      column: {
+        label: mockColumns.firstName.text,
+        originalType: mockColumns.firstName.column_type_id,
+        type: mockColumns.firstName.column_type_id,
+        value: mockColumns.firstName.id,
+      },
+    }
+    const currentFilters = getCurrentFilters([
+      {
+        ...column,
+        action: ACTIONS.MATCH,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.NOT_MATCH,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.EQUAL,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.NOT_EQUAL,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.IN,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.NOT_IN,
+        pattern: ['test'],
+      },
+      {
+        ...column,
+        action: ACTIONS.ALL,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.ANY,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.EMPTY,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.NOT_EMPTY,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.TRUE,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.FALSE,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.GREATER_THAN,
+        pattern: true,
+      },
+      {
+        ...column,
+        action: ACTIONS.LOWER_EQUAL_THAN,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.START_WITH,
+        pattern: 'John',
+      },
+      {
+        ...column,
+        action: ACTIONS.END_WITH,
+        pattern: 'John',
+      },
+    ])
+    expect(currentFilters).toEqual({
+      '$and[0][data][C11][$ilike]': '%John%',
+      '$and[10][data][C11][$eq]': true,
+      '$and[11][data][C11][$eq]': true,
+      '$and[12][data][C11][$gt]': true,
+      '$and[13][data][C11][$lte]': 'John',
+      '$and[14][data][C11][$ilike]': 'John%',
+      '$and[15][data][C11][$ilike]': '%John',
+      '$and[1][data][C11][$notILike]': '%John%',
+      '$and[2][data][C11][$eq]': 'John',
+      '$and[3][data][C11][$ne]': 'John',
+      '$and[4][data][C11][$in]': 'John',
+      '$and[5][data][C11][$nin]': [
+        'test',
+      ],
+      '$and[6][data][C11][$all]': true,
+      '$and[7][data][C11][$any]': true,
+      '$and[8][data][C11][$null]': true,
+      '$and[9][data][C11][$notNull]': true,
     })
   })
 })

@@ -36,24 +36,28 @@ const geoTableView: LckTableView = {
   id: '263c21e6-5339-4748-903f-8c77e21314cf',
   text: 'Table view with geographic data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 const stringTableView: LckTableView = {
   id: '363c21e6-5339-4748-903f-8c77e21314cg',
   text: 'Table view without geographic data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 const emptyTableView: LckTableView = {
   id: '463c21e6-5339-4748-903f-8c77e21314ch',
   text: 'Table view without any data',
   table_id: '163c21e6-5339-4748-903f-8c77e21314cf',
+  locked: false,
 }
 
 // Table columns
 const defaultParamsTableViewColumn = {
   table_id: geoTableView.table_id,
   editable: false,
+  reference: false,
   position: 0,
   transmitted: false,
   displayed: true,
@@ -62,6 +66,8 @@ const defaultParamsTableViewColumn = {
   table_column_id: '',
   table_view_id: geoTableView.id,
   style: {},
+  reference_position: 0,
+  locked: false,
 }
 
 const geoPointColumn: LckTableViewColumn = {
@@ -939,6 +945,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].editableGeometryTypes.size).toBe(1)
       expect(resources[0].editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)).toBe(true)
       expect(resources[0].selectable).toBe(false)
+      expect(resources[0].forbiddenAreaRadius).toBeUndefined()
       expect(resources[0].layers).toContainEqual(expect.objectContaining({
         ...GEO_STYLE.Point,
         id: `features-collection-source-0-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
@@ -1014,6 +1021,22 @@ describe('Transformations with OpenLayers', () => {
       expect(resources).toHaveLength(1)
       expect(resources[0].pageDetailId).toBe(pageDetailId)
     })
+    it('Returns the resource with the specific forbidden area radius if desired', () => {
+      const resources = getLckGeoResources(
+        { [geoTableView.id]: geoTableView },
+        { [geoTableView.id]: [] },
+        {
+          sources: [{
+            id: geoTableView.id,
+            forbidden: true,
+            radius: 10,
+          }],
+        },
+        i18nOptions,
+      )
+      expect(resources).toHaveLength(1)
+      expect(resources[0].forbiddenAreaRadius).toBe(10)
+    })
     it('Returns the correct style based on the specified default one', () => {
       const resources = getLckGeoResources(
         { [geoTableView.id]: geoTableView },
@@ -1058,6 +1081,9 @@ describe('Transformations with OpenLayers', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPointColumn],
+          {
+            id: '1',
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -1078,21 +1104,24 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-                width: 2,
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
-              },
-              paint: {
-                'circle-blur': 1,
-                'circle-radius': 3,
-              },
-              layout: {
-                visibility: 'none',
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                  width: 2,
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
+                paint: {
+                  'circle-blur': 1,
+                  'circle-radius': 3,
+                },
+                layout: {
+                  visibility: 'none',
+                },
               },
             },
           },
@@ -1114,24 +1143,61 @@ describe('Transformations with OpenLayers', () => {
           },
         })
       })
+      it('Return the specified default style when the source represents a forbidden area', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            id: '1',
+            forbidden: true,
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                },
+                stroke: {
+                  color: '#111',
+                },
+                paint: {
+                  'fill-opacity': 0.1,
+                },
+              },
+            },
+          },
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Polygon,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
+          paint: {
+            'fill-color': '#000',
+            'fill-opacity': 0.1,
+            'fill-outline-color': '#111',
+          },
+          layout: {},
+        })
+      })
       it('Return the specified default style with markers', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPointColumn],
           {
-            default: {
-              icon: 'myUrlIcon',
-              fill: {
-                color: '#000',
-                width: 2,
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
-              },
-              paint: {
-                'text-halo-width': 1,
-                'text-halo-color': '#fff',
+            id: '1',
+            style: {
+              default: {
+                icon: 'myUrlIcon',
+                fill: {
+                  color: '#000',
+                  width: 2,
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
+                paint: {
+                  'text-halo-width': 1,
+                  'text-halo-color': '#fff',
+                },
               },
             },
           },
@@ -1162,37 +1228,40 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  stroke: {
-                    color: '#111',
-                    width: 5,
-                  },
-                },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  fill: {
-                    color: '#222',
-                    width: 3,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    stroke: {
+                      color: '#111',
+                      width: 5,
+                    },
                   },
                 },
-              },
-            ],
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    fill: {
+                      color: '#222',
+                      width: 3,
+                    },
+                  },
+                },
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1235,41 +1304,44 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id, singleSelectColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
-                  },
-                  {
-                    value: '1',
-                    field: singleSelectColumn.id,
-                  },
-                ],
-                style: {
-                  stroke: {
-                    color: '#111',
-                    width: 5,
-                  },
-                },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
-                  },
-                ],
-                style: {
-                  fill: {
-                    color: '#222',
-                    width: 3,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id, singleSelectColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                    {
+                      value: '1',
+                      field: singleSelectColumn.id,
+                    },
+                  ],
+                  style: {
+                    stroke: {
+                      color: '#111',
+                      width: 5,
+                    },
                   },
                 },
-              },
-            ],
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    fill: {
+                      color: '#222',
+                      width: 3,
+                    },
+                  },
+                },
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1320,31 +1392,34 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPointColumn],
           {
-            fields: [booleanColumn.id],
-            dataDriven: [
-              {
-                values: [
-                  {
-                    value: false,
-                    field: booleanColumn.id,
+            id: '1',
+            style: {
+              fields: [booleanColumn.id],
+              dataDriven: [
+                {
+                  values: [
+                    {
+                      value: false,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    icon: 'myNewIconUrl1',
                   },
-                ],
-                style: {
-                  icon: 'myNewIconUrl1',
                 },
-              },
-              {
-                values: [
-                  {
-                    value: true,
-                    field: booleanColumn.id,
+                {
+                  values: [
+                    {
+                      value: true,
+                      field: booleanColumn.id,
+                    },
+                  ],
+                  style: {
+                    icon: 'myNewIconUrl2',
                   },
-                ],
-                style: {
-                  icon: 'myNewIconUrl2',
                 },
-              },
-            ],
+              ],
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1383,6 +1458,9 @@ describe('Transformations with OpenLayers', () => {
         const layers = getStyleLayers(
           'myResourceId',
           [geoPolygonColumn],
+          {
+            id: '1',
+          },
         )
         expect(layers.length).toBe(1)
         expect(layers[0]).toEqual({
@@ -1401,13 +1479,16 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoPolygonColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-              },
-              stroke: {
-                color: '#111',
-                width: 10,
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                },
+                stroke: {
+                  color: '#111',
+                  width: 10,
+                },
               },
             },
           },
@@ -1431,7 +1512,10 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoLineStringColumn],
           {
-            default: {},
+            id: '1',
+            style: {
+              default: {},
+            },
           },
         )
         expect(layers.length).toBe(1)
@@ -1451,13 +1535,16 @@ describe('Transformations with OpenLayers', () => {
           'myResourceId',
           [geoLineStringColumn],
           {
-            default: {
-              fill: {
-                color: '#000',
-                width: 10,
-              },
-              stroke: {
-                color: '#111',
+            id: '1',
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                  width: 10,
+                },
+                stroke: {
+                  color: '#111',
+                },
               },
             },
           },

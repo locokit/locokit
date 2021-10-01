@@ -105,7 +105,9 @@
               "isLaterThan": "is later than",
               "isEarlierThan": "is earlier than",
               "isEarlierThanOrEqualTo": "is earlier than or equal to",
-              "isLaterThanOrEqualTo": "is later than or equal to"
+              "isLaterThanOrEqualTo": "is later than or equal to",
+              "startWith": "start with",
+              "endWith": "end with"
             }
           }
         }
@@ -545,6 +547,8 @@
           "deletePopupField": "Remove the field from the pop-up",
           "deleteSource": "Delete the source",
           "field": "Geographic field to display",
+          "forbidden": "Forbidden area",
+          "forbiddenHelp": "Prevent user interaction on and around the geographic features of this source.",
           "noConfiguredSource": "No source has been configured",
           "noSelectedView": "No view has been selected",
           "popup": "Display a pop-up",
@@ -555,6 +559,8 @@
           "popupFieldStyle": "Style to apply",
           "popupHover": "Show the pop-up on hover",
           "popupTitle": "Field to use as pop-up title",
+          "radius": "Forbidden area radius",
+          "radiusHelp": "Radius, in kilometers, of the non-interactive area around the geographic features of this source.",
           "selectable": "Make the source selectable",
           "selectOneSource": "Select one of the sources",
           "source": "Source",
@@ -751,6 +757,7 @@
     "lck": {
       "ROW_DUPLICATE": "An error occured when duplicating the row.",
       "ROW_DELETION": "An error occured when deleting the row.",
+      "ROW_SAVE": "An error occured when saving the row.",
       "VIEW_LOCKED": "View is locked.",
       "VIEW_USED_IN_BLOCK": "View is still used in a block. Please remove the block first."
     },

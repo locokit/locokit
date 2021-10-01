@@ -35,6 +35,9 @@
         handle=".handle"
         @change="onContainerReorderClick"
         class="lck-container-parent"
+        :class="{
+          'editable-container-parent': editMode,
+        }"
       >
         <div
           v-for="container in page.containers"
@@ -198,14 +201,9 @@
 import Vue from 'vue'
 
 import draggable from 'vuedraggable'
-import {
-  formatISO,
-  isValid,
-} from 'date-fns'
 
 import {
   BLOCK_TYPE,
-  COLUMN_TYPE,
 } from '@locokit/lck-glossary'
 
 import {
@@ -231,7 +229,6 @@ import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/D
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
-import { READ_ONLY_COLUMNS_TYPES } from '@/services/lck-utils/columns'
 
 export default {
   name: 'Page',
@@ -672,7 +669,16 @@ export default {
         ? blockContent[tableViewId].find(({ id }) => id === rowId)
         : blockContent.data.find(({ id }) => id === rowId)
 
-      if (newValue?.reference) newValue = newValue.reference
+      const blockDefinition = this.getBlockDefinition(block)
+      const currentDefinition = isGeoBlock(currentBlock.type)
+        ? blockDefinition[tableViewId]
+        : blockDefinition
+
+      const updatedColumn = currentDefinition.columns.find(c => c.id === columnId)
+      const formattedData = lckHelpers.formatRowData(
+        { [columnId]: newValue },
+        { [columnId]: updatedColumn },
+      )
 
       this.cellState = {
         rowId: currentRow.id,
@@ -682,16 +688,10 @@ export default {
       }
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newValue,
-          },
+          data: formattedData,
           $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
-        const blockDefinition = this.getBlockDefinition(block)
-        const currentDefinition = isGeoBlock(currentBlock.type)
-          ? blockDefinition[tableViewId]
-          : blockDefinition
 
         lckHelpers.convertDateInRecords(res, currentDefinition.columns)
         currentRow.data = res.data
@@ -740,19 +740,11 @@ export default {
     },
     async onRowDuplicate (block, { data, table_id }) {
       try {
-        const duplicatedData = {}
         const currentBlockDefinition = this.getBlockDefinition(block)
-        currentBlockDefinition.columns.forEach(c => {
-          if ((c.column_type_id === COLUMN_TYPE.FORMULA && c.reference) || !READ_ONLY_COLUMNS_TYPES.has(c.column_type_id)) {
-            duplicatedData[c.id] = (
-            data[c.id]?.reference
-              ? data[c.id].reference
-              : data[c.id]
-            )
-          }
-        })
+        const columnsObject = objectFromArray(currentBlockDefinition.columns, 'id')
+        const formattedData = lckHelpers.formatRowData(data, columnsObject, true)
         await lckServices.tableRow.create({
-          data: duplicatedData,
+          data: formattedData,
           table_id,
         })
         await this.loadSourceContent(block.settings.id)
@@ -793,39 +785,12 @@ export default {
       }
       this.$set(block, 'submitting', { inProgress: true })
 
-      /**
-       * For date columns, we format the date to ISO, date only
-       */
-      currentBlockDefinition.columns
-        .forEach(c => {
-          switch (c.column_type_id) {
-            case COLUMN_TYPE.DATE:
-            case COLUMN_TYPE.DATETIME:
-              if (isValid(newRow.data[c.id])) {
-                data[c.id] = formatISO(new Date(newRow.data[c.id]))
-              } else {
-                data[c.id] = null
-              }
-              break
-            case COLUMN_TYPE.FILE:
-              if (Array.isArray(newRow.data[c.id])) {
-                data[c.id] = newRow.data[c.id].map(a => a.id)
-              }
-              break
-            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-            case COLUMN_TYPE.USER:
-            case COLUMN_TYPE.GROUP:
-            case COLUMN_TYPE.MULTI_USER:
-              if (data[c.id]?.reference) {
-                data[c.id] = data[c.id].reference
-              }
-              break
-          }
-        })
+      const columnsObject = objectFromArray(currentBlockDefinition.columns, 'id')
+      const formattedData = lckHelpers.formatRowData(data, columnsObject)
+
       try {
         await lckServices.tableRow.create({
-          data,
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          data: formattedData,
           table_view_id: currentBlockDefinition.id,
           $lckGroupId: this.groupId,
         })
@@ -930,6 +895,10 @@ export default {
               [columnId]: newDataFiles,
             },
           })
+
+          const blockDefinition = this.getBlockDefinition(currentBlock)
+          lckHelpers.convertDateInRecords(res, blockDefinition.columns)
+
           currentRow.data = res.data
         }
         this.cellState.isValid = true
@@ -950,37 +919,57 @@ export default {
       rowId,
       columnId,
       attachmentId,
+      newRow,
     }) {
-      let currentBlock = null
-      this.page.containers.forEach(container => {
-        const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
-        blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
-      })
-      const currentRow = this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
-      this.cellState = {
-        rowId: currentRow.id,
-        columnId,
-        waiting: true,
-        isValid: false, // don't know if we have to set to false or null
-      }
-
-      try {
-        const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
-        const res = await lckServices.tableRow.patch(currentRow.id, {
-          data: {
-            [columnId]: newDataFiles,
-          },
-        })
+      /**
+       * Here we need to know if we are in a creation or in a row update
+       */
+      if (newRow) {
+        // Row creation -> only update local data
+        if (!Array.isArray(newRow.data[columnId])) {
+          this.$set(newRow.data, columnId, [])
+        } else {
+          const deletedAttachmentIndex = newRow.data[columnId].findIndex(a => a.id === attachmentId)
+          if (deletedAttachmentIndex >= 0) newRow.data[columnId].splice(deletedAttachmentIndex, 1)
+        }
         this.cellState.isValid = true
-        currentRow.data = res.data
-      } catch (error) {
-        this.cellState.isValid = false
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: error.message,
-          life: 5000,
+      } else {
+        // Row update -> update database and local data
+        let currentBlock = null
+        this.page.containers.forEach(container => {
+          const blockIdIndex = container.blocks.findIndex(b => b.id === blockId)
+          blockIdIndex > -1 && (currentBlock = container.blocks[blockIdIndex])
         })
+        const currentRow = this.getBlockContent(currentBlock).data.find(d => d.id === rowId)
+        this.cellState = {
+          rowId: currentRow.id,
+          columnId,
+          waiting: true,
+          isValid: false, // don't know if we have to set to false or null
+        }
+
+        try {
+          const newDataFiles = currentRow.data[columnId]?.filter(a => a.id !== attachmentId).map(a => a.id) || []
+          const res = await lckServices.tableRow.patch(currentRow.id, {
+            data: {
+              [columnId]: newDataFiles,
+            },
+          })
+          this.cellState.isValid = true
+
+          const blockDefinition = this.getBlockDefinition(currentBlock)
+          lckHelpers.convertDateInRecords(res, blockDefinition.columns)
+
+          currentRow.data = res.data
+        } catch (error) {
+          this.cellState.isValid = false
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.http.' + error.code),
+            detail: error.message,
+            life: 5000,
+          })
+        }
       }
       this.cellState.waiting = false
     },
@@ -1478,6 +1467,10 @@ export default {
     max-height: calc(100% - 5rem);
     overflow: hidden;
   }
+  .lck-layout-flex .lck-page-content .editable-container-parent {
+    height: calc(100% - 12rem);
+    max-height: calc(100% - 12rem);
+  }
   .lck-layout-flex .lck-block-parent {
     min-height: 100%;
     height: 100%;
@@ -1500,7 +1493,7 @@ export default {
     width: 50%;
     max-width: 50%;
     padding: 0.5rem;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {

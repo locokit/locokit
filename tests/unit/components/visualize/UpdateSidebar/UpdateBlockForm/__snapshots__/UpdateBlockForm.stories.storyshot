@@ -2079,6 +2079,76 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               class="p-field"
             >
               <label
+                for="source-forbidden-0"
+              >
+                
+          Forbidden area
+        
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="source-forbidden-0"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+               
+              <small>
+                
+          Prevent user interaction on and around the geographic features of this source.
+        
+              </small>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-forbidden-radius-0"
+              >
+                
+          Forbidden area radius
+        
+              </label>
+               
+              <span
+                class="p-inputnumber p-component"
+              >
+                <input
+                  class="p-inputtext p-component p-inputnumber-input"
+                  disabled="disabled"
+                  id="source-forbidden-radius-0"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+              </span>
+               
+              <small>
+                
+          Radius, in kilometers, of the non-interactive area around the geographic features of this source.
+        
+              </small>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
                 for="source-popup-0"
               >
                 
@@ -2353,6 +2423,76 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                   class="p-inputswitch-slider"
                 />
               </div>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-forbidden-1"
+              >
+                
+          Forbidden area
+        
+              </label>
+               
+              <div
+                class="p-inputswitch p-component"
+                id="source-forbidden-1"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
+                 
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+               
+              <small>
+                
+          Prevent user interaction on and around the geographic features of this source.
+        
+              </small>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="source-forbidden-radius-1"
+              >
+                
+          Forbidden area radius
+        
+              </label>
+               
+              <span
+                class="p-inputnumber p-component"
+              >
+                <input
+                  class="p-inputtext p-component p-inputnumber-input"
+                  disabled="disabled"
+                  id="source-forbidden-radius-1"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+              </span>
+               
+              <small>
+                
+          Radius, in kilometers, of the non-interactive area around the geographic features of this source.
+        
+              </small>
             </div>
              
             <div

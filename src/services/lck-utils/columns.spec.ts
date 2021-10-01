@@ -20,6 +20,9 @@ function getDefaultColumnParameters (columnId: string, columnType: COLUMN_TYPE):
     table_view_id: 'table_view',
     text: columnId,
     transmitted: true,
+    reference: false,
+    reference_position: 0,
+    locked: false,
   }
 }
 
