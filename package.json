@@ -1,7 +1,7 @@
 {
   "name": "lck-api",
   "description": "Low-Code Kit (locokit) API",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "homepage": "",
   "private": true,
   "main": "lib/index.js",
