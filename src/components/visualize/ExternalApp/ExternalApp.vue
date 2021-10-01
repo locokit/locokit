@@ -19,7 +19,7 @@ export default Vue.extend({
   },
   computed: {
     src () {
-      return (this.settings as { parts: ExternalAppURLPart[]}).parts.map(currentPart => {
+      return (this.settings as { parts: ExternalAppURLPart[]})?.parts.map(currentPart => {
         switch (currentPart.type) {
           case EXTERNAL_APP_URL_PART_TYPE.STRING:
             return currentPart.string
