@@ -945,6 +945,7 @@ describe('Transformations with OpenLayers', () => {
       expect(resources[0].editableGeometryTypes.size).toBe(1)
       expect(resources[0].editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_POLYGON)).toBe(true)
       expect(resources[0].selectable).toBe(false)
+      expect(resources[0].forbiddenAreaRadius).toBeUndefined()
       expect(resources[0].layers).toContainEqual(expect.objectContaining({
         ...GEO_STYLE.Point,
         id: `features-collection-source-0-${GEO_STYLE.Point.id}-${COLUMN_TYPE.GEOMETRY_POINT}`,
@@ -1019,6 +1020,22 @@ describe('Transformations with OpenLayers', () => {
       )
       expect(resources).toHaveLength(1)
       expect(resources[0].pageDetailId).toBe(pageDetailId)
+    })
+    it('Returns the resource with the specific forbidden area radius if desired', () => {
+      const resources = getLckGeoResources(
+        { [geoTableView.id]: geoTableView },
+        { [geoTableView.id]: [] },
+        {
+          sources: [{
+            id: geoTableView.id,
+            forbidden: true,
+            radius: 10,
+          }],
+        },
+        i18nOptions,
+      )
+      expect(resources).toHaveLength(1)
+      expect(resources[0].forbiddenAreaRadius).toBe(10)
     })
     it('Returns the correct style based on the specified default one', () => {
       const resources = getLckGeoResources(
@@ -1124,6 +1141,40 @@ describe('Transformations with OpenLayers', () => {
           layout: {
             visibility: 'none',
           },
+        })
+      })
+      it('Return the specified default style when the source represents a forbidden area', () => {
+        const layers = getStyleLayers(
+          'myResourceId',
+          [geoPointColumn],
+          {
+            id: '1',
+            forbidden: true,
+            style: {
+              default: {
+                fill: {
+                  color: '#000',
+                },
+                stroke: {
+                  color: '#111',
+                },
+                paint: {
+                  'fill-opacity': 0.1,
+                },
+              },
+            },
+          },
+        )
+        expect(layers.length).toBe(1)
+        expect(layers[0]).toEqual({
+          ...GEO_STYLE.Polygon,
+          id: `myResourceId-${GEO_STYLE.Polygon.id}-${COLUMN_TYPE.GEOMETRY_POLYGON}`,
+          paint: {
+            'fill-color': '#000',
+            'fill-opacity': 0.1,
+            'fill-outline-color': '#111',
+          },
+          layout: {},
         })
       })
       it('Return the specified default style with markers', () => {

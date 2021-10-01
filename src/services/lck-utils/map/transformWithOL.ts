@@ -17,8 +17,6 @@ import {
   CircleLayer,
   Expression,
   FillLayer,
-  FillLayout,
-  FillPaint,
   LineLayer,
   SymbolLayer,
 } from 'mapbox-gl'
@@ -31,7 +29,6 @@ import {
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
   MapSourceSettings,
-  MapSourceStyle,
   MapSourceTriggerEvents,
 } from '@locokit/lck-glossary'
 

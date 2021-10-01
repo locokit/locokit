@@ -7,7 +7,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { shallowMount } from '@vue/test-utils'
 import mapboxgl from 'mapbox-gl'
 import Map from './Map.vue'
-import { mockFirstFeature, mockResources, mockSecondFeature } from './__mocks__/data'
+import { forbiddenResource, mockFirstFeature, mockResources, mockSecondFeature } from './__mocks__/data'
 
 const {
   LngLatBounds: MockLngLatBounds,
@@ -142,6 +142,7 @@ describe('Map component', () => {
       }))
       expect(wrapper.vm.map.fitBounds).not.toHaveBeenCalled()
     })
+
     it('Do not pass some default bounds in dialog mode if there is no feature that must to be included in the bounds', () => {
       mapboxgl.Map.mockClear()
       const wrapper = shallowMount(Map, {
@@ -197,6 +198,54 @@ describe('Map component', () => {
       }))
 
       expect(wrapper.vm.map.fitBounds).toHaveBeenCalled()
+    })
+
+    it('Add a specific control if a source forbids user interactions', () => {
+      const wrapper = shallowMount(Map, {
+        propsData: {
+          resources: [forbiddenResource],
+          mode: 'Block',
+        },
+        ...defaultWrapperParams,
+      })
+      // Add the control
+      expect(wrapper.vm.map.addControl).toHaveBeenCalledWith(expect.objectContaining({
+        featureCollection: {
+          features: [
+            {
+              geometry: {
+                coordinates: [
+                  10,
+                  20,
+                ],
+                type: 'Point',
+              },
+              id: 'f1',
+              properties: {
+                columnId: 'column1',
+                rowId: 'row1',
+              },
+              type: 'Feature',
+            },
+          ],
+          type: 'FeatureCollection',
+        },
+        forbiddenAreaConfiguration: {
+          layerConfiguration: {
+            id: 'layer-type-fill',
+            type: 'fill',
+          },
+          layerId: 'layer-type-fill',
+          sourceId: 'resource_6',
+        },
+        radius: 10,
+      }))
+      // On update -> Do not add it a newer time
+      wrapper.setProps({
+        resources: [forbiddenResource],
+      })
+      wrapper.vm.map.addControl.mockClear()
+      expect(wrapper.vm.map.addControl).not.toHaveBeenCalled()
     })
   })
   describe('Methods', () => {
