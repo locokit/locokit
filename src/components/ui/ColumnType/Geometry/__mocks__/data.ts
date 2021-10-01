@@ -128,6 +128,30 @@ export const mockResources = [
   },
 ]
 
+export const forbiddenResource = {
+  id: 'resource_6',
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      geometry: {
+        type: GeometryType.POINT,
+        coordinates: [10, 20],
+      },
+      id: 'f1',
+      properties: {
+        rowId: 'row1',
+        columnId: 'column1',
+      },
+    },
+  ],
+  layers: [GEO_STYLE.Polygon],
+  popupMode: 'hover',
+  editableGeometryTypes: new Set(),
+  selectable: false,
+  forbiddenAreaRadius: 10,
+}
+
 export const mockFirstFeature = mockResources[0].features[0]
 export const mockSecondFeature = mockResources[0].features[1]
 export const mockThirdFeature = mockResources[0].features[2]

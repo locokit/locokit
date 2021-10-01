@@ -29,7 +29,6 @@ import {
   COLUMN_GEO_TYPE,
   COLUMN_TYPE,
   MapSourceSettings,
-  MapSourceStyle,
   MapSourceTriggerEvents,
 } from '@locokit/lck-glossary'
 
@@ -87,6 +86,7 @@ export interface LckGeoResource {
   pageDetailId?: string;
   selectable?: boolean;
   excludeFromBounds?: boolean;
+  forbiddenAreaRadius?: number;
 }
 
 export interface PopupContent {
@@ -222,16 +222,24 @@ export const mapDefaultStyle: MapEditableStyleProperties = {
  *
  * @param sourceId
  * @param geoColumns
- * @param sourceStyle
+ * @param source
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle): LckImplementedLayers[] {
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], source: MapSourceSettings): LckImplementedLayers[] {
   const geoTypes: Set<COLUMN_TYPE> = new Set()
   const layers: LckImplementedLayers[] = []
   let displayMarkers = false
 
-  geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
+  const { style: sourceStyle, forbidden } = source
+
+  if (forbidden) {
+    // If it's a forbidden source, we just need to display the forbidden areas which are (multi-)polygons.
+    geoTypes.add(COLUMN_TYPE.GEOMETRY_POLYGON)
+  } else {
+    // Otherwise, we need to display the different layers depending of the geographic columns types
+    geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
+  }
 
   // Used images as markers
   const imagesToLoad: Set<string> = new Set()
@@ -772,7 +780,7 @@ export function getLckGeoResources (
 
         const editableGeometryTypes = getEditableGeometryTypes(geoColumns)
 
-        const layers = getStyleLayers(resourceId, geoColumns, source.style)
+        const layers = getStyleLayers(resourceId, geoColumns, source)
 
         const selectable =
           source.selectable || (
@@ -796,6 +804,7 @@ export function getLckGeoResources (
           caughtEvents: source.caughtEvents,
           selectable,
           excludeFromBounds: source.excludeFromBounds === true,
+          forbiddenAreaRadius: source.forbidden ? source.radius : undefined,
         })
       } catch (error) {
         console.error(error)

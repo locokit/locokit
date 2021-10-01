@@ -23,6 +23,7 @@ import { mergeSets, setHasValues, setsAreEqual } from '@/services/lck-utils/set'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import buffer from '@turf/buffer'
 import centroid from '@turf/centroid'
 import {
   AnyLayer,
@@ -40,9 +41,10 @@ import {
 } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import Feature from 'ol/Feature'
-import { GeoJSONFeature } from 'ol/format/GeoJSON'
+import { GeoJSONFeature, GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 import Vue, { PropType } from 'vue'
 import { TranslateResult } from 'vue-i18n'
+import MapboxForbiddenAreaControl from './mapbox-gl-forbidden-area'
 
 export enum MODE {
   BLOCK = 'Block',
@@ -108,6 +110,7 @@ export default Vue.extend({
         featuresIds: '',
       },
       mapIsLoaded: false,
+      forbiddenAreaControls: {} as Record<string, MapboxForbiddenAreaControl>,
       pending: false,
     }
   },
@@ -346,18 +349,70 @@ export default Vue.extend({
         }
       }
     },
+    /**
+     * Set or update the elements needed to forbid the user interactions on the resource features.
+     */
+    setForbiddenSource (resource: LckGeoResource) {
+      // The resource must be configured with forbidden area
+      const featureCollection: GeoJSONFeatureCollection = {
+        type: 'FeatureCollection',
+        features: resource.features,
+      }
+      const { forbiddenAreaRadius = 1 } = resource
+
+      if (this.forbiddenAreaControls[resource.id]) {
+        // We already add the layers + source + controls so we just update the mapbox source
+        const resourceBuffer = buffer(featureCollection, forbiddenAreaRadius)
+        const currentSource = this.map!.getSource(resource.id) as GeoJSONSource
+        if (currentSource) currentSource.setData(resourceBuffer)
+      } else {
+        // We never add the necessary elements to forbid the user interaction for this source so we will do it
+        if (resource.layers.length !== 1) return
+        this.forbiddenAreaControls[resource.id] = new MapboxForbiddenAreaControl({
+          featureCollection: {
+            type: 'FeatureCollection',
+            features: resource.features,
+          },
+          radius: forbiddenAreaRadius,
+          forbiddenAreaConfiguration: {
+            sourceId: resource.id,
+            layerId: resource.layers[0].id,
+            layerConfiguration: resource.layers[0],
+          },
+        })
+        this.map!.addControl(this.forbiddenAreaControls[resource.id])
+      }
+    },
+    /**
+     * Remove the specific elements needed to forbid the user interactions on the resource features.
+     */
+    removeForbiddenControl (resource: LckGeoResource) {
+      if (this.forbiddenAreaControls[resource.id]) {
+        this.map!.removeControl(this.forbiddenAreaControls[resource.id])
+        delete this.forbiddenAreaControls[resource.id]
+      }
+    },
     addResource (resource: LckGeoResource) {
-      this.map!.addSource(resource.id, {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: resource.features,
-        },
-        promoteId: 'id',
-      })
+      if (resource.forbiddenAreaRadius === undefined) {
+        // Add the source with the original features
+        this.map!.addSource(resource.id, {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: resource.features,
+          },
+          promoteId: 'id',
+        })
+      } else {
+        // Add the source & layers with buffered features (where the user interactions are forbidden)
+        this.setForbiddenSource(resource)
+      }
       // Add the related layers
       for (const layer of resource.layers) {
-        this.map!.addLayer({ source: resource.id, ...layer, id: layer.id } as AnyLayer)
+        if (resource.forbiddenAreaRadius === undefined) {
+          // Add the layers with the original features
+          this.map!.addLayer({ source: resource.id, ...layer, id: layer.id } as AnyLayer)
+        }
         // Load the images if needed
         for (const image of layer.imagesToLoad || []) {
           if (!this.map!.hasImage(image)) {
@@ -472,14 +527,20 @@ export default Vue.extend({
             )
           })
         }
-      });
-
-      (this.map!.getSource(resourceToUpdate.id) as GeoJSONSource).setData(
-        {
-          type: 'FeatureCollection',
-          features: resourceToUpdate.features,
-        },
-      )
+      })
+      if (resourceToUpdate.forbiddenAreaRadius === undefined) {
+        (this.map!.getSource(resourceToUpdate.id) as GeoJSONSource).setData(
+          {
+            type: 'FeatureCollection',
+            features: resourceToUpdate.features,
+          },
+        )
+        // Eventually remove the forbidden source control if we defined it before
+        this.removeForbiddenControl(resourceToUpdate)
+      } else {
+        // Update the elements added to forbid the user interactions on the specific areas
+        this.setForbiddenSource(resourceToUpdate)
+      }
     },
     removeResource (resource: LckGeoResource) {
       resource.layers.forEach((layer) => {
@@ -487,6 +548,7 @@ export default Vue.extend({
         this.removeListenerByLayer(layer.id)
       })
       this.map!.removeSource(resource.id)
+      this.removeForbiddenControl(resource)
     },
     loadResources () {
       this.resources.forEach((resource) => {
