@@ -560,7 +560,7 @@
           "popupHover": "Afficher la pop-up au survol",
           "popupTitle": "Champ qui sera affiché comme titre de la pop-up",
           "radius": "Rayon de la zone interdite",
-          "radiusHelp": "Rayon, en kilomètres, de la zone non interactive autour des élements géographiques de cette source.",
+          "radiusHelp": "Rayon, en kilomètres, de la zone non interactive autour des éléments géographiques de cette source.",
           "selectable": "Rendre la source sélectionnable",
           "selectOneSource": "Sélectionnez une des sources",
           "source": "Source",
