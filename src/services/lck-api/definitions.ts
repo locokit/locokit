@@ -163,8 +163,14 @@ export class LckTableViewColumn extends LckTableColumn {
   sort!: SORT_COLUMN;
   /**
    * Is value required
+   * TODO: need to be removed, this field may be not used anymore
    */
   required!: boolean;
+  display_conditions?: Array<{
+    field_id: string;
+    operator: '$eq' | '$in' | '$ne';
+    value: string | number | string[] | number [];
+  }>
 }
 
 export enum SORT_COLUMN {
