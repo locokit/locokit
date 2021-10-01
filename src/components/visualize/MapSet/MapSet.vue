@@ -239,5 +239,13 @@ export default Vue.extend({
       })
     },
   },
+  watch: {
+    submitting (submittingValue) {
+      if (!submittingValue.inProgress && !submittingValue.errors) {
+        this.displayNewDialog = false
+      }
+    },
+  },
+
 })
 </script>
