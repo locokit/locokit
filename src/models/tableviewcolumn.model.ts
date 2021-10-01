@@ -31,7 +31,18 @@ export class TableViewColumn extends BaseModel {
   /* sorts values into a column. (e.g `ASC` or `DESC`) */
   sort?: string
   /* value is required for this column. */
+  /* TODO: delete this field, but be sure that's not used */
   required?: boolean
+  /**
+   * used for conditional display for a field
+   * could be $eq / $in / $ne operator,
+   * associated to a value or a set of values.
+   */
+  display_conditions?: Array<{
+    field_id: string
+    operator: '$eq' | '$in' | '$ne'
+    value: string | number | string[] | number []
+  }>
 
   static get idColumn (): string[] {
     return [
@@ -60,6 +71,24 @@ export class TableViewColumn extends BaseModel {
         editable: { type: ['boolean', 'null'], default: false },
         default: { type: ['object', 'null'] },
         required: { type: 'boolean', default: false },
+        display_conditions: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              field_id: {
+                type: 'string',
+              },
+              operator: {
+                type: 'string',
+                enum: ['$eq', '$in', '$ne'],
+              },
+              value: {
+                type: ['string', 'number'],
+              },
+            },
+          },
+        },
       },
     }
   }
