@@ -8,6 +8,7 @@
     "
     @input="confirmHandleColumnModal"
     @close="closeHandleColumnModal"
+    :class="{ 'no-overflow-formula': selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA }"
   >
     <div
       v-if="columnToHandle"
@@ -246,6 +247,7 @@ export default {
   },
   data () {
     return {
+      COLUMN_TYPE,
       columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
       columnNameToHandle: null,
       columnDocumentation: null,
@@ -416,7 +418,7 @@ export default {
 }
 
 /** Need this rule to display the monaco editor suggestion + definition/documentation on tootlip */
-::v-deep .p-dialog-content {
+.no-overflow-formula ::v-deep .p-dialog-content {
   overflow: unset;
 }
 </style>
