@@ -335,7 +335,7 @@ export default Vue.extend({
             forbiddenAreaConfiguration: {
               sourceId: forbiddenAreaId,
               layerId: forbiddenAreaId,
-              layerConfiguration: { paint: { 'fill-opacity': 0.05 } },
+              layerConfiguration: resource.forbiddenStyle,
             },
           })
           this.map!.addControl(this.forbiddenAreaControls[resource.id])

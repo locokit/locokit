@@ -17,6 +17,8 @@ import {
   CircleLayer,
   Expression,
   FillLayer,
+  FillLayout,
+  FillPaint,
   LineLayer,
   SymbolLayer,
 } from 'mapbox-gl'
@@ -88,6 +90,7 @@ export interface LckGeoResource {
   selectable?: boolean;
   excludeFromBounds?: boolean;
   forbiddenAreaRadius?: number;
+  forbiddenStyle?: { layout?: FillLayout; paint?: FillPaint };
 }
 
 export interface PopupContent {
@@ -227,11 +230,12 @@ export const mapDefaultStyle: MapEditableStyleProperties = {
  *
  * @return {LckImplementedLayers[]}
  */
-export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle): LckImplementedLayers[] {
+export function getStyleLayers (sourceId: string, geoColumns: LckTableColumn[], sourceStyle?: MapSourceStyle, columnTypes: COLUMN_TYPE[] = []): LckImplementedLayers[] {
   const geoTypes: Set<COLUMN_TYPE> = new Set()
   const layers: LckImplementedLayers[] = []
   let displayMarkers = false
 
+  columnTypes.forEach(columnType => geoTypes.add(columnType))
   geoColumns.forEach(geoColumn => geoTypes.add(getColumnTypeId(geoColumn)))
 
   // Used images as markers
@@ -775,6 +779,21 @@ export function getLckGeoResources (
 
         const layers = getStyleLayers(resourceId, geoColumns, source.style)
 
+        let forbiddenStyle: { paint?: FillPaint; layout?: FillLayout } = {}
+        // Add the forbidden area style if specified
+        if (source.forbidden && source.style?.forbiddenArea) {
+          const { paint, layout } = getStyleLayers(
+            resourceId,
+            [],
+            { default: source.style.forbiddenArea },
+            [COLUMN_TYPE.GEOMETRY_POLYGON],
+          )[0] as { layout: FillLayout; paint: FillPaint }
+          forbiddenStyle = {
+            layout,
+            paint,
+          }
+        }
+
         const selectable =
           source.selectable || (
             Array.isArray(source.triggerEvents) &&
@@ -798,6 +817,7 @@ export function getLckGeoResources (
           selectable,
           excludeFromBounds: source.excludeFromBounds === true,
           forbiddenAreaRadius: source.forbidden ? source.radius : undefined,
+          forbiddenStyle: source.forbidden ? forbiddenStyle : undefined,
         })
       } catch (error) {
         console.error(error)
