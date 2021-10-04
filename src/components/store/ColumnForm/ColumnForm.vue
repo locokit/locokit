@@ -28,6 +28,14 @@
           />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
+        <div>
+          {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
+          <lck-column-validation
+            :columnType="columnCopy.column_type_id"
+            :columnValidation="columnCopy.validation"
+            class="p-my-2"
+          />
+        </div>
         <div class="p-mb-3" v-if="isSelectColumnType">
           <p>{{ $t('components.datatable.column.values') }}</p>
           <lck-select-type-column
@@ -105,12 +113,14 @@ import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 
 import LckForm from '@/components/ui/Form/Form.vue'
+import ColumnValidation from '@/components/admin/database/ColumnValidation/ColumnValidation.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 
 export default {
   name: 'ColumnForm',
   components: {
     'lck-form': LckForm,
+    'lck-column-validation': ColumnValidation,
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
@@ -148,6 +158,9 @@ export default {
         if (!this.columnCopy.settings) {
           this.$set(this.columnCopy, 'settings', {})
         }
+        if (!this.columnCopy.validation) {
+          this.$set(this.columnCopy, 'validation', {})
+        }
       },
       immediate: true,
       deep: true,
@@ -165,8 +178,9 @@ export default {
       this.columnCopy.settings.default = defaultValue
     },
     submitColumnData () {
-      const editedColumn: { text: string; settings?: object} = {
+      const editedColumn: { text: string; settings?: object; validation?: object} = {
         text: this.columnCopy.text,
+        validation: this.columnCopy.validation,
       }
       if (this.isSelectColumnType) {
         editedColumn.settings = this.columnCopy.settings

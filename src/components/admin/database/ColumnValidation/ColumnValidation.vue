@@ -2,22 +2,23 @@
   <div>
     <div
       v-for="rule in restrictedValidationRules"
-      :key="rule.id"
       class="rule-container"
+      :key="rule.id"
     >
       <validation-provider
-        :vid="`validation-${rule.id}`"
+        class="rule-enable"
         tag="div"
+        :vid="`${rule.id}-enable`"
       >
         <p-checkbox
-          :id="`validation-${rule.id}`"
-          name="criteria"
-          class="p-mr-2"
-          v-model="currentCriteria[rule.id].enabled"
-          @input="enabledCriteria(rule, $event)"
           :binary="true"
+          class="p-mr-2"
+          :id="`${rule.id}-enable`"
+          :modelValue="columnValidation[rule.id] != null"
+          name="rule-enable"
+          @input="enableRule(rule, $event)"
         />
-        <label :for="`validation-${rule.id}`">{{ rule.text }}</label>
+        <label :for="`${rule.id}-enable`">{{ rule.text }}</label>
       </validation-provider>
     </div>
   </div>
@@ -32,38 +33,29 @@ import { ValidationProvider } from 'vee-validate'
 import Checkbox from 'primevue/checkbox'
 
 import {
-  LckTableColumn,
   LckTableColumnValidation,
 } from '@/services/lck-api/definitions'
-import { formatDateISO } from '@/services/lck-utils/date'
+
 import i18n from '@/plugins/i18n'
 
 enum ValidationValue {
   BOOLEAN,
-  DATE,
-  FIELD,
 }
 
-type ValidationRule = {
-  id: keyof LckTableColumnValidation;
-  text: string;
-  values: ValidationValue[];
-  columnTypes: Set<COLUMN_TYPE>;
+class ValidationRule {
+  columnTypes: Set<COLUMN_TYPE> = new Set([]); // Restrict the rule to some column types. If empty, the rule can be applied to all column types
+  id!: keyof LckTableColumnValidation; // Identifier of the validation rule (similar to the vee-validate rules)
+  text!: string; // Rule label to display
+  value!: ValidationValue[]; // Types of values that this rule can take
 };
 
 const validationRules: ValidationRule[] = [
   {
-    id: 'required',
-    values: [ValidationValue.BOOLEAN],
-    text: i18n.t('pages.databaseSchema.validation.required').toString(),
     columnTypes: new Set([]),
+    id: 'required',
+    text: i18n.t('pages.databaseSchema.validation.required').toString(),
+    value: [ValidationValue.BOOLEAN],
   },
-  // {
-  //   id: 'minDate',
-  //   values: [ValidationValue.DATE, ValidationValue.FIELD],
-  //   text: 'Date inférieure à', // TODO use translation,
-  //   columnTypes: new Set([COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME]),
-  // },
 ]
 
 export default {
@@ -73,10 +65,6 @@ export default {
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
-    tableColumns: {
-      type: Array,
-      default: () => [],
-    } as PropOptions<LckTableColumn[]>,
     columnValidation: {
       type: Object,
       default: () => ({}),
@@ -88,14 +76,9 @@ export default {
   },
   data (): {
     validationRules: ValidationRule[];
-    currentCriteria: Record<
-      string,
-      { enabled: boolean; value?: object | string | boolean }
-    >;
     } {
     return {
       validationRules,
-      currentCriteria: {},
     }
   },
   computed: {
@@ -116,48 +99,18 @@ export default {
     },
   },
   methods: {
-    enabledCriteria (criteria: ValidationRule, enabled: boolean) {
+    enableRule (rule: ValidationRule, enabled: boolean) {
       let defaultValue
-      if (enabled && criteria.values.length) {
-        switch (criteria.values[0]) {
+      if (enabled) {
+        switch (rule.value[0]) {
           case ValidationValue.BOOLEAN:
             defaultValue = true
             break
-          case ValidationValue.DATE:
-            defaultValue = formatDateISO(new Date())
-            break
-          case ValidationValue.FIELD:
-            defaultValue = { fromField: '' }
-            break
         }
+        this.$set(this.columnValidation, rule.id, defaultValue)
       } else {
-        this.$set(this.currentCriteria, criteria.id, {
-          enabled: false,
-          value: undefined,
-        })
+        this.$delete(this.columnValidation, rule.id)
       }
-      this.$emit('update-validation-criteria', {
-        id: criteria.id,
-        value: defaultValue,
-      })
-    },
-  },
-  watch: {
-    columnValidation: {
-      immediate: true,
-      handler (newColumnValidation: LckTableColumnValidation) {
-        const newCriteria: Record<
-          string,
-          { enabled: boolean; value?: object | string | boolean }
-        > = {}
-        for (const rule of validationRules) {
-          newCriteria[rule.id] = {
-            enabled: newColumnValidation[rule.id] != null,
-            value: newColumnValidation[rule.id],
-          }
-        }
-        this.currentCriteria = newCriteria
-      },
     },
   },
 }
@@ -165,13 +118,21 @@ export default {
 
 <style scoped>
 .rule-container {
-  padding: 0.5em;
+  align-items: center;
   border: 1px solid #ced4da;
+  display: flex;
+  height: 2.5em;
+  justify-content: space-between;
+  padding: 0 0.5em;
+}
+
+.rule-enable {
+  display: flex;
   width: 100%;
 }
-.rule-container p {
-  display: inline;
-  width: 100%;
+
+.rule-enable label {
+  flex: 1;
 }
 
 ::v-deep .p-checkbox .p-checkbox-box {

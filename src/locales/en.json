@@ -603,7 +603,7 @@
         "columnType": "Column type",
         "selectColumnType": "Select column type",
         "errorNoData": "Please fill in the fields",
-        "validation": "Validation criteria"
+        "validation": "Validation rules"
       },
       "selectType": {
         "addValue": "Add value",

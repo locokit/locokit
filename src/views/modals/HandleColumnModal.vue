@@ -88,10 +88,8 @@
     <div>
       {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
       <lck-column-validation
-        :columnValidation="columnValidation"
-        :tableColumns="tableColumns"
         :columnType="selectedColumnTypeIdToHandle"
-        @update-validation-criteria="updateValidationCriteria"
+        :columnValidation="columnValidation"
         class="p-my-2"
       />
     </div>
@@ -356,13 +354,6 @@ export default {
         return this.formulaSettings()
       }
       return {}
-    },
-    updateValidationCriteria ({ id, value }) {
-      if (!value) {
-        delete this.columnValidation[id]
-      } else {
-        this.$set(this.columnValidation, id, value)
-      }
     },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}

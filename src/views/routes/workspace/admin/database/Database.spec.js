@@ -306,7 +306,7 @@ describe('Database', () => {
     })
 
     describe('On column edit', () => {
-      const updatedColumnData = { text: 'newColumnName' }
+      const updatedColumnData = { text: 'newColumnName', validation: { required: true } }
 
       beforeEach(() => {
         lckServices.tableColumn.patch.mockClear()
@@ -325,8 +325,11 @@ describe('Database', () => {
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].text).toBe(updatedColumnData.text)
+        expect(wrapper.vm.views[0].columns[0].validation).toEqual(updatedColumnData.validation)
         expect(wrapper.vm.views[1].columns[0].text).toBe(updatedColumnData.text)
+        expect(wrapper.vm.views[1].columns[0].validation).toEqual(updatedColumnData.validation)
         expect(wrapper.vm.block.definition.columns[0].text).toBe(updatedColumnData.text)
+        expect(wrapper.vm.block.definition.columns[0].validation).toEqual(updatedColumnData.validation)
       })
 
       it('Don\'t create a form if no column is selected', async () => {

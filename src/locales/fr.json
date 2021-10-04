@@ -603,7 +603,7 @@
         "columnType": "Type de colonne",
         "selectColumnType": "Sélectionner un type de colonne",
         "errorNoData": "Veuillez renseigner les champs",
-        "validation": "Critères de validation"
+        "validation": "Règles de validation"
       },
       "selectType": {
         "addValue": "Ajouter une valeur",
