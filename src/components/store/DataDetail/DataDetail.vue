@@ -200,17 +200,11 @@
             :disabled="true"
           />
           <label
-            class="lck-color-primary"
+            :class="{ 'lck-color-primary': true, 'label-field-required': column.required }"
             :for="column.id"
           >
             {{ column.text }}
           </label>
-          <span
-            v-if="column.required"
-            class="field-required"
-          >
-            *
-          </span>
         </div>
         <template v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]">
           <lck-map

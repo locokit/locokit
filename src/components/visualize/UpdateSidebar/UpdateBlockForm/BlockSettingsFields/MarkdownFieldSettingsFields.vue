@@ -11,8 +11,7 @@
         classes
       }"
     >
-      <label for="blockSettingsTableView">{{ $t('pages.workspace.block.tableView') }}</label>
-      <span class="field-required">*</span>
+      <label for="blockSettingsTableView" class="label-field-required">{{ $t('pages.workspace.block.tableView') }}</label>
       <lck-autocomplete
         id="blockSettingsTableView"
         field="text"
@@ -35,8 +34,7 @@
         classes
       }"
     >
-      <label for="displayFieldId">{{ $t('pages.workspace.block.markdownField.displayField') }}</label>
-      <span class="field-required">*</span>
+      <label for="displayFieldId" class="label-field-required">{{ $t('pages.workspace.block.markdownField.displayField') }}</label>
       <p-input-text
         id="displayFieldId"
         :value="displayFieldId"

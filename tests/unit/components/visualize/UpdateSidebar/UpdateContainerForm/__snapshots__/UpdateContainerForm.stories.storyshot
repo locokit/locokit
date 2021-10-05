@@ -15,18 +15,13 @@ exports[`storyshots components/visualize/UpdateContainerForm New Block Story 1`]
           class="p-field"
         >
           <label
+            class="label-field-required"
             for="container-name"
           >
             
         Container title
       
           </label>
-           
-          <span
-            class="field-required"
-          >
-            *
-          </span>
            
           <input
             class="p-inputtext p-component"

@@ -11,10 +11,9 @@
         classes
       }"
     >
-      <label for="local-field-id">
+      <label for="local-field-id" class="label-field-required">
         {{ $t('pages.databaseSchema.lookedUpType.localField') }}
       </label>
-      <span class="field-required">*</span>
       <p-dropdown
         id="local-field-id"
         :disabled="!Boolean(localFields.length)"
@@ -40,10 +39,9 @@
         classes
       }"
     >
-      <label for="foreign-field-id">
+      <label for="foreign-field-id" class="label-field-required">
         {{ $t('pages.databaseSchema.lookedUpType.foreignField') }}
       </label>
-      <span class="field-required">*</span>
       <p-dropdown
         id="foreign-field-id"
         :disabled="!Boolean(foreignFields.length)"

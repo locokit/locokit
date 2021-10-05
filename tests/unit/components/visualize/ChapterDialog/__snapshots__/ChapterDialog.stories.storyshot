@@ -56,16 +56,11 @@ exports[`storyshots components/visualize/ChapterDialog chapter create 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="chapterTextField"
               >
                 Chapter name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 autofocus="autofocus"
@@ -189,16 +184,11 @@ exports[`storyshots components/visualize/ChapterDialog chapter edit 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="chapterTextField"
               >
                 Chapter name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 autofocus="autofocus"

@@ -40,8 +40,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           Nom du vélo
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -70,8 +68,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           État du vélo
         
           </label>
-           
-          <!---->
         </div>
          
         <span
@@ -105,8 +101,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           Fournisseur
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -135,8 +129,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           Date
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -165,8 +157,6 @@ exports[`storyshots components/store/DataDetail with definition and row 1`] = `
           Textarea
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1548,8 +1538,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up boolean
         
           </label>
-           
-          <!---->
         </div>
          
         <!---->
@@ -1574,8 +1562,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up string
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1604,8 +1590,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up number
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1634,8 +1618,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up float
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1664,8 +1646,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up date
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1694,8 +1674,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up user
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1724,8 +1702,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up group
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1754,8 +1730,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up relation between tables
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1784,8 +1758,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up single select
         
           </label>
-           
-          <!---->
         </div>
          
         <span
@@ -1819,8 +1791,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up multi select
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1849,8 +1819,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up formula
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1879,8 +1847,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up file
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1909,8 +1875,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up multi user
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1939,8 +1903,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up text
         
           </label>
-           
-          <!---->
         </div>
          
         <span>
@@ -1969,8 +1931,6 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           Looked_up url
         
           </label>
-           
-          <!---->
         </div>
          
         <span>

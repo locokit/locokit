@@ -68,8 +68,7 @@
             classes
           }"
         >
-          <label for="action">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
-          <span class="field-required">*</span>
+          <label for="action" class="label-field-required">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
           <p-dropdown
             id="action"
             v-model="actionCopy.action"
@@ -108,8 +107,7 @@
               classes
             }"
           >
-            <label for="processId">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
-            <span class="field-required">*</span>
+            <label for="processId" class="label-field-required">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
             <p-dropdown
               id="processId"
               :options="transformProcesses"
@@ -179,8 +177,7 @@
               classes
             }"
           >
-            <label for="pageDetailId">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
-            <span class="field-required">*</span>
+            <label for="pageDetailId" class="label-field-required">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
             <lck-autocomplete
               id="pageDetailId"
               v-model="page"

@@ -56,18 +56,13 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="viewTextField"
               >
                 
       Name
     
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component"
@@ -220,18 +215,13 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="viewTextField"
               >
                 
       Name
     
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component p-filled"

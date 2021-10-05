@@ -30,13 +30,8 @@
             classes
           }"
         >
-          <label for="table-name">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
-          <span class="field-required">*</span>
-          <p-input-text
-            id="table-name"
-            type="text"
-            v-model="currentTableToUpdate.text"
-          />
+          <label for="table-name" class="label-field-required">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
+          <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
         <validation-provider
