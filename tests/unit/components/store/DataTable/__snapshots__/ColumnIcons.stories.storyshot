@@ -7,7 +7,7 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
   <div>
     <p>
       <i
-        class="bi bi-check-square-fill"
+        class="bi bi-check"
       />
       
         Boolean
