@@ -52,7 +52,7 @@
               class="pi pi-pencil action-button"
             />
             <span
-              @click.stop.prevent="$emit('confirm-subitem', { item: item.id, subitem: subitem.id })"
+              @click.stop.prevent="$emit('confirm-subitem', { chapterId: item.id, pageId: subitem.id })"
               class="pi pi-trash action-button"
             />
           </span>

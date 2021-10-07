@@ -17,8 +17,8 @@
         @delete-subitem="onPageDeleteClick"
         @reorder-subitem="onPageReorderClick"
         v-on="$listeners"
-        @confirm="onConfirmationDeletePage($event)"
-        @confirm-subitem="onConfirmationDeleteChapter($event)"
+        @confirm="onConfirmationDeleteChapter($event)"
+        @confirm-subitem="onConfirmationDeletePage($event)"
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
@@ -177,10 +177,6 @@ export default {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterEdit = false
     },
-    onChapterDeleteReset () {
-      this.currentChapterToEdit = {}
-      this.dialogVisibility.chapterDelete = false
-    },
     async onChapterEditInput (chapterText) {
       try {
         this.submitting = true
@@ -207,21 +203,16 @@ export default {
         this.submitting = false
       }
     },
-
-    onConfirmationDeleteChapter (chapter = {}) {
+    onConfirmationDeleteChapter (chapterId) {
       this.$confirm.require({
         message: this.$t('form.specificDeleteConfirmation'),
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
           try {
-            this.submitting = true
-            if (chapter.id) {
-              await lckServices.chapter.remove(chapter.id)
-              const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-              if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
-            }
-            this.onChapterDeleteReset()
+            await lckServices.chapter.remove(chapterId)
+            const chapterIndex = this.workspaceContent.chapters.findIndex(chapter => chapterId === chapter.id)
+            if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
@@ -239,21 +230,6 @@ export default {
         },
       })
     },
-    // async onChapterDeleteInput (chapter = {}) {
-    //   try {
-    //     this.submitting = true
-    //     if (chapter.id) {
-    //       await lckServices.chapter.remove(chapter.id)
-    //       const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-    //       if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
-    //     }
-    //     this.onChapterDeleteReset()
-    //   } catch (error) {
-    //     this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
-    //   } finally {
-    //     this.submitting = false
-    //   }
-    // },
     onPageEditClick (data) {
       if (data.item) {
         this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
@@ -274,11 +250,6 @@ export default {
       this.currentPageToEdit = {}
       this.currentChapterToEdit = {}
       this.dialogVisibility.pageEdit = false
-    },
-    onPageDeleteReset () {
-      this.currentPageToEdit = {}
-      this.currentChapterToEdit = {}
-      this.dialogVisibility.pageDelete = false
     },
     async onPageEditInput ({ text, hidden, layout } = {}) {
       try {
@@ -315,22 +286,22 @@ export default {
         this.submitting = false
       }
     },
-
-    onConfirmationDeletePage (page = {}) {
+    onConfirmationDeletePage ({ chapterId, pageId }) {
       this.$confirm.require({
         message: this.$t('form.specificDeleteConfirmation'),
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
           try {
-            this.submitting = true
-            if (page.id) {
-              await lckServices.page.remove(page.id)
-              const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
-              if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-              if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
-            }
-            this.onPageDeleteReset()
+            await lckServices.page.remove(pageId)
+            this.workspaceContent.chapters = this.workspaceContent?.chapters.map(chapter => {
+              if (chapter.id === chapterId) {
+                chapter.pages = chapter.pages.filter(({ id }) => id !== pageId)
+              }
+              return chapter
+            })
+            if (this.$route.params.pageId === pageId) await this.goToDefaultRoute()
+
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
@@ -348,22 +319,6 @@ export default {
         },
       })
     },
-    // async onPageDeleteInput (page = {}) {
-    //   try {
-    //     this.submitting = true
-    //     if (page.id) {
-    //       await lckServices.page.remove(page.id)
-    //       const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
-    //       if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-    //       if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
-    //     }
-    //     this.onPageDeleteReset()
-    //   } catch (error) {
-    //     this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
-    //   } finally {
-    //     this.submitting = false
-    //   }
-    // },
     async onPageReorderClick (chapterId, { moved }) {
       if (chapterId && moved) {
         this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
