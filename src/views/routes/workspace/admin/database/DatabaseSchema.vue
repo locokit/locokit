@@ -63,11 +63,11 @@ import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
 export default {
   name: 'DatabaseSchema',
   components: {
-    'p-confirm-dialog': ConfirmDialog,
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-button': Vue.extend(Button),
     'create-table-modal': CreateTableModal,
     'update-table-sidebar': UpdateTableSidebar,
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
+    'p-toolbar': Vue.extend(Toolbar),
+    'p-button': Vue.extend(Button),
   },
   props: {
     databaseId: String,
@@ -116,7 +116,7 @@ export default {
     },
     onConfirmationDeleteColumn (column) {
       this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
+        message: `${this.$t('form.specificDeleteConfirmation')} ${column.text}`,
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
@@ -126,7 +126,7 @@ export default {
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
+              detail: this.$t('success.removed'),
               life: 5000,
             })
           } catch (error) {

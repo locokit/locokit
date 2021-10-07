@@ -75,10 +75,10 @@ import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 export default {
   name: 'Workspace',
   components: {
-    'p-confirm-dialog': ConfirmDialog,
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
     'lck-page-dialog': PageDialog,
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
     'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {
@@ -203,9 +203,9 @@ export default {
         this.submitting = false
       }
     },
-    onConfirmationDeleteChapter (chapterId) {
+    onConfirmationDeleteChapter ({ chapterId, chapterName }) {
       this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
+        message: `${this.$t('form.specificDeleteConfirmation')} ${chapterName}`,
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
@@ -216,7 +216,7 @@ export default {
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
+              detail: this.$t('success.removed'),
               life: 5000,
             })
           } catch (error) {
@@ -286,9 +286,9 @@ export default {
         this.submitting = false
       }
     },
-    onConfirmationDeletePage ({ chapterId, pageId }) {
+    onConfirmationDeletePage ({ chapterId, pageId, pageName }) {
       this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
+        message: `${this.$t('form.specificDeleteConfirmation')} ${pageName}`,
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
@@ -305,7 +305,7 @@ export default {
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
+              detail: this.$t('success.removed'),
               life: 5000,
             })
           } catch (error) {

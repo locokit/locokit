@@ -89,7 +89,7 @@
           <p-button
             icon="pi pi-trash"
             class="p-button-rounded lck-color-content p-column-button-color"
-            @click="onConfirmationDeleteSelectTypeValue(props.data.id)"
+            @click="onConfirmationDeleteSelectTypeValue(props.data)"
           />
         </template>
       </p-column>
@@ -174,13 +174,14 @@ export default {
       // Add focus on first input in the row
       lastTr.querySelector('td input').focus()
     },
-    onConfirmationDeleteSelectTypeValue (selectTypeValueId) {
+    onConfirmationDeleteSelectTypeValue (selectTypeValue) {
       this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
+        message: `${this.$t('form.specificDeleteConfirmation')} ${selectTypeValue.label}`,
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
           const saveDefaultSelectTypeValueId = this.defaultSelectTypeValueId
+          const selectTypeValueId = selectTypeValue.id
           try {
             let settings = {}
             const options = this.selectTypeValues.filter(({ id }) => id !== selectTypeValueId)
@@ -206,7 +207,7 @@ export default {
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
+              detail: this.$t('success.removed'),
               life: 5000,
             })
           } catch (error) {

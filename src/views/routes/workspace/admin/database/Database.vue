@@ -744,7 +744,7 @@ export default {
     },
     async onConfirmationView (viewToRemove) {
       this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
+        message: `${this.$t('form.specificDeleteConfirmation')} ${viewToRemove.text}`,
         header: this.$t('form.confirmation'),
         icon: 'pi pi-exclamation-triangle',
         accept: async () => {
@@ -762,7 +762,7 @@ export default {
             this.$toast.add({
               severity: 'success',
               summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
+              detail: this.$t('success.removed'),
               life: 5000,
             })
           } catch (error) {

@@ -54,9 +54,7 @@
         </p-tab-panel>
       </p-tab-view>
     </div>
-    <p-confirm-dialog />
   </p-sidebar>
-
 </template>
 
 <script lang="ts">
@@ -64,7 +62,6 @@ import Vue, { PropType } from 'vue'
 
 import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
 
-import ConfirmDialog from 'primevue/confirmdialog'
 import Sidebar from 'primevue/sidebar'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -79,7 +76,6 @@ export default {
     'update-block-form': UpdateBlockForm,
     'update-container-form': UpdateContainerForm,
     'update-page-form': UpdatePageForm,
-    'p-confirm-dialog': ConfirmDialog,
     'p-sidebar': Vue.extend(Sidebar),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
@@ -138,11 +134,11 @@ export default {
     },
   },
   methods: {
-    onTabChange (event) {
-      if (event.index === 1) {
+    onTabChange ({ index }: { index: number }) {
+      if (index === 1) {
         this.$emit('reset-current-block', {})
       }
-      if (event.index === 0) {
+      if (index === 0) {
         this.$emit('reset-current-block', {})
         this.$emit('reset-current-container', {})
       }

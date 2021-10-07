@@ -19,7 +19,7 @@
             class="pi pi-pencil action-button"
           />
           <span
-            @click.stop="$emit('confirm', item.id)"
+            @click.stop="$emit('confirm', { chapterId: item.id, chapterName: item.label})"
             class="pi pi-trash action-button"
           />
         </span>
@@ -52,7 +52,11 @@
               class="pi pi-pencil action-button"
             />
             <span
-              @click.stop.prevent="$emit('confirm-subitem', { chapterId: item.id, pageId: subitem.id })"
+              @click.stop.prevent="$emit('confirm-subitem', {
+                chapterId: item.id,
+                pageId: subitem.id,
+                pageName: subitem.label
+              })"
               class="pi pi-trash action-button"
             />
           </span>
