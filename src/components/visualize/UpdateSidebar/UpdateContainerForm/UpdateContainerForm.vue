@@ -172,7 +172,7 @@
               :title="$t('pages.workspace.block.delete')"
               icon="pi pi-trash"
               class="p-button-text p-button-lg"
-              @click="$emit('delete-block', slotProps.data)"
+              @click="$emit('confirm-delete-block', slotProps.data)"
             />
           </span>
           </template>

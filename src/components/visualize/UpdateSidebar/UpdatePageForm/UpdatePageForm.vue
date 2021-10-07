@@ -45,7 +45,7 @@
               :title="$t('pages.workspace.container.delete')"
               icon="pi pi-trash"
               class="p-button-text p-button-lg"
-              @click="$emit('delete-container', slotProps.data)"
+              @click="$emit('confirm-delete-container', slotProps.data)"
             />
           </span>
         </template>
