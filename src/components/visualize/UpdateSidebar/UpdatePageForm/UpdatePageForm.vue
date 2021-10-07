@@ -64,20 +64,20 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue, { PropType } from 'vue'
 
-import Button from "primevue/button";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import InputSwitch from "primevue/inputswitch";
+import Button from 'primevue/button'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import InputSwitch from 'primevue/inputswitch'
 
 export default Vue.extend({
-  name: "UpdatePageForm",
+  name: 'UpdatePageForm',
   components: {
-    "p-button": Vue.extend(Button),
-    "p-datatable": Vue.extend(DataTable),
-    "p-column": Vue.extend(Column),
-    "p-switch": Vue.extend(InputSwitch),
+    'p-button': Vue.extend(Button),
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
+    'p-switch': Vue.extend(InputSwitch),
   },
   props: {
     containers: {
@@ -93,7 +93,7 @@ export default Vue.extend({
       default: () => [],
     },
   },
-});
+})
 </script>
 
 <style scoped>

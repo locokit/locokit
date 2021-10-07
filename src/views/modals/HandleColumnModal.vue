@@ -1,5 +1,4 @@
 <template>
-
   <lck-dialog-form
     :visible.sync="visible"
     :header="
@@ -196,15 +195,12 @@
         {{ errorHandleColumn }}
       </small>
     </div>
-    <confirm-dialog />
   </lck-dialog-form>
 
 </template>
 
 <script>
 import Vue from 'vue'
-
-import ConfirmDialog from 'primevue/confirmdialog'
 
 import { ValidationProvider } from 'vee-validate'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -227,7 +223,6 @@ import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
 export default {
   name: 'HandleColumnModal',
   components: {
-    'confirm-dialog': ConfirmDialog,
     'lck-dialog-form': DialogForm,
     'lck-select-type-column': SelectTypeColumn,
     'lck-monaco-editor': () => import(/* webpackChunkName: "lck-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
@@ -261,7 +256,10 @@ export default {
   data () {
     return {
       COLUMN_TYPE,
-      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
+      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
+        id: COLUMN_TYPE[key],
+        name: key,
+      })),
       columnNameToHandle: null,
       columnDocumentation: null,
       referenceToHandle: { isActive: false, position: 0 },
@@ -353,56 +351,6 @@ export default {
       }
       return {}
     },
-
-    onConfirmationDeleteSelectTypeValue (selectTypeValue) {
-      this.$confirm.require({
-        message: this.$t('form.specificDeleteConfirmation'),
-        header: this.$t('form.confirmation'),
-        icon: 'pi pi-exclamation-triangle',
-        accept: async () => {
-          try {
-            if (selectTypeValue.id) {
-              await lckServices.tableColumn.remove(selectTypeValue.id)
-              const currentRow = this.selectTypeValues[index]
-              currentRow.position = index + 1
-              if (selectTypeValueIndex >= 0) this.selectTypeValues.splice(selectTypeValueIndex, 1)
-            }
-
-            console.log(selectTypeValue.id, this.columnToHandle)
-            // const selectTypeValueIndex = this.selectTypeValues.findIndex(
-            //   (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
-            // )
-            // if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
-            //   this.defaultSelectTypeValueId = null
-            // }
-            // this.selectTypeValues.splice(selectTypeValueIndex, 1)
-
-            // this.handleDeleteColumnModalVisibility(false, null)
-
-            // Keep position with continuous numbering
-            // for (let index = 0; index <= this.selectTypeValues.length; index++) {
-            //   const currentRow = this.selectTypeValues[index]
-            //   currentRow.position = index + 1
-            // }
-            // await lckServices.tableColumn.remove(column_type_id.id)
-
-            this.$toast.add({
-              severity: 'success',
-              summary: this.$t('components.processPanel.SUCCESS'),
-              detail: this.$t('components.processPanel.successNewRun'),
-              life: 5000,
-            })
-          } catch (error) {
-            this.$toast.add({
-              severity: 'error',
-              summary: this.$t('components.processPanel.ERROR'),
-              detail: this.$t('components.processPanel.failedNewRun'),
-              life: 5000,
-            })
-          }
-        },
-      })
-    },
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
     },
@@ -430,7 +378,12 @@ export default {
     },
     formulaChange (data, validate) {
       validate(data)
-      this.$refs['vp-column-formula-content'].setFlags({ pristine: false, dirty: true, touched: true, untouched: false })
+      this.$refs['vp-column-formula-content'].setFlags({
+        pristine: false,
+        dirty: true,
+        touched: true,
+        untouched: false,
+      })
       this.settings.formula = data
     },
     formulaSettings () {
@@ -453,7 +406,12 @@ export default {
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
         // Set formula column
         if (this.isFormulaType) {
-          this.settings.formula = formulaColumnsIdsToNames(this.columnToHandle.settings?.formula || '', this.tableColumns)
+          this.settings.formula = formulaColumnsIdsToNames(
+            this.columnToHandle.settings?.formula || '',
+            this.tableColumns,
+          )
+        } else {
+          this.settings = this.columnToHandle.settings
         }
       }
       this.errorHandleColumn = null

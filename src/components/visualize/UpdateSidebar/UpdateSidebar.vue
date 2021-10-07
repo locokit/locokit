@@ -60,29 +60,29 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
-import ConfirmDialog from "primevue/confirmdialog";
+import Vue, { PropType } from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 
-import Sidebar from "primevue/sidebar";
-import TabView from "primevue/tabview";
-import TabPanel from "primevue/tabpanel";
+import Sidebar from 'primevue/sidebar'
+import TabView from 'primevue/tabview'
+import TabPanel from 'primevue/tabpanel'
 
-import { LckBlockExtended, LckContainer } from "@/services/lck-api/definitions";
+import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
 
-import UpdateBlockForm from "@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue";
-import UpdateContainerForm from "@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue";
-import UpdatePageForm from "@/components/visualize/UpdateSidebar/UpdatePageForm/UpdatePageForm.vue";
+import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue'
+import UpdateContainerForm from '@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue'
+import UpdatePageForm from '@/components/visualize/UpdateSidebar/UpdatePageForm/UpdatePageForm.vue'
 
 export default {
-  name: "UpdateSidebar",
+  name: 'UpdateSidebar',
   components: {
-    "confirm-dialog": ConfirmDialog,
-    "update-block-form": UpdateBlockForm,
-    "update-container-form": UpdateContainerForm,
-    "update-page-form": UpdatePageForm,
-    "p-sidebar": Vue.extend(Sidebar),
-    "p-tab-view": Vue.extend(TabView),
-    "p-tab-panel": Vue.extend(TabPanel),
+    'confirm-dialog': ConfirmDialog,
+    'update-block-form': UpdateBlockForm,
+    'update-container-form': UpdateContainerForm,
+    'update-page-form': UpdatePageForm,
+    'p-sidebar': Vue.extend(Sidebar),
+    'p-tab-view': Vue.extend(TabView),
+    'p-tab-panel': Vue.extend(TabPanel),
   },
   props: {
     showSidebar: {
@@ -107,7 +107,7 @@ export default {
     },
     width: {
       type: String,
-      default: "40rem",
+      default: '40rem',
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
@@ -127,31 +127,31 @@ export default {
     },
   },
   computed: {
-    activePanel(): boolean[] {
+    activePanel (): boolean[] {
       // [Page, Container, Block]
       if (this.block.id) {
-        return [false, false, true];
+        return [false, false, true]
       } else {
-        if (this.container.id) return [false, true, false];
-        return [true, false, false];
+        if (this.container.id) return [false, true, false]
+        return [true, false, false]
       }
     },
   },
   methods: {
-    onTabChange(event) {
+    onTabChange (event) {
       if (event.index === 1) {
-        this.$emit("reset-current-block", {});
+        this.$emit('reset-current-block', {})
       }
       if (event.index === 0) {
-        this.$emit("reset-current-block", {});
-        this.$emit("reset-current-container", {});
+        this.$emit('reset-current-block', {})
+        this.$emit('reset-current-container', {})
       }
     },
-    resetSidebar() {
-      this.$emit("reset-current-block", {});
+    resetSidebar () {
+      this.$emit('reset-current-block', {})
     },
   },
-};
+}
 </script>
 
 <style scoped>

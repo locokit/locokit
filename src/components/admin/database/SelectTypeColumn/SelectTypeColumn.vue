@@ -32,10 +32,14 @@
         :header="$t('pages.databaseSchema.selectType.label')"
       >
         <template #body="props">
-          <p-input-text
-            v-model="props.data.label"
-            type="text"
-          />
+          <validation-provider
+            vid="option-label"
+          >
+            <p-input-text
+              id="option-label"
+              v-model="props.data.label"
+            />
+          </validation-provider>
         </template>
       </p-column>
       <p-column
@@ -45,30 +49,35 @@
         :header="$t('pages.databaseSchema.selectType.color')"
       >
         <template #body="props">
-          <p-dropdown
-            :options="colorScheme"
-            dataKey="backgroundColor"
-            appendTo="body"
-            :placeholder="$t('pages.databaseSchema.selectType.selectColor')"
-            :value="colorScheme.find(color => color.backgroundColor === props.data.backgroundColor)"
-            @change="onColorSelect($event,props.data)"
+          <validation-provider
+            vid="option-color"
           >
-            <template #value="slotProps">
-              <lck-badge
-                v-if="slotProps.value"
-                :label="props.data.label"
-                :color="slotProps.value.color"
-                :backgroundColor="slotProps.value.backgroundColor"
-              />
-            </template>
-            <template #option="slotProps">
-              <lck-badge
-                :label="props.data.label"
-                :color="slotProps.option.color"
-                :backgroundColor="slotProps.option.backgroundColor"
-              />
-            </template>
-          </p-dropdown>
+            <p-dropdown
+              id="option-color"
+              :options="colorScheme"
+              dataKey="backgroundColor"
+              appendTo="body"
+              :placeholder="$t('pages.databaseSchema.selectType.selectColor')"
+              :value="colorScheme.find(color => color.backgroundColor === props.data.backgroundColor)"
+              @change="onColorSelect($event,props.data)"
+            >
+              <template #value="slotProps">
+                <lck-badge
+                  v-if="slotProps.value"
+                  :label="props.data.label"
+                  :color="slotProps.value.color"
+                  :backgroundColor="slotProps.value.backgroundColor"
+                />
+              </template>
+              <template #option="slotProps">
+                <lck-badge
+                  :label="props.data.label"
+                  :color="slotProps.option.color"
+                  :backgroundColor="slotProps.option.backgroundColor"
+                />
+              </template>
+            </p-dropdown>
+          </validation-provider>
         </template>
       </p-column>
       <p-column
@@ -80,12 +89,16 @@
           <p-button
             icon="pi pi-trash"
             class="p-button-rounded lck-color-content p-column-button-color"
-            @click="$emit('confirm', props.data)"
+            @click="onConfirmationDeleteSelectTypeValue(props.data.id)"
           />
         </template>
       </p-column>
     </p-datatable>
-    <div class="p-mt-2 p-fluid">
+    <validation-provider
+      vid="default-select-type-value-id"
+      tag="div"
+      class="p-mt-2 p-fluid"
+    >
       <label for="default-select-type-value-id">
         {{ $t('pages.databaseSchema.selectType.defaultValue') }}
       </label>
@@ -99,19 +112,7 @@
         optionLabel="label"
         :placeholder="$t('pages.databaseSchema.selectType.defaultValuePlaceholder')"
       />
-    </div>
-    <lck-dialog-form
-      :visible="showDeleteColumnModal"
-      :header="$t('pages.databaseSchema.selectType.deleteValue')"
-      :confirmationDialog="true"
-      @close="handleDeleteColumnModalVisibility(false, null)"
-      @input="deleteSelectTypeValue"
-    >
-      {{
-        currentSelectTypeValue
-        && $t('pages.databaseSchema.selectType.deleteConfirmation', { label: currentSelectTypeValue.label })
-      }}
-    </lck-dialog-form>
+    </validation-provider>
   </div>
 </template>
 
@@ -119,7 +120,9 @@
 import Vue from 'vue'
 
 import { v4 as uuidv4 } from 'uuid'
+import { ValidationProvider } from 'vee-validate'
 
+import { lckServices } from '@/services/lck-api'
 import { COLOR_SCHEME } from '@/services/lck-utils/color'
 
 import InputText from 'primevue/inputtext'
@@ -128,19 +131,18 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 
-import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import Badge from '@/components/ui/Badge/Badge'
 
 export default {
   name: 'SelectTypeColumn',
   components: {
+    'lck-badge': Badge,
     'p-input-text': Vue.extend(InputText),
     'p-dropdown': Vue.extend(Dropdown),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'lck-dialog-form': DialogForm,
-    'lck-badge': Badge,
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     columnToHandle: {
@@ -153,7 +155,6 @@ export default {
       selectTypeValues: [],
       defaultSelectTypeValueId: null,
       showDeleteColumnModal: false,
-      currentSelectTypeValue: null,
       colorScheme: COLOR_SCHEME,
     }
   },
@@ -173,26 +174,53 @@ export default {
       // Add focus on first input in the row
       lastTr.querySelector('td input').focus()
     },
-    handleDeleteColumnModalVisibility (visibility, data) {
-      this.currentSelectTypeValue = data
-      this.showDeleteColumnModal = visibility
-    },
-    deleteSelectTypeValue () {
-      const selectTypeValueIndex = this.selectTypeValues.findIndex(
-        (selectTypeValue) => selectTypeValue.id === this.currentSelectTypeValue.id,
-      )
-      if (this.defaultSelectTypeValueId === this.currentSelectTypeValue.id) {
-        this.defaultSelectTypeValueId = null
-      }
-      this.selectTypeValues.splice(selectTypeValueIndex, 1)
+    onConfirmationDeleteSelectTypeValue (selectTypeValueId) {
+      this.$confirm.require({
+        message: this.$t('form.specificDeleteConfirmation'),
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          const saveDefaultSelectTypeValueId = this.defaultSelectTypeValueId
+          try {
+            let settings = {}
+            const options = this.selectTypeValues.filter(({ id }) => id !== selectTypeValueId)
 
-      this.handleDeleteColumnModalVisibility(false, null)
+            if (this.defaultSelectTypeValueId === selectTypeValueId) {
+              this.defaultSelectTypeValueId = null
+            }
 
-      // Keep position with continuous numbering
-      for (let index = 0; index <= this.selectTypeValues.length; index++) {
-        const currentRow = this.selectTypeValues[index]
-        currentRow.position = index + 1
-      }
+            // Transform Array To Object to matcth column's setting
+            options.forEach((selectTypeValue, index) => {
+              const newSelectTypeValue = {}
+              // Keep position with continuous numbering
+              newSelectTypeValue[selectTypeValue.id] = { ...selectTypeValue, position: index + 1 }
+              delete newSelectTypeValue[selectTypeValue.id].id
+              settings = { values: { ...settings, ...newSelectTypeValue }, default: this.defaultSelectTypeValueId }
+            })
+
+            await lckServices.tableColumn.patch(this.columnToHandle.id, {
+              settings,
+            })
+            this.selectTypeValues = this.selectTypeValues.filter(({ id }) => id !== selectTypeValueId)
+
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('components.processPanel.successNewRun'),
+              life: 5000,
+            })
+          } catch (error) {
+            // Restore default value if patch failed
+            this.defaultSelectTypeValueId = saveDefaultSelectTypeValueId
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
     onColorSelect (event, currentOption) {
       currentOption.color = event.value.color
@@ -264,11 +292,7 @@ export default {
   cursor: move;
 }
 
-::v-deep
-  .select-type-values-table
-  .p-datatable-tbody
-  > tr
-  > td:not(:first-child) {
+::v-deep .select-type-values-table .p-datatable-tbody > tr > td:not(:first-child) {
   padding: 0.5rem !important;
 }
 
