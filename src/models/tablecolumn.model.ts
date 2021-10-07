@@ -76,7 +76,7 @@ export class TableColumn extends BaseModel {
         table_id: { type: 'string' },
         column_type_id: { type: 'number' },
         position: { type: 'number' },
-        validation: { type: 'number' },
+        validation: { type: 'object' },
       },
     }
   }
