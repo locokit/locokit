@@ -266,6 +266,8 @@ import {
 import { getCurrentFilters, convertFiltersFromDatabase, convertFiltersToDatatabase } from '@/services/lck-utils/filter'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
+import { authState } from '@/store/auth'
+
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
@@ -462,7 +464,12 @@ export default {
   },
   methods: {
     isEditableColumn,
-    getCurrentFilters,
+    getCurrentFilters (filters) {
+      return getCurrentFilters(filters, {
+        '{userId}': authState.data.user?.id,
+        '{groupId}': this.groupId,
+      })
+    },
     searchItems: lckHelpers.searchItems,
     searchBooleanColumnsFromTableView: lckHelpers.searchBooleanColumnsFromTableView,
     searchPageWithChapter: lckHelpers.searchPageWithChapter,
@@ -611,7 +618,7 @@ export default {
         const updatedView = await lckServices.tableView.patch(this.currentView.id, {
           filter: convertFiltersToDatatabase(this.currentDatatableFilters),
         })
-        this.currentView.filter = updatedView.filter
+        this.$set(this.currentView, 'filter', updatedView.filter)
         this.$toast.add({
           severity: 'success',
           summary: this.$t('success.save'),

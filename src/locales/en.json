@@ -75,7 +75,8 @@
           },
           "action": {
             "addFilter": "Add a filter",
-            "close": "Close"
+            "close": "Close",
+            "saveFilters": "Save the filters"
           },
           "updateSuccess": "The filters have been saved.",
           "resetSuccess": "The filters have been reset.",
@@ -107,7 +108,10 @@
               "isEarlierThanOrEqualTo": "is earlier than or equal to",
               "isLaterThanOrEqualTo": "is later than or equal to",
               "startWith": "start with",
-              "endWith": "end with"
+              "endWith": "end with",
+              "isLoggedInUser": "is the logged-in user",
+              "isLoggedInUserGroup": "is the group of the logged-in user",
+              "containsLoggedInUser": "contains the logged-in user"
             }
           }
         }

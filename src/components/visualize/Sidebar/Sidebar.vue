@@ -1,32 +1,33 @@
 <template>
-  <p-accordion
-    :multiple="true"
-    class="lck-bg-sidebar lck-sidebar"
-    :activeIndex="[0]"
-  >
-    <p-accordion-tab
-      v-for="item in items"
-      :key="item.id"
+  <div>
+    <p-accordion
+      :multiple="true"
+      class="lck-bg-sidebar lck-sidebar"
+      :activeIndex="[0]"
     >
-      <template #header>
-        {{item.label}}
-        <span class="action-set" v-if="displayEditActions">
-          <span
-            @click.stop="$emit('edit-item', item.id)"
-            class="pi pi-pencil action-button"
-          />
-          <span
-            @click.stop="$emit('delete-item', item.id)"
-            class="pi pi-trash action-button"
-          />
-        </span>
-      </template>
-      <draggable
+      <p-accordion-tab
+        v-for="item in items"
         :key="item.id"
-        :value="item.subitems"
-        handle=".handle"
-        @change="$emit('reorder-subitem', item.id, $event)"
       >
+        <template #header>
+          {{item.label}}
+          <span class="action-set" v-if="displayEditActions">
+            <span
+              @click.stop="$emit('edit-item', item.id)"
+              class="pi pi-pencil action-button"
+            />
+            <span
+              @click.stop="$emit('delete-item', item.id)"
+              class="pi pi-trash action-button"
+            />
+          </span>
+        </template>
+        <draggable
+          :key="item.id"
+          :value="item.subitems"
+          handle=".handle"
+          @change="$emit('reorder-subitem', item.id, $event)"
+        >
           <router-link
             v-for="subitem in item.subitems"
             :key="subitem.id"
@@ -50,16 +51,17 @@
               />
             </span>
           </router-link>
-      </draggable>
-        <p-button
-          v-if="displayEditActions"
-          :label="createSubItemLabel"
-          icon="pi pi-plus"
-          iconPos="right"
-          class="new-item-button new-subitem-button"
-          @click="$emit('add-subitem', { item: item.id })"
-      />
-    </p-accordion-tab>
+        </draggable>
+          <p-button
+            v-if="displayEditActions"
+            :label="createSubItemLabel"
+            icon="pi pi-plus"
+            iconPos="right"
+            class="new-item-button new-subitem-button"
+            @click="$emit('add-subitem', { item: item.id })"
+        />
+      </p-accordion-tab>
+    </p-accordion>
     <p-button
       v-if="displayEditActions"
       :label="createItemLabel"
@@ -68,7 +70,7 @@
       class="new-item-button"
       @click="$emit('add-item')"
     />
-  </p-accordion>
+  </div>
 </template>
 
 <script>

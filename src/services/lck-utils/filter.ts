@@ -24,7 +24,9 @@ export interface Filter {
 export interface FilterAction {
   label: string;
   value: string;
-  predefinedPattern?: string | number | boolean;
+  predefinedPattern?: string | number | boolean | string[];
+  patternPrefix?: string;
+  patternSuffix?: string;
 }
 
 // Available operators
@@ -43,10 +45,14 @@ export const ACTIONS: Record<string, FilterAction> = {
   MATCH: {
     label: 'match',
     value: '$ilike',
+    patternPrefix: '%',
+    patternSuffix: '%',
   },
   NOT_MATCH: {
     label: 'doesNotMatch',
     value: '$notILike',
+    patternPrefix: '%',
+    patternSuffix: '%',
   },
   EQUAL: {
     label: 'isEqualTo',
@@ -111,10 +117,43 @@ export const ACTIONS: Record<string, FilterAction> = {
   START_WITH: {
     label: 'startWith',
     value: '$ilike',
+    patternSuffix: '%',
   },
   END_WITH: {
     label: 'endWith',
     value: '$ilike',
+    patternPrefix: '%',
+  },
+  EARLIER_THAN: {
+    label: 'isEarlierThan',
+    value: '$lt',
+  },
+  EARLIER_EQUAL_THAN: {
+    label: 'isEarlierThanOrEqualTo',
+    value: '$lte',
+  },
+  LATER_THAN: {
+    label: 'isLaterThan',
+    value: '$gt',
+  },
+  LATER_EQUAL_THAN: {
+    label: 'isLaterThanOrEqualTo',
+    value: '$gte',
+  },
+  IS_LOGGED_USER: {
+    label: 'isLoggedInUser',
+    value: '$eq',
+    predefinedPattern: '{userId}',
+  },
+  IS_LOGGED_USER_GROUP: {
+    label: 'isLoggedInUserGroup',
+    value: '$eq',
+    predefinedPattern: '{groupId}',
+  },
+  CONTAINS_LOGGED_USER: {
+    label: 'containsLoggedInUser',
+    value: '$contains',
+    predefinedPattern: ['{userId}'],
   },
 }
 
@@ -230,10 +269,10 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
       actions: [
         ACTIONS.EQUAL,
         ACTIONS.NOT_EQUAL,
-        { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
-        { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
-        { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
-        { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
+        ACTIONS.EARLIER_THAN,
+        ACTIONS.EARLIER_EQUAL_THAN,
+        ACTIONS.LATER_THAN,
+        ACTIONS.LATER_EQUAL_THAN,
         ACTIONS.EMPTY,
         ACTIONS.NOT_EMPTY,
       ],
@@ -246,10 +285,10 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
       actions: [
         ACTIONS.EQUAL,
         ACTIONS.NOT_EQUAL,
-        { ...ACTIONS.LOWER_THAN, label: 'isEarlierThan' },
-        { ...ACTIONS.LOWER_EQUAL_THAN, label: 'isEarlierThanOrEqualTo' },
-        { ...ACTIONS.GREATER_THAN, label: 'isLaterThan' },
-        { ...ACTIONS.GREATER_EQUAL_THAN, label: 'isLaterThanOrEqualTo' },
+        ACTIONS.EARLIER_THAN,
+        ACTIONS.EARLIER_EQUAL_THAN,
+        ACTIONS.LATER_THAN,
+        ACTIONS.LATER_EQUAL_THAN,
         ACTIONS.EMPTY,
         ACTIONS.NOT_EMPTY,
       ],
@@ -259,14 +298,78 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
         showTime: true,
       },
     },
+    [COLUMN_TYPE.USER]: {
+      actions: [
+        ACTIONS.IS_LOGGED_USER,
+      ],
+    },
+    [COLUMN_TYPE.GROUP]: {
+      actions: [
+        ACTIONS.IS_LOGGED_USER_GROUP,
+      ],
+    },
+    [COLUMN_TYPE.MULTI_USER]: {
+      actions: [
+        ACTIONS.CONTAINS_LOGGED_USER,
+      ],
+    },
   }
+
+/**
+ * Convert the pattern used in the FilterButton component to a pattern that can be used in FeathersJS or saved into the database.
+ * @param pattern The filters specified in the FilterButton component
+ * @returns The formatted pattern
+ */
+export function getFormattedPattern (pattern: inputPatternType, columnType: COLUMN_TYPE, action: FilterAction, wildCards: Record<string, string | number> = {}): LckTableViewFilterPattern {
+  if (typeof pattern === 'string') {
+    // Replace the specific keys containing in the string pattern by the corresponding values
+    return wildCards[pattern] || ((action.patternPrefix || '') + pattern + (action.patternSuffix || ''))
+  } else if (Array.isArray(pattern)) {
+    // Replace the specific keys containing in the items of the pattern by the corresponding values
+    return pattern.map(item => wildCards[item] || item)
+  } else if (pattern instanceof Date) {
+    if (columnType === COLUMN_TYPE.DATE) {
+      // Get the iso string representation of the date
+      return formatDateISO(pattern)
+    } else {
+      // Get the iso string representation of the datetime
+      return formatDateTimeISO(pattern)
+    }
+  } else {
+    // Just return the pattern
+    return pattern as LckTableViewFilterPattern
+  }
+}
+
+/**
+ * Convert the pattern retrieved from the API into another format that can be used in the FilterButton component
+ * @param pattern The pattern retrieved from the API
+ * @returns The corresponding pattern that can be used in the FilterButton component
+ */
+export function getPatternFromDatabase (pattern: LckTableViewFilterPattern, action: FilterAction, columnType: COLUMN_TYPE) {
+  if (action.predefinedPattern !== undefined) {
+    // Predefined pattern
+    return action.predefinedPattern
+  } else if ([COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(columnType)) {
+    // Date pattern defined by the user
+    return getDateFromISOString(pattern) || pattern
+  } else if (typeof pattern === 'string') {
+    // Remove the prefix and the suffix for a string pattern defined by the user
+    const fromIndex = action.patternPrefix ? action.patternPrefix.length : 0
+    const toIndex = action.patternSuffix?.length ? -action.patternSuffix.length : undefined
+    return pattern.slice(fromIndex, toIndex)
+  } else {
+    // Just return the pattern defined by the user
+    return pattern
+  }
+}
 
 /**
  * Convert filters used in the FilterButton component to FeathersJS filters
  * @param filters The filters specified in the FilterButton component
  * @returns The corresponding FeathersJS filters
  */
-export function getCurrentFilters (filters: Filter[]) {
+export function getCurrentFilters (filters: Filter[], wildCards: Record<string, string | number> = {}) {
   const formattedFilters: Record<string, LckTableViewFilterPattern | null> = {}
   filters
     .filter(filter => ![filter.column, filter.action, filter.pattern].includes(null))
@@ -280,37 +383,21 @@ export function getCurrentFilters (filters: Filter[]) {
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
             return `[data][${filter.column!.value}.value]`
+          case COLUMN_TYPE.USER:
+          case COLUMN_TYPE.GROUP:
+          case COLUMN_TYPE.MULTI_USER:
+            return `[data][${filter.column!.value}.reference]`
           default:
             return `[data][${filter.column!.value}]`
         }
       })(filter.column!.type) +
       // Action
-      `[${filter.action!.value}]`] =
-        (columnType => {
-          switch (columnType) {
-            case COLUMN_TYPE.DATE:
-            case COLUMN_TYPE.DATETIME:
-              if (filter.pattern instanceof Date) {
-                try {
-                  return columnType === COLUMN_TYPE.DATE
-                    ? formatDateISO(filter.pattern)
-                    : formatDateTimeISO(filter.pattern)
-                } catch (RangeError) {
-                }
-              }
-          }
-          switch (filter.action!.label) {
-            case 'match':
-            case 'doesNotMatch':
-              return `%${filter.pattern as LckTableViewFilterPattern}%`
-            case 'startWith':
-              return `${filter.pattern as LckTableViewFilterPattern}%`
-            case 'endWith':
-              return `%${filter.pattern as LckTableViewFilterPattern}`
-            default:
-              return filter.pattern as LckTableViewFilterPattern
-          }
-        })(filter.column!.originalType)
+      `[${filter.action!.value}]`] = getFormattedPattern(
+        filter.pattern,
+        filter.column!.originalType,
+        filter.action!,
+        wildCards,
+      )
     })
   return formattedFilters
 }
@@ -329,11 +416,7 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
         action: filter.action.label,
         column: filter.column.value,
         dbAction: filter.action.value,
-        pattern: filter.pattern instanceof Date
-          ? filter.column.originalType === COLUMN_TYPE.DATE
-            ? formatDateISO(filter.pattern)
-            : formatDateTimeISO(filter.pattern)
-          : filter.pattern,
+        pattern: getFormattedPattern(filter.pattern, filter.column.originalType, filter.action),
       })
     }
   })
@@ -344,7 +427,7 @@ export function convertFiltersToDatatabase (filters: Filter[]): LckTableViewFilt
 }
 
 /**
- * Convert the filters retrieved from the API into a another format that can be used in the FilterButton component
+ * Convert the filters retrieved from the API into another format that can be used in the FilterButton component
  * @param filter The filters retrieved from the API
  * @returns The corresponding filters that can be used in the FilterButton component
  */
@@ -372,11 +455,7 @@ export function convertFiltersFromDatabase ({ columns, filter }: {
 
         if (originalAction) {
           // Get the pattern used in the current filter
-          const originalPattern = originalAction.predefinedPattern !== undefined
-            ? originalAction.predefinedPattern
-            : [COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(columnType)
-              ? getDateFromISOString(pattern) || pattern
-              : pattern
+          const originalPattern = getPatternFromDatabase(pattern, originalAction, columnType)
 
           // Add the filter
           allFilters.push({

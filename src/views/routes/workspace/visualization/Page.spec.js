@@ -1356,14 +1356,14 @@ const mockRoutes = [
 
 describe('Page', () => {
   // Default workspace component configuration
-  function globalComponentParams (pageId = '1', workspaceId = '17', groupId = 'this-is-a-group') {
+  function globalComponentParams (pageId = '1', workspaceId = '17', groupId = 'this-is-a-group', userId = 1) {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
     const router = new VueRouter({ routes: mockRoutes })
     return {
       localVue,
       router,
-      propsData: { workspaceId, pageId, chapters: mockChapters, groupId },
+      propsData: { workspaceId, pageId, chapters: mockChapters, groupId, userId },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -1512,7 +1512,7 @@ describe('Page', () => {
       const secondDisplayedContainer = mockPages['1'].containers[0]
 
       beforeEach(async () => {
-        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group', userId: 1 } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
         deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
       })
@@ -1729,7 +1729,7 @@ describe('Page', () => {
       const secondDisplayedBlock = secondDisplayedContainer.blocks[0]
 
       beforeEach(async () => {
-        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
+        wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group', userId: 1 } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
         // deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
       })
@@ -2049,13 +2049,14 @@ describe('Page', () => {
     let wrapper
 
     beforeEach(async () => {
-      wrapper = shallowMount(Page, {
+      wrapper = await shallowMount(Page, {
         ...globalComponentParams(),
         propsData: {
           pageId: '4',
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
     })
@@ -2127,13 +2128,14 @@ describe('Page', () => {
     let wrapper
 
     beforeEach(async () => {
-      wrapper = shallowMount(Page, {
+      wrapper = await shallowMount(Page, {
         ...globalComponentParams(),
         propsData: {
           pageId: '4',
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
     })
@@ -2183,6 +2185,7 @@ describe('Page', () => {
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
       const spyOnToastAdd = jest.spyOn(wrapper.vm.$toast, 'add')
@@ -2204,13 +2207,14 @@ describe('Page', () => {
     let wrapper
 
     beforeEach(async () => {
-      wrapper = shallowMount(Page, {
+      wrapper = await shallowMount(Page, {
         ...globalComponentParams(),
         propsData: {
           pageId: '7',
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
     })
@@ -2244,6 +2248,7 @@ describe('Page', () => {
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
     })
@@ -2322,6 +2327,7 @@ describe('Page', () => {
           editMode: false,
           workspaceId: 'toto',
           groupId: 'this-is-a-group',
+          userId: 1,
         },
       })
     })
@@ -2399,6 +2405,7 @@ describe('Page', () => {
               pageId: '12',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
           jest.useFakeTimers()
@@ -2520,7 +2527,6 @@ describe('Page', () => {
           await dateInputs.at(1).vm.$emit('hide')
 
           // Submit the form
-          await lckMapSetWrapper.vm.handleSubmitCreateRow()
           await lckFormWrapper.vm.$emit('input')
         })
 
@@ -2666,6 +2672,7 @@ describe('Page', () => {
               pageId: '11',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
 
@@ -2928,6 +2935,7 @@ describe('Page', () => {
               pageId: '10',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
 
@@ -3383,6 +3391,7 @@ describe('Page', () => {
               pageId: '8',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
 
@@ -3869,6 +3878,7 @@ describe('Page', () => {
               pageId: '9',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
 
@@ -3940,6 +3950,7 @@ describe('Page', () => {
               pageId: '8',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
           jest.useFakeTimers()
@@ -4061,7 +4072,6 @@ describe('Page', () => {
           await dateInputs.at(1).vm.$emit('hide')
 
           // Submit the form
-          await lckTableSetWrapper.vm.handleSubmitCreateRow()
           await lckFormWrapper.vm.$emit('input')
         })
 
@@ -4203,6 +4213,7 @@ describe('Page', () => {
               pageId: '8',
               workspaceId: 'W1',
               groupId: 'this-is-a-group',
+              userId: 1,
             },
           })
           jest.useFakeTimers()

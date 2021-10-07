@@ -7,6 +7,14 @@
     :appendTo="null"
   >
     <template #overlay-content="overlaySlotProps">
+      <p-button
+        v-if="crudMode"
+        class="p-button-text p-button-rounded save-filter-button"
+        :disabled="invalidFilters"
+        :icon="`pi ${ hasChanged ? 'pi-star-o' : 'pi-star'}`"
+        :title="!invalidFilters && $t('components.datatable.toolbar.filters.action.saveFilters')"
+        @click="saveFilters()"
+      />
       <div
         class="p-mb-2 filters-listing"
         v-if="value.length > 0"
@@ -17,7 +25,7 @@
           :key="`filter-${index}`"
         >
           <div
-            class="p-col-fixed p-p-0 p-mr-2 p-as-end"
+            :class="`p-col-fixed p-p-0 p-mr-2 ${index === 0 ? 'p-as-end' : 'p-as-center'}`"
             :style="{
               width: '2rem'
             }"
@@ -36,6 +44,7 @@
             }"
           >
             <p-dropdown
+              class="p-mb-1"
               id="operator"
               :options="operators"
               optionLabel="label"
@@ -53,7 +62,7 @@
               </template>
             </p-dropdown>
           </div>
-          <div class="p-col p-md-3 p-mr-2">
+          <div class="p-col-12 p-md-3 p-mr-2 p-mb-1">
             <label for="column" v-if="index === 0">
               {{ $t('components.datatable.toolbar.filters.form.column') }}
             </label>
@@ -68,7 +77,7 @@
             />
           </div>
           <div
-            class="p-col-12 p-md-3 p-mr-2"
+            class="p-col-12 p-md-3 p-mr-2 p-mb-1"
           >
             <label for="action" v-if="index === 0">
               {{ $t('components.datatable.toolbar.filters.form.action') }}
@@ -92,7 +101,7 @@
             </p-dropdown>
           </div>
           <div
-            class="p-col p-md-3"
+            class="p-col-12 p-md-3 p-mb-1"
             v-if="filter.action && filter.action.predefinedPattern === undefined"
           >
             <label for="pattern" v-if="index === 0">
@@ -143,15 +152,6 @@
           @click="resetFilters(overlaySlotProps)"
         />
         <span class="p-ml-auto">
-          <p-button
-            v-if="crudMode"
-            class="p-button-primary p-mr-2"
-            :disabled="invalidFilters"
-            icon="pi pi-save"
-            :label="$t('form.save')"
-            type="button"
-            @click="saveFilters()"
-          />
           <p-button
             class="p-button-primary"
             type="button"
@@ -229,6 +229,7 @@ export default {
       columnFiltersConfig: COLUMN_FILTERS_CONFIG,
       operators: OPERATORS,
       selectedOperator: OPERATORS[0].value,
+      hasChanged: false,
     }
   },
   computed: {
@@ -284,6 +285,7 @@ export default {
     },
     saveFilters () {
       this.$emit('save-filter')
+      this.hasChanged = false
     },
     addFilter () {
       this.value.push({
@@ -317,6 +319,17 @@ export default {
       this.value[index].action = value
     },
   },
+  watch: {
+    value: {
+      deep: true,
+      handler () {
+        if (!this.hasChanged) this.hasChanged = true
+      },
+    },
+    definition () {
+      if (this.hasChanged) this.hasChanged = false
+    },
+  },
 }
 </script>
 
@@ -339,6 +352,10 @@ label {
   line-height: normal;
 }
 
+::v-deep .p-overlaypanel {
+  max-width: 100%;
+}
+
 ::v-deep .p-dropdown-label.p-inputtext {
   line-height: normal;
 }
@@ -349,14 +366,13 @@ label {
 
 .filters-listing {
   width: 700px;
+  max-width: 100%;
 }
 
-/* .filters-listing .p-component,
-.filters-listing .p-inputtext,
-.filters-listing .p-dropdown,
-.filters-listing ul.p-dropdown-items,
-.filters-listing ul.p-dropdown-items li {
-  font-size: 0.85rem;
-} */
+.save-filter-button {
+  position: absolute;
+  top: 0;
+  right: 0.5em;
+}
 
 </style>

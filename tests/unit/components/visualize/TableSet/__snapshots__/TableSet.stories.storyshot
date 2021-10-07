@@ -131,6 +131,7 @@ exports[`storyshots components/visualize/TableSet with definition 1`] = `
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
+          mincolumnreorderindex="0"
           style="width: calc(6rem + 450px);"
         >
           <!---->
@@ -285,6 +286,7 @@ exports[`storyshots components/visualize/TableSet with definition and content 1`
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
+          mincolumnreorderindex="0"
           style="width: calc(6rem + 450px);"
         >
           <!---->
@@ -613,6 +615,7 @@ exports[`storyshots components/visualize/TableSet with definition and content an
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
+          mincolumnreorderindex="0"
           style="width: calc(6rem + 450px);"
         >
           <!---->
@@ -943,6 +946,7 @@ exports[`storyshots components/visualize/TableSet with definition and toolbar bu
         p-flex-column
         justify-between
        p-datatable p-component p-datatable-resizable"
+          mincolumnreorderindex="0"
           style="width: calc(6rem + 450px);"
         >
           <!---->

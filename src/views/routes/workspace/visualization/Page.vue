@@ -91,6 +91,8 @@
                 :content="getBlockContent(block)"
                 :definition="getBlockDefinition(block)"
                 :workspaceId="workspaceId"
+                :groupId="groupId"
+                :userId="userId"
                 :autocompleteSuggestions="autocompleteSuggestions"
                 :exporting="exporting"
                 :cellState="cellState"
@@ -265,6 +267,10 @@ export default {
     },
     groupId: {
       type: String,
+      required: true,
+    },
+    userId: {
+      type: Number,
       required: true,
     },
   },
