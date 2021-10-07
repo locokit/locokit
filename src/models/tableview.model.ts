@@ -15,7 +15,7 @@ export interface TableViewFilter {
     action: string
     column: string
     dbAction: string
-    pattern: boolean | number | string | string[]
+    pattern: boolean | number | string | Array<string|number>
   }>
 }
 
