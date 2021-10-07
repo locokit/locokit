@@ -44,14 +44,6 @@
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
-      <lck-confirmation-dialog
-        :visible="dialogVisibility.chapterDelete"
-        :value="currentChapterToEdit"
-        :itemCategory="$t('pages.workspace.chapter')"
-        :submitting="submitting"
-        @close="onChapterDeleteReset"
-        @input="onChapterDeleteInput"
-      />
       <lck-page-dialog
         :visible="dialogVisibility.pageEdit"
         :page="currentPageToEdit"
@@ -59,42 +51,34 @@
         @close="onPageEditReset"
         @input="onPageEditInput"
       />
-      <lck-confirmation-dialog
-        :visible="dialogVisibility.pageDelete"
-        :value="currentPageToEdit"
-        :itemCategory="$t('pages.workspace.page.name')"
-        :submitting="submitting"
-        @close="onPageDeleteReset"
-        @input="onPageDeleteInput"
-      />
     </div>
-    <confirm-dialog />
+    <p-confirm-dialog />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import ConfirmDialog from 'primevue/confirmdialog'
-import { authState } from '@/store/auth'
+
 import { USER_PROFILE } from '@locokit/lck-glossary'
 
+import { authState } from '@/store/auth'
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
+import { lckHelpers, lckServices } from '@/services/lck-api'
+
+import ConfirmDialog from 'primevue/confirmdialog'
 import ToggleButton from 'primevue/togglebutton'
 
-import { lckHelpers, lckServices } from '@/services/lck-api'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import Sidebar from '@/components/visualize/Sidebar/Sidebar'
+import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
-import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 export default {
   name: 'Workspace',
   components: {
-    'confirm-dialog': ConfirmDialog,
+    'p-confirm-dialog': ConfirmDialog,
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
     'lck-page-dialog': PageDialog,
-    'lck-confirmation-dialog': DeleteConfirmationDialog,
     'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {

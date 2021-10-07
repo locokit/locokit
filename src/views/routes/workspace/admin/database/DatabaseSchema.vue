@@ -6,8 +6,8 @@
       </template>
       <template slot="right">
         <p-button
-          label="Table"
-          icon="pi pi-plus"
+          :label="$t('pages.databaseSchema.addTable')"
+          icon="bi bi-plus-lg"
           @click="onClickCreateTableModalButton"
         />
       </template>
@@ -20,7 +20,12 @@
       @click="onClickTable"
     >
     </div>
-    <div v-else>Erreur</div>
+    <div
+      v-else
+      class="p-p-3"
+    >
+      {{ $t('pages.databaseSchema.noSchema') }}
+    </div>
     <create-table-modal
       :visible="showCreateTableModal"
       :databaseId="databaseId"
@@ -34,30 +39,35 @@
       @close="onCloseUpdateTableSidebar"
       @confirm="onConfirmationDeleteColumn($event)"
     />
-    <confirm-dialog />
+    <p-confirm-dialog />
   </div>
 
 </template>
+
 <script>
 import Vue from 'vue'
-import ConfirmDialog from 'primevue/confirmdialog'
-import { lckServices } from '@/services/lck-api'
+
 import nomnoml from 'nomnoml'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
+
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { lckServices } from '@/services/lck-api'
+
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import CreateTableModal from '@/views/modals/CreateTableModal'
-import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar'
+import ConfirmDialog from 'primevue/confirmdialog'
+
+import CreateTableModal from '@/views/modals/CreateTableModal.vue'
+import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
 
 export default {
   name: 'DatabaseSchema',
   components: {
-    'confirm-dialog': ConfirmDialog,
+    'p-confirm-dialog': ConfirmDialog,
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'create-table-modal': Vue.extend(CreateTableModal),
-    'update-table-sidebar': Vue.extend(UpdateTableSidebar),
+    'create-table-modal': CreateTableModal,
+    'update-table-sidebar': UpdateTableSidebar,
   },
   props: {
     databaseId: String,
@@ -104,7 +114,6 @@ export default {
       this.currentTable = null
       this.showUpdateTableSidebar = false
     },
-
     onConfirmationDeleteColumn (column) {
       this.$confirm.require({
         message: this.$t('form.specificDeleteConfirmation'),
@@ -220,6 +229,7 @@ export default {
   },
 }
 </script>
+
 <style>
 .container {
   display: flex;
@@ -227,21 +237,25 @@ export default {
   max-width: 100vw;
   max-height: 100%;
 }
+
 #svg-container {
   max-width: 100vw;
   max-height: 100%;
   overflow: hidden;
 }
+
 #svg-container svg {
   width: 100vw;
   height: 100%;
   cursor: move;
   user-select: none;
 }
+
 rect[data-name]:hover {
   fill: #e5e5e5 !important;
   cursor: pointer;
 }
+
 text[data-name],
 path {
   pointer-events: none;

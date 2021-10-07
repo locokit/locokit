@@ -575,8 +575,9 @@
       "addNewRow": "Ajouter une ligne"
     },
     "databaseSchema": {
-      "title": "Database schema",
-      "noSchema": "No schema to display. Please create one database.",
+      "title": "Schéma de la base de données",
+      "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données.",
+      "addTable": "Ajouter une table",
       "createTableModal": {
         "createTable": "Créer une table",
         "tableName": "Nom de la table",

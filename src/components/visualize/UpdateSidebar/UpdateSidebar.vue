@@ -54,20 +54,20 @@
         </p-tab-panel>
       </p-tab-view>
     </div>
-    <confirm-dialog />
+    <p-confirm-dialog />
   </p-sidebar>
 
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import ConfirmDialog from 'primevue/confirmdialog'
 
+import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
+
+import ConfirmDialog from 'primevue/confirmdialog'
 import Sidebar from 'primevue/sidebar'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
-
-import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
 
 import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue'
 import UpdateContainerForm from '@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue'
@@ -76,10 +76,10 @@ import UpdatePageForm from '@/components/visualize/UpdateSidebar/UpdatePageForm/
 export default {
   name: 'UpdateSidebar',
   components: {
-    'confirm-dialog': ConfirmDialog,
     'update-block-form': UpdateBlockForm,
     'update-container-form': UpdateContainerForm,
     'update-page-form': UpdatePageForm,
+    'p-confirm-dialog': ConfirmDialog,
     'p-sidebar': Vue.extend(Sidebar),
     'p-tab-view': Vue.extend(TabView),
     'p-tab-panel': Vue.extend(TabPanel),
