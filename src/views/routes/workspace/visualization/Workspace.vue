@@ -11,14 +11,12 @@
         :createSubItemLabel="$t('pages.workspace.page.create')"
         @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
-        @delete-item="onChapterDeleteClick"
         @add-subitem="onPageEditClick"
         @edit-subitem="onPageEditClick"
-        @delete-subitem="onPageDeleteClick"
         @reorder-subitem="onPageReorderClick"
         v-on="$listeners"
-        @confirm="onConfirmationDeleteChapter($event)"
-        @confirm-subitem="onConfirmationDeletePage($event)"
+        @confirm-delete-chapter="onConfirmationDeleteChapter($event)"
+        @confirm-delete-page="onConfirmationDeletePage($event)"
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
@@ -94,9 +92,7 @@ export default {
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
-        chapterDelete: false,
         pageEdit: false,
-        pageDelete: false,
       },
       forceUpdateKey: true,
       submitting: false,
@@ -169,10 +165,6 @@ export default {
       }
       this.dialogVisibility.chapterEdit = true
     },
-    onChapterDeleteClick (chapterId) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
-      this.dialogVisibility.chapterDelete = true
-    },
     onChapterEditReset () {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterEdit = false
@@ -237,13 +229,6 @@ export default {
           this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
         }
         this.dialogVisibility.pageEdit = true
-      }
-    },
-    onPageDeleteClick (data) {
-      if (data?.item && data.subitem) {
-        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
-        this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
-        this.dialogVisibility.pageDelete = true
       }
     },
     onPageEditReset () {

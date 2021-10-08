@@ -263,10 +263,6 @@ export default {
       currentBlockToEdit: {},
       currentBlockToDelete: {},
       submitting: false,
-      dialogVisibility: {
-        containerDelete: false,
-        blockDelete: false,
-      },
       editableSidebarWidth: '30rem',
       editableAutocompleteSuggestions: null,
       blockDisplayTableViewSuggestions: null,
