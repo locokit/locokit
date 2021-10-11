@@ -114,6 +114,9 @@ const routes: Array<RouteConfig> = [
     },
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId',
+    redirect: { name: 'WorkspaceDatabase' },
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + '/table/:tableId?',
     name: 'WorkspaceDatabase',
     component: Database,
     props: true,

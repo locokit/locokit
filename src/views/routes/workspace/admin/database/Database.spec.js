@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { mount, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import { flushAll } from '@/../tests/unit/local-test-utils'
+
+import VueRouter from 'vue-router'
+
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 import {
   retrieveTableRowsWithSkipAndLimit,
@@ -254,12 +258,28 @@ jest.mock('@/components/ui/ColumnType/Geometry/Map.vue', () => ({
   render: h => h(),
 }))
 
+// Mock routes
+const mockRoutes = [
+  {
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + '/table/:tableId?',
+    name: 'WorkspaceDatabase',
+    component: Database,
+    props: true,
+  },
+]
+
 // Tests
 
 describe('Database', () => {
   // Default database component configuration
   function globalComponentParams (databaseId = 'D1', workspaceId = 'W1', groupId = 'G1') {
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const router = new VueRouter({ routes: mockRoutes })
+
     return {
+      localVue,
+      router,
       propsData: { databaseId, workspaceId, groupId },
       mocks: {
         t: key => key,
