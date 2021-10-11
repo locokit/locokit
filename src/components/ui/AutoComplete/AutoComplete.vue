@@ -5,7 +5,7 @@
     :dropdown="true"
     :placeholder="$t('components.datatable.autoCompletePlaceholder')"
     :field="field"
-    :forceSelection="true"
+    :forceSelection="forceSelection"
     :appendTo="appendTo"
     v-on="$listeners"
     v-bind="$attrs"
@@ -29,6 +29,10 @@ export default {
       type: String,
       required: false,
       default: 'label',
+    },
+    forceSelection: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {

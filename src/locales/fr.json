@@ -841,7 +841,8 @@
       "required": "Le champ '{_field_}' est requis.",
       "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
-      "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu."
+      "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu.",
+      "reference": "La valeur du champ '{_field_}' est invalide : veuillez sélectionnez une valeur dans la liste."
     }
   }
 }
