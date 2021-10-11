@@ -164,7 +164,7 @@
 
       @add-new-container="onContainerEditClickFromSidebar"
       @edit-container="onContainerEditClickFromSidebar"
-      @delete-container="onContainerDeleteClick($event)"
+      @confirm-delete-container="onContainerDeleteClick($event)"
 
       @reset-current-block="onBlockEditClickFromSidebar"
       @reset-current-container="onContainerEditClickFromSidebar"
