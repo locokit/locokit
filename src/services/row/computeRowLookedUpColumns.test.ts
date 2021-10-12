@@ -73,7 +73,7 @@ describe('computeRowLookedUpColumns hook', () => {
       table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table1 A',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
@@ -81,7 +81,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable2RelationBetweenTable1Bis = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table1 B',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
@@ -89,7 +89,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
-      text: 'Ref',
+      text: 'LUC to Table1 - User A',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -99,7 +99,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable2LookedUpColumnTable1MultiUser = await app.service('column').create({
-      text: 'RefMulti',
+      text: 'LUC to Table1 - MultiUser',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -109,7 +109,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable2LookedUpColumnTable1UserBis = await app.service('column').create({
-      text: 'Ref',
+      text: 'LUC to Table1 - User B',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -119,7 +119,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable3RelationBetweenTable2 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table2',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table3.id,
       settings: {
@@ -127,7 +127,7 @@ describe('computeRowLookedUpColumns hook', () => {
       },
     })
     columnTable3LookedUpColumnTable1RBT2 = await app.service('column').create({
-      text: 'Ref',
+      text: 'LUC to Table2',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table3.id,
       settings: {

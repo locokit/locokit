@@ -669,7 +669,7 @@ describe('computeTextProperty hook', () => {
         table_id: table3.id,
       })
       const columnTable3DateTime: TableColumn = await app.service('column').create({
-        text: 'Ref Date',
+        text: 'Ref Datetime',
         column_type_id: COLUMN_TYPE.DATETIME,
         reference: true,
         reference_position: 2,

@@ -14,25 +14,76 @@ describe('\'column\' service', () => {
     expect(service).toBeTruthy()
   })
 
-  it('create a column without error', async () => {
-    expect.assertions(1)
-    const service = app.service('column')
-    const workspace = await app.service('workspace').create({ text: 'pouet' })
-    const workspaceDatabases = await app.service('database').find({
-      query: {
-        workspace_id: workspace.id,
-        $limit: 1,
-      },
-    }) as Paginated<Database>
-    const database = workspaceDatabases.data[0]
-    const table = await app.service('table').create({ text: 'pouet', database_id: database.id })
-    const tableColumn = await service.create({
-      text: 'myColumn',
-      table_id: table.id,
-      column_type_id: COLUMN_TYPE.STRING,
+  describe('creation of a column', () => {
+    let table1: TableColumn, table2: TableColumn
+    let workspace: Workspace
+    let database: Database
+
+    beforeAll(async () => {
+      workspace = await app.service('workspace').create({ text: 'pouet' })
+      const workspaceDatabases = await app.service('database').find({
+        query: {
+          workspace_id: workspace.id,
+          $limit: 1,
+        },
+      }) as Paginated<Database>
+      database = workspaceDatabases.data[0]
+      table1 = await app.service('table').create({ text: 'table1', database_id: database.id })
+      table2 = await app.service('table').create({ text: 'table2', database_id: database.id })
     })
 
-    expect(tableColumn).toBeTruthy()
+    afterAll(async () => {
+      await app.service('workspace').remove(workspace.id)
+      await app.service('database').remove(database.id)
+      await app.service('table').remove(table1.id)
+      await app.service('table').remove(table2.id)
+    })
+
+    it('create a column without error', async () => {
+      expect.assertions(1)
+      // Create a new column
+      const tableColumn = await app.service('column').create({
+        text: 'myColumn',
+        table_id: table1.id,
+        column_type_id: COLUMN_TYPE.STRING,
+      })
+      // Check it
+      expect(tableColumn).toBeTruthy()
+      // Clean DB
+      await app.service('column').remove(tableColumn.id)
+    })
+    it('prevent the creation of a column whose the name is the one of another column of the same table', async () => {
+      expect.assertions(3)
+
+      // Create a first column
+      const firstTableColumn = await app.service('column').create({
+        text: 'myFirstColumn',
+        table_id: table1.id,
+        column_type_id: COLUMN_TYPE.STRING,
+      })
+      expect(firstTableColumn).toBeTruthy()
+
+      // Prevent to create a column in the same table with the same name
+      await expect(async () => {
+        await app.service('column').create({
+          text: 'myFirstColumn',
+          table_id: table1.id,
+          column_type_id: COLUMN_TYPE.STRING,
+        })
+      }).rejects.toThrow()
+
+      // Allow to create a column in another table with the same name
+      const secondTableColumn = await app.service('column').create({
+        text: 'myFirstColumn',
+        table_id: table2.id,
+        column_type_id: COLUMN_TYPE.STRING,
+      })
+      expect(secondTableColumn).toBeTruthy()
+
+      // Clean DB
+      await app.service('column').remove(firstTableColumn.id)
+      await app.service('column').remove(secondTableColumn.id)
+    })
   })
 
   describe('get the original type of a column', () => {

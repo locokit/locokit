@@ -137,7 +137,7 @@ describe('\'row\' service', () => {
 
     it('Type int Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfInt1',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.NUMBER,
       })
@@ -177,7 +177,7 @@ describe('\'row\' service', () => {
 
     it('Type float Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfFloat1',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.FLOAT,
       })
@@ -217,7 +217,7 @@ describe('\'row\' service', () => {
 
     it('Type bool Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfBool',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.BOOLEAN,
       })
@@ -256,7 +256,7 @@ describe('\'row\' service', () => {
 
     it('Type Date Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfDate1',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.DATE,
       })
@@ -295,7 +295,7 @@ describe('\'row\' service', () => {
 
     it('Type Date Less Than and Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfDate2',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.DATE,
       })
@@ -351,7 +351,7 @@ describe('\'row\' service', () => {
 
     it('Type float More Than and Equal', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfFloat2',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.FLOAT,
       })
@@ -400,7 +400,7 @@ describe('\'row\' service', () => {
 
     it('Type int Less Than', async () => {
       const tableColumn = await app.service('column').create({
-        text: 'myColumnOfInt',
+        text: 'myColumnOfInt2',
         table_id: table.id,
         column_type_id: COLUMN_TYPE.NUMBER,
       })
