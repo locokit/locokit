@@ -2,16 +2,17 @@
   <div class="container">
     <p-toolbar class="p-d-flex p-flex-wrap">
       <template slot="left">
-          {{ $t('pages.databaseSchema.title') }}
+        {{ $t('pages.databaseSchema.title') }}
       </template>
       <template slot="right">
         <p-button
-          label="Table"
-          icon="pi pi-plus"
+          :label="$t('pages.databaseSchema.addTable')"
+          icon="bi bi-plus-lg"
           @click="onClickCreateTableModalButton"
         />
       </template>
     </p-toolbar>
+
     <div
       v-if="!errorLoadTables"
       id="svg-container"
@@ -19,7 +20,12 @@
       @click="onClickTable"
     >
     </div>
-    <div v-else>Erreur</div>
+    <div
+      v-else
+      class="p-p-3"
+    >
+      {{ $t('pages.databaseSchema.noSchema') }}
+    </div>
     <create-table-modal
       :visible="showCreateTableModal"
       :databaseId="databaseId"
@@ -31,27 +37,37 @@
       :currentTable="currentTable"
       @reload-tables="reloadTables"
       @close="onCloseUpdateTableSidebar"
+      @confirm="onConfirmationDeleteColumn($event)"
     />
+    <p-confirm-dialog />
   </div>
+
 </template>
+
 <script>
 import Vue from 'vue'
-import { lckServices } from '@/services/lck-api'
+
 import nomnoml from 'nomnoml'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import svgPanZoom from 'svg-pan-zoom'
+
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { lckServices } from '@/services/lck-api'
+
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import CreateTableModal from '@/views/modals/CreateTableModal'
-import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar'
+import ConfirmDialog from 'primevue/confirmdialog'
+
+import CreateTableModal from '@/views/modals/CreateTableModal.vue'
+import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
 
 export default {
   name: 'DatabaseSchema',
   components: {
+    'create-table-modal': CreateTableModal,
+    'update-table-sidebar': UpdateTableSidebar,
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'create-table-modal': Vue.extend(CreateTableModal),
-    'update-table-sidebar': Vue.extend(UpdateTableSidebar),
   },
   props: {
     databaseId: String,
@@ -97,6 +113,32 @@ export default {
     onCloseUpdateTableSidebar () {
       this.currentTable = null
       this.showUpdateTableSidebar = false
+    },
+    onConfirmationDeleteColumn (column) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${column.text}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.tableColumn.remove(column.id)
+            this.reloadTables()
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
     createSource (tables) {
       const sourceStyle = [
@@ -187,6 +229,7 @@ export default {
   },
 }
 </script>
+
 <style>
 .container {
   display: flex;
@@ -194,22 +237,27 @@ export default {
   max-width: 100vw;
   max-height: 100%;
 }
+
 #svg-container {
   max-width: 100vw;
   max-height: 100%;
   overflow: hidden;
 }
+
 #svg-container svg {
   width: 100vw;
   height: 100%;
   cursor: move;
   user-select: none;
 }
+
 rect[data-name]:hover {
   fill: #e5e5e5 !important;
   cursor: pointer;
 }
-text[data-name], path {
+
+text[data-name],
+path {
   pointer-events: none;
 }
 </style>

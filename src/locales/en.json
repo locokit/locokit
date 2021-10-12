@@ -577,6 +577,7 @@
     "databaseSchema": {
       "title": "Database schema",
       "noSchema": "No schema to display. Please create one database.",
+      "addTable": "Add table",
       "createTableModal": {
         "createTable": "Create table",
         "tableName": "Table name",
@@ -738,6 +739,7 @@
   },
   "success": {
     "basic": "Your request has been registered.",
+    "removed": "Item has been deleted.",
     "save": "Successful registration"
   },
   "error": {
@@ -748,6 +750,7 @@
       "403": "Access forbidden",
       "404": "Not found",
       "406": "Not acceptable",
+      "409": "Data Conflict",
       "500": "An error occured…"
     },
     "lck": {

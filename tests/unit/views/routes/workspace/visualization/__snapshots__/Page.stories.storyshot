@@ -32,10 +32,6 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
     </div>
      
     <!---->
-     
-    <span />
-     
-    <span />
   </div>
 </div>
 `;
@@ -90,10 +86,6 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
     </div>
      
     <!---->
-     
-    <span />
-     
-    <span />
   </div>
 </div>
 `;
@@ -130,10 +122,6 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
     </div>
      
     <!---->
-     
-    <span />
-     
-    <span />
   </div>
 </div>
 `;
