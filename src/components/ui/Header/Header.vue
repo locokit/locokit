@@ -13,6 +13,7 @@
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
       class="p-my-auto p-m-auto"
+      @click.native="setToggle"
     >
       <img
         class="mobile-hide"
@@ -118,10 +119,13 @@ export default {
       this.$refs.menu.toggle(event)
     },
     onToggle () {
-      this.$emit('menuButtonClick')
+      this.$emit('menu-button-click')
+    },
+    setToggle () {
+      this.$emit('prevent-opacity-mobile', false)
     },
     logoutClick () {
-      this.$emit('logoutClick')
+      this.$emit('logout-click')
     },
   },
 }

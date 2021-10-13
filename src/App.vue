@@ -33,10 +33,11 @@
     <lck-header
       v-if="displayHeader"
       :logo-url="logoURL"
-      @menuButtonClick="toggleSidebar"
+      @menu-button-click="toggleSidebar"
+      @prevent-opacity-mobile="setStatusSidebar"
       :logo-mobile-url="logoMobileUrl"
       :is-super-admin="isSuperAdmin"
-      @logoutClick="onLogoutClick"
+      @logout-click="onLogoutClick"
       :has-burger-menu="appState.hasBurgerMenu"
     />
     <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
@@ -104,6 +105,9 @@ export default {
     },
     toggleSidebar () {
       this.sidebarActive = !this.sidebarActive
+    },
+    setStatusSidebar (value) {
+      if (this.sidebarActive !== value) this.sidebarActive = value
     },
     onLogoutClick () {
       logout()
