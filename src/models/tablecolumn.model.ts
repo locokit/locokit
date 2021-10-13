@@ -41,11 +41,15 @@ export class TableColumn extends BaseModel {
     foreignField?: string
     values?: Record<string, SelectValue>
     width?: number
-    required?: boolean
     default?: string | boolean
   }
 
-  validation?: object
+  validation?: {
+    minDate?: {
+      fromDate: string
+    }
+    required?: boolean
+  }
 
   position!: number
   table_id!: string

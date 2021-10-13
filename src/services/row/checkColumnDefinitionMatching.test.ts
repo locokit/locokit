@@ -144,6 +144,7 @@ describe('checkColumnDefinitionMatching hook', () => {
   let table1: Table
   let table2: Table
   let columnTable1Boolean: TableColumn
+  let columnTable1RequiredBoolean: TableColumn
   let columnTable1Number: TableColumn
   let columnTable1Date: TableColumn
   let columnTable1DateTime: TableColumn
@@ -206,6 +207,14 @@ describe('checkColumnDefinitionMatching hook', () => {
       text: 'Boolean',
       column_type_id: COLUMN_TYPE.BOOLEAN,
       table_id: table1.id,
+    })
+    columnTable1RequiredBoolean = await app.service('column').create({
+      text: 'Required boolean',
+      column_type_id: COLUMN_TYPE.BOOLEAN,
+      table_id: table1.id,
+      validation: {
+        required: true,
+      },
     })
     columnTable1Number = await app.service('column').create({
       text: 'Number',
@@ -399,6 +408,18 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     await app.service('row').remove(rowTable1.id)
+  })
+
+  it('throw an error if a required column receive a null value', async () => {
+    expect.assertions(1)
+    await expect(app.service('row')
+      .create({
+        data: {
+          [columnTable1RequiredBoolean.id]: null,
+        },
+        table_id: table1.id,
+      }))
+      .rejects.toThrow(NotAcceptable)
   })
 
   it('throw an error if a number column receive a string value', async () => {
@@ -1852,6 +1873,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     // await app.service('group').remove(group1.id)
     // await app.service('user').remove(user1.id)
     await app.service('column').remove(columnTable1Boolean.id)
+    await app.service('column').remove(columnTable1RequiredBoolean.id)
     await app.service('column').remove(columnTable1Number.id)
     await app.service('column').remove(columnTable1Date.id)
     await app.service('column').remove(columnTable1DateTime.id)

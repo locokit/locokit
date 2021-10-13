@@ -69,7 +69,6 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
     const tvhtc: TableViewColumn = await service.update(
       `${tableview.id},${columnTable1Boolean.id}`, {
         style: { width: '100px' },
-        required: false,
       })
     expect(tvhtc).toBeTruthy()
     expect(tvhtc.table_view_id).toBe(tableview.id)

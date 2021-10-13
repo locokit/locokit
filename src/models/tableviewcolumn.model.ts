@@ -30,9 +30,6 @@ export class TableViewColumn extends BaseModel {
   default?: Record<string, any>
   /* sorts values into a column. (e.g `ASC` or `DESC`) */
   sort?: string
-  /* value is required for this column. */
-  /* TODO: delete this field, but be sure that's not used */
-  required?: boolean
   /**
    * used for conditional display for a field
    * could be $eq / $in / $ne operator,
@@ -70,7 +67,6 @@ export class TableViewColumn extends BaseModel {
         transmitted: { type: ['boolean', 'null'] },
         editable: { type: ['boolean', 'null'], default: false },
         default: { type: ['object', 'null'] },
-        required: { type: 'boolean', default: false },
         display_conditions: {
           type: ['array', 'null'],
           items: {

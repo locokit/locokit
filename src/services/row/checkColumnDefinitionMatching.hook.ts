@@ -109,7 +109,7 @@ export function checkColumnDefinitionMatching (): Hook {
         /**
          * and is required, we add an error
          */
-          if (currentColumn.settings?.required) {
+          if (currentColumn.validation?.required) {
             checkErrors.push({
               columnName: currentColumn.text,
               columnError: `The current field is required (received: ${currentColumnValue as string})`,
