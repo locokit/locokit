@@ -7,7 +7,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
 interface QueryFilter {
-  data: Record<string, Record<string, string | number | boolean | string[]>>
+  data: Record<string, Record<string, string | number | boolean | Array<string|number>>>
 }
 
 /**
@@ -88,9 +88,15 @@ export default function filterRowsByTableViewId (): Hook {
         const { operator, values } = tableView.filter
         if (values.length > 0) {
           // List that will contain all the filters
-          const defaultFilters: Array<{
-            data: Record<string, Record<string, string | number | boolean | string[]>>
-          }> = []
+          const defaultFilters: QueryFilter[] = []
+
+          // Get the values of the specific keys that can be included in the filter patterns
+          const wildCards: Record<string, string | undefined> = {
+            '{userId}': context.params.user?.id,
+            '{groupId}': context.params.query?.$lckGroupId,
+            '{rowId}': context.params.query?.rowId,
+          }
+
           values.forEach(({ column, dbAction, pattern }) => {
             const currentColumn = (tableView.columns as TableColumnDTO[]).find(c => c.id === column)
 
@@ -98,19 +104,38 @@ export default function filterRowsByTableViewId (): Hook {
               throw new NotAcceptable('Invalid column: the specified column is unknown.')
             }
 
-            const columnKey = [
-              COLUMN_TYPE.GROUP,
-              COLUMN_TYPE.LOOKED_UP_COLUMN,
-              COLUMN_TYPE.RELATION_BETWEEN_TABLES,
-              COLUMN_TYPE.USER,
-            ].includes(currentColumn.column_type_id)
-              ? `${column}.value`
-              : column
+            // Format the column key in case of complex value for some column types
+            let columnKey = column
+
+            switch (currentColumn.column_type_id) {
+              case COLUMN_TYPE.GROUP:
+              case COLUMN_TYPE.USER:
+              case COLUMN_TYPE.MULTI_USER:
+                columnKey += '.reference'
+                break
+              case COLUMN_TYPE.LOOKED_UP_COLUMN:
+              case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+                columnKey += '.value'
+                break
+            }
+
+            let formattedPattern = pattern
+
+            // Format the pattern to replace some keys ({userId} / {groupId} / {rowId}) by the current values
+            if (typeof formattedPattern === 'string') {
+              formattedPattern = replaceKeyByValue(formattedPattern, wildCards)
+            } else if (Array.isArray(formattedPattern)) {
+              formattedPattern = formattedPattern.map(item => typeof item === 'string'
+                ? replaceKeyByValue(item, wildCards)
+                : item,
+              )
+            }
+
             // Add the FeatherJS query filter
             defaultFilters.push({
               data: {
                 [columnKey]: {
-                  [dbAction]: ['$ilike', '$notILike'].includes(dbAction) ? `%${pattern as string | number}%` : pattern,
+                  [dbAction]: formattedPattern,
                 },
               },
             })
@@ -142,3 +167,26 @@ export default function filterRowsByTableViewId (): Hook {
     return context
   }
 };
+
+/**
+ * Return the value related to a specific key if the pattern is equal to the key, else return the input pattern.
+ * @param pattern The original pattern to analyze.
+ * @param replacements An object associating the specific keys to found with their replacements.
+ * @returns The value related to a specific key if the pattern is known, else just return the input pattern.
+ */
+function replaceKeyByValue (pattern: string, replacements: Record<string, string | number | undefined>): string | number {
+  if (Object.prototype.hasOwnProperty.call(replacements, pattern)) {
+    // The pattern is recognized
+    const value = replacements[pattern]
+    if (value) {
+      // And defined
+      return value
+    } else {
+      // But undefined
+      throw new NotAcceptable(`${pattern} needed for this request. Please provide it.`)
+    }
+  } else {
+    // The pattern is not recognized so we just return it
+    return pattern
+  }
+}
