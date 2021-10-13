@@ -10,11 +10,11 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
     >
       Edit the column
     </h1>
-     
+
     <p>
-      
+
     </p>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -23,7 +23,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
       >
         Global configuration
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -37,23 +37,23 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             >
               Column title
             </label>
-             
+
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
             />
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div>
-            
+
         Validation rules
-        
+
             <div
               class="p-my-2"
             >
@@ -76,7 +76,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                         value=""
                       />
                     </div>
-                     
+
                     <div
                       class="p-checkbox-box"
                       role="checkbox"
@@ -86,7 +86,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                       />
                     </div>
                   </div>
-                   
+
                   <label
                     for="required-enable"
                   >
@@ -96,14 +96,14 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               </div>
             </div>
           </div>
-           
+
           <div
             class="p-mb-3"
           >
             <p>
               Column values
             </p>
-             
+
             <div>
               <div
                 class="p-d-flex"
@@ -118,13 +118,13 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                     <span
                       class="pi pi-plus p-button-icon p-button-icon-left"
                     />
-                     
+
                     <span
                       class="p-button-label"
                     >
                       Add value
                     </span>
-                     
+
                     <!---->
                     <span
                       class="p-ink"
@@ -132,25 +132,25 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                   </button>
                 </div>
               </div>
-               
+
               <div
                 class="select-type-values-table p-datatable p-component"
               >
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <div
                   class="p-datatable-wrapper"
                 >
@@ -161,10 +161,10 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                       class="p-datatable-thead"
                     >
                       <tr />
-                       
+
                       <!---->
                     </thead>
-                     
+
                     <tbody
                       class="p-datatable-tbody"
                     >
@@ -174,44 +174,44 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                         <td
                           colspan="0"
                         >
-                          
+
       No data
-    
-                           
+
+
                           <!---->
                         </td>
                       </tr>
                     </tbody>
-                     
+
                     <!---->
                   </table>
                 </div>
-                 
+
                 <!---->
-                 
+
                 <!---->
-                 
+
                 <div
                   class="p-column-resizer-helper"
                   style="display: none;"
                 />
-                 
+
                 <!---->
-                 
+
                 <!---->
               </div>
-               
+
               <div
                 class="p-mt-2 p-fluid"
               >
                 <label
                   for="default-select-type-value-id"
                 >
-                  
+
       Default value
-    
+
                 </label>
-                 
+
                 <div
                   class="p-dropdown p-component p-inputwrapper"
                   id="default-select-type-value-id"
@@ -225,19 +225,19 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                       type="text"
                     />
                   </div>
-                   
+
                   <!---->
-                   
+
                   <span
                     class="p-dropdown-label p-inputtext p-placeholder"
                   >
-                    
+
             Select default value
-        
+
                   </span>
-                   
+
                   <!---->
-                   
+
                   <div
                     aria-haspopup="listbox"
                     class="p-dropdown-trigger"
@@ -247,18 +247,18 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                       class="p-dropdown-trigger-icon pi pi-chevron-down"
                     />
                   </div>
-                   
+
                   <!---->
                 </div>
               </div>
             </div>
           </div>
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -267,13 +267,13 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               <span
                 class="pi pi-save p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Save
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
@@ -283,7 +283,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         </form>
       </span>
     </div>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -292,7 +292,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
       >
         Configuration for the visualization part
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -306,7 +306,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             >
               Displayed column
             </label>
-             
+
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
@@ -320,19 +320,19 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="p-field p-mb-2"
           >
@@ -342,7 +342,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             >
               Editable column
             </label>
-             
+
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
@@ -355,24 +355,24 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -381,13 +381,13 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               <span
                 class="pi pi-save p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Save
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
@@ -411,11 +411,11 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
     >
       Edit the column
     </h1>
-     
+
     <p>
-      
+
     </p>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -424,7 +424,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
       >
         Global configuration
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -438,23 +438,23 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             >
               Column title
             </label>
-             
+
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
             />
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div>
-            
+
         Validation rules
-        
+
             <div
               class="p-my-2"
             >
@@ -477,7 +477,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                         value=""
                       />
                     </div>
-                     
+
                     <div
                       aria-checked="true"
                       class="p-checkbox-box p-highlight"
@@ -488,7 +488,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                       />
                     </div>
                   </div>
-                   
+
                   <label
                     for="required-enable"
                   >
@@ -498,14 +498,14 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               </div>
             </div>
           </div>
-           
+
           <!---->
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -514,13 +514,13 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               <span
                 class="pi pi-save p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Save
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
@@ -530,7 +530,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         </form>
       </span>
     </div>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -539,7 +539,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
       >
         Configuration for the visualization part
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -553,7 +553,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             >
               Displayed column
             </label>
-             
+
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
@@ -567,19 +567,19 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="p-field p-mb-2"
           >
@@ -589,7 +589,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             >
               Editable column
             </label>
-             
+
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
@@ -602,24 +602,24 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -628,13 +628,13 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               <span
                 class="pi pi-save p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Save
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
@@ -658,11 +658,11 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
     >
       Edit the column
     </h1>
-     
+
     <p>
-      
+
     </p>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -671,7 +671,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
       >
         Global configuration
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -685,23 +685,23 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             >
               Column title
             </label>
-             
+
             <input
               class="p-inputtext p-component p-filled"
               id="columnTextField"
             />
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div>
-            
+
         Validation rules
-        
+
             <div
               class="p-my-2"
             >
@@ -724,7 +724,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                         value=""
                       />
                     </div>
-                     
+
                     <div
                       aria-checked="true"
                       class="p-checkbox-box p-highlight"
@@ -735,7 +735,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                       />
                     </div>
                   </div>
-                   
+
                   <label
                     for="required-enable"
                   >
@@ -745,14 +745,14 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               </div>
             </div>
           </div>
-           
+
           <!---->
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component p-button-text"
               disabled="disabled"
@@ -761,13 +761,13 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               <span
                 class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Please wait
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
@@ -777,7 +777,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         </form>
       </span>
     </div>
-     
+
     <div
       class="column-form-container lck-color-content"
     >
@@ -786,7 +786,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
       >
         Configuration for the visualization part
       </h2>
-       
+
       <span>
         <form
           class="p-fluid"
@@ -800,7 +800,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             >
               Displayed column
             </label>
-             
+
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
               id="columnDisplayedField"
@@ -814,19 +814,19 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="p-field p-mb-2"
           >
@@ -836,7 +836,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             >
               Editable column
             </label>
-             
+
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
@@ -849,24 +849,24 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
                   type="checkbox"
                 />
               </div>
-               
+
               <span
                 class="p-inputswitch-slider"
               />
             </div>
-             
+
             <span
               class="untouched pristine"
             >
-              
+
             </span>
           </div>
-           
+
           <div
             class="lck-form-footer"
           >
             <!---->
-             
+
             <button
               class="p-button p-component p-button-text"
               disabled="disabled"
@@ -875,13 +875,13 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               <span
                 class="pi pi-spin pi-spinner p-button-icon p-button-icon-left"
               />
-               
+
               <span
                 class="p-button-label"
               >
                 Please wait
               </span>
-               
+
               <!---->
               <span
                 class="p-ink"
