@@ -161,20 +161,20 @@
         />
         <p-column headerStyle="width: 7em">
           <template #body="slotProps">
-          <span class="p-buttonset">
-            <p-button
-              :title="$t('pages.workspace.block.edit')"
-              icon="pi pi-pencil"
-              class="p-button-text p-mr-2 p-ml-auto p-button-lg"
-              @click="$emit('edit-block', slotProps.data)"
-            />
-            <p-button
-              :title="$t('pages.workspace.block.delete')"
-              icon="pi pi-trash"
-              class="p-button-text p-button-lg"
-              @click="$emit('confirm-delete-block', slotProps.data)"
-            />
-          </span>
+            <span class="p-buttonset">
+              <p-button
+                :title="$t('pages.workspace.block.edit')"
+                icon="pi pi-pencil"
+                class="p-button-text p-mr-2 p-ml-auto p-button-lg"
+                @click="$emit('edit-block', slotProps.data)"
+              />
+              <p-button
+                :title="$t('pages.workspace.block.delete')"
+                icon="pi pi-trash"
+                class="p-button-text p-button-lg"
+                @click="$emit('delete-block', slotProps.data)"
+              />
+            </span>
           </template>
         </p-column>
 
@@ -197,9 +197,7 @@ import Vue, { PropType } from 'vue'
 import { ValidationProvider } from 'vee-validate'
 
 import { NAMED_CLASSES } from '@/services/lck-utils/prime'
-import {
-  LckContainer,
-} from '@/services/lck-api/definitions'
+import { LckContainer } from '@/services/lck-api/definitions'
 
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -233,7 +231,7 @@ export default Vue.extend({
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([]),
+      default: () => [],
     },
   },
   data () {
@@ -274,11 +272,11 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-/deep/ .p-datatable .p-datatable-footer {
+.p-datatable .p-datatable-footer {
   text-align: center;
 }
 
-/deep/ .p-datatable-wrapper .p-datatable-thead th {
+.p-datatable-wrapper .p-datatable-thead th {
   position: static;
 }
 </style>
