@@ -1607,7 +1607,6 @@ describe('Page', () => {
         beforeEach(() => {
           spyOnContainerRemove.mockClear()
           lckServices.container.remove.mockClear()
-
         })
 
         it('Delete a container if the input event is emitted with an existing container', async () => {
