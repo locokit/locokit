@@ -577,6 +577,7 @@
     "databaseSchema": {
       "title": "Database schema",
       "noSchema": "No schema to display. Please create one database.",
+      "noTable": "The database has no table.",
       "createTableModal": {
         "createTable": "Create table",
         "tableName": "Table name",
