@@ -7,7 +7,6 @@
     <router-link to="/">
       {{ $t('pages.404.link') }}
     </router-link>
-    <img :src="backgroundImage" class="p-mt-4" style="max-width: 100%" />
   </div>
 </template>
 

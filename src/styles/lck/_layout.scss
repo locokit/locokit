@@ -36,6 +36,7 @@ body {
 
 .layout-sidebar {
   display: none;
+
   @media (max-width: 900px) {
     -webkit-transition: background-color .5s;
     transition: background-color .5s;
@@ -62,7 +63,54 @@ body {
 /**
  * Remove margin / padding of Prime grid system
  */
-.p-sm-1, .p-sm-2, .p-sm-3, .p-sm-4, .p-sm-5, .p-sm-6, .p-sm-7, .p-sm-8, .p-sm-9, .p-sm-10, .p-sm-11, .p-sm-12, .p-md-1, .p-md-2, .p-md-3, .p-md-4, .p-md-5, .p-md-6, .p-md-7, .p-md-8, .p-md-9, .p-md-10, .p-md-11, .p-md-12, .p-lg-1, .p-lg-2, .p-lg-3, .p-lg-4, .p-lg-5, .p-lg-6, .p-lg-7, .p-lg-8, .p-lg-9, .p-lg-10, .p-lg-11, .p-lg-12, .p-xl-1, .p-xl-2, .p-xl-3, .p-xl-4, .p-xl-5, .p-xl-6, .p-xl-7, .p-xl-8, .p-xl-9, .p-xl-10, .p-xl-11, .p-xl-12,
+.p-sm-1,
+.p-sm-2,
+.p-sm-3,
+.p-sm-4,
+.p-sm-5,
+.p-sm-6,
+.p-sm-7,
+.p-sm-8,
+.p-sm-9,
+.p-sm-10,
+.p-sm-11,
+.p-sm-12,
+.p-md-1,
+.p-md-2,
+.p-md-3,
+.p-md-4,
+.p-md-5,
+.p-md-6,
+.p-md-7,
+.p-md-8,
+.p-md-9,
+.p-md-10,
+.p-md-11,
+.p-md-12,
+.p-lg-1,
+.p-lg-2,
+.p-lg-3,
+.p-lg-4,
+.p-lg-5,
+.p-lg-6,
+.p-lg-7,
+.p-lg-8,
+.p-lg-9,
+.p-lg-10,
+.p-lg-11,
+.p-lg-12,
+.p-xl-1,
+.p-xl-2,
+.p-xl-3,
+.p-xl-4,
+.p-xl-5,
+.p-xl-6,
+.p-xl-7,
+.p-xl-8,
+.p-xl-9,
+.p-xl-10,
+.p-xl-11,
+.p-xl-12,
 .p-col {
   padding: unset;
 }
@@ -74,15 +122,17 @@ body {
 // Responsive
 
 @media screen and (max-device-width: 1400px) {
-  html  {
+  html {
     font-size: 13px;
   }
 }
+
 @media screen and (min-device-width: 1401px) {
-  html  {
+  html {
     font-size: 15px;
   }
 }
+
 @media screen and (max-width: 900px) {
   .sidebar-menu-container {
     position: fixed;
@@ -104,8 +154,8 @@ body {
 }
 
 .centered-content-view {
-    max-width: 800px;
-    margin: auto;
+  max-width: 800px;
+  margin: auto;
 }
 
 .box-with-shadow {
@@ -115,4 +165,8 @@ body {
   background: var(--surface-lck-2);
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border-radius: var(--border-radius);
+}
+
+.w-100 {
+  width: 100%;
 }

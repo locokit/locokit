@@ -29,13 +29,14 @@
           <div
             class="o-hidden o-ellipsis"
           >
-            <span class="process-text">{{ process.text }}</span>
-            <span
-              v-if="process.runs && process.runs.length > 0"
-            >
-                ({{ process.runs.length }})
-              </span>
-            <br/>
+            <p class="p-mt-0 p-mb-1">
+              <span class="process-text">{{ process.text }}</span>
+              <span
+                v-if="process.runs && process.runs.length > 0"
+              >
+                  ({{ process.runs.length }})
+                </span>
+            </p>
             <span
               class="p-tag"
             >
@@ -61,14 +62,12 @@
     </div>
     <div class="lck-process-detail p-m-2" v-if="displayDetailProcess">
 
-      <p>
-        <p-button
-          :label="$t('pages.process.allProcessesHeader')"
-          icon="pi pi-chevron-left"
-          class="p-button-text p-button-primary"
-          @click="backToProcessList"
-        />
-      </p>
+      <p-button
+        :label="$t('pages.process.allProcessesHeader')"
+        icon="pi pi-chevron-left"
+        class="p-button-text p-button-primary"
+        @click="backToProcessList"
+      />
 
       <lck-process
         :process="currentProcess"
@@ -421,6 +420,7 @@ export default Vue.extend({
 .p-tag {
   border: 1px solid var(--surface-w);
   color: var(--surface-w);
+  background: transparent;
 }
 
 </style>

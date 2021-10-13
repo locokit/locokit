@@ -11,7 +11,9 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -68,6 +70,8 @@ html, body, #app {
 .generic-view-container {
   max-width: min(960px, 100vw);
   width: 960px;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
 }
 
 .lck-bg-primary {

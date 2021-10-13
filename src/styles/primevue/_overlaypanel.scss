@@ -1,0 +1,48 @@
+.p-overlaypanel {
+  background: #ffffff;
+  color: #495057;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 1rem;
+}
+
+.p-overlaypanel .p-overlaypanel-close {
+  background: #2196F3;
+  color: #ffffff;
+  width: 2rem;
+  height: 2rem;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  border-radius: 50%;
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+}
+
+.p-overlaypanel .p-overlaypanel-close:enabled:hover {
+  background: #0d89ec;
+  color: #ffffff;
+}
+
+.p-overlaypanel:after {
+  border: solid transparent;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+}
+
+.p-overlaypanel:before {
+  border: solid transparent;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+}
+
+.p-overlaypanel.p-overlaypanel-flipped:after {
+  border-top-color: #ffffff;
+}
+
+.p-overlaypanel.p-overlaypanel-flipped:before {
+  border-top-color: #ffffff;
+}

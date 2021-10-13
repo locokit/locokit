@@ -419,6 +419,7 @@
     "workspace": {
       "form": {
         "create": "Create a new workspace",
+        "new": "New workspace",
         "createdSummary": "Your workspace have been created !",
         "createdDetail": "Your workspace have been created, you can configure it now.",
         "textPlaceholder": "Workspace's name",

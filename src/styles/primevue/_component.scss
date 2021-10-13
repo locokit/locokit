@@ -1,0 +1,15 @@
+.p-component {
+  font-family: $font-stack;
+  font-size: 1rem;
+}
+
+.p-component-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  transition-duration: 0.2s;
+}
+
+.p-disabled,
+.p-component:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

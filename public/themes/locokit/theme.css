@@ -12,18 +12,18 @@
   --color-success-light: rgba(48, 150, 48, .8);
 
   /* Boutons background, active tab-background, default background of the login page */
-  --surface-a: var(--primary-color) !important;
+  --surface-a: var(--primary-color);
   /* Buttons:hover border and background-color */
-  --surface-b: var(--primary-color-lighten) !important;
+  --surface-b: var(--primary-color-light);
   /* Popover border, burger-menu button background (responsive). This item use a transparency */
-  --surface-c: rgba(255, 255, 255, 0.04) !important;
+  --surface-c: rgba(255, 255, 255, 0.04);
   /* Table bottom border color*/
-  --surface-d: #3f4b5b !important;
+  --surface-d: #3f4b5b;
   /* no utilisation yet */
-  --surface-e: #2a323d !important;
-  --surface-f: #2a323d !important;
+  --surface-e: #2a323d;
+  --surface-f: #2a323d;
   /* Sidebar right background */
-  --surface-w: #f8f9fa !important;
+  --surface-w: #f8f9fa;
   --surface-lck-1: var(--primary-color);
   /* Couleur du texte sur les boutons, */
   --surface-lck-2: #ffffff;
@@ -31,7 +31,7 @@
   /* Sidebar */
   --sidebar-background-color: #eee;
   /* Sidebar text-color, sidebar active route background, used for paginator */
-  --sidebar-text-color: var(--primary-color) !important;
+  --sidebar-text-color: var(--primary-color);
   /* Used */
   --sidebar-text-color-active: #ddd;
 
@@ -45,31 +45,40 @@
   --popeyebar-icon-background: unset;
 
   /* Paginator/Tab text-color active */
-  --paginator-text-color-active: #fff !important;
-  --text-color-secondary: #fff !important;
+  --paginator-text-color-active: #fff;
+  --text-color-secondary: #fff;
 
-  --primary-color: #005666 !important;
-  --primary-color-lighten: #3A8593 !important;
-  --primary-color-darken: #0B373F !important;
-  --primary-color-text: #33384A !important;
+  --primary-color: #005666;
+  --primary-color-very-lighten: #dfebee;
+  --primary-color-lighten: #b8e0e7;
+  --primary-color-light: #5198a5;
+  --primary-color-darken: #0B373F;
+  --primary-color-text: #33384A;
 
-  --secondary-color: #664300 !important;
-  --secondary-color-lighten: #8e5d00 !important;
-  --secondary-color-darken: #5b3c00 !important;
+  /* --secondary-color: #4c44a7;
+  --secondary-color-very-lighten: #eeecf7;
+  --secondary-color-lighten: #b7b4d8;
+  --secondary-color-light: #b5b1e2;
+  --secondary-color-darken: #383372; */
+  --secondary-color: #d49307;
+  --secondary-color-very-lighten: #f8f4ec;
+  --secondary-color-lighten: #f5d693;
+  --secondary-color-light: #e4aa2f;
+  --secondary-color-darken: #aa7709;
 
-  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 
-  --border-radius: 2px !important;
-  --accordion-header-link-padding: 10rem .5rem !important;
+  --border-radius: 2px;
+  --accordion-header-link-padding: 10rem .5rem;
 
   /* Main Header */
-  --header-height: 4rem !important;
-  --header-background-color: #FAF9F9 !important;
-  --header-border-bottom-color: #cccccc !important;
+  --header-height: 4rem;
+  --header-background-color: #FAF9F9;
+  --header-border-bottom-color: #cccccc;
 
   /* Toolbar over table */
-  --toolbar-background-color: rgba(255, 255, 255, 1) !important;
-  --toolbar-border-bottom-color: #eeeeee !important;
+  --toolbar-background-color: rgba(255, 255, 255, 1);
+  --toolbar-border-bottom-color: #eeeeee;
 
   /* Background color, main content */
   --background-color: #fafafa;

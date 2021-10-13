@@ -419,6 +419,7 @@
     "workspace": {
       "form": {
         "create": "Créer un nouvel espace de travail",
+        "new": "Nouvel espace de travail",
         "createdSummary": "Votre espace de travail a été créé !",
         "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer.",
         "textPlaceholder": "Nom de l'espace de travail",

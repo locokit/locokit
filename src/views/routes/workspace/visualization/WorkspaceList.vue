@@ -1,8 +1,10 @@
 <template>
-  <div class="generic-view-container p-mx-auto">
-    <header class="p-my-4 lck-color-title">
+  <div
+    class="generic-view-container p-mx-auto"
+  >
+    <h1 class="p-my-4 p-px-3 lck-color-title">
       {{ $t('pages.workspace.title') }}
-    </header>
+    </h1>
 
     <p-card v-if="loading">
       <template slot="content">
@@ -20,120 +22,71 @@
 
     <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
-    <p-card
-      class="p-mb-4 p-col"
-      v-for="group in groups"
-      :key="group.id"
+    <div class="p-grid">
+      <div v-for="group in groups" :key="group.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
+        <router-link
+          class="p-component p-button p-button-outlined workspaces-button p-mr-2"
+          :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+        >
+          <p class="workspaces-button-title">{{ group.aclset.workspace.text }}</p>
+          <p class="workspaces-button-group">
+            Group: {{ group.name }}
+          </p>
+          <p v-if="group.aclset.workspace.documentation">
+            {{ group.aclset.workspace.documentation }}
+          </p>
+        </router-link>
+      </div>
+
+      <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
+        <button class="workspaces-placeholder" @click="dialogVisible = true">
+          <i class="bi bi-file-plus workspaces-placeholder-icon"></i>
+          <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
+        </button>
+      </div>
+    </div>
+
+    <p-dialog
+      :header="$t('pages.workspace.form.create')"
+      :modal="true"
+      :visible="dialogVisible"
+      @update:visible="dialogVisible = false"
     >
-      <template slot="title">
-        {{ group.aclset.workspace.text }}
-      </template>
-      <template slot="content">
-        <p>
-          Group: {{ group.name }}
-        </p>
-        <p>
-          {{ group.aclset.workspace.documentation }}
-        </p>
-        <div class="action-button-content p-d-flex">
-          <router-link
-            class="no-decoration-link p-mr-2"
-            :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.VISUALIZATION}`"
-          >
-            <p-button
-              :label="$t('pages.workspace.buttonVisualization')"
-              icon="bi bi-eye"
-            />
-          </router-link>
-          <template v-if="group.aclset.workspace.databases.length > 0 && group.aclset.manager">
-            <router-link
-              v-if="group.aclset.workspace.databases.length === 1"
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonDatabase')"
-                icon="bi bi-server"
-              />
-            </router-link>
-            <lck-dropdown-button
-              v-else
-              class="no-decoration-link p-mr-2"
-              :label="$t('pages.workspace.buttonDatabase')"
-              :model="transformDatabases(group.id, group.aclset.workspace.databases)"
-            />
-            <router-link
-              v-if="group.aclset.workspace.databases.length === 1"
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonSchema')"
-                icon="bi bi-diagram-3"
-              />
-            </router-link>
-            <lck-dropdown-button
-              v-else
-              class="no-decoration-link p-mr-2"
-              :label="$t('pages.workspace.buttonSchema')"
-              :model="transformDatabases(group.id, group.aclset.workspace.databases, true)"
-            />
-            <router-link
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.PROCESS}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonProcess')"
-                icon="bi bi-lightning"
-              />
-            </router-link>
-            <router-link
-              class="no-decoration-link p-mr-2"
-              :to="{ name: ROUTES_NAMES.ACL, params: { workspaceId: group.aclset.workspace.id } }"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonAcl')"
-                icon="pi pi-key"
-              />
-            </router-link>
-          </template>
+
+      <form class="p-fluid">
+        <div class="p-field">
+          <p-input-text
+            :placeholder="$t('pages.workspace.form.textPlaceholder')"
+            v-model="newWorkspace.text"
+          />
         </div>
-      </template>
-    </p-card>
 
-    <header
-      class="p-my-4 lck-color-title"
-      v-if="$can('create', 'workspace')"
-    >
-      {{ $t('pages.workspace.form.create') }}
-    </header>
-    <p-card
-      class="p-mb-4 p-col p-fluid"
-      v-if="$can('create', 'workspace')"
-    >
-      <template slot="title">
-        <p-input-text
-          :placeholder="$t('pages.workspace.form.textPlaceholder')"
-          v-model="newWorkspace.text"
-        />
-      </template>
-      <template slot="content">
-        <label>{{ $t('pages.workspace.form.docLabel') }}</label>
-        <p-textarea
-          :placeholder="$t('pages.workspace.form.docPlaceholder')"
-          class="p-mb-2"
-          :autoResize="true"
-          v-model="newWorkspace.documentation"
-        />
-        <br />
+        <div class="p-field">
+          <label>{{ $t('pages.workspace.form.docLabel') }}</label>
+          <p-textarea
+            :placeholder="$t('pages.workspace.form.docPlaceholder')"
+            class="p-mb-2"
+            :autoResize="true"
+            v-model="newWorkspace.documentation"
+          />
+        </div>
+      </form>
+
+      <template #footer>
         <p-button
-          icon="pi pi-plus-circle"
-          :label="$t('pages.workspace.form.create')"
+          :label="$t('sw.cancel')"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="dialogVisible = false"
+        />
+        <p-button
+          :label="$t('form.save')"
+          icon="pi pi-check"
           @click="createWorkspace"
+          autofocus
         />
       </template>
-    </p-card>
-
+    </p-dialog>
   </div>
 </template>
 
@@ -148,8 +101,8 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Skeleton from 'primevue/skeleton'
 
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import { lckServices } from '@/services/lck-api'
+import Dialog from 'primevue/dialog/Dialog'
 
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
@@ -162,14 +115,15 @@ export default {
   components: {
     'p-card': Vue.extend(Card),
     'p-button': Vue.extend(Button),
+    'p-dialog': Vue.extend(Dialog),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-skeleton': Vue.extend(Skeleton),
-    'lck-dropdown-button': Vue.extend(DropdownButton),
   },
   data () {
     return {
       loading: false,
+      dialogVisible: false,
       ROUTES_PATH,
       ROUTES_NAMES,
       authState,

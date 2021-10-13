@@ -16,15 +16,23 @@ export const defaultStory = () => ({
     <h3>Primary colors</h3>
     primary-color
     <p style="background-color: var(--primary-color); color: var(--text-color-secondary); padding: 1rem;" />
+    primary-color-light
+    <p style="background-color: var(--primary-color-light); color: var(--text-color-secondary); padding: 1rem;" />
     primary-color-lighten
     <p style="background-color: var(--primary-color-lighten); color: var(--text-color-secondary); padding: 1rem;" />
+    primary-color-very-lighten
+    <p style="background-color: var(--primary-color-very-lighten); color: var(--text-color-secondary); padding: 1rem;" />
     primary-color-darken
     <p style="background-color: var(--primary-color-darken); color: var(--text-color-secondary); padding: 1rem;" />
     <h3>Secondary colors</h3>
     secondary-color
     <p style="background-color: var(--secondary-color); color: var(--text-color-secondary); padding: 1rem;" />
+    secondary-color-light
+    <p style="background-color: var(--secondary-color-light); color: var(--text-color-secondary); padding: 1rem;" />
     secondary-color-lighten
     <p style="background-color: var(--secondary-color-lighten); color: var(--text-color-secondary); padding: 1rem;" />
+    secondary-color-very-lighten
+    <p style="background-color: var(--secondary-color-very-lighten); color: var(--text-color-secondary); padding: 1rem;" />
     secondary-color-darken
     <p style="background-color: var(--secondary-color-darken); color: var(--text-color-secondary); padding: 1rem;" />
   </div>

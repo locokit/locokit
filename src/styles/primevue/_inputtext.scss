@@ -1,0 +1,167 @@
+.p-inputgroup>.p-component,
+.p-inputgroup>.p-inputwrapper>.p-inputtext,
+.p-inputgroup>.p-float-label>.p-component {
+  border-radius: 0;
+  margin: 0;
+}
+
+.p-inputgroup>.p-component+.p-inputgroup-addon,
+.p-inputgroup>.p-inputwrapper>.p-inputtext+.p-inputgroup-addon,
+.p-inputgroup>.p-float-label>.p-component+.p-inputgroup-addon {
+  border-left: 0 none;
+}
+
+.p-inputgroup>.p-component:focus,
+.p-inputgroup>.p-inputwrapper>.p-inputtext:focus,
+.p-inputgroup>.p-float-label>.p-component:focus {
+  z-index: 1;
+}
+
+.p-inputgroup>.p-component:focus~label,
+.p-inputgroup>.p-inputwrapper>.p-inputtext:focus~label,
+.p-inputgroup>.p-float-label>.p-component:focus~label {
+  z-index: 1;
+}
+
+.p-inputgroup-addon:first-child,
+.p-inputgroup button:first-child,
+.p-inputgroup input:first-child,
+.p-inputgroup>.p-inputwrapper:first-child,
+.p-inputgroup>.p-inputwrapper:first-child>.p-inputtext {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.p-inputgroup .p-float-label:first-child input {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.p-inputgroup-addon:last-child,
+.p-inputgroup button:last-child,
+.p-inputgroup input:last-child,
+.p-inputgroup>.p-inputwrapper:last-child,
+.p-inputgroup>.p-inputwrapper:last-child>.p-inputtext {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.p-inputgroup .p-float-label:last-child input {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.p-fluid .p-inputgroup .p-button {
+  width: auto;
+}
+
+.p-fluid .p-inputgroup .p-button.p-button-icon-only {
+  width: 2.357rem;
+}
+
+.p-inputnumber.p-invalid.p-component>.p-inputtext {
+  border-color: #f44336;
+}
+
+.p-inputtext {
+  font-family: $font-stack;
+  font-size: 1rem;
+  color: #495057;
+  background: #ffffff;
+  padding: 0.5rem 0.5rem;
+  border: 1px solid #ced4da;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  border-radius: var(--border-radius);
+}
+
+.p-inputtext:enabled:hover {
+  border-color: var(--primary-color);
+}
+
+.p-inputtext:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-very-lighten);
+  border-color: var(--primary-color);
+}
+
+.p-inputtext.p-invalid.p-component {
+  border-color: #f44336;
+}
+
+.p-inputtext.p-inputtext-sm {
+  font-size: 0.875rem;
+  padding: 0.4375rem 0.4375rem;
+}
+
+.p-inputtext.p-inputtext-lg {
+  font-size: 1.25rem;
+  padding: 0.625rem 0.625rem;
+}
+
+.p-float-label>label {
+  left: 0.5rem;
+  color: #6c757d;
+  transition-duration: 0.2s;
+}
+
+.p-input-icon-left>i:first-of-type {
+  left: 0.5rem;
+  color: #6c757d;
+}
+
+.p-input-icon-left>.p-inputtext {
+  padding-left: 2rem;
+}
+
+.p-input-icon-left.p-float-label>label {
+  left: 2rem;
+}
+
+.p-input-icon-right>i:last-of-type {
+  right: 0.5rem;
+  color: #6c757d;
+}
+
+.p-input-icon-right>.p-inputtext {
+  padding-right: 2rem;
+}
+
+::-webkit-input-placeholder {
+  color: #6c757d;
+}
+
+:-moz-placeholder {
+  color: #6c757d;
+}
+
+::-moz-placeholder {
+  color: #6c757d;
+}
+
+:-ms-input-placeholder {
+  color: #6c757d;
+}
+
+.p-input-filled .p-inputtext {
+  background-color: #f8f9fa;
+}
+
+.p-input-filled .p-inputtext:enabled:hover {
+  background-color: #f8f9fa;
+}
+
+.p-input-filled .p-inputtext:enabled:focus {
+  background-color: #ffffff;
+}
+
+.p-inputtext-sm .p-inputtext {
+  font-size: 0.875rem;
+  padding: 0.4375rem 0.4375rem;
+}
+
+.p-inputtext-lg .p-inputtext {
+  font-size: 1.25rem;
+  padding: 0.625rem 0.625rem;
+}
