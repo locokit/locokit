@@ -192,33 +192,33 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue, { PropType } from 'vue'
 
-import { ValidationProvider } from "vee-validate";
+import { ValidationProvider } from 'vee-validate'
 
-import { NAMED_CLASSES } from "@/services/lck-utils/prime";
-import { LckContainer } from "@/services/lck-api/definitions";
+import { NAMED_CLASSES } from '@/services/lck-utils/prime'
+import { LckContainer } from '@/services/lck-api/definitions'
 
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import InputSwitch from "primevue/inputswitch";
-import Dropdown from "primevue/dropdown";
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import InputSwitch from 'primevue/inputswitch'
+import Dropdown from 'primevue/dropdown'
 
-import LckForm from "@/components/ui/Form/Form.vue";
+import LckForm from '@/components/ui/Form/Form.vue'
 
 export default Vue.extend({
-  name: "UpdateContainerForm",
+  name: 'UpdateContainerForm',
   components: {
-    "lck-form": LckForm,
-    "p-input-text": Vue.extend(InputText),
-    "p-button": Vue.extend(Button),
-    "p-datatable": Vue.extend(DataTable),
-    "p-column": Vue.extend(Column),
-    "p-switch": Vue.extend(InputSwitch),
-    "p-dropdown": Vue.extend(Dropdown),
-    "validation-provider": Vue.extend(ValidationProvider),
+    'lck-form': LckForm,
+    'p-input-text': Vue.extend(InputText),
+    'p-button': Vue.extend(Button),
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
+    'p-switch': Vue.extend(InputSwitch),
+    'p-dropdown': Vue.extend(Dropdown),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     container: {
@@ -234,26 +234,26 @@ export default Vue.extend({
       default: () => [],
     },
   },
-  data() {
+  data () {
     return {
       containerCopy: new LckContainer(),
       NAMED_CLASSES,
-    };
+    }
   },
   methods: {
-    onFormSubmit() {
+    onFormSubmit () {
       if (this.containerCopy?.displayed_in_navbar) {
-        return this.$emit("update-container", this.containerCopy);
+        return this.$emit('update-container', this.containerCopy)
       }
       // Don't send default label for anchor_label if no anchor
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase
-      const { anchor_label, ...data } = this.containerCopy;
-      return this.$emit("update-container", data);
+      const { anchor_label, ...data } = this.containerCopy
+      return this.$emit('update-container', data)
     },
   },
   watch: {
     container: {
-      handler(newValue = {}) {
+      handler (newValue = {}) {
         this.containerCopy = {
           ...newValue,
           // eslint-disable-next-line @typescript-eslint/camelcase
@@ -261,14 +261,14 @@ export default Vue.extend({
           // eslint-disable-next-line @typescript-eslint/camelcase
           displayed_in_navbar: newValue.displayed_in_navbar || false,
           // eslint-disable-next-line @typescript-eslint/camelcase
-          anchor_icon_class: newValue.anchor_icon_class || "primary",
-        };
+          anchor_icon_class: newValue.anchor_icon_class || 'primary',
+        }
       },
       immediate: true,
       deep: true,
     },
   },
-});
+})
 </script>
 
 <style scoped>
