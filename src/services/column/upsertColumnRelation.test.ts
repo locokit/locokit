@@ -132,7 +132,7 @@ describe('upsertColumnRelation hook', () => {
       table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table1',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
@@ -185,7 +185,7 @@ describe('upsertColumnRelation hook', () => {
   it('create a column relation between a lkdp up column and its foreign field', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
       // create the looked up column
-      text: 'Ref',
+      text: 'LUC to Table1',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -228,7 +228,7 @@ describe('upsertColumnRelation hook', () => {
   it('update a column relation if a foreign field of a lkdp up column is updated', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
       // create the looked up column
-      text: 'Ref',
+      text: 'LUC to Table 1',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -293,7 +293,7 @@ describe('upsertColumnRelation hook', () => {
     expect.assertions(12)
     columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
       // create the virtual looked up column
-      text: 'Ref',
+      text: 'VLUC to Table1',
       column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -336,7 +336,7 @@ describe('upsertColumnRelation hook', () => {
     expect.assertions(18)
     columnTable2VirtualLookedUpColumnTable1 = await app.service('column').create({
       // create the looked up column
-      text: 'Ref',
+      text: 'VLUC to Table1',
       column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {

@@ -133,7 +133,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       table_id: table1.id,
     })
     columnTable1Group = await app.service('column').create({
-      text: 'User',
+      text: 'Group',
       column_type_id: COLUMN_TYPE.GROUP,
       table_id: table1.id,
     })
@@ -184,7 +184,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table1',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
@@ -192,7 +192,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
       },
     })
     columnTable3RelationBetweenTable2 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table2',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table3.id,
       settings: {
@@ -282,7 +282,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (user)', async () => {
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -311,7 +311,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (group)', async () => {
     columnTable2LookedUpColumnTable1Group = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -340,7 +340,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (multi user)', async () => {
     columnTable2LookedUpColumnTable1MultiUser = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -377,7 +377,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (string)', async () => {
     columnTable2LookedUpColumnTable1Ref = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -406,7 +406,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (number)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref 1',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -435,7 +435,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (date)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -464,7 +464,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (float)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -493,7 +493,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (text)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -522,7 +522,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (url)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -551,7 +551,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (formula)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -580,7 +580,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (boolean)', async () => {
     columnTable2LookedUpColumnTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -609,7 +609,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (single select)', async () => {
     columnTable2LookedUpColumnTable1SingleSelect = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -638,7 +638,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
   it('fill all rows with the matching data from the foreign column of the matching rows (multi select)', async () => {
     columnTable2LookedUpColumnTable1MultiSelect = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
@@ -691,7 +691,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     // Create the column
     columnTable3LookedUpColumnTable2RelationBetweenTable = await app.service('column').create({
-      text: 'Ref',
+      text: 'New Ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table3.id,
       settings: {
@@ -760,7 +760,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : user', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -770,7 +770,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -797,7 +797,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : number', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -807,7 +807,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -834,7 +834,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : date', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -844,7 +844,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -871,7 +871,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : float', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -881,7 +881,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -908,7 +908,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : text', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -918,7 +918,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -945,7 +945,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : url', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -955,7 +955,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -982,7 +982,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : boolean', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -992,7 +992,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -1019,7 +1019,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : formula', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -1029,7 +1029,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -1056,7 +1056,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : multi user', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -1066,7 +1066,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -1101,7 +1101,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : string', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -1111,7 +1111,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -1138,7 +1138,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : single select', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -1148,7 +1148,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {
@@ -1175,7 +1175,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
 
     it('from an original column : multi select', async () => {
       columnTable2LookedUpColumnTable1 = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 1',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table2.id,
         settings: {
@@ -1185,7 +1185,7 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
         },
       })
       columnTable3LookedUpColumnTable2LookUpColumn = await app.service('column').create({
-        text: 'Ref',
+        text: 'New Ref 2',
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         table_id: table3.id,
         settings: {

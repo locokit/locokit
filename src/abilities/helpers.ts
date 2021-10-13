@@ -266,7 +266,7 @@ export function builderTestEnvironment (prefix: string) {
       table_id: table1.id,
     })
     columnTable1DateTime = await app.service('column').create({
-      text: 'Date',
+      text: 'Datetime',
       column_type_id: COLUMN_TYPE.DATETIME,
       table_id: table1.id,
     })

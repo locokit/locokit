@@ -56,7 +56,7 @@ describe('upsertRowRelation hook', () => {
       table_id: table2.id,
     })
     columnTable2RelationBetweenTable1 = await app.service('column').create({
-      text: 'Ref',
+      text: 'RBT to Table1',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
       table_id: table2.id,
       settings: {
@@ -64,7 +64,7 @@ describe('upsertRowRelation hook', () => {
       },
     })
     columnTable2LookedUpColumnTable1User = await app.service('column').create({
-      text: 'Ref',
+      text: 'LUC To Table1',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table2.id,
       settings: {
