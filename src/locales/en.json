@@ -899,6 +899,7 @@
     "messages": {
       "required": "The '{_field_}' field is required.",
       "email": "The '{_field_}' field does not match the expected format (email).",
+      "password": "The '{_field_}' field does not match the expected format (password).",
       "minDate": "The '{_field_}' field must be after {fromDate}.",
       "dateValid": "The '{_field_}' field does not match the expected format."
     }
