@@ -12,6 +12,251 @@ exports[`storyshots components/store/DataDetail default 1`] = `
 </div>
 `;
 
+exports[`storyshots components/store/DataDetail with conditional display 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid"
+  >
+    <!---->
+     
+    <div
+      class="p-field"
+    >
+      <span
+        style="position: relative;"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
+          <!---->
+           
+          <label
+            class="lck-color-primary untouched pristine"
+            for="e065323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Text
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable untouched pristine"
+        >
+          <input
+            class="p-inputtext p-component"
+            id="e065323c-1151-447f-be0f-6d2728117b38"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
+    </div>
+    <div
+      class="p-field"
+    >
+      <span
+        style="position: relative;"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
+          <div
+            class="p-checkbox p-component"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                id="e165323c-1151-447f-be0f-6d2728117b38"
+                type="checkbox"
+                value=""
+              />
+            </div>
+             
+            <div
+              class="p-checkbox-box"
+              role="checkbox"
+            >
+              <span
+                class="p-checkbox-icon"
+              />
+            </div>
+          </div>
+           
+          <label
+            class="lck-color-primary untouched pristine"
+            for="e165323c-1151-447f-be0f-6d2728117b38"
+          >
+            
+          Boolean / Checkbox
+        
+          </label>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+         
+        <div
+          class="form-field-editable untouched pristine"
+        >
+          <!---->
+           
+          <!---->
+        </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
+    </div>
+    <div
+      class="p-field"
+    >
+      <span
+        style="position: relative;"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
+          <!---->
+           
+          <label
+            class="lck-color-primary untouched pristine"
+            for="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42"
+          >
+            
+          Conditional text if previous boolean is not checked
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable untouched pristine"
+        >
+          <textarea
+            class="p-inputtextarea p-inputtext p-component"
+            id="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42"
+            rows="7"
+          />
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
+    </div>
+    <div
+      class="p-field"
+    >
+      <span
+        style="position: relative;"
+      >
+        <div
+          class="p-d-flex"
+          style="position: relative;"
+        >
+          <!---->
+           
+          <label
+            class="lck-color-primary untouched pristine"
+            for="b15bfe13-b18b-40ca-9637-1611c789b7c2"
+          >
+            
+          Status
+        
+          </label>
+           
+          <!---->
+        </div>
+         
+        <div
+          class="form-field-editable untouched pristine"
+        >
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+            id="b15bfe13-b18b-40ca-9637-1611c789b7c2"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext p-placeholder"
+            >
+              <span>
+                
+            Select an option
+          
+              </span>
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+           
+          <span
+            class="cell-state"
+          />
+        </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`storyshots components/store/DataDetail with definition and row 1`] = `
 <div
   style="height: 100%;"
