@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataDetail Manage conditional fields ($eq, $ne, $in) display / hide fields if a condition change in time 1`] = `
+<div class="p-fluid">
+  <!---->
+  <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="e065323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine pending">
+          Text
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><input class="p-inputtext p-component" id="e065323c-1151-447f-be0f-6d2728117b38" rows="7"> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span>
+</div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component"><div class="p-hidden-accessible"><input type="checkbox" id="e165323c-1151-447f-be0f-6d2728117b38" value=""></div> <div role="checkbox" class="p-checkbox-box"><span class="p-checkbox-icon"></span></div>
+</div> <label for="e165323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine pending">
+  Boolean / Checkbox
+</label> <span class="cell-state"></span></div>
+<div class="form-field-editable untouched pristine pending">
+  <!---->
+  <!---->
+</div> <span class="untouched pristine pending"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42" class="lck-color-primary untouched pristine pending">
+          Conditional text if previous boolean is not checked
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><textarea class="p-inputtextarea p-inputtext p-component" id="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42" rows="7"></textarea> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="b15bfe13-b18b-40ca-9637-1611c789b7c2" class="lck-color-primary untouched pristine pending">
+          Status
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><div class="p-dropdown p-component p-inputwrapper p-dropdown-clearable" id="b15bfe13-b18b-40ca-9637-1611c789b7c2"><div class="p-hidden-accessible"><input type="text" readonly="readonly" aria-haspopup="listbox"></div> <!----> <span class="p-dropdown-label p-inputtext p-placeholder"><span>
+            components.datatable.placeholder
+          </span></span>
+  <!---->
+  <div role="button" aria-haspopup="listbox" class="p-dropdown-trigger"><span class="p-dropdown-trigger-icon pi pi-chevron-down"></span></div>
+  <transition-stub name="p-connected-overlay">
+    <!---->
+  </transition-stub>
+</div> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span></div>
+</div>
+`;
+
+exports[`DataDetail Manage conditional fields ($eq, $ne, $in) display / hide fields if a condition change in time 2`] = `
+<div class="p-fluid">
+  <!---->
+  <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="e065323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine pending">
+          Text
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><input class="p-inputtext p-component" id="e065323c-1151-447f-be0f-6d2728117b38" rows="7"> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span>
+</div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component p-checkbox-checked p-checkbox-focused"><div class="p-hidden-accessible"><input type="checkbox" id="e165323c-1151-447f-be0f-6d2728117b38" value=""></div> <div role="checkbox" class="p-checkbox-box p-highlight p-focus" aria-checked="true"><span class="p-checkbox-icon pi pi-check"></span></div>
+</div> <label for="e165323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched dirty pending changed">
+  Boolean / Checkbox
+</label> <span class="cell-state"></span></div>
+<div class="form-field-editable untouched dirty pending changed">
+  <!---->
+  <!---->
+</div> <span class="untouched dirty pending changed"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="882326b8-b634-4ebb-aeb3-a2a2aa082c11" class="lck-color-primary untouched pristine pending">
+          Conditional text if previous boolean is checked
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><textarea class="p-inputtextarea p-inputtext p-component" id="882326b8-b634-4ebb-aeb3-a2a2aa082c11" rows="7"></textarea> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="b15bfe13-b18b-40ca-9637-1611c789b7c2" class="lck-color-primary untouched pristine pending">
+          Status
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><div class="p-dropdown p-component p-inputwrapper p-dropdown-clearable" id="b15bfe13-b18b-40ca-9637-1611c789b7c2"><div class="p-hidden-accessible"><input type="text" readonly="readonly" aria-haspopup="listbox"></div> <!----> <span class="p-dropdown-label p-inputtext p-placeholder"><span>
+            components.datatable.placeholder
+          </span></span>
+  <!---->
+  <div role="button" aria-haspopup="listbox" class="p-dropdown-trigger"><span class="p-dropdown-trigger-icon pi pi-chevron-down"></span></div>
+  <transition-stub name="p-connected-overlay">
+    <!---->
+  </transition-stub>
+</div> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span></div>
+</div>
+`;
+
+exports[`DataDetail Manage conditional fields ($eq, $ne, $in) display / hide fields if a condition change in time 3`] = `
+<div class="p-fluid">
+  <!---->
+  <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="e065323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine">
+          Text
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><input class="p-inputtext p-component" id="e065323c-1151-447f-be0f-6d2728117b38" rows="7"> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span>
+</div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component p-checkbox-checked"><div class="p-hidden-accessible"><input type="checkbox" id="e165323c-1151-447f-be0f-6d2728117b38" value=""></div> <div role="checkbox" class="p-checkbox-box p-highlight" aria-checked="true"><span class="p-checkbox-icon pi pi-check"></span></div>
+</div> <label for="e165323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary touched dirty changed">
+  Boolean / Checkbox
+</label> <span class="cell-state"></span></div>
+<div class="form-field-editable touched dirty changed">
+  <!---->
+  <!---->
+</div> <span class="touched dirty changed"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="882326b8-b634-4ebb-aeb3-a2a2aa082c11" class="lck-color-primary untouched pristine">
+          Conditional text if previous boolean is checked
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><textarea class="p-inputtextarea p-inputtext p-component" id="882326b8-b634-4ebb-aeb3-a2a2aa082c11" rows="7"></textarea> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="b15bfe13-b18b-40ca-9637-1611c789b7c2" class="lck-color-primary untouched dirty pending changed">
+          Status
+        </label> <!----></div> <div class="form-field-editable untouched dirty pending changed"><div class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-focus p-inputwrapper-filled p-inputwrapper-focus" id="b15bfe13-b18b-40ca-9637-1611c789b7c2"><div class="p-hidden-accessible"><input type="text" readonly="readonly" aria-haspopup="listbox" aria-expanded="true"></div> <!----> <span class="p-dropdown-label p-inputtext"><span class="lck-badge"><span class="lck-badge-content">For other case (third), please specify in next field.</span></span>
+  </span> <i class="p-dropdown-clear-icon pi pi-times"></i>
+  <div role="button" aria-haspopup="listbox" class="p-dropdown-trigger" aria-expanded="true"><span class="p-dropdown-trigger-icon pi pi-chevron-down"></span></div>
+  <transition-stub name="p-connected-overlay">
+    <div class="p-dropdown-panel p-component">
+      <!---->
+      <div class="p-dropdown-items-wrapper" style="max-height: 200px;">
+        <ul role="listbox" class="p-dropdown-items">
+          <li aria-label="Done" role="option" class="p-dropdown-item"><span class="lck-badge"><span class="lck-badge-content">Done</span></span></li>
+          <li aria-label="Out of order" role="option" class="p-dropdown-item"><span class="lck-badge"><span class="lck-badge-content">Out of order</span></span></li>
+          <li aria-label="For other case (third), please specify in next field." role="option" class="p-dropdown-item p-highlight" aria-selected="true"><span class="lck-badge"><span class="lck-badge-content">For other case (third), please specify in next field.</span></span></li>
+          <li aria-label="For other case (fourth), please specify in next field." role="option" class="p-dropdown-item"><span class="lck-badge"><span class="lck-badge-content">For other case (fourth), please specify in next field.</span></span></li>
+          <!---->
+        </ul>
+      </div>
+    </div>
+  </transition-stub>
+</div> <span class="cell-state"></span></div> <span class="untouched dirty pending changed"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="87e6fd3e-d016-4509-bfe5-89796812cc17" class="lck-color-primary untouched pristine pending">
+          Conditional text if previous single select is third / fourth value
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending"><textarea class="p-inputtextarea p-inputtext p-component" id="87e6fd3e-d016-4509-bfe5-89796812cc17" rows="7"></textarea> <span class="cell-state"></span></div> <span class="untouched pristine pending"></span></span></div>
+</div>
+`;
+
+exports[`DataDetail Manage conditional fields ($eq, $ne, $in) display / hide fields if an initial condition is respected 1`] = `
+<div class="p-fluid">
+  <!---->
+  <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="e065323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine">
+          Text
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><input class="p-inputtext p-component" id="e065323c-1151-447f-be0f-6d2728117b38" rows="7"> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span>
+</div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component"><div class="p-hidden-accessible"><input type="checkbox" id="e165323c-1151-447f-be0f-6d2728117b38" value=""></div> <div role="checkbox" class="p-checkbox-box"><span class="p-checkbox-icon"></span></div>
+</div> <label for="e165323c-1151-447f-be0f-6d2728117b38" class="lck-color-primary untouched pristine">
+  Boolean / Checkbox
+</label> <span class="cell-state"></span></div>
+<div class="form-field-editable untouched pristine">
+  <!---->
+  <!---->
+</div> <span class="untouched pristine"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42" class="lck-color-primary untouched pristine">
+          Conditional text if previous boolean is not checked
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><textarea class="p-inputtextarea p-inputtext p-component" id="cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42" rows="7"></textarea> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="b15bfe13-b18b-40ca-9637-1611c789b7c2" class="lck-color-primary untouched pristine">
+          Status
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><div class="p-dropdown p-component p-inputwrapper p-dropdown-clearable" id="b15bfe13-b18b-40ca-9637-1611c789b7c2"><div class="p-hidden-accessible"><input type="text" readonly="readonly" aria-haspopup="listbox"></div> <!----> <span class="p-dropdown-label p-inputtext p-placeholder"><span>
+            components.datatable.placeholder
+          </span></span>
+  <!---->
+  <div role="button" aria-haspopup="listbox" class="p-dropdown-trigger"><span class="p-dropdown-trigger-icon pi pi-chevron-down"></span></div>
+  <transition-stub name="p-connected-overlay">
+    <!---->
+  </transition-stub>
+</div> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span></div>
+</div>
+`;
