@@ -1,39 +1,39 @@
 <template>
-    <div
-      v-if="containers"
-      class="page-containers lck-color-content p-text-bold p-field p-d-flex p-flex-column"
+  <div
+    v-if="containers"
+    class="page-containers lck-color-content p-text-bold p-field p-d-flex p-flex-column"
+  >
+    <span class="field p-mb-2">
+      {{ $t('pages.workspace.page.navigationExplain') }}
+    </span>
+    <span class=" p-mb-2">
+      {{ $t('pages.workspace.page.list') }}
+    </span>
+    <p-datatable
+      :value="containers"
+      dataKey="id"
+      class="p-pt-2"
     >
-      <span class="field p-mb-2">
-        {{ $t('pages.workspace.page.navigationExplain') }}
-      </span>
-      <span class=" p-mb-2">
-        {{ $t('pages.workspace.page.list') }}
-      </span>
-      <p-datatable
-        :value="containers"
-        dataKey="id"
-        class="p-pt-2"
+      <template #empty>
+        {{ $t('pages.workspace.page.noContainers') }}
+      </template>
+      <p-column
+        field="text"
+        :header="$t('pages.workspace.container.name')"
+      />
+      <p-column
+        field="displayed_in_navbar"
+        :header="$t('pages.workspace.container.displayedInNavbar')"
       >
-        <template #empty>
-          {{ $t('pages.workspace.page.noContainers') }}
+        <template #body="slotProps">
+          <p-switch
+            :value="slotProps.data.displayed_in_navbar"
+            disabled
+          />
         </template>
-        <p-column
-          field="text"
-          :header="$t('pages.workspace.container.name')"
-        />
-        <p-column
-          field="displayed_in_navbar"
-          :header="$t('pages.workspace.container.displayedInNavbar')"
-        >
-          <template #body="slotProps">
-            <p-switch
-              :value="slotProps.data.displayed_in_navbar"
-              disabled
-            />
-          </template>
-        </p-column>
-        <p-column headerStyle="width: 7em">
-          <template #body="slotProps">
+      </p-column>
+      <p-column headerStyle="width: 7em">
+        <template #body="slotProps">
           <span class="p-buttonset">
             <p-button
               :title="$t('pages.workspace.container.edit')"
@@ -45,22 +45,22 @@
               :title="$t('pages.workspace.container.delete')"
               icon="pi pi-trash"
               class="p-button-text p-button-lg"
-              @click="$emit('delete-container', slotProps.data)"
+              @click="$emit('confirm-delete-container', slotProps.data)"
             />
           </span>
-          </template>
-        </p-column>
-
-        <template #footer>
-          <p-button
-            :title="$t('pages.workspace.container.create')"
-            icon="pi pi-plus"
-            class="p-button-text p-button-lg"
-            @click="$emit('add-new-container', { id: 'temp' })"
-          />
         </template>
-      </p-datatable>
-    </div>
+      </p-column>
+
+      <template #footer>
+        <p-button
+          :title="$t('pages.workspace.container.create')"
+          icon="pi pi-plus"
+          class="p-button-text p-button-lg"
+          @click="$emit('add-new-container', { id: 'temp' })"
+        />
+      </template>
+    </p-datatable>
+  </div>
 </template>
 
 <script lang="ts">
@@ -90,7 +90,7 @@ export default Vue.extend({
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([]),
+      default: () => [],
     },
   },
 })

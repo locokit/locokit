@@ -22,6 +22,9 @@ const columns = [
       text: 'String',
       id: 3,
     },
+    validation: {
+      required: true,
+    },
   }, {
     text: 'État du vélo',
     id: '3a659ea1-446f-4755-8db9-583a204279cc',

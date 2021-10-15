@@ -205,7 +205,6 @@ export default Vue.extend({
 
         // Check if geometry type is a single element (not multi)
         if (this.hasMultiGeometry(this.editableGeometryTypes)) {
-          console.log('combine')
           // Select all features to combine to throw only one feature
           const featureIds: string[] = featuresToManage!.map(feature => feature.id as string)
           this.mapDraw!.changeMode('simple_select', { featureIds })

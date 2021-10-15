@@ -163,7 +163,7 @@ export function isEditableColumn (crudMode: boolean, column: LckTableViewColumn)
 export function getColumnTypeId (column: LckTableColumn): COLUMN_TYPE {
   if (column.column_type_id === COLUMN_TYPE.FORMULA) return column?.settings?.formula_type_id as COLUMN_TYPE
   if ((column.column_type_id !== COLUMN_TYPE.LOOKED_UP_COLUMN &&
-      column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) ||
+    column.column_type_id !== COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN) ||
     (column.parents && column.parents.length === 0) ||
     !column.parents
   ) {
@@ -187,7 +187,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
   const columnClass = getColumnTypeId(column)
   switch (columnClass) {
     case COLUMN_TYPE.BOOLEAN:
-      return 'bi bi-check-square-fill'
+      return 'bi bi-check'
     case COLUMN_TYPE.STRING:
       return 'bi bi-type'
     case COLUMN_TYPE.NUMBER:
@@ -226,7 +226,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
       return 'bi bi-bounding-box-circles'
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
       return 'bi bi-geo-fill'
-    default :
+    default:
       return ''
   }
 }

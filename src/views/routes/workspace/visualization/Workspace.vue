@@ -11,12 +11,12 @@
         :createSubItemLabel="$t('pages.workspace.page.create')"
         @add-item="onChapterEditClick"
         @edit-item="onChapterEditClick"
-        @delete-item="onChapterDeleteClick"
         @add-subitem="onPageEditClick"
         @edit-subitem="onPageEditClick"
-        @delete-subitem="onPageDeleteClick"
         @reorder-subitem="onPageReorderClick"
         v-on="$listeners"
+        @confirm-delete-chapter="onConfirmationDeleteChapter($event)"
+        @confirm-delete-page="onConfirmationDeletePage($event)"
       />
     </div>
     <div class="main-container h-full p-col o-auto h-max-full">
@@ -43,14 +43,6 @@
         @close="onChapterEditReset"
         @input="onChapterEditInput"
       />
-      <lck-confirmation-dialog
-        :visible="dialogVisibility.chapterDelete"
-        :value="currentChapterToEdit"
-        :itemCategory="$t('pages.workspace.chapter')"
-        :submitting="submitting"
-        @close="onChapterDeleteReset"
-        @input="onChapterDeleteInput"
-      />
       <lck-page-dialog
         :visible="dialogVisibility.pageEdit"
         :page="currentPageToEdit"
@@ -58,31 +50,26 @@
         @close="onPageEditReset"
         @input="onPageEditInput"
       />
-      <lck-confirmation-dialog
-        :visible="dialogVisibility.pageDelete"
-        :value="currentPageToEdit"
-        :itemCategory="$t('pages.workspace.page.name')"
-        :submitting="submitting"
-        @close="onPageDeleteReset"
-        @input="onPageDeleteInput"
-      />
     </div>
+    <p-confirm-dialog />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { authState } from '@/store/auth'
+
 import { USER_PROFILE } from '@locokit/lck-glossary'
 
+import { authState } from '@/store/auth'
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
+import { lckHelpers, lckServices } from '@/services/lck-api'
+
+import ConfirmDialog from 'primevue/confirmdialog'
 import ToggleButton from 'primevue/togglebutton'
 
-import { lckHelpers, lckServices } from '@/services/lck-api'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
-import Sidebar from '@/components/visualize/Sidebar/Sidebar'
+import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
-import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 export default {
   name: 'Workspace',
@@ -90,7 +77,7 @@ export default {
     'lck-sidebar': Sidebar,
     'lck-chapter-dialog': ChapterDialog,
     'lck-page-dialog': PageDialog,
-    'lck-confirmation-dialog': DeleteConfirmationDialog,
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
     'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {
@@ -106,9 +93,7 @@ export default {
       editMode: false,
       dialogVisibility: {
         chapterEdit: false,
-        chapterDelete: false,
         pageEdit: false,
-        pageDelete: false,
       },
       forceUpdateKey: true,
       submitting: false,
@@ -184,17 +169,9 @@ export default {
       }
       this.dialogVisibility.chapterEdit = true
     },
-    onChapterDeleteClick (chapterId) {
-      this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === chapterId)
-      this.dialogVisibility.chapterDelete = true
-    },
     onChapterEditReset () {
       this.currentChapterToEdit = {}
       this.dialogVisibility.chapterEdit = false
-    },
-    onChapterDeleteReset () {
-      this.currentChapterToEdit = {}
-      this.dialogVisibility.chapterDelete = false
     },
     async onChapterEditInput (chapterText) {
       try {
@@ -222,20 +199,32 @@ export default {
         this.submitting = false
       }
     },
-    async onChapterDeleteInput (chapter = {}) {
-      try {
-        this.submitting = true
-        if (chapter.id) {
-          await lckServices.chapter.remove(chapter.id)
-          const chapterIndex = this.workspaceContent.chapters.findIndex(c => c.id === chapter.id)
-          if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
-        }
-        this.onChapterDeleteReset()
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.chapter')} ${chapter.text}`, error)
-      } finally {
-        this.submitting = false
-      }
+    onConfirmationDeleteChapter ({ chapterId, chapterName }) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${chapterName}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.chapter.remove(chapterId)
+            const chapterIndex = this.workspaceContent.chapters.findIndex(chapter => chapterId === chapter.id)
+            if (chapterIndex >= 0) this.workspaceContent.chapters.splice(chapterIndex, 1)
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
     onPageEditClick (data) {
       if (data.item) {
@@ -246,22 +235,10 @@ export default {
         this.dialogVisibility.pageEdit = true
       }
     },
-    onPageDeleteClick (data) {
-      if (data?.item && data.subitem) {
-        this.currentChapterToEdit = this.workspaceContent.chapters.find(c => c.id === data.item)
-        this.currentPageToEdit = this.currentChapterToEdit.pages.find(p => p.id === data.subitem)
-        this.dialogVisibility.pageDelete = true
-      }
-    },
     onPageEditReset () {
       this.currentPageToEdit = {}
       this.currentChapterToEdit = {}
       this.dialogVisibility.pageEdit = false
-    },
-    onPageDeleteReset () {
-      this.currentPageToEdit = {}
-      this.currentChapterToEdit = {}
-      this.dialogVisibility.pageDelete = false
     },
     async onPageEditInput ({ text, hidden, layout } = {}) {
       try {
@@ -298,21 +275,38 @@ export default {
         this.submitting = false
       }
     },
-    async onPageDeleteInput (page = {}) {
-      try {
-        this.submitting = true
-        if (page.id) {
-          await lckServices.page.remove(page.id)
-          const pageIndex = this.currentChapterToEdit.pages.findIndex(p => p.id === page.id)
-          if (pageIndex >= 0) this.currentChapterToEdit.pages.splice(pageIndex, 1)
-          if (this.$route.params.pageId === page.id) await this.goToDefaultRoute()
-        }
-        this.onPageDeleteReset()
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.page')} ${page.text}`, error)
-      } finally {
-        this.submitting = false
-      }
+    onConfirmationDeletePage ({ chapterId, pageId, pageName }) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${pageName}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.page.remove(pageId)
+            this.workspaceContent.chapters = this.workspaceContent?.chapters.map(chapter => {
+              if (chapter.id === chapterId) {
+                chapter.pages = chapter.pages.filter(({ id }) => id !== pageId)
+              }
+              return chapter
+            })
+            if (this.$route.params.pageId === pageId) await this.goToDefaultRoute()
+
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
     async onPageReorderClick (chapterId, { moved }) {
       if (chapterId && moved) {
