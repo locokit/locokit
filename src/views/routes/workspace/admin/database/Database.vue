@@ -5,18 +5,23 @@
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
       <div class="p-d-flex p-jc-between o-auto lck-database-nav">
-        <p-tab-view
-          class="p-d-flex p-flex-column p-mt-2 o-auto"
-          @tab-change="handleTabChange"
-        >
-          <p-tab-panel
+        <div class="lck-table-links p-d-flex p-flex-row p-mt-2 o-auto">
+          <router-link
             v-for="table in database.tables"
+            class=""
             :key="table.id"
-            :data-table-id="table.id"
-            :header="table.text"
-          />
-        </p-tab-view>
-
+            :to="{
+              name: DATABASE_ROUTE,
+              params: {
+                groupId: groupId,
+                databaseId : databaseId,
+                tableId: table.id,
+              }
+            }"
+          >
+          {{ table.text}}
+        </router-link>
+        </div>
         <div class="p-d-flex p-as-start process-toolbar-button">
           <p-button
             :label="$t('pages.process.titleButton')"
@@ -263,9 +268,8 @@ import {
 
 import { getCurrentFilters, convertFiltersFromDatabase, convertFiltersToDatatabase } from '@/services/lck-utils/filter'
 import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
+import { ROUTES_NAMES } from '@/router/paths'
 
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 
@@ -308,8 +312,6 @@ export default {
     'lck-column-form': ColumnForm,
     'lck-action-column-form': ActionColumnForm,
     'layout-with-toolbar': WithToolbar,
-    'p-tab-view': Vue.extend(TabView),
-    'p-tab-panel': Vue.extend(TabPanel),
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
   },
@@ -322,11 +324,16 @@ export default {
       type: String,
       required: true,
     },
+    tableId: {
+      type: String,
+      required: false,
+    },
   },
   data () {
     return {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
+      DATABASE_ROUTE: ROUTES_NAMES.DATABASE,
       database: {
         tables: [],
       },
@@ -532,11 +539,6 @@ export default {
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
       this.loadCurrentTableData()
-    },
-    handleTabChange (event) {
-      this.resetToDefault()
-      this.currentTableId = (this.database.tables[event.index]).id
-      this.loadTableAndProcess()
     },
     async loadTableAndProcess () {
       this.block.loading = true
@@ -1199,80 +1201,68 @@ export default {
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
     },
+    async goToSpecificTable (tableId) {
+      // Go to another table page
+      await this.$router.replace({
+        name: this.DATABASE_ROUTE,
+        params: {
+          groupId: this.groupId,
+          databaseId: this.databaseId,
+          tableId: tableId,
+        },
+      }).catch(error => {
+        if (error.from.path !== error.to.path) throw error
+      })
+    },
   },
   async mounted () {
     this.database = await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
-
-    // load the first table
+    // load the table whose the id is in the url (or the first one if no one is specified)
     if (this.database.tables.length > 0) {
-      this.currentTableId = this.database.tables[0].id
+      this.currentTableId = this.tableId || this.database.tables[0].id
+      this.goToSpecificTable(this.currentTableId)
       this.loadTableAndProcess()
+    }
+  },
+  async beforeRouteUpdate (to, from, next) {
+    // Load the data related to the table whose the id is specified in the url
+    if (to.params.tableId !== from.params.tableId) {
+      this.currentTableId = to.params.tableId
+      this.resetToDefault()
+      this.loadTableAndProcess()
+      next()
     }
   },
 }
 </script>
 
 <style scoped>
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav {
+.lck-database-nav {
+  border-bottom: 1px solid var(--header-border-bottom-color);
+}
+
+.lck-database-nav a {
   background-color: transparent;
-  overflow: auto;
-  border: unset;
-  flex-wrap: unset;
-}
-
-::v-deep .lck-database-nav .p-tabview .p-tabview-panels {
-  padding: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: unset;
-}
-
-::v-deep .lck-database-nav .p-tabview .p-tabview-panels .p-tabview-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li {
+  border: 1px solid var(--surface-a);
+  border-bottom: 0px;
+  border-radius: 3px 3px 0 0;
+  color: var(--surface-a);
+  margin: 0 0.25rem;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
   white-space: nowrap;
 }
 
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link {
-  padding: 0.5rem;
-  border: 1px solid var(--surface-a);
-  border-bottom: 0;
-  color: var(--surface-a);
-  font-weight: normal;
-  margin: 0 0.25rem;
-}
-
-::v-deep
-  .lck-database-nav
-  .p-tabview
-  .p-tabview-nav
-  li
-  .p-tabview-nav-link:hover {
-  color: var(--primary-color-darken);
-  border: 1px solid var(--primary-color-darken);
-  border-bottom: 0;
-}
-
-::v-deep
-  .lck-database-nav
-  .p-tabview
-  .p-tabview-nav
-  li.p-highlight
-  .p-tabview-nav-link {
-  background-color: var(--surface-a);
-  border: 1px solid var(--primary-color-darken);
-  border-bottom: 0;
+.lck-database-nav .router-link-active {
+  pointer-events: none;
   color: var(--paginator-text-color-active);
+  background-color: var(--surface-a);
+  border-color: var(--primary-color-darken);
 }
 
-.lck-database-nav {
-  border-bottom: 1px solid var(--header-border-bottom-color);
+.lck-database-nav a:hover {
+  color: var(--primary-color-darken);
+  border-color: var(--primary-color-darken);
 }
 
 .lck-database-background {

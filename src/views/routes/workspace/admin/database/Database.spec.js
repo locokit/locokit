@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { mount, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import { flushAll } from '@/../tests/unit/local-test-utils'
+
+import VueRouter from 'vue-router'
+
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 import {
   retrieveTableRowsWithSkipAndLimit,
@@ -254,13 +258,29 @@ jest.mock('@/components/ui/ColumnType/Geometry/Map.vue', () => ({
   render: h => h(),
 }))
 
+// Mock routes
+const mockRoutes = [
+  {
+    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + '/table/:tableId?',
+    name: 'WorkspaceDatabase',
+    component: Database,
+    props: true,
+  },
+]
+
 // Tests
 
 describe('Database', () => {
   // Default database component configuration
-  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1', groupId = 'G1') {
+  function globalComponentParams (databaseId = 'D1', workspaceId = 'W1', groupId = 'G1', tableId = '') {
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const router = new VueRouter({ routes: mockRoutes })
+
     return {
-      propsData: { databaseId, workspaceId, groupId },
+      localVue,
+      router,
+      propsData: { databaseId, workspaceId, groupId, tableId },
       mocks: {
         t: key => key,
         $t: key => key,
@@ -370,6 +390,42 @@ describe('Database', () => {
             detail: 'error.http.404',
           }),
         )
+      })
+    })
+
+    describe('Navigation', () => {
+      it('By default, display the first table if no table id is specified in the props', async () => {
+        expect.assertions(2)
+        const wrapper = await shallowMount(Database, globalComponentParams())
+        await Vue.nextTick()
+        // Check the data is related to the first table
+        expect(wrapper.vm.currentTableId).toBe(mockTables[0].id)
+        // Check the url
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.DATABASE,
+          params: {
+            databaseId: 'D1',
+            groupId: 'G1',
+            tableId: mockTables[0].id,
+          },
+        }).route.path)
+      })
+
+      it('Display the table whose id is in the props', async () => {
+        expect.assertions(2)
+        const wrapper = await shallowMount(Database, globalComponentParams('D1', 'W1', 'G1', mockTables[1].id))
+        await Vue.nextTick()
+        // Check the data is related to the specified table
+        expect(wrapper.vm.currentTableId).toBe(mockTables[1].id)
+        // Check the url
+        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+          name: ROUTES_NAMES.DATABASE,
+          params: {
+            databaseId: 'D1',
+            groupId: 'G1',
+            tableId: mockTables[1].id,
+          },
+        }).route.path)
       })
     })
 
