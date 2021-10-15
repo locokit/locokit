@@ -578,6 +578,7 @@
     "databaseSchema": {
       "title": "Schéma de la base de données",
       "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données.",
+      "noTable": "La base de données ne contient aucune table.",
       "addTable": "Ajouter une table",
       "createTableModal": {
         "createTable": "Créer une table",

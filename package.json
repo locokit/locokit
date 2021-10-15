@@ -39,7 +39,7 @@
     "marked": "^1.2.5",
     "mitt": "^3.0.0",
     "monaco-editor-core": "^0.28.1",
-    "nomnoml": "^1.1.0",
+    "nomnoml": "^1.4.0",
     "ol": "^6.5.0",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
